@@ -1250,6 +1250,12 @@
                 "manageUrl": {
                     "type": "string"
                 },
+                "rewardsPositionIds": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "termsUrl": {
                     "type": "string"
                 },
@@ -4188,6 +4194,7 @@
                                 "FaceID",
                                 "Fingerprint",
                                 "Iris",
+                                "OpticID",
                                 "TouchID"
                             ],
                             "type": "string"

@@ -107,12 +107,14 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
-                AppAnalytics.track(EarnEvents.earn_exit_pool_press, {
-                  depositTokenId,
-                  networkId: poolToken.networkId,
-                  tokenAmount: poolToken.balance.toString(),
-                  providerId: PROVIDER_ID,
-                })
+                earnPosition &&
+                  AppAnalytics.track(EarnEvents.earn_exit_pool_press, {
+                    depositTokenId,
+                    networkId: poolToken.networkId,
+                    tokenAmount: poolToken.balance.toString(),
+                    providerId: earnPosition.appId,
+                    poolId: earnPosition.positionId,
+                  })
                 earnPosition && navigate(Screens.EarnCollectScreen, { pool: earnPosition })
               }}
               text={t('earnFlow.activePools.exitPool')}
@@ -122,11 +124,13 @@ export default function EarnActivePool({ depositTokenId, poolTokenId, cta }: Pro
             />
             <Button
               onPress={() => {
-                AppAnalytics.track(EarnEvents.earn_deposit_more_press, {
-                  depositTokenId,
-                  providerId: PROVIDER_ID,
-                  networkId: poolToken.networkId,
-                })
+                earnPosition &&
+                  AppAnalytics.track(EarnEvents.earn_deposit_more_press, {
+                    depositTokenId,
+                    providerId: earnPosition.appId,
+                    networkId: poolToken.networkId,
+                    poolId: earnPosition.positionId,
+                  })
                 earnPosition && navigate(Screens.EarnEnterAmount, { pool: earnPosition })
               }}
               text={t('earnFlow.activePools.depositMore')}

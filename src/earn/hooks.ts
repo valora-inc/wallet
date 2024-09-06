@@ -1,63 +1,22 @@
 import { useMemo } from 'react'
 import { useAsync } from 'react-async-hook'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
+import { PrepareWithdrawAndClaimParams } from 'src/earn/types'
 import { earnPositionsSelector } from 'src/positions/selectors'
-import { Token } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
-import { useTokenInfo } from 'src/tokens/hooks'
-import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import networkConfig from 'src/web3/networkConfig'
-import { walletAddressSelector } from 'src/web3/selectors'
-import { isAddress } from 'viem'
 
 const TAG = 'earn/hooks'
 
-export function usePrepareAaveCollectTransactions({
-  poolTokenId,
-  depositTokenId,
-  feeCurrencies,
-  rewardsTokens,
-}: {
-  poolTokenId: string
-  depositTokenId: string
-  feeCurrencies: TokenBalance[]
-  rewardsTokens: Token[]
-}) {
-  const poolTokenInfo = useTokenInfo(poolTokenId)
-  const depositTokenInfo = useTokenInfo(depositTokenId)
-  const walletAddress = useSelector(walletAddressSelector)
-
-  const asyncPreparedTransactions = useAsync(
-    async () => {
-      if (
-        !walletAddress ||
-        !isAddress(walletAddress) ||
-        !poolTokenInfo?.address ||
-        !isAddress(poolTokenInfo.address) ||
-        !depositTokenInfo
-      ) {
-        // should never happen
-        throw new Error('Invalid wallet or pool token address')
-      }
-
-      return prepareWithdrawAndClaimTransactions({
-        amount: poolTokenInfo.balance.toString(),
-        token: depositTokenInfo,
-        walletAddress,
-        feeCurrencies,
-        rewardsTokens,
-        poolTokenAddress: poolTokenInfo.address,
-      })
+export function usePrepareWithdrawAndClaimTransactions(params: PrepareWithdrawAndClaimParams) {
+  return useAsync(() => prepareWithdrawAndClaimTransactions(params), [], {
+    onError: (err) => {
+      const error = ensureError(err)
+      Logger.error(TAG, 'usePrepareWithdrawAndClaimTransactions', error)
     },
-    [],
-    {
-      onError: (error) => {
-        Logger.warn(`${TAG}/useAaveRewardsInfoAndPrepareTransactions`, error)
-      },
-    }
-  )
-  return { asyncPreparedTransactions }
+  })
 }
 
 export function useEarnPositionProviderName(providerId: string) {

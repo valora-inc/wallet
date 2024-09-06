@@ -2569,13 +2569,13 @@
     "depositBottomSheet": {
       "title": "Revisar e depositar",
       "description": "Antes de depositar em um pool da Aave, revise os detalhes da transação abaixo",
-      "descriptionV1_93": "Antes de depositar em um pool {{providerName}} , leia os detalhes da transação abaixo",
+      "descriptionV1_93": "Antes de depositar em um pool da {{providerName}}, leia os detalhes da transação abaixo",
       "amount": "Quantia depositada",
       "fee": "Taxas est. de gas",
       "provider": "Provedor de ganhos",
       "network": "Rede",
       "footer": "Ao depositar cripto em um pool da Aave, você aceita os riscos associados ao uso da Aave. <0>Termos e condições</0>",
-      "footerV1_93": "Ao depositar criptomoedas em um pool do {{providerName}} , você aceita os riscos associados ao uso do {{providerName}}. <0>Termos e condições</0>",
+      "footerV1_93": "Ao depositar criptomoedas em um pool da {{providerName}}, você aceita os riscos associados ao uso da {{providerName}}. <0>Termos e condições</0>",
       "primaryCta": "Concluir",
       "secondaryCta": "Cancelar"
     },
@@ -2625,8 +2625,8 @@
       },
       "noPoolsTitle": "Você ainda não entrou em nenhum pool",
       "noPoolsDescription": "Descubra os pools disponíveis, escolha um que corresponda às suas metas e aproveite ao máximo suas stablecoins.",
-      "errorTitle": "Não é possível carregar pools",
-      "errorDescription": "Oops, algo deu errado ao tentar carregar as informações do pool. Por favor, tente novamente.",
+      "errorTitle": "Não foi possível carregar pools",
+      "errorDescription": "Opa, algo deu errado ao tentar carregar as informações do pool. Tente novamente.",
       "errorButton": "Tentar novamente"
     },
     "poolCard": {
@@ -2665,12 +2665,14 @@
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Entendi",
+        "depositDescription": "Esse é o detalhamento do valor depositado, os juros que você ganhou sobre esse valor e quaisquer recompensas adicionais que você tenha recebido por participar do pool.",
+        "depositNoBreakdownDescription": "Esse número combina os tokens fornecidos com os juros e as recompensas que você ganhou.\n\nAlguns protocolos, como o {{providerName}}, não fornecem um detalhamento de seus ganhos - isso é normal. Em vez disso, eles adicionam seus ganhos diretamente ao valor depositado, que continua a render juros com base no valor crescente. ",
         "tvlTitle": "Valor total bloqueado (TVL)",
-        "tvlDescription": "O TVL refere-se ao montante total de ativos depositados em um pool de liquidez e pode ser usado para ajudar a indicar a confiança e a utilidade de um pool. Normalmente, um TVL mais alto está relacionado a um risco reduzido, mas nenhum pool é totalmente isento de riscos.",
+        "tvlDescription": "O TVL refere-se ao montante total de ativos depositados em um pool de liquidez e pode ser usado para ajudar a indicar a confiança e a utilidade de um pool. Normalmente, um TVL mais alto está relacionado a um risco reduzido, mas nenhum pool está totalmente isento de riscos.",
         "ageTitle": "Piscina criada:",
         "ageDescription": "Os pools de liquidez mais antigos podem indicar um histórico sólido e um histórico de construção da confiança da comunidade. Por esse motivo, alguns podem considerar esses pools mais seguros.\n\nNão existe uma maneira perfeita de determinar o risco, portanto, use essas informações como parte de sua pesquisa geral para tomar a melhor decisão para você.",
         "yieldRateTitle": "Taxa de rendimento",
-        "yieldRateDescription": "Embora a maioria dos pools ofereça ganhos na forma de um token de pool de liquidez, alguns oferecem token(s) adicional(is) como recompensa ou incentivo adicional.\n\nComo a Valora agrega pools em vários protocolos, combinamos todas as taxas de ganhos e recompensas em uma única taxa de rendimento geral para ajudar você a avaliar facilmente seu potencial de ganhos. Esse número é uma estimativa, pois os valores de ganhos e recompensas flutuam constantemente.\n\nPara obter mais informações sobre a discriminação dos ganhos, você pode visitar <0>{{providerName}}</0>."
+        "yieldRateDescription": "Embora a maioria dos pools ofereça ganhos na forma de um token de pool de liquidez, alguns oferecem tokens adicionais como recompensa ou incentivo adicional.\n\nComo a Valora agrega pools em vários protocolos, combinamos todas as taxas de ganhos e recompensas em uma única taxa de rendimento geral para ajudar você a avaliar facilmente seu potencial de ganhos. Esse número é uma estimativa, pois os valores de ganhos e recompensas flutuam constantemente.\n\nPara obter mais informações sobre a detalhamento dos ganhos, acesse <0>{{providerName}}</0>."
       }
     }
   },

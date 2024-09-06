@@ -1,18 +1,17 @@
 import BigNumber from 'bignumber.js'
+import _ from 'lodash'
 import { useAsyncCallback } from 'react-async-hook'
-import aaveIncentivesV3Abi from 'src/abis/AaveIncentivesV3'
-import aavePool from 'src/abis/AavePoolV3'
+import { PrepareWithdrawAndClaimParams } from 'src/earn/types'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
 import { RawShortcutTransaction } from 'src/positions/slice'
 import { rawShortcutTransactionsToTransactionRequests } from 'src/positions/transactions'
-import { EarnPosition, Token } from 'src/positions/types'
+import { EarnPosition } from 'src/positions/types'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
-import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
-import networkConfig from 'src/web3/networkConfig'
-import { Address, encodeFunctionData, isAddress, maxUint256, parseUnits } from 'viem'
+import { prepareTransactions } from 'src/viem/prepareTransactions'
+import { Address } from 'viem'
 
 const TAG = 'earn/prepareTransactions'
 
@@ -79,62 +78,53 @@ export function usePrepareSupplyTransactions() {
 }
 
 export async function prepareWithdrawAndClaimTransactions({
-  amount,
-  token,
+  pool,
   walletAddress,
   feeCurrencies,
-  rewardsTokens,
-  poolTokenAddress,
-}: {
-  amount: string
-  token: TokenBalance
-  poolTokenAddress: Address
-  walletAddress: Address
-  feeCurrencies: TokenBalance[]
-  rewardsTokens: Token[]
-}) {
-  const baseTransactions: TransactionRequest[] = []
-
-  if (!token.address || !isAddress(token.address)) {
-    // should never happen
-    throw new Error(`Cannot use a token without address. Token id: ${token.tokenId}`)
-  }
-
-  const amountToWithdraw = maxUint256 // Withdraws entire balance https://docs.aave.com/developers/core-contracts/pool#withdraw
-
-  baseTransactions.push({
-    from: walletAddress,
-    to: networkConfig.arbAavePoolV3ContractAddress,
-    data: encodeFunctionData({
-      abi: aavePool,
-      functionName: 'withdraw',
-      args: [token.address, amountToWithdraw, walletAddress],
-    }),
-  })
-
-  rewardsTokens.forEach(({ balance, decimals, address }) => {
-    const amountToClaim = parseUnits(balance, decimals)
-
-    if (!isAddress(address)) {
-      // should never happen
-      throw new Error(`Cannot use a token without address. Token id: ${token.tokenId}`)
-    }
-
-    baseTransactions.push({
-      from: walletAddress,
-      to: networkConfig.arbAaveIncentivesV3ContractAddress,
-      data: encodeFunctionData({
-        abi: aaveIncentivesV3Abi,
-        functionName: 'claimRewardsToSelf',
-        args: [[poolTokenAddress], amountToClaim, address],
-      }),
+  hooksApiUrl,
+  rewardsPositions,
+}: PrepareWithdrawAndClaimParams) {
+  const { dataProps, balance, appId, networkId, shortcutTriggerArgs } = pool
+  const { transactions: withdrawTransactions }: { transactions: RawShortcutTransaction[] } =
+    await triggerShortcutRequest(hooksApiUrl, {
+      address: walletAddress,
+      appId,
+      networkId,
+      shortcutId: 'withdraw',
+      tokens: [
+        {
+          tokenId: dataProps.withdrawTokenId,
+          amount: balance,
+          useMax: true,
+        },
+      ],
+      ...shortcutTriggerArgs?.withdraw,
     })
+  const claimTransactions = await Promise.all(
+    rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
+      const { transactions }: { transactions: RawShortcutTransaction[] } =
+        await triggerShortcutRequest(hooksApiUrl, {
+          address: walletAddress,
+          appId,
+          networkId,
+          shortcutId: 'claim-rewards',
+          ...position.shortcutTriggerArgs?.['claim-rewards'],
+        })
+      return transactions
+    })
+  )
+  Logger.debug(TAG, 'prepareWithdrawAndClaimTransactions', {
+    withdrawTransactions,
+    claimTransactions,
+    pool,
   })
-
   return prepareTransactions({
     feeCurrencies,
-    baseTransactions,
-    isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),
+    baseTransactions: rawShortcutTransactionsToTransactionRequests([
+      ...withdrawTransactions,
+      ..._.flatten(claimTransactions),
+    ]),
+    isGasSubsidized: isGasSubsidizedForNetwork(pool.networkId),
     origin: 'earn-withdraw',
   })
 }

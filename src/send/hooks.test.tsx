@@ -1,5 +1,4 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
-import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Provider } from 'react-redux'
@@ -7,11 +6,13 @@ import TextInput from 'src/components/TextInput'
 import { RecipientType } from 'src/recipients/recipient'
 import { resolveId } from 'src/recipients/resolve-id'
 import {
+  ResolutionKind,
   mergeRecipients,
   useMapResolutionsToRecipients,
   useResolvedRecipients,
   useSendRecipients,
   useUniqueSearchRecipient,
+  type NameResolution,
 } from 'src/send/hooks'
 import { createMockStore } from 'test/utils'
 import {
