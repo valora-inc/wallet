@@ -443,7 +443,13 @@ function LearnMoreTouchable({
   )
 }
 
-function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
+function ActionButtons({
+  earnPosition,
+  onPressDeposit,
+}: {
+  earnPosition: EarnPosition
+  onPressDeposit: () => void
+}) {
   const { bottom } = useSafeAreaInsets()
   const insetsStyle = {
     paddingBottom: Math.max(bottom, Spacing.Regular16),
@@ -477,13 +483,7 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
         <Button
           text={t('earnFlow.poolInfoScreen.deposit')}
           onPress={() => {
-            AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
-              poolId: earnPosition.positionId,
-              providerId: earnPosition.appId,
-              networkId: earnPosition.networkId,
-              depositTokenId: earnPosition.dataProps.depositTokenId,
-            })
-            navigate(Screens.EarnEnterAmount, { pool: earnPosition })
+            onPressDeposit
           }}
           size={BtnSizes.FULL}
           style={styles.flex}
@@ -504,6 +504,38 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       .map((token) => allTokens[token.tokenId])
       .filter((token): token is TokenBalance => !!token)
   }, [tokens, allTokens])
+
+  const canDeposit = useMemo(() => {
+    return allTokens[dataProps.depositTokenId]?.balance?.gt(0) ?? false
+  }, [pool, allTokens])
+  const canSameChainSwapToDeposit = useMemo(() => {
+    return Object.values(allTokens).some((token) => token?.balance?.gt(0) && token?.isSwappable)
+  }, [pool, allTokens])
+  const canCrossChainSwapToDeposit = useMemo(() => {
+    return false
+  }, [])
+
+  const onPressDeposit = () => {
+    AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
+      poolId: positionId,
+      providerId: appId,
+      networkId: networkId,
+      depositTokenId: dataProps.depositTokenId,
+      canDeposit,
+      canSameChainSwapToDeposit,
+      canCrossChainSwapToDeposit,
+    })
+    if (canDeposit) {
+      navigate(Screens.EarnEnterAmount, { pool })
+    } else if (canSameChainSwapToDeposit) {
+      swapAndDepositBottomSheetRef.current?.snapToIndex(0)
+    } else {
+      beforeDepositBottomSheetRef.current?.snapToIndex(0)
+    }
+  }
+
+  const swapAndDepositBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const beforeDepositBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const depositInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const tvlInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -608,7 +640,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           ) : null}
         </View>
       </Animated.ScrollView>
-      <ActionButtons earnPosition={pool} />
+      <ActionButtons earnPosition={pool} onPressDeposit={onPressDeposit} />
       <InfoBottomSheet
         infoBottomSheetRef={depositInfoBottomSheetRef}
         titleKey="earnFlow.poolInfoScreen.depositAndEarnings"

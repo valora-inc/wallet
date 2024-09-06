@@ -1634,7 +1634,11 @@ interface EarnEventsProperties {
   [EarnEvents.earn_pool_info_tap_withdraw]: {
     poolAmount: string
   } & EarnCommonProperties
-  [EarnEvents.earn_pool_info_tap_deposit]: EarnCommonProperties
+  [EarnEvents.earn_pool_info_tap_deposit]: EarnCommonProperties & {
+    canDeposit: boolean
+    canSameChainSwapToDeposit: boolean
+    canCrossChainSwapToDeposit: boolean
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
