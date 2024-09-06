@@ -44,7 +44,11 @@ export default function PoolList({
       ListFooterComponent={
         <Text style={styles.learnMore}>
           <Trans i18nKey="earnFlow.home.learnMore">
-            <Text style={styles.learnMoreLink} onPress={onPressLearnMore}></Text>
+            <Text
+              style={styles.learnMoreLink}
+              onPress={onPressLearnMore}
+              testID="LearnMoreCta"
+            ></Text>
           </Trans>
         </Text>
       }

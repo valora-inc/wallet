@@ -13,7 +13,7 @@ def fastlane_emerge(environment:, file_path:)
     repo_name: "valora-inc/wallet",
     sha: `git rev-parse HEAD`.strip,
     branch: `git branch --show-current`.strip,
-    build_type: environment,
+    tag: environment,
   )
 end
 

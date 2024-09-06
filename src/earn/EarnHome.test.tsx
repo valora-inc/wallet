@@ -235,4 +235,20 @@ describe('EarnHome', () => {
       queryByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
     ).toBeFalsy()
   })
+
+  it('Learn More press tracks analytics and opens bottom sheet', () => {
+    const { getByTestId } = render(
+      <Provider store={getStore()}>
+        <MockedNavigator
+          component={EarnHome}
+          params={{
+            activeEarnTab: EarnTabType.AllPools,
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByTestId('LearnMoreCta'))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_home_learn_more_press)
+    expect(getByTestId('Earn/Home/LearnMoreBottomSheet')).toBeVisible()
+  })
 })
