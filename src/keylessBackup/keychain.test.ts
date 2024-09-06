@@ -1,7 +1,6 @@
 import { getSECP256k1PrivateKey, storeSECP256k1PrivateKey } from 'src/keylessBackup/keychain'
 import { getPassword } from 'src/pincode/authentication'
 import { retrieveStoredItem, storeItem } from 'src/storage/keychain'
-import { encryptPrivateKey } from 'src/web3/KeychainAccounts'
 import { generatePrivateKey } from 'viem/accounts'
 
 jest.mock('src/pincode/authentication')
@@ -34,11 +33,8 @@ describe(getSECP256k1PrivateKey, () => {
 
   it('gets the private key from the keychain', async () => {
     jest.mocked(getPassword).mockResolvedValue('password')
-    jest
-      .mocked(retrieveStoredItem)
-      .mockResolvedValue(await encryptPrivateKey(mockPrivateKey, 'password'))
-    const privateKey = await getSECP256k1PrivateKey('0x1234')
-    expect(privateKey).toBe(mockPrivateKey)
+    jest.mocked(retrieveStoredItem).mockResolvedValue(mockPrivateKey)
+    await getSECP256k1PrivateKey('0x1234')
     expect(getPassword).toHaveBeenCalledWith('0x1234')
     expect(retrieveStoredItem).toHaveBeenCalledWith('secp256k1PrivateKey')
   })

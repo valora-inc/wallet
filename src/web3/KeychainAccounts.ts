@@ -1,3 +1,4 @@
+import CryptoJS from 'crypto-js'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { generateKeysFromMnemonic, getStoredMnemonic } from 'src/backup/utils'
 import {
@@ -13,7 +14,6 @@ import {
   normalizeAddressWith0x,
   privateKeyToAddress,
 } from 'src/utils/address'
-import { aesDecrypt, aesEncrypt } from 'src/utils/aes'
 import { ViemKeychainAccount, keychainAccountToAccount } from 'src/viem/keychainAccountToAccount'
 import { type Hex } from 'viem'
 import { type Address } from 'viem/accounts'
@@ -44,12 +44,13 @@ function accountStorageKey(account: KeychainAccount) {
 }
 
 export async function encryptPrivateKey(privateKey: string, password: string) {
-  return aesEncrypt(privateKey, password)
+  return CryptoJS.AES.encrypt(privateKey, password).toString()
 }
 
 export async function decryptPrivateKey(encryptedPrivateKey: string, password: string) {
   try {
-    return aesDecrypt(encryptedPrivateKey, password)
+    const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, password)
+    return bytes.toString(CryptoJS.enc.Utf8)
   } catch (e) {
     // decrypt can sometimes throw if the inputs are incorrect (encryptedPrivateKey or password)
     Logger.warn(TAG, 'Failed to decrypt private key', e)

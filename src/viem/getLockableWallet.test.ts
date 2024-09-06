@@ -19,6 +19,9 @@ import {
 } from 'viem/actions'
 import { celoAlfajores, goerli as ethereumGoerli, sepolia as ethereumSepolia } from 'viem/chains'
 
+// Use real encryption
+jest.unmock('crypto-js')
+
 jest.mock('src/viem', () => {
   return {
     viemTransports: {

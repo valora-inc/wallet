@@ -17,6 +17,9 @@ import {
 
 const MOCK_DATE = new Date('2016-12-21T23:36:07.071Z')
 
+// Use real encryption
+jest.unmock('crypto-js')
+
 beforeEach(() => {
   jest.clearAllMocks()
   mockedKeychain.clearAllItems()
