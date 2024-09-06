@@ -94,7 +94,7 @@ export function isValidBackupPhrase(phrase: string) {
   return !!phrase && allowedPhraseLengths.includes(phraseLength)
 }
 
-export async function encryptMnemonic(phrase: string, password: string) {
+async function encryptMnemonic(phrase: string, password: string) {
   return CryptoJS.AES.encrypt(phrase, password).toString()
 }
 
