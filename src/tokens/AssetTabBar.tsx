@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { AssetsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AssetsEvents } from 'src/analytics/Events'
+import GradientDivider from 'src/components/GradientDivider'
 import Touchable from 'src/components/Touchable'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -60,9 +61,16 @@ export default function TabBar({
           onPress={handleSelectOption(index)}
           style={styles.touchable}
         >
-          <Text style={[index === activeTab ? styles.itemSelected : styles.item]} numberOfLines={1}>
-            {value}
-          </Text>
+          <>
+            <Text
+              style={[index === activeTab ? styles.itemSelected : styles.item]}
+              numberOfLines={1}
+            >
+              {value}
+            </Text>
+
+            {index === activeTab && <GradientDivider style={styles.activeTabUnderline} />}
+          </>
         </Touchable>
       ))}
     </View>
@@ -83,5 +91,10 @@ const styles = StyleSheet.create({
   itemSelected: {
     ...typeScale.labelMedium,
     color: Colors.black,
+  },
+  activeTabUnderline: {
+    height: 2,
+    marginHorizontal: 0,
+    marginTop: 4,
   },
 })
