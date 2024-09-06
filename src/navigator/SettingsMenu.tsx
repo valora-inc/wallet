@@ -12,7 +12,6 @@ import {
 } from 'react-native'
 import deviceInfoModule from 'react-native-device-info'
 import { ScrollView } from 'react-native-gesture-handler'
-import LinearGradient from 'react-native-linear-gradient'
 import { clearStoredAccount, devModeTriggerClicked, toggleBackupState } from 'src/account/actions'
 import {
   defaultCountryCodeSelector,
@@ -29,6 +28,7 @@ import {
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
+import GradientDivider from 'src/components/GradientDivider'
 import SessionId from 'src/components/SessionId'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import Touchable from 'src/components/Touchable'
@@ -54,18 +54,6 @@ import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SettingsMenu>
-
-function GradientDivider() {
-  return (
-    <LinearGradient
-      colors={['#26D98A', '#FFD52C']}
-      locations={[0, 0.8915]}
-      useAngle={true}
-      angle={90}
-      style={styles.linearGradient}
-    />
-  )
-}
 
 function ProfileMenuOption() {
   const displayName = useSelector(nameSelector)
@@ -353,13 +341,6 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
     color: colors.gray3,
   },
-  border: {
-    marginVertical: Spacing.Smallest8,
-    marginHorizontal: Spacing.Regular16,
-    height: 1,
-    backgroundColor: colors.gray2,
-    alignSelf: 'stretch',
-  },
   appVersionContainer: {
     flexDirection: 'row',
     flexGrow: 1,
@@ -379,11 +360,5 @@ const styles = StyleSheet.create({
   devSettingsItem: {
     alignSelf: 'stretch',
     margin: Spacing.Tiny4,
-  },
-
-  linearGradient: {
-    marginVertical: Spacing.Smallest8,
-    marginHorizontal: Spacing.Regular16,
-    height: 1,
   },
 })
