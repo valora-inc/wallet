@@ -685,4 +685,6 @@ export enum EarnEvents {
   earn_home_error_try_again = 'earn_home_error_try_again',
   earn_pool_info_view_pool = 'earn_pool_info_view_pool',
   earn_pool_info_tap_info_icon = 'earn_pool_info_tap_info_icon',
+  earn_pool_info_tap_withdraw = 'earn_pool_info_tap_withdraw',
+  earn_pool_info_tap_deposit = 'earn_pool_info_tap_deposit',
 }

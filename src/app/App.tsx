@@ -30,10 +30,6 @@ const ignoreWarnings = [
   'cancelTouches', // rn-screens warning on iOS
   'Setting a timer', // warns about long setTimeouts which are actually saga timeouts
   'Require cycle', // TODO: fix require cycles and remove this ;)
-  // These are caused by node-libs-react-native's stream-http capability checks and are harmless to ignore
-  // See https://github.com/jhiesey/stream-http/blob/cd697901d132cc20ea698079ac400b7cc11a7999/lib/capability.js#L48-L49
-  "The provided value 'moz-chunked-arraybuffer' is not a valid 'responseType'",
-  "The provided value 'ms-stream' is not a valid 'responseType'",
 ]
 if (isE2EEnv) {
   ignoreWarnings.push('Overriding previous layout')
