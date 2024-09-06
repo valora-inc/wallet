@@ -10,11 +10,11 @@ import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import GoldEducation from 'src/account/GoldEducation'
+import LegalSubmenu from 'src/account/LegalSubmenu'
 import Licenses from 'src/account/Licenses'
+import PreferencesSubmenu from 'src/account/PreferencesSubmenu'
 import Profile from 'src/account/Profile'
 import ProfileSubmenu from 'src/account/ProfileSubmenu'
-import LegalSubmenu from 'src/account/LegalSubmenu'
-import PreferencesSubmenu from 'src/account/PreferencesSubmenu'
 import SecuritySubmenu from 'src/account/SecuritySubmenu'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import Support from 'src/account/Support'
@@ -83,9 +83,9 @@ import {
   noHeader,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
-import SettingsMenu from 'src/navigator/SettingsMenu'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
+import SettingsMenu from 'src/navigator/SettingsMenu'
 import TabNavigator from 'src/navigator/TabNavigator'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
@@ -114,6 +114,7 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
+import variables from 'src/styles/variables'
 import SwapScreen from 'src/swap/SwapScreen'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import TokenImportScreen from 'src/tokens/TokenImport'
@@ -765,6 +766,10 @@ function RootStackScreen() {
       screenOptions={{
         backdropComponent: renderBackdrop,
         enableDynamicSizing: true,
+        // use max height (similar as 90% snap point) for screens. when bottom sheets
+        // take up the whole screen, it is no longer obvious that they are a bottom
+        // sheet / how to navigate away
+        maxDynamicContentSize: variables.height * 0.9,
       }}
     >
       <RootStack.Screen name={Screens.MainModal} component={ModalStackScreen} />
