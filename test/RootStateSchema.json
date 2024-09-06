@@ -4194,6 +4194,7 @@
                                 "FaceID",
                                 "Fingerprint",
                                 "Iris",
+                                "OpticID",
                                 "TouchID"
                             ],
                             "type": "string"
