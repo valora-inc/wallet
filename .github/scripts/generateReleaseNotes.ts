@@ -16,10 +16,7 @@ if (!CURRENT_RELEASE_SHA) {
   exit(1)
 }
 
-const nightlyTagName = 'valora-nightly'
-
-// ensure that we are using ssh
-exec('git remote set-url origin git@github.com:valora-inc/wallet.git')
+const nightlyTagName = 'nightly'
 
 console.log('Get previous nightly release commit')
 const previousReleaseSha = exec(`git show-ref -s tags/${nightlyTagName}`, {
