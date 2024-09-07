@@ -2542,7 +2542,7 @@
       "infoV1_93": "Do {{providerName}} cung cấp",
       "infoBottomSheet": {
         "title": "Tại sao bạn nên chọn quỹ này?",
-        "description": "Quỹ Aave này có hơn $150 triệu TVL và hơn 6.000 người đóng góp, cho thấy quỹ này có tính thanh khoản và độ uy tín cao. Quỹ cũng sử dụng USDC làm token và Arbitrum làm mạng lưới, giúp giảm biến động và đảm bảo người dùng nhận được mức phí ga rẻ.\n\nTất cả những yếu tố này tạo nên một lựa chọn an toàn và hấp dẫn với APY cạnh tranh, đảm bảo cơ hội đầu tư có lợi cho người dùng.\n\nBạn có thể khám phá các quỹ Aave khác <0>tại đây</0>.",
+        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Arbitrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nYou can explore other Aave pools <0>here</0>.",
         "dismiss": "Loại bỏ"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2619,7 +2619,11 @@
         "apySubtitle": "APY là gì?",
         "apyDescription": "Tỉ suất lợi nhuận hằng năm (APY) là một chỉ số dùng để tính lợi nhuận hằng năm từ vốn đầu tư tiền điện tử. Đây là một chỉ báo quan trọng về khả năng sinh lời và tiềm năng lợi nhuận của một loại tiền điện tử.",
         "tvlSubtitle": "TVL là gì?",
-        "tvlDescription": "TVL là từ viết tắt của Total Value Locked, nghĩa là Tổng giá trị bị khóa. Đây là một chỉ số được sử dụng trong ngành tiền điện tử để đo lường giá trị của các tài sản kỹ thuật số bị khóa trên một mạng chuỗi khối. TVL được tính bằng cách tính tổng giá trị của tất cả các tài sản kỹ thuật số bị khóa trong một giao thức DeFi hoặc hợp đồng thông minh. Những tài sản này có thể bao gồm tiền điện tử, stablecoin và các token khác."
+        "tvlDescription": "TVL là từ viết tắt của Total Value Locked, nghĩa là Tổng giá trị bị khóa. Đây là một chỉ số được sử dụng trong ngành tiền điện tử để đo lường giá trị của các tài sản kỹ thuật số bị khóa trên một mạng chuỗi khối. TVL được tính bằng cách tính tổng giá trị của tất cả các tài sản kỹ thuật số bị khóa trong một giao thức DeFi hoặc hợp đồng thông minh. Những tài sản này có thể bao gồm tiền điện tử, stablecoin và các token khác.",
+        "yieldPoolSubtitle": "What is a yield pool?",
+        "yieldPoolDescription": "Yield pools, or liquidity pools, are pooled funds provided by token holders, which enable trading on decentralized exchanges. When you contribute to the pool, you can earn interest from other people who borrow those funds.",
+        "chooseSubtitle": "How should you choose a pool? ",
+        "chooseDescription": "Any financial decision is a personal choice. We have aggregated some pools across different protocols, but each pool has benefits and risks. We do our best to provide some helpful info for each pool, but it’s always best to do additional research if you’re unsure."
       },
       "noPoolsTitle": "Bạn chưa tham gia bất kỳ quỹ nào",
       "noPoolsDescription": "Khám phá các quỹ hiện có, chọn quỹ phù hợp với mục tiêu của bạn và tận dụng tối đa stablecoin.",
