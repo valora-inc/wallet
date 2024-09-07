@@ -92,7 +92,14 @@ export default BottomSheetBaseV2
 
 // Names of the bottom sheets must be unique and should be added to this enum
 export enum BottomSheetNames {
-  LearnMore = 'LearnMore',
+  // Token & Network Select
   MultiSelect = 'MultiSelect',
+  // Settings
   RevokePhoneNumber = 'RevokePhoneNumber',
+  // Earn
+  LearnMore = 'LearnMore',
+  DepositInfo = 'DepositInfo',
+  TvlInfo = 'TvlInfo',
+  AgeInfo = 'AgeInfo',
+  YieldRateInfo = 'YieldRateInfo',
 }
