@@ -1,20 +1,17 @@
-import {
-  BottomSheetBackdrop,
-  BottomSheetModal,
-  BottomSheetModalProps,
-  BottomSheetProps,
-} from '@gorhom/bottom-sheet'
+import { BottomSheetBackdrop, BottomSheetModal, BottomSheetProps } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Keyboard, StyleSheet } from 'react-native'
 import { useReducedMotion } from 'react-native-reanimated'
 import Colors from 'src/styles/colors'
 
 interface BottomSheetBaseV2Props {
   forwardedRef: React.RefObject<BottomSheetModal>
+  name: string // This is a required prop as it determines which bottom sheet to use when multiple are present
   children?: React.ReactNode | React.ReactNode[]
-  onClose?: BottomSheetModalProps['onDismiss']
+  onClose?: () => void
   onOpen?: () => void
+  onChange?: () => void
   snapPoints?: (string | number)[]
   handleComponent?: BottomSheetProps['handleComponent']
   backgroundStyle?: BottomSheetProps['backgroundStyle']
@@ -23,10 +20,12 @@ interface BottomSheetBaseV2Props {
 
 const BottomSheetBaseV2 = ({
   forwardedRef,
+  name,
   children,
-  onClose = () => console.log('onClose'),
-  onOpen = () => console.log('onOpen'),
-  snapPoints = ['50%'],
+  onClose,
+  onOpen,
+  onChange,
+  snapPoints = ['45%'], // We need to set a default snap point to avoid a crash
   handleComponent,
   backgroundStyle,
   handleIndicatorStyle = styles.handle,
@@ -49,25 +48,19 @@ const BottomSheetBaseV2 = ({
     }
 
     if (toIndex === 0) {
-      forwardedRef.current?.present()
       onOpen?.()
     }
   }
 
-  // Todo Fix this to call correctly
-  if (onOpen) {
+  useEffect(() => {
+    // Mount the modal on first render
     forwardedRef.current?.present()
-    onOpen()
-  }
-
-  if (onClose) {
-    forwardedRef.current?.close()
-    onClose()
-  }
+  }, [])
 
   return (
     <BottomSheetModal
       ref={forwardedRef}
+      name={name}
       index={-1}
       snapPoints={snapPoints}
       enablePanDownToClose
@@ -77,8 +70,11 @@ const BottomSheetBaseV2 = ({
       backgroundStyle={backgroundStyle}
       onAnimate={handleAnimate}
       onDismiss={onClose}
+      onChange={onChange}
       enableOverDrag={false}
       animateOnMount={!reduceMotionEnabled}
+      enableDismissOnClose={false}
+      stackBehavior="push"
     >
       {children}
     </BottomSheetModal>
@@ -93,3 +89,9 @@ const styles = StyleSheet.create({
 })
 
 export default BottomSheetBaseV2
+
+// Names of the bottom sheets must be unique and should be added to this enum
+export enum BottomSheetNames {
+  LearnMoreBottomSheet = 'LearnMoreBottomSheet',
+  MultiSelectBottomSheet = 'MultiSelectBottomSheet',
+}

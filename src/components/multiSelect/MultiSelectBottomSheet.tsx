@@ -1,10 +1,10 @@
 import { BottomSheetModal, BottomSheetProps } from '@gorhom/bottom-sheet'
 import React, { Dispatch, SetStateAction, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { ScrollView } from 'react-native-gesture-handler'
-import BottomSheetBaseV2 from 'src/components/BottomSheetBaseV2'
+import BottomSheetBaseV2, { BottomSheetNames } from 'src/components/BottomSheetBaseV2'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import Touchable from 'src/components/Touchable'
 import Checkmark from 'src/icons/Checkmark'
@@ -87,14 +87,15 @@ function MultiSelectBottomSheet<T extends string>({
   return (
     <BottomSheetBaseV2
       forwardedRef={forwardedRef}
+      name={BottomSheetNames.MultiSelectBottomSheet}
       onOpen={onOpen}
       backgroundStyle={{ backgroundColor: 'transparent' }}
       handleIndicatorStyle={{ width: 0 }}
-      snapPoints={['40%']}
+      snapPoints={Platform.OS === 'ios' ? ['40%'] : ['50%']}
     >
       <BottomSheetScrollView
         forwardedRef={scrollViewRef}
-        testId={'MultiSelectBottomSheet'}
+        testId={BottomSheetNames.MultiSelectBottomSheet}
         containerStyle={styles.bottomSheetScrollView}
       >
         <View style={[styles.option, styles.borderRadiusTop]}>
@@ -120,7 +121,7 @@ function MultiSelectBottomSheet<T extends string>({
         </View>
         <View style={styles.doneButtonContainer}>
           <Touchable
-            testID="MultiSelectBottomSheet/Done"
+            testID={`${BottomSheetNames.MultiSelectBottomSheet}/Done`}
             style={styles.doneButton}
             onPress={handleClose}
           >

@@ -6,10 +6,11 @@ import { useTranslation } from 'react-i18next'
 import { FlatListProps, StyleSheet, Text, TextStyle, View } from 'react-native'
 import { FlatList, ScrollView } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
+import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import FilterChipsCarousel, {
   FilterChip,
   NetworkFilterChip,
@@ -137,7 +138,7 @@ function TokenBottomSheet({
 
   const { t } = useTranslation()
 
-  const networkChipRef = useRef<BottomSheetRefType>(null)
+  const networkChipRef = useRef<BottomSheetModalRefType>(null)
   const networkChip = useMemo(
     () => filters.find((chip): chip is NetworkFilterChip<TokenBalance> => isNetworkChip(chip)),
     [filters]

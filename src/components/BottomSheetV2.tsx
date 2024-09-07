@@ -9,6 +9,7 @@ import { Spacing } from 'src/styles/styles'
 
 interface BottomSheetBaseV2Props {
   forwardedRef: React.RefObject<BottomSheetModal>
+  name: string
   title?: string | null
   titleStyle?: TextStyle
   description?: string | null
@@ -26,6 +27,7 @@ export type BottomSheetModalRefType = BottomSheetModal
 
 const BottomSheetV2 = ({
   forwardedRef,
+  name,
   title,
   titleStyle = typeScale.titleSmall,
   description,
@@ -43,9 +45,10 @@ const BottomSheetV2 = ({
   return (
     <BottomSheetBaseV2
       forwardedRef={forwardedRef}
-      snapPoints={snapPoints}
+      name={name}
       onClose={onClose}
       onOpen={onOpen}
+      snapPoints={snapPoints}
     >
       {!!hasStickyHeader && (
         <View style={[styles.stickyHeaderContainer, styles.headerContentSpacing]}>
