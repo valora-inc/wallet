@@ -371,7 +371,7 @@ function LearnMoreBottomSheet({
   return (
     <BottomSheetV2
       forwardedRef={learnMoreBottomSheetRef}
-      name={BottomSheetNames.LearnMoreBottomSheet}
+      name={BottomSheetNames.LearnMore}
       title={t('earnFlow.home.learnMoreBottomSheet.bottomSheetTitle')}
       testId={'Earn/Home/LearnMoreBottomSheet'}
       titleStyle={styles.learnMoreTitle}

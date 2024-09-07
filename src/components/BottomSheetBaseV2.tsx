@@ -92,6 +92,6 @@ export default BottomSheetBaseV2
 
 // Names of the bottom sheets must be unique and should be added to this enum
 export enum BottomSheetNames {
-  LearnMoreBottomSheet = 'LearnMoreBottomSheet',
-  MultiSelectBottomSheet = 'MultiSelectBottomSheet',
+  LearnMore = 'LearnMore',
+  MultiSelect = 'MultiSelect',
 }

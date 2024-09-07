@@ -87,7 +87,7 @@ function MultiSelectBottomSheet<T extends string>({
   return (
     <BottomSheetBaseV2
       forwardedRef={forwardedRef}
-      name={BottomSheetNames.MultiSelectBottomSheet}
+      name={BottomSheetNames.MultiSelect}
       onOpen={onOpen}
       backgroundStyle={{ backgroundColor: 'transparent' }}
       handleIndicatorStyle={{ width: 0 }}
@@ -95,7 +95,7 @@ function MultiSelectBottomSheet<T extends string>({
     >
       <BottomSheetScrollView
         forwardedRef={scrollViewRef}
-        testId={BottomSheetNames.MultiSelectBottomSheet}
+        testId={BottomSheetNames.MultiSelect}
         containerStyle={styles.bottomSheetScrollView}
       >
         <View style={[styles.option, styles.borderRadiusTop]}>
@@ -121,7 +121,7 @@ function MultiSelectBottomSheet<T extends string>({
         </View>
         <View style={styles.doneButtonContainer}>
           <Touchable
-            testID={`${BottomSheetNames.MultiSelectBottomSheet}/Done`}
+            testID={`${BottomSheetNames.MultiSelect}/Done`}
             style={styles.doneButton}
             onPress={handleClose}
           >
