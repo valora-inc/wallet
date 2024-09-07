@@ -2544,7 +2544,7 @@
       "infoV1_93": "Unterstützt von {{providerName}}",
       "infoBottomSheet": {
         "title": "Warum dieser Pool?",
-        "description": "Dieser Aave-Pool hat über 150 Mio. USD TVL und mehr als 6000 Teilnehmer, was für eine hohe Liquidität und Vertrauenswürdigkeit spricht. Außerdem verwendet er USDC als Token und Arbitrum als Netzwerk, was die Volatilität reduziert und sicherstellt, dass die Nutzer günstige Gasraten erhalten.\n\nAlles zusammen macht ihn zu einer sicheren und attraktiven Option mit wettbewerbsfähigen APY, die eine vorteilhafte Investitionsmöglichkeit für unsere Nutzer darstellt.\n\nAndere Aave-Pools kannst du <0>hier</0> entdecken.",
+        "description": "Dieser Aave-Pool hat über 150 Mio. USD TVL und mehr als 6.000 Teilnehmer, was für eine hohe Liquidität und Vertrauenswürdigkeit spricht. Außerdem verwendet er USDC als Token und Arbitrum als Netzwerk, was die Volatilität reduziert und sicherstellt, dass die Nutzer/innen günstige Gastarife erhalten.\n\nAndere Aave-Pools kannst du <0>hier</0> entdecken.",
         "dismiss": "Verwerfen"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2621,7 +2621,11 @@
         "apySubtitle": "Was ist eine APY?",
         "apyDescription": "Eine jährliche prozentuale Rendite (APY) ist eine Kennzahl, die zur Berechnung der jährlichen Rendite von Krypto-Investitionen verwendet wird. Sie ist ein wichtiger Indikator für die potenzielle Rendite und Rentabilität einer Kryptowährung.",
         "tvlSubtitle": "Was ist TVL?",
-        "tvlDescription": "TVL steht für Total Value Locked und ist eine Kennzahl, die in der Kryptobranche verwendet wird, um den Wert von Digitalvermögen zu messen, das in einem Blockchain-Netzwerk gesperrt ist. TVL wird berechnet, indem der Wert des gesamten Digitalvermögens addiert wird, das in einem DeFi-Protokoll oder Smart Contract gesperrt ist. Dieses Vermögen kann Kryptowährungen, Stablecoins und andere Tokens umfassen."
+        "tvlDescription": "TVL steht für Total Value Locked und ist eine Kennzahl, die in der Kryptobranche verwendet wird, um den Wert von Digitalvermögen zu messen, das in einem Blockchain-Netzwerk gesperrt ist. TVL wird berechnet, indem der Wert des gesamten Digitalvermögens addiert wird, das in einem DeFi-Protokoll oder Smart Contract gesperrt ist. Dieses Vermögen kann Kryptowährungen, Stablecoins und andere Tokens umfassen.",
+        "yieldPoolSubtitle": "Was ist ein Ertragspool?",
+        "yieldPoolDescription": "Renditepools oder Liquiditätspools sind gebündelte Gelder, die von Token-Inhabern zur Verfügung gestellt werden und den Handel an dezentralen Börsen ermöglichen. Wenn du zum Pool beiträgst, kannst du Zinsen von anderen Personen erhalten, die sich diese Mittel leihen.",
+        "chooseSubtitle": "Wie solltest du einen Pool auswählen? ",
+        "chooseDescription": "Jede finanzielle Entscheidung ist eine persönliche Entscheidung. Wir haben einige Pools aus verschiedenen Protokollen zusammengefasst, aber jeder Pool hat seine eigenen Vorteile und Risiken. Wir tun unser Bestes, um hilfreiche Informationen für jeden Pool bereitzustellen, aber es ist immer am besten, wenn du dich zusätzlich informierst, wenn du dir unsicher bist."
       },
       "noPoolsTitle": "Du bist noch keinen Pools beigetreten",
       "noPoolsDescription": "Entdecke verfügbare Pools, wähle einen aus, der zu deinen Zielen passt, und hole das Beste aus deinen Stablecoins heraus.",
