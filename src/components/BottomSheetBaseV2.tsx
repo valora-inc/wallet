@@ -94,4 +94,5 @@ export default BottomSheetBaseV2
 export enum BottomSheetNames {
   LearnMore = 'LearnMore',
   MultiSelect = 'MultiSelect',
+  RevokePhoneNumber = 'RevokePhoneNumber',
 }

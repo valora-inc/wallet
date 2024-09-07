@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
-import { SettingsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import { SettingsEvents } from 'src/analytics/Events'
+import { BottomSheetNames } from 'src/components/BottomSheetBaseV2'
+import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { NotificationVariant } from 'src/components/InLineNotification'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
@@ -18,7 +19,7 @@ import Logger from 'src/utils/Logger'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 
 interface Props {
-  forwardedRef: React.RefObject<BottomSheetRefType>
+  forwardedRef: React.RefObject<BottomSheetModalRefType>
 }
 
 const TOAST_DISMISS_TIMEOUT_MS = 5_000
@@ -66,10 +67,12 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
 
   return (
     <>
-      <BottomSheet
+      <BottomSheetV2
         forwardedRef={forwardedRef}
         title={t('revokePhoneNumber.bottomSheetTitle')}
-        testId="RevokePhoneNumberBottomSheet"
+        testId={`${BottomSheetNames.RevokePhoneNumber}BottomSheet`}
+        name={BottomSheetNames.RevokePhoneNumber}
+        snapPoints={['30%']}
       >
         {!!e164PhoneNumber && (
           <View style={styles.phoneNumber}>
@@ -88,7 +91,7 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
           showLoading={revokeNumberAsync.loading}
           testID="RevokePhoneNumberBottomSheet/PrimaryAction"
         />
-      </BottomSheet>
+      </BottomSheetV2>
       <Toast
         showToast={showRevokeSuccess}
         variant={NotificationVariant.Info}
