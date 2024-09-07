@@ -2544,7 +2544,7 @@
       "infoV1_93": "Powered by {{providerName}}",
       "infoBottomSheet": {
         "title": "Qual è lo scopo di questo pool?",
-        "description": "Questo pool di Aave ha oltre 150 milioni di dollari di TVL e più di 6.000 contributori, il che indica una forte liquidità e affidabilità. Inoltre, utilizza USDC come token e Arbitrum come rete, il che riduce la volatilità e garantisce agli utenti tariffe convenienti.\n\nTutto ciò la rende un'opzione sicura e attraente con un APY competitivo, garantendo un'opportunità di investimento vantaggiosa per i nostri utenti.\n\nPuoi esplorare gli altri pool di Aave <0>qui</0>.",
+        "description": "Questo pool di Aave ha oltre 150 milioni di dollari di TVL e più di 6.000 contributori, il che indica una forte liquidità e affidabilità. Inoltre, utilizza USDC come token e Arbitrum come rete, il che riduce la volatilità e garantisce agli utenti tariffe economiche per il gas.\n\nPuoi esplorare altri pool di Aave <0>qui</0>.",
         "dismiss": "Ignorare"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2621,7 +2621,11 @@
         "apySubtitle": "Cos'è l'APY?",
         "apyDescription": "Il rendimento annuo percentuale (APY) è una metrica utilizzata per calcolare il rendimento annualizzato degli investimenti in cripto. È un indicatore chiave del potenziale rendimento di una criptovaluta.",
         "tvlSubtitle": "Cos'è il TVL?",
-        "tvlDescription": "Il valore totale bloccato (TVL) è una metrica utilizzata per misurare il valore dei beni digitali bloccati su una rete blockchain. Il TVL viene calcolato sommando il valore di tutti gli asset digitali bloccati in un protocollo DeFi o in uno smart contract. Questi beni possono includere criptovalute, stablecoin e altri token."
+        "tvlDescription": "Il valore totale bloccato (TVL) è una metrica utilizzata per misurare il valore dei beni digitali bloccati su una rete blockchain. Il TVL viene calcolato sommando il valore di tutti gli asset digitali bloccati in un protocollo DeFi o in uno smart contract. Questi beni possono includere criptovalute, stablecoin e altri token.",
+        "yieldPoolSubtitle": "Che cos'è un pool di rendimento?",
+        "yieldPoolDescription": "I pool di rendimento, o pool di liquidità, sono fondi messi in comune dai detentori di token, che consentono di effettuare scambi su borse decentralizzate. Quando contribuisci al pool, puoi guadagnare interessi da altre persone che prendono in prestito quei fondi.",
+        "chooseSubtitle": "Come scegliere una piscina? ",
+        "chooseDescription": "Ogni decisione finanziaria è una scelta personale. Abbiamo aggregato alcuni pool di diversi protocolli, ma ogni pool presenta vantaggi e rischi. Facciamo del nostro meglio per fornire informazioni utili per ogni pool, ma è sempre meglio fare ulteriori ricerche se non sei sicuro."
       },
       "noPoolsTitle": "Non ti sei ancora iscritto a nessun pool",
       "noPoolsDescription": "Scopri i pool disponibili, scegline uno che corrisponda ai tuoi obiettivi e sfrutta al meglio le tue stablecoin.",
