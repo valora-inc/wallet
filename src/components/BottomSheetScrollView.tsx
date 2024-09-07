@@ -12,6 +12,7 @@ interface Props {
   forwardedRef?: React.RefObject<ScrollView>
   isScreen?: boolean // should be set to true if using this component directly from a component that is registered as a native bottom sheet screen on the navigator
   children: React.ReactNode
+  isV2?: boolean
 }
 
 function BottomSheetScrollView({
@@ -20,6 +21,7 @@ function BottomSheetScrollView({
   testId,
   isScreen,
   children,
+  isV2 = false,
 }: Props) {
   const [containerHeight, setContainerHeight] = useState(0)
   const [contentHeight, setContentHeight] = useState(0)
@@ -49,14 +51,14 @@ function BottomSheetScrollView({
         setContainerHeight(event.nativeEvent.layout.height)
       }}
       keyboardShouldPersistTaps="always"
-      contentContainerStyle={{ flexGrow: 1 }}
+      contentContainerStyle={isV2 && { flexGrow: 1 }}
     >
       <View
         style={[
           styles.container,
           { paddingBottom: Math.max(insets.bottom, Spacing.Thick24) },
           containerStyle,
-          { flexGrow: 1 },
+          isV2 && { flexGrow: 1 },
         ]}
         onLayout={(event: LayoutChangeEvent) => {
           setContentHeight(event.nativeEvent.layout.height)

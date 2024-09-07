@@ -97,6 +97,7 @@ function MultiSelectBottomSheet<T extends string>({
         forwardedRef={scrollViewRef}
         testId={BottomSheetNames.MultiSelect}
         containerStyle={styles.bottomSheetScrollView}
+        isV2={true}
       >
         <View style={[styles.option, styles.borderRadiusTop]}>
           <Text style={styles.boldTextStyle}>{title}</Text>
