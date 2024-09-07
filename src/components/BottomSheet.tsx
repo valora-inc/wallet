@@ -27,6 +27,10 @@ export type BottomSheetRefType = GorhomBottomSheet
 // The dynamic height in this case is always a little shorter than should be,
 // however the content is scrollable and not obstructed. As a workaround,
 // providing `snapPoints` is recommended when using sticky headers.
+
+/**
+ * @deprecated use BottomSheetV2 instead
+ */
 const BottomSheet = ({
   forwardedRef,
   title,
