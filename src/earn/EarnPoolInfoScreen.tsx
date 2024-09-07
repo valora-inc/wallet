@@ -8,7 +8,8 @@ import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetNames } from 'src/components/BottomSheetBaseV2'
+import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -505,10 +506,10 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       .filter((token): token is TokenBalance => !!token)
   }, [tokens, allTokens])
 
-  const depositInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const tvlInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const ageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const yieldRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const depositInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const tvlInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const ageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const yieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
@@ -619,6 +620,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         }
         providerName={appName}
         testId="DepositInfoBottomSheet"
+        name={BottomSheetNames.DepositInfo}
       />
       <InfoBottomSheet
         infoBottomSheetRef={tvlInfoBottomSheetRef}
@@ -626,6 +628,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.tvlDescription"
         providerName={appName}
         testId="TvlInfoBottomSheet"
+        name={BottomSheetNames.TvlInfo}
       />
       <InfoBottomSheet
         infoBottomSheetRef={ageInfoBottomSheetRef}
@@ -633,6 +636,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.ageDescription"
         providerName={appName}
         testId="AgeInfoBottomSheet"
+        name={BottomSheetNames.AgeInfo}
       />
       <InfoBottomSheet
         infoBottomSheetRef={yieldRateInfoBottomSheetRef}
@@ -641,6 +645,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         descriptionUrl={dataProps.manageUrl}
         providerName={appName}
         testId="YieldRateInfoBottomSheet"
+        name={BottomSheetNames.YieldRateInfo}
       />
     </SafeAreaView>
   )
@@ -653,13 +658,17 @@ function InfoBottomSheet({
   descriptionUrl,
   providerName,
   testId,
+  name,
+  snapPoints = ['40%'],
 }: {
-  infoBottomSheetRef: React.RefObject<BottomSheetRefType>
+  infoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
   titleKey: string
   descriptionKey: string
   descriptionUrl?: string
   providerName: string
   testId: string
+  name: string
+  snapPoints?: (string | number)[]
 }) {
   const { t } = useTranslation()
 
@@ -672,28 +681,36 @@ function InfoBottomSheet({
   }
 
   return (
-    <BottomSheet
+    <BottomSheetV2
       forwardedRef={infoBottomSheetRef}
       title={t(titleKey)}
       testId={testId}
       titleStyle={styles.infoBottomSheetTitle}
+      name={name}
+      snapPoints={snapPoints}
+      actions={
+        <Button
+          onPress={onPressDismiss}
+          text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+        />
+      }
     >
       {descriptionUrl ? (
-        <Text style={styles.infoBottomSheetText}>
-          <Trans i18nKey={descriptionKey} tOptions={{ providerName }}>
-            <Text onPress={onPressUrl} style={styles.linkText} />
-          </Trans>
-        </Text>
+        <View style={{ flexGrow: 1 }}>
+          <Text style={styles.infoBottomSheetText}>
+            <Trans i18nKey={descriptionKey} tOptions={{ providerName }}>
+              <Text onPress={onPressUrl} style={styles.linkText} />
+            </Trans>
+          </Text>
+        </View>
       ) : (
-        <Text style={styles.infoBottomSheetText}>{t(descriptionKey, { providerName })}</Text>
+        <View style={{ flexGrow: 1 }}>
+          <Text style={styles.infoBottomSheetText}>{t(descriptionKey, { providerName })}</Text>
+        </View>
       )}
-      <Button
-        onPress={onPressDismiss}
-        text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
-        size={BtnSizes.FULL}
-        type={BtnTypes.SECONDARY}
-      />
-    </BottomSheet>
+    </BottomSheetV2>
   )
 }
 

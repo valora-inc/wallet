@@ -49,12 +49,14 @@ function BottomSheetScrollView({
         setContainerHeight(event.nativeEvent.layout.height)
       }}
       keyboardShouldPersistTaps="always"
+      contentContainerStyle={{ flexGrow: 1 }}
     >
       <View
         style={[
           styles.container,
           { paddingBottom: Math.max(insets.bottom, Spacing.Thick24) },
           containerStyle,
+          { flexGrow: 1 },
         ]}
         onLayout={(event: LayoutChangeEvent) => {
           setContentHeight(event.nativeEvent.layout.height)
