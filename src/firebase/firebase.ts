@@ -248,39 +248,6 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
 const VALUE_CHANGE_HOOK = 'value'
 
 /*
-Get the Version deprecation information.
-Firebase DB Format:
-  (New) Add minVersion child to versions category with a string of the mininum version as string
-*/
-export function appVersionDeprecationChannel() {
-  if (!FIREBASE_ENABLED) {
-    return null
-  }
-
-  const errorCallback = (error: Error) => {
-    Logger.warn(TAG, error.toString())
-  }
-
-  return eventChannel<string>((emit: any) => {
-    const emitter = (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-      const minVersion = snapshot.val().minVersion
-      emit(minVersion)
-    }
-
-    const onValueChange = firebase
-      .database()
-      .ref('versions')
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
-
-    const cancel = () => {
-      firebase.database().ref('versions').off(VALUE_CHANGE_HOOK, onValueChange)
-    }
-
-    return cancel
-  })
-}
-
-/*
 We use firebase remote config to manage feature flags.
 https://firebase.google.com/docs/remote-config
 

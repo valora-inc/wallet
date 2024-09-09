@@ -35,7 +35,7 @@ import { CeloNewsConfig } from 'src/celoNews/types'
 import { DEFAULT_APP_LANGUAGE, FETCH_TIMEOUT_DURATION, isE2EEnv } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
-import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
+import { fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { initI18n } from 'src/i18n'
 import {
   allowOtaTranslationsSelector,
@@ -53,8 +53,14 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getFeatureGate, patchUpdateStatsigUser, setupOverridesFromLaunchArgs } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import {
+  getDynamicConfigParams,
+  getFeatureGate,
+  patchUpdateStatsigUser,
+  setupOverridesFromLaunchArgs,
+} from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { swapSuccess } from 'src/swap/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -134,25 +140,14 @@ export function* appInit() {
 }
 
 export function* appVersionSaga() {
-  const appVersionChannel = yield* call(appVersionDeprecationChannel)
-  if (!appVersionChannel) {
-    return
-  }
-  try {
-    while (true) {
-      const minRequiredVersion = yield* take(appVersionChannel)
-      Logger.info(TAG, `Required min version: ${minRequiredVersion}`)
-      // Note: The NavigatorWrapper will read this value from the store and
-      // show the UpdateScreen if necessary.
-      yield* put(minAppVersionDetermined(minRequiredVersion))
-    }
-  } catch (error) {
-    Logger.error(`${TAG}@appVersionSaga`, 'Failed to watch app version', error)
-  } finally {
-    if (yield* cancelled()) {
-      appVersionChannel.close()
-    }
-  }
+  const { minRequiredVersion } = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG]
+  )
+
+  Logger.info(TAG, `Required min version: ${minRequiredVersion}`)
+  // Note: The NavigatorWrapper will read this value from the store and
+  // show the UpdateScreen if necessary.
+  yield* put(minAppVersionDetermined(minRequiredVersion))
 }
 
 // Check the availability of Google Mobile Services and Huawei Mobile Services, an alternative to
