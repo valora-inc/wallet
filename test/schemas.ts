@@ -3495,6 +3495,14 @@ export const v228Schema = {
   ),
 }
 
+export const v229Schema = {
+  ...v228Schema,
+  _persist: {
+    ...v228Schema._persist,
+    version: 229,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v228Schema as Partial<RootState>
+  return v229Schema as Partial<RootState>
 }

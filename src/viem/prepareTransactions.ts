@@ -54,7 +54,7 @@ interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
   decreasedSpendAmount: BigNumber
 }
 
-interface PreparedTransactionsNotEnoughBalanceForGas {
+export interface PreparedTransactionsNotEnoughBalanceForGas {
   type: 'not-enough-balance-for-gas'
   feeCurrencies: TokenBalance[]
 }

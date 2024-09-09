@@ -9,7 +9,7 @@ import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
 import { navigateToURI } from 'src/utils/linking'
 import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import { mockArbUsdcTokenId, mockEarnPositions, mockTokenBalances } from 'test/values'
 
 const mockPoolTokenId = mockEarnPositions[0].dataProps.depositTokenId
@@ -23,17 +23,16 @@ const store = createMockStore({
 const renderEarnPoolInfoScreen = (pool: EarnPosition) =>
   render(
     <Provider store={store}>
-      <MockedNavigator
-        component={() => (
-          <EarnPoolInfoScreen {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, { pool })} />
-        )}
-      />
+      <MockedNavigator component={EarnPoolInfoScreen} params={{ pool }} />
     </Provider>
   )
 
 describe('EarnPoolInfoScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.useFakeTimers({
+      now: new Date('2024-08-15T00:00:00.000Z'),
+    })
   })
 
   it('renders correctly when not deposited in pool', () => {
@@ -58,8 +57,8 @@ describe('EarnPoolInfoScreen', () => {
       within(getByTestId('AgeCard')).getByText('duration, {"context":"month","count":5}')
     ).toBeTruthy()
     expect(
-      within(getByTestId('ActionButtons')).getByText('earnFlow.poolInfoScreen.withdraw')
-    ).toBeTruthy()
+      within(getByTestId('ActionButtons')).queryByText('earnFlow.poolInfoScreen.withdraw')
+    ).toBeFalsy()
     expect(
       within(getByTestId('ActionButtons')).getByText('earnFlow.poolInfoScreen.deposit')
     ).toBeTruthy()
@@ -194,8 +193,10 @@ describe('EarnPoolInfoScreen', () => {
 
     expect(navigateToURI).toHaveBeenCalledWith('https://app.aave.com/?marketName=proto_arbitrum_v3')
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_view_pool, {
-      appId: 'aave',
-      positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      providerId: 'aave',
+      poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      networkId: 'arbitrum-sepolia',
+      depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
   })
 
@@ -245,28 +246,48 @@ describe('EarnPoolInfoScreen', () => {
       providerId: 'aave',
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       type,
+      networkId: 'arbitrum-sepolia',
+      depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
   })
 
   it('navigate to EarnEnterAmount when Deposit button is tapped', () => {
     const { getByText } = render(
       <Provider store={store}>
+        <MockedNavigator component={EarnPoolInfoScreen} params={{ pool: mockEarnPositions[0] }} />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_deposit, {
+      providerId: 'aave',
+      poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      networkId: 'arbitrum-sepolia',
+      depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
+      pool: mockEarnPositions[0],
+    })
+  })
+
+  it('navigate to EarnCollectScreen when Withdraw button is tapped', () => {
+    const { getByText } = render(
+      <Provider store={store}>
         <MockedNavigator
-          component={() => {
-            return (
-              <EarnPoolInfoScreen
-                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
-                  pool: mockEarnPositions[0],
-                })}
-              />
-            )
+          component={EarnPoolInfoScreen}
+          params={{
+            pool: { ...mockEarnPositions[0], balance: '100' },
           }}
         />
       </Provider>
     )
-    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
-    expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
-      pool: mockEarnPositions[0],
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.withdraw'))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_withdraw, {
+      providerId: 'aave',
+      poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      poolAmount: '100',
+      networkId: 'arbitrum-sepolia',
+      depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
+    // TODO (ACT-1343): check that navigate is called with correct params
   })
 })
