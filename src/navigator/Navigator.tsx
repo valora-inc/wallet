@@ -10,11 +10,11 @@ import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import GoldEducation from 'src/account/GoldEducation'
+import LegalSubmenu from 'src/account/LegalSubmenu'
 import Licenses from 'src/account/Licenses'
+import PreferencesSubmenu from 'src/account/PreferencesSubmenu'
 import Profile from 'src/account/Profile'
 import ProfileSubmenu from 'src/account/ProfileSubmenu'
-import LegalSubmenu from 'src/account/LegalSubmenu'
-import PreferencesSubmenu from 'src/account/PreferencesSubmenu'
 import SecuritySubmenu from 'src/account/SecuritySubmenu'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import Support from 'src/account/Support'
@@ -65,6 +65,7 @@ import { currentLanguageSelector } from 'src/i18n/selectors'
 import ImportWallet from 'src/import/ImportWallet'
 import Invite from 'src/invite/Invite'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
+import JumpstartIntroScreen from 'src/jumpstart/JumpstartIntroScreen'
 import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
 import JumpstartShareLink from 'src/jumpstart/JumpstartShareLink'
 import JumpstartTransactionDetailsScreen from 'src/jumpstart/JumpstartTransactionDetailsScreen'
@@ -83,9 +84,9 @@ import {
   noHeader,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
-import SettingsMenu from 'src/navigator/SettingsMenu'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
+import SettingsMenu from 'src/navigator/SettingsMenu'
 import TabNavigator from 'src/navigator/TabNavigator'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
@@ -253,6 +254,11 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.SendEnterAmount}
       component={SendEnterAmount}
+      options={noHeader}
+    />
+    <Navigator.Screen
+      name={Screens.JumpstartIntroScreen}
+      component={JumpstartIntroScreen}
       options={noHeader}
     />
     <Navigator.Screen

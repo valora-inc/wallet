@@ -8,7 +8,6 @@ import { JumpstartEvents } from 'src/analytics/Events'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import JumpstartAddAssets from 'src/jumpstart/JumpstartAddAssets'
 import { jumpstartSendStatusSelector } from 'src/jumpstart/selectors'
 import { depositTransactionFlowStarted } from 'src/jumpstart/slice'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
@@ -166,10 +165,6 @@ function JumpstartEnterAmount() {
     sendAmountExceedsThreshold ||
     jumpstartSendStatus === 'success' ||
     jumpstartSendStatus === 'loading'
-
-  if (tokens.length === 0) {
-    return <JumpstartAddAssets />
-  }
 
   return (
     <EnterAmount

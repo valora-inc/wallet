@@ -1,32 +1,20 @@
-import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
-import AddAssetsBottomSheet, { AddAssetsAction } from 'src/components/AddAssetsBottomSheet'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { type AddAssetsAction } from 'src/components/AddAssetsBottomSheet'
 import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import JumpstartIntro from 'src/jumpstart/JumpstartIntro'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
-import { useSelector } from 'src/redux/hooks'
 import { TokenActionName } from 'src/tokens/types'
 import networkConfig from 'src/web3/networkConfig'
 
-export default function JumpstartAddAssets() {
-  const addAssetsBottomSheetRef = useRef<BottomSheetRefType>(null)
-
+export function useAddAssetsActions(): AddAssetsAction[] {
   const { t } = useTranslation()
-
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
 
-  const handleShowAddFunds = () => {
-    AppAnalytics.track(JumpstartEvents.jumpstart_add_assets_show_actions)
-    addAssetsBottomSheetRef.current?.snapToIndex(0)
-  }
-
-  const addAssetsActions: AddAssetsAction[] = [
+  return [
     {
       name: TokenActionName.Add,
       details: t('jumpstartIntro.addFundsCelo.actionDescriptions.add'),
@@ -69,26 +57,4 @@ export default function JumpstartAddAssets() {
         ]
       : []),
   ]
-
-  return (
-    <JumpstartIntro
-      description={[t('jumpstartIntro.infoLine1'), t('jumpstartIntro.infoLine2')]}
-      button={
-        <Button
-          onPress={handleShowAddFunds}
-          text={t('jumpstartIntro.addFundsCelo.cta')}
-          type={BtnTypes.PRIMARY}
-          size={BtnSizes.FULL}
-        />
-      }
-    >
-      <AddAssetsBottomSheet
-        forwardedRef={addAssetsBottomSheetRef}
-        title={t('jumpstartIntro.addFundsCelo.title')}
-        description={t('jumpstartIntro.addFundsCelo.description')}
-        actions={addAssetsActions}
-        testId="Jumpstart/addFundsCeloBottomSheet"
-      />
-    </JumpstartIntro>
-  )
 }

@@ -2215,6 +2215,7 @@
     "title": "Share crypto like a text",
     "infoLine1": "Live Links are a way to send crypto on the Celo network to a friend with a link.",
     "infoLine2": "To get started, you’ll need some CELO assets in your wallet.",
+    "haveFundsButton": "Send with a Live Link",
     "addFundsCelo": {
       "title": "Get Assets on Celo",
       "info": "Live Links are a way to send crypto on the Celo network to a friend with a link.\nTo get started, you’ll need some CELO assets in your wallet.",

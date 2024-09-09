@@ -246,6 +246,7 @@ export type StackParamList = {
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.SendEnterAmount]: SendEnterAmountParams
   [Screens.JumpstartEnterAmount]: undefined
+  [Screens.JumpstartIntroScreen]: undefined
   [Screens.JumpstartSendConfirmation]: {
     link: string
     sendAmount: string

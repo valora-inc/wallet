@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import JumpstartAddAssets from 'src/jumpstart/JumpstartAddAssets'
+import JumpstartIntroScreen from 'src/jumpstart/JumpstartIntroScreen'
 import { navigate } from 'src/navigator/NavigationService'
 import { getDynamicConfigParams } from 'src/statsig'
 import { createMockStore } from 'test/utils'
@@ -12,7 +12,7 @@ jest.mocked(getDynamicConfigParams).mockReturnValue({
   wallet_network_timeout_seconds: 10,
 })
 
-describe('JumpstartAddAssets', () => {
+describe('JumpstartIntroScreen', () => {
   it('should render the correct actions and components', () => {
     const { getByText, queryByText } = render(
       <Provider
@@ -22,7 +22,7 @@ describe('JumpstartAddAssets', () => {
           },
         })}
       >
-        <JumpstartAddAssets />
+        <JumpstartIntroScreen />
       </Provider>
     )
 
@@ -44,7 +44,7 @@ describe('JumpstartAddAssets', () => {
           },
         })}
       >
-        <JumpstartAddAssets />
+        <JumpstartIntroScreen />
       </Provider>
     )
 
