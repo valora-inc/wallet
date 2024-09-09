@@ -451,8 +451,9 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
   }
   const { t } = useTranslation()
   const { availableShortcutIds } = earnPosition
-  const deposit = availableShortcutIds.includes('withdraw')
-  const withdraw = availableShortcutIds.includes('withdraw')
+  const deposit = availableShortcutIds.includes('deposit')
+  const withdraw =
+    availableShortcutIds.includes('withdraw') && new BigNumber(earnPosition.balance).gt(0)
 
   return (
     <View testID="ActionButtons" style={[styles.buttonContainer, insetsStyle]}>

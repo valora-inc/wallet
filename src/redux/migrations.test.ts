@@ -55,6 +55,7 @@ import {
   v21Schema,
   v222Schema,
   v227Schema,
+  v228Schema,
   v28Schema,
   v2Schema,
   v35Schema,
@@ -84,6 +85,7 @@ import {
   vNeg1Schema,
 } from 'test/schemas'
 import {
+  mockEarnDepositTransaction,
   mockInvitableRecipient,
   mockInvitableRecipient2,
   mockPositionsLegacy,
@@ -1662,6 +1664,35 @@ describe('Redux persist migrations', () => {
         'isDekRegistered',
         'mtwAddress'
       ))
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+  it('works from 228 to 229', () => {
+    const oldSchema = {
+      ...v228Schema,
+      transactions: {
+        ...v228Schema.transactions,
+        transactionsByNetworkId: {
+          ...v228Schema.transactions.transactionsByNetworkId,
+          [NetworkId['arbitrum-sepolia']]: [
+            { ...mockEarnDepositTransaction, providerId: 'aave-v3' },
+          ],
+        },
+        standbyTransactions: [
+          {
+            ...mockEarnDepositTransaction,
+            providerId: 'aave-v3',
+            status: TransactionStatus.Pending,
+          },
+          ...v228Schema.transactions.standbyTransactions,
+        ],
+      },
+    }
+    const migratedSchema = migrations[229](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.transactions.transactionsByNetworkId[
+      NetworkId['arbitrum-sepolia']
+    ][0].providerId = 'aave'
+    expectedSchema.transactions.standbyTransactions[0].providerId = 'aave'
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

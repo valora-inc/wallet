@@ -378,16 +378,16 @@ function LearnMoreBottomSheet({
       snapPoints={['45%']}
     >
       <Text style={styles.learnMoreSubTitle}>
-        {t('earnFlow.home.learnMoreBottomSheet.apySubtitle')}
+        {t('earnFlow.home.learnMoreBottomSheet.yieldPoolSubtitle')}
       </Text>
       <Text style={styles.learnMoreDescription}>
-        {t('earnFlow.home.learnMoreBottomSheet.apyDescription')}
+        {t('earnFlow.home.learnMoreBottomSheet.yieldPoolDescription')}
       </Text>
       <Text style={styles.learnMoreSubTitle}>
-        {t('earnFlow.home.learnMoreBottomSheet.tvlSubtitle')}
+        {t('earnFlow.home.learnMoreBottomSheet.chooseSubtitle')}
       </Text>
       <Text style={styles.learnMoreDescription}>
-        {t('earnFlow.home.learnMoreBottomSheet.tvlDescription')}
+        {t('earnFlow.home.learnMoreBottomSheet.chooseDescription')}
       </Text>
     </BottomSheetV2>
   )
