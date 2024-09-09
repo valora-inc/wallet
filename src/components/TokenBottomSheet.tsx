@@ -257,9 +257,12 @@ function TokenBottomSheet({
   // that the header would be stuck to the wrong position between sheet reopens.
   // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1707757919681089
   const content = (
-    <>
+    // Note: ideally we wouldn't need this wrapper view,
+    // it's here for testing purposes with the testID
+    // wrapping both the FlatList and the sticky header
+    // TODO: check if we can remove this wrapper view now that dynamic sizing seems more robust
+    <View style={styles.container} testID="TokenBottomSheet">
       <BottomSheetFlatList
-        testID="TokenBottomSheet"
         ref={tokenListRef}
         data={tokenList}
         keyExtractor={(item) => item.tokenId}
@@ -319,7 +322,7 @@ function TokenBottomSheet({
           />
         )}
       </View>
-    </>
+    </View>
   )
 
   return (
@@ -354,6 +357,12 @@ function TokenBottomSheet({
 TokenBottomSheet.navigationOptions = {}
 
 const styles = StyleSheet.create({
+  // Important: care must be taken when changing the styles of the container
+  // It could most likely break the dynamic sizing of the bottom sheet
+  // so avoid adding padding/margin to it, or min/max height
+  container: {
+    flex: 1,
+  },
   searchInput: {
     marginTop: Spacing.Regular16,
   },
