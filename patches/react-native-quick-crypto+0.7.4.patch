@@ -51,7 +51,7 @@ index 9ea3981..1b56c3e 100644
  export type CreateCipherMethod = (params: {
      cipher_type: string;
 diff --git a/node_modules/react-native-quick-crypto/src/Cipher.ts b/node_modules/react-native-quick-crypto/src/Cipher.ts
-index 7c4ee20..6c99a00 100644
+index 7c4ee20..0386117 100644
 --- a/node_modules/react-native-quick-crypto/src/Cipher.ts
 +++ b/node_modules/react-native-quick-crypto/src/Cipher.ts
 @@ -222,8 +222,9 @@ class CipherCommon extends Stream.Transform {
@@ -61,7 +61,7 @@ index 7c4ee20..6c99a00 100644
 -  public getAuthTag(): ArrayBuffer {
 -    return this.internal.getAuthTag();
 +  public getAuthTag(): Buffer {
-+    // TODO: contribute this upstream, since NodeJS crypto does use Buffer
++    // TODO: remove this patch once https://github.com/margelo/react-native-quick-crypto/pull/443 lands in a release
 +    return Buffer.from(this.internal.getAuthTag());
    }
  
