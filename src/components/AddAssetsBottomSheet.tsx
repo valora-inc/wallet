@@ -6,6 +6,7 @@ import Touchable from 'src/components/Touchable'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
+import QuickActionsSwapAndDeposit from 'src/icons/quick-actions/SwapAndDeposit'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -55,7 +56,7 @@ export default function AddAssetsBottomSheet({
       title: t('addFundsActions.swap'),
     },
     [TokenActionName.SwapAndDeposit]: {
-      iconComponent: QuickActionsAdd,
+      iconComponent: QuickActionsSwapAndDeposit,
       title: t('addFundsActions.swapAndDeposit'),
     },
     [TokenActionName.CrossChainSwap]: {

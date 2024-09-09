@@ -41,6 +41,7 @@ import { useCashInTokens, useSwappableTokens, useTokenInfo, useTokensInfo } from
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenActionName } from 'src/tokens/types'
+import { getTokenAnalyticsProps } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
 import { formattedDuration } from 'src/utils/time'
@@ -812,7 +813,10 @@ function BeforeDepositBottomSheet({
           }
         ),
         onPress: () => {
-          // TODO: Add analytics
+          AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
+            action: TokenActionName.SwapAndDeposit,
+            ...getTokenAnalyticsProps(token),
+          })
 
           navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
         },
@@ -832,7 +836,12 @@ function BeforeDepositBottomSheet({
               tokenNetwork: NETWORK_NAMES[token.networkId],
             }),
         onPress: () => {
-          // TODO: Add analytics
+          AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
+            action: canSameChainSwapToDeposit
+              ? TokenActionName.CrossChainSwap
+              : TokenActionName.Swap,
+            ...getTokenAnalyticsProps(token),
+          })
 
           navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
         },
@@ -847,7 +856,10 @@ function BeforeDepositBottomSheet({
           tokenNetwork: NETWORK_NAMES[token.networkId],
         }),
         onPress: () => {
-          // TODO: Add analytics
+          AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
+            action: TokenActionName.Add,
+            ...getTokenAnalyticsProps(token),
+          })
 
           navigate(Screens.FiatExchangeAmount, {
             tokenId: token.tokenId,
@@ -866,7 +878,10 @@ function BeforeDepositBottomSheet({
           tokenNetwork: NETWORK_NAMES[token.networkId],
         }),
         onPress: () => {
-          // TODO: Add analytics
+          AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
+            action: TokenActionName.Transfer,
+            ...getTokenAnalyticsProps(token),
+          })
 
           navigate(Screens.ExchangeQR, { flow: CICOFlow.CashIn, exchanges })
         },
