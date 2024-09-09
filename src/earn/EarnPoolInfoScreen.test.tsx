@@ -9,7 +9,7 @@ import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
 import { navigateToURI } from 'src/utils/linking'
 import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import { mockArbUsdcTokenId, mockEarnPositions, mockTokenBalances } from 'test/values'
 
 const mockPoolTokenId = mockEarnPositions[0].dataProps.depositTokenId
@@ -23,11 +23,7 @@ const store = createMockStore({
 const renderEarnPoolInfoScreen = (pool: EarnPosition) =>
   render(
     <Provider store={store}>
-      <MockedNavigator
-        component={() => (
-          <EarnPoolInfoScreen {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, { pool })} />
-        )}
-      />
+      <MockedNavigator component={EarnPoolInfoScreen} params={{ pool }} />
     </Provider>
   )
 
@@ -258,17 +254,7 @@ describe('EarnPoolInfoScreen', () => {
   it('navigate to EarnEnterAmount when Deposit button is tapped', () => {
     const { getByText } = render(
       <Provider store={store}>
-        <MockedNavigator
-          component={() => {
-            return (
-              <EarnPoolInfoScreen
-                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
-                  pool: mockEarnPositions[0],
-                })}
-              />
-            )
-          }}
-        />
+        <MockedNavigator component={EarnPoolInfoScreen} params={{ pool: mockEarnPositions[0] }} />
       </Provider>
     )
     fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
@@ -287,14 +273,9 @@ describe('EarnPoolInfoScreen', () => {
     const { getByText } = render(
       <Provider store={store}>
         <MockedNavigator
-          component={() => {
-            return (
-              <EarnPoolInfoScreen
-                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
-                  pool: { ...mockEarnPositions[0], balance: '100' },
-                })}
-              />
-            )
+          component={EarnPoolInfoScreen}
+          params={{
+            pool: { ...mockEarnPositions[0], balance: '100' },
           }}
         />
       </Provider>
