@@ -28,9 +28,11 @@ function CustomHeader({ left, right, title, style }: Props) {
   )
 }
 
+export const CUSTOM_HEADER_HEIGHT = Platform.OS === 'ios' ? 44 : 56
+
 const styles = StyleSheet.create({
   container: {
-    height: Platform.OS === 'ios' ? 44 : 56,
+    height: CUSTOM_HEADER_HEIGHT,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
