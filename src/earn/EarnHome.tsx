@@ -375,7 +375,6 @@ function LearnMoreBottomSheet({
       title={t('earnFlow.home.learnMoreBottomSheet.bottomSheetTitle')}
       testId={'Earn/Home/LearnMoreBottomSheet'}
       titleStyle={styles.learnMoreTitle}
-      snapPoints={['45%']}
     >
       <Text style={styles.learnMoreSubTitle}>
         {t('earnFlow.home.learnMoreBottomSheet.yieldPoolSubtitle')}

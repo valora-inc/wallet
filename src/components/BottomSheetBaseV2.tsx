@@ -25,7 +25,7 @@ const BottomSheetBaseV2 = ({
   onClose,
   onOpen,
   onChange,
-  snapPoints = ['45%'], // We need to set a default snap point to avoid a crash
+  snapPoints,
   handleComponent,
   backgroundStyle,
   handleIndicatorStyle = styles.handle,
@@ -63,6 +63,7 @@ const BottomSheetBaseV2 = ({
       name={name}
       index={-1}
       snapPoints={snapPoints}
+      enableDynamicSizing={!snapPoints}
       enablePanDownToClose
       backdropComponent={renderBackdrop}
       handleComponent={handleComponent}

@@ -72,16 +72,6 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
         title={t('revokePhoneNumber.bottomSheetTitle')}
         testId={`${BottomSheetNames.RevokePhoneNumber}BottomSheet`}
         name={BottomSheetNames.RevokePhoneNumber}
-        snapPoints={['30%']}
-        actions={
-          <Button
-            text={t('revokePhoneNumber.confirmButton')}
-            onPress={() => forwardedRef.current?.close()}
-            size={BtnSizes.FULL}
-            type={BtnTypes.SECONDARY}
-            testID="RevokePhoneNumberBottomSheet/SecondaryAction"
-          />
-        }
       >
         {!!e164PhoneNumber && (
           <View style={styles.phoneNumber}>
@@ -92,6 +82,14 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
           </View>
         )}
         <Text style={styles.warningText}>{t('revokePhoneNumber.description')}</Text>
+        <Button
+          text={t('revokePhoneNumber.confirmButton')}
+          onPress={handleRevokePhoneNumber}
+          size={BtnSizes.FULL}
+          type={BtnTypes.PRIMARY}
+          showLoading={revokeNumberAsync.loading}
+          testID="RevokePhoneNumberBottomSheet/PrimaryAction"
+        />
       </BottomSheetV2>
       <Toast
         showToast={showRevokeSuccess}

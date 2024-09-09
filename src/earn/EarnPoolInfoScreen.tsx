@@ -660,7 +660,6 @@ function InfoBottomSheet({
   providerName,
   testId,
   name,
-  snapPoints = ['40%'],
 }: {
   infoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
   titleKey: string
@@ -669,7 +668,6 @@ function InfoBottomSheet({
   providerName: string
   testId: string
   name: string
-  snapPoints?: (string | number)[]
 }) {
   const { t } = useTranslation()
 
@@ -688,29 +686,22 @@ function InfoBottomSheet({
       testId={testId}
       titleStyle={styles.infoBottomSheetTitle}
       name={name}
-      snapPoints={snapPoints}
-      actions={
-        <Button
-          onPress={onPressDismiss}
-          text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
-          size={BtnSizes.FULL}
-          type={BtnTypes.SECONDARY}
-        />
-      }
     >
       {descriptionUrl ? (
-        <View style={{ flexGrow: 1 }}>
-          <Text style={styles.infoBottomSheetText}>
-            <Trans i18nKey={descriptionKey} tOptions={{ providerName }}>
-              <Text onPress={onPressUrl} style={styles.linkText} />
-            </Trans>
-          </Text>
-        </View>
+        <Text style={styles.infoBottomSheetText}>
+          <Trans i18nKey={descriptionKey} tOptions={{ providerName }}>
+            <Text onPress={onPressUrl} style={styles.linkText} />
+          </Trans>
+        </Text>
       ) : (
-        <View style={{ flexGrow: 1 }}>
-          <Text style={styles.infoBottomSheetText}>{t(descriptionKey, { providerName })}</Text>
-        </View>
+        <Text style={styles.infoBottomSheetText}>{t(descriptionKey, { providerName })}</Text>
       )}
+      <Button
+        onPress={onPressDismiss}
+        text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
+        size={BtnSizes.FULL}
+        type={BtnTypes.SECONDARY}
+      />
     </BottomSheetV2>
   )
 }

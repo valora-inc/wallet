@@ -1,7 +1,7 @@
 import { BottomSheetModal, BottomSheetProps } from '@gorhom/bottom-sheet'
 import React, { Dispatch, SetStateAction, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { ScrollView } from 'react-native-gesture-handler'
 import BottomSheetBaseV2, { BottomSheetNames } from 'src/components/BottomSheetBaseV2'
@@ -91,13 +91,11 @@ function MultiSelectBottomSheet<T extends string>({
       onOpen={onOpen}
       backgroundStyle={{ backgroundColor: 'transparent' }}
       handleIndicatorStyle={{ width: 0 }}
-      snapPoints={Platform.OS === 'ios' ? ['40%'] : ['50%']}
     >
       <BottomSheetScrollView
         forwardedRef={scrollViewRef}
         testId={BottomSheetNames.MultiSelect}
         containerStyle={styles.bottomSheetScrollView}
-        isV2={true}
       >
         <View style={[styles.option, styles.borderRadiusTop]}>
           <Text style={styles.boldTextStyle}>{title}</Text>

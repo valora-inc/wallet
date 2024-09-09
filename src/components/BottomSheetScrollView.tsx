@@ -10,7 +10,6 @@ interface Props {
   testId?: string
   forwardedRef?: React.RefObject<ScrollView>
   children: React.ReactNode
-  isV2?: boolean
 }
 
 function BottomSheetScrollView({ forwardedRef, containerStyle, testId, children }: Props) {
@@ -28,14 +27,12 @@ function BottomSheetScrollView({ forwardedRef, containerStyle, testId, children 
         setContainerHeight(event.nativeEvent.layout.height)
       }}
       keyboardShouldPersistTaps="always"
-      contentContainerStyle={isV2 && { flexGrow: 1 }}
     >
       <View
         style={[
           styles.container,
           { paddingBottom: Math.max(insets.bottom, Spacing.Thick24) },
           containerStyle,
-          isV2 && { flexGrow: 1 },
         ]}
         onLayout={(event: LayoutChangeEvent) => {
           setContentHeight(event.nativeEvent.layout.height)

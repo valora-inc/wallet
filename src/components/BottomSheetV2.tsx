@@ -1,12 +1,11 @@
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useRef } from 'react'
-import { Platform, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
+import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import BottomSheetBaseV2 from 'src/components/BottomSheetBaseV2'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import variables from 'src/styles/variables'
 
 interface BottomSheetBaseV2Props {
   forwardedRef: React.RefObject<BottomSheetModal>
@@ -15,7 +14,6 @@ interface BottomSheetBaseV2Props {
   titleStyle?: TextStyle
   description?: string | null
   children?: React.ReactNode | React.ReactNode[]
-  actions?: React.ReactNode | React.ReactNode[]
   onClose?: () => void
   onOpen?: () => void
   snapPoints?: (string | number)[]
@@ -34,7 +32,6 @@ const BottomSheetV2 = ({
   titleStyle = typeScale.titleSmall,
   description,
   children,
-  actions,
   onClose,
   onOpen,
   snapPoints,
@@ -70,20 +67,6 @@ const BottomSheetV2 = ({
         {!!description && <Text style={styles.description}>{description}</Text>}
         {children}
       </BottomSheetScrollView>
-      {actions ? (
-        <View
-          style={[
-            Platform.OS === 'ios'
-              ? { padding: variables.contentPadding, marginBottom: variables.contentPadding }
-              : {
-                  paddingHorizontal: variables.contentPadding,
-                  marginBottom: variables.contentPadding / 2,
-                },
-          ]}
-        >
-          {actions}
-        </View>
-      ) : null}
     </BottomSheetBaseV2>
   )
 }
