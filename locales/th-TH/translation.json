@@ -2542,7 +2542,7 @@
       "infoV1_93": "ดำเนินการโดย {{providerName}}",
       "infoBottomSheet": {
         "title": "ทำไมต้องเป็นพูลนี้",
-        "description": "พูล Aave นี้มี TVL มูลค่ากว่า $150 ล้านและผู้เข้าร่วมมากกว่า 6,000 ราย ซึ่งแสดงให้เห็นถึงสภาพคล่องที่สูงและความน่าเชื่อถือ นอกจากนี้ยังใช้ USDC เป็นโทเค็นและใช้เครือข่าย Abritrum ที่ช่วยลดความผันผวนและรับประกันได้ว่าผู้ใช้จะได้รับค่าก๊าซในอัตราที่ไม่แพง\n\nทั้งหมดนี้ทำให้พูลนี้เป็นตัวเลือกที่ปลอดภัยและน่าสนใจด้วย APY ที่สูง ช่วยให้ผู้ใช้ของเรามีโอกาสในการลงทุนเพื่อการเติบโต\n\nคุณสามารถสำรวจพูลอื่นของ Aave ได้<0>ที่นี่</0>",
+        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Arbitrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nYou can explore other Aave pools <0>here</0>.",
         "dismiss": "ปิด"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2619,7 +2619,11 @@
         "apySubtitle": "ผลตอบแทนเป็นเปอร์เซ็นต์ต่อปี (APY) คืออะไร",
         "apyDescription": "ผลตอบแทนเป็นเปอร์เซ็นต์ต่อปี (APY) คือเมตริกที่ใช้ในการคำนวณผลตอบแทนในรอบปีในการลงทุนคริปโต ซึ่งเป็นตัวชี้วัดที่สำคัญของผลตอบแทนที่อาจได้รับและความสามารถในการทำกำไรได้ของคริปโตเคอร์เรนซี",
         "tvlSubtitle": "TVL คืออะไร",
-        "tvlDescription": "TVL ย่อมาจาก Total Value Locked (มูลค่ารวมที่ถูกล็อกไว้) ซึ่งเป็นเมตริกที่ใช้ในวงการคริปโตเพื่อวัดมูลค่าของสินทรัพย์ดิจิทัลที่ถูกล็อกไว้บนเครือข่ายบล็อกเชน TVL จะคำนวณโดยการบวกเพิ่มมูลค่าของสินทรัพย์ดิจิทัลที่ถูกล็อกไว้ในโปรโตคอล DeFi หรือสัญญาอัจฉริยะ ซึ่งสินทรัพย์เหล่านี้อาจรวมถึงคริปโตเคอร์เรนซี, Stablecoin และโทเค็นอื่นๆ"
+        "tvlDescription": "TVL ย่อมาจาก Total Value Locked (มูลค่ารวมที่ถูกล็อกไว้) ซึ่งเป็นเมตริกที่ใช้ในวงการคริปโตเพื่อวัดมูลค่าของสินทรัพย์ดิจิทัลที่ถูกล็อกไว้บนเครือข่ายบล็อกเชน TVL จะคำนวณโดยการบวกเพิ่มมูลค่าของสินทรัพย์ดิจิทัลที่ถูกล็อกไว้ในโปรโตคอล DeFi หรือสัญญาอัจฉริยะ ซึ่งสินทรัพย์เหล่านี้อาจรวมถึงคริปโตเคอร์เรนซี, Stablecoin และโทเค็นอื่นๆ",
+        "yieldPoolSubtitle": "What is a yield pool?",
+        "yieldPoolDescription": "Yield pools, or liquidity pools, are pooled funds provided by token holders, which enable trading on decentralized exchanges. When you contribute to the pool, you can earn interest from other people who borrow those funds.",
+        "chooseSubtitle": "How should you choose a pool? ",
+        "chooseDescription": "Any financial decision is a personal choice. We have aggregated some pools across different protocols, but each pool has benefits and risks. We do our best to provide some helpful info for each pool, but it’s always best to do additional research if you’re unsure."
       },
       "noPoolsTitle": "คุณยังไม่ได้เข้าร่วมพูลใดเลย",
       "noPoolsDescription": "มาดูกันว่ามีพูลอะไรให้เข้าร่วมบ้าง เลือกพูลที่ตรงกับเป้าหมายของคุณและใช้ Stablecoin ของคุณให้เกิดประโยชน์สูงสุด",

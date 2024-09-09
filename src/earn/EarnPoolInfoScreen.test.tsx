@@ -58,8 +58,8 @@ describe('EarnPoolInfoScreen', () => {
       within(getByTestId('AgeCard')).getByText('duration, {"context":"month","count":5}')
     ).toBeTruthy()
     expect(
-      within(getByTestId('ActionButtons')).getByText('earnFlow.poolInfoScreen.withdraw')
-    ).toBeTruthy()
+      within(getByTestId('ActionButtons')).queryByText('earnFlow.poolInfoScreen.withdraw')
+    ).toBeFalsy()
     expect(
       within(getByTestId('ActionButtons')).getByText('earnFlow.poolInfoScreen.deposit')
     ).toBeTruthy()

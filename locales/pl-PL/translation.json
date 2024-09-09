@@ -2548,7 +2548,7 @@
       "infoV1_93": "Obsługiwane przez {{providerName}}",
       "infoBottomSheet": {
         "title": "Dlaczego ta pula?",
-        "description": "Ta pula Aave ma ponad 150 mln USD TVL i ponad 6000 uczestników, co wskazuje na dużą płynność i wiarygodność. Wykorzystuje również USDC jako token i Arbitrum jako sieć, co zmniejsza zmienność i zapewnia użytkownikom niskie opłaty za gaz.\n\nWszystko to sprawia, że jest to bezpieczna i atrakcyjna opcja z konkurencyjnym APY zapewniająca naszym użytkownikom korzystne możliwości inwestycyjne.\n\nMożesz zapoznać się z innymi pulami Aave <0>tutaj</0>.",
+        "description": "Ta pula Aave ma ponad 150 mln USD TVL i ponad 6000 współpracowników, co wskazuje na dużą płynność i wiarygodność. Wykorzystuje również USDC jako swój token i Arbitrum jako swoją sieć, co zmniejsza zmienność i zapewnia użytkownikom niedrogie stawki za gaz.\n\nMożesz zapoznać się z innymi pulami Aave <0>tutaj</0>.",
         "dismiss": "Odrzuć"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2625,7 +2625,11 @@
         "apySubtitle": "Co to jest APY?",
         "apyDescription": "Roczny zysk procentowy (APY) jest wskaźnikiem używanym do obliczania rocznego zwrotu z inwestycji w kryptowaluty. To kluczowy wskaźnik potencjalnego zwrotu i rentowności kryptowaluty.",
         "tvlSubtitle": "Co to jest TVL?",
-        "tvlDescription": "TVL to skrót oznaczający łączną wartość zablokowanych aktywów i jest wskaźnikiem używanym w branży kryptowalut do pomiaru wartości cyfrowych aktywów zablokowanych w sieci łańcucha bloków. Oblicza się go przez zsumowanie wartości wszystkich cyfrowych aktywów zablokowanych w protokole DeFi lub inteligentnym kontrakcie. Środkami są między innymi kryptowaluty, tokeny płatnicze i inne tokeny."
+        "tvlDescription": "TVL to skrót oznaczający łączną wartość zablokowanych aktywów i jest wskaźnikiem używanym w branży kryptowalut do pomiaru wartości cyfrowych aktywów zablokowanych w sieci łańcucha bloków. Oblicza się go przez zsumowanie wartości wszystkich cyfrowych aktywów zablokowanych w protokole DeFi lub inteligentnym kontrakcie. Środkami są między innymi kryptowaluty, tokeny płatnicze i inne tokeny.",
+        "yieldPoolSubtitle": "Co to jest pula zysków?",
+        "yieldPoolDescription": "Pule zysku lub pule płynności to połączone fundusze zapewniane przez posiadaczy tokenów, które umożliwiają handel na zdecentralizowanych giełdach. Kiedy wnosisz wkład do puli, możesz zarabiać odsetki od innych osób, które pożyczają te środki.",
+        "chooseSubtitle": "Jak powinieneś wybrać basen? ",
+        "chooseDescription": "Każda decyzja finansowa jest osobistym wyborem. Zagregowaliśmy niektóre pule w różnych protokołach, ale każda pula wiąże się z korzyściami i ryzykiem. Dokładamy wszelkich starań, aby zapewnić pomocne informacje dla każdej puli, ale zawsze najlepiej jest przeprowadzić dodatkowe badania, jeśli nie masz pewności."
       },
       "noPoolsTitle": "Nie dołączono jeszcze do żadnej puli",
       "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom, i w pełni wykorzystaj swoje tokeny płatnicze.",

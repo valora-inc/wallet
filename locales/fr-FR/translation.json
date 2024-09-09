@@ -2544,7 +2544,7 @@
       "infoV1_93": "Propulsé par {{providerName}}",
       "infoBottomSheet": {
         "title": "Pourquoi ce pool ?",
-        "description": "Ce pool Aave a plus de 150 M$ de TVL et plus de 6 000 contributeurs, ce qui indique une forte liquidité et une grande fiabilité. Il utilise également l'USDC comme jeton et Arbitrum comme réseau, ce qui réduit la volatilité et garantit que les utilisateurs pourront profiter de taux de gaz peu coûteux.\n\nTout cela en fait une option sûre et attrayante avec un APY compétitif, assurant une opportunité d'investissement bénéfique pour nos utilisateurs.\n\nDécouvrez d'autres pools Aave <0>ici</0>.",
+        "description": "Ce pool Aave a plus de 150M$ de TVL et plus de 6 000 contributeurs, ce qui indique une forte liquidité et une grande fiabilité. Il utilise également USDC comme jeton et Arbitrum comme réseau, ce qui réduit la volatilité et garantit que les utilisateurs recevront des tarifs de gaz peu coûteux.\n\nTu peux explorer d'autres pools Aave <0>ici</0>.",
         "dismiss": "Refuser"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2621,7 +2621,11 @@
         "apySubtitle": "Qu'est-ce que l'APY ?",
         "apyDescription": "Le rendement annuel en pourcentage (APY) est une métrique utilisée pour calculer le rendement annualisé des investissements crypto. C'est un indicateur clé du rendement potentiel d'une crypto-monnaie.",
         "tvlSubtitle": "Qu'est-ce que la TVL ?",
-        "tvlDescription": "La valeur totale verrouillée (TVL) est une métrique utilisée pour mesurer la valeur des actifs numériques verrouillés sur un réseau blockchain. La TVL est calculée en additionnant la valeur de tous les actifs numériques verrouillés dans un protocole DeFi ou un contrat intelligent. Ces actifs peuvent inclure des crypto-monnaies, des stablecoins et d'autres jetons."
+        "tvlDescription": "La valeur totale verrouillée (TVL) est une métrique utilisée pour mesurer la valeur des actifs numériques verrouillés sur un réseau blockchain. La TVL est calculée en additionnant la valeur de tous les actifs numériques verrouillés dans un protocole DeFi ou un contrat intelligent. Ces actifs peuvent inclure des crypto-monnaies, des stablecoins et d'autres jetons.",
+        "yieldPoolSubtitle": "Qu'est-ce qu'un pool de rendement ?",
+        "yieldPoolDescription": "Les pools de rendement, ou pools de liquidité, sont des fonds communs fournis par les détenteurs de jetons, qui permettent d'effectuer des échanges sur des bourses décentralisées. Lorsque tu contribues au pool, tu peux toucher des intérêts de la part des autres personnes qui empruntent ces fonds.",
+        "chooseSubtitle": "Comment choisir une piscine ? ",
+        "chooseDescription": "Toute décision financière est un choix personnel. Nous avons regroupé certains fonds communs dans différents protocoles, mais chaque fonds commun présente des avantages et des risques. Nous faisons de notre mieux pour fournir des informations utiles pour chaque pool, mais il est toujours préférable de faire des recherches supplémentaires si tu n'es pas sûr."
       },
       "noPoolsTitle": "Vous n'avez encore rejoint aucun pool",
       "noPoolsDescription": "Découvrez les pools disponibles, choisissez celui qui correspond à vos objectifs et profitez au maximum de vos stablecoins.",

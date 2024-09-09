@@ -2544,7 +2544,7 @@
       "infoV1_93": "Con tecnología de {{providerName}}",
       "infoBottomSheet": {
         "title": "¿Por qué esta pool?",
-        "description": "Esta pool de Aave tiene más de $150M de TVL y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Abitrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tasas baratas.\n\nTodo ello la convierte en una opción segura y atractiva con un APY competitivo, que garantiza una oportunidad de inversión beneficiosa para nuestros usuarios.\n\nPuedes explorar otros pools de Aave <0>aquí</0>.",
+        "description": "Este pool de Aave tiene más de 150 millones de USDC y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Arbitrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tarifas de gas baratas.\n\nPuedes explorar otros pools de Aave <0>aquí</0>.",
         "dismiss": "Ignorar"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2621,7 +2621,11 @@
         "apySubtitle": "¿Qué es el APY?",
         "apyDescription": "El rendimiento porcentual anual (APY) es una métrica utilizada para calcular el rendimiento anualizado de las inversiones cripto. Es un indicador clave del rendimiento y la rentabilidad potenciales de una criptomoneda.",
         "tvlSubtitle": "¿Qué es el TVL?",
-        "tvlDescription": "El valor total bloqueado (TVL) es una métrica utilizada en la industria cripto para medir el valor de los activos digitales bloqueados en una red. El TVL se calcula sumando el valor de todos los activos digitales bloqueados en un protocolo DeFi o contrato inteligente. Estos activos pueden incluir criptomonedas, stablecoins y otros tokens."
+        "tvlDescription": "El valor total bloqueado (TVL) es una métrica utilizada en la industria cripto para medir el valor de los activos digitales bloqueados en una red. El TVL se calcula sumando el valor de todos los activos digitales bloqueados en un protocolo DeFi o contrato inteligente. Estos activos pueden incluir criptomonedas, stablecoins y otros tokens.",
+        "yieldPoolSubtitle": "¿Qué es un fondo de rendimiento?",
+        "yieldPoolDescription": "Los fondos de rendimiento, o fondos de liquidez, son fondos comunes aportados por los poseedores de tokens, que permiten negociar en bolsas descentralizadas. Cuando contribuyes al fondo común, puedes ganar intereses de otras personas que tomen prestados esos fondos.",
+        "chooseSubtitle": "¿Cómo debes elegir una piscina? ",
+        "chooseDescription": "Cualquier decisión financiera es una elección personal. Hemos agrupado algunos fondos en distintos protocolos, pero cada fondo tiene sus ventajas y sus riesgos. Hacemos todo lo posible por ofrecer información útil sobre cada pool, pero siempre es mejor que investigues más si no estás seguro."
       },
       "noPoolsTitle": "Aún no te has unido a ningún pool",
       "noPoolsDescription": "Descubre los pools disponibles, elige uno que se ajuste a tus objetivos y saca el máximo de tus stablecoins.",
