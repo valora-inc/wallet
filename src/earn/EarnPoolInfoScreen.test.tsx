@@ -34,6 +34,9 @@ const renderEarnPoolInfoScreen = (pool: EarnPosition) =>
 describe('EarnPoolInfoScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.useFakeTimers({
+      now: new Date('2024-08-15T00:00:00.000Z'),
+    })
   })
 
   it('renders correctly when not deposited in pool', () => {
