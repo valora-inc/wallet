@@ -1,0 +1,68 @@
+diff --git a/node_modules/react-native-quick-crypto/lib/commonjs/Cipher.js b/node_modules/react-native-quick-crypto/lib/commonjs/Cipher.js
+index 72ccb4e..d09e93e 100644
+--- a/node_modules/react-native-quick-crypto/lib/commonjs/Cipher.js
++++ b/node_modules/react-native-quick-crypto/lib/commonjs/Cipher.js
+@@ -150,7 +150,7 @@ class CipherCommon extends _readableStream.default.Transform {
+     return this;
+   }
+   getAuthTag() {
+-    return this.internal.getAuthTag();
++    return Buffer.from(this.internal.getAuthTag());
+   }
+   setAuthTag(tag) {
+     this.internal.setAuthTag((0, _Utils.binaryLikeToArrayBuffer)(tag));
+diff --git a/node_modules/react-native-quick-crypto/lib/module/Cipher.js b/node_modules/react-native-quick-crypto/lib/module/Cipher.js
+index 620e5b5..16c86d0 100644
+--- a/node_modules/react-native-quick-crypto/lib/module/Cipher.js
++++ b/node_modules/react-native-quick-crypto/lib/module/Cipher.js
+@@ -140,7 +140,7 @@ class CipherCommon extends Stream.Transform {
+     return this;
+   }
+   getAuthTag() {
+-    return this.internal.getAuthTag();
++    return Buffer.from(this.internal.getAuthTag());
+   }
+   setAuthTag(tag) {
+     this.internal.setAuthTag(binaryLikeToArrayBuffer(tag));
+diff --git a/node_modules/react-native-quick-crypto/lib/typescript/src/Cipher.d.ts b/node_modules/react-native-quick-crypto/lib/typescript/src/Cipher.d.ts
+index 0ea4183..5eb8f03 100644
+--- a/node_modules/react-native-quick-crypto/lib/typescript/src/Cipher.d.ts
++++ b/node_modules/react-native-quick-crypto/lib/typescript/src/Cipher.d.ts
+@@ -21,7 +21,7 @@ declare class CipherCommon extends Stream.Transform {
+     setAAD(buffer: Buffer, options?: {
+         plaintextLength: number;
+     }): this;
+-    getAuthTag(): ArrayBuffer;
++    getAuthTag(): Buffer;
+     setAuthTag(tag: Buffer): this;
+ }
+ declare class Cipher extends CipherCommon {
+diff --git a/node_modules/react-native-quick-crypto/lib/typescript/src/NativeQuickCrypto/Cipher.d.ts b/node_modules/react-native-quick-crypto/lib/typescript/src/NativeQuickCrypto/Cipher.d.ts
+index 9ea3981..1b56c3e 100644
+--- a/node_modules/react-native-quick-crypto/lib/typescript/src/NativeQuickCrypto/Cipher.d.ts
++++ b/node_modules/react-native-quick-crypto/lib/typescript/src/NativeQuickCrypto/Cipher.d.ts
+@@ -22,7 +22,7 @@ export type InternalCipher = {
+     }) => InternalCipher;
+     setAutoPadding: (autoPad: boolean) => boolean;
+     setAuthTag: (tag: ArrayBuffer) => boolean;
+-    getAuthTag: () => ArrayBuffer;
++    getAuthTag: () => Buffer;
+ };
+ export type CreateCipherMethod = (params: {
+     cipher_type: string;
+diff --git a/node_modules/react-native-quick-crypto/src/Cipher.ts b/node_modules/react-native-quick-crypto/src/Cipher.ts
+index 7c4ee20..6c99a00 100644
+--- a/node_modules/react-native-quick-crypto/src/Cipher.ts
++++ b/node_modules/react-native-quick-crypto/src/Cipher.ts
+@@ -222,8 +222,9 @@ class CipherCommon extends Stream.Transform {
+     return this;
+   }
+ 
+-  public getAuthTag(): ArrayBuffer {
+-    return this.internal.getAuthTag();
++  public getAuthTag(): Buffer {
++    // TODO: contribute this upstream, since NodeJS crypto does use Buffer
++    return Buffer.from(this.internal.getAuthTag());
+   }
+ 
+   public setAuthTag(tag: Buffer): this {
