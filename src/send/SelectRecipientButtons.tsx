@@ -16,6 +16,7 @@ import SelectRecipientButton from 'src/components/SelectRecipientButton'
 import MagicWand from 'src/icons/MagicWand'
 import QRCode from 'src/icons/QRCode'
 import Social from 'src/icons/Social'
+import { useRightJumpstartScreen } from 'src/jumpstart/useRightJumpstartScreen'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
@@ -32,6 +33,8 @@ type Props = {
 
 export default function SelectRecipientButtons({ onContactsPermissionGranted }: Props) {
   const { t } = useTranslation()
+
+  const rightJumpstartScreen = useRightJumpstartScreen()
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const jumpstartSendEnabled = getFeatureGate(StatsigFeatureGates.SHOW_JUMPSTART_SEND)
 
@@ -150,7 +153,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
 
   const onPressJumpstart = () => {
     // AppAnalytics.track(JumpstartEvents.send_select_recipient_jumpstart)
-    navigate(Screens.JumpstartIntroScreen)
+    navigate(rightJumpstartScreen)
   }
 
   return (

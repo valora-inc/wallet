@@ -1521,6 +1521,8 @@ interface JumpstartEventsProperties {
   [JumpstartEvents.jumpstart_add_assets_action_press]: {
     action: AddAssetsActionType
   }
+  [JumpstartEvents.jumpstart_intro_seen]: undefined
+  [JumpstartEvents.jumpstart_intro_back]: undefined
 }
 
 interface PointsEventsProperties {
