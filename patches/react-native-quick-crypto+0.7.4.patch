@@ -37,19 +37,6 @@ index 0ea4183..5eb8f03 100644
      setAuthTag(tag: Buffer): this;
  }
  declare class Cipher extends CipherCommon {
-diff --git a/node_modules/react-native-quick-crypto/lib/typescript/src/NativeQuickCrypto/Cipher.d.ts b/node_modules/react-native-quick-crypto/lib/typescript/src/NativeQuickCrypto/Cipher.d.ts
-index 9ea3981..1b56c3e 100644
---- a/node_modules/react-native-quick-crypto/lib/typescript/src/NativeQuickCrypto/Cipher.d.ts
-+++ b/node_modules/react-native-quick-crypto/lib/typescript/src/NativeQuickCrypto/Cipher.d.ts
-@@ -22,7 +22,7 @@ export type InternalCipher = {
-     }) => InternalCipher;
-     setAutoPadding: (autoPad: boolean) => boolean;
-     setAuthTag: (tag: ArrayBuffer) => boolean;
--    getAuthTag: () => ArrayBuffer;
-+    getAuthTag: () => Buffer;
- };
- export type CreateCipherMethod = (params: {
-     cipher_type: string;
 diff --git a/node_modules/react-native-quick-crypto/src/Cipher.ts b/node_modules/react-native-quick-crypto/src/Cipher.ts
 index 7c4ee20..0386117 100644
 --- a/node_modules/react-native-quick-crypto/src/Cipher.ts
