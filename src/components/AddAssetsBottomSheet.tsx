@@ -15,6 +15,8 @@ export type AddAssetsActionType =
   | TokenActionName.Add
   | TokenActionName.Transfer
   | TokenActionName.Swap
+  | TokenActionName.SwapAndDeposit
+  | TokenActionName.CrossChainSwap
 
 export interface AddAssetsAction {
   name: AddAssetsActionType
@@ -28,12 +30,14 @@ export default function AddAssetsBottomSheet({
   title,
   description,
   testId,
+  showDescriptionAfterFirstAction,
 }: {
   forwardedRef: RefObject<BottomSheetRefType>
   actions: AddAssetsAction[]
   title: string
   description: string
   testId: string
+  showDescriptionAfterFirstAction?: boolean
 }) {
   const { t } = useTranslation()
 
@@ -50,6 +54,14 @@ export default function AddAssetsBottomSheet({
       iconComponent: QuickActionsSwap,
       title: t('addFundsActions.swap'),
     },
+    [TokenActionName.SwapAndDeposit]: {
+      iconComponent: QuickActionsAdd,
+      title: t('addFundsActions.swapAndDeposit'),
+    },
+    [TokenActionName.CrossChainSwap]: {
+      iconComponent: QuickActionsSwap,
+      title: t('addFundsActions.crossChainSwap'),
+    },
   }
 
   const addAssetsActions = actions.map((action) => ({
@@ -57,16 +69,37 @@ export default function AddAssetsBottomSheet({
     ...actionExtraProps[action.name],
   }))
 
+  const beforeDescriptionAction = addAssetsActions[0]
+  const afterDescriptionActions = addAssetsActions.slice(showDescriptionAfterFirstAction ? 1 : 0)
+
   return (
     <BottomSheet
       forwardedRef={forwardedRef}
       title={title}
-      description={description}
+      description={!showDescriptionAfterFirstAction ? description : undefined}
       titleStyle={styles.title}
       testId={testId}
     >
       <View style={styles.actionsContainer}>
-        {addAssetsActions.map((action) => (
+        {showDescriptionAfterFirstAction && (
+          <Touchable
+            style={styles.touchable}
+            key={beforeDescriptionAction.name}
+            borderRadius={20}
+            onPress={beforeDescriptionAction.onPress}
+            testID={`${testId}/${beforeDescriptionAction.name}`}
+          >
+            <>
+              <beforeDescriptionAction.iconComponent color={Colors.black} />
+              <View style={styles.contentContainer}>
+                <Text style={styles.actionTitle}>{beforeDescriptionAction.title}</Text>
+                <Text style={styles.actionDetails}>{beforeDescriptionAction.details}</Text>
+              </View>
+            </>
+          </Touchable>
+        )}
+        {showDescriptionAfterFirstAction && <Text style={styles.actionDetails}>{description}</Text>}
+        {afterDescriptionActions.map((action) => (
           <Touchable
             style={styles.touchable}
             key={action.name}

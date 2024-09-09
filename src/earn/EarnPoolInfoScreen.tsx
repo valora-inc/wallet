@@ -1,18 +1,22 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import { Duration, intervalToDuration } from 'date-fns'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { RefObject, useMemo, useRef, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
+import AddAssetsBottomSheet, { AddAssetsAction } from 'src/components/AddAssetsBottomSheet'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import { CICOFlow, fetchExchanges } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
@@ -20,18 +24,23 @@ import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/loca
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
+import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import type { EarningItem } from 'src/positions/types'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { useTokenInfo, useTokensInfo } from 'src/tokens/hooks'
+import { useCashInTokens, useSwappableTokens, useTokenInfo, useTokensInfo } from 'src/tokens/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import { TokenActionName } from 'src/tokens/types'
 import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
 import { formattedDuration } from 'src/utils/time'
@@ -505,15 +514,53 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       .filter((token): token is TokenBalance => !!token)
   }, [tokens, allTokens])
 
+  const depositToken = allTokens[dataProps.depositTokenId]
+  if (!depositToken) {
+    // This should never happen
+    throw new Error(`Token ${dataProps.depositTokenId} not found`)
+  }
+
+  const { swappableFromTokens } = useSwappableTokens()
+  const cashInTokens = useCashInTokens()
+  const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
+  const userLocation = useSelector(userLocationDataSelector)
+
   const canDeposit = useMemo(() => {
     return allTokens[dataProps.depositTokenId]?.balance?.gt(0) ?? false
   }, [pool, allTokens])
   const canSameChainSwapToDeposit = useMemo(() => {
-    return Object.values(allTokens).some((token) => token?.balance?.gt(0) && token?.isSwappable)
-  }, [pool, allTokens])
+    return (
+      isSwapEnabled &&
+      !!swappableFromTokens.find(
+        (tokenInfo) =>
+          tokenInfo.networkId === networkId && tokenInfo.tokenId !== dataProps.depositTokenId
+      )
+    )
+  }, [pool, isSwapEnabled, swappableFromTokens])
   const canCrossChainSwapToDeposit = useMemo(() => {
-    return false
+    return (
+      getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS) &&
+      isSwapEnabled &&
+      !!swappableFromTokens.find((tokenInfo) => tokenInfo.tokenId !== dataProps.depositTokenId)
+    )
+  }, [pool, isSwapEnabled, swappableFromTokens])
+  const canCashIn = useMemo(() => {
+    return !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === dataProps.depositTokenId)
+  }, [pool, cashInTokens])
+
+  const asyncExchanges = useAsync(async () => {
+    try {
+      const availableExchanges = await fetchExchanges(
+        userLocation.countryCodeAlpha2,
+        dataProps.depositTokenId
+      )
+
+      return availableExchanges
+    } catch (error) {
+      return []
+    }
   }, [])
+  const exchanges = asyncExchanges.result ?? []
 
   const onPressDeposit = () => {
     AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
@@ -527,14 +574,11 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     })
     if (canDeposit) {
       navigate(Screens.EarnEnterAmount, { pool })
-    } else if (canSameChainSwapToDeposit) {
-      swapAndDepositBottomSheetRef.current?.snapToIndex(0)
     } else {
       beforeDepositBottomSheetRef.current?.snapToIndex(0)
     }
   }
 
-  const swapAndDepositBottomSheetRef = useRef<BottomSheetRefType>(null)
   const beforeDepositBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const depositInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -674,6 +718,14 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         providerName={appName}
         testId="YieldRateInfoBottomSheet"
       />
+      <BeforeDepositBottomSheet
+        forwardedRef={beforeDepositBottomSheetRef}
+        token={depositToken}
+        canSameChainSwapToDeposit={canSameChainSwapToDeposit}
+        canCrossChainSwapToDeposit={canCrossChainSwapToDeposit}
+        canAdd={canCashIn}
+        exchanges={exchanges}
+      />
     </SafeAreaView>
   )
 }
@@ -726,6 +778,126 @@ function InfoBottomSheet({
         type={BtnTypes.SECONDARY}
       />
     </BottomSheet>
+  )
+}
+
+function BeforeDepositBottomSheet({
+  forwardedRef,
+  token,
+  canSameChainSwapToDeposit,
+  canCrossChainSwapToDeposit,
+  canAdd,
+  exchanges,
+}: {
+  forwardedRef: RefObject<BottomSheetRefType>
+  token: TokenBalance
+  canSameChainSwapToDeposit: boolean
+  canCrossChainSwapToDeposit: boolean
+  canAdd: boolean
+  exchanges: ExternalExchangeProvider[]
+}) {
+  const { t } = useTranslation()
+
+  const actions = useMemo(() => {
+    const visibleActions: AddAssetsAction[] = []
+
+    if (canSameChainSwapToDeposit) {
+      visibleActions.push({
+        name: TokenActionName.SwapAndDeposit,
+        details: t(
+          'earnFlow.poolInfoScreen.beforeDepositBottomSheet.swapAndDepositActionDescription',
+          {
+            tokenSymbol: token.symbol,
+            tokenNetwork: NETWORK_NAMES[token.networkId],
+          }
+        ),
+        onPress: () => {
+          // TODO: Add analytics
+
+          navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
+        },
+      })
+    }
+
+    if (canCrossChainSwapToDeposit) {
+      visibleActions.push({
+        name: canSameChainSwapToDeposit ? TokenActionName.CrossChainSwap : TokenActionName.Swap,
+        details: canCrossChainSwapToDeposit
+          ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainSwapActionDescription', {
+              tokenSymbol: token.symbol,
+              tokenNetwork: NETWORK_NAMES[token.networkId],
+            })
+          : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.swapActionDescription', {
+              tokenSymbol: token.symbol,
+              tokenNetwork: NETWORK_NAMES[token.networkId],
+            }),
+        onPress: () => {
+          // TODO: Add analytics
+
+          navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
+        },
+      })
+    }
+
+    if (canAdd) {
+      visibleActions.push({
+        name: TokenActionName.Add,
+        details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.add', {
+          tokenSymbol: token.symbol,
+          tokenNetwork: NETWORK_NAMES[token.networkId],
+        }),
+        onPress: () => {
+          // TODO: Add analytics
+
+          navigate(Screens.FiatExchangeAmount, {
+            tokenId: token.tokenId,
+            flow: CICOFlow.CashIn,
+            tokenSymbol: token.symbol,
+          })
+        },
+      })
+    }
+
+    if (!canSameChainSwapToDeposit) {
+      visibleActions.push({
+        name: TokenActionName.Transfer,
+        details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.transfer', {
+          tokenSymbol: token.symbol,
+          tokenNetwork: NETWORK_NAMES[token.networkId],
+        }),
+        onPress: () => {
+          // TODO: Add analytics
+
+          navigate(Screens.ExchangeQR, { flow: CICOFlow.CashIn, exchanges })
+        },
+      })
+    }
+
+    return visibleActions
+  }, [token, canSameChainSwapToDeposit, canCrossChainSwapToDeposit, canAdd, exchanges])
+
+  return (
+    <AddAssetsBottomSheet
+      forwardedRef={forwardedRef}
+      actions={actions}
+      title={
+        canCrossChainSwapToDeposit
+          ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.youNeedTitle', {
+              tokenSymbol: token.symbol,
+              tokenNetwork: NETWORK_NAMES[token.networkId],
+            })
+          : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositTitle')
+      }
+      description={
+        canCrossChainSwapToDeposit
+          ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainAlternativeDescription', {
+              tokenNetwork: NETWORK_NAMES[token.networkId],
+            })
+          : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositDescription')
+      }
+      testId={'Earn/BeforeDepositBottomSheet'}
+      showDescriptionAfterFirstAction={canCrossChainSwapToDeposit}
+    />
   )
 }
 

@@ -2675,13 +2675,24 @@
         "ageDescription": "Older liquidity pools can indicate a solid track record and a history of building community trust. Because of this, some may consider these pools to be safer.\n\nThere is no perfect way to determine risk, so use this info as part of your overall research to make the decision that is best for you.",
         "yieldRateTitle": "Yield Rate",
         "yieldRateDescription": "While most pools offer earnings in the form of a liquidity pool token, some give additional token(s) as a reward or added incentive.\n\nSince Valora aggregates pools across multiple protocols, we have combined all the earning and reward rates into a single, overall yield rate to help easily evaluate your earning potential. This number is an estimate since the earning and reward values fluctuate constantly.\n\nFor further information about earning breakdowns you can visit <0>{{providerName}}</0>."
+      },
+      "beforeDepositBottomSheet": {
+        "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",
+        "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
+        "swapAndDepositActionDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "crossChainSwapActionDescription": "Swap a token on another network for {{tokenSymbol}}",
+        "beforeYouCanDepositTitle": "Before you can deposit...",
+        "beforeYouCanDepositDescription": "You’ll need to add one of the pool tokens. Once added, you’ll need to return to complete your pool deposit.",
+        "swapActionDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet"
       }
     }
   },
   "addFundsActions": {
     "add": "Buy",
     "transfer": "Transfer",
-    "swap": "Swap"
+    "swap": "Swap",
+    "swapAndDeposit": "Swap & Deposit",
+    "crossChainSwap": "Cross-chain Swap"
   },
   "duration_lessThanADay": "Less than a day",
   "duration_day_one": "1 day",

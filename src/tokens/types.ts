@@ -3,6 +3,8 @@ import Colors from 'src/styles/colors'
 export enum TokenActionName {
   Send = 'Send',
   Swap = 'Swap',
+  SwapAndDeposit = 'SwapAndDeposit',
+  CrossChainSwap = 'CrossChainSwap',
   Add = 'Add',
   Withdraw = 'Withdraw',
   More = 'More',
