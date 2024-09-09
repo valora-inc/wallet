@@ -9,8 +9,10 @@ import PointsHome from 'src/points/PointsHome'
 import { getPointsConfigRetry, pointsDataRefreshStarted } from 'src/points/slice'
 import { RootState } from 'src/redux/store'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockEarnPositions } from 'test/values'
 
 jest.mock('src/statsig')
 jest.mock('src/points/PointsHistoryBottomSheet')
@@ -49,6 +51,10 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
           },
         },
       },
+      positions: {
+        positions: mockEarnPositions,
+        earnPositionIds: mockEarnPositions.map((p) => p.positionId),
+      },
     }
   )
   const tree = render(
@@ -66,7 +72,7 @@ const renderPointsHome = (storeOverrides?: RecursivePartial<RootState>) => {
 describe(PointsHome, () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     jest
       .mocked(getDynamicConfigParams)
       .mockReturnValue({ jumpstartContracts: { 'celo-alfajores': '0x1234' } })
@@ -208,6 +214,46 @@ describe(PointsHome, () => {
     await waitFor(() => expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack))
     expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
       activityId: 'swap',
+    })
+  })
+
+  it('navigates to Earn home screen on earn CTA press when multiple pools gate is on', async () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
+    const { getByText } = renderPointsHome()
+    fireEvent.press(getByText('points.activityCards.depositEarn.title'))
+    await waitFor(() =>
+      expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
+        activityId: 'deposit-earn',
+      })
+    )
+
+    fireEvent.press(getByText('points.activityCards.depositEarn.bottomSheet.cta'))
+    await waitFor(() => expect(navigate).toHaveBeenCalledWith(Screens.EarnHome))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
+      activityId: 'deposit-earn',
+    })
+  })
+
+  it('navigates to Earn enter amount on earn CTA press when multiple pools gate is off', async () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POSITIONS)
+    const { getByText } = renderPointsHome()
+    fireEvent.press(getByText('points.activityCards.depositEarn.title'))
+    await waitFor(() =>
+      expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
+        activityId: 'deposit-earn',
+      })
+    )
+
+    fireEvent.press(getByText('points.activityCards.depositEarn.bottomSheet.cta'))
+    await waitFor(() =>
+      expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { pool: mockEarnPositions[0] })
+    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
+      activityId: 'deposit-earn',
     })
   })
 })
