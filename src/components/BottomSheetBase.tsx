@@ -1,9 +1,8 @@
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetProps } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
 import React, { useCallback, useEffect } from 'react'
-import { Keyboard, Platform, StyleSheet } from 'react-native'
+import { Keyboard, StyleSheet } from 'react-native'
 import { useReducedMotion } from 'react-native-reanimated'
-import { FullWindowOverlay } from 'react-native-screens'
 import Colors from 'src/styles/colors'
 
 interface BottomSheetBaseProps {
@@ -35,11 +34,6 @@ const BottomSheetBase = ({
     (props: BottomSheetDefaultBackdropProps) => (
       <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
     ),
-    []
-  )
-
-  const containerComponent = useCallback(
-    (props: any) => <FullWindowOverlay>{props.children}</FullWindowOverlay>,
     []
   )
 
@@ -79,7 +73,6 @@ const BottomSheetBase = ({
       animateOnMount={!reduceMotionEnabled}
       enableDismissOnClose={false}
       stackBehavior="push"
-      containerComponent={Platform.OS === 'ios' ? containerComponent : undefined}
     >
       {children}
     </BottomSheetModal>
