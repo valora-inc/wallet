@@ -95,6 +95,7 @@ export default BottomSheetBaseV2
 export enum BottomSheetNames {
   // Token & Network Select
   MultiSelect = 'MultiSelect',
+  TokenSelect = 'TokenSelect',
   // Settings
   RevokePhoneNumber = 'RevokePhoneNumber',
   // Earn

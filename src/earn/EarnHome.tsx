@@ -13,7 +13,6 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
 import { BottomSheetNames } from 'src/components/BottomSheetBaseV2'
 import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -133,7 +132,7 @@ export default function EarnHome({ navigation, route }: Props) {
   }, [scrollPosition.value, nonStickyHeaderHeight])
 
   const networkChipRef = useRef<BottomSheetModalRefType>(null)
-  const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const learnMoreBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   // The NetworkMultiSelectBottomSheet and TokenBottomSheet must be rendered at this level in order to be in
