@@ -65,7 +65,6 @@ import { currentLanguageSelector } from 'src/i18n/selectors'
 import ImportWallet from 'src/import/ImportWallet'
 import Invite from 'src/invite/Invite'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
-import JumpstartIntroScreen from 'src/jumpstart/JumpstartIntroScreen'
 import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
 import JumpstartShareLink from 'src/jumpstart/JumpstartShareLink'
 import JumpstartTransactionDetailsScreen from 'src/jumpstart/JumpstartTransactionDetailsScreen'
@@ -255,11 +254,6 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.SendEnterAmount}
       component={SendEnterAmount}
-      options={noHeader}
-    />
-    <Navigator.Screen
-      name={Screens.JumpstartIntroScreen}
-      component={JumpstartIntroScreen}
       options={noHeader}
     />
     <Navigator.Screen

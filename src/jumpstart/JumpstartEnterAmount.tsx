@@ -5,15 +5,21 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import { jumpstartSendStatusSelector } from 'src/jumpstart/selectors'
-import { depositTransactionFlowStarted } from 'src/jumpstart/slice'
+import JumpstartAddAssets from 'src/jumpstart/JumpstartAddAssets'
+import JumpstartIntro from 'src/jumpstart/JumpstartIntro'
+import {
+  jumpstartIntroHasBeenSeenSelector,
+  jumpstartSendStatusSelector,
+} from 'src/jumpstart/selectors'
+import { depositTransactionFlowStarted, jumpstartIntroSeen } from 'src/jumpstart/slice'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, replace } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import EnterAmount, { ProceedArgs, SendProceed } from 'src/send/EnterAmount'
@@ -49,7 +55,10 @@ function JumpstartEnterAmount() {
   const locale = useSelector(currentLanguageSelector)
   const jumpstartSendStatus = useSelector(jumpstartSendStatusSelector)
   const walletAddress = useSelector(walletAddressSelector)
+
+  const introSeen = useSelector(jumpstartIntroHasBeenSeenSelector)
   const tokens = useSelector(jumpstartSendTokensSelector)
+  const shouldShowIntro = !(introSeen && tokens.length)
 
   const jumpstartLink = useMemo(() => {
     const privateKey = generatePrivateKey()
@@ -165,6 +174,36 @@ function JumpstartEnterAmount() {
     sendAmountExceedsThreshold ||
     jumpstartSendStatus === 'success' ||
     jumpstartSendStatus === 'loading'
+
+  // Track it in analytics Whenever user sees intro screen for the first time
+  useEffect(() => {
+    if (!introSeen) {
+      console.log('TRACKTRACK')
+      AppAnalytics.track(JumpstartEvents.jumpstart_intro_seen)
+    }
+  }, [introSeen, dispatch])
+
+  if (tokens.length === 0) {
+    return <JumpstartAddAssets />
+  }
+
+  if (shouldShowIntro) {
+    return (
+      <JumpstartIntro
+        button={
+          <Button
+            onPress={() => {
+              dispatch(jumpstartIntroSeen())
+              replace(Screens.JumpstartEnterAmount)
+            }}
+            text={t('jumpstartIntro.addFundsCelo.cta')}
+            type={BtnTypes.PRIMARY}
+            size={BtnSizes.FULL}
+          />
+        }
+      />
+    )
+  }
 
   return (
     <EnterAmount
