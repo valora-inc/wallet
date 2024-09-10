@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
-import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { NotificationVariant } from 'src/components/InLineNotification'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
@@ -66,7 +66,7 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
 
   return (
     <>
-      <BottomSheetV2
+      <BottomSheet
         forwardedRef={forwardedRef}
         title={t('revokePhoneNumber.bottomSheetTitle')}
         testId="RevokePhoneNumberBottomSheet"
@@ -88,7 +88,7 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
           showLoading={revokeNumberAsync.loading}
           testID="RevokePhoneNumberBottomSheet/PrimaryAction"
         />
-      </BottomSheetV2>
+      </BottomSheet>
       <Toast
         showToast={showRevokeSuccess}
         variant={NotificationVariant.Info}

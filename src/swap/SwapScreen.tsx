@@ -13,7 +13,7 @@ import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
-import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import Toast from 'src/components/Toast'
@@ -993,7 +993,7 @@ export function SwapScreen({ route }: Props) {
           areSwapTokensShuffled={areSwapTokensShuffled}
         />
       ))}
-      <BottomSheetV2
+      <BottomSheet
         forwardedRef={exchangeRateInfoBottomSheetRef}
         title={t('swapScreen.transactionDetails.exchangeRate')}
         description={t('swapScreen.transactionDetails.exchangeRateInfoV1_90', {
@@ -1013,8 +1013,8 @@ export function SwapScreen({ route }: Props) {
           }}
           text={t('swapScreen.transactionDetails.infoDismissButton')}
         />
-      </BottomSheetV2>
-      <BottomSheetV2
+      </BottomSheet>
+      <BottomSheet
         forwardedRef={estimatedDurationBottomSheetRef}
         title={t('swapScreen.transactionDetails.estimatedTransactionTime')}
         description={t('swapScreen.transactionDetails.estimatedTransactionTimeInfo')}
@@ -1029,8 +1029,8 @@ export function SwapScreen({ route }: Props) {
           }}
           text={t('swapScreen.transactionDetails.infoDismissButton')}
         />
-      </BottomSheetV2>
-      <BottomSheetV2
+      </BottomSheet>
+      <BottomSheet
         forwardedRef={slippageInfoBottomSheetRef}
         title={t('swapScreen.transactionDetails.slippagePercentage')}
         description={t('swapScreen.transactionDetails.slippageToleranceInfoV1_90')}
@@ -1045,7 +1045,7 @@ export function SwapScreen({ route }: Props) {
           }}
           text={t('swapScreen.transactionDetails.infoDismissButton')}
         />
-      </BottomSheetV2>
+      </BottomSheet>
       <FeeInfoBottomSheet
         forwardedRef={feeInfoBottomSheetRef}
         crossChainFee={crossChainFee}

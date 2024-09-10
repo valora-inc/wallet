@@ -8,8 +8,7 @@ import { AssetsEvents } from 'src/analytics/Events'
 import { TokenProperties } from 'src/analytics/Properties'
 import CeloNewsFeed from 'src/celoNews/CeloNewsFeed'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
-import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -241,7 +240,7 @@ function Actions({
   actions,
 }: {
   token: TokenBalance
-  bottomSheetRef: React.RefObject<BottomSheetRefType>
+  bottomSheetRef: React.RefObject<BottomSheetModalRefType>
   actions: TokenAction[]
 }) {
   const { t } = useTranslation()

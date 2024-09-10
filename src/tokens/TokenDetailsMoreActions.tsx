@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AssetsEvents } from 'src/analytics/Events'
-import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -24,7 +24,7 @@ export default function TokenDetailsMoreActions({
   const { t } = useTranslation()
 
   return (
-    <BottomSheetV2
+    <BottomSheet
       forwardedRef={forwardedRef}
       title={t('tokenDetails.moreActions')}
       testId="TokenDetailsMoreActions"
@@ -56,7 +56,7 @@ export default function TokenDetailsMoreActions({
           </Touchable>
         ))}
       </View>
-    </BottomSheetV2>
+    </BottomSheet>
   )
 }
 

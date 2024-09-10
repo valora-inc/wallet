@@ -8,7 +8,7 @@ import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -673,7 +673,7 @@ function InfoBottomSheet({
   }
 
   return (
-    <BottomSheetV2
+    <BottomSheet
       forwardedRef={infoBottomSheetRef}
       title={t(titleKey)}
       testId={testId}
@@ -694,7 +694,7 @@ function InfoBottomSheet({
         size={BtnSizes.FULL}
         type={BtnTypes.SECONDARY}
       />
-    </BottomSheetV2>
+    </BottomSheet>
   )
 }
 

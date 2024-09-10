@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { ScrollView } from 'react-native-gesture-handler'
-import BottomSheetBaseV2 from 'src/components/BottomSheetBaseV2'
+import BottomSheetBase from 'src/components/BottomSheetBase'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import Touchable from 'src/components/Touchable'
 import Checkmark from 'src/icons/Checkmark'
@@ -85,7 +85,7 @@ function MultiSelectBottomSheet<T extends string>({
   }
 
   return (
-    <BottomSheetBaseV2
+    <BottomSheetBase
       forwardedRef={forwardedRef}
       onOpen={onOpen}
       backgroundStyle={{ backgroundColor: 'transparent' }}
@@ -127,7 +127,7 @@ function MultiSelectBottomSheet<T extends string>({
           </Touchable>
         </View>
       </BottomSheetScrollView>
-    </BottomSheetBaseV2>
+    </BottomSheetBase>
   )
 }
 

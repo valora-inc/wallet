@@ -9,7 +9,7 @@ import walletJumpstart from 'src/abis/IWalletJumpstart'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { NotificationVariant } from 'src/components/InLineNotification'
@@ -281,7 +281,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           textStyle={styles.tokenFiatValueText}
         />
       </TransactionDetails>
-      <BottomSheetV2 forwardedRef={bottomSheetRef} testId="ReclaimBottomSheet">
+      <BottomSheet forwardedRef={bottomSheetRef} testId="ReclaimBottomSheet">
         <View style={styles.logoShadow}>
           <View style={styles.logoBackground}>
             <Logo size={24} />
@@ -305,7 +305,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           onPress={handleConfirmReclaim}
           size={BtnSizes.FULL}
         />
-      </BottomSheetV2>
+      </BottomSheet>
       <Toast
         withBackdrop={false}
         showToast={fetchClaimData.error !== undefined}

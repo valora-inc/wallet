@@ -5,8 +5,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { HomeEvents } from 'src/analytics/Events'
-import BottomSheetBaseV2 from 'src/components/BottomSheetBaseV2'
-import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import BottomSheetBase from 'src/components/BottomSheetBase'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { nftCelebrationDisplayed } from 'src/home/actions'
 import ConfettiCelebration from 'src/home/celebration/ConfettiCelebration'
@@ -107,7 +107,7 @@ export default function NftCelebration() {
 
   return (
     <>
-      <BottomSheetBaseV2
+      <BottomSheetBase
         forwardedRef={bottomSheetRef}
         handleComponent={() => null} // handle is rendered within the content body
         backgroundStyle={styles.bottomSheetBackground}
@@ -143,7 +143,7 @@ export default function NftCelebration() {
             text={t('nftCelebration.bottomSheet.cta')}
           />
         </BottomSheetView>
-      </BottomSheetBaseV2>
+      </BottomSheetBase>
       <ConfettiCelebration
         showAnimation={showConfetti}
         title={t('nftCelebration.notification.title')}

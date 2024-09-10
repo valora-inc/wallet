@@ -10,7 +10,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
 import { JumpstartShareOrigin } from 'src/analytics/Properties'
-import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import Dialog from 'src/components/Dialog'
@@ -201,7 +201,7 @@ function JumpstartShareLink({ route }: Props) {
           </Text>
         </Dialog>
       </ScrollView>
-      <BottomSheetV2
+      <BottomSheet
         forwardedRef={qrCodeBottomSheetRef}
         testId="JumpstartShareLink/QRCodeBottomSheet"
       >
@@ -230,7 +230,7 @@ function JumpstartShareLink({ route }: Props) {
           iconPositionLeft={false}
           size={BtnSizes.FULL}
         />
-      </BottomSheetV2>
+      </BottomSheet>
     </SafeAreaView>
   )
 }

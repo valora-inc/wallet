@@ -7,8 +7,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
-import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
 import AppleIcon from 'src/icons/Apple'
@@ -66,7 +65,7 @@ function SignInWithEmailBottomSheet({
   }
 
   return (
-    <BottomSheetV2
+    <BottomSheet
       forwardedRef={bottomSheetRef}
       title={t('signInWithEmail.bottomSheet.title')}
       titleStyle={styles.bottomSheetTitle}
@@ -91,7 +90,7 @@ function SignInWithEmailBottomSheet({
           text={t('signInWithEmail.bottomSheet.skip')}
         />
       </View>
-    </BottomSheetV2>
+    </BottomSheet>
   )
 }
 type OAuthProvider = 'google-oauth2' | 'apple'
@@ -115,7 +114,7 @@ function SignInWithEmail({ route }: Props) {
   const isSetupInOnboarding =
     keylessBackupFlow === KeylessBackupFlow.Setup && origin === KeylessBackupOrigin.Onboarding
 
-  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const onPressSignInAnotherWay = () => {
     AppAnalytics.track(KeylessBackupEvents.cab_sign_in_another_way, {

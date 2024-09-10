@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
@@ -462,7 +462,7 @@ function InfoBottomSheet({
   }
 
   return (
-    <BottomSheetV2
+    <BottomSheet
       forwardedRef={infoBottomSheetRef}
       title={t('earnFlow.enterAmount.infoBottomSheet.title')}
       testId={'Earn/EnterAmount/InfoBottomSheet'}
@@ -483,7 +483,7 @@ function InfoBottomSheet({
         size={BtnSizes.FULL}
         type={BtnTypes.SECONDARY}
       />
-    </BottomSheetV2>
+    </BottomSheet>
   )
 }
 

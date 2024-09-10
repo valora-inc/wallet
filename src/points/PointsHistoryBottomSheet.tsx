@@ -5,7 +5,7 @@ import { ActivityIndicator, ListRenderItem, StyleSheet, Text, View } from 'react
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
-import BottomSheetBaseV2 from 'src/components/BottomSheetBaseV2'
+import BottomSheetBase from 'src/components/BottomSheetBase'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { NotificationVariant } from 'src/components/InLineNotification'
 import SectionHead from 'src/components/SectionHead'
@@ -159,7 +159,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
   }, [pointsHistory, pointsHistoryStatus])
 
   return (
-    <BottomSheetBaseV2 snapPoints={['80%']} forwardedRef={forwardedRef}>
+    <BottomSheetBase snapPoints={['80%']} forwardedRef={forwardedRef}>
       {!isEmpty && <Text style={styles.contentHeader}>{t('points.history.title')}</Text>}
       <BottomSheetSectionList
         contentContainerStyle={{
@@ -191,7 +191,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         customIcon={<AttentionIcon color={colors.errorDark} size={20} />}
         testID={'PointsHistoryBottomSheet/ErrorBanner'}
       />
-    </BottomSheetBaseV2>
+    </BottomSheetBase>
   )
 }
 

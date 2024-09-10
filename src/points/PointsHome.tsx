@@ -7,7 +7,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import BeatingHeartLoader from 'src/components/BeatingHeartLoader'
-import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import NumberTicker from 'src/components/NumberTicker'
@@ -198,7 +198,7 @@ export default function PointsHome({ route, navigation }: Props) {
         onPressCta={onRefreshHistoryAndBalance}
       />
       <PointsHistoryBottomSheet forwardedRef={historyBottomSheetRef} />
-      <BottomSheetV2 forwardedRef={activityCardBottomSheetRef} testId={`PointsActivityBottomSheet`}>
+      <BottomSheet forwardedRef={activityCardBottomSheetRef} testId={`PointsActivityBottomSheet`}>
         {bottomSheetParams && (
           <>
             <View style={styles.bottomSheetPointAmountContainer}>
@@ -224,8 +224,8 @@ export default function PointsHome({ route, navigation }: Props) {
             )}
           </>
         )}
-      </BottomSheetV2>
-      <BottomSheetV2
+      </BottomSheet>
+      <BottomSheet
         title={t('points.disclaimer.title')}
         titleStyle={typeScale.labelSemiBoldMedium}
         forwardedRef={disclaimerBottomSheetRef}
@@ -241,7 +241,7 @@ export default function PointsHome({ route, navigation }: Props) {
           text={t('points.disclaimer.dismiss')}
           style={styles.disclaimerCloseButton}
         />
-      </BottomSheetV2>
+      </BottomSheet>
     </SafeAreaView>
   )
 }

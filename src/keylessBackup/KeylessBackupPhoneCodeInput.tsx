@@ -6,8 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
-import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import TextButton from 'src/components/TextButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
@@ -77,7 +76,7 @@ function HelpInfoBottomSheet({
   }
 
   return (
-    <BottomSheetV2
+    <BottomSheet
       forwardedRef={bottomSheetRef}
       title={t('phoneVerificationInput.helpDialog.title')}
       titleStyle={styles.bottomSheetTitle}
@@ -106,7 +105,7 @@ function HelpInfoBottomSheet({
           </View>
         </View>
       </View>
-    </BottomSheetV2>
+    </BottomSheet>
   )
 }
 
@@ -123,7 +122,7 @@ function KeylessBackupPhoneCodeInput({
   const onboardingProps = useSelector(onboardingPropsSelector)
   const { step, totalSteps } = getOnboardingStepValues(Screens.SignInWithEmail, onboardingProps)
 
-  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const onPressHelp = () => {
     AppAnalytics.track(KeylessBackupEvents.cab_phone_verification_help, {
