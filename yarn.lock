@@ -5004,10 +5004,10 @@
     "@walletconnect/safe-json" "^1.0.2"
     pino "7.11.0"
 
-"@walletconnect/react-native-compat@^2.15.2":
-  version "2.15.2"
-  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.15.2.tgz#4461cdc3a2691186e1314863515c0e3e68590fbf"
-  integrity sha512-4DBvJqNjEUD25peYScTq2IEr7hDhQSasWfIB/2ovliU2xrUz29KTPmFugkcm/nbW+w5Z3LDfY32L6ceUhf2B9A==
+"@walletconnect/react-native-compat@^2.16.0":
+  version "2.16.1"
+  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.16.1.tgz#7202cfec115993fdc0abd77b72201fa8a89501eb"
+  integrity sha512-MoVZAzKOQhnze8fLpS8XiVDRZRDb38AOasBA16jTssX3779HeYQkn0xieLU47OBz3WOMuGv0++6CivoXhwaBEg==
   dependencies:
     events "3.3.0"
     fast-text-encoding "1.0.6"
