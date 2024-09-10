@@ -10,7 +10,7 @@ interface BottomSheetBaseV2Props {
   children?: React.ReactNode | React.ReactNode[]
   onClose?: () => void
   onOpen?: () => void
-  onChange?: () => void
+  onChange?: BottomSheetProps['onChange']
   snapPoints?: (string | number)[]
   handleComponent?: BottomSheetProps['handleComponent']
   backgroundStyle?: BottomSheetProps['backgroundStyle']
