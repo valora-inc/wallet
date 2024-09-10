@@ -12,7 +12,7 @@ import { type BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader, { CUSTOM_HEADER_HEIGHT } from 'src/components/header/CustomHeader'
 import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import PalmSharp from 'src/images/PalmSharp'
+import Leaf from 'src/images/Leaf'
 import WaveCurve from 'src/images/WaveCurve'
 import { jumpstartIntroHasBeenSeenSelector } from 'src/jumpstart/selectors'
 import { jumpstartIntroSeen } from 'src/jumpstart/slice'
@@ -119,7 +119,7 @@ export default function JumpstartIntroScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
-      <PalmSharp style={styles.palmImage} />
+      <Leaf style={styles.palmImage} />
       <WaveCurve style={styles.waveImage} />
       <CustomHeader style={styles.header} left={<BackButton />} />
 

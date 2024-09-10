@@ -9,7 +9,7 @@ interface Props {
   style?: ViewStyle
 }
 
-export default function PalmSharp({ width = 296, height = 177, style }: Props) {
+export default function Leaf({ width = 296, height = 177, style }: Props) {
   return (
     <Svg width={width} height={height} viewBox="0 0 296 177" fill="none" style={style}>
       <Path
