@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -37,14 +37,14 @@ export default function JumpstartIntroScreen({ navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const insets = useSafeAreaInsets()
-  const addAssetsBottomSheetRef = React.useRef<BottomSheetRefType>(null)
+  const addAssetsBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const addAssetsActions = useAddAssetsActions()
   const introSeen = useSelector(jumpstartIntroHasBeenSeenSelector)
   const tokens = useSelector(jumpstartSendTokensSelector)
   const noTokens = !tokens.length
 
-  function onButtonClick() {
+  const onButtonClick = () => {
     if (noTokens) {
       AppAnalytics.track(JumpstartEvents.jumpstart_add_assets_show_actions)
       addAssetsBottomSheetRef.current?.snapToIndex(0)
@@ -55,7 +55,7 @@ export default function JumpstartIntroScreen({ navigation }: Props) {
   }
 
   // Track back button click
-  React.useEffect(() => {
+  useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', () => {
       AppAnalytics.track(JumpstartEvents.jumpstart_intro_back)
     })
@@ -64,7 +64,7 @@ export default function JumpstartIntroScreen({ navigation }: Props) {
   }, [navigation])
 
   // Whenever user sees intro screen for the first time – store the flag in redux and track it in analytics
-  React.useEffect(() => {
+  useEffect(() => {
     if (!introSeen) {
       AppAnalytics.track(JumpstartEvents.jumpstart_intro_seen)
       dispatch(jumpstartIntroSeen())
@@ -87,7 +87,9 @@ export default function JumpstartIntroScreen({ navigation }: Props) {
 
         <Button
           onPress={onButtonClick}
-          text={t(noTokens ? 'jumpstartIntro.addFundsCelo.cta' : 'jumpstartIntro.haveFundsButton')}
+          text={
+            noTokens ? t('jumpstartIntro.addFundsCelo.cta') : t('jumpstartIntro.haveFundsButton')
+          }
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
         />
