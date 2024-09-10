@@ -7,24 +7,57 @@ import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
+import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
+import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockArbUsdcTokenId, mockEarnPositions, mockTokenBalances } from 'test/values'
+import {
+  mockArbEthTokenId,
+  mockArbUsdcTokenId,
+  mockCusdTokenId,
+  mockEarnPositions,
+  mockTokenBalances,
+} from 'test/values'
+
+jest.mock('src/statsig', () => ({
+  getMultichainFeatures: jest.fn(),
+  getFeatureGate: jest.fn(),
+}))
 
 const mockPoolTokenId = mockEarnPositions[0].dataProps.depositTokenId
 
-const store = createMockStore({
-  tokens: {
-    tokenBalances: {
-      [mockPoolTokenId]: { ...mockTokenBalances[mockArbUsdcTokenId], balance: '1' },
+function getStore(
+  balance: string = '0',
+  includeSameChainToken: boolean = false,
+  includeOtherChainToken: boolean = false
+) {
+  const sameChainToken = includeSameChainToken
+    ? { [mockArbEthTokenId]: { ...mockTokenBalances[mockArbEthTokenId], balance: '1' } }
+    : {}
+  const otherChainToken = includeOtherChainToken
+    ? { [mockCusdTokenId]: { ...mockTokenBalances[mockCusdTokenId], balance: '10' } }
+    : {}
+  return createMockStore({
+    tokens: {
+      tokenBalances: {
+        ...sameChainToken,
+        ...otherChainToken,
+        [mockPoolTokenId]: {
+          ...mockTokenBalances[mockArbUsdcTokenId],
+          balance,
+          isCashInEligible: true,
+        },
+      },
     },
-  },
-})
+    app: { showSwapMenuInDrawerMenu: true },
+  })
+}
 
 const renderEarnPoolInfoScreen = (pool: EarnPosition) =>
   render(
-    <Provider store={store}>
+    <Provider store={getStore()}>
       <MockedNavigator
         component={() => (
           <EarnPoolInfoScreen {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, { pool })} />
@@ -36,6 +69,13 @@ const renderEarnPoolInfoScreen = (pool: EarnPosition) =>
 describe('EarnPoolInfoScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(getMultichainFeatures).mockReturnValue({
+      showCico: [NetworkId['arbitrum-sepolia']],
+      showSwap: [NetworkId['celo-alfajores'], NetworkId['arbitrum-sepolia']],
+    })
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
   })
 
   it('renders correctly when not deposited in pool', () => {
@@ -256,7 +296,7 @@ describe('EarnPoolInfoScreen', () => {
 
   it('navigate to EarnEnterAmount when Deposit button is tapped and depositTokenId has a balance', () => {
     const { getByText } = render(
-      <Provider store={store}>
+      <Provider store={getStore('1')}>
         <MockedNavigator
           component={() => {
             return (
@@ -285,9 +325,104 @@ describe('EarnPoolInfoScreen', () => {
     })
   })
 
+  it('show bottom sheet correctly when Deposit button is tapped and depositTokenId does not have balance, can same and cross chain swap', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={getStore('0', true, true)}>
+        <MockedNavigator
+          component={() => {
+            return (
+              <EarnPoolInfoScreen
+                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
+                  pool: mockEarnPositions[0],
+                })}
+              />
+            )
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_deposit, {
+      providerId: 'aave',
+      poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      networkId: 'arbitrum-sepolia',
+      depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
+      canDeposit: false,
+      canSameChainSwapToDeposit: true,
+      canCrossChainSwapToDeposit: true,
+    })
+    expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/SwapAndDeposit')).toBeTruthy()
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/CrossChainSwap')).toBeTruthy()
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
+  })
+
+  it('show bottom sheet correctly when Deposit button is tapped and depositTokenId does not have balance, can cross chain swap', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={getStore('0', false, true)}>
+        <MockedNavigator
+          component={() => {
+            return (
+              <EarnPoolInfoScreen
+                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
+                  pool: mockEarnPositions[0],
+                })}
+              />
+            )
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_deposit, {
+      providerId: 'aave',
+      poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      networkId: 'arbitrum-sepolia',
+      depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
+      canDeposit: false,
+      canSameChainSwapToDeposit: false,
+      canCrossChainSwapToDeposit: true,
+    })
+    expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/Swap')).toBeTruthy()
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/Transfer')).toBeTruthy()
+  })
+
+  it('show bottom sheet correctly when Deposit button is tapped and depositTokenId does not have balance, no tokens', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={getStore('0', false, false)}>
+        <MockedNavigator
+          component={() => {
+            return (
+              <EarnPoolInfoScreen
+                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
+                  pool: mockEarnPositions[0],
+                })}
+              />
+            )
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_deposit, {
+      providerId: 'aave',
+      poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+      networkId: 'arbitrum-sepolia',
+      depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
+      canDeposit: false,
+      canSameChainSwapToDeposit: false,
+      canCrossChainSwapToDeposit: false,
+    })
+    expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/Transfer')).toBeTruthy()
+  })
+
   it('navigate to EarnCollectScreen when Withdraw button is tapped', () => {
     const { getByText } = render(
-      <Provider store={store}>
+      <Provider store={getStore()}>
         <MockedNavigator
           component={() => {
             return (

@@ -540,7 +540,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     return (
       getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS) &&
       isSwapEnabled &&
-      !!swappableFromTokens.find((tokenInfo) => tokenInfo.tokenId !== dataProps.depositTokenId)
+      !!swappableFromTokens.find((tokenInfo) => tokenInfo.networkId !== networkId)
     )
   }, [pool, isSwapEnabled, swappableFromTokens])
   const canCashIn = useMemo(() => {
