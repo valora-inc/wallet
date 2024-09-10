@@ -1,6 +1,6 @@
 {
   "name": "@valora/wallet",
-  "version": "1.93.0",
+  "version": "1.94.0",
   "author": "Valora Inc",
   "license": "Apache-2.0",
   "private": true,
@@ -107,10 +107,10 @@
     "@segment/sovran-react-native": "^1.1.2",
     "@sentry/react-native": "^5.31.1",
     "@th3rdwave/react-navigation-bottom-sheet": "^0.3.2",
-    "@toruslabs/constants": "^13.4.0",
-    "@toruslabs/fetch-node-details": "^13.4.0",
-    "@toruslabs/torus.js": "^12.3.7",
-    "@walletconnect/react-native-compat": "^2.15.2",
+    "@toruslabs/constants": "^14.0.0",
+    "@toruslabs/fetch-node-details": "^14.0.1",
+    "@toruslabs/torus.js": "^15.0.4",
+    "@walletconnect/react-native-compat": "^2.16.1",
     "@walletconnect/utils": "^2.15.2",
     "@walletconnect/web3wallet": "^1.14.2",
     "bignumber.js": "^9.1.2",
@@ -188,7 +188,7 @@
     "typed-redux-saga": "^1.5.0",
     "uuid": "^9.0.1",
     "victory-native": "^36.9.2",
-    "viem": "^2.21.1",
+    "viem": "^2.21.4",
     "web3-utils": "^4.3.1"
   },
   "devDependencies": {
