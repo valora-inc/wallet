@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
@@ -155,7 +155,7 @@ function EnterAmount({
 
   const tokenAmountInputRef = useRef<RNTextInput>(null)
   const localAmountInputRef = useRef<RNTextInput>(null)
-  const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
   const [tokenAmountInput, setTokenAmountInput] = useState<string>('')

@@ -14,6 +14,8 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetNames } from 'src/components/BottomSheetBaseV2'
+import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import Toast from 'src/components/Toast'
@@ -221,8 +223,8 @@ type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 export function SwapScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const tokenBottomSheetFromRef = useRef<BottomSheetRefType>(null)
-  const tokenBottomSheetToRef = useRef<BottomSheetRefType>(null)
+  const tokenBottomSheetFromRef = useRef<BottomSheetModalRefType>(null)
+  const tokenBottomSheetToRef = useRef<BottomSheetModalRefType>(null)
   const tokenBottomSheetRefs = {
     [Field.FROM]: tokenBottomSheetFromRef,
     [Field.TO]: tokenBottomSheetToRef,
@@ -991,6 +993,7 @@ export function SwapScreen({ route }: Props) {
           searchEnabled={true}
           showPriceUsdUnavailableWarning={true}
           areSwapTokensShuffled={areSwapTokensShuffled}
+          name={`${BottomSheetNames.TokenSelect}-${fieldType}`}
         />
       ))}
       <BottomSheet

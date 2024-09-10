@@ -54,6 +54,7 @@ export type TokenBottomSheetProps = {
   showPriceUsdUnavailableWarning?: boolean
   filterChips?: FilterChip<TokenBalance>[]
   areSwapTokensShuffled?: boolean
+  name?: BottomSheetNames | string
 } & (
   | { isScreen: true; forwardedRef?: undefined }
   | { forwardedRef: RefObject<BottomSheetModalRefType>; isScreen?: false }
@@ -125,6 +126,7 @@ function TokenBottomSheet({
   filterChips = [],
   areSwapTokensShuffled,
   isScreen,
+  name = BottomSheetNames.TokenSelect,
 }: TokenBottomSheetProps) {
   const insets = useSafeAreaInsets()
 
@@ -336,13 +338,11 @@ function TokenBottomSheet({
         // since the bottom sheet navigator already provides the necessary wrapping
         content
       ) : (
-        <BottomSheetBaseV2
-          forwardedRef={forwardedRef}
-          snapPoints={snapPoints}
-          name={BottomSheetNames.TokenSelect}
-        >
-          {content}
-        </BottomSheetBaseV2>
+        <BottomSheetModalProvider>
+          <BottomSheetBaseV2 forwardedRef={forwardedRef} snapPoints={snapPoints} name={name}>
+            {content}
+          </BottomSheetBaseV2>
+        </BottomSheetModalProvider>
       )}
       {networkChip && (
         // Wrap the network filter bottom sheet in a BottomSheetModalProvider to avoid rendering behind the main bottom sheet
