@@ -336,11 +336,9 @@ function TokenBottomSheet({
         // since the bottom sheet navigator already provides the necessary wrapping
         content
       ) : (
-        <BottomSheetModalProvider>
-          <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
-            {content}
-          </BottomSheetBase>
-        </BottomSheetModalProvider>
+        <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
+          {content}
+        </BottomSheetBase>
       )}
       {networkChip && (
         // Wrap the network filter bottom sheet in a BottomSheetModalProvider to avoid rendering behind the main bottom sheet
