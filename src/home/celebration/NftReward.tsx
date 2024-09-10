@@ -4,11 +4,11 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { HomeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { HomeEvents } from 'src/analytics/Events'
 import { openDeepLink } from 'src/app/actions'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
-import BottomSheetBase from 'src/components/BottomSheetBase'
+import BottomSheetBaseV2 from 'src/components/BottomSheetBaseV2'
+import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { nftRewardDisplayed } from 'src/home/actions'
 import { isSameNftContract } from 'src/home/celebration/utils'
@@ -41,7 +41,7 @@ export default function NftRewardBottomSheet() {
   const insets = useSafeAreaInsets()
   const insetsStyle = { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) }
 
-  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const isReminder = nftCelebration?.status === NftCelebrationStatus.reminderReadyToDisplay
 
@@ -117,7 +117,7 @@ export default function NftRewardBottomSheet() {
   }
 
   return (
-    <BottomSheetBase forwardedRef={bottomSheetRef} onChange={handleBottomSheetPositionChange}>
+    <BottomSheetBaseV2 forwardedRef={bottomSheetRef} onChange={handleBottomSheetPositionChange}>
       <BottomSheetView style={[styles.container, insetsStyle]}>
         <View style={[styles.pill, pillStyle]} testID="NftReward/Pill">
           <Text style={[styles.pillLabel, labelStyle]} testID="NftReward/PillLabel">
@@ -138,7 +138,7 @@ export default function NftRewardBottomSheet() {
           text={t(`nftCelebration.${copyText}.cta`)}
         />
       </BottomSheetView>
-    </BottomSheetBase>
+    </BottomSheetBaseV2>
   )
 }
 

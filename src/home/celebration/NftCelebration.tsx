@@ -3,10 +3,10 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { HomeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
-import BottomSheetBase from 'src/components/BottomSheetBase'
+import { HomeEvents } from 'src/analytics/Events'
+import BottomSheetBaseV2 from 'src/components/BottomSheetBaseV2'
+import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { nftCelebrationDisplayed } from 'src/home/actions'
 import ConfettiCelebration from 'src/home/celebration/ConfettiCelebration'
@@ -29,7 +29,7 @@ export default function NftCelebration() {
   const insets = useSafeAreaInsets()
   const insetsStyle = { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) }
 
-  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const [showConfetti, setShowConfetti] = useState(false)
   const confettiStartTime = useRef(0)
@@ -107,7 +107,7 @@ export default function NftCelebration() {
 
   return (
     <>
-      <BottomSheetBase
+      <BottomSheetBaseV2
         forwardedRef={bottomSheetRef}
         handleComponent={() => null} // handle is rendered within the content body
         backgroundStyle={styles.bottomSheetBackground}
@@ -143,7 +143,7 @@ export default function NftCelebration() {
             text={t('nftCelebration.bottomSheet.cta')}
           />
         </BottomSheetView>
-      </BottomSheetBase>
+      </BottomSheetBaseV2>
       <ConfettiCelebration
         showAnimation={showConfetti}
         title={t('nftCelebration.notification.title')}

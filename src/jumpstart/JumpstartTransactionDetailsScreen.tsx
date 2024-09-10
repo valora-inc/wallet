@@ -9,7 +9,7 @@ import walletJumpstart from 'src/abis/IWalletJumpstart'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { NotificationVariant } from 'src/components/InLineNotification'
@@ -63,7 +63,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
   const reclaimStatus = useSelector(jumpstartReclaimStatusSelector)
 
-  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   useEffect(() => {
     if (reclaimStatus === 'success' || reclaimStatus === 'error') {
@@ -281,7 +281,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           textStyle={styles.tokenFiatValueText}
         />
       </TransactionDetails>
-      <BottomSheet forwardedRef={bottomSheetRef} testId="ReclaimBottomSheet">
+      <BottomSheetV2 forwardedRef={bottomSheetRef} testId="ReclaimBottomSheet">
         <View style={styles.logoShadow}>
           <View style={styles.logoBackground}>
             <Logo size={24} />
@@ -305,7 +305,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
           onPress={handleConfirmReclaim}
           size={BtnSizes.FULL}
         />
-      </BottomSheet>
+      </BottomSheetV2>
       <Toast
         withBackdrop={false}
         showToast={fetchClaimData.error !== undefined}

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import AddAssetsBottomSheet, { AddAssetsAction } from 'src/components/AddAssetsBottomSheet'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import { CICOFlow, fetchExchanges } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -23,7 +23,7 @@ export default function EarnAddCryptoBottomSheet({
   token,
   tokenAmount,
 }: {
-  forwardedRef: RefObject<BottomSheetRefType>
+  forwardedRef: RefObject<BottomSheetModalRefType>
   token: TokenBalance
   tokenAmount: BigNumber
 }) {
@@ -77,6 +77,7 @@ export default function EarnAddCryptoBottomSheet({
             flow: CICOFlow.CashIn,
             amount: addAmount,
           })
+          forwardedRef.current?.dismiss()
         },
       })
     }
@@ -94,6 +95,7 @@ export default function EarnAddCryptoBottomSheet({
         })
 
         navigate(Screens.ExchangeQR, { flow: CICOFlow.CashIn, exchanges })
+        forwardedRef.current?.dismiss()
       },
     })
 
@@ -111,6 +113,7 @@ export default function EarnAddCryptoBottomSheet({
           })
 
           navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
+          forwardedRef.current?.dismiss()
         },
       })
     }

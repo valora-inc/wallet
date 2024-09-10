@@ -1,9 +1,9 @@
 import React, { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { AssetsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import { AssetsEvents } from 'src/analytics/Events'
+import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Touchable from 'src/components/Touchable'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -17,17 +17,17 @@ export default function TokenDetailsMoreActions({
   actions,
   token,
 }: {
-  forwardedRef: RefObject<BottomSheetRefType>
+  forwardedRef: RefObject<BottomSheetModalRefType>
   actions: TokenAction[]
   token: TokenBalance
 }) {
   const { t } = useTranslation()
 
   return (
-    <BottomSheet
+    <BottomSheetV2
       forwardedRef={forwardedRef}
       title={t('tokenDetails.moreActions')}
-      testId={'TokenDetailsMoreActions'}
+      testId="TokenDetailsMoreActions"
       titleStyle={styles.title}
     >
       <View style={styles.actionsContainer}>
@@ -42,6 +42,7 @@ export default function TokenDetailsMoreActions({
                 ...getTokenAnalyticsProps(token),
               })
               action.onPress()
+              forwardedRef.current?.dismiss()
             }}
             testID={`TokenDetailsMoreActions/${action.name}`}
           >
@@ -55,7 +56,7 @@ export default function TokenDetailsMoreActions({
           </Touchable>
         ))}
       </View>
-    </BottomSheet>
+    </BottomSheetV2>
   )
 }
 

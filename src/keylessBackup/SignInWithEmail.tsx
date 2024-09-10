@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useAuth0 } from 'react-native-auth0'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { KeylessBackupEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
 import AppleIcon from 'src/icons/Apple'
@@ -43,7 +44,7 @@ function SignInWithEmailBottomSheet({
 }: {
   keylessBackupFlow: KeylessBackupFlow
   origin: KeylessBackupOrigin
-  bottomSheetRef: React.RefObject<BottomSheetRefType>
+  bottomSheetRef: React.RefObject<BottomSheetModalRefType>
 }) {
   const { t } = useTranslation()
   const onboardingProps = useSelector(onboardingPropsSelector)
@@ -65,7 +66,7 @@ function SignInWithEmailBottomSheet({
   }
 
   return (
-    <BottomSheet
+    <BottomSheetV2
       forwardedRef={bottomSheetRef}
       title={t('signInWithEmail.bottomSheet.title')}
       titleStyle={styles.bottomSheetTitle}
@@ -90,7 +91,7 @@ function SignInWithEmailBottomSheet({
           text={t('signInWithEmail.bottomSheet.skip')}
         />
       </View>
-    </BottomSheet>
+    </BottomSheetV2>
   )
 }
 type OAuthProvider = 'google-oauth2' | 'apple'

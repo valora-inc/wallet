@@ -3,10 +3,11 @@ import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { KeylessBackupEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import TextButton from 'src/components/TextButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
@@ -29,7 +30,7 @@ function HelpInfoBottomSheet({
   keylessBackupFlow,
   origin,
 }: {
-  bottomSheetRef: React.RefObject<BottomSheetRefType>
+  bottomSheetRef: React.RefObject<BottomSheetModalRefType>
   keylessBackupFlow: KeylessBackupFlow
   origin: KeylessBackupOrigin
 }) {
@@ -76,7 +77,7 @@ function HelpInfoBottomSheet({
   }
 
   return (
-    <BottomSheet
+    <BottomSheetV2
       forwardedRef={bottomSheetRef}
       title={t('phoneVerificationInput.helpDialog.title')}
       titleStyle={styles.bottomSheetTitle}
@@ -105,7 +106,7 @@ function HelpInfoBottomSheet({
           </View>
         </View>
       </View>
-    </BottomSheet>
+    </BottomSheetV2>
   )
 }
 

@@ -13,8 +13,7 @@ import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import Toast from 'src/components/Toast'
@@ -228,10 +227,10 @@ export function SwapScreen({ route }: Props) {
     [Field.FROM]: tokenBottomSheetFromRef,
     [Field.TO]: tokenBottomSheetToRef,
   }
-  const exchangeRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const feeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const estimatedDurationBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const exchangeRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const feeInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const slippageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const estimatedDurationBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const allowCrossChainSwaps = getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
 
@@ -994,7 +993,7 @@ export function SwapScreen({ route }: Props) {
           areSwapTokensShuffled={areSwapTokensShuffled}
         />
       ))}
-      <BottomSheet
+      <BottomSheetV2
         forwardedRef={exchangeRateInfoBottomSheetRef}
         title={t('swapScreen.transactionDetails.exchangeRate')}
         description={t('swapScreen.transactionDetails.exchangeRateInfoV1_90', {
@@ -1014,8 +1013,8 @@ export function SwapScreen({ route }: Props) {
           }}
           text={t('swapScreen.transactionDetails.infoDismissButton')}
         />
-      </BottomSheet>
-      <BottomSheet
+      </BottomSheetV2>
+      <BottomSheetV2
         forwardedRef={estimatedDurationBottomSheetRef}
         title={t('swapScreen.transactionDetails.estimatedTransactionTime')}
         description={t('swapScreen.transactionDetails.estimatedTransactionTimeInfo')}
@@ -1030,8 +1029,8 @@ export function SwapScreen({ route }: Props) {
           }}
           text={t('swapScreen.transactionDetails.infoDismissButton')}
         />
-      </BottomSheet>
-      <BottomSheet
+      </BottomSheetV2>
+      <BottomSheetV2
         forwardedRef={slippageInfoBottomSheetRef}
         title={t('swapScreen.transactionDetails.slippagePercentage')}
         description={t('swapScreen.transactionDetails.slippageToleranceInfoV1_90')}
@@ -1046,7 +1045,7 @@ export function SwapScreen({ route }: Props) {
           }}
           text={t('swapScreen.transactionDetails.infoDismissButton')}
         />
-      </BottomSheet>
+      </BottomSheetV2>
       <FeeInfoBottomSheet
         forwardedRef={feeInfoBottomSheetRef}
         crossChainFee={crossChainFee}

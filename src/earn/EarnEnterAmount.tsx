@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
@@ -76,9 +76,9 @@ function EarnEnterAmount({ route }: Props) {
     throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
   }
 
-  const infoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const addCryptoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const reviewBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const infoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const addCryptoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tokenAmountInputRef = useRef<RNTextInput>(null)
   const localAmountInputRef = useRef<RNTextInput>(null)
 
@@ -446,7 +446,7 @@ function EarnProceed({
 function InfoBottomSheet({
   infoBottomSheetRef,
 }: {
-  infoBottomSheetRef: React.RefObject<BottomSheetRefType>
+  infoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
 }) {
   const { t } = useTranslation()
 
@@ -462,7 +462,7 @@ function InfoBottomSheet({
   }
 
   return (
-    <BottomSheet
+    <BottomSheetV2
       forwardedRef={infoBottomSheetRef}
       title={t('earnFlow.enterAmount.infoBottomSheet.title')}
       testId={'Earn/EnterAmount/InfoBottomSheet'}
@@ -483,7 +483,7 @@ function InfoBottomSheet({
         size={BtnSizes.FULL}
         type={BtnTypes.SECONDARY}
       />
-    </BottomSheet>
+    </BottomSheetV2>
   )
 }
 

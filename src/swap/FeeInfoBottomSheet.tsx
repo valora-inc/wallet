@@ -2,7 +2,7 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -12,7 +12,7 @@ import { Spacing } from 'src/styles/styles'
 import { AppFeeAmount, SwapFeeAmount } from 'src/swap/types'
 
 interface Props {
-  forwardedRef: React.RefObject<BottomSheetRefType>
+  forwardedRef: React.RefObject<BottomSheetModalRefType>
   appFee?: AppFeeAmount
   crossChainFee?: SwapFeeAmount
   networkFee?: SwapFeeAmount
@@ -79,7 +79,7 @@ function FeeInfoBottomSheet({
   const { t } = useTranslation()
 
   return (
-    <BottomSheet
+    <BottomSheetV2
       forwardedRef={forwardedRef}
       title={t('swapScreen.transactionDetails.fees')}
       testId="FeeInfoBottomSheet"
@@ -149,7 +149,7 @@ function FeeInfoBottomSheet({
         }}
         text={t('swapScreen.transactionDetails.infoDismissButton')}
       />
-    </BottomSheet>
+    </BottomSheetV2>
   )
 }
 

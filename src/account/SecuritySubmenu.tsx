@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import Toast from 'src/components/Toast'
 import { showError } from 'src/alert/actions'
 import { NotificationVariant } from 'src/components/InLineNotification'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { setAnalyticsEnabled, setRequirePinOnAppOpen } from 'src/app/actions'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
@@ -77,8 +77,8 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
 
   const analyticsEnabled = useSelector(analyticsEnabledSelector)
 
-  const resetAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const deleteAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const resetAccountBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const deleteAccountBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const showDeleteKeylessBackupError = useSelector(showDeleteKeylessBackupErrorSelector)
 
@@ -353,7 +353,7 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
         title={t('error')}
         testID="KeylessBackupDeleteError"
       />
-      <BottomSheet
+      <BottomSheetV2
         forwardedRef={resetAccountBottomSheetRef}
         title={t('accountKeyModal.header')}
         description={`${t('accountKeyModal.body1')}\n\n${t('accountKeyModal.body2')}`}
@@ -368,8 +368,8 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
           disabled={revokeNumberAsync.loading}
           testID="ResetAccountButton"
         />
-      </BottomSheet>
-      <BottomSheet
+      </BottomSheetV2>
+      <BottomSheetV2
         forwardedRef={deleteAccountBottomSheetRef}
         title={t('deleteAccountWarning.title')}
         description={t('deleteAccountWarning.description')}
@@ -388,7 +388,7 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
           disabled={revokeNumberAsync.loading}
           testID="DeleteAccountButton"
         />
-      </BottomSheet>
+      </BottomSheetV2>
     </SafeAreaView>
   )
 }

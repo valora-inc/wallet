@@ -7,7 +7,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import BeatingHeartLoader from 'src/components/BeatingHeartLoader'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import NumberTicker from 'src/components/NumberTicker'
@@ -47,9 +47,9 @@ export default function PointsHome({ route, navigation }: Props) {
   const pointsBalanceStatus = useSelector(pointsBalanceStatusSelector)
   const pointsHistoryStatus = useSelector(pointsHistoryStatusSelector)
 
-  const historyBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const activityCardBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const disclaimerBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const historyBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const activityCardBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const disclaimerBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const [bottomSheetParams, setBottomSheetParams] = useState<BottomSheetParams | undefined>(
     undefined
@@ -198,7 +198,7 @@ export default function PointsHome({ route, navigation }: Props) {
         onPressCta={onRefreshHistoryAndBalance}
       />
       <PointsHistoryBottomSheet forwardedRef={historyBottomSheetRef} />
-      <BottomSheet forwardedRef={activityCardBottomSheetRef} testId={`PointsActivityBottomSheet`}>
+      <BottomSheetV2 forwardedRef={activityCardBottomSheetRef} testId={`PointsActivityBottomSheet`}>
         {bottomSheetParams && (
           <>
             <View style={styles.bottomSheetPointAmountContainer}>
@@ -224,8 +224,8 @@ export default function PointsHome({ route, navigation }: Props) {
             )}
           </>
         )}
-      </BottomSheet>
-      <BottomSheet
+      </BottomSheetV2>
+      <BottomSheetV2
         title={t('points.disclaimer.title')}
         titleStyle={typeScale.labelSemiBoldMedium}
         forwardedRef={disclaimerBottomSheetRef}
@@ -241,7 +241,7 @@ export default function PointsHome({ route, navigation }: Props) {
           text={t('points.disclaimer.dismiss')}
           style={styles.disclaimerCloseButton}
         />
-      </BottomSheet>
+      </BottomSheetV2>
     </SafeAreaView>
   )
 }

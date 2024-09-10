@@ -7,10 +7,10 @@ import { Share, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import QRCode from 'react-native-qrcode-svg'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
 import { JumpstartShareOrigin } from 'src/analytics/Properties'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import Dialog from 'src/components/Dialog'
@@ -40,7 +40,7 @@ function JumpstartShareLink({ route }: Props) {
 
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
-  const qrCodeBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const qrCodeBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const shouldNavigate = useRef(false)
   const [showNavigationWarning, setShowNavigationWarning] = useState(false)
@@ -201,7 +201,7 @@ function JumpstartShareLink({ route }: Props) {
           </Text>
         </Dialog>
       </ScrollView>
-      <BottomSheet
+      <BottomSheetV2
         forwardedRef={qrCodeBottomSheetRef}
         testId="JumpstartShareLink/QRCodeBottomSheet"
       >
@@ -230,7 +230,7 @@ function JumpstartShareLink({ route }: Props) {
           iconPositionLeft={false}
           size={BtnSizes.FULL}
         />
-      </BottomSheet>
+      </BottomSheetV2>
     </SafeAreaView>
   )
 }
