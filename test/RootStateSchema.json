@@ -5001,6 +5001,9 @@
                     ],
                     "type": "string"
                 },
+                "introHasBeenSeen": {
+                    "type": "boolean"
+                },
                 "reclaimStatus": {
                     "enum": [
                         "error",
@@ -5014,6 +5017,7 @@
             "required": [
                 "claimStatus",
                 "depositStatus",
+                "introHasBeenSeen",
                 "reclaimStatus"
             ],
             "type": "object"

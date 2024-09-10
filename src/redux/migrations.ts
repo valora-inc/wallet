@@ -1901,4 +1901,11 @@ export const migrations = {
       },
     }
   },
+  230: (state: any) => ({
+    ...state,
+    jumpstart: {
+      ...state.jumpstart,
+      introHasBeenSeen: false,
+    },
+  }),
 }
