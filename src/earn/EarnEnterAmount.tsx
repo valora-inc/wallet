@@ -2,8 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { TextInput as RNTextInput, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
+import { TextInput as RNTextInput, StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -14,12 +13,12 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
-import EarnAddCryptoBottomSheet from 'src/earn/EarnAddCryptoBottomSheet'
-import { EarnApyAndAmount } from 'src/earn/EarnApyAndAmount'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
+import { Card } from 'src/earn/EarnPoolInfoScreen'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -29,23 +28,22 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { hooksApiUrlSelector } from 'src/positions/selectors'
-import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { AmountInput, ProceedArgs } from 'src/send/EnterAmount'
 import { AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import variables from 'src/styles/variables'
 import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { parseInputAmount } from 'src/utils/parsing'
+import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
 
@@ -56,15 +54,6 @@ const TAG = 'EarnEnterAmount'
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
-
-type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
-  onPressProceed(args: ProceedArgs): void
-  onPressInfo(): void
-  disabled: boolean
-  tokenAmount: BigNumber | null
-  loading: boolean
-  pool: EarnPosition
-}
 
 function EarnEnterAmount({ route }: Props) {
   const { t } = useTranslation()
@@ -77,7 +66,6 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const infoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const addCryptoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const reviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const tokenAmountInputRef = useRef<RNTextInput>(null)
   const localAmountInputRef = useRef<RNTextInput>(null)
@@ -188,6 +176,8 @@ function EarnEnterAmount({ route }: Props) {
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [tokenAmount, token])
 
+  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
+
   const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(token.balance)
   const showNotEnoughBalanceForGasWarning =
     isAmountLessThanBalance &&
@@ -202,7 +192,7 @@ function EarnEnterAmount({ route }: Props) {
   const disabled =
     // Should disable if the user enters 0 or has enough balance but the transaction is not possible,
     // shouldn't disable if they enter an amount larger than their balance as they will go to add flow
-    !!tokenAmount?.isZero() || (!!tokenAmount?.lte(token.balance) && !transactionIsPossible)
+    !!tokenAmount?.isZero() || !transactionIsPossible
 
   const onTokenAmountInputChange = (value: string) => {
     if (!value) {
@@ -268,14 +258,7 @@ function EarnEnterAmount({ route }: Props) {
       providerId: pool.appId,
       poolId: pool.positionId,
     })
-    isAmountLessThanBalance
-      ? reviewBottomSheetRef.current?.snapToIndex(0)
-      : addCryptoBottomSheetRef.current?.snapToIndex(0)
-  }
-
-  const onPressInfo = () => {
-    AppAnalytics.track(EarnEvents.earn_enter_amount_info_press)
-    infoBottomSheetRef.current?.snapToIndex(0)
+    reviewBottomSheetRef.current?.snapToIndex(0)
   }
 
   return (
@@ -324,6 +307,56 @@ function EarnEnterAmount({ route }: Props) {
               )}
             </View>
           </View>
+          {tokenAmount && feeCurrency && maxFeeAmount && (
+            <Card cardStyle={styles.card} testID="EnterAmountInfoCard">
+              <View style={styles.cardLineContainer}>
+                <View style={styles.cardLineLabel}>
+                  <Text
+                    testID="EarnEnterAmount/Deposit"
+                    numberOfLines={1}
+                    style={styles.depositLabel}
+                  >
+                    {t('earnFlow.enterAmount.deposit')}
+                  </Text>
+                </View>
+                <View style={styles.flexShrink}>
+                  <Text style={styles.depositAndEarningsCardValueText}>
+                    <TokenDisplay
+                      tokenId={token.tokenId}
+                      testID="EarnEnterAmount/Deposit/Crypto"
+                      amount={tokenAmount.toString()}
+                      showLocalAmount={false}
+                    />
+                    <Text style={styles.gray4}>
+                      {' ('}
+                      <TokenDisplay
+                        testID="EarnEnterAmount/Deposit/Fiat"
+                        tokenId={token.tokenId}
+                        amount={tokenAmount.toString()}
+                        showLocalAmount={true}
+                      />
+                      {')'}
+                    </Text>
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.cardLineContainer}>
+                <View style={styles.cardLineLabel}>
+                  <Text numberOfLines={1} style={styles.depositLabel}>
+                    {t('earnFlow.enterAmount.fees')}
+                  </Text>
+                  <Touchable borderRadius={24} testID={'DepositInfoIcon'}>
+                    <InfoIcon size={16} color={Colors.gray3} />
+                  </Touchable>
+                </View>
+                <View style={styles.flexShrink}>
+                  <Text style={styles.depositAndEarningsCardValueText}>
+                    <TokenDisplay tokenId={feeCurrency.tokenId} amount={maxFeeAmount.toString()} />
+                  </Text>
+                </View>
+              </View>
+            </Card>
+          )}
         </View>
         {showNotEnoughBalanceForGasWarning && (
           <InLineNotification
@@ -353,6 +386,19 @@ function EarnEnterAmount({ route }: Props) {
             testID="EarnEnterAmount/NotEnoughForGasWarning"
           />
         )}
+        {!isAmountLessThanBalance && (
+          <InLineNotification
+            variant={NotificationVariant.Warning}
+            title={t('sendEnterAmountScreen.insufficientBalanceWarning.title', {
+              tokenSymbol: token.symbol,
+            })}
+            description={t('sendEnterAmountScreen.insufficientBalanceWarning.description', {
+              tokenSymbol: token.symbol,
+            })}
+            style={styles.warning}
+            testID="EarnEnterAmount/NotEnoughBalanceWarning"
+          />
+        )}
         {prepareTransactionError && (
           <InLineNotification
             variant={NotificationVariant.Error}
@@ -362,25 +408,21 @@ function EarnEnterAmount({ route }: Props) {
             testID="EarnEnterAmount/PrepareTransactionError"
           />
         )}
-        <EarnProceed
-          tokenAmount={tokenAmount}
-          localAmount={localAmount}
-          token={token}
-          amountEnteredIn={enteredIn}
-          onPressProceed={onPressContinue}
-          onPressInfo={onPressInfo}
+        <Button
+          onPress={() =>
+            tokenAmount &&
+            onPressContinue({ tokenAmount, localAmount, token, amountEnteredIn: enteredIn })
+          }
+          text={t('earnFlow.enterAmount.continue')}
+          size={BtnSizes.FULL}
           disabled={disabled}
-          loading={isPreparingTransactions}
-          pool={pool}
+          style={styles.continueButton}
+          showLoading={isPreparingTransactions}
+          testID="EarnEnterAmount/Continue"
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
       <InfoBottomSheet infoBottomSheetRef={infoBottomSheetRef} />
-      <EarnAddCryptoBottomSheet
-        forwardedRef={addCryptoBottomSheetRef}
-        token={token}
-        tokenAmount={tokenAmount ? tokenAmount.minus(token.balance) : new BigNumber(0)}
-      />
       {tokenAmount && prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
@@ -390,56 +432,6 @@ function EarnEnterAmount({ route }: Props) {
         />
       )}
     </SafeAreaView>
-  )
-}
-
-function EarnProceed({
-  tokenAmount,
-  localAmount,
-  token,
-  amountEnteredIn,
-  disabled,
-  onPressProceed,
-  onPressInfo,
-  loading,
-  pool,
-}: ProceedComponentProps) {
-  const { t } = useTranslation()
-  const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
-
-  return (
-    <View style={styles.infoContainer}>
-      <EarnApyAndAmount tokenAmount={tokenAmount} pool={pool} testIDPrefix={'EarnEnterAmount'} />
-      <Button
-        onPress={() =>
-          tokenAmount && onPressProceed({ tokenAmount, localAmount, token, amountEnteredIn })
-        }
-        text={t('earnFlow.enterAmount.continue')}
-        style={styles.continueButton}
-        size={BtnSizes.FULL}
-        disabled={disabled}
-        showLoading={loading}
-        testID="EarnEnterAmount/Continue"
-      />
-      <View style={styles.row}>
-        <FastImage source={{ uri: pool.displayProps.imageUrl }} style={{ width: 16, height: 16 }} />
-        <Text style={styles.infoText}>
-          {t('earnFlow.enterAmount.infoV1_93', { providerName: pool.appName })}
-        </Text>
-        {
-          // only show info icon if we are not showing multiple pools, it's specific to the Aave pool
-          !showMultiplePools && (
-            <TouchableOpacity
-              onPress={onPressInfo}
-              hitSlop={variables.iconHitslop}
-              testID="EarnEnterAmount/InfoIcon"
-            >
-              <InfoIcon color={Colors.black} />
-            </TouchableOpacity>
-          )
-        }
-      </View>
-    </View>
   )
 }
 
@@ -488,27 +480,6 @@ function InfoBottomSheet({
 }
 
 const styles = StyleSheet.create({
-  infoContainer: {
-    padding: Spacing.Regular16,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    marginTop: 20,
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    gap: Spacing.Tiny4,
-  },
-  continueButton: {
-    paddingVertical: Spacing.Thick24,
-  },
-  infoText: {
-    ...typeScale.bodyXSmall,
-    color: Colors.gray3,
-  },
   infoBottomSheetTitle: {
     ...typeScale.titleSmall,
     color: Colors.black,
@@ -527,6 +498,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: Spacing.Thick24,
     paddingTop: Spacing.Thick24,
+    flexGrow: 1,
   },
   title: {
     ...typeScale.titleSmall,
@@ -534,6 +506,9 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
+  },
+  continueButton: {
+    paddingTop: Spacing.Regular16,
   },
   inputBox: {
     marginTop: Spacing.Large32,
@@ -598,6 +573,41 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Regular16,
     paddingHorizontal: Spacing.Regular16,
     borderRadius: 16,
+  },
+  card: {
+    marginVertical: Spacing.Regular16,
+  },
+  cardLineContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  cardLineLabel: {
+    flex: 1,
+    flexDirection: 'row',
+    gap: Spacing.Tiny4,
+    alignItems: 'center',
+    paddingRight: 20, // Prevents Icon from being cut off on long labels
+    minWidth: '35%',
+  },
+  depositLabel: {
+    ...typeScale.bodyMedium,
+    color: Colors.gray4,
+    flexWrap: 'wrap',
+    textAlign: 'left',
+  },
+  flexShrink: {
+    flexShrink: 1,
+  },
+  gray4: {
+    color: Colors.gray4,
+  },
+  depositAndEarningsCardValueText: {
+    ...typeScale.bodyMedium,
+    color: Colors.black,
+    flexWrap: 'wrap',
+    textAlign: 'right',
   },
 })
 

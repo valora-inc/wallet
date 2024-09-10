@@ -111,7 +111,7 @@ function TokenIcons({
   )
 }
 
-function Card({
+export function Card({
   children,
   testID,
   cardStyle,

@@ -2194,7 +2194,7 @@
   "viewOnBaseScan": "View on BaseScan",
   "viewOnAxelarScan": "View on AxelarScan",
   "sendEnterAmountScreen": {
-    "title": "Enter Amount",
+    "title": "How much would you like to deposit?",
     "selectToken": "Select a Token",
     "networkFee": "{{networkName}} Network Fee",
     "lowerAmount": "Enter a lower amount",
@@ -2209,6 +2209,10 @@
     "prepareTransactionError": {
       "title": "Something went wrong!",
       "description": "It was not possible to prepare a transaction for this token."
+    },
+    "insufficientBalanceWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "description": "Insufficient {{tokenSymbol}} balance. Try a smaller amount or choose a different asset."
     }
   },
   "jumpstartIntro": {
@@ -2536,6 +2540,8 @@
       "description": "Earn on your stablecoins when you lend through a liquidity pool"
     },
     "enterAmount": {
+      "deposit": "Deposit",
+      "fees": "Fees",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
