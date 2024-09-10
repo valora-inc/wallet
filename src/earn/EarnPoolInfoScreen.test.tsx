@@ -274,6 +274,9 @@ describe('EarnPoolInfoScreen', () => {
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       networkId: 'arbitrum-sepolia',
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
+      canDeposit: false,
+      canSameChainSwapToDeposit: false,
+      canCrossChainSwapToDeposit: false,
     })
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
       pool: mockEarnPositions[0],
