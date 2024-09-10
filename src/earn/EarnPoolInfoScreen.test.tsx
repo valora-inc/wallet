@@ -16,7 +16,9 @@ const mockPoolTokenId = mockEarnPositions[0].dataProps.depositTokenId
 
 const store = createMockStore({
   tokens: {
-    tokenBalances: { [mockPoolTokenId]: mockTokenBalances[mockArbUsdcTokenId] },
+    tokenBalances: {
+      [mockPoolTokenId]: { ...mockTokenBalances[mockArbUsdcTokenId], balance: '1' },
+    },
   },
 })
 
@@ -252,7 +254,7 @@ describe('EarnPoolInfoScreen', () => {
     })
   })
 
-  it('navigate to EarnEnterAmount when Deposit button is tapped', () => {
+  it('navigate to EarnEnterAmount when Deposit button is tapped and depositTokenId has a balance', () => {
     const { getByText } = render(
       <Provider store={store}>
         <MockedNavigator
@@ -274,7 +276,7 @@ describe('EarnPoolInfoScreen', () => {
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       networkId: 'arbitrum-sepolia',
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
-      canDeposit: false,
+      canDeposit: true,
       canSameChainSwapToDeposit: false,
       canCrossChainSwapToDeposit: false,
     })
