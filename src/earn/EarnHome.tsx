@@ -13,7 +13,6 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import { BottomSheetNames } from 'src/components/BottomSheetBaseV2'
 import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import FilterChipsCarousel, {
@@ -370,7 +369,6 @@ function LearnMoreBottomSheet({
   return (
     <BottomSheetV2
       forwardedRef={learnMoreBottomSheetRef}
-      name={BottomSheetNames.LearnMore}
       title={t('earnFlow.home.learnMoreBottomSheet.bottomSheetTitle')}
       testId={'Earn/Home/LearnMoreBottomSheet'}
       titleStyle={styles.learnMoreTitle}

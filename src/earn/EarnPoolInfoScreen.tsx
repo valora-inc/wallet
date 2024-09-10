@@ -8,7 +8,6 @@ import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import { BottomSheetNames } from 'src/components/BottomSheetBaseV2'
 import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
@@ -621,7 +620,6 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         }
         providerName={appName}
         testId="DepositInfoBottomSheet"
-        name={BottomSheetNames.DepositInfo}
       />
       <InfoBottomSheet
         infoBottomSheetRef={tvlInfoBottomSheetRef}
@@ -629,7 +627,6 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.tvlDescription"
         providerName={appName}
         testId="TvlInfoBottomSheet"
-        name={BottomSheetNames.TvlInfo}
       />
       <InfoBottomSheet
         infoBottomSheetRef={ageInfoBottomSheetRef}
@@ -637,7 +634,6 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.ageDescription"
         providerName={appName}
         testId="AgeInfoBottomSheet"
-        name={BottomSheetNames.AgeInfo}
       />
       <InfoBottomSheet
         infoBottomSheetRef={yieldRateInfoBottomSheetRef}
@@ -646,7 +642,6 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         descriptionUrl={dataProps.manageUrl}
         providerName={appName}
         testId="YieldRateInfoBottomSheet"
-        name={BottomSheetNames.YieldRateInfo}
       />
     </SafeAreaView>
   )
@@ -659,7 +654,6 @@ function InfoBottomSheet({
   descriptionUrl,
   providerName,
   testId,
-  name,
 }: {
   infoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
   titleKey: string
@@ -667,7 +661,6 @@ function InfoBottomSheet({
   descriptionUrl?: string
   providerName: string
   testId: string
-  name: string
 }) {
   const { t } = useTranslation()
 
@@ -685,7 +678,6 @@ function InfoBottomSheet({
       title={t(titleKey)}
       testId={testId}
       titleStyle={styles.infoBottomSheetTitle}
-      name={name}
     >
       {descriptionUrl ? (
         <Text style={styles.infoBottomSheetText}>

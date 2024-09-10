@@ -4,7 +4,6 @@ import { StyleSheet, Text, View } from 'react-native'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
-import { BottomSheetNames } from 'src/components/BottomSheetBaseV2'
 import BottomSheetV2, { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { NotificationVariant } from 'src/components/InLineNotification'
@@ -70,8 +69,7 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
       <BottomSheetV2
         forwardedRef={forwardedRef}
         title={t('revokePhoneNumber.bottomSheetTitle')}
-        testId={`${BottomSheetNames.RevokePhoneNumber}`}
-        name={BottomSheetNames.RevokePhoneNumber}
+        testId="RevokePhoneNumberBottomSheet"
       >
         {!!e164PhoneNumber && (
           <View style={styles.phoneNumber}>

@@ -11,7 +11,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TokenBottomSheetEvents } from 'src/analytics/Events'
-import BottomSheetBaseV2, { BottomSheetNames } from 'src/components/BottomSheetBaseV2'
+import BottomSheetBaseV2 from 'src/components/BottomSheetBaseV2'
 import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import FilterChipsCarousel, {
   FilterChip,
@@ -54,7 +54,6 @@ export type TokenBottomSheetProps = {
   showPriceUsdUnavailableWarning?: boolean
   filterChips?: FilterChip<TokenBalance>[]
   areSwapTokensShuffled?: boolean
-  name?: BottomSheetNames | string
 } & (
   | { isScreen: true; forwardedRef?: undefined }
   | { forwardedRef: RefObject<BottomSheetModalRefType>; isScreen?: false }
@@ -126,7 +125,6 @@ function TokenBottomSheet({
   filterChips = [],
   areSwapTokensShuffled,
   isScreen,
-  name = BottomSheetNames.TokenSelect,
 }: TokenBottomSheetProps) {
   const insets = useSafeAreaInsets()
 
@@ -339,7 +337,7 @@ function TokenBottomSheet({
         content
       ) : (
         <BottomSheetModalProvider>
-          <BottomSheetBaseV2 forwardedRef={forwardedRef} snapPoints={snapPoints} name={name}>
+          <BottomSheetBaseV2 forwardedRef={forwardedRef} snapPoints={snapPoints}>
             {content}
           </BottomSheetBaseV2>
         </BottomSheetModalProvider>

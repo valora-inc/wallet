@@ -14,7 +14,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import { BottomSheetNames } from 'src/components/BottomSheetBaseV2'
 import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
@@ -993,7 +992,6 @@ export function SwapScreen({ route }: Props) {
           searchEnabled={true}
           showPriceUsdUnavailableWarning={true}
           areSwapTokensShuffled={areSwapTokensShuffled}
-          name={`${BottomSheetNames.TokenSelect}-${fieldType}`}
         />
       ))}
       <BottomSheet

@@ -7,7 +7,6 @@ import Colors from 'src/styles/colors'
 
 interface BottomSheetBaseV2Props {
   forwardedRef: React.RefObject<BottomSheetModal>
-  name: string // This is a required prop as it determines which bottom sheet to use when multiple are present
   children?: React.ReactNode | React.ReactNode[]
   onClose?: () => void
   onOpen?: () => void
@@ -20,7 +19,6 @@ interface BottomSheetBaseV2Props {
 
 const BottomSheetBaseV2 = ({
   forwardedRef,
-  name,
   children,
   onClose,
   onOpen,
@@ -60,7 +58,6 @@ const BottomSheetBaseV2 = ({
   return (
     <BottomSheetModal
       ref={forwardedRef}
-      name={name}
       index={-1}
       snapPoints={snapPoints}
       enableDynamicSizing={!snapPoints}
@@ -90,18 +87,3 @@ const styles = StyleSheet.create({
 })
 
 export default BottomSheetBaseV2
-
-// Names of the bottom sheets must be unique and should be added to this enum
-export enum BottomSheetNames {
-  // Token & Network Select
-  MultiSelect = 'MultiSelectBottomSheet',
-  TokenSelect = 'TokenSelectBottomSheet',
-  // Settings
-  RevokePhoneNumber = 'RevokePhoneNumberBottomSheet',
-  // Earn
-  LearnMore = 'LearnMoreBottomSheet',
-  DepositInfo = 'DepositInfoBottomSheet',
-  TvlInfo = 'TvlInfoBottomSheet',
-  AgeInfo = 'AgeInfoBottomSheet',
-  YieldRateInfo = 'YieldRateInfoBottomSheet',
-}
