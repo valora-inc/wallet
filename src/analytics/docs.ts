@@ -344,7 +344,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
     'When user taps the CTA to show ways to add assets',
   [JumpstartEvents.jumpstart_add_assets_action_press]:
     'When user selects an add assets action from the available options',
-  [JumpstartEvents.jumpstart_intro_back]: `when back button is pressed from jumpstart intro screen`,
   [JumpstartEvents.jumpstart_intro_seen]: `when jumpstart intro is seen by the user`,
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,

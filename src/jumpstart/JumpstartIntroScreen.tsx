@@ -1,4 +1,3 @@
-import { type NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -19,15 +18,12 @@ import { jumpstartIntroSeen } from 'src/jumpstart/slice'
 import { navigate, replace } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
-import { type StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
 import { TokenActionName } from 'src/tokens/types'
 import networkConfig from 'src/web3/networkConfig'
-
-type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartIntroScreen>
 
 /**
  * The component is set up to follow specific conditions:
@@ -36,7 +32,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartIntroScreen
  *  - if user has any assets and has already seen intro screen –
  *    this screen should be skipped in favor of JumpstartEnterAmount
  */
-export default function JumpstartIntroScreen({ navigation }: Props) {
+export default function JumpstartIntroScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const insets = useSafeAreaInsets()
@@ -99,15 +95,6 @@ export default function JumpstartIntroScreen({ navigation }: Props) {
 
     replace(Screens.JumpstartEnterAmount)
   }
-
-  // Track back button click
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', () => {
-      AppAnalytics.track(JumpstartEvents.jumpstart_intro_back)
-    })
-
-    return unsubscribe
-  }, [navigation])
 
   // Whenever user sees intro screen for the first time – store the flag in redux and track it in analytics
   useEffect(() => {

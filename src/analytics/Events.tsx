@@ -636,7 +636,6 @@ export enum JumpstartEvents {
   jumpstart_add_assets_show_actions = 'jumpstart_add_assets_show_actions',
   jumpstart_add_assets_action_press = 'jumpstart_add_assets_action_press',
   jumpstart_intro_seen = 'jumpstart_intro_seen',
-  jumpstart_intro_back = 'jumpstart_intro_back',
 }
 
 export enum PointsEvents {
