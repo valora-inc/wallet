@@ -114,8 +114,10 @@ export default function JumpstartIntroScreen() {
         <Text style={styles.title}>{t('jumpstartIntro.title')}</Text>
 
         <View style={styles.description}>
-          <Text style={styles.descriptionLine}>{t('jumpstartIntro.infoLine1')}</Text>
-          {noTokens && <Text style={styles.descriptionLine}>{t('jumpstartIntro.infoLine2')}</Text>}
+          <Text style={styles.descriptionLine}>{t('jumpstartIntro.description')}</Text>
+          {noTokens && (
+            <Text style={styles.descriptionLine}>{t('jumpstartIntro.noAssetsHint')}</Text>
+          )}
         </View>
 
         <Button
