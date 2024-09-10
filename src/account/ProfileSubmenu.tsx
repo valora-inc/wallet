@@ -12,7 +12,7 @@ import { SettingsItemTextValue, SettingsExpandedItem } from 'src/components/Sett
 import User from 'src/icons/User'
 import { useSelector } from 'src/redux/hooks'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
-import { BottomSheetModalRefType } from 'src/components/BottomSheetV2'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Phone from 'src/icons/Phone'
 import RevokePhoneNumber from 'src/RevokePhoneNumber'
 import CustomHeader from 'src/components/header/CustomHeader'
