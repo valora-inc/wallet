@@ -2,8 +2,8 @@ import { FlatList, ScrollView, SectionList } from 'react-native'
 
 module.exports = {
   __esModule: true,
-  ...(jest.requireActual('@gorhom/bottom-sheet') as any),
-  BottomSheetScrollView: ScrollView,
+  ...require('@gorhom/bottom-sheet/mock'),
   BottomSheetFlatList: FlatList,
   BottomSheetSectionList: SectionList,
+  BottomSheetScrollView: ScrollView,
 }
