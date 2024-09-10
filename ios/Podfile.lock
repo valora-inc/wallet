@@ -572,7 +572,7 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.2.1):
     - React-Core
-  - react-native-compat (2.15.2):
+  - react-native-compat (2.16.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - react-native-config (1.5.3):
@@ -808,7 +808,7 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNScreens (3.33.0):
+  - RNScreens (3.34.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - React-RCTImage
@@ -1264,7 +1264,7 @@ SPEC CHECKSUMS:
   React-logger: ed7c9e01e58529065e7da6bf8318baf15024283e
   react-native-adjust: 83114d391a4a7a438e2c4d8e8137bc7810e7076f
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
-  react-native-compat: 6ea87c69265c4fb6263de268eff1de48547b7f1c
+  react-native-compat: 4c9ab93f93b5ab6dcc1176a1cd0a09708ff52a3a
   react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-cookies: 672b2431ca44da2e2942af086d0c83aae42b989a
@@ -1321,7 +1321,7 @@ SPEC CHECKSUMS:
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
   RNReactNativeHapticFeedback: 713abf3266aeacade463e29df9801e8ec3451f73
   RNReanimated: 739d696f5bd3bea1d675a86caec05064ab4d898f
-  RNScreens: f15b076168e4b2bdf3d327015758f36e6654247f
+  RNScreens: a1db0ca347cf9f44ae57b0a2d31991af6d872f7c
   RNSentry: 86e407e1350297d78ad70541ba9d6262ed5864fa
   RNShare: 0fad69ae2d71de9d1f7b9a43acf876886a6cb99c
   RNSVG: b986585e367f4a49d8aa43065066cc9c290b3d9b

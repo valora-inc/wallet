@@ -1005,6 +1005,9 @@
                 "redirect": {
                     "additionalProperties": false,
                     "properties": {
+                        "linkMode": {
+                            "type": "boolean"
+                        },
                         "native": {
                             "type": "string"
                         },
@@ -3520,6 +3523,13 @@
                     "$ref": "#/definitions/ProposalTypes.SessionProperties"
                 },
                 "topic": {
+                    "type": "string"
+                },
+                "transportType": {
+                    "enum": [
+                        "link_mode",
+                        "relay"
+                    ],
                     "type": "string"
                 }
             },
