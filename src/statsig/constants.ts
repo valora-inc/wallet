@@ -107,6 +107,12 @@ export const DynamicConfigs = {
       moreAavePoolsUrl: '',
     },
   },
+  [StatsigDynamicConfigs.APP_CONFIG]: {
+    configName: StatsigDynamicConfigs.APP_CONFIG,
+    defaultValues: {
+      minRequiredVersion: '0.0.0',
+    },
+  },
 } satisfies {
   [key in StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig]: {
     configName: key
