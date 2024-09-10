@@ -119,7 +119,7 @@ function MultiSelectBottomSheet<T extends string>({
         </View>
         <View style={styles.doneButtonContainer}>
           <Touchable
-            testID={'MultiSelectBottomSheet/Done'}
+            testID="MultiSelectBottomSheet/Done"
             style={styles.doneButton}
             onPress={handleClose}
           >
