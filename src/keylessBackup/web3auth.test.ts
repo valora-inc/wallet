@@ -1,16 +1,18 @@
+import { Torus } from '@toruslabs/torus.js'
 import { getTorusPrivateKey } from './web3auth'
-import Torus from '@toruslabs/torus.js'
 
 jest.mock('@toruslabs/torus.js')
 jest.mock('@toruslabs/fetch-node-details', () => {
-  return () => {
-    return {
-      getNodeDetails: jest.fn().mockReturnValue({
-        torusNodeEndpoints: 'foo',
-        torusNodePub: 'bar',
-        torusIndexes: 'baz',
-      }),
-    }
+  return {
+    NodeDetailManager: () => {
+      return {
+        getNodeDetails: jest.fn().mockReturnValue({
+          torusNodeEndpoints: 'foo',
+          torusNodePub: 'bar',
+          torusIndexes: 'baz',
+        }),
+      }
+    },
   }
 })
 
@@ -27,13 +29,13 @@ describe('getTorusPrivateKey', () => {
 
     mockRetrieveShares = jest.fn().mockReturnValue({
       finalKeyData: {
-        evmAddress: 'Some EVM address',
+        walletAddress: 'Some EVM address',
         privKey: 'some private key',
       },
     })
     mockGetPublicAddress = jest.fn().mockReturnValue({
       finalKeyData: {
-        evmAddress: 'Some EVM address',
+        walletAddress: 'Some EVM address',
       },
     })
     jest.mocked(Torus).mockReturnValue({
@@ -50,7 +52,7 @@ describe('getTorusPrivateKey', () => {
   it('should throw when keyshare address does not match torus address', async () => {
     mockRetrieveShares.mockReturnValue({
       finalKeyData: {
-        evmAddress: 'Some different EVM address',
+        walletAddress: 'Some different EVM address',
         privKey: 'some private key',
       },
     })
@@ -62,7 +64,7 @@ describe('getTorusPrivateKey', () => {
   it('should throw when private key missing from share data', async () => {
     mockRetrieveShares.mockReturnValue({
       finalKeyData: {
-        evmAddress: 'Some EVM address',
+        walletAddress: 'Some EVM address',
       },
     })
     await expect(getTorusPrivateKey({ verifier: 'verifier', jwt: MOCK_JWT })).rejects.toThrow(
