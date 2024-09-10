@@ -70,7 +70,7 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
       <BottomSheetV2
         forwardedRef={forwardedRef}
         title={t('revokePhoneNumber.bottomSheetTitle')}
-        testId={`${BottomSheetNames.RevokePhoneNumber}BottomSheet`}
+        testId={`${BottomSheetNames.RevokePhoneNumber}`}
         name={BottomSheetNames.RevokePhoneNumber}
       >
         {!!e164PhoneNumber && (
