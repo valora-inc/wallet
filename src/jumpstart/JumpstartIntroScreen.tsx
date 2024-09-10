@@ -1,4 +1,4 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { type NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -6,23 +6,26 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
-import AddAssetsBottomSheet from 'src/components/AddAssetsBottomSheet'
+import AddAssetsBottomSheet, { type AddAssetsAction } from 'src/components/AddAssetsBottomSheet'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import { type BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader, { CUSTOM_HEADER_HEIGHT } from 'src/components/header/CustomHeader'
+import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import PalmSharp from 'src/images/PalmSharp'
 import WaveCurve from 'src/images/WaveCurve'
 import { jumpstartIntroHasBeenSeenSelector } from 'src/jumpstart/selectors'
 import { jumpstartIntroSeen } from 'src/jumpstart/slice'
-import { useAddAssetsActions } from 'src/jumpstart/useAddAssetsActions'
-import { replace } from 'src/navigator/NavigationService'
+import { navigate, replace } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
+import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
+import { type StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
+import { TokenActionName } from 'src/tokens/types'
+import networkConfig from 'src/web3/networkConfig'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartIntroScreen>
 
@@ -39,10 +42,53 @@ export default function JumpstartIntroScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets()
   const addAssetsBottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const addAssetsActions = useAddAssetsActions()
+  const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
   const introSeen = useSelector(jumpstartIntroHasBeenSeenSelector)
   const tokens = useSelector(jumpstartSendTokensSelector)
   const noTokens = !tokens.length
+  const addAssetsActions: AddAssetsAction[] = [
+    {
+      name: TokenActionName.Add,
+      details: t('jumpstartIntro.addFundsCelo.actionDescriptions.add'),
+      onPress: () => {
+        AppAnalytics.track(JumpstartEvents.jumpstart_add_assets_action_press, {
+          action: TokenActionName.Add,
+        })
+        navigate(Screens.FiatExchangeCurrencyBottomSheet, {
+          flow: FiatExchangeFlow.CashIn,
+          networkId: networkConfig.defaultNetworkId,
+        })
+      },
+    },
+    {
+      name: TokenActionName.Transfer,
+      details: t('jumpstartIntro.addFundsCelo.actionDescriptions.transfer'),
+      onPress: () => {
+        AppAnalytics.track(JumpstartEvents.jumpstart_add_assets_action_press, {
+          action: TokenActionName.Transfer,
+        })
+        navigate(Screens.ExchangeQR, {
+          flow: CICOFlow.CashIn,
+        })
+      },
+    },
+    ...(isSwapEnabled
+      ? [
+          {
+            name: TokenActionName.Swap as const,
+            details: t('jumpstartIntro.addFundsCelo.actionDescriptions.swap'),
+            onPress: () => {
+              AppAnalytics.track(JumpstartEvents.jumpstart_add_assets_action_press, {
+                action: TokenActionName.Swap,
+              })
+              navigate(Screens.SwapScreenWithBack, {
+                toTokenNetworkId: networkConfig.defaultNetworkId,
+              })
+            },
+          },
+        ]
+      : []),
+  ]
 
   const onButtonClick = () => {
     if (noTokens) {
