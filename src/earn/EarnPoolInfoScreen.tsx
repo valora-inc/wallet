@@ -492,9 +492,7 @@ function ActionButtons({
       {deposit && (
         <Button
           text={t('earnFlow.poolInfoScreen.deposit')}
-          onPress={() => {
-            onPressDeposit
-          }}
+          onPress={onPressDeposit}
           size={BtnSizes.FULL}
           style={styles.flex}
         />
@@ -826,7 +824,7 @@ function BeforeDepositBottomSheet({
     if (canCrossChainSwapToDeposit) {
       visibleActions.push({
         name: canSameChainSwapToDeposit ? TokenActionName.CrossChainSwap : TokenActionName.Swap,
-        details: canCrossChainSwapToDeposit
+        details: canSameChainSwapToDeposit
           ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainSwapActionDescription', {
               tokenSymbol: token.symbol,
               tokenNetwork: NETWORK_NAMES[token.networkId],
@@ -896,7 +894,7 @@ function BeforeDepositBottomSheet({
       forwardedRef={forwardedRef}
       actions={actions}
       title={
-        canCrossChainSwapToDeposit
+        canSameChainSwapToDeposit
           ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.youNeedTitle', {
               tokenSymbol: token.symbol,
               tokenNetwork: NETWORK_NAMES[token.networkId],
@@ -904,14 +902,14 @@ function BeforeDepositBottomSheet({
           : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositTitle')
       }
       description={
-        canCrossChainSwapToDeposit
+        canSameChainSwapToDeposit
           ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainAlternativeDescription', {
               tokenNetwork: NETWORK_NAMES[token.networkId],
             })
           : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositDescription')
       }
       testId={'Earn/BeforeDepositBottomSheet'}
-      showDescriptionAfterFirstAction={canCrossChainSwapToDeposit}
+      showDescriptionAfterFirstAction={canSameChainSwapToDeposit}
     />
   )
 }
