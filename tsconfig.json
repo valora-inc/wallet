@@ -23,7 +23,6 @@
     "skipLibCheck": true,
     "target": "es2015",
     "strict": true,
-    "types": ["./src/i18next.d.ts"],
     "resolveJsonModule": true
   },
   "files": ["jest_setup.ts"],
