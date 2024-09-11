@@ -3,11 +3,14 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import Support from 'src/account/Support'
-import { FAQ_LINK, FORUM_LINK } from 'src/config'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
+
+jest.mock('src/statsig')
 
 const renderSupport = () =>
   render(
@@ -17,16 +20,30 @@ const renderSupport = () =>
   )
 
 describe('Support', () => {
+  beforeEach(() => {
+    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+      if (configName === StatsigDynamicConfigs.APP_CONFIG) {
+        return {
+          externalLinks: {
+            faq: 'https://example.com/faq',
+            forum: 'https://example.com/forum',
+          },
+        }
+      }
+      return {} as any
+    })
+  })
+
   it('navigates to Web FAQ', () => {
     const contact = renderSupport()
     fireEvent.press(contact.getByTestId('FAQLink'))
-    expect(navigateToURI).toBeCalledWith(FAQ_LINK)
+    expect(navigateToURI).toBeCalledWith('https://example.com/faq')
   })
 
   it('navigates to Forum', () => {
     const contact = renderSupport()
     fireEvent.press(contact.getByTestId('ForumLink'))
-    expect(navigateToURI).toBeCalledWith(FORUM_LINK)
+    expect(navigateToURI).toBeCalledWith('https://example.com/forum')
   })
 
   it('navigates to Contact', () => {

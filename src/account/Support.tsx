@@ -2,14 +2,16 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import BackButton from 'src/components/BackButton'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
-import { FAQ_LINK, FORUM_LINK } from 'src/config'
+import CustomHeader from 'src/components/header/CustomHeader'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { navigateToURI } from 'src/utils/linking'
-import CustomHeader from 'src/components/header/CustomHeader'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import variables from 'src/styles/variables'
-import BackButton from 'src/components/BackButton'
+import { navigateToURI } from 'src/utils/linking'
 
 const openExternalLink = (link: string) => () => navigateToURI(link)
 
@@ -19,23 +21,29 @@ const onPressContact = () => {
 
 const Support = () => {
   const { t } = useTranslation()
+  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   return (
     <SafeAreaView>
       <CustomHeader left={<BackButton />} title={t('help')} style={styles.paddingHorizontal} />
       <ScrollView>
-        <SettingsItemTextValue
-          testID="FAQLink"
-          title={t('faq')}
-          onPress={openExternalLink(FAQ_LINK)}
-          isExternalLink
-        />
-        <SettingsItemTextValue
-          testID="ForumLink"
-          title={t('forum')}
-          onPress={openExternalLink(FORUM_LINK)}
-          isExternalLink
-        />
+        {!!externalLinks.faq && (
+          <SettingsItemTextValue
+            testID="FAQLink"
+            title={t('faq')}
+            onPress={openExternalLink(externalLinks.faq)}
+            isExternalLink
+          />
+        )}
+        {!!externalLinks.forum && (
+          <SettingsItemTextValue
+            testID="ForumLink"
+            title={t('forum')}
+            onPress={openExternalLink(externalLinks.forum)}
+            isExternalLink
+          />
+        )}
+
         <SettingsItemTextValue
           testID="SupportContactLink"
           title={t('contact')}
