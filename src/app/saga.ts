@@ -17,7 +17,6 @@ import {
   appLock,
   inAppReviewRequested,
   inviteLinkConsumed,
-  minAppVersionDetermined,
   openDeepLink,
   setAppState,
   setSupportedBiometryType,
@@ -35,7 +34,7 @@ import { CeloNewsConfig } from 'src/celoNews/types'
 import { DEFAULT_APP_LANGUAGE, FETCH_TIMEOUT_DURATION, isE2EEnv } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
-import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
+import { fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { initI18n } from 'src/i18n'
 import {
   allowOtaTranslationsSelector,
@@ -131,28 +130,6 @@ export function* appInit() {
   }
 
   SentryTransactionHub.finishTransaction(SentryTransaction.app_init_saga)
-}
-
-export function* appVersionSaga() {
-  const appVersionChannel = yield* call(appVersionDeprecationChannel)
-  if (!appVersionChannel) {
-    return
-  }
-  try {
-    while (true) {
-      const minRequiredVersion = yield* take(appVersionChannel)
-      Logger.info(TAG, `Required min version: ${minRequiredVersion}`)
-      // Note: The NavigatorWrapper will read this value from the store and
-      // show the UpdateScreen if necessary.
-      yield* put(minAppVersionDetermined(minRequiredVersion))
-    }
-  } catch (error) {
-    Logger.error(`${TAG}@appVersionSaga`, 'Failed to watch app version', error)
-  } finally {
-    if (yield* cancelled()) {
-      appVersionChannel.close()
-    }
-  }
 }
 
 // Check the availability of Google Mobile Services and Huawei Mobile Services, an alternative to

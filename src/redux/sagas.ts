@@ -11,7 +11,6 @@ import {
   appInit,
   appRemoteFeatureFlagSaga,
   appSaga,
-  appVersionSaga,
   checkAndroidMobileServicesSaga,
 } from 'src/app/saga'
 import { dappsSaga } from 'src/dapps/saga'
@@ -97,7 +96,6 @@ export function* rootSaga() {
 
     // Note, the order of these does matter in certain cases
     yield* spawn(analyticsSaga)
-    yield* spawn(appVersionSaga)
     yield* spawn(appRemoteFeatureFlagSaga)
     yield* spawn(loggerSaga)
     yield* spawn(appSaga)

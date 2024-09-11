@@ -29,7 +29,6 @@ export enum Actions {
   UNLOCK = 'APP/UNLOCK',
   SET_SESSION_ID = 'SET_SESSION_ID',
   OPEN_URL = 'APP/OPEN_URL',
-  MIN_APP_VERSION_DETERMINED = 'APP/MIN_APP_VERSION_DETERMINED',
   UPDATE_REMOTE_CONFIG_VALUES = 'APP/UPDATE_REMOTE_CONFIG_VALUES',
   ACTIVE_SCREEN_CHANGED = 'APP/ACTIVE_SCREEN_CHANGED',
   APP_MOUNTED = 'APP/APP_MOUNTED',
@@ -125,11 +124,6 @@ export interface OpenUrlAction {
   isSecureOrigin: boolean
 }
 
-interface MinAppVersionDeterminedAction {
-  type: Actions.MIN_APP_VERSION_DETERMINED
-  minVersion: string | null
-}
-
 export interface UpdateConfigValuesAction {
   type: Actions.UPDATE_REMOTE_CONFIG_VALUES
   configValues: RemoteConfigValues
@@ -199,7 +193,6 @@ export type ActionTypes =
   | Unlock
   | SetSessionId
   | OpenUrlAction
-  | MinAppVersionDeterminedAction
   | UpdateConfigValuesAction
   | ActiveScreenChangedAction
   | AppMounted
@@ -296,13 +289,6 @@ export const openUrl = (
   url,
   openExternal,
   isSecureOrigin,
-})
-
-export const minAppVersionDetermined = (
-  minVersion: string | null
-): MinAppVersionDeterminedAction => ({
-  type: Actions.MIN_APP_VERSION_DETERMINED,
-  minVersion,
 })
 
 export const updateRemoteConfigValues = (
