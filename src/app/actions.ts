@@ -18,7 +18,6 @@ export enum MultichainBetaStatus {
 export enum Actions {
   SET_APP_STATE = 'APP/SET_APP_STATE',
   SET_LOGGED_IN = 'APP/SET_LOGGED_IN',
-  SET_NUMBER_VERIFIED = 'APP/SET_NUMBER_VERIFIED',
   SET_SUPPORTED_BIOMETRY_TYPE = 'APP/SET_SUPPORTED_BIOMETRY_TYPE',
   OPEN_DEEP_LINK = 'APP/OPEN_DEEP_LINK',
   DEEP_LINK_DEFERRED = 'APP/DEEP_LINK_DEFERRED',
@@ -52,11 +51,6 @@ export interface SetAppState {
 interface SetLoggedIn {
   type: Actions.SET_LOGGED_IN
   loggedIn: boolean
-}
-
-interface SetNumberVerifiedAction {
-  type: Actions.SET_NUMBER_VERIFIED
-  numberVerified: boolean
 }
 
 interface SetSupportedBiometryType {
@@ -178,7 +172,6 @@ interface OptMultichainBeta {
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
-  | SetNumberVerifiedAction
   | SetSupportedBiometryType
   | OpenDeepLink
   | SetAnalyticsEnabled
@@ -211,11 +204,6 @@ export const setAppState = (state: string): SetAppState => ({
 export const setLoggedIn = (loggedIn: boolean) => ({
   type: Actions.SET_LOGGED_IN,
   loggedIn,
-})
-
-export const setNumberVerified = (numberVerified: boolean) => ({
-  type: Actions.SET_NUMBER_VERIFIED,
-  numberVerified,
 })
 
 export const setSupportedBiometryType = (supportedBiometryType: BIOMETRY_TYPE | null) => ({
