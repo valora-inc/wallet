@@ -148,7 +148,6 @@ describe('store state', () => {
           "logPhoneNumberTypeEnabled": false,
           "loggedIn": false,
           "maxSwapSlippagePercentage": 2,
-          "minVersion": null,
           "multichainBetaStatus": "NotSeen",
           "networkTimeoutSeconds": 30,
           "numberVerified": false,

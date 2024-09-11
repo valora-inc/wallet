@@ -5,6 +5,8 @@ import * as React from 'react'
 import { Linking } from 'react-native'
 import { Provider } from 'react-redux'
 import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/statsig')
@@ -35,17 +37,21 @@ describe('NavigatorWrapper', () => {
     jest.clearAllMocks()
   })
 
-  function renderNavigatorWrapper() {
-    const store = createMockStore()
-    render(
-      <Provider store={store}>
+  it('initializes the deep links handlers', async () => {
+    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+      if (configName === StatsigDynamicConfigs.APP_CONFIG) {
+        return {
+          minRequiredVersion: '0.0.1', // matches DeviceInfo mocks
+        }
+      }
+      return {} as any
+    })
+
+    const { queryByText } = render(
+      <Provider store={createMockStore()}>
         <NavigatorWrapper />
       </Provider>
     )
-  }
-
-  it('initializes the deep links handlers', async () => {
-    renderNavigatorWrapper()
 
     await waitFor(() => expect(CleverTap.addListener).toHaveBeenCalled())
     expect(Linking.addEventListener).toHaveBeenCalled()
@@ -53,5 +59,25 @@ describe('NavigatorWrapper', () => {
     expect(CleverTap.getInitialUrl).toHaveBeenCalled()
     expect(Linking.getInitialURL).toHaveBeenCalled()
     expect(dynamicLinks().getInitialLink).toHaveBeenCalled()
+    expect(queryByText('appUpdateAvailable')).toBeFalsy()
+  })
+
+  it('shows the upgrade screen if the version is below the minimum', () => {
+    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+      if (configName === StatsigDynamicConfigs.APP_CONFIG) {
+        return {
+          minRequiredVersion: '2.0.0', // greater than DeviceInfo mocks
+        }
+      }
+      return {} as any
+    })
+
+    const { getByText } = render(
+      <Provider store={createMockStore()}>
+        <NavigatorWrapper />
+      </Provider>
+    )
+
+    expect(getByText('appUpdateAvailable')).toBeTruthy()
   })
 })

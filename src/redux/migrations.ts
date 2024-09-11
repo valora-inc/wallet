@@ -1903,6 +1903,10 @@ export const migrations = {
   },
   230: (state: any) => ({
     ...state,
+    app: _.omit(state.app, 'minVersion'),
+  }),
+  231: (state: any) => ({
+    ...state,
     jumpstart: {
       ...state.jumpstart,
       introHasBeenSeen: false,

@@ -618,8 +618,6 @@ If they do not have fixes and they do not apply to production, you may ignore th
 
 Images related to the brand are stored in the `src/images` folder. When adding new images, we also include the 1.5x, 2x, 3x, and 4x versions. The app will automatically download the appropriate size.
 
-Links related to the brand are stored in the `src/brandingConfig.ts` file.
-
 ### Troubleshooting
 
 #### Postinstall script
