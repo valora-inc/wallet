@@ -56,7 +56,7 @@ function getStore(
 }
 
 const renderEarnPoolInfoScreen = (pool: EarnPosition) =>
-  render( 
+  render(
     <Provider store={getStore()}>
       <MockedNavigator component={EarnPoolInfoScreen} params={{ pool }} />
     </Provider>
