@@ -2,10 +2,10 @@ import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState, MultichainBetaStatus } from 'src/app/actions'
 import { CeloNewsConfig } from 'src/celoNews/types'
+import { DEEPLINK_PREFIX } from 'src/config'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { DEEPLINK_PREFIX } from 'src/config'
 
 const PERSISTED_DEEP_LINKS = [
   'https://valoraapp.com/share',
@@ -22,7 +22,6 @@ interface State {
   locked: boolean
   lastTimeBackgrounded: number
   sessionId: string
-  minVersion: string | null
   celoEducationUri: string | null
   activeScreen: Screens
   walletConnectV2Enabled: boolean
@@ -68,7 +67,6 @@ const initialState = {
   locked: false,
   lastTimeBackgrounded: 0,
   sessionId: '',
-  minVersion: null,
   celoEducationUri: null,
   activeScreen: Screens.Main,
   walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
@@ -182,11 +180,6 @@ export const appReducer = (
       return {
         ...state,
         sessionId: action.sessionId,
-      }
-    case Actions.MIN_APP_VERSION_DETERMINED:
-      return {
-        ...state,
-        minVersion: action.minVersion,
       }
     case Actions.UPDATE_REMOTE_CONFIG_VALUES:
       return {

@@ -102,6 +102,7 @@ jobs:
           CELO_RELEASE_KEY_PASSWORD: ${{ steps.google-secrets.outputs.CELO_RELEASE_KEY_PASSWORD }}
           EMERGE_API_TOKEN: ${{ steps.google-secrets.outputs.EMERGE_API_TOKEN }}
           SUPPLY_UPLOAD_MAX_RETRIES: 5
+          RUBYOPT: '-rostruct' # TODO: Remove when https://github.com/fastlane/fastlane/pull/21950 gets released
         run: bundle exec fastlane android ${{ matrix.lane }}
       - name: Build notification
         if: always()
