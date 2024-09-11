@@ -142,8 +142,8 @@ function* createWalletConnectChannel() {
       metadata: {
         name: APP_NAME,
         description: i18n.t('appDescription'),
-        url: links.baseUrl,
-        icons: [appendPath(links.baseUrl, 'favicon.ico')],
+        url: links.web,
+        icons: [appendPath(links.web, 'favicon.ico')],
         redirect: {
           native: `${DEEPLINK_PREFIX}://wallet/wc`,
           universal: 'https://valoraapp.com/wc',

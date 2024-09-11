@@ -112,7 +112,7 @@ export const DynamicConfigs = {
     defaultValues: {
       minRequiredVersion: '0.0.0',
       links: {
-        baseUrl: 'https://valora.xyz/',
+        web: 'https://valora.xyz/',
         tos: 'https://valora.xyz/terms',
         privacy: 'https://valora.xyz/privacy',
         faq: 'https://valora.xyz/faq',
