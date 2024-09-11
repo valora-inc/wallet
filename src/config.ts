@@ -5,13 +5,12 @@ import { SpendMerchant } from 'src/fiatExchanges/Spend'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
+import { LaunchArguments } from 'react-native-launch-arguments'
 import { HomeActionName } from 'src/home/types'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 import { stringToBoolean } from 'src/utils/parsing'
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
-export * from 'src/brandingConfig'
-import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
-import { LaunchArguments } from 'react-native-launch-arguments'
 
 export interface ExpectedLaunchArgs {
   statsigGateOverrides?: string // format: gate_1=true,gate_2=false
@@ -35,6 +34,8 @@ const configOrThrow = (key: string) => {
   }
   throw new RangeError(`Missing Config value for ${key}`)
 }
+
+export const APP_NAME = 'Valora'
 
 // DEV only related settings
 export const isE2EEnv = stringToBoolean(Config.IS_E2E || 'false')
