@@ -4,6 +4,7 @@ import reducer, {
   jumpstartClaimLoadingDismissed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
+  jumpstartIntroSeen,
 } from 'src/jumpstart/slice'
 
 describe('Wallet Jumpstart', () => {
@@ -35,5 +36,11 @@ describe('Wallet Jumpstart', () => {
     const updatedState = reducer(undefined, jumpstartClaimErrorDismissed())
 
     expect(updatedState).toHaveProperty('claimStatus', 'idle')
+  })
+
+  it('should handle jumpstart intro being seen', () => {
+    const updatedState = reducer(undefined, jumpstartIntroSeen())
+
+    expect(updatedState).toHaveProperty('introHasBeenSeen', false)
   })
 })
