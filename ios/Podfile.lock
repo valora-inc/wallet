@@ -611,11 +611,11 @@ PODS:
     - Toast (~> 4)
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-video (6.1.2):
+  - react-native-video (6.5.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-    - react-native-video/Video (= 6.1.2)
-  - react-native-video/Video (6.1.2):
+    - react-native-video/Video (= 6.5.0)
+  - react-native-video/Video (6.5.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - react-native-webview (13.8.6):
@@ -1279,7 +1279,7 @@ SPEC CHECKSUMS:
   react-native-shake: 0c36371dd63019afa68890ccc65a442ee21b4dde
   react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-video: 6e80920694028e9b80ca93f3ce014e4b270c0c7f
+  react-native-video: 34095830f0a9cce593700f3f0744e34c667052c5
   react-native-webview: e521df378b9d03a17ea66b6724bfc771fd788502
   React-NativeModulesApple: a2c783eea2b9354534d6e991669d5051435b51db
   React-perflogger: 6acc671f527e69c0cd93b8e62821d33d3ddf25ca
