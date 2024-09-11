@@ -3,7 +3,7 @@ export const SAMPLE_BACKUP_KEY =
   'industry almost clinic kitchen garage vibrant episode credit solution blanket repair whisper height autumn elevator abstract viable gate girl sadness price process hard ready'
 export const SAMPLE_PRIVATE_KEY = // corresponds to backup key above
   '0x81f25dc705a953868e172e155ef02ecdf4e0b950af91918d0dd13fb5f586945c'
-export const SAMPLE_WALLET_ADDRESS = '0x3f4f42aC3a5A3c54454F9d00C27bCAFA78Cc6856' // corresponds to the backup key above
+export const SAMPLE_WALLET_ADDRESS = '0x3f4f42ac3a5a3c54454f9d00c27bcafa78cc6856' // corresponds to the backup key above
 export const SAMPLE_BACKUP_KEY_VERIFIED =
   'call broccoli practice engage private amused seek sure barely horn oyster try farm nest victory cloth pilot sense return glad wrist toilet device upset'
 export const SAMPLE_WALLET_ADDRESS_VERIFIED = '0x4971094C1cB186b5589E5709c83D28c264865925' // corresponds to the backup key above
