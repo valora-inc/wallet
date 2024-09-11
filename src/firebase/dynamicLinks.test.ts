@@ -15,7 +15,7 @@ describe('dynamic links', () => {
       if (configName === StatsigDynamicConfigs.APP_CONFIG) {
         return {
           links: {
-            baseUrl: 'https://celo.org/',
+            web: 'https://celo.org/',
           },
         }
       }
