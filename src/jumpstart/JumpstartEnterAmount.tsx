@@ -175,10 +175,14 @@ function JumpstartEnterAmount() {
     jumpstartSendStatus === 'success' ||
     jumpstartSendStatus === 'loading'
 
-  // Track it in analytics Whenever user sees intro screen for the first time
+  const onIntroDismiss = () => {
+    dispatch(jumpstartIntroSeen())
+    replace(Screens.JumpstartEnterAmount)
+  }
+
+  // Track it in analytics whenever user sees intro screen for the first time
   useEffect(() => {
     if (!introSeen) {
-      console.log('TRACKTRACK')
       AppAnalytics.track(JumpstartEvents.jumpstart_intro_seen)
     }
   }, [introSeen, dispatch])
@@ -192,11 +196,8 @@ function JumpstartEnterAmount() {
       <JumpstartIntro
         button={
           <Button
-            onPress={() => {
-              dispatch(jumpstartIntroSeen())
-              replace(Screens.JumpstartEnterAmount)
-            }}
-            text={t('jumpstartIntro.addFundsCelo.cta')}
+            onPress={onIntroDismiss}
+            text={t('jumpstartIntro.haveFundsButton')}
             type={BtnTypes.PRIMARY}
             size={BtnSizes.FULL}
           />

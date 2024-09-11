@@ -32,7 +32,7 @@ export default function JumpstartIntro({ button, children, showNoAssetsHint }: P
         <View style={styles.description}>
           <Text style={styles.descriptionLine}>{t('jumpstartIntro.description')}</Text>
           {showNoAssetsHint && (
-            <Text style={styles.descriptionLine}>{t('jumpstartIntro.noAssetsHint')}</Text>
+            <Text style={styles.descriptionLine}>{t('jumpstartIntro.noFundsHint')}</Text>
           )}
         </View>
 

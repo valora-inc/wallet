@@ -62,6 +62,9 @@ const store = createMockStore({
   tokens: {
     tokenBalances,
   },
+  jumpstart: {
+    introHasBeenSeen: true,
+  },
 })
 
 const executeSpy = jest.fn()
@@ -218,6 +221,7 @@ describe('JumpstartEnterAmount', () => {
       },
       jumpstart: {
         depositStatus: 'success',
+        introHasBeenSeen: true,
       },
     })
     rerender(

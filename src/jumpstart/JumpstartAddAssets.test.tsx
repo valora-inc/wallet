@@ -27,8 +27,8 @@ describe('JumpstartAddAssets', () => {
     )
 
     expect(getByText('jumpstartIntro.title')).toBeTruthy()
-    expect(getByText('jumpstartIntro.addFundsCelo.info')).toBeTruthy()
-    expect(getByText('jumpstartIntro.addFundsCelo.cta')).toBeTruthy()
+    expect(getByText('jumpstartIntro.description')).toBeTruthy()
+    expect(getByText('jumpstartIntro.noFundsHint')).toBeTruthy()
 
     expect(getByText('addFundsActions.transfer')).toBeTruthy()
     expect(queryByText('addFundsActions.swap')).toBeFalsy()

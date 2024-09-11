@@ -9,7 +9,7 @@ import {
   request as requestPermission,
 } from 'react-native-permissions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import { SendEvents } from 'src/analytics/Events'
+import { JumpstartEvents, SendEvents } from 'src/analytics/Events'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import SelectRecipientButton from 'src/components/SelectRecipientButton'
@@ -150,7 +150,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
   }
 
   const onPressJumpstart = () => {
-    // AppAnalytics.track(JumpstartEvents.send_select_recipient_jumpstart)
+    AppAnalytics.track(JumpstartEvents.send_select_recipient_jumpstart)
     navigate(Screens.JumpstartEnterAmount)
   }
 
