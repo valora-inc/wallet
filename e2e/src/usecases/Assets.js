@@ -1,6 +1,6 @@
 import { english, generateMnemonic } from 'viem/accounts'
 import { DEFAULT_RECIPIENT_ADDRESS, SAMPLE_BACKUP_KEY } from '../utils/consts'
-import { launchApp, reloadReactNative } from '../utils/retries'
+import { launchApp } from '../utils/retries'
 import {
   quickOnboarding,
   waitForElementByIdAndTap,
@@ -103,9 +103,7 @@ export default Assets = () => {
 
     describe.each(tokens)('For $symbol', ({ symbol, tokenId, learnMore, actions, moreActions }) => {
       it('navigates to asset details on tapping asset', async () => {
-        await element(by.id(`TokenBalanceItemTouchable/${tokenId}`))
-          .atIndex(0)
-          .tap()
+        await waitForElementByIdAndTap(`TokenBalanceItemTouchable/${tokenId}`)
         await waitForElementId('TokenDetails/AssetValue')
       })
 
@@ -162,13 +160,7 @@ export default Assets = () => {
             .toBeVisible()
             .withTimeout(10 * 1000)
           await element(by.id('WebViewScreen/CloseButton')).tap()
-          await scrollIntoViewByTestId(
-            'TokenDetails/AssetValue',
-            'TokenDetailsScrollView',
-            350,
-            'up'
-          )
-          await waitForElementId('TokenDetails/TitleImage')
+          await waitForElementId('TokenBalanceItem')
         })
       }
 
