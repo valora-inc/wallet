@@ -190,8 +190,7 @@ function EarnEnterAmount({ route }: Props) {
     prepareTransactionsResult.transactions.length > 0
 
   const disabled =
-    // Should disable if the user enters 0 or has enough balance but the transaction is not possible,
-    // shouldn't disable if they enter an amount larger than their balance as they will go to add flow
+    // Should disable if the user enters 0, has enough balance but the transaction is not possible, or does not have enough balance
     !!tokenAmount?.isZero() || !transactionIsPossible
 
   const onTokenAmountInputChange = (value: string) => {
@@ -314,13 +313,13 @@ function EarnEnterAmount({ route }: Props) {
                   <Text
                     testID="EarnEnterAmount/Deposit"
                     numberOfLines={1}
-                    style={styles.depositLabel}
+                    style={styles.cardLineLabelText}
                   >
                     {t('earnFlow.enterAmount.deposit')}
                   </Text>
                 </View>
                 <View style={styles.flexShrink}>
-                  <Text style={styles.depositAndEarningsCardValueText}>
+                  <Text style={styles.cardValueText}>
                     <TokenDisplay
                       tokenId={token.tokenId}
                       testID="EarnEnterAmount/Deposit/Crypto"
@@ -342,7 +341,7 @@ function EarnEnterAmount({ route }: Props) {
               </View>
               <View style={styles.cardLineContainer}>
                 <View style={styles.cardLineLabel}>
-                  <Text numberOfLines={1} style={styles.depositLabel}>
+                  <Text numberOfLines={1} style={styles.cardLineLabelText}>
                     {t('earnFlow.enterAmount.fees')}
                   </Text>
                   <Touchable borderRadius={24} testID={'DepositInfoIcon'}>
@@ -350,7 +349,7 @@ function EarnEnterAmount({ route }: Props) {
                   </Touchable>
                 </View>
                 <View style={styles.flexShrink}>
-                  <Text style={styles.depositAndEarningsCardValueText}>
+                  <Text style={styles.cardValueText}>
                     <TokenDisplay tokenId={feeCurrency.tokenId} amount={maxFeeAmount.toString()} />
                   </Text>
                 </View>
@@ -591,7 +590,7 @@ const styles = StyleSheet.create({
     paddingRight: 20, // Prevents Icon from being cut off on long labels
     minWidth: '35%',
   },
-  depositLabel: {
+  cardLineLabelText: {
     ...typeScale.bodyMedium,
     color: Colors.gray4,
     flexWrap: 'wrap',
@@ -603,7 +602,7 @@ const styles = StyleSheet.create({
   gray4: {
     color: Colors.gray4,
   },
-  depositAndEarningsCardValueText: {
+  cardValueText: {
     ...typeScale.bodyMedium,
     color: Colors.black,
     flexWrap: 'wrap',
