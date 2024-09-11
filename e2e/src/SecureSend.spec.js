@@ -1,5 +1,6 @@
 import SecureSend from './usecases/SecureSend'
 
 describe('Given', () => {
-  describe('SecureSend with CPV', SecureSend)
+  // TODO(mobilestack): Un-skip this usecase if we support CPV
+  // describe('SecureSend with CPV', SecureSend)
 })
