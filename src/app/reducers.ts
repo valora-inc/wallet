@@ -150,12 +150,6 @@ export const appReducer = (
         ...state,
         numberVerified: action.numberVerified,
       }
-    case Actions.RESET_APP_OPENED_STATE:
-      return {
-        ...state,
-        loggedIn: false,
-        numberVerified: false,
-      }
     case Actions.SET_ANALYTICS_ENABLED:
       return {
         ...state,

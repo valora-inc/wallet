@@ -2,15 +2,13 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { clearStoredAccount } from 'src/account/actions'
 import { navigate } from 'src/navigator/NavigationService'
-import SettingsMenu from 'src/navigator/SettingsMenu'
 import { Screens } from 'src/navigator/Screens'
+import SettingsMenu from 'src/navigator/SettingsMenu'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mockE164Number } from 'test/values'
-import * as Sentry from '@sentry/react-native'
-import { resetAppOpenedState, setNumberVerified } from 'src/app/actions'
-import { clearStoredAccount, toggleBackupState } from 'src/account/actions'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn().mockReturnValue(false),
@@ -141,25 +139,9 @@ describe('SettingsMenu', () => {
     )
 
     store.clearActions()
-    fireEvent.press(getByText('Toggle verification done'))
-    fireEvent.press(getByText('Reset app opened state'))
-    fireEvent.press(getByText('Toggle backup state'))
-    fireEvent.press(getByText('Wipe Redux Store'))
     fireEvent.press(getByText('App Quick Reset'))
 
-    expect(store.getActions()).toEqual([
-      setNumberVerified(false),
-      resetAppOpenedState(),
-      toggleBackupState(),
-      clearStoredAccount(mockAddress, true),
-      clearStoredAccount(mockAddress),
-    ])
-
-    fireEvent.press(getByText('Show Debug Screen'))
-    expect(navigate).toHaveBeenCalledWith(Screens.Debug)
-
-    fireEvent.press(getByText('Trigger a crash'))
-    expect(Sentry.nativeCrash).toHaveBeenCalled()
+    expect(store.getActions()).toEqual([clearStoredAccount(mockAddress)])
 
     fireEvent.press(getByText('See app assets'))
     expect(navigate).toHaveBeenCalledWith(Screens.DebugImages)

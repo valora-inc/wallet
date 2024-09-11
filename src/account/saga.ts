@@ -49,21 +49,19 @@ const TAG = 'account/saga'
 
 export const SENTINEL_MIGRATE_COMMENT = '__CELO_MIGRATE_TX__'
 
-function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccountAction) {
+function* clearStoredAccountSaga({ account }: ClearStoredAccountAction) {
   try {
-    if (!onlyReduxState) {
-      yield* call(removeAccountLocally, account)
-      yield* call(clearStoredMnemonic)
-      yield* call(AppAnalytics.reset)
-      yield* call(clearStoredAccounts)
+    yield* call(removeAccountLocally, account)
+    yield* call(clearStoredMnemonic)
+    yield* call(AppAnalytics.reset)
+    yield* call(clearStoredAccounts)
 
-      // Ignore error if it was caused by Firebase.
-      try {
-        yield* call(firebaseSignOut, firebase.app())
-      } catch (error) {
-        if (FIREBASE_ENABLED) {
-          Logger.error(TAG + '@clearStoredAccount', 'Failed to sign out from Firebase', error)
-        }
+    // Ignore error if it was caused by Firebase.
+    try {
+      yield* call(firebaseSignOut, firebase.app())
+    } catch (error) {
+      if (FIREBASE_ENABLED) {
+        Logger.error(TAG + '@clearStoredAccount', 'Failed to sign out from Firebase', error)
       }
     }
 

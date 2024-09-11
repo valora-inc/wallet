@@ -22,7 +22,6 @@ export enum Actions {
   SET_SUPPORTED_BIOMETRY_TYPE = 'APP/SET_SUPPORTED_BIOMETRY_TYPE',
   OPEN_DEEP_LINK = 'APP/OPEN_DEEP_LINK',
   DEEP_LINK_DEFERRED = 'APP/DEEP_LINK_DEFERRED',
-  RESET_APP_OPENED_STATE = 'APP/RESET_APP_OPENED_STATE',
   SET_ANALYTICS_ENABLED = 'APP/SET_ANALYTICS_ENABLED',
   SET_LOCK_WITH_PIN_ENABLED = 'APP/SET_LOCK_WITH_PIN_ENABLED',
   LOCK = 'APP/LOCK',
@@ -75,10 +74,6 @@ interface DeepLinkDeferred {
   type: Actions.DEEP_LINK_DEFERRED
   deepLink: string
   isSecureOrigin: boolean
-}
-
-interface ResetAppOpenedState {
-  type: Actions.RESET_APP_OPENED_STATE
 }
 
 interface SetAnalyticsEnabled {
@@ -185,7 +180,6 @@ export type ActionTypes =
   | SetLoggedIn
   | SetNumberVerifiedAction
   | SetSupportedBiometryType
-  | ResetAppOpenedState
   | OpenDeepLink
   | SetAnalyticsEnabled
   | SetRequirePinOnAppOpen
@@ -244,10 +238,6 @@ export const deepLinkDeferred = (deepLink: string, isSecureOrigin: boolean): Dee
     isSecureOrigin,
   }
 }
-
-export const resetAppOpenedState = () => ({
-  type: Actions.RESET_APP_OPENED_STATE,
-})
 
 export const setAnalyticsEnabled = (enabled: boolean): SetAnalyticsEnabled => ({
   type: Actions.SET_ANALYTICS_ENABLED,
