@@ -17,8 +17,8 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
+import { Card } from 'src/earn/Card'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
-import { Card } from 'src/earn/EarnPoolInfoScreen'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -266,7 +266,7 @@ function EarnEnterAmount({ route }: Props) {
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.inputContainer}>
-          <Text style={styles.title}>{t('sendEnterAmountScreen.title')}</Text>
+          <Text style={styles.title}>{t('earnFlow.enterAmount.title')}</Text>
           <View style={styles.inputBox}>
             <View style={styles.inputRow}>
               <AmountInput

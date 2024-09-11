@@ -208,7 +208,7 @@ describe('EarnEnterAmount', () => {
     })
     await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
   })
-  it('should show a warning and not allow the user to continue if they input too high of a number', async () => {
+  it('should show a warning and not allow the user to continue if they input an amount greater than balance', async () => {
     jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
       prepareTransactionsResult: mockPreparedTransaction,
       refreshPreparedTransactions: jest.fn(),

@@ -2194,7 +2194,7 @@
   "viewOnBaseScan": "View on BaseScan",
   "viewOnAxelarScan": "View on AxelarScan",
   "sendEnterAmountScreen": {
-    "title": "How much would you like to deposit?",
+    "title": "Enter Amount",
     "selectToken": "Select a Token",
     "networkFee": "{{networkName}} Network Fee",
     "lowerAmount": "Enter a lower amount",
@@ -2540,6 +2540,7 @@
       "description": "Earn on your stablecoins when you lend through a liquidity pool"
     },
     "enterAmount": {
+      "title": "How much would you like to deposit?",
       "deposit": "Deposit",
       "fees": "Fees",
       "earnUpToLabel": "You could earn up to:",
