@@ -111,7 +111,7 @@
     "@toruslabs/fetch-node-details": "^14.0.1",
     "@toruslabs/torus.js": "^15.0.4",
     "@walletconnect/react-native-compat": "^2.16.1",
-    "@walletconnect/utils": "^2.16.0",
+    "@walletconnect/utils": "^2.16.1",
     "@walletconnect/web3wallet": "^1.15.1",
     "bignumber.js": "^9.1.2",
     "clevertap-react-native": "^2.2.1",
