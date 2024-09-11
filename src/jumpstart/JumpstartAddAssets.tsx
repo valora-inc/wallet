@@ -75,6 +75,7 @@ export default function JumpstartAddAssets() {
       showNoAssetsHint
       button={
         <Button
+          testID="JumpstartAddAssets/noFundsButton"
           onPress={handleShowAddFunds}
           text={t('jumpstartIntro.addFundsCelo.cta')}
           type={BtnTypes.PRIMARY}

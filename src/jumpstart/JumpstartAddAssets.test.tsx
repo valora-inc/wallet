@@ -14,7 +14,7 @@ jest.mocked(getDynamicConfigParams).mockReturnValue({
 
 describe('JumpstartAddAssets', () => {
   it('should render the correct actions and components', () => {
-    const { getByText, queryByText } = render(
+    const { getByText, queryByText, getByTestId } = render(
       <Provider
         store={createMockStore({
           app: {
@@ -29,6 +29,8 @@ describe('JumpstartAddAssets', () => {
     expect(getByText('jumpstartIntro.title')).toBeTruthy()
     expect(getByText('jumpstartIntro.description')).toBeTruthy()
     expect(getByText('jumpstartIntro.noFundsHint')).toBeTruthy()
+    expect(getByText('jumpstartIntro.addFundsCelo.cta')).toBeTruthy()
+    expect(getByTestId('JumpstartAddAssets/noFundsButton')).toBeTruthy()
 
     expect(getByText('addFundsActions.transfer')).toBeTruthy()
     expect(queryByText('addFundsActions.swap')).toBeFalsy()

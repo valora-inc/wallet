@@ -196,6 +196,7 @@ function JumpstartEnterAmount() {
       <JumpstartIntro
         button={
           <Button
+            testID="JumpstartEnterAmount/haveFundsButton"
             onPress={onIntroDismiss}
             text={t('jumpstartIntro.haveFundsButton')}
             type={BtnTypes.PRIMARY}
