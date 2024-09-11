@@ -1,18 +1,21 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import LegalSubmenu from 'src/account/LegalSubmenu'
-import { Screens } from 'src/navigator/Screens'
-import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore } from 'test/utils'
-import { fireEvent, render } from '@testing-library/react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
-import { navigateToURI } from 'src/utils/linking'
+import { PRIVACY_LINK } from 'src/config'
 import { navigate } from 'src/navigator/NavigationService'
-import { PRIVACY_LINK, TOS_LINK } from 'src/config'
+import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { navigateToURI } from 'src/utils/linking'
+import MockedNavigator from 'test/MockedNavigator'
+import { createMockStore } from 'test/utils'
 
 jest.mock('src/utils/linking')
+jest.mock('src/statsig')
 
 describe('LegalSubmenu', () => {
   beforeEach(() => {
@@ -44,6 +47,18 @@ describe('LegalSubmenu', () => {
   })
 
   it('navigates to terms', () => {
+    const tosLink = 'https://example.com/tos'
+    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+      if (configName === StatsigDynamicConfigs.APP_CONFIG) {
+        return {
+          externalLinks: {
+            tos: tosLink,
+          },
+        }
+      }
+      return {} as any
+    })
+
     const store = createMockStore()
     const { getByText } = render(
       <Provider store={store}>
@@ -51,7 +66,7 @@ describe('LegalSubmenu', () => {
       </Provider>
     )
     fireEvent.press(getByText('termsOfServiceLink'))
-    expect(navigateToURI).toHaveBeenCalledWith(TOS_LINK)
+    expect(navigateToURI).toHaveBeenCalledWith(tosLink)
     expect(AppAnalytics.track).toHaveBeenCalledWith(SettingsEvents.tos_view)
   })
 

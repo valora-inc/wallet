@@ -1,6 +1,4 @@
 export const APP_NAME = 'Valora'
-export const WEB_LINK = 'https://valora.xyz/'
-export const TOS_LINK = 'https://valora.xyz/terms'
 export const PRIVACY_LINK = 'https://valora.xyz/privacy'
 export const FAQ_LINK = 'https://valora.xyz/faq'
 export const FUNDING_LINK = 'https://valora.xyz/fund-wallet'

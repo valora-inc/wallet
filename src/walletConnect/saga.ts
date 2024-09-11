@@ -12,13 +12,16 @@ import { WalletConnect2Properties } from 'src/analytics/Properties'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { getDappRequestOrigin } from 'src/app/utils'
-import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
+import { APP_NAME } from 'src/brandingConfig'
 import { DEEPLINK_PREFIX, WALLET_CONNECT_PROJECT_ID } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForWalletConnect } from 'src/tokens/utils'
 import { Network } from 'src/transactions/types'
@@ -131,6 +134,9 @@ export const _applyIconFixIfNeeded = applyIconFixIfNeeded
 function* createWalletConnectChannel() {
   if (!client) {
     Logger.debug(TAG + '@createWalletConnectChannel', `init start`)
+    const { externalLinks } = getDynamicConfigParams(
+      DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG]
+    )
     client = yield* call([Web3Wallet, 'init'], {
       core: new Core({
         projectId: WALLET_CONNECT_PROJECT_ID,
@@ -139,8 +145,8 @@ function* createWalletConnectChannel() {
       metadata: {
         name: APP_NAME,
         description: i18n.t('appDescription'),
-        url: WEB_LINK,
-        icons: [appendPath(WEB_LINK, 'favicon.ico')],
+        url: externalLinks.baseUrl,
+        icons: [appendPath(externalLinks.baseUrl, 'favicon.ico')],
         redirect: {
           native: `${DEEPLINK_PREFIX}://wallet/wc`,
           universal: 'https://valoraapp.com/wc',

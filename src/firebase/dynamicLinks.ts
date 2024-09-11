@@ -1,10 +1,12 @@
 import dynamicLinks, { FirebaseDynamicLinksTypes } from '@react-native-firebase/dynamic-links'
-import { WEB_LINK } from 'src/brandingConfig'
 import {
   APP_STORE_ID as appStoreId,
   DYNAMIC_LINK_DOMAIN_URI_PREFIX as baseURI,
   APP_BUNDLE_ID as bundleId,
 } from 'src/config'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 
 const commonDynamicLinkParams: Omit<FirebaseDynamicLinksTypes.DynamicLinkParameters, 'link'> = {
@@ -19,21 +21,26 @@ const commonDynamicLinkParams: Omit<FirebaseDynamicLinksTypes.DynamicLinkParamet
 }
 
 export async function createInviteLink(address: string) {
+  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
   return dynamicLinks().buildShortLink({
     ...commonDynamicLinkParams,
-    link: `${WEB_LINK}share/${address}`,
+    link: `${externalLinks.baseUrl}share/${address}`,
   })
 }
 
 export async function createJumpstartLink(privateKey: string, networkId: NetworkId) {
+  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
   // avoid calling firebase sdk with private key during link creation to protect
   // the private key from being stored
   const dynamicLink = await dynamicLinks().buildLink({
     ...commonDynamicLinkParams,
-    link: WEB_LINK,
+    link: externalLinks.baseUrl,
   })
   const dynamicUrl = new URL(dynamicLink)
-  dynamicUrl.searchParams.set('link', `${WEB_LINK}jumpstart/${privateKey}/${networkId}`)
+  dynamicUrl.searchParams.set(
+    'link',
+    `${externalLinks.baseUrl}jumpstart/${privateKey}/${networkId}`
+  )
 
   // the firebase dynamic links sdk encodes dots and dashes even though it is
   // not strictly required for urls. calling searchParams.set seems to transform

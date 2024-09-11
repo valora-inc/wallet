@@ -1,19 +1,21 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { SettingsItemTextValue } from 'src/components/SettingsItem'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { navigateToURI } from 'src/utils/linking'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
-import { PRIVACY_LINK, TOS_LINK } from 'src/config'
-import CustomHeader from 'src/components/header/CustomHeader'
-import variables from 'src/styles/variables'
 import BackButton from 'src/components/BackButton'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { SettingsItemTextValue } from 'src/components/SettingsItem'
+import CustomHeader from 'src/components/header/CustomHeader'
+import { PRIVACY_LINK } from 'src/config'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
+import { navigateToURI } from 'src/utils/linking'
 
 const LegalSubmenu = () => {
   const { t } = useTranslation()
@@ -28,7 +30,10 @@ const LegalSubmenu = () => {
 
   const onTermsPress = () => {
     AppAnalytics.track(SettingsEvents.tos_view)
-    navigateToURI(TOS_LINK)
+    const { externalLinks } = getDynamicConfigParams(
+      DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG]
+    )
+    navigateToURI(externalLinks.tos)
   }
 
   return (

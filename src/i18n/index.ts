@@ -2,13 +2,16 @@ import hoistStatics from 'hoist-non-react-statics'
 import i18n, { Resource, ResourceLanguage } from 'i18next'
 import _ from 'lodash'
 import {
-  initReactI18next,
   WithTranslation,
+  initReactI18next,
   withTranslation as withTranslationI18Next,
 } from 'react-i18next'
 import DeviceInfo from 'react-native-device-info'
-import { APP_NAME, DEFAULT_APP_LANGUAGE, TOS_LINK } from 'src/config'
+import { APP_NAME, DEFAULT_APP_LANGUAGE } from 'src/config'
 import { getOtaTranslations } from 'src/i18n/otaTranslations'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import locales from '../../locales'
 
 function getAvailableResources(cachedTranslations: Resource) {
@@ -41,6 +44,7 @@ export async function initI18n(
     cachedTranslations = await getOtaTranslations()
   }
   const resources = getAvailableResources(cachedTranslations)
+  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   return i18n.use(initReactI18next).init({
     fallbackLng: {
@@ -54,7 +58,10 @@ export async function initI18n(
     debug: false,
     interpolation: {
       escapeValue: false,
-      defaultVariables: { appName: APP_NAME, tosLink: TOS_LINK.replace(/^https?:\/\//i, '') },
+      defaultVariables: {
+        appName: APP_NAME,
+        tosLink: externalLinks.tos.replace(/^https?:\/\//i, ''),
+      },
     },
   })
 }

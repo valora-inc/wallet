@@ -111,6 +111,19 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.APP_CONFIG,
     defaultValues: {
       minRequiredVersion: '0.0.0',
+      externalLinks: {
+        baseUrl: '',
+        tos: '',
+        privacy: '',
+        faq: '',
+        funding: '',
+        forum: '',
+        swapLearnMore: '',
+        transactionFeesLearnMore: '',
+        inviteRewardsNftsLearnMore: '',
+        inviteRewardsStabletokenLearnMore: '',
+        earnStablecoinsLearnMore: '',
+      },
     },
   },
 } satisfies {
