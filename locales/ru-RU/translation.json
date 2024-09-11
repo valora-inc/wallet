@@ -2211,6 +2211,10 @@
     "prepareTransactionError": {
       "title": "Что-то пошло не так!",
       "description": "Невозможно подготовить транзакцию для этого токена."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Вам нужно больше {{tokenSymbol}}",
+      "description": "Недостаточный остаток {{tokenSymbol}}. Попробуйте внести меньшую сумму или выбрать другой актив."
     }
   },
   "jumpstartIntro": {
@@ -2538,6 +2542,9 @@
       "description": "Зарабатывайте на своих стейблкоинах, ссужая их через пул ликвидности"
     },
     "enterAmount": {
+      "title": "Какую сумму ты хотел бы внести на депозит?",
+      "deposit": "Депозит",
+      "fees": "Комиссия",
       "earnUpToLabel": "Вы можете заработать до:",
       "rateLabel": "Ставка (прибл.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / год",
