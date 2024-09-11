@@ -41,6 +41,6 @@ describe('Wallet Jumpstart', () => {
   it('should handle jumpstart intro being seen', () => {
     const updatedState = reducer(undefined, jumpstartIntroSeen())
 
-    expect(updatedState).toHaveProperty('introHasBeenSeen', false)
+    expect(updatedState).toHaveProperty('introHasBeenSeen', true)
   })
 })
