@@ -11,12 +11,11 @@ import {
   phoneNumberVerifiedSelector,
   sessionIdSelector,
 } from 'src/app/selectors'
-import { APP_NAME } from 'src/brandingConfig'
 import Button, { BtnTypes } from 'src/components/Button'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import Switch from 'src/components/Switch'
 import TextInput from 'src/components/TextInput'
-import { DEFAULT_TESTNET } from 'src/config'
+import { APP_NAME, DEFAULT_TESTNET } from 'src/config'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'

@@ -94,6 +94,16 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
       const decrypted2 = decryptPassphrase(keyshare1, keyshare2, encrypted)
       expect(decrypted1).toBe(decrypted2)
     })
+    it('should decrypt an encrypted passphrase where the authTag was serialized from an ArrayBuffer', () => {
+      const encrypted = encryptPassphrase(keyshare1, keyshare2, passphrase)
+      const [nonceBase64, encryptedMessage, authTagBase64] = encrypted.split(':')
+      const authTagSerializedArrayBuffer = Array.from(
+        Buffer.from(authTagBase64, 'base64')
+      ).toString()
+      const encryptedSerialized = `${nonceBase64}:${encryptedMessage}:${authTagSerializedArrayBuffer}`
+      const decrypted = decryptPassphrase(keyshare1, keyshare2, encryptedSerialized)
+      expect(decrypted).toBe(passphrase)
+    })
     it('throws if authTag is tampered with', () => {
       // fails if decipher.final() is not called
       const encrypted = encryptPassphrase(keyshare1, keyshare2, passphrase)

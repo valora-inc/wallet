@@ -6,7 +6,6 @@ import { acceptTerms, chooseCreateAccount, chooseRestoreAccount } from 'src/acco
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
-import { TOS_LINK } from 'src/brandingConfig'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CheckBox from 'src/icons/CheckBox'
 import { welcomeBackground } from 'src/images/Images'
@@ -17,9 +16,9 @@ import { Screens } from 'src/navigator/Screens'
 import LanguageButton from 'src/onboarding/LanguageButton'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getExperimentParams, patchUpdateStatsigUser } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
+import { getDynamicConfigParams, getExperimentParams, patchUpdateStatsigUser } from 'src/statsig'
+import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -83,7 +82,8 @@ export default function Welcome() {
   }
 
   const onPressTerms = () => {
-    navigateToURI(TOS_LINK)
+    const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+    navigateToURI(links.tos)
   }
 
   return (

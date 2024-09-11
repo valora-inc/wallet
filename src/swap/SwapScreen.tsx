@@ -11,7 +11,6 @@ import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -20,7 +19,6 @@ import Toast from 'src/components/Toast'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { SWAP_LEARN_MORE } from 'src/config'
 import ArrowDown from 'src/icons/ArrowDown'
 import CircledIcon from 'src/icons/CircledIcon'
 import CrossChainIndicator from 'src/icons/CrossChainIndicator'
@@ -239,6 +237,7 @@ export function SwapScreen({ route }: Props) {
   const { maxSlippagePercentage, enableAppFee } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   )
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
   const parsedSlippagePercentage = new BigNumber(maxSlippagePercentage).toFormat()
 
   const { swappableFromTokens, swappableToTokens, areSwapTokensShuffled } = useSwappableTokens()
@@ -594,12 +593,12 @@ export function SwapScreen({ route }: Props) {
 
   const onPressLearnMore = () => {
     AppAnalytics.track(SwapEvents.swap_learn_more)
-    navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
+    navigate(Screens.WebViewScreen, { uri: links.swapLearnMore })
   }
 
   const onPressLearnMoreFees = () => {
     AppAnalytics.track(SwapEvents.swap_gas_fees_learn_more)
-    navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
+    navigate(Screens.WebViewScreen, { uri: links.transactionFeesLearnMore })
   }
 
   const switchedToNetworkName = switchedToNetworkId && NETWORK_NAMES[switchedToNetworkId]

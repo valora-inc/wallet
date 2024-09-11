@@ -75,7 +75,6 @@ const mockIsInAppReviewAvailable = jest.fn()
 jest.unmock('src/pincode/authentication')
 
 jest.mock('src/i18n', () => ({
-  ...(jest.requireActual('src/i18n') as any),
   initI18n: jest.fn().mockResolvedValue(jest.fn()),
   t: jest.fn(),
 }))
