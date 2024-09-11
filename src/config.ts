@@ -36,6 +36,8 @@ const configOrThrow = (key: string) => {
   throw new RangeError(`Missing Config value for ${key}`)
 }
 
+export const APP_NAME = 'Valora'
+
 // DEV only related settings
 export const isE2EEnv = stringToBoolean(Config.IS_E2E || 'false')
 export const DEV_RESTORE_NAV_STATE_ON_RELOAD = stringToBoolean(
