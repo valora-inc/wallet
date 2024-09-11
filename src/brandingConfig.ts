@@ -1,5 +1,4 @@
 export const APP_NAME = 'Valora'
-export const PRIVACY_LINK = 'https://valora.xyz/privacy'
 export const FAQ_LINK = 'https://valora.xyz/faq'
 export const FUNDING_LINK = 'https://valora.xyz/fund-wallet'
 export const FORUM_LINK = 'https://forum.celo.org/c/valora/8'

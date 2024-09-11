@@ -17,7 +17,6 @@ import Persona from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { CICOEvents, FiatExchangeEvents } from 'src/analytics/Events'
-import { PRIVACY_LINK } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -31,6 +30,9 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -142,9 +144,10 @@ function KycAgreement(props: {
   const dispatch = useDispatch()
   const { personaKycStatus, quote, disabled } = props
   const [agreementChecked, toggleAgreementChecked] = useState(false)
+  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   const onPressPrivacyPolicy = () => {
-    navigateToURI(PRIVACY_LINK)
+    navigateToURI(externalLinks.privacy)
   }
 
   return (

@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import LegalSubmenu from 'src/account/LegalSubmenu'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
-import { PRIVACY_LINK } from 'src/config'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams } from 'src/statsig'
@@ -17,9 +16,23 @@ import { createMockStore } from 'test/utils'
 jest.mock('src/utils/linking')
 jest.mock('src/statsig')
 
+const mockTosLink = 'https://example.com/tos'
+const mockPrivacyLink = 'https://example.com/privacy'
+
 describe('LegalSubmenu', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+      if (configName === StatsigDynamicConfigs.APP_CONFIG) {
+        return {
+          externalLinks: {
+            tos: mockTosLink,
+            privacy: mockPrivacyLink,
+          },
+        }
+      }
+      return {} as any
+    })
   })
 
   it('shows the expected menu items', () => {
@@ -47,18 +60,6 @@ describe('LegalSubmenu', () => {
   })
 
   it('navigates to terms', () => {
-    const tosLink = 'https://example.com/tos'
-    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
-      if (configName === StatsigDynamicConfigs.APP_CONFIG) {
-        return {
-          externalLinks: {
-            tos: tosLink,
-          },
-        }
-      }
-      return {} as any
-    })
-
     const store = createMockStore()
     const { getByText } = render(
       <Provider store={store}>
@@ -66,7 +67,7 @@ describe('LegalSubmenu', () => {
       </Provider>
     )
     fireEvent.press(getByText('termsOfServiceLink'))
-    expect(navigateToURI).toHaveBeenCalledWith(tosLink)
+    expect(navigateToURI).toHaveBeenCalledWith(mockTosLink)
     expect(AppAnalytics.track).toHaveBeenCalledWith(SettingsEvents.tos_view)
   })
 
@@ -78,6 +79,6 @@ describe('LegalSubmenu', () => {
       </Provider>
     )
     fireEvent.press(getByText('privacyPolicy'))
-    expect(navigateToURI).toHaveBeenCalledWith(PRIVACY_LINK)
+    expect(navigateToURI).toHaveBeenCalledWith(mockPrivacyLink)
   })
 })

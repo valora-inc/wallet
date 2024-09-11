@@ -9,7 +9,6 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
-import { PRIVACY_LINK } from 'src/config'
 import { withTranslation } from 'src/i18n'
 import Logo from 'src/images/Logo'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
@@ -52,6 +51,9 @@ export class RegulatoryTerms extends React.Component<Props> {
     }),
   }
 
+  externalLinks = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+    .externalLinks
+
   onPressAccept = () => {
     AppAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
 
@@ -68,14 +70,11 @@ export class RegulatoryTerms extends React.Component<Props> {
   }
 
   onPressGoToTerms = () => {
-    const { externalLinks } = getDynamicConfigParams(
-      DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG]
-    )
-    navigateToURI(externalLinks.tos)
+    navigateToURI(this.externalLinks.tos)
   }
 
   onPressGoToPrivacyPolicy = () => {
-    navigateToURI(PRIVACY_LINK)
+    navigateToURI(this.externalLinks.privacy)
   }
 
   renderTerms() {

@@ -7,7 +7,6 @@ import { SettingsEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { PRIVACY_LINK } from 'src/config'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams } from 'src/statsig'
@@ -23,6 +22,8 @@ const LegalSubmenu = () => {
   const insets = useSafeAreaInsets()
   const insetsStyle = { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) }
 
+  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+
   const goToLicenses = () => {
     AppAnalytics.track(SettingsEvents.licenses_view)
     navigate(Screens.Licenses)
@@ -30,9 +31,6 @@ const LegalSubmenu = () => {
 
   const onTermsPress = () => {
     AppAnalytics.track(SettingsEvents.tos_view)
-    const { externalLinks } = getDynamicConfigParams(
-      DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG]
-    )
     navigateToURI(externalLinks.tos)
   }
 
@@ -55,7 +53,7 @@ const LegalSubmenu = () => {
         <SettingsItemTextValue
           testID="LegalSubmenu/Privacy"
           title={t('privacyPolicy')}
-          onPress={() => navigateToURI(PRIVACY_LINK)}
+          onPress={() => navigateToURI(externalLinks.privacy)}
           borderless
           isExternalLink
         />
