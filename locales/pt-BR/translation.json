@@ -2544,7 +2544,7 @@
       "infoV1_93": "Desenvolvido por {{providerName}}",
       "infoBottomSheet": {
         "title": "Por que este pool?",
-        "description": "Este pool da Aave tem mais de US$ 150 milhões em TVL e mais de 6.000 contribuintes, o que indica forte liquidez e confiabilidade. Ele também usa USDC como seu token e Arbitrum como sua rede, o que reduz a volatilidade e garante que os usuários recebam taxas de gás baratas.\n\nTudo isso faz dele uma opção segura e atrativa com APY competitivo, garantindo uma oportunidade de investimento benéfica para nossos usuários.\n\nVocê pode explorar outros pools da Aave <0>aqui</0>.",
+        "description": "Este pool da Aave tem mais de US$ 150 milhões em TVL e mais de 6.000 contribuintes, o que indica forte liquidez e confiabilidade. Ele também usa USDC como seu token e Arbitrum como sua rede, o que reduz a volatilidade e garante que os usuários recebam taxas de gás baratas.\n\nVocê pode explorar outros pools da Aave <0>aqui</0>.",
         "dismiss": "Ignorar"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2621,7 +2621,11 @@
         "apySubtitle": "O que é APY?",
         "apyDescription": "O rendimento percentual anual (APY) é uma métrica usada para calcular o retorno anualizado dos investimentos em cripto. É um indicador importante do potencial de retorno.",
         "tvlSubtitle": "O que é TVL?",
-        "tvlDescription": "O valor total bloqueado (TVL) é uma métrica usada para medir o valor dos ativos digitais bloqueados em uma rede blockchain. O TVL é calculado pela soma do valor de todos os ativos digitais bloqueados em um protocolo DeFi ou contrato inteligente. Esses ativos podem incluir criptomoedas, stablecoins e outros tokens."
+        "tvlDescription": "O valor total bloqueado (TVL) é uma métrica usada para medir o valor dos ativos digitais bloqueados em uma rede blockchain. O TVL é calculado pela soma do valor de todos os ativos digitais bloqueados em um protocolo DeFi ou contrato inteligente. Esses ativos podem incluir criptomoedas, stablecoins e outros tokens.",
+        "yieldPoolSubtitle": "O que é um pool de rendimento?",
+        "yieldPoolDescription": "Os pools de rendimento, ou pools de liquidez, são fundos agregados disponibilizados por detentores de tokens, que possibilitam a negociação em exchanges descentralizadas. Ao participar desses pools, é possível obter juros das pessoas que tomam esses fundos emprestados.",
+        "chooseSubtitle": "Como você deve escolher um pool? ",
+        "chooseDescription": "Qualquer decisão financeira é uma escolha pessoal. Agrupamos alguns pools em diversos protocolos, mas cada um tem seus benefícios e riscos. Fazemos o nosso melhor para fornecer informações úteis sobre cada pool, mas é sempre recomendável realizar uma pesquisa adicional se tiver dúvidas."
       },
       "noPoolsTitle": "Você ainda não entrou em nenhum pool",
       "noPoolsDescription": "Descubra os pools disponíveis, escolha um que corresponda às suas metas e aproveite ao máximo suas stablecoins.",
@@ -2665,8 +2669,8 @@
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Entendi",
-        "depositDescription": "Esse é o detalhamento do valor depositado, os juros que você ganhou sobre esse valor e quaisquer recompensas adicionais que você tenha recebido por participar do pool.",
-        "depositNoBreakdownDescription": "Esse número combina os tokens fornecidos com os juros e as recompensas que você ganhou.\n\nAlguns protocolos, como o {{providerName}}, não fornecem um detalhamento de seus ganhos - isso é normal. Em vez disso, eles adicionam seus ganhos diretamente ao valor depositado, que continua a render juros com base no valor crescente. ",
+        "depositDescription": "Este é o detalhamento da quantia depositada, os juros que você ganhou sobre essa quantia e quaisquer recompensas adicionais que você tenha recebido por participar do pool.",
+        "depositNoBreakdownDescription": "Este número combina os tokens fornecidos com os juros e as recompensas que você ganhou.\n\nAlguns protocolos, como o {{providerName}}, não fornecem um detalhamento de seus ganhos — isso é normal. Em vez disso, eles adicionam seus ganhos diretamente à quantia depositada, que continua a render juros com base na quantia crescente. ",
         "tvlTitle": "Valor total bloqueado (TVL)",
         "tvlDescription": "O TVL refere-se ao montante total de ativos depositados em um pool de liquidez e pode ser usado para ajudar a indicar a confiança e a utilidade de um pool. Normalmente, um TVL mais alto está relacionado a um risco reduzido, mas nenhum pool está totalmente isento de riscos.",
         "ageTitle": "Piscina criada:",

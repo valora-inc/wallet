@@ -1,0 +1,33 @@
+diff --git a/node_modules/@th3rdwave/react-navigation-bottom-sheet/src/BottomSheetView.tsx b/node_modules/@th3rdwave/react-navigation-bottom-sheet/src/BottomSheetView.tsx
+index cc6f6c9..a92150a 100644
+--- a/node_modules/@th3rdwave/react-navigation-bottom-sheet/src/BottomSheetView.tsx
++++ b/node_modules/@th3rdwave/react-navigation-bottom-sheet/src/BottomSheetView.tsx
+@@ -1,8 +1,7 @@
+ import {
+   BottomSheetModal,
+   BottomSheetModalProps,
+-  BottomSheetModalProvider,
+-  BottomSheetView as RNBottomSheetView,
++  BottomSheetModalProvider
+ } from '@gorhom/bottom-sheet';
+ import { ParamListBase, useTheme } from '@react-navigation/native';
+ import * as React from 'react';
+@@ -90,11 +89,13 @@ function BottomSheetModalScreen({
+       onDismiss={onDismiss}
+       {...props}
+     >
+-      {enableDynamicSizing ? (
+-        <RNBottomSheetView>{children as React.ReactNode}</RNBottomSheetView>
+-      ) : (
+-        children
+-      )}
++      {/**
++        * Patch which makes sure children is not wrapped by BottomSheetView 
++        * when enableDynamicSizing is enabled, so we can use Gorhom components
++        * like BottomSheetScrollView in the screen.
++        * Otherwise it renders blank (conflicting with the dynamic sizing logic).
++        */}
++      {children}
+     </BottomSheetModal>
+   );
+ }

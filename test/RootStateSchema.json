@@ -1005,6 +1005,9 @@
                 "redirect": {
                     "additionalProperties": false,
                     "properties": {
+                        "linkMode": {
+                            "type": "boolean"
+                        },
                         "native": {
                             "type": "string"
                         },
@@ -3520,6 +3523,13 @@
                 },
                 "topic": {
                     "type": "string"
+                },
+                "transportType": {
+                    "enum": [
+                        "link_mode",
+                        "relay"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
@@ -4129,12 +4139,6 @@
                 "maxSwapSlippagePercentage": {
                     "type": "number"
                 },
-                "minVersion": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
                 "multichainBetaStatus": {
                     "$ref": "#/definitions/MultichainBetaStatus"
                 },
@@ -4194,6 +4198,7 @@
                                 "FaceID",
                                 "Fingerprint",
                                 "Iris",
+                                "OpticID",
                                 "TouchID"
                             ],
                             "type": "string"
@@ -4225,7 +4230,6 @@
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
                 "maxSwapSlippagePercentage",
-                "minVersion",
                 "multichainBetaStatus",
                 "networkTimeoutSeconds",
                 "numberVerified",

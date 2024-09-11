@@ -56,13 +56,9 @@ function getStore(
 }
 
 const renderEarnPoolInfoScreen = (pool: EarnPosition) =>
-  render(
+  render( 
     <Provider store={getStore()}>
-      <MockedNavigator
-        component={() => (
-          <EarnPoolInfoScreen {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, { pool })} />
-        )}
-      />
+      <MockedNavigator component={EarnPoolInfoScreen} params={{ pool }} />
     </Provider>
   )
 
@@ -76,6 +72,9 @@ describe('EarnPoolInfoScreen', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation((gate) => gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
+    jest.useFakeTimers({
+      now: new Date('2024-08-15T00:00:00.000Z'),
+    })
   })
 
   it('renders correctly when not deposited in pool', () => {
@@ -100,8 +99,8 @@ describe('EarnPoolInfoScreen', () => {
       within(getByTestId('AgeCard')).getByText('duration, {"context":"month","count":5}')
     ).toBeTruthy()
     expect(
-      within(getByTestId('ActionButtons')).getByText('earnFlow.poolInfoScreen.withdraw')
-    ).toBeTruthy()
+      within(getByTestId('ActionButtons')).queryByText('earnFlow.poolInfoScreen.withdraw')
+    ).toBeFalsy()
     expect(
       within(getByTestId('ActionButtons')).getByText('earnFlow.poolInfoScreen.deposit')
     ).toBeTruthy()
@@ -297,17 +296,7 @@ describe('EarnPoolInfoScreen', () => {
   it('navigate to EarnEnterAmount when Deposit button is tapped and depositTokenId has a balance', () => {
     const { getByText } = render(
       <Provider store={getStore('1')}>
-        <MockedNavigator
-          component={() => {
-            return (
-              <EarnPoolInfoScreen
-                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
-                  pool: mockEarnPositions[0],
-                })}
-              />
-            )
-          }}
-        />
+        <MockedNavigator component={EarnPoolInfoScreen} params={{ pool: mockEarnPositions[0] }} />
       </Provider>
     )
     fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
@@ -424,14 +413,9 @@ describe('EarnPoolInfoScreen', () => {
     const { getByText } = render(
       <Provider store={getStore()}>
         <MockedNavigator
-          component={() => {
-            return (
-              <EarnPoolInfoScreen
-                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
-                  pool: { ...mockEarnPositions[0], balance: '100' },
-                })}
-              />
-            )
+          component={EarnPoolInfoScreen}
+          params={{
+            pool: { ...mockEarnPositions[0], balance: '100' },
           }}
         />
       </Provider>

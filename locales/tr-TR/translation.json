@@ -2544,7 +2544,7 @@
       "infoV1_93": "{{providerName}} tarafından desteklenmektedir",
       "infoBottomSheet": {
         "title": "Neden bu havuz?",
-        "description": "Bu Aave havuzu 150 milyon ABD dolarının üzerinde TVL'ye ve 6000'den fazla katılımcıya sahiptir, bu da güçlü likidite ve güvenilirliği gösterir. Ayrıca token olarak USDC ve ağ olarak Arbitrum kullanır, bu da oynaklığı azaltır ve kullanıcıların ucuz gas oranları almasını sağlar.\n\nTüm bunlar bir araya geldiğinde, rekabetçi Yıllık Getiri Oranı ile güvenli ve cazip bir seçenek haline gelir ve kullanıcılarımız için faydalı bir yatırım fırsatı sağlar.\n\nDiğer Aave havuzlarını <0>buradan</0> keşfedebilirsiniz.",
+        "description": "Bu Aave havuzu 150 milyon ABD dolarının üzerinde TVL'ye ve 6000'den fazla katılımcıya sahiptir, bu da güçlü likidite ve güvenilirliği gösterir. Ayrıca token olarak USDC ve ağ olarak Arbitrum kullanır, bu da oynaklığı azaltır ve kullanıcıların ucuz gas oranları almasını sağlar.\n\nDiğer Aave havuzlarını <0>buradan</0> keşfedebilirsiniz.",
         "dismiss": "Yoksay"
       },
       "notEnoughBalanceForGasWarning": {
@@ -2621,7 +2621,11 @@
         "apySubtitle": "APY nedir?",
         "apyDescription": "Yıllık getiri oranı (APY), kripto yatırımlarının yıllık getirisini hesaplamak için kullanılan bir metriktir. Bir kripto paranın potansiyel getirisi ve kârlılığının önemli bir göstergesidir.",
         "tvlSubtitle": "TVL nedir?",
-        "tvlDescription": "TVL, Total Value Locked (Kilitli Toplam Değer) anlamına gelir ve kripto sektöründe bir blok zincir ağında kilitli olan dijital varlıkların değerini ölçmek için kullanılan bir metriktir. TVL, bir DeFi protokolünde ya da akıllı kontratta kilitli olan tüm dijital varlıkların değerinin toplanmasıyla hesaplanır. Bu varlıklar arasında kripto paralar, sabit coinler ve diğer tokenlar yer alabilir."
+        "tvlDescription": "TVL, Total Value Locked (Kilitli Toplam Değer) anlamına gelir ve kripto sektöründe bir blok zincir ağında kilitli olan dijital varlıkların değerini ölçmek için kullanılan bir metriktir. TVL, bir DeFi protokolünde ya da akıllı kontratta kilitli olan tüm dijital varlıkların değerinin toplanmasıyla hesaplanır. Bu varlıklar arasında kripto paralar, sabit coinler ve diğer tokenlar yer alabilir.",
+        "yieldPoolSubtitle": "Getiri havuzu nedir?",
+        "yieldPoolDescription": "Getiri havuzları ya da likidite havuzları, token sahipleri tarafından sağlanan ve merkezi olmayan borsalarda alım satıma olanak tanıyan havuzlanmış fonlardır. Havuza katkıda bulunduğunuzda bu fonları borç alan diğer kişilerden faiz kazanabilirsiniz.",
+        "chooseSubtitle": "Nasıl bir havuz seçmelisiniz? ",
+        "chooseDescription": "Her türlü finansal karar kişisel bir seçimdir. Farklı protokollerdeki bazı havuzları bir araya getirdik, ancak her havuzun avantajları ve riskleri vardır. Her havuza ilişkin bazı yararlı bilgiler sağlamak için elimizden geleni yapıyoruz ancak emin değilseniz ek araştırma yapmak her zaman en iyisidir."
       },
       "noPoolsTitle": "Henüz hiçbir havuza katılmadınız",
       "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun bir havuz seçin ve sabit coin'lerinizden en iyi şekilde yararlanın.",
@@ -2666,7 +2670,7 @@
       "infoBottomSheet": {
         "gotIt": "Anladım",
         "depositDescription": "Bu, yatırdığınız tutarın, bu tutar üzerinden kazandığınız faizin ve havuza katılarak aldığınız ek ödüllerin dökümüdür.",
-        "depositNoBreakdownDescription": "Bu sayı, size verilen jetonları kazandığınız faiz ve ödüllerle birleştirir.\n\nBazı protokoller, örneğin {{providerName}}, kazançlarınızın bir dökümünü sunmaz - bu normaldir. Bunun yerine, kazancınızı doğrudan yatırdığınız tutara eklerler ve bu da artan tutara bağlı olarak faiz kazanmaya devam eder. ",
+        "depositNoBreakdownDescription": "Bu sayı, size verilen tokenları kazandığınız faiz ve ödüllerle birleştirir.\n\nBazı protokoller, örneğin {{providerName}}, kazançlarınızın bir dökümünü sunmaz; bu normaldir. Bunun yerine, kazancınızı doğrudan yatırdığınız tutara eklerler ve bu da artan tutara bağlı olarak faiz kazanmaya devam eder. ",
         "tvlTitle": "Kilitlenen Toplam Değer (TVL)",
         "tvlDescription": "TVL, bir likidite havuzuna yatırılan toplam varlık miktarını ifade eder ve havuzun güvenilirliğini ve faydasını gösterir. Genel olarak TVL değerinin yüksek olması daha riskin daha düşük olduğunu gösterir. Ancak, hiçbir havuz tamamen risksiz değildir.",
         "ageTitle": "Havuz Yaşı",
