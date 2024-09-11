@@ -25,7 +25,7 @@ describe('LegalSubmenu', () => {
     jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
       if (configName === StatsigDynamicConfigs.APP_CONFIG) {
         return {
-          externalLinks: {
+          links: {
             tos: mockTosLink,
             privacy: mockPrivacyLink,
           },

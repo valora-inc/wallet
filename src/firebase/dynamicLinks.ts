@@ -21,26 +21,23 @@ const commonDynamicLinkParams: Omit<FirebaseDynamicLinksTypes.DynamicLinkParamet
 }
 
 export async function createInviteLink(address: string) {
-  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
   return dynamicLinks().buildShortLink({
     ...commonDynamicLinkParams,
-    link: `${externalLinks.baseUrl}share/${address}`,
+    link: `${links.baseUrl}share/${address}`,
   })
 }
 
 export async function createJumpstartLink(privateKey: string, networkId: NetworkId) {
-  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
   // avoid calling firebase sdk with private key during link creation to protect
   // the private key from being stored
   const dynamicLink = await dynamicLinks().buildLink({
     ...commonDynamicLinkParams,
-    link: externalLinks.baseUrl,
+    link: links.baseUrl,
   })
   const dynamicUrl = new URL(dynamicLink)
-  dynamicUrl.searchParams.set(
-    'link',
-    `${externalLinks.baseUrl}jumpstart/${privateKey}/${networkId}`
-  )
+  dynamicUrl.searchParams.set('link', `${links.baseUrl}jumpstart/${privateKey}/${networkId}`)
 
   // the firebase dynamic links sdk encodes dots and dashes even though it is
   // not strictly required for urls. calling searchParams.set seems to transform

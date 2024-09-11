@@ -25,7 +25,7 @@ export default function WithdrawSpend() {
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useSelector((state) => state.app.appState)
 
-  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {
@@ -52,7 +52,7 @@ export default function WithdrawSpend() {
   const { t } = useTranslation()
 
   const onOpenOtherFundingOptions = () => {
-    navigateToURI(externalLinks.funding)
+    navigateToURI(links.funding)
     AppAnalytics.track(FiatExchangeEvents.cico_landing_how_to_fund)
     setTimestamp(Date.now())
   }

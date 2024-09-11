@@ -60,7 +60,7 @@ function DetailsItem({
 export default function EarnInfoScreen() {
   const { t } = useTranslation()
   const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
-  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
   const aavePool = useEarnPosition()
 
   const headerHeight = useHeaderHeight()
@@ -97,7 +97,7 @@ export default function EarnInfoScreen() {
         <Button
           onPress={() => {
             AppAnalytics.track(EarnEvents.earn_info_learn_press)
-            navigate(Screens.WebViewScreen, { uri: externalLinks.earnStablecoinsLearnMore })
+            navigate(Screens.WebViewScreen, { uri: links.earnStablecoinsLearnMore })
           }}
           text={t('earnFlow.earnInfo.action.learn')}
           type={BtnTypes.SECONDARY}

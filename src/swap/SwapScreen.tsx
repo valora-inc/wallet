@@ -237,7 +237,7 @@ export function SwapScreen({ route }: Props) {
   const { maxSlippagePercentage, enableAppFee } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   )
-  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
   const parsedSlippagePercentage = new BigNumber(maxSlippagePercentage).toFormat()
 
   const { swappableFromTokens, swappableToTokens, areSwapTokensShuffled } = useSwappableTokens()
@@ -593,12 +593,12 @@ export function SwapScreen({ route }: Props) {
 
   const onPressLearnMore = () => {
     AppAnalytics.track(SwapEvents.swap_learn_more)
-    navigate(Screens.WebViewScreen, { uri: externalLinks.swapLearnMore })
+    navigate(Screens.WebViewScreen, { uri: links.swapLearnMore })
   }
 
   const onPressLearnMoreFees = () => {
     AppAnalytics.track(SwapEvents.swap_gas_fees_learn_more)
-    navigate(Screens.WebViewScreen, { uri: externalLinks.transactionFeesLearnMore })
+    navigate(Screens.WebViewScreen, { uri: links.transactionFeesLearnMore })
   }
 
   const switchedToNetworkName = switchedToNetworkId && NETWORK_NAMES[switchedToNetworkId]

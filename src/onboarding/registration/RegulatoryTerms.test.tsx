@@ -17,7 +17,7 @@ describe('RegulatoryTermsScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(getDynamicConfigParams).mockReturnValue({
-      externalLinks: {
+      links: {
         privacy: 'https://www.example.com/privacy',
         tos: 'https://www.example.com/tos',
       },

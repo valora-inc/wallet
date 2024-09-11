@@ -24,7 +24,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   const link = useShareUrl()
   const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
   const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
-  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   const handleShareInvite = async () => {
     if (link) {
@@ -51,7 +51,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
         title = t('inviteModal.rewardsActive.title', { contactName: getDisplayName(recipient, t) })
         descriptionI18nKey = 'inviteModal.rewardsActive.body'
         message = t('inviteWithRewards', { link })
-        helpLink = externalLinks.inviteRewardsNftsLearnMore
+        helpLink = links.inviteRewardsNftsLearnMore
         break
       case InviteRewardsType.CUSD:
         title = t('inviteModal.rewardsActiveCUSD.title', {
@@ -59,7 +59,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
         })
         descriptionI18nKey = 'inviteModal.rewardsActiveCUSD.body'
         message = t('inviteWithRewardsCUSD', { link })
-        helpLink = externalLinks.inviteRewardsStableTokenLearnMore
+        helpLink = links.inviteRewardsStableTokenLearnMore
         break
     }
   }

@@ -16,7 +16,7 @@ import { mockEarnPositions } from 'test/values'
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
   getDynamicConfigParams: jest.fn().mockReturnValue({
-    externalLinks: {
+    links: {
       earnStablecoinsLearnMore: 'https://example.com/earn',
     },
   }),

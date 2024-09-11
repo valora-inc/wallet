@@ -22,7 +22,7 @@ const LegalSubmenu = () => {
   const insets = useSafeAreaInsets()
   const insetsStyle = { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) }
 
-  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   const goToLicenses = () => {
     AppAnalytics.track(SettingsEvents.licenses_view)
@@ -31,7 +31,7 @@ const LegalSubmenu = () => {
 
   const onTermsPress = () => {
     AppAnalytics.track(SettingsEvents.tos_view)
-    navigateToURI(externalLinks.tos)
+    navigateToURI(links.tos)
   }
 
   return (
@@ -53,7 +53,7 @@ const LegalSubmenu = () => {
         <SettingsItemTextValue
           testID="LegalSubmenu/Privacy"
           title={t('privacyPolicy')}
-          onPress={() => navigateToURI(externalLinks.privacy)}
+          onPress={() => navigateToURI(links.privacy)}
           borderless
           isExternalLink
         />

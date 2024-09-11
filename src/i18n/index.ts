@@ -44,7 +44,7 @@ export async function initI18n(
     cachedTranslations = await getOtaTranslations()
   }
   const resources = getAvailableResources(cachedTranslations)
-  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   return i18n.use(initReactI18next).init({
     fallbackLng: {
@@ -60,7 +60,7 @@ export async function initI18n(
       escapeValue: false,
       defaultVariables: {
         appName: APP_NAME,
-        tosLink: externalLinks.tos.replace(/^https?:\/\//i, ''),
+        tosLink: links.tos.replace(/^https?:\/\//i, ''),
       },
     },
   })

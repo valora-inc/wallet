@@ -14,7 +14,7 @@ describe('dynamic links', () => {
     jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
       if (configName === StatsigDynamicConfigs.APP_CONFIG) {
         return {
-          externalLinks: {
+          links: {
             baseUrl: 'https://celo.org/',
           },
         }

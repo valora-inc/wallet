@@ -311,7 +311,7 @@ describe('SwapScreen', () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       maxSlippagePercentage: '0.3',
       popularTokenIds: [],
-      externalLinks: {
+      links: {
         transactionFeesLearnMore: mockTxFeesLearnMoreUrl,
       },
     })

@@ -20,7 +20,7 @@ export default function Invite() {
   const shareUrl = useShareUrl()
   const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
   const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
-  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   let title = t('inviteWithUrl.title')
   let descriptionI18nKey = 'inviteWithUrl.body'
@@ -33,13 +33,13 @@ export default function Invite() {
         title = t('inviteWithUrl.rewardsActive.title')
         descriptionI18nKey = 'inviteWithUrl.rewardsActive.body'
         message = t('inviteWithRewards', { link: shareUrl })
-        helpLink = externalLinks.inviteRewardsNftsLearnMore
+        helpLink = links.inviteRewardsNftsLearnMore
         break
       case InviteRewardsType.CUSD:
         title = t('inviteWithUrl.rewardsActiveCUSD.title')
         descriptionI18nKey = 'inviteWithUrl.rewardsActiveCUSD.body'
         message = t('inviteWithRewardsCUSD', { link: shareUrl })
-        helpLink = externalLinks.inviteRewardsStableTokenLearnMore
+        helpLink = links.inviteRewardsStableTokenLearnMore
         break
     }
   }

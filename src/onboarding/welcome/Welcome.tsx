@@ -82,10 +82,8 @@ export default function Welcome() {
   }
 
   const onPressTerms = () => {
-    const { externalLinks } = getDynamicConfigParams(
-      DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG]
-    )
-    navigateToURI(externalLinks.tos)
+    const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+    navigateToURI(links.tos)
   }
 
   return (

@@ -133,9 +133,7 @@ export const _applyIconFixIfNeeded = applyIconFixIfNeeded
 function* createWalletConnectChannel() {
   if (!client) {
     Logger.debug(TAG + '@createWalletConnectChannel', `init start`)
-    const { externalLinks } = getDynamicConfigParams(
-      DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG]
-    )
+    const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
     client = yield* call([Web3Wallet, 'init'], {
       core: new Core({
         projectId: WALLET_CONNECT_PROJECT_ID,
@@ -144,8 +142,8 @@ function* createWalletConnectChannel() {
       metadata: {
         name: APP_NAME,
         description: i18n.t('appDescription'),
-        url: externalLinks.baseUrl,
-        icons: [appendPath(externalLinks.baseUrl, 'favicon.ico')],
+        url: links.baseUrl,
+        icons: [appendPath(links.baseUrl, 'favicon.ico')],
         redirect: {
           native: `${DEEPLINK_PREFIX}://wallet/wc`,
           universal: 'https://valoraapp.com/wc',

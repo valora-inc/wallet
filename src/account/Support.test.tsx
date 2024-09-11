@@ -24,7 +24,7 @@ describe('Support', () => {
     jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
       if (configName === StatsigDynamicConfigs.APP_CONFIG) {
         return {
-          externalLinks: {
+          links: {
             faq: 'https://example.com/faq',
             forum: 'https://example.com/forum',
           },

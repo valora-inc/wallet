@@ -144,10 +144,10 @@ function KycAgreement(props: {
   const dispatch = useDispatch()
   const { personaKycStatus, quote, disabled } = props
   const [agreementChecked, toggleAgreementChecked] = useState(false)
-  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   const onPressPrivacyPolicy = () => {
-    navigateToURI(externalLinks.privacy)
+    navigateToURI(links.privacy)
   }
 
   return (

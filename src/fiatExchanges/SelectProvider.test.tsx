@@ -59,7 +59,7 @@ jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(),
   getFeatureGate: jest.fn(),
   getDynamicConfigParams: jest.fn().mockReturnValue({
-    externalLinks: {
+    links: {
       funding: 'https://www.example.com/funding',
     },
   }),

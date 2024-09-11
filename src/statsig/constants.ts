@@ -111,7 +111,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.APP_CONFIG,
     defaultValues: {
       minRequiredVersion: '0.0.0',
-      externalLinks: {
+      links: {
         baseUrl: 'https://valora.xyz/',
         tos: 'https://valora.xyz/terms',
         privacy: 'https://valora.xyz/privacy',

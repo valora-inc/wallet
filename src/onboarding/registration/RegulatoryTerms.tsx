@@ -51,8 +51,7 @@ export class RegulatoryTerms extends React.Component<Props> {
     }),
   }
 
-  externalLinks = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
-    .externalLinks
+  links = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG]).links
 
   onPressAccept = () => {
     AppAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
@@ -70,11 +69,11 @@ export class RegulatoryTerms extends React.Component<Props> {
   }
 
   onPressGoToTerms = () => {
-    navigateToURI(this.externalLinks.tos)
+    navigateToURI(this.links.tos)
   }
 
   onPressGoToPrivacyPolicy = () => {
-    navigateToURI(this.externalLinks.privacy)
+    navigateToURI(this.links.privacy)
   }
 
   renderTerms() {

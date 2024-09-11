@@ -21,25 +21,25 @@ const onPressContact = () => {
 
 const Support = () => {
   const { t } = useTranslation()
-  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   return (
     <SafeAreaView>
       <CustomHeader left={<BackButton />} title={t('help')} style={styles.paddingHorizontal} />
       <ScrollView>
-        {!!externalLinks.faq && (
+        {!!links.faq && (
           <SettingsItemTextValue
             testID="FAQLink"
             title={t('faq')}
-            onPress={openExternalLink(externalLinks.faq)}
+            onPress={openExternalLink(links.faq)}
             isExternalLink
           />
         )}
-        {!!externalLinks.forum && (
+        {!!links.forum && (
           <SettingsItemTextValue
             testID="ForumLink"
             title={t('forum')}
-            onPress={openExternalLink(externalLinks.forum)}
+            onPress={openExternalLink(links.forum)}
             isExternalLink
           />
         )}

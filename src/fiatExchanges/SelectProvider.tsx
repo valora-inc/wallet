@@ -103,7 +103,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const tokenInfo = useTokenInfo(tokenId)
 
-  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   if (!tokenInfo) {
     throw new Error(`Token info not found for token ID ${tokenId}`)
@@ -256,7 +256,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const supportOnPress = () => navigate(Screens.SupportContact)
 
   const handlePressDisclaimer = () => {
-    navigate(Screens.WebViewScreen, { uri: externalLinks.funding })
+    navigate(Screens.WebViewScreen, { uri: links.funding })
   }
 
   const switchCurrencyOnPress = () => {
