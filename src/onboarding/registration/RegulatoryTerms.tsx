@@ -9,7 +9,6 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
-import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { withTranslation } from 'src/i18n'
 import Logo from 'src/images/Logo'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
@@ -17,9 +16,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { RootState } from 'src/redux/reducers'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -52,6 +51,8 @@ export class RegulatoryTerms extends React.Component<Props> {
     }),
   }
 
+  links = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG]).links
+
   onPressAccept = () => {
     AppAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
 
@@ -68,11 +69,11 @@ export class RegulatoryTerms extends React.Component<Props> {
   }
 
   onPressGoToTerms = () => {
-    navigateToURI(TOS_LINK)
+    navigateToURI(this.links.tos)
   }
 
   onPressGoToPrivacyPolicy = () => {
-    navigateToURI(PRIVACY_LINK)
+    navigateToURI(this.links.privacy)
   }
 
   renderTerms() {

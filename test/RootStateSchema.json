@@ -4139,12 +4139,6 @@
                 "maxSwapSlippagePercentage": {
                     "type": "number"
                 },
-                "minVersion": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
                 "multichainBetaStatus": {
                     "$ref": "#/definitions/MultichainBetaStatus"
                 },
@@ -4236,7 +4230,6 @@
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
                 "maxSwapSlippagePercentage",
-                "minVersion",
                 "multichainBetaStatus",
                 "networkTimeoutSeconds",
                 "numberVerified",
