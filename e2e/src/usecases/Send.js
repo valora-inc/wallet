@@ -133,6 +133,7 @@ export default Send = () => {
     })
   })
 
+  //TODO(mobilestack): Un-skip these if we ever support CPV
   describe('When multi-token send flow to phone number with one address', () => {
     beforeAll(async () => {
       await device.uninstallApp()
@@ -141,12 +142,12 @@ export default Send = () => {
       await quickOnboarding({ mnemonic: SAMPLE_BACKUP_KEY_VERIFIED })
     })
 
-    it('Then should navigate to send search input from home action', async () => {
+    it.skip('Then should navigate to send search input from home action', async () => {
       await waitForElementByIdAndTap('HomeAction-Send', 30_000)
       await waitForElementId('SendSelectRecipientSearchInput', 10_000)
     })
 
-    it('Then should be able to enter a phone number', async () => {
+    it.skip('Then should be able to enter a phone number', async () => {
       await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 30_000)
       await element(by.id('SendSelectRecipientSearchInput')).typeText(
         SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER
@@ -155,23 +156,23 @@ export default Send = () => {
       await isElementVisible('RecipientItem', 0)
     })
 
-    it('Then tapping a recipient should show send button', async () => {
+    it.skip('Then tapping a recipient should show send button', async () => {
       await element(by.id('RecipientItem')).atIndex(0).tap()
       await waitForElementId('SendOrInviteButton', 30_000)
     })
 
-    it('Then tapping send button should navigate to Send Enter Amount screen', async () => {
+    it.skip('Then tapping send button should navigate to Send Enter Amount screen', async () => {
       await element(by.id('SendOrInviteButton')).tap()
       await waitForElementId('SendEnterAmount/TokenAmountInput', 30_000)
     })
 
-    it('Then should be able to select token', async () => {
+    it.skip('Then should be able to select token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
       await element(by.id('cUSDSymbol')).tap()
       await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
     })
 
-    it('Then should be able to enter amount and navigate to review screen', async () => {
+    it.skip('Then should be able to enter amount and navigate to review screen', async () => {
       await waitForElementByIdAndTap('SendEnterAmount/TokenAmountInput', 30_000)
       await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('0.01')
       await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
@@ -179,11 +180,11 @@ export default Send = () => {
       await isElementVisible('ConfirmButton')
     })
 
-    it('Then should display correct recipient', async () => {
+    it.skip('Then should display correct recipient', async () => {
       await expect(element(by.text(SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER_DISPLAY))).toBeVisible()
     })
 
-    it('Then should be able to send', async () => {
+    it.skip('Then should be able to send', async () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
