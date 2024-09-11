@@ -56,7 +56,7 @@ import {
   v222Schema,
   v227Schema,
   v228Schema,
-  v229Schema,
+  v230Schema,
   v28Schema,
   v2Schema,
   v35Schema,
@@ -1696,9 +1696,9 @@ describe('Redux persist migrations', () => {
     expectedSchema.transactions.standbyTransactions[0].providerId = 'aave'
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
-  it('works from 229 to 230', () => {
-    const oldSchema = v229Schema
-    const migratedSchema = migrations[230](oldSchema)
+  it('works from 230 to 231', () => {
+    const oldSchema = v230Schema
+    const migratedSchema = migrations[231](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.jumpstart.introHasBeenSeen = false
     expect(migratedSchema).toStrictEqual(expectedSchema)
