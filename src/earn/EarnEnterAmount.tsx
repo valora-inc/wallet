@@ -508,7 +508,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   continueButton: {
-    paddingTop: Spacing.Regular16,
+    paddingVertical: Spacing.Thick24,
   },
   inputBox: {
     marginTop: Spacing.Large32,
