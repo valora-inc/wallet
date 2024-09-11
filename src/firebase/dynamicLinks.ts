@@ -8,6 +8,7 @@ import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
+import { appendPath } from 'src/utils/string'
 
 const commonDynamicLinkParams: Omit<FirebaseDynamicLinksTypes.DynamicLinkParameters, 'link'> = {
   domainUriPrefix: baseURI,
@@ -24,7 +25,7 @@ export async function createInviteLink(address: string) {
   const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
   return dynamicLinks().buildShortLink({
     ...commonDynamicLinkParams,
-    link: `${links.baseUrl}share/${address}`,
+    link: appendPath(links.baseUrl, `share/${address}`),
   })
 }
 
@@ -37,7 +38,10 @@ export async function createJumpstartLink(privateKey: string, networkId: Network
     link: links.baseUrl,
   })
   const dynamicUrl = new URL(dynamicLink)
-  dynamicUrl.searchParams.set('link', `${links.baseUrl}jumpstart/${privateKey}/${networkId}`)
+  dynamicUrl.searchParams.set(
+    'link',
+    appendPath(links.baseUrl, `jumpstart/${privateKey}/${networkId}`)
+  )
 
   // the firebase dynamic links sdk encodes dots and dashes even though it is
   // not strictly required for urls. calling searchParams.set seems to transform
