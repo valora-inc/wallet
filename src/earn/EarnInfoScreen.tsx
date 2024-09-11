@@ -6,14 +6,13 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { APP_NAME } from 'src/config'
 import { useEarnPosition } from 'src/earn/hooks'
 import { EarnTabType } from 'src/earn/types'
 import ArrowDown from 'src/icons/ArrowDown'
 import CircledIcon from 'src/icons/CircledIcon'
 import EarnCoins from 'src/icons/EarnCoins'
+import Manage from 'src/icons/Manage'
 import Blob from 'src/images/Blob'
-import Logo from 'src/images/Logo'
 import Palm from 'src/images/Palm'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -78,13 +77,13 @@ export default function EarnInfoScreen() {
         <View style={styles.detailsContainer}>
           <DetailsItem
             icon={<EarnCoins size={ICON_SIZE} color={Colors.black} />}
-            title={t('earnFlow.earnInfo.details.earn.title')}
-            subtitle={t('earnFlow.earnInfo.details.earn.subtitle')}
+            title={t('earnFlow.earnInfo.details.work.title')}
+            subtitle={t('earnFlow.earnInfo.details.work.subtitle')}
           />
           <DetailsItem
-            icon={<Logo size={ICON_SIZE} color={Colors.black} />}
-            title={t('earnFlow.earnInfo.details.manage.titleV1_92', { appName: APP_NAME })}
-            subtitle={t('earnFlow.earnInfo.details.manage.subtitleV1_92', { appName: APP_NAME })}
+            icon={<Manage size={ICON_SIZE} color={Colors.black} />}
+            title={t('earnFlow.earnInfo.details.manage.titleV1_94')}
+            subtitle={t('earnFlow.earnInfo.details.manage.subtitleV1_94')}
           />
           <DetailsItem
             icon={<ArrowDown size={ICON_SIZE} color={Colors.black} />}
