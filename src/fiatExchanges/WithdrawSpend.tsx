@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import { AppState } from 'src/app/actions'
 import ListItem from 'src/components/ListItem'
 import { FiatExchangeTokenBalance } from 'src/components/TokenBalance'
-import { FUNDING_LINK } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { fiatExchange } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -22,6 +24,8 @@ import { navigateToURI } from 'src/utils/linking'
 export default function WithdrawSpend() {
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useSelector((state) => state.app.appState)
+
+  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {
@@ -48,7 +52,7 @@ export default function WithdrawSpend() {
   const { t } = useTranslation()
 
   const onOpenOtherFundingOptions = () => {
-    navigateToURI(FUNDING_LINK)
+    navigateToURI(externalLinks.funding)
     AppAnalytics.track(FiatExchangeEvents.cico_landing_how_to_fund)
     setTimestamp(Date.now())
   }
