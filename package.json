@@ -62,7 +62,7 @@
     }
   },
   "lint-staged": {
-    "**/*.+(ts|tsx|js|jsx|json|sol|java|yml|yaml)": "prettier --write"
+    "**/*.+(ts|tsx|js|jsx|json|sol|java|yml|yaml|md)": "prettier --write"
   },
   "rnpm": {
     "assets": [

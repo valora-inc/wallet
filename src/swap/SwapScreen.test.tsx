@@ -8,7 +8,6 @@ import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
@@ -235,6 +234,8 @@ const preparedTransactions: SerializableTransactionRequest[] = [
   },
 ]
 
+const mockTxFeesLearnMoreUrl = 'https://example.com/tx-fees-learn-more'
+
 const selectSingleSwapToken = (
   swapAmountContainer: ReactTestInstance,
   tokenSymbol: string,
@@ -309,8 +310,10 @@ describe('SwapScreen', () => {
     })
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       maxSlippagePercentage: '0.3',
-
       popularTokenIds: [],
+      links: {
+        transactionFeesLearnMore: mockTxFeesLearnMoreUrl,
+      },
     })
 
     const originalReadContract = publicClient.celo.readContract
@@ -895,7 +898,7 @@ describe('SwapScreen', () => {
 
     fireEvent.press(getByText('swapScreen.maxSwapAmountWarning.learnMore'))
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-      uri: TRANSACTION_FEES_LEARN_MORE,
+      uri: mockTxFeesLearnMoreUrl,
     })
 
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
