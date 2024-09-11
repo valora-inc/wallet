@@ -22,7 +22,9 @@
     "strictNullChecks": true,
     "skipLibCheck": true,
     "target": "es2015",
-    "strict": true
+    "strict": true,
+    "types": ["./src/i18next.d.ts"],
+    "resolveJsonModule": true
   },
   "files": ["jest_setup.ts"],
   "include": ["src"],
