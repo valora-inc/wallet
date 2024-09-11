@@ -6,7 +6,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { APP_NAME, EARN_STABLECOINS_LEARN_MORE } from 'src/config'
+import { APP_NAME } from 'src/config'
 import { useEarnPosition } from 'src/earn/hooks'
 import { EarnTabType } from 'src/earn/types'
 import ArrowDown from 'src/icons/ArrowDown'
@@ -18,8 +18,9 @@ import Palm from 'src/images/Palm'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -59,6 +60,7 @@ function DetailsItem({
 export default function EarnInfoScreen() {
   const { t } = useTranslation()
   const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
+  const { externalLinks } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
   const aavePool = useEarnPosition()
 
   const headerHeight = useHeaderHeight()
@@ -95,7 +97,7 @@ export default function EarnInfoScreen() {
         <Button
           onPress={() => {
             AppAnalytics.track(EarnEvents.earn_info_learn_press)
-            navigate(Screens.WebViewScreen, { uri: EARN_STABLECOINS_LEARN_MORE })
+            navigate(Screens.WebViewScreen, { uri: externalLinks.earnStablecoinsLearnMore })
           }}
           text={t('earnFlow.earnInfo.action.learn')}
           type={BtnTypes.SECONDARY}

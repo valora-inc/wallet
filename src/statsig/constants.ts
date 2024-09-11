@@ -121,7 +121,7 @@ export const DynamicConfigs = {
         swapLearnMore: '',
         transactionFeesLearnMore: '',
         inviteRewardsNftsLearnMore: '',
-        inviteRewardsStabletokenLearnMore: '',
+        inviteRewardsStableTokenLearnMore: '',
         earnStablecoinsLearnMore: '',
       },
     },
