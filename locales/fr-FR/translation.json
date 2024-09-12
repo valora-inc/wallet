@@ -2207,6 +2207,10 @@
     "prepareTransactionError": {
       "title": "Une erreur s'est produite!",
       "description": "Il n'a pas été possible de préparer une transaction pour ce jeton."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Vous avez besoin de plus de {{tokenSymbol}}",
+      "description": "{{tokenSymbol}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif."
     }
   },
   "jumpstartIntro": {
@@ -2534,6 +2538,9 @@
       "description": "Gagnez sur vos stablecoins via un pool de liquidité."
     },
     "enterAmount": {
+      "title": "Quel est le montant que tu souhaites déposer ?",
+      "deposit": "Dépôt",
+      "fees": "Frais",
       "earnUpToLabel": "Vous pourriez gagner jusqu'à :",
       "rateLabel": "Taux (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / an",
