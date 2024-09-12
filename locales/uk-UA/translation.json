@@ -2211,6 +2211,10 @@
     "prepareTransactionError": {
       "title": "Щось пішло не так!",
       "description": "Не було можливості підготувати транзакцію для цього токену."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Вам потрібно більше {{tokenSymbol}}",
+      "description": "{{tokenSymbol}}: недостатній баланс. Спробуйте меншу суму або виберіть інший актив."
     }
   },
   "jumpstartIntro": {
@@ -2538,6 +2542,9 @@
       "description": "Заробляйте на своїх стейблкоїнах, надаючи позики через пул ліквідності"
     },
     "enterAmount": {
+      "title": "Яку суму ви хотіли б внести на депозит?",
+      "deposit": "Депозит",
+      "fees": "Комісії",
       "earnUpToLabel": "Можна заробити до:",
       "rateLabel": "Ставка (орієнт.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",

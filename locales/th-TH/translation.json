@@ -2205,6 +2205,10 @@
     "prepareTransactionError": {
       "title": "มีบางอย่างผิดปกติ!",
       "description": "ไม่สามารถเตรียมธุรกรรมสำหรับโทเค็นนี้ได้"
+    },
+    "insufficientBalanceWarning": {
+      "title": "คุณต้องใช้อีก {{tokenSymbol}}",
+      "description": "ยอดคงเหลือ {{tokenSymbol}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น"
     }
   },
   "jumpstartIntro": {
@@ -2532,6 +2536,9 @@
       "description": "สร้างรายได้จาก Stablecoin เมื่อให้ยืมผ่าน Liquidity Pool"
     },
     "enterAmount": {
+      "title": "How much would you like to deposit?",
+      "deposit": "ฝากเงิน",
+      "fees": "ค่าธรรมเนียม",
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
       "rateLabel": "อัตรา (โดยประมาณ)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / ปี",

@@ -4,7 +4,7 @@ import { Duration, intervalToDuration } from 'date-fns'
 import React, { RefObject, useMemo, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, Platform, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { LayoutChangeEvent, Platform, StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -15,6 +15,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
+import { Card } from 'src/earn/Card'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow, fetchExchanges } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -117,22 +118,6 @@ function TokenIcons({
           showNetworkIcon={showNetworkIcon}
         />
       ))}
-    </View>
-  )
-}
-
-function Card({
-  children,
-  testID,
-  cardStyle,
-}: {
-  children: React.ReactNode
-  testID: string
-  cardStyle?: ViewStyle
-}) {
-  return (
-    <View testID={testID} style={[styles.card, cardStyle]}>
-      {children}
     </View>
   )
 }
@@ -964,13 +949,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   contentContainer: {
-    gap: Spacing.Regular16,
-  },
-  card: {
-    padding: Spacing.Regular16,
-    borderColor: Colors.gray2,
-    borderWidth: 1,
-    borderRadius: 12,
     gap: Spacing.Regular16,
   },
   cardLineContainer: {
