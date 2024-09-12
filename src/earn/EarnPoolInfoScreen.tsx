@@ -10,7 +10,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import AddAssetsBottomSheet, { AddAssetsAction } from 'src/components/AddAssetsBottomSheet'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -564,12 +564,11 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     }
   }
 
-  const beforeDepositBottomSheetRef = useRef<BottomSheetRefType>(null)
-
-  const depositInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const tvlInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const ageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const yieldRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const beforeDepositBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const depositInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const tvlInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const ageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const yieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
@@ -723,7 +722,7 @@ function InfoBottomSheet({
   providerName,
   testId,
 }: {
-  infoBottomSheetRef: React.RefObject<BottomSheetRefType>
+  infoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
   titleKey: string
   descriptionKey: string
   descriptionUrl?: string

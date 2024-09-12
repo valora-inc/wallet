@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
@@ -33,7 +33,7 @@ export default function AddAssetsBottomSheet({
   testId,
   showDescriptionAfterFirstAction,
 }: {
-  forwardedRef: RefObject<BottomSheetRefType>
+  forwardedRef: RefObject<BottomSheetModalRefType>
   actions: AddAssetsAction[]
   title: string
   description: string
