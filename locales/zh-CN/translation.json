@@ -2205,6 +2205,10 @@
     "prepareTransactionError": {
       "title": "出错了!",
       "description": "无法为该令牌准备交易。"
+    },
+    "insufficientBalanceWarning": {
+      "title": "您需要更多 {{tokenSymbol}}",
+      "description": "{{tokenSymbol}} 余额不足，请尝试使用较小的金额或选择其他资产。"
     }
   },
   "jumpstartIntro": {
@@ -2532,6 +2536,9 @@
       "description": "通过流动性池出借稳定币，赚取稳定币收益"
     },
     "enterAmount": {
+      "title": "您想存入多少钱？",
+      "deposit": "存款",
+      "fees": "费用",
       "earnUpToLabel": "您最多可以赚取：",
       "rateLabel": "费率（估算）",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/年",

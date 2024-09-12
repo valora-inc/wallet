@@ -2207,6 +2207,10 @@
     "prepareTransactionError": {
       "title": "Bir şeyler ters gitti!",
       "description": "Bu token için bir işlem hazırlanamadı."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Daha fazla {{tokenSymbol}} bakiyesine ihtiyacınız var",
+      "description": "Yetersiz {{tokenSymbol}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin."
     }
   },
   "jumpstartIntro": {
@@ -2534,6 +2538,9 @@
       "description": "Bir likidite havuzu aracılığıyla ödünç vererek sabit coinlerinizden kazanın"
     },
     "enterAmount": {
+      "title": "Ne kadar yatırmak istersiniz?",
+      "deposit": "Patra Yatırma",
+      "fees": "Ücretler",
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yıl",

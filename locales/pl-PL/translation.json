@@ -2211,6 +2211,10 @@
     "prepareTransactionError": {
       "title": "Coś poszło nie tak!",
       "description": "Nie było możliwe przygotowanie transakcji dla tego tokena."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Potrzebujesz więcej {{tokenSymbol}}",
+      "description": "Niewystarczające saldo {{tokenSymbol}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny aktyw."
     }
   },
   "jumpstartIntro": {
@@ -2538,6 +2542,9 @@
       "description": "Zarabiaj na swoich tokenach płatniczych, pożyczając za pośrednictwem puli płynności"
     },
     "enterAmount": {
+      "title": "Jaką kwotę chcesz wpłacić?",
+      "deposit": "Wpłatę",
+      "fees": "Opłaty",
       "earnUpToLabel": "Możesz zarobić do:",
       "rateLabel": "Stawka (szac.)",
       "earnUpTo": "~{{amount}}{{fiatSymbol}} / rok",
