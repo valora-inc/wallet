@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
@@ -65,8 +65,8 @@ function EarnEnterAmount({ route }: Props) {
     throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
   }
 
-  const infoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const reviewBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const infoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tokenAmountInputRef = useRef<RNTextInput>(null)
   const localAmountInputRef = useRef<RNTextInput>(null)
 
@@ -437,7 +437,7 @@ function EarnEnterAmount({ route }: Props) {
 function InfoBottomSheet({
   infoBottomSheetRef,
 }: {
-  infoBottomSheetRef: React.RefObject<BottomSheetRefType>
+  infoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
 }) {
   const { t } = useTranslation()
 

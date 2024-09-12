@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import Toast from 'src/components/Toast'
 import { showError } from 'src/alert/actions'
 import { NotificationVariant } from 'src/components/InLineNotification'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { setAnalyticsEnabled, setRequirePinOnAppOpen } from 'src/app/actions'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
@@ -77,8 +77,8 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
 
   const analyticsEnabled = useSelector(analyticsEnabledSelector)
 
-  const resetAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const deleteAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const resetAccountBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const deleteAccountBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const showDeleteKeylessBackupError = useSelector(showDeleteKeylessBackupErrorSelector)
 

@@ -6,7 +6,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
 import AddAssetsBottomSheet, { AddAssetsAction } from 'src/components/AddAssetsBottomSheet'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/utils'
@@ -23,7 +23,7 @@ import { TokenActionName } from 'src/tokens/types'
 import networkConfig from 'src/web3/networkConfig'
 
 export default function JumpstartAddAssets() {
-  const addAssetsBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const addAssetsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()

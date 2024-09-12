@@ -9,7 +9,7 @@ import walletJumpstart from 'src/abis/IWalletJumpstart'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { NotificationVariant } from 'src/components/InLineNotification'
@@ -63,7 +63,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
   const reclaimStatus = useSelector(jumpstartReclaimStatusSelector)
 
-  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   useEffect(() => {
     if (reclaimStatus === 'success' || reclaimStatus === 'error') {
