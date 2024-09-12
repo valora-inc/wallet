@@ -164,7 +164,7 @@
     "react-native-restart": "^0.0.27",
     "react-native-safe-area-context": "^4.11.0",
     "react-native-screens": "^3.34.0",
-    "react-native-shake": "^5.6.2",
+    "react-native-shake": "^5.5.2",
     "react-native-share": "^10.2.1",
     "react-native-simple-toast": "^3.3.1",
     "react-native-skeleton-placeholder": "^5.2.4",
