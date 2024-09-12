@@ -354,6 +354,7 @@ export default function EarnHome({ navigation, route }: Props) {
         title={t('sendEnterAmountScreen.selectToken')}
         origin={TokenPickerOrigin.Earn}
         filterChips={[]}
+        wrapWithModalProvider={false}
       />
     </>
   )

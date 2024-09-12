@@ -54,6 +54,7 @@ export type TokenBottomSheetProps = {
   showPriceUsdUnavailableWarning?: boolean
   filterChips?: FilterChip<TokenBalance>[]
   areSwapTokensShuffled?: boolean
+  wrapWithModalProvider?: boolean
 } & (
   | { isScreen: true; forwardedRef?: undefined }
   | { forwardedRef: RefObject<BottomSheetModalRefType>; isScreen?: false }
@@ -125,6 +126,7 @@ function TokenBottomSheet({
   filterChips = [],
   areSwapTokensShuffled,
   isScreen,
+  wrapWithModalProvider = true,
 }: TokenBottomSheetProps) {
   const insets = useSafeAreaInsets()
 
@@ -329,21 +331,34 @@ function TokenBottomSheet({
     </View>
   )
 
+  const BottomSheetContent = ({
+    forwardedRef,
+    snapPoints,
+  }: {
+    forwardedRef: RefObject<BottomSheetModalRefType>
+    snapPoints: (string | number)[] | undefined
+  }) => {
+    return (
+      <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
+        {content}
+      </BottomSheetBase>
+    )
+  }
+
   return (
     <>
       {isScreen ? (
         // Don't wrap the content in a BottomSheetBase when used as a screen
         // since the bottom sheet navigator already provides the necessary wrapping
         content
-      ) : (
+      ) : wrapWithModalProvider ? (
         <BottomSheetModalProvider>
-          <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
-            {content}
-          </BottomSheetBase>
+          <BottomSheetContent forwardedRef={forwardedRef} snapPoints={snapPoints} />
         </BottomSheetModalProvider>
+      ) : (
+        <BottomSheetContent forwardedRef={forwardedRef} snapPoints={snapPoints} />
       )}
       {networkChip && (
-        // Wrap the network filter bottom sheet in a BottomSheetModalProvider to avoid rendering behind the main bottom sheet
         <BottomSheetModalProvider>
           <NetworkMultiSelectBottomSheet
             allNetworkIds={networkChip.allNetworkIds}
