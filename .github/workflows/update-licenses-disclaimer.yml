@@ -1,12 +1,13 @@
 name: Update Licenses and Disclaimer
 
 on:
-  push:
-    # trigger only when the yarn.lock file is modified in main
-    branches:
-      - main
-    paths:
-      - 'yarn.lock'
+  workflow_dispatch:
+  # push:
+  #   # trigger only when the yarn.lock file is modified in main
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'yarn.lock'
 
 jobs:
   update-licenses-and-disclaimer:
