@@ -327,7 +327,6 @@ const expectedTraitsForAllNetworks = {
   deviceLanguage: 'en-US',
   ethBalance: 10,
   hasCompletedBackup: false,
-  hasVerifiedNumber: false,
   hasVerifiedNumberCPV: true,
   hooksPreviewEnabled: false,
   language: 'es-419',
