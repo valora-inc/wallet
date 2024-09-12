@@ -331,20 +331,6 @@ function TokenBottomSheet({
     </View>
   )
 
-  const BottomSheetContent = ({
-    forwardedRef,
-    snapPoints,
-  }: {
-    forwardedRef: RefObject<BottomSheetModalRefType>
-    snapPoints: (string | number)[] | undefined
-  }) => {
-    return (
-      <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
-        {content}
-      </BottomSheetBase>
-    )
-  }
-
   return (
     <>
       {isScreen ? (
@@ -353,10 +339,14 @@ function TokenBottomSheet({
         content
       ) : wrapWithModalProvider ? (
         <BottomSheetModalProvider>
-          <BottomSheetContent forwardedRef={forwardedRef} snapPoints={snapPoints} />
+          <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
+            {content}
+          </BottomSheetBase>
         </BottomSheetModalProvider>
       ) : (
-        <BottomSheetContent forwardedRef={forwardedRef} snapPoints={snapPoints} />
+        <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
+          {content}
+        </BottomSheetBase>
       )}
       {networkChip && (
         <BottomSheetModalProvider>
