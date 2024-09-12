@@ -4144,9 +4144,6 @@
                 "networkTimeoutSeconds": {
                     "type": "number"
                 },
-                "numberVerified": {
-                    "type": "boolean"
-                },
                 "pendingDeepLinks": {
                     "items": {
                         "$ref": "#/definitions/PendingDeepLink"
@@ -4231,7 +4228,6 @@
                 "maxSwapSlippagePercentage",
                 "multichainBetaStatus",
                 "networkTimeoutSeconds",
-                "numberVerified",
                 "pendingDeepLinks",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",

@@ -14,8 +14,7 @@ const PERSISTED_DEEP_LINKS = [
 
 interface State {
   loggedIn: boolean
-  numberVerified: boolean // decentrally verified
-  phoneNumberVerified: boolean // centrally verified
+  phoneNumberVerified: boolean
   analyticsEnabled: boolean
   requirePinOnAppOpen: boolean
   appState: AppState
@@ -59,7 +58,6 @@ interface PendingDeepLink {
 
 const initialState = {
   loggedIn: false,
-  numberVerified: false,
   phoneNumberVerified: false,
   analyticsEnabled: true,
   requirePinOnAppOpen: false,
