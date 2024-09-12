@@ -10,6 +10,7 @@ jest.mock('src/statsig')
 
 jest.mocked(getDynamicConfigParams).mockReturnValue({
   wallet_network_timeout_seconds: 10,
+  jumpstartContracts: [],
 })
 
 describe('JumpstartAddAssets', () => {

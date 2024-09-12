@@ -5,12 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import JumpstartAddAssets from 'src/jumpstart/JumpstartAddAssets'
-import JumpstartIntro from 'src/jumpstart/JumpstartIntro'
 import {
   jumpstartIntroHasBeenSeenSelector,
   jumpstartSendStatusSelector,
@@ -58,7 +56,6 @@ function JumpstartEnterAmount() {
 
   const introSeen = useSelector(jumpstartIntroHasBeenSeenSelector)
   const tokens = useSelector(jumpstartSendTokensSelector)
-  const shouldShowIntro = !(introSeen && tokens.length)
 
   const jumpstartLink = useMemo(() => {
     const privateKey = generatePrivateKey()
@@ -74,11 +71,6 @@ function JumpstartEnterAmount() {
       dispatch(depositTransactionFlowStarted())
     }
   }, [jumpstartLink.privateKey])
-
-  // Track in analytics whenever user sees the intro
-  useEffect(() => {
-    AppAnalytics.track(JumpstartEvents.jumpstart_intro_seen)
-  }, [])
 
   const handleProceed = useAsyncCallback(
     async ({ tokenAmount, token, amountEnteredIn }: ProceedArgs) => {
@@ -184,24 +176,8 @@ function JumpstartEnterAmount() {
     dispatch(jumpstartIntroSeen())
   }
 
-  if (tokens.length === 0) {
+  if (tokens.length === 0 || !introSeen) {
     return <JumpstartAddAssets />
-  }
-
-  if (shouldShowIntro) {
-    return (
-      <JumpstartIntro
-        button={
-          <Button
-            testID="JumpstartEnterAmount/haveFundsButton"
-            onPress={onIntroDismiss}
-            text={t('jumpstartIntro.haveFundsButton')}
-            type={BtnTypes.PRIMARY}
-            size={BtnSizes.FULL}
-          />
-        }
-      />
-    )
   }
 
   return (

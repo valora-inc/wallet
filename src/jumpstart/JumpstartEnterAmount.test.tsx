@@ -8,7 +8,7 @@ import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
 import { depositTransactionFlowStarted, jumpstartIntroSeen } from 'src/jumpstart/slice'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
-import { navigate, replace } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams } from 'src/statsig'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
@@ -370,7 +370,6 @@ describe('JumpstartEnterAmount', () => {
       </Provider>
     )
 
-    expect(replace).toHaveBeenLastCalledWith(Screens.JumpstartEnterAmount)
     expect(getByTestId('SendEnterAmount/TokenAmountInput')).toBeTruthy()
   })
 })
