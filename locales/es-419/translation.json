@@ -2207,6 +2207,10 @@
     "prepareTransactionError": {
       "title": "Algo salió mal!",
       "description": "No fue posible preparar una transacción para este token."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Necesitas más {{tokenSymbol}}",
+      "description": "Saldo en {{tokenSymbol}} insuficiente. Ingresa un monto menor o elige otro activo."
     }
   },
   "jumpstartIntro": {
@@ -2534,6 +2538,9 @@
       "description": "Gana sobre tus stablecoins en pools de liquidez."
     },
     "enterAmount": {
+      "title": "¿Cuánto quieres ingresar?",
+      "deposit": "Depósito",
+      "fees": "Tarifas",
       "earnUpToLabel": "Podrías ganar hasta:",
       "rateLabel": "Tasa (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/año",

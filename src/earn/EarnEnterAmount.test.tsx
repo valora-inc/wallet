@@ -141,39 +141,6 @@ describe('EarnEnterAmount', () => {
       )
   })
 
-  it('should render APY and EarnUpTo', async () => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={EarnEnterAmount} params={params} />
-      </Provider>
-    )
-    expect(getByTestId('EarnEnterAmount/EarnApyAndAmount/Apy')).toBeTruthy()
-    expect(getByTestId('EarnEnterAmount/EarnApyAndAmount/Apy')).toHaveTextContent(
-      'earnFlow.enterAmount.rate, {"rate":"1.92"}'
-    )
-  })
-
-  it('should be able to tap info icon (for single pool)', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={EarnEnterAmount} params={params} />
-      </Provider>
-    )
-    fireEvent.press(getByTestId('EarnEnterAmount/InfoIcon'))
-    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_info_press)
-  })
-
-  it('hides info icon for multiple pools', async () => {
-    const { queryByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={EarnEnterAmount} params={params} />
-      </Provider>
-    )
-    expect(queryByTestId('EarnEnterAmount/InfoIcon')).toBeNull()
-  })
-
   it('should prepare transactions with the expected inputs', async () => {
     const { getByTestId } = render(
       <Provider store={store}>
@@ -219,6 +186,13 @@ describe('EarnEnterAmount', () => {
     fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '8')
 
     await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
+
+    expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toBeTruthy()
+    expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toHaveTextContent('8.00 USDC')
+
+    expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toBeTruthy()
+    expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toHaveTextContent('₱10.64')
+
     fireEvent.press(getByText('earnFlow.enterAmount.continue'))
 
     await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
@@ -234,7 +208,7 @@ describe('EarnEnterAmount', () => {
     })
     await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
   })
-  it('should handle navigating to the add crypto bottom sheet', async () => {
+  it('should show a warning and not allow the user to continue if they input an amount greater than balance', async () => {
     jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
       prepareTransactionsResult: mockPreparedTransaction,
       refreshPreparedTransactions: jest.fn(),
@@ -242,7 +216,7 @@ describe('EarnEnterAmount', () => {
       prepareTransactionError: undefined,
       isPreparingTransactions: false,
     })
-    const { getByTestId, getByText } = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={EarnEnterAmount} params={params} />
       </Provider>
@@ -250,23 +224,8 @@ describe('EarnEnterAmount', () => {
 
     fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '12')
 
-    await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
-    fireEvent.press(getByText('earnFlow.enterAmount.continue'))
-
-    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_continue_press, {
-      amountEnteredIn: 'token',
-      amountInUsd: '12.00',
-      networkId: NetworkId['arbitrum-sepolia'],
-      tokenAmount: '12',
-      depositTokenId: mockArbUsdcTokenId,
-      userHasFunds: false,
-      providerId: mockEarnPositions[0].appId,
-      poolId: mockEarnPositions[0].positionId,
-    })
-    await waitFor(() =>
-      expect(getByText('earnFlow.addCryptoBottomSheet.description')).toBeVisible()
-    )
+    expect(getByTestId('EarnEnterAmount/NotEnoughBalanceWarning')).toBeTruthy()
+    expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
   })
 
   it('should show loading spinner when preparing transaction', async () => {
