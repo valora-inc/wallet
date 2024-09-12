@@ -522,7 +522,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       )
     )
   }, [pool, isSwapEnabled, swappableFromTokens])
-  const canCrossChainSwapToDeposit = useMemo(() => {
+  const canCrossChainSwap = useMemo(() => {
     return (
       getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS) &&
       isSwapEnabled &&
@@ -555,7 +555,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       depositTokenId: dataProps.depositTokenId,
       canDeposit,
       canSameChainSwapToDeposit,
-      canCrossChainSwapToDeposit,
+      canCrossChainSwap,
     })
     if (canDeposit) {
       navigate(Screens.EarnEnterAmount, { pool })
@@ -706,7 +706,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         forwardedRef={beforeDepositBottomSheetRef}
         token={depositToken}
         canSameChainSwapToDeposit={canSameChainSwapToDeposit}
-        canCrossChainSwapToDeposit={canCrossChainSwapToDeposit}
+        canCrossChainSwap={canCrossChainSwap}
         canAdd={canCashIn}
         exchanges={exchanges}
       />
@@ -769,14 +769,14 @@ function BeforeDepositBottomSheet({
   forwardedRef,
   token,
   canSameChainSwapToDeposit,
-  canCrossChainSwapToDeposit,
+  canCrossChainSwap,
   canAdd,
   exchanges,
 }: {
   forwardedRef: RefObject<BottomSheetModalRefType>
   token: TokenBalance
   canSameChainSwapToDeposit: boolean
-  canCrossChainSwapToDeposit: boolean
+  canCrossChainSwap: boolean
   canAdd: boolean
   exchanges: ExternalExchangeProvider[]
 }) {
@@ -806,7 +806,7 @@ function BeforeDepositBottomSheet({
       })
     }
 
-    if (canCrossChainSwapToDeposit) {
+    if (canCrossChainSwap) {
       visibleActions.push({
         name: canSameChainSwapToDeposit ? TokenActionName.CrossChainSwap : TokenActionName.Swap,
         details: canSameChainSwapToDeposit
@@ -827,6 +827,7 @@ function BeforeDepositBottomSheet({
           })
 
           navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
+          forwardedRef.current?.close()
         },
       })
     }
@@ -872,7 +873,7 @@ function BeforeDepositBottomSheet({
     }
 
     return visibleActions
-  }, [token, canSameChainSwapToDeposit, canCrossChainSwapToDeposit, canAdd, exchanges])
+  }, [token, canSameChainSwapToDeposit, canCrossChainSwap, canAdd, exchanges])
 
   return (
     <AddAssetsBottomSheet

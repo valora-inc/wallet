@@ -70,8 +70,8 @@ export default function AddAssetsBottomSheet({
     ...actionExtraProps[action.name],
   }))
 
-  const beforeDescriptionAction = addAssetsActions[0]
-  const afterDescriptionActions = addAssetsActions.slice(showDescriptionAfterFirstAction ? 1 : 0)
+  const firstAction = addAssetsActions[0]
+  const restOfActions = addAssetsActions.slice(1)
 
   return (
     <BottomSheet
@@ -82,25 +82,23 @@ export default function AddAssetsBottomSheet({
       testId={testId}
     >
       <View style={styles.actionsContainer}>
-        {showDescriptionAfterFirstAction && (
-          <Touchable
-            style={styles.touchable}
-            key={beforeDescriptionAction.name}
-            borderRadius={20}
-            onPress={beforeDescriptionAction.onPress}
-            testID={`${testId}/${beforeDescriptionAction.name}`}
-          >
-            <>
-              <beforeDescriptionAction.iconComponent color={Colors.black} />
-              <View style={styles.contentContainer}>
-                <Text style={styles.actionTitle}>{beforeDescriptionAction.title}</Text>
-                <Text style={styles.actionDetails}>{beforeDescriptionAction.details}</Text>
-              </View>
-            </>
-          </Touchable>
-        )}
+        <Touchable
+          style={styles.touchable}
+          key={firstAction.name}
+          borderRadius={20}
+          onPress={firstAction.onPress}
+          testID={`${testId}/${firstAction.name}`}
+        >
+          <>
+            <firstAction.iconComponent color={Colors.black} />
+            <View style={styles.contentContainer}>
+              <Text style={styles.actionTitle}>{firstAction.title}</Text>
+              <Text style={styles.actionDetails}>{firstAction.details}</Text>
+            </View>
+          </>
+        </Touchable>
         {showDescriptionAfterFirstAction && <Text style={styles.actionDetails}>{description}</Text>}
-        {afterDescriptionActions.map((action) => (
+        {restOfActions.map((action) => (
           <Touchable
             style={styles.touchable}
             key={action.name}

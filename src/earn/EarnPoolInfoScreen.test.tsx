@@ -307,7 +307,7 @@ describe('EarnPoolInfoScreen', () => {
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
       canDeposit: true,
       canSameChainSwapToDeposit: false,
-      canCrossChainSwapToDeposit: false,
+      canCrossChainSwap: false,
     })
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
       pool: mockEarnPositions[0],
@@ -338,7 +338,7 @@ describe('EarnPoolInfoScreen', () => {
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
       canDeposit: false,
       canSameChainSwapToDeposit: true,
-      canCrossChainSwapToDeposit: true,
+      canCrossChainSwap: true,
     })
     expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
     expect(getByTestId('Earn/BeforeDepositBottomSheet/SwapAndDeposit')).toBeTruthy()
@@ -370,7 +370,7 @@ describe('EarnPoolInfoScreen', () => {
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
       canDeposit: false,
       canSameChainSwapToDeposit: false,
-      canCrossChainSwapToDeposit: true,
+      canCrossChainSwap: true,
     })
     expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
     expect(getByTestId('Earn/BeforeDepositBottomSheet/Swap')).toBeTruthy()
@@ -402,7 +402,7 @@ describe('EarnPoolInfoScreen', () => {
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
       canDeposit: false,
       canSameChainSwapToDeposit: false,
-      canCrossChainSwapToDeposit: false,
+      canCrossChainSwap: false,
     })
     expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
     expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
