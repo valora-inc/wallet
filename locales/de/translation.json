@@ -2207,6 +2207,10 @@
     "prepareTransactionError": {
       "title": "Etwas ist schief gelaufen!",
       "description": "Es war nicht möglich, eine Transaktion für dieses Token vorzubereiten."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Du benötigst mehr {{tokenSymbol}}",
+      "description": "Unzureichendes {{tokenSymbol}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen."
     }
   },
   "jumpstartIntro": {
@@ -2534,6 +2538,9 @@
       "description": "Verdiene an deinen Stablecoins, wenn du über einen Liquiditätspool verleihst"
     },
     "enterAmount": {
+      "title": "Wie viel möchtest du einzahlen?",
+      "deposit": "Einzahlung",
+      "fees": "Gebühren",
       "earnUpToLabel": "Verdienst von bis zu:",
       "rateLabel": "Rate (geschätzt)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / Jahr",
