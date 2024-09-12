@@ -20,6 +20,8 @@ export default function JumpstartIntro({ button, children, showNoAssetsHint }: P
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
 
+  console.log('BOTTOM', insets.bottom)
+
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <Leaf style={styles.palmImage} />

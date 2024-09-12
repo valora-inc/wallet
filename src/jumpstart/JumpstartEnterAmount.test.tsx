@@ -352,7 +352,6 @@ describe('JumpstartEnterAmount', () => {
     expect(getByText('jumpstartIntro.description')).toBeTruthy()
     expect(getByText('jumpstartIntro.haveFundsButton')).toBeTruthy()
     expect(getByTestId('JumpstartEnterAmount/haveFundsButton')).toBeTruthy()
-    expect(updatedStore.getState().jumpstart.introHasBeenSeen).toBe(false)
 
     fireEvent.press(getByTestId('JumpstartEnterAmount/haveFundsButton'))
     expect(updatedStore.getActions()).toEqual([
@@ -371,7 +370,6 @@ describe('JumpstartEnterAmount', () => {
       </Provider>
     )
 
-    expect(updatedStore.getState().jumpstart.introHasBeenSeen).toBe(true)
     expect(replace).toHaveBeenLastCalledWith(Screens.JumpstartEnterAmount)
     expect(getByTestId('SendEnterAmount/TokenAmountInput')).toBeTruthy()
   })

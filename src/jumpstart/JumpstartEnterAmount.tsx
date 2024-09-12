@@ -75,6 +75,11 @@ function JumpstartEnterAmount() {
     }
   }, [jumpstartLink.privateKey])
 
+  // Track in analytics whenever user sees the intro
+  useEffect(() => {
+    AppAnalytics.track(JumpstartEvents.jumpstart_intro_seen)
+  }, [])
+
   const handleProceed = useAsyncCallback(
     async ({ tokenAmount, token, amountEnteredIn }: ProceedArgs) => {
       const link = await createJumpstartLink(jumpstartLink.privateKey, token.networkId)
@@ -177,15 +182,7 @@ function JumpstartEnterAmount() {
 
   const onIntroDismiss = () => {
     dispatch(jumpstartIntroSeen())
-    navigate(Screens.JumpstartEnterAmount)
   }
-
-  // Track it in analytics whenever user sees intro screen for the first time
-  useEffect(() => {
-    if (!introSeen) {
-      AppAnalytics.track(JumpstartEvents.jumpstart_intro_seen)
-    }
-  }, [introSeen, dispatch])
 
   if (tokens.length === 0) {
     return <JumpstartAddAssets />
