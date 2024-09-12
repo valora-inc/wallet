@@ -19,7 +19,7 @@ import { depositTransactionFlowStarted, jumpstartIntroSeen } from 'src/jumpstart
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
-import { navigate, replace } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import EnterAmount, { ProceedArgs, SendProceed } from 'src/send/EnterAmount'
@@ -177,7 +177,7 @@ function JumpstartEnterAmount() {
 
   const onIntroDismiss = () => {
     dispatch(jumpstartIntroSeen())
-    replace(Screens.JumpstartEnterAmount)
+    navigate(Screens.JumpstartEnterAmount)
   }
 
   // Track it in analytics whenever user sees intro screen for the first time
