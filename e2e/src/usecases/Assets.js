@@ -128,7 +128,6 @@ export default Assets = () => {
           await element(by.id('TokenDetails/Action/More')).tap()
           await waitForElementByIdAndTap('TokenDetailsMoreActions/Send')
           await validateSendFlow(symbol)
-          await element(by.id('TokenDetailsMoreActions')).swipe('down')
           await waitForElementId('TokenDetails/AssetValue')
         })
       }
@@ -138,7 +137,6 @@ export default Assets = () => {
           await element(by.id('TokenDetails/Action/More')).tap()
           await waitForElementByIdAndTap('TokenDetailsMoreActions/Add')
           await validateAddFlow(symbol)
-          await element(by.id('TokenDetailsMoreActions')).swipe('down')
           await waitForElementId('TokenDetails/AssetValue')
         })
       }
@@ -149,7 +147,6 @@ export default Assets = () => {
           await waitForElementByIdAndTap('TokenDetailsMoreActions/Withdraw')
           await waitForElementId('FiatExchangeTokenBalance')
           await element(by.id('BackChevron')).tap()
-          await element(by.id('TokenDetailsMoreActions')).swipe('down')
           await waitForElementId('TokenDetails/AssetValue')
         })
       }
