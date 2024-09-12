@@ -2,7 +2,6 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import { Duration, intervalToDuration } from 'date-fns'
 import React, { RefObject, useMemo, useRef, useState } from 'react'
-import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
@@ -16,8 +15,9 @@ import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import { Card } from 'src/earn/Card'
+import { useDepositEntrypointInfo } from 'src/earn/hooks'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { CICOFlow, fetchExchanges } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
@@ -25,20 +25,16 @@ import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/loca
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
-import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import type { EarningItem } from 'src/positions/types'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { useCashInTokens, useSwappableTokens, useTokenInfo, useTokensInfo } from 'src/tokens/hooks'
+import { useTokenInfo, useTokensInfo } from 'src/tokens/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenActionName } from 'src/tokens/types'
@@ -505,47 +501,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     throw new Error(`Token ${dataProps.depositTokenId} not found`)
   }
 
-  const { swappableFromTokens } = useSwappableTokens()
-  const cashInTokens = useCashInTokens()
-  const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
-  const userLocation = useSelector(userLocationDataSelector)
-
-  const canDeposit = useMemo(() => {
-    return allTokens[dataProps.depositTokenId]?.balance?.gt(0) ?? false
-  }, [pool, allTokens])
-  const canSameChainSwapToDeposit = useMemo(() => {
-    return (
-      isSwapEnabled &&
-      !!swappableFromTokens.find(
-        (tokenInfo) =>
-          tokenInfo.networkId === networkId && tokenInfo.tokenId !== dataProps.depositTokenId
-      )
-    )
-  }, [pool, isSwapEnabled, swappableFromTokens])
-  const canCrossChainSwap = useMemo(() => {
-    return (
-      getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS) &&
-      isSwapEnabled &&
-      !!swappableFromTokens.find((tokenInfo) => tokenInfo.networkId !== networkId)
-    )
-  }, [pool, isSwapEnabled, swappableFromTokens])
-  const canCashIn = useMemo(() => {
-    return !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === dataProps.depositTokenId)
-  }, [pool, cashInTokens])
-
-  const asyncExchanges = useAsync(async () => {
-    try {
-      const availableExchanges = await fetchExchanges(
-        userLocation.countryCodeAlpha2,
-        dataProps.depositTokenId
-      )
-
-      return availableExchanges
-    } catch (error) {
-      return []
-    }
-  }, [])
-  const exchanges = asyncExchanges.result ?? []
+  const { canDeposit, canSameChainSwapToDeposit, canCrossChainSwap, canCashIn, exchanges } =
+    useDepositEntrypointInfo({ allTokens, pool })
 
   const onPressDeposit = () => {
     AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
