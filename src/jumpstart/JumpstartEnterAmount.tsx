@@ -13,7 +13,7 @@ import {
   jumpstartIntroHasBeenSeenSelector,
   jumpstartSendStatusSelector,
 } from 'src/jumpstart/selectors'
-import { depositTransactionFlowStarted, jumpstartIntroSeen } from 'src/jumpstart/slice'
+import { depositTransactionFlowStarted } from 'src/jumpstart/slice'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -171,10 +171,6 @@ function JumpstartEnterAmount() {
     sendAmountExceedsThreshold ||
     jumpstartSendStatus === 'success' ||
     jumpstartSendStatus === 'loading'
-
-  const onIntroDismiss = () => {
-    dispatch(jumpstartIntroSeen())
-  }
 
   if (tokens.length === 0 || !introSeen) {
     return <JumpstartAddAssets />
