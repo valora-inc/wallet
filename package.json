@@ -77,7 +77,7 @@
     "@fiatconnect/fiatconnect-types": "^13.3.8",
     "@gorhom/bottom-sheet": "^4.6.4",
     "@json-rpc-tools/utils": "^1.7.6",
-    "@noble/secp256k1": "^1.7.1",
+    "@noble/secp256k1": "^2.1.0",
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-native-clipboard/clipboard": "^1.14.1",
     "@react-native-community/netinfo": "^11.3.2",
