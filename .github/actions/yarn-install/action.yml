@@ -20,9 +20,7 @@ runs:
         yarn || yarn --network-concurrency 1
         # Another install flakiness fix (at least in yarn v1 with node 20)
         # yarn postinstall isn't always run (?!) so we run it manually
-        if [ ! -f src/brandingConfig.ts ]; then
-          yarn postinstall
-        fi
+        yarn postinstall
       shell: bash
     - name: Fail if someone forgot to commit "yarn.lock"
       run: git diff --exit-code

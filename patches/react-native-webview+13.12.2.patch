@@ -1,8 +1,8 @@
 diff --git a/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewClient.java b/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewClient.java
-index d8af74a..a10b2a7 100644
+index 251939e..1ca9def 100644
 --- a/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewClient.java
 +++ b/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewClient.java
-@@ -36,8 +36,9 @@ import java.util.concurrent.atomic.AtomicReference;
+@@ -38,8 +38,9 @@ import java.util.concurrent.atomic.AtomicReference;
  
  public class RNCWebViewClient extends WebViewClient {
      private static String TAG = "RNCWebViewClient";

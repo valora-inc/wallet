@@ -62,7 +62,7 @@
     }
   },
   "lint-staged": {
-    "**/*.+(ts|tsx|js|jsx|json|sol|java|yml|yaml)": "prettier --write"
+    "**/*.+(ts|tsx|js|jsx|json|sol|java|yml|yaml|md)": "prettier --write"
   },
   "rnpm": {
     "assets": [
@@ -174,7 +174,7 @@
     "react-native-tab-view": "^3.5.2",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-video": "^6.5.0",
-    "react-native-webview": "^13.8.6",
+    "react-native-webview": "^13.12.1",
     "react-redux": "^9.1.2",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
