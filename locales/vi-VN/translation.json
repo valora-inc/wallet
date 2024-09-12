@@ -2205,6 +2205,10 @@
     "prepareTransactionError": {
       "title": "Đã xảy ra lỗi!",
       "description": "Không thể chuẩn bị giao dịch cho token này."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Bạn cần thêm {{tokenSymbol}}",
+      "description": "Không đủ số dư {{tokenSymbol}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác."
     }
   },
   "jumpstartIntro": {
@@ -2532,6 +2536,9 @@
       "description": "Kiếm tiền từ stablecoin bằng cách cho vay thông qua một bể thanh khoản"
     },
     "enterAmount": {
+      "title": "How much would you like to deposit?",
+      "deposit": "Nạp tiền",
+      "fees": "Phí",
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
       "rateLabel": "Tỷ giá (ước tính)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / năm",
