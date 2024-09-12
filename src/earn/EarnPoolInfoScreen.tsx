@@ -773,7 +773,7 @@ function BeforeDepositBottomSheet({
   canAdd,
   exchanges,
 }: {
-  forwardedRef: RefObject<BottomSheetRefType>
+  forwardedRef: RefObject<BottomSheetModalRefType>
   token: TokenBalance
   canSameChainSwapToDeposit: boolean
   canCrossChainSwapToDeposit: boolean
