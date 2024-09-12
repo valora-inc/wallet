@@ -17,6 +17,12 @@ jest.mock('src/statsig', () => ({
   })),
 }))
 
+jest.mock('statsig-react-native', () => ({
+  Statsig: {
+    getStableID: jest.fn().mockReturnValue('stableId'),
+  },
+}))
+
 describe('SettingsMenu', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -56,7 +62,6 @@ describe('SettingsMenu', () => {
     it('shows the phone number when the user is verified', () => {
       const store = createMockStore({
         app: {
-          numberVerified: false,
           phoneNumberVerified: true,
         },
         account: {
@@ -73,7 +78,6 @@ describe('SettingsMenu', () => {
     it('shows no phone number when the user is not verified', () => {
       const store = createMockStore({
         app: {
-          numberVerified: false,
           phoneNumberVerified: false,
         },
         account: {
@@ -131,6 +135,9 @@ describe('SettingsMenu', () => {
       web3: {
         account: mockAddress,
       },
+      app: {
+        sessionId: 'sessionId',
+      },
     })
     const { getByText } = render(
       <Provider store={store}>
@@ -138,9 +145,11 @@ describe('SettingsMenu', () => {
       </Provider>
     )
 
+    expect(getByText('Session ID: sessionId')).toBeTruthy() // matches store mocks
+    expect(getByText('Statsig Stable ID: stableId')).toBeTruthy() // matches Statsig mocks
+
     store.clearActions()
     fireEvent.press(getByText('App Quick Reset'))
-
     expect(store.getActions()).toEqual([clearStoredAccount(mockAddress)])
 
     fireEvent.press(getByText('See app assets'))

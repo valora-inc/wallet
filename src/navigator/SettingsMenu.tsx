@@ -161,14 +161,14 @@ export default function SettingsMenu({ route }: Props) {
     if (!devModeActive) {
       return null
     } else {
-      const stableId = Statsig.getStableID()
+      const statsigStableId = Statsig.getStableID()
       return (
         <View style={styles.devSettings}>
           <Touchable onPress={onCopyText(sessionId)} style={styles.devSettingsItem}>
             <Text>{`Session ID: ${sessionId}`}</Text>
           </Touchable>
-          <Touchable onPress={onCopyText(stableId)} style={styles.devSettingsItem}>
-            <Text>{`Statsig Stable ID: ${stableId}`}</Text>
+          <Touchable onPress={onCopyText(statsigStableId)} style={styles.devSettingsItem}>
+            <Text>{`Statsig Stable ID: ${statsigStableId}`}</Text>
           </Touchable>
           <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={showDebugImagesScreen}>
