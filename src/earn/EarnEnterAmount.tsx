@@ -310,7 +310,7 @@ function EarnEnterAmount({ route }: Props) {
               pool={pool}
               tokenAmount={tokenAmount}
               prepareTransactionsResult={prepareTransactionsResult}
-              forwardedRef={feeDetailsBottomSheetRef}
+              bottomSheetRef={feeDetailsBottomSheetRef}
             />
           )}
         </View>
