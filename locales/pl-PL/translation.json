@@ -2518,15 +2518,21 @@
           "subtitle": "Porównaj potencjał zarobkowy i ryzyko. Wymieniaj, kupuj lub przesyłaj tokeny, aby dołączyć do najlepszej puli.",
           "footnoteSubsidy": "*Opłaty za gaz są tymczasowo pokrywane przez {{appName}}"
         },
+        "work": {
+          "title": "Wykorzystaj swoje aktywa do pracy",
+          "subtitle": "Zacznij zarabiać na swoich kryptowalutach, wpłacając środki do puli płynności. "
+        },
         "manage": {
           "title": "Zarządzaj bezpośrednio z {{appName}}",
           "titleV1_92": "Zarządzaj bezpośrednio z {{appName}}",
+          "titleV1_94": "Zarządzaj swoimi pozycjami",
           "subtitle": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji {{appName}}.",
-          "subtitleV1_92": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji {{appName}}."
+          "subtitleV1_92": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji {{appName}}.",
+          "subtitleV1_94": "Wybierz pulę, którą lubisz, dodaj żetony i monitoruj swoje zyski."
         },
         "access": {
           "title": "Łatwy dostęp do Twoich środków",
-          "subtitle": "Zbieraj środki jednym dotknięciem, tak jak w przypadku innych ulubionych protokołów."
+          "subtitle": "Zbieraj środki jednym dotknięciem, gdy będziesz gotowy."
         }
       },
       "action": {
