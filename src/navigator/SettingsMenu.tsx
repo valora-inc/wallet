@@ -172,7 +172,7 @@ export default function SettingsMenu({ route }: Props) {
           </Touchable>
           <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={showDebugImagesScreen}>
-              <Text>See app assets</Text>
+              <Text>See App Assets</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.devSettingsItem}>
