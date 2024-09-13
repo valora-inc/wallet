@@ -2563,6 +2563,13 @@
         "title": "You need more {{feeTokenSymbol}} to continue",
         "description": "Add {{feeTokenSymbol}} on {{network}} to cover your gas fees",
         "noGasCta": "Buy {{feeTokenSymbol}} on {{network}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Fee Details",
+        "moreDetails": "More Details",
+        "estNetworkFee": "Est. Network Fee",
+        "maxNetworkFee": "Max Network Fee",
+        "networkFeeDescription": "The network fee is required by the network to process the deposit transaction."
       }
     },
     "activePools": {

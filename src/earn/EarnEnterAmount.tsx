@@ -13,6 +13,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import RowDivider from 'src/components/RowDivider'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
@@ -66,6 +67,7 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const infoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tokenAmountInputRef = useRef<RNTextInput>(null)
   const localAmountInputRef = useRef<RNTextInput>(null)
@@ -176,7 +178,8 @@ function EarnEnterAmount({ route }: Props) {
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [tokenAmount, token])
 
-  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
+  const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
+    getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(token.balance)
   const showNotEnoughBalanceForGasWarning =
@@ -308,7 +311,7 @@ function EarnEnterAmount({ route }: Props) {
           </View>
           {tokenAmount && feeCurrency && maxFeeAmount && (
             <Card cardStyle={styles.card} testID="EnterAmountInfoCard">
-              <View style={styles.cardLineContainer}>
+              <View style={styles.lineContainer}>
                 <View style={styles.cardLineLabel}>
                   <Text
                     testID="EarnEnterAmount/Deposit"
@@ -339,12 +342,18 @@ function EarnEnterAmount({ route }: Props) {
                   </Text>
                 </View>
               </View>
-              <View style={styles.cardLineContainer}>
+              <View style={styles.lineContainer}>
                 <View style={styles.cardLineLabel}>
                   <Text numberOfLines={1} style={styles.cardLineLabelText}>
                     {t('earnFlow.enterAmount.fees')}
                   </Text>
-                  <Touchable borderRadius={24} testID={'DepositInfoIcon'}>
+                  <Touchable
+                    borderRadius={24}
+                    testID={'DepositInfoIcon'}
+                    onPress={() => {
+                      feeDetailsBottomSheetRef.current?.snapToIndex(0)
+                    }}
+                  >
                     <InfoIcon size={16} color={Colors.gray3} />
                   </Touchable>
                 </View>
@@ -422,6 +431,14 @@ function EarnEnterAmount({ route }: Props) {
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
       <InfoBottomSheet infoBottomSheetRef={infoBottomSheetRef} />
+      <FeeDetailsBottomSheet
+        forwardedRef={feeDetailsBottomSheetRef}
+        title={t('earnFlow.enterAmount.feeBottomSheet.feeDetails')}
+        testID="FeeDetailsBottomSheet"
+        feeCurrency={feeCurrency}
+        estimatedFeeAmount={estimatedFeeAmount}
+        maxFeeAmount={maxFeeAmount}
+      />
       {tokenAmount && prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
@@ -431,6 +448,89 @@ function EarnEnterAmount({ route }: Props) {
         />
       )}
     </SafeAreaView>
+  )
+}
+
+function FeeDetailsBottomSheet({
+  forwardedRef,
+  title,
+  testID,
+  feeCurrency,
+  estimatedFeeAmount,
+  maxFeeAmount,
+  // appFeeAmount,
+}: {
+  forwardedRef: React.RefObject<BottomSheetModalRefType>
+  title: string
+  testID: string
+  feeCurrency?: TokenBalance
+  estimatedFeeAmount?: BigNumber
+  maxFeeAmount?: BigNumber
+  // appFeeAmount?: BigNumber
+}) {
+  const { t } = useTranslation()
+
+  return (
+    <BottomSheet forwardedRef={forwardedRef} title={title} testId={testID}>
+      <View style={styles.bottomSheetTextContent}>
+        <View style={styles.gap8}>
+          <View style={styles.lineContainer} testID="EstNetworkFee">
+            <Text style={styles.bottomSheetLineLabel}>
+              {t('earnFlow.enterAmount.feeBottomSheet.estNetworkFee')}
+            </Text>
+            {feeCurrency && estimatedFeeAmount && (
+              <Text style={styles.bottomSheetLineLabelText} testID="EstNetworkFee/Value">
+                <TokenDisplay
+                  tokenId={feeCurrency.tokenId}
+                  amount={estimatedFeeAmount.toString()}
+                />
+                {' ('}
+                <TokenDisplay
+                  tokenId={feeCurrency.tokenId}
+                  showLocalAmount={false}
+                  amount={estimatedFeeAmount.toString()}
+                />
+                {')'}
+              </Text>
+            )}
+          </View>
+          <View style={styles.lineContainer} testID="MaxNetworkFee">
+            <Text style={styles.bottomSheetLineLabel}>
+              {t('earnFlow.enterAmount.feeBottomSheet.maxNetworkFee')}
+            </Text>
+            {feeCurrency && maxFeeAmount && (
+              <Text style={styles.bottomSheetLineLabelText} testID="MaxNetworkFee/Value">
+                <TokenDisplay tokenId={feeCurrency.tokenId} amount={maxFeeAmount.toString()} />
+                {' ('}
+                <TokenDisplay
+                  tokenId={feeCurrency.tokenId}
+                  showLocalAmount={false}
+                  amount={maxFeeAmount.toString()}
+                />
+                {')'}
+              </Text>
+            )}
+          </View>
+        </View>
+        <RowDivider style={{ marginBottom: Spacing.Large32 }} />
+        <View style={styles.gap8}>
+          <Text style={styles.bottomSheetDescriptionTitle}>
+            {t('earnFlow.enterAmount.feeBottomSheet.moreDetails')}
+          </Text>
+          <Text style={styles.bottomSheetDescriptionText}>
+            {t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')}
+          </Text>
+        </View>
+      </View>
+      <Button
+        onPress={() => {
+          forwardedRef.current?.close()
+        }}
+        text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
+        size={BtnSizes.FULL}
+        type={BtnTypes.SECONDARY}
+      />
+    </BottomSheet>
   )
 }
 
@@ -576,7 +676,7 @@ const styles = StyleSheet.create({
   card: {
     marginVertical: Spacing.Regular16,
   },
-  cardLineContainer: {
+  lineContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -595,6 +695,29 @@ const styles = StyleSheet.create({
     color: Colors.gray4,
     flexWrap: 'wrap',
     textAlign: 'left',
+  },
+  gap8: {
+    gap: Spacing.Smallest8,
+  },
+  bottomSheetTextContent: {
+    marginBottom: Spacing.XLarge48,
+    marginTop: Spacing.Smallest8,
+  },
+  bottomSheetLineLabel: {
+    maxWidth: '50%',
+    textAlign: 'left',
+  },
+  bottomSheetLineLabelText: {
+    maxWidth: '50%',
+    textAlign: 'right',
+  },
+  bottomSheetDescriptionTitle: {
+    ...typeScale.labelSemiBoldSmall,
+    color: Colors.black,
+  },
+  bottomSheetDescriptionText: {
+    ...typeScale.bodySmall,
+    color: Colors.black,
   },
   flexShrink: {
     flexShrink: 1,

@@ -333,4 +333,24 @@ describe('EarnEnterAmount', () => {
       tokenSymbol: 'ETH',
     })
   })
+
+  it('should show the FeeDetailsBottomSheet when the user taps the fee details button', async () => {
+    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
+      prepareTransactionsResult: mockPreparedTransaction,
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('DepositInfoIcon'))
+    expect(getByText('earnFlow.enterAmount.feeBottomSheet.feeDetails')).toBeVisible()
+    expect(getByTestId('EstNetworkFee/Value')).toBeTruthy()
+    expect(getByTestId('MaxNetworkFee/Value')).toBeTruthy()
+  })
 })
