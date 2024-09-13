@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Teile Krypto wie eine Textnachricht",
+    "description": "Live Links sind eine Möglichkeit, Krypto über das Celo Netzwerk an einen Freund mit einem Link zu senden",
+    "noFundsHint": "Um loszulegen, brauchst du ein paar Guthaben auf Celo in deinem Portemonnaie.",
+    "haveFundsButton": "Mit einem Live-Link senden",
     "addFundsCelo": {
       "title": "Erhalte Vermögen in Celo",
       "info": "Mit Live-Links kannst du Krypto über das Celo-Netzwerk mit einem Link an einen Freund senden.\nUm loszulegen, benötigst du CELO-Vermögen in deinem Wallet.",
