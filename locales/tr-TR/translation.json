@@ -2558,11 +2558,6 @@
       "continue": "İleri",
       "info": "Bu havuz Aave tarafından desteklenmektedir",
       "infoV1_93": "{{providerName}} tarafından desteklenmektedir",
-      "infoBottomSheet": {
-        "title": "Neden bu havuz?",
-        "description": "Bu Aave havuzu 150 milyon ABD dolarının üzerinde TVL'ye ve 6000'den fazla katılımcıya sahiptir, bu da güçlü likidite ve güvenilirliği gösterir. Ayrıca token olarak USDC ve ağ olarak Arbitrum kullanır, bu da oynaklığı azaltır ve kullanıcıların ucuz gas oranları almasını sağlar.\n\nDiğer Aave havuzlarını <0>buradan</0> keşfedebilirsiniz.",
-        "dismiss": "Yoksay"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Devam etmek için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
         "description": "Gas ücretlerinizi karşılamak için {{network}} ağına {{feeTokenSymbol}} ekleyin",
