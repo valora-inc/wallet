@@ -2556,11 +2556,6 @@
       "continue": "继续",
       "info": "此池由 Aave 提供支持",
       "infoV1_93": "由 {{providerName}} 提供支持",
-      "infoBottomSheet": {
-        "title": "为什么使用此池？",
-        "description": "该 Aave 池拥有超过 1.5 亿美元的 TVL 和 6000 多名贡献者，这表明其具有很强的流动性和可信度。该池还使用 USDC 作为代币，并以 Arbitrum 作为网络，从而降低了波动性，确保用户获得低廉的手续费。\n\n您可以在<0>此处</0>探索其他 Aave 池。",
-        "dismiss": "忽略"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "您需要更多 {{feeTokenSymbol}} 才能继续",
         "description": "在 {{network}} 上添加 {{feeTokenSymbol}} 以支付手续费",
