@@ -10,9 +10,6 @@ import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigFeatureGates, StatsigMultiNetworkDynamicConfig } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import {
@@ -32,7 +29,6 @@ import {
 
 jest.mock('src/earn/prepareTransactions')
 jest.mock('react-native-localize')
-jest.mock('src/statsig')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -130,15 +126,6 @@ describe('EarnEnterAmount', () => {
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
     store.clearActions()
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
-    jest.mocked(getDynamicConfigParams).mockImplementation(({ defaultValues }) => defaultValues)
-    jest
-      .mocked(getMultichainFeatures)
-      .mockReturnValue(
-        DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues
-      )
   })
 
   it('should prepare transactions with the expected inputs', async () => {
@@ -348,7 +335,7 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.press(getByTestId('DepositInfoIcon'))
+    fireEvent.press(getByTestId('LabelWithInfo/FeeLabel'))
     expect(getByText('earnFlow.enterAmount.feeBottomSheet.feeDetails')).toBeVisible()
     expect(getByTestId('EstNetworkFee/Value')).toBeTruthy()
     expect(getByTestId('MaxNetworkFee/Value')).toBeTruthy()
