@@ -3,10 +3,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapShowInfoType } from 'src/analytics/Properties'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -19,10 +19,10 @@ import { SwapFeeAmount } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 
 interface Props {
-  exchangeRateInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
-  feeInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
-  slippageInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
-  estimatedDurationBottomSheetRef: React.RefObject<BottomSheetRefType>
+  exchangeRateInfoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
+  feeInfoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
+  slippageInfoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
+  estimatedDurationBottomSheetRef: React.RefObject<BottomSheetModalRefType>
   slippagePercentage: string
   fromToken?: TokenBalance
   toToken?: TokenBalance

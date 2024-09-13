@@ -1,4 +1,4 @@
-import GorhomBottomSheet, { BottomSheetSectionList } from '@gorhom/bottom-sheet'
+import { BottomSheetModal, BottomSheetSectionList } from '@gorhom/bottom-sheet'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ListRenderItem, StyleSheet, Text, View } from 'react-native'
@@ -27,7 +27,7 @@ import { Spacing } from 'src/styles/styles'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 
 interface Props {
-  forwardedRef: React.RefObject<GorhomBottomSheet>
+  forwardedRef: React.RefObject<BottomSheetModal>
 }
 
 function PointsHistoryCard({
