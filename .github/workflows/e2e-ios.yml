@@ -14,7 +14,7 @@ jobs:
       SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
       BASH_ENV: ~/.profile
     name: iOS (${{ inputs.ios-version  }})
-    runs-on: ios-e2e-group
+    runs-on: namespace-profile-default-mac
     steps:
       - uses: google-github-actions/auth@v2
         if: ${{ env.SECRETS_AVAILABLE }}

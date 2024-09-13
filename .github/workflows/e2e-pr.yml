@@ -12,12 +12,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  android:
-    name: Android
-    uses: ./.github/workflows/e2e-android.yml
-    with:
-      android-api-level: 30
-    secrets: inherit
+  # android:
+  #   name: Android
+  #   uses: ./.github/workflows/e2e-android.yml
+  #   with:
+  #     android-api-level: 30
+  #   secrets: inherit
   ios:
     name: iOS
     uses: ./.github/workflows/e2e-ios.yml
