@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import JumpstartAddAssets from 'src/jumpstart/JumpstartAddAssets'
+import JumpstartIntro from 'src/jumpstart/JumpstartIntro'
 import { navigate } from 'src/navigator/NavigationService'
 import { getDynamicConfigParams } from 'src/statsig'
 import { createMockStore } from 'test/utils'
@@ -10,11 +10,12 @@ jest.mock('src/statsig')
 
 jest.mocked(getDynamicConfigParams).mockReturnValue({
   wallet_network_timeout_seconds: 10,
+  jumpstartContracts: [],
 })
 
-describe('JumpstartAddAssets', () => {
+describe('JumpstartIntro', () => {
   it('should render the correct actions and components', () => {
-    const { getByText, queryByText } = render(
+    const { getByText, queryByText, getByTestId } = render(
       <Provider
         store={createMockStore({
           app: {
@@ -22,13 +23,15 @@ describe('JumpstartAddAssets', () => {
           },
         })}
       >
-        <JumpstartAddAssets />
+        <JumpstartIntro />
       </Provider>
     )
 
     expect(getByText('jumpstartIntro.title')).toBeTruthy()
-    expect(getByText('jumpstartIntro.addFundsCelo.info')).toBeTruthy()
+    expect(getByText('jumpstartIntro.description')).toBeTruthy()
+    expect(getByText('jumpstartIntro.noFundsHint')).toBeTruthy()
     expect(getByText('jumpstartIntro.addFundsCelo.cta')).toBeTruthy()
+    expect(getByTestId('JumpstartIntro/noFundsButton')).toBeTruthy()
 
     expect(getByText('addFundsActions.transfer')).toBeTruthy()
     expect(queryByText('addFundsActions.swap')).toBeFalsy()
@@ -44,7 +47,7 @@ describe('JumpstartAddAssets', () => {
           },
         })}
       >
-        <JumpstartAddAssets />
+        <JumpstartIntro />
       </Provider>
     )
 
