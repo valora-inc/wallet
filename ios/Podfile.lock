@@ -603,7 +603,7 @@ PODS:
     - React-Core
   - react-native-safe-area-context (4.11.0):
     - React-Core
-  - react-native-shake (5.6.2):
+  - react-native-shake (5.5.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - react-native-simple-toast (3.3.1):
@@ -1276,7 +1276,7 @@ SPEC CHECKSUMS:
   react-native-quick-crypto: 66ebfd3657f39263ac98af21cfb57f97d3dfc884
   react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
   react-native-safe-area-context: 851c62c48dce80ccaa5637b6aa5991a1bc36eca9
-  react-native-shake: c7e600fd57bb64c0ff4294c99abed1bf4289a260
+  react-native-shake: 0c36371dd63019afa68890ccc65a442ee21b4dde
   react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-video: 34095830f0a9cce593700f3f0744e34c667052c5
