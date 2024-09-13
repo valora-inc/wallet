@@ -430,7 +430,6 @@ function EarnEnterAmount({ route }: Props) {
       )}
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
-        snapPoints={['50%', '90%']}
         origin={TokenPickerOrigin.Earn}
         onTokenSelected={onSelectToken}
         tokens={tokens}
