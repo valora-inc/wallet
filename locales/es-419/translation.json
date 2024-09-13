@@ -2514,15 +2514,21 @@
           "subtitle": "Compara el potencial de ganancias y los riesgos. Intercambia, compra o transfiere tokens para unirte a la mejor pool.",
           "footnoteSubsidy": "*Las tasas de gas están cubiertas temporalmente por {{appName}}"
         },
+        "work": {
+          "title": "Pon tus activos a trabajar",
+          "subtitle": "Empieza a ganar con tu cripto depositando en un fondo de liquidez. "
+        },
         "manage": {
           "title": "Gestiona directamente desde {{appName}}",
           "titleV1_92": "Gestiona directamente desde {{appName}}",
+          "titleV1_94": "Gestiona tus puestos",
           "subtitle": "Conectaremos tu wallet para que puedas gestionar las pools sin salir de {{appName}}.",
-          "subtitleV1_92": "Conectaremos tu wallet para que puedas gestionar las pools sin salir de {{appName}}."
+          "subtitleV1_92": "Conectaremos tu wallet para que puedas gestionar las pools sin salir de {{appName}}.",
+          "subtitleV1_94": "Elige una quiniela que te guste, añade tus fichas y controla tus ganancias."
         },
         "access": {
           "title": "Accede fácilmente a tus fondos",
-          "subtitle": "Recupera los fondos en un toque, igual que en tus protocolos favoritos."
+          "subtitle": "Recoge fondos con un toque cuando estés listo."
         }
       },
       "action": {
