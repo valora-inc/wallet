@@ -16,7 +16,8 @@ export default Settings = () => {
     await sleep(3000)
   })
 
-  it('Edit Profile Name', async () => {
+  // mobilestack: no profile support
+  it.skip('Edit Profile Name', async () => {
     let randomName = faker.lorem.words()
     await navigateToProfile()
     await element(by.id('ProfileSubmenu/EditProfile')).tap()

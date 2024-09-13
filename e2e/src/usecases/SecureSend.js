@@ -20,7 +20,8 @@ const AMOUNT_TO_SEND = '0.01'
 const WALLET_FUNDING_MULTIPLIER = 2.2
 
 export default SecureSend = () => {
-  describe('Secure send flow with phone number lookup', () => {
+  // TODO(mobilestack): Un-skip this if we ever support CPV
+  describe.skip('Secure send flow with phone number lookup', () => {
     beforeAll(async () => {
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
