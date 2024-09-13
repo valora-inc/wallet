@@ -13,7 +13,6 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
-import { Card } from 'src/earn/Card'
 import {
   useAddAction,
   useCrossChainSwapAction,
