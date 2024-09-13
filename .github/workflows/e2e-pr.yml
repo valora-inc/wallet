@@ -18,9 +18,11 @@ jobs:
     with:
       android-api-level: 30
     secrets: inherit
-  # ios:
-  #   name: iOS
-  #   uses: ./.github/workflows/e2e-ios.yml
-  #   with:
-  #     ios-version: '15.0'
-  #   secrets: inherit
+  ios:
+    # TODO re-enable after we're able to switch to Namespace for iOS
+    if: false
+    name: iOS
+    uses: ./.github/workflows/e2e-ios.yml
+    with:
+      ios-version: '15.0'
+    secrets: inherit
