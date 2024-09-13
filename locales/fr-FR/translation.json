@@ -2514,15 +2514,21 @@
           "subtitle": "Comparez les gains potentiels et les risques. Échangez, achetez ou transférez des jetons pour rejoindre le meilleur pool pour vous.",
           "footnoteSubsidy": "*Les frais de gaz sont temporairement couverts par {{appName}}"
         },
+        "work": {
+          "title": "Mets tes actifs au travail",
+          "subtitle": "Commence à gagner de l'argent sur ta crypto en déposant dans un pool de liquidités. "
+        },
         "manage": {
           "title": "Gérez vos transat directement sur {{appName}}",
           "titleV1_92": "Gérez vos transat directement sur {{appName}}",
+          "titleV1_94": "Gère tes postes",
           "subtitle": "Nous connecterons votre portefeuille afin que vous puissiez gérer les pools sans quitter {{appName}}.",
-          "subtitleV1_92": "Nous connecterons votre portefeuille afin que vous puissiez gérer les pools sans quitter {{appName}}."
+          "subtitleV1_92": "Nous connecterons votre portefeuille afin que vous puissiez gérer les pools sans quitter {{appName}}.",
+          "subtitleV1_94": "Choisis un pool qui te plaît, ajoute tes jetons et surveille tes gains."
         },
         "access": {
           "title": "Accédez facilement à vos fonds",
-          "subtitle": "Collectez des fonds en un clic, tout comme vos protocoles favoris."
+          "subtitle": "Collecte les fonds d'une simple pression lorsque tu es prêt."
         }
       },
       "action": {
