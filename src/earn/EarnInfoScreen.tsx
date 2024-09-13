@@ -24,8 +24,9 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-const ICON_SIZE = 24
-const ICON_BACKGROUND_CIRCLE_SIZE = 36
+const ICON_SIZE = 20
+const ARROW_ICON_SIZE = 24
+const ICON_BACKGROUND_CIRCLE_SIZE = 32
 
 function DetailsItem({
   icon,
@@ -86,7 +87,7 @@ export default function EarnInfoScreen() {
             subtitle={t('earnFlow.earnInfo.details.manage.subtitleV1_94')}
           />
           <DetailsItem
-            icon={<ArrowDown size={ICON_SIZE} color={Colors.black} />}
+            icon={<ArrowDown size={ARROW_ICON_SIZE} color={Colors.black} />}
             title={t('earnFlow.earnInfo.details.access.title')}
             subtitle={t('earnFlow.earnInfo.details.access.subtitle')}
           />
