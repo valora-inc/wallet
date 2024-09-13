@@ -30,6 +30,7 @@ import {
 
 jest.mock('src/earn/prepareTransactions')
 jest.mock('react-native-localize')
+jest.mock('src/statsig') // statsig isn't used directly but the hooksApiSelector uses it
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -159,7 +160,6 @@ describe('EarnEnterAmount', () => {
           priceUsd: new BigNumber(1),
           lastKnownPriceUsd: new BigNumber(1),
           balance: new BigNumber(10),
-          minimumAppVersionToSwap: '1.0.0',
         },
         walletAddress: mockAccount.toLowerCase(),
         pool: mockEarnPositions[0],
