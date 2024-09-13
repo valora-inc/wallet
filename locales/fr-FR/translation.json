@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Envoyez des crypto aussi facilement qu'un SMS",
+    "description": "Les Live Links sont un moyen d'envoyer de la crypto sur le réseau Celo à un ami grâce à un lien.",
+    "noFundsHint": "Pour commencer, tu auras besoin de quelques actifs sur Celo dans ton portefeuille.",
+    "haveFundsButton": "Envoyer avec un lien direct",
     "addFundsCelo": {
       "title": "Obtenir des actifs sur Celo",
       "info": "Les Live Links permettent d'envoyer des crypto sur le réseau Celo à un ami à l'aide d'un lien.\nPour commencer, vous avez besoin d'avoir des actifs CELO dans votre portefeuille.",
