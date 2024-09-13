@@ -787,10 +787,28 @@ function BeforeDepositBottomSheet({
       })
     : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositTitle')
 
-  const components: React.JSX.Element[] = []
+  const swapAndDepositAction = useSwapAndDepositAction({ token, forwardedRef })
+  const crossChainSwapAction = useCrossChainSwapAction({
+    token,
+    title: hasTokensOnSameNetwork
+      ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.crossChainSwap')
+      : t('addFundsActions.swap'),
+    details: hasTokensOnSameNetwork
+      ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainSwapActionDescription', {
+          tokenSymbol: token.symbol,
+        })
+      : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.swapActionDescription', {
+          tokenSymbol: token.symbol,
+          tokenNetwork: NETWORK_NAMES[token.networkId],
+        }),
+    forwardedRef,
+  })
+  const addAction = useAddAction({ token, forwardedRef })
+  const transferAction = useTransferAction({ token, exchanges, forwardedRef })
 
+  const components: React.JSX.Element[] = []
   if (hasTokensOnSameNetwork) {
-    components.push(<ActionCard action={useSwapAndDepositAction({ token, forwardedRef })} />)
+    components.push(<ActionCard action={swapAndDepositAction} />)
     components.push(
       <Text style={styles.actionDetails}>
         {t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainAlternativeDescription', {
@@ -798,40 +816,15 @@ function BeforeDepositBottomSheet({
         })}
       </Text>
     )
-    if (hasTokensOnOtherNetworks)
-      components.push(
-        <ActionCard
-          action={useCrossChainSwapAction({
-            token,
-            title: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.crossChainSwap'),
-            details: t(
-              'earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainSwapActionDescription',
-              { tokenSymbol: token.symbol }
-            ),
-            forwardedRef,
-          })}
-        />
-      )
-    if (canAdd) components.push(<ActionCard action={useAddAction({ token, forwardedRef })} />)
+    if (hasTokensOnOtherNetworks) components.push(<ActionCard action={crossChainSwapAction} />)
+    if (canAdd) components.push(<ActionCard action={addAction} />)
   } else if (hasTokensOnOtherNetworks) {
-    components.push(
-      <ActionCard
-        action={useCrossChainSwapAction({
-          token,
-          title: t('addFundsActions.swap'),
-          details: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.swapActionDescription', {
-            tokenSymbol: token.symbol,
-            tokenNetwork: NETWORK_NAMES[token.networkId],
-          }),
-          forwardedRef,
-        })}
-      />
-    )
-    if (canAdd) components.push(<ActionCard action={useAddAction({ token, forwardedRef })} />)
-    components.push(<ActionCard action={useTransferAction({ token, exchanges, forwardedRef })} />)
+    components.push(<ActionCard action={crossChainSwapAction} />)
+    if (canAdd) components.push(<ActionCard action={addAction} />)
+    components.push(<ActionCard action={transferAction} />)
   } else {
-    if (canAdd) components.push(<ActionCard action={useAddAction({ token, forwardedRef })} />)
-    components.push(<ActionCard action={useTransferAction({ token, exchanges, forwardedRef })} />)
+    if (canAdd) components.push(<ActionCard action={addAction} />)
+    components.push(<ActionCard action={transferAction} />)
   }
 
   return (
