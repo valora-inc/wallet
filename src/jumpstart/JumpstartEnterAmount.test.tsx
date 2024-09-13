@@ -256,7 +256,7 @@ describe('JumpstartEnterAmount', () => {
     expect(getByText('jumpstartIntro.description')).toBeTruthy()
     expect(getByText('jumpstartIntro.noFundsHint')).toBeTruthy()
     expect(getByText('jumpstartIntro.addFundsCelo.cta')).toBeTruthy()
-    expect(getByTestId('JumpstartAddAssets/noFundsButton')).toBeTruthy()
+    expect(getByTestId('JumpstartIntro/noFundsButton')).toBeTruthy()
   })
 
   it('should show intro screen when user visits jumpstart for the first time', async () => {
