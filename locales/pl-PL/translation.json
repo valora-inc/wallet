@@ -2219,6 +2219,9 @@
   },
   "jumpstartIntro": {
     "title": "Udostępniaj kryptowaluty jak wiadomości tekstowe",
+    "description": "Live Linki to sposób na wysyłanie kryptowalut w sieci Celo do znajomego za pomocą linku",
+    "noFundsHint": "Aby rozpocząć, będziesz potrzebować zasobów Celo w swoim portfelu.",
+    "haveFundsButton": "Wyślij za pomocą aktywnego linku",
     "addFundsCelo": {
       "title": "Pobierz aktywa do Celo",
       "info": "Łącza dynamiczne to doskonały sposób na wysyłanie znajomym kryptowalut w sieci Celo.\nAby móc korzystać z tej funkcji, musisz mieć aktywa CELO w swoim portfelu.",
