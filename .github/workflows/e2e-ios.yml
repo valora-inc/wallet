@@ -33,6 +33,7 @@ jobs:
         run: |
           brew tap wix/brew
           brew install applesimutils
+          applesimutils --list
 
       # - uses: ./.github/actions/yarn-install
       - uses: actions/setup-node@v4
