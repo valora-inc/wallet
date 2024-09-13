@@ -2514,15 +2514,21 @@
           "subtitle": "Compare o potencial de ganho e os riscos. Troque, compre ou transfira tokens para participar do melhor pool para você.",
           "footnoteSubsidy": "*As taxas de gás são temporariamente cobertas pelo site {{appName}}"
         },
+        "work": {
+          "title": "Coloque seus ativos para trabalhar",
+          "subtitle": "Comece a ganhar com suas criptomoedas depositando em um pool de liquidez. "
+        },
         "manage": {
           "title": "Gerencie diretamente de {{appName}}",
           "titleV1_92": "Gerencie diretamente de {{appName}}",
+          "titleV1_94": "Gerencie suas posições",
           "subtitle": "Conectaremos a sua carteira para você poder gerenciar os pools sem sair da {{appName}}.",
-          "subtitleV1_92": "Conectaremos a sua carteira para você poder gerenciar os pools sem sair da {{appName}}."
+          "subtitleV1_92": "Conectaremos a sua carteira para você poder gerenciar os pools sem sair da {{appName}}.",
+          "subtitleV1_94": "Escolha um pool que você goste, adicione seus tokens e monitore seus ganhos."
         },
         "access": {
           "title": "Acesse seus fundos com facilidade",
-          "subtitle": "Colete fundos com um toque, assim como em seus protocolos favoritos."
+          "subtitle": "Colete fundos com um toque quando você estiver pronto."
         }
       },
       "action": {
