@@ -241,7 +241,7 @@ function DepositAndEarningsCard({
   }, [balance, earningItems, earningItemsTokenInfo])
 
   return (
-    <Card testID="DepositAndEarningsCard" cardStyle={styles.depositAndEarningCard}>
+    <View testID="DepositAndEarningsCard" style={[styles.card, styles.depositAndEarningCard]}>
       <View style={styles.depositAndEarningCardTitleContainer}>
         <View style={styles.cardLineLabel}>
           <Text numberOfLines={1} style={styles.cardTitleText}>
@@ -289,7 +289,7 @@ function DepositAndEarningsCard({
           <EarningItemLineItem key={index} earnItem={item} />
         ))}
       </View>
-    </Card>
+    </View>
   )
 }
 
@@ -308,7 +308,7 @@ function YieldCard({
     .reduce((acc, rate) => acc + rate, 0)
 
   return (
-    <Card testID="YieldCard">
+    <View style={styles.card} testID="YieldCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
           <Text numberOfLines={1} style={styles.cardTitleText}>
@@ -347,7 +347,7 @@ function YieldCard({
           )
         })}
       </View>
-    </Card>
+    </View>
   )
 }
 
@@ -370,7 +370,7 @@ function TvlCard({
   }, [localCurrencySymbol, tvlInFiat])
 
   return (
-    <Card testID="TvlCard">
+    <View style={styles.card} testID="TvlCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
           <Text numberOfLines={1} style={styles.cardTitleText}>
@@ -382,7 +382,7 @@ function TvlCard({
         </View>
         <Text style={styles.cardTitleText}>{tvlString}</Text>
       </View>
-    </Card>
+    </View>
   )
 }
 
@@ -394,7 +394,7 @@ function AgeCard({ ageOfPool, onInfoIconPress }: { ageOfPool: Date; onInfoIconPr
   })
 
   return (
-    <Card testID="AgeCard">
+    <View style={styles.card} testID="AgeCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
           <Text numberOfLines={1} style={styles.cardTitleText}>
@@ -406,7 +406,7 @@ function AgeCard({ ageOfPool, onInfoIconPress }: { ageOfPool: Date; onInfoIconPr
         </View>
         <Text style={styles.cardTitleText}>{formattedDuration(dateInterval)}</Text>
       </View>
-    </Card>
+    </View>
   )
 }
 
@@ -901,6 +901,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   contentContainer: {
+    gap: Spacing.Regular16,
+  },
+  card: {
+    padding: Spacing.Regular16,
+    borderColor: Colors.gray2,
+    borderWidth: 1,
+    borderRadius: 12,
     gap: Spacing.Regular16,
   },
   cardLineContainer: {
