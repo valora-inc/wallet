@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Bir metin gibi kripto paylaşın",
+    "description": "Canlı Bağlantılar, Celo ağındaki bir arkadaşınıza bir bağlantı ile kripto göndermenin bir yoludur",
+    "noFundsHint": "Başlamak için cüzdanınızda Celo ile ilgili bazı varlıklara ihtiyacınız olacak.",
+    "haveFundsButton": "Canlı Bağlantı ile Gönder",
     "addFundsCelo": {
       "title": "Celo'da Varlık Alın",
       "info": "Canlı Bağlantılar, Celo ağındaki kriptoyu bir bağlantı ile bir arkadaşınıza göndermenin bir yoludur.\nBaşlamak için cüzdanınızda biraz CELO varlığına ihtiyacınız vardır.",
