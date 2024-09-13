@@ -2213,6 +2213,9 @@
   },
   "jumpstartIntro": {
     "title": "像发短信一样分享加密货币",
+    "description": "实时链接是在 Celo 网络上通过链接向朋友发送加密货币的一种方式。",
+    "noFundsHint": "要开始使用，您的钱包里需要有一些 Celo 上的资产。",
+    "haveFundsButton": "通过实时链接发送",
     "addFundsCelo": {
       "title": "在 Celo 上获取资产",
       "info": "实时链接是一种通过链接向好友发送 Celo 网络上加密货币的方式。\n要开始使用，您的钱包中需要有一些 CELO 资产。",
