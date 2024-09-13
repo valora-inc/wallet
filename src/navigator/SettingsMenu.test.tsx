@@ -152,7 +152,7 @@ describe('SettingsMenu', () => {
     fireEvent.press(getByText('App Quick Reset'))
     expect(store.getActions()).toEqual([clearStoredAccount(mockAddress)])
 
-    fireEvent.press(getByText('See app assets'))
+    fireEvent.press(getByText('See App Assets'))
     expect(navigate).toHaveBeenCalledWith(Screens.DebugImages)
   })
 })
