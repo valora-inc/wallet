@@ -751,7 +751,7 @@ function ActionCard({ action }: { action: BeforeDepositAction }) {
       key={action.name}
       borderRadius={20}
       onPress={action.onPress}
-      testID={`$Earn/BeforeDepositBottomSheet/${action.name}`}
+      testID={`Earn/BeforeDepositBottomSheet/${action.name}`}
     >
       <>
         <action.iconComponent color={Colors.black} />

@@ -199,7 +199,7 @@ export function useCrossChainSwapAction({
   forwardedRef: React.RefObject<BottomSheetModalRefType>
 }): BeforeDepositAction {
   return {
-    name: BeforeDepositActionName.Add,
+    name: BeforeDepositActionName.CrossChainSwap,
     title,
     details,
     iconComponent: QuickActionsSwap,

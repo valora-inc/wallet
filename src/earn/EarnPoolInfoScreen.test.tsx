@@ -377,7 +377,7 @@ describe('EarnPoolInfoScreen', () => {
       hasTokensOnOtherNetworks: true,
     })
     expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/Swap')).toBeTruthy()
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/CrossChainSwap')).toBeTruthy()
     expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
     expect(getByTestId('Earn/BeforeDepositBottomSheet/Transfer')).toBeTruthy()
   })
