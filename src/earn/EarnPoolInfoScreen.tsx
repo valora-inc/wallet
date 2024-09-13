@@ -755,7 +755,7 @@ function ActionCard({ action }: { action: BeforeDepositAction }) {
     >
       <>
         <action.iconComponent color={Colors.black} />
-        <View style={styles.beforeDepositBottomSheetContentContainer}>
+        <View style={styles.cardContainer}>
           <Text style={styles.actionTitle}>{action.title}</Text>
           <Text style={styles.actionDetails}>{action.details}</Text>
         </View>
@@ -844,7 +844,7 @@ function BeforeDepositBottomSheet({
           ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositDescription')
           : undefined
       }
-      titleStyle={styles.title}
+      titleStyle={styles.bottomSheetTitle}
       testId={'Earn/BeforeDepositBottomSheet'}
     >
       <View style={styles.actionsContainer}>{components}</View>
@@ -1019,7 +1019,7 @@ const styles = StyleSheet.create({
     gap: Spacing.Regular16,
     alignItems: 'center',
   },
-  beforeDepositBottomSheetContentContainer: {
+  cardContainer: {
     flex: 1,
   },
 })
