@@ -6,7 +6,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
-import { depositTransactionFlowStarted } from 'src/jumpstart/slice'
+import { depositTransactionFlowStarted, jumpstartIntroSeen } from 'src/jumpstart/slice'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -61,6 +61,9 @@ const feeCurrencies = [
 const store = createMockStore({
   tokens: {
     tokenBalances,
+  },
+  jumpstart: {
+    introHasBeenSeen: true,
   },
 })
 
@@ -218,6 +221,7 @@ describe('JumpstartEnterAmount', () => {
       },
       jumpstart: {
         depositStatus: 'success',
+        introHasBeenSeen: true,
       },
     })
     rerender(
@@ -236,7 +240,7 @@ describe('JumpstartEnterAmount', () => {
   })
 
   it('should render the add assets flow if the user has no jumpstart tokens', () => {
-    const { getByText } = render(
+    const { getByText, getByTestId } = render(
       <Provider
         store={createMockStore({
           tokens: {
@@ -249,5 +253,123 @@ describe('JumpstartEnterAmount', () => {
     )
 
     expect(getByText('jumpstartIntro.title')).toBeTruthy()
+    expect(getByText('jumpstartIntro.description')).toBeTruthy()
+    expect(getByText('jumpstartIntro.noFundsHint')).toBeTruthy()
+    expect(getByText('jumpstartIntro.addFundsCelo.cta')).toBeTruthy()
+    expect(getByTestId('JumpstartIntro/noFundsButton')).toBeTruthy()
+  })
+
+  it('should show intro screen when user visits jumpstart for the first time', async () => {
+    const { getByText, getByTestId } = render(
+      <Provider
+        store={createMockStore({
+          tokens: { tokenBalances },
+          jumpstart: { introHasBeenSeen: false },
+        })}
+      >
+        <JumpstartEnterAmount />
+      </Provider>
+    )
+
+    expect(getByText('jumpstartIntro.title')).toBeTruthy()
+    expect(getByText('jumpstartIntro.description')).toBeTruthy()
+    expect(getByText('jumpstartIntro.haveFundsButton')).toBeTruthy()
+    expect(getByTestId('JumpstartEnterAmount/haveFundsButton')).toBeTruthy()
+  })
+
+  it('should track in analytics when user sees intro for the first time', async () => {
+    const updatedStore = createMockStore({
+      tokens: { tokenBalances },
+      jumpstart: { introHasBeenSeen: false },
+    })
+
+    const { getByText, getByTestId, rerender } = render(
+      <Provider store={updatedStore}>
+        <JumpstartEnterAmount />
+      </Provider>
+    )
+
+    expect(getByText('jumpstartIntro.title')).toBeTruthy()
+    expect(getByText('jumpstartIntro.description')).toBeTruthy()
+    expect(getByText('jumpstartIntro.haveFundsButton')).toBeTruthy()
+    expect(getByTestId('JumpstartEnterAmount/haveFundsButton')).toBeTruthy()
+    expect(AppAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_intro_seen)
+
+    rerender(
+      <Provider store={updatedStore}>
+        <JumpstartEnterAmount />
+      </Provider>
+    )
+
+    expect(AppAnalytics.track).toBeCalledTimes(1)
+  })
+
+  it('should show intro screen every time until user clicks cta', async () => {
+    const updatedStore = createMockStore({
+      tokens: { tokenBalances },
+      jumpstart: { introHasBeenSeen: false },
+    })
+
+    const { getByText, getByTestId, rerender } = render(
+      <Provider store={updatedStore}>
+        <JumpstartEnterAmount />
+      </Provider>
+    )
+
+    expect(getByText('jumpstartIntro.title')).toBeTruthy()
+    expect(getByText('jumpstartIntro.description')).toBeTruthy()
+    expect(getByText('jumpstartIntro.haveFundsButton')).toBeTruthy()
+    expect(getByTestId('JumpstartEnterAmount/haveFundsButton')).toBeTruthy()
+
+    rerender(
+      <Provider store={updatedStore}>
+        <JumpstartEnterAmount />
+      </Provider>
+    )
+
+    // do not expect for jumpstartIntroSeen() to run
+    expect(updatedStore.getActions()).toEqual([depositTransactionFlowStarted()])
+
+    expect(getByText('jumpstartIntro.title')).toBeTruthy()
+    expect(getByText('jumpstartIntro.description')).toBeTruthy()
+    expect(getByText('jumpstartIntro.haveFundsButton')).toBeTruthy()
+    expect(getByTestId('JumpstartEnterAmount/haveFundsButton')).toBeTruthy()
+  })
+
+  it('should proceed to enter amount screen once the intro is seen', async () => {
+    let updatedStore = createMockStore({
+      tokens: { tokenBalances },
+      jumpstart: { introHasBeenSeen: false },
+    })
+
+    const { getByText, getByTestId, rerender } = render(
+      <Provider store={updatedStore}>
+        <JumpstartEnterAmount />
+      </Provider>
+    )
+
+    expect(getByText('jumpstartIntro.title')).toBeTruthy()
+    expect(getByText('jumpstartIntro.description')).toBeTruthy()
+    expect(getByText('jumpstartIntro.haveFundsButton')).toBeTruthy()
+    expect(getByTestId('JumpstartEnterAmount/haveFundsButton')).toBeTruthy()
+
+    fireEvent.press(getByTestId('JumpstartEnterAmount/haveFundsButton'))
+    expect(updatedStore.getActions()).toEqual([
+      depositTransactionFlowStarted(),
+      jumpstartIntroSeen(),
+    ])
+
+    updatedStore = createMockStore({
+      tokens: { tokenBalances },
+      jumpstart: { introHasBeenSeen: true },
+    })
+
+    rerender(
+      <Provider store={updatedStore}>
+        <JumpstartEnterAmount />
+      </Provider>
+    )
+
+    expect(getByTestId('SendEnterAmount/TokenAmountInput')).toBeTruthy()
   })
 })

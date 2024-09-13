@@ -603,7 +603,7 @@ PODS:
     - React-Core
   - react-native-safe-area-context (4.11.0):
     - React-Core
-  - react-native-shake (5.6.2):
+  - react-native-shake (5.5.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - react-native-simple-toast (3.3.1):
@@ -732,7 +732,7 @@ PODS:
     - React-logger (= 0.72.15)
     - React-perflogger (= 0.72.15)
   - RecaptchaInterop (100.0.0)
-  - RNCAsyncStorage (1.24.0):
+  - RNCAsyncStorage (2.0.0):
     - React-Core
   - RNCClipboard (1.14.1):
     - React-Core
@@ -1276,7 +1276,7 @@ SPEC CHECKSUMS:
   react-native-quick-crypto: 66ebfd3657f39263ac98af21cfb57f97d3dfc884
   react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
   react-native-safe-area-context: 851c62c48dce80ccaa5637b6aa5991a1bc36eca9
-  react-native-shake: c7e600fd57bb64c0ff4294c99abed1bf4289a260
+  react-native-shake: 0c36371dd63019afa68890ccc65a442ee21b4dde
   react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-video: 34095830f0a9cce593700f3f0744e34c667052c5
@@ -1299,7 +1299,7 @@ SPEC CHECKSUMS:
   React-utils: a2dfc4c77bb4f7fe4080219a82ace8929f334b1a
   ReactCommon: 69acb76221a4c9d1b5740821ee1f0df89068fd6d
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
-  RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
+  RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
   RNCClipboard: 0a720adef5ec193aa0e3de24c3977222c7e52a37
   RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
   RNCPicker: 0173dedc74776227ec6dcc61bb85cd9f07bbb2ac
