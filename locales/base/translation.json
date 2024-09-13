@@ -2516,15 +2516,21 @@
           "subtitle": "Compare earning potential and risks. Swap, buy, or transfer tokens to join the best pool for you.",
           "footnoteSubsidy": "*Gas fees are temporarily covered by {{appName}}"
         },
+        "work": {
+          "title": "Put Your Assets To Work",
+          "subtitle": "Start earning on your crypto by depositing into a liquidity pool. "
+        },
         "manage": {
           "title": "Manage Directly from {{appName}}",
           "titleV1_92": "Manage Directly from {{appName}}",
+          "titleV1_94": "Manage Your Positions",
           "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}.",
-          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}."
+          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}.",
+          "subtitleV1_94": "Choose a pool you like, add your tokens and monitor your gains."
         },
         "access": {
           "title": "Easily Access your Funds",
-          "subtitle": "Collect funds with a tap, just like your favorite protocols."
+          "subtitle": "Collect funds with a tap when you're ready."
         }
       },
       "action": {
