@@ -2514,15 +2514,21 @@
           "subtitle": "Confronta il potenziale di guadagno e i rischi. Scambia, acquista o trasferisci i token per unirti al pool migliore per te.",
           "footnoteSubsidy": "*Le spese per il gas sono temporaneamente coperte da {{appName}}."
         },
+        "work": {
+          "title": "Fai lavorare le tue risorse",
+          "subtitle": "Inizia a guadagnare sulle tue cripto depositando in un pool di liquidità. "
+        },
         "manage": {
           "title": "Gestisci direttamente da {{appName}}",
           "titleV1_92": "Gestisci direttamente da {{appName}}",
+          "titleV1_94": "Gestisci le tue posizioni",
           "subtitle": "Collegheremo il tuo portafoglio in modo da poter gestire i pool senza lasciare {{appName}}.",
-          "subtitleV1_92": "Collegheremo il tuo portafoglio in modo da poter gestire i pool senza lasciare {{appName}}."
+          "subtitleV1_92": "Collegheremo il tuo portafoglio in modo da poter gestire i pool senza lasciare {{appName}}.",
+          "subtitleV1_94": "Scegli una piscina che ti piace, aggiungi i gettoni e monitora i tuoi guadagni."
         },
         "access": {
           "title": "Accedi facilmente ai tuoi fondi",
-          "subtitle": "Raccogli i fondi con un tocco, come i tuoi protocolli preferiti."
+          "subtitle": "Raccogli i fondi con un tocco quando sei pronto."
         }
       },
       "action": {
