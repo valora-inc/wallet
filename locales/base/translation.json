@@ -2694,16 +2694,18 @@
         "crossChainSwapActionDescription": "Swap a token on another network for {{tokenSymbol}}",
         "beforeYouCanDepositTitle": "Before you can deposit...",
         "beforeYouCanDepositDescription": "You’ll need to add one of the pool tokens. Once added, you’ll need to return to complete your pool deposit.",
-        "swapActionDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet"
+        "swapActionDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
+        "action": {
+          "swapAndDeposit": "Swap & Deposit",
+          "crossChainSwap": "Cross-chain Swap"
+        }
       }
     }
   },
   "addFundsActions": {
     "add": "Buy",
     "transfer": "Transfer",
-    "swap": "Swap",
-    "swapAndDeposit": "Swap & Deposit",
-    "crossChainSwap": "Cross-chain Swap"
+    "swap": "Swap"
   },
   "duration_lessThanADay": "Less than a day",
   "duration_day_one": "1 day",

@@ -8,16 +8,20 @@ import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import AddAssetsBottomSheet, { AddAssetsAction } from 'src/components/AddAssetsBottomSheet'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import { Card } from 'src/earn/Card'
-import { useDepositEntrypointInfo } from 'src/earn/hooks'
+import {
+  useAddAction,
+  useCrossChainSwapAction,
+  useDepositEntrypointInfo,
+  useSwapAndDepositAction,
+  useTransferAction,
+} from 'src/earn/hooks'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
@@ -37,11 +41,24 @@ import variables from 'src/styles/variables'
 import { useTokenInfo, useTokensInfo } from 'src/tokens/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { TokenActionName } from 'src/tokens/types'
-import { getTokenAnalyticsProps } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
 import { formattedDuration } from 'src/utils/time'
+
+export enum BeforeDepositActionName {
+  Add = 'Add',
+  Transfer = 'Transfer',
+  SwapAndDeposit = 'SwapAndDeposit',
+  CrossChainSwap = 'CrossChainSwap',
+}
+
+export interface BeforeDepositAction {
+  name: BeforeDepositActionName
+  title: string
+  details: string
+  iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
+  onPress: () => void
+}
 
 function HeaderTitleSection({
   earnPosition,
@@ -727,6 +744,26 @@ function InfoBottomSheet({
   )
 }
 
+function ActionCard({ action }: { action: BeforeDepositAction }) {
+  return (
+    <Touchable
+      style={styles.touchable}
+      key={action.name}
+      borderRadius={20}
+      onPress={action.onPress}
+      testID={`$Earn/BeforeDepositBottomSheet/${action.name}`}
+    >
+      <>
+        <action.iconComponent color={Colors.black} />
+        <View style={styles.contentContainer}>
+          <Text style={styles.actionTitle}>{action.title}</Text>
+          <Text style={styles.actionDetails}>{action.details}</Text>
+        </View>
+      </>
+    </Touchable>
+  )
+}
+
 function BeforeDepositBottomSheet({
   forwardedRef,
   token,
@@ -744,119 +781,73 @@ function BeforeDepositBottomSheet({
 }) {
   const { t } = useTranslation()
 
-  const actions = useMemo(() => {
-    const visibleActions: AddAssetsAction[] = []
+  const title = hasTokensOnSameNetwork
+    ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.youNeedTitle', {
+        tokenSymbol: token.symbol,
+        tokenNetwork: NETWORK_NAMES[token.networkId],
+      })
+    : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositTitle')
 
-    if (hasTokensOnSameNetwork) {
-      visibleActions.push({
-        name: TokenActionName.SwapAndDeposit,
-        details: t(
-          'earnFlow.poolInfoScreen.beforeDepositBottomSheet.swapAndDepositActionDescription',
-          {
+  const components: React.JSX.Element[] = []
+
+  if (hasTokensOnSameNetwork) {
+    components.push(<ActionCard action={useSwapAndDepositAction({ token, forwardedRef })} />)
+    components.push(
+      <Text style={styles.actionDetails}>
+        {t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainAlternativeDescription', {
+          tokenNetwork: NETWORK_NAMES[token.networkId],
+        })}
+      </Text>
+    )
+    if (hasTokensOnOtherNetworks)
+      components.push(
+        <ActionCard
+          action={useCrossChainSwapAction({
+            token,
+            title: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.crossChainSwap'),
+            details: t(
+              'earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainSwapActionDescription'
+            ),
+            forwardedRef,
+          })}
+        />
+      )
+    if (canAdd) components.push(<ActionCard action={useAddAction({ token, forwardedRef })} />)
+  } else if (hasTokensOnOtherNetworks) {
+    components.push(
+      <ActionCard
+        action={useCrossChainSwapAction({
+          token,
+          title: t('addFundsActions.swap'),
+          details: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.swapActionDescription', {
             tokenSymbol: token.symbol,
             tokenNetwork: NETWORK_NAMES[token.networkId],
-          }
-        ),
-        onPress: () => {
-          AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
-            action: TokenActionName.SwapAndDeposit,
-            ...getTokenAnalyticsProps(token),
-          })
-
-          navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
-        },
-      })
-    }
-
-    if (hasTokensOnOtherNetworks) {
-      visibleActions.push({
-        name: hasTokensOnSameNetwork ? TokenActionName.CrossChainSwap : TokenActionName.Swap,
-        details: hasTokensOnSameNetwork
-          ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainSwapActionDescription', {
-              tokenSymbol: token.symbol,
-              tokenNetwork: NETWORK_NAMES[token.networkId],
-            })
-          : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.swapActionDescription', {
-              tokenSymbol: token.symbol,
-              tokenNetwork: NETWORK_NAMES[token.networkId],
-            }),
-        onPress: () => {
-          AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
-            action: hasTokensOnSameNetwork ? TokenActionName.CrossChainSwap : TokenActionName.Swap,
-            ...getTokenAnalyticsProps(token),
-          })
-
-          navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
-          forwardedRef.current?.close()
-        },
-      })
-    }
-
-    if (canAdd) {
-      visibleActions.push({
-        name: TokenActionName.Add,
-        details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.add', {
-          tokenSymbol: token.symbol,
-          tokenNetwork: NETWORK_NAMES[token.networkId],
-        }),
-        onPress: () => {
-          AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
-            action: TokenActionName.Add,
-            ...getTokenAnalyticsProps(token),
-          })
-
-          navigate(Screens.FiatExchangeAmount, {
-            tokenId: token.tokenId,
-            flow: CICOFlow.CashIn,
-            tokenSymbol: token.symbol,
-          })
-        },
-      })
-    }
-
-    if (!hasTokensOnSameNetwork) {
-      visibleActions.push({
-        name: TokenActionName.Transfer,
-        details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.transfer', {
-          tokenSymbol: token.symbol,
-          tokenNetwork: NETWORK_NAMES[token.networkId],
-        }),
-        onPress: () => {
-          AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
-            action: TokenActionName.Transfer,
-            ...getTokenAnalyticsProps(token),
-          })
-
-          navigate(Screens.ExchangeQR, { flow: CICOFlow.CashIn, exchanges })
-        },
-      })
-    }
-
-    return visibleActions
-  }, [token, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canAdd, exchanges])
+          }),
+          forwardedRef,
+        })}
+      />
+    )
+    if (canAdd) components.push(<ActionCard action={useAddAction({ token, forwardedRef })} />)
+    components.push(<ActionCard action={useTransferAction({ token, exchanges, forwardedRef })} />)
+  } else {
+    if (canAdd) components.push(<ActionCard action={useAddAction({ token, forwardedRef })} />)
+    components.push(<ActionCard action={useTransferAction({ token, exchanges, forwardedRef })} />)
+  }
 
   return (
-    <AddAssetsBottomSheet
+    <BottomSheet
       forwardedRef={forwardedRef}
-      actions={actions}
-      title={
-        hasTokensOnSameNetwork
-          ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.youNeedTitle', {
-              tokenSymbol: token.symbol,
-              tokenNetwork: NETWORK_NAMES[token.networkId],
-            })
-          : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositTitle')
-      }
+      title={title}
       description={
-        hasTokensOnSameNetwork
-          ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainAlternativeDescription', {
-              tokenNetwork: NETWORK_NAMES[token.networkId],
-            })
-          : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositDescription')
+        !hasTokensOnSameNetwork
+          ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositDescription')
+          : undefined
       }
+      titleStyle={styles.title}
       testId={'Earn/BeforeDepositBottomSheet'}
-      showDescriptionAfterFirstAction={hasTokensOnSameNetwork}
-    />
+    >
+      <View style={styles.actionsContainer}>{components}</View>
+    </BottomSheet>
   )
 }
 
@@ -1002,5 +993,32 @@ const styles = StyleSheet.create({
   },
   linkText: {
     textDecorationLine: 'underline',
+  },
+  actionsContainer: {
+    flex: 1,
+    gap: Spacing.Regular16,
+    marginVertical: Spacing.Thick24,
+  },
+  actionTitle: {
+    ...typeScale.labelMedium,
+    color: Colors.black,
+  },
+  actionDetails: {
+    ...typeScale.bodySmall,
+    color: Colors.black,
+  },
+  bottomSheetTitle: {
+    ...typeScale.titleSmall,
+    color: Colors.black,
+  },
+  touchable: {
+    backgroundColor: Colors.gray1,
+    padding: Spacing.Regular16,
+    flexDirection: 'row',
+    gap: Spacing.Regular16,
+    alignItems: 'center',
+  },
+  beforeDepositBottomSheetContentContainer: {
+    flex: 1,
   },
 })

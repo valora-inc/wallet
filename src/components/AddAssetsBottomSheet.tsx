@@ -6,7 +6,6 @@ import Touchable from 'src/components/Touchable'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
-import QuickActionsSwapAndDeposit from 'src/icons/SwapAndDeposit'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -16,8 +15,6 @@ export type AddAssetsActionType =
   | TokenActionName.Add
   | TokenActionName.Transfer
   | TokenActionName.Swap
-  | TokenActionName.SwapAndDeposit
-  | TokenActionName.CrossChainSwap
 
 export interface AddAssetsAction {
   name: AddAssetsActionType
@@ -31,14 +28,12 @@ export default function AddAssetsBottomSheet({
   title,
   description,
   testId,
-  showDescriptionAfterFirstAction,
 }: {
   forwardedRef: RefObject<BottomSheetModalRefType>
   actions: AddAssetsAction[]
   title: string
   description: string
   testId: string
-  showDescriptionAfterFirstAction?: boolean
 }) {
   const { t } = useTranslation()
 
@@ -55,14 +50,6 @@ export default function AddAssetsBottomSheet({
       iconComponent: QuickActionsSwap,
       title: t('addFundsActions.swap'),
     },
-    [TokenActionName.SwapAndDeposit]: {
-      iconComponent: QuickActionsSwapAndDeposit,
-      title: t('addFundsActions.swapAndDeposit'),
-    },
-    [TokenActionName.CrossChainSwap]: {
-      iconComponent: QuickActionsSwap,
-      title: t('addFundsActions.crossChainSwap'),
-    },
   }
 
   const addAssetsActions = actions.map((action) => ({
@@ -70,35 +57,16 @@ export default function AddAssetsBottomSheet({
     ...actionExtraProps[action.name],
   }))
 
-  const firstAction = addAssetsActions[0]
-  const restOfActions = addAssetsActions.slice(1)
-
   return (
     <BottomSheet
       forwardedRef={forwardedRef}
       title={title}
-      description={!showDescriptionAfterFirstAction ? description : undefined}
+      description={description}
       titleStyle={styles.title}
       testId={testId}
     >
       <View style={styles.actionsContainer}>
-        <Touchable
-          style={styles.touchable}
-          key={firstAction.name}
-          borderRadius={20}
-          onPress={firstAction.onPress}
-          testID={`${testId}/${firstAction.name}`}
-        >
-          <>
-            <firstAction.iconComponent color={Colors.black} />
-            <View style={styles.contentContainer}>
-              <Text style={styles.actionTitle}>{firstAction.title}</Text>
-              <Text style={styles.actionDetails}>{firstAction.details}</Text>
-            </View>
-          </>
-        </Touchable>
-        {showDescriptionAfterFirstAction && <Text style={styles.actionDetails}>{description}</Text>}
-        {restOfActions.map((action) => (
+        {addAssetsActions.map((action) => (
           <Touchable
             style={styles.touchable}
             key={action.name}
