@@ -133,7 +133,11 @@ export default Send = () => {
     })
   })
 
-  describe('When multi-token send flow to phone number with one address', () => {
+  // TODO(mobilestack): Un-skip these if we ever support CPV.
+  // This is the ONLY place in tests where the centrally verified e2e account
+  // is used, so enabling these also means we'll need to add this account (SAMPLE_BACKUP_KEY_VERIFIED)
+  // back into the funding scripts.
+  describe.skip('When multi-token send flow to phone number with one address', () => {
     beforeAll(async () => {
       await device.uninstallApp()
       await device.installApp()

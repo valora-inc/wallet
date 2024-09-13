@@ -22,7 +22,9 @@ describe('Home Feed', () => {
     await expect(element(by.text(`$${amount}`)).atIndex(0)).toBeVisible()
   })
 
-  it('should load more items on scroll', async () => {
+  // TODO(mobilestack): Un-skip once more items are in the feed. Currently
+  // there's not really a backlog so this will fail.
+  it.skip('should load more items on scroll', async () => {
     // Tap back button if present form previous test
     try {
       await element(by.id('BackChevron')).tap()
