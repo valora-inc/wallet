@@ -25,7 +25,7 @@ import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
 import { TokenActionName } from 'src/tokens/types'
 import networkConfig from 'src/web3/networkConfig'
 
-export default function JumpstartAddAssets() {
+export default function JumpstartIntro() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const insets = useSafeAreaInsets()
@@ -111,7 +111,7 @@ export default function JumpstartAddAssets() {
 
         <Button
           testID={
-            noTokens ? 'JumpstartAddAssets/noFundsButton' : 'JumpstartEnterAmount/haveFundsButton'
+            noTokens ? 'JumpstartIntro/noFundsButton' : 'JumpstartEnterAmount/haveFundsButton'
           }
           text={
             noTokens ? t('jumpstartIntro.addFundsCelo.cta') : t('jumpstartIntro.haveFundsButton')

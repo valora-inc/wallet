@@ -8,7 +8,7 @@ import { JumpstartEvents } from 'src/analytics/Events'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import JumpstartAddAssets from 'src/jumpstart/JumpstartAddAssets'
+import JumpstartIntro from 'src/jumpstart/JumpstartIntro'
 import {
   jumpstartIntroHasBeenSeenSelector,
   jumpstartSendStatusSelector,
@@ -173,7 +173,7 @@ function JumpstartEnterAmount() {
     jumpstartSendStatus === 'loading'
 
   if (tokens.length === 0 || !introSeen) {
-    return <JumpstartAddAssets />
+    return <JumpstartIntro />
   }
 
   return (
