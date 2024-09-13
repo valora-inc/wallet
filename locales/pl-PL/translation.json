@@ -2562,11 +2562,6 @@
       "continue": "Kontynuuj",
       "info": "Ta pula jest zapewniana przez Aave",
       "infoV1_93": "Obsługiwane przez {{providerName}}",
-      "infoBottomSheet": {
-        "title": "Dlaczego ta pula?",
-        "description": "Ta pula Aave ma ponad 150 mln USD TVL i ponad 6000 uczestników, co wskazuje na dużą płynność i wiarygodność. Wykorzystuje również USDC jako token i Arbitrum jako sieć, co zmniejsza zmienność i zapewnia użytkownikom niskie opłaty za gaz.\n\nMożesz zapoznać się z innymi pulami Aave <0>tutaj</0>.",
-        "dismiss": "Odrzuć"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Potrzebujesz więcej {{feeTokenSymbol}}, aby kontynuować",
         "description": "Dodaj {{feeTokenSymbol}} w {{network}}, aby pokryć opłaty za gaz",
