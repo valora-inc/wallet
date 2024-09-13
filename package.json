@@ -324,6 +324,26 @@
       }
     },
     "devices": {
+      "simulator": {
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone SE (3rd generation)"
+        }
+      },
+      "simulator.16.2": {
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone SE (3rd generation)",
+          "os": "iOS 16.2"
+        }
+      },
+      "simulator.16.4": {
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone SE (3rd generation)",
+          "os": "iOS 16.4"
+        }
+      },
       "simulator.17.2": {
         "type": "ios.simulator",
         "device": {
