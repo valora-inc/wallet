@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Condividi le criptovalute come un testo",
+    "description": "I collegamenti in tempo reale sono un modo per inviare criptovalute sulla rete Celo a un amico con un link.",
+    "noFundsHint": "Per iniziare, dovrai avere nel tuo portafoglio alcune attività su Celo.",
+    "haveFundsButton": "Invia con un Live Link",
     "addFundsCelo": {
       "title": "Ottieni asset su Celo",
       "info": "I link diretti sono un modo per inviare criptovalute a un amico con un link utilizzando la rete Celo.\nPer iniziare, è necessario che tu abbia asset CELO nel tuo portafoglio.",
