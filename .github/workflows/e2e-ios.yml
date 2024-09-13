@@ -29,6 +29,11 @@ jobs:
           secrets: |-
             EMERGE_API_TOKEN:projects/1027349420744/secrets/EMERGE_API_TOKEN
       - uses: actions/checkout@v4
+      - name: Install missing utils from namespace machine
+        run: |
+          brew tap wix/brew
+          brew install applesimutils
+
       # - uses: ./.github/actions/yarn-install
       - uses: actions/setup-node@v4
         id: setup-node
