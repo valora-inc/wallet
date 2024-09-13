@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
-import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
+import { usePrepareDepositTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -106,26 +106,26 @@ const store = createMockStore({
   },
 })
 
-const refreshPreparedTransactionsSpy = jest.fn()
-jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
-  prepareTransactionsResult: undefined,
-  refreshPreparedTransactions: refreshPreparedTransactionsSpy,
-  clearPreparedTransactions: jest.fn(),
-  prepareTransactionError: undefined,
-  isPreparingTransactions: false,
-})
-
 const params = {
   pool: mockEarnPositions[0],
 }
 
 describe('EarnEnterAmount', () => {
+  let refreshPreparedTransactionsSpy: jest.Mock
   beforeEach(() => {
     jest.clearAllMocks()
     jest
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
     store.clearActions()
+    refreshPreparedTransactionsSpy = jest.fn()
+    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+      prepareTransactionsResult: undefined,
+      refreshPreparedTransactions: refreshPreparedTransactionsSpy,
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
   })
 
   describe('deposit', () => {
@@ -165,12 +165,16 @@ describe('EarnEnterAmount', () => {
         pool: mockEarnPositions[0],
         hooksApiUrl: networkConfig.hooksApiUrl,
         feeCurrencies: mockFeeCurrencies,
+        shortcutId: 'deposit',
       })
     })
 
     it('should handle navigating to the deposit bottom sheet', async () => {
-      jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
-        prepareTransactionsResult: mockPreparedTransaction,
+      jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+        prepareTransactionsResult: {
+          prepareTransactionsResult: mockPreparedTransaction,
+          swapTransaction: undefined,
+        },
         refreshPreparedTransactions: jest.fn(),
         clearPreparedTransactions: jest.fn(),
         prepareTransactionError: undefined,
@@ -260,12 +264,41 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeDisabled()
       expect(queryByTestId('downArrowIcon')).toBeFalsy()
     })
+
+    it('should prepare transactions with the expected inputs', async () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={swapDepositParams} />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '.25')
+
+      await waitFor(() => expect(refreshPreparedTransactionsSpy).toHaveBeenCalledTimes(1))
+      expect(refreshPreparedTransactionsSpy).toHaveBeenCalledWith({
+        amount: '0.25',
+        token: {
+          ...mockTokenBalances[mockArbEthTokenId],
+          priceUsd: new BigNumber(1500),
+          lastKnownPriceUsd: new BigNumber(1500),
+          balance: new BigNumber(1),
+        },
+        walletAddress: mockAccount.toLowerCase(),
+        pool: mockEarnPositions[0],
+        hooksApiUrl: networkConfig.hooksApiUrl,
+        feeCurrencies: mockFeeCurrencies,
+        shortcutId: 'swap-deposit',
+      })
+    })
   })
 
   // tests independent of deposit / swap-deposit
   it('should show a warning and not allow the user to continue if they input an amount greater than balance', async () => {
-    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
-      prepareTransactionsResult: mockPreparedTransaction,
+    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: mockPreparedTransaction,
+        swapTransaction: undefined,
+      },
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
       prepareTransactionError: undefined,
@@ -284,7 +317,7 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should show loading spinner when preparing transaction', async () => {
-    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
+    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
       prepareTransactionsResult: undefined,
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
@@ -356,8 +389,11 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should track analytics and navigate correctly when tapping cta to add gas', async () => {
-    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
-      prepareTransactionsResult: mockPreparedTransactionNotEnough,
+    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: mockPreparedTransactionNotEnough,
+        swapTransaction: undefined,
+      },
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
       prepareTransactionError: undefined,

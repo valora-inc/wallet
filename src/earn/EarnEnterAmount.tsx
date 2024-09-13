@@ -19,7 +19,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
-import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
+import { usePrepareDepositTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -115,12 +115,12 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const {
-    prepareTransactionsResult,
+    prepareTransactionsResult: { prepareTransactionsResult } = {},
     refreshPreparedTransactions,
     clearPreparedTransactions,
     prepareTransactionError,
     isPreparingTransactions,
-  } = usePrepareSupplyTransactions()
+  } = usePrepareDepositTransactions()
 
   const walletAddress = useSelector(walletAddressSelector)
 
@@ -141,6 +141,7 @@ function EarnEnterAmount({ route }: Props) {
       feeCurrencies,
       pool,
       hooksApiUrl,
+      shortcutId: mode,
     })
   }
 
