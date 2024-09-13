@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Compartilhe cripto tão fácil quanto enviar mensagens",
+    "description": "Os Live Links são uma forma de enviar criptografia na rede da Celo para um amigo por meio de um link",
+    "noFundsHint": "Para começar, você precisará de alguns ativos da Celo em sua carteira.",
+    "haveFundsButton": "Envie com um link ativo",
     "addFundsCelo": {
       "title": "Obtenha ativos na Celo",
       "info": "Os links ativos são uma forma de você enviar cripto na rede Celo para um amigo por meio de um link.\nPara começar, você precisará de alguns ativos CELO em sua carteira.",
