@@ -2512,15 +2512,21 @@
           "subtitle": "So sánh tiềm năng kiếm tiền và rủi ro. Trao đổi, mua hoặc chuyển khoản token để tham gia quỹ tốt nhất dành cho bạn.",
           "footnoteSubsidy": "*Gas fees are temporarily covered by {{appName}}"
         },
+        "work": {
+          "title": "Put Your Assets To Work",
+          "subtitle": "Start earning on your crypto by depositing into a liquidity pool. "
+        },
         "manage": {
           "title": "Quản lý trực tiếp từ {{appName}}",
           "titleV1_92": "Quản lý trực tiếp từ {{appName}}",
+          "titleV1_94": "Manage Your Positions",
           "subtitle": "Chúng tôi sẽ tự động kết nối ví của bạn để giúp bạn quản lý quỹ mà không cần thoát khỏi {{appName}}.",
-          "subtitleV1_92": "Chúng tôi sẽ tự động kết nối ví của bạn để giúp bạn quản lý quỹ mà không cần thoát khỏi {{appName}}."
+          "subtitleV1_92": "Chúng tôi sẽ tự động kết nối ví của bạn để giúp bạn quản lý quỹ mà không cần thoát khỏi {{appName}}.",
+          "subtitleV1_94": "Choose a pool you like, add your tokens and monitor your gains."
         },
         "access": {
           "title": "Tiếp cận tiền dễ dàng",
-          "subtitle": "Nhận tiền chỉ bằng một cú nhấn, giống như các quy trình yêu thích của bạn vậy."
+          "subtitle": "Collect funds with a tap when you're ready."
         }
       },
       "action": {
