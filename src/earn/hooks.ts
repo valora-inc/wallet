@@ -169,7 +169,7 @@ export function useTransferAction({
 
   return {
     name: BeforeDepositActionName.Transfer,
-    title: t('addFundsActions.add'),
+    title: t('addFundsActions.transfer'),
     details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.transfer', {
       tokenSymbol: token.symbol,
       tokenNetwork: NETWORK_NAMES[token.networkId],
@@ -238,7 +238,7 @@ export function useSwapAndDepositAction({
         ...getTokenAnalyticsProps(token),
       })
 
-      // TODO: navigate to swap and deposit screen after ACT-1356
+      // TODO(ACT-1356): navigate to swap and deposit screen
       forwardedRef.current?.close()
     },
   }

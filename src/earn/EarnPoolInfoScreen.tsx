@@ -755,7 +755,7 @@ function ActionCard({ action }: { action: BeforeDepositAction }) {
     >
       <>
         <action.iconComponent color={Colors.black} />
-        <View style={styles.contentContainer}>
+        <View style={styles.beforeDepositBottomSheetContentContainer}>
           <Text style={styles.actionTitle}>{action.title}</Text>
           <Text style={styles.actionDetails}>{action.details}</Text>
         </View>
@@ -806,7 +806,8 @@ function BeforeDepositBottomSheet({
             token,
             title: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.crossChainSwap'),
             details: t(
-              'earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainSwapActionDescription'
+              'earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainSwapActionDescription',
+              { tokenSymbol: token.symbol }
             ),
             forwardedRef,
           })}
