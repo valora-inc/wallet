@@ -2213,6 +2213,9 @@
   },
   "jumpstartIntro": {
     "title": "Chia sẻ tiền điện tử như gửi tin nhắn",
+    "description": "Live Links are a way to send crypto on the Celo network to a friend with a link",
+    "noFundsHint": "To get started, you’ll need some assets on Celo in your wallet.",
+    "haveFundsButton": "Gửi bằng đường liên kết trực tiếp",
     "addFundsCelo": {
       "title": "Nhận tài sản trên Celo",
       "info": "Liên kết trực tiếp là cách để gửi tiền điện tử trên Celo Network cho bạn bè qua một đường liên kết.\nĐể bắt đầu, bạn cần có vài tài sản CELO trong ví của mình.",
