@@ -2514,15 +2514,21 @@
           "subtitle": "Vergleiche Verdienstmöglichkeiten und Risiken. Tausche, kaufe oder übertrage Token, um dem für dich besten Pool beizutreten.",
           "footnoteSubsidy": "*Gasgebühren werden vorübergehend von {{appName}}übernommen."
         },
+        "work": {
+          "title": "Setze dein Vermögen in die Tat um",
+          "subtitle": "Fange an, an deiner Kryptowährung zu verdienen, indem du in einen Liquiditätspool einzahlst. "
+        },
         "manage": {
           "title": "Direkt von {{appName}} aus verwalten",
           "titleV1_92": "Direkt von {{appName}} aus verwalten",
+          "titleV1_94": "Verwalte deine Positionen",
           "subtitle": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne {{appName}} zu verlassen.",
-          "subtitleV1_92": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne {{appName}} zu verlassen."
+          "subtitleV1_92": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne {{appName}} zu verlassen.",
+          "subtitleV1_94": "Wähle einen Pool, den du magst, füge deine Token hinzu und beobachte deine Gewinne."
         },
         "access": {
           "title": "Einfacher Zugriff auf dein Guthaben",
-          "subtitle": "Erhalte Guthaben mit nur einem Tippen, genau wie bei deinen Lieblingsprotokollen."
+          "subtitle": "Sammle das Geld mit einem Fingertipp ein, wenn du bereit bist."
         }
       },
       "action": {
