@@ -11,7 +11,7 @@ export async function checkBalance(
   for (const [tokenSymbol, tokenBalance] of Object.entries(balance)) {
     if (tokenSymbols.includes(tokenSymbol) && tokenBalance < minBalance) {
       throw new Error(
-        `${balance} balance of ${address} is below ${minBalance}. Please refill from the faucet https://celo.org/developers/faucet or run ./fund-e2e-accounts.ts if a Valora Dev.`
+        `${balance} balance of ${address} is below ${minBalance}. Please refill from the faucet https://celo.org/developers/faucet or run ./fund-e2e-accounts.ts.`
       )
     }
   }

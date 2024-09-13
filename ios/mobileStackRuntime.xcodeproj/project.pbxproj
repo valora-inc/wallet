@@ -27,10 +27,10 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* celoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* celoTests.m */; };
-		35D1E601A44DD98EA458A156 /* Pods_celoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0D58097DC128C43270DD6AE /* Pods_celoTests.framework */; };
 		67911AC6D310414DAAC1498E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F3F5FA21E7EC46BBB744FE54 /* libz.tbd */; };
-		AC5A01A0F9858C1F2124D019 /* Pods_celo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4F289E12C8CFFF2BC8FB583 /* Pods_celo.framework */; };
 		B986845D4124CAF56EB14C7F /* Pods_NotificationService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B11FD0527A58E309137144D /* Pods_NotificationService.framework */; };
+		C26B3981534763A845DB5216 /* Pods_mobileStackRuntimeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D6A209A69AC37A9B355FE22 /* Pods_mobileStackRuntimeTests.framework */; };
+		D6BB5DE8B98BDDED2B87503F /* Pods_mobileStackRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CBD2AA05DB5C1F804A4458E /* Pods_mobileStackRuntime.framework */; };
 		E42EEBEF2C49737700038A5D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 27DBFF6A2BDA6EED00863BC5 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -74,26 +74,28 @@
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* celoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = celoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* mobileStackRuntimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mobileStackRuntimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* celoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = celoTests.m; sourceTree = "<group>"; };
-		0F3673F62673A63800F9586A /* celo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "celo-Bridging-Header.h"; path = "celo/celo-Bridging-Header.h"; sourceTree = "<group>"; };
-		0F3673F72673A63900F9586A /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = File.swift; path = celo/File.swift; sourceTree = "<group>"; };
+		0D6A209A69AC37A9B355FE22 /* Pods_mobileStackRuntimeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mobileStackRuntimeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F3673F62673A63800F9586A /* mobileStackRuntime-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mobileStackRuntime-Bridging-Header.h"; path = "mobileStackRuntime/mobileStackRuntime-Bridging-Header.h"; sourceTree = "<group>"; };
+		0F3673F72673A63900F9586A /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = File.swift; path = mobileStackRuntime/File.swift; sourceTree = "<group>"; };
 		0F49F5ED270F2F2A0005F897 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F49F5F2270F2F2A0005F897 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0F49F5FB270F41580005F897 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		0F49F5FC270F41580005F897 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		0FC6C311256FEF2700C35F47 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		0FC6C317256FEF4A00C35F47 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		0FE3DE8E2347740700EA87A0 /* celo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = celo.entitlements; path = celo/celo.entitlements; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* valora.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = valora.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = celo/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.mm; path = celo/AppDelegate.mm; sourceTree = "<group>"; };
+		0FE3DE8E2347740700EA87A0 /* mobileStackRuntime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mobileStackRuntime.entitlements; path = mobileStackRuntime/mobileStackRuntime.entitlements; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* mobileStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mobileStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = mobileStackRuntime/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.mm; path = mobileStackRuntime/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = celo/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = celo/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = celo/main.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = mobileStackRuntime/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = mobileStackRuntime/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = mobileStackRuntime/main.m; sourceTree = "<group>"; };
 		1931B4D04F9947C23D830F1D /* Pods-celoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-celoTests.release.xcconfig"; path = "Target Support Files/Pods-celoTests/Pods-celoTests.release.xcconfig"; sourceTree = "<group>"; };
+		25C7BB11FB94F4ACC4973A8A /* Pods-mobileStackRuntimeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mobileStackRuntimeTests.release.xcconfig"; path = "Target Support Files/Pods-mobileStackRuntimeTests/Pods-mobileStackRuntimeTests.release.xcconfig"; sourceTree = "<group>"; };
 		270B61A22C6A3A0C00979913 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Bold.ttf"; path = "../fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
 		270B61A42C6A3A2600979913 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-SemiBold.ttf"; path = "../fonts/Inter-SemiBold.ttf"; sourceTree = "<group>"; };
 		270B61A52C6A3A2600979913 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Medium.ttf"; path = "../fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
@@ -106,20 +108,22 @@
 		27A21C9D2796DA920008F219 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		27DBFF6A2BDA6EED00863BC5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		2B11FD0527A58E309137144D /* Pods_NotificationService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E47B1E0B4A5D006451C7 /* celo-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "celo-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* celo-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "celo-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E47B1E0B4A5D006451C7 /* mobileStackRuntime-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mobileStackRuntime-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* mobileStackRuntime-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mobileStackRuntime-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		58BE26D505B80BC2A709A833 /* Pods-mobileStackRuntimeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mobileStackRuntimeTests.debug.xcconfig"; path = "Target Support Files/Pods-mobileStackRuntimeTests/Pods-mobileStackRuntimeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		68B737FF27D7B55B0044A85E /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		857F8D4FD9C93B1CF2E57BE2 /* Pods-celo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-celo.release.xcconfig"; path = "Target Support Files/Pods-celo/Pods-celo.release.xcconfig"; sourceTree = "<group>"; };
-		8FA5FF3642E0FD77DA6C6EDB /* Pods-celo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-celo.debug.xcconfig"; path = "Target Support Files/Pods-celo/Pods-celo.debug.xcconfig"; sourceTree = "<group>"; };
+		6CBD2AA05DB5C1F804A4458E /* Pods_mobileStackRuntime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mobileStackRuntime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		857F8D4FD9C93B1CF2E57BE2 /* Pods-celo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-celo.release.xcconfig"; path = "Target Support Files/Pods-mobileStackRuntime/Pods-celo.release.xcconfig"; sourceTree = "<group>"; };
+		8FA5FF3642E0FD77DA6C6EDB /* Pods-celo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-celo.debug.xcconfig"; path = "Target Support Files/Pods-mobileStackRuntime/Pods-celo.debug.xcconfig"; sourceTree = "<group>"; };
 		A7DD4FB9579104C1EB8C2328 /* Pods-celoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-celoTests.debug.xcconfig"; path = "Target Support Files/Pods-celoTests/Pods-celoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		ABD9DB429BFBB7761973DC0F /* Pods-mobileStackRuntime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mobileStackRuntime.debug.xcconfig"; path = "Target Support Files/Pods-mobileStackRuntime/Pods-mobileStackRuntime.debug.xcconfig"; sourceTree = "<group>"; };
+		BA48C59E746971828FFABA1A /* Pods-mobileStackRuntime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mobileStackRuntime.release.xcconfig"; path = "Target Support Files/Pods-mobileStackRuntime/Pods-mobileStackRuntime.release.xcconfig"; sourceTree = "<group>"; };
 		BE34411039D35338B8E3513B /* Pods-NotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.debug.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.debug.xcconfig"; sourceTree = "<group>"; };
-		C4F289E12C8CFFF2BC8FB583 /* Pods_celo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_celo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88C5BFD26FA424100B9C0CE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E2F7CB3EF18F92CA4317058A /* Pods-NotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotificationService.release.xcconfig"; path = "Target Support Files/Pods-NotificationService/Pods-NotificationService.release.xcconfig"; sourceTree = "<group>"; };
 		E47888B729494A2C00308F07 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		E47888B829494A3B00308F07 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E47888B929494AC100308F07 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F0D58097DC128C43270DD6AE /* Pods_celoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_celoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3F5FA21E7EC46BBB744FE54 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -128,7 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35D1E601A44DD98EA458A156 /* Pods_celoTests.framework in Frameworks */,
+				C26B3981534763A845DB5216 /* Pods_mobileStackRuntimeTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,7 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67911AC6D310414DAAC1498E /* libz.tbd in Frameworks */,
-				AC5A01A0F9858C1F2124D019 /* Pods_celo.framework in Frameworks */,
+				D6BB5DE8B98BDDED2B87503F /* Pods_mobileStackRuntime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,13 +170,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* celoTests */ = {
+		00E356EF1AD99517003FC87E /* mobileStackRuntimeTests */ = {
 			isa = PBXGroup;
 			children = (
 				00E356F21AD99517003FC87E /* celoTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = celoTests;
+			path = mobileStackRuntimeTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -188,9 +192,9 @@
 			children = (
 				273ACDD52A02B36F0041B98E /* JavaScriptCore.framework */,
 				F3F5FA21E7EC46BBB744FE54 /* libz.tbd */,
-				C4F289E12C8CFFF2BC8FB583 /* Pods_celo.framework */,
-				F0D58097DC128C43270DD6AE /* Pods_celoTests.framework */,
 				2B11FD0527A58E309137144D /* Pods_NotificationService.framework */,
+				6CBD2AA05DB5C1F804A4458E /* Pods_mobileStackRuntime.framework */,
+				0D6A209A69AC37A9B355FE22 /* Pods_mobileStackRuntimeTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -205,10 +209,10 @@
 			path = NotificationService;
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* celo */ = {
+		13B07FAE1A68108700A75B9A /* mobileStackRuntime */ = {
 			isa = PBXGroup;
 			children = (
-				0FE3DE8E2347740700EA87A0 /* celo.entitlements */,
+				0FE3DE8E2347740700EA87A0 /* mobileStackRuntime.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -217,10 +221,10 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				0F3673F72673A63900F9586A /* File.swift */,
-				0F3673F62673A63800F9586A /* celo-Bridging-Header.h */,
+				0F3673F62673A63800F9586A /* mobileStackRuntime-Bridging-Header.h */,
 				0FC6C312256FEF2700C35F47 /* InfoPlist.strings */,
 			);
-			name = celo;
+			name = mobileStackRuntime;
 			sourceTree = "<group>";
 		};
 		24A671CF55B1A8A5DB61A139 /* Pods */ = {
@@ -232,6 +236,10 @@
 				1931B4D04F9947C23D830F1D /* Pods-celoTests.release.xcconfig */,
 				BE34411039D35338B8E3513B /* Pods-NotificationService.debug.xcconfig */,
 				E2F7CB3EF18F92CA4317058A /* Pods-NotificationService.release.xcconfig */,
+				ABD9DB429BFBB7761973DC0F /* Pods-mobileStackRuntime.debug.xcconfig */,
+				BA48C59E746971828FFABA1A /* Pods-mobileStackRuntime.release.xcconfig */,
+				58BE26D505B80BC2A709A833 /* Pods-mobileStackRuntimeTests.debug.xcconfig */,
+				25C7BB11FB94F4ACC4973A8A /* Pods-mobileStackRuntimeTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -247,9 +255,9 @@
 			isa = PBXGroup;
 			children = (
 				27DBFF6A2BDA6EED00863BC5 /* PrivacyInfo.xcprivacy */,
-				13B07FAE1A68108700A75B9A /* celo */,
+				13B07FAE1A68108700A75B9A /* mobileStackRuntime */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* celoTests */,
+				00E356EF1AD99517003FC87E /* mobileStackRuntimeTests */,
 				0F49F5EE270F2F2A0005F897 /* NotificationService */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				E3041EF3155B4320B4CF8300 /* Resources */,
@@ -264,10 +272,10 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* valora.app */,
-				00E356EE1AD99517003FC87E /* celoTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* celo-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* celo-tvOSTests.xctest */,
+				13B07F961A680F5B00A75B9A /* mobileStack.app */,
+				00E356EE1AD99517003FC87E /* mobileStackRuntimeTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* mobileStackRuntime-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* mobileStackRuntime-tvOSTests.xctest */,
 				0F49F5ED270F2F2A0005F897 /* NotificationService.appex */,
 			);
 			name = Products;
@@ -287,9 +295,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* celoTests */ = {
+		00E356ED1AD99517003FC87E /* mobileStackRuntimeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "celoTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "mobileStackRuntimeTests" */;
 			buildPhases = (
 				3E70E5A0080C95486E5D574B /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -301,9 +309,9 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = celoTests;
+			name = mobileStackRuntimeTests;
 			productName = celoTests;
-			productReference = 00E356EE1AD99517003FC87E /* celoTests.xctest */;
+			productReference = 00E356EE1AD99517003FC87E /* mobileStackRuntimeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		0F49F5EC270F2F2A0005F897 /* NotificationService */ = {
@@ -325,9 +333,9 @@
 			productReference = 0F49F5ED270F2F2A0005F897 /* NotificationService.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		13B07F861A680F5B00A75B9A /* celo */ = {
+		13B07F861A680F5B00A75B9A /* mobileStackRuntime */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "celo" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "mobileStackRuntime" */;
 			buildPhases = (
 				EFFE2BA11B469E4A10E2CDE6 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -346,14 +354,14 @@
 			dependencies = (
 				0F49F5F4270F2F2A0005F897 /* PBXTargetDependency */,
 			);
-			name = celo;
+			name = mobileStackRuntime;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* valora.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* mobileStack.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* celo-tvOS */ = {
+		2D02E47A1E0B4A5D006451C7 /* mobileStackRuntime-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "celo-tvOS" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "mobileStackRuntime-tvOS" */;
 			buildPhases = (
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -364,14 +372,14 @@
 			);
 			dependencies = (
 			);
-			name = "celo-tvOS";
+			name = "mobileStackRuntime-tvOS";
 			productName = "celo-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* celo-tvOS.app */;
+			productReference = 2D02E47B1E0B4A5D006451C7 /* mobileStackRuntime-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E48F1E0B4A5D006451C7 /* celo-tvOSTests */ = {
+		2D02E48F1E0B4A5D006451C7 /* mobileStackRuntime-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "celo-tvOSTests" */;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "mobileStackRuntime-tvOSTests" */;
 			buildPhases = (
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
@@ -382,9 +390,9 @@
 			dependencies = (
 				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
 			);
-			name = "celo-tvOSTests";
+			name = "mobileStackRuntime-tvOSTests";
 			productName = "celo-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* celo-tvOSTests.xctest */;
+			productReference = 2D02E4901E0B4A5D006451C7 /* mobileStackRuntime-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -429,7 +437,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "celo" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "mobileStackRuntime" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -455,10 +463,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* celo */,
-				00E356ED1AD99517003FC87E /* celoTests */,
-				2D02E47A1E0B4A5D006451C7 /* celo-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* celo-tvOSTests */,
+				13B07F861A680F5B00A75B9A /* mobileStackRuntime */,
+				00E356ED1AD99517003FC87E /* mobileStackRuntimeTests */,
+				2D02E47A1E0B4A5D006451C7 /* mobileStackRuntime-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* mobileStackRuntime-tvOSTests */,
 				0F49F5EC270F2F2A0005F897 /* NotificationService */,
 			);
 		};
@@ -526,7 +534,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\nSENTRY_XCODE=\"../node_modules/@sentry/react-native/scripts/sentry-xcode.sh\"\nBUNDLE_REACT_NATIVE=\"/bin/sh $SENTRY_XCODE $REACT_NATIVE_XCODE\"\n\nif [[ \"$APP_BUNDLE_ID\" = \"org.celo.mobile.test\" ]]; then\n    /bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\nelse\n    /bin/sh -c \"$WITH_ENVIRONMENT \\\"$BUNDLE_REACT_NATIVE\\\"\"\nfi\n";
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\nSENTRY_XCODE=\"../node_modules/@sentry/react-native/scripts/sentry-xcode.sh\"\nBUNDLE_REACT_NATIVE=\"/bin/sh $SENTRY_XCODE $REACT_NATIVE_XCODE\"\n\nif [[ \"$APP_BUNDLE_ID\" = \"xyz.mobilestack.app.test\" ]]; then\n    /bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\nelse\n    /bin/sh -c \"$WITH_ENVIRONMENT \\\"$BUNDLE_REACT_NATIVE\\\"\"\nfi\n";
 		};
 		0FA148AE242137AC009239C6 /* Copy GoogleService-Info.plist */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -579,7 +587,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-celo/Pods-celo-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-mobileStackRuntime/Pods-mobileStackRuntime-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Adjust/Adjust.bundle",
 				"${PODS_ROOT}/CleverTap-iOS-SDK/CleverTapSDK/AmazonRootCA1.cer",
 				"${PODS_CONFIGURATION_BUILD_DIR}/CleverTap-iOS-SDK/CleverTapSDK.bundle",
@@ -624,7 +632,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-celo/Pods-celo-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mobileStackRuntime/Pods-mobileStackRuntime-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		3E70E5A0080C95486E5D574B /* [CP] Check Pods Manifest.lock */ = {
@@ -642,7 +650,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-celoTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-mobileStackRuntimeTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -655,7 +663,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-celo/Pods-celo-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-mobileStackRuntime/Pods-mobileStackRuntime-frameworks.sh",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/PersonaInquirySDK2/Persona2.framework/Persona2",
@@ -670,7 +678,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-celo/Pods-celo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mobileStackRuntime/Pods-mobileStackRuntime-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A5860B5C637E3FE79F7525C7 /* [CP] Copy Pods Resources */ = {
@@ -730,7 +738,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-celo-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-mobileStackRuntime-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -749,7 +757,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ \"$CONFIGURATION\" = *Debug* ]]; then\n    echo \"Debug build; skipping upload debug symbols.\"\n    exit 0\nfi\n\nif [[ \"$APP_BUNDLE_ID\" = \"org.celo.mobile.test\" ]]; then\n    echo \"Test build; skipping upload debug symbols.\"\n    exit 0\nfi\n\n/bin/sh ../node_modules/@sentry/react-native/scripts/sentry-xcode-debug-files.sh\n";
+			shellScript = "if [[ \"$CONFIGURATION\" = *Debug* ]]; then\n    echo \"Debug build; skipping upload debug symbols.\"\n    exit 0\nfi\n\nif [[ \"$APP_BUNDLE_ID\" = \"xyz.mobilestack.app.test\" ]]; then\n    echo \"Test build; skipping upload debug symbols.\"\n    exit 0\nfi\n\n/bin/sh ../node_modules/@sentry/react-native/scripts/sentry-xcode-debug-files.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -803,7 +811,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* celo */;
+			target = 13B07F861A680F5B00A75B9A /* mobileStackRuntime */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 		0F49F5F4270F2F2A0005F897 /* PBXTargetDependency */ = {
@@ -813,7 +821,7 @@
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* celo-tvOS */;
+			target = 2D02E47A1E0B4A5D006451C7 /* mobileStackRuntime-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -836,7 +844,7 @@
 				E47888B729494A2C00308F07 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
-			path = celo;
+			path = mobileStackRuntime;
 			sourceTree = "<group>";
 		};
 		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
@@ -845,7 +853,7 @@
 				13B07FB21A68108700A75B9A /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = celo;
+			path = mobileStackRuntime;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -853,7 +861,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A7DD4FB9579104C1EB8C2328 /* Pods-celoTests.debug.xcconfig */;
+			baseConfigurationReference = 58BE26D505B80BC2A709A833 /* Pods-mobileStackRuntimeTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = HDPUB8C3KG;
@@ -873,13 +881,13 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/celo.app/celo";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mobileStackRuntime.app/mobileStackRuntime";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1931B4D04F9947C23D830F1D /* Pods-celoTests.release.xcconfig */;
+			baseConfigurationReference = 25C7BB11FB94F4ACC4973A8A /* Pods-mobileStackRuntimeTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -896,7 +904,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/celo.app/celo";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mobileStackRuntime.app/mobileStackRuntime";
 			};
 			name = Release;
 		};
@@ -979,15 +987,15 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8FA5FF3642E0FD77DA6C6EDB /* Pods-celo.debug.xcconfig */;
+			baseConfigurationReference = ABD9DB429BFBB7761973DC0F /* Pods-mobileStackRuntime.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = celo/celo.entitlements;
+				CODE_SIGN_ENTITLEMENTS = mobileStackRuntime/mobileStackRuntime.entitlements;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = HDPUB8C3KG;
-				INFOPLIST_FILE = celo/Info.plist;
+				INFOPLIST_FILE = mobileStackRuntime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/lib/swift",
@@ -1000,8 +1008,8 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
-				PRODUCT_NAME = valora;
-				SWIFT_OBJC_BRIDGING_HEADER = "celo/celo-Bridging-Header.h";
+				PRODUCT_NAME = mobileStackApp;
+				SWIFT_OBJC_BRIDGING_HEADER = "mobileStackRuntime/mobileStackRuntime-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1009,14 +1017,14 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 857F8D4FD9C93B1CF2E57BE2 /* Pods-celo.release.xcconfig */;
+			baseConfigurationReference = BA48C59E746971828FFABA1A /* Pods-mobileStackRuntime.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = celo/celo.entitlements;
+				CODE_SIGN_ENTITLEMENTS = mobileStackRuntime/mobileStackRuntime.entitlements;
 				DEVELOPMENT_TEAM = HDPUB8C3KG;
-				INFOPLIST_FILE = celo/Info.plist;
+				INFOPLIST_FILE = mobileStackRuntime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/lib/swift",
@@ -1029,8 +1037,8 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
-				PRODUCT_NAME = valora;
-				SWIFT_OBJC_BRIDGING_HEADER = "celo/celo-Bridging-Header.h";
+				PRODUCT_NAME = mobileStackApp;
+				SWIFT_OBJC_BRIDGING_HEADER = "mobileStackRuntime/mobileStackRuntime-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -1119,7 +1127,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.celo-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/celo-tvOS.app/celo-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mobileStackRuntime-tvOS.app/mobileStackRuntime-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
@@ -1146,7 +1154,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.celo-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/celo-tvOS.app/celo-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mobileStackRuntime-tvOS.app/mobileStackRuntime-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
@@ -1203,10 +1211,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 			};
@@ -1261,10 +1266,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1274,7 +1276,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "celoTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "mobileStackRuntimeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -1292,7 +1294,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "celo" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "mobileStackRuntime" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1301,7 +1303,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "celo-tvOS" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "mobileStackRuntime-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
@@ -1310,7 +1312,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "celo-tvOSTests" */ = {
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "mobileStackRuntime-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
@@ -1319,7 +1321,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "celo" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "mobileStackRuntime" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

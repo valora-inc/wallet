@@ -33,7 +33,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>celo</string>
+				<string>mobileStackRuntime</string>
 			</array>
 		</dict>
 		<dict>

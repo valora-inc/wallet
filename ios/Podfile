@@ -65,8 +65,8 @@ end
 
 setup_permissions(['Camera', 'AppTrackingTransparency', 'Contacts'])
 
-target "celo" do
-  target "celoTests" do
+target "mobileStackRuntime" do
+  target "mobileStackRuntimeTests" do
     inherit! :search_paths
   end
 

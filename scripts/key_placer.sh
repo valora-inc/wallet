@@ -78,7 +78,7 @@ for file_path_map in "${files[@]}"; do
   # Encrypt or decrypt this file.
   gcloud kms $1 --ciphertext-file=$encrypted_file_path --plaintext-file=$file_path --key=wallet --keyring=github --location=global --project $environment
   if [[ $? -eq 1 ]]; then
-    echo "Only Valora employees with $environment access can $1 keys - skipping ${1}ion"
+    echo "Only users with with $environment access can $1 keys - skipping ${1}ion"
     exit 0
   fi
 done
