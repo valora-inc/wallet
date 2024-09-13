@@ -2558,11 +2558,6 @@
       "continue": "Continuer",
       "info": "Ce pool est alimenté par Aave",
       "infoV1_93": "Propulsé par {{providerName}}",
-      "infoBottomSheet": {
-        "title": "Pourquoi ce pool ?",
-        "description": "Ce pool Aave compte plus de 150M$ de TVL et plus de 6 000 contributeurs, ce qui indique une forte liquidité et une grande fiabilité. Il utilise également l'USDC comme jeton et Arbitrum comme réseau, ce qui réduit la volatilité et garantit que les utilisateurs profiteront de frais de gaz peu coûteux.\n\nDécouvrez d'autres pools Aave <0>ici</0>.",
-        "dismiss": "Refuser"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Vous avez besoin de plus de {{feeTokenSymbol}} pour continuer",
         "description": "Ajoutez {{feeTokenSymbol}} sur {{network}} pour couvrir vos frais de gaz",
