@@ -1635,9 +1635,9 @@ interface EarnEventsProperties {
     poolAmount: string
   } & EarnCommonProperties
   [EarnEvents.earn_pool_info_tap_deposit]: EarnCommonProperties & {
-    canDeposit: boolean
-    canSameChainSwapToDeposit: boolean
-    canCrossChainSwap: boolean
+    hasDepositToken: boolean
+    hasTokensOnSameNetwork: boolean
+    hasTokensOnOtherNetworks: boolean
   }
 }
 

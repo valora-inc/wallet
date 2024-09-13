@@ -7,9 +7,9 @@ interface Props {
 }
 
 const QuickActionsSwapAndDeposit = ({ color }: Props) => (
-  <Svg width={16} height={20} viewBox="0 0 24 24" fill="none">
+  <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
     <Path
-      d="m6.55 16.2 5.175-6.2h-4l.725-5.675L3.825 11H7.3l-.75 5.2ZM4 20l1-7H0L9 0h2l-1 8h6L6 20H4Z"
+      d="m10.55 18.2 5.175-6.2h-4l.725-5.675L7.825 13H11.3l-.75 5.2ZM8 22l1-7H4l9-13h2l-1 8h6L10 22H8Z"
       fill={color}
     />
   </Svg>

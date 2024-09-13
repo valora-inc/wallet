@@ -56,30 +56,35 @@ export function useDepositEntrypointInfo({
   allTokens: TokenBalances
   pool: EarnPosition
 }) {
-  const { networkId, dataProps } = pool
+  const { networkId, tokenId: poolTokenId, dataProps } = pool
 
   const { swappableFromTokens } = useSwappableTokens()
   const cashInTokens = useCashInTokens()
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
   const userLocation = useSelector(userLocationDataSelector)
 
-  const canDeposit = useMemo(() => {
+  const hasDepositToken = useMemo(() => {
     return allTokens[dataProps.depositTokenId]?.balance?.gt(0) ?? false
   }, [pool, allTokens])
-  const canSameChainSwapToDeposit = useMemo(() => {
+  const hasTokensOnSameNetwork = useMemo(() => {
     return (
       isSwapEnabled &&
       !!swappableFromTokens.find(
         (tokenInfo) =>
-          tokenInfo.networkId === networkId && tokenInfo.tokenId !== dataProps.depositTokenId
+          tokenInfo.networkId === networkId &&
+          tokenInfo.tokenId !== dataProps.depositTokenId &&
+          tokenInfo.tokenId !== poolTokenId &&
+          tokenInfo.balance?.gt(0)
       )
     )
   }, [pool, isSwapEnabled, swappableFromTokens])
-  const canCrossChainSwap = useMemo(() => {
+  const hasTokensOnOtherNetworks = useMemo(() => {
     return (
       getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS) &&
       isSwapEnabled &&
-      !!swappableFromTokens.find((tokenInfo) => tokenInfo.networkId !== networkId)
+      !!swappableFromTokens.find(
+        (tokenInfo) => tokenInfo.networkId !== networkId && tokenInfo.balance?.gt(0)
+      )
     )
   }, [pool, isSwapEnabled, swappableFromTokens])
   const canCashIn = useMemo(() => {
@@ -98,6 +103,8 @@ export function useDepositEntrypointInfo({
       return []
     }
   }, [])
-  const exchanges = asyncExchanges.result ?? []
-  return { canDeposit, canSameChainSwapToDeposit, canCrossChainSwap, canCashIn, exchanges }
+  const exchanges = useMemo(() => {
+    return asyncExchanges.result ?? []
+  }, [asyncExchanges.result])
+  return { hasDepositToken, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canCashIn, exchanges }
 }

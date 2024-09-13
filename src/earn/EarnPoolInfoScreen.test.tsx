@@ -28,11 +28,15 @@ jest.mock('src/statsig', () => ({
 
 const mockPoolTokenId = mockEarnPositions[0].dataProps.depositTokenId
 
-function getStore(
-  balance: string = '0',
-  includeSameChainToken: boolean = false,
-  includeOtherChainToken: boolean = false
-) {
+function getStore({
+  balance = '0',
+  includeSameChainToken = false,
+  includeOtherChainToken = false,
+}: {
+  balance?: string
+  includeSameChainToken?: boolean
+  includeOtherChainToken?: boolean
+}) {
   const sameChainToken = includeSameChainToken
     ? { [mockArbEthTokenId]: { ...mockTokenBalances[mockArbEthTokenId], balance: '1' } }
     : {}
@@ -57,7 +61,7 @@ function getStore(
 
 const renderEarnPoolInfoScreen = (pool: EarnPosition) =>
   render(
-    <Provider store={getStore()}>
+    <Provider store={getStore({})}>
       <MockedNavigator component={EarnPoolInfoScreen} params={{ pool }} />
     </Provider>
   )
@@ -295,7 +299,7 @@ describe('EarnPoolInfoScreen', () => {
 
   it('navigate to EarnEnterAmount when Deposit button is tapped and depositTokenId has a balance', () => {
     const { getByText } = render(
-      <Provider store={getStore('1')}>
+      <Provider store={getStore({ balance: '1' })}>
         <MockedNavigator component={EarnPoolInfoScreen} params={{ pool: mockEarnPositions[0] }} />
       </Provider>
     )
@@ -305,9 +309,9 @@ describe('EarnPoolInfoScreen', () => {
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       networkId: 'arbitrum-sepolia',
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
-      canDeposit: true,
-      canSameChainSwapToDeposit: false,
-      canCrossChainSwap: false,
+      hasDepositToken: true,
+      hasTokensOnSameNetwork: false,
+      hasTokensOnOtherNetworks: false,
     })
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
       pool: mockEarnPositions[0],
@@ -316,7 +320,7 @@ describe('EarnPoolInfoScreen', () => {
 
   it('show bottom sheet correctly when Deposit button is tapped and depositTokenId does not have balance, can same and cross chain swap', () => {
     const { getByText, getByTestId } = render(
-      <Provider store={getStore('0', true, true)}>
+      <Provider store={getStore({ includeSameChainToken: true, includeOtherChainToken: true })}>
         <MockedNavigator
           component={() => {
             return (
@@ -336,9 +340,9 @@ describe('EarnPoolInfoScreen', () => {
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       networkId: 'arbitrum-sepolia',
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
-      canDeposit: false,
-      canSameChainSwapToDeposit: true,
-      canCrossChainSwap: true,
+      hasDepositToken: false,
+      hasTokensOnSameNetwork: true,
+      hasTokensOnOtherNetworks: true,
     })
     expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
     expect(getByTestId('Earn/BeforeDepositBottomSheet/SwapAndDeposit')).toBeTruthy()
@@ -348,7 +352,7 @@ describe('EarnPoolInfoScreen', () => {
 
   it('show bottom sheet correctly when Deposit button is tapped and depositTokenId does not have balance, can cross chain swap', () => {
     const { getByText, getByTestId } = render(
-      <Provider store={getStore('0', false, true)}>
+      <Provider store={getStore({ includeOtherChainToken: true })}>
         <MockedNavigator
           component={() => {
             return (
@@ -368,9 +372,9 @@ describe('EarnPoolInfoScreen', () => {
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       networkId: 'arbitrum-sepolia',
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
-      canDeposit: false,
-      canSameChainSwapToDeposit: false,
-      canCrossChainSwap: true,
+      hasDepositToken: false,
+      hasTokensOnSameNetwork: false,
+      hasTokensOnOtherNetworks: true,
     })
     expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
     expect(getByTestId('Earn/BeforeDepositBottomSheet/Swap')).toBeTruthy()
@@ -380,7 +384,7 @@ describe('EarnPoolInfoScreen', () => {
 
   it('show bottom sheet correctly when Deposit button is tapped and depositTokenId does not have balance, no tokens', () => {
     const { getByText, getByTestId } = render(
-      <Provider store={getStore('0', false, false)}>
+      <Provider store={getStore({})}>
         <MockedNavigator
           component={() => {
             return (
@@ -400,9 +404,9 @@ describe('EarnPoolInfoScreen', () => {
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
       networkId: 'arbitrum-sepolia',
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
-      canDeposit: false,
-      canSameChainSwapToDeposit: false,
-      canCrossChainSwap: false,
+      hasDepositToken: false,
+      hasTokensOnSameNetwork: false,
+      hasTokensOnOtherNetworks: false,
     })
     expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
     expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
@@ -411,7 +415,7 @@ describe('EarnPoolInfoScreen', () => {
 
   it('navigate to EarnCollectScreen when Withdraw button is tapped', () => {
     const { getByText } = render(
-      <Provider store={getStore()}>
+      <Provider store={getStore({})}>
         <MockedNavigator
           component={EarnPoolInfoScreen}
           params={{

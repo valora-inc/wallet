@@ -501,8 +501,13 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     throw new Error(`Token ${dataProps.depositTokenId} not found`)
   }
 
-  const { canDeposit, canSameChainSwapToDeposit, canCrossChainSwap, canCashIn, exchanges } =
-    useDepositEntrypointInfo({ allTokens, pool })
+  const {
+    hasDepositToken,
+    hasTokensOnSameNetwork,
+    hasTokensOnOtherNetworks,
+    canCashIn,
+    exchanges,
+  } = useDepositEntrypointInfo({ allTokens, pool })
 
   const onPressDeposit = () => {
     AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
@@ -510,11 +515,11 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       providerId: appId,
       networkId: networkId,
       depositTokenId: dataProps.depositTokenId,
-      canDeposit,
-      canSameChainSwapToDeposit,
-      canCrossChainSwap,
+      hasDepositToken,
+      hasTokensOnSameNetwork,
+      hasTokensOnOtherNetworks,
     })
-    if (canDeposit) {
+    if (hasDepositToken) {
       navigate(Screens.EarnEnterAmount, { pool })
     } else {
       beforeDepositBottomSheetRef.current?.snapToIndex(0)
@@ -662,8 +667,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       <BeforeDepositBottomSheet
         forwardedRef={beforeDepositBottomSheetRef}
         token={depositToken}
-        canSameChainSwapToDeposit={canSameChainSwapToDeposit}
-        canCrossChainSwap={canCrossChainSwap}
+        hasTokensOnSameNetwork={hasTokensOnSameNetwork}
+        hasTokensOnOtherNetworks={hasTokensOnOtherNetworks}
         canAdd={canCashIn}
         exchanges={exchanges}
       />
@@ -725,15 +730,15 @@ function InfoBottomSheet({
 function BeforeDepositBottomSheet({
   forwardedRef,
   token,
-  canSameChainSwapToDeposit,
-  canCrossChainSwap,
+  hasTokensOnSameNetwork,
+  hasTokensOnOtherNetworks,
   canAdd,
   exchanges,
 }: {
   forwardedRef: RefObject<BottomSheetModalRefType>
   token: TokenBalance
-  canSameChainSwapToDeposit: boolean
-  canCrossChainSwap: boolean
+  hasTokensOnSameNetwork: boolean
+  hasTokensOnOtherNetworks: boolean
   canAdd: boolean
   exchanges: ExternalExchangeProvider[]
 }) {
@@ -742,7 +747,7 @@ function BeforeDepositBottomSheet({
   const actions = useMemo(() => {
     const visibleActions: AddAssetsAction[] = []
 
-    if (canSameChainSwapToDeposit) {
+    if (hasTokensOnSameNetwork) {
       visibleActions.push({
         name: TokenActionName.SwapAndDeposit,
         details: t(
@@ -763,10 +768,10 @@ function BeforeDepositBottomSheet({
       })
     }
 
-    if (canCrossChainSwap) {
+    if (hasTokensOnOtherNetworks) {
       visibleActions.push({
-        name: canSameChainSwapToDeposit ? TokenActionName.CrossChainSwap : TokenActionName.Swap,
-        details: canSameChainSwapToDeposit
+        name: hasTokensOnSameNetwork ? TokenActionName.CrossChainSwap : TokenActionName.Swap,
+        details: hasTokensOnSameNetwork
           ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainSwapActionDescription', {
               tokenSymbol: token.symbol,
               tokenNetwork: NETWORK_NAMES[token.networkId],
@@ -777,9 +782,7 @@ function BeforeDepositBottomSheet({
             }),
         onPress: () => {
           AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
-            action: canSameChainSwapToDeposit
-              ? TokenActionName.CrossChainSwap
-              : TokenActionName.Swap,
+            action: hasTokensOnSameNetwork ? TokenActionName.CrossChainSwap : TokenActionName.Swap,
             ...getTokenAnalyticsProps(token),
           })
 
@@ -811,7 +814,7 @@ function BeforeDepositBottomSheet({
       })
     }
 
-    if (!canSameChainSwapToDeposit) {
+    if (!hasTokensOnSameNetwork) {
       visibleActions.push({
         name: TokenActionName.Transfer,
         details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.transfer', {
@@ -830,14 +833,14 @@ function BeforeDepositBottomSheet({
     }
 
     return visibleActions
-  }, [token, canSameChainSwapToDeposit, canCrossChainSwap, canAdd, exchanges])
+  }, [token, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canAdd, exchanges])
 
   return (
     <AddAssetsBottomSheet
       forwardedRef={forwardedRef}
       actions={actions}
       title={
-        canSameChainSwapToDeposit
+        hasTokensOnSameNetwork
           ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.youNeedTitle', {
               tokenSymbol: token.symbol,
               tokenNetwork: NETWORK_NAMES[token.networkId],
@@ -845,14 +848,14 @@ function BeforeDepositBottomSheet({
           : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositTitle')
       }
       description={
-        canSameChainSwapToDeposit
+        hasTokensOnSameNetwork
           ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainAlternativeDescription', {
               tokenNetwork: NETWORK_NAMES[token.networkId],
             })
           : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositDescription')
       }
       testId={'Earn/BeforeDepositBottomSheet'}
-      showDescriptionAfterFirstAction={canSameChainSwapToDeposit}
+      showDescriptionAfterFirstAction={hasTokensOnSameNetwork}
     />
   )
 }
