@@ -2558,11 +2558,6 @@
       "continue": "Continuar",
       "info": "Esta pool es administrada por Aave",
       "infoV1_93": "Con tecnología de {{providerName}}",
-      "infoBottomSheet": {
-        "title": "¿Por qué esta pool?",
-        "description": "Este pool de Aave tiene más de $150M de TVL y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Abitrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tarifas baratas.\n\nPuedes explorar otros pools de Aave <0>aquí</0>.",
-        "dismiss": "Ignorar"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Necesitas más {{feeTokenSymbol}} para continuar",
         "description": "Agrega {{feeTokenSymbol}} en {{network}} para cubrir las tarifas",
