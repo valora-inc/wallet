@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Envía cripto como un mensaje de texto",
+    "description": "Los enlaces en directo son una forma de enviar criptomonedas en la red Celo a un amigo con un enlace",
+    "noFundsHint": "Para empezar, necesitarás algunos activos en Celo en tu cartera.",
+    "haveFundsButton": "Envia un enlace directo",
     "addFundsCelo": {
       "title": "Obtén activos Celo",
       "info": "Los enlaces activos son una forma de enviar cripto en la red Celo con un enlace.\nPara empezar, necesitarás tener activos CELO en tu wallet.",
