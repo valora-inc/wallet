@@ -2558,11 +2558,6 @@
       "continue": "Continua",
       "info": "Questo pool è supportato da Aave",
       "infoV1_93": "Powered by {{providerName}}",
-      "infoBottomSheet": {
-        "title": "Qual è lo scopo di questo pool?",
-        "description": "Questo pool Aave ha oltre 150 milioni di dollari di TVL e più di 6.000 contributori, il che indica una forte liquidità e affidabilità. Inoltre, utilizza USDC come token e Arbitrum come rete, il che riduce la volatilità e garantisce agli utenti commissioni gas estremamente convenienti.\n\nPuoi esplorare altri pool di Aave <0>qui</0>.",
-        "dismiss": "Ignorare"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Per continuare, devi avere più {{feeTokenSymbol}}",
         "description": "Aggiungi {{feeTokenSymbol}} su {{network}} per coprire il costo delle commissioni sulle transazioni",
