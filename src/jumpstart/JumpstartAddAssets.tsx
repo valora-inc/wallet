@@ -7,7 +7,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
 import AddAssetsBottomSheet, { AddAssetsAction } from 'src/components/AddAssetsBottomSheet'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader, { CUSTOM_HEADER_HEIGHT } from 'src/components/header/CustomHeader'
 import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/utils'
@@ -29,7 +29,7 @@ export default function JumpstartAddAssets() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const insets = useSafeAreaInsets()
-  const addAssetsBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const addAssetsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const tokens = useSelector(jumpstartSendTokensSelector)
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)

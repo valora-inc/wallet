@@ -56,8 +56,8 @@
   },
   "accountKeyModal": {
     "header": "Bez swojej frazy odzyskiwania bezpowrotnie stracisz dostęp do swoich środków",
-    "body1": "Aby zresetować aplikację Valora, musisz potwierdzić, że zapisałeś(-aś) swoją frazę odzyskiwania.",
-    "body2": "Bez Twojej frazy nikt, nawet Valora, nie będzie w stanie odzyskać Twojego konta."
+    "body1": "Aby zresetować stronę {{appName}}, musisz potwierdzić wpisanie frazy odzyskiwania.",
+    "body2": "Nikt, nawet {{appName}}, nie może odzyskać twojego konta bez twojego hasła."
   },
   "promptConfirmRemovalModal": {
     "header": "Czy na pewno chcesz kontynuować?",
@@ -77,7 +77,7 @@
     "title": "Twoja fraza odzyskiwania",
     "titleV1_90": "Twoja fraza odzyskiwania",
     "body": "Zapisz te 12 słów w bezpiecznym miejscu, gdzie nie mogą zostać skradzione lub zniszczone.",
-    "bodyV1_90": "Jeśli stracisz swoją frazę odzyskiwania, stracisz również dostęp do wszystkich funduszy przechowywanych w Valorze.",
+    "bodyV1_90": "Jeśli utracisz swoją frazę odzyskiwania, utracisz dostęp do wszystkich środków przechowywanych w {{appName}}.",
     "continue": "Mam to zapisane",
     "copy": "Kopiuj do schowka",
     "mnemonicCopied": "Fraza skopiowana do schowka",
@@ -89,7 +89,7 @@
   },
   "walletSecurityPrimer": {
     "title": "Zadbaj o bezpieczeństwo swojego portfela",
-    "description": "Tylko Ty masz dostęp do swojego portfela. Jeśli Twój telefon zostanie zgubiony lub skradziony, Valora nie będzie mogła przywrócić dostępu.\n\nMusisz skonfigurować metodę zabezpieczenia portfela i ochrony swoich środków."
+    "description": "Tylko Ty możesz uzyskać dostęp do swojego portfela. Jeśli Twój telefon zostanie zgubiony lub skradziony, {{appName}} nie może go dla Ciebie odzyskać.\n\nMusisz skonfigurować metodę zabezpieczenia portfela i ochrony swoich środków."
   },
   "keylessBackupIntro": {
     "emailAddress": "Adres e-mail",
@@ -98,7 +98,7 @@
       "title": "Skonfiguruj tworzenie kopii zapasowej portfela",
       "description": "Skorzystasz z następujących danych, aby skonfigurować tworzenie kopii zapasowej za pomocą adresu e-mail i numeru telefonu",
       "useRecoveryPhrase": "Zamiast tego użyj frazy odzyskiwania",
-      "reminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail lub numeru telefonu. Dbaj o bezpieczeństwo!"
+      "reminder": "<0>Pamiętaj</0>, że informacje te są jedynym sposobem na uzyskanie dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. {{appName}} nie przechowuje Twojego adresu e-mail ani numeru telefonu. Dbaj o swoje bezpieczeństwo!"
     },
     "restore": {
       "description": "Upewnij się, że masz dostęp do następujących informacji, aby przywrócić swój portfel.",
@@ -232,7 +232,7 @@
   "keylessBackupNotification": "Skonfiguruj swój adres e-mail i numer telefonu, aby utworzyć kopię zapasową frazy seed",
   "backupKeyCTA": "Zakończ tworzenie kopii zapasowej",
   "backupKeySummary": "Znajdź miejsce na osobności i zapisz swoją frazę odzyskiwania. Przechowuj ją w bezpiecznym miejscu. Nie zapisuj jej w swoim telefonie.",
-  "backupKeyWarning": "Jeśli stracisz swoją frazę odzyskiwania, stracisz również dostęp do wszystkich funduszy przechowywanych w Valorze.",
+  "backupKeyWarning": "Jeśli utracisz swoją frazę odzyskiwania, utracisz dostęp do wszystkich środków przechowywanych w {{appName}}.",
   "copied": "Fraza skopiowana do schowka",
   "moreInfo": "Więcej informacji",
   "savedConfirmation": "Tak, zapisałem(-am) frazę.",
@@ -303,7 +303,7 @@
     "dismiss": "Odrzuć"
   },
   "superchargingTitle": "Wymagana aktualizacja aplikacji",
-  "superchargingDescription": "Zaktualizuj aplikację Valora, aby kontynuować otrzymywanie cotygodniowych nagród w programie Supercharge.",
+  "superchargingDescription": "Zaktualizuj aplikację {{appName}} , aby nadal otrzymywać cotygodniowe nagrody Supercharge.",
   "superchargingTitleV1_54": "Program Supercharge dobiega końca",
   "superchargingDescriptionV1_54": "Nagrody tygodniowe będzie można odbierać do wtorku, 28 maja, do godziny 23:59 UTC. Od 29 maja nie będzie już można odbierać nagród w ramach programu Supercharge.",
   "superchargeRewardsAvailable": "Masz {{amount}} {{token}} dostępne do odbioru!",
@@ -393,7 +393,7 @@
   "tokenBalance": "Saldo {{token}}",
   "addFunds": "Dodaj środki",
   "addFundsHeaderWithCurrency": "Dodaj {{token}}",
-  "addFundsSubtitle": "Zasil swoje konto Valora",
+  "addFundsSubtitle": "Zasil swoje konto {{appName}}",
   "exchanges": "Giełdy kryptowalut",
   "noExchanges": "Brak dostępnych giełd kryptowalut obsługujących {{digitalAsset}} w Twoim regionie.",
   "buySellOnExchanges": "Kupno/Sprzedaż na giełdach",
@@ -447,11 +447,11 @@
   },
   "providerFeeDiscountDialog": {
     "title": "Obniżone opłaty",
-    "body": "W ramach promocji z okazji uruchomienia aplikacji Valora opłaty zostają tymczasowo obniżone!"
+    "body": "W ramach promocji opłaty są tymczasowo subsydiowane, aby uczcić uruchomienie {{appName}}!"
   },
   "pleaseSelectProvider": "Wybierz dostawcę poniżej. Te linki łączą z usługami innych firm.",
   "otherFundingOptions": "Więcej sposobów dodawania i wypłacania środków znajdziesz na stronie <0>Jak zasilić konto</0>",
-  "youCanTransferIn": "Możesz skorzystać z innej giełdy kryptowalut, aby przesłać {{digitalAsset}} na swoje konto Valora. Będziesz do tego potrzebować adresu swojego konta.",
+  "youCanTransferIn": "Możesz użyć zewnętrznej giełdy, aby wysłać {{digitalAsset}} na swoje konto {{appName}} . Będziesz potrzebować do tego swojego adresu konta.",
   "youCanTransferOut": "Możesz wypłacać środki, przesyłając je na inną giełdę kryptowalut obsługującą {{digitalAsset}}.",
   "useBalanceWithMerchants": "Korzystaj ze swojego salda u innych sprzedawców obsługujących Twoje kryptowaluty",
   "findMerchants": "Znajdź lokalnych sprzedawców w pobliżu",
@@ -710,7 +710,7 @@
       "body": "Zaproś swoich znajomych i rodzinę do pobrania {{appName}}, a każdy z Was otrzyma ekskluzywny NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "ZYSKAJ DO 12 cUSD za zaproszenie znajomych do Valory!",
+      "title": "ZYSKAJ DO 12 USD za zaproszenie znajomych na {{appName}}!",
       "body": "Zyskaj 0,50 cUSD za każdego znajomego, którego zaprosisz do {{appName}}. Gdy połączą swój numer, dodadzą środki i utrzymają je przez 7 dni, otrzymacie po 0,50 cUSD. Pospiesz się, środki są ograniczone! (Ograniczenie do 25 znajomych)."
     }
   },
@@ -724,9 +724,9 @@
     "heading1": "Dane i prywatność",
     "heading2": "Aktywa i konto {{appName}}",
     "info": "Aby móc korzystać z naszych usług, przeczytaj <0>Umowę z użytkownikiem i Regulamin</0> oraz zaakceptuj je, klikając poniższy przycisk akceptacji.",
-    "privacy": "Dołączając do tej sieci, udzielasz nam zgody na gromadzenie anonimowych informacji o korzystaniu z aplikacji. Ponadto jeśli podłączysz swój numer telefonu, zostanie zapisana jego zaszyfrowana kopia. Jeśli przyznasz Valora dostęp do swojej listy kontaktów, Valora zaimportuje nazwę, numer telefonu i zdjęcie profilowe każdego kontaktu, aby umożliwić użytkownikom łączenie się za pośrednictwem aplikacji Valora. Aby dowiedzieć się, w jaki sposób zbieramy i wykorzystujemy te informacje, zapoznaj się z naszą <0>Polityką prywatności</0>.",
-    "goldDisclaimer": "Tworząc „konto” w Valora, tworzysz cyfrowy portfel, do którego klucze posiadasz tylko Ty. Żadna inna osoba ani podmiot, w tym Valora, nie może odzyskać Twojego klucza, zmienić ani cofnąć transakcji ani odzyskać utraconych środków. Pamiętaj, że kryptowaluty są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe.",
-    "goldDisclaimerWithPoints": "Utworzenie „konta” w aplikacji Valora powoduje utworzenie cyfrowego portfela, do którego dostęp ma tylko użytkownik. Żadna inna osoba ani podmiot, w tym firma Valora, nie może uzyskać do niego dostępu, zmieniać ani cofać transakcji lub odzyskiwać utraconych środków. Valora przyznaje nagrody lojalnościowe w postaci tokenów („Punkty”) użytkownikkom za wykonywanie pewnych czynności w aplikacji. Punkty są powiązanymi, niezbywalnymi i niewymienialnymi kolekcjami. Firma nie udziela żadnych gwarancji co do dostępności ani wartości Punktów. Pamiętaj, że cyfrowe aktywa są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Użytkownik musi ostrożnie oszacować swoją sytuację finansową i zakres możliwego do podjęcia ryzyka finansowego przed zakupem jakichkolwiek cyfrowych aktywów."
+    "privacy": "Dołączając do tej sieci, wyrażasz zgodę na gromadzenie anonimowych informacji o korzystaniu z aplikacji. Dodatkowo, jeśli podłączysz swój numer telefonu, zostanie zapisana jego zaszyfrowana kopia. Jeśli przyznasz {{appName}} dostęp do swojej listy kontaktów, {{appName}} zaimportuje imię i nazwisko, numer telefonu i zdjęcie profilowe każdego kontaktu, aby umożliwić użytkownikom łączenie się za pośrednictwem aplikacji {{appName}} . Aby dowiedzieć się, w jaki sposób gromadzimy i wykorzystujemy te informacje, zapoznaj się z naszą <0>Polityką prywatności</0>.",
+    "goldDisclaimer": "Tworząc \"konto\" w serwisie {{appName}} , tworzysz cyfrowy portfel, do którego tylko Ty posiadasz klucze. Żadna inna osoba ani podmiot, w tym {{appName}}, nie może odzyskać Twojego klucza, zmienić lub cofnąć transakcji ani odzyskać utraconych środków. Pamiętaj, że aktywa cyfrowe są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów cyfrowych dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe.",
+    "goldDisclaimerWithPoints": "Kiedy tworzysz \"konto\" na {{appName}} , tworzysz cyfrowy portfel, do którego tylko Ty posiadasz klucze. Żadna inna osoba ani podmiot, w tym {{appName}}, nie może odzyskać Twojego klucza, zmienić lub cofnąć transakcji ani odzyskać utraconych środków. {{appName}} przyznaje tokenizowane nagrody lojalnościowe (\"Punkty\") Użytkownikom za angażowanie się w określone działania w aplikacji. Punkty są niezbywalnymi i niewymienialnymi przedmiotami kolekcjonerskimi. Nie gwarantujemy dostępności ani wartości Punktów. Pamiętaj, że aktywa cyfrowe są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów cyfrowych dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe."
   },
   "termsColloquial": {
     "title": "Zacznijmy od stworzenia Twojego portfela",
@@ -734,9 +734,9 @@
     "privacy1": "Gromadzimy dane dotyczące użytkowania, które pomagają nam ulepszać aplikację i bezpieczeństwo. Rodzaj gromadzonych przez nas informacji, sposób ich wykorzystania oraz Twoje prawa związane z tymi informacjami można znaleźć w naszej <0>Polityce prywatności</0>.",
     "privacy2": "Jeśli zdecydujesz się połączyć swój numer telefonu, będziemy przechowywać jego zaszyfrowaną kopię.",
     "privacy3": "Jeśli zdecydujesz się połączyć swoje kontakty, użyjemy ich nazw, numerów i zdjęć profilowych, aby ułatwić ich znalezienie.",
-    "walletHeading": "Twój cyfrowy portfel w ramach Valory:",
-    "wallet1": "Zamierzasz utworzyć cyfrowy portfel. Tylko Ty masz klucz do swojego portfela. Nie możemy odzyskać Twojego klucza ani Twoich aktywów, jeśli go zgubisz. Nie możemy również cofnąć działań podjętych przez Valorę na blockchainach.",
-    "wallet2": "Zasoby cyfrowe, z którymi będziesz wchodzić w interakcje z Valorą, wiążą się z ryzykiem. Korzystając z Valory, akceptujesz to ryzyko i bierzesz za nie odpowiedzialność. Przed dokonaniem wyboru weź pod uwagę swoje finanse i tolerancję na ryzyko.",
+    "walletHeading": "Twój cyfrowy portfel z {{appName}}:",
+    "wallet1": "Zamierzasz utworzyć portfel cyfrowy. Tylko Ty masz klucz do swojego portfela. Nie możemy odzyskać Twojego klucza ani Twoich aktywów, jeśli go zgubisz. Nie możemy również cofnąć działań podjętych przez {{appName}} na blockchainach.",
+    "wallet2": "Zasoby cyfrowe, z którymi będziesz wchodzić w interakcje na {{appName}}, wiążą się z wyjątkowym ryzykiem. Korzystając z {{appName}}, akceptujesz to ryzyko i bierzesz za nie odpowiedzialność. Przed dokonaniem wyboru weź pod uwagę swoje finanse i tolerancję na ryzyko.",
     "fullTerms": "Przeczytaj nasze pełne <0>Warunki</0>"
   },
   "fullNameOrPsuedonym": "Imię i nazwisko lub pseudonim",
@@ -853,7 +853,7 @@
   "accessContacts": {
     "disclosure": {
       "title": "Importuj kontakty",
-      "body": "Valora chce zaimportować Twoje kontakty. Naciskając przycisk poniżej, zezwalasz na dostęp do numerów telefonów, nazw i zdjęć swoich kontaktów w celu nawiązania z nimi kontaktu przez aplikację Valora"
+      "body": "{{appName}} chciałbym zaimportować Twoje kontakty. Klikając poniżej, zezwalam na dostęp do numerów telefonów, nazwisk i zdjęć moich kontaktów w celu łączenia się z nimi za pośrednictwem strony {{appName}}."
     }
   },
   "createAccount": "Utwórz konto",
@@ -903,12 +903,12 @@
   "verificationPrematureRevealMessage": "Odczekaj jedną minutę przed ponownym wysłaniem",
   "verificationLearnMoreDialog": {
     "title": "Numery telefonów i {{appName}}",
-    "body": "Podłączenie pozwala na wysyłanie i odbieranie środków za pomocą numeru telefonu.\n\n<0>Czy mogę to zrobić później?</0>\n\nTak, ale niepodłączone portfele mogą wysyłać płatności tylko za pomocą kodów QR lub adresów kont.\n\n<1>Bezpieczeństwo i ochrona prywatności</1>\n\nValora wykorzystuje najnowocześniejsze technologie kryptograficzne, aby zachować poufność Twojego numeru telefonu.",
+    "body": "Połączenie umożliwia wysyłanie i odbieranie środków za pomocą Twojego numeru telefonu.\n\n<0>Czy mogę to zrobić później?</0>\n\nTak, ale portfele, które nie są połączone, mogą wysyłać płatności tylko za pomocą kodów QR lub adresów kont.\n\n<1>Bezpieczne i prywatne</1>\n\n{{appName}} wykorzystuje najnowocześniejszą kryptografię, aby zachować prywatność Twojego numeru telefonu.",
     "dismiss": "Odrzuć"
   },
   "phoneVerificationScreen": {
     "screenTitle": "Numer telefonu",
-    "title": "Podłącz swój numer telefonu z Valorą",
+    "title": "Połącz swój numer telefonu z {{appName}}",
     "description": "Powoduje to połączenie Twojego adresu portfela z Twoim numerem telefonu, dzięki czemu wysyłanie kryptowalut jest proste",
     "startButtonLabel": "Podłącz",
     "learnMore": {
@@ -961,7 +961,7 @@
     },
     "recoveryPhrase": {
       "title": "Z frazy odzyskiwania",
-      "description": "Wprowadź składającą się z 12 słów frazę odzyskiwania, aby odzyskać dostęp do Valory"
+      "description": "Wprowadź swoją 12-słowną frazę odzyskiwania, aby odzyskać dostęp do {{appName}}."
     }
   },
   "verificationInput": {
@@ -1062,7 +1062,7 @@
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
   "inviteWithRewards": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Aplikację możesz szybko pobrać i połączyć z Twoim numerem telefonu. Do tego w nagrodę otrzymamy specjalną edycję NFT. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
-  "inviteWithRewardsCUSD": "Hej! W tej chwili oboje możemy otrzymać darmową nagrodę w wysokości 0,50 USD, jeśli zarejestrujesz się, połączysz swój numer i zasilisz portfel Valora. Używam go do powiększania moich oszczędności w USD i kryptowalutach, a Ty możesz go skonfigurować w kilka sekund, podając tylko numer telefonu. Zarejestruj się za pomocą mojego linku polecającego tutaj: \n\n{{link}} \n\n Pospiesz się, promocja kończy się wkrótce.",
+  "inviteWithRewardsCUSD": "Hej! W tej chwili oboje możemy otrzymać darmową nagrodę w wysokości 0,50 USD, jeśli zarejestrujesz się, podłączysz swój numer i zasilisz portfel {{appName}} . Używam go do powiększania moich oszczędności w USD i kryptowalutach, a możesz go skonfigurować w kilka sekund, podając tylko numer telefonu. Zarejestruj się za pomocą mojego linku polecającego tutaj: \n\n{{link}} \n\n Pospiesz się, promocja dla polecających kończy się wkrótce.",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
@@ -1369,10 +1369,10 @@
   "transactionHeaderNftSent": "NFT wysłane",
   "feedSectionHeaderRecent": "Najnowsze",
   "cashInBottomSheet": {
-    "title": "Dodaj środki, aby rozpocząć korzystanie z aplikacji Valora!",
+    "title": "Dodaj środki, aby zacząć korzystać z {{appName}}!",
     "subtitle": "Nie masz teraz żadnych środków na koncie",
     "addFunds": "Dodaj środki",
-    "titleRamp": "Dodaj {{currency}}, aby rozpocząć korzystanie z aplikacji Valora",
+    "titleRamp": "Dodaj {{currency}} , aby rozpocząć korzystanie z {{appName}}",
     "subtitleRamp": "Dodawaj środki z niskimi opłatami za pośrednictwem jednego z naszych zaufanych partnerów."
   },
   "balances": "Aktywa",
@@ -1389,7 +1389,7 @@
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "Co oznacza termin „saldo całkowite”?",
-    "body": "Twoje saldo całkowite to przybliżona suma wszystkich Twoich aktywów w aplikacji Valora. Saldo całkowite będzie się zmieniać wraz z wahaniami cen. Jest ono aktualizowane co 10 minut.\nNiektóre aktywa mogą nie być widoczne w Saldzie całkowitym, ponieważ ich cena jest niedostępna w momencie obliczania salda.",
+    "body": "Twoje całkowite saldo to przybliżona suma wszystkich aktywów {{appName}} . Twoje całkowite saldo będzie się zmieniać wraz z wahaniami cen. Jest ono aktualizowane co 10 minut.\nNiektóre aktywa mogą nie być wyświetlane w saldzie całkowitym, ponieważ cena jest niedostępna w momencie obliczania.",
     "dismiss": "Odrzuć"
   },
   "supportExportLogsStart": "Eksportowanie dzienników...",
@@ -1427,15 +1427,15 @@
     "stepTwo": {
       "label": "Krok 2",
       "disabledTitle": "Powiąż konto bankowe",
-      "disabledDescription": "Obsługa kont bankowych będzie dostępna już wkrótce! Damy Ci znać, kiedy będzie można połączyć konto bankowe z aplikacją Valora.",
+      "disabledDescription": "Obsługa kont bankowych już wkrótce! Poinformujemy Cię, kiedy będziesz mógł połączyć swoje konto bankowe z {{appName}}.",
       "disabledCta": "Już wkrótce!",
       "title": "Wprowadź dane banku",
-      "description": "Prawie gotowe! Wprowadź dane bankowe, aby powiązać swoje konto z aplikacją Valora.",
+      "description": "Już prawie skończyłeś! Wprowadź dane bankowe, aby połączyć swoje konto z {{appName}}.",
       "cta": "Powiąż konto bankowe",
       "error": {
         "title": "Nie można powiązać konta bankowego.",
         "description": "Spróbuj ponownie powiązać konto bankowe lub skontaktuj się z Działem wsparcia.",
-        "contactSupportPrefill": "Nie udało mi się powiązać konta bankowego z aplikacją Valora"
+        "contactSupportPrefill": "Nie udało mi się połączyć mojego konta bankowego z {{appName}}."
       }
     }
   },
@@ -1509,12 +1509,12 @@
   },
   "dappsScreenHelpDialog": {
     "title": "Czym są Dapps?",
-    "message": "Dapps (zdecentralizowane aplikacje) zapewniają nowe sposoby wykorzystywania kryptowalut, zdobywania nagród i poznawania środowiska Web3.\n\nPołącz aplikację Valora z dapp, aby zacząć.",
+    "message": "Dapps (zdecentralizowane aplikacje) zapewniają nowe sposoby korzystania z kryptowalut, zdobywania nagród i odkrywania Web3.\n\nPołącz {{appName}} z dapp, aby rozpocząć.",
     "dismiss": "Odrzuć"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} jest aplikacją zewnętrzną",
-    "message": "Zamierzasz otworzyć aplikację, której operatorem nie jest Valora.\n\nValora nie składa żadnych oświadczeń ani gwarancji dotyczących tej aplikacji. Korzystasz z niej na własne ryzyko.",
+    "message": "Za chwilę otworzysz aplikację nieobsługiwaną przez {{appName}}.\n\n{{appName}} nie składa żadnych oświadczeń dotyczących tej aplikacji. Korzystaj z niej na własne ryzyko.",
     "button": "Przejdź do {{dappName}}"
   },
   "dappsScreenInfoSheet": {
@@ -1567,7 +1567,7 @@
     "newLabel": "NOWI",
     "newDialog": {
       "title": "Nowe sposoby przesyłania środków",
-      "body": "Udostępniamy nowe sposoby przesyłania środków na rachunki bankowe i z nich, bezpośrednio z aplikacji Valora.\n\nJeśli widzisz tę informację, oznacza to, że w Twoim regionie jest oferowany dostęp do tej funkcji.",
+      "body": "Udostępniamy nowe sposoby przesyłania środków do i z kont bankowych bezpośrednio z aplikacji {{appName}} .\n\nJeśli widzisz ten komunikat, oznacza to, że masz dostęp do tej funkcji w swoim regionie.",
       "dismiss": "Odrzuć"
     },
     "cashIn": {
@@ -1600,7 +1600,7 @@
     "button": "Ustaw weryfikację tożsamości"
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "Mam problem z weryfikacją mojej tożsamości w Valorze.",
+    "contactSupportPrefill": "Mam problem z weryfikacją mojej tożsamości na stronie {{appName}}.",
     "contactSupport": "Skontaktuj się z Działem wsparcia",
     "pending": {
       "title": "Trwa weryfikacja Twojej tożsamości.",
@@ -1667,7 +1667,7 @@
     },
     "cashIn": {
       "cancel": "Anuluj dodawanie środków",
-      "contactSupportPrefill": "Mam problem z dodaniem środków do mojego portfela Valora."
+      "contactSupportPrefill": "Mam problem z dodaniem środków do portfela {{appName}} ."
     },
     "success": {
       "header": "Sukces",
@@ -1757,7 +1757,7 @@
       },
       "mobileDialog": {
         "title": "Numer telefonu",
-        "body": "Użyj numeru telefonu zarejestrowanego u dostawcy środków z telefonu komórkowego. To może nie być taki sam numer, jak Twój numer telefonu w aplikacji Valora.\n\nNumery telefonów muszą zawierać kod kraju wyświetlany obok numeru telefonu.",
+        "body": "Użyj numeru telefonu zarejestrowanego u operatora płatności mobilnych. Może się on różnić od Twojego numeru telefonu {{appName}} .\n\nNumery telefonów muszą zawierać kod kraju wyświetlany obok numeru telefonu.",
         "dismiss": "Odrzuć"
       }
     },
@@ -1983,7 +1983,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Zaproś {{contactName}} do {{appName}} i zdobądź 0,50 cUSD",
-      "body": "Wygląda na to, że {{contactName}} nie ma konta w Valora. Nadal możesz wysłać płatność, jeśli znasz adres jego/jej portfela, lub zamiast tego wysłać zaproszenie. \n\nPo pobraniu przez znajomego aplikacji Valora, podłączeniu numeru telefonu, dodaniu środków i utrzymaniu ich w portfelu przez 7 dni otrzymacie po 0,50 cUSD (obowiązuje do wyczerpania środków)."
+      "body": "Wygląda na to, że {{contactName}} nie jest na {{appName}}. Nadal możesz wysłać płatność, jeśli znasz ich adres portfela, lub zamiast tego wysłać zaproszenie. \n\n Po pobraniu {{appName}}, podłączeniu numeru telefonu, dodaniu środków i utrzymaniu ich w portfelu przez 7 dni, oboje otrzymacie 0,50 cUSD do wyczerpania środków."
     }
   },
   "celoNews": {
@@ -1994,7 +1994,7 @@
     "retryButtonText": "Spróbuj ponownie"
   },
   "chooseYourAdventure": {
-    "header": "Witamy w Valora",
+    "header": "Witamy w aplikacji {{appName}}",
     "subtitle": "Co chcesz zrobić najpierw?",
     "later": "Odkryję później",
     "options": {
@@ -2130,7 +2130,7 @@
     "results": "Wyniki",
     "qr": {
       "title": "Zeskanuj lub pokaż kod QR",
-      "subtitle": "Szybko znajdź adresy w Valorze"
+      "subtitle": "Szybko znajduj adresy na stronie {{appName}}"
     },
     "invite": {
       "title": "Wyślij kryptowalutę do znajomego",
@@ -2141,7 +2141,7 @@
       "subtitle": "Udostępnij link, aby wysłać kryptowalutę jako tekst"
     },
     "getStarted": {
-      "title": "Sposoby wysyłania środków w Valorze",
+      "title": "Sposoby wysyłania środków na {{appName}}",
       "subtitle": "ROZPOCZNIJ",
       "options": {
         "one": {
@@ -2150,7 +2150,7 @@
         },
         "two": {
           "title": "Numer telefonu",
-          "subtitle": "Wyślij bezpośrednio na czyjś numer telefonu, jeśli ta osoba ma aplikację Valora"
+          "subtitle": "Wyślij bezpośrednio na czyjś numer telefonu, jeśli ma on adres {{appName}}."
         },
         "three": {
           "title": "ENS",
@@ -2158,7 +2158,7 @@
         },
         "four": {
           "title": "Nazwa profilu",
-          "subtitle": "Możesz wyszukać istniejących użytkowników w Valorze"
+          "subtitle": "Możesz wyszukiwać istniejących użytkowników na stronie {{appName}}"
         }
       }
     },
@@ -2281,7 +2281,7 @@
   },
   "multichainBeta": {
     "beta": "BETA",
-    "title": "Nowość – Ethereum jest na Valora!",
+    "title": "Nowość! Ethereum jest na {{appName}}",
     "description1": "Najpierw udostępniamy tę funkcję wybranej grupie osób. Jesteś jednym z tych szczęśliwców!",
     "description2": "To wciąż nowość, a nasz zespół wciąż ciężko pracuje, aby wszystko działało idealnie. Chętnie poznamy Twoją opinię.",
     "primaryCta": "Wypróbuj teraz",
@@ -2292,7 +2292,7 @@
     "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!",
     "titleV1_86": "Dodaj środki do swojego portfela",
     "exploreTokens": "Poznaj wszystkie tokeny",
-    "exploreTokensBody": "Możesz kupić do 10+ tokenów w Valorze. Sprawdź je!"
+    "exploreTokensBody": "Możesz kupić do 10+ tokenów w {{appName}}. Sprawdź je!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2486,7 +2486,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Valora pokrywa koszty gazu dla tej transakcji!",
+    "gasSubsidized": "{{appName}}pokrywa koszty paliwa dla tej transakcji!",
     "addCryptoBottomSheet": {
       "title": "Dodaj {{tokenSymbol}} w {{tokenNetwork}}",
       "description": "Po dodaniu tokenów konieczny będzie powrót, aby dokończyć wpłatę do puli.",
@@ -2513,12 +2513,12 @@
           "titleGasSubsidy": "Maksymalizuj zarobki bez opłat za gaz*",
           "title": "Przejrzyj i porównaj pule",
           "subtitle": "Porównaj potencjał zarobkowy i ryzyko. Wymieniaj, kupuj lub przesyłaj tokeny, aby dołączyć do najlepszej puli.",
-          "footnoteSubsidy": "* Opłaty za gaz są tymczasowo pokrywane przez Valorę"
+          "footnoteSubsidy": "*Opłaty za gaz są tymczasowo pokrywane przez {{appName}}"
         },
         "manage": {
-          "title": "Zarządzaj bezpośrednio z Valory",
+          "title": "Zarządzaj bezpośrednio z {{appName}}",
           "titleV1_92": "Zarządzaj bezpośrednio z {{appName}}",
-          "subtitle": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji Valora.",
+          "subtitle": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji {{appName}}.",
           "subtitleV1_92": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji {{appName}}."
         },
         "access": {
@@ -2687,7 +2687,7 @@
         "ageTitle": "Wiek puli",
         "ageDescription": "Starsze pule płynności mogą mieć dobre referencje i cieszyć się zaufaniem społeczności. Ze względu na to niektóre osoby mogą uznawać te pule za bezpieczniejsze.\n\nNie ma idealnego sposobu na określanie ryzyka, dlatego wykorzystaj te informacje w swoich ogólnych badaniach, aby podjąć najlepszą dla siebie decyzję.",
         "yieldRateTitle": "Stopa zwrotu",
-        "yieldRateDescription": "Większość pul oferuje zarobki w postaci tokenów pul płynności. Niektóre z nich oferują dodatkowe tokeny jako nagrody lub dodatkowe zachęty.\n\nAplikacja Valora agreguje pule z wielu protokołów, dlatego połączyliśmy wszystkie stawki zarobków i nagród w pojedynczą, ogólną stawkę zysku, która ułatwia ocenę potencjału zarobków. Wartość ta jest tylko szacunkiem, gdyż wartości zarobków i nagród nie są stałe.\n\nWięcej informacji o podziale zysków możesz uzyskać, odwiedzając stronę <0>{{providerName}}</0>."
+        "yieldRateDescription": "Podczas gdy większość pul oferuje zarobki w postaci tokenów puli płynności, niektóre dają dodatkowe tokeny jako nagrodę lub dodatkową zachętę.\n\nPonieważ {{appName}} agreguje pule w wielu protokołach, połączyliśmy wszystkie stawki zarobków i nagród w jedną, ogólną stopę zwrotu, aby ułatwić ocenę Twojego potencjału zarobkowego. Liczba ta jest szacunkowa, ponieważ wartości zarobków i nagród stale się zmieniają.\n\nAby uzyskać więcej informacji na temat podziału zarobków, odwiedź stronę <0>{{providerName}}</0>."
       }
     }
   },
