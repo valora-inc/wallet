@@ -2514,15 +2514,21 @@
           "subtitle": "Kazanç potansiyelini ve riskleri karşılaştırın. Size en uygun havuza katılmak için tokenları takas edin, satın alın veya transfer edin.",
           "footnoteSubsidy": "*Gaz ücretleri geçici olarak {{appName}}tarafından karşılanmaktadır."
         },
+        "work": {
+          "title": "Varlıklarınızı İşe Koyun",
+          "subtitle": "Bir likidite havuzuna para yatırarak kripto paranızdan kazanmaya başlayın. "
+        },
         "manage": {
           "title": "Doğrudan {{appName}} uygulamasından yönetin",
           "titleV1_92": "Doğrudan {{appName}} uygulamasından yönetin",
+          "titleV1_94": "Pozisyonlarınızı Yönetin",
           "subtitle": "{{appName}} uygulamasından ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız.",
-          "subtitleV1_92": "{{appName}} uygulamasından ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız."
+          "subtitleV1_92": "{{appName}} uygulamasından ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız.",
+          "subtitleV1_94": "Beğendiğiniz bir havuzu seçin, jetonlarınızı ekleyin ve kazançlarınızı izleyin."
         },
         "access": {
           "title": "Fonlarınıza Kolayca Erişin",
-          "subtitle": "Tıpkı favori protokolleriniz gibi bir dokunuşla fonları toplayın."
+          "subtitle": "Hazır olduğunuzda bir dokunuşla para toplayın."
         }
       },
       "action": {
