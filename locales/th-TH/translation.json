@@ -2213,6 +2213,9 @@
   },
   "jumpstartIntro": {
     "title": "แชร์คริปโตได้ง่ายเหมือนแชร์ข้อความ",
+    "description": "Live Links are a way to send crypto on the Celo network to a friend with a link",
+    "noFundsHint": "To get started, you’ll need some assets on Celo in your wallet.",
+    "haveFundsButton": "ส่งพร้อมลิงก์สด",
     "addFundsCelo": {
       "title": "รับสินทรัพย์บน Celo",
       "info": "ลิงก์สด (Live Link) เป็นช่องทางในการส่งคริปโตบนเครือข่าย Celo ให้กับเพื่อนด้วยลิงก์ \nก่อนอื่นคุณจะต้องมีสินทรัพย์ CELO ในกระเป๋าเงิน",
@@ -2509,15 +2512,21 @@
           "subtitle": "เปรียบเทียบศักยภาพในการสร้างรายได้และความเสี่ยงต่างๆ สว็อป ซื้อ หรือโอนโทเค็นเพื่อเข้าร่วมพูลที่ดีที่สุดสำหรับคุณ",
           "footnoteSubsidy": "*Gas fees are temporarily covered by {{appName}}"
         },
+        "work": {
+          "title": "Put Your Assets To Work",
+          "subtitle": "Start earning on your crypto by depositing into a liquidity pool. "
+        },
         "manage": {
           "title": "จัดการโดยตรงจาก {{appName}}",
           "titleV1_92": "จัดการโดยตรงจาก {{appName}}",
+          "titleV1_94": "Manage Your Positions",
           "subtitle": "เราจะเชื่อมต่อกับกระเป๋าเงินของคุณโดยอัตโนมัติ เพื่อให้คุณสามารถจัดการพูลได้โดยไม่ต้องออกจาก {{appName}}",
-          "subtitleV1_92": "เราจะเชื่อมต่อกับกระเป๋าเงินของคุณโดยอัตโนมัติ เพื่อให้คุณสามารถจัดการพูลได้โดยไม่ต้องออกจาก {{appName}}"
+          "subtitleV1_92": "เราจะเชื่อมต่อกับกระเป๋าเงินของคุณโดยอัตโนมัติ เพื่อให้คุณสามารถจัดการพูลได้โดยไม่ต้องออกจาก {{appName}}",
+          "subtitleV1_94": "Choose a pool you like, add your tokens and monitor your gains."
         },
         "access": {
           "title": "เข้าถึงเงินทุนของคุณได้ง่ายๆ",
-          "subtitle": "เก็บเงินโดยแตะครั้งเดียวเหมือนกับโปรโตคอลโปรดของคุณ"
+          "subtitle": "Collect funds with a tap when you're ready."
         }
       },
       "action": {
@@ -2547,11 +2556,6 @@
       "continue": "ดำเนินการต่อ",
       "info": "พูลนี้ดำเนินการโดย Aave",
       "infoV1_93": "ดำเนินการโดย {{providerName}}",
-      "infoBottomSheet": {
-        "title": "ทำไมต้องเป็นพูลนี้",
-        "description": "พูล Aave นี้มี TVL มูลค่ากว่า $150 ล้านและผู้เข้าร่วมมากกว่า 6,000 ราย ซึ่งแสดงให้เห็นถึงสภาพคล่องและความน่าเชื่อถือที่สูง นอกจากนี้ยังใช้ USDC เป็นโทเค็นและใช้เครือข่าย Abritrum ที่ช่วยลดความผันผวนและรับประกันได้ว่าผู้ใช้จะได้รับค่าก๊าซในอัตราที่ไม่แพง\n\nคุณสามารถสำรวจพูลอื่นของ Aave ได้<0>ที่นี่</0>",
-        "dismiss": "ปิด"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "คุณต้องมี {{feeTokenSymbol}} มากกว่านี้เพื่อดำเนินการต่อ",
         "description": "เพิ่ม {{feeTokenSymbol}} บน {{network}} เพื่อให้เพียงพอสำหรับค่าก๊าซ",

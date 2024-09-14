@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Teile Krypto wie eine Textnachricht",
+    "description": "Live Links sind eine Möglichkeit, Krypto über das Celo Netzwerk an einen Freund mit einem Link zu senden",
+    "noFundsHint": "Um loszulegen, brauchst du ein paar Guthaben auf Celo in deinem Portemonnaie.",
+    "haveFundsButton": "Mit einem Live-Link senden",
     "addFundsCelo": {
       "title": "Erhalte Vermögen in Celo",
       "info": "Mit Live-Links kannst du Krypto über das Celo-Netzwerk mit einem Link an einen Freund senden.\nUm loszulegen, benötigst du CELO-Vermögen in deinem Wallet.",
@@ -2511,15 +2514,21 @@
           "subtitle": "Vergleiche Verdienstmöglichkeiten und Risiken. Tausche, kaufe oder übertrage Token, um dem für dich besten Pool beizutreten.",
           "footnoteSubsidy": "*Gasgebühren werden vorübergehend von {{appName}}übernommen."
         },
+        "work": {
+          "title": "Setze dein Vermögen in die Tat um",
+          "subtitle": "Fange an, an deiner Kryptowährung zu verdienen, indem du in einen Liquiditätspool einzahlst. "
+        },
         "manage": {
           "title": "Direkt von {{appName}} aus verwalten",
           "titleV1_92": "Direkt von {{appName}} aus verwalten",
+          "titleV1_94": "Verwalte deine Positionen",
           "subtitle": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne {{appName}} zu verlassen.",
-          "subtitleV1_92": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne {{appName}} zu verlassen."
+          "subtitleV1_92": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne {{appName}} zu verlassen.",
+          "subtitleV1_94": "Wähle einen Pool, den du magst, füge deine Token hinzu und beobachte deine Gewinne."
         },
         "access": {
           "title": "Einfacher Zugriff auf dein Guthaben",
-          "subtitle": "Erhalte Guthaben mit nur einem Tippen, genau wie bei deinen Lieblingsprotokollen."
+          "subtitle": "Sammle das Geld mit einem Fingertipp ein, wenn du bereit bist."
         }
       },
       "action": {
@@ -2549,11 +2558,6 @@
       "continue": "Weiter",
       "info": "Dieser Pool wird von Aave unterstützt",
       "infoV1_93": "Unterstützt von {{providerName}}",
-      "infoBottomSheet": {
-        "title": "Warum dieser Pool?",
-        "description": "Dieser Aave-Pool hat über 150 Mio. USD TVL und mehr als 6000 Teilnehmer, was für eine hohe Liquidität und Vertrauenswürdigkeit spricht. Außerdem verwendet er USDC als Token und Arbitrum als Netzwerk, was die Volatilität reduziert und sicherstellt, dass die Nutzer günstige Gasraten erhalten.\n\nAndere Aave-Pools kannst du <0>hier</0> entdecken.",
-        "dismiss": "Verwerfen"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Du benötigst mehr {{feeTokenSymbol}} zum Fortfahren",
         "description": "Füge {{feeTokenSymbol}} auf {{network}} hinzu, um deine Gasgebühren zu decken",
