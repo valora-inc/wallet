@@ -1,5 +1,5 @@
 import { launchApp, reloadReactNative } from '../utils/retries'
-import { waitForElementId } from '../utils/utils'
+import { waitForElementId, waitForElementByIdAndTap } from '../utils/utils'
 
 export default offRamps = () => {
   beforeAll(async () => {
@@ -9,6 +9,7 @@ export default offRamps = () => {
   })
   beforeEach(async () => {
     await reloadReactNative()
+    await waitForElementByIdAndTap('Tab/Wallet')
     await waitForElementId('HomeActionsCarousel')
     await element(by.id('HomeActionsCarousel')).scrollTo('right')
     await waitForElementId('HomeAction-Withdraw')

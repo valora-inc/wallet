@@ -13,12 +13,10 @@ import { sleep } from '../../../src/utils/sleep'
 
 import jestExpect from 'expect'
 
-const startBackupFromNotifications = async () => {
-  await element(by.id('WalletHome/NotificationBell')).tap()
-  await element(by.text('Back up now')).tap()
+const startBackupFromSettings = async () => {
+  await navigateToSecurity()
+  await element(by.id('RecoveryPhrase')).tap()
   await enterPinUi()
-  await waitForElementByIdAndTap('WalletSecurityPrimer/GetStarted')
-  await waitForElementByIdAndTap('keylessBackupIntro/RecoveryPhrase')
   await element(by.id('SetUpAccountKey')).tap()
 
   // Go through education
@@ -31,7 +29,7 @@ const startBackupFromNotifications = async () => {
 
 const arriveAtHomeScreen = async () => {
   // Arrived to Home screen
-  await expect(element(by.id('HomeAction-Send'))).toBeVisible()
+  await expect(element(by.id('WalletHome'))).toBeVisible()
 }
 
 export default NewAccountOnboarding = () => {
@@ -80,7 +78,7 @@ export default NewAccountOnboarding = () => {
   })
 
   it('Should be able to exit recovery phrase flow', async () => {
-    await startBackupFromNotifications()
+    await startBackupFromSettings()
     await waitFor(element(by.text('Cancel')))
       .toBeVisible()
       .withTimeout(10 * 1000)
@@ -97,7 +95,7 @@ export default NewAccountOnboarding = () => {
   })
 
   it('Setup Recovery Phrase', async () => {
-    await startBackupFromNotifications()
+    await startBackupFromSettings()
 
     const attributes = await element(by.id('AccountKeyWordsContainer')).getAttributes()
     testRecoveryPhrase = attributes.label
@@ -111,11 +109,6 @@ export default NewAccountOnboarding = () => {
 
     // Backup complete screen is served
     await waitFor(element(by.id('BackupComplete')))
-      .toBeVisible()
-      .withTimeout(10 * 1000)
-
-    // Navigated to Home screen
-    await waitFor(element(by.id('HomeAction-Send')))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })
@@ -135,9 +128,6 @@ export default NewAccountOnboarding = () => {
   // After quiz completion recovery phrase should only be shown in settings and
   // not in notifications
   it('Recovery phrase only shown in settings', async () => {
-    await element(by.id('WalletHome/NotificationBell')).tap()
-    await expect(element(by.text('Back up now'))).not.toExist()
-    await element(by.id('BackChevron')).tap()
     await navigateToSecurity()
     await waitForElementId('RecoveryPhrase')
     await element(by.id('RecoveryPhrase')).tap()

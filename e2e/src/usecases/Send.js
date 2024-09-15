@@ -22,6 +22,7 @@ export default Send = () => {
   describe('When multi-token send flow to address', () => {
     beforeAll(async () => {
       await launchApp({ newInstance: true })
+      await waitForElementByIdAndTap('Tab/Wallet')
     })
 
     it('Then should navigate to send search input from home action', async () => {
@@ -86,6 +87,7 @@ export default Send = () => {
       await waitForElementByIdAndTap('ConfirmButton', 30_000)
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementId('HomeAction-Send', 30_000)
     })
   })
@@ -96,6 +98,7 @@ export default Send = () => {
     })
 
     it('Then should navigate to send search input from home action', async () => {
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementByIdAndTap('HomeAction-Send', 30_000)
       await waitFor(element(by.text('0xe5f5...8846')))
         .toBeVisible()
@@ -129,6 +132,7 @@ export default Send = () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementId('HomeAction-Send', 30_000)
     })
   })
@@ -146,6 +150,7 @@ export default Send = () => {
     })
 
     it('Then should navigate to send search input from home action', async () => {
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementByIdAndTap('HomeAction-Send', 30_000)
       await waitForElementId('SendSelectRecipientSearchInput', 10_000)
     })
@@ -191,6 +196,7 @@ export default Send = () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementId('HomeAction-Send', 30_000)
     })
   })

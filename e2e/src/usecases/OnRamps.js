@@ -1,5 +1,5 @@
 import { launchApp, reloadReactNative } from '../utils/retries'
-import { isElementVisible, waitForElementId } from '../utils/utils'
+import { isElementVisible, waitForElementId, waitForElementByIdAndTap } from '../utils/utils'
 
 export default onRamps = () => {
   beforeAll(async () => {
@@ -9,6 +9,7 @@ export default onRamps = () => {
   })
   beforeEach(async () => {
     await reloadReactNative()
+    await waitForElementByIdAndTap('Tab/Wallet')
     await waitForElementId('HomeAction-Add')
     await element(by.id('HomeAction-Add')).tap()
   })

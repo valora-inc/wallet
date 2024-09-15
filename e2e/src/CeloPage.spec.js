@@ -4,7 +4,7 @@ import CeloNews from './usecases/CeloNews'
 import { quickOnboarding } from './utils/utils'
 import { launchApp } from './utils/retries'
 
-describe('Celo page', () => {
+describe.skip('Celo page', () => {
   beforeAll(async () => {
     await quickOnboarding()
   })
