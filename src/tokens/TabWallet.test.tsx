@@ -116,6 +116,8 @@ describe('TabWallet', () => {
     expect(queryByTestId('AssetsTokenBalance/Info')).toBeFalsy()
     expect(getByTestId('AssetsTokenBalance')).toHaveTextContent('₱21.03')
 
+    expect(getByTestId('HomeActionsCarousel')).toBeTruthy()
+
     expect(getByTestId('Assets/TabBar')).toBeTruthy()
     expect(getAllByTestId('Assets/TabBarItem')).toHaveLength(2)
     expect(getByText('assets.tabBar.tokens')).toBeTruthy()

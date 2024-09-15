@@ -28,6 +28,7 @@ import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import AssetList from 'src/tokens/AssetList'
 import AssetTabBar from 'src/tokens/AssetTabBar'
 import { AssetTabType } from 'src/tokens/types'
+import ActionsCarousel from 'src/home/ActionsCarousel'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TabWallet>
 
@@ -163,7 +164,10 @@ function TabWallet({ navigation, route }: Props) {
           style={[styles.nonStickyHeaderContainer]}
           onLayout={handleMeasureNonStickyHeaderHeight}
         >
-          <AssetsTokenBalance showInfo={displayPositions} />
+          <View style={styles.balanceSection}>
+            <AssetsTokenBalance showInfo={displayPositions} />
+          </View>
+          <ActionsCarousel key={'ActionsCarousel'} />
         </View>
         <AssetTabBar
           activeTab={activeTab}
@@ -219,6 +223,9 @@ const styles = StyleSheet.create({
     right: 10,
     paddingHorizontal: Spacing.Thick24 - 10,
     paddingVertical: Spacing.Regular16,
+  },
+  balanceSection: {
+    paddingBottom: Spacing.Regular16,
   },
 })
 
