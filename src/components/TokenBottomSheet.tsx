@@ -281,6 +281,7 @@ function TokenBottomSheet({
               onPress={onTokenPressed(item, index)}
               containerStyle={styles.tokenBalanceItemContainer}
               showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
+              testIdPrefix={'BottomSheet'}
             />
           )
         }}

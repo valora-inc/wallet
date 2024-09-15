@@ -24,8 +24,7 @@ export default onRamps = () => {
       ${'CELO'} | ${'20'}
       ${'CELO'} | ${'2'}
     `('Then should display $token provider(s) for $$amount', async ({ token, amount }) => {
-      await waitForElementId(`${token}Symbol`)
-      await element(by.id(`${token}Symbol`)).tap()
+      await waitForElementByIdAndTap(`BottomSheet${token}Symbol`)
 
       await waitForElementId('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
