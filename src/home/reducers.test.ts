@@ -1,4 +1,4 @@
-import { DEEP_LINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import {
   Actions,
   celebratedNftFound,
@@ -31,7 +31,7 @@ const createTestNotification = (body: string) => ({
 })
 
 const mockRewardProperties = {
-  deepLink: `${DEEP_LINK_PREFIX}://test`,
+  deepLink: `${DEEP_LINK_URL_SCHEME}://test`,
   rewardExpirationDate: '3000-12-01T00:00:00.000Z',
   rewardReminderDate: '3000-01-01T00:00:00.000Z',
 }

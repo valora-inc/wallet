@@ -10,7 +10,7 @@ import {
   WalletConnectPairingOrigin,
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { DEEP_LINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { E164NumberToAddressType } from 'src/identity/reducer'
 import { getSecureSendAddress } from 'src/identity/secureSend'
@@ -131,7 +131,7 @@ function* extractQRAddressData(qrCode: QrCode) {
   // strip network prefix if present
   const qrAddress = qrCode.data.split(':').at(-1) || qrCode.data
   if (isAddress(qrAddress, { strict: false })) {
-    qrCode.data = `${DEEP_LINK_PREFIX}://wallet/pay?address=${qrAddress}`
+    qrCode.data = `${DEEP_LINK_URL_SCHEME}://wallet/pay?address=${qrAddress}`
   }
   let qrData: UriData | null
   try {
@@ -160,7 +160,7 @@ export function* handleQRCodeDefault({ qrCode }: HandleQRCodeDetectedAction) {
   }
   if (
     (yield* select(allowHooksPreviewSelector)) &&
-    qrCode.data.startsWith(`${DEEP_LINK_PREFIX}://wallet/hooks/enablePreview`)
+    qrCode.data.startsWith(`${DEEP_LINK_URL_SCHEME}://wallet/hooks/enablePreview`)
   ) {
     yield* call(handleEnableHooksPreviewDeepLink, qrCode.data, HooksEnablePreviewOrigin.Scan)
     return

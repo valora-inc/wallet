@@ -17,7 +17,7 @@ import { DappExplorerEvents, WebViewEvents } from 'src/analytics/Events'
 import { openDeepLink } from 'src/app/actions'
 import Touchable from 'src/components/Touchable'
 import WebView, { WebViewRef } from 'src/components/WebView'
-import { DEEP_LINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { dappSessionEnded } from 'src/dapps/slice'
 import BackChevron from 'src/icons/BackChevron'
@@ -143,7 +143,7 @@ function WebViewScreen({ route, navigation }: Props) {
   }, [canGoBack, webViewRef.current, navigation])
 
   const handleLoadRequest = (event: ShouldStartLoadRequest): boolean => {
-    if (event.url.startsWith(`${DEEP_LINK_PREFIX}://`) || isWalletConnectDeepLink(event.url)) {
+    if (event.url.startsWith(`${DEEP_LINK_URL_SCHEME}://`) || isWalletConnectDeepLink(event.url)) {
       dispatch(openDeepLink(event.url))
       return false
     }
@@ -205,7 +205,7 @@ function WebViewScreen({ route, navigation }: Props) {
       >
         <WebView
           ref={webViewRef}
-          originWhitelist={['https://*', `${DEEP_LINK_PREFIX}://*`]}
+          originWhitelist={['https://*', `${DEEP_LINK_URL_SCHEME}://*`]}
           onShouldStartLoadWithRequest={handleLoadRequest}
           source={{ uri }}
           startInLoadingState={true}

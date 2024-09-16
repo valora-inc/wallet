@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import { DEEP_LINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { exchangeInitialState, migrations } from 'src/redux/migrations'
 import {
   Network,
@@ -778,7 +778,7 @@ describe('Redux persist migrations', () => {
           {
             name: 'Moola',
             description: 'Lend, borrow, or add to a pool to earn rewards',
-            dappUrl: `${DEEP_LINK_PREFIX}://wallet/moolaScreen`,
+            dappUrl: `${DEEP_LINK_URL_SCHEME}://wallet/moolaScreen`,
             categoryId: 'lend',
             iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/moola.png',
             isFeatured: false,

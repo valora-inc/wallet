@@ -12,7 +12,7 @@ import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import WebView from 'src/components/WebView'
-import { DEEP_LINK_PREFIX, SIMPLEX_FEES_URL } from 'src/config'
+import { DEEP_LINK_URL_SCHEME, SIMPLEX_FEES_URL } from 'src/config'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import { fetchSimplexPaymentData } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -58,7 +58,7 @@ function SimplexScreen({ route, navigation }: Props) {
   const onNavigationStateChange = ({ url }: any) => {
     if (url?.includes('/payments/new')) {
       setRedirected(true)
-    } else if (url?.startsWith(`${DEEP_LINK_PREFIX}://wallet`)) {
+    } else if (url?.startsWith(`${DEEP_LINK_URL_SCHEME}://wallet`)) {
       navigateToURI(url)
     }
   }

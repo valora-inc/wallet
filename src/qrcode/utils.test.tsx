@@ -9,7 +9,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { QrScreenEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { DEEP_LINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
@@ -76,7 +76,7 @@ describe('useQRContent', () => {
 
 describe('handleQRCodeDefault', () => {
   it('handles hooks enable preview links', async () => {
-    const link = `${DEEP_LINK_PREFIX}://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000`
+    const link = `${DEEP_LINK_URL_SCHEME}://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000`
     const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: link }
 
     await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))

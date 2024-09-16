@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { DEEP_LINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { createMockStore } from 'test/utils'
 
@@ -23,7 +23,7 @@ const renderHookWithProvider = (dappUrl: string) => {
           categories: ['2'],
           description: 'Lend and borrow tokens!',
           iconUrl: 'https://raw.githubusercontent.com/app-list/main/assets/moola.png',
-          dappUrl: `${DEEP_LINK_PREFIX}://wallet/moolaScreen`,
+          dappUrl: `${DEEP_LINK_URL_SCHEME}://wallet/moolaScreen`,
         },
       ],
     },

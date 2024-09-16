@@ -2,7 +2,7 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
-import { DEEP_LINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { Actions, celebratedNftFound, nftRewardReadyToDisplay } from 'src/home/actions'
 import { NftCelebrationStatus } from 'src/home/reducers'
 import { nftCelebrationSelector } from 'src/home/selectors'
@@ -38,7 +38,7 @@ const mockCelebratedNft = {
 
 const mockRemoteConfig = {
   celebratedNft: mockCelebratedNft,
-  deepLink: `${DEEP_LINK_PREFIX}://test`,
+  deepLink: `${DEEP_LINK_URL_SCHEME}://test`,
   rewardExpirationDate: '3000-12-01T00:00:00.000Z',
   rewardReminderDate: '3000-01-01T00:00:00.000Z',
 }
@@ -55,7 +55,7 @@ const mockNftCelebrationStore = (status: NftCelebrationStatus) => {
       nftCelebration: {
         networkId: mockNftAllFields.networkId,
         contractAddress: mockNftAllFields.contractAddress,
-        deepLink: `${DEEP_LINK_PREFIX}://test`,
+        deepLink: `${DEEP_LINK_URL_SCHEME}://test`,
         rewardExpirationDate: '3000-12-01T00:00:00.000Z',
         rewardReminderDate: '3000-01-01T00:00:00.000Z',
         status,

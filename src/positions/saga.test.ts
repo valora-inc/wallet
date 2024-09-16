@@ -7,7 +7,7 @@ import { select } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { DEEP_LINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -308,7 +308,7 @@ describe(fetchShortcutsSaga, () => {
 })
 
 describe(handleEnableHooksPreviewDeepLink, () => {
-  const deepLink = `${DEEP_LINK_PREFIX}://wallet/hooks/enablePreview?hooksApiUrl=http%3A%2F%2F192.168.0.42%3A18000`
+  const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/hooks/enablePreview?hooksApiUrl=http%3A%2F%2F192.168.0.42%3A18000`
 
   it('enables hooks preview if the deep link is valid and the user confirms', async () => {
     Platform.OS = 'android'

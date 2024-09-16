@@ -4,7 +4,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { showMessage } from 'src/alert/actions'
 import { openUrl } from 'src/app/actions'
-import { DEEP_LINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { handleNotification } from 'src/firebase/notifications'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -80,7 +80,7 @@ describe(handleNotification, () => {
   })
 
   describe("with a notification with an 'open url' semantic and a deep link", () => {
-    const expectedUrl = `${DEEP_LINK_PREFIX}://wallet/openScreen?screen=${Screens.TabNavigator}`
+    const expectedUrl = `${DEEP_LINK_URL_SCHEME}://wallet/openScreen?screen=${Screens.TabNavigator}`
     const message: FirebaseMessagingTypes.RemoteMessage = {
       notification: { title: 'My title', body: 'My Body' },
       data: { ou: expectedUrl },

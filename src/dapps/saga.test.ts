@@ -1,7 +1,7 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
-import { DEEP_LINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { handleFetchDappsList, handleOpenDapp } from 'src/dapps/saga'
 import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
 import { dappSelected, fetchDappsListCompleted, fetchDappsListFailed } from 'src/dapps/slice'
@@ -45,7 +45,7 @@ describe('Dapps saga', () => {
         dappSelected({
           dapp: {
             ...baseDapp,
-            dappUrl: `${DEEP_LINK_PREFIX}://wallet/bidali`,
+            dappUrl: `${DEEP_LINK_URL_SCHEME}://wallet/bidali`,
             openedFrom: DappSection.All,
           },
         })

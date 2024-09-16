@@ -69,7 +69,7 @@ export const DEFAULT_FORNO_URL =
     : 'https://alfajores-forno.celo-testnet.org/'
 
 export const APP_BUNDLE_ID = configOrThrow('APP_BUNDLE_ID')
-export const DEEP_LINK_PREFIX = configOrThrow('DEEP_LINK_PREFIX')
+export const DEEP_LINK_URL_SCHEME = configOrThrow('DEEP_LINK_URL_SCHEME')
 
 // The network that FiatConnect providers operate on
 export const FIATCONNECT_NETWORK =
