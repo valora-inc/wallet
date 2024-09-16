@@ -1905,4 +1905,15 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'minVersion'),
   }),
+  231: (state: any) => ({
+    ...state,
+    jumpstart: {
+      ...state.jumpstart,
+      introHasBeenSeen: false,
+    },
+  }),
+  232: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'numberVerified'),
+  }),
 }

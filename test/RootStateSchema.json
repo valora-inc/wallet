@@ -3292,7 +3292,6 @@
                 "DappShortcutTransactionRequest",
                 "DappShortcutsRewards",
                 "DappsScreen",
-                "Debug",
                 "DebugImages",
                 "EarnCollectScreen",
                 "EarnEnterAmount",
@@ -4145,9 +4144,6 @@
                 "networkTimeoutSeconds": {
                     "type": "number"
                 },
-                "numberVerified": {
-                    "type": "boolean"
-                },
                 "pendingDeepLinks": {
                     "items": {
                         "$ref": "#/definitions/PendingDeepLink"
@@ -4232,7 +4228,6 @@
                 "maxSwapSlippagePercentage",
                 "multichainBetaStatus",
                 "networkTimeoutSeconds",
-                "numberVerified",
                 "pendingDeepLinks",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
@@ -5003,6 +4998,9 @@
                     ],
                     "type": "string"
                 },
+                "introHasBeenSeen": {
+                    "type": "boolean"
+                },
                 "reclaimStatus": {
                     "enum": [
                         "error",
@@ -5016,6 +5014,7 @@
             "required": [
                 "claimStatus",
                 "depositStatus",
+                "introHasBeenSeen",
                 "reclaimStatus"
             ],
             "type": "object"

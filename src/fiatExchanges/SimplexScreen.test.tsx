@@ -2,8 +2,8 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -27,9 +27,6 @@ const mockStore = createMockStore({
   account: {
     e164PhoneNumber: mockE164Number,
     defaultCountryCode: '+1',
-  },
-  app: {
-    numberVerified: true,
   },
   localCurrency: {
     preferredCurrencyCode: LocalCurrencyCode.USD,

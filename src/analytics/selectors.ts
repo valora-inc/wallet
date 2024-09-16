@@ -8,7 +8,7 @@ import {
   defaultCountryCodeSelector,
   pincodeTypeSelector,
 } from 'src/account/selectors'
-import { phoneVerificationStatusSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -90,7 +90,7 @@ export const getCurrentUserTraits = createSelector(
     tokensSelector,
     positionsAnalyticsSelector,
     getLocalCurrencyCode,
-    phoneVerificationStatusSelector,
+    phoneNumberVerifiedSelector,
     backupCompletedSelector,
     pincodeTypeSelector,
     pointsBalanceSelector,
@@ -111,7 +111,7 @@ export const getCurrentUserTraits = createSelector(
       hooksPreviewEnabled,
     },
     localCurrencyCode,
-    { numberVerifiedDecentralized, numberVerifiedCentralized },
+    numberVerifiedCentralized,
     hasCompletedBackup,
     pincodeType,
     pointsBalance,
@@ -188,7 +188,6 @@ export const getCurrentUserTraits = createSelector(
       positionsTopTenApps,
       hooksPreviewEnabled,
       localCurrencyCode,
-      hasVerifiedNumber: numberVerifiedDecentralized,
       hasVerifiedNumberCPV: numberVerifiedCentralized,
       hasCompletedBackup,
       deviceId: DeviceInfo.getUniqueIdSync(),
