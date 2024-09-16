@@ -24,8 +24,7 @@ export async function getCeloTokensBalance(walletAddress: Address) {
       '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f',
       '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9',
       '0xe4d517785d091d3c54818832db6094bcc2744545',
-    ] // cUSD, cEUR, CELO, cREAL
-    const supportedTokenSymbols: string[] = ['cUSD', 'cEUR', 'CELO', 'cREAL']
+    ] // CUSD, CEUR, CELO, cREAL
 
     const celoClient = createPublicClient({
       chain: celoAlfajores,
@@ -42,9 +41,9 @@ export async function getCeloTokensBalance(walletAddress: Address) {
       allowFailure: false,
     })
 
-    const balances: Record<string, number> = {}
+    const balances: Record<Address, number> = {}
     results.forEach((result, index) => {
-      balances[supportedTokenSymbols[index]] = Number(BigInt(result) / BigInt(10 ** 18))
+      balances[supportedTokenAddresses[index]] = Number(BigInt(result) / BigInt(10 ** 18))
     })
     return balances
   } catch (err) {

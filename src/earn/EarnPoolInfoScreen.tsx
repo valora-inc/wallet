@@ -3,12 +3,12 @@ import BigNumber from 'bignumber.js'
 import { Duration, intervalToDuration } from 'date-fns'
 import React, { useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, Platform, StyleSheet, Text, View } from 'react-native'
+import { LayoutChangeEvent, Platform, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -32,8 +32,8 @@ import variables from 'src/styles/variables'
 import { useTokenInfo, useTokensInfo } from 'src/tokens/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 import { formattedDuration } from 'src/utils/time'
 
 function HeaderTitleSection({
@@ -111,6 +111,22 @@ function TokenIcons({
   )
 }
 
+function Card({
+  children,
+  testID,
+  cardStyle,
+}: {
+  children: React.ReactNode
+  testID: string
+  cardStyle?: ViewStyle
+}) {
+  return (
+    <View testID={testID} style={[styles.card, cardStyle]}>
+      {children}
+    </View>
+  )
+}
+
 function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(earnItem.tokenId)
@@ -142,13 +158,7 @@ function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
   )
 }
 
-function DepositAndEarningsCard({
-  earnPosition,
-  onInfoIconPress,
-}: {
-  earnPosition: EarnPosition
-  onInfoIconPress: () => void
-}) {
+function DepositAndEarningsCard({ earnPosition }: { earnPosition: EarnPosition }) {
   const { t } = useTranslation()
   const { balance } = earnPosition
   const { earningItems, depositTokenId, cantSeparateCompoundedInterest } = earnPosition.dataProps
@@ -217,13 +227,13 @@ function DepositAndEarningsCard({
   }, [balance, earningItems, earningItemsTokenInfo])
 
   return (
-    <View testID="DepositAndEarningsCard" style={[styles.card, styles.depositAndEarningCard]}>
+    <Card testID="DepositAndEarningsCard" cardStyle={styles.depositAndEarningCard}>
       <View style={styles.depositAndEarningCardTitleContainer}>
         <View style={styles.cardLineLabel}>
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
           </Text>
-          <Touchable onPress={onInfoIconPress} borderRadius={24} testID={'DepositInfoIcon'}>
+          <Touchable onPress={() => Logger.info('Title Icon Pressed!')} borderRadius={24}>
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
@@ -265,16 +275,16 @@ function DepositAndEarningsCard({
           <EarningItemLineItem key={index} earnItem={item} />
         ))}
       </View>
-    </View>
+    </Card>
   )
 }
 
 function YieldCard({
-  onInfoIconPress,
+  infoIconPress,
   tokensInfo,
   earnPosition,
 }: {
-  onInfoIconPress: () => void
+  infoIconPress: () => void
   tokensInfo: TokenBalance[]
   earnPosition: EarnPosition
 }) {
@@ -284,13 +294,13 @@ function YieldCard({
     .reduce((acc, rate) => acc + rate, 0)
 
   return (
-    <View style={styles.card} testID="YieldCard">
+    <Card testID="YieldCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.yieldRate')}
           </Text>
-          <Touchable onPress={onInfoIconPress} borderRadius={24} testID="YieldRateInfoIcon">
+          <Touchable onPress={infoIconPress} borderRadius={24} testID="YieldRateInfoIcon">
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
@@ -323,16 +333,16 @@ function YieldCard({
           )
         })}
       </View>
-    </View>
+    </Card>
   )
 }
 
 function TvlCard({
   earnPosition,
-  onInfoIconPress,
+  infoIconPress,
 }: {
   earnPosition: EarnPosition
-  onInfoIconPress: () => void
+  infoIconPress: () => void
 }) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const { t } = useTranslation()
@@ -346,23 +356,23 @@ function TvlCard({
   }, [localCurrencySymbol, tvlInFiat])
 
   return (
-    <View style={styles.card} testID="TvlCard">
+    <Card testID="TvlCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.tvl')}
           </Text>
-          <Touchable onPress={onInfoIconPress} borderRadius={24} testID="TvlInfoIcon">
+          <Touchable onPress={infoIconPress} borderRadius={24} testID="TvlInfoIcon">
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
         <Text style={styles.cardTitleText}>{tvlString}</Text>
       </View>
-    </View>
+    </Card>
   )
 }
 
-function AgeCard({ ageOfPool, onInfoIconPress }: { ageOfPool: Date; onInfoIconPress: () => void }) {
+function AgeCard({ ageOfPool, infoIconPress }: { ageOfPool: Date; infoIconPress: () => void }) {
   const { t } = useTranslation()
   const dateInterval: Duration = intervalToDuration({
     start: ageOfPool,
@@ -370,19 +380,19 @@ function AgeCard({ ageOfPool, onInfoIconPress }: { ageOfPool: Date; onInfoIconPr
   })
 
   return (
-    <View style={styles.card} testID="AgeCard">
+    <Card testID="AgeCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
           <Text numberOfLines={1} style={styles.cardTitleText}>
             {t('earnFlow.poolInfoScreen.ageOfPool')}
           </Text>
-          <Touchable onPress={onInfoIconPress} borderRadius={24} testID="AgeInfoIcon">
+          <Touchable onPress={infoIconPress} borderRadius={24} testID="AgeInfoIcon">
             <InfoIcon size={16} color={Colors.gray3} />
           </Touchable>
         </View>
         <Text style={styles.cardTitleText}>{formattedDuration(dateInterval)}</Text>
       </View>
-    </View>
+    </Card>
   )
 }
 
@@ -391,15 +401,11 @@ function LearnMoreTouchable({
   providerName,
   appId,
   positionId,
-  networkId,
-  depositTokenId,
 }: {
   url: string
   providerName: string
   appId: string
   positionId: string
-  networkId: NetworkId
-  depositTokenId: string
 }) {
   const { t } = useTranslation()
   return (
@@ -408,10 +414,8 @@ function LearnMoreTouchable({
         borderRadius={8}
         onPress={() => {
           AppAnalytics.track(EarnEvents.earn_pool_info_view_pool, {
-            providerId: appId,
-            poolId: positionId,
-            networkId,
-            depositTokenId,
+            appId,
+            positionId,
           })
           navigateToURI(url)
         }}
@@ -434,9 +438,8 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
   }
   const { t } = useTranslation()
   const { availableShortcutIds } = earnPosition
-  const deposit = availableShortcutIds.includes('deposit')
-  const withdraw =
-    availableShortcutIds.includes('withdraw') && new BigNumber(earnPosition.balance).gt(0)
+  const deposit = availableShortcutIds.includes('withdraw')
+  const withdraw = availableShortcutIds.includes('withdraw')
 
   return (
     <View testID="ActionButtons" style={[styles.buttonContainer, insetsStyle]}>
@@ -444,14 +447,9 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
         <Button
           text={t('earnFlow.poolInfoScreen.withdraw')}
           onPress={() => {
-            AppAnalytics.track(EarnEvents.earn_pool_info_tap_withdraw, {
-              poolId: earnPosition.positionId,
-              providerId: earnPosition.appId,
-              poolAmount: earnPosition.balance,
-              networkId: earnPosition.networkId,
-              depositTokenId: earnPosition.dataProps.depositTokenId,
-            })
-            navigate(Screens.EarnCollectScreen, { pool: earnPosition })
+            // TODO (ACT-1343): EarnCollectScreen should take earnPosition instead of depositTokenId and poolTokenId and remove Logger.debug
+            // navigate(Screens.EarnCollectScreen, { earnPosition })
+            Logger.debug('Withdraw Button Pressed!')
           }}
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}
@@ -462,12 +460,7 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
         <Button
           text={t('earnFlow.poolInfoScreen.deposit')}
           onPress={() => {
-            AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
-              poolId: earnPosition.positionId,
-              providerId: earnPosition.appId,
-              networkId: earnPosition.networkId,
-              depositTokenId: earnPosition.dataProps.depositTokenId,
-            })
+            // TODO(ACT-1351): add analytics event
             navigate(Screens.EarnEnterAmount, { pool: earnPosition })
           }}
           size={BtnSizes.FULL}
@@ -490,10 +483,9 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       .filter((token): token is TokenBalance => !!token)
   }, [tokens, allTokens])
 
-  const depositInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const tvlInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const ageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const yieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const tvlInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const ageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const yieldRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
@@ -524,29 +516,13 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         />
         <View style={{ height: Spacing.Thick24 }} />
         <View style={styles.contentContainer}>
-          {new BigNumber(balance).gt(0) && (
-            <DepositAndEarningsCard
-              earnPosition={pool}
-              onInfoIconPress={() => {
-                AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
-                  providerId: appId,
-                  poolId: positionId,
-                  type: 'deposit',
-                  networkId,
-                  depositTokenId: dataProps.depositTokenId,
-                })
-                depositInfoBottomSheetRef.current?.snapToIndex(0)
-              }}
-            />
-          )}
+          {new BigNumber(balance).gt(0) && <DepositAndEarningsCard earnPosition={pool} />}
           <YieldCard
-            onInfoIconPress={() => {
+            infoIconPress={() => {
               AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
                 providerId: appId,
                 poolId: positionId,
                 type: 'yieldRate',
-                networkId,
-                depositTokenId: dataProps.depositTokenId,
               })
               yieldRateInfoBottomSheetRef.current?.snapToIndex(0)
             }}
@@ -555,13 +531,11 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           />
           <TvlCard
             earnPosition={pool}
-            onInfoIconPress={() => {
+            infoIconPress={() => {
               AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
                 providerId: appId,
                 poolId: positionId,
                 type: 'tvl',
-                networkId,
-                depositTokenId: dataProps.depositTokenId,
               })
               tvlInfoBottomSheetRef.current?.snapToIndex(0)
             }}
@@ -569,13 +543,11 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           {dataProps.contractCreatedAt ? (
             <AgeCard
               ageOfPool={new Date(dataProps.contractCreatedAt)}
-              onInfoIconPress={() => {
+              infoIconPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
                   providerId: appId,
                   poolId: positionId,
                   type: 'age',
-                  networkId,
-                  depositTokenId: dataProps.depositTokenId,
                 })
                 ageInfoBottomSheetRef.current?.snapToIndex(0)
               }}
@@ -587,24 +559,11 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
               providerName={appName}
               appId={appId}
               positionId={positionId}
-              networkId={networkId}
-              depositTokenId={dataProps.depositTokenId}
             />
           ) : null}
         </View>
       </Animated.ScrollView>
       <ActionButtons earnPosition={pool} />
-      <InfoBottomSheet
-        infoBottomSheetRef={depositInfoBottomSheetRef}
-        titleKey="earnFlow.poolInfoScreen.depositAndEarnings"
-        descriptionKey={
-          dataProps.cantSeparateCompoundedInterest
-            ? 'earnFlow.poolInfoScreen.infoBottomSheet.depositNoBreakdownDescription'
-            : 'earnFlow.poolInfoScreen.infoBottomSheet.depositDescription'
-        }
-        providerName={appName}
-        testId="DepositInfoBottomSheet"
-      />
       <InfoBottomSheet
         infoBottomSheetRef={tvlInfoBottomSheetRef}
         titleKey="earnFlow.poolInfoScreen.infoBottomSheet.tvlTitle"
@@ -639,7 +598,7 @@ function InfoBottomSheet({
   providerName,
   testId,
 }: {
-  infoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
+  infoBottomSheetRef: React.RefObject<BottomSheetRefType>
   titleKey: string
   descriptionKey: string
   descriptionUrl?: string

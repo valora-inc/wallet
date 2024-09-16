@@ -1,3 +1,4 @@
+import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { Task } from '@redux-saga/types'
 import { setBackupCompleted } from 'src/account/actions'
 import { initializeAccountSaga } from 'src/account/saga'
@@ -25,7 +26,6 @@ import {
   suggestMnemonicCorrections,
   validateMnemonic,
 } from 'src/utils/account'
-import { privateKeyToAddress } from 'src/utils/address'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'

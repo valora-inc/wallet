@@ -1,7 +1,6 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
-import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { handleFetchDappsList, handleOpenDapp } from 'src/dapps/saga'
 import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
 import { dappSelected, fetchDappsListCompleted, fetchDappsListFailed } from 'src/dapps/slice'
@@ -12,6 +11,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams } from 'src/statsig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount } from 'test/values'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 jest.mock('src/statsig')
 
@@ -45,7 +45,7 @@ describe('Dapps saga', () => {
         dappSelected({
           dapp: {
             ...baseDapp,
-            dappUrl: `${DEEP_LINK_URL_SCHEME}://wallet/bidali`,
+            dappUrl: `${DEEPLINK_PREFIX}://wallet/bidali`,
             openedFrom: DappSection.All,
           },
         })

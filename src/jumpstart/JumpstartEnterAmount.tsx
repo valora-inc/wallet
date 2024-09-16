@@ -8,11 +8,8 @@ import { JumpstartEvents } from 'src/analytics/Events'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import JumpstartIntro from 'src/jumpstart/JumpstartIntro'
-import {
-  jumpstartIntroHasBeenSeenSelector,
-  jumpstartSendStatusSelector,
-} from 'src/jumpstart/selectors'
+import JumpstartAddAssets from 'src/jumpstart/JumpstartAddAssets'
+import { jumpstartSendStatusSelector } from 'src/jumpstart/selectors'
 import { depositTransactionFlowStarted } from 'src/jumpstart/slice'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
@@ -53,8 +50,6 @@ function JumpstartEnterAmount() {
   const locale = useSelector(currentLanguageSelector)
   const jumpstartSendStatus = useSelector(jumpstartSendStatusSelector)
   const walletAddress = useSelector(walletAddressSelector)
-
-  const introSeen = useSelector(jumpstartIntroHasBeenSeenSelector)
   const tokens = useSelector(jumpstartSendTokensSelector)
 
   const jumpstartLink = useMemo(() => {
@@ -172,8 +167,8 @@ function JumpstartEnterAmount() {
     jumpstartSendStatus === 'success' ||
     jumpstartSendStatus === 'loading'
 
-  if (tokens.length === 0 || !introSeen) {
-    return <JumpstartIntro />
+  if (tokens.length === 0) {
+    return <JumpstartAddAssets />
   }
 
   return (

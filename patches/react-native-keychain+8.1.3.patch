@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-native-keychain/RNKeychainManager/RNKeychainManager.m b/node_modules/react-native-keychain/RNKeychainManager/RNKeychainManager.m
+index 9efac96..270fbcf 100644
+--- a/node_modules/react-native-keychain/RNKeychainManager/RNKeychainManager.m
++++ b/node_modules/react-native-keychain/RNKeychainManager/RNKeychainManager.m
+@@ -279,6 +279,8 @@ - (OSStatus)deleteCredentialsForServer:(NSString *)server
+   NSMutableDictionary *query = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                 (__bridge id)kCFBooleanTrue, (__bridge id)kSecReturnAttributes,
+                                 (__bridge id)kSecMatchLimitAll, (__bridge id)kSecMatchLimit,
++                                // Silently skip any items that require user authentication. To avoid the auth prompt.
++                                (__bridge id)kSecUseAuthenticationUISkip, (__bridge id)kSecUseAuthenticationUI,
+                                 nil];
+   NSMutableArray<NSString*> *services = [NSMutableArray<NSString*> new];
+   for (id secItemClass in secItemClasses) {

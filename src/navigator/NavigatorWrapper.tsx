@@ -26,9 +26,6 @@ import PincodeLock from 'src/pincode/PincodeLock'
 import HooksPreviewModeBanner from 'src/positions/HooksPreviewModeBanner'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { sentryRoutingInstrumentation } from 'src/sentry/Sentry'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 import appTheme from 'src/styles/appTheme'
 import Logger from 'src/utils/Logger'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
@@ -57,9 +54,7 @@ export const NavigatorWrapper = () => {
   const [isReady, setIsReady] = React.useState(RESTORE_STATE ? false : true)
   const [initialState, setInitialState] = React.useState()
   const appLocked = useSelector(getAppLocked)
-  const { minRequiredVersion } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG]
-  )
+  const minRequiredVersion = useSelector((state) => state.app.minVersion)
   const routeNameRef = React.useRef()
   const inSanctionedCountry = useSelector(userInSanctionedCountrySelector)
 

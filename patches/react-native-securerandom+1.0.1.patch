@@ -1,0 +1,11 @@
+diff --git a/node_modules/react-native-securerandom/RNSecureRandom.podspec b/node_modules/react-native-securerandom/RNSecureRandom.podspec
+index ebc36e2..64b44eb 100644
+--- a/node_modules/react-native-securerandom/RNSecureRandom.podspec
++++ b/node_modules/react-native-securerandom/RNSecureRandom.podspec
+@@ -14,5 +14,5 @@ Pod::Spec.new do |s|
+   s.source       = { :git => "https://github.com/robhogan/react-native-securerandom.git", :tag => "master" }
+   s.source_files = "ios/RNSecureRandom.{h,m}"
+   s.requires_arc = true
+-  s.dependency "React"
++  s.dependency "React-Core"
+ end

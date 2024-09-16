@@ -63,7 +63,9 @@ const mockStandbyTransactions: BaseStandbyTransaction[] = [
       tokenId: mockCeloTokenId,
     },
     address: mockQRCodeRecipient.address,
-    metadata: {},
+    metadata: {
+      comment: '',
+    },
   },
 ]
 const mockCreateBaseStandbyTransactions = [

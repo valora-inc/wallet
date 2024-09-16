@@ -1,3 +1,5 @@
+import { compressedPubKey } from '@celo/cryptographic-utils'
+import { hexToBuffer } from '@celo/utils/lib/address'
 import locales from 'locales'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -5,6 +7,7 @@ import InAppReview from 'react-native-in-app-review'
 import * as Keychain from 'react-native-keychain'
 import { findBestLanguageTag } from 'react-native-localize'
 import { eventChannel } from 'redux-saga'
+import { e164NumberSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
@@ -17,7 +20,9 @@ import {
   appLock,
   inAppReviewRequested,
   inviteLinkConsumed,
+  minAppVersionDetermined,
   openDeepLink,
+  phoneNumberVerificationMigrated,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -28,23 +33,28 @@ import {
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
   inAppReviewLastInteractionTimestampSelector,
+  inviterAddressSelector,
   sentryNetworkErrorsSelector,
+  shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
 import { CeloNewsConfig } from 'src/celoNews/types'
 import { DEFAULT_APP_LANGUAGE, FETCH_TIMEOUT_DURATION, isE2EEnv } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
-import { fetchRemoteConfigValues } from 'src/firebase/firebase'
+import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { initI18n } from 'src/i18n'
 import {
   allowOtaTranslationsSelector,
   currentLanguageSelector,
   otaTranslationsAppVersionSelector,
 } from 'src/i18n/selectors'
+import { E164NumberToSaltType } from 'src/identity/reducer'
+import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { jumpstartClaim } from 'src/jumpstart/saga'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { Actions as SendActions } from 'src/send/actions'
@@ -58,6 +68,7 @@ import { swapSuccess } from 'src/swap/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
+import getPhoneHash from 'src/utils/getPhoneHash'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import { safely } from 'src/utils/safely'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -66,7 +77,12 @@ import {
   handleWalletConnectDeepLink,
   isWalletConnectDeepLink,
 } from 'src/walletConnect/walletConnect'
-import { walletAddressSelector } from 'src/web3/selectors'
+import networkConfig from 'src/web3/networkConfig'
+import {
+  dataEncryptionKeySelector,
+  mtwAddressSelector,
+  walletAddressSelector,
+} from 'src/web3/selectors'
 import {
   all,
   call,
@@ -130,6 +146,28 @@ export function* appInit() {
   }
 
   SentryTransactionHub.finishTransaction(SentryTransaction.app_init_saga)
+}
+
+export function* appVersionSaga() {
+  const appVersionChannel = yield* call(appVersionDeprecationChannel)
+  if (!appVersionChannel) {
+    return
+  }
+  try {
+    while (true) {
+      const minRequiredVersion = yield* take(appVersionChannel)
+      Logger.info(TAG, `Required min version: ${minRequiredVersion}`)
+      // Note: The NavigatorWrapper will read this value from the store and
+      // show the UpdateScreen if necessary.
+      yield* put(minAppVersionDetermined(minRequiredVersion))
+    }
+  } catch (error) {
+    Logger.error(`${TAG}@appVersionSaga`, 'Failed to watch app version', error)
+  } finally {
+    if (yield* cancelled()) {
+      appVersionChannel.close()
+    }
+  }
 }
 
 // Check the availability of Google Mobile Services and Huawei Mobile Services, an alternative to
@@ -392,6 +430,97 @@ export function* handleSetAppState(action: SetAppState) {
   }
 }
 
+export function* runCentralPhoneVerificationMigration() {
+  const shouldRunVerificationMigration = yield* select(shouldRunVerificationMigrationSelector)
+  if (!shouldRunVerificationMigration) {
+    return
+  }
+
+  const privateDataEncryptionKey = yield* select(dataEncryptionKeySelector)
+  if (!privateDataEncryptionKey) {
+    Logger.warn(
+      `${TAG}@runCentralPhoneVerificationMigration`,
+      'No data encryption key was found in the store. This should never happen.'
+    )
+    return
+  }
+
+  const address = yield* select(walletAddressSelector)
+  const mtwAddress = yield* select(mtwAddressSelector)
+  const phoneNumber = yield* select(e164NumberSelector)
+  const publicDataEncryptionKey = compressedPubKey(hexToBuffer(privateDataEncryptionKey))
+
+  try {
+    const signedMessage = yield* call(retrieveSignedMessage)
+    if (!signedMessage) {
+      Logger.warn(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'No signed message was found for this user. Skipping CPV migration.'
+      )
+      return
+    }
+    if (!phoneNumber) {
+      Logger.warn(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'No phone number was found for this user. Skipping CPV migration.'
+      )
+      return
+    }
+
+    const saltCache: E164NumberToSaltType = yield* select(e164NumberToSaltSelector)
+    const cachedSalt = saltCache[phoneNumber]
+    if (!cachedSalt) {
+      Logger.warn(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'No salt was cached for phone number. Skipping CPV migration.'
+      )
+      return
+    }
+
+    Logger.debug(
+      `${TAG}@runCentralPhoneVerificationMigration`,
+      'Starting to run central phone verification migration'
+    )
+
+    const phoneHash = yield* call(getPhoneHash, phoneNumber, cachedSalt)
+    const inviterAddress = yield* select(inviterAddressSelector)
+
+    const response = yield* call(fetch, networkConfig.migratePhoneVerificationUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `${networkConfig.authHeaderIssuer} ${address}:${signedMessage}`,
+      },
+      body: JSON.stringify({
+        clientPlatform: Platform.OS,
+        clientVersion: DeviceInfo.getVersion(),
+        publicDataEncryptionKey,
+        phoneNumber,
+        pepper: cachedSalt,
+        phoneHash,
+        mtwAddress: mtwAddress ?? undefined,
+        inviterAddress: inviterAddress ?? undefined,
+      }),
+    })
+
+    if (response.status === 200) {
+      yield* put(phoneNumberVerificationMigrated())
+      Logger.debug(
+        `${TAG}@runCentralPhoneVerificationMigration`,
+        'Central phone verification migration completed successfully'
+      )
+    } else {
+      throw new Error(yield* call([response, 'text']))
+    }
+  } catch (error) {
+    Logger.warn(
+      `${TAG}@runCentralPhoneVerificationMigration`,
+      'Could not complete central phone verification migration',
+      error
+    )
+  }
+}
+
 export function* requestInAppReview() {
   const walletAddress = yield* select(walletAddressSelector)
   // Quick return if no wallet address or the device does not support in app review
@@ -430,6 +559,7 @@ export function* appSaga() {
   yield* spawn(watchDeepLinks)
   yield* spawn(watchOpenUrl)
   yield* spawn(watchAppState)
+  yield* spawn(runCentralPhoneVerificationMigration)
   yield* takeLatest(Actions.SET_APP_STATE, safely(handleSetAppState))
   yield* spawn(watchAppReview)
 }

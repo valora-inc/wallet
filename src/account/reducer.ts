@@ -208,6 +208,11 @@ export const reducer = (
         ...state,
         backupCompleted: true,
       }
+    case Actions.TOGGLE_BACKUP_STATE:
+      return {
+        ...state,
+        backupCompleted: !state.backupCompleted,
+      }
     case Actions.DISMISS_GET_VERIFIED:
       return {
         ...state,

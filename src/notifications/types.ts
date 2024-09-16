@@ -12,6 +12,7 @@ export interface TransferNotificationData {
   blockNumber: string
   txHash: string
   timestamp: string
+  comment: string
   tokenAddress: string
   type?: NotificationTypes.PAYMENT_RECEIVED
   name?: string

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
-import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { NotificationVariant } from 'src/components/InLineNotification'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
@@ -18,7 +18,7 @@ import Logger from 'src/utils/Logger'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 
 interface Props {
-  forwardedRef: React.RefObject<BottomSheetModalRefType>
+  forwardedRef: React.RefObject<BottomSheetRefType>
 }
 
 const TOAST_DISMISS_TIMEOUT_MS = 5_000

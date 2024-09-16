@@ -11,7 +11,7 @@ const mockAccount = '0x0000000000000000000000000000000000007E57'
 
 jest.mock('src/web3/contracts', () => ({
   ...(jest.requireActual('src/web3/contracts') as any),
-  getKeychainAccounts: jest.fn().mockResolvedValue({
+  getWalletAsync: jest.fn().mockResolvedValue({
     getAccounts: jest.fn(() => [mockAccount]),
   }),
 }))

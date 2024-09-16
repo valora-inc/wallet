@@ -5,61 +5,9 @@ import getLockableViemWallet, { ViemWallet } from 'src/viem/getLockableWallet'
 import { getStoredPrivateKey, listStoredAccounts } from 'src/web3/KeychainAccounts'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { celo } from 'viem/chains'
-import { getKeychainAccounts as getKeychainAccountsFn, getViemWallet } from './contracts'
+import { getViemWallet } from './contracts'
 
-jest.unmock('src/web3/contracts')
 jest.mock('src/viem/getLockableWallet')
-
-let getKeychainAccounts: typeof getKeychainAccountsFn
-let loadExistingAccountsSpy: jest.SpyInstance
-
-beforeEach(() => {
-  jest.clearAllMocks()
-  // Isolate the module so its variables don't persist between tests
-  // Note: this slows down the tests a bit
-  jest.isolateModules(() => {
-    getKeychainAccounts = require('./contracts').getKeychainAccounts
-    loadExistingAccountsSpy = jest.spyOn(
-      require('src/web3/KeychainAccounts').KeychainAccounts.prototype,
-      'loadExistingAccounts'
-    )
-  })
-})
-
-describe('getKeychainAccounts', () => {
-  it('should initialize keychain accounts', async () => {
-    const keychainAccounts = await getKeychainAccounts()
-    expect(keychainAccounts).toBeDefined()
-    expect(loadExistingAccountsSpy).toHaveBeenCalledTimes(1)
-  })
-
-  it('should only load existing accounts once', async () => {
-    const [a1, a2, a3] = await Promise.all([
-      getKeychainAccounts(),
-      getKeychainAccounts(),
-      getKeychainAccounts(),
-    ])
-    expect(loadExistingAccountsSpy).toHaveBeenCalledTimes(1)
-    expect(a1).toBe(a2)
-    expect(a2).toBe(a3)
-  })
-
-  it('should throw if knex fails to initialize', async () => {
-    loadExistingAccountsSpy.mockImplementationOnce(() => {
-      throw new Error('Test error')
-    })
-    await expect(getKeychainAccounts()).rejects.toThrow('Test error')
-  })
-
-  it('should keep failed initializations', async () => {
-    loadExistingAccountsSpy.mockImplementationOnce(() => {
-      throw new Error('Test error')
-    })
-    await expect(getKeychainAccounts()).rejects.toThrow('Test error')
-    await expect(getKeychainAccounts()).rejects.toThrow('Test error')
-    expect(loadExistingAccountsSpy).toHaveBeenCalledTimes(1)
-  })
-})
 
 describe('getViemWallet', () => {
   it('throws if address not found', async () => {

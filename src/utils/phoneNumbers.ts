@@ -1,6 +1,6 @@
 /**
  * Reference file:
- * https://github.com/celo-org/developer-tooling/blob/97d5ccf43a9f0f0c41abeb6d825117a88e9ed9bb/packages/sdk/phone-utils/src/phoneNumbers.ts
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/phoneNumbers.ts
  */
 
 import {
@@ -233,8 +233,4 @@ export function getExampleNumber(
   }
 
   return formatedExample
-}
-
-export function anonymizedPhone(phoneNumber: string) {
-  return phoneNumber.slice(0, -4) + 'XXXX'
 }

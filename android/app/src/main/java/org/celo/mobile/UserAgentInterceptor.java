@@ -18,10 +18,9 @@ public class UserAgentInterceptor implements Interceptor {
       .removeHeader("User-Agent")
       .addHeader(
         "User-Agent",
-        // Format we want: App/1.0.0 (Android 12; Pixel 5)
+        // Format we want: Valora/1.0.0 (Android 12; Pixel 5)
         String.format(
-          "%s/%s (Android %s; %s)",
-          BuildConfig.USER_AGENT_APP_NAME,
+          "Valora/%s (Android %s; %s)",
           BuildConfig.VERSION_NAME,
           Build.VERSION.RELEASE,
           Build.MODEL

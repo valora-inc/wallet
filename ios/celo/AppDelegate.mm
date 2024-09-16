@@ -37,10 +37,9 @@ static void SetCustomNSURLSessionConfiguration() {
     
     NSDictionary *infoDictionary = NSBundle.mainBundle.infoDictionary;
     NSString *appVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-    NSString *userAgentAppName = [RNCConfig envFor:@"USER_AGENT_APP_NAME"];
     UIDevice *device = UIDevice.currentDevice;
-    // Format we want: App/1.0.0 (iOS 15.0; iPhone)
-    NSString *userAgent = [NSString stringWithFormat:@"%@/%@ (%@ %@; %@)", userAgentAppName, appVersion, device.systemName, device.systemVersion, device.model];
+    // Format we want: Valora/1.0.0 (iOS 15.0; iPhone)
+    NSString *userAgent = [NSString stringWithFormat:@"Valora/%@ (%@ %@; %@)", appVersion, device.systemName, device.systemVersion, device.model];
     configuration.HTTPAdditionalHeaders = @{ @"User-Agent": userAgent };
     
     return configuration;
@@ -78,9 +77,8 @@ static void SetCustomNSURLSessionConfiguration() {
   [[CleverTapReactManager sharedInstance] applicationDidLaunchWithOptions:launchOptions];
   
   NSString *env = [RNCConfig envFor:@"FIREBASE_ENABLED"];
-  NSString *deepLinkUrlScheme = [RNCConfig envFor:@"DEEP_LINK_URL_SCHEME"];
   if (env.boolValue) {
-    [FIROptions defaultOptions].deepLinkURLScheme = deepLinkUrlScheme;
+    [FIROptions defaultOptions].deepLinkURLScheme = @"celo";
     [FIRApp configure];
   }
   

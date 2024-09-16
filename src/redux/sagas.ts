@@ -11,6 +11,7 @@ import {
   appInit,
   appRemoteFeatureFlagSaga,
   appSaga,
+  appVersionSaga,
   checkAndroidMobileServicesSaga,
 } from 'src/app/saga'
 import { dappsSaga } from 'src/dapps/saga'
@@ -42,6 +43,8 @@ import { transactionSaga } from 'src/transactions/saga'
 import Logger from 'src/utils/Logger'
 import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import { walletConnectSaga } from 'src/walletConnect/saga'
+import { Actions as Web3Actions } from 'src/web3/actions'
+import { web3Saga } from 'src/web3/saga'
 import { call, select, spawn, take, takeEvery } from 'typed-redux-saga'
 
 const loggerBlocklist = [
@@ -52,6 +55,7 @@ const loggerBlocklist = [
   setPhoneRecipientCache.toString(),
   updateAppRecipientCache.toString(),
   TransactionActions.UPDATE_TRANSACTIONS,
+  Web3Actions.SET_DATA_ENCRYPTION_KEY,
 ]
 
 function* loggerSaga() {
@@ -96,12 +100,14 @@ export function* rootSaga() {
 
     // Note, the order of these does matter in certain cases
     yield* spawn(analyticsSaga)
+    yield* spawn(appVersionSaga)
     yield* spawn(appRemoteFeatureFlagSaga)
     yield* spawn(loggerSaga)
     yield* spawn(appSaga)
     yield* spawn(i18nSaga)
     yield* spawn(sentrySaga)
     yield* spawn(networkInfoSaga)
+    yield* spawn(web3Saga)
     yield* spawn(accountSaga)
     yield* spawn(firebaseSaga)
     yield* spawn(tokensSaga)

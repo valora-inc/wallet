@@ -65,7 +65,7 @@ const mockBalances = {
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn().mockReturnValue(false),
-  getMultichainFeatures: jest.fn(() => ({
+  getDynamicConfigParams: jest.fn(() => ({
     showBalances: ['celo-alfajores'],
     showTransfers: ['celo-alfajores'],
   })),
@@ -127,6 +127,7 @@ describe('TabHome', () => {
     })
 
     // Multiple elements use this text with the scroll aware header
+    expect(tree.getAllByText('bottomTabsNavigator.home.title')).toBeTruthy()
     expect(tree.getByTestId('HomeActionsCarousel')).toBeTruthy()
     expect(tree.queryByText('notificationCenterSpotlight.message')).toBeFalsy()
     expect(tree.queryByTestId('HomeTokenBalance')).toBeFalsy()

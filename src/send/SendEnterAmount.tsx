@@ -11,6 +11,7 @@ import { useSelector } from 'src/redux/hooks'
 import EnterAmount, { ProceedArgs, SendProceed } from 'src/send/EnterAmount'
 import { lastUsedTokenIdSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
+import { COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE } from 'src/send/utils'
 import { sortedTokensWithBalanceOrShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
@@ -101,6 +102,7 @@ function SendEnterAmount({ route }: Props) {
       recipientAddress: recipient.address,
       walletAddress,
       feeCurrencies,
+      comment: COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE,
     })
   }
 

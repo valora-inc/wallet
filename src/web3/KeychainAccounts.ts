@@ -1,3 +1,5 @@
+import { isValidAddress, normalizeAddress, normalizeAddressWith0x } from '@celo/utils/lib/address'
+import CryptoJS from 'crypto-js'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { generateKeysFromMnemonic, getStoredMnemonic } from 'src/backup/utils'
 import {
@@ -7,28 +9,21 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
-import {
-  isValidAddress,
-  normalizeAddress,
-  normalizeAddressWith0x,
-  privateKeyToAddress,
-} from 'src/utils/address'
-import { aesDecrypt, aesEncrypt } from 'src/utils/aes'
 import { ViemKeychainAccount, keychainAccountToAccount } from 'src/viem/keychainAccountToAccount'
-import { type Hex } from 'viem'
-import { type Address } from 'viem/accounts'
+import { Hex } from 'viem'
+import { Address, privateKeyToAddress } from 'viem/accounts'
 
 const TAG = 'web3/KeychainAccounts'
 
 export const ACCOUNT_STORAGE_KEY_PREFIX = 'account--'
 
-interface KeychainAccount {
+export interface KeychainAccount {
   address: string
   createdAt: Date
   importFromMnemonic?: boolean
 }
 
-interface ImportMnemonicAccount {
+export interface ImportMnemonicAccount {
   address: string | null
   createdAt: Date
 }
@@ -44,12 +39,13 @@ function accountStorageKey(account: KeychainAccount) {
 }
 
 export async function encryptPrivateKey(privateKey: string, password: string) {
-  return aesEncrypt(privateKey, password)
+  return CryptoJS.AES.encrypt(privateKey, password).toString()
 }
 
 export async function decryptPrivateKey(encryptedPrivateKey: string, password: string) {
   try {
-    return aesDecrypt(encryptedPrivateKey, password)
+    const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, password)
+    return bytes.toString(CryptoJS.enc.Utf8)
   } catch (e) {
     // decrypt can sometimes throw if the inputs are incorrect (encryptedPrivateKey or password)
     Logger.warn(TAG, 'Failed to decrypt private key', e)
@@ -63,7 +59,7 @@ async function storePrivateKey(privateKey: string, account: KeychainAccount, pas
 }
 
 // Note: ideally this wouldn't be exported, so we don't accidentally expose the private key
-// but it's needed for now to support the existing KeychainAccounts and the viem wallet
+// but it's needed for now to support the existing KeychainWallet and the viem wallet
 export async function getStoredPrivateKey(
   account: KeychainAccount,
   password: string
@@ -227,13 +223,6 @@ export class KeychainAccounts {
       isUnlocked: () => this.isUnlocked(account.address),
     })
     this.loadedAccounts.set(normalizeAddressWith0x(account.address), { account, viemAccount })
-  }
-
-  // This mimics the behavior of the removed KeychainWallet
-  // Makes it easier for existing code to transition to this new class
-  // TODO: we should remove this and stop relying on the order of accounts
-  getAccounts(): string[] {
-    return Array.from(this.loadedAccounts.keys())
   }
 
   /**

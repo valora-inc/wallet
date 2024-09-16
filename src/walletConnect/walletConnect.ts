@@ -1,9 +1,8 @@
 import { parseUri } from '@walletconnect/utils'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { getDappRequestOrigin } from 'src/app/utils'
-import { DEEP_LINK_URL_SCHEME, WALLETCONNECT_UNIVERSAL_LINK } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { ActiveDapp } from 'src/dapps/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -13,9 +12,12 @@ import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { call, delay, fork, race, select, take } from 'typed-redux-saga'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 const WC_PREFIX = 'wc:'
-const APP_DEEPLINK_PREFIX = `${DEEP_LINK_URL_SCHEME}://wallet/wc?uri=`
+const APP_DEEPLINK_PREFIX = `${DEEPLINK_PREFIX}://wallet/wc?uri=`
+const UNIVERSAL_LINK_PREFIX = 'https://valoraapp.com/wc?uri='
+const UNIVERSAL_LINK_PREFIX_WITHOUT_URI = 'https://valoraapp.com/wc'
 const CONNECTION_TIMEOUT = 45_000
 
 /**
@@ -33,9 +35,8 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
     link = deepLink.substring(APP_DEEPLINK_PREFIX.length)
   }
 
-  const wcLinkWithUri = `${WALLETCONNECT_UNIVERSAL_LINK}?uri=`
-  if (link.startsWith(wcLinkWithUri)) {
-    link = deepLink.substring(wcLinkWithUri.length)
+  if (link.startsWith(UNIVERSAL_LINK_PREFIX)) {
+    link = deepLink.substring(UNIVERSAL_LINK_PREFIX.length)
   }
 
   link = decodeURIComponent(link)
@@ -58,7 +59,7 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
 }
 
 export function isWalletConnectDeepLink(deepLink: string) {
-  return [WC_PREFIX, APP_DEEPLINK_PREFIX, WALLETCONNECT_UNIVERSAL_LINK].some((prefix) =>
+  return [WC_PREFIX, APP_DEEPLINK_PREFIX, UNIVERSAL_LINK_PREFIX_WITHOUT_URI].some((prefix) =>
     decodeURIComponent(deepLink).startsWith(prefix)
   )
 }

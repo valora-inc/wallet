@@ -7,15 +7,12 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
-import { CICOFlow } from 'src/fiatExchanges/utils'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigFeatureGates, StatsigMultiNetworkDynamicConfig } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
-import {
-  PreparedTransactionsNotEnoughBalanceForGas,
-  PreparedTransactionsPossible,
-} from 'src/viem/prepareTransactions'
+import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -29,6 +26,7 @@ import {
 
 jest.mock('src/earn/prepareTransactions')
 jest.mock('react-native-localize')
+jest.mock('src/statsig')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -59,19 +57,6 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
     priceUsd: new BigNumber(1),
     lastKnownPriceUsd: new BigNumber(1),
   },
-}
-
-const mockePreparedTransactionNotEnough: PreparedTransactionsNotEnoughBalanceForGas = {
-  type: 'not-enough-balance-for-gas' as const,
-  feeCurrencies: [
-    {
-      ...mockTokenBalances[mockArbEthTokenId],
-      isNative: true,
-      balance: new BigNumber(0),
-      priceUsd: new BigNumber(1500),
-      lastKnownPriceUsd: new BigNumber(1500),
-    },
-  ],
 }
 
 const mockFeeCurrencies: TokenBalance[] = [
@@ -126,6 +111,48 @@ describe('EarnEnterAmount', () => {
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
     store.clearActions()
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
+    jest.mocked(getDynamicConfigParams).mockImplementation(({ defaultValues }) => defaultValues)
+    jest
+      .mocked(getMultichainFeatures)
+      .mockReturnValue(
+        DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues
+      )
+  })
+
+  it('should render APY and EarnUpTo', async () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+    expect(getByTestId('EarnEnterAmount/EarnApyAndAmount/Apy')).toBeTruthy()
+    expect(getByTestId('EarnEnterAmount/EarnApyAndAmount/Apy')).toHaveTextContent(
+      'earnFlow.enterAmount.rate, {"rate":"1.92"}'
+    )
+  })
+
+  it('should be able to tap info icon (for single pool)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+    fireEvent.press(getByTestId('EarnEnterAmount/InfoIcon'))
+    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_info_press)
+  })
+
+  it('hides info icon for multiple pools', async () => {
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+    expect(queryByTestId('EarnEnterAmount/InfoIcon')).toBeNull()
   })
 
   it('should prepare transactions with the expected inputs', async () => {
@@ -173,13 +200,6 @@ describe('EarnEnterAmount', () => {
     fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '8')
 
     await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
-
-    expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toBeTruthy()
-    expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toHaveTextContent('8.00 USDC')
-
-    expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toBeTruthy()
-    expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toHaveTextContent('₱10.64')
-
     fireEvent.press(getByText('earnFlow.enterAmount.continue'))
 
     await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
@@ -190,12 +210,11 @@ describe('EarnEnterAmount', () => {
       tokenAmount: '8',
       depositTokenId: mockArbUsdcTokenId,
       userHasFunds: true,
-      providerId: mockEarnPositions[0].appId,
-      poolId: mockEarnPositions[0].positionId,
+      providerId: 'aave-v3',
     })
     await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
   })
-  it('should show a warning and not allow the user to continue if they input an amount greater than balance', async () => {
+  it('should handle navigating to the add crypto bottom sheet', async () => {
     jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
       prepareTransactionsResult: mockPreparedTransaction,
       refreshPreparedTransactions: jest.fn(),
@@ -203,7 +222,7 @@ describe('EarnEnterAmount', () => {
       prepareTransactionError: undefined,
       isPreparingTransactions: false,
     })
-    const { getByTestId } = render(
+    const { getByTestId, getByText } = render(
       <Provider store={store}>
         <MockedNavigator component={EarnEnterAmount} params={params} />
       </Provider>
@@ -211,8 +230,22 @@ describe('EarnEnterAmount', () => {
 
     fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '12')
 
-    expect(getByTestId('EarnEnterAmount/NotEnoughBalanceWarning')).toBeTruthy()
-    expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
+    await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
+    fireEvent.press(getByText('earnFlow.enterAmount.continue'))
+
+    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_continue_press, {
+      amountEnteredIn: 'token',
+      amountInUsd: '12.00',
+      networkId: NetworkId['arbitrum-sepolia'],
+      tokenAmount: '12',
+      depositTokenId: mockArbUsdcTokenId,
+      userHasFunds: false,
+      providerId: 'aave-v3',
+    })
+    await waitFor(() =>
+      expect(getByText('earnFlow.addCryptoBottomSheet.description')).toBeVisible()
+    )
   })
 
   it('should show loading spinner when preparing transaction', async () => {
@@ -288,36 +321,6 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('EarnEnterAmount/LocalAmountInput').props.value).toBe(
         replaceSeparators('₱133,000.56')
       )
-    })
-  })
-
-  it('should track analytics and navigate correctly when tapping cta to add gas', async () => {
-    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
-      prepareTransactionsResult: mockePreparedTransactionNotEnough,
-      refreshPreparedTransactions: jest.fn(),
-      clearPreparedTransactions: jest.fn(),
-      prepareTransactionError: undefined,
-      isPreparingTransactions: false,
-    })
-    const { getByTestId, getByText } = render(
-      <Provider store={store}>
-        <MockedNavigator component={EarnEnterAmount} params={params} />
-      </Provider>
-    )
-
-    await waitFor(() => expect(getByTestId('EarnEnterAmount/NotEnoughForGasWarning')).toBeTruthy())
-    fireEvent.press(
-      getByText(
-        'earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta, {"feeTokenSymbol":"ETH","network":"Arbitrum Sepolia"}'
-      )
-    )
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_add_gas_press, {
-      gasTokenId: mockArbEthTokenId,
-    })
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
-      tokenId: mockArbEthTokenId,
-      flow: CICOFlow.CashIn,
-      tokenSymbol: 'ETH',
     })
   })
 })

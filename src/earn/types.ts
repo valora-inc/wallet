@@ -1,8 +1,7 @@
-import { EarnPosition, Position, Token } from 'src/positions/types'
-import { TokenBalance } from 'src/tokens/slice'
+import { EarnPosition } from 'src/positions/types'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
-import { Address, Hash } from 'viem'
+import { Hash } from 'viem'
 
 export interface DepositInfo {
   amount: string
@@ -22,9 +21,10 @@ export interface SerializableRewardsInfo {
 }
 
 export interface WithdrawInfo {
-  pool: EarnPosition
+  amount: string
+  tokenId: string
   preparedTransactions: SerializableTransactionRequest[]
-  rewardsTokens: Token[]
+  rewards: SerializableRewardsInfo[]
 }
 
 export enum EarnTabType {
@@ -34,12 +34,4 @@ export enum EarnTabType {
 
 export interface PoolInfo {
   apy: number
-}
-
-export interface PrepareWithdrawAndClaimParams {
-  pool: EarnPosition
-  walletAddress: Address
-  feeCurrencies: TokenBalance[]
-  hooksApiUrl: string
-  rewardsPositions: Position[]
 }

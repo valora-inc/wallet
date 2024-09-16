@@ -27,7 +27,7 @@ interface Props {
 const MIN_EMPTY_SPACE = 100
 
 /**
- * @deprecated use https://www.npmjs.com/package/@gorhom/bottom-sheet instead, see example here https://github.com/valora-inc/wallet/blob/bbd0e39dcc1420a704fa866113994e9a20c3bfa4/src/tokens/TokenDetailsMoreActions.tsx#L27-L58
+ * @deprecated use https://www.npmjs.com/package/@gorhom/bottom-sheet instead, see example here https://github.com/valora-inc/wallet/blob/09c4d4ce98181480f1ed0a299709070d535221ad/src/dappsExplorer/useDappInfoBottomSheet.tsx#L47
  */
 function BottomSheet({
   children,

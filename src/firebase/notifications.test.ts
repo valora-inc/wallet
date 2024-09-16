@@ -4,7 +4,6 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { showMessage } from 'src/alert/actions'
 import { openUrl } from 'src/app/actions'
-import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { handleNotification } from 'src/firebase/notifications'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -12,6 +11,7 @@ import { NotificationReceiveState, NotificationTypes } from 'src/notifications/t
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { NetworkId, TransactionStatus } from 'src/transactions/types'
 import { mockRecipientInfo } from 'test/values'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 describe(handleNotification, () => {
   beforeEach(() => {
@@ -80,7 +80,7 @@ describe(handleNotification, () => {
   })
 
   describe("with a notification with an 'open url' semantic and a deep link", () => {
-    const expectedUrl = `${DEEP_LINK_URL_SCHEME}://wallet/openScreen?screen=${Screens.TabNavigator}`
+    const expectedUrl = `${DEEPLINK_PREFIX}://wallet/openScreen?screen=${Screens.TabNavigator}`
     const message: FirebaseMessagingTypes.RemoteMessage = {
       notification: { title: 'My title', body: 'My Body' },
       data: { ou: expectedUrl },
@@ -106,6 +106,7 @@ describe(handleNotification, () => {
         timestamp: '1',
         blockNumber: '42',
         txHash: '0xTXHASH',
+        comment: 'Tea',
         name: 'Alice',
         imageUrl: 'https://example.com/image.png',
       },
@@ -139,6 +140,7 @@ describe(handleNotification, () => {
           metadata: {
             title: 'Alice',
             image: 'https://example.com/image.png',
+            comment: 'Tea',
           },
           fees: [],
           status: TransactionStatus.Complete,

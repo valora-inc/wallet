@@ -1,7 +1,7 @@
 /**
  * Reference files (this file is a combination of both):
- * https://github.com/celo-org/developer-tooling/blob/6148646a29e5e719df9a1b32d1580ea7e6e61be8/packages/sdk/base/src/inputValidation.ts
- * https://github.com/celo-org/developer-tooling/blob/754b286d43bdc3f5b204897d495b2a9f4a117a8a/packages/sdk/phone-utils/src/inputValidation.ts
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/base/src/inputValidation.ts
+ * https://github.com/celo-org/developer-tooling/blob/master/packages/sdk/phone-utils/src/inputValidation.ts
  */
 
 import { getDisplayPhoneNumber } from 'src/utils/phoneNumbers'

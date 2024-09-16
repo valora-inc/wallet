@@ -89,7 +89,7 @@ export default function PoolCard({
       poolId: positionId,
       depositTokenId,
       networkId,
-      poolAmount: balance,
+      tokenAmount: balance,
       providerId: appId,
     })
     navigate(Screens.EarnPoolInfoScreen, { pool })

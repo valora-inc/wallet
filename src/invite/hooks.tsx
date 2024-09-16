@@ -1,8 +1,8 @@
 import { isNil } from 'lodash'
 import { useState } from 'react'
 import { useAsync } from 'react-async-hook'
+import { useTranslation } from 'react-i18next'
 import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FIREBASE_ENABLED } from 'src/config'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import Logger from 'src/utils/Logger'
@@ -15,6 +15,7 @@ export function useShareUrl() {
   const [shareUrl, setShareUrl] = useState<string | null>(null)
 
   const address = useSelector(walletAddressSelector)
+  const { t } = useTranslation()
   const dispatch = useDispatch()
 
   useAsync(async () => {
@@ -27,7 +28,7 @@ export function useShareUrl() {
       }
     } catch (e) {
       Logger.debug(TAG, 'Error while creating a dynamic link', e)
-      dispatch(showError(ErrorMessages.INVITE_WITH_URL_FAILED))
+      dispatch(showError(t('inviteWithUrl.error')))
     }
   }, [address])
 

@@ -1,4 +1,4 @@
-import { BottomSheetModal, BottomSheetProps } from '@gorhom/bottom-sheet'
+import GorhomBottomSheet, { BottomSheetProps } from '@gorhom/bottom-sheet'
 import React, { Dispatch, SetStateAction, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -16,7 +16,7 @@ const OPTION_HEIGHT = 60
 const MAX_OPTIONS_IN_VIEW = 10.5
 
 export interface MultiSelectBottomSheetProps<T extends string> {
-  forwardedRef: React.RefObject<BottomSheetModal>
+  forwardedRef: React.RefObject<GorhomBottomSheet>
   onChange?: BottomSheetProps['onChange']
   onSelect?: (ids: T[]) => void
   onOpen?: () => void
@@ -93,7 +93,7 @@ function MultiSelectBottomSheet<T extends string>({
     >
       <BottomSheetScrollView
         forwardedRef={scrollViewRef}
-        testId="MultiSelectBottomSheet"
+        testId={'MultiSelectBottomSheet'}
         containerStyle={styles.bottomSheetScrollView}
       >
         <View style={[styles.option, styles.borderRadiusTop]}>

@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import stableToken from 'src/abis/StableToken'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TransactionEvents } from 'src/analytics/Events'
 import { TransactionOrigin } from 'src/analytics/types'
@@ -54,7 +55,7 @@ interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
   decreasedSpendAmount: BigNumber
 }
 
-export interface PreparedTransactionsNotEnoughBalanceForGas {
+interface PreparedTransactionsNotEnoughBalanceForGas {
   type: 'not-enough-balance-for-gas'
   feeCurrencies: TokenBalance[]
 }
@@ -427,6 +428,55 @@ export async function prepareERC20TransferTransaction(
       abi: erc20Abi,
       functionName: 'transfer',
       args: [toWalletAddress as Address, amount],
+    }),
+  }
+  return prepareTxs({
+    feeCurrencies,
+    spendToken: sendToken,
+    spendTokenAmount: new BigNumber(amount.toString()),
+    decreasedAmountGasFeeMultiplier: 1,
+    baseTransactions: [baseSendTx],
+    origin: 'send',
+  })
+}
+
+/**
+ * Prepare a transaction for sending an ERC-20 token with the 'transfer' method.
+ *
+ * @param fromWalletAddress the address of the wallet sending the transaction
+ * @param toWalletAddress the address of the wallet receiving the token
+ * @param sendToken the token to send. MUST support transferWithComment method
+ * @param amount the amount of the token to send, denominated in the smallest units for that token
+ * @param feeCurrencies the balances of the currencies to consider using for paying the transaction fee
+ * @param comment the comment to include with the token transfer. Defaults to empty string if not provided
+ *
+ * @param prepareTxs a function that prepares the transactions (for unit testing-- should use default everywhere else)
+ */
+export async function prepareTransferWithCommentTransaction(
+  {
+    fromWalletAddress,
+    toWalletAddress,
+    sendToken,
+    amount,
+    feeCurrencies,
+    comment,
+  }: {
+    fromWalletAddress: string
+    toWalletAddress: string
+    sendToken: TokenBalanceWithAddress
+    amount: bigint
+    feeCurrencies: TokenBalance[]
+    comment?: string
+  },
+  prepareTxs = prepareTransactions // for unit testing
+): Promise<PreparedTransactionsResult> {
+  const baseSendTx: TransactionRequest = {
+    from: fromWalletAddress as Address,
+    to: sendToken.address as Address,
+    data: encodeFunctionData({
+      abi: stableToken.abi,
+      functionName: 'transferWithComment',
+      args: [toWalletAddress as Address, amount, comment ?? ''],
     }),
   }
   return prepareTxs({

@@ -7,8 +7,8 @@ import * as Keychain from 'react-native-keychain'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Face from 'src/icons/biometry/Face'
@@ -49,7 +49,6 @@ const biometryIconMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   [Keychain.BIOMETRY_TYPE.FINGERPRINT]: <Fingerprint />,
   [Keychain.BIOMETRY_TYPE.FACE]: <Face />,
   [Keychain.BIOMETRY_TYPE.IRIS]: <Iris />,
-  [Keychain.BIOMETRY_TYPE.OPTIC_ID]: <Iris />,
 }
 
 const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
@@ -60,7 +59,6 @@ const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   ),
   [Keychain.BIOMETRY_TYPE.FACE]: <Image testID="Image/Face" source={biometryFace} />,
   [Keychain.BIOMETRY_TYPE.IRIS]: <Image testID="Image/Iris" source={biometryIris} />,
-  [Keychain.BIOMETRY_TYPE.OPTIC_ID]: <Image testID="Image/Iris" source={biometryIris} />,
 }
 
 export default function EnableBiometry({ navigation }: Props) {

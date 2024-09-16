@@ -15,6 +15,8 @@ export enum Actions {
   SEND_PAYMENT_SUCCESS = 'SEND/SEND_PAYMENT_SUCCESS',
   SEND_PAYMENT_FAILURE = 'SEND/SEND_PAYMENT_FAILURE',
   UPDATE_LAST_USED_CURRENCY = 'SEND/UPDATE_LAST_USED_CURRENCY',
+  ENCRYPT_COMMENT = 'SEND/ENCRYPT_COMMENT',
+  ENCRYPT_COMMENT_COMPLETE = 'SEND/ENCRYPT_COMMENT_COMPLETE',
 }
 
 export interface HandleQRCodeDetectedAction {
@@ -41,6 +43,7 @@ export interface SendPaymentAction {
   amount: BigNumber
   tokenId: string
   usdAmount: BigNumber | null
+  comment: string
   recipient: Recipient
   fromModal: boolean
   preparedTransaction: SerializableTransactionRequest
@@ -61,6 +64,18 @@ export interface UpdateLastUsedCurrencyAction {
   currency: Currency
 }
 
+export interface EncryptCommentAction {
+  type: Actions.ENCRYPT_COMMENT
+  comment: string
+  fromAddress: string
+  toAddress: string
+}
+
+interface EncryptCommentCompleteAction {
+  type: Actions.ENCRYPT_COMMENT_COMPLETE
+  encryptedComment: string | null
+}
+
 export type ActionTypes =
   | HandleQRCodeDetectedAction
   | HandleQRCodeDetectedSecureSendAction
@@ -69,6 +84,8 @@ export type ActionTypes =
   | SendPaymentSuccessAction
   | SendPaymentFailureAction
   | UpdateLastUsedCurrencyAction
+  | EncryptCommentAction
+  | EncryptCommentCompleteAction
 
 export const handleQRCodeDetected = (qrCode: QrCode): HandleQRCodeDetectedAction => ({
   type: Actions.BARCODE_DETECTED,
@@ -99,6 +116,7 @@ export const sendPayment = (
   amount: BigNumber,
   tokenId: string,
   usdAmount: BigNumber | null,
+  comment: string,
   recipient: Recipient,
   fromModal: boolean,
   preparedTransaction: SerializableTransactionRequest
@@ -107,6 +125,7 @@ export const sendPayment = (
   amount,
   tokenId,
   usdAmount,
+  comment,
   recipient,
   fromModal,
   preparedTransaction,
@@ -131,4 +150,26 @@ export const sendPaymentFailure = (): SendPaymentFailureAction => ({
 export const updateLastUsedCurrency = (currency: Currency): UpdateLastUsedCurrencyAction => ({
   type: Actions.UPDATE_LAST_USED_CURRENCY,
   currency,
+})
+
+export const encryptComment = ({
+  comment,
+  fromAddress,
+  toAddress,
+}: {
+  comment: string
+  fromAddress: string
+  toAddress: string
+}): EncryptCommentAction => ({
+  type: Actions.ENCRYPT_COMMENT,
+  comment,
+  fromAddress,
+  toAddress,
+})
+
+export const encryptCommentComplete = (
+  encryptedComment: string | null
+): EncryptCommentCompleteAction => ({
+  type: Actions.ENCRYPT_COMMENT_COMPLETE,
+  encryptedComment,
 })

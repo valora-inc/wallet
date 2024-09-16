@@ -1,5 +1,5 @@
-import { NodeDetailManager } from '@toruslabs/fetch-node-details'
-import { Torus } from '@toruslabs/torus.js'
+import NodeDetailManager from '@toruslabs/fetch-node-details'
+import Torus from '@toruslabs/torus.js'
 import { jwtDecode } from 'jwt-decode'
 import { TORUS_NETWORK, WEB3AUTH_CLIENT_ID } from 'src/config'
 import Logger from 'src/utils/Logger'
@@ -14,6 +14,7 @@ export async function getTorusPrivateKey({ verifier, jwt }: { verifier: string; 
     network: TORUS_NETWORK,
   })
   const torus = new Torus({
+    legacyMetadataHost: 'https://metadata.tor.us',
     network: TORUS_NETWORK,
     clientId: WEB3AUTH_CLIENT_ID,
   })
@@ -32,19 +33,17 @@ export async function getTorusPrivateKey({ verifier, jwt }: { verifier: string; 
     verifier,
     verifierId: sub,
   })
-
   Logger.debug(TAG, `getting shares with torusPubKey ${JSON.stringify(torusPubKey)}`)
-  const shares = await torus.retrieveShares({
-    endpoints: torusNodeEndpoints,
-    indexes: torusIndexes,
+  const shares = await torus.retrieveShares(
+    torusNodeEndpoints,
+    torusIndexes,
     verifier,
-    verifierParams: { verifier_id: sub },
-    idToken: jwt,
-    nodePubkeys: torusNodePub,
-  })
+    { verifier_id: sub },
+    jwt
+  )
   Logger.debug(TAG, `got shares of private key`)
-  const sharesEthAddressLower = shares.finalKeyData.walletAddress?.toLowerCase()
-  if (sharesEthAddressLower !== torusPubKey.finalKeyData.walletAddress.toLowerCase()) {
+  const sharesEthAddressLower = shares.finalKeyData.evmAddress?.toLowerCase()
+  if (sharesEthAddressLower !== torusPubKey.finalKeyData.evmAddress.toLowerCase()) {
     throw new Error('sharesEthAddressLower does not match torusPubKey')
   }
   if (!shares.finalKeyData.privKey) {

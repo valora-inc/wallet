@@ -1,4 +1,5 @@
 import { expectSaga } from 'redux-saga-test-plan'
+import { call } from 'redux-saga/effects'
 import { NetworkId } from 'src/transactions/types'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import {
@@ -7,7 +8,7 @@ import {
 } from 'src/viem/preparedTransactionSerialization'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
-import { getViemWallet } from 'src/web3/contracts'
+import { getViemWallet, getWallet } from 'src/web3/contracts'
 import { unlockAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import {
@@ -18,6 +19,7 @@ import {
   mockCusdAddress,
   mockCusdTokenId,
   mockTypedData,
+  mockWallet,
 } from 'test/values'
 import { celoAlfajores, sepolia as ethereumSepolia } from 'viem/chains'
 
@@ -74,7 +76,7 @@ const signTypedDataV4Request = {
 }
 
 const state = createMockStore({
-  web3: { account: '0xWALLET' },
+  web3: { account: '0xWALLET', mtwAddress: undefined },
   tokens: {
     tokenBalances: {
       [mockCusdTokenId]: {
@@ -164,6 +166,7 @@ describe(handleRequest, () => {
 
   it('supports eth_signTransaction for supported chain', async () => {
     await expectSaga(handleRequest, signTransactionRequest, serializableTransactionRequest)
+      .provide([[call(getWallet), mockWallet]])
       .withState(state)
       .call(unlockAccount, '0xwallet')
       .call([viemWallet, 'signTransaction'], getPreparedTransaction(serializableTransactionRequest))
@@ -178,6 +181,7 @@ describe(handleRequest, () => {
           { ...signTransactionRequest, chainId: 'eip155:unsupported' },
           serializableTransactionRequest
         )
+          .provide([[call(getWallet), mockWallet]])
           .withState(state)
           .run()
     ).rejects.toThrow('unsupported network')
@@ -186,6 +190,7 @@ describe(handleRequest, () => {
 
   it('supports eth_sendTransaction for supported chain', async () => {
     await expectSaga(handleRequest, sendTransactionRequest, serializableSendTransactionRequest)
+      .provide([[call(getWallet), mockWallet]])
       .withState(state)
       .call(unlockAccount, '0xwallet')
       .call(
@@ -203,6 +208,7 @@ describe(handleRequest, () => {
           { ...sendTransactionRequest, chainId: 'eip155:unsupported' },
           serializableSendTransactionRequest
         )
+          .provide([[call(getWallet), mockWallet]])
           .withState(state)
           .run()
     ).rejects.toThrow('unsupported network')

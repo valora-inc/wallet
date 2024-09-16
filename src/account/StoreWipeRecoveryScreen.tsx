@@ -9,7 +9,7 @@ import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { requestPincodeInput } from 'src/pincode/authentication'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import Logger from 'src/utils/Logger'
-import { getKeychainAccounts } from 'src/web3/contracts'
+import { getWalletAsync } from 'src/web3/contracts'
 
 const TAG = 'StoreWipeRecoveryScreen'
 
@@ -20,8 +20,8 @@ function StoreWipeRecoveryScreen() {
 
   const onPressGoToOnboarding = async () => {
     try {
-      const accounts = await getKeychainAccounts()
-      const account = accounts.getAccounts()[0]
+      const wallet = await getWalletAsync()
+      const account = wallet.getAccounts()[0]
       await requestPincodeInput(true, false, account)
       dispatch(startStoreWipeRecovery(account))
       navigate(

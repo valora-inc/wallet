@@ -32,7 +32,6 @@ type Props = {
 
 export default function SelectRecipientButtons({ onContactsPermissionGranted }: Props) {
   const { t } = useTranslation()
-
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const jumpstartSendEnabled = getFeatureGate(StatsigFeatureGates.SHOW_JUMPSTART_SEND)
 

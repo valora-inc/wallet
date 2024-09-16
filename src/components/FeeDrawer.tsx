@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutAnimation, StyleSheet, Text, View } from 'react-native'
 import Expandable from 'src/components/Expandable'
-import { ExchangeFeeIcon, SecurityFeeIcon } from 'src/components/FeeIcon'
+import { EncryptionFeeIcon, ExchangeFeeIcon, SecurityFeeIcon } from 'src/components/FeeIcon'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
@@ -15,6 +15,8 @@ interface Props {
   isExchange?: boolean
   securityFee?: BigNumber
   exchangeFee?: BigNumber
+  dekFee?: BigNumber
+  showDekfee?: boolean
   feeLoading?: boolean
   feeHasError?: boolean
   totalFee?: BigNumber
@@ -28,6 +30,8 @@ export default function FeeDrawer({
   isExchange,
   securityFee,
   exchangeFee,
+  showDekfee,
+  dekFee,
   feeLoading,
   feeHasError,
   totalFee,
@@ -89,6 +93,22 @@ export default function FeeDrawer({
               textStyle={styles.dropDownText}
             />
           )}
+          {showDekfee && dekFee && (
+            <LineItemRow
+              title={t('encryption.feeLabel')}
+              titleIcon={<EncryptionFeeIcon />}
+              amount={
+                <TokenDisplay
+                  amount={dekFee}
+                  showLocalAmount={showLocalAmount}
+                  testID={`${testID}/dekFee`}
+                  tokenId={tokenId}
+                />
+              }
+              textStyle={styles.dropDownText}
+            />
+          )}
+
           <LineItemRow
             title={t('securityFee')}
             titleIcon={<SecurityFeeIcon />}

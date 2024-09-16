@@ -1,3 +1,4 @@
+import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
@@ -11,14 +12,16 @@ import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
-import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import Toast from 'src/components/Toast'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
+import { SWAP_LEARN_MORE } from 'src/config'
 import ArrowDown from 'src/icons/ArrowDown'
 import CircledIcon from 'src/icons/CircledIcon'
 import CrossChainIndicator from 'src/icons/CrossChainIndicator'
@@ -55,7 +58,6 @@ import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { parseInputAmount } from 'src/utils/parsing'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
@@ -219,16 +221,16 @@ type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 export function SwapScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const tokenBottomSheetFromRef = useRef<BottomSheetModalRefType>(null)
-  const tokenBottomSheetToRef = useRef<BottomSheetModalRefType>(null)
+  const tokenBottomSheetFromRef = useRef<BottomSheetRefType>(null)
+  const tokenBottomSheetToRef = useRef<BottomSheetRefType>(null)
   const tokenBottomSheetRefs = {
     [Field.FROM]: tokenBottomSheetFromRef,
     [Field.TO]: tokenBottomSheetToRef,
   }
-  const exchangeRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const feeInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const slippageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const estimatedDurationBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const exchangeRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const feeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const estimatedDurationBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const allowCrossChainSwaps = getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
 
@@ -237,7 +239,6 @@ export function SwapScreen({ route }: Props) {
   const { maxSlippagePercentage, enableAppFee } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   )
-  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
   const parsedSlippagePercentage = new BigNumber(maxSlippagePercentage).toFormat()
 
   const { swappableFromTokens, swappableToTokens, areSwapTokensShuffled } = useSwappableTokens()
@@ -593,12 +594,12 @@ export function SwapScreen({ route }: Props) {
 
   const onPressLearnMore = () => {
     AppAnalytics.track(SwapEvents.swap_learn_more)
-    navigate(Screens.WebViewScreen, { uri: links.swapLearnMore })
+    navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
   }
 
   const onPressLearnMoreFees = () => {
     AppAnalytics.track(SwapEvents.swap_gas_fees_learn_more)
-    navigate(Screens.WebViewScreen, { uri: links.transactionFeesLearnMore })
+    navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
   const switchedToNetworkName = switchedToNetworkId && NETWORK_NAMES[switchedToNetworkId]

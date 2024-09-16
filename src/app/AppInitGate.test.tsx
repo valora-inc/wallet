@@ -19,6 +19,7 @@ jest.mock('src/redux/sagas', () => ({
 }))
 
 jest.mock('src/i18n', () => ({
+  ...(jest.requireActual('src/i18n') as any),
   changeLanguage: jest.fn().mockResolvedValue(jest.fn()),
   t: jest.fn(),
 }))

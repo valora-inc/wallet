@@ -10,6 +10,7 @@ import {
   getCachedFiatConnectTransferSelector,
 } from 'src/fiatconnect/selectors'
 import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
+import { decryptComment } from 'src/identity/commentEncryption'
 import { addressToDisplayNameSelector } from 'src/identity/selectors'
 import {
   getDisplayName,
@@ -33,8 +34,18 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
 const TAG = 'transferFeedUtils'
+
+export function getDecryptedTransferFeedComment(
+  comment: string | null,
+  commentKey: string | null,
+  type: TokenTransactionTypeV2
+) {
+  const { comment: decryptedComment } = decryptComment(comment, commentKey, isTokenTxTypeSent(type))
+  return decryptedComment
+}
 
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
 export function useTransactionRecipient(transfer: TokenTransfer): Recipient {
@@ -71,6 +82,7 @@ export function useTransferFeedDetails(transfer: TokenTransfer, isJumpstart: boo
   const rewardsSenders = useSelector(rewardsSendersSelector)
   const inviteRewardSenders = useSelector(inviteRewardsSendersSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
+  const commentKey = useSelector(dataEncryptionKeySelector)
   const tokenInfo = useTokenInfoByAddress(transfer.amount.tokenAddress)
   const coinbasePaySenders = useSelector(coinbasePaySendersSelector)
   const fcTransferDisplayInfo = useFiatConnectTransferDisplayInfo(transfer)
@@ -78,13 +90,15 @@ export function useTransferFeedDetails(transfer: TokenTransfer, isJumpstart: boo
   const {
     type,
     address,
-    metadata: { subtitle: subtitleContent },
+    metadata: { comment: rawComment, subtitle: defaultSubtitle },
   } = transfer
 
   const recipient = useTransactionRecipient(transfer)
 
   const nameOrNumber = recipient.name ?? recipient.e164PhoneNumber
   const displayName = getDisplayName(recipient, t)
+  const comment =
+    getDecryptedTransferFeedComment(rawComment ?? null, commentKey, type) ?? defaultSubtitle
 
   let title, subtitle, customLocalAmount
 
@@ -97,10 +111,7 @@ export function useTransferFeedDetails(transfer: TokenTransfer, isJumpstart: boo
         subtitle = t('feedItemJumpstartSentSubtitle')
       } else {
         title = t('feedItemSentTitle', { displayName })
-        subtitle = t('feedItemSentInfo', {
-          context: !subtitleContent ? 'noComment' : null,
-          subtitleContent,
-        })
+        subtitle = t('feedItemSentInfo', { context: !comment ? 'noComment' : null, comment })
       }
       break
     }
@@ -130,19 +141,13 @@ export function useTransferFeedDetails(transfer: TokenTransfer, isJumpstart: boo
         subtitle = t('tokenDeposit', { token: tokenInfo?.symbol ?? '' })
       } else if (isCoinbasePaySender) {
         title = t('feedItemDepositTitle')
-        subtitle = t('feedItemReceivedInfo', {
-          context: !subtitleContent ? 'noComment' : null,
-          subtitleContent,
-        })
+        subtitle = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
       } else if (isJumpstart) {
         title = t('feedItemJumpstartTitle')
         subtitle = t('feedItemJumpstartReceivedSubtitle')
       } else {
         title = t('feedItemReceivedTitle', { displayName })
-        subtitle = t('feedItemReceivedInfo', {
-          context: !subtitleContent ? 'noComment' : null,
-          subtitleContent,
-        })
+        subtitle = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
       }
       break
     }
@@ -152,7 +157,7 @@ export function useTransferFeedDetails(transfer: TokenTransfer, isJumpstart: boo
         nameOrNumber,
       })
       // Fallback to just using the type
-      subtitle = _.capitalize(t(_.camelCase(type)) ?? undefined)
+      subtitle = comment || _.capitalize(t(_.camelCase(type)) ?? undefined)
       break
     }
   }

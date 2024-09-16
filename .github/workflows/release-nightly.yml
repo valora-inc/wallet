@@ -20,19 +20,19 @@ jobs:
         uses: actions/checkout@v4
       - id: latest-commit-hash
         name: Print latest commit
-        run: echo $(git rev-parse HEAD) && echo "latest-commit-hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+        run: echo $(git rev-parse HEAD) && echo "::set-output name=latest-commit-hash::$(git rev-parse HEAD)"
       - id: should-run
         continue-on-error: true
         name: Check latest commit is less than a day
         if: ${{ github.event_name == 'schedule' }}
-        run: test -z $(git rev-list --after="24 hours" $(git rev-parse HEAD)) && echo "should-run=false" >> $GITHUB_OUTPUT
+        run: test -z $(git rev-list --after="24 hours" $(git rev-parse HEAD)) && echo "::set-output name=should-run::false"
 
   ios:
     needs: check-date
     if: ${{ needs.check-date.outputs.should-run != 'false' }}
     # Note: This makes use of a reusable workflow
-    # Tip: Use `gh workflow run "Release - Nightly" --ref your_branch` to trigger the workflow manually
-    uses: ./.github/workflows/release-fastlane-ios.yml
+    # Tip: Use `gh workflow run "Nightly" --ref your_branch` to trigger the workflow manually
+    uses: ./.github/workflows/fastlane-ios.yml
     with:
       branch: main
       lanes: '["alfajoresnightly", "mainnetnightly"]'
@@ -42,7 +42,7 @@ jobs:
   android:
     needs: check-date
     if: ${{ needs.check-date.outputs.should-run != 'false' }}
-    uses: ./.github/workflows/release-fastlane-android.yml
+    uses: ./.github/workflows/fastlane-android.yml
     with:
       branch: main
       lanes: '["alfajoresnightly", "mainnetnightly"]'
@@ -55,13 +55,8 @@ jobs:
     if: ${{ needs.check-date.outputs.should-run != 'false' }}
     name: Generate release notes
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          # Fetch all history for all tags and branches
-          fetch-depth: 0
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
         with:
           project_id: celo-mobile-mainnet
           credentials_json: ${{ secrets.GCP_MAINNET_RELEASE_AUTOMATION_SERVICE_ACCOUNT_KEY }}
@@ -75,7 +70,11 @@ jobs:
       - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
-      - uses: ./.github/actions/yarn-install
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history for all tags and branches
+          fetch-depth: 0
       - name: Tag release and get release notes
         run: yarn ts-node .github/scripts/generateReleaseNotes.ts
         env:

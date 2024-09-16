@@ -2,12 +2,15 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { encryptComment } from 'src/identity/commentEncryption'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { handleQRCodeDefault, handleQRCodeSecureSend, shareSVGImage } from 'src/qrcode/utils'
 import {
   Actions,
+  EncryptCommentAction,
   SendPaymentAction,
   ShareQRCodeAction,
+  encryptCommentComplete,
   sendPaymentFailure,
   sendPaymentSuccess,
 } from 'src/send/actions'
@@ -44,6 +47,7 @@ export function* sendPaymentSaga({
   amount,
   tokenId,
   usdAmount,
+  comment,
   recipient,
   fromModal,
   preparedTransaction: serializablePreparedTransaction,
@@ -77,7 +81,9 @@ export function* sendPaymentSaga({
         tokenId,
       },
       address: recipientAddress,
-      metadata: {},
+      metadata: {
+        comment,
+      },
       transactionHash,
       feeCurrencyId,
     })
@@ -152,8 +158,19 @@ export function* sendPaymentSaga({
   }
 }
 
+export function* encryptCommentSaga({ comment, fromAddress, toAddress }: EncryptCommentAction) {
+  const encryptedComment = comment
+    ? yield* call(encryptComment, comment, toAddress, fromAddress)
+    : null
+  yield* put(encryptCommentComplete(encryptedComment))
+}
+
 function* watchSendPayment() {
   yield* takeLeading(Actions.SEND_PAYMENT, safely(sendPaymentSaga))
+}
+
+function* watchEncryptComment() {
+  yield* takeLeading(Actions.ENCRYPT_COMMENT, safely(encryptCommentSaga))
 }
 
 function* watchQrCodeDetections() {
@@ -169,4 +186,5 @@ export function* sendSaga() {
   yield* spawn(watchQrCodeDetections)
   yield* spawn(watchQrCodeShare)
   yield* spawn(watchSendPayment)
+  yield* spawn(watchEncryptComment)
 }

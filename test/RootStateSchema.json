@@ -141,6 +141,15 @@
                 }
             ]
         },
+        "AddressToDataEncryptionKeyType": {
+            "additionalProperties": {
+                "type": [
+                    "null",
+                    "string"
+                ]
+            },
+            "type": "object"
+        },
         "AddressToDisplayNameType": {
             "additionalProperties": {
                 "$ref": "#/definitions/AddressInfoToDisplay"
@@ -242,12 +251,11 @@
                                 "addressValidationPartialOwnAddress",
                                 "addressValidationPartialPoorlyFormatted",
                                 "cashOutLimitExceeded",
+                                "contractKitInitFailed",
                                 "dappShortcuts.claimRewardFailure",
                                 "failedFetchMnemonic",
                                 "fetchFailed",
                                 "fiatConnectKycStatusScreen.tryAgainFailed",
-                                "fiatDetailsScreen.addFiatAccountFailed",
-                                "fiatDetailsScreen.addFiatAccountResourceExist",
                                 "firebaseDisabled",
                                 "firebaseFailed",
                                 "hooksPreview.invalidApiUrl",
@@ -256,7 +264,6 @@
                                 "incorrectPin",
                                 "invalidBackupPhrase",
                                 "invalidWordsInBackupPhrase",
-                                "inviteWithUrl.error",
                                 "keychainAccountAlreadyExists",
                                 "keychainFetchAccounts",
                                 "missingFullName",
@@ -266,7 +273,6 @@
                                 "providerFetchFailed",
                                 "qrFailedInvalidAddress",
                                 "qrFailedInvalidRecipient",
-                                "revokePhoneNumber.revokeError",
                                 "sendPaymentFailed",
                                 "simplexPurchaseFetchFailed",
                                 "swapScreen.fetchSwapQuoteFailed",
@@ -1009,9 +1015,6 @@
                 "redirect": {
                     "additionalProperties": false,
                     "properties": {
-                        "linkMode": {
-                            "type": "boolean"
-                        },
                         "native": {
                             "type": "string"
                         },
@@ -1184,6 +1187,15 @@
             },
             "type": "object"
         },
+        "E164NumberToSaltType": {
+            "additionalProperties": {
+                "type": [
+                    "null",
+                    "string"
+                ]
+            },
+            "type": "object"
+        },
         "EarnClaimReward": {
             "additionalProperties": false,
             "properties": {
@@ -1256,12 +1268,6 @@
                 },
                 "manageUrl": {
                     "type": "string"
-                },
-                "rewardsPositionIds": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
                 },
                 "termsUrl": {
                     "type": "string"
@@ -3296,6 +3302,7 @@
                 "DappShortcutTransactionRequest",
                 "DappShortcutsRewards",
                 "DappsScreen",
+                "Debug",
                 "DebugImages",
                 "EarnCollectScreen",
                 "EarnEnterAmount",
@@ -3526,13 +3533,6 @@
                 },
                 "topic": {
                     "type": "string"
-                },
-                "transportType": {
-                    "enum": [
-                        "link_mode",
-                        "relay"
-                    ],
-                    "type": "string"
                 }
             },
             "required": [
@@ -3591,27 +3591,6 @@
         },
         "StandbyTransaction": {
             "anyOf": [
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<TokenTransfer>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<TokenApproval>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<NftTransfer>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnWithdraw>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnClaimReward>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<PendingTokenExchange>"
-                },
                 {
                     "additionalProperties": false,
                     "properties": {
@@ -4070,6 +4049,27 @@
                         "type"
                     ],
                     "type": "object"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<PendingTokenExchange>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<TokenTransfer>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<TokenApproval>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<NftTransfer>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnWithdraw>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnClaimReward>"
                 }
             ]
         },
@@ -4142,11 +4142,20 @@
                 "maxSwapSlippagePercentage": {
                     "type": "number"
                 },
+                "minVersion": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "multichainBetaStatus": {
                     "$ref": "#/definitions/MultichainBetaStatus"
                 },
                 "networkTimeoutSeconds": {
                     "type": "number"
+                },
+                "numberVerified": {
+                    "type": "boolean"
                 },
                 "pendingDeepLinks": {
                     "items": {
@@ -4198,7 +4207,6 @@
                                 "FaceID",
                                 "Fingerprint",
                                 "Iris",
-                                "OpticID",
                                 "TouchID"
                             ],
                             "type": "string"
@@ -4230,8 +4238,10 @@
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
                 "maxSwapSlippagePercentage",
+                "minVersion",
                 "multichainBetaStatus",
                 "networkTimeoutSeconds",
+                "numberVerified",
                 "pendingDeepLinks",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
@@ -5002,9 +5012,6 @@
                     ],
                     "type": "string"
                 },
-                "introHasBeenSeen": {
-                    "type": "boolean"
-                },
                 "reclaimStatus": {
                     "enum": [
                         "error",
@@ -5018,7 +5025,6 @@
             "required": [
                 "claimStatus",
                 "depositStatus",
-                "introHasBeenSeen",
                 "reclaimStatus"
             ],
             "type": "object"
@@ -5278,16 +5284,44 @@
                         "null",
                         "string"
                     ]
+                },
+                "accountInWeb3Keystore": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "dataEncryptionKey": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "isDekRegistered": {
+                    "type": "boolean"
+                },
+                "mtwAddress": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 }
             },
             "required": [
-                "account"
+                "account",
+                "accountInWeb3Keystore",
+                "dataEncryptionKey",
+                "isDekRegistered",
+                "mtwAddress"
             ],
             "type": "object"
         },
         "State_8": {
             "additionalProperties": false,
             "properties": {
+                "addressToDataEncryptionKey": {
+                    "$ref": "#/definitions/AddressToDataEncryptionKeyType"
+                },
                 "addressToDisplayName": {
                     "$ref": "#/definitions/AddressToDisplayNameType"
                 },
@@ -5302,6 +5336,9 @@
                 },
                 "e164NumberToAddress": {
                     "$ref": "#/definitions/E164NumberToAddressType"
+                },
+                "e164NumberToSalt": {
+                    "$ref": "#/definitions/E164NumberToSaltType"
                 },
                 "hasSeenVerificationNux": {
                     "type": "boolean"
@@ -5320,19 +5357,25 @@
                 },
                 "shouldRefreshStoredPasswordHash": {
                     "type": "boolean"
+                },
+                "walletToAccountAddress": {
+                    "$ref": "#/definitions/WalletToAccountAddressType"
                 }
             },
             "required": [
+                "addressToDataEncryptionKey",
                 "addressToDisplayName",
                 "addressToE164Number",
                 "addressToVerificationStatus",
                 "askedContactsPermission",
                 "e164NumberToAddress",
+                "e164NumberToSalt",
                 "hasSeenVerificationNux",
                 "importContactsProgress",
                 "lastSavedContactsHash",
                 "secureSendPhoneNumberMapping",
-                "shouldRefreshStoredPasswordHash"
+                "shouldRefreshStoredPasswordHash",
+                "walletToAccountAddress"
             ],
             "type": "object"
         },
@@ -5788,10 +5831,10 @@
         "TokenTransaction": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/TokenTransfer"
+                    "$ref": "#/definitions/TokenExchange"
                 },
                 {
-                    "$ref": "#/definitions/TokenExchange"
+                    "$ref": "#/definitions/TokenTransfer"
                 },
                 {
                     "$ref": "#/definitions/TokenApproval"
@@ -5885,6 +5928,9 @@
         "TokenTransferMetadata": {
             "additionalProperties": false,
             "properties": {
+                "comment": {
+                    "type": "string"
+                },
                 "image": {
                     "type": "string"
                 },
@@ -6104,6 +6150,12 @@
             "required": [
                 "verified"
             ],
+            "type": "object"
+        },
+        "WalletToAccountAddressType": {
+            "additionalProperties": {
+                "type": "string"
+            },
             "type": "object"
         },
         "YieldRate": {

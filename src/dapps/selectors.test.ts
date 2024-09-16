@@ -1,10 +1,10 @@
-import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import {
   dappCategoriesSelector,
   dappListWithCategoryNamesSelector,
   favoriteDappsWithCategoryNamesSelector,
 } from 'src/dapps/selectors'
 import { getMockStoreData } from 'test/utils'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 const dapp1V2 = {
   name: 'Ubeswap',
@@ -21,7 +21,7 @@ const dapp2V2 = {
   categories: ['2'],
   description: 'Lend and borrow tokens!',
   iconUrl: 'https://raw.githubusercontent.com/app-list/main/assets/moola.png',
-  dappUrl: `${DEEP_LINK_URL_SCHEME}://wallet/moolaScreen`,
+  dappUrl: `${DEEPLINK_PREFIX}://wallet/moolaScreen`,
 }
 
 const dappsCategories = [

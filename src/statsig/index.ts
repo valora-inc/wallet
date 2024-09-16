@@ -2,7 +2,7 @@ import * as _ from 'lodash'
 import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
 import { multichainBetaStatusSelector } from 'src/app/selectors'
-import { ExpectedLaunchArgs, isE2EEnv } from 'src/config'
+import { isE2EEnv } from 'src/config'
 import { DynamicConfigs } from 'src/statsig/constants'
 import {
   StatsigDynamicConfigs,
@@ -16,6 +16,7 @@ import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { EvaluationReason } from 'statsig-js'
 import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
+import { ExpectedLaunchArgs } from 'src/config'
 
 const TAG = 'Statsig'
 

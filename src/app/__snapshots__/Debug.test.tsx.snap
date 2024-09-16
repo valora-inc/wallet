@@ -1,0 +1,172 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Debug renders correctly 1`] = `
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
+  style={
+    {
+      "flex": 1,
+      "justifyContent": "space-between",
+      "paddingHorizontal": 10,
+      "paddingVertical": 5,
+    }
+  }
+>
+  <Text
+    onPress={[Function]}
+    style={
+      {
+        "fontSize": 11,
+        "marginTop": 5,
+      }
+    }
+  >
+    Device Id: someDeviceId | Phone Number: +14155556666
+  </Text>
+  <Text
+    onPress={[Function]}
+    style={
+      {
+        "fontSize": 11,
+        "marginTop": 5,
+      }
+    }
+  >
+    Version: 0.0.1 | Build Number: 1 | Api Level: -1
+  </Text>
+  <Text
+    style={
+      {
+        "fontSize": 11,
+        "marginTop": 5,
+      }
+    }
+  >
+    Pin Type: Unset
+  </Text>
+  <Text
+    onPress={[Function]}
+    style={
+      {
+        "fontSize": 11,
+        "marginTop": 5,
+      }
+    }
+  >
+    Address: 0x0000000000000000000000000000000000007e57
+  </Text>
+  <Text
+    onPress={[Function]}
+    style={
+      {
+        "fontSize": 11,
+        "marginTop": 5,
+      }
+    }
+  >
+    Statsig Stable ID: stableId
+  </Text>
+  <View
+    style={
+      [
+        {
+          "flexDirection": "row",
+        },
+        {
+          "marginBottom": 0,
+          "marginHorizontal": 0,
+          "marginTop": 10,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          {
+            "borderRadius": 100,
+          },
+        ]
+      }
+    >
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        focusable={true}
+        nativeBackgroundAndroid={
+          {
+            "attribute": "selectableItemBackground",
+            "rippleRadius": undefined,
+            "type": "ThemeAttrAndroid",
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "alignItems": "center",
+              "backgroundColor": "#2E3338",
+              "flexDirection": "row",
+              "height": 48,
+              "justifyContent": "center",
+              "minWidth": 120,
+              "opacity": 1,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            },
+            undefined,
+          ]
+        }
+      >
+        <Text
+          maxFontSizeMultiplier={1}
+          style={
+            {
+              "color": "#FFFFFF",
+              "fontFamily": "Inter-SemiBold",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "marginLeft": 0,
+              "marginRight": 0,
+            }
+          }
+        >
+          Email logs to support
+        </Text>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaView>
+`;

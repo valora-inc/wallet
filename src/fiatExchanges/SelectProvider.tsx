@@ -6,15 +6,15 @@ import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { showError } from 'src/alert/actions'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
+import { FUNDING_LINK } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
-import { FETCH_FIATCONNECT_QUOTES } from 'src/config'
 import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import {
@@ -48,9 +48,6 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -103,8 +100,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const tokenInfo = useTokenInfo(tokenId)
 
-  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
-
   if (!tokenInfo) {
     throw new Error(`Token info not found for token ID ${tokenId}`)
   }
@@ -115,16 +110,14 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const appId = appIdResponse.result
 
   useEffect(() => {
-    if (FETCH_FIATCONNECT_QUOTES) {
-      dispatch(
-        fetchFiatConnectQuotes({
-          flow,
-          digitalAsset: tokenInfo.symbol,
-          cryptoAmount,
-          fiatAmount,
-        })
-      )
-    }
+    dispatch(
+      fetchFiatConnectQuotes({
+        flow,
+        digitalAsset: tokenInfo.symbol,
+        cryptoAmount,
+        fiatAmount,
+      })
+    )
   }, [flow, tokenInfo.symbol, cryptoAmount])
 
   useEffect(() => {
@@ -256,7 +249,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const supportOnPress = () => navigate(Screens.SupportContact)
 
   const handlePressDisclaimer = () => {
-    navigate(Screens.WebViewScreen, { uri: links.funding })
+    navigate(Screens.WebViewScreen, { uri: FUNDING_LINK })
   }
 
   const switchCurrencyOnPress = () => {

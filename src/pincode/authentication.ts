@@ -5,8 +5,9 @@
  * The password is a combination of the two. It is used for unlocking the account in the keychain
  */
 
-import crypto from 'crypto'
+import { isValidAddress, normalizeAddress } from '@celo/utils/lib/address'
 import * as Keychain from 'react-native-keychain'
+import { generateSecureRandom } from 'react-native-securerandom'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -37,11 +38,10 @@ import {
   storeItem,
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
-import { isValidAddress, normalizeAddress } from 'src/utils/address'
 import { ensureError } from 'src/utils/ensureError'
 import { sleep } from 'src/utils/sleep'
 import { UNLOCK_DURATION } from 'src/web3/consts'
-import { getKeychainAccounts } from 'src/web3/contracts'
+import { getWalletAsync } from 'src/web3/contracts'
 import { call, select } from 'typed-redux-saga'
 import { sha256 } from 'viem'
 
@@ -61,6 +61,7 @@ export const PIN_LENGTH = 6
 // Pepper and pin not currently generalized to be per account
 // Using this value in the caches
 export const DEFAULT_CACHE_ACCOUNT = 'default'
+export const DEK = 'DEK'
 export const CANCELLED_PIN_INPUT = 'CANCELLED_PIN_INPUT'
 export const BIOMETRY_VERIFICATION_DELAY = 800
 
@@ -142,8 +143,8 @@ export async function retrieveOrGeneratePepper(account = DEFAULT_CACHE_ACCOUNT) 
     let storedPepper = await retrieveStoredItem(STORAGE_KEYS.PEPPER)
     if (!storedPepper) {
       Logger.debug(TAG, 'No stored pepper, generating new pepper and storing it to the keychain')
-      const randomBytes = crypto.randomBytes(PEPPER_LENGTH)
-      const pepper = randomBytes.toString('hex')
+      const randomBytes = await generateSecureRandom(PEPPER_LENGTH)
+      const pepper = Buffer.from(randomBytes).toString('hex')
       await storeItem({ key: STORAGE_KEYS.PEPPER, value: pepper })
       storedPepper = pepper
     }
@@ -425,10 +426,10 @@ export async function checkPin(pin: string, account: string) {
 
 export async function updatePin(account: string, oldPin: string, newPin: string) {
   try {
-    const accounts = await getKeychainAccounts()
+    const wallet = await getWalletAsync()
     const oldPassword = await getPasswordForPin(oldPin)
     const newPassword = await getPasswordForPin(newPin)
-    const updated = await accounts.updatePassphrase(account, oldPassword, newPassword)
+    const updated = await wallet.updateAccount(account, oldPassword, newPassword)
     if (updated) {
       clearPasswordCaches()
       setCachedPin(DEFAULT_CACHE_ACCOUNT, newPin)
@@ -458,8 +459,8 @@ export async function ensureCorrectPassword(
   currentAccount: string
 ): Promise<boolean> {
   try {
-    const accounts = await getKeychainAccounts()
-    const result = await accounts.unlock(currentAccount, password, UNLOCK_DURATION)
+    const wallet = await getWalletAsync()
+    const result = await wallet.unlockAccount(currentAccount, password, UNLOCK_DURATION)
     return result
   } catch (error) {
     Logger.error(TAG, 'Error attempting to unlock wallet', error, true)

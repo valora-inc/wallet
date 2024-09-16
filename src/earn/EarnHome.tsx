@@ -13,7 +13,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import FilterChipsCarousel, {
   FilterChip,
@@ -130,9 +130,9 @@ export default function EarnHome({ navigation, route }: Props) {
     }
   }, [scrollPosition.value, nonStickyHeaderHeight])
 
-  const networkChipRef = useRef<BottomSheetModalRefType>(null)
-  const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const learnMoreBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const networkChipRef = useRef<BottomSheetRefType>(null)
+  const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const learnMoreBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   // The NetworkMultiSelectBottomSheet and TokenBottomSheet must be rendered at this level in order to be in
   // front of the bottom tabs navigator when they render. So, we need to manage the state of the filters here and pass them down
@@ -354,7 +354,6 @@ export default function EarnHome({ navigation, route }: Props) {
         title={t('sendEnterAmountScreen.selectToken')}
         origin={TokenPickerOrigin.Earn}
         filterChips={[]}
-        wrapWithModalProvider={false}
       />
     </>
   )
@@ -363,7 +362,7 @@ export default function EarnHome({ navigation, route }: Props) {
 function LearnMoreBottomSheet({
   learnMoreBottomSheetRef,
 }: {
-  learnMoreBottomSheetRef: React.RefObject<BottomSheetModalRefType>
+  learnMoreBottomSheetRef: React.RefObject<BottomSheetRefType>
 }) {
   const { t } = useTranslation()
 
@@ -375,16 +374,16 @@ function LearnMoreBottomSheet({
       titleStyle={styles.learnMoreTitle}
     >
       <Text style={styles.learnMoreSubTitle}>
-        {t('earnFlow.home.learnMoreBottomSheet.yieldPoolSubtitle')}
+        {t('earnFlow.home.learnMoreBottomSheet.apySubtitle')}
       </Text>
       <Text style={styles.learnMoreDescription}>
-        {t('earnFlow.home.learnMoreBottomSheet.yieldPoolDescription')}
+        {t('earnFlow.home.learnMoreBottomSheet.apyDescription')}
       </Text>
       <Text style={styles.learnMoreSubTitle}>
-        {t('earnFlow.home.learnMoreBottomSheet.chooseSubtitle')}
+        {t('earnFlow.home.learnMoreBottomSheet.tvlSubtitle')}
       </Text>
       <Text style={styles.learnMoreDescription}>
-        {t('earnFlow.home.learnMoreBottomSheet.chooseDescription')}
+        {t('earnFlow.home.learnMoreBottomSheet.tvlDescription')}
       </Text>
     </BottomSheet>
   )

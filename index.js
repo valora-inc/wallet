@@ -1,4 +1,5 @@
 // Order is important, please don't change it unless you know what you're doing :D
+import 'node-libs-react-native/globals'
 import 'src/missingGlobals'
 import 'src/forceCommunityAsyncStorage'
 import 'src/setupE2eEnv' // This is only for E2E tests and has no effects when not running E2E tests
@@ -6,7 +7,7 @@ import { AppRegistry } from 'react-native'
 import Logger from 'src/utils/Logger'
 // This needs to happen early so any errors (including in the store) get caught
 import Config from 'react-native-config'
-import { stringToBoolean } from 'src/utils/parsing'
+import { stringToBoolean } from '@celo/utils/lib/parsing'
 import App from 'src/app/App'
 import * as Sentry from '@sentry/react-native'
 import 'react-native-gesture-handler'

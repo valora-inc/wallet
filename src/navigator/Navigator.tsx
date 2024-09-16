@@ -10,16 +10,17 @@ import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import GoldEducation from 'src/account/GoldEducation'
-import LegalSubmenu from 'src/account/LegalSubmenu'
 import Licenses from 'src/account/Licenses'
-import PreferencesSubmenu from 'src/account/PreferencesSubmenu'
 import Profile from 'src/account/Profile'
 import ProfileSubmenu from 'src/account/ProfileSubmenu'
+import LegalSubmenu from 'src/account/LegalSubmenu'
+import PreferencesSubmenu from 'src/account/PreferencesSubmenu'
 import SecuritySubmenu from 'src/account/SecuritySubmenu'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import Support from 'src/account/Support'
 import SupportContact from 'src/account/SupportContact'
 import AppLoading from 'src/app/AppLoading'
+import Debug from 'src/app/Debug'
 import DebugImages from 'src/app/DebugImages'
 import ErrorScreen from 'src/app/ErrorScreen'
 import MultichainBeta from 'src/app/MultichainBeta'
@@ -82,9 +83,9 @@ import {
   noHeader,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
+import SettingsMenu from 'src/navigator/SettingsMenu'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
-import SettingsMenu from 'src/navigator/SettingsMenu'
 import TabNavigator from 'src/navigator/TabNavigator'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
@@ -113,7 +114,6 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
-import variables from 'src/styles/variables'
 import SwapScreen from 'src/swap/SwapScreen'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import TokenImportScreen from 'src/tokens/TokenImport'
@@ -141,6 +141,7 @@ const commonScreens = (Navigator: typeof Stack) => {
         component={UpgradeScreen}
         options={UpgradeScreen.navigationOptions}
       />
+      <Navigator.Screen name={Screens.Debug} component={Debug} options={noHeader} />
       <Navigator.Screen
         name={Screens.DebugImages}
         component={DebugImages}
@@ -712,8 +713,9 @@ const mainScreenNavOptions = () => ({
 
 function nativeBottomSheets(BottomSheet: typeof RootStack) {
   // Note: scrolling views inside bottom sheet screens should use the relevant
-  // components from gorhom/react-native-bottom-sheet instead of directly from
+  // components from react-native-gesture-handler instead of directly from
   // react-native
+  // https://github.com/osdnk/react-native-reanimated-bottom-sheet/issues/264#issuecomment-674757545
 
   return (
     <>
@@ -763,10 +765,7 @@ function RootStackScreen() {
       screenOptions={{
         backdropComponent: renderBackdrop,
         enableDynamicSizing: true,
-        // use max height (similar as 90% snap point) for screens. when bottom sheets
-        // take up the whole screen, it is no longer obvious that they are a bottom
-        // sheet / how to navigate away
-        maxDynamicContentSize: variables.height * 0.9,
+        snapPoints: ['CONTENT_HEIGHT'], // prevent bottom sheets from having an extra snap point at the default of 66%
       }}
     >
       <RootStack.Screen name={Screens.MainModal} component={ModalStackScreen} />

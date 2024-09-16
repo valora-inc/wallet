@@ -1,10 +1,11 @@
+import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import _ from 'lodash'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { Address, TypedDataDefinition } from 'viem'
+import { Address } from 'viem'
 import {
   Chain as ViemChain,
   arbitrum,
@@ -45,13 +46,14 @@ interface NetworkConfig {
   personaEnvironment: PersonaEnvironment
   inHouseLiquidityURL: string
   setRegistrationPropertiesUrl: string
-  setRegistrationPropertiesAuth: TypedDataDefinition
+  setRegistrationPropertiesAuth: EIP712TypedData
   fetchExchangesUrl: string
   nftsAppUrl: string
   getSwapQuoteUrl: string
   walletJumpstartUrl: string
   verifyPhoneNumberUrl: string
   verifySmsCodeUrl: string
+  getPublicDEKUrl: string
   lookupPhoneNumberUrl: string
   lookupAddressUrl: string
   checkAddressVerifiedUrl: string
@@ -211,6 +213,9 @@ const VERIFY_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/verifyPhoneNumbe
 const VERIFY_SMS_CODE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/verifySmsCode`
 const VERIFY_SMS_CODE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/verifySmsCode`
 
+const GET_PUBLIC_DEK_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getPublicDataEncryptionKey`
+const GET_PUBLIC_DEK_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getPublicDataEncryptionKey`
+
 const LOOKUP_PHONE_NUMBER_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/lookupPhoneNumber`
 const LOOKUP_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/lookupPhoneNumber`
 
@@ -302,21 +307,21 @@ const BASE_SET_REGISTRATION_PROPERTIES_AUTH = {
     content: 'valora auth message',
   },
   primaryType: 'Message',
-} as const
+}
 const SET_REGISTRATION_PROPERTIES_AUTH_MAINNET = {
   ...BASE_SET_REGISTRATION_PROPERTIES_AUTH,
   domain: {
     ...BASE_SET_REGISTRATION_PROPERTIES_AUTH.domain,
-    chainId: 42220,
+    chainId: '42220',
   },
-} as const
+}
 const SET_REGISTRATION_PROPERTIES_AUTH_ALFAJORES = {
   ...BASE_SET_REGISTRATION_PROPERTIES_AUTH,
   domain: {
     ...BASE_SET_REGISTRATION_PROPERTIES_AUTH.domain,
-    chainId: 44787,
+    chainId: '44787',
   },
-} as const
+}
 
 const CROSS_CHAIN_EXPLORER_URL = 'https://axelarscan.io/gmp/'
 
@@ -362,6 +367,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
     verifySmsCodeUrl: VERIFY_SMS_CODE_ALFAJORES,
+    getPublicDEKUrl: GET_PUBLIC_DEK_ALFAJORES,
     lookupPhoneNumberUrl: LOOKUP_PHONE_NUMBER_ALFAJORES,
     lookupAddressUrl: LOOKUP_ADDRESS_ALFAJORES,
     checkAddressVerifiedUrl: CHECK_ADDRESS_VERIFIED_ALFAJORES,
@@ -464,6 +470,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
     verifySmsCodeUrl: VERIFY_SMS_CODE_MAINNET,
+    getPublicDEKUrl: GET_PUBLIC_DEK_MAINNET,
     lookupPhoneNumberUrl: LOOKUP_PHONE_NUMBER_MAINNET,
     lookupAddressUrl: LOOKUP_ADDRESS_MAINNET,
     checkAddressVerifiedUrl: CHECK_ADDRESS_VERIFIED_MAINNET,

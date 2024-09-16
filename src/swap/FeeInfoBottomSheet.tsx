@@ -2,7 +2,7 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
-import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -12,7 +12,7 @@ import { Spacing } from 'src/styles/styles'
 import { AppFeeAmount, SwapFeeAmount } from 'src/swap/types'
 
 interface Props {
-  forwardedRef: React.RefObject<BottomSheetModalRefType>
+  forwardedRef: React.RefObject<BottomSheetRefType>
   appFee?: AppFeeAmount
   crossChainFee?: SwapFeeAmount
   networkFee?: SwapFeeAmount

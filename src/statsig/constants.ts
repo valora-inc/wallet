@@ -107,26 +107,6 @@ export const DynamicConfigs = {
       moreAavePoolsUrl: '',
     },
   },
-  [StatsigDynamicConfigs.APP_CONFIG]: {
-    configName: StatsigDynamicConfigs.APP_CONFIG,
-    defaultValues: {
-      minRequiredVersion: '0.0.0',
-      links: {
-        web: 'https://valora.xyz/',
-        tos: 'https://valora.xyz/terms',
-        privacy: 'https://valora.xyz/privacy',
-        faq: 'https://valora.xyz/faq',
-        funding: 'https://valora.xyz/fund-wallet',
-        forum: 'https://forum.celo.org/c/valora/8',
-        swapLearnMore: 'https://valora.xyz/support/swap-learn-more',
-        transactionFeesLearnMore: 'https://valora.xyz/support/transaction-fees-learn-more',
-        inviteRewardsNftsLearnMore: 'https://valora.xyz/support/invite-rewards-nfts-learn-more',
-        inviteRewardsStableTokenLearnMore:
-          'https://valora.xyz/support/invite-rewards-stabletoken-learn-more',
-        earnStablecoinsLearnMore: 'https://valora.xyz/stablecoin-earn',
-      },
-    },
-  },
 } satisfies {
   [key in StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig]: {
     configName: key

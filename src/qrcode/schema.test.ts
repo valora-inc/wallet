@@ -1,4 +1,4 @@
-import { DEEP_LINK_URL_SCHEME } from 'src/config'
+import { DEEPLINK_PREFIX } from 'src/config'
 import { UriData, uriDataFromJson, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
 import { zeroAddress } from 'viem'
 
@@ -18,6 +18,7 @@ const validBeamAndGoPaymentData = {
   displayName: 'Super 8',
   currencyCode: 'PHP',
   amount: '500',
+  comment: '92a53156-c0f2-11ea-b3de-0242ac13000',
 }
 
 describe('qrcode/schema', () => {
@@ -26,6 +27,7 @@ describe('qrcode/schema', () => {
       expect(uriDataFromJson(validAddressData)).toStrictEqual({
         address: '0x0000000000000000000000000000000000000000',
         amount: undefined,
+        comment: undefined,
         currencyCode: undefined,
         displayName: undefined,
         e164PhoneNumber: undefined,
@@ -37,6 +39,7 @@ describe('qrcode/schema', () => {
       expect(uriDataFromJson(validUserData)).toStrictEqual({
         address: '0x0000000000000000000000000000000000000000',
         amount: undefined,
+        comment: undefined,
         currencyCode: undefined,
         displayName: 'alice',
         e164PhoneNumber: '+14155552671',
@@ -48,6 +51,7 @@ describe('qrcode/schema', () => {
       expect(uriDataFromJson(validLocalPaymentData)).toStrictEqual({
         address: '0x0000000000000000000000000000000000000000',
         amount: '521.46',
+        comment: undefined,
         currencyCode: 'PHP',
         displayName: undefined,
         e164PhoneNumber: undefined,
@@ -59,6 +63,7 @@ describe('qrcode/schema', () => {
       expect(uriDataFromJson(validBeamAndGoPaymentData)).toStrictEqual({
         address: '0xf7f551752A78Ce650385B58364225e5ec18D96cB',
         amount: '500',
+        comment: '92a53156-c0f2-11ea-b3de-0242ac13000',
         currencyCode: 'PHP',
         displayName: 'Super 8',
         e164PhoneNumber: undefined,
@@ -89,12 +94,12 @@ describe('qrcode/schema', () => {
 
   describe('#urlFromUriData', () => {
     it('should strip undefined values', () => {
-      expect(url1).toBe(`${DEEP_LINK_URL_SCHEME}://wallet/pay?address=${data1.address}`)
+      expect(url1).toBe(`${DEEPLINK_PREFIX}://wallet/pay?address=${data1.address}`)
     })
 
     it('should include defined values', () => {
       const params = new URLSearchParams(Object(data2))
-      expect(url2).toBe(encodeURI(`${DEEP_LINK_URL_SCHEME}://wallet/pay?${params.toString()}`))
+      expect(url2).toBe(encodeURI(`${DEEPLINK_PREFIX}://wallet/pay?${params.toString()}`))
     })
   })
 
@@ -103,6 +108,7 @@ describe('qrcode/schema', () => {
       expect(uriDataFromUrl(url1)).toStrictEqual({
         address: '0x8902dBbE62F149841F2b05a63dFE615bD8F69340',
         amount: undefined,
+        comment: undefined,
         currencyCode: undefined,
         displayName: undefined,
         e164PhoneNumber: undefined,
@@ -111,6 +117,7 @@ describe('qrcode/schema', () => {
       expect(uriDataFromUrl(url2)).toStrictEqual({
         address: '0x8902dBbE62F149841F2b05a63dFE615bD8F69340',
         amount: undefined,
+        comment: undefined,
         currencyCode: undefined,
         displayName: 'Steven Cowrie',
         e164PhoneNumber: '+254720670799',

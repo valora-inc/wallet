@@ -399,6 +399,26 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.initialize_account_error]: {
     error: string
   }
+
+  [OnboardingEvents.account_dek_register_start]:
+    | {
+        feeless?: boolean
+      }
+    | undefined
+  [OnboardingEvents.account_dek_register_account_unlocked]:
+    | {
+        feeless?: boolean
+      }
+    | undefined
+  [OnboardingEvents.account_dek_register_account_checked]:
+    | {
+        feeless?: boolean
+      }
+    | undefined
+  [OnboardingEvents.account_dek_register_complete]: {
+    newRegistration: boolean
+    feeless?: boolean
+  }
   [OnboardingEvents.protect_wallet_use_recovery]:
     | {
         position?: number
@@ -526,6 +546,7 @@ interface SendEventsProperties {
         localCurrency: LocalCurrencyCode
         dollarAmount: string | null
         localCurrencyAmount: string | null
+        commentLength: number
       }
     | {
         origin: SendOrigin
@@ -539,6 +560,7 @@ interface SendEventsProperties {
         tokenAddress: string | null
         networkId: NetworkId | null
         tokenId: string
+        commentLength: number
         isTokenManuallyImported: boolean
       }
 
@@ -1521,7 +1543,6 @@ interface JumpstartEventsProperties {
   [JumpstartEvents.jumpstart_add_assets_action_press]: {
     action: AddAssetsActionType
   }
-  [JumpstartEvents.jumpstart_intro_seen]: undefined
 }
 
 interface PointsEventsProperties {
@@ -1546,7 +1567,6 @@ interface PointsEventsProperties {
 
 interface EarnCommonProperties {
   providerId: string
-  poolId: string
   networkId: NetworkId
   depositTokenId: string
 }
@@ -1572,11 +1592,7 @@ export type EarnDepositTxsReceiptProperties = Partial<ApproveTxReceiptProperties
   }>
 
 interface EarnEventsProperties {
-  [EarnEvents.earn_cta_press]: {
-    providerId: string
-    networkId: NetworkId
-    depositTokenId: string
-  }
+  [EarnEvents.earn_cta_press]: EarnCommonProperties
   [EarnEvents.earn_entrypoint_press]: undefined
   [EarnEvents.earn_add_crypto_action_press]: {
     action: AddAssetsActionType
@@ -1625,17 +1641,19 @@ interface EarnEventsProperties {
   [EarnEvents.earn_active_pools_card_press]: undefined
   [EarnEvents.earn_home_learn_more_press]: undefined
   [EarnEvents.earn_pool_card_press]: {
-    poolAmount: string
+    tokenAmount: string
+    poolId: string
   } & EarnCommonProperties
   [EarnEvents.earn_home_error_try_again]: undefined
-  [EarnEvents.earn_pool_info_view_pool]: EarnCommonProperties
+  [EarnEvents.earn_pool_info_view_pool]: {
+    appId: string
+    positionId: string
+  }
   [EarnEvents.earn_pool_info_tap_info_icon]: {
-    type: 'tvl' | 'age' | 'yieldRate' | 'deposit'
-  } & EarnCommonProperties
-  [EarnEvents.earn_pool_info_tap_withdraw]: {
-    poolAmount: string
-  } & EarnCommonProperties
-  [EarnEvents.earn_pool_info_tap_deposit]: EarnCommonProperties
+    providerId: string
+    poolId: string
+    type: 'tvl' | 'age' | 'yieldRate'
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

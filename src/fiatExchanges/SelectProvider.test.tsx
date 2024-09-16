@@ -58,11 +58,6 @@ jest.mock('src/firebase/firebase', () => ({
 jest.mock('src/statsig', () => ({
   getExperimentParams: jest.fn(),
   getFeatureGate: jest.fn(),
-  getDynamicConfigParams: jest.fn().mockReturnValue({
-    links: {
-      funding: 'https://www.example.com/funding',
-    },
-  }),
 }))
 
 jest.mock('src/localCurrency/selectors', () => ({

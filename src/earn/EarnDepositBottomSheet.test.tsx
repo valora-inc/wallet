@@ -61,7 +61,6 @@ describe('EarnDepositBottomSheet', () => {
     tokenAmount: '100',
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: mockEarnPositions[0].appId,
-    poolId: mockEarnPositions[0].positionId,
   }
 
   beforeEach(() => {

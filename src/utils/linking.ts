@@ -1,6 +1,6 @@
 import { Linking, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import { APP_STORE_ID, DEEP_LINK_URL_SCHEME } from 'src/config'
+import { APP_STORE_ID, DEEPLINK_PREFIX } from 'src/config'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'utils/linking'
@@ -14,7 +14,7 @@ export function navigateToWalletStorePage() {
 }
 
 export function isDeepLink(url: string): boolean {
-  return url.startsWith(`${DEEP_LINK_URL_SCHEME}:`)
+  return url.startsWith(`${DEEPLINK_PREFIX}:`)
 }
 
 export function navigateToURI(uri: string, backupUri?: string) {

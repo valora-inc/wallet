@@ -100,6 +100,7 @@ describe(watchBidaliPaymentRequests, () => {
             amount,
             expectedTokenId,
             new BigNumber('20'),
+            'Some description (TEST_CHARGE_ID)',
             recipient,
             true,
             mockPreparedTransaction
@@ -112,6 +113,7 @@ describe(watchBidaliPaymentRequests, () => {
         origin: SendOrigin.Bidali,
         transactionData: {
           inputAmount: amount,
+          comment: 'Some description (TEST_CHARGE_ID)',
           recipient,
           amountIsInLocalCurrency: false,
           tokenAddress: expectedTokenAddress,
@@ -153,6 +155,7 @@ describe(watchBidaliPaymentRequests, () => {
           amount,
           mockCusdTokenId,
           new BigNumber('20'),
+          'Some description (TEST_CHARGE_ID)',
           recipient,
           true,
           mockPreparedTransaction
@@ -166,6 +169,7 @@ describe(watchBidaliPaymentRequests, () => {
       origin: SendOrigin.Bidali,
       transactionData: {
         inputAmount: amount,
+        comment: 'Some description (TEST_CHARGE_ID)',
         recipient,
         amountIsInLocalCurrency: false,
         tokenAddress: mockCusdAddress,

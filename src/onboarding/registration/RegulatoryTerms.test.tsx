@@ -6,7 +6,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RegulatoryTerms as RegulatoryTermsClass } from 'src/onboarding/registration/RegulatoryTerms'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
-import { getDynamicConfigParams, getExperimentParams } from 'src/statsig'
+import { getExperimentParams } from 'src/statsig'
 import { createMockStore, getMockI18nProps } from 'test/utils'
 
 jest.mock('src/onboarding/steps')
@@ -16,12 +16,6 @@ describe('RegulatoryTermsScreen', () => {
   const acceptTerms = jest.fn()
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getDynamicConfigParams).mockReturnValue({
-      links: {
-        privacy: 'https://www.example.com/privacy',
-        tos: 'https://www.example.com/tos',
-      },
-    })
   })
   it('renders correct components for control', () => {
     jest.mocked(getExperimentParams).mockReturnValue({ variant: 'control' })

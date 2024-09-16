@@ -1,17 +1,14 @@
-import {
-  BottomSheetFlatList,
-  BottomSheetFlatListMethods,
-  BottomSheetModalProvider,
-} from '@gorhom/bottom-sheet'
+import { BottomSheetFlatList, BottomSheetFlatListMethods } from '@gorhom/bottom-sheet'
+import { BottomSheetFlatListProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetScrollable/types'
 import { debounce } from 'lodash'
 import React, { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TextStyle, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { FlatListProps, StyleSheet, Text, TextStyle, View } from 'react-native'
+import { FlatList, ScrollView } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TokenBottomSheetEvents } from 'src/analytics/Events'
-import { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import FilterChipsCarousel, {
   FilterChip,
@@ -26,6 +23,7 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
@@ -54,10 +52,9 @@ export type TokenBottomSheetProps = {
   showPriceUsdUnavailableWarning?: boolean
   filterChips?: FilterChip<TokenBalance>[]
   areSwapTokensShuffled?: boolean
-  wrapWithModalProvider?: boolean
 } & (
   | { isScreen: true; forwardedRef?: undefined }
-  | { forwardedRef: RefObject<BottomSheetModalRefType>; isScreen?: false }
+  | { forwardedRef: RefObject<BottomSheetRefType>; isScreen?: false }
 )
 
 interface TokenOptionProps {
@@ -126,12 +123,13 @@ function TokenBottomSheet({
   filterChips = [],
   areSwapTokensShuffled,
   isScreen,
-  wrapWithModalProvider = true,
 }: TokenBottomSheetProps) {
   const insets = useSafeAreaInsets()
 
   const filterChipsCarouselRef = useRef<ScrollView>(null)
-  const tokenListRef = useRef<BottomSheetFlatListMethods>(null)
+  const tokenListBottomSheetFlatListRef = useRef<BottomSheetFlatListMethods>(null)
+  const tokenListFlatListRef = useRef<FlatList>(null)
+  const tokenListRef = isScreen ? tokenListFlatListRef : tokenListBottomSheetFlatListRef
   const [headerHeight, setHeaderHeight] = useState(0)
   const [searchTerm, setSearchTerm] = useState('')
   const [filters, setFilters] = useState(filterChips)
@@ -139,7 +137,7 @@ function TokenBottomSheet({
 
   const { t } = useTranslation()
 
-  const networkChipRef = useRef<BottomSheetModalRefType>(null)
+  const networkChipRef = useRef<BottomSheetRefType>(null)
   const networkChip = useMemo(
     () => filters.find((chip): chip is NetworkFilterChip<TokenBalance> => isNetworkChip(chip)),
     [filters]
@@ -255,6 +253,15 @@ function TokenBottomSheet({
     setHeaderHeight(event.nativeEvent.layout.height)
   }
 
+  // same issue as BottomSheetScrollView, BottomSheetFlatList does not scroll
+  // correctly when used in a screen. See comment in
+  // src/components/BottomSheetScrollView for more details
+  const FlatListComponent = isScreen
+    ? (props: FlatListProps<TokenBalance>) => <FlatList ref={tokenListFlatListRef} {...props} />
+    : (props: BottomSheetFlatListProps<TokenBalance>) => (
+        <BottomSheetFlatList ref={tokenListBottomSheetFlatListRef} {...props} />
+      )
+
   // This component implements a sticky header using an absolutely positioned
   // component on top of a blank container of the same height in the
   // ListHeaderComponent of the Flatlist. Unfortunately the out of the box
@@ -263,21 +270,11 @@ function TokenBottomSheet({
   // that the header would be stuck to the wrong position between sheet reopens.
   // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1707757919681089
   const content = (
-    // Note: ideally we wouldn't need this wrapper view,
-    // it's here for testing purposes with the testID
-    // wrapping both the FlatList and the sticky header
-    // TODO: check if we can remove this wrapper view now that dynamic sizing seems more robust
-    <View style={styles.container} testID="TokenBottomSheet">
-      <BottomSheetFlatList
-        ref={tokenListRef}
+    <>
+      <FlatListComponent
         data={tokenList}
         keyExtractor={(item) => item.tokenId}
-        contentContainerStyle={{
-          paddingBottom: insets.bottom,
-          // fill full height if there are filter chips, otherwise the bottom
-          // sheet height changes as tokens are filtered
-          flexGrow: filterChips.length ? 1 : undefined,
-        }}
+        contentContainerStyle={{ paddingBottom: insets.bottom }}
         scrollIndicatorInsets={{ top: headerHeight }}
         renderItem={({ item, index }) => {
           return (
@@ -328,41 +325,40 @@ function TokenBottomSheet({
           />
         )}
       </View>
-    </View>
+    </>
   )
 
   return (
     <>
       {isScreen ? (
-        // Don't wrap the content in a BottomSheetBase when used as a screen
-        // since the bottom sheet navigator already provides the necessary wrapping
-        content
-      ) : wrapWithModalProvider ? (
-        <BottomSheetModalProvider>
-          <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
-            {content}
-          </BottomSheetBase>
-        </BottomSheetModalProvider>
+        <View
+          // use fixed height if there are filter chips, otherwise the bottom
+          // sheet height changes as tokens as filtered
+          style={filterChips.length ? styles.screenContainerFixed : styles.screenContainer}
+          testID="TokenBottomSheet"
+        >
+          {content}
+        </View>
       ) : (
         <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
-          {content}
+          <View style={styles.container} testID="TokenBottomSheet">
+            {content}
+          </View>
         </BottomSheetBase>
       )}
       {networkChip && (
-        <BottomSheetModalProvider>
-          <NetworkMultiSelectBottomSheet
-            allNetworkIds={networkChip.allNetworkIds}
-            setSelectedNetworkIds={setSelectedNetworkIds}
-            selectedNetworkIds={networkChip.selectedNetworkIds}
-            forwardedRef={networkChipRef}
-            onSelect={(selectedNetworkIds: NetworkId[]) => {
-              AppAnalytics.track(TokenBottomSheetEvents.network_filter_updated, {
-                selectedNetworkIds,
-                origin,
-              })
-            }}
-          />
-        </BottomSheetModalProvider>
+        <NetworkMultiSelectBottomSheet
+          allNetworkIds={networkChip.allNetworkIds}
+          setSelectedNetworkIds={setSelectedNetworkIds}
+          selectedNetworkIds={networkChip.selectedNetworkIds}
+          forwardedRef={networkChipRef}
+          onSelect={(selectedNetworkIds: NetworkId[]) => {
+            AppAnalytics.track(TokenBottomSheetEvents.network_filter_updated, {
+              selectedNetworkIds,
+              origin,
+            })
+          }}
+        />
       )}
     </>
   )
@@ -371,11 +367,14 @@ function TokenBottomSheet({
 TokenBottomSheet.navigationOptions = {}
 
 const styles = StyleSheet.create({
-  // Important: care must be taken when changing the styles of the container
-  // It could most likely break the dynamic sizing of the bottom sheet
-  // so avoid adding padding/margin to it, or min/max height
   container: {
     flex: 1,
+  },
+  screenContainer: {
+    maxHeight: variables.height * 0.9,
+  },
+  screenContainerFixed: {
+    height: variables.height * 0.9,
   },
   searchInput: {
     marginTop: Spacing.Regular16,

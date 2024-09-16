@@ -100,17 +100,9 @@ export function decryptPassphrase(
   encryptedData: string
 ): string {
   const derivedKey = deriveKeyFromKeyShares(keyshare1, keyshare2)
-  const [nonceBase64, encrypted, authTagBase64OrSerializedArrayBuffer] = encryptedData.split(':')
+  const [nonceBase64, encrypted, authTagBase64] = encryptedData.split(':')
   const nonce = Buffer.from(nonceBase64, 'base64')
-  // There was a bug with the initial switch to react-native-quick-crypto,
-  // `cipher.getAuthTag()` was returning an ArrayBuffer instead of a Buffer
-  // so the auth tag in the encrypted data wasn't in base64 format, but just a serialized array buffer (e.g. "1,2,3,4")
-  let authTag: Buffer
-  if (authTagBase64OrSerializedArrayBuffer.split(',').length > 1) {
-    authTag = Buffer.from(authTagBase64OrSerializedArrayBuffer.split(',').map(Number))
-  } else {
-    authTag = Buffer.from(authTagBase64OrSerializedArrayBuffer, 'base64')
-  }
+  const authTag = Buffer.from(authTagBase64, 'base64')
   const decipher = crypto.createDecipheriv('aes-256-gcm', derivedKey, nonce)
   decipher.setAuthTag(authTag)
 

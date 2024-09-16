@@ -1,10 +1,15 @@
+import { Address } from '@celo/base'
+import { AttestationStat, AttestationsWrapper } from '@celo/contractkit/lib/wrappers/Attestations'
+import { isValidAddress } from '@celo/utils/lib/address'
+import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
+import BigNumber from 'bignumber.js'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showErrorOrFallback } from 'src/alert/actions'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { IdentityEvents } from 'src/analytics/Events'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import {
@@ -45,6 +50,7 @@ import { getAllContacts, hasGrantedContactsPermission } from 'src/utils/contacts
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { calculateSha256Hash } from 'src/utils/random'
+import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -310,6 +316,63 @@ function* fetchAddressVerification(address: string) {
     throw new Error('Unable to fetch verification status for this address')
   }
 }
+
+// Returns a list of account addresses for the identifier received.
+export function* lookupAccountAddressesForIdentifier(id: string, lostAccounts: string[] = []) {
+  const contractKit = yield* call(getContractKit)
+  const attestationsWrapper: AttestationsWrapper = yield* call([
+    contractKit.contracts,
+    contractKit.contracts.getAttestations,
+  ])
+
+  const accounts = yield* call(
+    [attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier],
+    id
+  )
+  return accounts.filter((address: string) => !lostAccounts.includes(address.toLowerCase()))
+}
+
+// Deconstruct the lookup result and return
+// any addresess that are considered verified
+export function* filterNonVerifiedAddresses(accountAddresses: Address[], phoneHash: string) {
+  if (!accountAddresses) {
+    return []
+  }
+
+  const contractKit = yield* call(getContractKit)
+  const attestationsWrapper: AttestationsWrapper = yield* call([
+    contractKit.contracts,
+    contractKit.contracts.getAttestations,
+  ])
+
+  const verifiedAccountAddresses: Address[] = []
+  for (const address of accountAddresses) {
+    if (!isValidNon0Address(address)) {
+      continue
+    }
+    // Get stats for the address
+    const stats: AttestationStat = yield* call(
+      [attestationsWrapper, attestationsWrapper.getAttestationStat],
+      phoneHash,
+      address
+    )
+    // Check if result for given hash is considered 'verified'
+    const { isVerified } = isAccountConsideredVerified(stats)
+    if (!isVerified) {
+      Logger.debug(
+        TAG + 'getAddressesFromLookupResult',
+        `Address ${address} has attestation stats but is not considered verified. Skipping it.`
+      )
+      continue
+    }
+    verifiedAccountAddresses.push(address.toLowerCase())
+  }
+
+  return verifiedAccountAddresses
+}
+
+const isValidNon0Address = (address: string) =>
+  typeof address === 'string' && isValidAddress(address) && !new BigNumber(address).isZero()
 
 // Only use with multiple addresses if user has
 // gone through SecureSend

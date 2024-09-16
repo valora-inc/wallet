@@ -8,7 +8,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import SendConfirmation from 'src/send/SendConfirmation'
-import { sendPayment } from 'src/send/actions'
+import { encryptComment, sendPayment } from 'src/send/actions'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
@@ -18,11 +18,14 @@ import {
   mockAccount2,
   mockAccount3,
   mockAddressRecipient,
+  mockCeloAddress,
   mockCeloTokenBalance,
   mockCeloTokenId,
+  mockCusdAddress,
   mockCusdTokenBalance,
   mockCusdTokenId,
   mockE164Number,
+  mockPoofAddress,
   mockPoofTokenId,
   mockRecipient,
   mockTokenBalances,
@@ -136,6 +139,103 @@ describe('SendConfirmation', () => {
       recipientAddress: mockTokenTransactionData.recipient.address,
       walletAddress: mockAccount.toLowerCase(),
       feeCurrencies: mockFeeCurrencies,
+      comment: undefined,
+    })
+  })
+
+  it('doesnt show the comment for CELO', () => {
+    const { queryByTestId } = renderScreen(
+      {},
+      getMockStackScreenProps(Screens.SendConfirmation, {
+        transactionData: {
+          ...mockTokenTransactionData,
+          tokenAddress: mockCeloAddress,
+          tokenId: mockCeloTokenId,
+        },
+        origin: SendOrigin.AppSendFlow,
+        isFromScan: false,
+      })
+    )
+
+    expect(queryByTestId('commentInput/send')).toBeFalsy()
+  })
+
+  it('doesnt show the comment for non core tokens', () => {
+    const { queryByTestId } = renderScreen(
+      {},
+      getMockStackScreenProps(Screens.SendConfirmation, {
+        transactionData: {
+          ...mockTokenTransactionData,
+          tokenAddress: mockPoofAddress,
+          tokenId: mockPoofTokenId,
+        },
+        origin: SendOrigin.AppSendFlow,
+        isFromScan: false,
+      })
+    )
+
+    expect(queryByTestId('commentInput/send')).toBeFalsy()
+  })
+
+  it('shows comment when stable token on celo network', () => {
+    const { queryByTestId } = renderScreen(
+      {},
+      getMockStackScreenProps(Screens.SendConfirmation, {
+        transactionData: {
+          ...mockTokenTransactionData,
+          tokenAddress: mockCusdAddress,
+        },
+        origin: SendOrigin.AppSendFlow,
+        isFromScan: false,
+      })
+    )
+
+    expect(queryByTestId('commentInput/send')).toBeTruthy()
+  })
+
+  it('updates comment and then encrypts and prepares a tx with encrypted comment', () => {
+    const { getByTestId, queryAllByDisplayValue, store } = renderScreen({
+      send: { encryptedComment: 'enc-comment' },
+    })
+    jest.advanceTimersByTime(300)
+    expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledTimes(
+      1
+    )
+    expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledWith({
+      amount: mockTokenTransactionData.tokenAmount,
+      token: mockCusdTokenBalance,
+      recipientAddress: mockTokenTransactionData.recipient.address,
+      walletAddress: mockAccount.toLowerCase(),
+      feeCurrencies: mockFeeCurrencies,
+      comment: undefined, // no comment entered yet
+    })
+    const input = getByTestId('commentInput/send')
+    const comment = 'A comment!'
+    fireEvent.changeText(input, comment)
+    expect(queryAllByDisplayValue(comment)).toHaveLength(1)
+    jest.advanceTimersByTime(300)
+    expect(store.getActions()).toEqual([
+      encryptComment({
+        comment: '', // empty comment dispatched first
+        fromAddress: mockAccount.toLowerCase(),
+        toAddress: mockTokenTransactionData.recipient.address,
+      }),
+      encryptComment({
+        comment,
+        fromAddress: mockAccount.toLowerCase(),
+        toAddress: mockTokenTransactionData.recipient.address,
+      }),
+    ])
+    expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledTimes(
+      2
+    )
+    expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledWith({
+      amount: mockTokenTransactionData.tokenAmount,
+      token: mockCusdTokenBalance,
+      recipientAddress: mockTokenTransactionData.recipient.address,
+      walletAddress: mockAccount.toLowerCase(),
+      feeCurrencies: mockFeeCurrencies,
+      comment: 'enc-comment',
     })
   })
 
@@ -160,11 +260,40 @@ describe('SendConfirmation', () => {
         inputAmount,
         tokenId,
         inputAmount.times(1.001),
+        '',
         recipient,
         false,
         getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
       )
     )
+  })
+
+  it('trims comment when encrypting and sending', () => {
+    const { getByTestId, queryAllByDisplayValue, store } = renderScreen()
+    const input = getByTestId('commentInput/send')
+    const comment = '   A comment!   '
+    const trimmedComment = 'A comment!'
+    fireEvent.changeText(input, comment)
+    expect(queryAllByDisplayValue(comment)).toHaveLength(1)
+    jest.advanceTimersByTime(300)
+    fireEvent.press(getByTestId('ConfirmButton'))
+    const { inputAmount, tokenId, recipient } = mockTokenTransactionData
+    expect(store.getActions()).toEqual([
+      encryptComment({
+        comment: trimmedComment,
+        fromAddress: mockAccount.toLowerCase(),
+        toAddress: mockTokenTransactionData.recipient.address,
+      }),
+      sendPayment(
+        inputAmount,
+        tokenId,
+        inputAmount.times(1.001),
+        trimmedComment,
+        recipient,
+        false,
+        getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
+      ),
+    ])
   })
 
   it('renders address for phone recipients with multiple addresses', () => {

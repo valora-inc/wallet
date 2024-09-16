@@ -7,7 +7,6 @@ export enum StatsigDynamicConfigs {
   WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
   NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
   EARN_STABLECOIN_CONFIG = 'earn_stablecoin_config',
-  APP_CONFIG = 'app_config',
 }
 
 // Separating into different enum from StatsigDynamicConfigs to allow for more strict typing

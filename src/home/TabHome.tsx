@@ -1,9 +1,16 @@
 import { useIsFocused } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import _ from 'lodash'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, RefreshControlProps, SectionList, StyleSheet } from 'react-native'
+import {
+  LayoutChangeEvent,
+  RefreshControl,
+  RefreshControlProps,
+  SectionList,
+  StyleSheet,
+  Text,
+} from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { showMessage } from 'src/alert/actions'
@@ -22,11 +29,14 @@ import NftReward from 'src/home/celebration/NftReward'
 import { showNftCelebrationSelector, showNftRewardSelector } from 'src/home/selectors'
 import { importContacts } from 'src/identity/actions'
 import { Screens } from 'src/navigator/Screens'
+import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { initializeSentryUserContext } from 'src/sentry/actions'
 import colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { hasGrantedContactsPermission } from 'src/utils/contacts'
 
@@ -34,7 +44,7 @@ const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TabHome>
 
-function TabHome(_props: Props) {
+function TabHome({ navigation }: Props) {
   const { t } = useTranslation()
 
   const appState = useSelector(appStateSelector)
@@ -71,9 +81,22 @@ function TabHome(_props: Props) {
 
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
+  const [titleHeight, setTitleHeight] = useState(0)
+
+  const handleMeasureTitleHeight = (event: LayoutChangeEvent) => {
+    setTitleHeight(event.nativeEvent.layout.height)
+  }
 
   const handleScroll = useAnimatedScrollHandler((event) => {
     scrollPosition.value = event.contentOffset.y
+  })
+
+  useScrollAwareHeader({
+    navigation,
+    title: t('bottomTabsNavigator.home.title'),
+    scrollPosition,
+    startFadeInPosition: titleHeight - titleHeight * 0.33,
+    animationDistance: titleHeight * 0.33,
   })
 
   const tryImportContacts = async () => {
@@ -118,6 +141,15 @@ function TabHome(_props: Props) {
     <RefreshControl refreshing={isLoading} onRefresh={onRefresh} colors={[colors.primary]} />
   ) as React.ReactElement<RefreshControlProps>
 
+  const homeTabTitleSection = {
+    data: [{}],
+    renderItem: () => (
+      <Text onLayout={handleMeasureTitleHeight} style={styles.homeTabTitle}>
+        {t('bottomTabsNavigator.home.title')}
+      </Text>
+    ),
+  }
+
   const notificationBoxSection = {
     data: [{}],
     renderItem: () => (
@@ -138,7 +170,12 @@ function TabHome(_props: Props) {
     renderItem: () => <TransactionFeed key={'TransactionList'} />,
   }
 
-  const sections = [actionsCarouselSection, notificationBoxSection, transactionFeedSection]
+  const sections = [
+    homeTabTitleSection,
+    actionsCarouselSection,
+    notificationBoxSection,
+    transactionFeedSection,
+  ]
 
   return (
     <SafeAreaView testID="WalletHome" style={styles.container} edges={[]}>
@@ -166,6 +203,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',
+  },
+  homeTabTitle: {
+    ...typeScale.titleMedium,
+    color: colors.black,
+    marginHorizontal: Spacing.Regular16,
+    marginTop: Spacing.Regular16,
+    marginBottom: Spacing.Large32,
   },
 })
 

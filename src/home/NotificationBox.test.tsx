@@ -6,7 +6,7 @@ import NotificationBox from 'src/home/NotificationBox'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
-import { mockE164Number, mockTokenBalances } from 'test/values'
+import { mockE164Number, mockE164NumberPepper, mockTokenBalances } from 'test/values'
 import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
 import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
@@ -95,6 +95,7 @@ describe('NotificationBox', () => {
         ...storeDataNotificationsEnabled.account,
         e164PhoneNumber: mockE164Number,
       },
+      identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       tokens: {
         tokenBalances: mockTokenBalances,
       },
@@ -133,6 +134,7 @@ describe('NotificationBox', () => {
         dismissedGetVerified: false,
         e164PhoneNumber: mockE164Number,
       },
+      identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
     })
     const { getByText } = render(
       <Provider store={store}>

@@ -11,7 +11,3 @@ export const jumpstartSendStatusSelector = (state: RootState) => {
 export const jumpstartReclaimStatusSelector = (state: RootState) => {
   return state.jumpstart.reclaimStatus
 }
-
-export const jumpstartIntroHasBeenSeenSelector = (state: RootState) => {
-  return state.jumpstart.introHasBeenSeen
-}

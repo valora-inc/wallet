@@ -46,7 +46,14 @@ def flipper_remove(generated_aggregate_target, config_name, config_file)
   end
 end
 
-platform :ios, '13.4'
+# Code to be added for react-native-video/Video
+# https://github.com/TheWidlarzGroup/react-native-video/issues/3737
+MIN_IOS_OVERRIDE = '13.0'
+if Gem::Version.new(MIN_IOS_OVERRIDE) > Gem::Version.new(min_ios_version_supported)
+  min_ios_version_supported = MIN_IOS_OVERRIDE
+end
+
+platform :ios, min_ios_version_supported
 prepare_react_native_project! 
 
 # linkage = ENV['USE_FRAMEWORKS']

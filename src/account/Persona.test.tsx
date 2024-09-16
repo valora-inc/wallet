@@ -7,6 +7,7 @@ import Persona, { Props } from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { createPersonaAccount } from 'src/in-house-liquidity'
 import { createMockStore } from 'test/utils'
+import { mockAccount, mockPrivateDEK } from 'test/values'
 
 const FAKE_TEMPLATE_ID = 'fake template id'
 jest.mock('react-native-persona')
@@ -40,7 +41,12 @@ jest.mock('react-native-persona', () => ({
 }))
 
 describe('Persona', () => {
-  const store = createMockStore()
+  const store = createMockStore({
+    web3: {
+      mtwAddress: mockAccount,
+      dataEncryptionKey: mockPrivateDEK,
+    },
+  })
 
   beforeEach(() => {
     jest.useRealTimers()

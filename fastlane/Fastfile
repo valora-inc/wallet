@@ -8,18 +8,13 @@ end
 
 def fastlane_emerge(environment:, file_path:)
   # Note: this requires the EMERGE_API_TOKEN env var to be set
-  begin
-    emerge(
-      file_path: file_path,
-      repo_name: "valora-inc/wallet",
-      sha: `git rev-parse HEAD`.strip,
-      branch: `git branch --show-current`.strip,
-      tag: environment,
-    )
-  rescue => ex
-    # Don't fail the build if Emerge fails (e.g. 429 or 500)
-    UI.important("Ignoring upload error to Emerge: #{ex}")
-  end
+  emerge(
+    file_path: file_path,
+    repo_name: "valora-inc/wallet",
+    sha: `git rev-parse HEAD`.strip,
+    branch: `git branch --show-current`.strip,
+    build_type: environment,
+  )
 end
 
 platform :android do

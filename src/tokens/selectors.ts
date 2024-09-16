@@ -257,6 +257,20 @@ export const tokensByUsdBalanceSelector = createSelector(
 /**
  * @deprecated
  */
+export const coreTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
+  return tokens.filter((tokenInfo) => tokenInfo.isFeeCurrency === true)
+})
+
+/**
+ * @deprecated
+ */
+export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) => {
+  return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
+})
+
+/**
+ * @deprecated
+ */
 export const tokensByCurrencySelector = createSelector(
   tokensListWithAddressSelector,
   (tokens): CurrencyTokens => {

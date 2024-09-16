@@ -1,56 +1,56 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { clearStoredAccount, setPincodeSuccess } from 'src/account/actions'
-import { PincodeType } from 'src/account/reducer'
-import { cloudBackupCompletedSelector, pincodeTypeSelector } from 'src/account/selectors'
-import { showError } from 'src/alert/actions'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { SettingsEvents } from 'src/analytics/Events'
-import { ErrorMessages } from 'src/app/ErrorMessages'
-import { setAnalyticsEnabled, setRequirePinOnAppOpen } from 'src/app/actions'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import {
-  analyticsEnabledSelector,
-  getRequirePinOnAppOpen,
-  phoneNumberVerifiedSelector,
-  supportedBiometryTypeSelector,
-} from 'src/app/selectors'
-import BackButton from 'src/components/BackButton'
-import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import Dialog from 'src/components/Dialog'
-import { NotificationVariant } from 'src/components/InLineNotification'
-import {
-  SettingsExpandedItem,
+  SettingsItemTextValue,
   SettingsItemCta,
   SettingsItemSwitch,
-  SettingsItemTextValue,
+  SettingsExpandedItem,
 } from 'src/components/SettingsItem'
+import Dialog from 'src/components/Dialog'
+import { Screens } from 'src/navigator/Screens'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SettingsEvents } from 'src/analytics/Events'
+import { PincodeType } from 'src/account/reducer'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { StackParamList } from 'src/navigator/types'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import Toast from 'src/components/Toast'
+import { showError } from 'src/alert/actions'
+import { NotificationVariant } from 'src/components/InLineNotification'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { setAnalyticsEnabled, setRequirePinOnAppOpen } from 'src/app/actions'
+import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
-import LoadingSpinner from 'src/icons/LoadingSpinner'
+import variables from 'src/styles/variables'
+import BackButton from 'src/components/BackButton'
+import Logger from 'src/utils/Logger'
 import {
   deleteKeylessBackupStatusSelector,
   showDeleteKeylessBackupErrorSelector,
 } from 'src/keylessBackup/selectors'
 import { deleteKeylessBackupStarted, hideDeleteKeylessBackupError } from 'src/keylessBackup/slice'
 import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
-import { ensurePincode, navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
-import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
-import { useDispatch, useSelector } from 'src/redux/hooks'
+import { cloudBackupCompletedSelector, pincodeTypeSelector } from 'src/account/selectors'
+import LoadingSpinner from 'src/icons/LoadingSpinner'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import variables from 'src/styles/variables'
-import Logger from 'src/utils/Logger'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import {
+  analyticsEnabledSelector,
+  getRequirePinOnAppOpen,
+  phoneNumberVerifiedSelector,
+  supportedBiometryTypeSelector,
+} from 'src/app/selectors'
+import { setPincodeSuccess, clearStoredAccount } from 'src/account/actions'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SecuritySubmenu>
 
@@ -77,8 +77,8 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
 
   const analyticsEnabled = useSelector(analyticsEnabledSelector)
 
-  const resetAccountBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const deleteAccountBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const resetAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const deleteAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const showDeleteKeylessBackupError = useSelector(showDeleteKeylessBackupErrorSelector)
 
@@ -118,7 +118,7 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
       try {
         await revokeNumberAsync.execute()
       } catch (error) {
-        dispatch(showError(ErrorMessages.PHONE_NUMBER_REVOKE_FAILED))
+        dispatch(showError(t('revokePhoneNumber.revokeError')))
         return
       }
     }

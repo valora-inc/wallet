@@ -197,6 +197,11 @@ export enum OnboardingEvents {
   initialize_account_complete = 'initialize_account_complete',
   initialize_account_error = 'initialize_account_error',
 
+  account_dek_register_start = 'account_dek_register_start',
+  account_dek_register_account_unlocked = 'account_dek_register_account_unlocked',
+  account_dek_register_account_checked = 'account_dek_register_account_checked',
+  account_dek_register_complete = 'account_dek_register_complete',
+
   protect_wallet_use_recovery = 'protect_wallet_use_recovery',
   protect_wallet_help = 'protect_wallet_help',
   protect_wallet_help_dismiss = 'protect_wallet_help_dismiss',
@@ -635,7 +640,6 @@ export enum JumpstartEvents {
   jumpstart_claim_status_fetch_error = 'jumpstart_claim_status_fetch_error',
   jumpstart_add_assets_show_actions = 'jumpstart_add_assets_show_actions',
   jumpstart_add_assets_action_press = 'jumpstart_add_assets_action_press',
-  jumpstart_intro_seen = 'jumpstart_intro_seen',
 }
 
 export enum PointsEvents {
@@ -686,6 +690,4 @@ export enum EarnEvents {
   earn_home_error_try_again = 'earn_home_error_try_again',
   earn_pool_info_view_pool = 'earn_pool_info_view_pool',
   earn_pool_info_tap_info_icon = 'earn_pool_info_tap_info_icon',
-  earn_pool_info_tap_withdraw = 'earn_pool_info_tap_withdraw',
-  earn_pool_info_tap_deposit = 'earn_pool_info_tap_deposit',
 }

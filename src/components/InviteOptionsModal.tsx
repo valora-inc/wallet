@@ -3,15 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { Share } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { InviteEvents } from 'src/analytics/Events'
+import { INVITE_REWARDS_NFTS_LEARN_MORE, INVITE_REWARDS_STABLETOKEN_LEARN_MORE } from 'src/config'
 import InviteModal from 'src/invite/InviteModal'
 import { useShareUrl } from 'src/invite/hooks'
 import { Recipient, getDisplayName } from 'src/recipients/recipient'
 import { useSelector } from 'src/redux/hooks'
 import { inviteRewardsActiveSelector, inviteRewardsTypeSelector } from 'src/send/selectors'
 import { InviteRewardsType } from 'src/send/types'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 import getPhoneHash from 'src/utils/getPhoneHash'
 
 interface Props {
@@ -24,7 +22,6 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   const link = useShareUrl()
   const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
   const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
-  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   const handleShareInvite = async () => {
     if (link) {
@@ -51,7 +48,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
         title = t('inviteModal.rewardsActive.title', { contactName: getDisplayName(recipient, t) })
         descriptionI18nKey = 'inviteModal.rewardsActive.body'
         message = t('inviteWithRewards', { link })
-        helpLink = links.inviteRewardsNftsLearnMore
+        helpLink = INVITE_REWARDS_NFTS_LEARN_MORE
         break
       case InviteRewardsType.CUSD:
         title = t('inviteModal.rewardsActiveCUSD.title', {
@@ -59,7 +56,7 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
         })
         descriptionI18nKey = 'inviteModal.rewardsActiveCUSD.body'
         message = t('inviteWithRewardsCUSD', { link })
-        helpLink = links.inviteRewardsStableTokenLearnMore
+        helpLink = INVITE_REWARDS_STABLETOKEN_LEARN_MORE
         break
     }
   }

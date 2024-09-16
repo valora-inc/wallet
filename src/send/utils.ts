@@ -1,4 +1,5 @@
 import { SendOrigin } from 'src/analytics/types'
+import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   convertDollarsToLocalAmount,
@@ -19,6 +20,8 @@ import { convertLocalToTokenAmount, getSupportedNetworkIdsForSend } from 'src/to
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { call, put, select } from 'typed-redux-saga'
+
+export const COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE = ' '.repeat(MAX_ENCRYPTED_COMMENT_LENGTH_APPROX)
 
 const TAG = 'send/utils'
 
@@ -84,6 +87,7 @@ export function* handleSendPaymentData(
       tokenAddress: tokenInfo.address,
       tokenAmount,
       tokenId: tokenInfo.tokenId,
+      comment: data.comment,
     }
 
     navigate(Screens.SendConfirmation, {

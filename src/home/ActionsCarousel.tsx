@@ -122,7 +122,6 @@ function ActionsCarousel() {
 const styles = StyleSheet.create({
   carouselContainer: {
     paddingHorizontal: Spacing.Regular16,
-    marginTop: Spacing.Regular16,
     marginBottom: Spacing.Smallest8,
     gap: Spacing.Regular16,
   },

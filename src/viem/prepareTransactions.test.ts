@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import stableToken from 'src/abis/StableToken'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TransactionEvents } from 'src/analytics/Events'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
@@ -10,13 +11,14 @@ import {
   getEstimatedGasFee,
   getFeeCurrency,
   getFeeCurrencyAddress,
-  getFeeCurrencyToken,
   getFeeCurrencyAndAmounts,
+  getFeeCurrencyToken,
   getFeeDecimals,
   getMaxGasFee,
   prepareERC20TransferTransaction,
   prepareSendNativeAssetTransaction,
   prepareTransactions,
+  prepareTransferWithCommentTransaction,
   tryEstimateTransaction,
   tryEstimateTransactions,
 } from 'src/viem/prepareTransactions'
@@ -1148,6 +1150,41 @@ describe('prepareTransactions module', () => {
       decreasedAmountGasFeeMultiplier: 1,
       baseTransactions: [{ from: '0x123', to: '0x456', value: BigInt(100) }],
       origin: 'send',
+    })
+  })
+
+  it('prepareTransferWithCommentTransaction', async () => {
+    const mockPrepareTransactions = jest.fn()
+    mocked(encodeFunctionData).mockReturnValue('0xabc')
+    await prepareTransferWithCommentTransaction(
+      {
+        fromWalletAddress: '0x123',
+        toWalletAddress: '0x456',
+        sendToken: mockSpendToken,
+        amount: BigInt(100),
+        feeCurrencies: mockFeeCurrencies,
+        comment: 'test comment',
+      },
+      mockPrepareTransactions
+    )
+    expect(mockPrepareTransactions).toHaveBeenCalledWith({
+      feeCurrencies: mockFeeCurrencies,
+      spendToken: mockSpendToken,
+      spendTokenAmount: new BigNumber(100),
+      decreasedAmountGasFeeMultiplier: 1,
+      baseTransactions: [
+        {
+          from: '0x123',
+          to: mockSpendToken.address,
+          data: '0xabc',
+        },
+      ],
+      origin: 'send',
+    })
+    expect(encodeFunctionData).toHaveBeenCalledWith({
+      abi: stableToken.abi,
+      functionName: 'transferWithComment',
+      args: ['0x456', BigInt(100), 'test comment'],
     })
   })
 

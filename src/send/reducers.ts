@@ -74,6 +74,18 @@ export const sendReducer = (
         isSending: false,
         encryptedComment: null,
       }
+    case Actions.ENCRYPT_COMMENT:
+      return {
+        ...state,
+        isEncryptingComment: true,
+        encryptedComment: null,
+      }
+    case Actions.ENCRYPT_COMMENT_COMPLETE:
+      return {
+        ...state,
+        isEncryptingComment: false,
+        encryptedComment: action.encryptedComment,
+      }
     case AppActions.UPDATE_REMOTE_CONFIG_VALUES:
       return {
         ...state,

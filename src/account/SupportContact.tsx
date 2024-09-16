@@ -1,3 +1,4 @@
+import { anonymizedPhone } from '@celo/base/lib/phoneNumbers'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -11,11 +12,12 @@ import {
   phoneNumberVerifiedSelector,
   sessionIdSelector,
 } from 'src/app/selectors'
+import { APP_NAME } from 'src/brandingConfig'
 import Button, { BtnTypes } from 'src/components/Button'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import Switch from 'src/components/Switch'
 import TextInput from 'src/components/TextInput'
-import { APP_NAME, DEFAULT_TESTNET } from 'src/config'
+import { DEFAULT_TESTNET } from 'src/config'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -25,7 +27,6 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
-import { anonymizedPhone } from 'src/utils/phoneNumbers'
 import { currentAccountSelector } from 'src/web3/selectors'
 type Props = NativeStackScreenProps<StackParamList, Screens.SupportContact>
 

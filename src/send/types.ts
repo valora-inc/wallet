@@ -19,6 +19,7 @@ export interface TransactionDataInput {
   tokenAddress?: string
   tokenId: string
   tokenAmount: BigNumber
+  comment?: string
 }
 
 export type AmountEnteredIn = 'local' | 'token'

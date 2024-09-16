@@ -1,16 +1,21 @@
+import { normalizeAddressWith0x } from '@celo/base'
 import {
   AddressToDisplayNameType,
   AddressToE164NumberType,
   AddressValidationType,
   E164NumberToAddressType,
+  E164NumberToSaltType,
+  WalletToAccountAddressType,
 } from 'src/identity/reducer'
 import { ImportContactsStatus } from 'src/identity/types'
 import { Recipient } from 'src/recipients/recipient'
-import { type E164Number } from 'src/utils/io'
+import { type E164Number } from 'src/utils/E164Number'
 
 export enum Actions {
   SET_SEEN_VERIFICATION_NUX = 'IDENTITY/SET_SEEN_VERIFICATION_NUX',
   UPDATE_E164_PHONE_NUMBER_ADDRESSES = 'IDENTITY/UPDATE_E164_PHONE_NUMBER_ADDRESSES',
+  UPDATE_WALLET_TO_ACCOUNT_ADDRESS = 'UPDATE_WALLET_TO_ACCOUNT_ADDRESS',
+  UPDATE_E164_PHONE_NUMBER_SALT = 'IDENTITY/UPDATE_E164_PHONE_NUMBER_SALT',
   UPDATE_KNOWN_ADDRESSES = 'IDENTITY/UPDATE_KNOWN_ADDRESSES',
   FETCH_ADDRESSES_AND_VALIDATION_STATUS = 'IDENTITY/FETCH_ADDRESSES_AND_VALIDATION_STATUS',
   END_FETCHING_ADDRESSES = 'IDENTITY/END_FETCHING_ADDRESSES',
@@ -18,10 +23,13 @@ export enum Actions {
   UPDATE_IMPORT_CONTACT_PROGRESS = 'IDENTITY/UPDATE_IMPORT_CONTACT_PROGRESS',
   CANCEL_IMPORT_CONTACTS = 'IDENTITY/CANCEL_IMPORT_CONTACTS',
   END_IMPORT_CONTACTS = 'IDENTITY/END_IMPORT_CONTACTS',
+  DENY_IMPORT_CONTACTS = 'IDENTITY/DENY_IMPORT_CONTACTS',
   VALIDATE_RECIPIENT_ADDRESS = 'IDENTITY/VALIDATE_RECIPIENT_ADDRESS',
   VALIDATE_RECIPIENT_ADDRESS_SUCCESS = 'IDENTITY/VALIDATE_RECIPIENT_ADDRESS_SUCCESS',
   VALIDATE_RECIPIENT_ADDRESS_RESET = 'IDENTITY/VALIDATE_RECIPIENT_ADDRESS_RESET',
   REQUIRE_SECURE_SEND = 'IDENTITY/REQUIRE_SECURE_SEND',
+  FETCH_DATA_ENCRYPTION_KEY = 'IDENTITY/FETCH_DATA_ENCRYPTION_KEY',
+  UPDATE_ADDRESS_DEK_MAP = 'IDENTITY/UPDATE_ADDRESS_DEK_MAP',
   FETCH_ADDRESS_VERIFICATION_STATUS = 'IDENTITY/FETCH_ADDRESS_VERIFICATION_STATUS',
   ADDRESS_VERIFICATION_STATUS_RECEIVED = 'IDENTITY/ADDRESS_VERIFICATION_STATUS_RECEIVED',
   CONTACTS_SAVED = 'IDENTITY/CONTACTS_SAVED',
@@ -37,6 +45,16 @@ export interface UpdateE164PhoneNumberAddressesAction {
   type: Actions.UPDATE_E164_PHONE_NUMBER_ADDRESSES
   e164NumberToAddress: E164NumberToAddressType
   addressToE164Number: AddressToE164NumberType
+}
+
+export interface UpdateWalletToAccountAddressAction {
+  type: Actions.UPDATE_WALLET_TO_ACCOUNT_ADDRESS
+  walletToAccountAddress: WalletToAccountAddressType
+}
+
+export interface UpdateE164PhoneNumberSaltAction {
+  type: Actions.UPDATE_E164_PHONE_NUMBER_SALT
+  e164NumberToSalt: E164NumberToSaltType
 }
 
 export interface UpdateKnownAddressesAction {
@@ -67,9 +85,17 @@ export interface UpdateImportContactProgress {
   total?: number
 }
 
+export interface CancelImportContactsAction {
+  type: Actions.CANCEL_IMPORT_CONTACTS
+}
+
 export interface EndImportContactsAction {
   type: Actions.END_IMPORT_CONTACTS
   success: boolean
+}
+
+export interface DenyImportContactsAction {
+  type: Actions.DENY_IMPORT_CONTACTS
 }
 
 export interface ValidateRecipientAddressAction {
@@ -97,6 +123,17 @@ export interface RequireSecureSendAction {
   addressValidationType: AddressValidationType
 }
 
+export interface FetchDataEncryptionKeyAction {
+  type: Actions.FETCH_DATA_ENCRYPTION_KEY
+  address: string
+}
+
+export interface UpdateAddressDekMapAction {
+  type: Actions.UPDATE_ADDRESS_DEK_MAP
+  address: string
+  dataEncryptionKey: string | null
+}
+
 export interface FetchAddressVerificationAction {
   type: Actions.FETCH_ADDRESS_VERIFICATION_STATUS
   address: string
@@ -120,16 +157,21 @@ interface StoredPasswordRefreshedAction {
 export type ActionTypes =
   | SetHasSeenVerificationNux
   | UpdateE164PhoneNumberAddressesAction
+  | UpdateWalletToAccountAddressAction
+  | UpdateE164PhoneNumberSaltAction
   | UpdateKnownAddressesAction
   | ImportContactsAction
   | UpdateImportContactProgress
   | EndImportContactsAction
+  | DenyImportContactsAction
   | ValidateRecipientAddressAction
   | ValidateRecipientAddressSuccessAction
   | ValidateRecipientAddressResetAction
   | RequireSecureSendAction
   | FetchAddressesAndValidateAction
   | EndFetchingAddressesAction
+  | FetchDataEncryptionKeyAction
+  | UpdateAddressDekMapAction
   | FetchAddressVerificationAction
   | AddressVerificationStatusReceivedAction
   | ContactsSavedAction
@@ -181,6 +223,31 @@ export const updateE164PhoneNumberAddresses = (
   addressToE164Number,
 })
 
+export const updateWalletToAccountAddress = (
+  walletToAccountAddress: WalletToAccountAddressType
+): UpdateWalletToAccountAddressAction => {
+  const newWalletToAccountAddresses: WalletToAccountAddressType = {}
+  const walletAddresses = Object.keys(walletToAccountAddress)
+
+  for (const walletAddress of walletAddresses) {
+    const newWalletAddress = normalizeAddressWith0x(walletAddress)
+    const newAccountAddress = normalizeAddressWith0x(walletToAccountAddress[walletAddress])
+    newWalletToAccountAddresses[newWalletAddress] = newAccountAddress
+  }
+
+  return {
+    type: Actions.UPDATE_WALLET_TO_ACCOUNT_ADDRESS,
+    walletToAccountAddress: newWalletToAccountAddresses,
+  }
+}
+
+export const updateE164PhoneNumberSalts = (
+  e164NumberToSalt: E164NumberToSaltType
+): UpdateE164PhoneNumberSaltAction => ({
+  type: Actions.UPDATE_E164_PHONE_NUMBER_SALT,
+  e164NumberToSalt,
+})
+
 export const updateKnownAddresses = (
   addresses: AddressToDisplayNameType
 ): UpdateKnownAddressesAction => ({
@@ -203,9 +270,17 @@ export const updateImportContactsProgress = (
   total,
 })
 
+export const cancelImportContacts = (): CancelImportContactsAction => ({
+  type: Actions.CANCEL_IMPORT_CONTACTS,
+})
+
 export const endImportContacts = (success: boolean): EndImportContactsAction => ({
   type: Actions.END_IMPORT_CONTACTS,
   success,
+})
+
+export const denyImportContacts = (): DenyImportContactsAction => ({
+  type: Actions.DENY_IMPORT_CONTACTS,
 })
 
 export const validateRecipientAddress = (
@@ -244,6 +319,20 @@ export const requireSecureSend = (
   type: Actions.REQUIRE_SECURE_SEND,
   e164Number,
   addressValidationType,
+})
+
+export const fetchDataEncryptionKey = (address: string): FetchDataEncryptionKeyAction => ({
+  type: Actions.FETCH_DATA_ENCRYPTION_KEY,
+  address,
+})
+
+export const updateAddressDekMap = (
+  address: string,
+  dataEncryptionKey: string | null
+): UpdateAddressDekMapAction => ({
+  type: Actions.UPDATE_ADDRESS_DEK_MAP,
+  address,
+  dataEncryptionKey,
 })
 
 export const contactsSaved = (hash: string): ContactsSavedAction => ({

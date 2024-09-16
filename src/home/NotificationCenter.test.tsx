@@ -14,6 +14,7 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockCleverTapInboxMessage,
   mockE164Number,
+  mockE164NumberPepper,
   mockExpectedCleverTapInboxMessage,
 } from 'test/values'
 
@@ -295,6 +296,7 @@ describe('NotificationCenter', () => {
           dismissedGetVerified: false,
           e164PhoneNumber: mockE164Number,
         },
+        identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       })
       const { getByText } = render(
         <Provider store={store}>
@@ -312,6 +314,7 @@ describe('NotificationCenter', () => {
           dismissedGetVerified: false,
           e164PhoneNumber: mockE164Number,
         },
+        identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       })
       const { getByText } = render(
         <Provider store={store}>
@@ -337,6 +340,7 @@ describe('NotificationCenter', () => {
           dismissedGetVerified: false,
           e164PhoneNumber: mockE164Number,
         },
+        identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       })
       const { getByText } = render(
         <Provider store={store}>

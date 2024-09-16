@@ -1,16 +1,16 @@
-import { BottomSheetBackdrop, BottomSheetModal, BottomSheetProps } from '@gorhom/bottom-sheet'
+import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetProps } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { Keyboard, StyleSheet } from 'react-native'
-import { useReducedMotion } from 'react-native-reanimated'
+import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import Colors from 'src/styles/colors'
 
 interface BottomSheetBaseProps {
-  forwardedRef: React.RefObject<BottomSheetModal>
+  forwardedRef: React.RefObject<GorhomBottomSheet>
   children?: React.ReactNode | React.ReactNode[]
+  onChange?: BottomSheetProps['onChange']
   onClose?: () => void
   onOpen?: () => void
-  onChange?: BottomSheetProps['onChange']
   snapPoints?: (string | number)[]
   handleComponent?: BottomSheetProps['handleComponent']
   backgroundStyle?: BottomSheetProps['backgroundStyle']
@@ -20,15 +20,16 @@ interface BottomSheetBaseProps {
 const BottomSheetBase = ({
   forwardedRef,
   children,
+  onChange,
   onClose,
   onOpen,
-  onChange,
   snapPoints,
   handleComponent,
   backgroundStyle,
   handleIndicatorStyle = styles.handle,
 }: BottomSheetBaseProps) => {
-  const reduceMotionEnabled = useReducedMotion()
+  const { height } = useSafeAreaFrame()
+  const insets = useSafeAreaInsets()
 
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
@@ -50,32 +51,28 @@ const BottomSheetBase = ({
     }
   }
 
-  useEffect(() => {
-    // Mount the modal on first render
-    forwardedRef.current?.present()
-  }, [])
+  const handleClose = () => {
+    onClose?.()
+  }
 
   return (
-    <BottomSheetModal
+    <GorhomBottomSheet
       ref={forwardedRef}
       index={-1}
-      snapPoints={snapPoints}
       enableDynamicSizing={!snapPoints}
+      snapPoints={snapPoints}
       enablePanDownToClose
       backdropComponent={renderBackdrop}
       handleComponent={handleComponent}
       handleIndicatorStyle={handleIndicatorStyle}
       backgroundStyle={backgroundStyle}
       onAnimate={handleAnimate}
-      onDismiss={onClose}
+      onClose={handleClose}
       onChange={onChange}
-      enableOverDrag={false}
-      animateOnMount={!reduceMotionEnabled}
-      enableDismissOnClose={false}
-      stackBehavior="push"
+      maxDynamicContentSize={height - insets.top}
     >
       {children}
-    </BottomSheetModal>
+    </GorhomBottomSheet>
   )
 }
 

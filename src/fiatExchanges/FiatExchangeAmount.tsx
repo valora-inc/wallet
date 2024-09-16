@@ -1,3 +1,4 @@
+import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
@@ -38,7 +39,6 @@ import variables from 'src/styles/variables'
 import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { tokenSymbolToAnalyticsCurrency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
-import { parseInputAmount } from 'src/utils/parsing'
 import networkConfig from 'src/web3/networkConfig'
 import { CICOFlow, isUserInputCrypto } from './utils'
 

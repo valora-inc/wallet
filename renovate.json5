@@ -102,6 +102,5 @@
   // A list of dependencies to be ignored by Renovate - "exact match" only
   ignoreDeps: [
     'lottie-react-native', // TODO (act-1187): handle 6.x breaking changes and upgrade
-    'react-native-shake', // https://github.com/Doko-Demo-Doa/react-native-shake/issues/62
   ],
 }

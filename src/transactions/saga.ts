@@ -1,3 +1,4 @@
+import { CeloTxReceipt } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { trackPointsEvent } from 'src/points/slice'
 import { tokensByIdSelector } from 'src/tokens/selectors'
@@ -145,7 +146,7 @@ function* handleTransactionReceiptReceived({
   overrideStatus,
 }: {
   txId: string
-  receipt: TransactionReceipt
+  receipt: TransactionReceipt | CeloTxReceipt
   networkId: NetworkId
   feeCurrencyId?: string
   overrideStatus?: TransactionStatus

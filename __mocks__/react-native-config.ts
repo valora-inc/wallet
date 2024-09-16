@@ -4,5 +4,4 @@ export default {
   SHOW_TESTNET_BANNER: 'true',
   DEFAULT_TESTNET: 'alfajores',
   AUTH0_DOMAIN: 'auth0.com',
-  DEEP_LINK_URL_SCHEME: 'celo',
 }

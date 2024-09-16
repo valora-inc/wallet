@@ -45,6 +45,9 @@ export const slice = createSlice({
           state.allowOtaTranslations = action.configValues.allowOtaTranslations
         }
       )
+      .addCase(AppActions.RESET_APP_OPENED_STATE, (state) => {
+        state.language = null
+      })
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
         ...state,
         ...getRehydratePayload(action, 'i18n'),

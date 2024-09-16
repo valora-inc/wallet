@@ -6,8 +6,8 @@ import { StyleSheet } from 'react-native'
 import TabDiscover from 'src/dappsExplorer/TabDiscover'
 import TabHome from 'src/home/TabHome'
 import Discover from 'src/icons/navigator/Discover'
-import Home from 'src/icons/navigator/Home'
 import Wallet from 'src/icons/navigator/Wallet'
+import Logo from 'src/images/Logo'
 import { tabHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -59,7 +59,7 @@ export default function TabNavigator({ route }: Props) {
           freezeOnBlur: false,
           lazy: false,
           tabBarLabel: t('bottomTabsNavigator.home.tabName') as string,
-          tabBarIcon: Home,
+          tabBarIcon: Logo,
           tabBarTestID: 'Tab/Home',
         }}
       />

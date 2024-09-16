@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { RootState } from 'src/redux/reducers'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
@@ -23,6 +24,8 @@ export const getLastTimeBackgrounded = (state: RootState) => {
 export const sessionIdSelector = (state: RootState) => {
   return state.app.sessionId
 }
+
+const numberVerifiedDecentrallySelector = (state: RootState) => state.app.numberVerified
 
 // this can be called with undefined state in the tests
 export const walletConnectEnabledSelector = (state?: RootState) => ({
@@ -55,6 +58,23 @@ export const maxSwapSlippagePercentageSelector = (state: RootState) =>
   state.app.maxSwapSlippagePercentage
 
 export const phoneNumberVerifiedSelector = (state: RootState) => state.app.phoneNumberVerified
+
+export const phoneVerificationStatusSelector = createSelector(
+  numberVerifiedDecentrallySelector,
+  phoneNumberVerifiedSelector,
+  (numberVerifiedDecentralized, numberVerifiedCentralized) => {
+    return {
+      numberVerifiedDecentralized,
+      numberVerifiedCentralized,
+    }
+  }
+)
+
+export const shouldRunVerificationMigrationSelector = createSelector(
+  [phoneNumberVerifiedSelector, numberVerifiedDecentrallySelector],
+  (numberVerifiedCentrally, numberVerifiedDecentrally) =>
+    !numberVerifiedCentrally && numberVerifiedDecentrally
+)
 
 export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress
 

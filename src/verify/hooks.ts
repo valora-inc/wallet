@@ -1,3 +1,5 @@
+import { compressedPubKey } from '@celo/cryptographic-utils/lib/dataEncryptionKey'
+import { hexToBuffer } from '@celo/utils/lib/address'
 import { useEffect, useRef, useState } from 'react'
 import { useAsync, useAsyncCallback } from 'react-async-hook'
 import { Platform } from 'react-native'
@@ -21,7 +23,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import Logger from 'src/utils/Logger'
 import getPhoneHash from 'src/utils/getPhoneHash'
 import networkConfig from 'src/web3/networkConfig'
-import { walletAddressSelector } from 'src/web3/selectors'
+import { dataEncryptionKeySelector, walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'verify/hooks'
 
@@ -36,6 +38,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
 
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
+  const privateDataEncryptionKey = useSelector(dataEncryptionKeySelector)
   const inviterAddress = useSelector(inviterAddressSelector)
 
   const [verificationStatus, setVerificationStatus] = useState(PhoneNumberVerificationStatus.NONE)
@@ -92,6 +95,10 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
         return
       }
 
+      if (!privateDataEncryptionKey) {
+        throw new Error('No data encryption key was found in the store. This should never happen.')
+      }
+
       Logger.debug(`${TAG}/requestVerificationCode`, 'Initiating request to verifyPhoneNumber')
       const signedMessage = await retrieveSignedMessage()
 
@@ -106,6 +113,7 @@ export function useVerifyPhoneNumber(phoneNumber: string, countryCallingCode: st
           clientPlatform: Platform.OS,
           clientVersion: DeviceInfo.getVersion(),
           clientBundleId: DeviceInfo.getBundleId(),
+          publicDataEncryptionKey: compressedPubKey(hexToBuffer(privateDataEncryptionKey)),
           inviterAddress: inviterAddress ?? undefined,
         }),
       })

@@ -6,27 +6,26 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { APP_NAME, EARN_STABLECOINS_LEARN_MORE } from 'src/config'
 import { useEarnPosition } from 'src/earn/hooks'
 import { EarnTabType } from 'src/earn/types'
 import ArrowDown from 'src/icons/ArrowDown'
 import CircledIcon from 'src/icons/CircledIcon'
 import EarnCoins from 'src/icons/EarnCoins'
-import Manage from 'src/icons/Manage'
 import Blob from 'src/images/Blob'
+import Logo from 'src/images/Logo'
 import Palm from 'src/images/Palm'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-const ICON_SIZE = 20
-const ARROW_ICON_SIZE = 24
-const ICON_BACKGROUND_CIRCLE_SIZE = 32
+const ICON_SIZE = 24
+const ICON_BACKGROUND_CIRCLE_SIZE = 36
 
 function DetailsItem({
   icon,
@@ -60,7 +59,6 @@ function DetailsItem({
 export default function EarnInfoScreen() {
   const { t } = useTranslation()
   const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
-  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
   const aavePool = useEarnPosition()
 
   const headerHeight = useHeaderHeight()
@@ -78,16 +76,16 @@ export default function EarnInfoScreen() {
         <View style={styles.detailsContainer}>
           <DetailsItem
             icon={<EarnCoins size={ICON_SIZE} color={Colors.black} />}
-            title={t('earnFlow.earnInfo.details.work.title')}
-            subtitle={t('earnFlow.earnInfo.details.work.subtitle')}
+            title={t('earnFlow.earnInfo.details.earn.title')}
+            subtitle={t('earnFlow.earnInfo.details.earn.subtitle')}
           />
           <DetailsItem
-            icon={<Manage size={ICON_SIZE} color={Colors.black} />}
-            title={t('earnFlow.earnInfo.details.manage.titleV1_94')}
-            subtitle={t('earnFlow.earnInfo.details.manage.subtitleV1_94')}
+            icon={<Logo size={ICON_SIZE} color={Colors.black} />}
+            title={t('earnFlow.earnInfo.details.manage.titleV1_92', { appName: APP_NAME })}
+            subtitle={t('earnFlow.earnInfo.details.manage.subtitleV1_92', { appName: APP_NAME })}
           />
           <DetailsItem
-            icon={<ArrowDown size={ARROW_ICON_SIZE} color={Colors.black} />}
+            icon={<ArrowDown size={ICON_SIZE} color={Colors.black} />}
             title={t('earnFlow.earnInfo.details.access.title')}
             subtitle={t('earnFlow.earnInfo.details.access.subtitle')}
           />
@@ -97,7 +95,7 @@ export default function EarnInfoScreen() {
         <Button
           onPress={() => {
             AppAnalytics.track(EarnEvents.earn_info_learn_press)
-            navigate(Screens.WebViewScreen, { uri: links.earnStablecoinsLearnMore })
+            navigate(Screens.WebViewScreen, { uri: EARN_STABLECOINS_LEARN_MORE })
           }}
           text={t('earnFlow.earnInfo.action.learn')}
           type={BtnTypes.SECONDARY}

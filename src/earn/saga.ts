@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnDepositTxsReceiptProperties } from 'src/analytics/Properties'
+import { PROVIDER_ID } from 'src/earn/constants'
 import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import {
   depositCancel,
@@ -97,7 +98,6 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     networkId,
     tokenAmount: amount,
     providerId: pool.appId,
-    poolId: pool.positionId,
   }
 
   let submitted = false
@@ -267,11 +267,11 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
 
 export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
   const {
-    pool,
+    tokenId,
     preparedTransactions: serializablePreparedTransactions,
-    rewardsTokens,
+    amount,
+    rewards,
   } = action.payload
-  const tokenId = pool.dataProps.depositTokenId
 
   const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
 
@@ -288,13 +288,9 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
   const commonAnalyticsProps = {
     depositTokenId: tokenId,
     networkId,
-    poolId: pool.positionId,
-    tokenAmount: pool.balance,
-    providerId: pool.appId,
-    rewards: rewardsTokens.map(({ tokenId, balance }) => ({
-      tokenId,
-      amount: balance,
-    })),
+    tokenAmount: amount,
+    providerId: PROVIDER_ID,
+    rewards,
   }
 
   try {
@@ -316,22 +312,22 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
         networkId,
         type: TokenTransactionTypeV2.EarnWithdraw,
         inAmount: {
-          value: pool.balance,
+          value: amount,
           tokenId,
         },
         outAmount: {
-          value: pool.balance,
-          tokenId: pool.dataProps.withdrawTokenId,
+          value: amount,
+          tokenId: networkConfig.aaveArbUsdcTokenId,
         },
         transactionHash,
         feeCurrencyId,
-        providerId: pool.appId,
+        providerId: 'aave-v3',
       }
     }
 
     createWithdrawStandbyTxHandlers.push(createWithdrawStandbyTxHandler)
 
-    rewardsTokens.forEach(({ balance, tokenId }, index) => {
+    rewards.forEach(({ amount, tokenId }, index) => {
       const createClaimRewardStandbyTx = (
         transactionHash: string,
         feeCurrencyId?: string
@@ -341,13 +337,13 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
           __typename: 'EarnClaimReward',
           networkId,
           amount: {
-            value: balance,
+            value: amount,
             tokenId,
           },
           type: TokenTransactionTypeV2.EarnClaimReward,
           transactionHash,
           feeCurrencyId,
-          providerId: pool.appId,
+          providerId: 'aave-v3',
         }
       }
       createWithdrawStandbyTxHandlers.push(createClaimRewardStandbyTx)

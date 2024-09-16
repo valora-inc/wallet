@@ -252,9 +252,11 @@ describe('Fiatconnect saga', () => {
         .provide([[matches.call.fn(getFiatConnectClient), mockFcClient]])
         .put(submitFiatAccountCompleted())
         .put(
-          showError(ErrorMessages.FIATCONNECT_ADD_ACCOUNT_EXISTS, undefined, {
-            provider: normalizedQuote.getProviderName(),
-          })
+          showError(
+            i18n.t('fiatDetailsScreen.addFiatAccountResourceExist', {
+              provider: normalizedQuote.getProviderName(),
+            })
+          )
         )
         .run()
       expect(AppAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_fiat_details_error, {
@@ -279,9 +281,11 @@ describe('Fiatconnect saga', () => {
         .provide([[matches.call.fn(getFiatConnectClient), mockFcClient]])
         .put(submitFiatAccountCompleted())
         .put(
-          showError(ErrorMessages.FIATCONNECT_ADD_ACCOUNT_FAILED, undefined, {
-            provider: normalizedQuote.getProviderName(),
-          })
+          showError(
+            i18n.t('fiatDetailsScreen.addFiatAccountFailed', {
+              provider: normalizedQuote.getProviderName(),
+            })
+          )
         )
         .run()
       expect(AppAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_fiat_details_error, {

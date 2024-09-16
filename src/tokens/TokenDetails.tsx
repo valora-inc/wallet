@@ -3,12 +3,12 @@ import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AssetsEvents } from 'src/analytics/Events'
 import { TokenProperties } from 'src/analytics/Properties'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import CeloNewsFeed from 'src/celoNews/CeloNewsFeed'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -66,7 +66,7 @@ export default function TokenDetailsScreen({ route }: Props) {
   const token = useTokenInfo(tokenId)
   if (!token) throw new Error(`token with id ${tokenId} not found`)
   const actions = useActions(token)
-  const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   return (
@@ -240,7 +240,7 @@ function Actions({
   actions,
 }: {
   token: TokenBalance
-  bottomSheetRef: React.RefObject<BottomSheetModalRefType>
+  bottomSheetRef: React.RefObject<BottomSheetRefType>
   actions: TokenAction[]
 }) {
   const { t } = useTranslation()

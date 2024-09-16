@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -8,28 +8,41 @@ import { SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
+import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
+import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
+import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { e164NumberToAddressSelector } from 'src/identity/selectors'
+import InfoIcon from 'src/icons/InfoIcon'
+import {
+  addressToDataEncryptionKeySelector,
+  e164NumberToAddressSelector,
+} from 'src/identity/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName } from 'src/recipients/recipient'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { sendPayment } from 'src/send/actions'
-import { isSendingSelector } from 'src/send/selectors'
+import { encryptComment, sendPayment } from 'src/send/actions'
+import {
+  encryptedCommentSelector,
+  isEncryptingCommentSelector,
+  isSendingSelector,
+} from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { iconHitslop } from 'src/styles/variables'
 import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
+import { tokenSupportsComments } from 'src/tokens/utils'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -49,7 +62,7 @@ function SendConfirmation(props: Props) {
 
   const {
     origin,
-    transactionData: { recipient, tokenAmount, tokenAddress, tokenId },
+    transactionData: { recipient, tokenAmount, tokenAddress, comment: commentFromParams, tokenId },
   } = props.route.params
 
   const { prepareTransactionsResult, refreshPreparedTransactions, clearPreparedTransactions } =
@@ -58,7 +71,11 @@ function SendConfirmation(props: Props) {
   const { maxFeeAmount, feeCurrency: feeTokenInfo } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
+  const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
+  const [comment, setComment] = useState(commentFromParams ?? '')
+
   const tokenInfo = useTokenInfo(tokenId)
+  const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
   const isSending = useSelector(isSendingSelector)
   const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
@@ -67,6 +84,9 @@ function SendConfirmation(props: Props) {
 
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, tokenInfo!.networkId))
+  const allowComment = tokenSupportsComments(tokenInfo)
+  const encryptedComment = useSelector(encryptedCommentSelector)
+  const isEncryptingComment = useSelector(isEncryptingCommentSelector)
 
   const dispatch = useDispatch()
 
@@ -75,6 +95,9 @@ function SendConfirmation(props: Props) {
       return // should never happen
     }
     clearPreparedTransactions()
+    if (isEncryptingComment) {
+      return // wait for comment to be encrypted before preparing a tx
+    }
     const debouncedRefreshTransactions = setTimeout(() => {
       return refreshPreparedTransactions({
         amount: tokenAmount,
@@ -82,10 +105,36 @@ function SendConfirmation(props: Props) {
         recipientAddress: recipient.address,
         walletAddress,
         feeCurrencies,
+        comment: allowComment && comment ? (encryptedComment ?? undefined) : undefined,
       })
     }, DEBOUNCE_TIME_MS)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [tokenInfo, tokenAmount, recipient, walletAddress, feeCurrencies])
+  }, [
+    encryptedComment,
+    isEncryptingComment,
+    comment,
+    tokenInfo,
+    tokenAmount,
+    recipient,
+    walletAddress,
+    feeCurrencies,
+  ])
+
+  useEffect(() => {
+    if (!walletAddress || !allowComment) {
+      return
+    }
+    const debouncedEncryptComment = setTimeout(() => {
+      dispatch(
+        encryptComment({
+          comment: comment.trim(),
+          fromAddress: walletAddress,
+          toAddress: recipient.address,
+        })
+      )
+    }, DEBOUNCE_TIME_MS)
+    return () => clearTimeout(debouncedEncryptComment)
+  }, [comment])
 
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
   const showAddress =
@@ -142,6 +191,27 @@ function SendConfirmation(props: Props) {
     )
   }
 
+  const onShowEncryptionModal = () => setEncryptionDialogVisible(true)
+  const onDismissEncryptionModal = () => setEncryptionDialogVisible(false)
+
+  const EncryptionWarningLabel = () => {
+    const showLabel = !recipient.address || addressToDataEncryptionKey[recipient.address] === null
+
+    return showLabel ? (
+      <View style={styles.encryptionWarningLabelContainer}>
+        <Text style={styles.encryptionWarningLabel}>{t('encryption.warningLabel')}</Text>
+        <Touchable onPress={onShowEncryptionModal} borderless={true} hitSlop={iconHitslop}>
+          <InfoIcon color={colors.infoDark} size={14} />
+        </Touchable>
+      </View>
+    ) : null
+  }
+
+  const onBlur = () => {
+    const trimmedComment = comment.trim()
+    setComment(trimmedComment)
+  }
+
   const onSend = () => {
     const preparedTransaction =
       prepareTransactionsResult &&
@@ -165,6 +235,7 @@ function SendConfirmation(props: Props) {
       tokenAddress: tokenAddress ?? null,
       networkId: tokenInfo?.networkId ?? null,
       tokenId,
+      commentLength: comment.length,
       isTokenManuallyImported: !!tokenInfo?.isManuallyImported,
     })
 
@@ -173,6 +244,7 @@ function SendConfirmation(props: Props) {
         tokenAmount,
         tokenId,
         usdAmount,
+        comment.trim(),
         recipient,
         fromModal,
         getSerializablePreparedTransaction(preparedTransaction)
@@ -197,6 +269,7 @@ function SendConfirmation(props: Props) {
       <DisconnectBanner />
       <ReviewFrame
         FooterComponent={FeeContainer}
+        LabelAboveKeyboard={EncryptionWarningLabel}
         confirmButton={{
           action: onSend,
           text: t('send'),
@@ -235,7 +308,26 @@ function SendConfirmation(props: Props) {
             tokenId={tokenInfo?.tokenId}
             showLocalAmount={true}
           />
+          {allowComment && (
+            <CommentTextInput
+              testID={'send'}
+              onCommentChange={setComment}
+              comment={comment}
+              onBlur={onBlur}
+            />
+          )}
         </View>
+        {/** Encryption warning dialog */}
+        <Dialog
+          title={t('encryption.warningModalHeader')}
+          isVisible={encryptionDialogVisible}
+          actionText={t('dismiss')}
+          actionPress={onDismissEncryptionModal}
+          isActionHighlighted={false}
+          onBackgroundPress={onDismissEncryptionModal}
+        >
+          {t('encryption.warningModalBody')}
+        </Dialog>
       </ReviewFrame>
     </SafeAreaView>
   )
@@ -286,6 +378,17 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
     color: colors.gray5,
     paddingBottom: 16,
+  },
+  encryptionWarningLabelContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 16,
+    marginVertical: 16,
+  },
+  encryptionWarningLabel: {
+    ...typeScale.labelMedium,
+    color: colors.infoDark,
+    paddingRight: 8,
   },
   subHeading: {
     marginVertical: 0,

@@ -30,14 +30,12 @@ interface State {
   claimStatus: 'idle' | 'loading' | 'error' | 'errorAlreadyClaimed'
   depositStatus: 'idle' | 'loading' | 'error' | 'success'
   reclaimStatus: 'idle' | 'loading' | 'error' | 'success'
-  introHasBeenSeen: boolean
 }
 
 const initialState: State = {
   claimStatus: 'idle',
   depositStatus: 'idle',
   reclaimStatus: 'idle',
-  introHasBeenSeen: false,
 }
 
 const slice = createSlice({
@@ -114,10 +112,6 @@ const slice = createSlice({
       ...state,
       reclaimStatus: 'idle',
     }),
-    jumpstartIntroSeen: (state) => ({
-      ...state,
-      introHasBeenSeen: true,
-    }),
   },
 })
 
@@ -138,7 +132,6 @@ export const {
   jumpstartReclaimSucceeded,
   jumpstartReclaimFailed,
   jumpstartReclaimErrorDismissed,
-  jumpstartIntroSeen,
 } = slice.actions
 
 export default slice.reducer

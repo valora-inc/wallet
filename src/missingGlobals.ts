@@ -1,9 +1,9 @@
 // Without this, one will see a confusing error
 // similar to https://imgur.com/a/7rnLIh5
-import { install } from 'react-native-quick-crypto'
 import 'react-native-url-polyfill/auto'
 
 export interface Global {
+  btoa: any
   URL: any
   self: any
 }
@@ -13,5 +13,5 @@ declare var global: Global
 if (typeof global.self === 'undefined') {
   global.self = global
 }
-
-install()
+global.btoa = require('Base64').btoa
+require('crypto')

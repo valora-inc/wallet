@@ -1,0 +1,115 @@
+diff --git a/node_modules/react-native-fast-crypto/android/build.gradle b/node_modules/react-native-fast-crypto/android/build.gradle
+index dd999fa..1cc7cf6 100644
+--- a/node_modules/react-native-fast-crypto/android/build.gradle
++++ b/node_modules/react-native-fast-crypto/android/build.gradle
+@@ -1,68 +1,48 @@
+-
+ buildscript {
+-    repositories {
+-        jcenter()
+-    }
++  repositories {
++    google()
++    mavenCentral()
++  }
+ 
+-    dependencies {
+-        classpath 'com.android.tools.build:gradle:2.3.3'
+-    }
++  dependencies {
++    classpath 'com.android.tools.build:gradle:3.6.0'
++  }
+ }
+ 
+ apply plugin: 'com.android.library'
+ 
+ def safeExtGet(prop, fallback) {
+-    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
++  rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+ }
+ 
+-android {
+-    compileSdkVersion safeExtGet('compileSdkVersion', 26)
+-    buildToolsVersion safeExtGet('buildToolsVersion', '26.0.3')
+-
+-    defaultConfig {
+-        minSdkVersion safeExtGet('minSdkVersion', 16)
+-        targetSdkVersion safeExtGet('targetSdkVersion', 26)
+-        versionCode 1
+-        versionName "1.0"
+-
+-        externalNativeBuild {
+-            cmake {
+-                arguments '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=c++_shared'
+-            }
+-        }
+-
+-        ndk {
+-            // Specifies the ABI configurations of your native
+-            // libraries Gradle should build and package with your APK.
+-            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+-        }
++def DEFAULT_COMPILE_SDK_VERSION = 28
++def DEFAULT_BUILD_TOOLS_VERSION = '28.0.2'
++def DEFAULT_MIN_SDK_VERSION = 19
++def DEFAULT_TARGET_SDK_VERSION = 27
+ 
++android {
++  compileSdkVersion safeExtGet('compileSdkVersion', DEFAULT_COMPILE_SDK_VERSION)
++  buildToolsVersion safeExtGet('buildToolsVersion', DEFAULT_BUILD_TOOLS_VERSION)
++
++  defaultConfig {
++    minSdkVersion safeExtGet('minSdkVersion', DEFAULT_MIN_SDK_VERSION)
++    targetSdkVersion safeExtGet('targetSdkVersion', DEFAULT_TARGET_SDK_VERSION)
++    versionCode 1
++    versionName '1.0'
++  }
++  lintOptions {
++    abortOnError false
++  }
++  externalNativeBuild {
++    cmake {
++      path "src/main/cpp/CMakeLists.txt"
+     }
+-    lintOptions {
+-        abortOnError false
+-    }
+-
+-    externalNativeBuild {
+-        cmake {
+-            path "src/main/cpp/CMakeLists.txt"
+-        }
+-    }
+-
+-    // If you want Gradle to package prebuilt native libraries
+-    // with your APK, modify the default source set configuration
+-    // to include the directory of your prebuilt .so files as follows.
+-    sourceSets {
+-        main {
+-            jniLibs.srcDirs 'jni/libs/'
+-        }
+-    }
++  }
+ }
+ 
+ repositories {
+-    mavenCentral()
+ }
+ 
+ dependencies {
+-    implementation 'com.facebook.react:react-native:+'
++  implementation 'com.facebook.react:react-native:+'
+ }
+-  
+diff --git a/node_modules/react-native-fast-crypto/react-native-fast-crypto.podspec b/node_modules/react-native-fast-crypto/react-native-fast-crypto.podspec
+index 0745247..ce5333d 100644
+--- a/node_modules/react-native-fast-crypto/react-native-fast-crypto.podspec
++++ b/node_modules/react-native-fast-crypto/react-native-fast-crypto.podspec
+@@ -21,6 +21,6 @@ Pod::Spec.new do |s|
+     "ios/Libraries/libnativecrypto.a",
+     "ios/Libraries/libsecp256k1.a"
+ 
+-  s.dependency "React"
++  s.dependency "React-Core"
+   s.dependency "OpenSSL-Universal"
+ end

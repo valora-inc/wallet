@@ -2,25 +2,27 @@ import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState, MultichainBetaStatus } from 'src/app/actions'
 import { CeloNewsConfig } from 'src/celoNews/types'
-import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
+import { DEEPLINK_PREFIX } from 'src/config'
 
 const PERSISTED_DEEP_LINKS = [
   'https://valoraapp.com/share',
-  `${DEEP_LINK_URL_SCHEME}://wallet/jumpstart`,
+  `${DEEPLINK_PREFIX}://wallet/jumpstart`,
 ]
 
 interface State {
   loggedIn: boolean
-  phoneNumberVerified: boolean
+  numberVerified: boolean // decentrally verified
+  phoneNumberVerified: boolean // centrally verified
   analyticsEnabled: boolean
   requirePinOnAppOpen: boolean
   appState: AppState
   locked: boolean
   lastTimeBackgrounded: number
   sessionId: string
+  minVersion: string | null
   celoEducationUri: string | null
   activeScreen: Screens
   walletConnectV2Enabled: boolean
@@ -58,6 +60,7 @@ interface PendingDeepLink {
 
 const initialState = {
   loggedIn: false,
+  numberVerified: false,
   phoneNumberVerified: false,
   analyticsEnabled: true,
   requirePinOnAppOpen: false,
@@ -65,6 +68,7 @@ const initialState = {
   locked: false,
   lastTimeBackgrounded: 0,
   sessionId: '',
+  minVersion: null,
   celoEducationUri: null,
   activeScreen: Screens.Main,
   walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
@@ -143,6 +147,17 @@ export const appReducer = (
         ...state,
         loggedIn: action.loggedIn,
       }
+    case Actions.SET_NUMBER_VERIFIED:
+      return {
+        ...state,
+        numberVerified: action.numberVerified,
+      }
+    case Actions.RESET_APP_OPENED_STATE:
+      return {
+        ...state,
+        loggedIn: false,
+        numberVerified: false,
+      }
     case Actions.SET_ANALYTICS_ENABLED:
       return {
         ...state,
@@ -167,6 +182,11 @@ export const appReducer = (
       return {
         ...state,
         sessionId: action.sessionId,
+      }
+    case Actions.MIN_APP_VERSION_DETERMINED:
+      return {
+        ...state,
+        minVersion: action.minVersion,
       }
     case Actions.UPDATE_REMOTE_CONFIG_VALUES:
       return {
@@ -201,6 +221,7 @@ export const appReducer = (
         ...state,
         supportedBiometryType: action.supportedBiometryType,
       }
+    case Actions.PHONE_NUMBER_VERIFICATION_MIGRATED:
     case Actions.PHONE_NUMBER_VERIFICATION_COMPLETED:
       return {
         ...state,

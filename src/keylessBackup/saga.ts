@@ -1,6 +1,7 @@
+import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { initializeAccountSaga } from 'src/account/saga'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { KeylessBackupEvents } from 'src/analytics/Events'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
 import { walletHasBalance } from 'src/import/saga'
 import {
@@ -17,7 +18,6 @@ import {
 import { getSECP256k1PrivateKey, storeSECP256k1PrivateKey } from 'src/keylessBackup/keychain'
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
-  appKeyshareIssued,
   auth0SignInCompleted,
   deleteKeylessBackupCompleted,
   deleteKeylessBackupFailed,
@@ -29,19 +29,19 @@ import {
   keylessBackupNotFound,
   keylessBackupShowZeroBalance,
   torusKeyshareIssued,
+  appKeyshareIssued,
 } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
-import { privateKeyToAddress } from 'src/utils/address'
 import { calculateSha256Hash } from 'src/utils/random'
-import networkConfig from 'src/web3/networkConfig'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
-import { type Hex } from 'viem'
+import { Hex } from 'viem'
+import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'keylessBackup/saga'
 

@@ -1,3 +1,4 @@
+import { UnlockableWallet } from '@celo/wallet-base'
 import firebase from '@react-native-firebase/app'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -40,7 +41,8 @@ import { ensureError } from 'src/utils/ensureError'
 import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 import { safely } from 'src/utils/safely'
 import { clearStoredAccounts } from 'src/web3/KeychainAccounts'
-import { getKeychainAccounts } from 'src/web3/contracts'
+import { getWallet } from 'src/web3/contracts'
+import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import networkConfig from 'src/web3/networkConfig'
 import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -49,19 +51,21 @@ const TAG = 'account/saga'
 
 export const SENTINEL_MIGRATE_COMMENT = '__CELO_MIGRATE_TX__'
 
-function* clearStoredAccountSaga({ account }: ClearStoredAccountAction) {
+function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccountAction) {
   try {
-    yield* call(removeAccountLocally, account)
-    yield* call(clearStoredMnemonic)
-    yield* call(AppAnalytics.reset)
-    yield* call(clearStoredAccounts)
+    if (!onlyReduxState) {
+      yield* call(removeAccountLocally, account)
+      yield* call(clearStoredMnemonic)
+      yield* call(AppAnalytics.reset)
+      yield* call(clearStoredAccounts)
 
-    // Ignore error if it was caused by Firebase.
-    try {
-      yield* call(firebaseSignOut, firebase.app())
-    } catch (error) {
-      if (FIREBASE_ENABLED) {
-        Logger.error(TAG + '@clearStoredAccount', 'Failed to sign out from Firebase', error)
+      // Ignore error if it was caused by Firebase.
+      try {
+        yield* call(firebaseSignOut, firebase.app())
+      } catch (error) {
+        if (FIREBASE_ENABLED) {
+          Logger.error(TAG + '@clearStoredAccount', 'Failed to sign out from Firebase', error)
+        }
       }
     }
 
@@ -149,21 +153,16 @@ function* handlePreviouslyVerifiedPhoneNumber() {
 
 export function* generateSignedMessage() {
   try {
-    const keychainAccounts = yield* call(getKeychainAccounts)
+    const wallet: UnlockableWallet = yield* call(getWallet)
     const address = yield* select(walletAddressSelector)
     if (!address) {
       throw new Error('No address found')
     }
 
     yield* call(unlockAccount, address)
-    const viemAccount = yield* call([keychainAccounts, 'getViemAccount'], address)
-    if (!viemAccount) {
-      // This should never happen
-      throw new Error('Viem account not found')
-    }
-
     const signedTypedMessage = yield* call(
-      [viemAccount, 'signTypedData'],
+      [wallet, 'signTypedData'],
+      address,
       networkConfig.setRegistrationPropertiesAuth
     )
 
@@ -255,5 +254,6 @@ export function* accountSaga() {
   yield* spawn(watchUpdateStatsigAndNavigate)
   yield* spawn(watchClearStoredAccount)
   yield* spawn(watchInitializeAccount)
+  yield* spawn(registerAccountDek)
   yield* spawn(watchSignedMessage)
 }
