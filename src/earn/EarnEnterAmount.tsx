@@ -172,7 +172,7 @@ function EarnEnterAmount({ route }: Props) {
 
   const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, token.tokenId)
   const localToToken = useLocalToTokenAmount(parsedLocalAmount, token.tokenId)
-  const { tokenAmount, localAmount } = useMemo(() => {
+  const { tokenAmount } = useMemo(() => {
     if (enteredIn === 'token') {
       setLocalAmountInput(
         tokenToLocal && tokenToLocal.gt(0)
