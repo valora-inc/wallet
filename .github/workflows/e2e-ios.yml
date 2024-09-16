@@ -36,6 +36,14 @@ jobs:
           brew tap wix/brew
           brew install applesimutils
           applesimutils --list
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: 1
+          HOMEBREW_NO_INSTALL_CLEANUP: 1
+      - name: Cache Pods
+        uses: actions/cache@v4
+        with:
+          path: ./ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile', 'ios/Podfile.lock') }}
 
       # - uses: ./.github/actions/yarn-install
       - uses: actions/setup-node@v4
