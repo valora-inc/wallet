@@ -5621,11 +5621,15 @@
                         },
                         "outAmount": {
                             "$ref": "#/definitions/TokenAmount"
+                        },
+                        "providerId": {
+                            "type": "string"
                         }
                     },
                     "required": [
                         "inAmount",
-                        "outAmount"
+                        "outAmount",
+                        "providerId"
                     ],
                     "type": "object"
                 },
@@ -5637,9 +5641,6 @@
                 },
                 "networkId": {
                     "$ref": "#/definitions/NetworkId"
-                },
-                "providerId": {
-                    "type": "string"
                 },
                 "status": {
                     "$ref": "#/definitions/TransactionStatus"
@@ -5676,7 +5677,6 @@
                 "deposit",
                 "fees",
                 "networkId",
-                "providerId",
                 "status",
                 "swap",
                 "timestamp",
