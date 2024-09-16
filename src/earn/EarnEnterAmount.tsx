@@ -486,7 +486,6 @@ function FeeDetailsBottomSheet({
   feeCurrency,
   estimatedFeeAmount,
   maxFeeAmount,
-  // appFeeAmount,
 }: {
   forwardedRef: React.RefObject<BottomSheetModalRefType>
   title: string
@@ -494,7 +493,6 @@ function FeeDetailsBottomSheet({
   feeCurrency?: TokenBalance
   estimatedFeeAmount?: BigNumber
   maxFeeAmount?: BigNumber
-  // appFeeAmount?: BigNumber
 }) {
   const { t } = useTranslation()
 
