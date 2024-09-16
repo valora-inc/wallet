@@ -2,14 +2,15 @@ import { useMemo } from 'react'
 import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
 import { showError, showMessage } from 'src/alert/actions'
-import { QrScreenEvents, SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { QrScreenEvents, SendEvents } from 'src/analytics/Events'
 import {
   HooksEnablePreviewOrigin,
   SendOrigin,
   WalletConnectPairingOrigin,
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { DEEP_LINK_PREFIX } from 'src/config'
 import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { E164NumberToAddressType } from 'src/identity/reducer'
 import { getSecureSendAddress } from 'src/identity/secureSend'
@@ -41,7 +42,6 @@ import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConne
 import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'
 import { call, fork, put, select } from 'typed-redux-saga'
 import { isAddress } from 'viem'
-import { DEEPLINK_PREFIX } from 'src/config'
 
 export enum QRCodeTypes {
   QR_CODE = 'QR_CODE',
@@ -131,7 +131,7 @@ function* extractQRAddressData(qrCode: QrCode) {
   // strip network prefix if present
   const qrAddress = qrCode.data.split(':').at(-1) || qrCode.data
   if (isAddress(qrAddress, { strict: false })) {
-    qrCode.data = `${DEEPLINK_PREFIX}://wallet/pay?address=${qrAddress}`
+    qrCode.data = `${DEEP_LINK_PREFIX}://wallet/pay?address=${qrAddress}`
   }
   let qrData: UriData | null
   try {
@@ -160,7 +160,7 @@ export function* handleQRCodeDefault({ qrCode }: HandleQRCodeDetectedAction) {
   }
   if (
     (yield* select(allowHooksPreviewSelector)) &&
-    qrCode.data.startsWith(`${DEEPLINK_PREFIX}://wallet/hooks/enablePreview`)
+    qrCode.data.startsWith(`${DEEP_LINK_PREFIX}://wallet/hooks/enablePreview`)
   ) {
     yield* call(handleEnableHooksPreviewDeepLink, qrCode.data, HooksEnablePreviewOrigin.Scan)
     return

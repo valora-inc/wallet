@@ -3,7 +3,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { getDappRequestOrigin } from 'src/app/utils'
-import { DEEPLINK_PREFIX, WALLETCONNECT_UNIVERSAL_LINK } from 'src/config'
+import { DEEP_LINK_PREFIX, WALLETCONNECT_UNIVERSAL_LINK } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { ActiveDapp } from 'src/dapps/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -15,7 +15,7 @@ import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { call, delay, fork, race, select, take } from 'typed-redux-saga'
 
 const WC_PREFIX = 'wc:'
-const APP_DEEPLINK_PREFIX = `${DEEPLINK_PREFIX}://wallet/wc?uri=`
+const APP_DEEPLINK_PREFIX = `${DEEP_LINK_PREFIX}://wallet/wc?uri=`
 const CONNECTION_TIMEOUT = 45_000
 
 /**

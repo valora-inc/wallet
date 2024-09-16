@@ -24,7 +24,7 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="celo" android:host="wallet" />
+        <data android:scheme="@string/deep_link_prefix" android:host="wallet" />
       </intent-filter>
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />

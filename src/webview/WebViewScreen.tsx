@@ -12,11 +12,12 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
-import { DappExplorerEvents, WebViewEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { DappExplorerEvents, WebViewEvents } from 'src/analytics/Events'
 import { openDeepLink } from 'src/app/actions'
 import Touchable from 'src/components/Touchable'
 import WebView, { WebViewRef } from 'src/components/WebView'
+import { DEEP_LINK_PREFIX } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { dappSessionEnded } from 'src/dapps/slice'
 import BackChevron from 'src/icons/BackChevron'
@@ -40,7 +41,6 @@ import useBackHandler from 'src/utils/useBackHandler'
 import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { WebViewAndroidBottomSheet } from 'src/webview/WebViewAndroidBottomSheet'
 import { parse } from 'url'
-import { DEEPLINK_PREFIX } from 'src/config'
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.WebViewScreen>
 type Props = RouteProps
@@ -143,7 +143,7 @@ function WebViewScreen({ route, navigation }: Props) {
   }, [canGoBack, webViewRef.current, navigation])
 
   const handleLoadRequest = (event: ShouldStartLoadRequest): boolean => {
-    if (event.url.startsWith(`${DEEPLINK_PREFIX}://`) || isWalletConnectDeepLink(event.url)) {
+    if (event.url.startsWith(`${DEEP_LINK_PREFIX}://`) || isWalletConnectDeepLink(event.url)) {
       dispatch(openDeepLink(event.url))
       return false
     }
@@ -205,7 +205,7 @@ function WebViewScreen({ route, navigation }: Props) {
       >
         <WebView
           ref={webViewRef}
-          originWhitelist={['https://*', `${DEEPLINK_PREFIX}://*`]}
+          originWhitelist={['https://*', `${DEEP_LINK_PREFIX}://*`]}
           onShouldStartLoadWithRequest={handleLoadRequest}
           source={{ uri }}
           startInLoadingState={true}

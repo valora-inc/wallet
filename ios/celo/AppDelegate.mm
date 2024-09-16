@@ -77,8 +77,9 @@ static void SetCustomNSURLSessionConfiguration() {
   [[CleverTapReactManager sharedInstance] applicationDidLaunchWithOptions:launchOptions];
   
   NSString *env = [RNCConfig envFor:@"FIREBASE_ENABLED"];
+  NSString *deepLinkPrefix = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DEEP_LINK_PREFIX"];
   if (env.boolValue) {
-    [FIROptions defaultOptions].deepLinkURLScheme = @"celo";
+    [FIROptions defaultOptions].deepLinkURLScheme = deepLinkPrefix;
     [FIRApp configure];
   }
   
