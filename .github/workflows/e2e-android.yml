@@ -38,7 +38,7 @@ jobs:
 
           mkdir -p $ANDROID_HOME
 
-          curl https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip -o cli-tools.zip
+          curl https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o cli-tools.zip
           unzip cli-tools.zip -d "$ANDROID_HOME/cmdline-tools"
           # Command line tools need to be placed in $ANDROID_HOME/cmdline-tools/latest to function properly
           # and because we cache $ANDROID_HOME, we need remove the existing version and move the new one
