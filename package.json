@@ -327,21 +327,14 @@
       "simulator": {
         "type": "ios.simulator",
         "device": {
-          "type": "iPhone SE (3rd generation)"
+          "type": "iPhone SE (2nd generation)"
         }
       },
-      "simulator.16.2": {
+      "simulator.15.5": {
         "type": "ios.simulator",
         "device": {
-          "type": "iPhone SE (3rd generation)",
-          "os": "iOS 16.2"
-        }
-      },
-      "simulator.16.4": {
-        "type": "ios.simulator",
-        "device": {
-          "type": "iPhone SE (3rd generation)",
-          "os": "iOS 16.4"
+          "type": "iPhone SE (2nd generation)",
+          "os": "iOS 15.5"
         }
       },
       "simulator.17.2": {
@@ -368,6 +361,10 @@
       },
       "ios.release": {
         "device": "simulator",
+        "app": "ios.release"
+      },
+      "ios.release.15.0": {
+        "device": "simulator.15.5",
         "app": "ios.release"
       },
       "ios.release.17.2": {
