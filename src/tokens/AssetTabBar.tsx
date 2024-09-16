@@ -69,7 +69,12 @@ export default function TabBar({
               {value}
             </Text>
 
-            {index === activeTab && <GradientBlock style={styles.activeTabUnderline} />}
+            {index === activeTab && (
+              <GradientBlock
+                style={styles.activeTabUnderline}
+                colors={[Colors.black, Colors.black]}
+              />
+            )}
           </>
         </Touchable>
       ))}

@@ -1,4 +1,4 @@
-import { quickOnboarding, waitForElementId } from './utils/utils'
+import { quickOnboarding, waitForElementId, waitForElementByIdAndTap } from './utils/utils'
 import { sleep } from '../../src/utils/sleep'
 import jestExpect from 'expect'
 
@@ -10,6 +10,7 @@ describe('Home Feed', () => {
   it('should show correct information on tap of feed item', async () => {
     // Load Wallet Home
     await waitForElementId('WalletHome')
+    await waitForElementByIdAndTap('Tab/Activity')
     const items = await element(by.id('TransferFeedItem')).getAttributes()
 
     // Tap top TransferFeedItem

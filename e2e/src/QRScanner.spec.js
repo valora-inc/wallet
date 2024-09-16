@@ -1,5 +1,5 @@
 import { reloadReactNative, launchApp } from './utils/retries'
-import { quickOnboarding, waitForElementId } from './utils/utils'
+import { quickOnboarding, waitForElementId, waitForElementByIdAndTap } from './utils/utils'
 
 describe('Given QR Scanner', () => {
   beforeAll(async () => {
@@ -9,6 +9,7 @@ describe('Given QR Scanner', () => {
   describe('When opening QR scanner', () => {
     it('Then should display QR code', async () => {
       await reloadReactNative()
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementId('HomeAction-Receive')
       await element(by.id('HomeAction-Receive')).tap()
       await waitForElementId('QRCode')
@@ -32,6 +33,7 @@ describe('Given QR Scanner', () => {
     it('Then should be able to close QR code scanner', async () => {
       await waitForElementId('Times')
       await element(by.id('Times')).tap()
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementId('HomeAction-Send')
       await expect(element(by.id('HomeAction-Send'))).toBeVisible()
     })
@@ -40,6 +42,7 @@ describe('Given QR Scanner', () => {
   describe("When 'scanning' QR", () => {
     beforeEach(async () => {
       await reloadReactNative()
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementId('HomeAction-Receive')
       await element(by.id('HomeAction-Receive')).tap()
       await waitForElementId('Scan')

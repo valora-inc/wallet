@@ -2335,6 +2335,10 @@
     "discover": {
       "tabName": "Discover",
       "title": "Discover"
+    },
+    "activity": {
+      "tabName": "Activity",
+      "title": "Activity"
     }
   },
   "jumpstartStatus": {

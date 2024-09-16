@@ -47,6 +47,7 @@ export default HandleDeepLinkSend = () => {
       await enterPinUiIfNecessary()
 
       // Return to home screen.
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
         .withTimeout(30_000)
@@ -67,6 +68,7 @@ export default HandleDeepLinkSend = () => {
       await enterPinUiIfNecessary()
 
       // Return to home screen.
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
         .withTimeout(30_000)
@@ -105,6 +107,7 @@ export default HandleDeepLinkSend = () => {
       await enterPinUiIfNecessary()
 
       // Return to home screen.
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
         .withTimeout(30_000)
@@ -135,6 +138,7 @@ export default HandleDeepLinkSend = () => {
       await enterPinUiIfNecessary()
 
       // Return to home screen.
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
         .withTimeout(30_000)

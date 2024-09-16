@@ -92,6 +92,7 @@ export enum Screens {
   TabNavigator = 'TabNavigator',
   TabDiscover = 'TabDiscover',
   TabHome = 'TabHome',
+  TabActivity = 'TabActivity',
   TabWallet = 'TabWallet',
   TokenDetails = 'TokenDetails',
   TokenDetailsMoreActions = 'TokenDetailsMoreActions',

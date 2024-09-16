@@ -87,9 +87,6 @@ export const pushNotificationRequestedUnixTimeSelector = (state: RootState) =>
 export const inAppReviewLastInteractionTimestampSelector = (state: RootState) =>
   state.app.inAppReviewLastInteractionTimestamp
 
-export const showNotificationSpotlightSelector = (state: RootState) =>
-  state.app.showNotificationSpotlight
-
 export const hideWalletBalancesSelector = (state: RootState) => state.app.hideBalances
 
 export const multichainBetaStatusSelector = (state: RootState) => state.app.multichainBetaStatus
