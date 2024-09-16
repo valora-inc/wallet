@@ -113,7 +113,7 @@ To test your GCP access, try running `yarn keys:decrypt` from the wallet repo ro
 External contributors don't need to decrypt repository secrets and can successfully build and run the mobile application with the following differences:
 
 - the default branding will be used (some images/icons will appear in pink or will be missing)
-- Firebase related features needs to be disabled. You can do this by setting `FIREBASE_ENABLED=false` in the `.env.*` files.
+- Firebase related features need to be disabled. You can do this by setting `FIREBASE_ENABLED=false` in the `.env.*` files.
 
 ### iOS
 
@@ -207,7 +207,7 @@ export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gr
 export TERM_PROGRAM=iterm  # or whatever your favorite terminal program is
 ```
 
-(optional) You may want install Jenv to manage multiple Java versions:
+(optional) You may want to install Jenv to manage multiple Java versions:
 
 ```bash
 brew install jenv
@@ -493,7 +493,7 @@ Note that Crowdin Over-The-Air (OTA) content delivery is used to push live trans
 
 On Android, the wallet app uses the SMS Retriever API to automatically input codes during phone number verification. When creating a new app build type this needs to be properly configured.
 
-The service that route SMS messages to the app needs to be configured to [append this app signature to the message][sms retriever]. The hash depends on both the bundle id and the signing certificate. Since we use Google Play signing, we need to download the certificate.
+The service that routes SMS messages to the app needs to be configured to [append this app signature to the message][sms retriever]. The hash depends on both the bundle id and the signing certificate. Since we use Google Play signing, we need to download the certificate.
 
 1.  Go to the play console for the relevant app, Release management > App signing, and download the App signing certificate.
 2.  Use this script to generate the hash code: https://github.com/michalbrz/sms-retriever-hash-generator
@@ -618,8 +618,6 @@ If they do not have fixes and they do not apply to production, you may ignore th
 
 Images related to the brand are stored in the `src/images` folder. When adding new images, we also include the 1.5x, 2x, 3x, and 4x versions. The app will automatically download the appropriate size.
 
-Links related to the brand are stored in the `src/brandingConfig.ts` file.
-
 ### Troubleshooting
 
 #### Postinstall script
@@ -642,8 +640,6 @@ Applying patches...
 @react-native-community/netinfo@5.8.0 ✔
 bn.js@4.11.9 ✔
 clevertap-react-native@0.5.2 ✔
-react-native-fast-crypto@2.0.0 ✔
-react-native-securerandom@1.0.0 ✔
 react-native-sms@1.11.0 ✔
 react-native-splash-screen@3.3.0 ✔
 react-native-svg@12.1.1 ✔

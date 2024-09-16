@@ -1,4 +1,3 @@
-import { parseInputAmount } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
 import React, { ComponentType, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,10 +12,10 @@ import {
 import { View } from 'react-native-animatable'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
@@ -40,6 +39,7 @@ import { Spacing } from 'src/styles/styles'
 import { useLocalToTokenAmount, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import { parseInputAmount } from 'src/utils/parsing'
 import { PreparedTransactionsResult, getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 
 export interface ProceedArgs {
@@ -155,7 +155,7 @@ function EnterAmount({
 
   const tokenAmountInputRef = useRef<RNTextInput>(null)
   const localAmountInputRef = useRef<RNTextInput>(null)
-  const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
   const [tokenAmountInput, setTokenAmountInput] = useState<string>('')

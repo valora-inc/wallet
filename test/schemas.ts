@@ -3474,6 +3474,65 @@ export const v227Schema = {
   account: _.omit(v225Schema.account, 'pictureUri'),
 }
 
+export const v228Schema = {
+  ...v227Schema,
+  _persist: {
+    ...v227Schema._persist,
+    version: 228,
+  },
+  identity: _.omit(
+    v227Schema.identity,
+    'walletToAccountAddress',
+    'e164NumberToSalt',
+    'addressToDataEncryptionKey'
+  ),
+  web3: _.omit(
+    v227Schema.web3,
+    'accountInWeb3Keystore',
+    'dataEncryptionKey',
+    'isDekRegistered',
+    'mtwAddress'
+  ),
+}
+
+export const v229Schema = {
+  ...v228Schema,
+  _persist: {
+    ...v228Schema._persist,
+    version: 229,
+  },
+}
+
+export const v230Schema = {
+  ...v229Schema,
+  _persist: {
+    ...v229Schema._persist,
+    version: 230,
+  },
+  app: _.omit(v229Schema.app, 'minVersion'),
+}
+
+export const v231Schema = {
+  ...v230Schema,
+  _persist: {
+    ...v230Schema._persist,
+    version: 231,
+  },
+  jumpstart: {
+    ...v230Schema.jumpstart,
+    introHasBeenSeen: false,
+  },
+}
+
+export const v232Schema = {
+  ...v231Schema,
+  _persist: {
+    ...v231Schema._persist,
+    version: 232,
+  },
+  app: _.omit(v231Schema.app, 'numberVerified'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v227Schema as Partial<RootState>
+  return v232Schema as Partial<RootState>
 }

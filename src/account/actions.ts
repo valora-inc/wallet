@@ -17,7 +17,6 @@ export enum Actions {
   INITIALIZE_ACCOUNT_SUCCESS = 'ACCOUNT/INITIALIZE_ACCOUNT_SUCCESS',
   INITIALIZE_ACCOUNT_FAILURE = 'ACCOUNT/INITIALIZE_ACCOUNT_FAILURE',
   SET_BACKUP_COMPLETED = 'ACCOUNT/SET_BACKUP_COMPLETED',
-  TOGGLE_BACKUP_STATE = 'ACCOUNT/TOGGLE_BACKUP_STATE',
   DISMISS_GET_VERIFIED = 'ACCOUNT/DISMISS_GET_VERIFIED',
   DISMISS_GOLD_EDUCATION = 'ACCOUNT/DISMISS_GOLD_EDUCATION',
   SET_USER_CONTACT_DETAILS = 'ACCOUNT/SET_USER_CONTACT_DETAILS',
@@ -100,10 +99,6 @@ interface SetBackupCompletedAction {
   type: Actions.SET_BACKUP_COMPLETED
 }
 
-interface ToggleBackupState {
-  type: Actions.TOGGLE_BACKUP_STATE
-}
-
 interface DismissGetVerifiedAction {
   type: Actions.DISMISS_GET_VERIFIED
 }
@@ -121,7 +116,6 @@ interface SetContactDetailsAction {
 export interface ClearStoredAccountAction {
   type: Actions.CLEAR_STORED_ACCOUNT
   account: string
-  onlyReduxState: boolean
 }
 
 interface ProfileUploadedAction {
@@ -161,7 +155,6 @@ export type ActionTypes =
   | InitializeAccountSuccessAction
   | SetAccountCreationAction
   | SetBackupCompletedAction
-  | ToggleBackupState
   | DismissGetVerifiedAction
   | DismissGoldEducationAction
   | SetContactDetailsAction
@@ -237,10 +230,6 @@ export const setBackupCompleted = (): SetBackupCompletedAction => ({
   type: Actions.SET_BACKUP_COMPLETED,
 })
 
-export const toggleBackupState = (): ToggleBackupState => ({
-  type: Actions.TOGGLE_BACKUP_STATE,
-})
-
 export const dismissGetVerified = (): DismissGetVerifiedAction => ({
   type: Actions.DISMISS_GET_VERIFIED,
 })
@@ -258,13 +247,9 @@ export const setUserContactDetails = (
   thumbnailPath,
 })
 
-export const clearStoredAccount = (
-  account: string,
-  onlyReduxState: boolean = false
-): ClearStoredAccountAction => ({
+export const clearStoredAccount = (account: string): ClearStoredAccountAction => ({
   type: Actions.CLEAR_STORED_ACCOUNT,
   account,
-  onlyReduxState,
 })
 
 export const saveSignedMessage = (): SaveSignedMessage => ({

@@ -39,7 +39,6 @@ const mockEthTokens = {
 }
 
 const mockState = {
-  web3: { mtwAddress: '0x123' },
   account: { defaultCountryCode: '+33', pincodeType: PincodeType.CustomPin },
   app: {
     phoneNumberVerified: true,
@@ -316,7 +315,7 @@ const mockState = {
 }
 
 const expectedTraitsForAllNetworks = {
-  accountAddress: '0x123',
+  accountAddress: '0x0000000000000000000000000000000000007E57',
   appBuildNumber: '1',
   appBundleId: 'org.celo.mobile.debug',
   appVersion: '0.0.1',
@@ -328,7 +327,6 @@ const expectedTraitsForAllNetworks = {
   deviceLanguage: 'en-US',
   ethBalance: 10,
   hasCompletedBackup: false,
-  hasVerifiedNumber: false,
   hasVerifiedNumberCPV: true,
   hooksPreviewEnabled: false,
   language: 'es-419',
@@ -387,13 +385,5 @@ describe('getCurrentUserTraits', () => {
       totalEthereumSepoliaBalanceUsd: 0,
       hasEthereumSepoliaTokenBalance: false,
     })
-  })
-  it('uses wallet address as fallback for accountAddress if MTW is null', () => {
-    const state = getMockStoreData({
-      web3: { mtwAddress: null },
-    })
-    expect(getCurrentUserTraits(state, [NetworkId['celo-alfajores']]).accountAddress).toEqual(
-      '0x0000000000000000000000000000000000007E57' // intentionally using non-lower-cased version here (important for backwards compatibility)
-    )
   })
 })

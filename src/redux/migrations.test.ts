@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import { DEEPLINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { exchangeInitialState, migrations } from 'src/redux/migrations'
 import {
   Network,
@@ -54,6 +54,9 @@ import {
   v216Schema,
   v21Schema,
   v222Schema,
+  v227Schema,
+  v228Schema,
+  v230Schema,
   v28Schema,
   v2Schema,
   v35Schema,
@@ -83,6 +86,7 @@ import {
   vNeg1Schema,
 } from 'test/schemas'
 import {
+  mockEarnDepositTransaction,
   mockInvitableRecipient,
   mockInvitableRecipient2,
   mockPositionsLegacy,
@@ -774,7 +778,7 @@ describe('Redux persist migrations', () => {
           {
             name: 'Moola',
             description: 'Lend, borrow, or add to a pool to earn rewards',
-            dappUrl: `${DEEPLINK_PREFIX}://wallet/moolaScreen`,
+            dappUrl: `${DEEP_LINK_URL_SCHEME}://wallet/moolaScreen`,
             categoryId: 'lend',
             iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/moola.png',
             isFeatured: false,
@@ -1641,6 +1645,62 @@ describe('Redux persist migrations', () => {
       ..._.omit(oldSchema.recipients, 'valoraRecipientCache'),
       appRecipientCache: {},
     }
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 227 to 228', () => {
+    const oldSchema = v227Schema
+    const migratedSchema = migrations[228](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    ;(expectedSchema.identity = _.omit(
+      oldSchema.identity,
+      'walletToAccountAddress',
+      'e164NumberToSalt',
+      'addressToDataEncryptionKey'
+    )),
+      (expectedSchema.web3 = _.omit(
+        oldSchema.web3,
+        'accountInWeb3Keystore',
+        'dataEncryptionKey',
+        'isDekRegistered',
+        'mtwAddress'
+      ))
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+  it('works from 228 to 229', () => {
+    const oldSchema = {
+      ...v228Schema,
+      transactions: {
+        ...v228Schema.transactions,
+        transactionsByNetworkId: {
+          ...v228Schema.transactions.transactionsByNetworkId,
+          [NetworkId['arbitrum-sepolia']]: [
+            { ...mockEarnDepositTransaction, providerId: 'aave-v3' },
+          ],
+        },
+        standbyTransactions: [
+          {
+            ...mockEarnDepositTransaction,
+            providerId: 'aave-v3',
+            status: TransactionStatus.Pending,
+          },
+          ...v228Schema.transactions.standbyTransactions,
+        ],
+      },
+    }
+    const migratedSchema = migrations[229](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.transactions.transactionsByNetworkId[
+      NetworkId['arbitrum-sepolia']
+    ][0].providerId = 'aave'
+    expectedSchema.transactions.standbyTransactions[0].providerId = 'aave'
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+  it('works from 230 to 231', () => {
+    const oldSchema = v230Schema
+    const migratedSchema = migrations[231](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.jumpstart.introHasBeenSeen = false
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

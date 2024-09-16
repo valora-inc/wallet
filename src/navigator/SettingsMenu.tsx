@@ -1,56 +1,57 @@
+import Clipboard from '@react-native-clipboard/clipboard'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
-import * as Sentry from '@sentry/react-native'
 import { useTranslation } from 'react-i18next'
 import {
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native'
 import deviceInfoModule from 'react-native-device-info'
 import { ScrollView } from 'react-native-gesture-handler'
+import { clearStoredAccount, devModeTriggerClicked } from 'src/account/actions'
 import {
   defaultCountryCodeSelector,
   devModeSelector,
   e164NumberSelector,
   nameSelector,
 } from 'src/account/selectors'
-import { useDispatch, useSelector } from 'src/redux/hooks'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SettingsEvents } from 'src/analytics/Events'
+import { setSessionId } from 'src/app/actions'
 import {
   phoneNumberVerifiedSelector,
-  walletConnectEnabledSelector,
   sessionIdSelector,
+  walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
+import GradientBlock from 'src/components/GradientBlock'
+import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import Touchable from 'src/components/Touchable'
 import Envelope from 'src/icons/Envelope'
-import AppAnalytics from 'src/analytics/AppAnalytics'
+import ForwardChevron from 'src/icons/ForwardChevron'
+import Lock from 'src/icons/Lock'
+import Preferences from 'src/icons/Preferences'
+import Stack from 'src/icons/Stack'
 import Help from 'src/icons/navigator/Help'
+import Wallet from 'src/icons/navigator/Wallet'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import ForwardChevron from 'src/icons/ForwardChevron'
-import Wallet from 'src/icons/navigator/Wallet'
-import Preferences from 'src/icons/Preferences'
-import Lock from 'src/icons/Lock'
-import Stack from 'src/icons/Stack'
-import { SettingsItemTextValue } from 'src/components/SettingsItem'
-import SessionId from 'src/components/SessionId'
-import Logger from 'src/utils/Logger'
-import { resetAppOpenedState, setNumberVerified, setSessionId } from 'src/app/actions'
-import { clearStoredAccount, devModeTriggerClicked, toggleBackupState } from 'src/account/actions'
-import { SettingsEvents } from 'src/analytics/Events'
-import { walletAddressSelector } from 'src/web3/selectors'
 import variables from 'src/styles/variables'
+import Logger from 'src/utils/Logger'
 import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 import { selectSessions } from 'src/walletConnect/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
+import { Statsig } from 'statsig-react-native'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SettingsMenu>
 
@@ -129,37 +130,15 @@ export default function SettingsMenu({ route }: Props) {
 
   const sessionId = useSelector(sessionIdSelector)
   const devModeActive = useSelector(devModeSelector)
-  const numberVerified = useSelector(phoneNumberVerifiedSelector)
 
   useEffect(() => {
     if (AppAnalytics.getSessionId() !== sessionId) {
-      dispatch(setSessionId(sessionId))
+      dispatch(setSessionId(AppAnalytics.getSessionId()))
     }
   }, [])
 
-  const toggleNumberVerified = () => {
-    dispatch(setNumberVerified(numberVerified))
-  }
-
-  const handleResetAppOpenedState = () => {
-    Logger.showMessage('App onboarding state reset.')
-    dispatch(resetAppOpenedState())
-  }
-
-  const handleToggleBackupState = () => {
-    dispatch(toggleBackupState())
-  }
-
-  const showDebugScreen = () => {
-    navigate(Screens.Debug)
-  }
-
   const showDebugImagesScreen = () => {
     navigate(Screens.DebugImages)
-  }
-
-  const wipeReduxStore = () => {
-    dispatch(clearStoredAccount(account ?? '', true))
   }
 
   const confirmAccountRemoval = () => {
@@ -171,55 +150,34 @@ export default function SettingsMenu({ route }: Props) {
     dispatch(devModeTriggerClicked())
   }
 
+  const onCopyText = (...text: Array<string | null>) => {
+    return () => {
+      Logger.showMessage('Copied to Clipboard')
+      Clipboard.setString(text.join(', '))
+    }
+  }
+
   const getDevSettingsComp = () => {
     if (!devModeActive) {
       return null
     } else {
+      const statsigStableId = Statsig.getStableID()
       return (
         <View style={styles.devSettings}>
+          <Touchable onPress={onCopyText(sessionId)} style={styles.devSettingsItem}>
+            <Text>{`Session ID: ${sessionId}`}</Text>
+          </Touchable>
+          <Touchable onPress={onCopyText(statsigStableId)} style={styles.devSettingsItem}>
+            <Text>{`Statsig Stable ID: ${statsigStableId}`}</Text>
+          </Touchable>
           <View style={styles.devSettingsItem}>
-            <Text style={typeScale.labelSemiBoldSmall}>Session ID</Text>
-            <SessionId sessionId={sessionId || ''} />
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={toggleNumberVerified}>
-              <Text>Toggle verification done</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={handleResetAppOpenedState}>
-              <Text>Reset app opened state</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={handleToggleBackupState}>
-              <Text>Toggle backup state</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={showDebugScreen}>
-              <Text>Show Debug Screen</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={Sentry.nativeCrash}>
-              <Text>Trigger a crash</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={wipeReduxStore}>
-              <Text>Wipe Redux Store</Text>
+            <TouchableOpacity onPress={showDebugImagesScreen}>
+              <Text>See App Assets</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={confirmAccountRemoval}>
               <Text>App Quick Reset</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.devSettingsItem}>
-            <TouchableOpacity onPress={showDebugImagesScreen}>
-              <Text>See app assets</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -252,7 +210,9 @@ export default function SettingsMenu({ route }: Props) {
           showChevron
           borderless
         />
-        <View style={styles.border} />
+
+        <GradientBlock style={styles.divider} />
+
         <SettingsItemTextValue
           icon={<Preferences size={24} />}
           title={t('preferences')}
@@ -288,7 +248,9 @@ export default function SettingsMenu({ route }: Props) {
           showChevron
           borderless
         />
-        <View style={styles.border} />
+
+        <GradientBlock style={styles.divider} />
+
         <SettingsItemTextValue
           title={t('legal')}
           testID="SettingsMenu/Legal"
@@ -336,13 +298,6 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
     color: colors.gray3,
   },
-  border: {
-    marginVertical: Spacing.Smallest8,
-    marginHorizontal: Spacing.Regular16,
-    height: 1,
-    backgroundColor: colors.gray2,
-    alignSelf: 'stretch',
-  },
   appVersionContainer: {
     flexDirection: 'row',
     flexGrow: 1,
@@ -357,10 +312,13 @@ const styles = StyleSheet.create({
   devSettings: {
     alignItems: 'flex-start',
     padding: Spacing.Regular16,
-    marginHorizontal: Spacing.Smallest8,
   },
   devSettingsItem: {
     alignSelf: 'stretch',
-    margin: Spacing.Tiny4,
+    marginVertical: Spacing.Smallest8,
+  },
+  divider: {
+    marginVertical: Spacing.Smallest8,
+    marginHorizontal: Spacing.Regular16,
   },
 })

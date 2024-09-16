@@ -1,4 +1,3 @@
-import { ValidatorKind } from '@celo/utils/lib/inputValidation'
 import React, { useEffect, useRef } from 'react'
 import { Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import SmsRetriever from 'react-native-sms-retriever'
@@ -10,6 +9,7 @@ import ValidatedTextInput from 'src/components/ValidatedTextInput'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import { type LocalizedCountry } from 'src/utils/Countries'
+import { ValidatorKind } from 'src/utils/inputValidation'
 import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 
 const TAG = 'PhoneNumberInput'

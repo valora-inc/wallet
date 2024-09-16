@@ -77,7 +77,6 @@ export type StackParamList = {
     rewardId: string
   }
   [Screens.DappsScreen]: undefined
-  [Screens.Debug]: undefined
   [Screens.DebugImages]: undefined
   [Screens.EarnInfoScreen]: undefined
   [Screens.EarnEnterAmount]: { pool: EarnPosition }

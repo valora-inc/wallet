@@ -1861,4 +1861,59 @@ export const migrations = {
     ...state,
     account: _.omit(state.account, 'pictureUri'),
   }),
+  228: (state: any) => ({
+    ...state,
+    identity: _.omit(
+      state.identity,
+      'walletToAccountAddress',
+      'e164NumberToSalt',
+      'addressToDataEncryptionKey'
+    ),
+    web3: _.omit(
+      state.web3,
+      'accountInWeb3Keystore',
+      'dataEncryptionKey',
+      'isDekRegistered',
+      'mtwAddress'
+    ),
+  }),
+  229: (state: any) => {
+    const transactionsByNetworkId: any = {}
+    for (const networkId of Object.keys(state.transactions.transactionsByNetworkId)) {
+      const transactions = []
+      for (const tx of state.transactions.transactionsByNetworkId[networkId]) {
+        ;(networkId === NetworkId['arbitrum-one'] || networkId === NetworkId['arbitrum-sepolia']) &&
+        tx.providerId &&
+        tx.providerId === 'aave-v3'
+          ? transactions.push({ ...tx, providerId: 'aave' })
+          : transactions.push(tx)
+      }
+      transactionsByNetworkId[networkId] = transactions
+    }
+    return {
+      ...state,
+      transactions: {
+        ...state.transactions,
+        transactionsByNetworkId,
+        standbyTransactions: state.transactions.standbyTransactions.map((tx: any) => {
+          return tx.providerId && tx.providerId === 'aave-v3' ? { ...tx, providerId: 'aave' } : tx
+        }),
+      },
+    }
+  },
+  230: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'minVersion'),
+  }),
+  231: (state: any) => ({
+    ...state,
+    jumpstart: {
+      ...state.jumpstart,
+      introHasBeenSeen: false,
+    },
+  }),
+  232: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'numberVerified'),
+  }),
 }

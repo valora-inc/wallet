@@ -69,7 +69,7 @@ function DappShortcutTransactionRequest({ route: { params } }: Props) {
   const { rewardId } = params
 
   return (
-    <BottomSheetScrollView isScreen>
+    <BottomSheetScrollView>
       <Content rewardId={rewardId} />
     </BottomSheetScrollView>
   )

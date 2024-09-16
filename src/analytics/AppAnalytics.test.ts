@@ -116,7 +116,6 @@ const state = getMockStoreData({
   },
   web3: {
     account: mockWalletAddress,
-    mtwAddress: null,
   },
   account: {
     pincodeType: PincodeType.CustomPin,
@@ -146,7 +145,6 @@ const defaultSuperProperties = {
   sDeviceId: mockDeviceId,
   sDeviceLanguage: 'en-US',
   sHasCompletedBackup: false,
-  sHasVerifiedNumber: false,
   sHasVerifiedNumberCPV: true,
   sHooksPreviewEnabled: false,
   sLanguage: 'es-419',

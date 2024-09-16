@@ -1,4 +1,3 @@
-import CryptoJS from 'crypto-js'
 import * as Keychain from 'react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
@@ -6,6 +5,7 @@ import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AuthenticationEvents } from 'src/analytics/Events'
+import { encryptMnemonic } from 'src/backup/utils'
 import { storedPasswordRefreshed } from 'src/identity/actions'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import {
@@ -33,17 +33,20 @@ import {
 } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
+import { aesDecrypt, aesEncrypt } from 'src/utils/aes'
 import { ensureError } from 'src/utils/ensureError'
-import { getWalletAsync } from 'src/web3/contracts'
+import { getKeychainAccounts } from 'src/web3/contracts'
 import { getMockStoreData } from 'test/utils'
-import { mockAccount } from 'test/values'
+import { mockAccount, mockMnemonic } from 'test/values'
 
 jest.mock('src/web3/contracts')
 jest.unmock('src/pincode/authentication')
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
-jest.mock('react-native-securerandom', () => ({
-  ...(jest.requireActual('react-native-securerandom') as any),
-  generateSecureRandom: jest.fn(() => new Uint8Array(16).fill(1)),
+jest.mock('crypto', () => ({
+  ...jest.requireActual('crypto'),
+  // So the pepper is deterministic
+  // WARNING: in this test, it might affect more things than just the pepper
+  randomBytes: jest.fn((length) => Buffer.alloc(length, 1)),
 }))
 jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/utils/sleep', () => ({
@@ -51,10 +54,21 @@ jest.mock('src/utils/sleep', () => ({
   sleep: jest.fn().mockResolvedValue(true),
 }))
 
+jest.mock('src/utils/aes', () => {
+  const originalAes = jest.requireActual('src/utils/aes')
+
+  return {
+    ...originalAes,
+    aesEncrypt: jest.fn().mockImplementation((...args) => originalAes.aesEncrypt(...args)),
+    aesDecrypt: jest.fn().mockImplementation((...args) => originalAes.aesDecrypt(...args)),
+  }
+})
+
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 const mockPepper = {
   username: 'some username',
-  password: '01010101010101010101010101010101',
+  password:
+    '01010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101',
   service: 'some service',
   storage: 'some string',
 }
@@ -74,6 +88,18 @@ const expectPincodeEntered = () => {
   )
   expect(navigateBack).toHaveBeenCalled()
 }
+
+// Keep initial mocked implementation from __mocks__/react-native-keychain.ts
+const originalGetGenericPassword = mockedKeychain.getGenericPassword.getMockImplementation()
+const originalSetGenericPassword = mockedKeychain.setGenericPassword.getMockImplementation()
+const originalResetGenericPassword = mockedKeychain.resetGenericPassword.getMockImplementation()
+
+beforeEach(async () => {
+  // Reset to the original mocked implementation to get better isolation between tests
+  mockedKeychain.getGenericPassword.mockImplementation(originalGetGenericPassword)
+  mockedKeychain.setGenericPassword.mockImplementation(originalSetGenericPassword)
+  mockedKeychain.resetGenericPassword.mockImplementation(originalResetGenericPassword)
+})
 
 describe(getPasswordSaga, () => {
   beforeEach(() => {
@@ -335,13 +361,17 @@ describe(updatePin, () => {
   const oldPassword = mockPepper.password + oldPin
   const newPassword = mockPepper.password + mockPin
   // expectedPasswordHash generated from newPassword
-  const newPasswordHash = 'd9bb2d77ec27dc8bf4269a6241daaa0388e8908518458f6ce0314380d11411cd'
+  const newPasswordHash = '30fb8abeffeaeeef688d8d52a48ac60506db2e890aa32651c975e31cf06369a0'
   // expectedAccountHash generated from normalizeAddress(mockAccount)
   const accountHash = 'PASSWORD_HASH-0000000000000000000000000000000000007e57'
+  let encryptedMnemonicOldPin: string
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks()
     clearPasswordCaches()
+
+    encryptedMnemonicOldPin = await encryptMnemonic(mockMnemonic, oldPassword)
+
     mockedKeychain.getGenericPassword.mockImplementation((options) => {
       if (options?.service === 'PEPPER') {
         return Promise.resolve(mockPepper)
@@ -349,7 +379,7 @@ describe(updatePin, () => {
       if (options?.service === 'mnemonic') {
         return Promise.resolve({
           username: 'some username',
-          password: 'mockEncryptedValue',
+          password: encryptedMnemonicOldPin,
           service: 'some service',
           storage: 'some string',
         })
@@ -372,8 +402,8 @@ describe(updatePin, () => {
       }
       return Promise.resolve(false)
     })
-    jest.mocked(getWalletAsync).mockResolvedValue({
-      updateAccount: jest.fn().mockResolvedValue(true),
+    jest.mocked(getKeychainAccounts).mockResolvedValue({
+      updatePassphrase: jest.fn().mockResolvedValue(true),
     } as any)
   })
 
@@ -390,13 +420,11 @@ describe(updatePin, () => {
     expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
       2,
       'CELO',
-      'mockEncryptedValue',
+      expect.any(String), // Encrypted mnemonic new pin
       expect.objectContaining({ service: 'mnemonic' })
     )
-    // as we are mocking the outcome of encryption/decryption of mnemonic, check
-    // that they are called with the expected params
-    expect(CryptoJS.AES.decrypt).toHaveBeenCalledWith('mockEncryptedValue', oldPassword)
-    expect(CryptoJS.AES.encrypt).toHaveBeenCalledWith('mockDecryptedValue', newPassword)
+    expect(jest.mocked(aesDecrypt)).toHaveBeenCalledWith(encryptedMnemonicOldPin, oldPassword)
+    expect(jest.mocked(aesEncrypt)).toHaveBeenCalledWith(mockMnemonic, newPassword)
   })
 
   it('should update the cached pin, stored password, store mnemonic, and stored pin if biometry is enabled', async () => {
@@ -415,7 +443,7 @@ describe(updatePin, () => {
     expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
       3,
       'CELO',
-      'mockEncryptedValue',
+      expect.any(String), // Encrypted mnemonic new pin
       expect.objectContaining({ service: 'mnemonic' })
     )
     expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
@@ -432,7 +460,13 @@ describe(updatePin, () => {
 })
 
 describe(removeStoredPin, () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    clearPasswordCaches()
+  })
+
   it('should remove the item from keychain', async () => {
+    expect(mockedKeychain.resetGenericPassword).toHaveBeenCalledTimes(0)
     mockedKeychain.resetGenericPassword.mockResolvedValueOnce(true)
     await removeStoredPin()
 
@@ -548,7 +582,7 @@ describe(PinBlocklist, () => {
 
 describe(checkPin, () => {
   const expectedPassword = mockPepper.password + mockPin
-  const expectedPasswordHash = 'd9bb2d77ec27dc8bf4269a6241daaa0388e8908518458f6ce0314380d11411cd' // sha256 of expectedPassword
+  const expectedPasswordHash = '30fb8abeffeaeeef688d8d52a48ac60506db2e890aa32651c975e31cf06369a0' // sha256 of expectedPassword
   const mockUnlockAccount = jest.fn().mockImplementation((_account, password, _duration) => {
     if (password === expectedPassword) {
       return Promise.resolve(true)
@@ -562,8 +596,8 @@ describe(checkPin, () => {
     setCachedPepper(DEFAULT_CACHE_ACCOUNT, mockPepper.password)
     setCachedPasswordHash(mockAccount, expectedPasswordHash)
 
-    jest.mocked(getWalletAsync).mockResolvedValue({
-      unlockAccount: mockUnlockAccount,
+    jest.mocked(getKeychainAccounts).mockResolvedValue({
+      unlock: mockUnlockAccount,
     } as any)
   })
 

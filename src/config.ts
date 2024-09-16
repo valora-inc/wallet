@@ -1,4 +1,3 @@
-import { stringToBoolean } from '@celo/utils/lib/parsing'
 import { Network } from '@fiatconnect/fiatconnect-types'
 import Config from 'react-native-config'
 import { CachesDirectoryPath } from 'react-native-fs'
@@ -6,12 +5,12 @@ import { SpendMerchant } from 'src/fiatExchanges/Spend'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
+import { LaunchArguments } from 'react-native-launch-arguments'
 import { HomeActionName } from 'src/home/types'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
+import { stringToBoolean } from 'src/utils/parsing'
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
-export * from 'src/brandingConfig'
-import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
-import { LaunchArguments } from 'react-native-launch-arguments'
 
 export interface ExpectedLaunchArgs {
   statsigGateOverrides?: string // format: gate_1=true,gate_2=false
@@ -36,6 +35,8 @@ const configOrThrow = (key: string) => {
   throw new RangeError(`Missing Config value for ${key}`)
 }
 
+export const APP_NAME = 'Valora'
+
 // DEV only related settings
 export const isE2EEnv = stringToBoolean(Config.IS_E2E || 'false')
 export const DEV_RESTORE_NAV_STATE_ON_RELOAD = stringToBoolean(
@@ -46,16 +47,11 @@ export const DEV_SETTINGS_ACTIVE_INITIALLY = stringToBoolean(
 )
 
 // VALUES
-export const GAS_INFLATION_FACTOR = 1.5 // Used when estimating gas for txs
-export const GAS_PRICE_INFLATION_FACTOR = 5 // Used when getting gas price, must match what Geth does
 export const ALERT_BANNER_DURATION = 5000
-export const MAX_COMMENT_LENGTH = 70
-export const MAX_ENCRYPTED_COMMENT_LENGTH_APPROX = 640 // used to estimate fees. should be updated if MAX_COMMENT_LENGTH is changed. chosen empirically by encrypting a comment of max length
 // The maximum allowed value to add funds
 export const DOLLAR_ADD_FUNDS_MAX_AMOUNT = 5000
 // The minimum allowed value for a transaction such as a transfer
 export const STABLE_TRANSACTION_MIN_AMOUNT = 0.01
-export const CELO_TRANSACTION_MIN_AMOUNT = 0.001
 export const TOKEN_MIN_AMOUNT = 0.00000001
 // The minimum amount for a wallet to be considered as "funded"
 export const DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED = 0.01
@@ -73,6 +69,7 @@ export const DEFAULT_FORNO_URL =
     : 'https://alfajores-forno.celo-testnet.org/'
 
 export const APP_BUNDLE_ID = configOrThrow('APP_BUNDLE_ID')
+export const DEEP_LINK_URL_SCHEME = configOrThrow('DEEP_LINK_URL_SCHEME')
 
 // The network that FiatConnect providers operate on
 export const FIATCONNECT_NETWORK =
@@ -165,12 +162,6 @@ export const SUPERCHARGE_LOGO_URL =
 export const SIMPLEX_FEES_URL =
   'https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-am-I-paying-'
 
-// N.B.: Make sure to update the following files to match this value:
-// * app.json
-// * android/**/AndroidManifest.xml
-// * ios/**/AppDelegate.mm
-export const DEEPLINK_PREFIX = 'celo'
-
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN_URI_PREFIX = 'https://vlra.app'
 export const CROWDIN_DISTRIBUTION_HASH = 'e-f9f6869461793b9d1a353b2v7c'
@@ -231,3 +222,7 @@ export const ENABLED_QUICK_ACTIONS = (
   .filter(
     (value) => !!value && Object.values(HomeActionName).includes(value as HomeActionName)
   ) as HomeActionName[]
+
+export const FETCH_FIATCONNECT_QUOTES = true
+
+export const WALLETCONNECT_UNIVERSAL_LINK = 'https://valoraapp.com/wc'

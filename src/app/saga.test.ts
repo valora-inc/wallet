@@ -1,12 +1,9 @@
-import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
-import { FetchMock } from 'jest-fetch-mock/types'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import * as RNLocalize from 'react-native-localize'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
-import { call, select } from 'redux-saga/effects'
-import { e164NumberSelector } from 'src/account/selectors'
+import { select } from 'redux-saga/effects'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
@@ -16,7 +13,6 @@ import {
   inviteLinkConsumed,
   openDeepLink,
   openUrl,
-  phoneNumberVerificationMigrated,
   setAppState,
   setSupportedBiometryType,
 } from 'src/app/actions'
@@ -26,17 +22,14 @@ import {
   handleOpenUrl,
   handleSetAppState,
   requestInAppReview,
-  runCentralPhoneVerificationMigration,
 } from 'src/app/saga'
 import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   inAppReviewLastInteractionTimestampSelector,
-  inviterAddressSelector,
   sentryNetworkErrorsSelector,
-  shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
-import { DEEPLINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { initI18n } from 'src/i18n'
@@ -45,18 +38,15 @@ import {
   currentLanguageSelector,
   otaTranslationsAppVersionSelector,
 } from 'src/i18n/selectors'
-import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { getDynamicConfigParams, getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
-import getPhoneHash from 'src/utils/getPhoneHash'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -64,12 +54,7 @@ import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
-import networkConfig from 'src/web3/networkConfig'
-import {
-  dataEncryptionKeySelector,
-  mtwAddressSelector,
-  walletAddressSelector,
-} from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockTokenBalances } from 'test/values'
 
@@ -87,19 +72,14 @@ jest.mock('react-native-in-app-review', () => ({
 const mockRequestInAppReview = jest.fn()
 const mockIsInAppReviewAvailable = jest.fn()
 
-const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
 
 jest.mock('src/i18n', () => ({
-  ...(jest.requireActual('src/i18n') as any),
   initI18n: jest.fn().mockResolvedValue(jest.fn()),
   t: jest.fn(),
 }))
 
 jest.mock('src/utils/Logger')
-
-const mockedDEK = jest.mocked(DEK)
-mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 
 describe('handleDeepLink', () => {
   beforeEach(() => {
@@ -116,7 +96,7 @@ describe('handleDeepLink', () => {
     }
 
     const params = new URLSearchParams(data)
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/pay?${params.toString()}`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/pay?${params.toString()}`
 
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([
@@ -133,7 +113,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles cash in deep link', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/cashIn`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/cashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -148,7 +128,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles Bidali deep link', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/bidali`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/bidali`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -161,7 +141,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles cash-in-success deep link', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/cash-in-success/simplex`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/cash-in-success/simplex`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -174,7 +154,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles cash-in-success deep link with query params', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/cash-in-success/simplex?isApproved=true`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/cash-in-success/simplex?isApproved=true`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -187,7 +167,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles openScreen deep link with safe origin', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, true))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -203,7 +183,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles openScreen deep link without safe origin', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, false))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -252,7 +232,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles jumpstart links', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/jumpstart/0xPrivateKey/celo-alfajores`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/jumpstart/0xPrivateKey/celo-alfajores`
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       jumpstartContracts: {
         [NetworkId['celo-alfajores']]: { contractAddress: '0xTEST' },
@@ -283,7 +263,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles hooks enable preview links', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([
         [select(allowHooksPreviewSelector), true],
@@ -318,7 +298,7 @@ describe('WalletConnect deeplinks', () => {
     },
     {
       name: 'iOS deeplink',
-      link: `${DEEPLINK_PREFIX}://wallet/wc?uri=${connectionString}`,
+      link: `${DEEP_LINK_URL_SCHEME}://wallet/wc?uri=${connectionString}`,
     },
     {
       name: 'iOS universal link',
@@ -396,7 +376,7 @@ describe('WalletConnect deeplinks', () => {
   const actionString = 'wc:1234'
   const actionLinks = [
     { name: 'Android', link: actionString },
-    { name: 'iOS deeplink', link: `${DEEPLINK_PREFIX}://wallet/wc?uri=${actionString}` },
+    { name: 'iOS deeplink', link: `${DEEP_LINK_URL_SCHEME}://wallet/wc?uri=${actionString}` },
     { name: 'iOS universal link', link: `https://valoraapp.com/wc?uri=${actionString}` },
   ]
   for (const { name, link } of actionLinks) {
@@ -439,7 +419,7 @@ describe('handleOpenUrl', () => {
 
   const httpLink = 'http://example.com'
   const httpsLink = 'https://example.com'
-  const appLink = `${DEEPLINK_PREFIX}://something`
+  const appLink = `${DEEP_LINK_URL_SCHEME}://something`
   const otherDeepLink = 'other://deeplink'
 
   describe('when openExternal is `false` or not specified', () => {
@@ -557,134 +537,6 @@ describe('handleSetAppState', () => {
         .not.call(patchUpdateStatsigUser)
         .run()
     })
-  })
-})
-
-describe('runCentralPhoneVerificationMigration', () => {
-  beforeEach(() => {
-    mockFetch.resetMocks()
-  })
-
-  it('should run successfully', async () => {
-    mockFetch.mockResponse(JSON.stringify({ message: 'OK' }))
-
-    await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([
-        [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(shouldRunVerificationMigrationSelector), true],
-        [select(inviterAddressSelector), '0x123'],
-        [select(mtwAddressSelector), undefined],
-        [select(walletAddressSelector), '0xabc'],
-        [select(e164NumberSelector), '+31619777888'],
-        [call(retrieveSignedMessage), 'someSignedMessage'],
-        [select(e164NumberToSaltSelector), { '+31619777888': 'somePepper' }],
-        [call(getPhoneHash, '+31619777888', 'somePepper'), 'somePhoneHash'],
-      ])
-      .put(phoneNumberVerificationMigrated())
-      .run()
-
-    expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.migratePhoneVerificationUrl}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
-      },
-      body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","inviterAddress":"0x123"}',
-    })
-  })
-
-  it('should warn if the verification service fails', async () => {
-    mockFetch.mockResponse(JSON.stringify({ message: 'Not OK' }), { status: 500 })
-
-    await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([
-        [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(shouldRunVerificationMigrationSelector), true],
-        [select(inviterAddressSelector), undefined],
-        [select(mtwAddressSelector), '0x123'],
-        [select(walletAddressSelector), '0xabc'],
-        [select(e164NumberSelector), '+31619777888'],
-        [call(retrieveSignedMessage), 'someSignedMessage'],
-        [select(e164NumberToSaltSelector), { '+31619777888': 'somePepper' }],
-        [call(getPhoneHash, '+31619777888', 'somePepper'), 'somePhoneHash'],
-      ])
-      .not.put(phoneNumberVerificationMigrated())
-      .run()
-
-    expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.migratePhoneVerificationUrl}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `${networkConfig.authHeaderIssuer} 0xabc:someSignedMessage`,
-      },
-      body: '{"clientPlatform":"android","clientVersion":"0.0.1","publicDataEncryptionKey":"publicKeyForUser","phoneNumber":"+31619777888","pepper":"somePepper","phoneHash":"somePhoneHash","mtwAddress":"0x123"}',
-    })
-    expect(Logger.warn).toHaveBeenCalled()
-  })
-
-  it('should not run if migration conditions are not met', async () => {
-    await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([
-        [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(shouldRunVerificationMigrationSelector), false],
-      ])
-      .not.put(phoneNumberVerificationMigrated())
-      .run()
-
-    expect(mockFetch).not.toHaveBeenCalled()
-  })
-
-  // this is true for users who created accounts before app version 1.32 and
-  // have never unlocked their account to generate the signed message
-  it('should not run if migration conditions there is no signed message', async () => {
-    await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([
-        [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(shouldRunVerificationMigrationSelector), true],
-        [select(inviterAddressSelector), undefined],
-        [select(mtwAddressSelector), undefined],
-        [select(walletAddressSelector), '0xabc'],
-        [select(e164NumberSelector), '+31619777888'],
-        [call(retrieveSignedMessage), null],
-      ])
-      .not.put(phoneNumberVerificationMigrated())
-      .run()
-
-    expect(mockFetch).not.toHaveBeenCalled()
-  })
-
-  it('should not run if no DEK can be found', async () => {
-    await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([
-        [select(dataEncryptionKeySelector), null],
-        [select(shouldRunVerificationMigrationSelector), true],
-      ])
-      .not.put(phoneNumberVerificationMigrated())
-      .run()
-
-    expect(mockFetch).not.toHaveBeenCalled()
-    expect(Logger.warn).toHaveBeenCalled()
-  })
-
-  it('should not run if the ODIS pepper for phone number is not cached', async () => {
-    await expectSaga(runCentralPhoneVerificationMigration)
-      .provide([
-        [select(dataEncryptionKeySelector), 'someDEK'],
-        [select(shouldRunVerificationMigrationSelector), true],
-        [select(inviterAddressSelector), '0x123'],
-        [select(mtwAddressSelector), undefined],
-        [select(walletAddressSelector), '0xabc'],
-        [select(e164NumberSelector), '+31619777888'],
-        [call(retrieveSignedMessage), 'someSignedMessage'],
-        [select(e164NumberToSaltSelector), { '+31619777000': 'somePepper' }],
-      ])
-      .not.put(phoneNumberVerificationMigrated())
-      .run()
-
-    expect(mockFetch).not.toHaveBeenCalled()
-    expect(Logger.warn).toHaveBeenCalled()
   })
 })
 

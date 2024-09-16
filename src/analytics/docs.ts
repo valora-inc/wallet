@@ -211,10 +211,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [OnboardingEvents.initialize_account_start]: ``,
   [OnboardingEvents.initialize_account_complete]: `When the wallet has been successfully initialized after onboarding (either by creating a new account or restoring an existing one)`,
   [OnboardingEvents.initialize_account_error]: ``,
-  [OnboardingEvents.account_dek_register_start]: ``,
-  [OnboardingEvents.account_dek_register_account_unlocked]: ``,
-  [OnboardingEvents.account_dek_register_account_checked]: ``,
-  [OnboardingEvents.account_dek_register_complete]: ``,
   [OnboardingEvents.protect_wallet_use_recovery]: ``,
   [OnboardingEvents.protect_wallet_help]: ``,
   [OnboardingEvents.protect_wallet_help_dismiss]: ``,
@@ -348,6 +344,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
     'When user taps the CTA to show ways to add assets',
   [JumpstartEvents.jumpstart_add_assets_action_press]:
     'When user selects an add assets action from the available options',
+  [JumpstartEvents.jumpstart_intro_seen]: `when jumpstart intro is seen by the user`,
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,
   [QrScreenEvents.qr_scanner_open]: `When unique "QR scanner" button is pressed`,
@@ -616,6 +613,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_home_error_try_again]: `When the user taps try again on the earn home screen after an error loading pools`,
   [EarnEvents.earn_pool_info_view_pool]: `When the user taps 'View Pool' on the earn pool info screen`,
   [EarnEvents.earn_pool_info_tap_info_icon]: `When the user taps an info icon on the earn pool info screen`,
+  [EarnEvents.earn_pool_info_tap_withdraw]: `When the user taps the withdraw button on the pool info screen`,
+  [EarnEvents.earn_pool_info_tap_deposit]: `When the user taps the deposit button on the pool info screen`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.
