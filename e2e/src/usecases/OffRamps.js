@@ -36,16 +36,16 @@ export default offRamps = () => {
     })
 
     it('Then should be able to spend cUSD', async () => {
-      await waitForElementId(`cUSDSymbol`)
-      await element(by.id(`cUSDSymbol`)).tap()
+      await waitForElementId(`BottomSheetcUSDSymbol`)
+      await element(by.id(`BottomSheetcUSDSymbol`)).tap()
 
       await waitForElementId('RNWebView')
       await expect(element(by.text('Bidali'))).toBeVisible()
     })
 
     it('Then should be able to spend cEUR', async () => {
-      await waitForElementId(`cEURSymbol`)
-      await element(by.id(`cEURSymbol`)).tap()
+      await waitForElementId(`BottomSheetcEURSymbol`)
+      await element(by.id(`BottomSheetcEURSymbol`)).tap()
 
       await waitForElementId('RNWebView')
       await expect(element(by.text('Bidali'))).toBeVisible()
@@ -68,8 +68,8 @@ export default offRamps = () => {
     `(
       'Then should display at least $exchanges.minExpected $token exchange(s)',
       async ({ token, exchanges }) => {
-        await waitForElementId(`${token}Symbol`)
-        await element(by.id(`${token}Symbol`)).tap()
+        await waitForElementId(`BottomSheet${token}Symbol`)
+        await element(by.id(`BottomSheet${token}Symbol`)).tap()
 
         await waitForElementId('FiatExchangeInput')
         await element(by.id('FiatExchangeInput')).replaceText('2')
@@ -85,8 +85,8 @@ export default offRamps = () => {
 
     it('Then Send To Address', async () => {
       const randomAmount = `${(Math.random() * 10 ** -1).toFixed(3)}`
-      await waitForElementId(`CELOSymbol`)
-      await element(by.id(`CELOSymbol`)).tap()
+      await waitForElementId(`BottomSheetCELOSymbol`)
+      await element(by.id(`BottomSheetCELOSymbol`)).tap()
 
       await waitForElementId('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${randomAmount}`)

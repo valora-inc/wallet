@@ -49,13 +49,13 @@ export default Send = () => {
 
     it('Then should be able to change token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('CELOSymbol')).tap()
+      await element(by.id('BottomSheetCELOSymbol')).tap()
       await expect(element(by.text('CELO')).atIndex(0)).toBeVisible()
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cUSDSymbol')).tap()
+      await element(by.id('BottomSheetcUSDSymbol')).tap()
       await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cEURSymbol')).tap()
+      await element(by.id('BottomSheetcEURSymbol')).tap()
       await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
     })
 
@@ -112,7 +112,7 @@ export default Send = () => {
 
     it('Then should be able to choose token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cEURSymbol')).tap()
+      await element(by.id('BottomSheetcEURSymbol')).tap()
       await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
     })
 
@@ -176,7 +176,7 @@ export default Send = () => {
 
     it('Then should be able to select token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cUSDSymbol')).tap()
+      await element(by.id('BottomSheetcUSDSymbol')).tap()
       await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
     })
 
