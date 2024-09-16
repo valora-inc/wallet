@@ -1,4 +1,3 @@
-import { appendPath } from '@celo/utils/lib/string'
 import { formatJsonRpcError, formatJsonRpcResult, JsonRpcResult } from '@json-rpc-tools/utils'
 import { Core } from '@walletconnect/core'
 import '@walletconnect/react-native-compat'
@@ -7,25 +6,28 @@ import { buildApprovedNamespaces, getSdkError, parseUri } from '@walletconnect/u
 import { IWeb3Wallet, Web3Wallet, Web3WalletTypes } from '@walletconnect/web3wallet'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { showMessage } from 'src/alert/actions'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnect2Properties } from 'src/analytics/Properties'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { getDappRequestOrigin } from 'src/app/utils'
-import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
-import { WALLET_CONNECT_PROJECT_ID } from 'src/config'
+import { APP_NAME, DEEP_LINK_URL_SCHEME, WALLET_CONNECT_PROJECT_ID } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForWalletConnect } from 'src/tokens/utils'
 import { Network } from 'src/transactions/types'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
+import { appendPath } from 'src/utils/string'
 import { publicClient } from 'src/viem'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import {
@@ -86,7 +88,6 @@ import {
 } from 'typed-redux-saga'
 import { Address, BaseError, GetTransactionCountParameters, hexToBigInt, isHex } from 'viem'
 import { getTransactionCount } from 'viem/actions'
-import { DEEPLINK_PREFIX } from 'src/config'
 
 let client: IWeb3Wallet | null = null
 
@@ -132,6 +133,7 @@ export const _applyIconFixIfNeeded = applyIconFixIfNeeded
 function* createWalletConnectChannel() {
   if (!client) {
     Logger.debug(TAG + '@createWalletConnectChannel', `init start`)
+    const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
     client = yield* call([Web3Wallet, 'init'], {
       core: new Core({
         projectId: WALLET_CONNECT_PROJECT_ID,
@@ -140,10 +142,10 @@ function* createWalletConnectChannel() {
       metadata: {
         name: APP_NAME,
         description: i18n.t('appDescription'),
-        url: WEB_LINK,
-        icons: [appendPath(WEB_LINK, 'favicon.ico')],
+        url: links.web,
+        icons: [appendPath(links.web, 'favicon.ico')],
         redirect: {
-          native: `${DEEPLINK_PREFIX}://wallet/wc`,
+          native: `${DEEP_LINK_URL_SCHEME}://wallet/wc`,
           universal: 'https://valoraapp.com/wc',
         },
       },

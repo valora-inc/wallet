@@ -4,7 +4,7 @@
   "languageSettings": "Lingua",
   "localCurrencySetting": "Valuta",
   "licenses": "Licenze",
-  "removeAccountTitle": "Azzeramento di {{appName}}",
+  "removeAccountTitle": "Ripristina {{appName}}",
   "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
   "deleteAccountTitle": "Elimina {{appName}}",
   "deleteAccountDetails": "L'eliminazione del tuo conto lo rimuoverà da {{appName}}. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
@@ -56,8 +56,8 @@
   },
   "accountKeyModal": {
     "header": "Senza la tua Frase di recupero perderai per sempre l’accesso a tuoi fondi",
-    "body1": "Per ripristinare Valora, devi confermare di avere scritto la tua Frase di recupero.",
-    "body2": "Nessuno, neanche Valora, può recuperare il tuo conto senza la tua Frase di recupero."
+    "body1": "Per resettare {{appName}}, dovrai confermare di aver scritto la tua frase di recupero.",
+    "body2": "Nessuno, nemmeno {{appName}}, può recuperare il tuo account senza la tua frase."
   },
   "promptConfirmRemovalModal": {
     "header": "Sei sicuro di voler procedere?",
@@ -77,7 +77,7 @@
     "title": "La tua Frase di recupero",
     "titleV1_90": "La tua frase di recupero",
     "body": "Scrivi queste 12 parole in un posto sicuro, dove non possano essere rubate o danneggiate.",
-    "bodyV1_90": "Senza la tua Frase di recupero, perderai l’accesso a tutti i fondi in Valora.",
+    "bodyV1_90": "Se perdi la frase di recupero, perderai l'accesso a tutti i fondi detenuti in {{appName}}.",
     "continue": "Le ho salvate",
     "copy": "Copia negli Appunti",
     "mnemonicCopied": "Frase di recupero copiata negli Appunti",
@@ -89,7 +89,7 @@
   },
   "walletSecurityPrimer": {
     "title": "Tieni al sicuro il tuo portafoglio",
-    "description": "Solo tu puoi accedere al tuo portafoglio. Se il tuo telefono viene smarrito o rubato, Valora non può recuperarlo per te.\n\nDovrai impostare un metodo per tenere al sicuro il tuo portafoglio e proteggere i tuoi fondi."
+    "description": "Solo tu puoi accedere al tuo portafoglio. Se il tuo telefono viene perso o rubato, {{appName}} non può recuperarlo per te.\n\nDovrai impostare un metodo per tenere al sicuro il tuo portafoglio e proteggere i tuoi fondi."
   },
   "keylessBackupIntro": {
     "emailAddress": "Indirizzo e-mail",
@@ -98,7 +98,7 @@
       "title": "Imposta il backup del portafoglio",
       "description": "Per impostare il backup della tua email e del tuo numero di telefono, dovrai utilizzare le seguenti informazioni",
       "useRecoveryPhrase": "Usa una frase di recupero",
-      "reminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Valora non memorizza il tuo indirizzo e-mail o il tuo numero telefonico. Tienila al sicuro!"
+      "reminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. {{appName}} non memorizza il tuo indirizzo e-mail o il tuo numero di telefono. Tienilo al sicuro!"
     },
     "restore": {
       "description": "Assicurati di avere a disposizione quanto segue per ripristinare il tuo portafoglio.",
@@ -200,7 +200,7 @@
   "supportLegalCheckbox": "Premendo Invia, accetto di condividere con il Supporto {{appName}} le informazioni di cui sopra ed eventuali dati di log dell’app allegati.",
   "contactSuccess": "Il tuo problema è stato segnalato. Fra poco riceverai una risposta per e-mail.",
   "namePictureSaved": "Il tuo nome e la tua foto sono stati salvati.",
-  "nameSaved": "Il tuo nome è stato salvato con successo.",
+  "nameSaved": "Il tuo nome è stato salvato correttamente.",
   "addPhoto": "Aggiungi foto",
   "chooseFromLibrary": "Scegli dalla raccolta",
   "takePhoto": "Scatta foto",
@@ -232,7 +232,7 @@
   "keylessBackupNotification": "Imposta la tua e-mail e il tuo numero di telefono per eseguire il backup",
   "backupKeyCTA": "Termina il backup ora",
   "backupKeySummary": "Trova un luogo privato e annota la tua Frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
-  "backupKeyWarning": "Senza la tua Frase di recupero, perderai l’accesso a tutti i fondi in Valora.",
+  "backupKeyWarning": "Se perdi la frase di recupero, perderai l'accesso a tutti i fondi detenuti in {{appName}}.",
   "copied": "La Frase di recupero è stata copiata negli appunti.",
   "moreInfo": "Maggiori informazioni",
   "savedConfirmation": "Sì, ho annotato la mia Frase di recupero.",
@@ -303,7 +303,7 @@
     "dismiss": "Ignora"
   },
   "superchargingTitle": "È necessario aggiornare l’app",
-  "superchargingDescription": "Aggiorna l’app Valora per continuare a ricevere le ricompense Supercharge settimanali.",
+  "superchargingDescription": "Aggiorna l'app {{appName}} per continuare a ricevere i premi settimanali Supercharge.",
   "superchargingTitleV1_54": "Il Supercharge sta per finire",
   "superchargingDescriptionV1_54": "Le ricompense settimanali potranno essere richieste fino a martedì 28 maggio, alle ore 23:59 UTC. A partire dal 29 maggio, non potrai più richiedere le ricompense Supercharge.",
   "superchargeRewardsAvailable": "Hai {{amount}} {{token}} disponibili per reclamare!",
@@ -393,7 +393,7 @@
   "tokenBalance": "Saldo {{token}}",
   "addFunds": "Aggiungi fondi",
   "addFundsHeaderWithCurrency": "Aggiungi {{token}}",
-  "addFundsSubtitle": "Aggiungi fondi al tuo conto Valora",
+  "addFundsSubtitle": "Finanzia il tuo conto {{appName}}",
   "exchanges": "Exchange",
   "noExchanges": "Nella tua area non sono presenti exchange disponibili per {{digitalAsset}}.",
   "buySellOnExchanges": "Acquista/Vendi su exchange",
@@ -447,11 +447,11 @@
   },
   "providerFeeDiscountDialog": {
     "title": "Sconto sulle commissioni",
-    "body": "Nell’ambito di una promozione, le commissioni sono temporaneamente ridotte per celebrare il lancio di Valora."
+    "body": "Come promozione, le tariffe sono temporaneamente ridotte per celebrare il lancio di {{appName}}!"
   },
   "pleaseSelectProvider": "Seleziona uno dei provider di seguito. Questi collegamenti rimandano a un servizio terze parti.",
   "otherFundingOptions": "Per ulteriori modalità per aggiungere e prelevare fondi, visita <0>Come aggiungere fondi al tuo conto</0>.",
-  "youCanTransferIn": "Puoi utilizzare un exchange di terze parti per inviare {{digitalAsset}} al tuo conto Valora. A questo scopo, ti servirà il tuo Indirizzo del conto.",
+  "youCanTransferIn": "Puoi utilizzare uno scambio di terze parti per inviare {{digitalAsset}} al tuo conto {{appName}} . A tal fine è necessario l'indirizzo del tuo account.",
   "youCanTransferOut": "Puoi prelevare i tuoi fondi inviandoli a un exchange di terze parti che supporti {{digitalAsset}}.",
   "useBalanceWithMerchants": "Usa il tuo saldo con commercianti che lo supportano",
   "findMerchants": "Trova commercianti locali nelle vicinanze",
@@ -710,7 +710,7 @@
       "body": "Invita gli amici e i familiari a scaricare {{appName}} e ciascuno di voi riceverà un NFT esclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "GUADAGNO fino a 12 cUSD per invitare i tuoi amici su Valora!",
+      "title": "OTTIENI FINO A 12 cUSD invitando i tuoi amici su {{appName}}!",
       "body": "Ricevi 0,50 cUSD per ogni amico che inviti su {{appName}}. Dopo che avrà aggiunto fondi e li avrà mantenuti sul conto per almeno 7 giorni, riceverete entrambi 0,50 cUSD. Affrettati, i fondi sono limitati! (Limite di 25 amici)."
     }
   },
@@ -724,9 +724,9 @@
     "heading1": "Dati e privacy",
     "heading2": "Asset e {{appName}}",
     "info": "Per usare i nostri servizi, leggi e accetta il nostro <0>Accordo con l’utente e termini</0> facendo clic sull’apposito pulsante di seguito.",
-    "privacy": "Partecipando a questa rete, ci autorizzi a raccogliere informazioni anonime sul tuo utilizzo dell'app. Inoltre, se colleghi il tuo numero telefonico, ne verrà memorizzata una copia con hash. Se concedi a Valora l'accesso al tuo elenco di contatti, Valora importerà il nome, il numero telefonico e l'immagine del profilo di ciascun contatto per consentire agli utenti di connettersi tramite l'app Valora. Per sapere come raccogliamo e utilizziamo queste informazioni, consulta la nostra <0>Informativa sulla privacy</0>.",
-    "goldDisclaimer": "Quando crei un \"account\" con Valora, crei un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, inclusa Valora, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare fondi perduti. Considera che le criptovalute fanno parte di una nuova classe di asset e comportano un rischio di perdita finanziaria. Prima di acquistare qualsiasi asset, valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario.",
-    "goldDisclaimerWithPoints": "Quando crei un \"account\" con Valora, crei un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, inclusa Valora, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare fondi perduti. Valora concede agli utenti premi fedeltà (\"Punti\") tokenizzati per aver svolto determinate attività all'interno dell'applicazione. I Punti possono essere raccolti on-chain, non sono trasferibili o riscattabili. Non viene fornita alcuna garanzia sulla disponibilità o sul valore dei Punti. Considera che le criptovalute fanno parte di una nuova classe di asset e comportano un rischio di perdita finanziaria. Prima di acquistare qualsiasi asset, valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
+    "privacy": "Iscrivendoti a questa rete, ci autorizzi a raccogliere informazioni anonime sul tuo utilizzo dell'applicazione. Inoltre, se colleghi il tuo numero di telefono, ne verrà memorizzata una copia con hash. Se concedi a {{appName}} l'accesso al tuo elenco di contatti, {{appName}} importerà il nome, il numero di telefono e l'immagine del profilo di ciascun contatto per consentire agli utenti di connettersi tramite l'app {{appName}} . Per sapere come raccogliamo e utilizziamo queste informazioni, consulta la nostra <0>Informativa sulla privacy</0>.",
+    "goldDisclaimer": "Quando crei un \"account\" su {{appName}} stai creando un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, incluso {{appName}}, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare i fondi persi. Sii consapevole che gli asset digitali fanno parte di una nuova classe di asset e presentano un rischio di perdita finanziaria. Valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario prima di acquistare un asset digitale.",
+    "goldDisclaimerWithPoints": "Quando crei un \"account\" con {{appName}} stai creando un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, incluso {{appName}}, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare i fondi perduti. {{appName}} concede agli Utenti premi di fedeltà (\"Punti\") tokenizzati per aver svolto determinate attività all'interno dell'applicazione. I Punti sono oggetti da collezione on-chain, non trasferibili e non riscattabili. Non viene fornita alcuna garanzia sulla disponibilità o sul valore dei Punti. Sii consapevole che gli asset digitali fanno parte di una nuova classe di asset e presentano un rischio di perdita finanziaria. Considera attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario prima di acquistare qualsiasi asset digitale."
   },
   "termsColloquial": {
     "title": "Per cominciare, crea il tuo wallet",
@@ -734,9 +734,9 @@
     "privacy1": "Raccogliamo dati di utilizzo che ci aiutano a migliorare l'applicazione e la sicurezza. Puoi avere ulteriori informazioni sul tipo di informazioni che raccogliamo, sul modo in cui le utilizziamo e sui tuoi diritti relativi a tali informazioni leggendo la nostra <0>Informativa sulla privacy</0>.",
     "privacy2": "Se decidi di collegare il tuo numero di telefono, lo memorizzeremo in modalità crittografata.",
     "privacy3": "Se decidi di collegare i tuoi contatti, useremo i loro nomi, numeri e immagini del profilo per permetterti di trovarli più facilmente.",
-    "walletHeading": "Il tuo wallet digitale con Valora:",
-    "wallet1": "Stai per creare un wallet digitale. Solo tu hai la chiave del tuo wallet. Se perdi la chiave, non possiamo recuperare la tua chiave o i tuoi asset. Ricorda, inoltre, che tramite Valora non è possibile invertire le azioni avviate sulle blockchain.",
-    "wallet2": "Gli asset digitali, ovvero gli asset tramite i quali interagisci con Valora, portano con sé una serie di rischi. Utilizzando Valora, accetti questi rischi e ti assumi interamente la responsabilità per tali rischi. Prima di fare qualsiasi scelta, valuta la tua situazione finanziaria e la tua tolleranza al rischio.",
+    "walletHeading": "Il tuo portafoglio digitale con {{appName}}:",
+    "wallet1": "Stai per creare un portafoglio digitale. Solo tu hai la chiave del tuo portafoglio. Non possiamo recuperare la tua chiave o i tuoi beni se la perdi. Non possiamo nemmeno annullare le azioni intraprese tramite {{appName}} sulle blockchain.",
+    "wallet2": "Le risorse digitali, con le quali interagisci con {{appName}}, comportano rischi unici. Utilizzando {{appName}}, accetti questi rischi e te ne assumi la responsabilità. Ti invitiamo a considerare le tue finanze e la tua tolleranza al rischio prima di fare delle scelte.",
     "fullTerms": "Leggi interamente i nostri <0>Termini e Condizioni</0>"
   },
   "fullNameOrPsuedonym": "Nome e cognome o alias",
@@ -853,7 +853,7 @@
   "accessContacts": {
     "disclosure": {
       "title": "Importa contatti",
-      "body": "Valora desidera importare i tuoi contatti. Toccando qui sotto, autorizzo l’accesso ai numeri telefonici, ai nomi e alle foto dei miei contatti per collegarmi con loro tramite Valora."
+      "body": "{{appName}} Vorrei importare i tuoi contatti. Toccando qui sotto, autorizzo l'accesso ai numeri di telefono, ai nomi e alle foto dei miei contatti per connettermi con loro attraverso {{appName}}."
     }
   },
   "createAccount": "Crea conto",
@@ -903,12 +903,12 @@
   "verificationPrematureRevealMessage": "Attendi un minuto prima di inviare nuovamente",
   "verificationLearnMoreDialog": {
     "title": "Numeri telefonici e {{appName}}",
-    "body": "Il collegamento ti consente di inviare e ricevere fondi tramite il tuo numero telefonico.\n\n<0>Posso farlo più tardi?</0>\n\nSì, ma un wallet non collegato può inviare pagamenti solo con codici QR o Indirizzi del conto.\n\n<1>Sicuro e privato</1>\n\nValora utilizza una crittografia all'avanguardia per mantenere privato il tuo numero telefonico.",
+    "body": "La connessione ti permette di inviare e ricevere fondi con il tuo numero di telefono.\n\n<0>Posso farlo anche in seguito?</0>\n\nSì, ma i portafogli non connessi possono inviare pagamenti solo con codici QR o indirizzi di conto.\n\n<1>Sicuro e privato</1>\n\n{{appName}} utilizza una crittografia all'avanguardia per mantenere il tuo numero di telefono privato.",
     "dismiss": "Ignora"
   },
   "phoneVerificationScreen": {
     "screenTitle": "Numero telefonico",
-    "title": "Collega il tuo numero telefonico a Valora",
+    "title": "Collega il tuo numero di telefono a {{appName}}",
     "description": "Questo collega il tuo indirizzo del wallet al tuo numero telefonico, in modo che inviare cripto sia facile.",
     "startButtonLabel": "Collega",
     "learnMore": {
@@ -961,7 +961,7 @@
     },
     "recoveryPhrase": {
       "title": "Frase di recupero",
-      "description": "Inserisci la frase di recupero di 12 parole per ripristinare l'accesso a Valora"
+      "description": "Inserisci la tua frase di recupero di 12 parole per riottenere l'accesso a {{appName}}."
     }
   },
   "verificationInput": {
@@ -1058,7 +1058,7 @@
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
   "inviteWithRewards": "Ciao! 👋 Sto usando {{appName}} come portafoglio per criptovalute. Scaricare l'app e collegare il numero telefonico richiede pochissimo tempo e come ricompensa riceveremo entrambi un NFT in edizione speciale. 💫 \n\nUsa questo link per il download: {{link}}",
-  "inviteWithRewardsCUSD": "Ciao! Se ti iscrivi e aggiungi fondi al tuo wallet Valora, riceveremo entrambi una ricompensa di 0,50 $. Io lo uso per far crescere i miei risparmi in USD e criptovalute; impostalo anche tu in pochi secondi: basta il tuo numero di telefono. Per iscriverti, usa il mio link di riferimento riportato in basso: \n\n{{link}} \n\n Affrettati, la promozione terminerà presto.",
+  "inviteWithRewardsCUSD": "Ehi! In questo momento possiamo entrambi ricevere una ricompensa gratuita di 0,50 dollari se ti iscrivi, colleghi il tuo numero e finanzi il tuo portafoglio {{appName}} . Io lo uso per far crescere i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi con un semplice numero di telefono. Assicurati di iscriverti con il mio link di riferimento qui: \n\n{{link}} \n\n Affrettati, la promozione per i referral termina presto.",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -1365,10 +1365,10 @@
   "transactionHeaderNftSent": "NFT inviato",
   "feedSectionHeaderRecent": "Recenti",
   "cashInBottomSheet": {
-    "title": "Aggiungi fondi per iniziare a usare Valora!",
+    "title": "Aggiungi fondi per iniziare a utilizzare {{appName}}!",
     "subtitle": "Il tuo conto è attualmente vuoto",
     "addFunds": "Aggiungi fondi",
-    "titleRamp": "Aggiungi {{currency}} per iniziare a usare Valora",
+    "titleRamp": "Aggiungi {{currency}} per iniziare a usare {{appName}}",
     "subtitleRamp": "Aggiungi fondi con commissioni basse tramite uno dei nostri provider esterni."
   },
   "balances": "Assets",
@@ -1385,7 +1385,7 @@
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "Cosa significa saldo totale?",
-    "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni asset potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
+    "body": "Il tuo Saldo Totale è una somma approssimativa di tutti i tuoi asset {{appName}} . Il tuo Saldo Totale cambia in base alle fluttuazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcune attività potrebbero non essere visualizzate nel Saldo totale perché il prezzo non è disponibile al momento del calcolo.",
     "dismiss": "Ignora"
   },
   "supportExportLogsStart": "Esportazione in corso...",
@@ -1423,15 +1423,15 @@
     "stepTwo": {
       "label": "Passaggio 2",
       "disabledTitle": "Collega un conto bancario",
-      "disabledDescription": "Il supporto del conto bancario sarà presto disponibile! Ti faremo sapere quando potrai collegare il tuo conto bancario a Valora.",
+      "disabledDescription": "Supporto per il conto bancario in arrivo! Ti faremo sapere quando potrai collegare il tuo conto bancario a {{appName}}.",
       "disabledCta": "Presto disponibile.",
       "title": "Immetti i dettagli della banca",
-      "description": "La procedura è quasi completata. Immetti i dettagli della banca per collegare il tuo conto.",
+      "description": "Hai quasi finito! Inserisci le coordinate bancarie per collegare il tuo conto a {{appName}}.",
       "cta": "Collegare un conto bancario",
       "error": {
         "title": "Impossibile collegare il conto bancario.",
         "description": "Prova a collegare di nuovo il tuo conto o contatta il supporto.",
-        "contactSupportPrefill": "Non sono riuscito a collegare il mio conto bancario a Valora."
+        "contactSupportPrefill": "Non sono riuscito a collegare il mio conto corrente a {{appName}}."
       }
     }
   },
@@ -1505,12 +1505,12 @@
   },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
-    "message": "Le Dapp (app decentralizzate) offrono nuovi modi per usare le tue criptovalute, ottenere ricompense ed esplorare il Web3.\n\nConnetti Valora a una Dapp per iniziare.",
+    "message": "Le dapp (applicazioni decentralizzate) offrono nuovi modi per utilizzare le tue criptovalute, guadagnare ricompense ed esplorare il Web3.\n\nCollega {{appName}} a una dapp per iniziare.",
     "dismiss": "Ignora"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} è un'applicazione esterna",
-    "message": "Stai per aprire un'applicazione non gestita da Valora.\n\nValora non fornisce alcuna garanzia su questa applicazione. Usala a tuo rischio.",
+    "message": "Stai per aprire un'applicazione non gestita da {{appName}}.\n\n{{appName}} non rilascia alcuna dichiarazione in merito a questa applicazione. Utilizzala a tuo rischio e pericolo.",
     "button": "Apri {{dappName}}"
   },
   "dappsScreenInfoSheet": {
@@ -1563,7 +1563,7 @@
     "newLabel": "NUOVI",
     "newDialog": {
       "title": "Nuove modalità di trasferimento",
-      "body": "Stiamo rilasciando nuovi modi per trasferire fondi da e verso i conti bancari, direttamente dall'app Valora.\n\nSe stai vedendo questo messaggio, questa funzione è disponibile nella tua regione.",
+      "body": "Stiamo rilasciando nuove modalità per trasferire fondi da e verso conti bancari, direttamente dall'app {{appName}} .\n\nSe stai vedendo questo messaggio, significa che sei in grado di accedere a questa funzione nella tua regione.",
       "dismiss": "Ignora"
     },
     "cashIn": {
@@ -1596,7 +1596,7 @@
     "button": "Configura la verifica dell’identità"
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "Sto avendo difficoltà a verificare la mia identità con Valora.",
+    "contactSupportPrefill": "Ho problemi a verificare la mia identità con {{appName}}.",
     "contactSupport": "Contatta il supporto tecnico",
     "pending": {
       "title": "La verifica del documento di identità è in corso.",
@@ -1663,7 +1663,7 @@
     },
     "cashIn": {
       "cancel": "Annulla l'aggiunta di fondi",
-      "contactSupportPrefill": "Ho problemi ad aggiungere fondi al mio portafoglio Valora."
+      "contactSupportPrefill": "Ho problemi ad aggiungere fondi al mio portafoglio {{appName}} ."
     },
     "success": {
       "header": "Operazione completata",
@@ -1753,7 +1753,7 @@
       },
       "mobileDialog": {
         "title": "Numero telefonico",
-        "body": "Usa il numero telefonico registrato con il tuo operatore del servizio di Mobile Money. Potrebbe non essere lo stesso numero telefonico che utilizzi per Valora.\n\nI numeri telefonici devono includere il prefisso nazionale visualizzato accanto al numero telefonico.",
+        "body": "Utilizza il numero di telefono registrato presso il tuo operatore di telefonia mobile. Potrebbe non essere lo stesso numero di telefono del tuo sito {{appName}} .\n\nI numeri di telefono devono includere il codice del paese visualizzato accanto al numero di telefono.",
         "dismiss": "Ignora"
       }
     },
@@ -1979,7 +1979,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invita {{contactName}} in {{appName}} e riceverete 0.50 cUSD",
-      "body": "Sembra che {{contactName}} non sia su Valora. Puoi comunque inviare un pagamento se conosci l'indirizzo del suo portafoglio, oppure inviare un invito. \n\n Dopo che avrà scaricato Valora, collegato il suo numero telefonico, aggiunto e conservato fondi nel suo portafoglio per 7 giorni, riceverete entrambi 0,50 cUSD, fino ad esaurimento fondi."
+      "body": "Sembra che {{contactName}} non sia presente su {{appName}}. Puoi comunque inviare un pagamento se conosci l'indirizzo del suo portafoglio, oppure inviare un invito. \n\n Dopo che avranno scaricato {{appName}}, collegato il loro numero di telefono, aggiunto fondi e mantenuto nel loro portafoglio per 7 giorni, riceverete entrambi 0,50 cUSD fino ad esaurimento fondi."
     }
   },
   "celoNews": {
@@ -1990,7 +1990,7 @@
     "retryButtonText": "Riprova"
   },
   "chooseYourAdventure": {
-    "header": "Ti diamo il benvenuto in Valora",
+    "header": "Ti diamo il benvenuto in {{appName}}",
     "subtitle": "Qual è la prima cosa che vorresti fare?",
     "later": "Esplorerò più tardi",
     "options": {
@@ -2126,7 +2126,7 @@
     "results": "Risultati",
     "qr": {
       "title": "Inquadra o visualizza il codice QR",
-      "subtitle": "Trova rapidamente gli indirizzi su Valora"
+      "subtitle": "Trova rapidamente gli indirizzi su {{appName}}"
     },
     "invite": {
       "title": "Invia criptovalute ai tuoi amici",
@@ -2137,7 +2137,7 @@
       "subtitle": "Condividi un link per inviare criptovalute in formato testo"
     },
     "getStarted": {
-      "title": "Come inviare fondi su Valora",
+      "title": "Come inviare fondi su {{appName}}",
       "subtitle": "INIZIA",
       "options": {
         "one": {
@@ -2146,7 +2146,7 @@
         },
         "two": {
           "title": "Numero telefonico",
-          "subtitle": "Invia direttamente al numero telefonico di una persona che usa Valora"
+          "subtitle": "Invia direttamente al numero di telefono di una persona se questa ha {{appName}}"
         },
         "three": {
           "title": "ENS",
@@ -2154,7 +2154,7 @@
         },
         "four": {
           "title": "Nome del profilo",
-          "subtitle": "Puoi cercare utenti esistenti su Valora"
+          "subtitle": "Puoi cercare gli utenti esistenti su {{appName}}"
         }
       }
     },
@@ -2207,10 +2207,17 @@
     "prepareTransactionError": {
       "title": "Si è verificato un errore!",
       "description": "Non è stato possibile preparare una transazione per questo token."
+    },
+    "insufficientBalanceWarning": {
+      "title": "Sono necessari più {{tokenSymbol}}",
+      "description": "Saldo {{tokenSymbol}} insufficiente. Immetti un importo inferiore o scegli un altro asset."
     }
   },
   "jumpstartIntro": {
     "title": "Condividi le criptovalute come un testo",
+    "description": "I collegamenti in tempo reale sono un modo per inviare criptovalute sulla rete Celo a un amico con un link.",
+    "noFundsHint": "Per iniziare, dovrai avere nel tuo portafoglio alcune attività su Celo.",
+    "haveFundsButton": "Invia con un Live Link",
     "addFundsCelo": {
       "title": "Ottieni asset su Celo",
       "info": "I link diretti sono un modo per inviare criptovalute a un amico con un link utilizzando la rete Celo.\nPer iniziare, è necessario che tu abbia asset CELO nel tuo portafoglio.",
@@ -2273,7 +2280,7 @@
   },
   "multichainBeta": {
     "beta": "BETA",
-    "title": "Novità! Ethereum è su Valora",
+    "title": "Novità! Ethereum è su {{appName}}",
     "description1": "Inizialmente, stiamo rendendo disponibile questa funzionalità a un gruppo selezionato di persone. Tu sei tra i fortunati!",
     "description2": "È ancora una novità e il nostro team si sta impegnando per rendere tutto perfetto. Saremo lieti di ricevere il tuo feedback.",
     "primaryCta": "Provala ora",
@@ -2284,7 +2291,7 @@
     "body": "Compra o trasferisci token compatibili per inviare criptovalute ed esplorare il Web3!",
     "titleV1_86": "Aggiungi fondi al tuo portafoglio",
     "exploreTokens": "Esplora tutti i token",
-    "exploreTokensBody": "Con Valora, puoi acquistare più di 10 token. Vieni a scoprirli!"
+    "exploreTokensBody": "Puoi acquistare fino a 10+ gettoni su {{appName}}. Dai un'occhiata!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2478,7 +2485,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "La commissione per questa transazione verrà pagata da Valora!",
+    "gasSubsidized": "{{appName}}Il carburante per questa transazione è a carico del cliente!",
     "addCryptoBottomSheet": {
       "title": "Aggiungi {{tokenSymbol}} su {{tokenNetwork}}",
       "description": "Dopo aver aggiunto i token, torna su questa pagina per terminare il deposito in un pool.",
@@ -2505,17 +2512,23 @@
           "titleGasSubsidy": "Massimizza i guadagni senza Gas fee*",
           "title": "Esplora e confronta le pool",
           "subtitle": "Confronta il potenziale di guadagno e i rischi. Scambia, acquista o trasferisci i token per unirti al pool migliore per te.",
-          "footnoteSubsidy": "*Le gas fee sono temporaneamente coperte da Valora"
+          "footnoteSubsidy": "*Le spese per il gas sono temporaneamente coperte da {{appName}}."
+        },
+        "work": {
+          "title": "Fai lavorare le tue risorse",
+          "subtitle": "Inizia a guadagnare sulle tue cripto depositando in un pool di liquidità. "
         },
         "manage": {
-          "title": "Gestisci direttamente da Valora",
+          "title": "Gestisci direttamente da {{appName}}",
           "titleV1_92": "Gestisci direttamente da {{appName}}",
-          "subtitle": "Collegheremo il tuo portafoglio in modo da poter gestire i pool senza lasciare Valora.",
-          "subtitleV1_92": "Collegheremo il tuo portafoglio in modo da poter gestire i pool senza lasciare {{appName}}."
+          "titleV1_94": "Gestisci le tue posizioni",
+          "subtitle": "Collegheremo il tuo portafoglio in modo da poter gestire i pool senza lasciare {{appName}}.",
+          "subtitleV1_92": "Collegheremo il tuo portafoglio in modo da poter gestire i pool senza lasciare {{appName}}.",
+          "subtitleV1_94": "Scegli una piscina che ti piace, aggiungi i gettoni e monitora i tuoi guadagni."
         },
         "access": {
           "title": "Accedi facilmente ai tuoi fondi",
-          "subtitle": "Raccogli i fondi con un tocco, come i tuoi protocolli preferiti."
+          "subtitle": "Raccogli i fondi con un tocco quando sei pronto."
         }
       },
       "action": {
@@ -2534,6 +2547,9 @@
       "description": "Guadagna sulle tue stablecoin attraverso un pool di liquidità."
     },
     "enterAmount": {
+      "title": "Quanto vuoi depositare?",
+      "deposit": "Deposito",
+      "fees": "Commissioni",
       "earnUpToLabel": "Puoi guadagnare fino a:",
       "rateLabel": "Tasso (stima)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / anno",
@@ -2542,11 +2558,6 @@
       "continue": "Continua",
       "info": "Questo pool è supportato da Aave",
       "infoV1_93": "Powered by {{providerName}}",
-      "infoBottomSheet": {
-        "title": "Qual è lo scopo di questo pool?",
-        "description": "Questo pool di Aave ha oltre 150 milioni di dollari di TVL e più di 6.000 contributori, il che indica una forte liquidità e affidabilità. Inoltre, utilizza USDC come token e Arbitrum come rete, il che riduce la volatilità e garantisce agli utenti tariffe convenienti.\n\nTutto ciò la rende un'opzione sicura e attraente con un APY competitivo, garantendo un'opportunità di investimento vantaggiosa per i nostri utenti.\n\nPuoi esplorare gli altri pool di Aave <0>qui</0>.",
-        "dismiss": "Ignorare"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Per continuare, devi avere più {{feeTokenSymbol}}",
         "description": "Aggiungi {{feeTokenSymbol}} su {{network}} per coprire il costo delle commissioni sulle transazioni",
@@ -2569,13 +2580,13 @@
     "depositBottomSheet": {
       "title": "Rivedi e deposita",
       "description": "Prima di effettuare depositi in un pool Aave, consulta i dettagli della transazione in basso",
-      "descriptionV1_93": "Prima di depositare in un pool di {{providerName}} , consulta i dettagli della transazione qui di seguito.",
+      "descriptionV1_93": "Prima di effettuare depositi in un pool {{providerName}}, consulta i dettagli della transazione in basso",
       "amount": "Somma depositata",
       "fee": "Commissioni sulle transazioni stimate",
       "provider": "Fornitore di guadagni",
       "network": "Rete",
       "footer": "Depositando criptovalute in un pool Aave, accetti i rischi associati all'utilizzo di Aave. <0>Termini e condizioni</0>",
-      "footerV1_93": "Depositando criptovalute in un pool di {{providerName}} , accetti i rischi associati all'utilizzo di {{providerName}}. <0>Termini e condizioni</0>",
+      "footerV1_93": "Depositando criptovalute in un pool {{providerName}}, accetti i rischi associati all'utilizzo di {{providerName}}. <0>Termini e condizioni</0>",
       "primaryCta": "Completa",
       "secondaryCta": "Annulla"
     },
@@ -2621,12 +2632,16 @@
         "apySubtitle": "Cos'è l'APY?",
         "apyDescription": "Il rendimento annuo percentuale (APY) è una metrica utilizzata per calcolare il rendimento annualizzato degli investimenti in cripto. È un indicatore chiave del potenziale rendimento di una criptovaluta.",
         "tvlSubtitle": "Cos'è il TVL?",
-        "tvlDescription": "Il valore totale bloccato (TVL) è una metrica utilizzata per misurare il valore dei beni digitali bloccati su una rete blockchain. Il TVL viene calcolato sommando il valore di tutti gli asset digitali bloccati in un protocollo DeFi o in uno smart contract. Questi beni possono includere criptovalute, stablecoin e altri token."
+        "tvlDescription": "Il valore totale bloccato (TVL) è una metrica utilizzata per misurare il valore dei beni digitali bloccati su una rete blockchain. Il TVL viene calcolato sommando il valore di tutti gli asset digitali bloccati in un protocollo DeFi o in uno smart contract. Questi beni possono includere criptovalute, stablecoin e altri token.",
+        "yieldPoolSubtitle": "Cos'è un pool di rendimento?",
+        "yieldPoolDescription": "I pool di rendimento, o pool di liquidità, sono fondi messi in comune dai detentori di token, che consentono di effettuare scambi su borse decentralizzate. Quando contribuisci al pool, puoi guadagnare interessi da altre persone che prendono in prestito quei fondi.",
+        "chooseSubtitle": "Come scegliere un pool? ",
+        "chooseDescription": "Qualsiasi decisione finanziaria è una scelta personale. Noi abbiamo aggregato alcuni pool che utilizzano protocolli diversi, ma ciascuno presenta rischi e benefici. Ci adoperiamo al meglio per fornire una serie di informazioni utili su ogni pool, ma sono sempre consigliabili ulteriori approfondimenti se non si è sicuri."
       },
       "noPoolsTitle": "Non ti sei ancora iscritto a nessun pool",
       "noPoolsDescription": "Scopri i pool disponibili, scegline uno che corrisponda ai tuoi obiettivi e sfrutta al meglio le tue stablecoin.",
       "errorTitle": "Impossibile caricare i pool",
-      "errorDescription": "Ops, qualcosa è andato storto durante il tentativo di caricare le informazioni sulla piscina. Riprova.",
+      "errorDescription": "Ops. Qualcosa è andato storto durante il caricamento delle informazioni relative ai pool. Riprova.",
       "errorButton": "Riprova"
     },
     "poolCard": {
@@ -2660,17 +2675,19 @@
       "deposit": "Deposito",
       "depositAndEarnings": "Deposito e guadagni",
       "withdraw": "Preleva",
-      "totalDepositAndEarnings": "Totale depositi e guadagni",
+      "totalDepositAndEarnings": "Depositi e guadagni totali",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
       "infoBottomSheet": {
         "gotIt": "Ho capito",
+        "depositDescription": "Questa è la ripartizione dell'importo depositato, degli interessi maturati su tale importo e di tutte le ulteriori ricompense ottenute partecipando al pool.",
+        "depositNoBreakdownDescription": "Questo numero combina i token forniti agli interessi maturati e alle ricompense ottenute, ove del caso.\n\nAlcuni protocolli, come {{providerName}}, non forniscono una ripartizione dei guadagni. In questo non vi è nulla di anomalo. I guadagni si sommano invece direttamente all'importo depositato e su tale cifra via via crescente continuano a maturare interessi. ",
         "tvlTitle": "Valore totale bloccato (TVL)",
-        "tvlDescription": "Il TVL si riferisce all'ammontare totale degli asset depositati in un pool di liquidità e può essere utilizzato per indicare la fiducia e l'utilità di un pool. In genere un TVL più alto è correlato a un rischio ridotto, ma nessun pool è completamente privo di rischi.",
+        "tvlDescription": "TVL si riferisce all’importo totale degli asset depositati in un pool di liquidità e può essere utilizzato per indicare il grado di fiducia nel pool e la sua utilità. Generalmente un TVL più alto è correlato a un rischio ridotto, ma nessun pool è completamente privo di rischi.",
         "ageTitle": "Pool creato:",
-        "ageDescription": "I pool di liquidità più vecchi possono indicare un solido curriculum e una storia di fiducia nella comunità. Per questo motivo, alcuni potrebbero considerare questi pool più sicuri.\n\nNon esiste un modo perfetto per determinare il rischio, quindi usa queste informazioni come parte della tua ricerca generale per prendere la decisione migliore per te.",
+        "ageDescription": "L'anzianità di un pool di liquidità può essere indicativa di risultati consolidati nel tempo e di una certa esperienza nel costruire la fiducia della comunità. Per questo alcuni considerano più sicuri i pool meno recenti.\n\nNon esiste un modo perfetto per determinare il rischio; pertanto, usa queste informazioni nel contesto della tua indagine generale per prendere la decisione migliore per te.",
         "yieldRateTitle": "Tasso di rendimento",
-        "yieldRateDescription": "Mentre la maggior parte dei pool offre guadagni sotto forma di token del pool di liquidità, alcuni offrono token aggiuntivi come ricompensa o ulteriore incentivo.\n\nPoiché Valora aggrega pool di più protocolli, abbiamo combinato tutti i tassi di guadagno e di ricompensa in un unico tasso di rendimento complessivo per aiutarti a valutare facilmente il tuo potenziale di guadagno. Questo numero è una stima poiché i valori di guadagno e ricompensa fluttuano costantemente.\n\nPer ulteriori informazioni sulla ripartizione dei guadagni, puoi visitare il sito <0>{{providerName}}</0>."
+        "yieldRateDescription": "Mentre la maggior parte dei pool offre guadagni sotto forma di token del pool di liquidità, alcuni offrono token aggiuntivi come ricompensa o ulteriore incentivo.\n\nPoiché {{appName}} aggrega pool di più protocolli, abbiamo combinato tutti i tassi di guadagno e di ricompensa in un unico tasso di rendimento complessivo per aiutarti a valutare facilmente il tuo potenziale di guadagno. Questo numero è una stima poiché i valori di guadagno e ricompensa fluttuano costantemente.\n\nPer ulteriori informazioni sulla ripartizione dei guadagni, puoi visitare il sito <0>{{providerName}}</0>."
       }
     }
   },

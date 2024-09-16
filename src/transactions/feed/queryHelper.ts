@@ -592,7 +592,6 @@ export const TRANSACTIONS_QUERY = gql`
       title
       subtitle
       image
-      comment
     }
     amount {
       value

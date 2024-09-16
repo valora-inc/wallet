@@ -1,4 +1,3 @@
-import { isValidChecksumAddress } from '@celo/utils/lib/address'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
@@ -8,7 +7,7 @@ import { storeMnemonic } from 'src/backup/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getPasswordSaga, retrieveSignedMessage } from 'src/pincode/authentication'
 import { MnemonicLanguages, MnemonicStrength, generateMnemonic } from 'src/utils/account'
-import { setAccount, setDataEncryptionKey } from 'src/web3/actions'
+import { setAccount } from 'src/web3/actions'
 import {
   UnlockResult,
   getConnectedAccount,
@@ -16,11 +15,16 @@ import {
   getOrCreateAccount,
   getWalletAddress,
   unlockAccount,
+  assignAccountFromPrivateKey,
 } from 'src/web3/saga'
 import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockAccount2, mockAccount3 } from 'test/values'
+import { mockAccount, mockAccount3, mockPrivateKey, mockMnemonic } from 'test/values'
+import { isAddress } from 'viem'
+import Logger from 'src/utils/Logger'
+import { getKeychainAccounts } from 'src/web3/contracts'
 
+jest.mock('src/utils/Logger')
 jest.unmock('src/pincode/authentication')
 
 jest.mock('src/account/actions', () => ({
@@ -33,7 +37,7 @@ jest.mock('src/navigator/NavigationService', () => ({
 }))
 
 const state = createMockStore({
-  web3: { account: mockAccount, mtwAddress: mockAccount2 },
+  web3: { account: mockAccount },
 }).getState()
 
 describe(getOrCreateAccount, () => {
@@ -68,7 +72,6 @@ describe(getOrCreateAccount, () => {
           [call(getPasswordSaga, expectedAddress, false, true), 'somePassword'],
         ])
         .put(setAccount(expectedAddress))
-        .put(setDataEncryptionKey(expectedPrivateDek))
         .returns(expectedAddress)
         .run()
     }
@@ -104,7 +107,7 @@ describe(getOrCreateAccount, () => {
         )
         .run()
 
-      expect(isValidChecksumAddress(returnValue)).toBe(true)
+      expect(isAddress(returnValue)).toBe(true)
     }
   )
 })
@@ -171,5 +174,27 @@ describe('getConnectedUnlockedAccount', () => {
         .not.call(generateSignedMessage)
         .run()
     ).rejects.toThrowError(ErrorMessages.INCORRECT_PIN)
+  })
+})
+
+describe('assignAccountFromPrivateKey', () => {
+  it('warns when importing same account', async () => {
+    jest.mocked(getKeychainAccounts).mockResolvedValueOnce({
+      addAccount: jest
+        .fn()
+        .mockRejectedValue(new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)),
+      unlock: jest.fn(),
+    } as any)
+    await expectSaga(assignAccountFromPrivateKey, mockPrivateKey, mockMnemonic)
+      .withState(state)
+      .provide([
+        [select(currentAccountSelector), null],
+        [matchers.call.fn(getPasswordSaga), 'somePassword'],
+      ])
+      .run()
+    expect(Logger.warn).toHaveBeenCalledWith(
+      'web3/saga@assignAccountFromPrivateKey',
+      'Attempted to import same account'
+    )
   })
 })

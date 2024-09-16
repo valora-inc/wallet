@@ -1,4 +1,3 @@
-import CryptoJS from 'crypto-js'
 import { useAsync } from 'react-async-hook'
 import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -9,6 +8,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { removeStoredItem, retrieveStoredItem, storeItem } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 import { CELO_DERIVATION_PATH_BASE, generateKeys } from 'src/utils/account'
+import { aesDecrypt, aesEncrypt } from 'src/utils/aes'
 import { ETHEREUM_DERIVATION_PATH } from 'src/web3/consts'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -95,10 +95,9 @@ export function isValidBackupPhrase(phrase: string) {
 }
 
 export async function encryptMnemonic(phrase: string, password: string) {
-  return CryptoJS.AES.encrypt(phrase, password).toString()
+  return aesEncrypt(phrase, password)
 }
 
 export async function decryptMnemonic(encryptedMnemonic: string, password: string) {
-  const bytes = CryptoJS.AES.decrypt(encryptedMnemonic, password)
-  return bytes.toString(CryptoJS.enc.Utf8)
+  return aesDecrypt(encryptedMnemonic, password)
 }

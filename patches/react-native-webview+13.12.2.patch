@@ -1,0 +1,16 @@
+diff --git a/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewClient.java b/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewClient.java
+index 251939e..1ca9def 100644
+--- a/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewClient.java
++++ b/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewClient.java
+@@ -38,8 +38,9 @@ import java.util.concurrent.atomic.AtomicReference;
+ 
+ public class RNCWebViewClient extends WebViewClient {
+     private static String TAG = "RNCWebViewClient";
+-    protected static final int SHOULD_OVERRIDE_URL_LOADING_TIMEOUT = 250;
+-
++    // Increasing timeout to 60secs as the original value doesn't work for slower devices
++    // see https://github.com/valora-inc/wallet/issues/2306
++    protected static final int SHOULD_OVERRIDE_URL_LOADING_TIMEOUT = 60000;
+     protected boolean mLastLoadFailed = false;
+     protected RNCWebView.ProgressChangedFilter progressChangedFilter = null;
+     protected @Nullable String ignoreErrFailedForThisURL = null;

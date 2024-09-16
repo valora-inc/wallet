@@ -1,5 +1,4 @@
 import isIP from 'is-ip'
-import path from 'path'
 import { Alert, Platform } from 'react-native'
 import Toast from 'react-native-simple-toast'
 import { showError } from 'src/alert/actions'
@@ -44,6 +43,7 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
+import { appendPath } from 'src/utils/string'
 import { sendPreparedTransactions } from 'src/viem/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, takeEvery, takeLeading } from 'typed-redux-saga'
@@ -57,7 +57,7 @@ function getHooksApiFunctionUrl(
   functionName: 'getPositions' | 'getEarnPositions' | 'v2/getShortcuts' | 'triggerShortcut'
 ) {
   const url = new URL(hooksApiUrl)
-  url.pathname = path.join(url.pathname, functionName)
+  url.pathname = appendPath(url.pathname, functionName)
   return url
 }
 

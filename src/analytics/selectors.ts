@@ -8,7 +8,7 @@ import {
   defaultCountryCodeSelector,
   pincodeTypeSelector,
 } from 'src/account/selectors'
-import { phoneVerificationStatusSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -24,7 +24,7 @@ import { tokensListSelector, tokensWithTokenBalanceSelector } from 'src/tokens/s
 import { sortByUsdBalance } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { getRegionCodeFromCountryCode } from 'src/utils/phoneNumbers'
-import { mtwAddressSelector, rawWalletAddressSelector } from 'src/web3/selectors'
+import { rawWalletAddressSelector } from 'src/web3/selectors'
 
 function toPascalCase(str: string) {
   const camelCaseStr = camelCase(str)
@@ -84,14 +84,13 @@ const positionsAnalyticsSelector = createSelector(
 export const getCurrentUserTraits = createSelector(
   [
     rawWalletAddressSelector,
-    mtwAddressSelector,
     defaultCountryCodeSelector,
     userLocationDataSelector,
     currentLanguageSelector,
     tokensSelector,
     positionsAnalyticsSelector,
     getLocalCurrencyCode,
-    phoneVerificationStatusSelector,
+    phoneNumberVerifiedSelector,
     backupCompletedSelector,
     pincodeTypeSelector,
     pointsBalanceSelector,
@@ -99,7 +98,6 @@ export const getCurrentUserTraits = createSelector(
   ],
   (
     rawWalletAddress,
-    mtwAddress,
     phoneCountryCallingCode,
     { countryCodeAlpha2 },
     language,
@@ -113,7 +111,7 @@ export const getCurrentUserTraits = createSelector(
       hooksPreviewEnabled,
     },
     localCurrencyCode,
-    { numberVerifiedDecentralized, numberVerifiedCentralized },
+    numberVerifiedCentralized,
     hasCompletedBackup,
     pincodeType,
     pointsBalance,
@@ -154,7 +152,7 @@ export const getCurrentUserTraits = createSelector(
     // Don't rename these unless you have a really good reason!
     // They are used in users analytics profiles + super properties
     return {
-      accountAddress: mtwAddress ?? rawWalletAddress,
+      accountAddress: rawWalletAddress,
       walletAddress: rawWalletAddress?.toLowerCase(),
       phoneCountryCallingCode, // Example: +33
       phoneCountryCodeAlpha2: phoneCountryCallingCode
@@ -190,7 +188,6 @@ export const getCurrentUserTraits = createSelector(
       positionsTopTenApps,
       hooksPreviewEnabled,
       localCurrencyCode,
-      hasVerifiedNumber: numberVerifiedDecentralized,
       hasVerifiedNumberCPV: numberVerifiedCentralized,
       hasCompletedBackup,
       deviceId: DeviceInfo.getUniqueIdSync(),

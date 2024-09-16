@@ -270,7 +270,7 @@ describe('TransferFeedItem', () => {
     expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', mockName],
-      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedSubtitleSections: ['feedItemSentInfo'],
       expectedAmount: '+₱13.30',
       expectedTokenAmount: '10.00 cUSD',
     })
@@ -287,24 +287,6 @@ describe('TransferFeedItem', () => {
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', 'a title'],
       expectedSubtitleSections: ['feedItemSentInfo', 'a subtitle'],
-      expectedAmount: '+₱13.30',
-      expectedTokenAmount: '10.00 cUSD',
-    })
-  })
-
-  // TODO: Also test with encrypted comment.
-  it('renders correctly for transfers with comments', async () => {
-    const { getByTestId } = renderScreen({
-      metadata: {
-        title: 'a title',
-        subtitle: 'a subtitle',
-        comment: 'Hello World',
-      },
-    })
-    expectDisplay({
-      getByTestId,
-      expectedTitleSections: ['feedItemSentTitle', 'a title'],
-      expectedSubtitleSections: ['feedItemSentInfo', 'Hello World'],
       expectedAmount: '+₱13.30',
       expectedTokenAmount: '10.00 cUSD',
     })
@@ -410,25 +392,6 @@ describe('TransferFeedItem', () => {
       getByTestId,
       expectedTitleSections: ['feedItemReceivedTitle', 'Simplex'],
       expectedSubtitleSections: ['tokenDeposit', 'cUSD'],
-      expectedAmount: '+₱13.30',
-      expectedTokenAmount: '10.00 cUSD',
-    })
-  })
-
-  // TODO: Also test with encrypted comment.
-  it('renders correctly for transfers received with comments', async () => {
-    const { getByTestId } = renderScreen({
-      type: TokenTransactionTypeV2.Received,
-      metadata: {
-        title: 'a title',
-        subtitle: 'a subtitle',
-        comment: 'Hello World',
-      },
-    })
-    expectDisplay({
-      getByTestId,
-      expectedTitleSections: ['feedItemReceivedTitle', 'a title'],
-      expectedSubtitleSections: ['feedItemReceivedInfo', 'Hello World'],
       expectedAmount: '+₱13.30',
       expectedTokenAmount: '10.00 cUSD',
     })

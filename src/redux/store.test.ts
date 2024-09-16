@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 227,
+          "version": 232,
         },
         "account": {
           "acceptedTerms": false,
@@ -148,10 +148,8 @@ describe('store state', () => {
           "logPhoneNumberTypeEnabled": false,
           "loggedIn": false,
           "maxSwapSlippagePercentage": 2,
-          "minVersion": null,
           "multichainBetaStatus": "NotSeen",
           "networkTimeoutSeconds": 30,
-          "numberVerified": false,
           "pendingDeepLinks": [],
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,
@@ -223,13 +221,11 @@ describe('store state', () => {
           "otaTranslationsLastUpdate": 0,
         },
         "identity": {
-          "addressToDataEncryptionKey": {},
           "addressToDisplayName": {},
           "addressToE164Number": {},
           "addressToVerificationStatus": {},
           "askedContactsPermission": false,
           "e164NumberToAddress": {},
-          "e164NumberToSalt": {},
           "hasSeenVerificationNux": false,
           "importContactsProgress": {
             "current": 0,
@@ -239,7 +235,6 @@ describe('store state', () => {
           "lastSavedContactsHash": null,
           "secureSendPhoneNumberMapping": {},
           "shouldRefreshStoredPasswordHash": true,
-          "walletToAccountAddress": {},
         },
         "imports": {
           "isImportingWallet": false,
@@ -247,6 +242,7 @@ describe('store state', () => {
         "jumpstart": {
           "claimStatus": "idle",
           "depositStatus": "idle",
+          "introHasBeenSeen": false,
           "reclaimStatus": "idle",
         },
         "keylessBackup": {
@@ -341,10 +337,6 @@ describe('store state', () => {
         },
         "web3": {
           "account": "0x0000000000000000000000000000000000007E57",
-          "accountInWeb3Keystore": "0x0000000000000000000000000000000000007E57",
-          "dataEncryptionKey": "0x0000000000000000000000000000000000008F68",
-          "isDekRegistered": false,
-          "mtwAddress": null,
         },
       }
     `)

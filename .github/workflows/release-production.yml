@@ -8,7 +8,7 @@ on:
 
 jobs:
   ios:
-    uses: ./.github/workflows/fastlane-ios.yml
+    uses: ./.github/workflows/release-fastlane-ios.yml
     with:
       branch: ${{ github.ref_name }}
       lanes: '["alfajores", "mainnet"]'
@@ -16,7 +16,7 @@ jobs:
       gcp-service-account-key: ${{ secrets.GCP_MAINNET_RELEASE_AUTOMATION_SERVICE_ACCOUNT_KEY }}
 
   android:
-    uses: ./.github/workflows/fastlane-android.yml
+    uses: ./.github/workflows/release-fastlane-android.yml
     with:
       branch: ${{ github.ref_name }}
       lanes: '["alfajores", "mainnet"]'

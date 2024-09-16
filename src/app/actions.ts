@@ -18,25 +18,21 @@ export enum MultichainBetaStatus {
 export enum Actions {
   SET_APP_STATE = 'APP/SET_APP_STATE',
   SET_LOGGED_IN = 'APP/SET_LOGGED_IN',
-  SET_NUMBER_VERIFIED = 'APP/SET_NUMBER_VERIFIED',
   SET_SUPPORTED_BIOMETRY_TYPE = 'APP/SET_SUPPORTED_BIOMETRY_TYPE',
   OPEN_DEEP_LINK = 'APP/OPEN_DEEP_LINK',
   DEEP_LINK_DEFERRED = 'APP/DEEP_LINK_DEFERRED',
-  RESET_APP_OPENED_STATE = 'APP/RESET_APP_OPENED_STATE',
   SET_ANALYTICS_ENABLED = 'APP/SET_ANALYTICS_ENABLED',
   SET_LOCK_WITH_PIN_ENABLED = 'APP/SET_LOCK_WITH_PIN_ENABLED',
   LOCK = 'APP/LOCK',
   UNLOCK = 'APP/UNLOCK',
   SET_SESSION_ID = 'SET_SESSION_ID',
   OPEN_URL = 'APP/OPEN_URL',
-  MIN_APP_VERSION_DETERMINED = 'APP/MIN_APP_VERSION_DETERMINED',
   UPDATE_REMOTE_CONFIG_VALUES = 'APP/UPDATE_REMOTE_CONFIG_VALUES',
   ACTIVE_SCREEN_CHANGED = 'APP/ACTIVE_SCREEN_CHANGED',
   APP_MOUNTED = 'APP/APP_MOUNTED',
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
   PHONE_NUMBER_VERIFICATION_COMPLETED = 'APP/PHONE_NUMBER_VERIFICATION_COMPLETED',
-  PHONE_NUMBER_VERIFICATION_MIGRATED = 'APP/PHONE_NUMBER_VERIFICATION_MIGRATED',
   PHONE_NUMBER_REVOKED = 'APP/PHONE_NUMBER_REVOKED',
   INVITE_LINK_CONSUMED = 'APP/INVITE_LINK_CONSUMED',
   HAPTIC_FEEDBACK_SET = 'APP/HAPTIC_FEEDBACK_SET',
@@ -57,11 +53,6 @@ interface SetLoggedIn {
   loggedIn: boolean
 }
 
-interface SetNumberVerifiedAction {
-  type: Actions.SET_NUMBER_VERIFIED
-  numberVerified: boolean
-}
-
 interface SetSupportedBiometryType {
   type: Actions.SET_SUPPORTED_BIOMETRY_TYPE
   supportedBiometryType: BIOMETRY_TYPE | null
@@ -77,10 +68,6 @@ interface DeepLinkDeferred {
   type: Actions.DEEP_LINK_DEFERRED
   deepLink: string
   isSecureOrigin: boolean
-}
-
-interface ResetAppOpenedState {
-  type: Actions.RESET_APP_OPENED_STATE
 }
 
 interface SetAnalyticsEnabled {
@@ -126,11 +113,6 @@ export interface OpenUrlAction {
   isSecureOrigin: boolean
 }
 
-interface MinAppVersionDeterminedAction {
-  type: Actions.MIN_APP_VERSION_DETERMINED
-  minVersion: string | null
-}
-
 export interface UpdateConfigValuesAction {
   type: Actions.UPDATE_REMOTE_CONFIG_VALUES
   configValues: RemoteConfigValues
@@ -146,10 +128,6 @@ export interface PhoneNumberVerificationCompleted {
   type: Actions.PHONE_NUMBER_VERIFICATION_COMPLETED
   e164PhoneNumber: string
   countryCode: string | null
-}
-
-export interface PhoneNumberVerificationMigrated {
-  type: Actions.PHONE_NUMBER_VERIFICATION_MIGRATED
 }
 
 export interface PhoneNumberRevoked {
@@ -194,9 +172,7 @@ interface OptMultichainBeta {
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
-  | SetNumberVerifiedAction
   | SetSupportedBiometryType
-  | ResetAppOpenedState
   | OpenDeepLink
   | SetAnalyticsEnabled
   | SetRequirePinOnAppOpen
@@ -204,14 +180,12 @@ export type ActionTypes =
   | Unlock
   | SetSessionId
   | OpenUrlAction
-  | MinAppVersionDeterminedAction
   | UpdateConfigValuesAction
   | ActiveScreenChangedAction
   | AppMounted
   | AppUnmounted
   | AndroidMobileServicesAvailabilityChecked
   | PhoneNumberVerificationCompleted
-  | PhoneNumberVerificationMigrated
   | PhoneNumberRevoked
   | InviteLinkConsumed
   | HapticFeedbackSet
@@ -230,11 +204,6 @@ export const setAppState = (state: string): SetAppState => ({
 export const setLoggedIn = (loggedIn: boolean) => ({
   type: Actions.SET_LOGGED_IN,
   loggedIn,
-})
-
-export const setNumberVerified = (numberVerified: boolean) => ({
-  type: Actions.SET_NUMBER_VERIFIED,
-  numberVerified,
 })
 
 export const setSupportedBiometryType = (supportedBiometryType: BIOMETRY_TYPE | null) => ({
@@ -257,10 +226,6 @@ export const deepLinkDeferred = (deepLink: string, isSecureOrigin: boolean): Dee
     isSecureOrigin,
   }
 }
-
-export const resetAppOpenedState = () => ({
-  type: Actions.RESET_APP_OPENED_STATE,
-})
 
 export const setAnalyticsEnabled = (enabled: boolean): SetAnalyticsEnabled => ({
   type: Actions.SET_ANALYTICS_ENABLED,
@@ -304,13 +269,6 @@ export const openUrl = (
   isSecureOrigin,
 })
 
-export const minAppVersionDetermined = (
-  minVersion: string | null
-): MinAppVersionDeterminedAction => ({
-  type: Actions.MIN_APP_VERSION_DETERMINED,
-  minVersion,
-})
-
 export const updateRemoteConfigValues = (
   configValues: RemoteConfigValues
 ): UpdateConfigValuesAction => ({
@@ -340,12 +298,6 @@ export const phoneNumberVerificationCompleted = (
     type: Actions.PHONE_NUMBER_VERIFICATION_COMPLETED,
     e164PhoneNumber,
     countryCode,
-  }
-}
-
-export const phoneNumberVerificationMigrated = (): PhoneNumberVerificationMigrated => {
-  return {
-    type: Actions.PHONE_NUMBER_VERIFICATION_MIGRATED,
   }
 }
 

@@ -6,6 +6,8 @@
 	<string>$(CLEVERTAP_ACCOUNT_ID)</string>
 	<key>CleverTapToken</key>
 	<string>$(CLEVERTAP_TOKEN)</string>
+	<key>USER_AGENT_APP_NAME</key>
+	<string>$(USER_AGENT_APP_NAME)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -33,7 +35,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>celo</string>
+				<string>$(DEEP_LINK_URL_SCHEME)</string>
 			</array>
 		</dict>
 		<dict>

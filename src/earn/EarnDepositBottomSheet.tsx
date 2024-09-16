@@ -7,7 +7,7 @@ import { ResizeMode } from 'react-native-video'
 import { useDispatch } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
@@ -39,7 +39,7 @@ export default function EarnDepositBottomSheet({
   amount,
   pool,
 }: {
-  forwardedRef: RefObject<BottomSheetRefType>
+  forwardedRef: RefObject<BottomSheetModalRefType>
   preparedTransaction: PreparedTransactionsPossible
   amount: BigNumber
   pool: EarnPosition
@@ -54,6 +54,7 @@ export default function EarnDepositBottomSheet({
     depositTokenId: pool.dataProps.depositTokenId,
     tokenAmount: amount.toString(),
     networkId: pool.networkId,
+    poolId: pool.positionId,
   }
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
