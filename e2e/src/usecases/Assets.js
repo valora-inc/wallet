@@ -96,6 +96,7 @@ export default Assets = () => {
     it('switching tabs displays corresponding assets', async () => {
       await expect(element(by.id('TokenBalanceItem')).atIndex(0)).toBeVisible()
       await element(by.id('Assets/TabBarItem')).atIndex(1).tap()
+      await scrollIntoViewByTestId('Assets/NoNfts', 'AssetList')
       await waitForElementId('Assets/NoNfts')
       await element(by.id('Assets/TabBarItem')).atIndex(0).tap()
       await expect(element(by.id('TokenBalanceItem')).atIndex(0)).toBeVisible()

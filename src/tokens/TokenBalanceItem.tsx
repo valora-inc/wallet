@@ -18,6 +18,7 @@ interface Props {
   containerStyle?: ViewStyle
   showPriceUsdUnavailableWarning?: boolean
   hideBalances?: boolean
+  testIdPrefix?: string
 }
 
 export const TokenBalanceItem = ({
@@ -26,6 +27,7 @@ export const TokenBalanceItem = ({
   containerStyle,
   balanceUsdErrorFallback,
   showPriceUsdUnavailableWarning,
+  testIdPrefix,
   hideBalances = false,
 }: Props) => {
   const { t } = useTranslation()
@@ -36,7 +38,11 @@ export const TokenBalanceItem = ({
       <View style={styles.textContainer}>
         <View style={styles.line}>
           <View style={styles.row}>
-            <Text numberOfLines={1} style={styles.label} testID={`${token.symbol}Symbol`}>
+            <Text
+              numberOfLines={1}
+              style={styles.label}
+              testID={`${testIdPrefix}${token.symbol}Symbol`}
+            >
               {token.name}
             </Text>
             {showPriceUsdUnavailableWarning && !token.priceUsd && <Warning size={16} />}

@@ -116,6 +116,8 @@ describe('TabWallet', () => {
     expect(queryByTestId('AssetsTokenBalance/Info')).toBeFalsy()
     expect(getByTestId('AssetsTokenBalance')).toHaveTextContent('₱21.03')
 
+    expect(getByTestId('HomeActionsCarousel')).toBeTruthy()
+
     expect(getByTestId('Assets/TabBar')).toBeTruthy()
     expect(getAllByTestId('Assets/TabBarItem')).toHaveLength(2)
     expect(getByText('assets.tabBar.tokens')).toBeTruthy()
@@ -130,14 +132,15 @@ describe('TabWallet', () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore(storeWithPositions)
 
-    const { getByTestId, getAllByTestId, queryAllByTestId, getByText, queryByText } = render(
-      <Provider store={store}>
-        <MockedNavigator component={TabWallet} />
-      </Provider>
-    )
+    const { getByTestId, getAllByTestId, queryByTestId, queryAllByTestId, getByText, queryByText } =
+      render(
+        <Provider store={store}>
+          <MockedNavigator component={TabWallet} />
+        </Provider>
+      )
 
     expect(getByTestId('AssetsTokenBalance')).toBeTruthy()
-    expect(getByTestId('AssetsTokenBalance/Info')).toBeTruthy()
+    expect(queryByTestId('AssetsTokenBalance/Info')).toBeFalsy()
     expect(getByTestId('AssetsTokenBalance')).toHaveTextContent('₱31.55')
 
     expect(getByTestId('Assets/TabBar')).toBeTruthy()

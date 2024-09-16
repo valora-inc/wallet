@@ -34,14 +34,14 @@ function ActionsCarousel() {
   const actions: Actions = {
     [HomeActionName.Send]: {
       title: t('homeActions.send'),
-      icon: <QuickActionsSend color={Colors.successDark} />,
+      icon: <QuickActionsSend color={Colors.black} />,
       onPress: () => {
         navigate(Screens.SendSelectRecipient)
       },
     },
     [HomeActionName.Receive]: {
       title: t('homeActions.receive'),
-      icon: <QuickActionsReceive color={Colors.successDark} />,
+      icon: <QuickActionsReceive color={Colors.black} />,
       onPress: () => {
         navigate(Screens.QRNavigator, {
           screen: Screens.QRCode,
@@ -50,14 +50,14 @@ function ActionsCarousel() {
     },
     [HomeActionName.Add]: {
       title: t('homeActions.add'),
-      icon: <QuickActionsAdd color={Colors.successDark} />,
+      icon: <QuickActionsAdd color={Colors.black} />,
       onPress: () => {
         navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
       },
     },
     [HomeActionName.Swap]: {
       title: t('homeActions.swap'),
-      icon: <QuickActionsSwap color={Colors.successDark} />,
+      icon: <QuickActionsSwap color={Colors.black} />,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack)
       },
@@ -65,7 +65,7 @@ function ActionsCarousel() {
     },
     [HomeActionName.Withdraw]: {
       title: t('homeActions.withdraw'),
-      icon: <QuickActionsWithdraw color={Colors.successDark} />,
+      icon: <QuickActionsWithdraw color={Colors.black} />,
       onPress: () => {
         navigate(Screens.WithdrawSpend)
       },
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   card: {
     width: 84,
     padding: 0,
-    backgroundColor: Colors.successLight,
+    backgroundColor: Colors.gray1,
     borderRadius: 10,
   },
   touchable: {
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSmall,
     lineHeight: 17,
     paddingTop: Spacing.Smallest8,
-    color: Colors.successDark,
+    color: Colors.black,
   },
 })
 

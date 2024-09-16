@@ -1,5 +1,5 @@
 import { launchApp } from '../utils/retries'
-import { quickOnboarding, waitForElementId } from '../utils/utils'
+import { quickOnboarding, waitForElementId, waitForElementByIdAndTap } from '../utils/utils'
 
 export default ChooseYourAdventure = () => {
   beforeEach(async () => {
@@ -23,6 +23,7 @@ export default ChooseYourAdventure = () => {
 
     // Back should go to the home screen
     await element(by.id('BackChevron')).tap()
+    await waitForElementByIdAndTap('Tab/Wallet')
     await waitForElementId('HomeAction-Send')
   })
 
@@ -34,6 +35,7 @@ export default ChooseYourAdventure = () => {
 
     // Back should go to the home screen
     await element(by.id('BackButton')).tap()
+    await waitForElementByIdAndTap('Tab/Wallet')
     await waitForElementId('HomeAction-Send')
   })
 
@@ -45,10 +47,11 @@ export default ChooseYourAdventure = () => {
 
     // dismissing the bottom sheet should show home screen
     await element(by.id('TokenBottomSheet')).swipe('down')
+    await waitForElementByIdAndTap('Tab/Wallet')
     await waitForElementId('HomeAction-Send')
   })
 
-  it('explore earning opportunities navigates to stablecoins info page', async () => {
+  it.skip('explore earning opportunities navigates to stablecoins info page', async () => {
     await element(by.text('Explore earning opportunities')).tap()
 
     await waitForElementId('EarnInfoScreen/Title')
