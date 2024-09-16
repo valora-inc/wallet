@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Bir metin gibi kripto paylaşın",
+    "description": "Canlı Bağlantılar, Celo ağındaki bir arkadaşınıza bir bağlantı ile kripto göndermenin bir yoludur",
+    "noFundsHint": "Başlamak için cüzdanınızda Celo ile ilgili bazı varlıklara ihtiyacınız olacak.",
+    "haveFundsButton": "Canlı Bağlantı ile Gönder",
     "addFundsCelo": {
       "title": "Celo'da Varlık Alın",
       "info": "Canlı Bağlantılar, Celo ağındaki kriptoyu bir bağlantı ile bir arkadaşınıza göndermenin bir yoludur.\nBaşlamak için cüzdanınızda biraz CELO varlığına ihtiyacınız vardır.",
@@ -2511,15 +2514,21 @@
           "subtitle": "Kazanç potansiyelini ve riskleri karşılaştırın. Size en uygun havuza katılmak için tokenları takas edin, satın alın veya transfer edin.",
           "footnoteSubsidy": "*Gaz ücretleri geçici olarak {{appName}}tarafından karşılanmaktadır."
         },
+        "work": {
+          "title": "Varlıklarınızı İşe Koyun",
+          "subtitle": "Bir likidite havuzuna para yatırarak kripto paranızdan kazanmaya başlayın. "
+        },
         "manage": {
           "title": "Doğrudan {{appName}} uygulamasından yönetin",
           "titleV1_92": "Doğrudan {{appName}} uygulamasından yönetin",
+          "titleV1_94": "Pozisyonlarınızı Yönetin",
           "subtitle": "{{appName}} uygulamasından ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız.",
-          "subtitleV1_92": "{{appName}} uygulamasından ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız."
+          "subtitleV1_92": "{{appName}} uygulamasından ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız.",
+          "subtitleV1_94": "Beğendiğiniz bir havuzu seçin, jetonlarınızı ekleyin ve kazançlarınızı izleyin."
         },
         "access": {
           "title": "Fonlarınıza Kolayca Erişin",
-          "subtitle": "Tıpkı favori protokolleriniz gibi bir dokunuşla fonları toplayın."
+          "subtitle": "Hazır olduğunuzda bir dokunuşla para toplayın."
         }
       },
       "action": {
@@ -2549,11 +2558,6 @@
       "continue": "İleri",
       "info": "Bu havuz Aave tarafından desteklenmektedir",
       "infoV1_93": "{{providerName}} tarafından desteklenmektedir",
-      "infoBottomSheet": {
-        "title": "Neden bu havuz?",
-        "description": "Bu Aave havuzu 150 milyon ABD dolarının üzerinde TVL'ye ve 6000'den fazla katılımcıya sahiptir, bu da güçlü likidite ve güvenilirliği gösterir. Ayrıca token olarak USDC ve ağ olarak Arbitrum kullanır, bu da oynaklığı azaltır ve kullanıcıların ucuz gas oranları almasını sağlar.\n\nDiğer Aave havuzlarını <0>buradan</0> keşfedebilirsiniz.",
-        "dismiss": "Yoksay"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Devam etmek için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
         "description": "Gas ücretlerinizi karşılamak için {{network}} ağına {{feeTokenSymbol}} ekleyin",

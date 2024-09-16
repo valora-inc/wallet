@@ -2213,6 +2213,9 @@
   },
   "jumpstartIntro": {
     "title": "像发短信一样分享加密货币",
+    "description": "实时链接是在 Celo 网络上通过链接向朋友发送加密货币的一种方式。",
+    "noFundsHint": "要开始使用，您的钱包里需要有一些 Celo 上的资产。",
+    "haveFundsButton": "通过实时链接发送",
     "addFundsCelo": {
       "title": "在 Celo 上获取资产",
       "info": "实时链接是一种通过链接向好友发送 Celo 网络上加密货币的方式。\n要开始使用，您的钱包中需要有一些 CELO 资产。",
@@ -2509,15 +2512,21 @@
           "subtitle": "比较收益潜力和风险。兑换、购买或转移代币，以加入最适合您的池。",
           "footnoteSubsidy": "*煤气费暂由 {{appName}}支付"
         },
+        "work": {
+          "title": "让您的资产发挥作用",
+          "subtitle": "存入流动性池，开始赚取加密货币收益。 "
+        },
         "manage": {
           "title": "直接在 {{appName}} 管理",
           "titleV1_92": "直接在 {{appName}} 管理",
+          "titleV1_94": "管理您的职位",
           "subtitle": "我们将自动连接您的钱包，因此您无需离开 {{appName}} 即可管理池。",
-          "subtitleV1_92": "我们将自动连接您的钱包，因此您无需离开 {{appName}} 即可管理池。"
+          "subtitleV1_92": "我们将自动连接您的钱包，因此您无需离开 {{appName}} 即可管理池。",
+          "subtitleV1_94": "选择一个您喜欢的池，添加代币并监控您的收益。"
         },
         "access": {
           "title": "轻松获取资金",
-          "subtitle": "只需轻轻一按，即可收取资金，就像您最喜欢的协议一样便捷。"
+          "subtitle": "准备好后，轻点一下即可收取资金。"
         }
       },
       "action": {
@@ -2547,11 +2556,6 @@
       "continue": "继续",
       "info": "此池由 Aave 提供支持",
       "infoV1_93": "由 {{providerName}} 提供支持",
-      "infoBottomSheet": {
-        "title": "为什么使用此池？",
-        "description": "该 Aave 池拥有超过 1.5 亿美元的 TVL 和 6000 多名贡献者，这表明其具有很强的流动性和可信度。该池还使用 USDC 作为代币，并以 Arbitrum 作为网络，从而降低了波动性，确保用户获得低廉的手续费。\n\n您可以在<0>此处</0>探索其他 Aave 池。",
-        "dismiss": "忽略"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "您需要更多 {{feeTokenSymbol}} 才能继续",
         "description": "在 {{network}} 上添加 {{feeTokenSymbol}} 以支付手续费",

@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Compartilhe cripto tão fácil quanto enviar mensagens",
+    "description": "Os Live Links são uma forma de enviar criptografia na rede da Celo para um amigo por meio de um link",
+    "noFundsHint": "Para começar, você precisará de alguns ativos da Celo em sua carteira.",
+    "haveFundsButton": "Envie com um link ativo",
     "addFundsCelo": {
       "title": "Obtenha ativos na Celo",
       "info": "Os links ativos são uma forma de você enviar cripto na rede Celo para um amigo por meio de um link.\nPara começar, você precisará de alguns ativos CELO em sua carteira.",
@@ -2511,15 +2514,21 @@
           "subtitle": "Compare o potencial de ganho e os riscos. Troque, compre ou transfira tokens para participar do melhor pool para você.",
           "footnoteSubsidy": "*As taxas de gás são temporariamente cobertas pelo site {{appName}}"
         },
+        "work": {
+          "title": "Coloque seus ativos para trabalhar",
+          "subtitle": "Comece a ganhar com suas criptomoedas depositando em um pool de liquidez. "
+        },
         "manage": {
           "title": "Gerencie diretamente de {{appName}}",
           "titleV1_92": "Gerencie diretamente de {{appName}}",
+          "titleV1_94": "Gerencie suas posições",
           "subtitle": "Conectaremos a sua carteira para você poder gerenciar os pools sem sair da {{appName}}.",
-          "subtitleV1_92": "Conectaremos a sua carteira para você poder gerenciar os pools sem sair da {{appName}}."
+          "subtitleV1_92": "Conectaremos a sua carteira para você poder gerenciar os pools sem sair da {{appName}}.",
+          "subtitleV1_94": "Escolha um pool que você goste, adicione seus tokens e monitore seus ganhos."
         },
         "access": {
           "title": "Acesse seus fundos com facilidade",
-          "subtitle": "Colete fundos com um toque, assim como em seus protocolos favoritos."
+          "subtitle": "Colete fundos com um toque quando você estiver pronto."
         }
       },
       "action": {
@@ -2549,11 +2558,6 @@
       "continue": "Continuar",
       "info": "Este pool é desenvolvido pela Aave",
       "infoV1_93": "Desenvolvido por {{providerName}}",
-      "infoBottomSheet": {
-        "title": "Por que este pool?",
-        "description": "Este pool da Aave tem mais de US$ 150 milhões em TVL e mais de 6.000 contribuintes, o que indica forte liquidez e confiabilidade. Ele também usa USDC como seu token e Arbitrum como sua rede, o que reduz a volatilidade e garante que os usuários recebam taxas de gás baratas.\n\nVocê pode explorar outros pools da Aave <0>aqui</0>.",
-        "dismiss": "Ignorar"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Você precisa de mais {{feeTokenSymbol}} para continuar",
         "description": "Adicione {{feeTokenSymbol}} na {{network}} para cobrir suas taxas de gas",
