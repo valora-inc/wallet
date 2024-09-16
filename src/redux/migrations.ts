@@ -1912,4 +1912,8 @@ export const migrations = {
       introHasBeenSeen: false,
     },
   }),
+  232: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'numberVerified'),
+  }),
 }

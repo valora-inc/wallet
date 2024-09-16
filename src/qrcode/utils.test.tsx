@@ -5,10 +5,11 @@ import { View } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { showError } from 'src/alert/actions'
-import { QrScreenEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { QrScreenEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
@@ -43,7 +44,6 @@ import {
   mockRecipient,
   mockRecipientInfo,
 } from 'test/values'
-import { DEEPLINK_PREFIX } from 'src/config'
 
 jest.mock('src/positions/saga')
 
@@ -76,7 +76,7 @@ describe('useQRContent', () => {
 
 describe('handleQRCodeDefault', () => {
   it('handles hooks enable preview links', async () => {
-    const link = `${DEEPLINK_PREFIX}://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000`
+    const link = `${DEEP_LINK_URL_SCHEME}://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000`
     const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: link }
 
     await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
