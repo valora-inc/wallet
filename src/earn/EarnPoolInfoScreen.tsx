@@ -20,6 +20,7 @@ import {
   useSwapAndDepositAction,
   useTransferAction,
 } from 'src/earn/hooks'
+import { BeforeDepositAction } from 'src/earn/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import InfoIcon from 'src/icons/InfoIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
@@ -43,21 +44,6 @@ import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
 import { formattedDuration } from 'src/utils/time'
-
-export enum BeforeDepositActionName {
-  Add = 'Add',
-  Transfer = 'Transfer',
-  SwapAndDeposit = 'SwapAndDeposit',
-  CrossChainSwap = 'CrossChainSwap',
-}
-
-export interface BeforeDepositAction {
-  name: BeforeDepositActionName
-  title: string
-  details: string
-  iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
-  onPress: () => void
-}
 
 function HeaderTitleSection({
   earnPosition,

@@ -4,9 +4,12 @@ import { useTranslation } from 'react-i18next'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { BottomSheetModalRefType } from 'src/components/BottomSheet'
-import { BeforeDepositAction, BeforeDepositActionName } from 'src/earn/EarnPoolInfoScreen'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
-import { PrepareWithdrawAndClaimParams } from 'src/earn/types'
+import {
+  BeforeDepositAction,
+  BeforeDepositActionName,
+  PrepareWithdrawAndClaimParams,
+} from 'src/earn/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow, fetchExchanges } from 'src/fiatExchanges/utils'
 import SwapAndDeposit from 'src/icons/SwapAndDeposit'
@@ -141,7 +144,7 @@ export function useAddAction({
     }),
     iconComponent: QuickActionsAdd,
     onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
+      AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
         action: BeforeDepositActionName.Add,
         ...getTokenAnalyticsProps(token),
       })
@@ -176,7 +179,7 @@ export function useTransferAction({
     }),
     iconComponent: QuickActionsSend,
     onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
+      AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
         action: BeforeDepositActionName.Transfer,
         ...getTokenAnalyticsProps(token),
       })
@@ -204,7 +207,7 @@ export function useCrossChainSwapAction({
     details,
     iconComponent: QuickActionsSwap,
     onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
+      AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
         action: BeforeDepositActionName.CrossChainSwap,
         ...getTokenAnalyticsProps(token),
       })
@@ -233,7 +236,7 @@ export function useSwapAndDepositAction({
     }),
     iconComponent: SwapAndDeposit,
     onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_add_crypto_action_press, {
+      AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
         action: BeforeDepositActionName.SwapAndDeposit,
         ...getTokenAnalyticsProps(token),
       })

@@ -1,4 +1,5 @@
 import { EarnPosition, Position, Token } from 'src/positions/types'
+import Colors from 'src/styles/colors'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -42,4 +43,19 @@ export interface PrepareWithdrawAndClaimParams {
   feeCurrencies: TokenBalance[]
   hooksApiUrl: string
   rewardsPositions: Position[]
+}
+
+export enum BeforeDepositActionName {
+  Add = 'Add',
+  Transfer = 'Transfer',
+  SwapAndDeposit = 'SwapAndDeposit',
+  CrossChainSwap = 'CrossChainSwap',
+}
+
+export interface BeforeDepositAction {
+  name: BeforeDepositActionName
+  title: string
+  details: string
+  iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
+  onPress: () => void
 }

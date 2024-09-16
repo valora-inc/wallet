@@ -36,7 +36,7 @@ function getStore({
   balance?: string
   includeSameChainToken?: boolean
   includeOtherChainToken?: boolean
-}) {
+} = {}) {
   const sameChainToken = includeSameChainToken
     ? { [mockArbEthTokenId]: { ...mockTokenBalances[mockArbEthTokenId], balance: '1' } }
     : {}
@@ -61,7 +61,7 @@ function getStore({
 
 const renderEarnPoolInfoScreen = (pool: EarnPosition) =>
   render(
-    <Provider store={getStore({})}>
+    <Provider store={getStore()}>
       <MockedNavigator component={EarnPoolInfoScreen} params={{ pool }} />
     </Provider>
   )
@@ -384,7 +384,7 @@ describe('EarnPoolInfoScreen', () => {
 
   it('show bottom sheet correctly when Deposit button is tapped and depositTokenId does not have balance, no tokens', () => {
     const { getByText, getByTestId } = render(
-      <Provider store={getStore({})}>
+      <Provider store={getStore()}>
         <MockedNavigator
           component={() => {
             return (
@@ -415,7 +415,7 @@ describe('EarnPoolInfoScreen', () => {
 
   it('navigate to EarnCollectScreen when Withdraw button is tapped', () => {
     const { getByText } = render(
-      <Provider store={getStore({})}>
+      <Provider store={getStore()}>
         <MockedNavigator
           component={EarnPoolInfoScreen}
           params={{
