@@ -32,7 +32,7 @@ import { StackParamList } from 'src/navigator/types'
 import { hooksApiUrlSelector } from 'src/positions/selectors'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
-import { AmountInput, ProceedArgs } from 'src/send/EnterAmount'
+import { AmountInput } from 'src/send/EnterAmount'
 import { AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
@@ -88,6 +88,7 @@ function EarnEnterAmount({ route }: Props) {
   const tokens = useTokens({ pool, mode })
 
   const [token, setToken] = useState<TokenBalance>(() => tokens[0])
+  const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
 
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -284,16 +285,25 @@ function EarnEnterAmount({ route }: Props) {
     })
   }
 
-  const onPressContinue = ({ tokenAmount, token, amountEnteredIn }: ProceedArgs) => {
+  const onPressContinue = () => {
+    if (!tokenAmount || !depositToken) {
+      // should never happen
+      return
+    }
     AppAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
       userHasFunds: !!isAmountLessThanBalance,
       tokenAmount: tokenAmount.toString(),
       amountInUsd: tokenAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
-      amountEnteredIn,
-      depositTokenId: token.tokenId,
+      amountEnteredIn: enteredIn,
+      depositTokenId: pool.dataProps.depositTokenId,
       networkId: token.networkId,
       providerId: pool.appId,
       poolId: pool.positionId,
+      sourceTokenId: token.tokenId,
+      mode,
+      depositTokenAmount: swapTransaction
+        ? new BigNumber(swapTransaction.buyAmount).shiftedBy(-depositToken.decimals).toString()
+        : tokenAmount.toString(),
     })
     reviewBottomSheetRef.current?.snapToIndex(0)
   }
@@ -412,10 +422,7 @@ function EarnEnterAmount({ route }: Props) {
           />
         )}
         <Button
-          onPress={() =>
-            tokenAmount &&
-            onPressContinue({ tokenAmount, localAmount, token, amountEnteredIn: enteredIn })
-          }
+          onPress={onPressContinue}
           text={t('earnFlow.enterAmount.continue')}
           size={BtnSizes.FULL}
           disabled={disabled}
@@ -503,6 +510,7 @@ function TransactionDetails({
             <View style={styles.txDetailsValue}>
               <Text style={styles.txDetailsValueText}>
                 <TokenDisplay
+                  testID="EarnEnterAmount/Swap/From"
                   tokenId={token.tokenId}
                   amount={tokenAmount.toString()}
                   showLocalAmount={false}
@@ -511,6 +519,7 @@ function TransactionDetails({
               <ArrowRightThick size={20} color={Colors.black} />
               <Text style={styles.txDetailsValueText}>
                 <TokenDisplay
+                  testID="EarnEnterAmount/Swap/To"
                   tokenId={pool.dataProps.depositTokenId}
                   amount={depositAmount}
                   showLocalAmount={false}
@@ -551,7 +560,11 @@ function TransactionDetails({
           />
           <View style={styles.txDetailsValue}>
             <Text style={styles.txDetailsValueText}>
-              <TokenDisplay tokenId={feeCurrency.tokenId} amount={maxFeeAmount.toString()} />
+              <TokenDisplay
+                testID="EarnEnterAmount/Fees"
+                tokenId={feeCurrency.tokenId}
+                amount={maxFeeAmount.toString()}
+              />
             </Text>
           </View>
         </View>
