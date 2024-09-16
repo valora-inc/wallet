@@ -668,7 +668,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   txDetailsLabel: {
     flex: 1,
@@ -676,11 +676,11 @@ const styles = StyleSheet.create({
     gap: Spacing.Tiny4,
     alignItems: 'center',
     paddingRight: 20, // Prevents Icon from being cut off on long labels
-    minWidth: '35%',
+    minWidth: '25%',
   },
   txDetailsLabelText: {
     ...typeScale.bodyMedium,
-    color: Colors.gray4,
+    color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'left',
   },
@@ -689,6 +689,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: Spacing.Tiny4,
     alignItems: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
   },
   gray4: {
     color: Colors.gray4,
