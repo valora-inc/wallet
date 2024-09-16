@@ -363,7 +363,7 @@
         "device": "simulator",
         "app": "ios.release"
       },
-      "ios.release.15.0": {
+      "ios.release.15.5": {
         "device": "simulator.15.5",
         "app": "ios.release"
       },
