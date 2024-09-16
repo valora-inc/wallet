@@ -4,6 +4,9 @@
   "author": "Valora Inc",
   "license": "Apache-2.0",
   "private": true,
+  "engines": {
+    "node": "20.11.1"
+  },
   "scripts": {
     "lint": "eslint --ext=.tsx,.ts src/",
     "format": "prettier --loglevel error --write .",

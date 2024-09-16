@@ -12,7 +12,7 @@ jobs:
       # `if` conditions can't directly access secrets, so we use a workaround
       # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
       SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
-      BASH_ENV: ~/.profile
+      # BASH_ENV: ~/.profile
     name: iOS (${{ inputs.ios-version  }})
     runs-on: namespace-profile-default-mac
     steps:
@@ -43,28 +43,28 @@ jobs:
           path: ./ios/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile', 'ios/Podfile.lock') }}
 
-      # - uses: ./.github/actions/yarn-install
-      - uses: actions/setup-node@v4
-        id: setup-node
-        with:
-          node-version: 22.x
-      - uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ runner.name }}-${{ runner.arch }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
-      - name: Install Yarn dependencies
-        run: |
-          # Deals with yarn (v1) install flakiness
-          yarn || yarn --network-concurrency 1
-          # Another install flakiness fix (at least in yarn v1 with node 20)
-          # yarn postinstall isn't always run (?!) so we run it manually
-          yarn postinstall
-        shell: bash
-      - name: Fail if someone forgot to commit "yarn.lock"
-        run: git diff --exit-code
-        shell: bash
+      - uses: ./.github/actions/yarn-install
+      # - uses: actions/setup-node@v4
+      #   id: setup-node
+      #   with:
+      #     node-version: 22.x
+      # - uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       node_modules
+      #       */*/node_modules
+      #     key: ${{ runner.os }}-${{ runner.name }}-${{ runner.arch }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
+      # - name: Install Yarn dependencies
+      #   run: |
+      #     # Deals with yarn (v1) install flakiness
+      #     yarn || yarn --network-concurrency 1
+      #     # Another install flakiness fix (at least in yarn v1 with node 20)
+      #     # yarn postinstall isn't always run (?!) so we run it manually
+      #     yarn postinstall
+      #   shell: bash
+      # - name: Fail if someone forgot to commit "yarn.lock"
+      #   run: git diff --exit-code
+      #   shell: bash
 
       # Since the e2e runners have access to the Valora branding,
       # This check ensures there are no type errors there.
