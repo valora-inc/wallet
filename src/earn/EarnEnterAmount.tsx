@@ -506,6 +506,7 @@ function FeeDetailsBottomSheet({
             </Text>
             {feeCurrency && estimatedFeeAmount && (
               <Text style={styles.bottomSheetLineLabelText} testID="EstNetworkFee/Value">
+                {'≈ '}
                 <TokenDisplay
                   tokenId={feeCurrency.tokenId}
                   amount={estimatedFeeAmount.toString()}
@@ -526,6 +527,7 @@ function FeeDetailsBottomSheet({
             </Text>
             {feeCurrency && maxFeeAmount && (
               <Text style={styles.bottomSheetLineLabelText} testID="MaxNetworkFee/Value">
+                {'≈ '}
                 <TokenDisplay tokenId={feeCurrency.tokenId} amount={maxFeeAmount.toString()} />
                 {' ('}
                 <TokenDisplay
