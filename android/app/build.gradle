@@ -156,6 +156,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "app_name", project.env.get("APP_DISPLAY_NAME")
         resValue "string", "build_config_package", "org.celo.mobile"
+        resValue "string", "deep_link_url_scheme", project.env.get("DEEP_LINK_URL_SCHEME")
         missingDimensionStrategy 'react-native-camera', 'general'
         vectorDrawables.useSupportLibrary = true
         resValue "bool", "is_profiling_build", System.getenv("IS_PROFILING_BUILD") ?: "false"
