@@ -76,10 +76,9 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
     transaction.__typename === 'EarnDeposit' ? transaction.outAmount : transaction.deposit.outAmount
   const depositTokenInfo = useTokenInfo(depositOutAmount.tokenId)
   const depositTokenSymbol = depositTokenInfo?.symbol ?? ''
-  const swapFromTokenInfo =
-    transaction.__typename === 'SwapDeposit'
-      ? useTokenInfo(transaction.swap.inAmount.tokenId)
-      : undefined
+  const swapFromTokenInfo = useTokenInfo(
+    transaction.__typename === 'SwapDeposit' ? transaction.swap.inAmount.tokenId : undefined
+  )
 
   return (
     <>

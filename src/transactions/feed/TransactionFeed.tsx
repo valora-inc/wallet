@@ -108,6 +108,7 @@ function TransactionFeed() {
       case 'TokenApproval':
         return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
       case 'EarnDeposit':
+      case 'SwapDeposit':
       case 'EarnWithdraw':
       case 'EarnClaimReward':
         return <EarnFeedItem key={tx.transactionHash} transaction={tx} />

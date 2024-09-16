@@ -77,9 +77,8 @@ function useHeaderTitle(transaction: TokenTransaction) {
       return t('earnFlow.transactionFeed.earnWithdrawTitle')
     case TokenTransactionTypeV2.EarnClaimReward:
       return t('earnFlow.transactionFeed.earnClaimTitle')
-    case TokenTransactionTypeV2.EarnDeposit:
-      return t('earnFlow.transactionFeed.earnDepositTitle')
     case TokenTransactionTypeV2.SwapDeposit:
+    case TokenTransactionTypeV2.EarnDeposit:
       return t('earnFlow.transactionFeed.earnDepositTitle')
   }
 }

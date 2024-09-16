@@ -27,11 +27,8 @@ function Description({ transaction }: DescriptionProps) {
   let subtitle
 
   switch (transaction.__typename) {
-    case 'EarnDeposit':
-      title = t('earnFlow.transactionFeed.earnDepositTitle')
-      subtitle = t('earnFlow.transactionFeed.earnDepositSubtitle', { providerName })
-      break
     case 'SwapDeposit':
+    case 'EarnDeposit':
       title = t('earnFlow.transactionFeed.earnDepositTitle')
       subtitle = t('earnFlow.transactionFeed.earnDepositSubtitle', { providerName })
       break
