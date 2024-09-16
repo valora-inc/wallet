@@ -1,13 +1,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import _ from 'lodash'
 import React, { useEffect } from 'react'
-import { RefreshControl, RefreshControlProps, SectionList, StyleSheet } from 'react-native'
+import { RefreshControl, RefreshControlProps, SectionList } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AppState } from 'src/app/actions'
 import { appStateSelector } from 'src/app/selectors'
-import NotificationBox from 'src/home/NotificationBox'
-import { refreshAllBalances, visitHome } from 'src/home/actions'
+import { refreshAllBalances } from 'src/home/actions'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -25,10 +24,6 @@ function TabActivity(_props: Props) {
   const insets = useSafeAreaInsets()
 
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(visitHome())
-  }, [])
 
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
@@ -55,26 +50,15 @@ function TabActivity(_props: Props) {
     <RefreshControl refreshing={isLoading} onRefresh={onRefresh} colors={[colors.primary]} />
   ) as React.ReactElement<RefreshControlProps>
 
-  const notificationBoxSection = {
-    data: [{}],
-    renderItem: () => (
-      <NotificationBox
-        key={'NotificationBox'}
-        // Only show high priority notifications marked for the home screen
-        showOnlyHomeScreenNotifications={true}
-      />
-    ),
-  }
-
   const transactionFeedSection = {
     data: [{}],
     renderItem: () => <TransactionFeed key={'TransactionList'} />,
   }
 
-  const sections = [notificationBoxSection, transactionFeedSection]
+  const sections = [transactionFeedSection]
 
   return (
-    <SafeAreaView testID="WalletHome" style={styles.container} edges={[]}>
+    <SafeAreaView testID="WalletHome" edges={[]}>
       <AnimatedSectionList
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
@@ -83,7 +67,6 @@ function TabActivity(_props: Props) {
         refreshControl={refresh}
         onRefresh={onRefresh}
         refreshing={isLoading}
-        style={styles.container}
         contentContainerStyle={{ paddingBottom: insets.bottom }}
         sections={sections}
         keyExtractor={keyExtractor}
@@ -92,12 +75,5 @@ function TabActivity(_props: Props) {
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: 'relative',
-  },
-})
 
 export default TabActivity

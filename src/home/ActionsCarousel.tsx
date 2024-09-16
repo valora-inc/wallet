@@ -82,7 +82,6 @@ function ActionsCarousel() {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.carouselContainer}
       testID={'HomeActionsCarousel'}
-      style={styles.container}
     >
       {ENABLED_QUICK_ACTIONS.map((name) => ({ ...actions[name], name }))
         .filter(({ hidden }) => !hidden)
@@ -121,9 +120,6 @@ function ActionsCarousel() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    zIndex: -1,
-  },
   carouselContainer: {
     paddingHorizontal: Spacing.Regular16,
     marginTop: Spacing.Regular16,

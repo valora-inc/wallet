@@ -201,16 +201,16 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
 
   return (
     <TouchableWithoutFeedback onPress={handleDismissInfo}>
-      <View testID="AssetsTokenBalance" style={styles.row}>
+      <View testID="AssetsTokenBalance">
         <View style={styles.row}>
+          <Text style={styles.walletTabTitle}>{t('bottomTabsNavigator.wallet.title')}</Text>
           {showInfo && (
             <TouchableOpacity
               onPress={toggleInfoVisible}
               hitSlop={variables.iconHitslop}
               testID="AssetsTokenBalance/Info"
-              style={styles.infoButton}
             >
-              <InfoIcon color={Colors.black} />
+              <InfoIcon color={Colors.primary} />
             </TouchableOpacity>
           )}
         </View>
@@ -265,6 +265,11 @@ const styles = StyleSheet.create({
   container: {
     margin: variables.contentPadding,
   },
+  walletTabTitle: {
+    ...typeScale.titleMedium,
+    color: Colors.black,
+    marginRight: 10,
+  },
   totalAssetsInfoContainer: {
     position: 'absolute',
     top: 32,
@@ -287,7 +292,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   exchangeTotalValue: {
     ...typeScale.labelSemiBoldSmall,
@@ -318,8 +322,5 @@ const styles = StyleSheet.create({
   tokenBalance: {
     ...typeScale.labelSemiBoldSmall,
     color: Colors.gray4,
-  },
-  infoButton: {
-    paddingRight: Spacing.Tiny4,
   },
 })

@@ -350,7 +350,7 @@
       "emulator": {
         "type": "android.emulator",
         "device": {
-          "avdName": "Pixel_XL_API_29_NEW"
+          "avdName": "Pixel_API_29_AOSP_x86_64"
         },
         "utilBinaryPaths": [
           "./e2e/test-butler-app.apk"
