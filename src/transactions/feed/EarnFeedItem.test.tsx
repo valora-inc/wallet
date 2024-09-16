@@ -17,6 +17,7 @@ import {
   mockEarnClaimRewardTransaction,
   mockEarnDepositTransaction,
   mockEarnWithdrawTransaction,
+  mockSwapDepositTransaction,
 } from 'test/values'
 
 jest.mock('src/statsig')
@@ -115,6 +116,14 @@ describe.each([
   {
     type: 'EarnDeposit',
     transaction: mockEarnDepositTransaction,
+    expectedTitle: 'earnFlow.transactionFeed.earnDepositTitle',
+    expectedSubTitle: 'earnFlow.transactionFeed.earnDepositSubtitle, {"providerName":"Aave"}',
+    expectedTotal: '-10.00 USDC',
+    expectedTotalLocal: '₱13.30',
+  },
+  {
+    type: 'SwapDeposit',
+    transaction: mockSwapDepositTransaction,
     expectedTitle: 'earnFlow.transactionFeed.earnDepositTitle',
     expectedSubTitle: 'earnFlow.transactionFeed.earnDepositSubtitle, {"providerName":"Aave"}',
     expectedTotal: '-10.00 USDC',

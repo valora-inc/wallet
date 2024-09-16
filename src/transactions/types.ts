@@ -239,7 +239,6 @@ export interface SwapDeposit {
   timestamp: number
   block: string
   fees: Fee[]
-  providerId: string
   swap: {
     inAmount: TokenAmount
     outAmount: TokenAmount
@@ -247,6 +246,7 @@ export interface SwapDeposit {
   deposit: {
     inAmount: TokenAmount
     outAmount: TokenAmount
+    providerId: string
   }
   status: TransactionStatus
 }

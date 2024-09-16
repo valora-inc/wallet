@@ -16,6 +16,7 @@ import {
   Fee,
   FeeType,
   NetworkId,
+  SwapDeposit,
   TokenAmount,
   TokenApproval,
   TokenExchange,
@@ -48,6 +49,7 @@ import {
   mockEarnDepositTransaction,
   mockEarnWithdrawTransaction,
   mockEthTokenId,
+  mockSwapDepositTransaction,
   mockTokenBalances,
 } from 'test/values'
 
@@ -258,6 +260,15 @@ describe('TransactionDetailsScreen', () => {
     }
   }
 
+  function swapDepositTransaction({
+    status = TransactionStatus.Complete,
+  }: Partial<SwapDeposit>): SwapDeposit {
+    return {
+      ...mockSwapDepositTransaction,
+      status,
+    }
+  }
+
   function earnWithdrawTransaction({
     status = TransactionStatus.Complete,
   }: Partial<EarnWithdraw>): EarnWithdraw {
@@ -459,6 +470,16 @@ describe('TransactionDetailsScreen', () => {
       expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
     })
 
+    it(`renders check status action for pending ${TokenTransactionTypeV2.SwapDeposit} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: swapDepositTransaction({
+          status: TransactionStatus.Pending,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+    })
+
     it(`renders check status action for pending ${TokenTransactionTypeV2.EarnWithdraw} transaction`, () => {
       const { getByText } = renderScreen({
         transaction: earnWithdrawTransaction({
@@ -482,6 +503,16 @@ describe('TransactionDetailsScreen', () => {
     it(`renders details action for complete ${TokenTransactionTypeV2.EarnDeposit} transaction`, () => {
       const { getByText } = renderScreen({
         transaction: earnDepositTransaction({
+          status: TransactionStatus.Complete,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    })
+
+    it(`renders details action for complete ${TokenTransactionTypeV2.SwapDeposit} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: swapDepositTransaction({
           status: TransactionStatus.Complete,
         }),
       })

@@ -22,7 +22,11 @@ interface DescriptionProps {
 
 function Description({ transaction }: DescriptionProps) {
   const { t } = useTranslation()
-  const providerName = useEarnPositionProviderName(transaction.providerId)
+  const providerName = useEarnPositionProviderName(
+    transaction.__typename === 'SwapDeposit'
+      ? transaction.deposit.providerId
+      : transaction.providerId
+  )
   let title
   let subtitle
 

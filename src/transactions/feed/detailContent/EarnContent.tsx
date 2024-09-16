@@ -71,7 +71,11 @@ interface EarnDepositProps {
 
 export function EarnDepositContent({ transaction }: EarnDepositProps) {
   const { t } = useTranslation()
-  const providerName = useEarnPositionProviderName(transaction.providerId)
+  const providerName = useEarnPositionProviderName(
+    transaction.__typename === 'SwapDeposit'
+      ? transaction.deposit.providerId
+      : transaction.providerId
+  )
   const depositOutAmount =
     transaction.__typename === 'EarnDeposit' ? transaction.outAmount : transaction.deposit.outAmount
   const depositTokenInfo = useTokenInfo(depositOutAmount.tokenId)
