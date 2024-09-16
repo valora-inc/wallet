@@ -5603,6 +5603,88 @@
             ],
             "type": "object"
         },
+        "SwapDeposit": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "SwapDeposit",
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "deposit": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount"
+                    ],
+                    "type": "object"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "providerId": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "swap": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount"
+                    ],
+                    "type": "object"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "block",
+                "deposit",
+                "fees",
+                "networkId",
+                "providerId",
+                "status",
+                "swap",
+                "timestamp",
+                "transactionHash",
+                "type"
+            ],
+            "type": "object"
+        },
         "SwapStatus": {
             "enum": [
                 "error",
@@ -5807,6 +5889,9 @@
                 },
                 {
                     "$ref": "#/definitions/EarnClaimReward"
+                },
+                {
+                    "$ref": "#/definitions/SwapDeposit"
                 }
             ]
         },
@@ -5822,6 +5907,7 @@
                 "NFT_SENT",
                 "RECEIVED",
                 "SENT",
+                "SWAP_DEPOSIT",
                 "SWAP_TRANSACTION"
             ],
             "type": "string"
