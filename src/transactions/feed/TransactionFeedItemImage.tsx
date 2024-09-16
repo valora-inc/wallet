@@ -22,6 +22,7 @@ type Props = { networkId: NetworkId; status: TransactionStatus; hideNetworkIcon?
         | 'CrossChainTokenExchange'
         | 'TokenApproval'
         | 'EarnDeposit'
+        | 'SwapDeposit'
         | 'EarnWithdraw'
         | 'EarnClaimReward'
     }
@@ -72,7 +73,7 @@ function TransactionFeedItemBaseImage(props: Props) {
     return <ContactCircle recipient={props.recipient} size={AVATAR_SIZE} />
   }
 
-  if (['EarnWithdraw', 'EarnDeposit', 'EarnClaimReward'].includes(transactionType)) {
+  if (['EarnWithdraw', 'EarnDeposit', 'EarnClaimReward', 'SwapDeposit'].includes(transactionType)) {
     return (
       <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
         <EarnCoins size={24} color={Colors.successDark} />

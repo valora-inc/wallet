@@ -2624,7 +2624,11 @@
       "earnDepositDetails": "Amount Deposited",
       "earnWithdrawTitle": "Withdrew",
       "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
-      "earnWithdrawDetails": "Amount Withdrawn"
+      "earnWithdrawDetails": "Amount Withdrawn",
+      "swap": "Swap",
+      "swapValue": "{{fromTokenAndAmount}} → {{toTokenAndAmount}}",
+      "network": "Network",
+      "fees": "Fees"
     },
     "home": {
       "title": "Earn",

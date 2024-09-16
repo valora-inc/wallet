@@ -4,11 +4,18 @@ import { StyleSheet, Text, View } from 'react-native'
 import RowDivider from 'src/components/RowDivider'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { useEarnPositionProviderName } from 'src/earn/hooks'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
 import FeeRowItem from 'src/transactions/feed/detailContent/FeeRowItem'
-import { EarnClaimReward, EarnDeposit, EarnWithdraw, FeeType } from 'src/transactions/types'
+import {
+  EarnClaimReward,
+  EarnDeposit,
+  EarnWithdraw,
+  FeeType,
+  SwapDeposit,
+} from 'src/transactions/types'
 
 interface EarnClaimRewardProps {
   transaction: EarnClaimReward
@@ -59,21 +66,30 @@ export function EarnClaimContent({ transaction }: EarnClaimRewardProps) {
 }
 
 interface EarnDepositProps {
-  transaction: EarnDeposit
+  transaction: EarnDeposit | SwapDeposit
 }
 
 export function EarnDepositContent({ transaction }: EarnDepositProps) {
   const { t } = useTranslation()
   const providerName = useEarnPositionProviderName(transaction.providerId)
-  const tokenInfo = useTokenInfo(transaction.outAmount.tokenId)
-  const tokenSymbol = tokenInfo?.symbol ?? ''
+  const depositOutAmount =
+    transaction.__typename === 'EarnDeposit' ? transaction.outAmount : transaction.deposit.outAmount
+  const depositTokenInfo = useTokenInfo(depositOutAmount.tokenId)
+  const depositTokenSymbol = depositTokenInfo?.symbol ?? ''
+  const swapFromTokenInfo =
+    transaction.__typename === 'SwapDeposit'
+      ? useTokenInfo(transaction.swap.inAmount.tokenId)
+      : undefined
 
   return (
     <>
       <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.descriptionLabel')}</Text>
       {!!providerName && (
         <Text style={styles.detailsSubtitle}>
-          {t('earnFlow.transactionDetails.earnDepositSubtitle', { providerName, tokenSymbol })}
+          {t('earnFlow.transactionDetails.earnDepositSubtitle', {
+            providerName,
+            depositTokenSymbol,
+          })}
         </Text>
       )}
       <RowDivider />
@@ -83,25 +99,52 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
             {t('earnFlow.transactionDetails.earnDepositDetails')}
           </Text>
           <TokenDisplay
-            amount={transaction.outAmount.value}
-            tokenId={transaction.outAmount.tokenId}
+            amount={depositOutAmount.value}
+            tokenId={depositOutAmount.tokenId}
             showSymbol={true}
             showLocalAmount={false}
             style={styles.amountTitle}
           />
         </View>
         <TokenDisplay
-          amount={transaction.outAmount.value}
-          tokenId={transaction.outAmount.tokenId}
+          amount={depositOutAmount.value}
+          tokenId={depositOutAmount.tokenId}
           style={styles.amountSubtitle}
         />
       </View>
+      {transaction.__typename === 'SwapDeposit' && (
+        <View style={styles.row}>
+          <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.swap')}</Text>
+          <Text style={styles.bodyText}>
+            {t('earnFlow.transactionDetails.swapValue', {
+              fromTokenAndAmount: `${transaction.swap.inAmount.value} ${swapFromTokenInfo?.symbol ?? ''}`,
+              toTokenAndAmount: `${depositOutAmount.value} ${depositTokenSymbol}`,
+            })}
+          </Text>
+        </View>
+      )}
+      {transaction.__typename === 'SwapDeposit' && (
+        <View style={styles.row}>
+          <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.network')}</Text>
+          <Text style={styles.bodyText}>{NETWORK_NAMES[transaction.networkId]}</Text>
+        </View>
+      )}
       <RowDivider />
+      {transaction.__typename === 'SwapDeposit' && (
+        <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.fees')}</Text>
+      )}
       <FeeRowItem
         fees={transaction.fees}
         feeType={FeeType.SecurityFee}
         transactionStatus={transaction.status}
       />
+      {transaction.__typename === 'SwapDeposit' && (
+        <FeeRowItem
+          fees={transaction.fees}
+          feeType={FeeType.AppFee}
+          transactionStatus={transaction.status}
+        />
+      )}
     </>
   )
 }
@@ -168,6 +211,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
+  },
+  bodyText: {
+    ...typeScale.bodyMedium,
+    color: Colors.black,
+    flex: 1,
   },
   amountTitle: {
     ...typeScale.labelSemiBoldMedium,

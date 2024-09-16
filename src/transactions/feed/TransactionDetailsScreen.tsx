@@ -20,6 +20,7 @@ import {
   EarnClaimReward,
   EarnDeposit,
   EarnWithdraw,
+  SwapDeposit,
   TokenApproval,
   TokenExchange,
   TokenTransaction,
@@ -78,6 +79,8 @@ function useHeaderTitle(transaction: TokenTransaction) {
       return t('earnFlow.transactionFeed.earnClaimTitle')
     case TokenTransactionTypeV2.EarnDeposit:
       return t('earnFlow.transactionFeed.earnDepositTitle')
+    case TokenTransactionTypeV2.SwapDeposit:
+      return t('earnFlow.transactionFeed.earnDepositTitle')
   }
 }
 
@@ -126,6 +129,9 @@ function TransactionDetailsScreen({ route }: Props) {
       break
     case TokenTransactionTypeV2.EarnDeposit:
       content = <EarnDepositContent transaction={transaction as EarnDeposit} />
+      break
+    case TokenTransactionTypeV2.SwapDeposit:
+      content = <EarnDepositContent transaction={transaction as SwapDeposit} />
       break
     case TokenTransactionTypeV2.Approval:
       content = <TokenApprovalDetails transaction={transaction as TokenApproval} />
