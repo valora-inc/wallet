@@ -10,7 +10,7 @@ jobs:
   android:
     name: Android (SDK ${{ inputs.android-api-level }})
     runs-on:
-      - nscloud-ubuntu-22.04-amd64-16x64-with-cache
+      - nscloud-ubuntu-22.04-arm64-16x64-with-cache
       - nscloud-cache-size-20gb
       - nscloud-cache-tag-wallet-e2e-android
     # We pay by the minute.
@@ -57,8 +57,8 @@ jobs:
       - name: Setup emulator
         run: >
           yarn ts-node ./.github/scripts/setupAndroidEmulator.ts
-          --image "system-images;android-${{ inputs.android-api-level }};default;x86_64"
-          --emulatorName Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
+          --image "system-images;android-${{ inputs.android-api-level }};default;arm64-v8a"
+          --emulatorName Pixel_API_${{ inputs.android-api-level }}_arm64
       # Since the e2e runners have access to the Valora branding,
       # This check ensures there are no type errors there.
       # The `yarn build` step done in the test workflow also includes it but does it with the default celo branding.
@@ -74,7 +74,7 @@ jobs:
       - name: Run Detox
         run: >
           yarn detox test
-          --device-name Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
+          --device-name Pixel_API_${{ inputs.android-api-level }}_arm64
           --configuration android.release
           --artifacts-location e2e/artifacts
           --take-screenshots=failing
