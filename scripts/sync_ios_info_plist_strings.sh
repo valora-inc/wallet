@@ -17,11 +17,11 @@ plist_keys=(
   NSFaceIDUsageDescription
 )
 
-info_plist_strings="ios/celo/Base.lproj/InfoPlist.strings"
+info_plist_strings="ios/MobileStack/Base.lproj/InfoPlist.strings"
 echo -e "/* DO NOT EDIT MANUALLY, SEE scripts/sync_ios_info_plist_strings.sh */\n" > $info_plist_strings
 
 for plist_key in "${plist_keys[@]}"; do
-  plist_value=$(/usr/libexec/PlistBuddy -c "Print :$plist_key" ios/celo/Info.plist)
+  plist_value=$(/usr/libexec/PlistBuddy -c "Print :$plist_key" ios/MobileStack/Info.plist)
   echo "$plist_key = \"$plist_value\";" >> $info_plist_strings
 done
 

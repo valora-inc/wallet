@@ -46,17 +46,13 @@ describe('EarnInfoScreen', () => {
 
     // First details item - includes subsidy code
     expect(getByText('earnFlow.earnInfo.title')).toBeTruthy()
-    expect(getByText('earnFlow.earnInfo.details.earn.title')).toBeTruthy()
+    expect(getByText('earnFlow.earnInfo.details.work.title')).toBeTruthy()
     expect(queryByText('earnFlow.earnInfo.details.earn.titleGasSubsidy')).toBeFalsy()
     expect(queryByText('earnFlow.earnInfo.details.earn.footnoteSubsidy')).toBeFalsy()
 
     // Second details item
-    expect(
-      getByText('earnFlow.earnInfo.details.manage.titleV1_92, {"appName":"Valora"}')
-    ).toBeTruthy()
-    expect(
-      getByText('earnFlow.earnInfo.details.manage.subtitleV1_92, {"appName":"Valora"}')
-    ).toBeTruthy()
+    expect(getByText('earnFlow.earnInfo.details.manage.titleV1_94')).toBeTruthy()
+    expect(getByText('earnFlow.earnInfo.details.manage.subtitleV1_94')).toBeTruthy()
 
     // Third details item
     expect(getByText('earnFlow.earnInfo.details.access.title')).toBeTruthy()
