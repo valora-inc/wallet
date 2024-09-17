@@ -21,7 +21,7 @@ public class UserAgentInterceptor implements Interceptor {
         // Format we want: App/1.0.0 (Android 12; Pixel 5)
         String.format(
           "%s/%s (Android %s; %s)",
-          BuildConfig.USER_AGENT_APP_NAME,
+          BuildConfig.APP_REGISTRY_NAME,
           BuildConfig.VERSION_NAME,
           Build.VERSION.RELEASE,
           Build.MODEL

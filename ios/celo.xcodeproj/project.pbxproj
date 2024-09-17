@@ -1000,7 +1000,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
-				PRODUCT_NAME = valora;
+				PRODUCT_NAME = "$(APP_REGISTRY_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "celo/celo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1029,7 +1029,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
-				PRODUCT_NAME = valora;
+				PRODUCT_NAME = "$(APP_REGISTRY_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "celo/celo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
