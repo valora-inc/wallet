@@ -1,0 +1,8 @@
+/* DO NOT EDIT MANUALLY, SEE scripts/sync_ios_info_plist_strings.sh */
+
+NSCameraUsageDescription = "Під’єднання вашої камери дозволяє сканувати коди для платежів.";
+NSContactsUsageDescription = "Додавання ваших контактів полегшує надсилання та запит платежів із друзями.";
+NSPhotoLibraryAddUsageDescription = "Під’єднання вашої бібліотеки фотографій дозволяє зберегти код до ваших фото.";
+NSPhotoLibraryUsageDescription = "Вам потрібно вибрати зображення профілю.";
+NSUserTrackingUsageDescription = "Ми використовуємо ідентифікатор реклами для точної атрибуції інсталяцій програмних застосунків від рекламних кампаній.";
+NSFaceIDUsageDescription = "Вам необхідно використовувати ідентифікатор обличчя для захисту вашого облікового запису.";
