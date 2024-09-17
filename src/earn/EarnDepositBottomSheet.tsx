@@ -106,7 +106,7 @@ export default function EarnDepositBottomSheet({
           </Text>
         </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.amount')}>
-          <View style={styles.valueRow}>
+          <View style={styles.valueRow} testID="EarnDeposit/Amount">
             <TokenDisplay
               testID="EarnDeposit/AmountCrypto"
               amount={amount}
@@ -127,7 +127,7 @@ export default function EarnDepositBottomSheet({
           </View>
         </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.fee')}>
-          <View style={styles.valueRow}>
+          <View style={styles.valueRow} testID="EarnDeposit/Fee">
             <TokenDisplay
               testID="EarnDeposit/FeeFiat"
               amount={estimatedFeeAmount}

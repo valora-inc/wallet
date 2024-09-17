@@ -88,13 +88,14 @@ describe('EarnDepositBottomSheet', () => {
 
     expect(queryByTestId('EarnDeposit/GasSubsidized')).toBeFalsy()
 
+    expect(getByText('earnFlow.depositBottomSheet.yieldRate')).toBeTruthy()
+    expect(getByText('earnFlow.depositBottomSheet.apy, {"apy":"1.92"}')).toBeTruthy()
+
     expect(getByText('earnFlow.depositBottomSheet.amount')).toBeTruthy()
-    expect(getByTestId('EarnDeposit/AmountCrypto')).toHaveTextContent('100.00 USDC')
-    expect(getByTestId('EarnDeposit/AmountFiat')).toHaveTextContent('₱133.00')
+    expect(getByTestId('EarnDeposit/Amount')).toHaveTextContent('100.00 USDC(₱133.00)')
 
     expect(getByText('earnFlow.depositBottomSheet.fee')).toBeTruthy()
-    expect(getByTestId('EarnDeposit/FeeFiat')).toHaveTextContent('₱0.012')
-    expect(getByTestId('EarnDeposit/FeeCrypto')).toHaveTextContent('0.000006 ETH')
+    expect(getByTestId('EarnDeposit/Fee')).toHaveTextContent('₱0.012(0.000006 ETH)')
 
     expect(getByText('earnFlow.depositBottomSheet.provider')).toBeTruthy()
     expect(getByText('Aave')).toBeTruthy()
