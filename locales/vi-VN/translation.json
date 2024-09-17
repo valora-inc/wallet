@@ -2548,6 +2548,7 @@
       "title": "How much would you like to deposit?",
       "deposit": "Nạp tiền",
       "fees": "Phí",
+      "swap": "Trao đổi",
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
       "rateLabel": "Tỷ giá (ước tính)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / năm",

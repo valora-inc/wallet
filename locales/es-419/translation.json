@@ -2550,6 +2550,7 @@
       "title": "¿Cuánto quieres ingresar?",
       "deposit": "Depósito",
       "fees": "Tarifas",
+      "swap": "Cambio",
       "earnUpToLabel": "Podrías ganar hasta:",
       "rateLabel": "Tasa (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/año",

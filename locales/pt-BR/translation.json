@@ -2550,6 +2550,7 @@
       "title": "Quanto você gostaria de depositar?",
       "deposit": "Depósito",
       "fees": "Taxas",
+      "swap": "Trocar",
       "earnUpToLabel": "Você pode ganhar até:",
       "rateLabel": "Taxa (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/ano",
