@@ -66,10 +66,6 @@ end
 setup_permissions(['Camera', 'AppTrackingTransparency', 'Contacts'])
 
 target "MobileStack" do
-  target "MobileStackTests" do
-    inherit! :search_paths
-  end
-
   config = use_native_modules!
 
   # Flags change depending on the env values.
