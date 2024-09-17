@@ -2550,6 +2550,7 @@
       "title": "Quanto vuoi depositare?",
       "deposit": "Deposito",
       "fees": "Commissioni",
+      "swap": "Scambio",
       "earnUpToLabel": "Puoi guadagnare fino a:",
       "rateLabel": "Tasso (stima)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / anno",
