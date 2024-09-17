@@ -57,7 +57,7 @@ jobs:
       - name: Setup emulator
         run: >
           yarn ts-node ./.github/scripts/setupAndroidEmulator.ts
-          --image "system-images;android-${{ inputs.android-api-level }};default;arm64-v8a"
+          --image "system-images;android-${{ inputs.android-api-level }};aosp_atd;arm64-v8a"
           --emulatorName Pixel_API_${{ inputs.android-api-level }}_arm64
       # Since the e2e runners have access to the Valora branding,
       # This check ensures there are no type errors there.
