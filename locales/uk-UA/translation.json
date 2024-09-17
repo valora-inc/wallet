@@ -2554,6 +2554,7 @@
       "title": "Яку суму ви хотіли б внести на депозит?",
       "deposit": "Депозит",
       "fees": "Комісії",
+      "swap": "Обміняти",
       "earnUpToLabel": "Можна заробити до:",
       "rateLabel": "Ставка (орієнт.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",

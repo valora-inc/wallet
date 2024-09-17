@@ -28,7 +28,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "celo";
+    return BuildConfig.APP_REGISTRY_NAME;
   }
 
   /**

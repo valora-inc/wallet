@@ -2552,6 +2552,7 @@
       "title": "How much would you like to deposit?",
       "deposit": "Deposit",
       "fees": "Fees",
+      "swap": "Swap",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
