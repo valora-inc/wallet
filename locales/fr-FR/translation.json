@@ -2550,6 +2550,7 @@
       "title": "Quel est le montant que tu souhaites déposer ?",
       "deposit": "Dépôt",
       "fees": "Frais",
+      "swap": "Échange",
       "earnUpToLabel": "Vous pourriez gagner jusqu'à :",
       "rateLabel": "Taux (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / an",
