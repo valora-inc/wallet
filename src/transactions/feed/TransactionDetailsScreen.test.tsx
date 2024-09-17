@@ -12,11 +12,11 @@ import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsSc
 import {
   EarnClaimReward,
   EarnDeposit,
+  EarnSwapDeposit,
   EarnWithdraw,
   Fee,
   FeeType,
   NetworkId,
-  SwapDeposit,
   TokenAmount,
   TokenApproval,
   TokenExchange,
@@ -47,9 +47,9 @@ import {
   mockE164Number2,
   mockEarnClaimRewardTransaction,
   mockEarnDepositTransaction,
+  mockEarnSwapDeposit,
   mockEarnWithdrawTransaction,
   mockEthTokenId,
-  mockSwapDepositTransaction,
   mockTokenBalances,
 } from 'test/values'
 
@@ -262,9 +262,9 @@ describe('TransactionDetailsScreen', () => {
 
   function swapDepositTransaction({
     status = TransactionStatus.Complete,
-  }: Partial<SwapDeposit>): SwapDeposit {
+  }: Partial<EarnSwapDeposit>): EarnSwapDeposit {
     return {
-      ...mockSwapDepositTransaction,
+      ...mockEarnSwapDeposit,
       status,
     }
   }
@@ -470,7 +470,7 @@ describe('TransactionDetailsScreen', () => {
       expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
     })
 
-    it(`renders check status action for pending ${TokenTransactionTypeV2.SwapDeposit} transaction`, () => {
+    it(`renders check status action for pending ${TokenTransactionTypeV2.EarnSwapDeposit} transaction`, () => {
       const { getByText } = renderScreen({
         transaction: swapDepositTransaction({
           status: TransactionStatus.Pending,
@@ -510,7 +510,7 @@ describe('TransactionDetailsScreen', () => {
       expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
     })
 
-    it(`renders details action for complete ${TokenTransactionTypeV2.SwapDeposit} transaction`, () => {
+    it(`renders details action for complete ${TokenTransactionTypeV2.EarnSwapDeposit} transaction`, () => {
       const { getByText } = renderScreen({
         transaction: swapDepositTransaction({
           status: TransactionStatus.Complete,

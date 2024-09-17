@@ -12,9 +12,9 @@ import FeeRowItem from 'src/transactions/feed/detailContent/FeeRowItem'
 import {
   EarnClaimReward,
   EarnDeposit,
+  EarnSwapDeposit,
   EarnWithdraw,
   FeeType,
-  SwapDeposit,
 } from 'src/transactions/types'
 
 interface EarnClaimRewardProps {
@@ -66,13 +66,13 @@ export function EarnClaimContent({ transaction }: EarnClaimRewardProps) {
 }
 
 interface EarnDepositProps {
-  transaction: EarnDeposit | SwapDeposit
+  transaction: EarnDeposit | EarnSwapDeposit
 }
 
 export function EarnDepositContent({ transaction }: EarnDepositProps) {
   const { t } = useTranslation()
   const providerName = useEarnPositionProviderName(
-    transaction.__typename === 'SwapDeposit'
+    transaction.__typename === 'EarnSwapDeposit'
       ? transaction.deposit.providerId
       : transaction.providerId
   )
@@ -81,7 +81,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
   const depositTokenInfo = useTokenInfo(depositOutAmount.tokenId)
   const depositTokenSymbol = depositTokenInfo?.symbol ?? ''
   const swapFromTokenInfo = useTokenInfo(
-    transaction.__typename === 'SwapDeposit' ? transaction.swap.inAmount.tokenId : undefined
+    transaction.__typename === 'EarnSwapDeposit' ? transaction.swap.inAmount.tokenId : undefined
   )
 
   return (
@@ -115,7 +115,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
           style={styles.amountSubtitle}
         />
       </View>
-      {transaction.__typename === 'SwapDeposit' && (
+      {transaction.__typename === 'EarnSwapDeposit' && (
         <View style={styles.row}>
           <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.swap')}</Text>
           <Text style={styles.bodyText}>
@@ -126,14 +126,14 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
           </Text>
         </View>
       )}
-      {transaction.__typename === 'SwapDeposit' && (
+      {transaction.__typename === 'EarnSwapDeposit' && (
         <View style={styles.row}>
           <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.network')}</Text>
           <Text style={styles.bodyText}>{NETWORK_NAMES[transaction.networkId]}</Text>
         </View>
       )}
       <RowDivider />
-      {transaction.__typename === 'SwapDeposit' && (
+      {transaction.__typename === 'EarnSwapDeposit' && (
         <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.fees')}</Text>
       )}
       <FeeRowItem
@@ -141,7 +141,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
         feeType={FeeType.SecurityFee}
         transactionStatus={transaction.status}
       />
-      {transaction.__typename === 'SwapDeposit' && (
+      {transaction.__typename === 'EarnSwapDeposit' && (
         <FeeRowItem
           fees={transaction.fees}
           feeType={FeeType.AppFee}

@@ -14,16 +14,16 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
-import { EarnClaimReward, EarnDeposit, EarnWithdraw, SwapDeposit } from 'src/transactions/types'
+import { EarnClaimReward, EarnDeposit, EarnSwapDeposit, EarnWithdraw } from 'src/transactions/types'
 
 interface DescriptionProps {
-  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward | SwapDeposit
+  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward | EarnSwapDeposit
 }
 
 function Description({ transaction }: DescriptionProps) {
   const { t } = useTranslation()
   const providerName = useEarnPositionProviderName(
-    transaction.__typename === 'SwapDeposit'
+    transaction.__typename === 'EarnSwapDeposit'
       ? transaction.deposit.providerId
       : transaction.providerId
   )
@@ -31,7 +31,7 @@ function Description({ transaction }: DescriptionProps) {
   let subtitle
 
   switch (transaction.__typename) {
-    case 'SwapDeposit':
+    case 'EarnSwapDeposit':
     case 'EarnDeposit':
       title = t('earnFlow.transactionFeed.earnDepositTitle')
       subtitle = t('earnFlow.transactionFeed.earnDepositSubtitle', { providerName })
@@ -61,7 +61,7 @@ function Description({ transaction }: DescriptionProps) {
 }
 
 interface AmountDisplayProps {
-  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward | SwapDeposit
+  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward | EarnSwapDeposit
   isLocal: boolean
 }
 
@@ -74,7 +74,7 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
       amountValue = new BigNumber(-transaction.inAmount.value)
       tokenId = transaction.outAmount.tokenId
       break
-    case 'SwapDeposit':
+    case 'EarnSwapDeposit':
       amountValue = new BigNumber(-transaction.deposit.inAmount.value)
       tokenId = transaction.deposit.outAmount.tokenId
       break
@@ -107,7 +107,7 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
 }
 
 interface AmountProps {
-  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward | SwapDeposit
+  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward | EarnSwapDeposit
 }
 
 function Amount({ transaction }: AmountProps) {
@@ -120,7 +120,7 @@ function Amount({ transaction }: AmountProps) {
 }
 
 interface Props {
-  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward | SwapDeposit
+  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward | EarnSwapDeposit
 }
 
 export default function EarnFeedItem({ transaction }: Props) {

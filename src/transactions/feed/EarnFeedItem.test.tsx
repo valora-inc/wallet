@@ -16,8 +16,8 @@ import {
   mockArbArbTokenId,
   mockEarnClaimRewardTransaction,
   mockEarnDepositTransaction,
+  mockEarnSwapDeposit,
   mockEarnWithdrawTransaction,
-  mockSwapDepositTransaction,
 } from 'test/values'
 
 jest.mock('src/statsig')
@@ -122,8 +122,8 @@ describe.each([
     expectedTotalLocal: '₱13.30',
   },
   {
-    type: 'SwapDeposit',
-    transaction: mockSwapDepositTransaction,
+    type: 'EarnSwapDeposit',
+    transaction: mockEarnSwapDeposit,
     expectedTitle: 'earnFlow.transactionFeed.earnDepositTitle',
     expectedSubTitle: 'earnFlow.transactionFeed.earnDepositSubtitle, {"providerName":"Aave"}',
     expectedTotal: '-10.00 USDC',

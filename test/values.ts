@@ -50,9 +50,9 @@ import { NativeTokenBalance, StoredTokenBalance, TokenBalance } from 'src/tokens
 import {
   EarnClaimReward,
   EarnDeposit,
+  EarnSwapDeposit,
   EarnWithdraw,
   NetworkId,
-  SwapDeposit,
   TokenApproval,
   TokenTransactionTypeV2,
   TransactionStatus,
@@ -2085,8 +2085,8 @@ export const mockEarnDepositTransaction: EarnDeposit = {
   type: TokenTransactionTypeV2.EarnDeposit,
 }
 
-export const mockSwapDepositTransaction: SwapDeposit = {
-  __typename: 'SwapDeposit',
+export const mockEarnSwapDeposit: EarnSwapDeposit = {
+  __typename: 'EarnSwapDeposit',
   deposit: {
     inAmount: {
       localAmount: undefined,
@@ -2132,7 +2132,7 @@ export const mockSwapDepositTransaction: SwapDeposit = {
   timestamp: Date.now(),
   transactionHash: '0xHASH1',
   status: TransactionStatus.Complete,
-  type: TokenTransactionTypeV2.SwapDeposit,
+  type: TokenTransactionTypeV2.EarnSwapDeposit,
 }
 
 export const mockEarnWithdrawTransaction: EarnWithdraw = {

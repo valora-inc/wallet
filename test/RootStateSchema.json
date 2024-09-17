@@ -5603,11 +5603,11 @@
             ],
             "type": "object"
         },
-        "SwapDeposit": {
+        "EarnSwapDeposit": {
             "additionalProperties": false,
             "properties": {
                 "__typename": {
-                    "const": "SwapDeposit",
+                    "const": "EarnSwapDeposit",
                     "type": "string"
                 },
                 "block": {
@@ -5891,7 +5891,7 @@
                     "$ref": "#/definitions/EarnClaimReward"
                 },
                 {
-                    "$ref": "#/definitions/SwapDeposit"
+                    "$ref": "#/definitions/EarnSwapDeposit"
                 }
             ]
         },
@@ -5907,7 +5907,7 @@
                 "NFT_SENT",
                 "RECEIVED",
                 "SENT",
-                "SWAP_DEPOSIT",
+                "EARN_SWAP_DEPOSIT",
                 "SWAP_TRANSACTION"
             ],
             "type": "string"
