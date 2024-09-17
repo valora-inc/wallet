@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Share crypto like a text",
+    "description": "Live Links are a way to send crypto on the Celo network to a friend with a link",
+    "noFundsHint": "To get started, you’ll need some assets on Celo in your wallet.",
+    "haveFundsButton": "Send with a Live Link",
     "addFundsCelo": {
       "title": "Get Assets on Celo",
       "info": "Live Links are a way to send crypto on the Celo network to a friend with a link.\nTo get started, you’ll need some CELO assets in your wallet.",
@@ -2511,15 +2514,21 @@
           "subtitle": "Compare earning potential and risks. Swap, buy, or transfer tokens to join the best pool for you.",
           "footnoteSubsidy": "*Gas fees are temporarily covered by {{appName}}"
         },
+        "work": {
+          "title": "Put Your Assets To Work",
+          "subtitle": "Start earning on your crypto by depositing into a liquidity pool. "
+        },
         "manage": {
           "title": "Manage Directly from {{appName}}",
           "titleV1_92": "Manage Directly from {{appName}}",
+          "titleV1_94": "Manage Your Positions",
           "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}.",
-          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}."
+          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}.",
+          "subtitleV1_94": "Choose a pool you like, add your tokens and monitor your gains."
         },
         "access": {
           "title": "Easily Access your Funds",
-          "subtitle": "Collect funds with a tap, just like your favorite protocols."
+          "subtitle": "Collect funds with a tap when you're ready."
         }
       },
       "action": {
@@ -2541,6 +2550,7 @@
       "title": "How much would you like to deposit?",
       "deposit": "Deposit",
       "fees": "Fees",
+      "swap": "Swap",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
@@ -2549,11 +2559,6 @@
       "continue": "Continue",
       "info": "This pool is powered by Aave",
       "infoV1_93": "Powered by {{providerName}}",
-      "infoBottomSheet": {
-        "title": "Why this pool?",
-        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Arbitrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nYou can explore other Aave pools <0>here</0>.",
-        "dismiss": "Dismiss"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "You need more {{feeTokenSymbol}} to continue",
         "description": "Add {{feeTokenSymbol}} on {{network}} to cover your gas fees",

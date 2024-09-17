@@ -14,8 +14,7 @@ public class UserAgentClientFactory implements OkHttpClientFactory {
   }
 
   public OkHttpClient createNewNetworkModuleClient() {
-    return OkHttpClientProvider
-      .createClientBuilder(this.context)
+    return OkHttpClientProvider.createClientBuilder(this.context)
       .addInterceptor(new UserAgentInterceptor())
       .build();
   }

@@ -20,7 +20,6 @@ import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import Support from 'src/account/Support'
 import SupportContact from 'src/account/SupportContact'
 import AppLoading from 'src/app/AppLoading'
-import Debug from 'src/app/Debug'
 import DebugImages from 'src/app/DebugImages'
 import ErrorScreen from 'src/app/ErrorScreen'
 import MultichainBeta from 'src/app/MultichainBeta'
@@ -142,7 +141,6 @@ const commonScreens = (Navigator: typeof Stack) => {
         component={UpgradeScreen}
         options={UpgradeScreen.navigationOptions}
       />
-      <Navigator.Screen name={Screens.Debug} component={Debug} options={noHeader} />
       <Navigator.Screen
         name={Screens.DebugImages}
         component={DebugImages}

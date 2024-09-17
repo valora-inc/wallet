@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Envía cripto como un mensaje de texto",
+    "description": "Los enlaces en directo son una forma de enviar criptomonedas en la red Celo a un amigo con un enlace",
+    "noFundsHint": "Para empezar, necesitarás algunos activos en Celo en tu cartera.",
+    "haveFundsButton": "Envia un enlace directo",
     "addFundsCelo": {
       "title": "Obtén activos Celo",
       "info": "Los enlaces activos son una forma de enviar cripto en la red Celo con un enlace.\nPara empezar, necesitarás tener activos CELO en tu wallet.",
@@ -2511,15 +2514,21 @@
           "subtitle": "Compara el potencial de ganancias y los riesgos. Intercambia, compra o transfiere tokens para unirte a la mejor pool.",
           "footnoteSubsidy": "*Las tasas de gas están cubiertas temporalmente por {{appName}}"
         },
+        "work": {
+          "title": "Pon tus activos a trabajar",
+          "subtitle": "Empieza a ganar con tu cripto depositando en un fondo de liquidez. "
+        },
         "manage": {
           "title": "Gestiona directamente desde {{appName}}",
           "titleV1_92": "Gestiona directamente desde {{appName}}",
+          "titleV1_94": "Gestiona tus puestos",
           "subtitle": "Conectaremos tu wallet para que puedas gestionar las pools sin salir de {{appName}}.",
-          "subtitleV1_92": "Conectaremos tu wallet para que puedas gestionar las pools sin salir de {{appName}}."
+          "subtitleV1_92": "Conectaremos tu wallet para que puedas gestionar las pools sin salir de {{appName}}.",
+          "subtitleV1_94": "Elige una quiniela que te guste, añade tus fichas y controla tus ganancias."
         },
         "access": {
           "title": "Accede fácilmente a tus fondos",
-          "subtitle": "Recupera los fondos en un toque, igual que en tus protocolos favoritos."
+          "subtitle": "Recoge fondos con un toque cuando estés listo."
         }
       },
       "action": {
@@ -2541,6 +2550,7 @@
       "title": "¿Cuánto quieres ingresar?",
       "deposit": "Depósito",
       "fees": "Tarifas",
+      "swap": "Cambio",
       "earnUpToLabel": "Podrías ganar hasta:",
       "rateLabel": "Tasa (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/año",
@@ -2549,11 +2559,6 @@
       "continue": "Continuar",
       "info": "Esta pool es administrada por Aave",
       "infoV1_93": "Con tecnología de {{providerName}}",
-      "infoBottomSheet": {
-        "title": "¿Por qué esta pool?",
-        "description": "Este pool de Aave tiene más de $150M de TVL y más de 6.000 contribuyentes, lo que indica una gran liquidez y fiabilidad. También utiliza USDC como token y Abitrum como red, lo que reduce la volatilidad y garantiza que los usuarios recibirán tarifas baratas.\n\nPuedes explorar otros pools de Aave <0>aquí</0>.",
-        "dismiss": "Ignorar"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Necesitas más {{feeTokenSymbol}} para continuar",
         "description": "Agrega {{feeTokenSymbol}} en {{network}} para cubrir las tarifas",

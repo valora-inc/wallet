@@ -2219,6 +2219,9 @@
   },
   "jumpstartIntro": {
     "title": "Udostępniaj kryptowaluty jak wiadomości tekstowe",
+    "description": "Live Linki to sposób na wysyłanie kryptowalut w sieci Celo do znajomego za pomocą linku",
+    "noFundsHint": "Aby rozpocząć, będziesz potrzebować zasobów Celo w swoim portfelu.",
+    "haveFundsButton": "Wyślij za pomocą aktywnego linku",
     "addFundsCelo": {
       "title": "Pobierz aktywa do Celo",
       "info": "Łącza dynamiczne to doskonały sposób na wysyłanie znajomym kryptowalut w sieci Celo.\nAby móc korzystać z tej funkcji, musisz mieć aktywa CELO w swoim portfelu.",
@@ -2515,15 +2518,21 @@
           "subtitle": "Porównaj potencjał zarobkowy i ryzyko. Wymieniaj, kupuj lub przesyłaj tokeny, aby dołączyć do najlepszej puli.",
           "footnoteSubsidy": "*Opłaty za gaz są tymczasowo pokrywane przez {{appName}}"
         },
+        "work": {
+          "title": "Wykorzystaj swoje aktywa do pracy",
+          "subtitle": "Zacznij zarabiać na swoich kryptowalutach, wpłacając środki do puli płynności. "
+        },
         "manage": {
           "title": "Zarządzaj bezpośrednio z {{appName}}",
           "titleV1_92": "Zarządzaj bezpośrednio z {{appName}}",
+          "titleV1_94": "Zarządzaj swoimi pozycjami",
           "subtitle": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji {{appName}}.",
-          "subtitleV1_92": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji {{appName}}."
+          "subtitleV1_92": "Automatycznie połączymy Twój portfel, aby można było zarządzać pulami bez zamykania aplikacji {{appName}}.",
+          "subtitleV1_94": "Wybierz pulę, którą lubisz, dodaj żetony i monitoruj swoje zyski."
         },
         "access": {
           "title": "Łatwy dostęp do Twoich środków",
-          "subtitle": "Zbieraj środki jednym dotknięciem, tak jak w przypadku innych ulubionych protokołów."
+          "subtitle": "Zbieraj środki jednym dotknięciem, gdy będziesz gotowy."
         }
       },
       "action": {
@@ -2545,6 +2554,7 @@
       "title": "Jaką kwotę chcesz wpłacić?",
       "deposit": "Wpłatę",
       "fees": "Opłaty",
+      "swap": "Zamieniaj",
       "earnUpToLabel": "Możesz zarobić do:",
       "rateLabel": "Stawka (szac.)",
       "earnUpTo": "~{{amount}}{{fiatSymbol}} / rok",
@@ -2553,11 +2563,6 @@
       "continue": "Kontynuuj",
       "info": "Ta pula jest zapewniana przez Aave",
       "infoV1_93": "Obsługiwane przez {{providerName}}",
-      "infoBottomSheet": {
-        "title": "Dlaczego ta pula?",
-        "description": "Ta pula Aave ma ponad 150 mln USD TVL i ponad 6000 uczestników, co wskazuje na dużą płynność i wiarygodność. Wykorzystuje również USDC jako token i Arbitrum jako sieć, co zmniejsza zmienność i zapewnia użytkownikom niskie opłaty za gaz.\n\nMożesz zapoznać się z innymi pulami Aave <0>tutaj</0>.",
-        "dismiss": "Odrzuć"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Potrzebujesz więcej {{feeTokenSymbol}}, aby kontynuować",
         "description": "Dodaj {{feeTokenSymbol}} w {{network}}, aby pokryć opłaty za gaz",

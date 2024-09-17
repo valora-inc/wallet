@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { devModeTriggerClicked } from 'src/account/actions'
 import { devModeSelector } from 'src/account/selectors'
 import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
@@ -46,10 +45,6 @@ class DevSkipButton extends React.Component<Props> {
     }
   }
 
-  showDebug = () => {
-    navigate(Screens.Debug)
-  }
-
   devTriggerClicked = () => {
     this.props.devModeTriggerClicked()
   }
@@ -59,11 +54,6 @@ class DevSkipButton extends React.Component<Props> {
       <SafeAreaView style={styles.devButtonContainer}>
         {this.props.devModeActive && (
           <View style={styles.devButtonContent}>
-            <TouchableOpacity
-              style={[styles.devButton, styles.debugButton]}
-              onPress={this.showDebug}
-              testID={'ButtonDevScreen'}
-            />
             <TouchableOpacity
               style={[styles.devButton, styles.skipButton]}
               onPress={this.skip}
@@ -104,9 +94,6 @@ const styles = StyleSheet.create({
   },
   skipButton: {
     backgroundColor: colors.error,
-  },
-  debugButton: {
-    backgroundColor: colors.infoDark,
   },
   hiddenButton: {
     flex: 1,

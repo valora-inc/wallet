@@ -2213,6 +2213,9 @@
   },
   "jumpstartIntro": {
     "title": "Chia sẻ tiền điện tử như gửi tin nhắn",
+    "description": "Live Links are a way to send crypto on the Celo network to a friend with a link",
+    "noFundsHint": "To get started, you’ll need some assets on Celo in your wallet.",
+    "haveFundsButton": "Gửi bằng đường liên kết trực tiếp",
     "addFundsCelo": {
       "title": "Nhận tài sản trên Celo",
       "info": "Liên kết trực tiếp là cách để gửi tiền điện tử trên Celo Network cho bạn bè qua một đường liên kết.\nĐể bắt đầu, bạn cần có vài tài sản CELO trong ví của mình.",
@@ -2509,15 +2512,21 @@
           "subtitle": "So sánh tiềm năng kiếm tiền và rủi ro. Trao đổi, mua hoặc chuyển khoản token để tham gia quỹ tốt nhất dành cho bạn.",
           "footnoteSubsidy": "*Gas fees are temporarily covered by {{appName}}"
         },
+        "work": {
+          "title": "Put Your Assets To Work",
+          "subtitle": "Start earning on your crypto by depositing into a liquidity pool. "
+        },
         "manage": {
           "title": "Quản lý trực tiếp từ {{appName}}",
           "titleV1_92": "Quản lý trực tiếp từ {{appName}}",
+          "titleV1_94": "Manage Your Positions",
           "subtitle": "Chúng tôi sẽ tự động kết nối ví của bạn để giúp bạn quản lý quỹ mà không cần thoát khỏi {{appName}}.",
-          "subtitleV1_92": "Chúng tôi sẽ tự động kết nối ví của bạn để giúp bạn quản lý quỹ mà không cần thoát khỏi {{appName}}."
+          "subtitleV1_92": "Chúng tôi sẽ tự động kết nối ví của bạn để giúp bạn quản lý quỹ mà không cần thoát khỏi {{appName}}.",
+          "subtitleV1_94": "Choose a pool you like, add your tokens and monitor your gains."
         },
         "access": {
           "title": "Tiếp cận tiền dễ dàng",
-          "subtitle": "Nhận tiền chỉ bằng một cú nhấn, giống như các quy trình yêu thích của bạn vậy."
+          "subtitle": "Collect funds with a tap when you're ready."
         }
       },
       "action": {
@@ -2539,6 +2548,7 @@
       "title": "How much would you like to deposit?",
       "deposit": "Nạp tiền",
       "fees": "Phí",
+      "swap": "Trao đổi",
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
       "rateLabel": "Tỷ giá (ước tính)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / năm",
@@ -2547,11 +2557,6 @@
       "continue": "Tiếp tục",
       "info": "Quỹ này do Aave cung cấp",
       "infoV1_93": "Do {{providerName}} cung cấp",
-      "infoBottomSheet": {
-        "title": "Tại sao bạn nên chọn quỹ này?",
-        "description": "Quỹ Aave này có hơn $150 triệu TVL và hơn 6.000 người đóng góp, cho thấy quỹ này có tính thanh khoản và độ uy tín cao. Quỹ cũng sử dụng USDC làm token và Arbitrum làm mạng lưới, giúp giảm biến động và đảm bảo người dùng nhận được mức phí ga rẻ.\n\nBạn có thể khám phá các quỹ Aave khác <0>tại đây</0>.",
-        "dismiss": "Loại bỏ"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Bạn cần nạp thêm {{feeTokenSymbol}} để tiếp tục",
         "description": "Nạp thêm {{feeTokenSymbol}} trên {{network}} để chi trả phí ga",

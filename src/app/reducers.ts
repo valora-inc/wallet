@@ -2,20 +2,19 @@ import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState, MultichainBetaStatus } from 'src/app/actions'
 import { CeloNewsConfig } from 'src/celoNews/types'
-import { DEEPLINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
 const PERSISTED_DEEP_LINKS = [
   'https://valoraapp.com/share',
-  `${DEEPLINK_PREFIX}://wallet/jumpstart`,
+  `${DEEP_LINK_URL_SCHEME}://wallet/jumpstart`,
 ]
 
 interface State {
   loggedIn: boolean
-  numberVerified: boolean // decentrally verified
-  phoneNumberVerified: boolean // centrally verified
+  phoneNumberVerified: boolean
   analyticsEnabled: boolean
   requirePinOnAppOpen: boolean
   appState: AppState
@@ -59,7 +58,6 @@ interface PendingDeepLink {
 
 const initialState = {
   loggedIn: false,
-  numberVerified: false,
   phoneNumberVerified: false,
   analyticsEnabled: true,
   requirePinOnAppOpen: false,
@@ -144,17 +142,6 @@ export const appReducer = (
       return {
         ...state,
         loggedIn: action.loggedIn,
-      }
-    case Actions.SET_NUMBER_VERIFIED:
-      return {
-        ...state,
-        numberVerified: action.numberVerified,
-      }
-    case Actions.RESET_APP_OPENED_STATE:
-      return {
-        ...state,
-        loggedIn: false,
-        numberVerified: false,
       }
     case Actions.SET_ANALYTICS_ENABLED:
       return {
