@@ -111,14 +111,13 @@ const params = {
 }
 
 describe('EarnEnterAmount', () => {
-  let refreshPreparedTransactionsSpy: jest.Mock
+  const refreshPreparedTransactionsSpy = jest.fn()
   beforeEach(() => {
     jest.clearAllMocks()
     jest
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
     store.clearActions()
-    refreshPreparedTransactionsSpy = jest.fn()
     jest.mocked(usePrepareDepositTransactions).mockReturnValue({
       prepareTransactionsResult: undefined,
       refreshPreparedTransactions: refreshPreparedTransactionsSpy,
