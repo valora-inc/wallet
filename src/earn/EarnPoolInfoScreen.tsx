@@ -468,7 +468,7 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
               networkId: earnPosition.networkId,
               depositTokenId: earnPosition.dataProps.depositTokenId,
             })
-            navigate(Screens.EarnEnterAmount, { pool: earnPosition, mode: 'swap-deposit' })
+            navigate(Screens.EarnEnterAmount, { pool: earnPosition })
           }}
           size={BtnSizes.FULL}
           style={styles.flex}
