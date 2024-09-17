@@ -10,6 +10,7 @@ import { usePrepareDepositTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { SwapTransaction } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import {
@@ -26,6 +27,7 @@ import {
   mockArbUsdcTokenId,
   mockEarnPositions,
   mockTokenBalances,
+  mockUSDCAddress,
 } from 'test/values'
 
 jest.mock('src/earn/prepareTransactions')
@@ -39,7 +41,7 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
       from: '0xfrom',
       to: '0xto',
       data: '0xdata',
-      gas: BigInt(5e16),
+      gas: BigInt(5e12),
       _baseFeePerGas: BigInt(1),
       maxFeePerGas: BigInt(1),
       maxPriorityFeePerGas: undefined,
@@ -48,7 +50,7 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
       from: '0xfrom',
       to: '0xto',
       data: '0xdata',
-      gas: BigInt(1e16),
+      gas: BigInt(1e12),
       _baseFeePerGas: BigInt(1),
       maxFeePerGas: BigInt(1),
       maxPriorityFeePerGas: undefined,
@@ -85,6 +87,26 @@ const mockFeeCurrencies: TokenBalance[] = [
     lastKnownPriceUsd: new BigNumber(1500),
   },
 ]
+
+const mockSwapTransaction: SwapTransaction = {
+  swapType: 'same-chain',
+  chainId: 42161,
+  price: '2401',
+  guaranteedPrice: '2377',
+  appFeePercentageIncludedInPrice: '0.6',
+  sellTokenAddress: '0xEeeeeeE',
+  buyTokenAddress: mockUSDCAddress,
+  sellAmount: '410000000000000',
+  buyAmount: '1000000',
+  allowanceTarget: '0x0000000000000000000000000000000000000123',
+  from: mockAccount,
+  to: '0x0000000000000000000000000000000000000123',
+  value: '0',
+  data: '0x0',
+  gas: '1800000',
+  estimatedGasUse: undefined,
+  estimatedPriceImpact: '0.1',
+}
 
 const store = createMockStore({
   tokens: {
@@ -168,7 +190,7 @@ describe('EarnEnterAmount', () => {
       })
     })
 
-    it('should handle navigating to the deposit bottom sheet', async () => {
+    it('should show tx details and handle navigating to the deposit bottom sheet', async () => {
       jest.mocked(usePrepareDepositTransactions).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
@@ -195,6 +217,9 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toHaveTextContent('₱10.64')
 
+      expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
+
       fireEvent.press(getByText('earnFlow.enterAmount.continue'))
 
       await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
@@ -204,9 +229,11 @@ describe('EarnEnterAmount', () => {
         networkId: NetworkId['arbitrum-sepolia'],
         tokenAmount: '8',
         depositTokenId: mockArbUsdcTokenId,
-        userHasFunds: true,
         providerId: mockEarnPositions[0].appId,
         poolId: mockEarnPositions[0].positionId,
+        sourceTokenId: mockArbUsdcTokenId,
+        depositTokenAmount: '8',
+        mode: 'deposit',
       })
       await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
     })
@@ -288,6 +315,60 @@ describe('EarnEnterAmount', () => {
         feeCurrencies: mockFeeCurrencies,
         shortcutId: 'swap-deposit',
       })
+    })
+
+    it('should show tx details and handle navigating to the deposit bottom sheet', async () => {
+      jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+        prepareTransactionsResult: {
+          prepareTransactionsResult: mockPreparedTransaction,
+          swapTransaction: mockSwapTransaction,
+        },
+        refreshPreparedTransactions: jest.fn(),
+        clearPreparedTransactions: jest.fn(),
+        prepareTransactionError: undefined,
+        isPreparingTransactions: false,
+      })
+      const { getByTestId, getByText } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={swapDepositParams} />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '0.00041')
+
+      await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
+
+      expect(getByTestId('EarnEnterAmount/Swap/From')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Swap/From')).toHaveTextContent('0.00041 ETH')
+
+      expect(getByTestId('EarnEnterAmount/Swap/To')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Swap/To')).toHaveTextContent('1.00 USDC')
+
+      expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toHaveTextContent('1.00 USDC')
+
+      expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toHaveTextContent('₱1.33')
+
+      expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
+
+      fireEvent.press(getByText('earnFlow.enterAmount.continue'))
+
+      await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
+      expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_continue_press, {
+        amountEnteredIn: 'token',
+        amountInUsd: '0.62',
+        networkId: NetworkId['arbitrum-sepolia'],
+        tokenAmount: '0.00041',
+        depositTokenId: mockArbUsdcTokenId,
+        providerId: mockEarnPositions[0].appId,
+        poolId: mockEarnPositions[0].positionId,
+        sourceTokenId: mockArbEthTokenId,
+        depositTokenAmount: '1',
+        mode: 'swap-deposit',
+      })
+      await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
     })
   })
 
