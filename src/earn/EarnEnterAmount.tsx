@@ -444,6 +444,9 @@ function EarnEnterAmount({ route }: Props) {
         feeCurrency={feeCurrency}
         estimatedFeeAmount={estimatedFeeAmount}
         maxFeeAmount={maxFeeAmount}
+        swapTransaction={swapTransaction}
+        pool={pool}
+        token={token}
       />
       {tokenAmount && prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
@@ -605,6 +608,9 @@ function FeeDetailsBottomSheet({
   feeCurrency,
   estimatedFeeAmount,
   maxFeeAmount,
+  swapTransaction,
+  pool,
+  token,
 }: {
   forwardedRef: React.RefObject<BottomSheetModalRefType>
   title: string
@@ -612,8 +618,30 @@ function FeeDetailsBottomSheet({
   feeCurrency?: TokenBalance
   estimatedFeeAmount?: BigNumber
   maxFeeAmount?: BigNumber
+  swapTransaction?: SwapTransaction | undefined
+  pool: EarnPosition
+  token: TokenBalance
 }) {
   const { t } = useTranslation()
+  const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
+
+  if (!depositToken) {
+    // should never happen
+    throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
+  }
+
+  const swapFeeAmount = useMemo(() => {
+    if (swapTransaction && swapTransaction.appFeePercentageIncludedInPrice) {
+      return new BigNumber(swapTransaction.buyAmount)
+        .multipliedBy(new BigNumber(swapTransaction.appFeePercentageIncludedInPrice).shiftedBy(-2)) // To convert from percentage to decimal
+        .shiftedBy(-depositToken.decimals)
+    }
+  }, [swapTransaction, depositToken])
+
+  const descriptionContainerStyle = [
+    styles.bottomSheetDescriptionContainer,
+    swapFeeAmount && { marginTop: Spacing.Large32 },
+  ]
 
   return (
     <BottomSheet forwardedRef={forwardedRef} title={title} testId={testID}>
@@ -659,8 +687,26 @@ function FeeDetailsBottomSheet({
             )}
           </View>
         </View>
-        <RowDivider style={{ marginBottom: Spacing.Large32 }} />
-        <View style={styles.gap8}>
+        <RowDivider />
+        {swapFeeAmount && (
+          <View style={styles.bottomSheetLineItem} testID="SwapFee">
+            <Text style={styles.bottomSheetLineLabel}>
+              {t('earnFlow.enterAmount.feeBottomSheet.appSwapFee')}
+            </Text>
+            <Text style={styles.bottomSheetLineLabelText} testID="SwapFee/Value">
+              {'≈ '}
+              <TokenDisplay tokenId={token.tokenId} amount={swapFeeAmount.toString()} />
+              {' ('}
+              <TokenDisplay
+                tokenId={depositToken.tokenId}
+                showLocalAmount={false}
+                amount={swapFeeAmount.toString()}
+              />
+              {')'}
+            </Text>
+          </View>
+        )}
+        <View style={descriptionContainerStyle}>
           <Text style={styles.bottomSheetDescriptionTitle}>
             {t('earnFlow.enterAmount.feeBottomSheet.moreInformation')}
           </Text>
@@ -811,6 +857,10 @@ const styles = StyleSheet.create({
   },
   gap8: {
     gap: Spacing.Smallest8,
+  },
+  bottomSheetDescriptionContainer: {
+    gap: Spacing.Smallest8,
+    marginTop: Spacing.Regular16,
   },
   bottomSheetTextContent: {
     marginBottom: Spacing.XLarge48,
