@@ -42,4 +42,4 @@ TextInput.defaultProps = {
   adjustsFontSizeToFit: true,
 }
 
-AppRegistry.registerComponent('celo', () => App)
+AppRegistry.registerComponent(Config.APP_REGISTRY_NAME, () => App)
