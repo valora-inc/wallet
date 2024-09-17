@@ -2548,6 +2548,7 @@
       "title": "您想存入多少钱？",
       "deposit": "存款",
       "fees": "费用",
+      "swap": "交换",
       "earnUpToLabel": "您最多可以赚取：",
       "rateLabel": "费率（估算）",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/年",
