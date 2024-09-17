@@ -2550,6 +2550,7 @@
       "title": "Ne kadar yatırmak istersiniz?",
       "deposit": "Patra Yatırma",
       "fees": "Ücretler",
+      "swap": "Swap",
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yıl",
