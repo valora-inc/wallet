@@ -2554,6 +2554,7 @@
       "title": "Jaką kwotę chcesz wpłacić?",
       "deposit": "Wpłatę",
       "fees": "Opłaty",
+      "swap": "Zamieniaj",
       "earnUpToLabel": "Możesz zarobić do:",
       "rateLabel": "Stawka (szac.)",
       "earnUpTo": "~{{amount}}{{fiatSymbol}} / rok",

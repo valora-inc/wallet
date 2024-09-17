@@ -314,7 +314,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 ### iOS
 
-3. Launch Xcode and use it to open the directory `celo.xcworkspace`. Confirm your iOS device has been detected by Xcode.
+3. Launch Xcode and use it to open the directory `MobileStack.xcworkspace`. Confirm your iOS device has been detected by Xcode.
 
 4. Build the project by pressing the play button in the top left corner or selecting `Product > Build` from the Xcode menu bar.
 
@@ -341,7 +341,7 @@ you may require a fresh install of the app. Instead of rebuilding the app to get
 a fresh install, you can drag drop the generated app into the simulator after
 uninstalling the app. It is typically available in the following paths:
 
-- For iOS: `$HOME/Library/Developer/Xcode/DerivedData/celo-<randomid>/Build/Products/Debug-iphonesimulator/celo.app`
+- For iOS: `$HOME/Library/Developer/Xcode/DerivedData/MobileStack-<randomid>/Build/Products/Debug-iphonesimulator/Valora.app`
 - For Android: `<path-to-wallet>/android/app/build/outputs/apk/alfajoresdev/debug/app-alfajoresdev-debug.apk`
 
 ## Debugging & App Profiling

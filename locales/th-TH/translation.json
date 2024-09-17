@@ -2548,6 +2548,7 @@
       "title": "How much would you like to deposit?",
       "deposit": "ฝากเงิน",
       "fees": "ค่าธรรมเนียม",
+      "swap": "สว็อป",
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
       "rateLabel": "อัตรา (โดยประมาณ)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / ปี",

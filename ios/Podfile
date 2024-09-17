@@ -3,11 +3,11 @@ source 'https://cdn.cocoapods.org/'
 # Allow using RNFirebase as static frameworks
 # https://rnfirebase.io/#allow-ios-static-frameworks
 # Otherwise we get the following error:
-# `The 'Pods-celo' target has transitive dependencies that include statically linked binaries [...]`
+# `The 'Pods-MobileStack' target has transitive dependencies that include statically linked binaries [...]`
 $RNFirebaseAsStaticFramework = true
 
 # Workaround for the following error:
-# `The 'Pods-celo' target has transitive dependencies that include statically linked binaries [...]`
+# `The 'Pods-MobileStack' target has transitive dependencies that include statically linked binaries [...]`
 $static_framework = [
   'react-native-flipper', 
   'FlipperKit', 
@@ -65,11 +65,7 @@ end
 
 setup_permissions(['Camera', 'AppTrackingTransparency', 'Contacts'])
 
-target "celo" do
-  target "celoTests" do
-    inherit! :search_paths
-  end
-
+target "MobileStack" do
   config = use_native_modules!
 
   # Flags change depending on the env values.

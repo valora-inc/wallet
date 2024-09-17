@@ -16,7 +16,8 @@
 #import <React/RCTLinkingManager.h>
 #import <React/RCTHTTPRequestHandler.h>
 
-@import Firebase;
+#import <FirebaseCore/FirebaseCore.h>
+#import <FirebaseAuth/FirebaseAuth.h>
 
 #import "RNSplashScreen.h"
 #import <segment_analytics_react_native-Swift.h>
@@ -37,7 +38,7 @@ static void SetCustomNSURLSessionConfiguration() {
     
     NSDictionary *infoDictionary = NSBundle.mainBundle.infoDictionary;
     NSString *appVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-    NSString *userAgentAppName = [RNCConfig envFor:@"USER_AGENT_APP_NAME"];
+    NSString *userAgentAppName = [RNCConfig envFor:@"APP_REGISTRY_NAME"];
     UIDevice *device = UIDevice.currentDevice;
     // Format we want: App/1.0.0 (iOS 15.0; iPhone)
     NSString *userAgent = [NSString stringWithFormat:@"%@/%@ (%@ %@; %@)", userAgentAppName, appVersion, device.systemName, device.systemVersion, device.model];
@@ -86,7 +87,7 @@ static void SetCustomNSURLSessionConfiguration() {
   
   SetCustomNSURLSessionConfiguration();
   
-  self.moduleName = @"celo";
+  self.moduleName = [RNCConfig envFor:@"APP_REGISTRY_NAME"];
 
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
