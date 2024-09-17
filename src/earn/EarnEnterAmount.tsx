@@ -597,6 +597,7 @@ function TransactionDetails({
   )
 }
 
+// Might be sharable with src/swap/FeeInfoBottomSheet.tsx
 function FeeDetailsBottomSheet({
   forwardedRef,
   title,
@@ -618,7 +619,7 @@ function FeeDetailsBottomSheet({
     <BottomSheet forwardedRef={forwardedRef} title={title} testId={testID}>
       <View style={styles.bottomSheetTextContent}>
         <View style={styles.gap8}>
-          <View style={styles.lineItem} testID="EstNetworkFee">
+          <View style={styles.bottomSheetLineItem} testID="EstNetworkFee">
             <Text style={styles.bottomSheetLineLabel}>
               {t('earnFlow.enterAmount.feeBottomSheet.estNetworkFee')}
             </Text>
@@ -639,7 +640,7 @@ function FeeDetailsBottomSheet({
               </Text>
             )}
           </View>
-          <View style={styles.lineItem} testID="MaxNetworkFee">
+          <View style={styles.bottomSheetLineItem} testID="MaxNetworkFee">
             <Text style={styles.bottomSheetLineLabel}>
               {t('earnFlow.enterAmount.feeBottomSheet.maxNetworkFee')}
             </Text>
@@ -777,12 +778,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
   },
-  lineItem: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   txDetailsLabel: {
     flex: 1,
     flexDirection: 'row',
@@ -797,12 +792,35 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     textAlign: 'left',
   },
+  txDetailsValue: {
+    flexShrink: 1,
+    flexDirection: 'row',
+    gap: Spacing.Tiny4,
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+  },
+  txDetailsValueText: {
+    ...typeScale.bodyMedium,
+    color: Colors.black,
+    flexWrap: 'wrap',
+    textAlign: 'right',
+  },
+  gray4: {
+    color: Colors.gray4,
+  },
   gap8: {
     gap: Spacing.Smallest8,
   },
   bottomSheetTextContent: {
     marginBottom: Spacing.XLarge48,
     marginTop: Spacing.Smallest8,
+  },
+  bottomSheetLineItem: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
   bottomSheetLineLabel: {
     maxWidth: '50%',
@@ -819,23 +837,6 @@ const styles = StyleSheet.create({
   bottomSheetDescriptionText: {
     ...typeScale.bodySmall,
     color: Colors.black,
-  },
-  txDetailsValue: {
-    flexShrink: 1,
-    flexDirection: 'row',
-    gap: Spacing.Tiny4,
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-end',
-  },
-  gray4: {
-    color: Colors.gray4,
-  },
-  txDetailsValueText: {
-    ...typeScale.bodyMedium,
-    color: Colors.black,
-    flexWrap: 'wrap',
-    textAlign: 'right',
   },
 })
 
