@@ -49,7 +49,7 @@ export async function prepareDepositTransactions({
             amount,
             decimals: token.decimals,
             address: token.address,
-            isNative: token.isNative,
+            isNative: token.isNative ?? false,
           },
         }
 
