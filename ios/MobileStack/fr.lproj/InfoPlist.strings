@@ -1,0 +1,8 @@
+/* DO NOT EDIT MANUALLY, SEE scripts/sync_ios_info_plist_strings.sh */
+
+NSCameraUsageDescription = "En connectant votre caméra vous pourrez scanner des codes pour les paiements.";
+NSContactsUsageDescription = "L'ajout de vos contacts facilite l'envoi et la demande de paiements avec vos amis.";
+NSPhotoLibraryAddUsageDescription = "La connexion à votre galerie photos vous permet d'enregistrer votre code dans vos photos.";
+NSPhotoLibraryUsageDescription = "Cette action est nécessaire pour vous permettre de choisir une photo de profil.";
+NSUserTrackingUsageDescription = "Nous utilisons l'identifiant de la publicité pour attribuer avec précision les téléchargements de l'appli directement imputables à nos campagnes publicitaires.";
+NSFaceIDUsageDescription = "Cette action est nécessaire pour vous permettre d'utiliser Face ID pour sécuriser ton compte.";
