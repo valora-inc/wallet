@@ -662,6 +662,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       <BeforeDepositBottomSheet
         forwardedRef={beforeDepositBottomSheetRef}
         token={depositToken}
+        pool={pool}
         hasTokensOnSameNetwork={hasTokensOnSameNetwork}
         hasTokensOnOtherNetworks={hasTokensOnOtherNetworks}
         canAdd={canCashIn}

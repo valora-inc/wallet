@@ -15,6 +15,7 @@ import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import SwapAndDeposit from 'src/icons/SwapAndDeposit'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { EarnPosition } from 'src/positions/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -147,9 +148,11 @@ function CrossChainSwapAction({
 
 function SwapAndDepositAction({
   token,
+  pool,
   forwardedRef,
 }: {
   token: TokenBalance
+  pool: EarnPosition
   forwardedRef: React.RefObject<BottomSheetModalRefType>
 }) {
   const { t } = useTranslation()
@@ -168,7 +171,7 @@ function SwapAndDepositAction({
         ...getTokenAnalyticsProps(token),
       })
 
-      // TODO(ACT-1356): navigate to swap and deposit screen
+      navigate(Screens.EarnEnterAmount, { pool, mode: 'swap-deposit' })
       forwardedRef.current?.close()
     },
   }
@@ -178,6 +181,7 @@ function SwapAndDepositAction({
 export default function BeforeDepositBottomSheet({
   forwardedRef,
   token,
+  pool,
   hasTokensOnSameNetwork,
   hasTokensOnOtherNetworks,
   canAdd,
@@ -185,6 +189,7 @@ export default function BeforeDepositBottomSheet({
 }: {
   forwardedRef: RefObject<BottomSheetModalRefType>
   token: TokenBalance
+  pool: EarnPosition
   hasTokensOnSameNetwork: boolean
   hasTokensOnOtherNetworks: boolean
   canAdd: boolean
@@ -214,7 +219,7 @@ export default function BeforeDepositBottomSheet({
       <View style={styles.actionsContainer}>
         {hasTokensOnSameNetwork && (
           <>
-            <SwapAndDepositAction token={token} forwardedRef={forwardedRef} />
+            <SwapAndDepositAction token={token} pool={pool} forwardedRef={forwardedRef} />
             <Text style={styles.actionDetails}>
               {t(
                 'earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainAlternativeDescription',
