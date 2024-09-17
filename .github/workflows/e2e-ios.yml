@@ -107,10 +107,10 @@ jobs:
           --take-screenshots=failing
           --record-videos=failing
           --record-logs=failing
-          --loglevel trace
+          --loglevel info
           --debug-synchronization 10000
-          --maxWorkers 2
-          --retries 0
+          --maxWorkers 1
+          --retries 3
         timeout-minutes: 45
       - name: Publish iOS JUnit Report
         if: always()
