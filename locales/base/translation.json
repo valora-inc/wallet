@@ -2568,7 +2568,7 @@
       },
       "feeBottomSheet": {
         "feeDetails": "Fee Details",
-        "moreDetails": "More Details",
+        "moreInformation": "More information",
         "estNetworkFee": "Est. Network Fee",
         "maxNetworkFee": "Max Network Fee",
         "networkFeeDescription": "The network fee is required by the network to process the deposit transaction."

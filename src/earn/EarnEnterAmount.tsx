@@ -662,7 +662,7 @@ function FeeDetailsBottomSheet({
         <RowDivider style={{ marginBottom: Spacing.Large32 }} />
         <View style={styles.gap8}>
           <Text style={styles.bottomSheetDescriptionTitle}>
-            {t('earnFlow.enterAmount.feeBottomSheet.moreDetails')}
+            {t('earnFlow.enterAmount.feeBottomSheet.moreInformation')}
           </Text>
           <Text style={styles.bottomSheetDescriptionText}>
             {t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')}
