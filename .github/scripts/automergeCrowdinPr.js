@@ -13,11 +13,11 @@ const CROWDIN_BRANCH = 'l10n/main'
 const CROWDIN_PR_USER = 'valora-bot-crowdin'
 
 const ALLOWED_UPDATED_FILE_MATCHER = new RegExp(
-  `locales\/.*\/translation\.json|ios/celo\/.*\/InfoPlist.strings`
+  `locales\/.*\/translation\.json|ios/MobileStack\/.*\/InfoPlist.strings`
 )
 const DISALLOWED_UPDATED_FILES = [
   'locales/base/translation.json',
-  'ios/celo/Base.lproj/InfoPlist.strings',
+  'ios/MobileStack/Base.lproj/InfoPlist.strings',
 ]
 const enableAutomergeQuery = `mutation ($pullRequestId: ID!, $mergeMethod: PullRequestMergeMethod!) {
   enablePullRequestAutoMerge(input: {

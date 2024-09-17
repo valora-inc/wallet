@@ -43,7 +43,7 @@ jobs:
             const allowedUpdatedFiles = [
               'android/app/build.gradle',
               'android/gradle.properties',
-              'ios/celo.xcodeproj/project.pbxproj',
+              'ios/MobileStack.xcodeproj/project.pbxproj',
               'package.json'
             ]
             const script = require('.github/scripts/autoApprovePr.js')

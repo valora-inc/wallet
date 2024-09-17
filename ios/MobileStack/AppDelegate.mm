@@ -16,7 +16,8 @@
 #import <React/RCTLinkingManager.h>
 #import <React/RCTHTTPRequestHandler.h>
 
-@import Firebase;
+#import <FirebaseCore/FirebaseCore.h>
+#import <FirebaseAuth/FirebaseAuth.h>
 
 #import "RNSplashScreen.h"
 #import <segment_analytics_react_native-Swift.h>
