@@ -21,6 +21,7 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
+  mockArbArbTokenId,
   mockArbEthTokenId,
   mockArbUsdcTokenId,
   mockEarnPositions,
@@ -29,6 +30,7 @@ import {
 
 jest.mock('src/earn/prepareTransactions')
 jest.mock('react-native-localize')
+jest.mock('src/statsig') // statsig isn't used directly but the hooksApiSelector uses it
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -61,7 +63,7 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
   },
 }
 
-const mockePreparedTransactionNotEnough: PreparedTransactionsNotEnoughBalanceForGas = {
+const mockPreparedTransactionNotEnough: PreparedTransactionsNotEnoughBalanceForGas = {
   type: 'not-enough-balance-for-gas' as const,
   feeCurrencies: [
     {
@@ -84,26 +86,24 @@ const mockFeeCurrencies: TokenBalance[] = [
   },
 ]
 
-const priceFetchedAt = Date.now()
-
 const store = createMockStore({
   tokens: {
     tokenBalances: {
       [mockArbUsdcTokenId]: {
-        tokenId: mockArbUsdcTokenId,
-        symbol: 'USDC',
-        priceUsd: '1',
-        priceFetchedAt: priceFetchedAt,
-        networkId: NetworkId['arbitrum-sepolia'],
+        ...mockTokenBalances[mockArbUsdcTokenId],
         balance: '10',
       },
       mockArbEthTokenId: {
         ...mockTokenBalances[mockArbEthTokenId],
         balance: '1',
       },
+      mockArbArbTokenId: {
+        ...mockTokenBalances[mockArbArbTokenId],
+        minimumAppVersionToSwap: '1.0.0',
+        balance: '1',
+      },
     },
   },
-  earn: { poolInfoFetchStatus: 'loading' },
 })
 
 const refreshPreparedTransactionsSpy = jest.fn()
@@ -128,73 +128,141 @@ describe('EarnEnterAmount', () => {
     store.clearActions()
   })
 
-  it('should prepare transactions with the expected inputs', async () => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={EarnEnterAmount} params={params} />
-      </Provider>
-    )
+  describe('deposit', () => {
+    const depositParams = { ...params, mode: 'deposit' }
+    it('should show only the deposit token and not include the token dropdown', async () => {
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={depositParams} />
+        </Provider>
+      )
 
-    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '.25')
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toHaveTextContent('USDC')
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeDisabled()
+      expect(queryByTestId('downArrowIcon')).toBeFalsy()
+    })
 
-    await waitFor(() => expect(refreshPreparedTransactionsSpy).toHaveBeenCalledTimes(1))
-    expect(refreshPreparedTransactionsSpy).toHaveBeenCalledWith({
-      amount: '0.25',
-      token: {
-        tokenId: mockArbUsdcTokenId,
-        symbol: 'USDC',
-        priceUsd: new BigNumber(1),
-        lastKnownPriceUsd: new BigNumber(1),
-        priceFetchedAt: priceFetchedAt,
+    it('should prepare transactions with the expected inputs', async () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={depositParams} />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '.25')
+
+      await waitFor(() => expect(refreshPreparedTransactionsSpy).toHaveBeenCalledTimes(1))
+      expect(refreshPreparedTransactionsSpy).toHaveBeenCalledWith({
+        amount: '0.25',
+        token: {
+          ...mockTokenBalances[mockArbUsdcTokenId],
+          priceUsd: new BigNumber(1),
+          lastKnownPriceUsd: new BigNumber(1),
+          balance: new BigNumber(10),
+        },
+        walletAddress: mockAccount.toLowerCase(),
+        pool: mockEarnPositions[0],
+        hooksApiUrl: networkConfig.hooksApiUrl,
+        feeCurrencies: mockFeeCurrencies,
+      })
+    })
+
+    it('should handle navigating to the deposit bottom sheet', async () => {
+      jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
+        prepareTransactionsResult: mockPreparedTransaction,
+        refreshPreparedTransactions: jest.fn(),
+        clearPreparedTransactions: jest.fn(),
+        prepareTransactionError: undefined,
+        isPreparingTransactions: false,
+      })
+      const { getByTestId, getByText } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={depositParams} />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '8')
+
+      await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
+
+      expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toHaveTextContent('8.00 USDC')
+
+      expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toHaveTextContent('₱10.64')
+
+      fireEvent.press(getByText('earnFlow.enterAmount.continue'))
+
+      await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
+      expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_continue_press, {
+        amountEnteredIn: 'token',
+        amountInUsd: '8.00',
         networkId: NetworkId['arbitrum-sepolia'],
-        balance: new BigNumber(10),
-      },
-      walletAddress: mockAccount.toLowerCase(),
-      pool: mockEarnPositions[0],
-      hooksApiUrl: networkConfig.hooksApiUrl,
-      feeCurrencies: mockFeeCurrencies,
+        tokenAmount: '8',
+        depositTokenId: mockArbUsdcTokenId,
+        userHasFunds: true,
+        providerId: mockEarnPositions[0].appId,
+        poolId: mockEarnPositions[0].positionId,
+      })
+      await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
     })
   })
 
-  it('should handle navigating to the deposit bottom sheet', async () => {
-    jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
-      prepareTransactionsResult: mockPreparedTransaction,
-      refreshPreparedTransactions: jest.fn(),
-      clearPreparedTransactions: jest.fn(),
-      prepareTransactionError: undefined,
-      isPreparingTransactions: false,
+  describe('swap-deposit', () => {
+    const swapDepositParams = { ...params, mode: 'swap-deposit' }
+    it('should show the token dropdown and allow the user to select a token', async () => {
+      const { getByTestId, getAllByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={swapDepositParams} />
+        </Provider>
+      )
+
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toHaveTextContent('ETH')
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeEnabled()
+      expect(getByTestId('downArrowIcon')).toBeTruthy()
+      expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
+      expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('ETH')
+      expect(getAllByTestId('TokenBalanceItem')[1]).toHaveTextContent('ARB')
+      expect(getByTestId('TokenBottomSheet')).not.toHaveTextContent('USDC')
     })
-    const { getByTestId, getByText } = render(
-      <Provider store={store}>
-        <MockedNavigator component={EarnEnterAmount} params={params} />
-      </Provider>
-    )
 
-    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '8')
+    it('should default to the swappable token if only one is eligible and not show dropdown', async () => {
+      const store = createMockStore({
+        tokens: {
+          tokenBalances: {
+            [mockArbUsdcTokenId]: {
+              ...mockTokenBalances[mockArbUsdcTokenId],
+              balance: '10',
+            },
+            mockArbEthTokenId: {
+              ...mockTokenBalances[mockArbEthTokenId],
+              minimumAppVersionToSwap: '1.0.0',
+              balance: '0', // not eligible for swap
+            },
+            mockArbArbTokenId: {
+              ...mockTokenBalances[mockArbArbTokenId],
+              balance: '1', // eligible for swap
+            },
+          },
+        },
+      })
 
-    await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={swapDepositParams} />
+        </Provider>
+      )
 
-    expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toBeTruthy()
-    expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toHaveTextContent('8.00 USDC')
-
-    expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toBeTruthy()
-    expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toHaveTextContent('₱10.64')
-
-    fireEvent.press(getByText('earnFlow.enterAmount.continue'))
-
-    await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_continue_press, {
-      amountEnteredIn: 'token',
-      amountInUsd: '8.00',
-      networkId: NetworkId['arbitrum-sepolia'],
-      tokenAmount: '8',
-      depositTokenId: mockArbUsdcTokenId,
-      userHasFunds: true,
-      providerId: mockEarnPositions[0].appId,
-      poolId: mockEarnPositions[0].positionId,
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toHaveTextContent('ARB')
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeDisabled()
+      expect(queryByTestId('downArrowIcon')).toBeFalsy()
     })
-    await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
   })
+
+  // tests independent of deposit / swap-deposit
   it('should show a warning and not allow the user to continue if they input an amount greater than balance', async () => {
     jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
       prepareTransactionsResult: mockPreparedTransaction,
@@ -263,11 +331,7 @@ describe('EarnEnterAmount', () => {
       tokens: {
         tokenBalances: {
           [mockArbUsdcTokenId]: {
-            tokenId: mockArbUsdcTokenId,
-            symbol: 'USDC',
-            priceUsd: '1',
-            priceFetchedAt: priceFetchedAt,
-            networkId: NetworkId['arbitrum-sepolia'],
+            ...mockTokenBalances[mockArbUsdcTokenId],
             balance: '100000.42',
           },
         },
@@ -293,7 +357,7 @@ describe('EarnEnterAmount', () => {
 
   it('should track analytics and navigate correctly when tapping cta to add gas', async () => {
     jest.mocked(usePrepareSupplyTransactions).mockReturnValue({
-      prepareTransactionsResult: mockePreparedTransactionNotEnough,
+      prepareTransactionsResult: mockPreparedTransactionNotEnough,
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
       prepareTransactionError: undefined,

@@ -14,6 +14,7 @@ import InLineNotification, { NotificationVariant } from 'src/components/InLineNo
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import RowDivider from 'src/components/RowDivider'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
@@ -21,6 +22,7 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import DownArrowIcon from 'src/icons/DownArrowIcon'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -37,7 +39,7 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
-import { feeCurrenciesSelector } from 'src/tokens/selectors'
+import { feeCurrenciesSelector, swappableFromTokensByNetworkIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { parseInputAmount } from 'src/utils/parsing'
@@ -53,18 +55,42 @@ const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
-function EarnEnterAmount({ route }: Props) {
-  const { t } = useTranslation()
+function useTokens({ pool, mode }: { pool: EarnPosition; mode: 'deposit' | 'swap-deposit' }) {
+  const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
+  const swappableTokens = useSelector((state) =>
+    swappableFromTokensByNetworkIdSelector(state, [pool.networkId])
+  )
 
-  const { pool } = route.params
-  const token = useTokenInfo(pool.dataProps.depositTokenId)
+  const eligibleSwappableTokens = useMemo(
+    () =>
+      swappableTokens.filter(
+        ({ tokenId, balance }) =>
+          tokenId !== pool.dataProps.depositTokenId &&
+          tokenId !== pool.dataProps.withdrawTokenId &&
+          balance.gt(0)
+      ),
+    [swappableTokens, pool.dataProps.depositTokenId, pool.dataProps.withdrawTokenId]
+  )
 
-  if (!token) {
+  if (!depositToken) {
+    // should never happen
     throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
   }
 
-  const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  return mode === 'deposit' ? [depositToken] : eligibleSwappableTokens
+}
+
+function EarnEnterAmount({ route }: Props) {
+  const { t } = useTranslation()
+
+  const { pool, mode = 'deposit' } = route.params
+  const tokens = useTokens({ pool, mode })
+
+  const [token, setToken] = useState<TokenBalance>(() => tokens[0])
+
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tokenAmountInputRef = useRef<RNTextInput>(null)
   const localAmountInputRef = useRef<RNTextInput>(null)
 
@@ -74,6 +100,21 @@ function EarnEnterAmount({ route }: Props) {
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
+
+  const onTokenPickerSelect = () => {
+    tokenBottomSheetRef.current?.snapToIndex(0)
+    AppAnalytics.track(SendEvents.token_dropdown_opened, {
+      currentTokenId: token.tokenId,
+      currentTokenAddress: token.address,
+      currentNetworkId: token.networkId,
+    })
+  }
+
+  const onSelectToken = (token: TokenBalance) => {
+    setToken(token)
+    tokenBottomSheetRef.current?.close()
+    // NOTE: analytics is already fired by the bottom sheet, don't need one here
+  }
 
   const {
     prepareTransactionsResult,
@@ -276,12 +317,19 @@ function EarnEnterAmount({ route }: Props) {
                 placeholder={new BigNumber(0).toFormat(2)}
                 testID="EarnEnterAmount/TokenAmountInput"
               />
-              <View style={styles.tokenView} testID="EarnEnterAmount/TokenSelect">
+              <Touchable
+                borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
+                onPress={onTokenPickerSelect}
+                style={styles.tokenSelectButton}
+                disabled={tokens.length === 1}
+                testID="EarnEnterAmount/TokenSelect"
+              >
                 <>
                   <TokenIcon token={token} size={IconSize.SMALL} />
                   <Text style={styles.tokenName}>{token.symbol}</Text>
+                  {tokens.length > 1 && <DownArrowIcon color={Colors.gray5} />}
                 </>
-              </View>
+              </Touchable>
             </View>
             <View style={styles.localAmountRow}>
               <AmountInput
@@ -394,6 +442,14 @@ function EarnEnterAmount({ route }: Props) {
           pool={pool}
         />
       )}
+      <TokenBottomSheet
+        forwardedRef={tokenBottomSheetRef}
+        origin={TokenPickerOrigin.Earn}
+        onTokenSelected={onSelectToken}
+        tokens={tokens}
+        title={t('sendEnterAmountScreen.selectToken')}
+        titleStyle={styles.title}
+      />
     </SafeAreaView>
   )
 }
@@ -609,7 +665,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleMedium,
     color: Colors.black,
   },
-  tokenView: {
+  tokenSelectButton: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.white,
