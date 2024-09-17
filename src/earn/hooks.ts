@@ -1,34 +1,17 @@
 import { useMemo } from 'react'
 import { useAsync } from 'react-async-hook'
-import { useTranslation } from 'react-i18next'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { EarnEvents } from 'src/analytics/Events'
-import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
-import {
-  BeforeDepositAction,
-  BeforeDepositActionName,
-  PrepareWithdrawAndClaimParams,
-} from 'src/earn/types'
-import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { CICOFlow, fetchExchanges } from 'src/fiatExchanges/utils'
-import SwapAndDeposit from 'src/icons/SwapAndDeposit'
-import QuickActionsAdd from 'src/icons/quick-actions/Add'
-import QuickActionsSend from 'src/icons/quick-actions/Send'
-import QuickActionsSwap from 'src/icons/quick-actions/Swap'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { PrepareWithdrawAndClaimParams } from 'src/earn/types'
+import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { earnPositionsSelector } from 'src/positions/selectors'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { useCashInTokens, useSwappableTokens } from 'src/tokens/hooks'
-import { TokenBalance, TokenBalances } from 'src/tokens/slice'
-import { getTokenAnalyticsProps } from 'src/tokens/utils'
+import { TokenBalances } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import networkConfig from 'src/web3/networkConfig'
@@ -124,125 +107,4 @@ export function useDepositEntrypointInfo({
     return asyncExchanges.result ?? []
   }, [asyncExchanges.result])
   return { hasDepositToken, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canCashIn, exchanges }
-}
-
-export function useAddAction({
-  token,
-  forwardedRef,
-}: {
-  token: TokenBalance
-  forwardedRef: React.RefObject<BottomSheetModalRefType>
-}): BeforeDepositAction {
-  const { t } = useTranslation()
-
-  return {
-    name: BeforeDepositActionName.Add,
-    title: t('addFundsActions.add'),
-    details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.add', {
-      tokenSymbol: token.symbol,
-      tokenNetwork: NETWORK_NAMES[token.networkId],
-    }),
-    iconComponent: QuickActionsAdd,
-    onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.Add,
-        ...getTokenAnalyticsProps(token),
-      })
-
-      navigate(Screens.FiatExchangeAmount, {
-        tokenId: token.tokenId,
-        flow: CICOFlow.CashIn,
-        tokenSymbol: token.symbol,
-      })
-      forwardedRef.current?.close()
-    },
-  }
-}
-
-export function useTransferAction({
-  token,
-  exchanges,
-  forwardedRef,
-}: {
-  token: TokenBalance
-  exchanges: ExternalExchangeProvider[]
-  forwardedRef: React.RefObject<BottomSheetModalRefType>
-}): BeforeDepositAction {
-  const { t } = useTranslation()
-
-  return {
-    name: BeforeDepositActionName.Transfer,
-    title: t('addFundsActions.transfer'),
-    details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.transfer', {
-      tokenSymbol: token.symbol,
-      tokenNetwork: NETWORK_NAMES[token.networkId],
-    }),
-    iconComponent: QuickActionsSend,
-    onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.Transfer,
-        ...getTokenAnalyticsProps(token),
-      })
-
-      navigate(Screens.ExchangeQR, { flow: CICOFlow.CashIn, exchanges })
-      forwardedRef.current?.close()
-    },
-  }
-}
-
-export function useCrossChainSwapAction({
-  token,
-  title,
-  details,
-  forwardedRef,
-}: {
-  token: TokenBalance
-  title: string
-  details: string
-  forwardedRef: React.RefObject<BottomSheetModalRefType>
-}): BeforeDepositAction {
-  return {
-    name: BeforeDepositActionName.CrossChainSwap,
-    title,
-    details,
-    iconComponent: QuickActionsSwap,
-    onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.CrossChainSwap,
-        ...getTokenAnalyticsProps(token),
-      })
-
-      navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
-      forwardedRef.current?.close()
-    },
-  }
-}
-
-export function useSwapAndDepositAction({
-  token,
-  forwardedRef,
-}: {
-  token: TokenBalance
-  forwardedRef: React.RefObject<BottomSheetModalRefType>
-}): BeforeDepositAction {
-  const { t } = useTranslation()
-
-  return {
-    name: BeforeDepositActionName.SwapAndDeposit,
-    title: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.swapAndDeposit'),
-    details: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.swapAndDepositActionDescription', {
-      tokenSymbol: token.symbol,
-      tokenNetwork: NETWORK_NAMES[token.networkId],
-    }),
-    iconComponent: SwapAndDeposit,
-    onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.SwapAndDeposit,
-        ...getTokenAnalyticsProps(token),
-      })
-
-      // TODO(ACT-1356): navigate to swap and deposit screen
-      forwardedRef.current?.close()
-    },
-  }
 }

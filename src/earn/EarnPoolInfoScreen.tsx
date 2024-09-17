@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import { Duration, intervalToDuration } from 'date-fns'
-import React, { RefObject, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
@@ -13,15 +13,8 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
-import {
-  useAddAction,
-  useCrossChainSwapAction,
-  useDepositEntrypointInfo,
-  useSwapAndDepositAction,
-  useTransferAction,
-} from 'src/earn/hooks'
-import { BeforeDepositAction } from 'src/earn/types'
-import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import BeforeDepositBottomSheet from 'src/earn/BeforeDepositBottomSheet'
+import { useDepositEntrypointInfo } from 'src/earn/hooks'
 import InfoIcon from 'src/icons/InfoIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
@@ -729,107 +722,6 @@ function InfoBottomSheet({
   )
 }
 
-function ActionCard({ action }: { action: BeforeDepositAction }) {
-  return (
-    <Touchable
-      style={styles.touchable}
-      key={action.name}
-      borderRadius={20}
-      onPress={action.onPress}
-      testID={`Earn/BeforeDepositBottomSheet/${action.name}`}
-    >
-      <>
-        <action.iconComponent color={Colors.black} />
-        <View style={styles.cardContainer}>
-          <Text style={styles.actionTitle}>{action.title}</Text>
-          <Text style={styles.actionDetails}>{action.details}</Text>
-        </View>
-      </>
-    </Touchable>
-  )
-}
-
-function BeforeDepositBottomSheet({
-  forwardedRef,
-  token,
-  hasTokensOnSameNetwork,
-  hasTokensOnOtherNetworks,
-  canAdd,
-  exchanges,
-}: {
-  forwardedRef: RefObject<BottomSheetModalRefType>
-  token: TokenBalance
-  hasTokensOnSameNetwork: boolean
-  hasTokensOnOtherNetworks: boolean
-  canAdd: boolean
-  exchanges: ExternalExchangeProvider[]
-}) {
-  const { t } = useTranslation()
-
-  const title = hasTokensOnSameNetwork
-    ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.youNeedTitle', {
-        tokenSymbol: token.symbol,
-        tokenNetwork: NETWORK_NAMES[token.networkId],
-      })
-    : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositTitle')
-
-  const swapAndDepositAction = useSwapAndDepositAction({ token, forwardedRef })
-  const crossChainSwapAction = useCrossChainSwapAction({
-    token,
-    title: hasTokensOnSameNetwork
-      ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.crossChainSwap')
-      : t('addFundsActions.swap'),
-    details: hasTokensOnSameNetwork
-      ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainSwapActionDescription', {
-          tokenSymbol: token.symbol,
-        })
-      : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.swapActionDescription', {
-          tokenSymbol: token.symbol,
-          tokenNetwork: NETWORK_NAMES[token.networkId],
-        }),
-    forwardedRef,
-  })
-  const addAction = useAddAction({ token, forwardedRef })
-  const transferAction = useTransferAction({ token, exchanges, forwardedRef })
-
-  const components: React.JSX.Element[] = []
-  if (hasTokensOnSameNetwork) {
-    components.push(<ActionCard action={swapAndDepositAction} />)
-    components.push(
-      <Text style={styles.actionDetails}>
-        {t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainAlternativeDescription', {
-          tokenNetwork: NETWORK_NAMES[token.networkId],
-        })}
-      </Text>
-    )
-    if (hasTokensOnOtherNetworks) components.push(<ActionCard action={crossChainSwapAction} />)
-    if (canAdd) components.push(<ActionCard action={addAction} />)
-  } else if (hasTokensOnOtherNetworks) {
-    components.push(<ActionCard action={crossChainSwapAction} />)
-    if (canAdd) components.push(<ActionCard action={addAction} />)
-    components.push(<ActionCard action={transferAction} />)
-  } else {
-    if (canAdd) components.push(<ActionCard action={addAction} />)
-    components.push(<ActionCard action={transferAction} />)
-  }
-
-  return (
-    <BottomSheet
-      forwardedRef={forwardedRef}
-      title={title}
-      description={
-        !hasTokensOnSameNetwork
-          ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositDescription')
-          : undefined
-      }
-      titleStyle={styles.bottomSheetTitle}
-      testId={'Earn/BeforeDepositBottomSheet'}
-    >
-      <View style={styles.actionsContainer}>{components}</View>
-    </BottomSheet>
-  )
-}
-
 const styles = StyleSheet.create({
   headerTitle: {
     flexDirection: 'row',
@@ -979,32 +871,5 @@ const styles = StyleSheet.create({
   },
   linkText: {
     textDecorationLine: 'underline',
-  },
-  actionsContainer: {
-    flex: 1,
-    gap: Spacing.Regular16,
-    marginVertical: Spacing.Thick24,
-  },
-  actionTitle: {
-    ...typeScale.labelMedium,
-    color: Colors.black,
-  },
-  actionDetails: {
-    ...typeScale.bodySmall,
-    color: Colors.black,
-  },
-  bottomSheetTitle: {
-    ...typeScale.titleSmall,
-    color: Colors.black,
-  },
-  touchable: {
-    backgroundColor: Colors.gray1,
-    padding: Spacing.Regular16,
-    flexDirection: 'row',
-    gap: Spacing.Regular16,
-    alignItems: 'center',
-  },
-  cardContainer: {
-    flex: 1,
   },
 })
