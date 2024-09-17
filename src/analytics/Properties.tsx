@@ -1599,9 +1599,12 @@ interface EarnEventsProperties {
   }
   [EarnEvents.earn_enter_amount_info_press]: undefined
   [EarnEvents.earn_enter_amount_continue_press]: {
-    userHasFunds: boolean
     amountInUsd: string
     amountEnteredIn: AmountEnteredIn
+    // TODO(ACT-1358): these could be moved to EarnDepositProperties
+    depositTokenAmount: string
+    sourceTokenId: string
+    mode: 'deposit' | 'swap-deposit'
   } & EarnDepositProperties
   [EarnEvents.earn_enter_amount_info_more_pools]: undefined
   [EarnEvents.earn_exit_pool_press]: {

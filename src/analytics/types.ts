@@ -36,6 +36,7 @@ export type TransactionOrigin =
   | 'send'
   | 'swap'
   | 'earn-deposit'
+  | 'earn-swap-deposit'
   | 'earn-withdraw'
   | 'jumpstart-send'
   | 'jumpstart-claim'

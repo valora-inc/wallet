@@ -123,7 +123,7 @@
     "futoin-hkdf": "^1.5.3",
     "fuzzysort": "^3.0.2",
     "google-libphonenumber": "^3.2.38",
-    "i18next": "^23.14.0",
+    "i18next": "^23.15.1",
     "ibantools": "^4.5.1",
     "intl-pluralrules": "^2.0.1",
     "io-ts": "2.2.21",
@@ -188,7 +188,7 @@
     "typed-redux-saga": "^1.5.0",
     "uuid": "^9.0.1",
     "victory-native": "^36.9.2",
-    "viem": "^2.21.5",
+    "viem": "^2.21.6",
     "web3-utils": "^4.3.1"
   },
   "devDependencies": {
