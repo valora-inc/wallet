@@ -109,7 +109,7 @@ jobs:
           --loglevel info
           --debug-synchronization 10000
           --maxWorkers 1
-          --retries 3
+          --retries 4
           --headless
         timeout-minutes: 60
       - name: Publish iOS JUnit Report
