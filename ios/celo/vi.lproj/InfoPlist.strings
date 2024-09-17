@@ -1,8 +1,0 @@
-/* DO NOT EDIT MANUALLY, SEE scripts/sync_ios_info_plist_strings.sh */
-
-NSCameraUsageDescription = "Bằng cách kết nối camera, bạn có thể quét mã để thanh toán.";
-NSContactsUsageDescription = "Khi thêm danh bạ, bạn có thể dễ dàng gửi và yêu cầu thanh toán với bạn bè.";
-NSPhotoLibraryAddUsageDescription = "Bằng cách kết nối thư viện ảnh, bạn có thể lưu mã vào danh sách ảnh của mình.";
-NSPhotoLibraryUsageDescription = "Đây là yêu cầu bắt buộc để bạn có thể chọn ảnh hồ sơ.";
-NSUserTrackingUsageDescription = "Chúng tôi sử dụng mã nhận dạng cho quảng cáo để phân bổ chính xác lượt cài đặt ứng dụng từ các chiến dịch quảng cáo.";
-NSFaceIDUsageDescription = "Đây là yêu cầu bắt buộc để bạn sử dụng Face ID nhằm bảo vệ tài khoản.";

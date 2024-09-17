@@ -18,7 +18,7 @@
                BlueprintIdentifier = "0F49F5EC270F2F2A0005F897"
                BuildableName = "NotificationService.appex"
                BlueprintName = "NotificationService"
-               ReferencedContainer = "container:celo.xcodeproj">
+               ReferencedContainer = "container:MobileStack.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -30,9 +30,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "valora.app"
-               BlueprintName = "celo"
-               ReferencedContainer = "container:celo.xcodeproj">
+               BuildableName = "Valora.app"
+               BlueprintName = "MobileStack"
+               ReferencedContainer = "container:MobileStack.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "valora.app"
-            BlueprintName = "celo"
-            ReferencedContainer = "container:celo.xcodeproj">
+            BuildableName = "Valora.app"
+            BlueprintName = "MobileStack"
+            ReferencedContainer = "container:MobileStack.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -81,9 +81,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "valora.app"
-            BlueprintName = "celo"
-            ReferencedContainer = "container:celo.xcodeproj">
+            BuildableName = "Valora.app"
+            BlueprintName = "MobileStack"
+            ReferencedContainer = "container:MobileStack.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
