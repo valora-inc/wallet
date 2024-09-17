@@ -17,6 +17,8 @@ jobs:
     # If it takes longer it usually fails, so no need to pay for more
     timeout-minutes: 25
     steps:
+      - run: lsmod | grep kvm
+      - run: sudo modprobe kvm
       - run: ls /dev/kvm
       - uses: actions/checkout@v4
       - name: Set env
