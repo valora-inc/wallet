@@ -2550,6 +2550,7 @@
       "title": "Wie viel möchtest du einzahlen?",
       "deposit": "Einzahlung",
       "fees": "Gebühren",
+      "swap": "Tauschen",
       "earnUpToLabel": "Verdienst von bis zu:",
       "rateLabel": "Rate (geschätzt)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / Jahr",
