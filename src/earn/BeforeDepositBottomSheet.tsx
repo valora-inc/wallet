@@ -1,6 +1,6 @@
 import React, { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
@@ -18,7 +18,6 @@ import { Screens } from 'src/navigator/Screens'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import variables from 'src/styles/variables'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenAnalyticsProps } from 'src/tokens/utils'
 
@@ -243,155 +242,6 @@ export default function BeforeDepositBottomSheet({
 }
 
 const styles = StyleSheet.create({
-  headerTitle: {
-    flexDirection: 'row',
-    gap: Spacing.Smallest8,
-  },
-  headerTitleText: {
-    ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
-  },
-  flex: {
-    flex: 1,
-  },
-  flexShrink: {
-    flexShrink: 1,
-  },
-  scrollContainer: {
-    padding: Spacing.Thick24,
-    ...(Platform.OS === 'android' && {
-      minHeight: variables.height,
-    }),
-  },
-  title: {
-    ...typeScale.titleMedium,
-    color: Colors.black,
-  },
-  subtitleLabel: {
-    ...typeScale.bodyMedium,
-    color: Colors.gray3,
-  },
-  subtitleInfo: {
-    ...typeScale.labelMedium,
-    color: Colors.black,
-  },
-  titleContainer: {
-    gap: Spacing.Smallest8,
-  },
-  subtitleContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    gap: Spacing.Thick24,
-    rowGap: 0, // Set to Zero to prevent gap between rows when flexWrap is set to wrap
-    flexWrap: 'wrap',
-  },
-  tokenIconsContainer: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  contentContainer: {
-    gap: Spacing.Regular16,
-  },
-  card: {
-    padding: Spacing.Regular16,
-    borderColor: Colors.gray2,
-    borderWidth: 1,
-    borderRadius: 12,
-    gap: Spacing.Regular16,
-  },
-  cardLineContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  cardLineLabel: {
-    flex: 1,
-    flexDirection: 'row',
-    gap: Spacing.Tiny4,
-    alignItems: 'center',
-    paddingRight: 20, // Prevents Icon from being cut off on long labels
-    minWidth: '35%',
-  },
-  cardTitleText: {
-    ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
-  },
-  cardLabelText: {
-    ...typeScale.bodyMedium,
-    color: Colors.gray3,
-  },
-  depositAndEarningCard: {
-    backgroundColor: Colors.gray1,
-    padding: 0,
-    gap: 0,
-  },
-  depositAndEarningCardTitleContainer: {
-    padding: Spacing.Regular16,
-    alignItems: 'center',
-    gap: Spacing.Tiny4,
-  },
-  depositAndEarningCardTitleText: {
-    ...typeScale.titleMedium,
-    color: Colors.black,
-  },
-  depositAndEarningCardSubtitleContainer: {
-    backgroundColor: Colors.white,
-    padding: Spacing.Regular16,
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
-    gap: Spacing.Smallest8,
-  },
-  depositAndEarningsCardLabelText: {
-    ...typeScale.bodyMedium,
-    color: Colors.black,
-    flexWrap: 'wrap',
-    textAlign: 'left',
-  },
-  depositAndEarningsCardValueText: {
-    ...typeScale.bodyMedium,
-    color: Colors.black,
-    flexWrap: 'wrap',
-    textAlign: 'right',
-  },
-  learnMoreContainer: {
-    flexShrink: 1,
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  learnMoreView: {
-    flex: 1,
-    gap: Spacing.Tiny4,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: Spacing.Smallest8,
-  },
-  learnMoreText: {
-    ...typeScale.bodyMedium,
-    color: Colors.black,
-  },
-  buttonContainer: {
-    flexShrink: 1,
-    flexDirection: 'row',
-    padding: Spacing.Regular16,
-    gap: Spacing.Smallest8,
-  },
-  infoBottomSheetTitle: {
-    ...typeScale.titleSmall,
-    color: Colors.black,
-  },
-  infoBottomSheetText: {
-    ...typeScale.bodySmall,
-    marginBottom: Spacing.Thick24,
-    color: Colors.black,
-  },
-  linkText: {
-    textDecorationLine: 'underline',
-  },
   actionsContainer: {
     flex: 1,
     gap: Spacing.Regular16,
