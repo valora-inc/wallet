@@ -1,10 +1,8 @@
-import * as Sentry from '@sentry/react-native'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import { clearStoredAccount, toggleBackupState } from 'src/account/actions'
-import { resetAppOpenedState, setNumberVerified } from 'src/app/actions'
+import { clearStoredAccount } from 'src/account/actions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SettingsMenu from 'src/navigator/SettingsMenu'
@@ -17,6 +15,12 @@ jest.mock('src/statsig', () => ({
   getMultichainFeatures: jest.fn(() => ({
     showBalances: ['celo-alfajores'],
   })),
+}))
+
+jest.mock('statsig-react-native', () => ({
+  Statsig: {
+    getStableID: jest.fn().mockReturnValue('stableId'),
+  },
 }))
 
 describe('SettingsMenu', () => {
@@ -91,6 +95,9 @@ describe('SettingsMenu', () => {
       web3: {
         account: mockAddress,
       },
+      app: {
+        sessionId: 'sessionId',
+      },
     })
     const { getByText } = render(
       <Provider store={store}>
@@ -98,28 +105,14 @@ describe('SettingsMenu', () => {
       </Provider>
     )
 
+    expect(getByText('Session ID: sessionId')).toBeTruthy() // matches store mocks
+    expect(getByText('Statsig Stable ID: stableId')).toBeTruthy() // matches Statsig mocks
+
     store.clearActions()
-    fireEvent.press(getByText('Toggle verification done'))
-    fireEvent.press(getByText('Reset app opened state'))
-    fireEvent.press(getByText('Toggle backup state'))
-    fireEvent.press(getByText('Wipe Redux Store'))
     fireEvent.press(getByText('App Quick Reset'))
+    expect(store.getActions()).toEqual([clearStoredAccount(mockAddress)])
 
-    expect(store.getActions()).toEqual([
-      setNumberVerified(false),
-      resetAppOpenedState(),
-      toggleBackupState(),
-      clearStoredAccount(mockAddress, true),
-      clearStoredAccount(mockAddress),
-    ])
-
-    fireEvent.press(getByText('Show Debug Screen'))
-    expect(navigate).toHaveBeenCalledWith(Screens.Debug)
-
-    fireEvent.press(getByText('Trigger a crash'))
-    expect(Sentry.nativeCrash).toHaveBeenCalled()
-
-    fireEvent.press(getByText('See app assets'))
+    fireEvent.press(getByText('See App Assets'))
     expect(navigate).toHaveBeenCalledWith(Screens.DebugImages)
   })
 })

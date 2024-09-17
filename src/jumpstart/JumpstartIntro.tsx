@@ -1,17 +1,19 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
 import AddAssetsBottomSheet, { AddAssetsAction } from 'src/components/AddAssetsBottomSheet'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import CustomHeader from 'src/components/header/CustomHeader'
+import CustomHeader, { CUSTOM_HEADER_HEIGHT } from 'src/components/header/CustomHeader'
 import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import Palm from 'src/images/Palm'
+import Leaf from 'src/images/Leaf'
 import WaveCurve from 'src/images/WaveCurve'
+import { jumpstartIntroSeen } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
@@ -19,20 +21,32 @@ import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
 import { TokenActionName } from 'src/tokens/types'
 import networkConfig from 'src/web3/networkConfig'
 
-export default function JumpstartAddAssets() {
-  const addAssetsBottomSheetRef = useRef<BottomSheetRefType>(null)
-
+export default function JumpstartIntro() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const insets = useSafeAreaInsets()
+  const addAssetsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
+  const tokens = useSelector(jumpstartSendTokensSelector)
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
+  const noTokens = tokens.length === 0
+
+  // Track in analytics whenever user sees the intro
+  useEffect(() => {
+    AppAnalytics.track(JumpstartEvents.jumpstart_intro_seen)
+  }, [])
 
   const handleShowAddFunds = () => {
     AppAnalytics.track(JumpstartEvents.jumpstart_add_assets_show_actions)
     addAssetsBottomSheetRef.current?.snapToIndex(0)
+  }
+
+  const onIntroDismiss = () => {
+    dispatch(jumpstartIntroSeen())
   }
 
   const addAssetsActions: AddAssetsAction[] = [
@@ -81,28 +95,42 @@ export default function JumpstartAddAssets() {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
-      <Palm style={styles.palmImage} />
+      <Leaf style={styles.palmImage} />
       <WaveCurve style={styles.waveImage} />
       <CustomHeader style={styles.header} left={<BackButton />} />
+
       <ScrollView contentContainerStyle={[styles.container, { paddingBottom: insets.bottom }]}>
         <Text style={styles.title}>{t('jumpstartIntro.title')}</Text>
-        <Text style={styles.description}>{t('jumpstartIntro.addFundsCelo.info')}</Text>
+
+        <View style={styles.description}>
+          <Text style={styles.descriptionLine}>{t('jumpstartIntro.description')}</Text>
+          {noTokens && (
+            <Text style={styles.descriptionLine}>{t('jumpstartIntro.noFundsHint')}</Text>
+          )}
+        </View>
 
         <Button
-          onPress={handleShowAddFunds}
-          text={t('jumpstartIntro.addFundsCelo.cta')}
+          testID={
+            noTokens ? 'JumpstartIntro/noFundsButton' : 'JumpstartEnterAmount/haveFundsButton'
+          }
+          text={
+            noTokens ? t('jumpstartIntro.addFundsCelo.cta') : t('jumpstartIntro.haveFundsButton')
+          }
+          onPress={noTokens ? handleShowAddFunds : onIntroDismiss}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
         />
       </ScrollView>
 
-      <AddAssetsBottomSheet
-        forwardedRef={addAssetsBottomSheetRef}
-        title={t('jumpstartIntro.addFundsCelo.title')}
-        description={t('jumpstartIntro.addFundsCelo.description')}
-        actions={addAssetsActions}
-        testId="Jumpstart/addFundsCeloBottomSheet"
-      />
+      {noTokens && (
+        <AddAssetsBottomSheet
+          forwardedRef={addAssetsBottomSheetRef}
+          title={t('jumpstartIntro.addFundsCelo.title')}
+          description={t('jumpstartIntro.addFundsCelo.description')}
+          actions={addAssetsActions}
+          testId="Jumpstart/addFundsCeloBottomSheet"
+        />
+      )}
     </SafeAreaView>
   )
 }
@@ -116,28 +144,27 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: Spacing.Thick24,
+    flex: 1,
+    gap: Spacing.Regular16,
+    justifyContent: 'center',
+    marginTop: -CUSTOM_HEADER_HEIGHT,
   },
   title: {
     ...typeScale.titleMedium,
     color: Colors.black,
     textAlign: 'center',
-    marginBottom: Spacing.Thick24,
-    marginTop: '50%',
   },
   description: {
+    gap: 4,
+  },
+  descriptionLine: {
     ...typeScale.bodyMedium,
     textAlign: 'center',
-    marginBottom: Spacing.Thick24,
   },
   palmImage: {
     position: 'absolute',
-    top: -60,
-    left: -80,
-    transform: [
-      {
-        rotate: '150deg',
-      },
-    ],
+    top: 0,
+    right: 20,
   },
   waveImage: {
     position: 'absolute',

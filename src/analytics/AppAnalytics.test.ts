@@ -145,7 +145,6 @@ const defaultSuperProperties = {
   sDeviceId: mockDeviceId,
   sDeviceLanguage: 'en-US',
   sHasCompletedBackup: false,
-  sHasVerifiedNumber: false,
   sHasVerifiedNumberCPV: true,
   sHooksPreviewEnabled: false,
   sLanguage: 'es-419',

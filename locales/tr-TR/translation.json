@@ -56,8 +56,8 @@
   },
   "accountKeyModal": {
     "header": "Kurtarma Kelimeleriniz olmadan fonlarınıza erişiminizi sonsuza kadar kaybedersiniz",
-    "body1": "Valora'yı sıfırlamak için Kurtarma Kelimelerinizi yazdığınızı onaylamanız gerekir.",
-    "body2": "Valora dahil hiç kimse, Kurtarma Kelimeleriniz olmadan hesabınızı kurtaramaz."
+    "body1": "{{appName}}adresini sıfırlamak için Kurtarma İfadenizi yazdığınızı onaylamanız gerekecektir.",
+    "body2": "Hiç kimse, {{appName}}bile, sizin İfadeniz olmadan hesabınızı kurtaramaz."
   },
   "promptConfirmRemovalModal": {
     "header": "Devam etmek istediğinizden emin misiniz?",
@@ -77,7 +77,7 @@
     "title": "Kurtarma ifadeniz",
     "titleV1_90": "Kurtarma Cümleniz",
     "body": "Bu 12 kelimeyi çalınamayacak ya da zarar görmeyecek güvenli bir yere yazın.",
-    "bodyV1_90": "Kurtarma ifadenizi kaybederseniz Valora'da tutulan tüm fonlarınıza erişimi kaybedersiniz.",
+    "bodyV1_90": "Kurtarma cümlenizi kaybederseniz, {{appName}}adresinde tutulan tüm fonlara erişiminizi kaybedersiniz.",
     "continue": "Kaydettim",
     "copy": "Panoya kopyala",
     "mnemonicCopied": "Kurtarma ifadesi panoya kopyalandı",
@@ -89,7 +89,7 @@
   },
   "walletSecurityPrimer": {
     "title": "Cüzdanınızı güvende tutun",
-    "description": "Cüzdanınıza yalnızca siz erişebilirsiniz. Telefonunuz kaybolur veya çalınırsa, Valora onu sizin için kurtaramaz.\n\nCüzdanınızı güvende tutmak ve paranızı korumak için bir yöntem ayarlamanız gerekir."
+    "description": "Cüzdanınıza yalnızca siz erişebilirsiniz. Telefonunuz kaybolur veya çalınırsa, {{appName}} sizin için kurtaramaz.\n\nCüzdanınızı güvende tutmak ve paranızı korumak için bir yöntem ayarlamanız gerekir."
   },
   "keylessBackupIntro": {
     "emailAddress": "E-posta Adresi",
@@ -98,7 +98,7 @@
       "title": "Cüzdan Yedeklemeyi Ayarlama",
       "description": "E-posta ve telefon numarası yedeklemenizi ayarlamak için aşağıdakileri kullanacaksınız",
       "useRecoveryPhrase": "Bunun yerine bir kurtarma ifadesi kullanın",
-      "reminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!"
+      "reminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. {{appName}} e-posta veya telefon numaranızı saklamaz. Güvende tutun!"
     },
     "restore": {
       "description": "Cüzdanınızı geri yüklemek için aşağıdakilere sahip olduğunuzdan emin olun.",
@@ -232,7 +232,7 @@
   "keylessBackupNotification": "Kurtarma ifadenizi yedeklemek için e-postanızı ve telefon numaranızı ayarlayın",
   "backupKeyCTA": "Yedeklemeyi Şimdi Tamamlayın",
   "backupKeySummary": "Kurtarma Kelimelerinizi yazmak için özel bir yer bulun ve not edin. Lütfen kelimelerinizi güvenli bir yerde saklayın ve telefonunuza kaydetmeyin.",
-  "backupKeyWarning": "Kurtarma ifadenizi kaybederseniz Valora'da tutulan tüm fonlarınıza erişimi kaybedersiniz.",
+  "backupKeyWarning": "Kurtarma cümlenizi kaybederseniz, {{appName}}adresinde tutulan tüm fonlara erişiminizi kaybedersiniz.",
   "copied": "Kelimeler panoya kopyalandı",
   "moreInfo": "Daha Fazla Bilgi",
   "savedConfirmation": "Evet, Kurtarma Kelimelerimi yazdım.",
@@ -303,7 +303,7 @@
     "dismiss": "Yoksay"
   },
   "superchargingTitle": "Uygulama güncellemesi gerekli",
-  "superchargingDescription": "Supercharge ödüllerini almaya devam etmek için Valora uygulamasını güncelleyin.",
+  "superchargingDescription": "Haftalık Supercharge ödüllerinizi almaya devam etmek için {{appName}} uygulamasını güncelleyin.",
   "superchargingTitleV1_54": "Süper charge sona eriyor",
   "superchargingDescriptionV1_54": "Haftalık ödüller 28 Mayıs Salı günü saat 23:59'a (UTC) kadar talep edilebilecektir. 29 Mayıs'tan itibaren Süper charge ödüllerini artık talep edemeyeceksiniz.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
@@ -393,7 +393,7 @@
   "tokenBalance": "{{token}} Bakiyesi",
   "addFunds": "Bakiye Ekle",
   "addFundsHeaderWithCurrency": "{{token}} ekle",
-  "addFundsSubtitle": "Valora hesabına bakiye yükle",
+  "addFundsSubtitle": "{{appName}} hesabınıza para yatırın",
   "exchanges": "Borsalar",
   "noExchanges": "Bölgenizde {{digitalAsset}} için kullanılabilecek borsa yok.",
   "buySellOnExchanges": "Borsalar üzerinde alım/satım yap",
@@ -447,11 +447,11 @@
   },
   "providerFeeDiscountDialog": {
     "title": "Ücret İndirimi",
-    "body": "Valora'nın lansmanını kutlamak için ücretler geçici olarak düşürüldü!"
+    "body": "Promosyon olarak, {{appName}}'un lansmanını kutlamak için ücretler geçici olarak sübvanse edilmiştir!"
   },
   "pleaseSelectProvider": "Lütfen aşağıdan bir sağlayıcı seçin. Bu bağlantılar bir üçüncü taraf hizmetine bağlanır.",
   "otherFundingOptions": "<0>Hesaba nasıl bakiye yatırılır</0> sayfasını ziyaret ederek bakiye yatırma ve çekme yöntemleri hakkında daha fazla bilgi edinebilirsiniz",
-  "youCanTransferIn": "Valora hesabınıza {{digitalAsset}} göndermek için bir üçüncü taraf borsa kullanabilirsiniz. Bunun için Hesap Adresinize ihtiyacınız olacak.",
+  "youCanTransferIn": "{{digitalAsset}} adresini {{appName}} hesabınıza göndermek için üçüncü taraf bir borsa kullanabilirsiniz. Bunun için Hesap Adresinize ihtiyacınız olacaktır.",
   "youCanTransferOut": "Fonlarınızı {{digitalAsset}}'i destekleyen bir üçüncü taraf borsaya göndererek çekebilirsiniz.",
   "useBalanceWithMerchants": "Bakiyenizi desteklenen satıcılarda kullanın",
   "findMerchants": "Yakınınızdaki yerel satıcıları bulun",
@@ -710,7 +710,7 @@
       "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
     },
     "rewardsActiveCUSD": {
-      "title": "Arkadaşlarınızı Valora'ya davet ederek 12 cUSD'ye KADAR KAZANIN!",
+      "title": "Arkadaşlarınızı {{appName}}adresine davet ederek 12 cUSD'ye kadar kazanın!",
       "body": "{{appName}} uygulamasına davet ettiğiniz her arkadaşınız için 0,50 cUSD kazanın. Numaralarını bağladıklarında, fon eklediklerinde ve 7 gün boyunca tuttuklarında ikiniz de 0,50 cUSD alacaksınız. Acele edin, fonlar sınırlıdır! (25 arkadaşla sınırlıdır)."
     }
   },
@@ -724,9 +724,9 @@
     "heading1": "Veri ve Gizlilik",
     "heading2": "Varlıkları ve {{appName}} Hesabı",
     "info": "Hizmetlerimizi kullanmak için lütfen <0>Kullanıcı Sözleşmemizi ve Şartlarımızı</0> okuyun ve hemen altındaki kabul et düğmesini tıklayarak kabul edin.",
-    "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
-    "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan yaratmış olursunuz. Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen parayı geri alamaz. Kripto paraların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin.",
-    "goldDisclaimerWithPoints": "Valora'da bir \"hesap\" oluşturduğunuzda, anahtarlarına yalnızca sizin sahip olduğunuz bir dijital cüzdan oluşturmuş olursunuz. Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı kurtaramaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen fonları geri alamaz. Valora, belirli uygulama içi etkinliklere katıldıkları için Kullanıcılara tokenleştirilmiş sadakat ödülleri (\"Puanlar\") verir. Puanlar zincir üzerinde, devredilemez ve geri alınamaz koleksiyonlardır. Puanların kullanılabilirliği veya değeri hakkında hiçbir garanti verilmez. Dijital varlıkların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir dijital varlık satın almadan önce finansal koşullarınızı ve finansal risk toleransınızı dikkatlice değerlendirin."
+    "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin vermiş olursunuz. Ayrıca, telefon numaranızı bağlarsanız, numaranızın karma bir kopyası saklanacaktır. {{appName}} adresine kişi listenize erişim izni verirseniz, {{appName}} , kullanıcıların {{appName}} uygulaması üzerinden bağlantı kurmasına izin vermek için her bir kişinin adını, telefon numarasını ve profil resmini içe aktaracaktır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
+    "goldDisclaimer": "{{appName}} adresinde bir \"hesap\" oluşturduğunuzda, anahtarlarına yalnızca sizin sahip olduğunuz bir dijital cüzdan oluşturmuş olursunuz. {{appName}}dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı kurtaramaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen fonları geri alamaz. Dijital varlıkların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir dijital varlık satın almadan önce mali durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin.",
+    "goldDisclaimerWithPoints": "{{appName}} adresinde bir \"hesap\" oluşturduğunuzda, anahtarlarına yalnızca sizin sahip olduğunuz bir dijital cüzdan oluşturmuş olursunuz. {{appName}}dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı kurtaramaz, işlemleri değiştiremez veya geri alamaz veya kaybedilen fonları geri alamaz. {{appName}} , belirli uygulama içi etkinliklere katılmaları için Kullanıcılara tokenize sadakat ödülleri (\"Puanlar\") verir. Puanlar zincir üzerinde, devredilemez ve geri alınamaz koleksiyonlardır. Puanların kullanılabilirliği veya değeri hakkında hiçbir garanti verilmez. Dijital varlıkların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir dijital varlık satın almadan önce finansal koşullarınızı ve finansal risk toleransınızı dikkatlice değerlendirin."
   },
   "termsColloquial": {
     "title": "Cüzdanınızı oluşturarak başlayalım",
@@ -734,9 +734,9 @@
     "privacy1": "Uygulamayı ve güvenliği geliştirmemize yardımcı olan kullanım verilerini topluyoruz. Topladığımız bilgilerin türü, bunları nasıl kullandığımız ve bu bilgilerle ilgili haklarınızın tümü <0>Gizlilik Politikamızda</0> görülebilir.",
     "privacy2": "Telefon numaranızı bağlamaya karar verirseniz bunun şifrelenmiş bir kopyasını saklayacağız.",
     "privacy3": "Kişilerinizi bağlamaya karar verirseniz onları bulmayı kolaylaştırmak için adlarını, numaralarını ve profil resimlerini kullanırız.",
-    "walletHeading": "Valora ile Dijital Cüzdanınız:",
-    "wallet1": "Dijital bir cüzdan oluşturmak üzeresiniz. Cüzdanınızın anahtarı sadece sizde var. Anahtarınızı kaybederseniz, anahtarınızı veya varlıklarınızı kurtaramayız. Ayrıca Valora aracılığıyla blok zincirleri üzerinde gerçekleştirilen eylemleri de geri alamayız.",
-    "wallet2": "Valora ile etkileşim kuracağınız varlıklar olan dijital varlıklar, benzersiz risklerle birlikte gelir. Valora'yı kullanarak bu riskleri kabul eder ve bunların sorumluluğunu üstlenirsiniz. Lütfen seçim yapmadan önce mali durumunuzu ve risk toleransınızı göz önünde bulundurun.",
+    "walletHeading": "{{appName}}ile Dijital Cüzdanınız:",
+    "wallet1": "Dijital bir cüzdan oluşturmak üzeresiniz. Cüzdanınızın anahtarı sadece sizde var. Anahtarınızı kaybederseniz, anahtarınızı veya varlıklarınızı kurtaramayız. Ayrıca blok zincirlerinde {{appName}} aracılığıyla gerçekleştirilen eylemleri de tersine çeviremeyiz.",
+    "wallet2": "Dijital varlıklar, {{appName}}ile etkileşimde bulunacağınız varlıklar, benzersiz risklerle birlikte gelir. {{appName}}adresini kullanarak bu riskleri kabul eder ve bunların sorumluluğunu üstlenirsiniz. Lütfen seçim yapmadan önce mali durumunuzu ve risk toleransınızı göz önünde bulundurun.",
     "fullTerms": "<0>Şartlar ve Koşullarımızın</0> tamamını okuyun"
   },
   "fullNameOrPsuedonym": "Tam ad veya takma ad",
@@ -853,7 +853,7 @@
   "accessContacts": {
     "disclosure": {
       "title": "Kişileri İçe Aktar",
-      "body": "Valora kişilerinizi içe aktarmak istiyor. Aşağıdaki butona dokunarak, Valora aracılığıyla bağlantı kurmak amacıyla kişilerimin telefon numaralarına, adlarına ve fotoğraflarına erişilmesine izin veriyorum"
+      "body": "{{appName}} kişilerinizi içe aktarmak istiyorum. Aşağıya dokunarak, {{appName}}üzerinden bağlantı kurmak amacıyla kişilerimin telefon numaralarına, adlarına ve fotoğraflarına erişime izin veriyorum"
     }
   },
   "createAccount": "Hesap Oluştur",
@@ -903,12 +903,12 @@
   "verificationPrematureRevealMessage": "Lütfen yeniden göndermeden önce bir dakika bekleyin",
   "verificationLearnMoreDialog": {
     "title": "Telefon Numaraları ve {{appName}}",
-    "body": "Bağlanmak, telefon numaranızla para gönderip almanıza olanak tanır.\n\n<0>Bunu daha sonra yapabilir miyim?</0>\n\nEvet, ancak bağlı olmayan cüzdanlar yalnızca QR kodları veya Hesap Adresleri ile ödeme gönderebilir.\n\n<1>Güvenli ve Gizli</1>\n\nValora, telefon numaranızı gizli tutmak için son teknoloji şifreleme tekniği kullanır.",
+    "body": "Bağlanmak, telefon numaranızla para göndermenize ve almanıza olanak tanır.\n\n<0>Bunu daha sonra yapabilir miyim?</0>\n\nEvet, ancak bağlı olmayan cüzdanlar yalnızca QR kodları veya Hesap Adresleri ile ödeme gönderebilir.\n\n<1>Güvenli ve Özel</1>\n\n{{appName}} telefon numaranızı gizli tutmak için son teknoloji kriptografi kullanır.",
     "dismiss": "Yoksay"
   },
   "phoneVerificationScreen": {
     "screenTitle": "Telefon Numarası",
-    "title": "Telefon numaranızı Valora'ya bağlayın",
+    "title": "Telefon numaranızı {{appName}}adresine bağlayın",
     "description": "Bu, cüzdan adresinizi telefon numaranıza bağlar, böylece kripto göndermek kolaylaşır",
     "startButtonLabel": "Bağla",
     "learnMore": {
@@ -961,7 +961,7 @@
     },
     "recoveryPhrase": {
       "title": "Kurtarma ifadesinden",
-      "description": "Valora'ya yeniden erişim kazanmak için 12 kelimelik kurtarma ifadenizi girin"
+      "description": "{{appName}}adresine yeniden erişim kazanmak için 12 kelimelik kurtarma cümlenizi girin"
     }
   },
   "verificationInput": {
@@ -1058,7 +1058,7 @@
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
   "inviteWithRewards": "Merhaba! 👋 {{appName}} uygulamasını kripto cüzdanım olarak kullanıyorum. Uygulamayı indirmek ve telefon numaranı bağlamak çok kolay, ayrıca ikimiz de ödül olarak özel bir NFT sürümü alacağız. 💫 \n\nBu bağlantıyla indir: {{link}}",
-  "inviteWithRewardsCUSD": "Hey! Şu anda Valora cüzdanına kaydolur, fon yatırır ve numaranı bağlarsanız ikimiz de ücretsiz 0,50 USD ödül kazanabiliriz. Tasarruflarımı USD ve kripto olarak büyütmek için bunu kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki davet bağlantımla kaydolduğunuzdan emin olun: \n\n{{link}} \n\nAncak acele edin, davet promosyonu yakında sona eriyor.",
+  "inviteWithRewardsCUSD": "Hey! Şu anda kaydolur, numaranızı bağlar ve {{appName}} cüzdanınıza para yatırırsanız ikimiz de ücretsiz 0,50 $ ödül kazanabiliriz. Birikimlerimi USD ve kripto olarak artırmak için kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki yönlendirme bağlantımla kaydolduğunuzdan emin olun: \n\n{{link}} \n\n Acele edin, yönlendirme promosyonu yakında sona eriyor.",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -1365,10 +1365,10 @@
   "transactionHeaderNftSent": "NFT Gönderildi",
   "feedSectionHeaderRecent": "En son",
   "cashInBottomSheet": {
-    "title": "Valora'yı kullanmaya başlamak için bakiye ekleyin!",
+    "title": "{{appName}}adresini kullanmaya başlamak için para ekleyin!",
     "subtitle": "Hesabınız şu anda boş",
     "addFunds": "Bakiye Ekle",
-    "titleRamp": "Valora'yı kullanmaya başlamak için {{currency}} ekleyin",
+    "titleRamp": "{{appName}}adresini kullanmaya başlamak için {{currency}} adresini ekleyin",
     "subtitleRamp": "Güvenilir harici sağlayıcılarımızdan biri aracılığıyla düşük ücretlerle para ekleyin."
   },
   "balances": "Varlıklar",
@@ -1385,7 +1385,7 @@
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "Toplam Bakiye ne demektir?",
-    "body": "Toplam Bakiyeniz, tüm Valora varlıklarınızın yaklaşık bir toplamıdır. Fiyatlar dalgalandıkça Toplam Bakiyeniz değişecektir. Her 10 dakikada bir güncellenir.\nBazı varlıklar, hesaplama sırasında fiyat mevcut olmadığı için Toplam Bakiyede gösterilmeyebilir.",
+    "body": "Toplam Bakiyeniz, tüm {{appName}} varlıklarınızın yaklaşık bir toplamıdır. Toplam Bakiyeniz fiyatlar dalgalandıkça değişecektir. Her 10 dakikada bir güncellenir.\nBazı varlıklar, hesaplama sırasında fiyat mevcut olmadığından Toplam Bakiye'de gösterilmeyebilir.",
     "dismiss": "Yoksay"
   },
   "supportExportLogsStart": "Günlük dışarı aktarılıyor...",
@@ -1423,15 +1423,15 @@
     "stepTwo": {
       "label": "2. Adım",
       "disabledTitle": "Bir banka hesabı bağla",
-      "disabledDescription": "Banka hesabı desteği çok yakında! Banka hesabınızı Valora'ya ne zaman bağlayabileceğinizi size bildireceğiz.",
+      "disabledDescription": "Banka hesabı desteği yakında geliyor! Banka hesabınızı {{appName}}adresine ne zaman bağlayabileceğinizi size bildireceğiz.",
       "disabledCta": "Çok Yakında!",
       "title": "Banka Bilgilerini Girin",
-      "description": "Neredeyse tamam! Hesabınızı Valora'ya bağlamak için banka bilgilerini girin.",
+      "description": "İşiniz neredeyse bitti! Hesabınızı {{appName}}adresine bağlamak için banka bilgilerinizi girin.",
       "cta": "Banka Hesabı Bağla",
       "error": {
         "title": "Banka hesabı bağlanamadı.",
         "description": "Lütfen banka hesabınızı tekrar bağlamayı deneyin veya destek ile iletişime geçin.",
-        "contactSupportPrefill": "Banka hesabımı Valora'ya bağlayamadım"
+        "contactSupportPrefill": "Banka hesabımı {{appName}}adresine bağlayamadım"
       }
     }
   },
@@ -1505,12 +1505,12 @@
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp'ler nedir?",
-    "message": "Dapp'ler (merkezi olmayan uygulamalar), kriptonuzu kullanmanın, ödüller kazanmanın ve Web3'ü keşfetmenin yeni yollarını sunar.\n\nBaşlamak için Valora'yı bir dapp'e bağlayın.",
+    "message": "Dapp'ler (merkezi olmayan uygulamalar) kripto paranızı kullanmanın, ödüller kazanmanın ve Web3'ü keşfetmenin yeni yollarını sunar.\n\nBaşlamak için {{appName}} adresini bir dapp'e bağlayın.",
     "dismiss": "Yoksay"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} harici bir uygulamadır",
-    "message": "Valora tarafından işletilmeyen bir uygulamayı açmak üzeresiniz.\n\nValora, bu uygulama hakkında hiçbir beyanda bulunmaz. Kendi sorumluluğunuzda kullanın.",
+    "message": "{{appName}}tarafından işletilmeyen bir uygulamayı açmak üzeresiniz.\n\n{{appName}} bu uygulama hakkında hiçbir beyanda bulunmaz. Kullanım riski size aittir.",
     "button": "{{dappName}} uygulamasına git"
   },
   "dappsScreenInfoSheet": {
@@ -1563,7 +1563,7 @@
     "newLabel": "YENİ",
     "newDialog": {
       "title": "Fon transferi için yeni yollar",
-      "body": "Doğrudan Valora uygulamasından banka hesaplarına ve banka hesaplarından para transfer etmenin yeni yollarını yayınlıyoruz.\n\nBunu görüyorsanız, bölgenizde bu özelliğe erişebildiğiniz anlamına gelir.",
+      "body": "Doğrudan {{appName}} uygulamasından banka hesaplarına ve hesaplardan para aktarmanın yeni yollarını yayınlıyoruz.\n\nBunu görüyorsanız, bölgenizde bu özelliğe erişebildiğiniz anlamına gelir.",
       "dismiss": "Yoksay"
     },
     "cashIn": {
@@ -1596,7 +1596,7 @@
     "button": "Kimlik Doğrulamayı Ayarla"
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "Valora ile kimliğimi doğrulamada sorun yaşıyorum.",
+    "contactSupportPrefill": "{{appName}}adresinde kimliğimi doğrulamakta sorun yaşıyorum.",
     "contactSupport": "Destek ile İletişime Geç",
     "pending": {
       "title": "Kimlik doğrulamanız inceleniyor.",
@@ -1663,7 +1663,7 @@
     },
     "cashIn": {
       "cancel": "Bakiye Eklemeyi İptal Et",
-      "contactSupportPrefill": "Valora cüzdanıma bakiye eklemekte sorun yaşıyorum."
+      "contactSupportPrefill": "{{appName}} cüzdanıma para eklemekte sorun yaşıyorum."
     },
     "success": {
       "header": "Başarılı",
@@ -1753,7 +1753,7 @@
       },
       "mobileDialog": {
         "title": "Telefon Numarası",
-        "body": "Mobil para sağlayıcınızda kayıtlı olan telefon numarasını kullanın. Bu, Valora'da kullandığınız telefon numaranızla aynı olmayabilir.\n\nTelefon numaraları, telefon numarasının yanında ülke kodunu içermelidir.",
+        "body": "Mobil para sağlayıcınızda kayıtlı telefon numarasını kullanın. Bu, {{appName}} telefon numaranızla aynı olmayabilir.\n\nTelefon numaraları, telefon numarasının yanında görüntülenen ülke kodunu içermelidir.",
         "dismiss": "Yoksay"
       }
     },
@@ -1979,7 +1979,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve 0,50 cUSD kazanın",
-      "body": "Görünüşe göre {{contactName}} Valora kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi Valora'yı indirdikten, telefon numarasını bağladıktan, fon ekledikten ve cüzdanında bunu 7 gün tuttuktan sonra, fonlar cüzdanda kaldığı sürece ikiniz de 0,50 cUSD alacaksınız."
+      "body": "Görünüşe göre {{contactName}} {{appName}}adresinde değil. Cüzdan adreslerini biliyorsanız yine de bir ödeme gönderebilir veya bunun yerine bir davetiye gönderebilirsiniz. \n\n {{appName}}adresini indirdikten, telefon numaralarını bağladıktan, para ekledikten ve 7 gün boyunca cüzdanlarında tuttuktan sonra, fonlar sürdüğü sürece ikiniz de 0,50 cUSD alacaksınız."
     }
   },
   "celoNews": {
@@ -1990,7 +1990,7 @@
     "retryButtonText": "Yeniden Dene"
   },
   "chooseYourAdventure": {
-    "header": "Valora'ya hoş geldiniz",
+    "header": "{{appName}}: Hoş geldiniz",
     "subtitle": "Önce ne yapmak istersiniz?",
     "later": "Daha sonra keşfedeceğim",
     "options": {
@@ -2126,7 +2126,7 @@
     "results": "Sonuçlar",
     "qr": {
       "title": "QR Kodunu Tarayın veya Gösterin",
-      "subtitle": "Valora'daki adresleri hızlıca bulun"
+      "subtitle": "{{appName}}adresinde hızlıca adres bulun"
     },
     "invite": {
       "title": "Arkadaşlarınıza kripto gönderin",
@@ -2137,7 +2137,7 @@
       "subtitle": "Metin gibi kripto göndermek için bir bağlantı paylaşın"
     },
     "getStarted": {
-      "title": "Valora'da fon gönderme yolları",
+      "title": "{{appName}}adresinden para gönderme yolları",
       "subtitle": "BAŞLAYIN",
       "options": {
         "one": {
@@ -2146,7 +2146,7 @@
         },
         "two": {
           "title": "Telefon Numarası",
-          "subtitle": "Valora kullanan birinin telefon numarasına doğrudan gönderin"
+          "subtitle": "{{appName}}adresine sahiplerse doğrudan birinin telefon numarasına gönderin"
         },
         "three": {
           "title": "ENS",
@@ -2154,7 +2154,7 @@
         },
         "four": {
           "title": "Profil Adı",
-          "subtitle": "Valora'da mevcut kullanıcıları arayabilirsiniz"
+          "subtitle": "Mevcut kullanıcıları {{appName}}adresinde arayabilirsiniz"
         }
       }
     },
@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Bir metin gibi kripto paylaşın",
+    "description": "Canlı Bağlantılar, Celo ağındaki bir arkadaşınıza bir bağlantı ile kripto göndermenin bir yoludur",
+    "noFundsHint": "Başlamak için cüzdanınızda Celo ile ilgili bazı varlıklara ihtiyacınız olacak.",
+    "haveFundsButton": "Canlı Bağlantı ile Gönder",
     "addFundsCelo": {
       "title": "Celo'da Varlık Alın",
       "info": "Canlı Bağlantılar, Celo ağındaki kriptoyu bir bağlantı ile bir arkadaşınıza göndermenin bir yoludur.\nBaşlamak için cüzdanınızda biraz CELO varlığına ihtiyacınız vardır.",
@@ -2277,7 +2280,7 @@
   },
   "multichainBeta": {
     "beta": "BETA",
-    "title": "Yeni! Ethereum Valora'da",
+    "title": "Yeni! Ethereum {{appName}}adresinde",
     "description1": "Bu özelliği ilk olarak seçkin bir grup kullanıcıya sunuyoruz. Siz şanslı olanlardan birisiniz!",
     "description2": "Bu henüz yeni ve ekibimiz işleri mükemmel hale getirmek için hâlâ çok çalışıyor. Geri bildirimlerinizi duymak isteriz.",
     "primaryCta": "Şimdi deneyin",
@@ -2288,7 +2291,7 @@
     "body": "Kripto göndermek ve web3'ü keşfetmek için uyumlu tokenları satın alın veya transfer edin!",
     "titleV1_86": "Cüzdanınıza fon ekleyin",
     "exploreTokens": "Tüm tokenleri keşfedin",
-    "exploreTokensBody": "Valora'da 10'dan fazla token satın alabilirsiniz. Şunlara bir göz atın!"
+    "exploreTokensBody": "{{appName}}adresinden 10'dan fazla jeton satın alabilirsiniz. Şunlara bir göz atın!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2482,7 +2485,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Valora bu işlem için gas ücretini karşılıyor!",
+    "gasSubsidized": "{{appName}}'in bu işlem için benzini karşılaması!",
     "addCryptoBottomSheet": {
       "title": "{{tokenNetwork}} ağına {{tokenSymbol}} ekleyin",
       "description": "Token ekledikten sonra havuza para yatırma işlemini tamamlamak için geri gelmeniz gerekecektir.",
@@ -2509,17 +2512,23 @@
           "titleGasSubsidy": "Gas Ücretleri Olmadan Kazancınızı En Üst Düzeye Çıkarın*",
           "title": "Havuzları Keşfedin ve Karşılaştırın",
           "subtitle": "Kazanç potansiyelini ve riskleri karşılaştırın. Size en uygun havuza katılmak için tokenları takas edin, satın alın veya transfer edin.",
-          "footnoteSubsidy": "*Gas ücretleri geçici olarak Valora tarafından karşılanmaktadır"
+          "footnoteSubsidy": "*Gaz ücretleri geçici olarak {{appName}}tarafından karşılanmaktadır."
+        },
+        "work": {
+          "title": "Varlıklarınızı İşe Koyun",
+          "subtitle": "Bir likidite havuzuna para yatırarak kripto paranızdan kazanmaya başlayın. "
         },
         "manage": {
-          "title": "Doğrudan Valora'dan Yönetin",
+          "title": "Doğrudan {{appName}} uygulamasından yönetin",
           "titleV1_92": "Doğrudan {{appName}} uygulamasından yönetin",
-          "subtitle": "Valora'dan ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız.",
-          "subtitleV1_92": "{{appName}} uygulamasından ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız."
+          "titleV1_94": "Pozisyonlarınızı Yönetin",
+          "subtitle": "{{appName}} uygulamasından ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız.",
+          "subtitleV1_92": "{{appName}} uygulamasından ayrılmadan havuzları yönetebilmeniz için cüzdanınızı otomatik olarak bağlayacağız.",
+          "subtitleV1_94": "Beğendiğiniz bir havuzu seçin, jetonlarınızı ekleyin ve kazançlarınızı izleyin."
         },
         "access": {
           "title": "Fonlarınıza Kolayca Erişin",
-          "subtitle": "Tıpkı favori protokolleriniz gibi bir dokunuşla fonları toplayın."
+          "subtitle": "Hazır olduğunuzda bir dokunuşla para toplayın."
         }
       },
       "action": {
@@ -2541,6 +2550,7 @@
       "title": "Ne kadar yatırmak istersiniz?",
       "deposit": "Patra Yatırma",
       "fees": "Ücretler",
+      "swap": "Swap",
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yıl",
@@ -2549,11 +2559,6 @@
       "continue": "İleri",
       "info": "Bu havuz Aave tarafından desteklenmektedir",
       "infoV1_93": "{{providerName}} tarafından desteklenmektedir",
-      "infoBottomSheet": {
-        "title": "Neden bu havuz?",
-        "description": "Bu Aave havuzu 150 milyon ABD dolarının üzerinde TVL'ye ve 6000'den fazla katılımcıya sahiptir, bu da güçlü likidite ve güvenilirliği gösterir. Ayrıca token olarak USDC ve ağ olarak Arbitrum kullanır, bu da oynaklığı azaltır ve kullanıcıların ucuz gas oranları almasını sağlar.\n\nDiğer Aave havuzlarını <0>buradan</0> keşfedebilirsiniz.",
-        "dismiss": "Yoksay"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Devam etmek için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
         "description": "Gas ücretlerinizi karşılamak için {{network}} ağına {{feeTokenSymbol}} ekleyin",
@@ -2683,7 +2688,7 @@
         "ageTitle": "Havuz Yaşı",
         "ageDescription": "Likidite havuzunun eski olması, o havuzun sağlam bir geçmiş performansı olduğuna ve toplulukta güven inşa ettiğine işaret edebilir. Bu nedenle, bazıları bu havuzların daha güvenli olduğunu düşünebilir.\n\nRiski tam olarak belirleyebilecek bir yöntem yoktur; bu nedenle genel araştırmanızı desteklemek için bu bilgilerden yararlanabilirsiniz.",
         "yieldRateTitle": "Getiri Oranı",
-        "yieldRateDescription": "Çoğu havuz kazançları likidite havuzunun tokeni şeklinde sağlanırken bazı havuzlar ödül veya ek teşvik olarak ek tokenler verebilir.\n\nValora, çeşitli protokoller genelindeki havuzları bir arada toplar. Bu nedenle, kazanç potansiyelinizi kolayca değerlendirebilmeniz için tüm kazanç ve ödül oranlarını tek bir genel getiri oranı altında birleştirdik. Kazanç ve ödül değerleri sürekli dalgalandığı için bu rakam, tahmini bir değeri gösterir.\n\nKazanç dökümleri hakkında daha fazla bilgi için <0>{{providerName}}</0> sayfasını ziyaret edebilirsiniz."
+        "yieldRateDescription": "Çoğu havuz kazançları likidite havuzu jetonu şeklinde sunarken, bazıları ödül veya ek teşvik olarak ek jeton(lar) verir.\n\n {{appName}} birden fazla protokoldeki havuzları bir araya getirdiğinden, kazanç potansiyelinizi kolayca değerlendirmenize yardımcı olmak için tüm kazanç ve ödül oranlarını tek bir genel getiri oranında birleştirdik. Kazanç ve ödül değerleri sürekli dalgalandığı için bu sayı tahmini bir değerdir.\n\nKazanç dökümleri hakkında daha fazla bilgi için şu adresi ziyaret edebilirsiniz <0>{{providerName}}</0>."
       }
     }
   },

@@ -635,6 +635,7 @@ export enum JumpstartEvents {
   jumpstart_claim_status_fetch_error = 'jumpstart_claim_status_fetch_error',
   jumpstart_add_assets_show_actions = 'jumpstart_add_assets_show_actions',
   jumpstart_add_assets_action_press = 'jumpstart_add_assets_action_press',
+  jumpstart_intro_seen = 'jumpstart_intro_seen',
 }
 
 export enum PointsEvents {

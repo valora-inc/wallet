@@ -56,8 +56,8 @@
   },
   "accountKeyModal": {
     "header": "Ohne deine Wiederherstellungsphrase verlierst du den Zugriff auf dein Guthaben für immer",
-    "body1": "Um Valora zurückzusetzen, musst du bestätigen, dass du deine Wiederherstellungsphase eingegeben hast.",
-    "body2": "Niemand, nicht einmal Valora, kann dein Konto ohne deine Phrase wiederherstellen."
+    "body1": "Um {{appName}}zurücksetzen zu können, musst du bestätigen, dass du deine Wiederherstellungsphrase geschrieben hast.",
+    "body2": "Niemand, nicht einmal {{appName}}, kann dein Konto ohne deine Phrase wiederherstellen."
   },
   "promptConfirmRemovalModal": {
     "header": "Bist du sicher, dass du fortfahren willst?",
@@ -77,7 +77,7 @@
     "title": "Deine Wiederherstellungsphrase",
     "titleV1_90": "Deine Wiederherstellungsphrase",
     "body": "Schreibe diese 12 Wörter auf und bewahre sie an einem sicheren Ort auf, wo sie nicht gestohlen oder beschädigt werden können.",
-    "bodyV1_90": "Solltest du deine Wiederherstellungsphrase verlieren, dann verlierst du Zugang auf dein gesamtes Guthaben in Valora.",
+    "bodyV1_90": "Wenn du deine Recovery Phrase verlierst, verlierst du den Zugang zu allen Geldern, die du auf {{appName}}besitzt.",
     "continue": "Ich habe sie gespeichert",
     "copy": "In Zwischenablage kopieren",
     "mnemonicCopied": "Wiederherstellungsphrase in die Zwischenablage kopiert",
@@ -89,7 +89,7 @@
   },
   "walletSecurityPrimer": {
     "title": "Sorge für die Sicherheit deiner Wallet",
-    "description": "Nur du kannst auf deine Wallet zugreifen. Wenn du dein Telefon verloren hast oder es dir gestohlen wurde, kann Valora deine Wallet für dich nicht wiederherstellen.\n\nDu musst eine Methode einrichten, durch die deine Wallet sicher und dein Guthaben geschützt sind."
+    "description": "Nur du kannst auf dein Portemonnaie zugreifen. Wenn dein Telefon verloren geht oder gestohlen wird, kann {{appName}} es nicht für dich wiederherstellen.\n\nDu musst eine Methode einrichten, um dein Portemonnaie sicher aufzubewahren und dein Geld zu schützen."
   },
   "keylessBackupIntro": {
     "emailAddress": "E-Mail-Adresse",
@@ -98,7 +98,7 @@
       "title": "Wallet-Back-up einrichten",
       "description": "Folgendes wird zum Einrichten der Sicherung verwendet",
       "useRecoveryPhrase": "Verwende stattdessen eine Wiederherstellungsphrase",
-      "reminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Valora speichert weder deine E-Mail-Adresse, noch deine Telefonnummer. Passe gut darauf auf!"
+      "reminder": "<0>Denke daran</0>, dass diese Informationen die einzige Möglichkeit sind, auf dein Portemonnaie zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. {{appName}} speichert weder deine E-Mail-Adresse noch deine Telefonnummer. Bewahre sie sicher auf!"
     },
     "restore": {
       "description": "Vergewissere dich, dass du Folgendes zur Verfügung hast, um deine Wallet wiederherzustellen.",
@@ -232,7 +232,7 @@
   "keylessBackupNotification": "Richte deine E-Mail und Telefonnummer ein, um deine Seed-Phrase zu sichern",
   "backupKeyCTA": "Schließe die Sicherung jetzt ab",
   "backupKeySummary": "Finde einen privaten Ort und schreibe deine Wiederherstellungsphrase auf. Bitte speichere sie an einem sicheren Ort. Speichere sie nicht in deinem Telefon.",
-  "backupKeyWarning": "Solltest du deine Wiederherstellungsphrase verlieren, dann verlierst du Zugang auf dein gesamtes Guthaben in Valora.",
+  "backupKeyWarning": "Wenn du deine Recovery Phrase verlierst, verlierst du den Zugang zu allen Geldern, die du auf {{appName}}besitzt.",
   "copied": "Phrase in die Zwischenablage kopiert",
   "moreInfo": "Weitere Infos",
   "savedConfirmation": "Ja, ich habe meine Phrase aufgeschrieben.",
@@ -303,7 +303,7 @@
     "dismiss": "Verwerfen"
   },
   "superchargingTitle": "Aktualisierung der App erforderlich",
-  "superchargingDescription": "Aktualisiere die Valora-App, um weiterhin deine wöchentlichen Supercharge-Rewards zu erhalten.",
+  "superchargingDescription": "Aktualisiere die {{appName}} App, um weiterhin deine wöchentlichen Supercharge-Belohnungen zu erhalten.",
   "superchargingTitleV1_54": "Supercharge wird beendet",
   "superchargingDescriptionV1_54": "Die wöchentlichen Rewards sind bis Dienstag, den 28. Mai, um 23:59 Uhr UTC einforderbar. Ab dem 29. Mai kannst du keine Supercharge-Rewards mehr einfordern.",
   "superchargeRewardsAvailable": "Du hast {{amount}} {{token}} verfügbar zum Abholen!",
@@ -393,7 +393,7 @@
   "tokenBalance": "{{token}} Guthaben",
   "addFunds": "Guthaben hinzufügen",
   "addFundsHeaderWithCurrency": "Füge {{token}} hinzu",
-  "addFundsSubtitle": "Dein Valora-Konto aufladen",
+  "addFundsSubtitle": "Einzahlung auf dein {{appName}} Konto",
   "exchanges": "Kryptobörsen",
   "noExchanges": "In deiner Region gibt es keine Börsen für {{digitalAsset}}.",
   "buySellOnExchanges": "Kaufen/Verkaufen bei Kryptobörsen",
@@ -447,11 +447,11 @@
   },
   "providerFeeDiscountDialog": {
     "title": "Gebührenrabatt",
-    "body": "Als Sonderaktion zur Feier der Markteinführung von Valora werden die Gebühren vorübergehend bezuschusst!"
+    "body": "Um den Start von {{appName}}zu feiern, sind die Gebühren vorübergehend subventioniert!"
   },
   "pleaseSelectProvider": "Bitte wähle unten einen Anbieter aus. Diese Links verbinden sich mit einem Drittanbieter.",
   "otherFundingOptions": "Weitere Möglichkeiten zum Hinzufügen und Abheben von Guthaben findest du auf <0>Wie du dein Konto auflädst</0>.",
-  "youCanTransferIn": "Du kannst die Börse einer Drittpartei nutzen, um {{digitalAsset}} an dein Valora-Konto zu senden. Dafür benötigst du deine Konto-Adresse.",
+  "youCanTransferIn": "Du kannst eine Drittanbieterbörse nutzen, um {{digitalAsset}} an dein {{appName}} Konto zu senden. Dafür brauchst du deine Kontoadresse.",
   "youCanTransferOut": "Du kannst dein Guthaben abheben, indem du es an die Börse einer Drittpartei sendest, die {{digitalAsset}} unterstützt.",
   "useBalanceWithMerchants": "Verwende dein Guthaben bei unterstützenden Händlern",
   "findMerchants": "Lokale Händler in deiner Nähe finden",
@@ -710,7 +710,7 @@
       "body": "Lade deine Freunde und Familien ein, {{appName}} herunterzuladen. Jeder von euch erhält somit ein exklusives NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "ERHALTE BIS ZU 12 cUSD, wenn du deine Freunde zu Valora einlädst!",
+      "title": "Erhalte bis zu 12 cUSD, wenn du deine Freunde zu {{appName}}einlädst!",
       "body": "Du bekommst 0,50 cUSD für jeden Freund, den du zu {{appName}} einlädst. Sobald deine Freunde ihre Telefonnummer verknüpfen, Guthaben hinzufügen und dieses über einen Zeitraum von sieben Tagen behalten, erhaltet ihr beide 0,50 cUSD. Aber beeil dich, das Guthaben ist begrenzt! (25 Freunde)."
     }
   },
@@ -724,9 +724,9 @@
     "heading1": "Daten und Privatsphäre",
     "heading2": "Vermögen und {{appName}}",
     "info": "Lese bitte unsere <0>Benutzervereinbarung und Bedingungen</0> und klicke unten auf Akzeptieren um unsere Dienste zu nutzen.",
-    "privacy": "Indem du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer verbindest, wird eine Kopie davon gespeichert. Wenn du Valora Zugriff auf deine Kontaktliste gewährst, wird Valora den Namen, die Telefonnummer und das Profilbild jedes Kontaktes importieren, um Benutzern die Verbindung über die Valora-App zu ermöglichen. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lesen unsere <0>Datenschutzrichtlinie</0>.",
-    "goldDisclaimer": "Wenn du ein „Konto“ bei Valora anlegst, erstellst du ein digitales Wallet, dessen Schlüssel nur du besitzt. Keine andere Person oder Organisation, einschließlich Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorenes Guthaben wiedererlangen. Sei dir bewusst, dass Kryptowährungen Teil einer neuen Vermögensklasse sind und ein Risiko für finanzielle Verluste darstellen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du einen Vermögenswert kaufst.",
-    "goldDisclaimerWithPoints": "Wenn du ein „Konto“ bei Valora anlegst, erstellst du ein digitales Wallet, dessen Schlüssel nur du besitzt. Keine andere Person oder Organisation, einschließlich Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorenes Guthaben wiedererlangen. Valora vergibt auf Token basierende Treue-Rewards („Punkte“) an Benutzer für bestimmte Aktivitäten in der App. Punkte sind nicht übertragbare und nicht einlösbare On-Chain-Sammlerstücke. Es werden keine Garantien für die Verfügbarkeit oder den Wert der Punkte gegeben. Sei dir bewusst, dass Digitalvermögenswerte Teil einer neuen Vermögensklasse sind und ein Risiko für finanzielle Verluste darstellen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du einen Digitalvermögenswert kaufst."
+    "privacy": "Wenn du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer angibst, wird außerdem eine gehashte Kopie davon gespeichert. Wenn du {{appName}} Zugriff auf deine Kontaktliste gewährst, importiert {{appName}} den Namen, die Telefonnummer und das Profilbild jedes Kontakts, damit sich die Nutzer/innen über die App {{appName}} verbinden können. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lies bitte unsere <0>Datenschutzrichtlinie</0>.",
+    "goldDisclaimer": "Wenn du ein \"Konto\" bei {{appName}} einrichtest, erstellst du eine digitale Brieftasche, deren Schlüssel nur du besitzt. Keine andere Person oder Organisation, auch nicht {{appName}}, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorene Gelder zurückholen. Sei dir bewusst, dass digitale Vermögenswerte Teil einer neuen Anlageklasse sind und das Risiko eines finanziellen Verlusts bergen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du eine digitale Anlage kaufst.",
+    "goldDisclaimerWithPoints": "Wenn du ein \"Konto\" bei {{appName}} erstellst, legst du eine digitale Geldbörse an, deren Schlüssel nur du besitzt. Keine andere Person oder Organisation, auch nicht {{appName}}, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorene Gelder wiedererlangen. {{appName}} vergibt Token-basierte Treueprämien (\"Punkte\") an Nutzer/innen für die Teilnahme an bestimmten In-App-Aktivitäten. Punkte sind nicht übertragbare und nicht einlösbare Sammelobjekte auf der Kette. Es werden keine Garantien für die Verfügbarkeit oder den Wert der Punkte gegeben. Sei dir bewusst, dass digitale Vermögenswerte Teil einer neuen Anlageklasse sind und das Risiko eines finanziellen Verlusts bergen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du einen digitalen Vermögenswert kaufst."
   },
   "termsColloquial": {
     "title": "Starten wir mit der Erstellung deiner Wallet",
@@ -734,9 +734,9 @@
     "privacy1": "Wir erfassen Nutzungsdaten, die uns dabei helfen, die App und die Sicherheit zu verbessern. Welche Art von Daten wir erfassen, wie wir diese verwenden und welche Rechte du in Bezug auf diese Daten hast, kannst du in unserer <0>Datenschutzrichtlinie</0> nachlesen.",
     "privacy2": "Wenn du dich dazu entscheidest, deine Telefonnummer zu verknüpfen, speichern wir eine verschlüsselte Kopie davon.",
     "privacy3": "Wenn du dich entscheidest, deine Kontakte zu verbinden, verwenden wir ihre Namen, Telefonnummern und Profilbilder, damit wir sie leichter finden können.",
-    "walletHeading": "Deine digitale Wallet bei Valora:",
-    "wallet1": "Du bist dabei, eine digitale Wallet zu erstellen. Nur du hast den Schlüssel für deine Wallet. Wir können deinen Schlüssel oder dein Vermögen nicht wiederherstellen, wenn du deinen Schlüssel verlierst. Wir können auch keine Aktionen rückgängig machen, die über Valora auf Blockchains durchgeführt wurden.",
-    "wallet2": "Digitales Vermögen, die Vermögenswerte, mit denen du bei Valora interagierst, sind mit einzigartigen Risiken verbunden. Wenn du Valora benutzt, akzeptierst du diese Risiken und übernimmst die Verantwortung dafür. Bitte achte bei deinen Entscheidungen auf die dir zur Verfügung stehenden finanziellen Mittel und deine Risikobereitschaft.",
+    "walletHeading": "Deine digitale Brieftasche mit {{appName}}:",
+    "wallet1": "Du bist dabei, eine digitale Brieftasche zu erstellen. Nur du hast den Schlüssel für deine Brieftasche. Wir können deinen Schlüssel oder dein Vermögen nicht wiederherstellen, wenn du ihn verlierst. Wir können auch keine Aktionen rückgängig machen, die über {{appName}} auf Blockchains durchgeführt wurden.",
+    "wallet2": "Digitale Güter, die Güter, mit denen du auf {{appName}}interagierst, sind mit einzigartigen Risiken verbunden. Durch die Nutzung von {{appName}}akzeptierst du diese Risiken und übernimmst die Verantwortung für sie. Bitte bedenke deine Finanzen und deine Risikobereitschaft, bevor du Entscheidungen triffst.",
     "fullTerms": "Lies bitte unsere <0>Allgemeinen Nutzungsbedingungen</0> vollständig durch"
   },
   "fullNameOrPsuedonym": "Vollständiger Name oder Alias",
@@ -853,7 +853,7 @@
   "accessContacts": {
     "disclosure": {
       "title": "Kontakte importieren",
-      "body": "Valora würde gerne deine Kontakte importieren. Durch Tippen auf dem unteren Button erlaube ich den Zugriff auf Telefonnummern, Namen und Fotos meiner Kontakte zum Zweck der Verbindung mit ihnen über Valora"
+      "body": "{{appName}} möchte deine Kontakte importieren. Indem ich unten tippe, erlaube ich den Zugriff auf die Telefonnummern, Namen und Fotos meiner Kontakte, damit ich mich mit ihnen über {{appName}}verbinden kann."
     }
   },
   "createAccount": "Konto erstellen",
@@ -903,12 +903,12 @@
   "verificationPrematureRevealMessage": "Bitte warte eine Minute, bevor du erneut sendest",
   "verificationLearnMoreDialog": {
     "title": "Telefonnummern und {{appName}}",
-    "body": "Das Verbinden ermöglicht es, Guthaben mit deiner Telefonnummer zu versenden und zu empfangen.\n\n<0>Kann ich das später machen? </0>\n\nJa, aber nicht verbundene Wallets können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um deine Telefonnummer privat zu halten.",
+    "body": "Die Verbindung ermöglicht es dir, mit deiner Telefonnummer Geld zu senden und zu empfangen.\n\n<0>Kann ich das auch später tun?</0>\n\nJa, aber Geldbörsen, die nicht verbunden sind, können nur Zahlungen mit QR-Codes oder Kontoadressen senden.\n\n<1>Sicher und privat</1>\n\n{{appName}} nutzt modernste Kryptografie, um deine Telefonnummer geheim zu halten.",
     "dismiss": "Verwerfen"
   },
   "phoneVerificationScreen": {
     "screenTitle": "Telefonnummer",
-    "title": "Verbinde deine Telefonnummer mit Valora",
+    "title": "Verbinde deine Rufnummer mit {{appName}}",
     "description": "Dies verknüpft deine Wallet-Adresse mit deiner Telefonnummer, damit das Versenden von Krypto einfach ist",
     "startButtonLabel": "Verbinden",
     "learnMore": {
@@ -961,7 +961,7 @@
     },
     "recoveryPhrase": {
       "title": "Von Wiederherstellungsphrase",
-      "description": "Gib deine Wiederherstellungsphrase mit 12 Wörtern ein, um wieder Zugang zu Valora zu erhalten"
+      "description": "Gib deinen 12-Wörter-Wiederherstellungssatz ein, um wieder Zugang zu {{appName}}zu erhalten."
     }
   },
   "verificationInput": {
@@ -1058,7 +1058,7 @@
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
   "inviteWithRewards": "Hallo! 👋 Ich nutze {{appName}} als Krypto-Wallet. Du kannst die App super schnell herunterladen und deine Telefonnummer verbinden. Außerdem erhalten wir beide ein exklusives NFT als Reward. 💫 \n\nLade die App mit diesem Link herunter: {{link}}",
-  "inviteWithRewardsCUSD": "Hallo! Wenn du dich bei Valora anmeldest, deine Telefonnummer verknüpfst und Geld in deine Wallet einzahlst, können wir beide eine kostenlose Reward in Höhe von 0,50 Dollar erhalten. Ich verwende es, um meine Ersparnisse in USD und Krypto zu vermehren. Wenn du deine Telefonnummer angibst, kannst du deine Wallet in Sekundenschnelle einrichten. Melde dich mit meinem Empfehlungslink hier an: \n\n{{link}} \n\n Aber beeil dich, denn die Empfehlungsaktion endet bald.",
+  "inviteWithRewardsCUSD": "Hey! Im Moment können wir beide eine kostenlose Belohnung von 0,50 $ erhalten, wenn du dich anmeldest, deine Nummer verbindest und dein {{appName}} Wallet auffüllst. Ich verwende es, um meine Ersparnisse in USD und Kryptowährungen zu vermehren, und du kannst es in Sekundenschnelle einrichten, wenn du nur deine Telefonnummer angibst. Melde dich mit meinem Empfehlungslink hier an: \n\n{{link}} \n\n Beeil dich, die Empfehlungsaktion endet bald.",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1365,10 +1365,10 @@
   "transactionHeaderNftSent": "NFT gesendet",
   "feedSectionHeaderRecent": "Zuletzt",
   "cashInBottomSheet": {
-    "title": "Füge Guthaben hinzu, um loszulegen!",
+    "title": "Füge Geld hinzu, um {{appName}}zu nutzen!",
     "subtitle": "Dein Konto ist derzeit leer",
     "addFunds": "Guthaben hinzufügen",
-    "titleRamp": "Füge {{currency}} hinzu, um loszulegen",
+    "titleRamp": "Füge {{currency}} hinzu, um mit {{appName}}zu beginnen.",
     "subtitleRamp": "Füge Guthaben mit niedrigen Gebühren durch einen unserer externen Anbieter hinzu."
   },
   "balances": "Vermögen",
@@ -1385,7 +1385,7 @@
   "nftViewer": "NFT-Viewer",
   "whatTotalValue": {
     "title": "Was bedeutet Gesamtguthaben?",
-    "body": "Dein Gesamtguthaben ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtguthaben ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Vermögen können möglicherweise nicht im Gesamtguthaben angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
+    "body": "Dein Gesamtguthaben ist eine ungefähre Summe aller deiner {{appName}} Vermögenswerte. Dein Gesamtguthaben ändert sich, wenn die Preise schwanken. Er wird alle 10 Minuten aktualisiert.\nEs kann sein, dass einige Vermögenswerte nicht in der Gesamtbilanz angezeigt werden, weil der Preis zum Zeitpunkt der Berechnung nicht verfügbar ist.",
     "dismiss": "Verwerfen"
   },
   "supportExportLogsStart": "Protokolle werden exportiert...",
@@ -1423,15 +1423,15 @@
     "stepTwo": {
       "label": "Schritt 2",
       "disabledTitle": "Bankkonto verknüpfen",
-      "disabledDescription": "Bankkonto-Unterstützung ist bald verfügbar! Wir informieren dich, sobald du dein Bankkonto mit Valora verbinden kannst.",
+      "disabledDescription": "Unterstützung für Bankkonten kommt bald! Wir geben dir Bescheid, wenn du dein Bankkonto mit {{appName}}verbinden kannst.",
       "disabledCta": "Demnächst verfügbar",
       "title": "Bankdaten eingeben",
-      "description": "Du bist fast fertig! Bankdaten eingeben ein, um dein Konto zu verknüpfen.",
+      "description": "Du bist fast fertig! Gib deine Bankdaten ein, um dein Konto mit {{appName}}zu verknüpfen.",
       "cta": "Bankkonto verknüpfen",
       "error": {
         "title": "Dein Konto konnte nicht verknüpfen werden.",
         "description": "Versuche, dein Bankkonto erneut zu verknüpfen, oder kontaktiere das Support-Team.",
-        "contactSupportPrefill": "Ich konnte mein Bankkonto nicht mit Valora verknüpfen"
+        "contactSupportPrefill": "Ich konnte mein Bankkonto nicht mit {{appName}}verknüpfen."
       }
     }
   },
@@ -1505,12 +1505,12 @@
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
-    "message": "Dapps (dezentrale Apps) bieten neue Möglichkeiten, dein Krypto zu nutzen, Rewards zu verdienen und Web3 zu entdecken.\n\nVerbinde Valora mit einer Dapp, um loszulegen.",
+    "message": "Dapps (dezentrale Apps) bieten neue Möglichkeiten, deine Kryptowährung zu nutzen, Belohnungen zu verdienen und Web3 zu erkunden.\n\nVerbinde {{appName}} mit einer Dapp, um loszulegen.",
     "dismiss": "Verwerfen"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} ist eine externe Anwendung.",
-    "message": "Du bist dabei, eine Anwendung zu öffnen, die nicht von Valora betrieben wird.\n\nValora gibt keine Zusicherungen zu dieser Anwendung ab. Die Nutzung erfolgt auf eigene Gefahr.",
+    "message": "Du bist dabei, eine Anwendung zu öffnen, die nicht von {{appName}}betrieben wird.\n\n{{appName}} gibt keine Zusicherungen zu dieser Anwendung. Die Nutzung erfolgt auf eigene Gefahr.",
     "button": "Gehe zu {{dappName}}"
   },
   "dappsScreenInfoSheet": {
@@ -1563,7 +1563,7 @@
     "newLabel": "NEU",
     "newDialog": {
       "title": "Neue Möglichkeiten, Geld zu überweisen",
-      "body": "Wir stellen neue Möglichkeiten vor, Geld an ein und von einem Bankkonto zu überweisen – direkt in der Valora-App.\n\nWenn du diese Nachricht siehst, kannst du in deiner Region auf diese Funktion zugreifen.",
+      "body": "Wir geben neue Möglichkeiten frei, Geld von und auf Bankkonten zu überweisen, und zwar direkt von der App {{appName}} aus.\n\nWenn du dies siehst, bedeutet das, dass du in deiner Region auf diese Funktion zugreifen kannst.",
       "dismiss": "Verwerfen"
     },
     "cashIn": {
@@ -1596,7 +1596,7 @@
     "button": "Du bestätigst und erklärst dich damit einverstanden, dass deine persönlichen Daten uns zur Verfügung gestellt und mit Dritten zu Überprüfungszwecken geteilt werden, wie in der <0>Datenschutzerklärung</0> angegeben."
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "Ich habe Probleme, meine Identität bei Valora zu verifizieren.",
+    "contactSupportPrefill": "Ich habe Probleme, meine Identität bei {{appName}}zu verifizieren.",
     "contactSupport": "Support kontaktieren",
     "pending": {
       "title": "Deine ID-Verifizierung wird gerade überprüft.",
@@ -1663,7 +1663,7 @@
     },
     "cashIn": {
       "cancel": "Hinzufügen von Guthaben abbrechen",
-      "contactSupportPrefill": "Ich habe Probleme dabei, meiner Valora-Wallet Geld hinzuzufügen."
+      "contactSupportPrefill": "Ich habe Probleme, Geld in mein {{appName}} Portemonnaie einzuzahlen."
     },
     "success": {
       "header": "Erfolg",
@@ -1753,7 +1753,7 @@
       },
       "mobileDialog": {
         "title": "Telefonnummer",
-        "body": "Gib die Telefonnummer an, die bei deinem Anbieter für mobile Geldtransaktionen registriert ist. Diese ist möglicherweise nicht dieselbe Nummer wie deine Valora-Telefonnummer.\n\nTelefonnummern müssen die entsprechende Landesvorwahl enthalten, die neben der Telefonnummer angezeigt wird.",
+        "body": "Verwende die Telefonnummer, die bei deinem Mobilfunkanbieter registriert ist. Diese muss nicht unbedingt mit deiner {{appName}} Telefonnummer identisch sein.\n\nDie Telefonnummern müssen die Landesvorwahl enthalten, die neben der Telefonnummer angezeigt wird.",
         "dismiss": "Verwerfen"
       }
     },
@@ -1979,7 +1979,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Lade {{contactName}} zu {{appName}} ein und erhalte 0,50 cUSD",
-      "body": "Es sieht so aus, als wäre {{contactName}} nicht auf Valora. Du kannst trotzdem Geld für eine Zahlung senden, wenn du die Wallet-Adresse kennst. Du kannst stattdessen aber auch eine Einladung senden. \n\nNachdem die Person Valora heruntergeladen, ihre Telefonnummer verknüpft, Guthaben hinzugefügt und dieses 7 Tage lang in ihrer Wallet behalten hat, erhaltet ihr beide 0,50 cUSD (solange das Geld reicht)."
+      "body": "Wie es aussieht, ist {{contactName}} nicht auf {{appName}}. Du kannst trotzdem eine Zahlung senden, wenn du die Adresse der Brieftasche kennst, oder stattdessen eine Einladung schicken. \n\n Wenn er {{appName}}herunterlädt, seine Telefonnummer angibt, Guthaben hinzufügt und es 7 Tage lang in seiner Brieftasche behält, bekommt ihr beide 0,50 cUSD, solange das Guthaben reicht."
     }
   },
   "celoNews": {
@@ -1990,7 +1990,7 @@
     "retryButtonText": "Erneut versuchen"
   },
   "chooseYourAdventure": {
-    "header": "Willkommen bei Valora",
+    "header": "Willkommen bei {{appName}}",
     "subtitle": "Was möchtest du zuerst tun?",
     "later": "Ich sehe mich später um",
     "options": {
@@ -2126,7 +2126,7 @@
     "results": "Ergebnisse",
     "qr": {
       "title": "QR-Code scannen oder anzeigen",
-      "subtitle": "Finde Adressen schnell auf Valora."
+      "subtitle": "Schnelles Finden von Adressen auf {{appName}}"
     },
     "invite": {
       "title": "Sende Krypto an deine Freunde.",
@@ -2137,7 +2137,7 @@
       "subtitle": "Teile einen Link, um Krypto wie einen Text zu senden"
     },
     "getStarted": {
-      "title": "So kannst du Guthaben auf Valora senden.",
+      "title": "Möglichkeiten, Geld auf {{appName}}zu senden",
       "subtitle": "ERSTE SCHRITTE",
       "options": {
         "one": {
@@ -2146,7 +2146,7 @@
         },
         "two": {
           "title": "Telefonnummer",
-          "subtitle": "Sende direkt an die Telefonnummer von jemandem, wenn diese Person Valora hat."
+          "subtitle": "Sende direkt an die Telefonnummer einer Person, wenn diese {{appName}}hat."
         },
         "three": {
           "title": "ENS",
@@ -2154,7 +2154,7 @@
         },
         "four": {
           "title": "Profilname",
-          "subtitle": "Du kannst auf Valora nach anderen Nutzern suchen."
+          "subtitle": "Du kannst auf {{appName}}nach bestehenden Nutzern suchen."
         }
       }
     },
@@ -2215,6 +2215,9 @@
   },
   "jumpstartIntro": {
     "title": "Teile Krypto wie eine Textnachricht",
+    "description": "Live Links sind eine Möglichkeit, Krypto über das Celo Netzwerk an einen Freund mit einem Link zu senden",
+    "noFundsHint": "Um loszulegen, brauchst du ein paar Guthaben auf Celo in deinem Portemonnaie.",
+    "haveFundsButton": "Mit einem Live-Link senden",
     "addFundsCelo": {
       "title": "Erhalte Vermögen in Celo",
       "info": "Mit Live-Links kannst du Krypto über das Celo-Netzwerk mit einem Link an einen Freund senden.\nUm loszulegen, benötigst du CELO-Vermögen in deinem Wallet.",
@@ -2277,7 +2280,7 @@
   },
   "multichainBeta": {
     "beta": "BETA",
-    "title": "Neu! Ethereum ist auf Valora",
+    "title": "Neu! Ethereum ist auf {{appName}}",
     "description1": "Wir öffnen dieses Feature zuerst für eine ausgewählte Gruppe von Menschen. Du bist einer der Glücklichen!",
     "description2": "Das Feature ist jedoch noch neu und unser Team arbeitet noch hart daran, alles zu perfektionieren. Wir würden uns über dein Feedback freuen.",
     "primaryCta": "Jetzt testen",
@@ -2288,7 +2291,7 @@
     "body": "Kaufe oder überweise kompatible Token, um Krypto zu senden und web3 zu erkunden!",
     "titleV1_86": "Füge Guthaben zu deinem Wallet hinzu",
     "exploreTokens": "Erkunde alle Token",
-    "exploreTokensBody": "Du kannst bis zu 10+ Token in Valora kaufen. Schau sie dir an!"
+    "exploreTokensBody": "Du kannst bis zu 10+ Token auf {{appName}}kaufen. Schau sie dir an!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2482,7 +2485,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Valora übernimmt das Gas für diese Transaktion!",
+    "gasSubsidized": "{{appName}}für dieses Geschäft!",
     "addCryptoBottomSheet": {
       "title": "Füge {{tokenSymbol}} auf {{tokenNetwork}} hinzu",
       "description": "Sobald du Tokens hinzugefügt hast, musst du zurückkommen, um die Einzahlung in einen Pool zu beenden.",
@@ -2509,17 +2512,23 @@
           "titleGasSubsidy": "Maximiere Verdienste ohne Gasgebühren*",
           "title": "Entdecke und vergleiche Pools",
           "subtitle": "Vergleiche Verdienstmöglichkeiten und Risiken. Tausche, kaufe oder übertrage Token, um dem für dich besten Pool beizutreten.",
-          "footnoteSubsidy": "*Gasgebühren werden vorübergehend von Valora übernommen"
+          "footnoteSubsidy": "*Gasgebühren werden vorübergehend von {{appName}}übernommen."
+        },
+        "work": {
+          "title": "Setze dein Vermögen in die Tat um",
+          "subtitle": "Fange an, an deiner Kryptowährung zu verdienen, indem du in einen Liquiditätspool einzahlst. "
         },
         "manage": {
-          "title": "Direkt von Valora aus verwalten",
+          "title": "Direkt von {{appName}} aus verwalten",
           "titleV1_92": "Direkt von {{appName}} aus verwalten",
-          "subtitle": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne Valora zu verlassen.",
-          "subtitleV1_92": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne {{appName}} zu verlassen."
+          "titleV1_94": "Verwalte deine Positionen",
+          "subtitle": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne {{appName}} zu verlassen.",
+          "subtitleV1_92": "Wir verbinden dein Wallet automatisch, damit du Pools verwalten kannst, ohne {{appName}} zu verlassen.",
+          "subtitleV1_94": "Wähle einen Pool, den du magst, füge deine Token hinzu und beobachte deine Gewinne."
         },
         "access": {
           "title": "Einfacher Zugriff auf dein Guthaben",
-          "subtitle": "Erhalte Guthaben mit nur einem Tippen, genau wie bei deinen Lieblingsprotokollen."
+          "subtitle": "Sammle das Geld mit einem Fingertipp ein, wenn du bereit bist."
         }
       },
       "action": {
@@ -2541,6 +2550,7 @@
       "title": "Wie viel möchtest du einzahlen?",
       "deposit": "Einzahlung",
       "fees": "Gebühren",
+      "swap": "Tauschen",
       "earnUpToLabel": "Verdienst von bis zu:",
       "rateLabel": "Rate (geschätzt)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / Jahr",
@@ -2549,11 +2559,6 @@
       "continue": "Weiter",
       "info": "Dieser Pool wird von Aave unterstützt",
       "infoV1_93": "Unterstützt von {{providerName}}",
-      "infoBottomSheet": {
-        "title": "Warum dieser Pool?",
-        "description": "Dieser Aave-Pool hat über 150 Mio. USD TVL und mehr als 6000 Teilnehmer, was für eine hohe Liquidität und Vertrauenswürdigkeit spricht. Außerdem verwendet er USDC als Token und Arbitrum als Netzwerk, was die Volatilität reduziert und sicherstellt, dass die Nutzer günstige Gasraten erhalten.\n\nAndere Aave-Pools kannst du <0>hier</0> entdecken.",
-        "dismiss": "Verwerfen"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "Du benötigst mehr {{feeTokenSymbol}} zum Fortfahren",
         "description": "Füge {{feeTokenSymbol}} auf {{network}} hinzu, um deine Gasgebühren zu decken",
@@ -2683,7 +2688,7 @@
         "ageTitle": "Alter des Pools",
         "ageDescription": "Ältere Liquiditätspools können auf eine solide Erfolgsbilanz und eine Geschichte des Vertrauens der Community hinweisen. Aus diesem Grund halten manche diese Pools für sicherer.\n\nEs gibt keine perfekte Methode, um das Risiko zu bestimmen, also nutze diese Informationen als Teil deiner allgemeinen Recherche, um die für dich beste Entscheidung zu treffen.",
         "yieldRateTitle": "Rendite",
-        "yieldRateDescription": "Die meisten Pools bieten Verdienst in Form eines Liquiditätspool-Tokens, aber einige geben zusätzliche Token als Reward oder zusätzlichen Anreiz.\n\nDa Valora Pools über mehrere Protokolle hinweg zusammenfasst, haben wir alle Verdienst- und Reward-Sätze zu einer einzigen Gesamtrendite zusammengefasst, damit du dein Verdienstpotenzial leichter einschätzen kannst. Bei dieser Zahl handelt es sich um eine Schätzung, da die Verdienst- und Reward-Werte ständig schwanken.\n\nWeitere Informationen über die Verdienstaufteilung findest du unter <0>{{providerName}}</0>."
+        "yieldRateDescription": "Während die meisten Pools Gewinne in Form eines Liquiditätspool-Tokens anbieten, gibt es bei einigen zusätzliche Token als Belohnung oder zusätzlichen Anreiz.\n\nDa {{appName}} Pools über mehrere Protokolle hinweg zusammenfasst, haben wir alle Verdienst- und Belohnungssätze zu einem einzigen Gesamtertragswert zusammengefasst, damit du dein Verdienstpotenzial leichter einschätzen kannst. Diese Zahl ist eine Schätzung, da die Verdienst- und Belohnungswerte ständig schwanken.\n\nWeitere Informationen zur Verdienstaufschlüsselung findest du unter <0>{{providerName}}</0>."
       }
     }
   },
