@@ -17,9 +17,6 @@ jobs:
     # If it takes longer it usually fails, so no need to pay for more
     timeout-minutes: 25
     steps:
-      - run: lsmod | grep kvm
-      - run: sudo modprobe kvm
-      - run: ls /dev/kvm
       - uses: actions/checkout@v4
       - name: Set env
         run: |
@@ -54,8 +51,8 @@ jobs:
           set -o pipefail
 
           # Allow the emulator to use /dev/kvm
-          sudo adduser $USER kvm
-          sudo chown $USER /dev/kvm
+          # sudo adduser $USER kvm
+          # sudo chown $USER /dev/kvm
         shell: bash
       - name: Setup emulator
         run: >
