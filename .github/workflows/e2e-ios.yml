@@ -33,7 +33,6 @@ jobs:
         run: |
           brew tap wix/brew
           brew install applesimutils
-          applesimutils --list
         env:
           HOMEBREW_NO_AUTO_UPDATE: 1
           HOMEBREW_NO_INSTALL_CLEANUP: 1
@@ -109,7 +108,7 @@ jobs:
           --record-logs=failing
           --loglevel info
           --debug-synchronization 10000
-          --maxWorkers 6
+          --maxWorkers 1
           --retries 3
           --headless
         timeout-minutes: 45
