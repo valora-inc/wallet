@@ -135,10 +135,13 @@ describe('depositSubmitSaga', () => {
 
   const expectedAnalyticsProps = {
     depositTokenId: mockArbUsdcTokenId,
-    tokenAmount: '100',
+    depositTokenAmount: '100',
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: mockEarnPositions[0].appId,
     poolId: mockEarnPositions[0].positionId,
+    mode: 'deposit',
+    fromTokenAmount: '100',
+    fromTokenId: mockArbUsdcTokenId,
   }
 
   const expectedApproveStandbyTx = {
@@ -231,6 +234,9 @@ describe('depositSubmitSaga', () => {
         amount: '100',
         pool: mockEarnPositions[0],
         preparedTransactions: [serializableApproveTx, serializableDepositTx],
+        mode: 'deposit',
+        fromTokenAmount: '100',
+        fromTokenId: mockArbUsdcTokenId,
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -274,6 +280,9 @@ describe('depositSubmitSaga', () => {
         amount: '100',
         pool: mockEarnPositions[0],
         preparedTransactions: [serializableDepositTx],
+        mode: 'deposit',
+        fromTokenAmount: '100',
+        fromTokenId: mockArbUsdcTokenId,
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -315,6 +324,9 @@ describe('depositSubmitSaga', () => {
         amount: '100',
         pool: mockEarnPositions[0],
         preparedTransactions: [serializableDepositTx],
+        mode: 'deposit',
+        fromTokenAmount: '100',
+        fromTokenId: mockArbUsdcTokenId,
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -348,6 +360,9 @@ describe('depositSubmitSaga', () => {
         amount: '100',
         pool: mockEarnPositions[0],
         preparedTransactions: [serializableDepositTx],
+        mode: 'deposit',
+        fromTokenAmount: '100',
+        fromTokenId: mockArbUsdcTokenId,
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -383,6 +398,9 @@ describe('depositSubmitSaga', () => {
         amount: '100',
         pool: mockEarnPositions[0],
         preparedTransactions: [serializableApproveTx, serializableDepositTx],
+        mode: 'deposit',
+        fromTokenAmount: '100',
+        fromTokenId: mockArbUsdcTokenId,
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())

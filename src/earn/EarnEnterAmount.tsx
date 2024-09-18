@@ -298,14 +298,14 @@ function EarnEnterAmount({ route }: Props) {
       return
     }
     AppAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
-      tokenAmount: tokenAmount.toString(),
       amountInUsd: tokenAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
       amountEnteredIn: enteredIn,
       depositTokenId: pool.dataProps.depositTokenId,
       networkId: token.networkId,
       providerId: pool.appId,
       poolId: pool.positionId,
-      sourceTokenId: token.tokenId,
+      fromTokenId: token.tokenId,
+      fromTokenAmount: tokenAmount.toString(),
       mode,
       depositTokenAmount: swapTransaction
         ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()

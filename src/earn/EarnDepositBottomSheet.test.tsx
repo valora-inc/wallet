@@ -88,9 +88,9 @@ const mockSwapDepositProps = {
 }
 
 describe('EarnDepositBottomSheet', () => {
-  const expectedAnalyticsProperties = {
+  const commonAnalyticsProperties = {
     depositTokenId: mockArbUsdcTokenId,
-    tokenAmount: '100',
+    depositTokenAmount: '100',
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: mockEarnPositions[0].appId,
     poolId: mockEarnPositions[0].positionId,
@@ -186,103 +186,131 @@ describe('EarnDepositBottomSheet', () => {
     expect(getByTestId('EarnDeposit/SecondaryCta')).toBeTruthy()
   })
 
-  it('pressing complete submits action and fires analytics event', () => {
-    const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <EarnDepositBottomSheet {...mockDepositProps} />
-      </Provider>
-    )
+  describe.each([
+    {
+      mode: 'deposit',
+      props: mockDepositProps,
+      fromTokenAmount: '100',
+      fromTokenId: mockArbUsdcTokenId,
+      depositTokenAmount: '100',
+    },
+    {
+      mode: 'swap-deposit',
+      props: mockSwapDepositProps,
+      fromTokenAmount: '0.041',
+      fromTokenId: mockArbEthTokenId,
+      depositTokenAmount: '99.999',
+    },
+  ])('$mode', ({ mode, props, fromTokenAmount, fromTokenId, depositTokenAmount }) => {
+    const expectedAnalyticsProperties = {
+      ...commonAnalyticsProperties,
+      mode,
+      fromTokenAmount,
+      fromTokenId,
+      depositTokenAmount,
+    }
 
-    fireEvent.press(getByTestId('EarnDeposit/PrimaryCta'))
-    expect(AppAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_deposit_complete,
-      expectedAnalyticsProperties
-    )
-    expect(store.getActions()).toEqual([
-      {
-        type: depositStart.type,
-        payload: {
-          amount: '100',
-          pool: mockEarnPositions[0],
-          preparedTransactions: getSerializablePreparedTransactions(
-            mockPreparedTransaction.transactions
-          ),
+    it('pressing complete submits action and fires analytics event', () => {
+      const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EarnDepositBottomSheet {...props} />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('EarnDeposit/PrimaryCta'))
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
+        EarnEvents.earn_deposit_complete,
+        expectedAnalyticsProperties
+      )
+      expect(store.getActions()).toEqual([
+        {
+          type: depositStart.type,
+          payload: {
+            amount: depositTokenAmount,
+            pool: mockEarnPositions[0],
+            preparedTransactions: getSerializablePreparedTransactions(
+              mockPreparedTransaction.transactions
+            ),
+            mode,
+            fromTokenAmount,
+            fromTokenId,
+          },
         },
-      },
-    ])
-  })
-
-  it('pressing cancel fires analytics event', () => {
-    const { getByTestId } = render(
-      <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
-        <EarnDepositBottomSheet {...mockDepositProps} />
-      </Provider>
-    )
-
-    fireEvent.press(getByTestId('EarnDeposit/SecondaryCta'))
-    expect(AppAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_deposit_cancel,
-      expectedAnalyticsProperties
-    )
-  })
-
-  it('pressing provider info opens the terms and conditions', () => {
-    const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <EarnDepositBottomSheet {...mockDepositProps} />
-      </Provider>
-    )
-
-    fireEvent.press(getByTestId('EarnDeposit/ProviderInfo'))
-    expect(AppAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_deposit_provider_info_press,
-      expectedAnalyticsProperties
-    )
-    expect(store.getActions()).toEqual([openUrl('termsUrl', true)])
-  })
-
-  it('pressing terms and conditions opens the terms and conditions', () => {
-    const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <EarnDepositBottomSheet {...mockDepositProps} />
-      </Provider>
-    )
-
-    fireEvent.press(getByTestId('EarnDeposit/TermsAndConditions'))
-    expect(AppAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_deposit_terms_and_conditions_press,
-      expectedAnalyticsProperties
-    )
-    expect(store.getActions()).toEqual([openUrl('termsUrl', true)])
-  })
-
-  it('shows loading state and buttons are disabled when deposit is submitted', () => {
-    const store = createMockStore({
-      tokens: { tokenBalances: mockTokenBalances },
-      earn: { depositStatus: 'loading' },
+      ])
     })
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <EarnDepositBottomSheet {...mockDepositProps} />
-      </Provider>
-    )
 
-    expect(getByTestId('EarnDeposit/PrimaryCta')).toBeDisabled()
-    expect(getByTestId('EarnDeposit/SecondaryCta')).toBeDisabled()
-    expect(getByTestId('EarnDeposit/PrimaryCta')).toContainElement(getByTestId('Button/Loading'))
-  })
+    it('pressing cancel fires analytics event', () => {
+      const { getByTestId } = render(
+        <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
+          <EarnDepositBottomSheet {...props} />
+        </Provider>
+      )
 
-  it('shows gas subsidized copy if feature gate is set', () => {
-    jest.spyOn(earnUtils, 'isGasSubsidizedForNetwork').mockReturnValue(true)
-    const { getByTestId } = render(
-      <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
-        <EarnDepositBottomSheet {...mockDepositProps} />
-      </Provider>
-    )
+      fireEvent.press(getByTestId('EarnDeposit/SecondaryCta'))
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
+        EarnEvents.earn_deposit_cancel,
+        expectedAnalyticsProperties
+      )
+    })
 
-    expect(getByTestId('EarnDeposit/GasSubsidized')).toBeTruthy()
+    it('pressing provider info opens the terms and conditions', () => {
+      const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EarnDepositBottomSheet {...props} />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('EarnDeposit/ProviderInfo'))
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
+        EarnEvents.earn_deposit_provider_info_press,
+        expectedAnalyticsProperties
+      )
+      expect(store.getActions()).toEqual([openUrl('termsUrl', true)])
+    })
+
+    it('pressing terms and conditions opens the terms and conditions', () => {
+      const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EarnDepositBottomSheet {...props} />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('EarnDeposit/TermsAndConditions'))
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
+        EarnEvents.earn_deposit_terms_and_conditions_press,
+        expectedAnalyticsProperties
+      )
+      expect(store.getActions()).toEqual([openUrl('termsUrl', true)])
+    })
+
+    it('shows loading state and buttons are disabled when deposit is submitted', () => {
+      const store = createMockStore({
+        tokens: { tokenBalances: mockTokenBalances },
+        earn: { depositStatus: 'loading' },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EarnDepositBottomSheet {...props} />
+        </Provider>
+      )
+
+      expect(getByTestId('EarnDeposit/PrimaryCta')).toBeDisabled()
+      expect(getByTestId('EarnDeposit/SecondaryCta')).toBeDisabled()
+      expect(getByTestId('EarnDeposit/PrimaryCta')).toContainElement(getByTestId('Button/Loading'))
+    })
+
+    it('shows gas subsidized copy if feature gate is set', () => {
+      jest.spyOn(earnUtils, 'isGasSubsidizedForNetwork').mockReturnValue(true)
+      const { getByTestId } = render(
+        <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
+          <EarnDepositBottomSheet {...props} />
+        </Provider>
+      )
+
+      expect(getByTestId('EarnDeposit/GasSubsidized')).toBeTruthy()
+    })
   })
 })
