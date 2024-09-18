@@ -120,7 +120,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
             <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.swap')}</Text>
             <View style={styles.swapValueContainer}>
               <TokenDisplay
-                testID="EarnEnterAmount/Swap/From"
+                testID="EarnSwapDeposit/Swap/From"
                 tokenId={transaction.swap.outAmount.tokenId}
                 amount={transaction.swap.outAmount.value}
                 showLocalAmount={false}
@@ -128,7 +128,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
               />
               <ArrowRightThick size={20} color={Colors.black} />
               <TokenDisplay
-                testID="EarnEnterAmount/Swap/To"
+                testID="EarnSwapDeposit/Swap/To"
                 tokenId={depositOutAmount.tokenId}
                 amount={depositOutAmount.value}
                 showLocalAmount={false}
