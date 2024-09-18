@@ -21,9 +21,9 @@ export function LabelWithInfo({
   testID?: string
 }) {
   return (
-    <Touchable testID={testID} style={styles.txDetailsLabel} onPress={onPress} disabled={!onPress}>
+    <Touchable testID={testID} style={styles.touchable} onPress={onPress} disabled={!onPress}>
       <>
-        <Text style={[styles.txDetailsLabelText, labelStyle]} numberOfLines={1}>
+        <Text style={[styles.labelText, labelStyle]} numberOfLines={1}>
           {label}
         </Text>
         {onPress && <InfoIcon size={iconSize} color={Colors.gray3} />}
@@ -33,7 +33,7 @@ export function LabelWithInfo({
 }
 
 const styles = StyleSheet.create({
-  txDetailsLabel: {
+  touchable: {
     flex: 1,
     flexDirection: 'row',
     gap: Spacing.Tiny4,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     minWidth: '25%',
     color: Colors.gray3,
   },
-  txDetailsLabelText: {
+  labelText: {
     ...typeScale.bodyMedium,
     color: Colors.black,
     flexWrap: 'wrap',

@@ -160,7 +160,7 @@ export default function EarnDepositBottomSheet({
                 testID="EarnDeposit/ProviderInfo"
               />
             ) : (
-              <Text style={styles.value}>{pool.appName} </Text>
+              <Text style={styles.value}>{pool.appName}</Text>
             )}
           </View>
         </LabelledItem>
