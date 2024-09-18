@@ -90,7 +90,11 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
 
   const textStyle = isLocal
     ? styles.amountSubtitle
-    : [styles.amountTitle, transaction.__typename !== 'EarnDeposit' && { color: Colors.primary }]
+    : [
+        styles.amountTitle,
+        transaction.__typename !== 'EarnDeposit' &&
+          transaction.__typename !== 'EarnSwapDeposit' && { color: Colors.primary },
+      ]
 
   return (
     <TokenDisplay

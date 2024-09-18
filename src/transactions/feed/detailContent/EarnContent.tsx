@@ -4,9 +4,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import RowDivider from 'src/components/RowDivider'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { useEarnPositionProviderName } from 'src/earn/hooks'
+import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import FeeRowItem from 'src/transactions/feed/detailContent/FeeRowItem'
 import {
@@ -80,9 +82,6 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
     transaction.__typename === 'EarnDeposit' ? transaction.outAmount : transaction.deposit.outAmount
   const depositTokenInfo = useTokenInfo(depositOutAmount.tokenId)
   const depositTokenSymbol = depositTokenInfo?.symbol ?? ''
-  const swapFromTokenInfo = useTokenInfo(
-    transaction.__typename === 'EarnSwapDeposit' ? transaction.swap.inAmount.tokenId : undefined
-  )
 
   return (
     <>
@@ -96,58 +95,71 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
         </Text>
       )}
       <RowDivider />
-      <View>
-        <View style={styles.row}>
-          <Text style={styles.amountTitle} testID={'EarnDepositDetails/title'}>
-            {t('earnFlow.transactionDetails.earnDepositDetails')}
-          </Text>
+      <View style={styles.amountContainer}>
+        <View>
+          <View style={styles.row}>
+            <Text style={styles.amountTitle} testID={'EarnDepositDetails/title'}>
+              {t('earnFlow.transactionDetails.earnDepositDetails')}
+            </Text>
+            <TokenDisplay
+              amount={depositOutAmount.value}
+              tokenId={depositOutAmount.tokenId}
+              showSymbol={true}
+              showLocalAmount={false}
+              style={styles.amountTitle}
+            />
+          </View>
           <TokenDisplay
             amount={depositOutAmount.value}
             tokenId={depositOutAmount.tokenId}
-            showSymbol={true}
-            showLocalAmount={false}
-            style={styles.amountTitle}
+            style={styles.amountSubtitle}
           />
         </View>
-        <TokenDisplay
-          amount={depositOutAmount.value}
-          tokenId={depositOutAmount.tokenId}
-          style={styles.amountSubtitle}
-        />
+        {transaction.__typename === 'EarnSwapDeposit' && (
+          <View style={styles.row}>
+            <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.swap')}</Text>
+            <View style={styles.swapValueContainer}>
+              <TokenDisplay
+                testID="EarnEnterAmount/Swap/From"
+                tokenId={transaction.swap.outAmount.tokenId}
+                amount={transaction.swap.outAmount.value}
+                showLocalAmount={false}
+                style={styles.bodyText}
+              />
+              <ArrowRightThick size={20} color={Colors.black} />
+              <TokenDisplay
+                testID="EarnEnterAmount/Swap/To"
+                tokenId={depositOutAmount.tokenId}
+                amount={depositOutAmount.value}
+                showLocalAmount={false}
+                style={styles.bodyText}
+              />
+            </View>
+          </View>
+        )}
+        {transaction.__typename === 'EarnSwapDeposit' && (
+          <View style={styles.row}>
+            <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.network')}</Text>
+            <Text style={styles.bodyTextValue}>{NETWORK_NAMES[transaction.networkId]}</Text>
+          </View>
+        )}
       </View>
-      {transaction.__typename === 'EarnSwapDeposit' && (
-        <View style={styles.row}>
-          <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.swap')}</Text>
-          <Text style={styles.bodyText}>
-            {t('earnFlow.transactionDetails.swapValue', {
-              fromTokenAndAmount: `${transaction.swap.inAmount.value} ${swapFromTokenInfo?.symbol ?? ''}`,
-              toTokenAndAmount: `${depositOutAmount.value} ${depositTokenSymbol}`,
-            })}
-          </Text>
-        </View>
-      )}
-      {transaction.__typename === 'EarnSwapDeposit' && (
-        <View style={styles.row}>
-          <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.network')}</Text>
-          <Text style={styles.bodyText}>{NETWORK_NAMES[transaction.networkId]}</Text>
-        </View>
-      )}
       <RowDivider />
-      {transaction.__typename === 'EarnSwapDeposit' && (
-        <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.fees')}</Text>
-      )}
-      <FeeRowItem
-        fees={transaction.fees}
-        feeType={FeeType.SecurityFee}
-        transactionStatus={transaction.status}
-      />
-      {transaction.__typename === 'EarnSwapDeposit' && (
+      <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.fees')}</Text>
+      <View style={styles.feeContainer}>
         <FeeRowItem
           fees={transaction.fees}
-          feeType={FeeType.AppFee}
+          feeType={FeeType.SecurityFee}
           transactionStatus={transaction.status}
         />
-      )}
+        {transaction.__typename === 'EarnSwapDeposit' && (
+          <FeeRowItem
+            fees={transaction.fees}
+            feeType={FeeType.AppFee}
+            transactionStatus={transaction.status}
+          />
+        )}
+      </View>
     </>
   )
 }
@@ -218,7 +230,11 @@ const styles = StyleSheet.create({
   bodyText: {
     ...typeScale.bodyMedium,
     color: Colors.black,
-    flex: 1,
+  },
+  bodyTextValue: {
+    ...typeScale.bodyMedium,
+    color: Colors.black,
+    textAlign: 'right',
   },
   amountTitle: {
     ...typeScale.labelSemiBoldMedium,
@@ -228,5 +244,18 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     color: Colors.gray4,
     marginLeft: 'auto',
+  },
+  amountContainer: {
+    gap: Spacing.Regular16,
+  },
+  feeContainer: {
+    marginTop: Spacing.Smallest8,
+    gap: Spacing.Regular16,
+  },
+  swapValueContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: Spacing.Tiny4,
+    alignItems: 'center',
   },
 })
