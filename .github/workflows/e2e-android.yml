@@ -84,7 +84,7 @@ jobs:
           --debug-synchronization 10000
           --maxWorkers 12
           --headless
-          --retries 3
+          --retries 10
           --device-boot-args="-snapshot ci_boot"
       - name: Publish Android JUnit Report
         if: always()
