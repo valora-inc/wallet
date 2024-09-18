@@ -113,6 +113,10 @@ function TabHome(_props: Props) {
 
   const flatListSections = [
     {
+      key: 'ActionsCarousel',
+      component: <ActionsCarousel />,
+    },
+    {
       key: 'NotificationBox',
       component: <NotificationBox showOnlyHomeScreenNotifications={true} />,
     },
@@ -137,7 +141,6 @@ function TabHome(_props: Props) {
         keyExtractor={keyExtractor}
         testID="WalletHome/FlatList"
         stickyHeaderIndices={[0]}
-        ListHeaderComponent={<ActionsCarousel />}
         stickyHeaderHiddenOnScroll={true}
       />
       {showNftCelebration && <NftCelebration />}
