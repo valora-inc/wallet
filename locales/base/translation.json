@@ -2700,18 +2700,17 @@
       "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
       "beforeYouCanDepositTitle": "Before you can deposit...",
       "beforeYouCanDepositDescription": "You’ll need to add one of the pool tokens. Once added, you’ll need to return to complete your pool deposit.",
-      "swapActionDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
       "action": {
         "swapAndDeposit": "Swap & Deposit",
-        "swapAndDepositActionDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
         "crossChainSwap": "Cross-chain Swap",
-        "crossChainSwapActionDescription": "Swap a token on another network for {{tokenSymbol}}",
+        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
         "swap": "Swap",
-        "swapActionDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
+        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
         "add": "Buy",
-        "addActionDescription": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
+        "addDescription": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
         "transfer": "Transfer",
-        "transferActionDescription": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}"
+        "transferDescription": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}"
       }
     }
   },

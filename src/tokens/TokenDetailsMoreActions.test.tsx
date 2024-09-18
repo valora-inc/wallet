@@ -52,7 +52,7 @@ const mockActions: TokenAction[] = [
     name: TokenActionName.Swap,
     title: 'tokenDetails.actions.swap',
     details: 'tokenDetails.actions.swapDetails',
-    iconComponent: React.memo(SwapArrows),
+    iconComponent: SwapArrows,
     onPress: jest.fn(),
     visible: true,
   },

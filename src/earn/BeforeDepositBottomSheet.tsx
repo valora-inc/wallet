@@ -56,7 +56,7 @@ function AddAction({
   const action = {
     name: BeforeDepositActionName.Add,
     title: t('earnFlow.beforeDepositBottomSheet.action.add'),
-    details: t('earnFlow.beforeDepositBottomSheet.action.addActionDescription', {
+    details: t('earnFlow.beforeDepositBottomSheet.action.addDescription', {
       tokenSymbol: token.symbol,
       tokenNetwork: NETWORK_NAMES[token.networkId],
     }),
@@ -92,7 +92,7 @@ function TransferAction({
   const action = {
     name: BeforeDepositActionName.Transfer,
     title: t('earnFlow.beforeDepositBottomSheet.action.transfer'),
-    details: t('earnFlow.beforeDepositBottomSheet.action.transferActionDescription', {
+    details: t('earnFlow.beforeDepositBottomSheet.action.transferDescription', {
       tokenSymbol: token.symbol,
       tokenNetwork: NETWORK_NAMES[token.networkId],
     }),
@@ -122,10 +122,10 @@ function CrossChainSwapAction({
   const action = {
     name: BeforeDepositActionName.CrossChainSwap,
     title: t('earnFlow.beforeDepositBottomSheet.action.crossChainSwap'),
-    details: t('earnFlow.beforeDepositBottomSheet.action.crossChainSwapActionDescription', {
+    details: t('earnFlow.beforeDepositBottomSheet.action.crossChainSwapDescription', {
       tokenSymbol: token.symbol,
     }),
-    iconComponent: React.memo(SwapArrows),
+    iconComponent: SwapArrows,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
         action: BeforeDepositActionName.CrossChainSwap,
@@ -151,11 +151,11 @@ function SwapAction({
   const action = {
     name: BeforeDepositActionName.Swap,
     title: t('earnFlow.beforeDepositBottomSheet.action.swap'),
-    details: t('earnFlow.beforeDepositBottomSheet.action.swapActionDescription', {
+    details: t('earnFlow.beforeDepositBottomSheet.action.swapDescription', {
       tokenSymbol: token.symbol,
       tokenNetwork: NETWORK_NAMES[token.networkId],
     }),
-    iconComponent: React.memo(SwapArrows),
+    iconComponent: SwapArrows,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
         action: BeforeDepositActionName.Swap,
@@ -183,7 +183,7 @@ function SwapAndDepositAction({
   const action = {
     name: BeforeDepositActionName.SwapAndDeposit,
     title: t('earnFlow.beforeDepositBottomSheet.action.swapAndDeposit'),
-    details: t('earnFlow.beforeDepositBottomSheet.action.swapAndDepositActionDescription', {
+    details: t('earnFlow.beforeDepositBottomSheet.action.swapAndDepositDescription', {
       tokenSymbol: token.symbol,
       tokenNetwork: NETWORK_NAMES[token.networkId],
     }),

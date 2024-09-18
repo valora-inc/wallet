@@ -199,7 +199,7 @@ export const useActions = (token: TokenBalance) => {
       name: TokenActionName.Swap,
       title: t('tokenDetails.actions.swap'),
       details: t('tokenDetails.actionDescriptions.swap'),
-      iconComponent: React.memo(SwapArrows),
+      iconComponent: SwapArrows,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack, { fromTokenId: token.tokenId })
       },
