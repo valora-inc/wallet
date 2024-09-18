@@ -2096,8 +2096,8 @@ export const mockEarnSwapDeposit: EarnSwapDeposit = {
     },
     outAmount: {
       localAmount: undefined,
-      tokenAddress: '0xdef',
-      tokenId: networkConfig.arbUsdcTokenId,
+      tokenAddress: mockUSDCAddress,
+      tokenId: mockArbUsdcTokenId,
       value: '10',
     },
     providerId: 'aave',
@@ -2105,8 +2105,8 @@ export const mockEarnSwapDeposit: EarnSwapDeposit = {
   swap: {
     inAmount: {
       localAmount: undefined,
-      tokenAddress: '0xdef',
-      tokenId: networkConfig.arbUsdcTokenId,
+      tokenAddress: mockUSDCAddress,
+      tokenId: mockArbUsdcTokenId,
       value: '10',
     },
     outAmount: {

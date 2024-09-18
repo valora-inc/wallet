@@ -37,6 +37,7 @@ import {
 import {
   mockAccount,
   mockApprovalTransaction,
+  mockArbUsdcTokenId,
   mockCeloAddress,
   mockCeloTokenId,
   mockCeurAddress,
@@ -51,6 +52,7 @@ import {
   mockEarnWithdrawTransaction,
   mockEthTokenId,
   mockTokenBalances,
+  mockUSDCAddress,
 } from 'test/values'
 
 jest.mock('src/analytics/AppAnalytics')
@@ -511,13 +513,39 @@ describe('TransactionDetailsScreen', () => {
     })
 
     it(`renders details action for complete ${TokenTransactionTypeV2.EarnSwapDeposit} transaction`, () => {
-      const { getByText } = renderScreen({
+      const { getByText, getByTestId } = renderScreen({
+        storeOverrides: {
+          tokens: {
+            tokenBalances: {
+              [mockArbUsdcTokenId]: {
+                address: mockUSDCAddress,
+                tokenId: mockArbUsdcTokenId,
+                symbol: 'USDC',
+                balance: '50',
+                priceUsd: '1',
+                networkId: NetworkId['arbitrum-sepolia'],
+                priceFetchedAt: Date.now(),
+              },
+              [mockCeloTokenId]: {
+                address: mockCeloAddress,
+                tokenId: mockCeloTokenId,
+                symbol: 'CELO',
+                balance: '100',
+                priceUsd: '0.5',
+                networkId: NetworkId['celo-alfajores'],
+                priceFetchedAt: Date.now(),
+              },
+            },
+          },
+        },
         transaction: swapDepositTransaction({
           status: TransactionStatus.Complete,
         }),
       })
 
       expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Swap/From')).toHaveTextContent('50.00 CELO')
+      expect(getByTestId('EarnEnterAmount/Swap/To')).toHaveTextContent('10.00 USDC')
     })
 
     it(`renders details action for complete ${TokenTransactionTypeV2.EarnWithdraw} transaction`, () => {
