@@ -71,7 +71,8 @@ describe('Contact', () => {
 
     expect(sendSupportRequest).toHaveBeenCalledWith({
       message: 'Test Message',
-      deviceInfo: {
+      userProperties: {
+        appName: APP_NAME,
         address: '0x0000000000000000000000000000000000007e57',
         apiLevel: -1,
         buildNumber: '1',

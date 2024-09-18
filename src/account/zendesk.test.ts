@@ -1,6 +1,10 @@
 import { FetchMock } from 'jest-fetch-mock/types'
-import { DeviceInfo, _generateCustomFields, sendSupportRequest } from 'src/account/zendesk'
-import { ZENDESK_API_KEY, ZENDESK_PROJECT_NAME } from 'src/config'
+import {
+  SupportRequestUserProperties,
+  _generateCustomFields,
+  sendSupportRequest,
+} from 'src/account/zendesk'
+import { APP_NAME, ZENDESK_API_KEY, ZENDESK_PROJECT_NAME } from 'src/config'
 
 const mockFetch = fetch as FetchMock
 
@@ -34,7 +38,8 @@ describe('Zendesk', () => {
   it('uploads files and creates a ticket', async () => {
     const args = {
       message: 'message for support',
-      deviceInfo: {
+      userProperties: {
+        appName: APP_NAME,
         version: '1.57.0',
         buildNumber: '123590',
         apiLevel: 29,
@@ -48,7 +53,7 @@ describe('Zendesk', () => {
         sessionId: '1234',
         numberVerifiedCentralized: true,
         network: 'mainnet',
-      } as DeviceInfo,
+      } as SupportRequestUserProperties,
       logFiles: [
         { path: 'path1', type: 'type1', name: 'name1' },
         { path: 'path2', type: 'type2', name: 'name2' },
@@ -131,11 +136,11 @@ describe('Zendesk', () => {
         body: JSON.stringify({
           request: {
             subject: args.subject,
-            custom_fields: _generateCustomFields(args.deviceInfo),
+            custom_fields: _generateCustomFields(args.userProperties),
             comment: {
               body: `${args.message}
     
-    ${JSON.stringify(args.deviceInfo)}
+    ${JSON.stringify(args.userProperties)}
     `,
               uploads: ['uploadToken', 'uploadToken2'],
             },
