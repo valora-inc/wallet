@@ -11,12 +11,14 @@ import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
-import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import SwapAndDeposit from 'src/icons/SwapAndDeposit'
+import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
@@ -53,8 +55,8 @@ function AddAction({
 
   const action = {
     name: BeforeDepositActionName.Add,
-    title: t('addFundsActions.add'),
-    details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.add', {
+    title: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.add'),
+    details: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.addActionDescription', {
       tokenSymbol: token.symbol,
       tokenNetwork: NETWORK_NAMES[token.networkId],
     }),
@@ -89,11 +91,14 @@ function TransferAction({
 
   const action = {
     name: BeforeDepositActionName.Transfer,
-    title: t('addFundsActions.transfer'),
-    details: t('earnFlow.addCryptoBottomSheet.actionDescriptions.transfer', {
-      tokenSymbol: token.symbol,
-      tokenNetwork: NETWORK_NAMES[token.networkId],
-    }),
+    title: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.transfer'),
+    details: t(
+      'earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.transferActionDescription',
+      {
+        tokenSymbol: token.symbol,
+        tokenNetwork: NETWORK_NAMES[token.networkId],
+      }
+    ),
     iconComponent: QuickActionsSend,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
@@ -110,32 +115,56 @@ function TransferAction({
 
 function CrossChainSwapAction({
   token,
-  hasTokensOnSameNetwork,
   forwardedRef,
 }: {
   token: TokenBalance
-  hasTokensOnSameNetwork: boolean
   forwardedRef: React.RefObject<BottomSheetModalRefType>
 }) {
   const { t } = useTranslation()
 
   const action = {
     name: BeforeDepositActionName.CrossChainSwap,
-    title: hasTokensOnSameNetwork
-      ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.crossChainSwap')
-      : t('addFundsActions.swap'),
-    details: hasTokensOnSameNetwork
-      ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.crossChainSwapActionDescription', {
-          tokenSymbol: token.symbol,
-        })
-      : t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.swapActionDescription', {
-          tokenSymbol: token.symbol,
-          tokenNetwork: NETWORK_NAMES[token.networkId],
-        }),
-    iconComponent: QuickActionsSwap,
+    title: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.crossChainSwap'),
+    details: t(
+      'earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.crossChainSwapActionDescription',
+      {
+        tokenSymbol: token.symbol,
+      }
+    ),
+    iconComponent: React.memo(SwapArrows),
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
         action: BeforeDepositActionName.CrossChainSwap,
+        ...getTokenAnalyticsProps(token),
+      })
+
+      navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
+      forwardedRef.current?.close()
+    },
+  }
+  return <ActionCard action={action} />
+}
+
+function SwapAction({
+  token,
+  forwardedRef,
+}: {
+  token: TokenBalance
+  forwardedRef: React.RefObject<BottomSheetModalRefType>
+}) {
+  const { t } = useTranslation()
+
+  const action = {
+    name: BeforeDepositActionName.Swap,
+    title: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.swap'),
+    details: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.swapActionDescription', {
+      tokenSymbol: token.symbol,
+      tokenNetwork: NETWORK_NAMES[token.networkId],
+    }),
+    iconComponent: React.memo(SwapArrows),
+    onPress: () => {
+      AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
+        action: BeforeDepositActionName.Swap,
         ...getTokenAnalyticsProps(token),
       })
 
@@ -160,10 +189,13 @@ function SwapAndDepositAction({
   const action = {
     name: BeforeDepositActionName.SwapAndDeposit,
     title: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.swapAndDeposit'),
-    details: t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.swapAndDepositActionDescription', {
-      tokenSymbol: token.symbol,
-      tokenNetwork: NETWORK_NAMES[token.networkId],
-    }),
+    details: t(
+      'earnFlow.poolInfoScreen.beforeDepositBottomSheet.action.swapAndDepositActionDescription',
+      {
+        tokenSymbol: token.symbol,
+        tokenNetwork: NETWORK_NAMES[token.networkId],
+      }
+    ),
     iconComponent: SwapAndDeposit,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
@@ -197,7 +229,13 @@ export default function BeforeDepositBottomSheet({
 }) {
   const { t } = useTranslation()
 
-  const title = hasTokensOnSameNetwork
+  const { availableShortcutIds } = pool
+  const canSwapDeposit =
+    getFeatureGate(StatsigFeatureGates.SHOW_SWAP_AND_DEPOSIT) &&
+    availableShortcutIds.includes('swap-deposit') &&
+    hasTokensOnSameNetwork
+
+  const title = canSwapDeposit
     ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.youNeedTitle', {
         tokenSymbol: token.symbol,
         tokenNetwork: NETWORK_NAMES[token.networkId],
@@ -209,7 +247,7 @@ export default function BeforeDepositBottomSheet({
       forwardedRef={forwardedRef}
       title={title}
       description={
-        !hasTokensOnSameNetwork
+        !canSwapDeposit
           ? t('earnFlow.poolInfoScreen.beforeDepositBottomSheet.beforeYouCanDepositDescription')
           : undefined
       }
@@ -217,7 +255,7 @@ export default function BeforeDepositBottomSheet({
       testId={'Earn/BeforeDepositBottomSheet'}
     >
       <View style={styles.actionsContainer}>
-        {hasTokensOnSameNetwork && (
+        {canSwapDeposit && (
           <>
             <SwapAndDepositAction token={token} pool={pool} forwardedRef={forwardedRef} />
             <Text style={styles.actionDetails}>
@@ -228,17 +266,16 @@ export default function BeforeDepositBottomSheet({
                 }
               )}
             </Text>
+            {hasTokensOnOtherNetworks && (
+              <CrossChainSwapAction token={token} forwardedRef={forwardedRef} />
+            )}
           </>
         )}
-        {hasTokensOnOtherNetworks && (
-          <CrossChainSwapAction
-            token={token}
-            hasTokensOnSameNetwork={hasTokensOnSameNetwork}
-            forwardedRef={forwardedRef}
-          />
+        {!canSwapDeposit && hasTokensOnOtherNetworks && (
+          <SwapAction token={token} forwardedRef={forwardedRef} />
         )}
         {canAdd && <AddAction token={token} forwardedRef={forwardedRef} />}
-        {!hasTokensOnSameNetwork && (
+        {!canSwapDeposit && (
           <TransferAction token={token} exchanges={exchanges} forwardedRef={forwardedRef} />
         )}
       </View>

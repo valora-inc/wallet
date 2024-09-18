@@ -20,10 +20,10 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DataDown from 'src/icons/DataDown'
 import DataUp from 'src/icons/DataUp'
+import SwapArrows from 'src/icons/SwapArrows'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsMore from 'src/icons/quick-actions/More'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
-import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
@@ -199,7 +199,7 @@ export const useActions = (token: TokenBalance) => {
       name: TokenActionName.Swap,
       title: t('tokenDetails.actions.swap'),
       details: t('tokenDetails.actionDescriptions.swap'),
-      iconComponent: QuickActionsSwap,
+      iconComponent: React.memo(SwapArrows),
       onPress: () => {
         navigate(Screens.SwapScreenWithBack, { fromTokenId: token.tokenId })
       },

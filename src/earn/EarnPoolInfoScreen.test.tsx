@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
@@ -75,7 +76,11 @@ describe('EarnPoolInfoScreen', () => {
     })
     jest
       .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
+      .mockImplementation(
+        (gate) =>
+          gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS ||
+          gate === StatsigFeatureGates.SHOW_SWAP_AND_DEPOSIT
+      )
     jest.useFakeTimers({
       now: new Date('2024-08-15T00:00:00.000Z'),
     })
@@ -350,6 +355,84 @@ describe('EarnPoolInfoScreen', () => {
     expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
   })
 
+  it('navigates correctly when swap and deposit action item is tapped', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={getStore({ includeSameChainToken: true, includeOtherChainToken: true })}>
+        <MockedNavigator
+          component={() => {
+            return (
+              <EarnPoolInfoScreen
+                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
+                  pool: mockEarnPositions[0],
+                })}
+              />
+            )
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/SwapAndDeposit')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/BeforeDepositBottomSheet/SwapAndDeposit'))
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
+      pool: mockEarnPositions[0],
+      mode: 'swap-deposit',
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+  })
+
+  it('navigates correctly when cross chain swap action item is tapped', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={getStore({ includeSameChainToken: true, includeOtherChainToken: true })}>
+        <MockedNavigator
+          component={() => {
+            return (
+              <EarnPoolInfoScreen
+                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
+                  pool: mockEarnPositions[0],
+                })}
+              />
+            )
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/CrossChainSwap')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/BeforeDepositBottomSheet/CrossChainSwap'))
+    expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack, {
+      toTokenId: mockEarnPositions[0].dataProps.depositTokenId,
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+  })
+
+  it('navigates correctly when add action item is tapped', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={getStore({ includeSameChainToken: true, includeOtherChainToken: true })}>
+        <MockedNavigator
+          component={() => {
+            return (
+              <EarnPoolInfoScreen
+                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
+                  pool: mockEarnPositions[0],
+                })}
+              />
+            )
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/BeforeDepositBottomSheet/Add'))
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
+      tokenId: mockEarnPositions[0].dataProps.depositTokenId,
+      flow: CICOFlow.CashIn,
+      tokenSymbol: 'USDC',
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+  })
+
   it('show bottom sheet correctly when Deposit button is tapped and depositTokenId does not have balance, can cross chain swap', () => {
     const { getByText, getByTestId } = render(
       <Provider store={getStore({ includeOtherChainToken: true })}>
@@ -377,9 +460,60 @@ describe('EarnPoolInfoScreen', () => {
       hasTokensOnOtherNetworks: true,
     })
     expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/CrossChainSwap')).toBeTruthy()
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/Swap')).toBeTruthy()
     expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
     expect(getByTestId('Earn/BeforeDepositBottomSheet/Transfer')).toBeTruthy()
+  })
+
+  it('navigates correctly when swap action item is tapped', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={getStore({ includeOtherChainToken: true })}>
+        <MockedNavigator
+          component={() => {
+            return (
+              <EarnPoolInfoScreen
+                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
+                  pool: mockEarnPositions[0],
+                })}
+              />
+            )
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/Swap')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/BeforeDepositBottomSheet/Swap'))
+    expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack, {
+      toTokenId: mockEarnPositions[0].dataProps.depositTokenId,
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+  })
+
+  it('navigates correctly when transfer action item is tapped', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={getStore({ includeOtherChainToken: true })}>
+        <MockedNavigator
+          component={() => {
+            return (
+              <EarnPoolInfoScreen
+                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
+                  pool: mockEarnPositions[0],
+                })}
+              />
+            )
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
+    expect(getByTestId('Earn/BeforeDepositBottomSheet/Transfer')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/BeforeDepositBottomSheet/Transfer'))
+    expect(navigate).toHaveBeenCalledWith(Screens.ExchangeQR, {
+      flow: CICOFlow.CashIn,
+      exchanges: [],
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
   })
 
   it('show bottom sheet correctly when Deposit button is tapped and depositTokenId does not have balance, no tokens', () => {

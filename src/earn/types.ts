@@ -50,6 +50,7 @@ export enum BeforeDepositActionName {
   Transfer = 'Transfer',
   SwapAndDeposit = 'SwapAndDeposit',
   CrossChainSwap = 'CrossChainSwap',
+  Swap = 'Swap',
 }
 
 export interface BeforeDepositAction {
