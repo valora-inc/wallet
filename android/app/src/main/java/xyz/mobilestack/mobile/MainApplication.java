@@ -1,4 +1,4 @@
-package org.celo.mobile;
+package xyz.mobilestack.mobile;
 
 import android.util.Log;
 import androidx.multidex.MultiDexApplication;

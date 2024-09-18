@@ -1,4 +1,4 @@
-package org.celo.mobile;
+package xyz.mobilestack.mobile;
 
 import android.content.Context;
 import com.facebook.react.modules.network.OkHttpClientFactory;
