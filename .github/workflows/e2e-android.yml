@@ -50,6 +50,9 @@ jobs:
           yes | sdkmanager "platform-tools" "platforms;android-${{ inputs.android-api-level }}"
           set -o pipefail
 
+          # Install Ninja
+          apt-get install ninja-build
+
           # Allow the emulator to use /dev/kvm
           sudo adduser $USER kvm
           sudo chown $USER /dev/kvm
