@@ -16,7 +16,7 @@ import {
   mockArbArbTokenId,
   mockEarnClaimRewardTransaction,
   mockEarnDepositTransaction,
-  mockEarnSwapDeposit,
+  mockEarnSwapDepositTransactionNetworkConfigVersion,
   mockEarnWithdrawTransaction,
 } from 'test/values'
 
@@ -123,7 +123,7 @@ describe.each([
   },
   {
     type: 'EarnSwapDeposit',
-    transaction: mockEarnSwapDeposit,
+    transaction: mockEarnSwapDepositTransactionNetworkConfigVersion,
     expectedTitle: 'earnFlow.transactionFeed.earnDepositTitle',
     expectedSubTitle: 'earnFlow.transactionFeed.earnDepositSubtitle, {"providerName":"Aave"}',
     expectedTotal: '-10.00 USDC',
