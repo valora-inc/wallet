@@ -6,20 +6,20 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { depositStart } from 'src/earn/slice'
-import { isGasSubsidizedForNetwork } from 'src/earn/utils'
+import * as earnUtils from 'src/earn/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { createMockStore } from 'test/utils'
 import {
+  mockAccount,
   mockArbEthTokenId,
   mockArbUsdcTokenId,
   mockEarnPositions,
   mockTokenBalances,
+  mockUSDCAddress,
 } from 'test/values'
-
-jest.mock('src/earn/utils')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -52,6 +52,41 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
   },
 }
 
+const mockDepositProps = {
+  forwardedRef: { current: null },
+  inputAmount: new BigNumber(100),
+  preparedTransaction: mockPreparedTransaction,
+  pool: mockEarnPositions[0],
+  mode: 'deposit' as const,
+  inputTokenId: mockArbUsdcTokenId,
+}
+
+const mockSwapDepositProps = {
+  ...mockDepositProps,
+  mode: 'swap-deposit' as const,
+  inputTokenId: mockArbEthTokenId,
+  inputAmount: new BigNumber(0.041),
+  swapTransaction: {
+    swapType: 'same-chain' as const,
+    chainId: 42161,
+    price: '2439',
+    guaranteedPrice: '2377',
+    appFeePercentageIncludedInPrice: '0.6',
+    sellTokenAddress: '0xEeeeeeE',
+    buyTokenAddress: mockUSDCAddress,
+    sellAmount: '41000000000000000',
+    buyAmount: '99999000',
+    allowanceTarget: '0x0000000000000000000000000000000000000123',
+    from: mockAccount,
+    to: '0x0000000000000000000000000000000000000123',
+    value: '0',
+    data: '0x0',
+    gas: '1800000',
+    estimatedGasUse: undefined,
+    estimatedPriceImpact: '0.1',
+  },
+}
+
 describe('EarnDepositBottomSheet', () => {
   const expectedAnalyticsProperties = {
     depositTokenId: mockArbUsdcTokenId,
@@ -63,22 +98,17 @@ describe('EarnDepositBottomSheet', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
+    jest.spyOn(earnUtils, 'isGasSubsidizedForNetwork').mockReturnValue(false)
   })
 
-  it('renders all elements', () => {
+  it('renders all elements for deposit', () => {
     const { getByTestId, queryByTestId, getByText } = render(
       <Provider
         store={createMockStore({
           tokens: { tokenBalances: mockTokenBalances },
         })}
       >
-        <EarnDepositBottomSheet
-          forwardedRef={{ current: null }}
-          amount={new BigNumber(100)}
-          preparedTransaction={mockPreparedTransaction}
-          pool={mockEarnPositions[0]}
-        />
+        <EarnDepositBottomSheet {...mockDepositProps} />
       </Provider>
     )
     expect(getByText('earnFlow.depositBottomSheet.title')).toBeTruthy()
@@ -112,16 +142,55 @@ describe('EarnDepositBottomSheet', () => {
     expect(getByTestId('EarnDeposit/SecondaryCta')).toBeTruthy()
   })
 
+  it('renders all elements for swap-deposit', () => {
+    const { getByTestId, queryByTestId, getByText } = render(
+      <Provider
+        store={createMockStore({
+          tokens: { tokenBalances: mockTokenBalances },
+        })}
+      >
+        <EarnDepositBottomSheet {...mockSwapDepositProps} />
+      </Provider>
+    )
+    expect(getByText('earnFlow.depositBottomSheet.title')).toBeTruthy()
+    expect(
+      getByText('earnFlow.depositBottomSheet.descriptionV1_93, {"providerName":"Aave"}')
+    ).toBeTruthy()
+
+    expect(queryByTestId('EarnDeposit/GasSubsidized')).toBeFalsy()
+
+    expect(getByText('earnFlow.depositBottomSheet.yieldRate')).toBeTruthy()
+    expect(getByText('earnFlow.depositBottomSheet.apy, {"apy":"1.92"}')).toBeTruthy()
+
+    expect(getByText('earnFlow.depositBottomSheet.amount')).toBeTruthy()
+    expect(getByTestId('EarnDeposit/Amount')).toHaveTextContent('100.00 USDC(₱133.00)')
+
+    expect(getByTestId('EarnDeposit/Swap/From')).toHaveTextContent('0.041 ETH')
+    expect(getByTestId('EarnDeposit/Swap/To')).toHaveTextContent('100.00 USDC')
+
+    expect(getByText('earnFlow.depositBottomSheet.fee')).toBeTruthy()
+    expect(getByTestId('EarnDeposit/Fee')).toHaveTextContent('₱0.012(0.000006 ETH)')
+
+    expect(getByText('earnFlow.depositBottomSheet.provider')).toBeTruthy()
+    expect(getByText('Aave')).toBeTruthy()
+    expect(getByTestId('EarnDeposit/ProviderInfo')).toBeTruthy()
+
+    expect(getByText('earnFlow.depositBottomSheet.network')).toBeTruthy()
+    expect(getByText('Arbitrum Sepolia')).toBeTruthy()
+
+    expect(
+      getByText('earnFlow.depositBottomSheet.footerV1_93, {"providerName":"Aave"}')
+    ).toBeTruthy()
+
+    expect(getByTestId('EarnDeposit/PrimaryCta')).toBeTruthy()
+    expect(getByTestId('EarnDeposit/SecondaryCta')).toBeTruthy()
+  })
+
   it('pressing complete submits action and fires analytics event', () => {
     const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
     const { getByTestId } = render(
       <Provider store={store}>
-        <EarnDepositBottomSheet
-          forwardedRef={{ current: null }}
-          amount={new BigNumber(100)}
-          preparedTransaction={mockPreparedTransaction}
-          pool={mockEarnPositions[0]}
-        />
+        <EarnDepositBottomSheet {...mockDepositProps} />
       </Provider>
     )
 
@@ -147,12 +216,7 @@ describe('EarnDepositBottomSheet', () => {
   it('pressing cancel fires analytics event', () => {
     const { getByTestId } = render(
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
-        <EarnDepositBottomSheet
-          forwardedRef={{ current: null }}
-          amount={new BigNumber(100)}
-          preparedTransaction={mockPreparedTransaction}
-          pool={mockEarnPositions[0]}
-        />
+        <EarnDepositBottomSheet {...mockDepositProps} />
       </Provider>
     )
 
@@ -166,12 +230,7 @@ describe('EarnDepositBottomSheet', () => {
   it('pressing provider info opens the terms and conditions', () => {
     const { getByTestId } = render(
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
-        <EarnDepositBottomSheet
-          forwardedRef={{ current: null }}
-          amount={new BigNumber(100)}
-          preparedTransaction={mockPreparedTransaction}
-          pool={mockEarnPositions[0]}
-        />
+        <EarnDepositBottomSheet {...mockDepositProps} />
       </Provider>
     )
 
@@ -186,12 +245,7 @@ describe('EarnDepositBottomSheet', () => {
   it('pressing terms and conditions opens the terms and conditions', () => {
     const { getByTestId } = render(
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
-        <EarnDepositBottomSheet
-          forwardedRef={{ current: null }}
-          amount={new BigNumber(100)}
-          preparedTransaction={mockPreparedTransaction}
-          pool={mockEarnPositions[0]}
-        />
+        <EarnDepositBottomSheet {...mockDepositProps} />
       </Provider>
     )
 
@@ -210,12 +264,7 @@ describe('EarnDepositBottomSheet', () => {
     })
     const { getByTestId } = render(
       <Provider store={store}>
-        <EarnDepositBottomSheet
-          forwardedRef={{ current: null }}
-          amount={new BigNumber(100)}
-          preparedTransaction={mockPreparedTransaction}
-          pool={mockEarnPositions[0]}
-        />
+        <EarnDepositBottomSheet {...mockDepositProps} />
       </Provider>
     )
 
@@ -225,15 +274,10 @@ describe('EarnDepositBottomSheet', () => {
   })
 
   it('shows gas subsidized copy if feature gate is set', () => {
-    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
+    jest.spyOn(earnUtils, 'isGasSubsidizedForNetwork').mockReturnValue(true)
     const { getByTestId } = render(
       <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
-        <EarnDepositBottomSheet
-          forwardedRef={{ current: null }}
-          amount={new BigNumber(100)}
-          preparedTransaction={mockPreparedTransaction}
-          pool={mockEarnPositions[0]}
-        />
+        <EarnDepositBottomSheet {...mockDepositProps} />
       </Provider>
     )
 

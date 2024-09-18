@@ -437,8 +437,11 @@ function EarnEnterAmount({ route }: Props) {
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
-          amount={tokenAmount}
+          inputAmount={tokenAmount}
           pool={pool}
+          mode={mode}
+          swapTransaction={swapTransaction}
+          inputTokenId={token.tokenId}
         />
       )}
       <TokenBottomSheet
