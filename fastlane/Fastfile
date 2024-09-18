@@ -117,7 +117,7 @@ platform :ios do
 
   desc 'Build the iOS application - requires environment param'
   lane :build do |options|
-    expected_ipa_path = "./build/#{get_app_registry_name(options[:environment])}.ipa"
+    expected_ipa_path = "#{get_app_registry_name(options[:environment])}"
     puts "Expected .ipa file will be generated at: #{expected_ipa_path}"
 
     gym(
@@ -133,7 +133,7 @@ platform :ios do
         "-authenticationKeyIssuerID #{ENV['APPLE_CONNECT_ISSUER_ID']}",
       ].join(' '),
       output_directory: 'build',
-      output_name: "#{get_app_registry_name(options[:environment])}.ipa"
+      output_name: "valoraTest"
       verbose: true
      ) 
   end
