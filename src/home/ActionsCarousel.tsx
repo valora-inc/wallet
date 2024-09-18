@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { HomeEvents } from 'src/analytics/Events'
 import Card from 'src/components/Card'
@@ -77,53 +77,57 @@ function ActionsCarousel() {
   }
 
   return (
-    <ScrollView
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.carouselContainer}
-      testID={'HomeActionsCarousel'}
-    >
-      {ENABLED_QUICK_ACTIONS.map((name) => ({ ...actions[name], name }))
-        .filter(({ hidden }) => !hidden)
-        .map(({ name, title, icon, onPress }) => (
-          <Card
-            style={styles.card}
-            shadow={null}
-            key={`HomeAction-${name}`}
-            testID={`HomeAction-${name}`}
-          >
-            <Touchable
-              onPress={() => {
-                AppAnalytics.track(HomeEvents.home_action_pressed, { action: name })
-                onPress()
-              }}
-              style={styles.touchable}
-              borderRadius={8}
-              testID={`HomeActionTouchable-${name}`}
+    <View style={styles.viewContainer}>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.carouselContainer}
+        testID={'HomeActionsCarousel'}
+      >
+        {ENABLED_QUICK_ACTIONS.map((name) => ({ ...actions[name], name }))
+          .filter(({ hidden }) => !hidden)
+          .map(({ name, title, icon, onPress }) => (
+            <Card
+              style={styles.card}
+              shadow={null}
+              key={`HomeAction-${name}`}
+              testID={`HomeAction-${name}`}
             >
-              <>
-                {icon}
-                <Text
-                  numberOfLines={1}
-                  allowFontScaling={false}
-                  style={styles.name}
-                  testID={`HomeAction/Title-${name}`}
-                >
-                  {title}
-                </Text>
-              </>
-            </Touchable>
-          </Card>
-        ))}
-    </ScrollView>
+              <Touchable
+                onPress={() => {
+                  AppAnalytics.track(HomeEvents.home_action_pressed, { action: name })
+                  onPress()
+                }}
+                style={styles.touchable}
+                borderRadius={8}
+                testID={`HomeActionTouchable-${name}`}
+              >
+                <>
+                  {icon}
+                  <Text
+                    numberOfLines={1}
+                    allowFontScaling={false}
+                    style={styles.name}
+                    testID={`HomeAction/Title-${name}`}
+                  >
+                    {title}
+                  </Text>
+                </>
+              </Touchable>
+            </Card>
+          ))}
+      </ScrollView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  viewContainer: {
+    backgroundColor: Colors.white,
+  },
   carouselContainer: {
     padding: Spacing.Regular16,
     gap: Spacing.Regular16,
-    backgroundColor: Colors.white,
   },
   card: {
     width: 84,
