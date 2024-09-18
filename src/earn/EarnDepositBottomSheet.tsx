@@ -7,13 +7,12 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import TokenDisplay from 'src/components/TokenDisplay'
-import Touchable from 'src/components/Touchable'
 import { getTotalYieldRate } from 'src/earn/poolInfo'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
-import InfoIcon from 'src/icons/InfoIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
@@ -64,6 +63,7 @@ export default function EarnDepositBottomSheet({
 
   const onPressProviderIcon = () => {
     AppAnalytics.track(EarnEvents.earn_deposit_provider_info_press, commonAnalyticsProperties)
+    forwardedRef.current?.close()
     termsUrl && navigate(Screens.WebViewScreen, { uri: termsUrl })
   }
 
@@ -72,6 +72,7 @@ export default function EarnDepositBottomSheet({
       EarnEvents.earn_deposit_terms_and_conditions_press,
       commonAnalyticsProperties
     )
+    forwardedRef.current?.close()
     termsUrl && navigate(Screens.WebViewScreen, { uri: termsUrl })
   }
 
@@ -154,15 +155,16 @@ export default function EarnDepositBottomSheet({
         </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.provider')}>
           <View style={styles.providerNameContainer}>
-            <Text style={styles.value}>{pool.appName}</Text>
-            {!!termsUrl && (
-              <Touchable
-                testID="EarnDeposit/ProviderInfo"
-                borderRadius={24}
+            {termsUrl ? (
+              <LabelWithInfo
+                label={pool.appName}
+                labelStyle={styles.value}
                 onPress={onPressProviderIcon}
-              >
-                <InfoIcon size={12} />
-              </Touchable>
+                iconSize={12}
+                testID="EarnDeposit/ProviderInfo"
+              />
+            ) : (
+              <Text style={styles.value}>{pool.appName} </Text>
             )}
           </View>
         </LabelledItem>
