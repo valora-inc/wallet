@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { useAsyncCallback } from 'react-async-hook'
-import { PrepareWithdrawAndClaimParams } from 'src/earn/types'
+import { EarnDepositMode, PrepareWithdrawAndClaimParams } from 'src/earn/types'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
 import { RawShortcutTransaction } from 'src/positions/slice'
@@ -31,7 +31,7 @@ export async function prepareDepositTransactions({
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
   hooksApiUrl: string
-  shortcutId: 'deposit' | 'swap-deposit'
+  shortcutId: EarnDepositMode
 }) {
   const args =
     shortcutId === 'deposit'
