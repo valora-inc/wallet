@@ -2483,7 +2483,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "{{appName}}'s covering gas for this transaction!",
+    "gasSubsidized": "Transaction fees are covered for a limited time",
     "addCryptoBottomSheet": {
       "title": "เพิ่ม {{tokenSymbol}} บน {{tokenNetwork}}",
       "description": "เมื่อคุณเพิ่มโทเค็นแล้ว คุณจะต้องย้อนกลับมาฝากเข้าพูลให้เสร็จสิ้น",
@@ -2548,6 +2548,7 @@
       "title": "How much would you like to deposit?",
       "deposit": "ฝากเงิน",
       "fees": "ค่าธรรมเนียม",
+      "swap": "สว็อป",
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
       "rateLabel": "อัตรา (โดยประมาณ)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / ปี",
@@ -2586,7 +2587,9 @@
       "footer": "เมื่อฝากคริปโตในพูล Aave คุณยอมรับความเสี่ยงที่มาพร้อมการใช้ Aave <0>ข้อกำหนดและเงื่อนไข</0>",
       "footerV1_93": "เมื่อฝากคริปโตในพูล {{providerName}} คุณยอมรับความเสี่ยงที่มาพร้อมการใช้ {{providerName}} <0>ข้อกำหนดและเงื่อนไข</0>",
       "primaryCta": "เสร็จสมบูรณ์",
-      "secondaryCta": "ยกเลิก"
+      "secondaryCta": "ยกเลิก",
+      "yieldRate": "อัตราผลตอบแทน (โดยประมาณ)",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "ยินดีด้วย! ตรวจสอบและเก็บรายได้ของคุณ",

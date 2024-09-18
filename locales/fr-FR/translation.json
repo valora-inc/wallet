@@ -56,8 +56,8 @@
   },
   "accountKeyModal": {
     "header": "Sans votre Phrase de récupération, vous perdez définitivement l'accès à vos fonds",
-    "body1": "Pour réinitialiser {{appName}}, tu devras confirmer que tu as écrit ta phrase de récupération.",
-    "body2": "Personne, pas même {{appName}}, ne peut récupérer ton compte sans ta phrase."
+    "body1": "Afin de réinitialiser {{appName}}, vous devrez confirmer que vous avez bien noté votre phrase de récupération.",
+    "body2": "Personne, même pas {{appName}}, ne sera en mesure de récupérer votre compte sans votre phrase."
   },
   "promptConfirmRemovalModal": {
     "header": "Êtes-vous sûr de vouloir continuer ?",
@@ -77,7 +77,7 @@
     "title": "Votre Phrase de récupération",
     "titleV1_90": "Votre phrase de récupération",
     "body": "Écrivez ces 12 mots dans un endroit sûr, où ils ne peuvent pas être volés ou endommagés.",
-    "bodyV1_90": "Si tu perds ta phrase de récupération, tu n'auras plus accès à tous les fonds détenus sur {{appName}}.",
+    "bodyV1_90": "Si vous perdez votre Phrase de récupération, vous perdrez l'accès à tous vos fonds détenus sur {{appName}}.",
     "continue": "Je l'ai enregistrée",
     "copy": "Copier dans le presse-papiers",
     "mnemonicCopied": "Phrase de récupération copiée dans le presse-papiers",
@@ -89,7 +89,7 @@
   },
   "walletSecurityPrimer": {
     "title": "Gardez votre portefeuille en sécurité",
-    "description": "Tu es le seul à pouvoir accéder à ton portefeuille. Si ton téléphone est perdu ou volé, {{appName}} ne peut pas le récupérer pour toi.\n\nTu devras mettre en place une méthode pour garder ton portefeuille en sécurité et protéger tes fonds."
+    "description": "Vous seul pouvez accéder à votre portefeuille. Si votre téléphone est perdu ou volé, {{appName}} ne pourra pas le récupérer pour vous.\n\nTrouvez un moyen pour garder votre portefeuille en sécurité et protéger vos fonds."
   },
   "keylessBackupIntro": {
     "emailAddress": "Adresse e-mail",
@@ -98,7 +98,7 @@
       "title": "Configurer la sauvegarde du portefeuille",
       "description": "Vous utiliserez les éléments suivants pour configurer la sauvegarde :",
       "useRecoveryPhrase": "Utiliser une phrase de récupération",
-      "reminder": "<0>N'oublie pas</0> que ces informations sont le seul moyen d'accéder à ton portefeuille en cas de perte ou de vol de ton appareil. {{appName}} ne stocke pas ton email ou ton numéro de téléphone. Garde-les en sécurité !"
+      "reminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. {{appName}} ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !"
     },
     "restore": {
       "description": "Assurez-vous d'avoir les éléments suivants pour restaurer votre portefeuille.",
@@ -232,7 +232,7 @@
   "keylessBackupNotification": "Configurez votre adresse e-mail et votre numéro de téléphone pour sauvegarder votre phrase de récupération",
   "backupKeyCTA": "Terminer la sauvegarde maintenant",
   "backupKeySummary": "Trouvez un endroit secret et notez-y votre Phrase de récupération. Veuillez la conserver dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone.",
-  "backupKeyWarning": "Si tu perds ta phrase de récupération, tu n'auras plus accès à tous les fonds détenus sur {{appName}}.",
+  "backupKeyWarning": "Si vous perdez votre Phrase de récupération, vous perdrez l'accès à tous vos fonds détenus sur {{appName}}.",
   "copied": "Phrase copiée dans le presse-papiers",
   "moreInfo": "Plus d'informations",
   "savedConfirmation": "Oui, j'ai bien noté ma phrase.",
@@ -303,7 +303,7 @@
     "dismiss": "Ignorer"
   },
   "superchargingTitle": "Mise à jour nécessaire",
-  "superchargingDescription": "Mets à jour l'application {{appName}} pour continuer à recevoir tes récompenses hebdomadaires Supercharge.",
+  "superchargingDescription": "Mettez à jour l'appli pour continuer à recevoir vos récompenses Supercharge hebdomadaires.",
   "superchargingTitleV1_54": "Supercharge touche à sa fin",
   "superchargingDescriptionV1_54": "Les récompenses hebdomadaires pourront être demandées jusqu'au mardi 28 mai, à 23h59 UTC. À partir du 29 mai, vous ne pourrez plus réclamer de récompenses Supercharge.",
   "superchargeRewardsAvailable": "Vous avez {{amount}} {{token}} à réclamer !",
@@ -393,7 +393,7 @@
   "tokenBalance": "Solde de {{token}}",
   "addFunds": "Ajouter des fonds",
   "addFundsHeaderWithCurrency": "Ajouter {{token}}",
-  "addFundsSubtitle": "Alimente ton compte {{appName}}",
+  "addFundsSubtitle": "Créditer votre compte {{appName}}",
   "exchanges": "Échanges",
   "noExchanges": "Il n'y a pas d'échanges disponibles pour {{digitalAsset}} dans votre pays.",
   "buySellOnExchanges": "Acheter/Vendre sur les échanges",
@@ -447,11 +447,11 @@
   },
   "providerFeeDiscountDialog": {
     "title": "Remise sur les frais",
-    "body": "En guise de promotion, les frais sont temporairement subventionnés pour célébrer le lancement de {{appName}}!"
+    "body": "Promotion spéciale, les frais sont temporairement suspendus pour fêter le lancement de {{appName}} !"
   },
   "pleaseSelectProvider": "Veuillez sélectionner un prestataire ci-dessous. Ces liens se connectent à un service tiers.",
   "otherFundingOptions": "Pour découvrir plus de moyens d'ajouter et de retirer des fonds, consulter <0>Comment créditer votre compte</0>.",
-  "youCanTransferIn": "Tu peux utiliser un échange tiers pour envoyer {{digitalAsset}} à ton compte {{appName}} . Pour cela, tu auras besoin de l'adresse de ton compte.",
+  "youCanTransferIn": "Vous pouvez utiliser une plateforme d'échange tierce pour envoyer {{digitalAsset}} vers votre compte {{appName}}. Vous aurez pour cela besoin de votre adresse de compte.",
   "youCanTransferOut": "Vous pouvez retirer vos fonds en les envoyant à un partenaire tiers qui prend en charge les {{digitalAsset}}.",
   "useBalanceWithMerchants": "Utilisez votre solde auprès des vendeurs prenant en charge ces monnaies",
   "findMerchants": "Trouvez des vendeurs près de chez vous",
@@ -710,7 +710,7 @@
       "body": "Invitez vos amis et votre famille à télécharger {{appName}} et chacun d'entre vous recevra un NFT exclusif"
     },
     "rewardsActiveCUSD": {
-      "title": "GAGNEZ JUSQU'À 12 cUSD pour avoir invité vos amis à {{appName}}!",
+      "title": "GAGNEZ JUSQU'À 12 cUSD pour avoir invité vos amis sur {{appName}} !",
       "body": "Recevez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois que votre ami aura ajouté des fonds et conservé 5 cUSD pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêchez-vous, les fonds sont limités ! (Limite de 25 amis)."
     }
   },
@@ -724,8 +724,8 @@
     "heading1": "Données et confidentialité",
     "heading2": "Actifs et Compte {{appName}}",
     "info": "Pour utiliser nos services, veuillez lire et accepter nos <0>Conditions d'utilisation</0> en cliquant sur le bouton ci-dessous.",
-    "privacy": "En rejoignant ce réseau, tu nous donnes la permission de collecter des informations anonymes sur ton utilisation de l'appli. De plus, si tu connectes ton numéro de téléphone, une copie hachée de celui-ci sera stockée. Si tu accordes à {{appName}} l'accès à ta liste de contacts, {{appName}} importera le nom, le numéro de téléphone et la photo de profil de chaque contact pour permettre aux utilisateurs de se connecter via l'appli {{appName}} . Pour savoir comment nous recueillons et utilisons ces informations, consulte notre <0>Politique de confidentialité</0>.",
-    "goldDisclaimer": "Lorsque tu crées un \"compte\" sur {{appName}} , tu crées un portefeuille numérique dont tu es le seul à détenir les clés. Aucune autre personne ou entité, y compris {{appName}}, ne peut récupérer ta clé, modifier ou annuler des transactions, ou récupérer des fonds perdus. Sache que les actifs numériques font partie d'une nouvelle classe d'actifs et présentent un risque de perte financière. Réfléchis bien à ta situation financière et à ta tolérance au risque financier avant d'acheter un actif numérique.",
+    "privacy": "En rejoignant ce réseau, vous nous autorisez à collecter des informations anonymes sur votre utilisation de l'appli. De plus, si vous connectez votre numéro de téléphone, une copie hachée de celui-ci sera conservée. Si vous accordez à {{appName}} l'accès à votre liste de contacts, {{appName}} importera le nom de chacun de vos contacts, leur numéro de téléphone et photo de profil pour permettre aux utilisateurs de se contacter sur l'appli {{appName}}. Pour savoir comment nous recueillons et utilisons ces informations, veuillez consulter notre <0>Politique de confidentialité</0>.",
+    "goldDisclaimer": "Lorsque vous créez un \"compte\" chez {{appName}}, vous créez un portefeuille numérique dont vous seul détenez la clé. Aucune autre personne ni entité, y compris {{appName}}, ne peut récupérer votre clé, modifier ou annuler des transactions, ou récupérer des fonds perdus. Sachez que les cryptomonnaies sont une nouvelle catégorie d'actifs et présentent un risque de perte financière. Réfléhissez soigneusement à votre situation financière et pesez le risque financier que vous prenez avant d'acheter un actif.",
     "goldDisclaimerWithPoints": "Lorsque tu crées un \" compte \" sur {{appName}} , tu crées un portefeuille numérique dont tu es le seul à détenir les clés. Aucune autre personne ou entité, y compris {{appName}}, ne peut récupérer ta clé, modifier ou annuler des transactions, ou récupérer des fonds perdus. {{appName}} accorde des récompenses de fidélité tokenisées (\"Points\") aux utilisateurs qui s'engagent dans certaines activités in-app. Les Points sont des objets de collection on-chain, non transférables et non rachetables. Aucune garantie n'est donnée sur la disponibilité ou la valeur des Points. Sache que les actifs numériques font partie d'une nouvelle classe d'actifs et présentent un risque de perte financière. Examine attentivement ta situation financière et ta tolérance au risque financier avant d'acheter un actif numérique."
   },
   "termsColloquial": {
@@ -2485,7 +2485,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "{{appName}}couvre l'essence pour cette transaction !",
+    "gasSubsidized": "Les frais de transaction sont couverts pendant une durée limitée",
     "addCryptoBottomSheet": {
       "title": "Ajouter {{tokenSymbol}} sur {{tokenNetwork}}",
       "description": "Une fois que vous ajoutez des jetons, vous devrez revenir pour finaliser votre dépôt dans un pool.",
@@ -2550,6 +2550,7 @@
       "title": "Quel est le montant que tu souhaites déposer ?",
       "deposit": "Dépôt",
       "fees": "Frais",
+      "swap": "Échange",
       "earnUpToLabel": "Vous pourriez gagner jusqu'à :",
       "rateLabel": "Taux (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / an",
@@ -2588,7 +2589,9 @@
       "footer": "En déposant des crypto-monnaies dans un pool Aave, vous acceptez les risques associés à l'utilisation d'Aave. <0>Conditions Générales</0>",
       "footerV1_93": "En déposant des crypto-monnaies dans un pool {{providerName}}, vous acceptez les risques associés à l'utilisation de {{providerName}}. <0>Conditions Générales</0>",
       "primaryCta": "Valider",
-      "secondaryCta": "Annuler"
+      "secondaryCta": "Annuler",
+      "yieldRate": "Taux de rendement (est.)",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "Bravo ! Consultez et accumulez vos gains",

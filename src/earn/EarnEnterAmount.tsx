@@ -13,13 +13,18 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
-import { usePrepareSupplyTransactions } from 'src/earn/prepareTransactions'
+import { usePrepareDepositTransactions } from 'src/earn/prepareTransactions'
+import { EarnDepositMode } from 'src/earn/types'
+import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import ArrowRightThick from 'src/icons/ArrowRightThick'
+import DownArrowIcon from 'src/icons/DownArrowIcon'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -29,14 +34,15 @@ import { StackParamList } from 'src/navigator/types'
 import { hooksApiUrlSelector } from 'src/positions/selectors'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
-import { AmountInput, ProceedArgs } from 'src/send/EnterAmount'
+import { AmountInput } from 'src/send/EnterAmount'
 import { AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { SwapTransaction } from 'src/swap/types'
 import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
-import { feeCurrenciesSelector } from 'src/tokens/selectors'
+import { feeCurrenciesSelector, swappableFromTokensByNetworkIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { parseInputAmount } from 'src/utils/parsing'
@@ -52,17 +58,42 @@ const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
-function EarnEnterAmount({ route }: Props) {
-  const { t } = useTranslation()
+function useTokens({ pool, mode }: { pool: EarnPosition; mode: EarnDepositMode }) {
+  const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
+  const swappableTokens = useSelector((state) =>
+    swappableFromTokensByNetworkIdSelector(state, [pool.networkId])
+  )
 
-  const { pool } = route.params
-  const token = useTokenInfo(pool.dataProps.depositTokenId)
+  const eligibleSwappableTokens = useMemo(
+    () =>
+      swappableTokens.filter(
+        ({ tokenId, balance }) =>
+          tokenId !== pool.dataProps.depositTokenId &&
+          tokenId !== pool.dataProps.withdrawTokenId &&
+          balance.gt(0)
+      ),
+    [swappableTokens, pool.dataProps.depositTokenId, pool.dataProps.withdrawTokenId]
+  )
 
-  if (!token) {
+  if (!depositToken) {
+    // should never happen
     throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
   }
 
+  return mode === 'deposit' ? [depositToken] : eligibleSwappableTokens
+}
+
+function EarnEnterAmount({ route }: Props) {
+  const { t } = useTranslation()
+
+  const { pool, mode = 'deposit' } = route.params
+  const tokens = useTokens({ pool, mode })
+
+  const [token, setToken] = useState<TokenBalance>(() => tokens[0])
+  const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
+
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tokenAmountInputRef = useRef<RNTextInput>(null)
   const localAmountInputRef = useRef<RNTextInput>(null)
 
@@ -73,13 +104,28 @@ function EarnEnterAmount({ route }: Props) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
 
+  const onTokenPickerSelect = () => {
+    tokenBottomSheetRef.current?.snapToIndex(0)
+    AppAnalytics.track(SendEvents.token_dropdown_opened, {
+      currentTokenId: token.tokenId,
+      currentTokenAddress: token.address,
+      currentNetworkId: token.networkId,
+    })
+  }
+
+  const onSelectToken = (token: TokenBalance) => {
+    setToken(token)
+    tokenBottomSheetRef.current?.close()
+    // NOTE: analytics is already fired by the bottom sheet, don't need one here
+  }
+
   const {
-    prepareTransactionsResult,
+    prepareTransactionsResult: { prepareTransactionsResult, swapTransaction } = {},
     refreshPreparedTransactions,
     clearPreparedTransactions,
     prepareTransactionError,
     isPreparingTransactions,
-  } = usePrepareSupplyTransactions()
+  } = usePrepareDepositTransactions()
 
   const walletAddress = useSelector(walletAddressSelector)
 
@@ -100,6 +146,7 @@ function EarnEnterAmount({ route }: Props) {
       feeCurrencies,
       pool,
       hooksApiUrl,
+      shortcutId: mode,
     })
   }
 
@@ -127,7 +174,7 @@ function EarnEnterAmount({ route }: Props) {
 
   const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, token.tokenId)
   const localToToken = useLocalToTokenAmount(parsedLocalAmount, token.tokenId)
-  const { tokenAmount, localAmount } = useMemo(() => {
+  const { tokenAmount } = useMemo(() => {
     if (enteredIn === 'token') {
       setLocalAmountInput(
         tokenToLocal && tokenToLocal.gt(0)
@@ -240,16 +287,24 @@ function EarnEnterAmount({ route }: Props) {
     })
   }
 
-  const onPressContinue = ({ tokenAmount, token, amountEnteredIn }: ProceedArgs) => {
+  const onPressContinue = () => {
+    if (!tokenAmount || !depositToken) {
+      // should never happen
+      return
+    }
     AppAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
-      userHasFunds: !!isAmountLessThanBalance,
       tokenAmount: tokenAmount.toString(),
       amountInUsd: tokenAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
-      amountEnteredIn,
-      depositTokenId: token.tokenId,
+      amountEnteredIn: enteredIn,
+      depositTokenId: pool.dataProps.depositTokenId,
       networkId: token.networkId,
       providerId: pool.appId,
       poolId: pool.positionId,
+      sourceTokenId: token.tokenId,
+      mode,
+      depositTokenAmount: swapTransaction
+        ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
+        : tokenAmount.toString(),
     })
     reviewBottomSheetRef.current?.snapToIndex(0)
   }
@@ -271,12 +326,19 @@ function EarnEnterAmount({ route }: Props) {
                 placeholder={new BigNumber(0).toFormat(2)}
                 testID="EarnEnterAmount/TokenAmountInput"
               />
-              <View style={styles.tokenView} testID="EarnEnterAmount/TokenSelect">
+              <Touchable
+                borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
+                onPress={onTokenPickerSelect}
+                style={styles.tokenSelectButton}
+                disabled={tokens.length === 1}
+                testID="EarnEnterAmount/TokenSelect"
+              >
                 <>
                   <TokenIcon token={token} size={IconSize.SMALL} />
                   <Text style={styles.tokenName}>{token.symbol}</Text>
+                  {tokens.length > 1 && <DownArrowIcon color={Colors.gray5} />}
                 </>
-              </View>
+              </Touchable>
             </View>
             <View style={styles.localAmountRow}>
               <AmountInput
@@ -303,8 +365,10 @@ function EarnEnterAmount({ route }: Props) {
           {tokenAmount && prepareTransactionsResult && (
             <TransactionDetails
               pool={pool}
+              token={token}
               tokenAmount={tokenAmount}
               prepareTransactionsResult={prepareTransactionsResult}
+              swapTransaction={swapTransaction}
             />
           )}
         </View>
@@ -359,10 +423,7 @@ function EarnEnterAmount({ route }: Props) {
           />
         )}
         <Button
-          onPress={() =>
-            tokenAmount &&
-            onPressContinue({ tokenAmount, localAmount, token, amountEnteredIn: enteredIn })
-          }
+          onPress={onPressContinue}
           text={t('earnFlow.enterAmount.continue')}
           size={BtnSizes.FULL}
           disabled={disabled}
@@ -380,6 +441,14 @@ function EarnEnterAmount({ route }: Props) {
           pool={pool}
         />
       )}
+      <TokenBottomSheet
+        forwardedRef={tokenBottomSheetRef}
+        origin={TokenPickerOrigin.Earn}
+        onTokenSelected={onSelectToken}
+        tokens={tokens}
+        title={t('sendEnterAmountScreen.selectToken')}
+        titleStyle={styles.title}
+      />
     </SafeAreaView>
   )
 }
@@ -399,40 +468,78 @@ function LabelWithInfo({ label, onPress }: { label: string; onPress?: () => void
 
 function TransactionDetails({
   pool,
+  token,
   tokenAmount,
   prepareTransactionsResult,
+  swapTransaction,
 }: {
   pool: EarnPosition
+  token: TokenBalance
   tokenAmount: BigNumber
   prepareTransactionsResult: PreparedTransactionsResult
+  swapTransaction?: SwapTransaction
 }) {
   const { t } = useTranslation()
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
+
+  const depositAmount = useMemo(
+    () =>
+      swapTransaction
+        ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
+        : tokenAmount.toString(),
+    [tokenAmount, swapTransaction]
+  )
 
   return (
     feeCurrency &&
     maxFeeAmount && (
       <View style={styles.txDetailsContainer} testID="EnterAmountInfoCard">
-        <View style={styles.txDetailsLineItem}>
-          <LabelWithInfo label={t('earnFlow.enterAmount.deposit')} />
-          <View style={styles.flexShrink}>
-            <Text style={styles.txDetailsValueText}>
+        {swapTransaction && (
+          <View style={styles.txDetailsLineItem}>
+            <LabelWithInfo
+              label={t('earnFlow.enterAmount.swap')}
+              onPress={() => {
+                // TODO(ACT-1357): show bottom sheet
+              }}
+            />
+            <View style={styles.txDetailsValue}>
               <TokenDisplay
-                tokenId={pool.dataProps.depositTokenId}
-                testID="EarnEnterAmount/Deposit/Crypto"
+                testID="EarnEnterAmount/Swap/From"
+                tokenId={token.tokenId}
                 amount={tokenAmount.toString()}
                 showLocalAmount={false}
+                style={styles.txDetailsValueText}
               />
-              <Text style={styles.gray4}>
-                {' ('}
-                <TokenDisplay
-                  testID="EarnEnterAmount/Deposit/Fiat"
-                  tokenId={pool.dataProps.depositTokenId}
-                  amount={tokenAmount.toString()}
-                  showLocalAmount={true}
-                />
-                {')'}
-              </Text>
+              <ArrowRightThick size={20} color={Colors.black} />
+              <TokenDisplay
+                testID="EarnEnterAmount/Swap/To"
+                tokenId={pool.dataProps.depositTokenId}
+                amount={depositAmount}
+                showLocalAmount={false}
+                style={styles.txDetailsValueText}
+              />
+            </View>
+          </View>
+        )}
+        <View style={styles.txDetailsLineItem}>
+          <LabelWithInfo label={t('earnFlow.enterAmount.deposit')} />
+          <View style={styles.txDetailsValue}>
+            <TokenDisplay
+              tokenId={pool.dataProps.depositTokenId}
+              testID="EarnEnterAmount/Deposit/Crypto"
+              amount={depositAmount}
+              showLocalAmount={false}
+              style={styles.txDetailsValueText}
+            />
+            <Text style={[styles.txDetailsValueText, styles.gray4]}>
+              {'('}
+              <TokenDisplay
+                testID="EarnEnterAmount/Deposit/Fiat"
+                tokenId={pool.dataProps.depositTokenId}
+                amount={depositAmount}
+                showLocalAmount={true}
+              />
+              {')'}
             </Text>
           </View>
         </View>
@@ -443,10 +550,13 @@ function TransactionDetails({
               // TODO(ACT-1357): show bottom sheet
             }}
           />
-          <View style={styles.flexShrink}>
-            <Text style={styles.txDetailsValueText}>
-              <TokenDisplay tokenId={feeCurrency.tokenId} amount={maxFeeAmount.toString()} />
-            </Text>
+          <View style={styles.txDetailsValue}>
+            <TokenDisplay
+              testID="EarnEnterAmount/Fees"
+              tokenId={feeCurrency.tokenId}
+              amount={maxFeeAmount.toString()}
+              style={styles.txDetailsValueText}
+            />
           </View>
         </View>
       </View>
@@ -501,7 +611,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleMedium,
     color: Colors.black,
   },
-  tokenView: {
+  tokenSelectButton: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.white,
@@ -549,7 +659,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   txDetailsLabel: {
     flex: 1,
@@ -557,16 +667,21 @@ const styles = StyleSheet.create({
     gap: Spacing.Tiny4,
     alignItems: 'center',
     paddingRight: 20, // Prevents Icon from being cut off on long labels
-    minWidth: '35%',
+    minWidth: '25%',
   },
   txDetailsLabelText: {
     ...typeScale.bodyMedium,
-    color: Colors.gray4,
+    color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'left',
   },
-  flexShrink: {
+  txDetailsValue: {
     flexShrink: 1,
+    flexDirection: 'row',
+    gap: Spacing.Tiny4,
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
   },
   gray4: {
     color: Colors.gray4,

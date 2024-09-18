@@ -54,7 +54,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
-import { SerializableRewardsInfo } from 'src/earn/types'
+import { EarnDepositMode, SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -1599,9 +1599,12 @@ interface EarnEventsProperties {
   }
   [EarnEvents.earn_enter_amount_info_press]: undefined
   [EarnEvents.earn_enter_amount_continue_press]: {
-    userHasFunds: boolean
     amountInUsd: string
     amountEnteredIn: AmountEnteredIn
+    // TODO(ACT-1358): these could be moved to EarnDepositProperties
+    depositTokenAmount: string
+    sourceTokenId: string
+    mode: EarnDepositMode
   } & EarnDepositProperties
   [EarnEvents.earn_enter_amount_info_more_pools]: undefined
   [EarnEvents.earn_exit_pool_press]: {

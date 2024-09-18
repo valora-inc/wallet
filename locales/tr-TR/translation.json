@@ -2485,7 +2485,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "{{appName}}'in bu işlem için benzini karşılaması!",
+    "gasSubsidized": "İşlem ücretleri sınırlı bir süre için karşılanır",
     "addCryptoBottomSheet": {
       "title": "{{tokenNetwork}} ağına {{tokenSymbol}} ekleyin",
       "description": "Token ekledikten sonra havuza para yatırma işlemini tamamlamak için geri gelmeniz gerekecektir.",
@@ -2550,6 +2550,7 @@
       "title": "Ne kadar yatırmak istersiniz?",
       "deposit": "Patra Yatırma",
       "fees": "Ücretler",
+      "swap": "Swap",
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yıl",
@@ -2588,7 +2589,9 @@
       "footer": "Bir Aave havuzuna kripto yatırarak, Aave kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
       "footerV1_93": "Bir {{providerName}} havuzuna kripto yatırarak {{providerName}} kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
       "primaryCta": "Tamamlandı",
-      "secondaryCta": "İptal"
+      "secondaryCta": "İptal",
+      "yieldRate": "Verim Oranı (tahmini)",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "Tebrikler! Kazancınızı inceleyin ve toplayın",

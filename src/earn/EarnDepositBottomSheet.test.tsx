@@ -8,8 +8,6 @@ import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { depositStart } from 'src/earn/slice'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigate } from 'src/navigator/NavigationService'
-import { getDynamicConfigParams } from 'src/statsig'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
@@ -21,7 +19,6 @@ import {
   mockTokenBalances,
 } from 'test/values'
 
-jest.mock('src/statsig')
 jest.mock('src/earn/utils')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
@@ -31,7 +28,7 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
       from: '0xfrom',
       to: '0xto',
       data: '0xdata',
-      gas: BigInt(5e16),
+      gas: BigInt(5e12),
       _baseFeePerGas: BigInt(1),
       maxFeePerGas: BigInt(1),
       maxPriorityFeePerGas: undefined,
@@ -40,7 +37,7 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
       from: '0xfrom',
       to: '0xto',
       data: '0xdata',
-      gas: BigInt(1e16),
+      gas: BigInt(1e12),
       _baseFeePerGas: BigInt(1),
       maxFeePerGas: BigInt(1),
       maxPriorityFeePerGas: undefined,
@@ -66,18 +63,6 @@ describe('EarnDepositBottomSheet', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
-      switch (configName) {
-        case StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG:
-          return {
-            providerName: 'Aave',
-            providerLogoUrl: 'logoUrl',
-            providerTermsAndConditionsUrl: 'termsUrl',
-          }
-        default:
-          return defaultValues
-      }
-    })
     jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
   })
 
@@ -101,15 +86,16 @@ describe('EarnDepositBottomSheet', () => {
       getByText('earnFlow.depositBottomSheet.descriptionV1_93, {"providerName":"Aave"}')
     ).toBeTruthy()
 
-    expect(getByTestId('EarnDepositBottomSheet/EarnApyAndAmount/Apy')).toBeTruthy()
-
     expect(queryByTestId('EarnDeposit/GasSubsidized')).toBeFalsy()
 
+    expect(getByText('earnFlow.depositBottomSheet.yieldRate')).toBeTruthy()
+    expect(getByText('earnFlow.depositBottomSheet.apy, {"apy":"1.92"}')).toBeTruthy()
+
     expect(getByText('earnFlow.depositBottomSheet.amount')).toBeTruthy()
-    expect(getByTestId('EarnDeposit/Amount')).toHaveTextContent('100.00 USDC')
+    expect(getByTestId('EarnDeposit/Amount')).toHaveTextContent('100.00 USDC(₱133.00)')
 
     expect(getByText('earnFlow.depositBottomSheet.fee')).toBeTruthy()
-    expect(getByTestId('EarnDeposit/Fee')).toHaveTextContent('0.06 ETH')
+    expect(getByTestId('EarnDeposit/Fee')).toHaveTextContent('₱0.012(0.000006 ETH)')
 
     expect(getByText('earnFlow.depositBottomSheet.provider')).toBeTruthy()
     expect(getByText('Aave')).toBeTruthy()

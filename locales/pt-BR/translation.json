@@ -2485,7 +2485,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "{{appName}}Você está cobrindo a gasolina para essa transação!",
+    "gasSubsidized": "As taxas de transação são cobertas por um período limitado",
     "addCryptoBottomSheet": {
       "title": "Adicionar {{tokenSymbol}} na {{tokenNetwork}}",
       "description": "Após adicionar tokens, você terá que voltar para terminar de depositar em um pool.",
@@ -2550,6 +2550,7 @@
       "title": "Quanto você gostaria de depositar?",
       "deposit": "Depósito",
       "fees": "Taxas",
+      "swap": "Trocar",
       "earnUpToLabel": "Você pode ganhar até:",
       "rateLabel": "Taxa (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/ano",
@@ -2588,7 +2589,9 @@
       "footer": "Ao depositar cripto em um pool da Aave, você aceita os riscos associados ao uso da Aave. <0>Termos e condições</0>",
       "footerV1_93": "Ao depositar criptomoedas em um pool da {{providerName}}, você aceita os riscos associados ao uso da {{providerName}}. <0>Termos e condições</0>",
       "primaryCta": "Concluir",
-      "secondaryCta": "Cancelar"
+      "secondaryCta": "Cancelar",
+      "yieldRate": "Taxa de rendimento (est.)",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "Parabéns! Revise e receba seus ganhos",

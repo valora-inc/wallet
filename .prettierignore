@@ -7,9 +7,8 @@ package.json
 
 android/app/build
 # Ignore Images.xcassets as Xcode reformats them anyway when saving
-branding/celo/ios/celo/Images.xcassets
 ios/build
-ios/celo/Images.xcassets
+ios/MobileStack/Images.xcassets
 ios/Pods
 # Ignore Crowdin generated files (often they are written with no final newline)
 locales/*/*.json

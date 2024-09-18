@@ -2489,7 +2489,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "{{appName}}pokrywa koszty paliwa dla tej transakcji!",
+    "gasSubsidized": "Opłaty transakcyjne są pokrywane przez ograniczony czas",
     "addCryptoBottomSheet": {
       "title": "Dodaj {{tokenSymbol}} w {{tokenNetwork}}",
       "description": "Po dodaniu tokenów konieczny będzie powrót, aby dokończyć wpłatę do puli.",
@@ -2554,6 +2554,7 @@
       "title": "Jaką kwotę chcesz wpłacić?",
       "deposit": "Wpłatę",
       "fees": "Opłaty",
+      "swap": "Zamieniaj",
       "earnUpToLabel": "Możesz zarobić do:",
       "rateLabel": "Stawka (szac.)",
       "earnUpTo": "~{{amount}}{{fiatSymbol}} / rok",
@@ -2592,7 +2593,9 @@
       "footer": "Wpłacając kryptowaluty do puli Aave, akceptujesz ryzyko związane z korzystaniem z Aave. <0>Warunki</0>",
       "footerV1_93": "Wpłacając kryptowaluty do puli {{providerName}}, akceptujesz ryzyko związane z korzystaniem z {{providerName}}. <0>Warunki</0>",
       "primaryCta": "Zakończ",
-      "secondaryCta": "Anuluj"
+      "secondaryCta": "Anuluj",
+      "yieldRate": "Stopa zwrotu (szac.)",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "Gratulacje! Przejrzyj i odbierz swoje zarobki",
