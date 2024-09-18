@@ -33,7 +33,6 @@ jobs:
         run: |
           brew tap wix/brew
           brew install applesimutils
-          applesimutils --list
         env:
           HOMEBREW_NO_AUTO_UPDATE: 1
           HOMEBREW_NO_INSTALL_CLEANUP: 1
@@ -109,9 +108,10 @@ jobs:
           --record-logs=failing
           --loglevel info
           --debug-synchronization 10000
-          --maxWorkers 1
+          --maxWorkers 5
           --retries 3
-        timeout-minutes: 45
+          --headless
+        timeout-minutes: 60
       - name: Publish iOS JUnit Report
         if: always()
         uses: mikepenz/action-junit-report@v4
