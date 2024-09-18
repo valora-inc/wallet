@@ -3,8 +3,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import _ from 'lodash'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, RefreshControlProps, SectionList, StyleSheet } from 'react-native'
-import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
+import { FlatList, RefreshControl, RefreshControlProps, StyleSheet } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
@@ -30,7 +30,7 @@ import colors from 'src/styles/colors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { hasGrantedContactsPermission } from 'src/utils/contacts'
 
-const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TabHome>
 
@@ -68,13 +68,6 @@ function TabHome(_props: Props) {
       )
     )
   }
-
-  // Scroll Aware Header
-  const scrollPosition = useSharedValue(0)
-
-  const handleScroll = useAnimatedScrollHandler((event) => {
-    scrollPosition.value = event.contentOffset.y
-  })
 
   const tryImportContacts = async () => {
     // Skip if contacts have already been imported or the user hasn't verified their phone number.
@@ -118,43 +111,34 @@ function TabHome(_props: Props) {
     <RefreshControl refreshing={isLoading} onRefresh={onRefresh} colors={[colors.primary]} />
   ) as React.ReactElement<RefreshControlProps>
 
-  const notificationBoxSection = {
-    data: [{}],
-    renderItem: () => (
-      <NotificationBox
-        key={'NotificationBox'}
-        // Only show high priority notifications marked for the home screen
-        showOnlyHomeScreenNotifications={true}
-      />
-    ),
-  }
-  const actionsCarouselSection = {
-    data: [{}],
-    renderItem: () => <ActionsCarousel key={'ActionsCarousel'} />,
-  }
+  const flatListSections = [
+    {
+      key: 'NotificationBox',
+      component: <NotificationBox showOnlyHomeScreenNotifications={true} />,
+    },
+    { key: 'TransactionFeed', component: <TransactionFeed /> },
+  ]
 
-  const transactionFeedSection = {
-    data: [{}],
-    renderItem: () => <TransactionFeed key={'TransactionList'} />,
-  }
-
-  const sections = [actionsCarouselSection, notificationBoxSection, transactionFeedSection]
+  const renderItem = ({ item }: { item: any }) => item.component
 
   return (
     <SafeAreaView testID="WalletHome" style={styles.container} edges={[]}>
-      <AnimatedSectionList
+      <AnimatedFlatList
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
         scrollEventThrottle={16}
-        onScroll={handleScroll}
         refreshControl={refresh}
         onRefresh={onRefresh}
         refreshing={isLoading}
         style={styles.container}
         contentContainerStyle={{ paddingBottom: insets.bottom }}
-        sections={sections}
+        data={flatListSections}
+        renderItem={renderItem}
         keyExtractor={keyExtractor}
-        testID="WalletHome/SectionList"
+        testID="WalletHome/FlatList"
+        stickyHeaderIndices={[0]}
+        ListHeaderComponent={<ActionsCarousel />}
+        stickyHeaderHiddenOnScroll={true}
       />
       {showNftCelebration && <NftCelebration />}
       {showNftReward && <NftReward />}
