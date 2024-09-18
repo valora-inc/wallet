@@ -6,9 +6,9 @@ def get_app_bundle_id(env)
   Dotenv.parse("../.env.#{env}")['APP_BUNDLE_ID']
 end
 
-# def get_app_registry_name(env)
-#   Dotenv.parse("../.env.#{env}")['APP_REGISTRY_NAME']
-# end
+def get_app_registry_name(env)
+  Dotenv.parse("../.env.#{env}")['APP_REGISTRY_NAME']
+end
 
 def fastlane_emerge(environment:, file_path:)
   # Note: this requires the EMERGE_API_TOKEN env var to be set
@@ -130,7 +130,7 @@ platform :ios do
         "-authenticationKeyIssuerID #{ENV['APPLE_CONNECT_ISSUER_ID']}",
       ].join(' '),
       output_directory: 'build',
-      # output_name: "#{get_app_registry_name(options[:environment])}-#{options[:environment]}.ipa"
+      output_name: "#{get_app_registry_name(options[:environment])}-#{options[:environment]}.ipa"
       verbose: true
      ) 
   end
