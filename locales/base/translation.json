@@ -2629,7 +2629,6 @@
       "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
       "earnWithdrawDetails": "Amount Withdrawn",
       "swap": "Swap",
-      "swapValue": "{{fromTokenAndAmount}} → {{toTokenAndAmount}}",
       "network": "Network",
       "fees": "Fees"
     },
