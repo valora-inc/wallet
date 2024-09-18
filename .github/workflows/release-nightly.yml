@@ -28,11 +28,21 @@ jobs:
         run: test -z $(git rev-list --after="24 hours" $(git rev-parse HEAD)) && echo "should-run=false" >> $GITHUB_OUTPUT
 
   ios:
-    # needs: check-date
-    # if: ${{ needs.check-date.outputs.should-run != 'false' }}
+    needs: check-date
+    if: ${{ needs.check-date.outputs.should-run != 'false' }}
     # Note: This makes use of a reusable workflow
     # Tip: Use `gh workflow run "Release - Nightly" --ref your_branch` to trigger the workflow manually
     uses: ./.github/workflows/release-fastlane-ios.yml
+    with:
+      branch: main
+      lanes: '["alfajoresnightly", "mainnetnightly"]'
+    secrets:
+      gcp-service-account-key: ${{ secrets.GCP_MAINNET_RELEASE_AUTOMATION_SERVICE_ACCOUNT_KEY }}
+
+  android:
+    needs: check-date
+    if: ${{ needs.check-date.outputs.should-run != 'false' }}
+    uses: ./.github/workflows/release-fastlane-android.yml
     with:
       branch: main
       lanes: '["alfajoresnightly", "mainnetnightly"]'
