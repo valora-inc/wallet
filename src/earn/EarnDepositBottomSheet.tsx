@@ -2,8 +2,6 @@ import BigNumber from 'bignumber.js'
 import React, { RefObject } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
-import { ResizeMode } from 'react-native-video'
 import { useDispatch } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
@@ -11,12 +9,11 @@ import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { EarnApyAndAmount } from 'src/earn/EarnApyAndAmount'
+import { getTotalYieldRate } from 'src/earn/poolInfo'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import InfoIcon from 'src/icons/InfoIcon'
-import Logo from 'src/images/Logo'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
@@ -24,14 +21,12 @@ import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
+import { Spacing } from 'src/styles/styles'
 import {
   PreparedTransactionsPossible,
   getFeeCurrencyAndAmounts,
 } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
-
-const LOGO_SIZE = 24
 
 export default function EarnDepositBottomSheet({
   forwardedRef,
@@ -99,35 +94,58 @@ export default function EarnDepositBottomSheet({
   return (
     <BottomSheet forwardedRef={forwardedRef} testId="EarnDepositBottomSheet">
       <View style={styles.container}>
-        <Logos providerUrl={pool.displayProps.imageUrl} />
         <Text style={styles.title}>{t('earnFlow.depositBottomSheet.title')}</Text>
         <Text style={styles.description}>
           {t('earnFlow.depositBottomSheet.descriptionV1_93', { providerName: pool.appName })}
         </Text>
-        <View style={styles.infoContainer}>
-          <EarnApyAndAmount
-            tokenAmount={amount}
-            pool={pool}
-            testIDPrefix={'EarnDepositBottomSheet'}
-          />
-        </View>
+        <LabelledItem label={t('earnFlow.depositBottomSheet.yieldRate')}>
+          <Text style={styles.value}>
+            {t('earnFlow.depositBottomSheet.apy', {
+              apy: getTotalYieldRate(pool).toFixed(2),
+            })}
+          </Text>
+        </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.amount')}>
-          <TokenDisplay
-            testID="EarnDeposit/Amount"
-            amount={amount}
-            tokenId={pool.dataProps.depositTokenId}
-            style={styles.value}
-            showLocalAmount={false}
-          />
+          <View style={styles.valueRow} testID="EarnDeposit/Amount">
+            <TokenDisplay
+              testID="EarnDeposit/AmountCrypto"
+              amount={amount}
+              tokenId={pool.dataProps.depositTokenId}
+              style={styles.value}
+              showLocalAmount={false}
+            />
+            <Text style={styles.valueSecondary}>
+              {'('}
+              <TokenDisplay
+                testID="EarnDeposit/AmountFiat"
+                amount={amount}
+                tokenId={pool.dataProps.depositTokenId}
+                showLocalAmount={true}
+              />
+              {')'}
+            </Text>
+          </View>
         </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.fee')}>
-          <TokenDisplay
-            testID="EarnDeposit/Fee"
-            amount={estimatedFeeAmount}
-            tokenId={feeCurrency.tokenId}
-            style={[styles.value, isGasSubsidized && { textDecorationLine: 'line-through' }]}
-            showLocalAmount={false}
-          />
+          <View style={styles.valueRow} testID="EarnDeposit/Fee">
+            <TokenDisplay
+              testID="EarnDeposit/FeeFiat"
+              amount={estimatedFeeAmount}
+              tokenId={feeCurrency.tokenId}
+              style={[styles.value, isGasSubsidized && { textDecorationLine: 'line-through' }]}
+              showLocalAmount={true}
+            />
+            <Text style={styles.valueSecondary}>
+              {'('}
+              <TokenDisplay
+                testID="EarnDeposit/FeeCrypto"
+                amount={estimatedFeeAmount}
+                tokenId={feeCurrency.tokenId}
+                showLocalAmount={false}
+              />
+              {')'}
+            </Text>
+          </View>
           {isGasSubsidized && (
             <Text style={styles.gasSubsidized} testID={'EarnDeposit/GasSubsidized'}>
               {t('earnFlow.gasSubsidized')}
@@ -201,23 +219,6 @@ function LabelledItem({ label, children }: { label: string; children: React.Reac
   )
 }
 
-function Logos({ providerUrl }: { providerUrl: string }) {
-  return (
-    <View style={styles.logoContainer}>
-      <View style={styles.logoBackground}>
-        <Logo size={LOGO_SIZE} />
-      </View>
-      <View style={[styles.logoBackground, { marginLeft: -4 }]}>
-        <FastImage
-          style={styles.providerImage}
-          source={{ uri: providerUrl }}
-          resizeMode={ResizeMode.COVER}
-        />
-      </View>
-    </View>
-  )
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -236,29 +237,19 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typeScale.labelXSmall,
-    color: Colors.gray4,
+    color: Colors.gray3,
   },
   value: {
     ...typeScale.labelSemiBoldSmall,
     color: Colors.black,
   },
-  logoContainer: {
+  valueRow: {
     flexDirection: 'row',
+    gap: Spacing.Tiny4,
   },
-  logoBackground: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center',
-    height: 40,
-    width: 40,
-    borderRadius: 100,
-    backgroundColor: Colors.white,
-    ...getShadowStyle(Shadow.SoftLight),
-  },
-  providerImage: {
-    height: LOGO_SIZE,
-    width: LOGO_SIZE,
-    borderRadius: 100,
+  valueSecondary: {
+    ...typeScale.bodySmall,
+    color: Colors.gray3,
   },
   providerNameContainer: {
     flexDirection: 'row',
@@ -266,7 +257,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footer: {
-    marginTop: Spacing.XLarge48,
     ...typeScale.bodySmall,
     color: Colors.gray3,
   },
@@ -281,12 +271,6 @@ const styles = StyleSheet.create({
   cta: {
     flexGrow: 1,
     flexBasis: 0,
-  },
-  infoContainer: {
-    padding: Spacing.Regular16,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
   },
   gasSubsidized: {
     ...typeScale.labelXSmall,
