@@ -271,7 +271,7 @@ export default function BeforeDepositBottomSheet({
             )}
           </>
         )}
-        {!canSwapDeposit && hasTokensOnOtherNetworks && (
+        {!canSwapDeposit && (hasTokensOnSameNetwork || hasTokensOnOtherNetworks) && (
           <SwapAction token={token} forwardedRef={forwardedRef} />
         )}
         {canAdd && <AddAction token={token} forwardedRef={forwardedRef} />}

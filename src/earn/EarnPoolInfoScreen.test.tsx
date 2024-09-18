@@ -466,8 +466,11 @@ describe('EarnPoolInfoScreen', () => {
   })
 
   it('navigates correctly when swap action item is tapped', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS) // Swap and deposit feature gate turned off
     const { getByText, getByTestId } = render(
-      <Provider store={getStore({ includeOtherChainToken: true })}>
+      <Provider store={getStore({ includeSameChainToken: true, includeOtherChainToken: true })}>
         <MockedNavigator
           component={() => {
             return (
@@ -492,13 +495,13 @@ describe('EarnPoolInfoScreen', () => {
 
   it('navigates correctly when transfer action item is tapped', () => {
     const { getByText, getByTestId } = render(
-      <Provider store={getStore({ includeOtherChainToken: true })}>
+      <Provider store={getStore({ includeSameChainToken: true, includeOtherChainToken: true })}>
         <MockedNavigator
           component={() => {
             return (
               <EarnPoolInfoScreen
                 {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
-                  pool: mockEarnPositions[0],
+                  pool: { ...mockEarnPositions[0], availableShortcutIds: ['deposit', 'withdraw'] },
                 })}
               />
             )
