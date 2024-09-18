@@ -710,9 +710,17 @@ function FeeDetailsBottomSheet({
           <Text style={styles.bottomSheetDescriptionTitle}>
             {t('earnFlow.enterAmount.feeBottomSheet.moreInformation')}
           </Text>
-          <Text style={styles.bottomSheetDescriptionText}>
-            {t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')}
-          </Text>
+          {swapFeeAmount ? (
+            <Text style={styles.bottomSheetDescriptionText}>
+              {t('earnFlow.enterAmount.feeBottomSheet.networkSwapFeeDescription', {
+                appFeePercentage: swapTransaction?.appFeePercentageIncludedInPrice,
+              })}
+            </Text>
+          ) : (
+            <Text style={styles.bottomSheetDescriptionText}>
+              {t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')}
+            </Text>
+          )}
         </View>
       </View>
       <Button

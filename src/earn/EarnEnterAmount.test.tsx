@@ -523,6 +523,7 @@ describe('EarnEnterAmount', () => {
     expect(getByText('earnFlow.enterAmount.feeBottomSheet.feeDetails')).toBeVisible()
     expect(getByTestId('EstNetworkFee/Value')).toBeTruthy()
     expect(getByTestId('MaxNetworkFee/Value')).toBeTruthy()
+    expect(getByText('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')).toBeVisible()
   })
 
   it('should show swap fees on the FeeDetailsBottomSheet when swap transaction is present', async () => {
@@ -548,5 +549,10 @@ describe('EarnEnterAmount', () => {
     expect(getByTestId('EstNetworkFee/Value')).toBeTruthy()
     expect(getByTestId('MaxNetworkFee/Value')).toBeTruthy()
     expect(getByTestId('SwapFee/Value')).toBeTruthy()
+    expect(
+      getByText(
+        'earnFlow.enterAmount.feeBottomSheet.networkSwapFeeDescription, {"appFeePercentage":"0.6"}'
+      )
+    ).toBeVisible()
   })
 })
