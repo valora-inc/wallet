@@ -2573,7 +2573,7 @@
         "maxNetworkFee": "Max Network Fee",
         "networkFeeDescription": "The network fee is required by the network to process the deposit transaction.",
         "networkSwapFeeDescription": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
-        "appSwapFee": "{{appName}} Swap Fee"
+        "appSwapFee": "{{appName}} Fee"
       }
     },
     "activePools": {
