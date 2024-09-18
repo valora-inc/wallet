@@ -2,9 +2,9 @@ import BigNumber from 'bignumber.js'
 import React, { RefObject } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { useDispatch } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
+import { openUrl } from 'src/app/actions'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
@@ -13,10 +13,8 @@ import { getTotalYieldRate } from 'src/earn/poolInfo'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
-import { useSelector } from 'src/redux/hooks'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -63,8 +61,7 @@ export default function EarnDepositBottomSheet({
 
   const onPressProviderIcon = () => {
     AppAnalytics.track(EarnEvents.earn_deposit_provider_info_press, commonAnalyticsProperties)
-    forwardedRef.current?.close()
-    termsUrl && navigate(Screens.WebViewScreen, { uri: termsUrl })
+    termsUrl && dispatch(openUrl(termsUrl, true))
   }
 
   const onPressTermsAndConditions = () => {
@@ -72,8 +69,7 @@ export default function EarnDepositBottomSheet({
       EarnEvents.earn_deposit_terms_and_conditions_press,
       commonAnalyticsProperties
     )
-    forwardedRef.current?.close()
-    termsUrl && navigate(Screens.WebViewScreen, { uri: termsUrl })
+    termsUrl && dispatch(openUrl(termsUrl, true))
   }
 
   const onPressComplete = () => {
