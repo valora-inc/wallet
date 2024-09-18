@@ -12806,10 +12806,10 @@ react-native-quick-base64@^2.0.5:
   dependencies:
     base64-js "^1.5.1"
 
-react-native-quick-crypto@^0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/react-native-quick-crypto/-/react-native-quick-crypto-0.7.4.tgz#d8fc1b4e15cdf9cfa2d83a255e202d91bef629a0"
-  integrity sha512-Rg+XKmTIoH9V15PhwiCEatc+1XfO3i5+eIJ8NWRPMvGsrsWrmqakHk+Ik36HxdudFd7Rhm50As2HPA+n8bmXXg==
+react-native-quick-crypto@0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/react-native-quick-crypto/-/react-native-quick-crypto-0.7.3.tgz#731401a321e2e346f0933f3f47d3647425ba2537"
+  integrity sha512-Fw0/N5qwbGAMuzMeF6pS6P6v3R/iZEuqwc4Yim2s/hEqr5lJ+Yeh1JhXPEpDUXI1ndTzV/qUdfji6V8r/B5+KA==
   dependencies:
     "@craftzdog/react-native-buffer" "^6.0.5"
     events "^3.3.0"
