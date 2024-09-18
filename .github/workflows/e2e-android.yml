@@ -51,7 +51,7 @@ jobs:
           set -o pipefail
 
           # Install Ninja
-          apt-get install ninja-build
+          sudo apt-get install ninja-build
 
           # Allow the emulator to use /dev/kvm
           sudo adduser $USER kvm
