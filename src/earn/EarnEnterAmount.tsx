@@ -823,11 +823,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   bottomSheetLineLabel: {
-    maxWidth: '50%',
+    maxWidth: '40%',
     textAlign: 'left',
   },
   bottomSheetLineLabelText: {
-    maxWidth: '50%',
+    maxWidth: '60%',
     textAlign: 'right',
   },
   bottomSheetDescriptionTitle: {
