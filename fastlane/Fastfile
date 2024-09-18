@@ -127,6 +127,7 @@ platform :ios do
       ].join(' '),
       output_directory: 'build',
       # verbose: true
+      verbose: true
      ) 
   end
   
