@@ -1047,7 +1047,7 @@
   "inviteVerifyPayment": "Convidar e confirmar pagamento",
   "noResultsFor": "Sem resultados para",
   "noContacts": "Não há contatos",
-  "searchForSomeone": "Pesquise alguém por nome, número de celular ou endereço de conta",
+  "searchForSomeone": "Procure alguém usando o endereço da carteira",
   "sentPayment": "Pagamento enviado",
   "sentEscrowPayment": "Pagamento de caução enviado",
   "mobileNumber": "Número do celular",
@@ -2118,7 +2118,7 @@
     "importButton": "Importar"
   },
   "sendSelectRecipient": {
-    "searchText": "Pesquise por nome, telefone, carteira...",
+    "searchText": "Pesquise por endereço de carteira",
     "paste": "Colar da área de transferência",
     "title": "Selecione um destinatário",
     "contactsTitle": "Selecione um contato",

@@ -190,7 +190,9 @@ export function mergeRecipients({
     mergedRecipients.push(uniqueSearchRecipient)
   }
 
-  return mergedRecipients
+  return mergedRecipients.filter(
+    (recipient) => recipient.recipientType != RecipientType.PhoneNumber
+  )
 }
 
 /**

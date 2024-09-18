@@ -1045,7 +1045,7 @@
   "inviteVerifyPayment": "Mời và xác nhận thanh toán",
   "noResultsFor": "Không có kết quả cho",
   "noContacts": "Không có danh bạ",
-  "searchForSomeone": "Tìm kiếm ai đó bằng tên, số điện thoại hoặc địa chỉ của họ",
+  "searchForSomeone": "Tìm kiếm ai đó bằng địa chỉ ví của họ",
   "sentPayment": "Thanh toán đã gửi",
   "sentEscrowPayment": "Thanh toán ủy thác giữ đã gửi",
   "mobileNumber": "Di động #",
@@ -2116,7 +2116,7 @@
     "importButton": "Nhập"
   },
   "sendSelectRecipient": {
-    "searchText": "Tìm kiếm theo tên, số điện thoại, ví...",
+    "searchText": "Tìm kiếm theo địa chỉ ví",
     "paste": "Dán từ bảng nhớ tạm",
     "title": "Chọn người nhận",
     "contactsTitle": "Chọn một liên hệ",

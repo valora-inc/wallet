@@ -1047,7 +1047,7 @@
   "inviteVerifyPayment": "Davet Et & Ödemeyi Onayla",
   "noResultsFor": "Sonuç bulunamadı",
   "noContacts": "Kişi bulunamadı",
-  "searchForSomeone": "Adını, telefon numarasını veya adresini kullanarak bir kişiyi arayın",
+  "searchForSomeone": "Cüzdan adresini kullanarak birini arayın",
   "sentPayment": "Gönderilen Ödeme",
   "sentEscrowPayment": "Gönderilen Escrow Ödemesi",
   "mobileNumber": "Mobil #",
@@ -2118,7 +2118,7 @@
     "importButton": "İçe Aktar"
   },
   "sendSelectRecipient": {
-    "searchText": "İsme, telefona, cüzdana göre arama yapın...",
+    "searchText": "Cüzdan adresine göre ara",
     "paste": "Panodan yapıştır",
     "title": "Bir alıcı seçin",
     "contactsTitle": "Bir kişi seçin",

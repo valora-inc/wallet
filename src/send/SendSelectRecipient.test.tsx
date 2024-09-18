@@ -68,7 +68,9 @@ describe('SendSelectRecipient', () => {
     jest.mocked(Clipboard.hasString).mockResolvedValue(false)
   })
 
-  it('shows contacts when send to contacts button is pressed and conditions are satisfied', async () => {
+  // TODO(mobilestack): Un-skip these tests if CPV is ever supported.
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('shows contacts when send to contacts button is pressed and conditions are satisfied', async () => {
     const store = createMockStore(storeWithPhoneVerified)
 
     const { getByTestId, queryByTestId } = render(
@@ -85,7 +87,8 @@ describe('SendSelectRecipient', () => {
     expect(queryByTestId('SelectRecipient/GetStarted')).toBeFalsy()
     expect(queryByTestId('SelectRecipient/RecentRecipientPicker')).toBeFalsy()
   })
-  it('does not show contacts when send to contacts button is pressed and conditions are not satisfied', async () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('does not show contacts when send to contacts button is pressed and conditions are not satisfied', async () => {
     const store = createMockStore(defaultStore)
 
     const { getByTestId, queryByTestId } = render(
@@ -114,27 +117,27 @@ describe('SendSelectRecipient', () => {
       screen: Screens.QRScanner,
     })
   })
-  it('shows QR, sync contacts and get started section when no prior recipients', async () => {
+  it('shows QR and get started section when no prior recipients', async () => {
     const store = createMockStore({})
 
-    const { getByTestId } = render(
+    const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <SendSelectRecipient {...mockScreenProps({})} />
       </Provider>
     )
-    expect(getByTestId('SelectRecipient/Contacts')).toBeTruthy()
+    expect(queryByTestId('SelectRecipient/Contacts')).toBeFalsy()
     expect(getByTestId('SelectRecipient/QR')).toBeTruthy()
     expect(getByTestId('SelectRecipient/GetStarted')).toBeTruthy()
   })
-  it('shows QR, sync contacts and recents when prior recipients exist', async () => {
+  it('shows QR and recents when prior recipients exist', async () => {
     const store = createMockStore(defaultStore)
 
-    const { getByTestId } = render(
+    const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <SendSelectRecipient {...mockScreenProps({})} />
       </Provider>
     )
-    expect(getByTestId('SelectRecipient/Contacts')).toBeTruthy()
+    expect(queryByTestId('SelectRecipient/Contacts')).toBeFalsy()
     expect(getByTestId('SelectRecipient/QR')).toBeTruthy()
     expect(getByTestId('SelectRecipient/RecentRecipientPicker')).toBeTruthy()
   })
@@ -166,10 +169,9 @@ describe('SendSelectRecipient', () => {
     })
     expect(getByTestId('SelectRecipient/NoResults')).toBeTruthy()
   })
-  it('navigates to send amount when search result next button is pressed', async () => {
-    jest
-      .mocked(getRecipientVerificationStatus)
-      .mockReturnValue(RecipientVerificationStatus.VERIFIED)
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('navigates to send amount when search result next button is pressed', async () => {
+    jest.mocked(getRecipientVerificationStatus).mockReturnValue(RecipientVerificationStatus.UNKNOWN)
 
     const store = createMockStore(storeWithPhoneVerified)
 
@@ -239,7 +241,8 @@ describe('SendSelectRecipient', () => {
       origin: SendOrigin.AppSendFlow,
     })
   })
-  it('navigates to invite modal when search result next button is pressed', async () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('navigates to invite modal when search result next button is pressed', async () => {
     jest
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.UNVERIFIED)
@@ -271,7 +274,8 @@ describe('SendSelectRecipient', () => {
 
     expect(getByTestId('InviteModalContainer')).toBeTruthy()
   })
-  it('does not show unknown address info text when searching for known app address', async () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('does not show unknown address info text when searching for known app address', async () => {
     jest
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.VERIFIED)
@@ -304,7 +308,8 @@ describe('SendSelectRecipient', () => {
     expect(queryByTestId('UnknownAddressInfo')).toBeFalsy()
     expect(getByTestId('SendOrInviteButton')).toBeTruthy()
   })
-  it('does not show unknown address info text when searching for phone number', async () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('does not show unknown address info text when searching for phone number', async () => {
     jest
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.UNVERIFIED)
@@ -368,6 +373,7 @@ describe('SendSelectRecipient', () => {
     expect(getByTestId('UnknownAddressInfo')).toBeTruthy()
     expect(getByTestId('SendOrInviteButton')).toBeTruthy()
   })
+  // eslint-disable-next-line jest/no-disabled-tests
   it('shows unknown address info text and skips CPV request when searching for any address if PN not verified', async () => {
     const store = createMockStore(defaultStore)
 
@@ -398,7 +404,8 @@ describe('SendSelectRecipient', () => {
     expect(getByTestId('UnknownAddressInfo')).toBeTruthy()
     expect(getByTestId('SendOrInviteButton')).toBeTruthy()
   })
-  it('shows unknown address info text and send button when searching for address with cached phone number but no longer connected to the phone number', async () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('shows unknown address info text and send button when searching for address with cached phone number but no longer connected to the phone number', async () => {
     jest
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.UNVERIFIED)
@@ -455,7 +462,8 @@ describe('SendSelectRecipient', () => {
     await expect(pasteButtonAfterPress).rejects.toThrow()
   })
 
-  describe('Invite Rewards', () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Invite Rewards', () => {
     it('shows invite rewards card when invite rewards are active and number is verified', async () => {
       const store = createMockStore({
         ...storeWithPhoneVerified,
@@ -512,7 +520,8 @@ describe('SendSelectRecipient', () => {
       expect(queryByTestId('InviteRewardsCard')).toBeFalsy()
     })
   })
-  it('navigates to send amount when phone number recipient with single address', async () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('navigates to send amount when phone number recipient with single address', async () => {
     jest
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.VERIFIED)
@@ -562,7 +571,8 @@ describe('SendSelectRecipient', () => {
       origin: SendOrigin.AppSendFlow,
     })
   })
-  it('navigates to secure send flow when phone number recipient with multiple addresses, first time seeing it', async () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('navigates to secure send flow when phone number recipient with multiple addresses, first time seeing it', async () => {
     jest
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.VERIFIED)
@@ -612,7 +622,8 @@ describe('SendSelectRecipient', () => {
       origin: SendOrigin.AppSendFlow,
     })
   })
-  it('navigates to send enter amount when phone number recipient with multiple addresses, already done secure send', async () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('navigates to send enter amount when phone number recipient with multiple addresses, already done secure send', async () => {
     jest
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.VERIFIED)
@@ -671,7 +682,8 @@ describe('SendSelectRecipient', () => {
       origin: SendOrigin.AppSendFlow,
     })
   })
-  it.each([{ searchAddress: mockAccount2 }, { searchAddress: mockAccount3 }])(
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip.each([{ searchAddress: mockAccount2 }, { searchAddress: mockAccount3 }])(
     'navigates to send enter amount with correct address if a an address is entered which also has a phone number with secure send not done',
     async ({ searchAddress }) => {
       jest
@@ -735,7 +747,8 @@ describe('SendSelectRecipient', () => {
       })
     }
   )
-  it.each([{ searchAddress: mockAccount2 }, { searchAddress: mockAccount3 }])(
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip.each([{ searchAddress: mockAccount2 }, { searchAddress: mockAccount3 }])(
     'navigates to send enter amount with correct address if a an address is entered which also has a phone number with secure send done with different address',
     async ({ searchAddress }) => {
       jest

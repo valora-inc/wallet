@@ -1047,7 +1047,7 @@
   "inviteVerifyPayment": "Invitar y confirmar el pago",
   "noResultsFor": "Sin resultados para",
   "noContacts": "No se encontraron contactos",
-  "searchForSomeone": "Busca a alguien por su nombre, número de teléfono o dirección",
+  "searchForSomeone": "Buscar a alguien usando su dirección de billetera",
   "sentPayment": "Pago enviado",
   "sentEscrowPayment": "Pago de garantía enviado",
   "mobileNumber": "Número de teléfono",
@@ -2118,7 +2118,7 @@
     "importButton": "Importar"
   },
   "sendSelectRecipient": {
-    "searchText": "Busca por nombre, teléfono, wallet...",
+    "searchText": "Busca por wallet",
     "paste": "Pegar desde el portapapeles",
     "title": "Selecciona un destinatario",
     "contactsTitle": "Selecciona un contacto",

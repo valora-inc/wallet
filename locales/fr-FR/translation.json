@@ -1047,7 +1047,7 @@
   "inviteVerifyPayment": "Invitez et confirmez le paiement",
   "noResultsFor": "Aucun résultat pour",
   "noContacts": "Aucun contact",
-  "searchForSomeone": "Recherchez quelqu'un en utilisant son nom, son numéro de téléphone ou son adresse",
+  "searchForSomeone": "Rechercher quelqu'un en utilisant son adresse de portefeuille",
   "sentPayment": "Paiement envoyé",
   "sentEscrowPayment": "Paiement au prestataire de séquestre envoyé",
   "mobileNumber": "N° de portable",
@@ -2118,7 +2118,7 @@
     "importButton": "Importation"
   },
   "sendSelectRecipient": {
-    "searchText": "Recherchez par nom, téléphone, portefeuille...",
+    "searchText": "Rechercher par adresse de portefeuille",
     "paste": "Coller depuis le presse-papiers",
     "title": "Sélectionnez un destinataire",
     "contactsTitle": "Sélectionnez un contact",

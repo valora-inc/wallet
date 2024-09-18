@@ -1045,7 +1045,7 @@
   "inviteVerifyPayment": "邀请并确认付款",
   "noResultsFor": "没有结果：",
   "noContacts": "没有联系人",
-  "searchForSomeone": "使用姓名、手机号码或地址进行搜索",
+  "searchForSomeone": "使用钱包地址搜索某人",
   "sentPayment": "已发送付款",
   "sentEscrowPayment": "已发送托管付款",
   "mobileNumber": "手机号码",
@@ -2116,7 +2116,7 @@
     "importButton": "导入"
   },
   "sendSelectRecipient": {
-    "searchText": "按姓名、电话、钱包等搜索",
+    "searchText": "按钱包地址搜索",
     "paste": "从剪贴板粘贴",
     "title": "选择接收人",
     "contactsTitle": "选择联系人",

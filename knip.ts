@@ -33,7 +33,7 @@ const config: KnipConfig = {
     '@types/jest',
     'husky',
   ],
-  ignore: ['src/utils/inputValidation.ts', 'src/utils/country.json'],
+  ignore: ['src/utils/inputValidation.ts', 'src/utils/country.json', 'src/icons/Social.tsx'],
 }
 
 export default config

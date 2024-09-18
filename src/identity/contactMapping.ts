@@ -311,9 +311,13 @@ function* fetchAddressVerification(address: string) {
   }
 }
 
+// @ts-ignore TODO(mobilestack): This currently isn't used anywhere since
+// MS doesn't yet support CPV. Keeping this in to keep diffs small, and
+// for ease of supporting CPV eventually.
+
 // Only use with multiple addresses if user has
 // gone through SecureSend
-export function getAddressFromPhoneNumber(
+function getAddressFromPhoneNumber(
   e164Number: string,
   e164NumberToAddress: E164NumberToAddressType,
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping,

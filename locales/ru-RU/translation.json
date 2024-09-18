@@ -1051,7 +1051,7 @@
   "inviteVerifyPayment": "Пригласить и подтвердить платеж",
   "noResultsFor": "Нет результатов для",
   "noContacts": "Нет контактов",
-  "searchForSomeone": "Поиск лиц по имени, номеру телефона или адресу",
+  "searchForSomeone": "Найдите кого-нибудь по адресу его кошелька",
   "sentPayment": "Отправленный платеж",
   "sentEscrowPayment": "Отправленный эскроу-платеж",
   "mobileNumber": "Мобильный номер",
@@ -2122,7 +2122,7 @@
     "importButton": "Импорт"
   },
   "sendSelectRecipient": {
-    "searchText": "Поиск по имени, телефону, кошельку...",
+    "searchText": "Поиск по адресу кошелька",
     "paste": "Вставить из буфера обмена",
     "title": "Выберите получателя",
     "contactsTitle": "Выберите контакт",
