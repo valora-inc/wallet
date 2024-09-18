@@ -55,3 +55,14 @@ if (!APP_BUNDLE_ID) {
 if (APP_BUNDLE_ID) {
   appendFileSync(GITHUB_ENV, `APP_BUNDLE_ID=${APP_BUNDLE_ID}\n`)
 }
+
+const APP_REGISTRY_NAME = process.env.APP_REGISTRY_NAME
+if (!APP_REGISTRY_NAME) {
+  console.error('Error: APP_REGISTRY_NAME is not set')
+  process.exit(1)
+}
+
+// Append APP_REGISTRY_NAME to GITHUB_ENV
+if (APP_REGISTRY_NAME) {
+  appendFileSync(GITHUB_ENV, `APP_REGISTRY_NAME=${APP_REGISTRY_NAME}\n`)
+}
