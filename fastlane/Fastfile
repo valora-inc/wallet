@@ -117,9 +117,6 @@ platform :ios do
 
   desc 'Build the iOS application - requires environment param'
   lane :build do |options|
-    expected_ipa_path = "#{get_app_registry_name(options[:environment])}"
-    puts "Expected .ipa file will be generated at: #{expected_ipa_path}"
-
     gym(
       workspace: 'ios/MobileStack.xcworkspace',
       # Needs double quotes because Ruby differentiates
