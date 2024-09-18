@@ -133,7 +133,7 @@ platform :ios do
         "-authenticationKeyIssuerID #{ENV['APPLE_CONNECT_ISSUER_ID']}",
       ].join(' '),
       output_directory: 'build',
-      output_name: "valoraTest"
+      output_name: "#{get_app_registry_name(options[:environment])}"
       verbose: true
      ) 
   end

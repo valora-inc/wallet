@@ -37,7 +37,7 @@ jobs:
     # Tip: Use `gh workflow run "Release - Nightly" --ref your_branch` to trigger the workflow manually
     uses: ./.github/workflows/release-fastlane-ios.yml
     with:
-      branch: main
+      branch: kathy/fix-testflight-upload
       lanes: '["alfajoresnightly"]'
     secrets:
       gcp-service-account-key: ${{ secrets.GCP_MAINNET_RELEASE_AUTOMATION_SERVICE_ACCOUNT_KEY }}
