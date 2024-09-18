@@ -501,7 +501,7 @@ describe('EarnEnterAmount', () => {
     })
   })
 
-  it('should show the FeeDetailsBottomSheet when the user taps the fee details button', async () => {
+  it('should show the FeeDetailsBottomSheet when the user taps the fee details icon', async () => {
     jest.mocked(usePrepareDepositTransactions).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
@@ -554,5 +554,33 @@ describe('EarnEnterAmount', () => {
         'earnFlow.enterAmount.feeBottomSheet.networkSwapFeeDescription, {"appFeePercentage":"0.6"}'
       )
     ).toBeVisible()
+  })
+
+  it('should display swap bottom sheet when the user taps the swap details icon', async () => {
+    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: mockPreparedTransaction,
+        swapTransaction: mockSwapTransaction,
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('LabelWithInfo/SwapLabel'))
+    expect(getByText('earnFlow.enterAmount.swapBottomSheet.swapDetails')).toBeVisible()
+    expect(getByTestId('SwapTo')).toBeTruthy()
+    expect(getByTestId('SwapFrom')).toBeTruthy()
+    expect(getByTestId('SwapTo/Value')).toBeTruthy()
+    expect(getByTestId('SwapFrom/Value')).toBeTruthy()
+    expect(getByText('earnFlow.enterAmount.swapBottomSheet.whySwap')).toBeVisible()
+    expect(getByText('earnFlow.enterAmount.swapBottomSheet.swapDescription')).toBeVisible()
   })
 })
