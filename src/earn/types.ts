@@ -60,3 +60,5 @@ export interface BeforeDepositAction {
   iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
   onPress: () => void
 }
+
+export type EarnDepositMode = 'deposit' | 'swap-deposit'
