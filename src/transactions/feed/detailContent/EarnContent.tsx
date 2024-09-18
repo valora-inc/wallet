@@ -90,7 +90,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
         <Text style={styles.detailsSubtitle}>
           {t('earnFlow.transactionDetails.earnDepositSubtitle', {
             providerName,
-            depositTokenSymbol,
+            tokenSymbol: depositTokenSymbol,
           })}
         </Text>
       )}
