@@ -54,7 +54,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
-import { EarnDepositMode, SerializableRewardsInfo } from 'src/earn/types'
+import { EarnDepositMode, BeforeDepositActionName, SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -1578,8 +1578,8 @@ interface EarnEventsProperties {
     depositTokenId: string
   }
   [EarnEvents.earn_entrypoint_press]: undefined
-  [EarnEvents.earn_add_crypto_action_press]: {
-    action: AddAssetsActionType
+  [EarnEvents.earn_before_deposit_action_press]: {
+    action: BeforeDepositActionName
   } & TokenProperties
   [EarnEvents.earn_deposit_provider_info_press]: EarnDepositProperties
   [EarnEvents.earn_deposit_terms_and_conditions_press]: EarnDepositProperties
@@ -1638,7 +1638,11 @@ interface EarnEventsProperties {
   [EarnEvents.earn_pool_info_tap_withdraw]: {
     poolAmount: string
   } & EarnCommonProperties
-  [EarnEvents.earn_pool_info_tap_deposit]: EarnCommonProperties
+  [EarnEvents.earn_pool_info_tap_deposit]: EarnCommonProperties & {
+    hasDepositToken: boolean
+    hasTokensOnSameNetwork: boolean
+    hasTokensOnOtherNetworks: boolean
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
