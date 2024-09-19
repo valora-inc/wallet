@@ -14,19 +14,24 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
-import { EarnClaimReward, EarnDeposit, EarnWithdraw } from 'src/transactions/types'
+import { EarnClaimReward, EarnDeposit, EarnSwapDeposit, EarnWithdraw } from 'src/transactions/types'
 
 interface DescriptionProps {
-  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward
+  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward | EarnSwapDeposit
 }
 
 function Description({ transaction }: DescriptionProps) {
   const { t } = useTranslation()
-  const providerName = useEarnPositionProviderName(transaction.providerId)
+  const providerName = useEarnPositionProviderName(
+    transaction.__typename === 'EarnSwapDeposit'
+      ? transaction.deposit.providerId
+      : transaction.providerId
+  )
   let title
   let subtitle
 
   switch (transaction.__typename) {
+    case 'EarnSwapDeposit':
     case 'EarnDeposit':
       title = t('earnFlow.transactionFeed.earnDepositTitle')
       subtitle = t('earnFlow.transactionFeed.earnDepositSubtitle', { providerName })
@@ -56,7 +61,7 @@ function Description({ transaction }: DescriptionProps) {
 }
 
 interface AmountDisplayProps {
-  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward
+  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward | EarnSwapDeposit
   isLocal: boolean
 }
 
@@ -68,6 +73,10 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
     case 'EarnDeposit':
       amountValue = new BigNumber(-transaction.inAmount.value)
       tokenId = transaction.outAmount.tokenId
+      break
+    case 'EarnSwapDeposit':
+      amountValue = new BigNumber(-transaction.deposit.inAmount.value)
+      tokenId = transaction.deposit.outAmount.tokenId
       break
     case 'EarnWithdraw':
       amountValue = new BigNumber(transaction.outAmount.value)
@@ -81,7 +90,11 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
 
   const textStyle = isLocal
     ? styles.amountSubtitle
-    : [styles.amountTitle, transaction.__typename !== 'EarnDeposit' && { color: Colors.primary }]
+    : [
+        styles.amountTitle,
+        transaction.__typename !== 'EarnDeposit' &&
+          transaction.__typename !== 'EarnSwapDeposit' && { color: Colors.primary },
+      ]
 
   return (
     <TokenDisplay
@@ -98,7 +111,7 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
 }
 
 interface AmountProps {
-  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward
+  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward | EarnSwapDeposit
 }
 
 function Amount({ transaction }: AmountProps) {
@@ -111,7 +124,7 @@ function Amount({ transaction }: AmountProps) {
 }
 
 interface Props {
-  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward
+  transaction: EarnWithdraw | EarnDeposit | EarnClaimReward | EarnSwapDeposit
 }
 
 export default function EarnFeedItem({ transaction }: Props) {
