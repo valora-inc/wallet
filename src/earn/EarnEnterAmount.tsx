@@ -738,6 +738,7 @@ function FeeDetailsBottomSheet({
         text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
         size={BtnSizes.FULL}
         type={BtnTypes.SECONDARY}
+        testID="FeeDetailsBottomSheet/GotIt"
       />
     </BottomSheet>
   )
@@ -822,6 +823,15 @@ function SwapDetailsBottomSheet({
           </Text>
         </View>
       </View>
+      <Button
+        onPress={() => {
+          forwardedRef.current?.close()
+        }}
+        text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
+        size={BtnSizes.FULL}
+        type={BtnTypes.SECONDARY}
+        testID="SwapDetailsBottomSheet/GotIt"
+      />
     </BottomSheet>
   )
 }

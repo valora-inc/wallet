@@ -554,6 +554,7 @@ describe('EarnEnterAmount', () => {
         'earnFlow.enterAmount.feeBottomSheet.networkSwapFeeDescription, {"appFeePercentage":"0.6"}'
       )
     ).toBeVisible()
+    expect(getByTestId('FeeDetailsBottomSheet/GotIt')).toBeVisible()
   })
 
   it('should display swap bottom sheet when the user taps the swap details icon', async () => {
@@ -582,5 +583,6 @@ describe('EarnEnterAmount', () => {
     expect(getByTestId('SwapFrom/Value')).toBeTruthy()
     expect(getByText('earnFlow.enterAmount.swapBottomSheet.whySwap')).toBeVisible()
     expect(getByText('earnFlow.enterAmount.swapBottomSheet.swapDescription')).toBeVisible()
+    expect(getByTestId('SwapDetailsBottomSheet/GotIt')).toBeVisible()
   })
 })
