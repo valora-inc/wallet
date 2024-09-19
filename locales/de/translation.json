@@ -2702,18 +2702,18 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Du brauchst {{tokenSymbol}} auf {{tokenNetwork}} zum Einzahlen",
-      "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
-      "beforeYouCanDepositTitle": "Before you can deposit...",
+      "crossChainAlternativeDescription": "Wenn du deine Token nicht auf {{tokenNetwork}}verwenden möchtest, wähle unten eine Option. Du musst später zurückkehren, um deine Pool-Einzahlung abzuschließen.",
+      "beforeYouCanDepositTitle": "Bevor du einzahlen kannst...",
       "beforeYouCanDepositDescription": "Du musst einen der Pool Token hinzufügen. Sobald du es hinzugefügt hast, musst du zurückkehren, um deine Pool-Einzahlung abzuschließen.",
       "action": {
-        "swapAndDeposit": "Swap & Deposit",
-        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
-        "crossChainSwap": "Cross-chain Swap",
-        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
-        "swap": "Swap",
-        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
-        "add": "Buy",
-        "addDescription": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
+        "swapAndDeposit": "Tausch & Einzahlung",
+        "swapAndDepositDescription": "Wähle einen beliebigen Token auf {{tokenNetwork}}. Wir tauschen und hinterlegen ihn gleichzeitig für dich.",
+        "crossChainSwap": "Kettenübergreifender Tausch",
+        "crossChainSwapDescription": "Tausche einen Token in einem anderen Netzwerk gegen {{tokenSymbol}}",
+        "swap": "Tauschen",
+        "swapDescription": "Tausche auf {{tokenSymbol}} auf {{tokenNetwork}} von einem anderen Token in deiner Geldbörse",
+        "add": "Kaufen",
+        "addDescription": "Kaufe {{tokenSymbol}} auf {{tokenNetwork}} über einen unserer vertrauenswürdigen Anbieter",
         "transfer": "Überweisung",
         "transferDescription": "Verwende jede {{tokenNetwork}} kompatible Wallet oder Börse, um {{tokenSymbol}} einzuzahlen"
       }
