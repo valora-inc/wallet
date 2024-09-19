@@ -77,6 +77,7 @@ export default function PointsHome({ route, navigation }: Props) {
       AppAnalytics.track(PointsEvents.points_screen_card_cta_press, {
         activityId,
       })
+      activityCardBottomSheetRef.current?.close()
       onPress()
     }
   }

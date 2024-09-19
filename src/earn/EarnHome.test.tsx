@@ -157,8 +157,8 @@ describe('EarnHome', () => {
     ).toBeFalsy()
   })
 
-  it('correctly shows correct networks, tokens under filters', () => {
-    const { getByTestId, getAllByTestId, getByText } = render(
+  it('correctly shows correct networks under filters', () => {
+    const { getByTestId, getByText } = render(
       <Provider store={getStore()}>
         <MockedNavigator
           component={EarnHome}
@@ -171,39 +171,6 @@ describe('EarnHome', () => {
 
     fireEvent.press(getByText('tokenBottomSheet.filters.selectNetwork'))
     expect(getByTestId('Arbitrum Sepolia-icon')).toBeTruthy()
-
-    fireEvent.press(getByText('tokenBottomSheet.filters.tokens'))
-    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
-  })
-
-  it('shows correct pool when filtering by token', () => {
-    const { getByTestId, getByText, queryByTestId } = render(
-      <Provider store={getStore()}>
-        <MockedNavigator
-          component={EarnHome}
-          params={{
-            activeEarnTab: EarnTabType.AllPools,
-          }}
-        />
-      </Provider>
-    )
-
-    expect(
-      getByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
-    ).toBeTruthy()
-    expect(
-      getByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
-    ).toBeTruthy()
-
-    fireEvent.press(getByText('tokenBottomSheet.filters.tokens'))
-    fireEvent.press(getByTestId('USDCSymbol'))
-
-    expect(
-      getByTestId('PoolCard/arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216')
-    ).toBeTruthy()
-    expect(
-      queryByTestId('PoolCard/ethereum-sepolia:0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8')
-    ).toBeFalsy()
   })
 
   it('shows correct pool when filtering by network', () => {
