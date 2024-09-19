@@ -14,6 +14,8 @@ import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
+import BeforeDepositBottomSheet from 'src/earn/BeforeDepositBottomSheet'
+import { useDepositEntrypointInfo } from 'src/earn/hooks'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -427,7 +429,13 @@ function LearnMoreTouchable({
   )
 }
 
-function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
+function ActionButtons({
+  earnPosition,
+  onPressDeposit,
+}: {
+  earnPosition: EarnPosition
+  onPressDeposit: () => void
+}) {
   const { bottom } = useSafeAreaInsets()
   const insetsStyle = {
     paddingBottom: Math.max(bottom, Spacing.Regular16),
@@ -461,15 +469,7 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
       {deposit && (
         <Button
           text={t('earnFlow.poolInfoScreen.deposit')}
-          onPress={() => {
-            AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
-              poolId: earnPosition.positionId,
-              providerId: earnPosition.appId,
-              networkId: earnPosition.networkId,
-              depositTokenId: earnPosition.dataProps.depositTokenId,
-            })
-            navigate(Screens.EarnEnterAmount, { pool: earnPosition })
-          }}
+          onPress={onPressDeposit}
           size={BtnSizes.FULL}
           style={styles.flex}
         />
@@ -490,6 +490,38 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       .filter((token): token is TokenBalance => !!token)
   }, [tokens, allTokens])
 
+  const depositToken = allTokens[dataProps.depositTokenId]
+  if (!depositToken) {
+    // This should never happen
+    throw new Error(`Token ${dataProps.depositTokenId} not found`)
+  }
+
+  const {
+    hasDepositToken,
+    hasTokensOnSameNetwork,
+    hasTokensOnOtherNetworks,
+    canCashIn,
+    exchanges,
+  } = useDepositEntrypointInfo({ allTokens, pool })
+
+  const onPressDeposit = () => {
+    AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
+      poolId: positionId,
+      providerId: appId,
+      networkId: networkId,
+      depositTokenId: dataProps.depositTokenId,
+      hasDepositToken,
+      hasTokensOnSameNetwork,
+      hasTokensOnOtherNetworks,
+    })
+    if (hasDepositToken) {
+      navigate(Screens.EarnEnterAmount, { pool })
+    } else {
+      beforeDepositBottomSheetRef.current?.snapToIndex(0)
+    }
+  }
+
+  const beforeDepositBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const depositInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tvlInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const ageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -593,7 +625,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           ) : null}
         </View>
       </Animated.ScrollView>
-      <ActionButtons earnPosition={pool} />
+      <ActionButtons earnPosition={pool} onPressDeposit={onPressDeposit} />
       <InfoBottomSheet
         infoBottomSheetRef={depositInfoBottomSheetRef}
         titleKey="earnFlow.poolInfoScreen.depositAndEarnings"
@@ -626,6 +658,15 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         descriptionUrl={dataProps.manageUrl}
         providerName={appName}
         testId="YieldRateInfoBottomSheet"
+      />
+      <BeforeDepositBottomSheet
+        forwardedRef={beforeDepositBottomSheetRef}
+        token={depositToken}
+        pool={pool}
+        hasTokensOnSameNetwork={hasTokensOnSameNetwork}
+        hasTokensOnOtherNetworks={hasTokensOnOtherNetworks}
+        canAdd={canCashIn}
+        exchanges={exchanges}
       />
     </SafeAreaView>
   )
