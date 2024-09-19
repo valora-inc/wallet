@@ -2563,6 +2563,13 @@
         "title": "Du benötigst mehr {{feeTokenSymbol}} zum Fortfahren",
         "description": "Füge {{feeTokenSymbol}} auf {{network}} hinzu, um deine Gasgebühren zu decken",
         "noGasCta": "Kaufe {{feeTokenSymbol}} auf {{network}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Gebühr Details",
+        "moreInformation": "Weitere Informationen",
+        "estNetworkFee": "Est. Netzwerk-Gebühr",
+        "maxNetworkFee": "Maximale Netzwerkgebühr",
+        "networkFeeDescription": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Einzahlungstransaktion zu bearbeiten."
       }
     },
     "activePools": {
@@ -2691,6 +2698,24 @@
         "ageDescription": "Ältere Liquiditätspools können auf eine solide Erfolgsbilanz und eine Geschichte des Vertrauens der Community hinweisen. Aus diesem Grund halten manche diese Pools für sicherer.\n\nEs gibt keine perfekte Methode, um das Risiko zu bestimmen, also nutze diese Informationen als Teil deiner allgemeinen Recherche, um die für dich beste Entscheidung zu treffen.",
         "yieldRateTitle": "Rendite",
         "yieldRateDescription": "Während die meisten Pools Gewinne in Form eines Liquiditätspool-Tokens anbieten, gibt es bei einigen zusätzliche Token als Belohnung oder zusätzlichen Anreiz.\n\nDa {{appName}} Pools über mehrere Protokolle hinweg zusammenfasst, haben wir alle Verdienst- und Belohnungssätze zu einem einzigen Gesamtertragswert zusammengefasst, damit du dein Verdienstpotenzial leichter einschätzen kannst. Diese Zahl ist eine Schätzung, da die Verdienst- und Belohnungswerte ständig schwanken.\n\nWeitere Informationen zur Verdienstaufschlüsselung findest du unter <0>{{providerName}}</0>."
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "Du brauchst {{tokenSymbol}} auf {{tokenNetwork}} zum Einzahlen",
+      "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
+      "beforeYouCanDepositTitle": "Before you can deposit...",
+      "beforeYouCanDepositDescription": "Du musst einen der Pool Token hinzufügen. Sobald du es hinzugefügt hast, musst du zurückkehren, um deine Pool-Einzahlung abzuschließen.",
+      "action": {
+        "swapAndDeposit": "Swap & Deposit",
+        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "crossChainSwap": "Cross-chain Swap",
+        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
+        "swap": "Swap",
+        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
+        "add": "Buy",
+        "addDescription": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
+        "transfer": "Überweisung",
+        "transferDescription": "Verwende jede {{tokenNetwork}} kompatible Wallet oder Börse, um {{tokenSymbol}} einzuzahlen"
       }
     }
   },
