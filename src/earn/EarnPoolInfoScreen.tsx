@@ -10,10 +10,10 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
-import InfoIcon from 'src/icons/InfoIcon'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -220,12 +220,12 @@ function DepositAndEarningsCard({
     <View testID="DepositAndEarningsCard" style={[styles.card, styles.depositAndEarningCard]}>
       <View style={styles.depositAndEarningCardTitleContainer}>
         <View style={styles.cardLineLabel}>
-          <Text numberOfLines={1} style={styles.cardTitleText}>
-            {t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
-          </Text>
-          <Touchable onPress={onInfoIconPress} borderRadius={24} testID={'DepositInfoIcon'}>
-            <InfoIcon size={16} color={Colors.gray3} />
-          </Touchable>
+          <LabelWithInfo
+            onPress={onInfoIconPress}
+            label={t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
+            labelStyle={styles.cardTitleText}
+            testID={'DepositInfoIcon'}
+          />
         </View>
         <View>
           <Text style={styles.depositAndEarningCardTitleText}>
@@ -287,12 +287,12 @@ function YieldCard({
     <View style={styles.card} testID="YieldCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
-          <Text numberOfLines={1} style={styles.cardTitleText}>
-            {t('earnFlow.poolInfoScreen.yieldRate')}
-          </Text>
-          <Touchable onPress={onInfoIconPress} borderRadius={24} testID="YieldRateInfoIcon">
-            <InfoIcon size={16} color={Colors.gray3} />
-          </Touchable>
+          <LabelWithInfo
+            onPress={onInfoIconPress}
+            label={t('earnFlow.poolInfoScreen.yieldRate')}
+            labelStyle={styles.cardTitleText}
+            testID="YieldRateInfoIcon"
+          />
         </View>
         <Text style={styles.cardTitleText}>
           {yieldRateSum > 0
@@ -349,12 +349,12 @@ function TvlCard({
     <View style={styles.card} testID="TvlCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
-          <Text numberOfLines={1} style={styles.cardTitleText}>
-            {t('earnFlow.poolInfoScreen.tvl')}
-          </Text>
-          <Touchable onPress={onInfoIconPress} borderRadius={24} testID="TvlInfoIcon">
-            <InfoIcon size={16} color={Colors.gray3} />
-          </Touchable>
+          <LabelWithInfo
+            onPress={onInfoIconPress}
+            label={t('earnFlow.poolInfoScreen.tvl')}
+            labelStyle={styles.cardTitleText}
+            testID="TvlInfoIcon"
+          />
         </View>
         <Text style={styles.cardTitleText}>{tvlString}</Text>
       </View>
@@ -373,12 +373,12 @@ function AgeCard({ ageOfPool, onInfoIconPress }: { ageOfPool: Date; onInfoIconPr
     <View style={styles.card} testID="AgeCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
-          <Text numberOfLines={1} style={styles.cardTitleText}>
-            {t('earnFlow.poolInfoScreen.ageOfPool')}
-          </Text>
-          <Touchable onPress={onInfoIconPress} borderRadius={24} testID="AgeInfoIcon">
-            <InfoIcon size={16} color={Colors.gray3} />
-          </Touchable>
+          <LabelWithInfo
+            onPress={onInfoIconPress}
+            label={t('earnFlow.poolInfoScreen.ageOfPool')}
+            labelStyle={styles.cardTitleText}
+            testID="AgeInfoIcon"
+          />
         </View>
         <Text style={styles.cardTitleText}>{formattedDuration(dateInterval)}</Text>
       </View>
