@@ -2570,6 +2570,13 @@
         "networkFeeDescription": "网络费是网络处理存款交易所需的费用。",
         "networkSwapFeeDescription": "网络费是网络处理存款交易所需的费用。 {{appName}} 费用为 {{appFeePercentage}}%，用于您使用我们的产品。",
         "appSwapFee": "{{appName}} 费用"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "交换详情",
+        "swapFrom": "交换自",
+        "swapTo": "交换至",
+        "whySwap": "我为什么要交换？",
+        "swapDescription": "要将资金存入资金池，您的代币将被交换成资金池代币。"
       }
     },
     "activePools": {
