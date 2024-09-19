@@ -2572,6 +2572,13 @@
         "networkFeeDescription": "A taxa de rede é exigida pela rede para processar a transação de depósito.",
         "networkSwapFeeDescription": "A taxa de rede é exigida pela rede para processar as transações de depósito. A taxa {{appName}} de {{appFeePercentage}}% é cobrada pelo uso que você faz do nosso produto.",
         "appSwapFee": "Taxa da {{appName}}"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "Detalhes da troca",
+        "swapFrom": "Trocar de",
+        "swapTo": "Trocar para",
+        "whySwap": "Por que estou fazendo a troca?",
+        "swapDescription": "Para depositar fundos no pool, seu token está sendo trocado por um token do pool."
       }
     },
     "activePools": {
