@@ -2573,7 +2573,9 @@
         "moreInformation": "Więcej informacji",
         "estNetworkFee": "Oszacuj. Opłata sieciowa",
         "maxNetworkFee": "Maksymalna opłata sieciowa",
-        "networkFeeDescription": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji wpłaty."
+        "networkFeeDescription": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji wpłaty.",
+        "networkSwapFeeDescription": "Opłata sieciowa jest wymagana przez sieć do przetwarzania transakcji depozytowych. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
+        "appSwapFee": "Opłata w aplikacji {{appName}}"
       }
     },
     "activePools": {
