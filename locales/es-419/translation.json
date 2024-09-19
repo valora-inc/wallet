@@ -2632,7 +2632,10 @@
       "earnDepositDetails": "Monto depositado",
       "earnWithdrawTitle": "Fondos retirados",
       "earnWithdrawSubtitle": "{{tokenSymbol}} retirados de la pool {{providerName}}",
-      "earnWithdrawDetails": "Monto retirado"
+      "earnWithdrawDetails": "Monto retirado",
+      "swap": "Cambio",
+      "network": "Red",
+      "fees": "Tarifas"
     },
     "home": {
       "title": "Gana",
