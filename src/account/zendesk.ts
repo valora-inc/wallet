@@ -45,7 +45,7 @@ export async function sendSupportRequest({
   await _createRequest({
     message: `${message}
     
-    ${JSON.stringify(userProperties)}
+    ${JSON.stringify(userProperties, null, 2)}
     `,
     userEmail,
     userName,

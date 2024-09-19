@@ -53,7 +53,8 @@ describe('Zendesk', () => {
         sessionId: '1234',
         numberVerifiedCentralized: true,
         network: 'mainnet',
-      } as SupportRequestUserProperties,
+        systemVersion: '10',
+      } satisfies SupportRequestUserProperties,
       logFiles: [
         { path: 'path1', type: 'type1', name: 'name1' },
         { path: 'path2', type: 'type2', name: 'name2' },
