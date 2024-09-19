@@ -41,6 +41,7 @@ export type ConfirmedStandbyTransaction = (
   | Omit<TokenApproval, 'status'>
   | Omit<NftTransfer, 'status'>
   | Omit<EarnDeposit, 'status'>
+  | Omit<EarnSwapDeposit, 'status'>
   | Omit<EarnWithdraw, 'status'>
   | Omit<EarnClaimReward, 'status'>
 ) & {
@@ -55,6 +56,7 @@ export type StandbyTransaction =
   | PendingStandbyTransaction<TokenApproval>
   | PendingStandbyTransaction<NftTransfer>
   | PendingStandbyTransaction<EarnDeposit>
+  | PendingStandbyTransaction<EarnSwapDeposit>
   | PendingStandbyTransaction<EarnWithdraw>
   | PendingStandbyTransaction<EarnClaimReward>
   | ConfirmedStandbyTransaction

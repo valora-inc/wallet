@@ -197,7 +197,31 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
           feeCurrencyId,
         }
       }
-      createDepositStandbyTxHandlers.push(createDepositStandbyTx)
+      const createSwapDepositStandbyTx = (
+        transactionHash: string,
+        feeCurrencyId?: string
+      ): BaseStandbyTransaction => {
+        return {
+          context: newTransactionContext(TAG, 'Earn/SwapDeposit'),
+          __typename: 'EarnSwapDeposit',
+          networkId,
+          type: TokenTransactionTypeV2.EarnSwapDeposit,
+          swap: {
+            inAmount: { value: amount, tokenId: depositTokenId },
+            outAmount: { value: fromTokenAmount, tokenId: fromTokenId },
+          },
+          deposit: {
+            inAmount: { value: amount, tokenId: pool.dataProps.withdrawTokenId },
+            outAmount: { value: amount, tokenId: depositTokenId },
+            providerId: pool.appId,
+          },
+          transactionHash,
+          feeCurrencyId,
+        }
+      }
+      createDepositStandbyTxHandlers.push(
+        mode === 'deposit' ? createDepositStandbyTx : createSwapDepositStandbyTx
+      )
     } else {
       Logger.info(TAG, 'More than 2 deposit transactions, using empty standby handlers')
       createDepositStandbyTxHandlers.push(...preparedTransactions.map(() => () => null))

@@ -188,6 +188,40 @@ describe('depositSubmitSaga', () => {
     providerId: mockEarnPositions[0].appId,
   }
 
+  const expectedSwapDepositStandbyTx = {
+    __typename: 'EarnSwapDeposit',
+    context: {
+      id: 'id-earn/saga-Earn/SwapDeposit',
+      tag: 'earn/saga',
+      description: 'Earn/SwapDeposit',
+    },
+    networkId: NetworkId['arbitrum-sepolia'],
+    swap: {
+      inAmount: {
+        value: '100',
+        tokenId: mockArbUsdcTokenId,
+      },
+      outAmount: {
+        value: '50',
+        tokenId: mockArbArbTokenId,
+      },
+    },
+    deposit: {
+      inAmount: {
+        value: '100',
+        tokenId: networkConfig.aaveArbUsdcTokenId,
+      },
+      outAmount: {
+        value: '100',
+        tokenId: mockArbUsdcTokenId,
+      },
+      providerId: mockEarnPositions[0].appId,
+    },
+    transactionHash: '0x2',
+    type: TokenTransactionTypeV2.EarnSwapDeposit,
+    feeCurrencyId: undefined,
+  }
+
   const expectedApproveGasAnalyticsProperties = {
     approveTxCumulativeGasUsed: 3129217,
     approveTxEffectiveGasPrice: 5000000000,
@@ -372,7 +406,7 @@ describe('depositSubmitSaga', () => {
       approvedAmount: '50',
       tokenId: mockArbArbTokenId,
     })
-    expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedDepositStandbyTx)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedSwapDepositStandbyTx)
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_start, {
       ...expectedAnalyticsProps,
       fromTokenAmount: '50',
@@ -419,7 +453,7 @@ describe('depositSubmitSaga', () => {
     expect(navigateHome).toHaveBeenCalled()
     expect(decodeFunctionData).not.toHaveBeenCalled()
     expect(mockStandbyHandler).toHaveBeenCalledTimes(1)
-    expect(mockStandbyHandler).toHaveBeenCalledWith(expectedDepositStandbyTx)
+    expect(mockStandbyHandler).toHaveBeenCalledWith(expectedSwapDepositStandbyTx)
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_start, {
       ...expectedAnalyticsProps,
       fromTokenAmount: '50',
@@ -519,7 +553,7 @@ describe('depositSubmitSaga', () => {
     })
     expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, null)
-    expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedDepositStandbyTx)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedSwapDepositStandbyTx)
   })
 
   it('dispatches cancel action if pin input is cancelled and does not navigate home', async () => {
