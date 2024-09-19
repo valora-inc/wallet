@@ -78,9 +78,9 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
       ? transaction.deposit.providerId
       : transaction.providerId
   )
-  const depositOutAmount =
+  const depositAmount =
     transaction.__typename === 'EarnDeposit' ? transaction.outAmount : transaction.deposit.outAmount
-  const depositTokenInfo = useTokenInfo(depositOutAmount.tokenId)
+  const depositTokenInfo = useTokenInfo(depositAmount.tokenId)
   const depositTokenSymbol = depositTokenInfo?.symbol ?? ''
 
   return (
@@ -102,16 +102,16 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
               {t('earnFlow.transactionDetails.earnDepositDetails')}
             </Text>
             <TokenDisplay
-              amount={depositOutAmount.value}
-              tokenId={depositOutAmount.tokenId}
+              amount={depositAmount.value}
+              tokenId={depositAmount.tokenId}
               showSymbol={true}
               showLocalAmount={false}
               style={styles.amountTitle}
             />
           </View>
           <TokenDisplay
-            amount={depositOutAmount.value}
-            tokenId={depositOutAmount.tokenId}
+            amount={depositAmount.value}
+            tokenId={depositAmount.tokenId}
             style={styles.amountSubtitle}
           />
         </View>
@@ -129,8 +129,8 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
               <ArrowRightThick size={20} color={Colors.black} />
               <TokenDisplay
                 testID="EarnSwapDeposit/Swap/To"
-                tokenId={depositOutAmount.tokenId}
-                amount={depositOutAmount.value}
+                tokenId={depositAmount.tokenId}
+                amount={depositAmount.value}
                 showLocalAmount={false}
                 style={styles.bodyText}
               />
