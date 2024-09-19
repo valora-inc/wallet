@@ -439,17 +439,20 @@ function EarnEnterAmount({ route }: Props) {
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
-      <FeeDetailsBottomSheet
-        forwardedRef={feeDetailsBottomSheetRef}
-        title={t('earnFlow.enterAmount.feeBottomSheet.feeDetails')}
-        testID="FeeDetailsBottomSheet"
-        feeCurrency={feeCurrency}
-        estimatedFeeAmount={estimatedFeeAmount}
-        maxFeeAmount={maxFeeAmount}
-        swapTransaction={swapTransaction}
-        pool={pool}
-        token={token}
-      />
+      {tokenAmount && (
+        <FeeDetailsBottomSheet
+          forwardedRef={feeDetailsBottomSheetRef}
+          title={t('earnFlow.enterAmount.feeBottomSheet.feeDetails')}
+          testID="FeeDetailsBottomSheet"
+          feeCurrency={feeCurrency}
+          estimatedFeeAmount={estimatedFeeAmount}
+          maxFeeAmount={maxFeeAmount}
+          swapTransaction={swapTransaction}
+          pool={pool}
+          token={token}
+          tokenAmount={tokenAmount}
+        />
+      )}
       {tokenAmount && prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
@@ -585,6 +588,7 @@ function FeeDetailsBottomSheet({
   swapTransaction,
   pool,
   token,
+  tokenAmount,
 }: {
   forwardedRef: React.RefObject<BottomSheetModalRefType>
   title: string
@@ -595,6 +599,7 @@ function FeeDetailsBottomSheet({
   swapTransaction?: SwapTransaction | undefined
   pool: EarnPosition
   token: TokenBalance
+  tokenAmount: BigNumber
 }) {
   const { t } = useTranslation()
   const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
@@ -606,9 +611,9 @@ function FeeDetailsBottomSheet({
 
   const swapFeeAmount = useMemo(() => {
     if (swapTransaction && swapTransaction.appFeePercentageIncludedInPrice) {
-      return new BigNumber(swapTransaction.buyAmount)
-        .multipliedBy(new BigNumber(swapTransaction.appFeePercentageIncludedInPrice).shiftedBy(-2)) // To convert from percentage to decimal
-        .shiftedBy(-token.decimals)
+      return tokenAmount.multipliedBy(
+        new BigNumber(swapTransaction.appFeePercentageIncludedInPrice).shiftedBy(-2) // To convert from percentage to decimal
+      )
     }
   }, [swapTransaction, token])
 
