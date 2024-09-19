@@ -2563,6 +2563,13 @@
         "title": "Necesitas más {{feeTokenSymbol}} para continuar",
         "description": "Agrega {{feeTokenSymbol}} en {{network}} para cubrir las tarifas",
         "noGasCta": "Compra {{feeTokenSymbol}} en {{network}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Detalles de la tarifa",
+        "moreInformation": "Más información",
+        "estNetworkFee": "Est. Tasa de red",
+        "maxNetworkFee": "Tarifa máxima de red",
+        "networkFeeDescription": "La comisión de red es exigida por la red para procesar la transacción de depósito."
       }
     },
     "activePools": {
@@ -2691,6 +2698,24 @@
         "ageDescription": "Los pools de liquidez más antiguos pueden indicar una trayectoria sólida y un historial de creación de confianza en la comunidad. Por ello, algunos pueden considerar que estos pools son más seguros.\n\nNo hay una forma perfecta de determinar el riesgo, así que usa esta información como parte de tu investigación general para tomar la decisión que más te convenga.",
         "yieldRateTitle": "Tasa de rendimiento",
         "yieldRateDescription": "Aunque la mayoría de los pools ofrecen ganancias en forma de token de pool de liquidez, algunos dan token(s) adicionales como recompensa o incentivo añadido.\n\nDado que {{appName}} agrega pools a través de múltiples protocolos, hemos combinado todas las tasas de ganancia y recompensa en una única tasa de rendimiento global para ayudarte a evaluar fácilmente tu potencial de ganancia. Esta cifra es estimada, ya que los valores de ganancia y recompensa fluctúan constantemente.\n\nPara más información sobre los desgloses de ganancias puedes visitar <0>{{providerName}}</0>."
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "Necesitas {{tokenSymbol}} en {{tokenNetwork}} para depositar",
+      "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
+      "beforeYouCanDepositTitle": "Before you can deposit...",
+      "beforeYouCanDepositDescription": "Tendrás que añadir una de las fichas de la piscina. Una vez añadido, tendrás que volver para completar el depósito de la piscina.",
+      "action": {
+        "swapAndDeposit": "Swap & Deposit",
+        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "crossChainSwap": "Cross-chain Swap",
+        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
+        "swap": "Swap",
+        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
+        "add": "Buy",
+        "addDescription": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
+        "transfer": "Transferir",
+        "transferDescription": "Usa cualquier wallet o exchange compatible con {{tokenNetwork}} para depositar {{tokenSymbol}}."
       }
     }
   },
