@@ -207,12 +207,12 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
           networkId,
           type: TokenTransactionTypeV2.EarnSwapDeposit,
           swap: {
-            inAmount: { value: amount, tokenId },
+            inAmount: { value: amount, tokenId: depositTokenId },
             outAmount: { value: fromTokenAmount, tokenId: fromTokenId },
           },
           deposit: {
             inAmount: { value: amount, tokenId: pool.dataProps.withdrawTokenId },
-            outAmount: { value: amount, tokenId },
+            outAmount: { value: amount, tokenId: depositTokenId },
             providerId: pool.appId,
           },
           transactionHash,
