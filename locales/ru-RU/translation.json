@@ -2567,6 +2567,13 @@
         "title": "Вам нужно больше {{feeTokenSymbol}} для продолжения",
         "description": "Добавьте {{feeTokenSymbol}} в {{network}} для покрытия комиссий за газ",
         "noGasCta": "Купите {{feeTokenSymbol}} в {{network}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Детали оплаты",
+        "moreInformation": "Дополнительная информация",
+        "estNetworkFee": "Эст. Сетевой взнос",
+        "maxNetworkFee": "Максимальная комиссия сеть",
+        "networkFeeDescription": "Сетевая комиссия необходима сети для обработки операции по пополнению счета."
       }
     },
     "activePools": {
@@ -2695,6 +2702,24 @@
         "ageDescription": "Более старые пулы ликвидности могут свидетельствовать о хорошей репутации и доверии со стороны сообщества. По этой причине некоторые могут считать такие пулы более безопасными.\n\nНе существует идеального способа определения рисков, поэтому используйте эту информацию в рамках общего исследования, чтобы принять оптимальное решение.",
         "yieldRateTitle": "Ставка доходности",
         "yieldRateDescription": "Хотя большинство пулов обеспечивают доходы в виде токена пула ликвидности, некоторые предоставляют дополнительные токены в качестве вознаграждения или дополнительного стимула.\n\nПоскольку {{appName}} агрегирует пулы по нескольким протоколам, мы объединили все ставки доходов и вознаграждений в одну общую ставку доходности, чтобы вам было проще оценить свой возможный доход. Это значение является приблизительным, так как показатели доходов и вознаграждений постоянно колеблются.\n\nДля получения подробной информации о разбивке доходов посетите сайт <0>{{providerName}}</0>."
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "Тебе нужно {{tokenSymbol}} на {{tokenNetwork}} , чтобы пополнить счет.",
+      "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
+      "beforeYouCanDepositTitle": "Before you can deposit...",
+      "beforeYouCanDepositDescription": "Тебе нужно будет добавить один из жетонов бассейна. После добавления тебе нужно будет вернуться, чтобы завершить пополнение счета в бассейне.",
+      "action": {
+        "swapAndDeposit": "Swap & Deposit",
+        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "crossChainSwap": "Cross-chain Swap",
+        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
+        "swap": "Обмен",
+        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
+        "add": "Купить",
+        "addDescription": "Купите {{tokenSymbol}} в {{tokenNetwork}} с помощью одного из доверенных поставщиков",
+        "transfer": "Перевод",
+        "transferDescription": "Используйте совместимый с {{tokenNetwork}} кошелек или криптобиржу для депонирования {{tokenSymbol}}"
       }
     }
   },
