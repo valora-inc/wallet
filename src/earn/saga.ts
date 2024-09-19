@@ -175,7 +175,6 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
         }
       }
 
-      // TODO(ACT-1361): Handle swap-deposit mode
       const createDepositStandbyTx = (
         transactionHash: string,
         feeCurrencyId?: string
