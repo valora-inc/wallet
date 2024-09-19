@@ -227,11 +227,11 @@ describe('EarnEnterAmount', () => {
         amountEnteredIn: 'token',
         amountInUsd: '8.00',
         networkId: NetworkId['arbitrum-sepolia'],
-        tokenAmount: '8',
         depositTokenId: mockArbUsdcTokenId,
         providerId: mockEarnPositions[0].appId,
         poolId: mockEarnPositions[0].positionId,
-        sourceTokenId: mockArbUsdcTokenId,
+        fromTokenId: mockArbUsdcTokenId,
+        fromTokenAmount: '8',
         depositTokenAmount: '8',
         mode: 'deposit',
       })
@@ -360,11 +360,11 @@ describe('EarnEnterAmount', () => {
         amountEnteredIn: 'token',
         amountInUsd: '0.62',
         networkId: NetworkId['arbitrum-sepolia'],
-        tokenAmount: '0.00041',
+        fromTokenAmount: '0.00041',
         depositTokenId: mockArbUsdcTokenId,
         providerId: mockEarnPositions[0].appId,
         poolId: mockEarnPositions[0].positionId,
-        sourceTokenId: mockArbEthTokenId,
+        fromTokenId: mockArbEthTokenId,
         depositTokenAmount: '0.99999',
         mode: 'swap-deposit',
       })
@@ -499,5 +499,60 @@ describe('EarnEnterAmount', () => {
       flow: CICOFlow.CashIn,
       tokenSymbol: 'ETH',
     })
+  })
+
+  it('should show the FeeDetailsBottomSheet when the user taps the fee details button', async () => {
+    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: mockPreparedTransaction,
+        swapTransaction: undefined,
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('LabelWithInfo/FeeLabel'))
+    expect(getByText('earnFlow.enterAmount.feeBottomSheet.feeDetails')).toBeVisible()
+    expect(getByTestId('EstNetworkFee/Value')).toBeTruthy()
+    expect(getByTestId('MaxNetworkFee/Value')).toBeTruthy()
+    expect(getByText('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')).toBeVisible()
+  })
+
+  it('should show swap fees on the FeeDetailsBottomSheet when swap transaction is present', async () => {
+    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: mockPreparedTransaction,
+        swapTransaction: mockSwapTransaction,
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('LabelWithInfo/FeeLabel'))
+    expect(getByText('earnFlow.enterAmount.feeBottomSheet.feeDetails')).toBeVisible()
+    expect(getByTestId('EstNetworkFee/Value')).toBeTruthy()
+    expect(getByTestId('MaxNetworkFee/Value')).toBeTruthy()
+    expect(getByTestId('SwapFee/Value')).toBeTruthy()
+    expect(
+      getByText(
+        'earnFlow.enterAmount.feeBottomSheet.networkSwapFeeDescription, {"appFeePercentage":"0.6"}'
+      )
+    ).toBeVisible()
   })
 })

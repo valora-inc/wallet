@@ -17,4 +17,4 @@ const SwapArrows = ({ size = 24, color = Colors.black, testID }: Props) => (
     />
   </Svg>
 )
-export default SwapArrows
+export default React.memo(SwapArrows)
