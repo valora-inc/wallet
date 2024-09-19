@@ -2636,7 +2636,10 @@
       "earnDepositDetails": "Вложенная сумма",
       "earnWithdrawTitle": "Выведено",
       "earnWithdrawSubtitle": "Выведено {{tokenSymbol}} из пула {{providerName}}",
-      "earnWithdrawDetails": "Сумма выведено"
+      "earnWithdrawDetails": "Сумма выведено",
+      "swap": "Обмен",
+      "network": "Сообщество",
+      "fees": "Комиссия"
     },
     "home": {
       "title": "Зарабатывайте",
