@@ -2569,7 +2569,9 @@
         "moreInformation": "Mais informações",
         "estNetworkFee": "Est. Taxa de rede",
         "maxNetworkFee": "Taxa de rede máx.",
-        "networkFeeDescription": "A taxa de rede é exigida pela rede para processar a transação de depósito."
+        "networkFeeDescription": "A taxa de rede é exigida pela rede para processar a transação de depósito.",
+        "networkSwapFeeDescription": "A taxa de rede é exigida pela rede para processar as transações de depósito. A taxa {{appName}} de {{appFeePercentage}}% é cobrada pelo uso que você faz do nosso produto.",
+        "appSwapFee": "Taxa da {{appName}}"
       }
     },
     "activePools": {
