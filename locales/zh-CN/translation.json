@@ -2567,7 +2567,9 @@
         "moreInformation": "更多信息",
         "estNetworkFee": "估计网络费用",
         "maxNetworkFee": "最高网络费用",
-        "networkFeeDescription": "网络费是网络处理存款交易所需的费用。"
+        "networkFeeDescription": "网络费是网络处理存款交易所需的费用。",
+        "networkSwapFeeDescription": "网络费是网络处理存款交易所需的费用。 {{appName}} 费用为 {{appFeePercentage}}%，用于您使用我们的产品。",
+        "appSwapFee": "{{appName}} 费用"
       }
     },
     "activePools": {
