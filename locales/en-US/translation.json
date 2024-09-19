@@ -2572,6 +2572,13 @@
         "networkFeeDescription": "The network fee is required by the network to process the deposit transaction.",
         "networkSwapFeeDescription": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
         "appSwapFee": "{{appName}} Fee"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "Swap Details",
+        "swapFrom": "Swap From",
+        "swapTo": "Swap To",
+        "whySwap": "Why am I swapping?",
+        "swapDescription": "To deposit funds into the pool, your token is being swapped into a pool token."
       }
     },
     "activePools": {
