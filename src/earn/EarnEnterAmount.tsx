@@ -631,6 +631,7 @@ function FeeDetailsBottomSheet({
     !swapFeeAmount && { marginTop: Spacing.Regular16 },
   ]
 
+  const handleClose = () => forwardedRef.current?.close()
   return (
     <BottomSheet
       forwardedRef={forwardedRef}
@@ -716,9 +717,7 @@ function FeeDetailsBottomSheet({
         </View>
       </View>
       <Button
-        onPress={() => {
-          forwardedRef.current?.close()
-        }}
+        onPress={handleClose}
         text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
         size={BtnSizes.FULL}
         type={BtnTypes.SECONDARY}
@@ -791,7 +790,7 @@ function SwapDetailsBottomSheet({
               <TokenDisplay
                 tokenId={depositToken.tokenId}
                 showLocalAmount={false}
-                amount={swapToAmount.toString()}
+                amount={swapToAmount}
               />
               {' ('}
               <TokenDisplay tokenId={depositToken.tokenId} amount={swapToAmount} />
@@ -809,9 +808,7 @@ function SwapDetailsBottomSheet({
         </View>
       </View>
       <Button
-        onPress={() => {
-          forwardedRef.current?.close()
-        }}
+        onPress={handleClose}
         text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
         size={BtnSizes.FULL}
         type={BtnTypes.SECONDARY}
