@@ -2569,7 +2569,9 @@
         "moreInformation": "Daha fazla bilgi",
         "estNetworkFee": "Tahmini Ağ Ücreti",
         "maxNetworkFee": "Maks. Ağ Ücreti",
-        "networkFeeDescription": "Ağ ücreti, yatırma işlemin gerçekleştirilmesi için ağ tarafından talep edilir."
+        "networkFeeDescription": "Ağ ücreti, yatırma işlemin gerçekleştirilmesi için ağ tarafından talep edilir.",
+        "networkSwapFeeDescription": "Ağ ücreti, para yatırma işlemlerini işlemek için ağ tarafından talep edilir. Ürünümüzü kullanmanız için {{appName}} ücreti {{appFeePercentage}}% tahsil edilir.",
+        "appSwapFee": "{{appName}} Ücreti"
       }
     },
     "activePools": {
