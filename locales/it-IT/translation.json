@@ -2632,7 +2632,10 @@
       "earnDepositDetails": "Somma depositata",
       "earnWithdrawTitle": "Preleva",
       "earnWithdrawSubtitle": "Prelevati {{tokenSymbol}} dal pool {{providerName}}",
-      "earnWithdrawDetails": "Importo prelevato"
+      "earnWithdrawDetails": "Importo prelevato",
+      "swap": "Scambio",
+      "network": "Rete",
+      "fees": "Commissioni"
     },
     "home": {
       "title": "Guadagna",
