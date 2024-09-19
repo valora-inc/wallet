@@ -2572,6 +2572,13 @@
         "networkFeeDescription": "La comisión de red es exigida por la red para procesar la transacción de depósito.",
         "networkSwapFeeDescription": "La comisión de red es exigida por la red para procesar las transacciones de depósito. La comisión {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto.",
         "appSwapFee": "Tarifa de {{appName}}"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "Detalles del intercambio",
+        "swapFrom": "Cambiar de",
+        "swapTo": "Cambiar a",
+        "whySwap": "¿Por qué cambio?",
+        "swapDescription": "Para depositar fondos en el fondo común, tu ficha se cambia por una ficha del fondo común."
       }
     },
     "activePools": {
