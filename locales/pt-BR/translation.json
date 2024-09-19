@@ -2632,7 +2632,10 @@
       "earnDepositDetails": "Quantia depositada",
       "earnWithdrawTitle": "Sacado",
       "earnWithdrawSubtitle": "{{tokenSymbol}} sacado do pool da {{providerName}}",
-      "earnWithdrawDetails": "Quantia retirada"
+      "earnWithdrawDetails": "Quantia retirada",
+      "swap": "Trocar",
+      "network": "Rede",
+      "fees": "Taxas"
     },
     "home": {
       "title": "Ganhe",
