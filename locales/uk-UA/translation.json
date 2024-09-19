@@ -2567,6 +2567,13 @@
         "title": "Потрібно більше {{feeTokenSymbol}}, щоб продовжити",
         "description": "Додати {{feeTokenSymbol}} у мережу {{network}}, щоб сплатити комісії за газ",
         "noGasCta": "Купити {{feeTokenSymbol}} у мережі {{network}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Детальна інформація про збори",
+        "moreInformation": "Докладніше",
+        "estNetworkFee": "Орієнтовно. Мережевий збір",
+        "maxNetworkFee": "Максимальна комісія мережі",
+        "networkFeeDescription": "Мережева комісія стягується за обробку транзакції поповнення рахунку."
       }
     },
     "activePools": {
@@ -2695,6 +2702,24 @@
         "ageDescription": "Старіші пули ліквідності можуть свідчити про надійну історію та набутий рівень довіри в спільноті. Через це деякі можуть вважати такі пули безпечнішими.\n\nНемає ідеального способу визначення ризику, тому використовуйте цю інформацію як частину свого загального дослідження, щоб ухвалити найкраще для вас рішення.",
         "yieldRateTitle": "Ставка прибутковості",
         "yieldRateDescription": "Тоді як більшість пулів пропонують заробіток у вигляді токенів пулу ліквідності, деякі з них надають додаткові токени як винагороду або додатковий стимул.\n\nОскільки {{appName}} об’єднує пули різних протоколів, ми об’єднали всі ставки заробітку та винагороди в єдину загальну ставку прибутковості, щоб допомогти вам легко оцінити ваш потенціал заробітку. Ця цифра є приблизною, оскільки величина прибутку та винагород постійно коливається.\n\nДля отримання додаткової інформації про розподіл заробітку відвідайте <0>{{providerName}}</0>."
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "Для поповнення рахунку потрібно {{tokenSymbol}} на {{tokenNetwork}}",
+      "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
+      "beforeYouCanDepositTitle": "Before you can deposit...",
+      "beforeYouCanDepositDescription": "Вам потрібно буде додати один з токенів пулу. Після додавання вам потрібно буде повернутися, щоб поповнити свій депозит у пулі.",
+      "action": {
+        "swapAndDeposit": "Swap & Deposit",
+        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "crossChainSwap": "Cross-chain Swap",
+        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
+        "swap": "Обміняти",
+        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
+        "add": "Купити",
+        "addDescription": "Купіть {{tokenSymbol}} у мережі {{tokenNetwork}} через одного з наших довірених постачальників",
+        "transfer": "Переказати",
+        "transferDescription": "Скористайтеся будь-яким гаманцем, сумісним із мережею {{tokenNetwork}} або виконайте обмін, щоб внести {{tokenSymbol}}"
       }
     }
   },
