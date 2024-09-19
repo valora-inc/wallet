@@ -2636,7 +2636,10 @@
       "earnDepositDetails": "Суму внесено",
       "earnWithdrawTitle": "Знято",
       "earnWithdrawSubtitle": "Знято {{tokenSymbol}} з пулу {{providerName}}",
-      "earnWithdrawDetails": "Знята сума"
+      "earnWithdrawDetails": "Знята сума",
+      "swap": "Обміняти",
+      "network": "Мережа",
+      "fees": "Комісії"
     },
     "home": {
       "title": "Заробляти",
