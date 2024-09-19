@@ -2572,6 +2572,13 @@
         "networkFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter la transaction de dépôt.",
         "networkSwapFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter les transactions de dépôt. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit.",
         "appSwapFee": "Frais de {{appName}}"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "Détails de l'échange",
+        "swapFrom": "Échanger de",
+        "swapTo": "Échanger pour",
+        "whySwap": "Pourquoi est-ce que j'échange ?",
+        "swapDescription": "Pour déposer des fonds dans le pool, ton jeton est échangé contre un jeton du pool."
       }
     },
     "activePools": {
