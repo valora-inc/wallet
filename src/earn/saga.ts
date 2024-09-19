@@ -74,7 +74,14 @@ function getDepositTxsReceiptAnalyticsProperties(
 }
 
 export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
-  const { pool, preparedTransactions: serializablePreparedTransactions, amount } = action.payload
+  const {
+    pool,
+    preparedTransactions: serializablePreparedTransactions,
+    amount,
+    mode,
+    fromTokenAmount,
+    fromTokenId,
+  } = action.payload
   const tokenId = pool.dataProps.depositTokenId
 
   const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
@@ -94,10 +101,13 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
   const networkId = tokenInfo.networkId
   const commonAnalyticsProps = {
     depositTokenId: tokenId,
+    depositTokenAmount: amount,
     networkId,
-    tokenAmount: amount,
     providerId: pool.appId,
     poolId: pool.positionId,
+    fromTokenAmount,
+    fromTokenId,
+    mode,
   }
 
   let submitted = false
