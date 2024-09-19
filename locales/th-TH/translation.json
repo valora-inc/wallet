@@ -2630,7 +2630,10 @@
       "earnDepositDetails": "จำนวนเงินที่ฝาก",
       "earnWithdrawTitle": "ถอนแล้ว",
       "earnWithdrawSubtitle": "ถอน {{tokenSymbol}} จากพูล {{providerName}} แล้ว",
-      "earnWithdrawDetails": "จำนวนเงินที่ถอนแล้ว"
+      "earnWithdrawDetails": "จำนวนเงินที่ถอนแล้ว",
+      "swap": "สว็อป",
+      "network": "เครือข่าย",
+      "fees": "ค่าธรรมเนียม"
     },
     "home": {
       "title": "สร้างรายได้",
