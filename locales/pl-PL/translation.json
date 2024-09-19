@@ -2567,6 +2567,22 @@
         "title": "Potrzebujesz więcej {{feeTokenSymbol}}, aby kontynuować",
         "description": "Dodaj {{feeTokenSymbol}} w {{network}}, aby pokryć opłaty za gaz",
         "noGasCta": "Kup {{feeTokenSymbol}} w {{network}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Szczegóły dotyczące opłat",
+        "moreInformation": "Więcej informacji",
+        "estNetworkFee": "Oszacuj. Opłata sieciowa",
+        "maxNetworkFee": "Maksymalna opłata sieciowa",
+        "networkFeeDescription": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji wpłaty.",
+        "networkSwapFeeDescription": "Opłata sieciowa jest wymagana przez sieć do przetwarzania transakcji depozytowych. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
+        "appSwapFee": "Opłata w aplikacji {{appName}}"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "Szczegóły wymiany",
+        "swapFrom": "Zamień z",
+        "swapTo": "Zamień na",
+        "whySwap": "Dlaczego się zamieniam?",
+        "swapDescription": "Aby wpłacić środki do puli, twój token jest zamieniany na token puli."
       }
     },
     "activePools": {
@@ -2629,7 +2645,10 @@
       "earnDepositDetails": "Kwota wpłacona",
       "earnWithdrawTitle": "Wycofano",
       "earnWithdrawSubtitle": "Wycofano {{tokenSymbol}} z puli {{providerName}}",
-      "earnWithdrawDetails": "Wypłacona kwota"
+      "earnWithdrawDetails": "Wypłacona kwota",
+      "swap": "Zamieniaj",
+      "network": "Sieć",
+      "fees": "Opłaty"
     },
     "home": {
       "title": "Zarabiaj",
@@ -2695,6 +2714,24 @@
         "ageDescription": "Starsze pule płynności mogą mieć dobre referencje i cieszyć się zaufaniem społeczności. Ze względu na to niektóre osoby mogą uznawać te pule za bezpieczniejsze.\n\nNie ma idealnego sposobu na określanie ryzyka, dlatego wykorzystaj te informacje w swoich ogólnych badaniach, aby podjąć najlepszą dla siebie decyzję.",
         "yieldRateTitle": "Stopa zwrotu",
         "yieldRateDescription": "Podczas gdy większość pul oferuje zarobki w postaci tokenów puli płynności, niektóre dają dodatkowe tokeny jako nagrodę lub dodatkową zachętę.\n\nPonieważ {{appName}} agreguje pule w wielu protokołach, połączyliśmy wszystkie stawki zarobków i nagród w jedną, ogólną stopę zwrotu, aby ułatwić ocenę Twojego potencjału zarobkowego. Liczba ta jest szacunkowa, ponieważ wartości zarobków i nagród stale się zmieniają.\n\nAby uzyskać więcej informacji na temat podziału zarobków, odwiedź stronę <0>{{providerName}}</0>."
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "Potrzebujesz {{tokenSymbol}} na {{tokenNetwork}} , aby dokonać wpłaty",
+      "crossChainAlternativeDescription": "Jeśli nie chcesz używać swoich tokenów na {{tokenNetwork}}, wybierz opcję poniżej. Będziesz musiał wrócić, aby uzupełnić depozyt w puli później.",
+      "beforeYouCanDepositTitle": "Zanim będziesz mógł wpłacić...",
+      "beforeYouCanDepositDescription": "Musisz dodać jeden z żetonów do puli. Po dodaniu musisz wrócić, aby dokończyć wpłatę do puli.",
+      "action": {
+        "swapAndDeposit": "Swap i depozyt",
+        "swapAndDepositDescription": "Wybierz dowolny token na {{tokenNetwork}}. Wymienimy i zdeponujemy go jednocześnie dla Ciebie.",
+        "crossChainSwap": "Wymiana międzyłańcuchowa",
+        "crossChainSwapDescription": "Wymień token w innej sieci na {{tokenSymbol}}",
+        "swap": "Zamieniaj",
+        "swapDescription": "Wymień na {{tokenSymbol}} na {{tokenNetwork}} z innego tokena w swoim portfelu.",
+        "add": "Kup",
+        "addDescription": "Kup {{tokenSymbol}} w {{tokenNetwork}}, korzystając z usług jednego z naszych zaufanych dostawców",
+        "transfer": "Transfer",
+        "transferDescription": "Użyj dowolnego portfela lub giełdy kompatybilnej z {{tokenNetwork}}, aby wpłacić {{tokenSymbol}}"
       }
     }
   },
