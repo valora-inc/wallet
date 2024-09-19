@@ -2576,6 +2576,13 @@
         "networkFeeDescription": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji wpłaty.",
         "networkSwapFeeDescription": "Opłata sieciowa jest wymagana przez sieć do przetwarzania transakcji depozytowych. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
         "appSwapFee": "Opłata w aplikacji {{appName}}"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "Szczegóły wymiany",
+        "swapFrom": "Zamień z",
+        "swapTo": "Zamień na",
+        "whySwap": "Dlaczego się zamieniam?",
+        "swapDescription": "Aby wpłacić środki do puli, twój token jest zamieniany na token puli."
       }
     },
     "activePools": {
