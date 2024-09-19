@@ -32,6 +32,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
   mockAaveArbUsdcTokenId,
+  mockArbArbAddress,
   mockArbArbTokenId,
   mockArbUsdcTokenId,
   mockEarnPositions,
@@ -117,9 +118,11 @@ describe('depositSubmitSaga', () => {
           mockStandbyHandler(standbyHandlers[0]('0x2'))
           return ['0x2']
         } else {
-          mockStandbyHandler(standbyHandlers[0]('0x1'))
-          mockStandbyHandler(standbyHandlers[1]('0x2'))
-          return ['0x1', '0x2']
+          return (txs as any[]).map((_tx, i) => {
+            const hash = `0x${i + 1}`
+            mockStandbyHandler(standbyHandlers[i](`0x${i + 1}`))
+            return hash
+          })
         }
       }),
     ],
@@ -129,6 +132,10 @@ describe('depositSubmitSaga', () => {
     ],
     [
       call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' }),
+      mockTxReceipt2,
+    ],
+    [
+      call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x3' }),
       mockTxReceipt2,
     ],
   ]
@@ -181,6 +188,40 @@ describe('depositSubmitSaga', () => {
     providerId: mockEarnPositions[0].appId,
   }
 
+  const expectedSwapDepositStandbyTx = {
+    __typename: 'EarnSwapDeposit',
+    context: {
+      id: 'id-earn/saga-Earn/SwapDeposit',
+      tag: 'earn/saga',
+      description: 'Earn/SwapDeposit',
+    },
+    networkId: NetworkId['arbitrum-sepolia'],
+    swap: {
+      inAmount: {
+        value: '100',
+        tokenId: mockArbUsdcTokenId,
+      },
+      outAmount: {
+        value: '50',
+        tokenId: mockArbArbTokenId,
+      },
+    },
+    deposit: {
+      inAmount: {
+        value: '100',
+        tokenId: networkConfig.aaveArbUsdcTokenId,
+      },
+      outAmount: {
+        value: '100',
+        tokenId: mockArbUsdcTokenId,
+      },
+      providerId: mockEarnPositions[0].appId,
+    },
+    transactionHash: '0x2',
+    type: TokenTransactionTypeV2.EarnSwapDeposit,
+    feeCurrencyId: undefined,
+  }
+
   const expectedApproveGasAnalyticsProperties = {
     approveTxCumulativeGasUsed: 3129217,
     approveTxEffectiveGasPrice: 5000000000,
@@ -224,6 +265,10 @@ describe('depositSubmitSaga', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
+    jest.mocked(decodeFunctionData).mockReturnValue({
+      functionName: 'approve',
+      args: ['0xspenderAddress', BigInt(1e8)],
+    })
   })
 
   it('sends approve and deposit transactions, navigates home and dispatches the success action (gas subsidy on)', async () => {
@@ -315,6 +360,200 @@ describe('depositSubmitSaga', () => {
     })
     expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
     expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
+  })
+
+  it('sends approve and swap-deposit transactions, navigates home and dispatches the success action (gas subsidy off)', async () => {
+    jest.mocked(decodeFunctionData).mockReturnValue({
+      functionName: 'approve',
+      args: ['0xspenderAddress', BigInt(5e19)],
+    })
+    await expectSaga(depositSubmitSaga, {
+      type: depositStart.type,
+      payload: {
+        amount: '100',
+        pool: mockEarnPositions[0],
+        preparedTransactions: [
+          { ...serializableApproveTx, to: mockArbArbAddress as Address },
+          serializableDepositTx,
+        ],
+        mode: 'swap-deposit',
+        fromTokenAmount: '50',
+        fromTokenId: mockArbArbTokenId,
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide(sagaProviders)
+      .put(
+        depositSuccess({
+          tokenId: mockArbUsdcTokenId,
+          networkId: NetworkId['arbitrum-sepolia'],
+          transactionHash: '0x2',
+        })
+      )
+      .put(fetchTokenBalances({ showLoading: false }))
+      .call.like({ fn: sendPreparedTransactions })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
+      .run()
+    expect(navigateHome).toHaveBeenCalled()
+    expect(decodeFunctionData).toHaveBeenCalledWith({
+      abi: erc20Abi,
+      data: serializableApproveTx.data,
+    })
+    expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, {
+      ...expectedApproveStandbyTx,
+      approvedAmount: '50',
+      tokenId: mockArbArbTokenId,
+    })
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedSwapDepositStandbyTx)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_start, {
+      ...expectedAnalyticsProps,
+      fromTokenAmount: '50',
+      fromTokenId: mockArbArbTokenId,
+      mode: 'swap-deposit',
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_success, {
+      ...expectedAnalyticsProps,
+      ...expectedCumulativeGasAnalyticsProperties,
+      fromTokenAmount: '50',
+      fromTokenId: mockArbArbTokenId,
+      mode: 'swap-deposit',
+    })
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
+  })
+
+  it('sends only swap-deposit transaction, navigates home and dispatches the success action (gas subsidy on)', async () => {
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
+    await expectSaga(depositSubmitSaga, {
+      type: depositStart.type,
+      payload: {
+        amount: '100',
+        pool: mockEarnPositions[0],
+        preparedTransactions: [serializableDepositTx],
+        mode: 'swap-deposit',
+        fromTokenAmount: '50',
+        fromTokenId: mockArbArbTokenId,
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide(sagaProviders)
+      .put(
+        depositSuccess({
+          tokenId: mockArbUsdcTokenId,
+          networkId: NetworkId['arbitrum-sepolia'],
+          transactionHash: '0x2',
+        })
+      )
+      .put(fetchTokenBalances({ showLoading: false }))
+      .call.like({ fn: sendPreparedTransactions })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
+      .run()
+    expect(navigateHome).toHaveBeenCalled()
+    expect(decodeFunctionData).not.toHaveBeenCalled()
+    expect(mockStandbyHandler).toHaveBeenCalledTimes(1)
+    expect(mockStandbyHandler).toHaveBeenCalledWith(expectedSwapDepositStandbyTx)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_start, {
+      ...expectedAnalyticsProps,
+      fromTokenAmount: '50',
+      fromTokenId: mockArbArbTokenId,
+      mode: 'swap-deposit',
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_success, {
+      ...expectedAnalyticsProps,
+      ...expectedDepositGasAnalyticsProperties,
+      gasFee: 0.00185837,
+      gasFeeUsd: 2.787555,
+      gasUsed: 371674,
+      fromTokenAmount: '50',
+      fromTokenId: mockArbArbTokenId,
+      mode: 'swap-deposit',
+    })
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(true)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(false)
+  })
+
+  it('uses null standby transactions if there are more than two prepared transactions', async () => {
+    await expectSaga(depositSubmitSaga, {
+      type: depositStart.type,
+      payload: {
+        amount: '100',
+        pool: mockEarnPositions[0],
+        preparedTransactions: [
+          serializableApproveTx,
+          serializableDepositTx,
+          { ...serializableDepositTx, to: '0xd' },
+        ],
+        mode: 'deposit',
+        fromTokenAmount: '100',
+        fromTokenId: mockArbUsdcTokenId,
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide(sagaProviders)
+      .put(
+        depositSuccess({
+          tokenId: mockArbUsdcTokenId,
+          networkId: NetworkId['arbitrum-sepolia'],
+          transactionHash: '0x3',
+        })
+      )
+      .put(fetchTokenBalances({ showLoading: false }))
+      .call.like({ fn: sendPreparedTransactions })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x3' })
+      .run()
+    expect(navigateHome).toHaveBeenCalled()
+    expect(decodeFunctionData).not.toHaveBeenCalled()
+    expect(mockStandbyHandler).toHaveBeenCalledTimes(3)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, null)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, null)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(3, null)
+  })
+
+  it('uses null standby transaction for approve if there are two prepared transactions and the first is not approve', async () => {
+    jest.mocked(decodeFunctionData).mockReturnValue({
+      functionName: 'not-approve',
+      args: ['0xspenderAddress', BigInt(5e19)],
+    })
+    await expectSaga(depositSubmitSaga, {
+      type: depositStart.type,
+      payload: {
+        amount: '100',
+        pool: mockEarnPositions[0],
+        preparedTransactions: [
+          { ...serializableApproveTx, to: mockArbArbAddress as Address },
+          serializableDepositTx,
+        ],
+        mode: 'swap-deposit',
+        fromTokenAmount: '50',
+        fromTokenId: mockArbArbTokenId,
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide(sagaProviders)
+      .put(
+        depositSuccess({
+          tokenId: mockArbUsdcTokenId,
+          networkId: NetworkId['arbitrum-sepolia'],
+          transactionHash: '0x2',
+        })
+      )
+      .put(fetchTokenBalances({ showLoading: false }))
+      .call.like({ fn: sendPreparedTransactions })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
+      .run()
+    expect(navigateHome).toHaveBeenCalled()
+    expect(decodeFunctionData).toHaveBeenCalledWith({
+      abi: erc20Abi,
+      data: serializableApproveTx.data,
+    })
+    expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, null)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedSwapDepositStandbyTx)
   })
 
   it('dispatches cancel action if pin input is cancelled and does not navigate home', async () => {

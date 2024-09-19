@@ -2633,6 +2633,84 @@
             ],
             "type": "object"
         },
+        "PendingStandbyTransaction<EarnSwapDeposit>": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "EarnSwapDeposit",
+                    "type": "string"
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "deposit": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "providerId": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount",
+                        "providerId"
+                    ],
+                    "type": "object"
+                },
+                "feeCurrencyId": {
+                    "type": "string"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "const": "Pending",
+                    "type": "string"
+                },
+                "swap": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount"
+                    ],
+                    "type": "object"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "context",
+                "deposit",
+                "networkId",
+                "status",
+                "swap",
+                "timestamp",
+                "type"
+            ],
+            "type": "object"
+        },
         "PendingStandbyTransaction<EarnWithdraw>": {
             "additionalProperties": false,
             "properties": {
@@ -3686,6 +3764,9 @@
                     "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
                 },
                 {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnSwapDeposit>"
+                },
+                {
                     "$ref": "#/definitions/PendingStandbyTransaction<EarnWithdraw>"
                 },
                 {
@@ -4017,6 +4098,99 @@
                         "outAmount",
                         "providerId",
                         "status",
+                        "timestamp",
+                        "transactionHash",
+                        "type"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "__typename": {
+                            "const": "EarnSwapDeposit",
+                            "type": "string"
+                        },
+                        "block": {
+                            "type": "string"
+                        },
+                        "context": {
+                            "$ref": "#/definitions/TransactionContext"
+                        },
+                        "deposit": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "inAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                },
+                                "outAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                },
+                                "providerId": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "inAmount",
+                                "outAmount",
+                                "providerId"
+                            ],
+                            "type": "object"
+                        },
+                        "feeCurrencyId": {
+                            "type": "string"
+                        },
+                        "fees": {
+                            "items": {
+                                "$ref": "#/definitions/Fee"
+                            },
+                            "type": "array"
+                        },
+                        "networkId": {
+                            "$ref": "#/definitions/NetworkId"
+                        },
+                        "status": {
+                            "enum": [
+                                "Complete",
+                                "Failed"
+                            ],
+                            "type": "string"
+                        },
+                        "swap": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "inAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                },
+                                "outAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                }
+                            },
+                            "required": [
+                                "inAmount",
+                                "outAmount"
+                            ],
+                            "type": "object"
+                        },
+                        "timestamp": {
+                            "type": "number"
+                        },
+                        "transactionHash": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "block",
+                        "context",
+                        "deposit",
+                        "fees",
+                        "networkId",
+                        "status",
+                        "swap",
                         "timestamp",
                         "transactionHash",
                         "type"
@@ -5885,13 +6059,13 @@
                     "$ref": "#/definitions/EarnDeposit"
                 },
                 {
+                    "$ref": "#/definitions/EarnSwapDeposit"
+                },
+                {
                     "$ref": "#/definitions/EarnWithdraw"
                 },
                 {
                     "$ref": "#/definitions/EarnClaimReward"
-                },
-                {
-                    "$ref": "#/definitions/EarnSwapDeposit"
                 }
             ]
         },

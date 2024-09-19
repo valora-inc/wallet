@@ -82,25 +82,29 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     fromTokenAmount,
     fromTokenId,
   } = action.payload
-  const tokenId = pool.dataProps.depositTokenId
+  const depositTokenId = pool.dataProps.depositTokenId
 
   const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
 
-  const tokenInfo = yield* call(getTokenInfo, tokenId)
-  if (!tokenInfo) {
-    Logger.error(`${TAG}/depositSubmitSaga`, 'Token info not found for token id', tokenId)
+  const depositTokenInfo = yield* call(getTokenInfo, depositTokenId)
+  const fromTokenInfo = yield* call(getTokenInfo, fromTokenId)
+  if (!depositTokenInfo || !fromTokenInfo) {
+    Logger.error(
+      `${TAG}/depositSubmitSaga`,
+      `Token info not found for token ids ${depositTokenId} and/or ${fromTokenId}`
+    )
     yield* put(depositError())
     return
   }
 
   const tokensById = yield* select((state) =>
-    tokensByIdSelector(state, { networkIds: [tokenInfo.networkId], includePositionTokens: true })
+    tokensByIdSelector(state, { networkIds: [pool.networkId], includePositionTokens: true })
   )
 
   const trackedTxs: TrackedTx[] = []
-  const networkId = tokenInfo.networkId
+  const networkId = pool.networkId
   const commonAnalyticsProps = {
-    depositTokenId: tokenId,
+    depositTokenId,
     depositTokenAmount: amount,
     networkId,
     providerId: pool.appId,
@@ -115,7 +119,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
   try {
     Logger.debug(
       `${TAG}/depositSubmitSaga`,
-      `Starting deposit for token ${tokenId}, total transactions: ${preparedTransactions.length}`
+      `Starting ${mode} with token ${fromTokenId}, total transactions: ${preparedTransactions.length}`
     )
 
     for (const tx of preparedTransactions) {
@@ -137,13 +141,13 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
         })
         if (
           functionName === 'approve' &&
-          preparedTransactions[0].to === tokenInfo.address &&
+          preparedTransactions[0].to === fromTokenInfo.address &&
           args
         ) {
           Logger.debug(`${TAG}/depositSubmitSaga`, 'First transaction is an approval transaction')
           const approvedAmountInSmallestUnit = args[1] as bigint
           const approvedAmount = new BigNumber(approvedAmountInSmallestUnit.toString())
-            .shiftedBy(-tokenInfo.decimals)
+            .shiftedBy(-fromTokenInfo.decimals)
             .toString()
 
           const createApprovalStandbyTx = (
@@ -156,12 +160,18 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
               networkId,
               type: TokenTransactionTypeV2.Approval,
               transactionHash,
-              tokenId,
+              tokenId: fromTokenId,
               approvedAmount,
               feeCurrencyId,
             }
           }
           createDepositStandbyTxHandlers.push(createApprovalStandbyTx)
+        } else {
+          Logger.info(
+            TAG,
+            'First transaction is not an expected approval transaction, using empty standby handler'
+          )
+          createDepositStandbyTxHandlers.push(() => null)
         }
       }
 
@@ -180,14 +190,38 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
           },
           outAmount: {
             value: amount,
-            tokenId,
+            tokenId: depositTokenId,
           },
           providerId: pool.appId,
           transactionHash,
           feeCurrencyId,
         }
       }
-      createDepositStandbyTxHandlers.push(createDepositStandbyTx)
+      const createSwapDepositStandbyTx = (
+        transactionHash: string,
+        feeCurrencyId?: string
+      ): BaseStandbyTransaction => {
+        return {
+          context: newTransactionContext(TAG, 'Earn/SwapDeposit'),
+          __typename: 'EarnSwapDeposit',
+          networkId,
+          type: TokenTransactionTypeV2.EarnSwapDeposit,
+          swap: {
+            inAmount: { value: amount, tokenId: depositTokenId },
+            outAmount: { value: fromTokenAmount, tokenId: fromTokenId },
+          },
+          deposit: {
+            inAmount: { value: amount, tokenId: pool.dataProps.withdrawTokenId },
+            outAmount: { value: amount, tokenId: depositTokenId },
+            providerId: pool.appId,
+          },
+          transactionHash,
+          feeCurrencyId,
+        }
+      }
+      createDepositStandbyTxHandlers.push(
+        mode === 'deposit' ? createDepositStandbyTx : createSwapDepositStandbyTx
+      )
     } else {
       Logger.info(TAG, 'More than 2 deposit transactions, using empty standby handlers')
       createDepositStandbyTxHandlers.push(...preparedTransactions.map(() => () => null))
@@ -244,7 +278,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     })
     yield* put(
       depositSuccess({
-        tokenId: tokenInfo.tokenId,
+        tokenId: depositTokenInfo.tokenId,
         networkId,
         transactionHash: txHashes[txHashes.length - 1],
       })
