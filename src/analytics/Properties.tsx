@@ -1554,7 +1554,7 @@ interface EarnCommonProperties {
 interface EarnDepositProperties extends EarnCommonProperties {
   depositTokenAmount: string
   mode: EarnDepositMode
-  // the below are mainly for swap-deposit. For swap deposit, this would just be
+  // the below are mainly for swap-deposit. For deposit, this would just be
   // same as the depositTokenAmount and depositTokenId
   fromTokenAmount: string
   fromTokenId: string
