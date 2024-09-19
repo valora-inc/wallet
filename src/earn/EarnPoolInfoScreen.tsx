@@ -221,14 +221,12 @@ function DepositAndEarningsCard({
   return (
     <View testID="DepositAndEarningsCard" style={[styles.card, styles.depositAndEarningCard]}>
       <View style={styles.depositAndEarningCardTitleContainer}>
-        <View style={styles.cardLineLabel}>
-          <LabelWithInfo
-            onPress={onInfoIconPress}
-            label={t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
-            labelStyle={styles.cardTitleText}
-            testID={'DepositInfoIcon'}
-          />
-        </View>
+        <LabelWithInfo
+          onPress={onInfoIconPress}
+          label={t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
+          labelStyle={styles.cardTitleText}
+          testID={'DepositInfoIcon'}
+        />
         <View>
           <Text style={styles.depositAndEarningCardTitleText}>
             {t('earnFlow.poolInfoScreen.titleLocalAmountDisplay', {
