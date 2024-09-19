@@ -1552,7 +1552,12 @@ interface EarnCommonProperties {
 }
 
 interface EarnDepositProperties extends EarnCommonProperties {
-  tokenAmount: string
+  depositTokenAmount: string
+  mode: EarnDepositMode
+  // the below are mainly for swap-deposit. For deposit, this would just be
+  // same as the depositTokenAmount and depositTokenId
+  fromTokenAmount: string
+  fromTokenId: string
 }
 
 interface EarnWithdrawProperties extends EarnCommonProperties {
@@ -1601,10 +1606,6 @@ interface EarnEventsProperties {
   [EarnEvents.earn_enter_amount_continue_press]: {
     amountInUsd: string
     amountEnteredIn: AmountEnteredIn
-    // TODO(ACT-1358): these could be moved to EarnDepositProperties
-    depositTokenAmount: string
-    sourceTokenId: string
-    mode: EarnDepositMode
   } & EarnDepositProperties
   [EarnEvents.earn_enter_amount_info_more_pools]: undefined
   [EarnEvents.earn_exit_pool_press]: {
