@@ -439,14 +439,20 @@ function EarnEnterAmount({ route }: Props) {
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
-      <FeeDetailsBottomSheet
-        forwardedRef={feeDetailsBottomSheetRef}
-        title={t('earnFlow.enterAmount.feeBottomSheet.feeDetails')}
-        testID="FeeDetailsBottomSheet"
-        feeCurrency={feeCurrency}
-        estimatedFeeAmount={estimatedFeeAmount}
-        maxFeeAmount={maxFeeAmount}
-      />
+      {tokenAmount && (
+        <FeeDetailsBottomSheet
+          forwardedRef={feeDetailsBottomSheetRef}
+          title={t('earnFlow.enterAmount.feeBottomSheet.feeDetails')}
+          testID="FeeDetailsBottomSheet"
+          feeCurrency={feeCurrency}
+          estimatedFeeAmount={estimatedFeeAmount}
+          maxFeeAmount={maxFeeAmount}
+          swapTransaction={swapTransaction}
+          pool={pool}
+          token={token}
+          tokenAmount={tokenAmount}
+        />
+      )}
       {tokenAmount && prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
@@ -579,6 +585,10 @@ function FeeDetailsBottomSheet({
   feeCurrency,
   estimatedFeeAmount,
   maxFeeAmount,
+  swapTransaction,
+  pool,
+  token,
+  tokenAmount,
 }: {
   forwardedRef: React.RefObject<BottomSheetModalRefType>
   title: string
@@ -586,8 +596,31 @@ function FeeDetailsBottomSheet({
   feeCurrency?: TokenBalance
   estimatedFeeAmount?: BigNumber
   maxFeeAmount?: BigNumber
+  swapTransaction?: SwapTransaction | undefined
+  pool: EarnPosition
+  token: TokenBalance
+  tokenAmount: BigNumber
 }) {
   const { t } = useTranslation()
+  const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
+
+  if (!depositToken) {
+    // should never happen
+    throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
+  }
+
+  const swapFeeAmount = useMemo(() => {
+    if (swapTransaction && swapTransaction.appFeePercentageIncludedInPrice) {
+      return tokenAmount.multipliedBy(
+        new BigNumber(swapTransaction.appFeePercentageIncludedInPrice).shiftedBy(-2) // To convert from percentage to decimal
+      )
+    }
+  }, [swapTransaction, token])
+
+  const descriptionContainerStyle = [
+    styles.bottomSheetDescriptionContainer,
+    swapFeeAmount && { marginTop: Spacing.Large32 },
+  ]
 
   return (
     <BottomSheet forwardedRef={forwardedRef} title={title} testId={testID}>
@@ -633,14 +666,40 @@ function FeeDetailsBottomSheet({
             )}
           </View>
         </View>
-        <RowDivider style={{ marginBottom: Spacing.Large32 }} />
-        <View style={styles.gap8}>
+        <RowDivider />
+        {swapFeeAmount && (
+          <View style={styles.bottomSheetLineItem} testID="SwapFee">
+            <Text style={styles.bottomSheetLineLabel}>
+              {t('earnFlow.enterAmount.feeBottomSheet.appSwapFee')}
+            </Text>
+            <Text style={styles.bottomSheetLineLabelText} testID="SwapFee/Value">
+              {'≈ '}
+              <TokenDisplay tokenId={token.tokenId} amount={swapFeeAmount.toString()} />
+              {' ('}
+              <TokenDisplay
+                tokenId={token.tokenId}
+                showLocalAmount={false}
+                amount={swapFeeAmount.toString()}
+              />
+              {')'}
+            </Text>
+          </View>
+        )}
+        <View style={descriptionContainerStyle}>
           <Text style={styles.bottomSheetDescriptionTitle}>
             {t('earnFlow.enterAmount.feeBottomSheet.moreInformation')}
           </Text>
-          <Text style={styles.bottomSheetDescriptionText}>
-            {t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')}
-          </Text>
+          {swapFeeAmount ? (
+            <Text style={styles.bottomSheetDescriptionText}>
+              {t('earnFlow.enterAmount.feeBottomSheet.networkSwapFeeDescription', {
+                appFeePercentage: swapTransaction?.appFeePercentageIncludedInPrice,
+              })}
+            </Text>
+          ) : (
+            <Text style={styles.bottomSheetDescriptionText}>
+              {t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')}
+            </Text>
+          )}
         </View>
       </View>
       <Button
@@ -771,6 +830,10 @@ const styles = StyleSheet.create({
   },
   gap8: {
     gap: Spacing.Smallest8,
+  },
+  bottomSheetDescriptionContainer: {
+    gap: Spacing.Smallest8,
+    marginTop: Spacing.Regular16,
   },
   bottomSheetTextContent: {
     marginBottom: Spacing.XLarge48,
