@@ -1786,7 +1786,7 @@ export const mockEarnPositions: EarnPosition[] = [
     priceUsd: '1.2',
     balance: '0',
     supply: '190288.768509',
-    availableShortcutIds: ['deposit', 'withdraw'],
+    availableShortcutIds: ['deposit', 'withdraw', 'swap-deposit'],
     shortcutTriggerArgs: {
       deposit: {
         tokenDecimals: 6,

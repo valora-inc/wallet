@@ -8,11 +8,13 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetModalRefType } from 'src/components/BottomSheet'
-import Button, { BtnSizes } from 'src/components/Button'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import { LabelWithInfo } from 'src/components/LabelWithInfo'
+import RowDivider from 'src/components/RowDivider'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -25,7 +27,6 @@ import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
-import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -46,7 +47,7 @@ import { feeCurrenciesSelector, swappableFromTokensByNetworkIdSelector } from 's
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { parseInputAmount } from 'src/utils/parsing'
-import { PreparedTransactionsResult, getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
+import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
 
@@ -93,6 +94,7 @@ function EarnEnterAmount({ route }: Props) {
   const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
 
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tokenAmountInputRef = useRef<RNTextInput>(null)
   const localAmountInputRef = useRef<RNTextInput>(null)
@@ -218,6 +220,9 @@ function EarnEnterAmount({ route }: Props) {
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [tokenAmount, token])
+
+  const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
+    getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(token.balance)
   const showNotEnoughBalanceForGasWarning =
@@ -368,6 +373,7 @@ function EarnEnterAmount({ route }: Props) {
               token={token}
               tokenAmount={tokenAmount}
               prepareTransactionsResult={prepareTransactionsResult}
+              bottomSheetRef={feeDetailsBottomSheetRef}
               swapTransaction={swapTransaction}
             />
           )}
@@ -433,12 +439,23 @@ function EarnEnterAmount({ route }: Props) {
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
+      <FeeDetailsBottomSheet
+        forwardedRef={feeDetailsBottomSheetRef}
+        title={t('earnFlow.enterAmount.feeBottomSheet.feeDetails')}
+        testID="FeeDetailsBottomSheet"
+        feeCurrency={feeCurrency}
+        estimatedFeeAmount={estimatedFeeAmount}
+        maxFeeAmount={maxFeeAmount}
+      />
       {tokenAmount && prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
-          amount={tokenAmount}
+          inputAmount={tokenAmount}
           pool={pool}
+          mode={mode}
+          swapTransaction={swapTransaction}
+          inputTokenId={token.tokenId}
         />
       )}
       <TokenBottomSheet
@@ -453,31 +470,20 @@ function EarnEnterAmount({ route }: Props) {
   )
 }
 
-function LabelWithInfo({ label, onPress }: { label: string; onPress?: () => void }) {
-  return (
-    <Touchable style={styles.txDetailsLabel} onPress={onPress} disabled={!onPress}>
-      <>
-        <Text style={styles.txDetailsLabelText} numberOfLines={1}>
-          {label}
-        </Text>
-        {onPress && <InfoIcon size={16} color={Colors.gray3} />}
-      </>
-    </Touchable>
-  )
-}
-
 function TransactionDetails({
   pool,
   token,
   tokenAmount,
   prepareTransactionsResult,
   swapTransaction,
+  bottomSheetRef,
 }: {
   pool: EarnPosition
   token: TokenBalance
   tokenAmount: BigNumber
   prepareTransactionsResult: PreparedTransactionsResult
   swapTransaction?: SwapTransaction
+  bottomSheetRef: React.RefObject<BottomSheetModalRefType>
 }) {
   const { t } = useTranslation()
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
@@ -547,8 +553,9 @@ function TransactionDetails({
           <LabelWithInfo
             label={t('earnFlow.enterAmount.fees')}
             onPress={() => {
-              // TODO(ACT-1357): show bottom sheet
+              bottomSheetRef?.current?.snapToIndex(0)
             }}
+            testID="LabelWithInfo/FeeLabel"
           />
           <View style={styles.txDetailsValue}>
             <TokenDisplay
@@ -561,6 +568,90 @@ function TransactionDetails({
         </View>
       </View>
     )
+  )
+}
+
+// Might be sharable with src/swap/FeeInfoBottomSheet.tsx
+function FeeDetailsBottomSheet({
+  forwardedRef,
+  title,
+  testID,
+  feeCurrency,
+  estimatedFeeAmount,
+  maxFeeAmount,
+}: {
+  forwardedRef: React.RefObject<BottomSheetModalRefType>
+  title: string
+  testID: string
+  feeCurrency?: TokenBalance
+  estimatedFeeAmount?: BigNumber
+  maxFeeAmount?: BigNumber
+}) {
+  const { t } = useTranslation()
+
+  return (
+    <BottomSheet forwardedRef={forwardedRef} title={title} testId={testID}>
+      <View style={styles.bottomSheetTextContent}>
+        <View style={styles.gap8}>
+          <View style={styles.bottomSheetLineItem} testID="EstNetworkFee">
+            <Text style={styles.bottomSheetLineLabel}>
+              {t('earnFlow.enterAmount.feeBottomSheet.estNetworkFee')}
+            </Text>
+            {feeCurrency && estimatedFeeAmount && (
+              <Text style={styles.bottomSheetLineLabelText} testID="EstNetworkFee/Value">
+                {'≈ '}
+                <TokenDisplay
+                  tokenId={feeCurrency.tokenId}
+                  amount={estimatedFeeAmount.toString()}
+                />
+                {' ('}
+                <TokenDisplay
+                  tokenId={feeCurrency.tokenId}
+                  showLocalAmount={false}
+                  amount={estimatedFeeAmount.toString()}
+                />
+                {')'}
+              </Text>
+            )}
+          </View>
+          <View style={styles.bottomSheetLineItem} testID="MaxNetworkFee">
+            <Text style={styles.bottomSheetLineLabel}>
+              {t('earnFlow.enterAmount.feeBottomSheet.maxNetworkFee')}
+            </Text>
+            {feeCurrency && maxFeeAmount && (
+              <Text style={styles.bottomSheetLineLabelText} testID="MaxNetworkFee/Value">
+                {'≈ '}
+                <TokenDisplay tokenId={feeCurrency.tokenId} amount={maxFeeAmount.toString()} />
+                {' ('}
+                <TokenDisplay
+                  tokenId={feeCurrency.tokenId}
+                  showLocalAmount={false}
+                  amount={maxFeeAmount.toString()}
+                />
+                {')'}
+              </Text>
+            )}
+          </View>
+        </View>
+        <RowDivider style={{ marginBottom: Spacing.Large32 }} />
+        <View style={styles.gap8}>
+          <Text style={styles.bottomSheetDescriptionTitle}>
+            {t('earnFlow.enterAmount.feeBottomSheet.moreInformation')}
+          </Text>
+          <Text style={styles.bottomSheetDescriptionText}>
+            {t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')}
+          </Text>
+        </View>
+      </View>
+      <Button
+        onPress={() => {
+          forwardedRef.current?.close()
+        }}
+        text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
+        size={BtnSizes.FULL}
+        type={BtnTypes.SECONDARY}
+      />
+    </BottomSheet>
   )
 }
 
@@ -661,20 +752,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
   },
-  txDetailsLabel: {
-    flex: 1,
-    flexDirection: 'row',
-    gap: Spacing.Tiny4,
-    alignItems: 'center',
-    paddingRight: 20, // Prevents Icon from being cut off on long labels
-    minWidth: '25%',
-  },
-  txDetailsLabelText: {
-    ...typeScale.bodyMedium,
-    color: Colors.black,
-    flexWrap: 'wrap',
-    textAlign: 'left',
-  },
   txDetailsValue: {
     flexShrink: 1,
     flexDirection: 'row',
@@ -683,14 +760,43 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'flex-end',
   },
-  gray4: {
-    color: Colors.gray4,
-  },
   txDetailsValueText: {
     ...typeScale.bodyMedium,
     color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'right',
+  },
+  gray4: {
+    color: Colors.gray4,
+  },
+  gap8: {
+    gap: Spacing.Smallest8,
+  },
+  bottomSheetTextContent: {
+    marginBottom: Spacing.XLarge48,
+    marginTop: Spacing.Smallest8,
+  },
+  bottomSheetLineItem: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  bottomSheetLineLabel: {
+    maxWidth: '40%',
+    textAlign: 'left',
+  },
+  bottomSheetLineLabelText: {
+    maxWidth: '60%',
+    textAlign: 'right',
+  },
+  bottomSheetDescriptionTitle: {
+    ...typeScale.labelSemiBoldSmall,
+    color: Colors.black,
+  },
+  bottomSheetDescriptionText: {
+    ...typeScale.bodySmall,
+    color: Colors.black,
   },
 })
 

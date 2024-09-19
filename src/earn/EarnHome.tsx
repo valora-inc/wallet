@@ -18,11 +18,8 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import FilterChipsCarousel, {
   FilterChip,
   NetworkFilterChip,
-  TokenSelectFilterChip,
   isNetworkChip,
-  isTokenSelectChip,
 } from 'src/components/FilterChipsCarousel'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
 import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE } from 'src/config'
 import EarnTabBar from 'src/earn/EarnTabBar'
@@ -56,7 +53,6 @@ function useFilterChips(): FilterChip<TokenBalance>[] {
 
   const pools = useSelector(earnPositionsSelector)
   const supportedNetworkIds = [...new Set(pools.map((pool) => pool.networkId))]
-  const tokens = [...new Set(pools.flatMap((pool) => pool.tokens))]
   const networkChipConfig: NetworkFilterChip<TokenBalance> = {
     id: 'network-ids',
     name: t('tokenBottomSheet.filters.selectNetwork'),
@@ -67,16 +63,7 @@ function useFilterChips(): FilterChip<TokenBalance>[] {
     allNetworkIds: supportedNetworkIds,
     selectedNetworkIds: supportedNetworkIds,
   }
-
-  const tokensChipConfig: TokenSelectFilterChip<TokenBalance> = {
-    id: 'token-select',
-    name: t('tokenBottomSheet.filters.tokens'),
-    filterFn: (token: TokenBalance, tokenId?: string) => !!tokenId && token.tokenId === tokenId,
-    selectedTokenId: tokens[0] ? tokens[0].tokenId : undefined,
-    isSelected: false,
-  }
-
-  return [networkChipConfig, tokensChipConfig]
+  return [networkChipConfig]
 }
 
 export default function EarnHome({ navigation, route }: Props) {
@@ -161,9 +148,6 @@ export default function EarnHome({ navigation, route }: Props) {
           if (isNetworkChip(filter)) {
             return filter.filterFn(token, filter.selectedNetworkIds)
           }
-          if (isTokenSelectChip(filter)) {
-            return filter.filterFn(token, filter.selectedTokenId)
-          }
           return filter.filterFn(token)
         })
       ) {
@@ -202,25 +186,6 @@ export default function EarnHome({ navigation, route }: Props) {
         }
       })
     })
-  }
-
-  const onTokenPressed = (token: TokenBalance) => {
-    setFilters((prev) => {
-      return prev.map((chip) => {
-        if (isTokenSelectChip(chip)) {
-          return {
-            ...chip,
-            selectedTokenId: token.tokenId,
-            isSelected: true,
-          }
-        }
-        return {
-          ...chip,
-          isSelected: false,
-        }
-      })
-    })
-    tokenBottomSheetRef.current?.close()
   }
 
   const handleMeasureListHeadereHeight = (event: LayoutChangeEvent) => {
@@ -346,16 +311,6 @@ export default function EarnHome({ navigation, route }: Props) {
           forwardedRef={networkChipRef}
         />
       )}
-      <TokenBottomSheet
-        forwardedRef={tokenBottomSheetRef}
-        snapPoints={['90%']}
-        tokens={tokensInfo}
-        onTokenSelected={onTokenPressed}
-        title={t('sendEnterAmountScreen.selectToken')}
-        origin={TokenPickerOrigin.Earn}
-        filterChips={[]}
-        wrapWithModalProvider={false}
-      />
     </>
   )
 }

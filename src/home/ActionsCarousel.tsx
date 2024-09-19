@@ -11,8 +11,8 @@ import { HomeActionName } from 'src/home/types'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsReceive from 'src/icons/quick-actions/Receive'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
-import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
+import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
@@ -57,7 +57,7 @@ function ActionsCarousel() {
     },
     [HomeActionName.Swap]: {
       title: t('homeActions.swap'),
-      icon: <QuickActionsSwap color={Colors.successDark} />,
+      icon: <SwapArrows color={Colors.successDark} />,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack)
       },
