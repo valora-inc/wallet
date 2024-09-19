@@ -2567,6 +2567,13 @@
         "title": "Potrzebujesz więcej {{feeTokenSymbol}}, aby kontynuować",
         "description": "Dodaj {{feeTokenSymbol}} w {{network}}, aby pokryć opłaty za gaz",
         "noGasCta": "Kup {{feeTokenSymbol}} w {{network}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Szczegóły dotyczące opłat",
+        "moreInformation": "Więcej informacji",
+        "estNetworkFee": "Oszacuj. Opłata sieciowa",
+        "maxNetworkFee": "Maksymalna opłata sieciowa",
+        "networkFeeDescription": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji wpłaty."
       }
     },
     "activePools": {
@@ -2695,6 +2702,24 @@
         "ageDescription": "Starsze pule płynności mogą mieć dobre referencje i cieszyć się zaufaniem społeczności. Ze względu na to niektóre osoby mogą uznawać te pule za bezpieczniejsze.\n\nNie ma idealnego sposobu na określanie ryzyka, dlatego wykorzystaj te informacje w swoich ogólnych badaniach, aby podjąć najlepszą dla siebie decyzję.",
         "yieldRateTitle": "Stopa zwrotu",
         "yieldRateDescription": "Podczas gdy większość pul oferuje zarobki w postaci tokenów puli płynności, niektóre dają dodatkowe tokeny jako nagrodę lub dodatkową zachętę.\n\nPonieważ {{appName}} agreguje pule w wielu protokołach, połączyliśmy wszystkie stawki zarobków i nagród w jedną, ogólną stopę zwrotu, aby ułatwić ocenę Twojego potencjału zarobkowego. Liczba ta jest szacunkowa, ponieważ wartości zarobków i nagród stale się zmieniają.\n\nAby uzyskać więcej informacji na temat podziału zarobków, odwiedź stronę <0>{{providerName}}</0>."
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "Potrzebujesz {{tokenSymbol}} na {{tokenNetwork}} , aby dokonać wpłaty",
+      "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
+      "beforeYouCanDepositTitle": "Before you can deposit...",
+      "beforeYouCanDepositDescription": "Musisz dodać jeden z żetonów do puli. Po dodaniu musisz wrócić, aby dokończyć wpłatę do puli.",
+      "action": {
+        "swapAndDeposit": "Swap & Deposit",
+        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "crossChainSwap": "Cross-chain Swap",
+        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
+        "swap": "Zamieniaj",
+        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
+        "add": "Kup",
+        "addDescription": "Kup {{tokenSymbol}} w {{tokenNetwork}}, korzystając z usług jednego z naszych zaufanych dostawców",
+        "transfer": "Transfer",
+        "transferDescription": "Użyj dowolnego portfela lub giełdy kompatybilnej z {{tokenNetwork}}, aby wpłacić {{tokenSymbol}}"
       }
     }
   },
