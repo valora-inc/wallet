@@ -786,7 +786,6 @@ function SwapDetailsBottomSheet({
               {t('earnFlow.enterAmount.swapBottomSheet.swapFrom')}
             </Text>
             <Text style={styles.bottomSheetLineLabelText} testID="SwapFrom/Value">
-              {'≈ '}
               <TokenDisplay
                 tokenId={token.tokenId}
                 showLocalAmount={false}
@@ -802,7 +801,6 @@ function SwapDetailsBottomSheet({
               {t('earnFlow.enterAmount.swapBottomSheet.swapTo')}
             </Text>
             <Text style={styles.bottomSheetLineLabelText} testID="SwapTo/Value">
-              {'≈ '}
               <TokenDisplay
                 tokenId={depositToken.tokenId}
                 showLocalAmount={false}
