@@ -4,10 +4,10 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
+import { openUrl } from 'src/app/actions'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { depositStart } from 'src/earn/slice'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
-import { navigate } from 'src/navigator/NavigationService'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
@@ -164,8 +164,9 @@ describe('EarnDepositBottomSheet', () => {
   })
 
   it('pressing provider info opens the terms and conditions', () => {
+    const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
     const { getByTestId } = render(
-      <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
+      <Provider store={store}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
@@ -180,12 +181,13 @@ describe('EarnDepositBottomSheet', () => {
       EarnEvents.earn_deposit_provider_info_press,
       expectedAnalyticsProperties
     )
-    expect(navigate).toHaveBeenCalledWith('WebViewScreen', { uri: 'termsUrl' })
+    expect(store.getActions()).toEqual([openUrl('termsUrl', true)])
   })
 
   it('pressing terms and conditions opens the terms and conditions', () => {
+    const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
     const { getByTestId } = render(
-      <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
+      <Provider store={store}>
         <EarnDepositBottomSheet
           forwardedRef={{ current: null }}
           amount={new BigNumber(100)}
@@ -200,7 +202,7 @@ describe('EarnDepositBottomSheet', () => {
       EarnEvents.earn_deposit_terms_and_conditions_press,
       expectedAnalyticsProperties
     )
-    expect(navigate).toHaveBeenCalledWith('WebViewScreen', { uri: 'termsUrl' })
+    expect(store.getActions()).toEqual([openUrl('termsUrl', true)])
   })
 
   it('shows loading state and buttons are disabled when deposit is submitted', () => {

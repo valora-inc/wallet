@@ -13,6 +13,7 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -25,7 +26,6 @@ import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
-import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -453,19 +453,6 @@ function EarnEnterAmount({ route }: Props) {
   )
 }
 
-function LabelWithInfo({ label, onPress }: { label: string; onPress?: () => void }) {
-  return (
-    <Touchable style={styles.txDetailsLabel} onPress={onPress} disabled={!onPress}>
-      <>
-        <Text style={styles.txDetailsLabelText} numberOfLines={1}>
-          {label}
-        </Text>
-        {onPress && <InfoIcon size={16} color={Colors.gray3} />}
-      </>
-    </Touchable>
-  )
-}
-
 function TransactionDetails({
   pool,
   token,
@@ -660,20 +647,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-  },
-  txDetailsLabel: {
-    flex: 1,
-    flexDirection: 'row',
-    gap: Spacing.Tiny4,
-    alignItems: 'center',
-    paddingRight: 20, // Prevents Icon from being cut off on long labels
-    minWidth: '25%',
-  },
-  txDetailsLabelText: {
-    ...typeScale.bodyMedium,
-    color: Colors.black,
-    flexWrap: 'wrap',
-    textAlign: 'left',
   },
   txDetailsValue: {
     flexShrink: 1,
