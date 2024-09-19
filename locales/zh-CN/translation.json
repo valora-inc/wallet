@@ -2483,7 +2483,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "{{appName}} 目前会为此交易承担手续费！",
+    "gasSubsidized": "交易费用在有限的时间内可报销",
     "addCryptoBottomSheet": {
       "title": "在 {{tokenNetwork}} 上添加 {{tokenSymbol}}",
       "description": "添加代币后，就必须返回并完成将资金存入池中。",
@@ -2587,7 +2587,9 @@
       "footer": "向 Aave 池存入加密货币，即表示您接受与使用 Aave 相关的风险。<0>条款和条件</0>",
       "footerV1_93": "向 {{providerName}} 池存入加密货币，即表示您接受使用 {{providerName}} 的相关风险。<0>条款和条件</0>",
       "primaryCta": "完成",
-      "secondaryCta": "取消"
+      "secondaryCta": "取消",
+      "yieldRate": "收益率（估计值）",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "恭喜！查看并领取您的收益",

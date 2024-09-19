@@ -2483,7 +2483,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "{{appName}}'s covering gas for this transaction!",
+    "gasSubsidized": "Transaction fees are covered for a limited time",
     "addCryptoBottomSheet": {
       "title": "Nạp {{tokenSymbol}} vào {{tokenNetwork}}",
       "description": "Sau khi thêm token, bạn sẽ phải quay lại để hoàn tất việc nạp tiền vào quỹ.",
@@ -2587,7 +2587,9 @@
       "footer": "Khi nạp tiền điện tử vào quỹ Aave, bạn chấp nhận các rủi ro liên quan đến việc sử dụng Aave. <0>Điều khoản & Điều kiện</0>",
       "footerV1_93": "Khi nạp tiền điện tử vào bể {{providerName}}, bạn chấp nhận các rủi ro liên quan đến việc sử dụng {{providerName}}. <0>Điều khoản và điều kiện</0>",
       "primaryCta": "Hoàn thành",
-      "secondaryCta": "Hủy"
+      "secondaryCta": "Hủy",
+      "yieldRate": "Mức sinh lợi (ước tính)",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "Xin chúc mừng! Hãy kiểm tra lại và nhận thu nhập của bạn",

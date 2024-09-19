@@ -91,7 +91,7 @@ const mockFeeCurrencies: TokenBalance[] = [
 const mockSwapTransaction: SwapTransaction = {
   swapType: 'same-chain',
   chainId: 42161,
-  price: '2401',
+  price: '2439',
   guaranteedPrice: '2377',
   appFeePercentageIncludedInPrice: '0.6',
   sellTokenAddress: '0xEeeeeeE',
@@ -365,7 +365,7 @@ describe('EarnEnterAmount', () => {
         providerId: mockEarnPositions[0].appId,
         poolId: mockEarnPositions[0].positionId,
         sourceTokenId: mockArbEthTokenId,
-        depositTokenAmount: '1',
+        depositTokenAmount: '0.99999',
         mode: 'swap-deposit',
       })
       await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())

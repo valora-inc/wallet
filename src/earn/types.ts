@@ -43,3 +43,5 @@ export interface PrepareWithdrawAndClaimParams {
   hooksApiUrl: string
   rewardsPositions: Position[]
 }
+
+export type EarnDepositMode = 'deposit' | 'swap-deposit'

@@ -2485,7 +2485,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "{{appName}}'¡cubre la gasolina para esta transacción!",
+    "gasSubsidized": "Los gastos de transacción están cubiertos durante un tiempo limitado",
     "addCryptoBottomSheet": {
       "title": "Agrega {{tokenSymbol}} en {{tokenNetwork}}",
       "description": "Una vez que agregues tokens, tendrás que volver para terminar de depositar en esta pool.",
@@ -2589,7 +2589,9 @@
       "footer": "Al depositar cripto en una pool de Aave, aceptas los riesgos asociados a su uso. <0>Términos y condiciones</0>",
       "footerV1_93": "Al depositar cripto en un pool de {{providerName}}, aceptas los riesgos asociados al uso de {{providerName}}. <0>Términos y condiciones</0>",
       "primaryCta": "Finalizar",
-      "secondaryCta": "Cancelar"
+      "secondaryCta": "Cancelar",
+      "yieldRate": "Tasa de rendimiento (est.)",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "¡Felicidades! Revisa y recoge tus ganancias",
