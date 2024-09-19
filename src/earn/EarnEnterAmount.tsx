@@ -451,13 +451,15 @@ function EarnEnterAmount({ route }: Props) {
         pool={pool}
         token={token}
       />
-      {swapTransaction && (
+      {swapTransaction && tokenAmount && (
         <SwapDetailsBottomSheet
           forwardedRef={swapDetailsBottomSheetRef}
           testID="SwapDetailsBottomSheet"
           swapTransaction={swapTransaction}
           token={token}
           pool={pool}
+          tokenAmount={tokenAmount}
+          parsedTokenAmount={parsedTokenAmount}
         />
       )}
       {tokenAmount && prepareTransactionsResult?.type === 'possible' && (
@@ -732,12 +734,16 @@ function SwapDetailsBottomSheet({
   swapTransaction,
   pool,
   token,
+  tokenAmount,
+  parsedTokenAmount,
 }: {
   forwardedRef: React.RefObject<BottomSheetModalRefType>
   testID: string
   swapTransaction: SwapTransaction
   pool: EarnPosition
   token: TokenBalance
+  tokenAmount: BigNumber
+  parsedTokenAmount: BigNumber
 }) {
   const { t } = useTranslation()
   const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
@@ -747,13 +753,12 @@ function SwapDetailsBottomSheet({
     throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
   }
 
-  const swapToAmount = useMemo(() => {
-    return new BigNumber(swapTransaction.buyAmount).shiftedBy(-depositToken.decimals).toString()
-  }, [depositToken])
+  const swapToAmount = useMemo(
+    () => getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString(),
+    [tokenAmount, swapTransaction]
+  )
 
-  const swapFromAmount = useMemo(() => {
-    return new BigNumber(swapTransaction.sellAmount).shiftedBy(-token.decimals).toString()
-  }, [token])
+  const handleClose = () => forwardedRef.current?.close()
 
   return (
     <BottomSheet
@@ -771,10 +776,10 @@ function SwapDetailsBottomSheet({
               <TokenDisplay
                 tokenId={token.tokenId}
                 showLocalAmount={false}
-                amount={swapFromAmount.toString()}
+                amount={parsedTokenAmount}
               />
               {' ('}
-              <TokenDisplay tokenId={token.tokenId} amount={swapFromAmount.toString()} />
+              <TokenDisplay tokenId={token.tokenId} amount={parsedTokenAmount} />
               {')'}
             </Text>
           </View>
@@ -789,7 +794,7 @@ function SwapDetailsBottomSheet({
                 amount={swapToAmount.toString()}
               />
               {' ('}
-              <TokenDisplay tokenId={depositToken.tokenId} amount={swapToAmount.toString()} />
+              <TokenDisplay tokenId={depositToken.tokenId} amount={swapToAmount} />
               {')'}
             </Text>
           </View>
