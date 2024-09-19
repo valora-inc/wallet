@@ -130,8 +130,9 @@ platform :ios do
         "-authenticationKeyIssuerID #{ENV['APPLE_CONNECT_ISSUER_ID']}",
       ].join(' '),
       output_directory: 'build',
+      # gym tries to detect it from the Xcode project, but since it's dynamically set from the .env, we have to specify it directly
       output_name: "#{get_app_registry_name(options[:environment])}",
-      verbose: true
+      # verbose: true
      ) 
   end
   
