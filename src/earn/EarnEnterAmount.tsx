@@ -299,14 +299,14 @@ function EarnEnterAmount({ route }: Props) {
       return
     }
     AppAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
-      tokenAmount: tokenAmount.toString(),
       amountInUsd: tokenAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
       amountEnteredIn: enteredIn,
       depositTokenId: pool.dataProps.depositTokenId,
       networkId: token.networkId,
       providerId: pool.appId,
       poolId: pool.positionId,
-      sourceTokenId: token.tokenId,
+      fromTokenId: token.tokenId,
+      fromTokenAmount: tokenAmount.toString(),
       mode,
       depositTokenAmount: swapTransaction
         ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
@@ -441,16 +441,19 @@ function EarnEnterAmount({ route }: Props) {
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
-      <FeeDetailsBottomSheet
-        forwardedRef={feeDetailsBottomSheetRef}
-        testID="FeeDetailsBottomSheet"
-        feeCurrency={feeCurrency}
-        estimatedFeeAmount={estimatedFeeAmount}
-        maxFeeAmount={maxFeeAmount}
-        swapTransaction={swapTransaction}
-        pool={pool}
-        token={token}
-      />
+      {tokenAmount && (
+        <FeeDetailsBottomSheet
+          forwardedRef={feeDetailsBottomSheetRef}
+          testID="FeeDetailsBottomSheet"
+          feeCurrency={feeCurrency}
+          estimatedFeeAmount={estimatedFeeAmount}
+          maxFeeAmount={maxFeeAmount}
+          swapTransaction={swapTransaction}
+          pool={pool}
+          token={token}
+          tokenAmount={tokenAmount}
+        />
+      )}
       {swapTransaction && tokenAmount && (
         <SwapDetailsBottomSheet
           forwardedRef={swapDetailsBottomSheetRef}
@@ -600,6 +603,7 @@ function FeeDetailsBottomSheet({
   swapTransaction,
   pool,
   token,
+  tokenAmount,
 }: {
   forwardedRef: React.RefObject<BottomSheetModalRefType>
   testID: string
@@ -609,6 +613,7 @@ function FeeDetailsBottomSheet({
   swapTransaction?: SwapTransaction | undefined
   pool: EarnPosition
   token: TokenBalance
+  tokenAmount: BigNumber
 }) {
   const { t } = useTranslation()
   const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
@@ -620,9 +625,9 @@ function FeeDetailsBottomSheet({
 
   const swapFeeAmount = useMemo(() => {
     if (swapTransaction && swapTransaction.appFeePercentageIncludedInPrice) {
-      return new BigNumber(swapTransaction.sellAmount)
-        .multipliedBy(new BigNumber(swapTransaction.appFeePercentageIncludedInPrice).shiftedBy(-2)) // To convert from percentage to decimal
-        .shiftedBy(-token.decimals)
+      return tokenAmount.multipliedBy(
+        new BigNumber(swapTransaction.appFeePercentageIncludedInPrice).shiftedBy(-2) // To convert from percentage to decimal
+      )
     }
   }, [swapTransaction, token])
 

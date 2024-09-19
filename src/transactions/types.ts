@@ -106,6 +106,7 @@ export type TokenTransaction =
   | NftTransfer
   | TokenApproval
   | EarnDeposit
+  | EarnSwapDeposit
   | EarnWithdraw
   | EarnClaimReward
 
@@ -132,6 +133,7 @@ export enum TokenTransactionTypeV2 {
   CrossChainSwapTransaction = 'CROSS_CHAIN_SWAP_TRANSACTION',
   Approval = 'APPROVAL',
   EarnDeposit = 'EARN_DEPOSIT',
+  EarnSwapDeposit = 'EARN_SWAP_DEPOSIT',
   EarnWithdraw = 'EARN_WITHDRAW',
   EarnClaimReward = 'EARN_CLAIM_REWARD',
 }
@@ -226,6 +228,26 @@ export interface EarnDeposit {
   providerId: string
   inAmount: TokenAmount
   outAmount: TokenAmount
+  status: TransactionStatus
+}
+
+export interface EarnSwapDeposit {
+  __typename: 'EarnSwapDeposit'
+  networkId: NetworkId
+  type: TokenTransactionTypeV2
+  transactionHash: string
+  timestamp: number
+  block: string
+  fees: Fee[]
+  swap: {
+    inAmount: TokenAmount
+    outAmount: TokenAmount
+  }
+  deposit: {
+    inAmount: TokenAmount
+    outAmount: TokenAmount
+    providerId: string
+  }
   status: TransactionStatus
 }
 
