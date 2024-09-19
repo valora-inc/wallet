@@ -2569,7 +2569,9 @@
         "moreInformation": "Weitere Informationen",
         "estNetworkFee": "Est. Netzwerk-Gebühr",
         "maxNetworkFee": "Maximale Netzwerkgebühr",
-        "networkFeeDescription": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Einzahlungstransaktion zu bearbeiten."
+        "networkFeeDescription": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Einzahlungstransaktion zu bearbeiten.",
+        "networkSwapFeeDescription": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Einzahlungstransaktionen zu verarbeiten. Die {{appName}} Gebühr von {{appFeePercentage}}wird für deine Nutzung unseres Produkts erhoben.",
+        "appSwapFee": "{{appName}}-Gebühr"
       }
     },
     "activePools": {
