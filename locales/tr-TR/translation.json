@@ -2563,6 +2563,13 @@
         "title": "Devam etmek için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
         "description": "Gas ücretlerinizi karşılamak için {{network}} ağına {{feeTokenSymbol}} ekleyin",
         "noGasCta": "{{network}} ağında {{feeTokenSymbol}} satın alın"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Ücret Detayları",
+        "moreInformation": "Daha fazla bilgi",
+        "estNetworkFee": "Est. Ağ Ücreti",
+        "maxNetworkFee": "Maks. Ağ Ücreti",
+        "networkFeeDescription": "Ağ ücreti, para yatırma işlemini gerçekleştirmek için ağ tarafından talep edilir."
       }
     },
     "activePools": {
@@ -2691,6 +2698,24 @@
         "ageDescription": "Likidite havuzunun eski olması, o havuzun sağlam bir geçmiş performansı olduğuna ve toplulukta güven inşa ettiğine işaret edebilir. Bu nedenle, bazıları bu havuzların daha güvenli olduğunu düşünebilir.\n\nRiski tam olarak belirleyebilecek bir yöntem yoktur; bu nedenle genel araştırmanızı desteklemek için bu bilgilerden yararlanabilirsiniz.",
         "yieldRateTitle": "Getiri Oranı",
         "yieldRateDescription": "Çoğu havuz kazançları likidite havuzu jetonu şeklinde sunarken, bazıları ödül veya ek teşvik olarak ek jeton(lar) verir.\n\n {{appName}} birden fazla protokoldeki havuzları bir araya getirdiğinden, kazanç potansiyelinizi kolayca değerlendirmenize yardımcı olmak için tüm kazanç ve ödül oranlarını tek bir genel getiri oranında birleştirdik. Kazanç ve ödül değerleri sürekli dalgalandığı için bu sayı tahmini bir değerdir.\n\nKazanç dökümleri hakkında daha fazla bilgi için şu adresi ziyaret edebilirsiniz <0>{{providerName}}</0>."
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "Para Yatırmak İçin {{tokenNetwork}} adresinde {{tokenSymbol}} 'a İhtiyacınız Var",
+      "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
+      "beforeYouCanDepositTitle": "Before you can deposit...",
+      "beforeYouCanDepositDescription": "Havuz jetonlarından birini eklemeniz gerekecektir. Ekledikten sonra, havuz depozitonuzu tamamlamak için geri dönmeniz gerekecektir.",
+      "action": {
+        "swapAndDeposit": "Swap & Deposit",
+        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "crossChainSwap": "Cross-chain Swap",
+        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
+        "swap": "Swap",
+        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
+        "add": "Satın Al",
+        "addDescription": "Güvenilir sağlayıcılarımızdan birini kullanarak {{tokenNetwork}} ağında {{tokenSymbol}} satın alın",
+        "transfer": "Transfer Et",
+        "transferDescription": "{{tokenSymbol}} yatırmak için {{tokenNetwork}} uyumlu cüzdan veya borsa kullanın"
       }
     }
   },
