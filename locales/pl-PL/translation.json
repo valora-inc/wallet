@@ -2636,7 +2636,10 @@
       "earnDepositDetails": "Kwota wpłacona",
       "earnWithdrawTitle": "Wycofano",
       "earnWithdrawSubtitle": "Wycofano {{tokenSymbol}} z puli {{providerName}}",
-      "earnWithdrawDetails": "Wypłacona kwota"
+      "earnWithdrawDetails": "Wypłacona kwota",
+      "swap": "Zamieniaj",
+      "network": "Sieć",
+      "fees": "Opłaty"
     },
     "home": {
       "title": "Zarabiaj",
