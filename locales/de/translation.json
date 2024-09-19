@@ -2485,7 +2485,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "{{appName}}für dieses Geschäft!",
+    "gasSubsidized": "Die Transaktionsgebühren sind für eine begrenzte Zeit abgedeckt",
     "addCryptoBottomSheet": {
       "title": "Füge {{tokenSymbol}} auf {{tokenNetwork}} hinzu",
       "description": "Sobald du Tokens hinzugefügt hast, musst du zurückkommen, um die Einzahlung in einen Pool zu beenden.",
@@ -2589,7 +2589,9 @@
       "footer": "Wenn du Kryptowährungen in einen Aave-Pool einzahlst, akzeptierst du die mit der Nutzung von Aave verbundenen Risiken. <0>Allgemeine Nutzungsbedingungen</0>",
       "footerV1_93": "Indem du Krypto in einen {{providerName}}-Pool einzahlst, akzeptierst du die Risiken, die mit der Nutzung von {{providerName}} verbunden sind. <0>Allgemeine Nutzungsbedingungen</0>",
       "primaryCta": "Abschließen",
-      "secondaryCta": "Abbrechen"
+      "secondaryCta": "Abbrechen",
+      "yieldRate": "Rendite (geschätzt)",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "Herzlichen Glückwunsch! Überprüfe und sammle deinen Verdienst ein",

@@ -21,6 +21,8 @@ import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareDepositTransactions } from 'src/earn/prepareTransactions'
+import { EarnDepositMode } from 'src/earn/types'
+import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
@@ -57,7 +59,7 @@ const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
-function useTokens({ pool, mode }: { pool: EarnPosition; mode: 'deposit' | 'swap-deposit' }) {
+function useTokens({ pool, mode }: { pool: EarnPosition; mode: EarnDepositMode }) {
   const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
   const swappableTokens = useSelector((state) =>
     swappableFromTokensByNetworkIdSelector(state, [pool.networkId])
@@ -306,7 +308,7 @@ function EarnEnterAmount({ route }: Props) {
       sourceTokenId: token.tokenId,
       mode,
       depositTokenAmount: swapTransaction
-        ? new BigNumber(swapTransaction.buyAmount).shiftedBy(-depositToken.decimals).toString()
+        ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
         : tokenAmount.toString(),
     })
     reviewBottomSheetRef.current?.snapToIndex(0)
@@ -507,19 +509,13 @@ function TransactionDetails({
   const { t } = useTranslation()
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
-  const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
-
-  if (!depositToken) {
-    // should never happen
-    throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
-  }
-
-  const depositAmount = useMemo(() => {
-    if (swapTransaction) {
-      return new BigNumber(swapTransaction.buyAmount).shiftedBy(-depositToken.decimals).toString()
-    }
-    return tokenAmount.toString()
-  }, [tokenAmount, swapTransaction, depositToken])
+  const depositAmount = useMemo(
+    () =>
+      swapTransaction
+        ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
+        : tokenAmount.toString(),
+    [tokenAmount, swapTransaction]
+  )
 
   return (
     feeCurrency &&
@@ -534,37 +530,34 @@ function TransactionDetails({
               }}
             />
             <View style={styles.txDetailsValue}>
-              <Text style={styles.txDetailsValueText}>
-                <TokenDisplay
-                  testID="EarnEnterAmount/Swap/From"
-                  tokenId={token.tokenId}
-                  amount={tokenAmount.toString()}
-                  showLocalAmount={false}
-                />
-              </Text>
+              <TokenDisplay
+                testID="EarnEnterAmount/Swap/From"
+                tokenId={token.tokenId}
+                amount={tokenAmount.toString()}
+                showLocalAmount={false}
+                style={styles.txDetailsValueText}
+              />
               <ArrowRightThick size={20} color={Colors.black} />
-              <Text style={styles.txDetailsValueText}>
-                <TokenDisplay
-                  testID="EarnEnterAmount/Swap/To"
-                  tokenId={pool.dataProps.depositTokenId}
-                  amount={depositAmount}
-                  showLocalAmount={false}
-                />
-              </Text>
+              <TokenDisplay
+                testID="EarnEnterAmount/Swap/To"
+                tokenId={pool.dataProps.depositTokenId}
+                amount={depositAmount}
+                showLocalAmount={false}
+                style={styles.txDetailsValueText}
+              />
             </View>
           </View>
         )}
         <View style={styles.txDetailsLineItem}>
           <LabelWithInfo label={t('earnFlow.enterAmount.deposit')} />
           <View style={styles.txDetailsValue}>
-            <Text style={styles.txDetailsValueText}>
-              <TokenDisplay
-                tokenId={pool.dataProps.depositTokenId}
-                testID="EarnEnterAmount/Deposit/Crypto"
-                amount={depositAmount}
-                showLocalAmount={false}
-              />
-            </Text>
+            <TokenDisplay
+              tokenId={pool.dataProps.depositTokenId}
+              testID="EarnEnterAmount/Deposit/Crypto"
+              amount={depositAmount}
+              showLocalAmount={false}
+              style={styles.txDetailsValueText}
+            />
             <Text style={[styles.txDetailsValueText, styles.gray4]}>
               {'('}
               <TokenDisplay
@@ -586,13 +579,12 @@ function TransactionDetails({
             testID="LabelWithInfo/FeeLabel"
           />
           <View style={styles.txDetailsValue}>
-            <Text style={styles.txDetailsValueText}>
-              <TokenDisplay
-                testID="EarnEnterAmount/Fees"
-                tokenId={feeCurrency.tokenId}
-                amount={maxFeeAmount.toString()}
-              />
-            </Text>
+            <TokenDisplay
+              testID="EarnEnterAmount/Fees"
+              tokenId={feeCurrency.tokenId}
+              amount={maxFeeAmount.toString()}
+              style={styles.txDetailsValueText}
+            />
           </View>
         </View>
       </View>
@@ -881,11 +873,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   bottomSheetLineLabel: {
-    maxWidth: '50%',
+    maxWidth: '40%',
     textAlign: 'left',
   },
   bottomSheetLineLabelText: {
-    maxWidth: '50%',
+    maxWidth: '60%',
     textAlign: 'right',
   },
   bottomSheetDescriptionTitle: {
