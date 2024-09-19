@@ -2630,7 +2630,10 @@
       "earnDepositDetails": "已转入金额",
       "earnWithdrawTitle": "已取出",
       "earnWithdrawSubtitle": "已从 {{providerName}} 池取出 {{tokenSymbol}}",
-      "earnWithdrawDetails": "已提取金额"
+      "earnWithdrawDetails": "已提取金额",
+      "swap": "交换",
+      "network": "网络",
+      "fees": "费用"
     },
     "home": {
       "title": "赚钱",
