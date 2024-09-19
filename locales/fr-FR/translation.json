@@ -2569,7 +2569,9 @@
         "moreInformation": "Plus d'informations",
         "estNetworkFee": "Est. Frais de réseau",
         "maxNetworkFee": "Frais de réseau maximum",
-        "networkFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter la transaction de dépôt."
+        "networkFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter la transaction de dépôt.",
+        "networkSwapFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter les transactions de dépôt. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit.",
+        "appSwapFee": "Frais de {{appName}}"
       }
     },
     "activePools": {
