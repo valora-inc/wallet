@@ -2702,18 +2702,18 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Tu as besoin de {{tokenSymbol}} sur {{tokenNetwork}} pour déposer",
-      "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
-      "beforeYouCanDepositTitle": "Before you can deposit...",
+      "crossChainAlternativeDescription": "Si tu ne veux pas utiliser tes jetons sur {{tokenNetwork}}, choisis une option ci-dessous. Tu devras revenir pour effectuer ton dépôt de piscine plus tard.",
+      "beforeYouCanDepositTitle": "Avant de pouvoir déposer...",
       "beforeYouCanDepositDescription": "Tu devras ajouter l'un des jetons de la piscine. Une fois ajouté, tu devras revenir pour compléter ton dépôt de piscine.",
       "action": {
-        "swapAndDeposit": "Swap & Deposit",
-        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
-        "crossChainSwap": "Cross-chain Swap",
-        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
-        "swap": "Swap",
-        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
-        "add": "Buy",
-        "addDescription": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
+        "swapAndDeposit": "Échange et dépôt",
+        "swapAndDepositDescription": "Choisis n'importe quel jeton sur {{tokenNetwork}}. Nous l'échangerons et le déposerons simultanément pour toi.",
+        "crossChainSwap": "Échange inter-chaînes",
+        "crossChainSwapDescription": "Échange un jeton sur un autre réseau pour {{tokenSymbol}}",
+        "swap": "Échange",
+        "swapDescription": "Échange avec {{tokenSymbol}} sur {{tokenNetwork}} à partir d'un autre jeton de ton portefeuille.",
+        "add": "Acheter",
+        "addDescription": "Achetez des {{tokenSymbol}} sur {{tokenNetwork}} en utilisant un de nos fournisseurs de confiance",
         "transfer": "Transférer",
         "transferDescription": "Utilisez n'importe quel portefeuille compatible {{tokenNetwork}} ou échangez pour déposer des {{tokenSymbol}}"
       }
