@@ -2567,7 +2567,9 @@
         "moreInformation": "ข้อมูลเพิ่มเติม",
         "estNetworkFee": "Est. Network Fee",
         "maxNetworkFee": "ค่าธรรมเนียมเครือข่ายสูงสุด",
-        "networkFeeDescription": "The network fee is required by the network to process the deposit transaction."
+        "networkFeeDescription": "The network fee is required by the network to process the deposit transaction.",
+        "networkSwapFeeDescription": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
+        "appSwapFee": "ค่าธรรมเนียม {{appName}}"
       }
     },
     "activePools": {
