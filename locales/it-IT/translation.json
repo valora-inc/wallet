@@ -2569,7 +2569,9 @@
         "moreInformation": "Ulteriori informazioni",
         "estNetworkFee": "Commissione di rete stimata",
         "maxNetworkFee": "Commissione di rete massima",
-        "networkFeeDescription": "La commissione di rete viene richiesta dalla rete per elaborare la transazione di deposito."
+        "networkFeeDescription": "La commissione di rete viene richiesta dalla rete per elaborare la transazione di deposito.",
+        "networkSwapFeeDescription": "La commissione di rete è richiesta dalla rete per elaborare le transazioni di deposito. La commissione di {{appName}} di {{appFeePercentage}}% viene addebitata per l'utilizzo del nostro prodotto.",
+        "appSwapFee": "Commissione di {{appName}}"
       }
     },
     "activePools": {
