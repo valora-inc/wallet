@@ -303,7 +303,7 @@
     "dismiss": "Yoksay"
   },
   "superchargingTitle": "Uygulama güncellemesi gerekli",
-  "superchargingDescription": "Supercharge ödüllerini almaya devam etmek için {{appName}} uygulamasını güncelleyin.",
+  "superchargingDescription": "Süper charge ödüllerini almaya devam etmek için {{appName}} uygulamasını güncelleyin.",
   "superchargingTitleV1_54": "Süper charge sona eriyor",
   "superchargingDescriptionV1_54": "Haftalık ödüller 28 Mayıs Salı günü saat 23:59'a (UTC) kadar talep edilebilecektir. 29 Mayıs'tan itibaren Süper charge ödüllerini artık talep edemeyeceksiniz.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
@@ -725,7 +725,7 @@
     "heading2": "Varlıkları ve {{appName}} Hesabı",
     "info": "Hizmetlerimizi kullanmak için lütfen <0>Kullanıcı Sözleşmemizi ve Şartlarımızı</0> okuyun ve hemen altındaki kabul et düğmesini tıklayarak kabul edin.",
     "privacy": "Bu ağa katılarak uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin verirsiniz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası saklanır. {{appName}} için kişi listenize erişim izni verirseniz {{appName}}, kullanıcıların {{appName}} uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
-    "goldDisclaimer": "{{appName}} \"hesabı\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan oluşturmuş olursunuz. {{appName}} dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen fonları kurtaramaz. Kripto paraların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin.",
+    "goldDisclaimer": "{{appName}} \"hesabı\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan oluşturmuş olursunuz. {{appName}} dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen fonları kurtaramaz. Kripto paraların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir dijital varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin.",
     "goldDisclaimerWithPoints": "{{appName}} \"hesabı\" oluşturduğunuzda, anahtarlarına yalnızca sizin sahip olduğunuz bir dijital cüzdan oluşturmuş olursunuz. {{appName}} dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı kurtaramaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen fonları kurtaramaz. {{appName}}, belirli uygulama içi etkinliklere katıldıkları için Kullanıcılara tokenleştirilmiş sadakat ödülleri (\"Puanlar\") verir. Puanlar zincir içinde, devredilemez ve geri alınamaz koleksiyonlardır. Puanların kullanılabilirliği veya değeri hakkında hiçbir garanti verilmez. Dijital varlıkların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir dijital varlık satın almadan önce finansal koşullarınızı ve finansal risk toleransınızı dikkatlice değerlendirin."
   },
   "termsColloquial": {
@@ -1365,7 +1365,7 @@
   "transactionHeaderNftSent": "NFT Gönderildi",
   "feedSectionHeaderRecent": "En son",
   "cashInBottomSheet": {
-    "title": "{{appName}} uygulamasını kullanmaya başlamak için bakiye ekleyin!",
+    "title": "{{appName}} uygulamasını kullanmaya başlamak için fon ekleyin!",
     "subtitle": "Hesabınız şu anda boş",
     "addFunds": "Bakiye Ekle",
     "titleRamp": "{{appName}} uygulamasını kullanmaya başlamak için {{currency}} ekleyin",
@@ -1505,7 +1505,7 @@
   },
   "dappsScreenHelpDialog": {
     "title": "Dapp'ler nedir?",
-    "message": "Dapp'ler (merkezi olmayan uygulamalar), kriptonuzu kullanmak, ödüller kazanmak ve Web3'ü keşfetmek için yeni yollar sunar.\n\nBaşlamak için {{appName}} uygulamasını bir dapp'e bağlayın.",
+    "message": "Bir dapp (veya merkezi olmayan uygulama), bir blok zincir ağının üzerinde inşa edilen ve çalıştırılan bir uygulamadır. Bu, verilerinizin tek bir şirket ya da kuruluş tarafından yönetilmediği ya da saklanmadığı anlamına gelir.\n\nDapp'ler sundukları hizmetlere göre çeşitlilik gösterir. Bu hizmetlere örnek olarak merkezi olmayan borsalar, borç verme, ödünç alma, takas etme, NFT depolama verilebilir.",
     "dismiss": "Yoksay"
   },
   "dappsScreenBottomSheet": {
@@ -1663,7 +1663,7 @@
     },
     "cashIn": {
       "cancel": "Bakiye Eklemeyi İptal Et",
-      "contactSupportPrefill": "{{appName}} cüzdanıma para eklerken sorun yaşıyorum."
+      "contactSupportPrefill": "{{appName}} cüzdanıma fon eklerken sorun yaşıyorum."
     },
     "success": {
       "header": "Başarılı",
@@ -1979,7 +1979,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve 0,50 cUSD kazanın",
-      "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bu kişiye bir ödeme yapabilir veya bunun yerine davet gönderebilirsiniz. \n\nİkinizin de 0,50 cUSD kazanabilmesi için, bu kişi {{appName}} uygulamasını indirdikten sonra telefon numarasını bağlayıp cüzdana para eklemeli ve eklenen miktarı 7 gün boyunca cüzdanında tutmalıdır."
+      "body": "Görünüşe göre {{contactName}} {{appName}} kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bu kişiye bir ödeme yapabilir veya bunun yerine davet gönderebilirsiniz. \n\nİkinizin de 0,50 cUSD kazanabilmesi için, bu kişi {{appName}} uygulamasını indirdikten sonra telefon numarasını bağlayıp fon eklemeli ve eklenen miktarı 7 gün boyunca cüzdanında tutmalıdır."
     }
   },
   "celoNews": {
