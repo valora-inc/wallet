@@ -2632,7 +2632,10 @@
       "earnDepositDetails": "Yatırılan Toplam",
       "earnWithdrawTitle": "Çekilen",
       "earnWithdrawSubtitle": "{{providerName}} Havuzundan {{tokenSymbol}} Çekildi",
-      "earnWithdrawDetails": "Çekilen Tutar"
+      "earnWithdrawDetails": "Çekilen Tutar",
+      "swap": "Swap",
+      "network": "Ağ",
+      "fees": "Ücretler"
     },
     "home": {
       "title": "Kazan",
