@@ -2632,7 +2632,10 @@
       "earnDepositDetails": "Eingezahlter Betrag",
       "earnWithdrawTitle": "Abgehoben",
       "earnWithdrawSubtitle": "{{tokenSymbol}} aus dem {{providerName}} Pool abgehoben",
-      "earnWithdrawDetails": "Betrag abgehoben"
+      "earnWithdrawDetails": "Betrag abgehoben",
+      "swap": "Tauschen",
+      "network": "Netzwerk",
+      "fees": "Gebühren"
     },
     "home": {
       "title": "Verdienen",
