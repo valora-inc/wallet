@@ -2632,7 +2632,10 @@
       "earnDepositDetails": "Montant déposé",
       "earnWithdrawTitle": "Retiré",
       "earnWithdrawSubtitle": "Retirer {{tokenSymbol}} du Pool {{providerName}}",
-      "earnWithdrawDetails": "Montant du retrait"
+      "earnWithdrawDetails": "Montant du retrait",
+      "swap": "Échange",
+      "network": "Réseau",
+      "fees": "Frais"
     },
     "home": {
       "title": "Gagner",
