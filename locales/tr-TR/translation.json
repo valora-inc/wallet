@@ -98,7 +98,7 @@
       "title": "Cüzdan Yedeklemeyi Ayarlama",
       "description": "E-posta ve telefon numarası yedeklemenizi ayarlamak için aşağıdakileri kullanacaksınız",
       "useRecoveryPhrase": "Bunun yerine bir kurtarma ifadesi kullanın",
-      "reminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. {{appName}} e-posta veya telefon numaranızı saklamaz. Güvende tutun!"
+      "reminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. {{appName}} e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!"
     },
     "restore": {
       "description": "Cüzdanınızı geri yüklemek için aşağıdakilere sahip olduğunuzdan emin olun.",
