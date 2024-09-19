@@ -595,6 +595,7 @@ function TransactionDetails({
             <TokenDisplay
               testID="EarnEnterAmount/Fees"
               tokenId={feeCurrency.tokenId}
+              // TODO: add swap fees to this amount
               amount={maxFeeAmount.toString()}
               style={styles.txDetailsValueText}
             />
@@ -635,11 +636,11 @@ function FeeDetailsBottomSheet({
 
   const swapFeeAmount = useMemo(() => {
     if (swapTransaction && swapTransaction.appFeePercentageIncludedInPrice) {
-      return new BigNumber(swapTransaction.buyAmount)
+      return new BigNumber(swapTransaction.sellAmount)
         .multipliedBy(new BigNumber(swapTransaction.appFeePercentageIncludedInPrice).shiftedBy(-2)) // To convert from percentage to decimal
-        .shiftedBy(-depositToken.decimals)
+        .shiftedBy(-token.decimals)
     }
-  }, [swapTransaction, depositToken])
+  }, [swapTransaction, token])
 
   const descriptionContainerStyle = [
     styles.bottomSheetDescriptionContainer,
@@ -705,7 +706,7 @@ function FeeDetailsBottomSheet({
               <TokenDisplay tokenId={token.tokenId} amount={swapFeeAmount.toString()} />
               {' ('}
               <TokenDisplay
-                tokenId={depositToken.tokenId}
+                tokenId={token.tokenId}
                 showLocalAmount={false}
                 amount={swapFeeAmount.toString()}
               />
