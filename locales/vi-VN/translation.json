@@ -2630,7 +2630,10 @@
       "earnDepositDetails": "Số tiền đã nạp",
       "earnWithdrawTitle": "Rút",
       "earnWithdrawSubtitle": "Rút {{tokenSymbol}} từ Quỹ {{providerName}}",
-      "earnWithdrawDetails": "Số tiền đã rút"
+      "earnWithdrawDetails": "Số tiền đã rút",
+      "swap": "Trao đổi",
+      "network": "Mạng lưới",
+      "fees": "Phí"
     },
     "home": {
       "title": "Kiếm tiền",
