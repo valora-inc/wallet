@@ -63,10 +63,20 @@ jobs:
         run: |
           curl https://storage.googleapis.com/e2e-tools/android_emulator_arm64_35_3_3.zip -o emulator.zip
           unzip emulator.zip -d $ANDROID_HOME/emulator
+      - run: ldd --version
       - name: Debug - run script
         run: |
           sudo apt update
           yes | sudo apt install build-essential
+          wget http://ftp.gnu.org/gnu/libc/glibc-2.36.tar.gz
+          tar -xzf glibc-2.36.tar.gz
+          cd glibc-2.36
+          mkdir build
+          cd build
+          ../configure --prefix=/opt/glibc-2.36
+          make -j$(nproc)
+          sudo make install
+          export LD_LIBRARY_PATH=/opt/glibc-2.36/lib:$LD_LIBRARY_PATH
       - name: Setup emulator
         run: >
           yarn ts-node ./.github/scripts/setupAndroidEmulator.ts
