@@ -59,10 +59,15 @@ jobs:
           # sudo adduser $USER kvm
           # sudo chown $USER /dev/kvm
         shell: bash
+      - name: Download pre-built arm64 emulator
+        run: |
+          curl https://storage.googleapis.com/e2e-tools/android_emulator_arm64_35_3_3.zip -o emulator.zip
+          unzip emulator.zip -d $ANDROID_HOME
+      - run: ls -lah $ANDROID_HOME/emulator
       - name: Setup emulator
         run: >
           yarn ts-node ./.github/scripts/setupAndroidEmulator.ts
-          --image "system-images;android-${{ inputs.android-api-level }};aosp_atd;arm64-v8a"
+          --image "system-images;android-${{ inputs.android-api-level }};default;arm64-v8a"
           --emulatorName Pixel_API_${{ inputs.android-api-level }}_arm64
       # Since the e2e runners have access to the Valora branding,
       # This check ensures there are no type errors there.
