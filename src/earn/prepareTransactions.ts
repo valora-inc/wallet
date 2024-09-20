@@ -7,9 +7,6 @@ import { triggerShortcutRequest } from 'src/positions/saga'
 import { RawShortcutTransaction } from 'src/positions/slice'
 import { rawShortcutTransactionsToTransactionRequests } from 'src/positions/transactions'
 import { EarnPosition } from 'src/positions/types'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { SwapTransaction } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
@@ -36,9 +33,7 @@ export async function prepareDepositTransactions({
   hooksApiUrl: string
   shortcutId: EarnDepositMode
 }) {
-  const enableSwapFee = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
-  ).enableAppFee
+  const enableSwapFee = false
   const args =
     shortcutId === 'deposit'
       ? {
@@ -57,6 +52,7 @@ export async function prepareDepositTransactions({
             address: token.address,
             isNative: token.isNative ?? false,
           },
+          enableSwapFee,
         }
 
   const {
@@ -70,7 +66,6 @@ export async function prepareDepositTransactions({
       shortcutId,
       ...args,
       ...pool.shortcutTriggerArgs?.[shortcutId],
-      enableSwapFee,
     })
 
   if (shortcutId === 'swap-deposit' && !dataProps?.swapTransaction) {
