@@ -36,8 +36,9 @@ import {
 import { Position, Shortcut } from 'src/positions/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -258,6 +259,7 @@ export function* handleEnableHooksPreviewDeepLink(
 }
 
 export async function triggerShortcutRequest(hooksApiUrl: string, bodyJson: any) {
+  const { enableAppFee } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG])
   const response = await fetchWithTimeout(
     getHooksApiFunctionUrl(hooksApiUrl, 'triggerShortcut').toString(),
     {
@@ -265,7 +267,10 @@ export async function triggerShortcutRequest(hooksApiUrl: string, bodyJson: any)
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(bodyJson),
+      body: JSON.stringify({
+        ...bodyJson,
+        enableSwapFee: enableAppFee,
+      }),
     },
     30_000
   )
