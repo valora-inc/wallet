@@ -57,6 +57,7 @@ export async function prepareDepositTransactions({
             address: token.address,
             isNative: token.isNative ?? false,
           },
+          enableSwapFee,
         }
 
   const {
@@ -70,7 +71,6 @@ export async function prepareDepositTransactions({
       shortcutId,
       ...args,
       ...pool.shortcutTriggerArgs?.[shortcutId],
-      enableSwapFee,
     })
 
   if (shortcutId === 'swap-deposit' && !dataProps?.swapTransaction) {
