@@ -5,6 +5,8 @@ import {
 } from 'src/earn/prepareTransactions'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
@@ -57,6 +59,14 @@ describe('prepareTransactions', () => {
       feeCurrency: mockFeeCurrency,
     }))
     jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
+    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+      if (configName === StatsigDynamicConfigs.SWAP_CONFIG) {
+        return {
+          enableAppFee: true,
+        }
+      }
+      return {} as any
+    })
   })
 
   describe('prepareDepositTransactions', () => {
@@ -121,6 +131,7 @@ describe('prepareTransactions', () => {
       expect(triggerShortcutRequest).toHaveBeenCalledWith('https://hooks.api', {
         address: '0x1234',
         appId: mockEarnPositions[0].appId,
+        enableSwapFee: true,
         networkId: mockEarnPositions[0].networkId,
         shortcutId: 'deposit',
         tokens: [{ tokenId: mockToken.tokenId, amount: '5' }],
@@ -198,6 +209,7 @@ describe('prepareTransactions', () => {
         expect(triggerShortcutRequest).toHaveBeenCalledWith('https://hooks.api', {
           address: '0x1234',
           appId: mockEarnPositions[0].appId,
+          enableSwapFee: true,
           networkId: mockEarnPositions[0].networkId,
           shortcutId: 'swap-deposit',
           swapFromToken: {
