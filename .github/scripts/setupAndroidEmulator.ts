@@ -29,7 +29,7 @@ $.echo('hw.sdCard=yes').toEnd(iniLocation)
 $.echo('sdcard.size=1000M').toEnd(iniLocation)
 
 const child = spawn(
-  `emulator -avd ${emulatorName} -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim`,
+  `emulator -avd ${emulatorName} -no-window -gpu swiftshader_indirect -no-audio -no-boot-anim -qemu -cpu max -machine gic-version=max`,
   { detached: true, stdio: 'inherit', shell: true }
 )
 
