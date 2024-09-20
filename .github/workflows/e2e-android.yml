@@ -63,7 +63,10 @@ jobs:
         run: |
           curl https://storage.googleapis.com/e2e-tools/android_emulator_arm64_35_3_3.zip -o emulator.zip
           unzip emulator.zip -d $ANDROID_HOME/emulator
-      - run: ls -lah $ANDROID_HOME/emulator
+      - name: Debug - run script
+        run: |
+          cd $ANDROID_HOME/emulator
+          bash linux-aarch64-fixgcc.sh
       - name: Setup emulator
         run: >
           yarn ts-node ./.github/scripts/setupAndroidEmulator.ts
