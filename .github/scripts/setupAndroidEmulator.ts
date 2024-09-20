@@ -36,7 +36,10 @@ const child = spawn(
 $.echo(`Emulator started, pid: ${child.pid}`)
 
 $.echo('Waiting for device to be ready...')
+$.echo('--- adb wait-for-device')
 $.exec('adb wait-for-device')
+
+$.echo('--- adb shell getprop sys.boot_completed')
 while ($.exec('adb shell getprop sys.boot_completed', { silent: true }).stdout.trim() !== '1') {
   $.echo('Waiting for device to be ready...')
   $.exec('sleep 2')
