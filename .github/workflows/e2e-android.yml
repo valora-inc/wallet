@@ -64,8 +64,8 @@ jobs:
         shell: bash
       - name: Download pre-built arm64 emulator
         run: |
-          curl https://storage.googleapis.com/e2e-tools/android_emulator_arm64_35_3_3.zip -o emulator.zip
-          unzip emulator.zip -d $ANDROID_HOME/emulator
+          curl https://storage.googleapis.com/e2e-tools/sdk-repo-linux_aarch64-emulator-12394125.zip -o emulator.zip
+          unzip emulator.zip -d $ANDROID_HOME
       - name: Setup emulator
         run: >
           yarn ts-node ./.github/scripts/setupAndroidEmulator.ts
