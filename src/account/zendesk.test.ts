@@ -141,7 +141,7 @@ describe('Zendesk', () => {
             comment: {
               body: `${args.message}
     
-    ${JSON.stringify(args.userProperties)}
+    ${JSON.stringify(args.userProperties, null, 2)}
     `,
               uploads: ['uploadToken', 'uploadToken2'],
             },
