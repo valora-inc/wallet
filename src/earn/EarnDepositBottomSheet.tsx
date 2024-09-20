@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React, { RefObject } from 'react'
+import React, { RefObject, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -12,13 +12,16 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import { getTotalYieldRate } from 'src/earn/poolInfo'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
-import { isGasSubsidizedForNetwork } from 'src/earn/utils'
+import { EarnDepositMode } from 'src/earn/types'
+import { getSwapToAmountInDecimals, isGasSubsidizedForNetwork } from 'src/earn/utils'
+import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { EarnPosition } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { SwapTransaction } from 'src/swap/types'
 import {
   PreparedTransactionsPossible,
   getFeeCurrencyAndAmounts,
@@ -28,25 +31,42 @@ import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactio
 export default function EarnDepositBottomSheet({
   forwardedRef,
   preparedTransaction,
-  amount,
+  inputAmount,
+  inputTokenId,
   pool,
+  mode,
+  swapTransaction,
 }: {
   forwardedRef: RefObject<BottomSheetModalRefType>
   preparedTransaction: PreparedTransactionsPossible
-  amount: BigNumber
+  inputTokenId: string
+  inputAmount: BigNumber
   pool: EarnPosition
+  mode: EarnDepositMode
+  swapTransaction?: SwapTransaction
 }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const depositStatus = useSelector(depositStatusSelector)
   const transactionSubmitted = depositStatus === 'loading'
 
+  const depositAmount = useMemo(
+    () =>
+      mode === 'swap-deposit' && swapTransaction
+        ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: inputAmount })
+        : inputAmount,
+    [inputAmount, swapTransaction]
+  )
+
   const commonAnalyticsProperties = {
     providerId: pool.appId,
     depositTokenId: pool.dataProps.depositTokenId,
-    tokenAmount: amount.toString(),
+    depositTokenAmount: depositAmount.toString(),
+    fromTokenId: inputTokenId,
+    fromTokenAmount: inputAmount.toString(),
     networkId: pool.networkId,
     poolId: pool.positionId,
+    mode,
   }
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
@@ -75,9 +95,12 @@ export default function EarnDepositBottomSheet({
   const onPressComplete = () => {
     dispatch(
       depositStart({
-        amount: amount.toString(),
+        amount: depositAmount.toString(),
         pool,
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
+        mode,
+        fromTokenId: inputTokenId,
+        fromTokenAmount: inputAmount.toString(),
       })
     )
     AppAnalytics.track(EarnEvents.earn_deposit_complete, commonAnalyticsProperties)
@@ -106,7 +129,7 @@ export default function EarnDepositBottomSheet({
           <View style={styles.valueRow} testID="EarnDeposit/Amount">
             <TokenDisplay
               testID="EarnDeposit/AmountCrypto"
-              amount={amount}
+              amount={depositAmount}
               tokenId={pool.dataProps.depositTokenId}
               style={styles.value}
               showLocalAmount={false}
@@ -115,13 +138,32 @@ export default function EarnDepositBottomSheet({
               {'('}
               <TokenDisplay
                 testID="EarnDeposit/AmountFiat"
-                amount={amount}
+                amount={depositAmount}
                 tokenId={pool.dataProps.depositTokenId}
                 showLocalAmount={true}
               />
               {')'}
             </Text>
           </View>
+          {mode === 'swap-deposit' && (
+            <View style={styles.valueRow}>
+              <TokenDisplay
+                testID="EarnDeposit/Swap/From"
+                tokenId={inputTokenId}
+                amount={inputAmount.toString()}
+                showLocalAmount={false}
+                style={styles.valueSecondary}
+              />
+              <ArrowRightThick size={20} color={Colors.gray3} />
+              <TokenDisplay
+                testID="EarnDeposit/Swap/To"
+                tokenId={pool.dataProps.depositTokenId}
+                amount={depositAmount}
+                showLocalAmount={false}
+                style={styles.valueSecondary}
+              />
+            </View>
+          )}
         </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.fee')}>
           <View style={styles.valueRow} testID="EarnDeposit/Fee">

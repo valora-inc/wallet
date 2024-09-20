@@ -2563,6 +2563,22 @@
         "title": "Vous avez besoin de plus de {{feeTokenSymbol}} pour continuer",
         "description": "Ajoutez {{feeTokenSymbol}} sur {{network}} pour couvrir vos frais de gaz",
         "noGasCta": "Acheter des {{feeTokenSymbol}} sur {{network}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Détails des frais",
+        "moreInformation": "Plus d'informations",
+        "estNetworkFee": "Est. Frais de réseau",
+        "maxNetworkFee": "Frais de réseau maximum",
+        "networkFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter la transaction de dépôt.",
+        "networkSwapFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter les transactions de dépôt. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit.",
+        "appSwapFee": "Frais de {{appName}}"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "Détails de l'échange",
+        "swapFrom": "Échanger de",
+        "swapTo": "Échanger pour",
+        "whySwap": "Pourquoi est-ce que j'échange ?",
+        "swapDescription": "Pour déposer des fonds dans le pool, ton jeton est échangé contre un jeton du pool."
       }
     },
     "activePools": {
@@ -2625,7 +2641,10 @@
       "earnDepositDetails": "Montant déposé",
       "earnWithdrawTitle": "Retiré",
       "earnWithdrawSubtitle": "Retirer {{tokenSymbol}} du Pool {{providerName}}",
-      "earnWithdrawDetails": "Montant du retrait"
+      "earnWithdrawDetails": "Montant du retrait",
+      "swap": "Échange",
+      "network": "Réseau",
+      "fees": "Frais"
     },
     "home": {
       "title": "Gagner",
@@ -2691,6 +2710,24 @@
         "ageDescription": "Les pools de liquidités plus anciens peuvent indiquer un historique fiable et une bonne confiance de la communauté. Pour cette raison, certaines personnes considèrent ces pools comme plus sûrs.\n\nIl n'existe pas de méthode parfaite pour déterminer le risque, c'est pourquoi nous vous recommandons d'utiliser ces informations dans le cadre de vos recherches pour prendre la décision la plus éclairée possible.",
         "yieldRateTitle": "Taux de rendement",
         "yieldRateDescription": "Alors que la plupart des pools offrent des gains sous la forme de jeton de pool de liquidité, certains donnent un ou plusieurs jetons supplémentaires en guise de récompense ou d'incitation.\n\nÉtant donné que {{appName}} regroupe des pools sur plusieurs protocoles, nous avons combiné tous les taux de gain et de récompense en un seul taux de rendement global afin de déterminer facilement votre potentiel de gain. Ce chiffre est une estimation car les valeurs des gains et des récompenses fluctuent constamment.\n\nPour plus d'informations sur la répartition des gains, vous pouvez consulter le site <0>{{providerName}}</0>."
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "Tu as besoin de {{tokenSymbol}} sur {{tokenNetwork}} pour déposer",
+      "crossChainAlternativeDescription": "Si tu ne veux pas utiliser tes jetons sur {{tokenNetwork}}, choisis une option ci-dessous. Tu devras revenir pour effectuer ton dépôt de piscine plus tard.",
+      "beforeYouCanDepositTitle": "Avant de pouvoir déposer...",
+      "beforeYouCanDepositDescription": "Tu devras ajouter l'un des jetons de la piscine. Une fois ajouté, tu devras revenir pour compléter ton dépôt de piscine.",
+      "action": {
+        "swapAndDeposit": "Échange et dépôt",
+        "swapAndDepositDescription": "Choisis n'importe quel jeton sur {{tokenNetwork}}. Nous l'échangerons et le déposerons simultanément pour toi.",
+        "crossChainSwap": "Échange inter-chaînes",
+        "crossChainSwapDescription": "Échange un jeton sur un autre réseau pour {{tokenSymbol}}",
+        "swap": "Échange",
+        "swapDescription": "Échange avec {{tokenSymbol}} sur {{tokenNetwork}} à partir d'un autre jeton de ton portefeuille.",
+        "add": "Acheter",
+        "addDescription": "Achetez des {{tokenSymbol}} sur {{tokenNetwork}} en utilisant un de nos fournisseurs de confiance",
+        "transfer": "Transférer",
+        "transferDescription": "Utilisez n'importe quel portefeuille compatible {{tokenNetwork}} ou échangez pour déposer des {{tokenSymbol}}"
       }
     }
   },

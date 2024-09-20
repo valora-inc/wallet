@@ -12,6 +12,7 @@ import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsSc
 import {
   EarnClaimReward,
   EarnDeposit,
+  EarnSwapDeposit,
   EarnWithdraw,
   Fee,
   FeeType,
@@ -36,6 +37,7 @@ import {
 import {
   mockAccount,
   mockApprovalTransaction,
+  mockArbUsdcTokenId,
   mockCeloAddress,
   mockCeloTokenId,
   mockCeurAddress,
@@ -46,9 +48,11 @@ import {
   mockE164Number2,
   mockEarnClaimRewardTransaction,
   mockEarnDepositTransaction,
+  mockEarnSwapDeposit,
   mockEarnWithdrawTransaction,
   mockEthTokenId,
   mockTokenBalances,
+  mockUSDCAddress,
 } from 'test/values'
 
 jest.mock('src/analytics/AppAnalytics')
@@ -258,6 +262,15 @@ describe('TransactionDetailsScreen', () => {
     }
   }
 
+  function swapDepositTransaction({
+    status = TransactionStatus.Complete,
+  }: Partial<EarnSwapDeposit>): EarnSwapDeposit {
+    return {
+      ...mockEarnSwapDeposit,
+      status,
+    }
+  }
+
   function earnWithdrawTransaction({
     status = TransactionStatus.Complete,
   }: Partial<EarnWithdraw>): EarnWithdraw {
@@ -459,6 +472,16 @@ describe('TransactionDetailsScreen', () => {
       expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
     })
 
+    it(`renders check status action for pending ${TokenTransactionTypeV2.EarnSwapDeposit} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: swapDepositTransaction({
+          status: TransactionStatus.Pending,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+    })
+
     it(`renders check status action for pending ${TokenTransactionTypeV2.EarnWithdraw} transaction`, () => {
       const { getByText } = renderScreen({
         transaction: earnWithdrawTransaction({
@@ -487,6 +510,42 @@ describe('TransactionDetailsScreen', () => {
       })
 
       expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    })
+
+    it(`renders details action for complete ${TokenTransactionTypeV2.EarnSwapDeposit} transaction`, () => {
+      const { getByText, getByTestId } = renderScreen({
+        storeOverrides: {
+          tokens: {
+            tokenBalances: {
+              [mockArbUsdcTokenId]: {
+                address: mockUSDCAddress,
+                tokenId: mockArbUsdcTokenId,
+                symbol: 'USDC',
+                balance: '50',
+                priceUsd: '1',
+                networkId: NetworkId['arbitrum-sepolia'],
+                priceFetchedAt: Date.now(),
+              },
+              [mockCeloTokenId]: {
+                address: mockCeloAddress,
+                tokenId: mockCeloTokenId,
+                symbol: 'CELO',
+                balance: '100',
+                priceUsd: '0.5',
+                networkId: NetworkId['celo-alfajores'],
+                priceFetchedAt: Date.now(),
+              },
+            },
+          },
+        },
+        transaction: swapDepositTransaction({
+          status: TransactionStatus.Complete,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+      expect(getByTestId('EarnSwapDeposit/Swap/From')).toHaveTextContent('50.00 CELO')
+      expect(getByTestId('EarnSwapDeposit/Swap/To')).toHaveTextContent('10.00 USDC')
     })
 
     it(`renders details action for complete ${TokenTransactionTypeV2.EarnWithdraw} transaction`, () => {
