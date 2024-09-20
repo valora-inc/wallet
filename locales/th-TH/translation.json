@@ -2483,7 +2483,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "{{appName}}'s covering gas for this transaction!",
+    "gasSubsidized": "Transaction fees are covered for a limited time",
     "addCryptoBottomSheet": {
       "title": "เพิ่ม {{tokenSymbol}} บน {{tokenNetwork}}",
       "description": "เมื่อคุณเพิ่มโทเค็นแล้ว คุณจะต้องย้อนกลับมาฝากเข้าพูลให้เสร็จสิ้น",
@@ -2561,6 +2561,22 @@
         "title": "คุณต้องมี {{feeTokenSymbol}} มากกว่านี้เพื่อดำเนินการต่อ",
         "description": "เพิ่ม {{feeTokenSymbol}} บน {{network}} เพื่อให้เพียงพอสำหรับค่าก๊าซ",
         "noGasCta": "ซื้อ {{feeTokenSymbol}} บน {{network}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Fee Details",
+        "moreInformation": "ข้อมูลเพิ่มเติม",
+        "estNetworkFee": "Est. Network Fee",
+        "maxNetworkFee": "ค่าธรรมเนียมเครือข่ายสูงสุด",
+        "networkFeeDescription": "The network fee is required by the network to process the deposit transaction.",
+        "networkSwapFeeDescription": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
+        "appSwapFee": "ค่าธรรมเนียม {{appName}}"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "Swap Details",
+        "swapFrom": "สว็อปจาก",
+        "swapTo": "สว็อปเป็น",
+        "whySwap": "Why am I swapping?",
+        "swapDescription": "To deposit funds into the pool, your token is being swapped into a pool token."
       }
     },
     "activePools": {
@@ -2587,7 +2603,9 @@
       "footer": "เมื่อฝากคริปโตในพูล Aave คุณยอมรับความเสี่ยงที่มาพร้อมการใช้ Aave <0>ข้อกำหนดและเงื่อนไข</0>",
       "footerV1_93": "เมื่อฝากคริปโตในพูล {{providerName}} คุณยอมรับความเสี่ยงที่มาพร้อมการใช้ {{providerName}} <0>ข้อกำหนดและเงื่อนไข</0>",
       "primaryCta": "เสร็จสมบูรณ์",
-      "secondaryCta": "ยกเลิก"
+      "secondaryCta": "ยกเลิก",
+      "yieldRate": "อัตราผลตอบแทน (โดยประมาณ)",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "ยินดีด้วย! ตรวจสอบและเก็บรายได้ของคุณ",
@@ -2621,7 +2639,10 @@
       "earnDepositDetails": "จำนวนเงินที่ฝาก",
       "earnWithdrawTitle": "ถอนแล้ว",
       "earnWithdrawSubtitle": "ถอน {{tokenSymbol}} จากพูล {{providerName}} แล้ว",
-      "earnWithdrawDetails": "จำนวนเงินที่ถอนแล้ว"
+      "earnWithdrawDetails": "จำนวนเงินที่ถอนแล้ว",
+      "swap": "สว็อป",
+      "network": "เครือข่าย",
+      "fees": "ค่าธรรมเนียม"
     },
     "home": {
       "title": "สร้างรายได้",
@@ -2687,6 +2708,24 @@
         "ageDescription": "Liquidity Pool ที่มีอายุมากกว่าสามารถบ่งชี้ถึงประวัติที่มั่นคงและประวัติการสร้างความไว้วางใจในชุมชน ด้วยเหตุนี้ บางคนจึงอาจถือว่าพูลเหล่านี้มีความปลอดภัยกว่า\n\nไม่มีวิธีใดที่สามารถพิจารณาความเสี่ยงได้อย่างสมบูรณ์แบบ จึงควรใช้ข้อมูลนี้เป็นส่วนหนึ่งของการค้นคว้าโดยรวมเพื่อตัดสินใจเลือกสิ่งที่ดีที่สุดสำหรับคุณ",
         "yieldRateTitle": "อัตราผลตอบแทน",
         "yieldRateDescription": "While most pools offer earnings in the form of a liquidity pool token, some give additional token(s) as a reward or added incentive.\n\nSince {{appName}} aggregates pools across multiple protocols, we have combined all the earning and reward rates into a single, overall yield rate to help easily evaluate your earning potential. This number is an estimate since the earning and reward values fluctuate constantly.\n\nFor further information about earning breakdowns you can visit <0>{{providerName}}</0>."
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",
+      "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
+      "beforeYouCanDepositTitle": "Before you can deposit...",
+      "beforeYouCanDepositDescription": "You’ll need to add one of the pool tokens. Once added, you’ll need to return to complete your pool deposit.",
+      "action": {
+        "swapAndDeposit": "Swap & Deposit",
+        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "crossChainSwap": "Cross-chain Swap",
+        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
+        "swap": "สว็อป",
+        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
+        "add": "ซื้อ",
+        "addDescription": "ซื้อ {{tokenSymbol}} บน {{tokenNetwork}} ผ่านหนึ่งในผู้ให้บริการที่น่าเชื่อถือของเรา",
+        "transfer": "โอน",
+        "transferDescription": "ใช้กระเป๋าเงินหรือกระดานแลกเปลี่ยนที่ใช้งานร่วมกันได้กับ {{tokenNetwork}} เพื่อฝาก {{tokenSymbol}}"
       }
     }
   },

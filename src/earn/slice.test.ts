@@ -15,7 +15,14 @@ describe('Earn Slice', () => {
   it('should handle deposit start', () => {
     const updatedState = reducer(
       undefined,
-      depositStart({ amount: '100', pool: mockEarnPositions[0], preparedTransactions: [] })
+      depositStart({
+        amount: '100',
+        pool: mockEarnPositions[0],
+        preparedTransactions: [],
+        mode: 'deposit',
+        fromTokenAmount: '100',
+        fromTokenId: 'some-token-id',
+      })
     )
 
     expect(updatedState).toHaveProperty('depositStatus', 'loading')

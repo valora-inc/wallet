@@ -56,7 +56,7 @@
   },
   "accountKeyModal": {
     "header": "Sin tu Frase de recuperación perderás acceso a tu dinero para siempre",
-    "body1": "Para restablecer {{appName}}, tendrás que confirmar que has escrito tu Frase de Recuperación.",
+    "body1": "Para restablecer {{appName}}, deberás confirmar que has anotado tu Frase de recuperación.",
     "body2": "Nadie, ni siquiera {{appName}}, puede recuperar tu cuenta sin tu Frase."
   },
   "promptConfirmRemovalModal": {
@@ -89,7 +89,7 @@
   },
   "walletSecurityPrimer": {
     "title": "Resguarda tu wallet",
-    "description": "Sólo tú puedes acceder a tu monedero. Si pierdes o te roban el teléfono, {{appName}} no puede recuperarlo por ti.\n\nTendrás que establecer un método para mantener a salvo tu monedero y proteger tus fondos."
+    "description": "Sólo tú puedes acceder a tu wallet. Si pierdes o te roban el teléfono, {{appName}} no puede recuperarlo por ti.\n\nTendrás que establecer un método para mantener a salvo tu wallet y proteger tus fondos."
   },
   "keylessBackupIntro": {
     "emailAddress": "Dirección de email",
@@ -98,7 +98,7 @@
       "title": "Configurar la copia de seguridad de la billetera",
       "description": "Utilizarás lo siguiente para configurar la copia de seguridad de tu correo electrónico y número de teléfono",
       "useRecoveryPhrase": "Utiliza en su lugar una frase de recuperación",
-      "reminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu monedero si pierdes o te roban el dispositivo. {{appName}} no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!"
+      "reminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. {{appName}} no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenla a salvo!"
     },
     "restore": {
       "description": "Asegúrate de que dispones de lo siguiente para restaurar tu wallet.",
@@ -303,7 +303,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Actualización de aplicación necesaria",
-  "superchargingDescription": "Actualiza la aplicación {{appName}} para seguir recibiendo tus recompensas semanales de Supercarga.",
+  "superchargingDescription": "Actualiza la app {{appName}} para seguir recibiendo tus recompensas semanales Supercharge.",
   "superchargingTitleV1_54": "Supercharge llega a su fin",
   "superchargingDescriptionV1_54": "Podrás reclamar las recompensas semanales hasta el martes 28 de mayo a las 23:59 UTC. A partir del 29 de mayo, ya no podrás reclamar recompensas de Supercharge.",
   "superchargeRewardsAvailable": "¡Has acumulado {{amount}} {{token}} en recompensas!",
@@ -393,7 +393,7 @@
   "tokenBalance": "Saldo en {{token}}",
   "addFunds": "Agregar fondos",
   "addFundsHeaderWithCurrency": "Agregar {{token}}",
-  "addFundsSubtitle": "Deposita fondos en tu cuenta {{appName}}",
+  "addFundsSubtitle": "Agrega fondos en tu cuenta {{appName}}",
   "exchanges": "Exchanges cripto",
   "noExchanges": "No hay exchanges disponibles para {{digitalAsset}} en tu región.",
   "buySellOnExchanges": "Comprar o vender en exchanges cripto",
@@ -451,7 +451,7 @@
   },
   "pleaseSelectProvider": "Selecciona un proveedor de la lista a continuación. Estos enlaces te conectarán a servicios proporcionados por terceros.",
   "otherFundingOptions": "Para conocer más formas de agregar y retirar fondos, consulta <0>¿Cómo puedo agregar fondos a mi cuenta de Valora?</0>",
-  "youCanTransferIn": "Puedes utilizar un intercambio de terceros para enviar {{digitalAsset}} a tu cuenta {{appName}} . Para ello necesitarás la dirección de tu cuenta.",
+  "youCanTransferIn": "Puedes usar un exchange de terceros para enviar {{digitalAsset}} a tu cuenta de {{appName}}. Necesitarás tu Dirección de cuenta para esto.",
   "youCanTransferOut": "Puedes retirar tus fondos enviándolos a un exchange de terceros que soporte {{digitalAsset}}.",
   "useBalanceWithMerchants": "Usa tu saldo para pagar en comercios asociados",
   "findMerchants": "Encuentra comercios asociados cerca tuyo",
@@ -724,9 +724,9 @@
     "heading1": "Datos y privacidad",
     "heading2": "Activos digitales y {{appName}}",
     "info": "Para poder usar nuestros servicios, lee nuestro <0>Acuerdo de condiciones de uso</0> y toca el botón Aceptar para indicar que estás de acuerdo.",
-    "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se almacenará una copia con hash del mismo. Si concedes a {{appName}} acceso a tu lista de contactos, {{appName}} importará el nombre, número de teléfono y foto de perfil de cada contacto para que los usuarios puedan conectarse a través de la app {{appName}} . Para saber cómo recopilamos y utilizamos esta información, consulta nuestra <0>Política de privacidad</0>.",
-    "goldDisclaimer": "Cuando creas una \"cuenta\" en {{appName}} estás creando un monedero digital del que sólo tú tienes las claves. Ninguna otra persona o entidad, incluida {{appName}}, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que los activos digitales forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tus circunstancias financieras y tu tolerancia al riesgo financiero antes de comprar cualquier activo digital.",
-    "goldDisclaimerWithPoints": "Cuando creas una \"cuenta\" en {{appName}} estás creando un monedero digital del que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo {{appName}}, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. {{appName}} concede recompensas de fidelidad tokenizadas (\"Puntos\") a los Usuarios por participar en ciertas actividades dentro de la aplicación. Los Puntos son coleccionables en cadena, intransferibles y no canjeables. No se garantiza la disponibilidad ni el valor de los Puntos. Ten en cuenta que los activos digitales forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tus circunstancias financieras y tu tolerancia al riesgo financiero antes de comprar cualquier activo digital."
+    "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la app. Además, si conectas tu número de teléfono, se guardará una copia cifrada. Si decides conectar tu lista de contactos, {{appName}} importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de la app {{appName}}. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
+    "goldDisclaimer": "Cuando creas una \"cuenta\" en {{appName}}, estás creando una wallet digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo {{appName}}, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que los Activos digitales forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo.",
+    "goldDisclaimerWithPoints": "Cuando creas una \"cuenta\" en {{appName}}, estás creando una wallet digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo {{appName}}, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. {{appName}} concede recompensas de fidelidad tokenizadas (\"Puntos\") a los Usuarios por participar en determinadas actividades dentro de la app. Los Puntos son tokens coleccionables, intransferibles y no canjeables. No se garantiza la disponibilidad ni el valor de los Puntos. Ten en cuenta que las cripto forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo."
   },
   "termsColloquial": {
     "title": "Empecemos por crear tu wallet",
@@ -734,9 +734,9 @@
     "privacy1": "Recopilamos datos de uso que nos ayudan a mejorar la aplicación y la seguridad. Puedes consultar el tipo de información que recopilamos, cómo la utilizamos y tus derechos relacionados con esa información en nuestra <0>Política de privacidad</0>.",
     "privacy2": "Si decides vincular tu número de teléfono, almacenaremos una copia encriptada de este.",
     "privacy3": "Si decides conectar tus contactos, utilizaremos sus nombres, números y fotos de perfil para que sea más fácil encontrarlos.",
-    "walletHeading": "Tu Cartera Digital con {{appName}}:",
-    "wallet1": "Estás a punto de crear un monedero digital. Sólo tú tienes la clave de tu monedero. No podemos recuperar tu clave ni tus activos si la pierdes. Tampoco podemos revertir las acciones realizadas a través de {{appName}} en blockchains.",
-    "wallet2": "Los activos digitales, con los que interactuarás en {{appName}}, conllevan riesgos únicos. Al utilizar {{appName}}, aceptas estos riesgos y te responsabilizas de ellos. Por favor, considera tus finanzas y tu tolerancia al riesgo antes de tomar decisiones.",
+    "walletHeading": "Tu Wallet Digital con {{appName}}:",
+    "wallet1": "Estás a punto de crear una wallet digital. Sólo tú tienes la clave de tu wallet. No podemos recuperar tu clave o tus activos si pierdes tu clave. Tampoco podemos revertir las acciones tomadas a través de {{appName}} en blockchains.",
+    "wallet2": "Los activos digitales, los activos con los que interactuarás con {{appName}}, conllevan riesgos únicos. Al utilizar {{appName}}, aceptas estos riesgos y te responsabilizas de ellos. Por favor, considera tus finanzas y tu tolerancia al riesgo antes de tomar decisiones.",
     "fullTerms": "Lee nuestros <0>Términos y condiciones</0>."
   },
   "fullNameOrPsuedonym": "Nombre o alias",
@@ -853,7 +853,7 @@
   "accessContacts": {
     "disclosure": {
       "title": "Importar contactos",
-      "body": "{{appName}} me gustaría importar tus contactos. Al pulsar a continuación, permito el acceso a los números de teléfono, nombres y fotos de mis contactos con el fin de conectar con ellos a través de {{appName}}."
+      "body": "{{appName}} quiere importar tus contactos. Al tocar más abajo, doy acceso a los números de teléfono, nombres y fotos de perfil de mis contactos con fines de conectarme con ellos a través de {{appName}}"
     }
   },
   "createAccount": "Crear Cuenta",
@@ -903,7 +903,7 @@
   "verificationPrematureRevealMessage": "Por favor espera 1 minuto antes de volver a enviar",
   "verificationLearnMoreDialog": {
     "title": "Números de teléfono y {{appName}}",
-    "body": "Conectarte te permite enviar y recibir fondos con tu número de teléfono.\n\n<0>¿Puedo hacerlo más tarde?</0>\n\nSí, pero los monederos que no están conectados sólo pueden enviar pagos con códigos QR o direcciones de cuenta.\n\n<1>Seguro y privado</1>\n\n{{appName}} utiliza criptografía de última generación para mantener la privacidad de tu número de teléfono.",
+    "body": "Conectarte te permite enviar y recibir fondos con tu número de teléfono.\n\n<0>¿Puedo hacerlo más tarde?</0>\n\nSí, pero las wallets que no están conectadas sólo pueden enviar pagos con códigos QR o direcciones de cuenta.\n\n<1>Seguro y privado</1>\n\n{{appName}} utiliza criptografía de última generación para mantener la privacidad de tu número de teléfono.",
     "dismiss": "Omitir"
   },
   "phoneVerificationScreen": {
@@ -961,7 +961,7 @@
     },
     "recoveryPhrase": {
       "title": "Desde la frase de recuperación",
-      "description": "Introduce tu frase de recuperación de 12 palabras para recuperar el acceso a {{appName}}"
+      "description": "Ingresa tu frase de recuperación de 12 palabras para recuperar el acceso a {{appName}}"
     }
   },
   "verificationInput": {
@@ -1058,7 +1058,7 @@
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
   "inviteWithRewards": "¡Hola! 👋 Estoy usando la wallet cripto de {{appName}}. Descargarla y conectar tu número es muy fácil, y si lo haces ahora ambos recibiremos un NFT como recompensa 💫 \n\nUsa este enlace: {{link}}",
-  "inviteWithRewardsCUSD": "Hola! Ahora mismo ambos podemos obtener una recompensa gratuita de 0,50 $ si te registras, conectas tu número y financias tu monedero {{appName}} . Yo lo utilizo para aumentar mis ahorros en USD y criptomonedas, y tú puedes configurarlo en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de recomendación aquí: \n\n{{link}} \n\n Date prisa, la promoción de recomendación termina pronto.",
+  "inviteWithRewardsCUSD": "¡Hola! Ahora ambos podemos obtener una recompensa gratuita de $0,50 si te registras, conectas tu número y agregas fondos en tu wallet {{appName}}. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: \n\n{{link}} \n\nPero date prisa, la promoción de referencia termina pronto.",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1365,10 +1365,10 @@
   "transactionHeaderNftSent": "NFT enviado",
   "feedSectionHeaderRecent": "Recientes",
   "cashInBottomSheet": {
-    "title": "¡Añade fondos para empezar a utilizar {{appName}}!",
+    "title": "¡Agrega fondos para empezar a usar {{appName}}!",
     "subtitle": "Actualmente tu cuenta está vacía",
     "addFunds": "Agregar fondos",
-    "titleRamp": "Añade {{currency}} para empezar a utilizar {{appName}}",
+    "titleRamp": "Agrega {{currency}} para empezar a utilizar {{appName}}",
     "subtitleRamp": "Agrega fondos con comisión bajísimas gracias a nuestros proveedores externos."
   },
   "balances": "Activos",
@@ -1385,7 +1385,7 @@
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "¿Qué es el saldo total?",
-    "body": "Tu Saldo Total es una suma aproximada de todos tus activos en {{appName}} . Tu Saldo Total cambiará según fluctúen los precios. Se actualiza cada 10 minutos.\nAlgunos activos pueden no aparecer en el Saldo Total porque el precio no está disponible en el momento del cálculo.",
+    "body": "Tu Saldo Total es una suma aproximada de todos tus activos de {{appName}}. Tu Saldo Total cambiará a medida que los precios fluctúen. Se actualiza cada 10 minutos.\nAlgunos activos pueden no aparecer en el Saldo Total porque el precio no está disponible en el momento del cálculo.",
     "dismiss": "Ignorar"
   },
   "supportExportLogsStart": "Exportando registros...",
@@ -1505,12 +1505,12 @@
   },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
-    "message": "Las dapps (aplicaciones descentralizadas) proporcionan nuevas formas de utilizar tu criptomoneda, ganar recompensas y explorar la Web3.\n\nConecta {{appName}} a una dapp para empezar.",
+    "message": "Las dapps (aplicaciones descentralizadas) proporcionan nuevas formas de utilizar tu cripto, ganar recompensas y explorar Web3.\n\nConecta {{appName}} a una dapp para empezar.",
     "dismiss": "Ignorar"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} es una aplicación externa",
-    "message": "Estás a punto de abrir una aplicación no operada por {{appName}}.\n\n{{appName}} no hace ninguna declaración sobre esta aplicación. Utilízala bajo tu propia responsabilidad.",
+    "message": "Estás a punto de abrir una aplicación no operada por {{appName}}.\n\n{{appName}} no hace ninguna declaración sobre esta aplicación. Utilízala bajo tu propio riesgo.",
     "button": "Ir a {{dappName}}"
   },
   "dappsScreenInfoSheet": {
@@ -1563,7 +1563,7 @@
     "newLabel": "NUEVO",
     "newDialog": {
       "title": "Nuevas formas de transferir fondos",
-      "body": "Estamos lanzando nuevas formas de transferir fondos a y desde cuentas bancarias, directamente desde la aplicación {{appName}} .\n\nSi ves esto, significa que puedes acceder a esta función en tu región.",
+      "body": "Estamos lanzando nuevas formas de transferir fondos a y desde cuentas bancarias, directamente desde la app {{appName}}.\n\nSi ves este mensaje, puedes acceder a esta función en tu región.",
       "dismiss": "Ignorar"
     },
     "cashIn": {
@@ -1663,7 +1663,7 @@
     },
     "cashIn": {
       "cancel": "Cancelar acción",
-      "contactSupportPrefill": "Tengo problemas para añadir fondos a mi monedero {{appName}} ."
+      "contactSupportPrefill": "Tengo problemas para añadir fondos a mi walleto {{appName}}."
     },
     "success": {
       "header": "Operación exitosa",
@@ -1979,7 +1979,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invita a {{contactName}} a {{appName}} y gana 0,50 cUSD",
-      "body": "Parece que {{contactName}} no está en {{appName}}. Aún puedes enviar un pago si conoces la dirección de su monedero, o enviar una invitación en su lugar. \n\n Después de que descarguen {{appName}}, conecten su número de teléfono, añadan fondos y los mantengan en su monedero durante 7 días, ambos recibiréis 0,50 cUSD mientras duren los fondos."
+      "body": "Parece que {{contactName}} no está en {{appName}}. Aún puedes enviar un pago si conoces la dirección de su wallet, o enviar una invitación en su lugar. \n\n Después de que descarguen {{appName}}, conecten su número de teléfono, añadan fondos y los mantengan en su wallet durante 7 días, ambos recibiréis 0,50 cUSD mientras duren los fondos."
     }
   },
   "celoNews": {
@@ -2215,8 +2215,8 @@
   },
   "jumpstartIntro": {
     "title": "Envía cripto como un mensaje de texto",
-    "description": "Los enlaces en directo son una forma de enviar criptomonedas en la red Celo a un amigo con un enlace",
-    "noFundsHint": "Para empezar, necesitarás algunos activos en Celo en tu cartera.",
+    "description": "Los enlaces activos son una forma de enviar cripto en la red Celo a un amigo con un enlace",
+    "noFundsHint": "Para empezar, necesitarás algunos activos en Celo en tu wallet.",
     "haveFundsButton": "Envia un enlace directo",
     "addFundsCelo": {
       "title": "Obtén activos Celo",
@@ -2280,7 +2280,7 @@
   },
   "multichainBeta": {
     "beta": "BETA",
-    "title": "Novedad Ethereum está en {{appName}}",
+    "title": "¡Nuevo! Ethereum está en {{appName}}",
     "description1": "Estamos abriendo esta función a un grupo selecto primero. ¡Eres uno de los afortunados!",
     "description2": "Esto todavía es nuevo, y nuestro equipo sigue trabajando duro para perfeccionar las cosas. Nos encantaría conocer tu opinión.",
     "primaryCta": "Pruébalo ahora",
@@ -2291,7 +2291,7 @@
     "body": "Compra o transfiere tokens compatibles para enviar cripto y explora web3",
     "titleV1_86": "Agrega fondos a tu wallet",
     "exploreTokens": "Explora todos los tokens",
-    "exploreTokensBody": "Puedes comprar hasta más de 10 fichas en {{appName}}. ¡Compruébalo!"
+    "exploreTokensBody": "Puedes comprar más de 10 tokens en {{appName}}. ¡Échales un vistazo!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2485,7 +2485,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "{{appName}}'¡cubre la gasolina para esta transacción!",
+    "gasSubsidized": "Los gastos de transacción están cubiertos durante un tiempo limitado",
     "addCryptoBottomSheet": {
       "title": "Agrega {{tokenSymbol}} en {{tokenNetwork}}",
       "description": "Una vez que agregues tokens, tendrás que volver para terminar de depositar en esta pool.",
@@ -2512,23 +2512,23 @@
           "titleGasSubsidy": "Maximiza tus ganancias sin tarifas*",
           "title": "Explorar y comparar pools",
           "subtitle": "Compara el potencial de ganancias y los riesgos. Intercambia, compra o transfiere tokens para unirte a la mejor pool.",
-          "footnoteSubsidy": "*Las tasas de gas están cubiertas temporalmente por {{appName}}"
+          "footnoteSubsidy": "*Las tarifas las cubre temporalmente {{appName}}"
         },
         "work": {
           "title": "Pon tus activos a trabajar",
-          "subtitle": "Empieza a ganar con tu cripto depositando en un fondo de liquidez. "
+          "subtitle": "Empieza a ganar con tu cripto depositando en un pool de liquidez. "
         },
         "manage": {
           "title": "Gestiona directamente desde {{appName}}",
           "titleV1_92": "Gestiona directamente desde {{appName}}",
-          "titleV1_94": "Gestiona tus puestos",
+          "titleV1_94": "Gestiona tus posiciones",
           "subtitle": "Conectaremos tu wallet para que puedas gestionar las pools sin salir de {{appName}}.",
           "subtitleV1_92": "Conectaremos tu wallet para que puedas gestionar las pools sin salir de {{appName}}.",
-          "subtitleV1_94": "Elige una quiniela que te guste, añade tus fichas y controla tus ganancias."
+          "subtitleV1_94": "Elige un pool que te guste, agrega tus tokens y controla tus ganancias."
         },
         "access": {
           "title": "Accede fácilmente a tus fondos",
-          "subtitle": "Recoge fondos con un toque cuando estés listo."
+          "subtitle": "Recibe fondos con un toque cuando estés listo."
         }
       },
       "action": {
@@ -2547,7 +2547,7 @@
       "description": "Gana sobre tus stablecoins en pools de liquidez."
     },
     "enterAmount": {
-      "title": "¿Cuánto quieres ingresar?",
+      "title": "¿Cuánto quieres depositar?",
       "deposit": "Depósito",
       "fees": "Tarifas",
       "swap": "Cambio",
@@ -2563,6 +2563,22 @@
         "title": "Necesitas más {{feeTokenSymbol}} para continuar",
         "description": "Agrega {{feeTokenSymbol}} en {{network}} para cubrir las tarifas",
         "noGasCta": "Compra {{feeTokenSymbol}} en {{network}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Detalles de la tarifa",
+        "moreInformation": "Más información",
+        "estNetworkFee": "Est. Tasa de red",
+        "maxNetworkFee": "Tarifa máxima de red",
+        "networkFeeDescription": "La comisión de red es exigida por la red para procesar la transacción de depósito.",
+        "networkSwapFeeDescription": "La comisión de red es exigida por la red para procesar las transacciones de depósito. La comisión {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto.",
+        "appSwapFee": "Tarifa de {{appName}}"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "Detalles del intercambio",
+        "swapFrom": "Cambiar de",
+        "swapTo": "Cambiar a",
+        "whySwap": "¿Por qué cambio?",
+        "swapDescription": "Para depositar fondos en el fondo común, tu ficha se cambia por una ficha del fondo común."
       }
     },
     "activePools": {
@@ -2589,7 +2605,9 @@
       "footer": "Al depositar cripto en una pool de Aave, aceptas los riesgos asociados a su uso. <0>Términos y condiciones</0>",
       "footerV1_93": "Al depositar cripto en un pool de {{providerName}}, aceptas los riesgos asociados al uso de {{providerName}}. <0>Términos y condiciones</0>",
       "primaryCta": "Finalizar",
-      "secondaryCta": "Cancelar"
+      "secondaryCta": "Cancelar",
+      "yieldRate": "Tasa de rendimiento (est.)",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "¡Felicidades! Revisa y recoge tus ganancias",
@@ -2623,7 +2641,10 @@
       "earnDepositDetails": "Monto depositado",
       "earnWithdrawTitle": "Fondos retirados",
       "earnWithdrawSubtitle": "{{tokenSymbol}} retirados de la pool {{providerName}}",
-      "earnWithdrawDetails": "Monto retirado"
+      "earnWithdrawDetails": "Monto retirado",
+      "swap": "Cambio",
+      "network": "Red",
+      "fees": "Tarifas"
     },
     "home": {
       "title": "Gana",
@@ -2688,7 +2709,25 @@
         "ageTitle": "Antigüedad de pool:",
         "ageDescription": "Los pools de liquidez más antiguos pueden indicar una trayectoria sólida y un historial de creación de confianza en la comunidad. Por ello, algunos pueden considerar que estos pools son más seguros.\n\nNo hay una forma perfecta de determinar el riesgo, así que usa esta información como parte de tu investigación general para tomar la decisión que más te convenga.",
         "yieldRateTitle": "Tasa de rendimiento",
-        "yieldRateDescription": "Aunque la mayoría de los pools ofrecen ganancias en forma de token de pool de liquidez, algunos dan token(s) adicionales como recompensa o incentivo añadido.\n\nDado que {{appName}} agrega pools a través de múltiples protocolos, hemos combinado todas las tasas de ganancia y recompensa en una única tasa de rendimiento global para ayudarte a evaluar fácilmente tu potencial de ganancia. Esta cifra es una estimación, ya que los valores de ganancias y recompensas fluctúan constantemente.\n\nPara más información sobre los desgloses de ganancias puedes visitar <0>{{providerName}}</0>."
+        "yieldRateDescription": "Aunque la mayoría de los pools ofrecen ganancias en forma de token de pool de liquidez, algunos dan token(s) adicionales como recompensa o incentivo añadido.\n\nDado que {{appName}} agrega pools a través de múltiples protocolos, hemos combinado todas las tasas de ganancia y recompensa en una única tasa de rendimiento global para ayudarte a evaluar fácilmente tu potencial de ganancia. Esta cifra es estimada, ya que los valores de ganancia y recompensa fluctúan constantemente.\n\nPara más información sobre los desgloses de ganancias puedes visitar <0>{{providerName}}</0>."
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "Necesitas {{tokenSymbol}} en {{tokenNetwork}} para depositar",
+      "crossChainAlternativeDescription": "Si no quieres utilizar tus fichas en {{tokenNetwork}}, elige una opción a continuación. Tendrás que volver más tarde para completar el depósito de tu piscina.",
+      "beforeYouCanDepositTitle": "Antes de que puedas depositar...",
+      "beforeYouCanDepositDescription": "Tendrás que añadir una de las fichas de la piscina. Una vez añadido, tendrás que volver para completar el depósito de la piscina.",
+      "action": {
+        "swapAndDeposit": "Canje y depósito",
+        "swapAndDepositDescription": "Elige cualquier ficha en {{tokenNetwork}}. Lo canjearemos y depositaremos simultáneamente por ti.",
+        "crossChainSwap": "Intercambio entre cadenas",
+        "crossChainSwapDescription": "Intercambia un token en otra red por {{tokenSymbol}}",
+        "swap": "Cambio",
+        "swapDescription": "Cambia a {{tokenSymbol}} en {{tokenNetwork}} desde otro token de tu cartera.",
+        "add": "Comprar",
+        "addDescription": "Compra {{tokenSymbol}} en {{tokenNetwork}} a uno de nuestros proveedores de confianza.",
+        "transfer": "Transferir",
+        "transferDescription": "Usa cualquier wallet o exchange compatible con {{tokenNetwork}} para depositar {{tokenSymbol}}."
       }
     }
   },
