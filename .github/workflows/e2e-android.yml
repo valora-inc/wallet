@@ -62,7 +62,7 @@ jobs:
       - name: Download pre-built arm64 emulator
         run: |
           curl https://storage.googleapis.com/e2e-tools/android_emulator_arm64_35_3_3.zip -o emulator.zip
-          unzip emulator.zip -d $ANDROID_HOME
+          unzip emulator.zip -d $ANDROID_HOME/emulator
       - run: ls -lah $ANDROID_HOME/emulator
       - name: Setup emulator
         run: >
