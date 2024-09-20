@@ -56,7 +56,7 @@ jobs:
           sudo apt-get install ninja-build
 
           # Install adb
-          sudo apt-get install adb
+          yes | sudo apt-get install adb
 
           # Allow the emulator to use /dev/kvm
           # sudo adduser $USER kvm
