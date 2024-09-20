@@ -44,8 +44,10 @@ jobs:
 
       - name: Open Simulator
         run: |
-          xcrun simctl list
-          open -a simulator
+          # iPhone SE (3rd generation)
+          IOS_SIM_UDID='AD64CA0C-9AE3-47C8-8296-A4E4658C1FC0'
+          SIMULATOR_PATH='/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/Contents/MacOS/Simulator'
+          open -a "$SIMULATOR_PATH" --args -CurrentDeviceUDID $IOS_SIM_UDID
 
       - uses: ./.github/actions/yarn-install
       # - uses: actions/setup-node@v4
