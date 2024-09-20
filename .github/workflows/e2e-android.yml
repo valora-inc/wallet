@@ -67,6 +67,8 @@ jobs:
         run: |
           cd $ANDROID_HOME/emulator
           bash linux-aarch64-fixgcc.sh
+          sudo apt-get update
+          yes | sudo apt-get install libprotobuf-dev protobuf-compiler
       - name: Setup emulator
         run: >
           yarn ts-node ./.github/scripts/setupAndroidEmulator.ts
