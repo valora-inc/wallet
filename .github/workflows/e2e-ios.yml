@@ -43,7 +43,9 @@ jobs:
           key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile', 'ios/Podfile.lock') }}
 
       - name: Open Simulator
-        run: open -a simulator
+        run: |
+          xcrun simctl list
+          open -a simulator
 
       - uses: ./.github/actions/yarn-install
       # - uses: actions/setup-node@v4
