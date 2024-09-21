@@ -62,6 +62,7 @@ function SignInWithEmailBottomSheet({
       firstScreenInCurrentStep: Screens.SignInWithEmail,
       onboardingProps,
     })
+    bottomSheetRef.current?.close()
   }
 
   return (

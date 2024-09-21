@@ -88,7 +88,8 @@ function SupportContact({ route }: Props) {
 
   const onPressSendEmail = useCallback(async () => {
     setInProgress(true)
-    const deviceInfo = {
+    const userProperties = {
+      appName: APP_NAME,
       version: DeviceInfo.getVersion(),
       systemVersion: DeviceInfo.getSystemVersion(),
       buildNumber: DeviceInfo.getBuildNumber(),
@@ -111,7 +112,7 @@ function SupportContact({ route }: Props) {
     try {
       await sendSupportRequest({
         message,
-        deviceInfo,
+        userProperties,
         logFiles: attachments,
         userEmail: email,
         userName: name,
