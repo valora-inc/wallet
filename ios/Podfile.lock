@@ -791,7 +791,7 @@ PODS:
   - RNPersonaInquiry2 (2.2.23):
     - PersonaInquirySDK2 (= 2.3.9)
     - React-Core
-  - RNReactNativeHapticFeedback (2.3.1):
+  - RNReactNativeHapticFeedback (2.3.3):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNReanimated (3.15.1):
@@ -1319,7 +1319,7 @@ SPEC CHECKSUMS:
   RNLocalize: 4f22418187ecd5ca693231093ff1d912d1b3c9bc
   RNPermissions: da2a4ded375aa8292d85ed93676e102c203d4717
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
-  RNReactNativeHapticFeedback: 713abf3266aeacade463e29df9801e8ec3451f73
+  RNReactNativeHapticFeedback: a15559aa2aa8b5e5d49616fd84259dfb3c415230
   RNReanimated: 739d696f5bd3bea1d675a86caec05064ab4d898f
   RNScreens: a1db0ca347cf9f44ae57b0a2d31991af6d872f7c
   RNSentry: 86e407e1350297d78ad70541ba9d6262ed5864fa
