@@ -72,7 +72,7 @@
   "dependencies": {
     "@badrap/result": "~0.2.13",
     "@coinbase/cbpay-js": "^2.2.1",
-    "@crowdin/ota-client": "^0.7.0",
+    "@crowdin/ota-client": "^2.0.0",
     "@fiatconnect/fiatconnect-sdk": "^0.5.58",
     "@fiatconnect/fiatconnect-types": "^13.3.8",
     "@gorhom/bottom-sheet": "^4.6.4",

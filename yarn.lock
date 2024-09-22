@@ -1152,12 +1152,10 @@
     ieee754 "^1.2.1"
     react-native-quick-base64 "^2.0.5"
 
-"@crowdin/ota-client@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@crowdin/ota-client/-/ota-client-0.7.0.tgz#6aef4f4be90b7f931175a274c68b669ef4044c6b"
-  integrity sha512-RNFnR2ter5dsFJlyQysT8jswDn/TBF/ALosiDRpaj2tcOlAk/amQOoqEMJrCdR46xWqMUNwz/hJ4YIlcN51kPQ==
-  dependencies:
-    axios "0.25.0"
+"@crowdin/ota-client@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@crowdin/ota-client/-/ota-client-2.0.0.tgz#8eceaca36ab1226c7b193cadbba34a9bdf9842b7"
+  integrity sha512-3cymvRcsYluTX4GliWpbYrZ4X1PaCGq87PRwnjeAvAMcPMAi8zezk9/1NA9IuYAnFZroJ7ceB8vjUezG5j5DTQ==
 
 "@cspotcode/source-map-consumer@0.8.0":
   version "0.8.0"
@@ -5515,13 +5513,6 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-axios@0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.25.0.tgz#349cfbb31331a9b4453190791760a8d35b093e0a"
-  integrity sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==
-  dependencies:
-    follow-redirects "^1.14.7"
-
 axios@^0.21.1:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
@@ -8137,7 +8128,7 @@ flow-parser@0.*, flow-parser@^0.206.0:
   resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.206.0.tgz#f4f794f8026535278393308e01ea72f31000bfef"
   integrity sha512-HVzoK3r6Vsg+lKvlIZzaWNBVai+FXTX1wdYhz/wVlH13tb/gOdLXmlTqy6odmTBhT5UoWUbq0k8263Qhr9d88w==
 
-follow-redirects@^1.14.0, follow-redirects@^1.14.7:
+follow-redirects@^1.14.0:
   version "1.15.6"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.6.tgz#7f815c0cda4249c74ff09e95ef97c23b5fd0399b"
   integrity sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==
