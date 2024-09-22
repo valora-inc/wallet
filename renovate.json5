@@ -80,7 +80,7 @@
       groupName: 'prettier',
     },
     {
-      // Group updates for prettier packages
+      // Group updates for walletconnect packages
       matchPackagePatterns: ['^@walletconnect/'],
       groupName: 'walletconnect',
     },
