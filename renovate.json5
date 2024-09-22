@@ -80,6 +80,11 @@
       groupName: 'prettier',
     },
     {
+      // Group updates for prettier packages
+      matchPackagePatterns: ['^@walletconnect/'],
+      groupName: 'walletconnect',
+    },
+    {
       // Avoid auto merge of major updates on rn, auth0, firebase and walletconnect
       matchPackagePatterns: [
         '^@react-native-firebase/',
