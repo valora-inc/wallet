@@ -202,7 +202,7 @@ describe('TransactionFeed', () => {
 
     const tree = renderScreen({
       transactions: {
-        transactionsByNetworkId: {
+        transactions: {
           [NetworkId['ethereum-sepolia']]: [mockApprovalTransaction],
           [NetworkId['celo-alfajores']]: [
             {
@@ -293,7 +293,7 @@ describe('TransactionFeed', () => {
 
     const { getByTestId, queryByTestId } = renderScreen({
       transactions: {
-        transactionsByNetworkId: {
+        transactions: {
           [networkConfig.defaultNetworkId]: MOCK_RESPONSE.data.tokenTransactionsV3.transactions,
         },
       },

@@ -4,7 +4,6 @@ import {
   EarnSwapDeposit,
   EarnWithdraw,
   Fee,
-  NetworkId,
   NftTransfer,
   PendingStandbyTransaction,
   TokenApproval,
@@ -56,7 +55,6 @@ export interface TransactionConfirmedAction {
 export interface UpdateTransactionsAction {
   type: Actions.UPDATE_TRANSACTIONS
   transactions: TokenTransaction[]
-  networkId: NetworkId
 }
 
 export type ActionTypes =
@@ -82,11 +80,7 @@ export const transactionConfirmed = (
   blockTimestampInMs,
 })
 
-export const updateTransactions = (
-  networkId: NetworkId,
-  transactions: TokenTransaction[]
-): UpdateTransactionsAction => ({
+export const updateTransactions = (transactions: TokenTransaction[]): UpdateTransactionsAction => ({
   type: Actions.UPDATE_TRANSACTIONS,
-  networkId,
   transactions,
 })

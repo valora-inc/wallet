@@ -125,6 +125,7 @@ function TransactionFeed() {
         keyboardShouldPersistTaps="always"
         testID="TransactionList"
         onEndReached={() => fetchMoreTransactions()}
+        initialNumToRender={20}
       />
       {fetchingMoreTransactions && (
         <View style={styles.centerContainer}>

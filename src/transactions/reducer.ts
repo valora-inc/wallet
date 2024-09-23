@@ -21,12 +21,12 @@ interface State {
   // included in the tx feed. Necessary so it shows up in the
   // feed instantly.
   standbyTransactions: StandbyTransaction[]
-  transactionsByNetworkId: TransactionsByNetworkId
+  transactions: TokenTransaction[]
 }
 
 const initialState = {
   standbyTransactions: [],
-  transactionsByNetworkId: {},
+  transactions: [],
 }
 // export for testing
 export const _initialState = initialState
@@ -41,6 +41,7 @@ export const reducer = (
       return {
         ...state,
         ...persistedState,
+        transactions: [],
         standbyTransactions: (persistedState.standbyTransactions || []).filter(
           (tx) => tx.transactionHash
         ),
@@ -128,7 +129,7 @@ export const reducer = (
           // remove standby transactions that match non cross-chain swap transactions from blockchain-api
           (standbyTx) =>
             !standbyTx.transactionHash ||
-            standbyTx.networkId !== action.networkId ||
+            // standbyTx.networkId !== action.networkId ||
             !receivedTxHashes.has(standbyTx.transactionHash)
         )
         .map((standbyTx) => {
@@ -156,10 +157,7 @@ export const reducer = (
 
       return {
         ...state,
-        transactionsByNetworkId: {
-          ...state.transactionsByNetworkId,
-          [action.networkId]: receivedTransactions,
-        },
+        transactions: receivedTransactions,
         standbyTransactions: updatedStandbyTransactions,
       }
     default:
@@ -205,14 +203,12 @@ export const confirmedStandbyTransactionsSelector = createSelector(
   }
 )
 
-export const transactionsByNetworkIdSelector = (state: RootState) =>
-  state.transactions.transactionsByNetworkId
+const _transactionsSelector = (state: RootState) => state.transactions.transactions
 
 export const transactionsSelector = createSelector(
-  [transactionsByNetworkIdSelector, getSupportedNetworkIdsForApprovalTxsInHomefeed],
+  [_transactionsSelector, getSupportedNetworkIdsForApprovalTxsInHomefeed],
   (transactions, supportedNetworkIdsForApprovalTxs) => {
-    const transactionsForAllNetworks = Object.values(transactions).flat()
-    return transactionsForAllNetworks
+    return transactions
       .sort((a, b) => b.timestamp - a.timestamp)
       .filter((tx) => {
         if (tx.__typename === 'TokenApproval') {
@@ -224,32 +220,40 @@ export const transactionsSelector = createSelector(
 )
 
 export const pendingTxHashesByNetworkIdSelector = createSelector(
-  [transactionsByNetworkIdSelector],
+  [_transactionsSelector],
   (transactions) => {
     const hashesByNetwork: {
       [networkId in NetworkId]?: Set<string>
     } = {}
-    Object.entries(transactions).forEach(([networkId, txs]) => {
-      hashesByNetwork[networkId as NetworkId] = new Set(
-        txs.filter((tx) => tx.status === TransactionStatus.Pending).map((tx) => tx.transactionHash)
-      )
-    })
+
+    for (const tx of transactions) {
+      if (tx.status === TransactionStatus.Pending) {
+        if (!hashesByNetwork[tx.networkId]) {
+          hashesByNetwork[tx.networkId] = new Set()
+        }
+        hashesByNetwork[tx.networkId]!.add(tx.transactionHash)
+      }
+    }
 
     return hashesByNetwork
   }
 )
 
 export const completedTxHashesByNetworkIdSelector = createSelector(
-  [transactionsByNetworkIdSelector],
+  [_transactionsSelector],
   (transactions) => {
     const hashesByNetwork: {
       [networkId in NetworkId]?: Set<string>
     } = {}
-    Object.entries(transactions).forEach(([networkId, txs]) => {
-      hashesByNetwork[networkId as NetworkId] = new Set(
-        txs.filter((tx) => tx.status === TransactionStatus.Complete).map((tx) => tx.transactionHash)
-      )
-    })
+
+    for (const tx of transactions) {
+      if (tx.status === TransactionStatus.Complete) {
+        if (!hashesByNetwork[tx.networkId]) {
+          hashesByNetwork[tx.networkId] = new Set()
+        }
+        hashesByNetwork[tx.networkId]!.add(tx.transactionHash)
+      }
+    }
 
     return hashesByNetwork
   }

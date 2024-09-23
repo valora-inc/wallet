@@ -132,7 +132,7 @@ describe('transactions reducer', () => {
       const state: RootState['transactions'] = {
         ..._initialState,
         standbyTransactions: mockStandbyTransactions,
-        transactionsByNetworkId: {
+        transactions: {
           [NetworkId['celo-mainnet']]: mockCeloTransactions,
           [NetworkId['ethereum-mainnet']]: mockEthTransactions,
         },
