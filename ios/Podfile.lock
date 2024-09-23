@@ -589,7 +589,7 @@ PODS:
     - React-Core
   - react-native-launch-arguments (4.0.2):
     - React
-  - react-native-netinfo (11.3.2):
+  - react-native-netinfo (11.4.1):
     - React-Core
   - react-native-pager-view (6.4.1):
     - RCT-Folly (= 2021.07.22.00)
@@ -1271,7 +1271,7 @@ SPEC CHECKSUMS:
   react-native-flipper: 9c1957af24b76493ba74f46d000a5c1d485e7731
   react-native-in-app-review: db8bb167a5f238e7ceca5c242d6b36ce8c4404a4
   react-native-launch-arguments: 5f41e0abf88a15e3c5309b8875d6fd5ac43df49d
-  react-native-netinfo: 076df4f9b07f6670acf4ce9a75aac8d34c2e2ccc
+  react-native-netinfo: f0a9899081c185db1de5bb2fdc1c88c202a059ac
   react-native-pager-view: c65514a81a384c3ce244b5bd87167761740308d3
   react-native-quick-crypto: 66ebfd3657f39263ac98af21cfb57f97d3dfc884
   react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
