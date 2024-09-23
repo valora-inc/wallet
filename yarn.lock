@@ -4303,10 +4303,10 @@
     pretty-format "^29.0.3"
     redent "^3.0.0"
 
-"@testing-library/react-native@^12.4.5":
-  version "12.4.5"
-  resolved "https://registry.yarnpkg.com/@testing-library/react-native/-/react-native-12.4.5.tgz#16528aeae7b29238872478f3d1132a2bf821365d"
-  integrity sha512-SfwFwV1MrnvL//9T4C4UyusnZfWy2IOftNU7mG+bspk23bDM9HH1TxsMvec7JVZleraicDO7tP1odFqwb4KPcg==
+"@testing-library/react-native@^12.7.2":
+  version "12.7.2"
+  resolved "https://registry.yarnpkg.com/@testing-library/react-native/-/react-native-12.7.2.tgz#d9dc62979264902c22ac9154eee0dc10914d1518"
+  integrity sha512-fSUIruOUFcuwssC8+m9H+9ib7P/+JrtIszHS4eZ6O9e4FjpjS3m24UnkJXTRl+FCbknz8oxH5Tw+thzy0qsIMg==
   dependencies:
     jest-matcher-utils "^29.7.0"
     pretty-format "^29.7.0"
@@ -4588,7 +4588,14 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/node@*", "@types/node@18.15.13", "@types/node@>= 8":
+"@types/node@*", "@types/node@>= 8", "@types/node@^20":
+  version "20.16.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.16.5.tgz#d43c7f973b32ffdf9aa7bd4f80e1072310fd7a53"
+  integrity sha512-VwYCweNo3ERajwy0IUlqqcyZ8/A7Zwa9ZP3MnENWcB11AejO+tLy3pu850goUW2FC/IJMdZUfKpX/yxL1gymCA==
+  dependencies:
+    undici-types "~6.19.2"
+
+"@types/node@18.15.13":
   version "18.15.13"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.13.tgz#f64277c341150c979e42b00e4ac289290c9df469"
   integrity sha512-N+0kuo9KgrUQ1Sn/ifDXsvg0TTleP7rIy4zOBGECxAljqvqfqpTfzx0Q1NUedOixRMBfe2Whhb056a42cWs26Q==
@@ -14924,10 +14931,10 @@ typescript-tuple@^2.2.1:
   dependencies:
     typescript-compare "^0.0.2"
 
-typescript@^5.4.3:
-  version "5.4.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.4.3.tgz#5c6fedd4c87bee01cd7a528a30145521f8e0feff"
-  integrity sha512-KrPd3PKaCLr78MalgiwJnA25Nm8HAmdwN3mYUYZgG/wizIo9EainNVQI9/yDavtVFRN2h3k8uf3GLHuhDMgEHg==
+typescript@^5.6.2:
+  version "5.6.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.2.tgz#d1de67b6bef77c41823f822df8f0b3bcff60a5a0"
+  integrity sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==
 
 typescript@~4.9.5:
   version "4.9.5"
@@ -14973,6 +14980,11 @@ underscore@>1.4.4:
   version "1.13.7"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.13.7.tgz#970e33963af9a7dda228f17ebe8399e5fbe63a10"
   integrity sha512-GMXzWtsc57XAtguZgaQViUOzs0KTkk8ojr3/xAxXLITqf/3EMwxC0inyETfDFjH/Krbhuep0HNbbjI9i/q3F3g==
+
+undici-types@~6.19.2:
+  version "6.19.8"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.19.8.tgz#35111c9d1437ab83a7cdc0abae2f26d88eda0a02"
+  integrity sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==
 
 unenv@^1.9.0:
   version "1.9.0"

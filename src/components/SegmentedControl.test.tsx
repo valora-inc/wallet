@@ -2,8 +2,6 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import SegmentedControl from 'src/components/SegmentedControl'
 
-jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'))
-
 describe(SegmentedControl, () => {
   it('renders correctly', () => {
     const onChange = jest.fn()
