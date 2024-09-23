@@ -635,6 +635,7 @@ export enum JumpstartEvents {
   jumpstart_claim_status_fetch_error = 'jumpstart_claim_status_fetch_error',
   jumpstart_add_assets_show_actions = 'jumpstart_add_assets_show_actions',
   jumpstart_add_assets_action_press = 'jumpstart_add_assets_action_press',
+  jumpstart_intro_seen = 'jumpstart_intro_seen',
 }
 
 export enum PointsEvents {
@@ -654,7 +655,7 @@ export enum PointsEvents {
 export enum EarnEvents {
   earn_cta_press = 'earn_cta_press',
   earn_entrypoint_press = 'earn_entrypoint_press',
-  earn_add_crypto_action_press = 'earn_add_crypto_action_press',
+  earn_before_deposit_action_press = 'earn_before_deposit_action_press',
   earn_deposit_provider_info_press = 'earn_deposit_provider_info_press',
   earn_deposit_terms_and_conditions_press = 'earn_deposit_terms_and_conditions_press',
   earn_deposit_complete = 'earn_deposit_complete',

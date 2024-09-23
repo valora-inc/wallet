@@ -3,12 +3,12 @@ import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AssetsEvents } from 'src/analytics/Events'
 import { TokenProperties } from 'src/analytics/Properties'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import CeloNewsFeed from 'src/celoNews/CeloNewsFeed'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -20,10 +20,10 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DataDown from 'src/icons/DataDown'
 import DataUp from 'src/icons/DataUp'
+import SwapArrows from 'src/icons/SwapArrows'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsMore from 'src/icons/quick-actions/More'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
-import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
@@ -66,7 +66,7 @@ export default function TokenDetailsScreen({ route }: Props) {
   const token = useTokenInfo(tokenId)
   if (!token) throw new Error(`token with id ${tokenId} not found`)
   const actions = useActions(token)
-  const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   return (
@@ -199,7 +199,7 @@ export const useActions = (token: TokenBalance) => {
       name: TokenActionName.Swap,
       title: t('tokenDetails.actions.swap'),
       details: t('tokenDetails.actionDescriptions.swap'),
-      iconComponent: QuickActionsSwap,
+      iconComponent: SwapArrows,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack, { fromTokenId: token.tokenId })
       },
@@ -240,7 +240,7 @@ function Actions({
   actions,
 }: {
   token: TokenBalance
-  bottomSheetRef: React.RefObject<BottomSheetRefType>
+  bottomSheetRef: React.RefObject<BottomSheetModalRefType>
   actions: TokenAction[]
 }) {
   const { t } = useTranslation()

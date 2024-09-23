@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useAuth0 } from 'react-native-auth0'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { KeylessBackupEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
 import AppleIcon from 'src/icons/Apple'
@@ -43,7 +43,7 @@ function SignInWithEmailBottomSheet({
 }: {
   keylessBackupFlow: KeylessBackupFlow
   origin: KeylessBackupOrigin
-  bottomSheetRef: React.RefObject<BottomSheetRefType>
+  bottomSheetRef: React.RefObject<BottomSheetModalRefType>
 }) {
   const { t } = useTranslation()
   const onboardingProps = useSelector(onboardingPropsSelector)
@@ -62,6 +62,7 @@ function SignInWithEmailBottomSheet({
       firstScreenInCurrentStep: Screens.SignInWithEmail,
       onboardingProps,
     })
+    bottomSheetRef.current?.close()
   }
 
   return (
@@ -114,7 +115,7 @@ function SignInWithEmail({ route }: Props) {
   const isSetupInOnboarding =
     keylessBackupFlow === KeylessBackupFlow.Setup && origin === KeylessBackupOrigin.Onboarding
 
-  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const onPressSignInAnotherWay = () => {
     AppAnalytics.track(KeylessBackupEvents.cab_sign_in_another_way, {

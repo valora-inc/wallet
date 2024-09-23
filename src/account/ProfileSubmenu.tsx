@@ -12,9 +12,9 @@ import { SettingsItemTextValue, SettingsExpandedItem } from 'src/components/Sett
 import User from 'src/icons/User'
 import { useSelector } from 'src/redux/hooks'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Phone from 'src/icons/Phone'
 import RevokePhoneNumber from 'src/RevokePhoneNumber'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
 import CustomHeader from 'src/components/header/CustomHeader'
 import variables from 'src/styles/variables'
 import BackButton from 'src/components/BackButton'
@@ -24,7 +24,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.ProfileSubmenu>
 export default function ProfileSubmenu(props: Props) {
   const { t } = useTranslation()
   const numberVerified = useSelector(phoneNumberVerifiedSelector)
-  const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const revokeBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const handleShowConfirmRevoke = () => {
     AppAnalytics.track(SettingsEvents.settings_revoke_phone_number)

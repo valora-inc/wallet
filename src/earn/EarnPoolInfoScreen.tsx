@@ -3,17 +3,20 @@ import BigNumber from 'bignumber.js'
 import { Duration, intervalToDuration } from 'date-fns'
 import React, { useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, Platform, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { LayoutChangeEvent, Platform, StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import { openUrl } from 'src/app/actions'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
-import InfoIcon from 'src/icons/InfoIcon'
+import BeforeDepositBottomSheet from 'src/earn/BeforeDepositBottomSheet'
+import { useDepositEntrypointInfo } from 'src/earn/hooks'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -23,7 +26,7 @@ import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import type { EarningItem } from 'src/positions/types'
 import { EarnPosition } from 'src/positions/types'
-import { useSelector } from 'src/redux/hooks'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -107,22 +110,6 @@ function TokenIcons({
           showNetworkIcon={showNetworkIcon}
         />
       ))}
-    </View>
-  )
-}
-
-function Card({
-  children,
-  testID,
-  cardStyle,
-}: {
-  children: React.ReactNode
-  testID: string
-  cardStyle?: ViewStyle
-}) {
-  return (
-    <View testID={testID} style={[styles.card, cardStyle]}>
-      {children}
     </View>
   )
 }
@@ -233,16 +220,14 @@ function DepositAndEarningsCard({
   }, [balance, earningItems, earningItemsTokenInfo])
 
   return (
-    <Card testID="DepositAndEarningsCard" cardStyle={styles.depositAndEarningCard}>
+    <View testID="DepositAndEarningsCard" style={[styles.card, styles.depositAndEarningCard]}>
       <View style={styles.depositAndEarningCardTitleContainer}>
-        <View style={styles.cardLineLabel}>
-          <Text numberOfLines={1} style={styles.cardTitleText}>
-            {t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
-          </Text>
-          <Touchable onPress={onInfoIconPress} borderRadius={24} testID={'DepositInfoIcon'}>
-            <InfoIcon size={16} color={Colors.gray3} />
-          </Touchable>
-        </View>
+        <LabelWithInfo
+          onPress={onInfoIconPress}
+          label={t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
+          labelStyle={styles.cardTitleText}
+          testID={'DepositInfoIcon'}
+        />
         <View>
           <Text style={styles.depositAndEarningCardTitleText}>
             {t('earnFlow.poolInfoScreen.titleLocalAmountDisplay', {
@@ -281,7 +266,7 @@ function DepositAndEarningsCard({
           <EarningItemLineItem key={index} earnItem={item} />
         ))}
       </View>
-    </Card>
+    </View>
   )
 }
 
@@ -300,15 +285,15 @@ function YieldCard({
     .reduce((acc, rate) => acc + rate, 0)
 
   return (
-    <Card testID="YieldCard">
+    <View style={styles.card} testID="YieldCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
-          <Text numberOfLines={1} style={styles.cardTitleText}>
-            {t('earnFlow.poolInfoScreen.yieldRate')}
-          </Text>
-          <Touchable onPress={onInfoIconPress} borderRadius={24} testID="YieldRateInfoIcon">
-            <InfoIcon size={16} color={Colors.gray3} />
-          </Touchable>
+          <LabelWithInfo
+            onPress={onInfoIconPress}
+            label={t('earnFlow.poolInfoScreen.yieldRate')}
+            labelStyle={styles.cardTitleText}
+            testID="YieldRateInfoIcon"
+          />
         </View>
         <Text style={styles.cardTitleText}>
           {yieldRateSum > 0
@@ -339,7 +324,7 @@ function YieldCard({
           )
         })}
       </View>
-    </Card>
+    </View>
   )
 }
 
@@ -362,19 +347,19 @@ function TvlCard({
   }, [localCurrencySymbol, tvlInFiat])
 
   return (
-    <Card testID="TvlCard">
+    <View style={styles.card} testID="TvlCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
-          <Text numberOfLines={1} style={styles.cardTitleText}>
-            {t('earnFlow.poolInfoScreen.tvl')}
-          </Text>
-          <Touchable onPress={onInfoIconPress} borderRadius={24} testID="TvlInfoIcon">
-            <InfoIcon size={16} color={Colors.gray3} />
-          </Touchable>
+          <LabelWithInfo
+            onPress={onInfoIconPress}
+            label={t('earnFlow.poolInfoScreen.tvl')}
+            labelStyle={styles.cardTitleText}
+            testID="TvlInfoIcon"
+          />
         </View>
         <Text style={styles.cardTitleText}>{tvlString}</Text>
       </View>
-    </Card>
+    </View>
   )
 }
 
@@ -386,19 +371,19 @@ function AgeCard({ ageOfPool, onInfoIconPress }: { ageOfPool: Date; onInfoIconPr
   })
 
   return (
-    <Card testID="AgeCard">
+    <View style={styles.card} testID="AgeCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
-          <Text numberOfLines={1} style={styles.cardTitleText}>
-            {t('earnFlow.poolInfoScreen.ageOfPool')}
-          </Text>
-          <Touchable onPress={onInfoIconPress} borderRadius={24} testID="AgeInfoIcon">
-            <InfoIcon size={16} color={Colors.gray3} />
-          </Touchable>
+          <LabelWithInfo
+            onPress={onInfoIconPress}
+            label={t('earnFlow.poolInfoScreen.ageOfPool')}
+            labelStyle={styles.cardTitleText}
+            testID="AgeInfoIcon"
+          />
         </View>
         <Text style={styles.cardTitleText}>{formattedDuration(dateInterval)}</Text>
       </View>
-    </Card>
+    </View>
   )
 }
 
@@ -443,7 +428,13 @@ function LearnMoreTouchable({
   )
 }
 
-function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
+function ActionButtons({
+  earnPosition,
+  onPressDeposit,
+}: {
+  earnPosition: EarnPosition
+  onPressDeposit: () => void
+}) {
   const { bottom } = useSafeAreaInsets()
   const insetsStyle = {
     paddingBottom: Math.max(bottom, Spacing.Regular16),
@@ -477,15 +468,7 @@ function ActionButtons({ earnPosition }: { earnPosition: EarnPosition }) {
       {deposit && (
         <Button
           text={t('earnFlow.poolInfoScreen.deposit')}
-          onPress={() => {
-            AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
-              poolId: earnPosition.positionId,
-              providerId: earnPosition.appId,
-              networkId: earnPosition.networkId,
-              depositTokenId: earnPosition.dataProps.depositTokenId,
-            })
-            navigate(Screens.EarnEnterAmount, { pool: earnPosition })
-          }}
+          onPress={onPressDeposit}
           size={BtnSizes.FULL}
           style={styles.flex}
         />
@@ -506,10 +489,42 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       .filter((token): token is TokenBalance => !!token)
   }, [tokens, allTokens])
 
-  const depositInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const tvlInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const ageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const yieldRateInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const depositToken = allTokens[dataProps.depositTokenId]
+  if (!depositToken) {
+    // This should never happen
+    throw new Error(`Token ${dataProps.depositTokenId} not found`)
+  }
+
+  const {
+    hasDepositToken,
+    hasTokensOnSameNetwork,
+    hasTokensOnOtherNetworks,
+    canCashIn,
+    exchanges,
+  } = useDepositEntrypointInfo({ allTokens, pool })
+
+  const onPressDeposit = () => {
+    AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
+      poolId: positionId,
+      providerId: appId,
+      networkId: networkId,
+      depositTokenId: dataProps.depositTokenId,
+      hasDepositToken,
+      hasTokensOnSameNetwork,
+      hasTokensOnOtherNetworks,
+    })
+    if (hasDepositToken) {
+      navigate(Screens.EarnEnterAmount, { pool })
+    } else {
+      beforeDepositBottomSheetRef.current?.snapToIndex(0)
+    }
+  }
+
+  const beforeDepositBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const depositInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const tvlInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const ageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const yieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
@@ -609,7 +624,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           ) : null}
         </View>
       </Animated.ScrollView>
-      <ActionButtons earnPosition={pool} />
+      <ActionButtons earnPosition={pool} onPressDeposit={onPressDeposit} />
       <InfoBottomSheet
         infoBottomSheetRef={depositInfoBottomSheetRef}
         titleKey="earnFlow.poolInfoScreen.depositAndEarnings"
@@ -643,6 +658,15 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         providerName={appName}
         testId="YieldRateInfoBottomSheet"
       />
+      <BeforeDepositBottomSheet
+        forwardedRef={beforeDepositBottomSheetRef}
+        token={depositToken}
+        pool={pool}
+        hasTokensOnSameNetwork={hasTokensOnSameNetwork}
+        hasTokensOnOtherNetworks={hasTokensOnOtherNetworks}
+        canAdd={canCashIn}
+        exchanges={exchanges}
+      />
     </SafeAreaView>
   )
 }
@@ -655,7 +679,7 @@ function InfoBottomSheet({
   providerName,
   testId,
 }: {
-  infoBottomSheetRef: React.RefObject<BottomSheetRefType>
+  infoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
   titleKey: string
   descriptionKey: string
   descriptionUrl?: string
@@ -663,13 +687,14 @@ function InfoBottomSheet({
   testId: string
 }) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const onPressDismiss = () => {
     infoBottomSheetRef.current?.close()
   }
 
   const onPressUrl = () => {
-    descriptionUrl && navigate(Screens.WebViewScreen, { uri: descriptionUrl })
+    descriptionUrl && dispatch(openUrl(descriptionUrl, true))
   }
 
   return (

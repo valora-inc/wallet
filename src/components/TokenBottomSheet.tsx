@@ -1,4 +1,8 @@
-import { BottomSheetFlatList, BottomSheetFlatListMethods } from '@gorhom/bottom-sheet'
+import {
+  BottomSheetFlatList,
+  BottomSheetFlatListMethods,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet'
 import { debounce } from 'lodash'
 import React, { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -7,13 +11,12 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TokenBottomSheetEvents } from 'src/analytics/Events'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import FilterChipsCarousel, {
   FilterChip,
   NetworkFilterChip,
   isNetworkChip,
-  isTokenSelectChip,
 } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
@@ -50,9 +53,10 @@ export type TokenBottomSheetProps = {
   showPriceUsdUnavailableWarning?: boolean
   filterChips?: FilterChip<TokenBalance>[]
   areSwapTokensShuffled?: boolean
+  wrapWithModalProvider?: boolean
 } & (
   | { isScreen: true; forwardedRef?: undefined }
-  | { forwardedRef: RefObject<BottomSheetRefType>; isScreen?: false }
+  | { forwardedRef: RefObject<BottomSheetModalRefType>; isScreen?: false }
 )
 
 interface TokenOptionProps {
@@ -121,6 +125,7 @@ function TokenBottomSheet({
   filterChips = [],
   areSwapTokensShuffled,
   isScreen,
+  wrapWithModalProvider = true,
 }: TokenBottomSheetProps) {
   const insets = useSafeAreaInsets()
 
@@ -133,7 +138,7 @@ function TokenBottomSheet({
 
   const { t } = useTranslation()
 
-  const networkChipRef = useRef<BottomSheetRefType>(null)
+  const networkChipRef = useRef<BottomSheetModalRefType>(null)
   const networkChip = useMemo(
     () => filters.find((chip): chip is NetworkFilterChip<TokenBalance> => isNetworkChip(chip)),
     [filters]
@@ -212,9 +217,6 @@ function TokenBottomSheet({
         !activeFilters.every((filter) => {
           if (isNetworkChip(filter)) {
             return filter.filterFn(token, filter.selectedNetworkIds)
-          }
-          if (isTokenSelectChip(filter)) {
-            return filter.filterFn(token, filter.selectedTokenId)
           }
           return filter.filterFn(token)
         })
@@ -331,24 +333,32 @@ function TokenBottomSheet({
         // Don't wrap the content in a BottomSheetBase when used as a screen
         // since the bottom sheet navigator already provides the necessary wrapping
         content
+      ) : wrapWithModalProvider ? (
+        <BottomSheetModalProvider>
+          <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
+            {content}
+          </BottomSheetBase>
+        </BottomSheetModalProvider>
       ) : (
         <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
           {content}
         </BottomSheetBase>
       )}
       {networkChip && (
-        <NetworkMultiSelectBottomSheet
-          allNetworkIds={networkChip.allNetworkIds}
-          setSelectedNetworkIds={setSelectedNetworkIds}
-          selectedNetworkIds={networkChip.selectedNetworkIds}
-          forwardedRef={networkChipRef}
-          onSelect={(selectedNetworkIds: NetworkId[]) => {
-            AppAnalytics.track(TokenBottomSheetEvents.network_filter_updated, {
-              selectedNetworkIds,
-              origin,
-            })
-          }}
-        />
+        <BottomSheetModalProvider>
+          <NetworkMultiSelectBottomSheet
+            allNetworkIds={networkChip.allNetworkIds}
+            setSelectedNetworkIds={setSelectedNetworkIds}
+            selectedNetworkIds={networkChip.selectedNetworkIds}
+            forwardedRef={networkChipRef}
+            onSelect={(selectedNetworkIds: NetworkId[]) => {
+              AppAnalytics.track(TokenBottomSheetEvents.network_filter_updated, {
+                selectedNetworkIds,
+                origin,
+              })
+            }}
+          />
+        </BottomSheetModalProvider>
       )}
     </>
   )

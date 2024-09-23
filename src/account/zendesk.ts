@@ -1,7 +1,8 @@
-import { ZENDESK_API_KEY, ZENDESK_PROJECT_NAME } from 'src/config'
+import { APP_NAME, ZENDESK_API_KEY, ZENDESK_PROJECT_NAME } from 'src/config'
 import Logger from 'src/utils/Logger'
 
-export interface DeviceInfo {
+export interface SupportRequestUserProperties {
+  appName: string
   version: string
   systemVersion: string
   buildNumber: string
@@ -23,14 +24,14 @@ const TAG = 'account/zendesk'
 // Send zendesk support request and upload attachments
 export async function sendSupportRequest({
   message,
-  deviceInfo,
+  userProperties,
   logFiles,
   userEmail,
   userName,
   subject,
 }: {
   message: string
-  deviceInfo: DeviceInfo
+  userProperties: SupportRequestUserProperties
   logFiles: { path: string; type: string; name: string }[]
   userEmail: string
   userName: string
@@ -40,11 +41,11 @@ export async function sendSupportRequest({
   const uploadTokens = await Promise.all(
     logFiles.map((fileInfo) => _uploadFile(fileInfo, userEmail))
   )
-  const customFields = _generateCustomFields(deviceInfo)
+  const customFields = _generateCustomFields(userProperties)
   await _createRequest({
     message: `${message}
     
-    ${JSON.stringify(deviceInfo)}
+    ${JSON.stringify(userProperties, null, 2)}
     `,
     userEmail,
     userName,
@@ -56,7 +57,7 @@ export async function sendSupportRequest({
 
 // These custom fields auto-populate fields in zendesk
 // Id's come from https://valoraapp.zendesk.com/admin/objects-rules/tickets/ticket-fields (only admins can view)
-export function _generateCustomFields(deviceInfo: DeviceInfo) {
+export function _generateCustomFields(deviceInfo: SupportRequestUserProperties) {
   return [
     {
       id: 11693576426253,
@@ -93,6 +94,10 @@ export function _generateCustomFields(deviceInfo: DeviceInfo) {
     {
       id: 15314444792973,
       value: deviceInfo.country ?? '',
+    },
+    {
+      id: 30339618708877,
+      value: APP_NAME,
     },
   ]
 }

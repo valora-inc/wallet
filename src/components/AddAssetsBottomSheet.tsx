@@ -1,11 +1,11 @@
 import React, { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
-import QuickActionsSwap from 'src/icons/quick-actions/Swap'
+import SwapArrows from 'src/icons/SwapArrows'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -29,7 +29,7 @@ export default function AddAssetsBottomSheet({
   description,
   testId,
 }: {
-  forwardedRef: RefObject<BottomSheetRefType>
+  forwardedRef: RefObject<BottomSheetModalRefType>
   actions: AddAssetsAction[]
   title: string
   description: string
@@ -47,7 +47,7 @@ export default function AddAssetsBottomSheet({
       title: t('addFundsActions.transfer'),
     },
     [TokenActionName.Swap]: {
-      iconComponent: QuickActionsSwap,
+      iconComponent: SwapArrows,
       title: t('addFundsActions.swap'),
     },
   }

@@ -33,7 +33,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>celo</string>
+				<string>$(DEEP_LINK_URL_SCHEME)</string>
 			</array>
 		</dict>
 		<dict>

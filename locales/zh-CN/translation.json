@@ -56,8 +56,8 @@
   },
   "accountKeyModal": {
     "header": "没有恢复短语，您将永久失去对您资金的访问权限",
-    "body1": "为了重置 Valora，您需要确认已经写了恢复短语。",
-    "body2": "没有恢复短语，任何人都无法恢复您的账户，包括 Valora。"
+    "body1": "为了重置 {{appName}}，您需要确认已经写了恢复短语。",
+    "body2": "没有恢复短语，任何人都无法恢复您的账户，包括 {{appName}}。"
   },
   "promptConfirmRemovalModal": {
     "header": "您确定要继续吗？",
@@ -77,7 +77,7 @@
     "title": "您的恢复短语",
     "titleV1_90": "您的恢复短语",
     "body": "将这 12 个单词记在某个安全的地方，以防被盗或损坏。",
-    "bodyV1_90": "如果丢失恢复短语，您将无法访问您在 Valora 持有的所有资金。",
+    "bodyV1_90": "如果丢失恢复短语，您将无法访问您在 {{appName}} 持有的所有资金。",
     "continue": "我已保存好",
     "copy": "复制到剪贴板",
     "mnemonicCopied": "恢复短语已复制到剪贴板",
@@ -89,7 +89,7 @@
   },
   "walletSecurityPrimer": {
     "title": "确保钱包安全",
-    "description": "只有您自己才能访问您的钱包。如果您的手机丢失或被盗，Valora 无法协助找回钱包。\n\n您需要设置适当方法来保护钱包及资金的安全。"
+    "description": "只有您自己才能访问您的钱包。如果您的手机丢失或被盗，{{appName}} 无法协助找回钱包。\n\n您需要设置适当方法来保护钱包及资金的安全。"
   },
   "keylessBackupIntro": {
     "emailAddress": "电子邮件地址",
@@ -98,7 +98,7 @@
       "title": "设置钱包备份。",
       "description": "您将使用以下功能设置电子邮件和电话号码备份",
       "useRecoveryPhrase": "改用恢复短语",
-      "reminder": "<0>切记</0>，如果您的设备丢失或被盗，此信息便是访问您钱包的唯一途径。Valora 无法存储您的电子邮件或电话号码。务必妥善保管！"
+      "reminder": "<0>切记</0>，如果您的设备丢失或被盗，此信息便是访问您钱包的唯一途径。{{appName}} 无法存储您的电子邮件或电话号码。务必妥善保管！"
     },
     "restore": {
       "description": "确保您有以下可用信息来恢复钱包。",
@@ -232,7 +232,7 @@
   "keylessBackupNotification": "设置您的电子邮件和电话号码，以备份您的种子短语",
   "backupKeyCTA": "立即完成备份",
   "backupKeySummary": "找一个私密地方写下您的恢复短语。请将它存放在另一处安全地点。切勿保存在您的手机上。",
-  "backupKeyWarning": "如果丢失恢复短语，您将无法访问您在 Valora 持有的所有资金。",
+  "backupKeyWarning": "如果丢失恢复短语，您将无法访问您在 {{appName}} 持有的所有资金。",
   "copied": "短语已复制到剪贴板",
   "moreInfo": "更多信息",
   "savedConfirmation": "是的，我已写下了我的短语。",
@@ -303,7 +303,7 @@
     "dismiss": "忽略"
   },
   "superchargingTitle": "必须更新应用",
-  "superchargingDescription": "更新 Valora 应用以继续领取您每周的 Supercharge 奖励.",
+  "superchargingDescription": "更新 {{appName}} 应用以继续领取您每周的 Supercharge 奖励.",
   "superchargingTitleV1_54": "Supercharge 即将结束",
   "superchargingDescriptionV1_54": "每周奖励可在 5 月 28 日（星期二）23:59（世界协调时）之前领取。从 5 月 29 日起，您将无法再领取 Supercharge 奖励。",
   "superchargeRewardsAvailable": "您有 {{amount}} {{token}} 可领取！",
@@ -393,7 +393,7 @@
   "tokenBalance": "{{token}} 余额",
   "addFunds": "添加资金",
   "addFundsHeaderWithCurrency": "添加 {{token}}",
-  "addFundsSubtitle": "为您的 Valora 账户添加资金",
+  "addFundsSubtitle": "为您的 {{appName}} 账户添加资金",
   "exchanges": "交易所",
   "noExchanges": "您所在的地区没有可用的 {{digitalAsset}} 交易所。",
   "buySellOnExchanges": "在交易所买入/卖出",
@@ -447,11 +447,11 @@
   },
   "providerFeeDiscountDialog": {
     "title": "费用折扣",
-    "body": "为了庆祝 Valora 的面世，推广期内费用将暂时享受折扣补贴。"
+    "body": "为了庆祝 {{appName}} 的面世，推广期内费用将暂时享受折扣补贴。"
   },
   "pleaseSelectProvider": "请在下方选择一个提供商。这些链接连接到第三方服务。",
   "otherFundingOptions": "有关更多添加和提取资金的方式，请访问<0>如何为您的账户添加资金</0>",
-  "youCanTransferIn": "您可以使用第三方交易所将 {{digitalAsset}} 发送到您的 Valora 账户。这将需要您的账户地址。",
+  "youCanTransferIn": "您可以使用第三方交易所将 {{digitalAsset}} 发送到您的 {{appName}} 账户。这将需要您的账户地址。",
   "youCanTransferOut": "您可以通过将您的资金发送到支持 {{digitalAsset}} 的第三方交易所来提取资金。",
   "useBalanceWithMerchants": "在支持的商家使用您的余额",
   "findMerchants": "查找您附近的本地商家",
@@ -710,7 +710,7 @@
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "邀请您的朋友加入 Valora，即可获得高达 12 cUSD！",
+      "title": "邀请您的朋友加入 {{appName}}，即可获得高达 12 cUSD！",
       "body": "每邀请一位朋友加入 {{appName}}，即可获得 0.50 cUSD。他们连接号码、添加资金并持有 7 天后，你们都将获得 0.50 cUSD。立即行动，资金有限哦！（限 25 位好友）。"
     }
   },
@@ -724,9 +724,9 @@
     "heading1": "数据和隐私",
     "heading2": "资产和 {{appName}} 账户",
     "info": "要使用我们的服务，请阅读我们的<0>用户协议和条款</0>并点击下面的接受按钮接受。",
-    "privacy": "加入此网络，即表示您允许我们收集有关您使用该应用程序的匿名信息。此外，如果您关联您的电话号码，将存储它的哈希副本。如果您授予 Valora 访问您的联系人列表的权限，Valora 将导入每个联系人的姓名、电话号码和个人资料照片，以允许用户通过 Valora 应用程序进行关联。要了解我们如何收集和使用这些信息，请查看我们的<0>隐私政策</0>。",
-    "goldDisclaimer": "当您使用 Valora 创建一个“账户”时，您创建的是一个只有您拥有密钥的数字钱包。包括 Valora 在内的任何其他个人或实体都无法恢复您的密钥、更改或撤消交易或者追回丢失的资金。请注意，加密货币是新资产类别的一部分，存在财务损失风险。在购买任何资产之前，请仔细考虑您的财务状况和对财务风险的承受能力。",
-    "goldDisclaimerWithPoints": "当您使用 Valora 创建一个“账户”时，您便创建了一个只有您拥有密钥的数字钱包。包括 Valora 在内的任何其他个人或实体都无法找回您的密钥，更改或撤销交易，或找回丢失的资金。Valora 为参与特定应用程序内活动的用户提供代币化忠诚度奖励（“积分”）。积分是链上、不可转让且不可兑换的收藏品。对于积分的可用性或价值不作任何担保。请注意，数字资产是新资产类别的一部分，存在财务损失的风险。在购买任何数字资产之前，请仔细考虑您的财务状况和财务风险的承受能力。"
+    "privacy": "加入此网络，即表示您允许我们收集有关您使用该应用程序的匿名信息。此外，如果您关联您的电话号码，将存储它的哈希副本。如果您授予 {{appName}} 访问您的联系人列表的权限，{{appName}} 将导入每个联系人的姓名、电话号码和个人资料照片，以允许用户通过 {{appName}} 应用程序进行关联。要了解我们如何收集和使用这些信息，请查看我们的<0>隐私政策</0>。",
+    "goldDisclaimer": "当您使用 {{appName}} 创建一个“账户”时，您创建的是一个只有您拥有密钥的数字钱包。包括 {{appName}} 在内的任何其他个人或实体都无法恢复您的密钥、更改或撤消交易或者追回丢失的资金。请注意，加密货币是新资产类别的一部分，存在财务损失风险。在购买任何资产之前，请仔细考虑您的财务状况和对财务风险的承受能力。",
+    "goldDisclaimerWithPoints": "当您使用 {{appName}} 创建一个“账户”时，您便创建了一个只有您拥有密钥的数字钱包。包括 {{appName}} 在内的任何其他个人或实体都无法找回您的密钥，更改或撤销交易，或找回丢失的资金。{{appName}} 为参与特定应用程序内活动的用户提供代币化忠诚度奖励（“积分”）。积分是链上、不可转让且不可兑换的收藏品。对于积分的可用性或价值不作任何担保。请注意，数字资产是新资产类别的一部分，存在财务损失的风险。在购买任何数字资产之前，请仔细考虑您的财务状况和财务风险的承受能力。"
   },
   "termsColloquial": {
     "title": "先从创建钱包开始",
@@ -734,9 +734,9 @@
     "privacy1": "我们收集的使用数据有助于我们改进应用程序和安全性。有关我们收集的信息类型、我们对信息的使用方式以及您与这些信息相关的权利，请参阅我们的<0>隐私政策</0>。",
     "privacy2": "如果您决定关联您的电话号码，我们将存储该电话号码的加密副本。",
     "privacy3": "如果您决定连接您的联系人，我们会使用他们的姓名、电话号码和个人资料图片，以方便查找。",
-    "walletHeading": "您的 Valora 电子钱包：",
-    "wallet1": "您即将创建一个数字钱包。只有您才拥有钱包的密钥。如果您丢失了密钥，我们无法恢复您的密钥或您的资产。我们也无法逆转通过 Valora 在区块链上进行的操作。",
-    "wallet2": "数字资产是您与 Valora 互动的资产，具有独特的风险。使用 Valora 即表示您接受这些风险并承担相应的责任。在做出选择之前，请先考虑您的财务状况和风险承受能力。",
+    "walletHeading": "您的 {{appName}} 电子钱包：",
+    "wallet1": "您即将创建一个数字钱包。只有您才拥有钱包的密钥。如果您丢失了密钥，我们无法恢复您的密钥或您的资产。我们也无法逆转通过 {{appName}} 在区块链上进行的操作。",
+    "wallet2": "数字资产是您与 {{appName}} 互动的资产，具有独特的风险。使用 {{appName}} 即表示您接受这些风险并承担相应的责任。在做出选择之前，请先考虑您的财务状况和风险承受能力。",
     "fullTerms": "阅读我们完整的<0>条款和条件</0>"
   },
   "fullNameOrPsuedonym": "全名或化名",
@@ -853,7 +853,7 @@
   "accessContacts": {
     "disclosure": {
       "title": "导入联系人",
-      "body": "Valora 想要导入您的联系人。点按下方按钮，即表示允许访问我的联系人的手机号码、姓名和照片，以便通过 Valora 与他们关联。"
+      "body": "{{appName}} 想要导入您的联系人。点按下方按钮，即表示允许访问我的联系人的手机号码、姓名和照片，以便通过 {{appName}} 与他们关联。"
     }
   },
   "createAccount": "创建账户",
@@ -903,12 +903,12 @@
   "verificationPrematureRevealMessage": "请稍等一分钟后再重新发送",
   "verificationLearnMoreDialog": {
     "title": "手机号码和 {{appName}}",
-    "body": "关联将允许您使用您的手机号码发送和接收资金。\n\n<0>我可以稍后再操作吗？</0>\n\n可以，但未关联的钱包将只能使用二维码和账户地址发送付款。\n\n<1>安全与隐私</1>\n\nValora 使用先进的加密算法为您的手机号码保密。",
+    "body": "关联将允许您使用您的手机号码发送和接收资金。\n\n<0>我可以稍后再操作吗？</0>\n\n可以，但未关联的钱包将只能使用二维码和账户地址发送付款。\n\n<1>安全与隐私</1>\n\n{{appName}} 使用先进的加密算法为您的手机号码保密。",
     "dismiss": "忽略"
   },
   "phoneVerificationScreen": {
     "screenTitle": "手机号码",
-    "title": "将您的手机号码关联至 Valora",
+    "title": "将您的手机号码关联至 {{appName}}",
     "description": "这样可将您的钱包地址与手机号码关联起来，便于发送加密货币",
     "startButtonLabel": "关联",
     "learnMore": {
@@ -961,7 +961,7 @@
     },
     "recoveryPhrase": {
       "title": "从恢复短语",
-      "description": "输入您的 12 个单词恢复短语，重新获得访问 Valora 的权限"
+      "description": "输入您的 12 个单词恢复短语，重新获得访问 {{appName}} 的权限"
     }
   },
   "verificationInput": {
@@ -1056,7 +1056,7 @@
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
   "inviteWithRewards": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得一个特别版的 NFT 作为奖励。💫 \n\n请使用此链接下载: {{link}}",
-  "inviteWithRewardsCUSD": "嗨！如果您现在注册、连接您的号码并为您的 Valora 钱包充值，我们都可以免费获得 0.5 美元的奖励。我用奖励来增加我的美元和加密货币储蓄，您只需一个电话号码就能在几秒钟内完成设置。请务必通过我的推荐链接注册： \n\n{{link}} \n\n 赶快行动吧，推荐促销很快就结束了。",
+  "inviteWithRewardsCUSD": "嗨！如果您现在注册、连接您的号码并为您的 {{appName}} 钱包充值，我们都可以免费获得 0.5 美元的奖励。我用奖励来增加我的美元和加密货币储蓄，您只需一个电话号码就能在几秒钟内完成设置。请务必通过我的推荐链接注册： \n\n{{link}} \n\n 赶快行动吧，推荐促销很快就结束了。",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -1363,10 +1363,10 @@
   "transactionHeaderNftSent": "NFT 已发送",
   "feedSectionHeaderRecent": "最近",
   "cashInBottomSheet": {
-    "title": "添加资金开始使用 Valora！",
+    "title": "添加资金开始使用 {{appName}}！",
     "subtitle": "您的账户目前为空",
     "addFunds": "添加资金",
-    "titleRamp": "添加 {{currency}} 以开始使用 Valora",
+    "titleRamp": "添加 {{currency}} 以开始使用 {{appName}}",
     "subtitleRamp": "通过我们信任的外部提供商之一，支付少许费用来添加资金。"
   },
   "balances": "资产",
@@ -1383,7 +1383,7 @@
   "nftViewer": "NFT 查看器",
   "whatTotalValue": {
     "title": "总余额是指什么？",
-    "body": "总余额是您所有 Valora 资产的大致总和。您的总余额将随着价格波动而有所变化。总余额每 10 分钟更新一次。\n某些资产可能无法显示在总余额中，因为其价格在计算时不可用。",
+    "body": "总余额是您所有 {{appName}} 资产的大致总和。您的总余额将随着价格波动而有所变化。总余额每 10 分钟更新一次。\n某些资产可能无法显示在总余额中，因为其价格在计算时不可用。",
     "dismiss": "忽略"
   },
   "supportExportLogsStart": "正在导出日志...",
@@ -1421,15 +1421,15 @@
     "stepTwo": {
       "label": "第 2 步",
       "disabledTitle": "链接银行账户",
-      "disabledDescription": "即将支持银行账户！当您可以将银行账户关联到 Valora 时，我们将会给您发送通知。",
+      "disabledDescription": "即将支持银行账户！当您可以将银行账户关联到 {{appName}} 时，我们将会给您发送通知。",
       "disabledCta": "即将推出！",
       "title": "输入银行详细信息",
-      "description": "马上即可完成！请输入银行详细信息以将您的账户与 Valora 链接。",
+      "description": "马上即可完成！请输入银行详细信息以将您的账户与 {{appName}} 链接。",
       "cta": "链接银行账户",
       "error": {
         "title": "无法链接银行账户。",
         "description": "请尝试再次链接您的银行账户，或联系支持团队。",
-        "contactSupportPrefill": "无法将我的银行账户链接到 Valora"
+        "contactSupportPrefill": "无法将我的银行账户链接到 {{appName}}"
       }
     }
   },
@@ -1503,12 +1503,12 @@
   },
   "dappsScreenHelpDialog": {
     "title": "什么是 dapp？",
-    "message": "Dapp（去中心化应用程序）为您使用加密货币、赚取奖励和探索 Web3 提供了新方式。\n\n将 Valora 与 dapp 关联，开始新体验吧。",
+    "message": "Dapp（去中心化应用程序）为您使用加密货币、赚取奖励和探索 Web3 提供了新方式。\n\n将 {{appName}} 与 dapp 关联，开始新体验吧。",
     "dismiss": "忽略"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} 是一个外部应用程序",
-    "message": "您即将打开一个非 Valora 运营的应用程序。\n\nValora 不对该应用程序做任何担保。请自行承担使用风险。",
+    "message": "您即将打开一个非 {{appName}} 运营的应用程序。\n\n{{appName}} 不对该应用程序做任何担保。请自行承担使用风险。",
     "button": "转至 {{dappName}}"
   },
   "dappsScreenInfoSheet": {
@@ -1561,7 +1561,7 @@
     "newLabel": "新",
     "newDialog": {
       "title": "资金转账的新方式",
-      "body": "我们即将发布直接从 Valora 应用程序与银行账户互相转账的新方式。\n\n如果您看到这条信息，则意味着您所在地区能够使用该功能。",
+      "body": "我们即将发布直接从 {{appName}} 应用程序与银行账户互相转账的新方式。\n\n如果您看到这条信息，则意味着您所在地区能够使用该功能。",
       "dismiss": "忽略"
     },
     "cashIn": {
@@ -1594,7 +1594,7 @@
     "button": "设置 ID 验证"
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "通过 Valora 验证我的身份时出现问题。",
+    "contactSupportPrefill": "通过 {{appName}} 验证我的身份时出现问题。",
     "contactSupport": "联系支持团队",
     "pending": {
       "title": "正在审查您的身份验证。",
@@ -1661,7 +1661,7 @@
     },
     "cashIn": {
       "cancel": "取消添加资金",
-      "contactSupportPrefill": "向 Valora 钱包添加资金时遇到问题"
+      "contactSupportPrefill": "向 {{appName}} 钱包添加资金时遇到问题"
     },
     "success": {
       "header": "成功",
@@ -1751,7 +1751,7 @@
       },
       "mobileDialog": {
         "title": "手机号码",
-        "body": "使用您在移动货币服务商处注册时所使用的手机号码，可能与您关联的 Valora 手机号码不同。\n\n手机号码必须包含国家/地区代码。",
+        "body": "使用您在移动货币服务商处注册时所使用的手机号码，可能与您关联的 {{appName}} 手机号码不同。\n\n手机号码必须包含国家/地区代码。",
         "dismiss": "忽略"
       }
     },
@@ -1977,7 +1977,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "邀请 {{contactName}} 注册 {{appName}} ，即可获得 0.50 cUSD 的奖励",
-      "body": "似乎 {{contactName}} 未在 Valora 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载 Valora，关联手机号码并向其钱包转账，并且 7 天之内不转出资金，之后你们都将获得 0.50 cUSD 的奖励，数额有限，赠完即止。"
+      "body": "似乎 {{contactName}} 未在 {{appName}} 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载 {{appName}}，关联手机号码并向其钱包转账，并且 7 天之内不转出资金，之后你们都将获得 0.50 cUSD 的奖励，数额有限，赠完即止。"
     }
   },
   "celoNews": {
@@ -1988,7 +1988,7 @@
     "retryButtonText": "重试"
   },
   "chooseYourAdventure": {
-    "header": "欢迎使用 Valora",
+    "header": "欢迎使用 {{appName}}",
     "subtitle": "您想先做什么？",
     "later": "我稍后再试",
     "options": {
@@ -2124,7 +2124,7 @@
     "results": "结果",
     "qr": {
       "title": "扫描或显示二维码",
-      "subtitle": "快速查找 Valora 上的地址"
+      "subtitle": "快速查找 {{appName}} 上的地址"
     },
     "invite": {
       "title": "向朋友发送加密货币",
@@ -2135,7 +2135,7 @@
       "subtitle": "分享链接，使发送加密货币就像发送文本一样简单"
     },
     "getStarted": {
-      "title": "在 Valora 上发送资金的方式",
+      "title": "在 {{appName}} 上发送资金的方式",
       "subtitle": "开始",
       "options": {
         "one": {
@@ -2144,7 +2144,7 @@
         },
         "two": {
           "title": "手机号码",
-          "subtitle": "直接发送到某人的电话号码（如果该人有 Valora）"
+          "subtitle": "直接发送到某人的电话号码（如果该人有 {{appName}}）"
         },
         "three": {
           "title": "ENS",
@@ -2152,7 +2152,7 @@
         },
         "four": {
           "title": "个人资料名称",
-          "subtitle": "您可以搜索 Valora 上的现有用户"
+          "subtitle": "您可以搜索 {{appName}} 上的现有用户"
         }
       }
     },
@@ -2205,10 +2205,17 @@
     "prepareTransactionError": {
       "title": "出错了!",
       "description": "无法为该令牌准备交易。"
+    },
+    "insufficientBalanceWarning": {
+      "title": "您需要更多 {{tokenSymbol}}",
+      "description": "{{tokenSymbol}} 余额不足，请尝试使用较小的金额或选择其他资产。"
     }
   },
   "jumpstartIntro": {
     "title": "像发短信一样分享加密货币",
+    "description": "实时链接是在 Celo 网络上通过链接向朋友发送加密货币的一种方式",
+    "noFundsHint": "您的钱包中需要有一些 Celo 资产才能开始使用。",
+    "haveFundsButton": "通过实时链接发送",
     "addFundsCelo": {
       "title": "在 Celo 上获取资产",
       "info": "实时链接是一种通过链接向好友发送 Celo 网络上加密货币的方式。\n要开始使用，您的钱包中需要有一些 CELO 资产。",
@@ -2271,7 +2278,7 @@
   },
   "multichainBeta": {
     "beta": "BETA",
-    "title": "新消息！Ethereum 登陆 Valora 了",
+    "title": "新消息！Ethereum 登陆 {{appName}} 了",
     "description1": "我们将首先向特定人群开放这项功能。您是幸运儿之一！",
     "description2": "这还是个新产品，我们的团队仍在努力使其更加完美。我们希望听到您的反馈意见。",
     "primaryCta": "立即试试看",
@@ -2282,7 +2289,7 @@
     "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！",
     "titleV1_86": "添加资金到钱包中",
     "exploreTokens": "了解所有代币",
-    "exploreTokensBody": "您可以在 Valora 购买多达超过 10 个代币。快去试试吧！"
+    "exploreTokensBody": "您可以在 {{appName}} 购买多达超过 10 个代币。快去试试吧！"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2476,7 +2483,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Valora 目前会为此交易承担手续费！",
+    "gasSubsidized": "交易费用在有限的时间内可报销",
     "addCryptoBottomSheet": {
       "title": "在 {{tokenNetwork}} 上添加 {{tokenSymbol}}",
       "description": "添加代币后，就必须返回并完成将资金存入池中。",
@@ -2503,17 +2510,23 @@
           "titleGasSubsidy": "实现收入最大化，且无需手续费*",
           "title": "探索和比较泳池",
           "subtitle": "比较收益潜力和风险。兑换、购买或转移代币，以加入最适合您的池。",
-          "footnoteSubsidy": "*手续费目前暂时由 Valora 承担"
+          "footnoteSubsidy": "*手续费目前暂时由 {{appName}} 承担"
+        },
+        "work": {
+          "title": "让资产为您赚钱",
+          "subtitle": "将加密货币存入资金池，开始为您赚钱。 "
         },
         "manage": {
-          "title": "直接在 Valora 管理",
+          "title": "直接在 {{appName}} 管理",
           "titleV1_92": "直接在 {{appName}} 管理",
-          "subtitle": "我们将自动连接您的钱包，因此您无需离开 Valora 即可管理池。",
-          "subtitleV1_92": "我们将自动连接您的钱包，因此您无需离开 {{appName}} 即可管理池。"
+          "titleV1_94": "管理您的持仓",
+          "subtitle": "我们将自动连接您的钱包，因此您无需离开 {{appName}} 即可管理池。",
+          "subtitleV1_92": "我们将自动连接您的钱包，因此您无需离开 {{appName}} 即可管理池。",
+          "subtitleV1_94": "选择您喜欢的资金池，添加代币并监控收益。"
         },
         "access": {
           "title": "轻松获取资金",
-          "subtitle": "只需轻轻一按，即可收取资金，就像您最喜欢的协议一样便捷。"
+          "subtitle": "准备好后，轻点一下即可收取资金。"
         }
       },
       "action": {
@@ -2532,6 +2545,10 @@
       "description": "通过流动性池出借稳定币，赚取稳定币收益"
     },
     "enterAmount": {
+      "title": "您想存入多少钱？",
+      "deposit": "存款",
+      "fees": "费用",
+      "swap": "交换",
       "earnUpToLabel": "您最多可以赚取：",
       "rateLabel": "费率（估算）",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/年",
@@ -2540,15 +2557,26 @@
       "continue": "继续",
       "info": "此池由 Aave 提供支持",
       "infoV1_93": "由 {{providerName}} 提供支持",
-      "infoBottomSheet": {
-        "title": "为什么使用此池？",
-        "description": "该 Aave 池拥有超过 1.5 亿美元的 TVL 和 6000 多名贡献者，这表明其具有很强的流动性和可信度。该池还使用 USDC 作为代币，并以 Arbitrum 作为网络，从而降低了波动性，确保用户获得低廉的手续费。\n\n您可以在<0>此处</0>探索其他 Aave 池。",
-        "dismiss": "忽略"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "您需要更多 {{feeTokenSymbol}} 才能继续",
         "description": "在 {{network}} 上添加 {{feeTokenSymbol}} 以支付手续费",
         "noGasCta": "在 {{network}} 上购买 {{feeTokenSymbol}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "费用详情",
+        "moreInformation": "更多信息",
+        "estNetworkFee": "估计网络费用",
+        "maxNetworkFee": "最高网络费用",
+        "networkFeeDescription": "网络费是网络处理存款交易所需的费用。",
+        "networkSwapFeeDescription": "网络费是网络处理存款交易所需的费用。 {{appName}} 费用为 {{appFeePercentage}}%，用于您使用我们的产品。",
+        "appSwapFee": "{{appName}} 费用"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "交换详情",
+        "swapFrom": "交换自",
+        "swapTo": "交换至",
+        "whySwap": "我为什么要交换？",
+        "swapDescription": "要将资金存入资金池，您的代币将被交换成资金池代币。"
       }
     },
     "activePools": {
@@ -2575,7 +2603,9 @@
       "footer": "向 Aave 池存入加密货币，即表示您接受与使用 Aave 相关的风险。<0>条款和条件</0>",
       "footerV1_93": "向 {{providerName}} 池存入加密货币，即表示您接受使用 {{providerName}} 的相关风险。<0>条款和条件</0>",
       "primaryCta": "完成",
-      "secondaryCta": "取消"
+      "secondaryCta": "取消",
+      "yieldRate": "收益率（估计值）",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "恭喜！查看并领取您的收益",
@@ -2609,7 +2639,10 @@
       "earnDepositDetails": "已转入金额",
       "earnWithdrawTitle": "已取出",
       "earnWithdrawSubtitle": "已从 {{providerName}} 池取出 {{tokenSymbol}}",
-      "earnWithdrawDetails": "已提取金额"
+      "earnWithdrawDetails": "已提取金额",
+      "swap": "交换",
+      "network": "网络",
+      "fees": "费用"
     },
     "home": {
       "title": "赚钱",
@@ -2674,7 +2707,25 @@
         "ageTitle": "资金池年龄",
         "ageDescription": "较早的流动性池可能拥有稳定的记录和社区信任基础。有些人可能据此认为这些资金池更安全。\n\n完美的风险评估方法是不存在的，因此请将此信息作为您全面考量的参考之一，以做出最佳决定。",
         "yieldRateTitle": "收益率",
-        "yieldRateDescription": "虽然大多数资金池以流动性池代币的形式提供收益，但也有一些资金池提供额外代币作为奖励或额外激励。\n\nValora 集合了多个协议的资金池，因此我们将所有收益率和奖励率合并为一项总体收益率，以帮助您轻松评估收益潜力。由于收益和奖励值不断波动，该数字只是估计值。\n\n有关收益明细的更多信息，请访问 <0>{{providerName}}</0>。"
+        "yieldRateDescription": "虽然大多数资金池以流动性池代币的形式提供收益，但也有一些资金池提供额外代币作为奖励或额外激励。\n\n{{appName}} 集合了多个协议的资金池，因此我们将所有收益率和奖励率合并为一项总体收益率，以帮助您轻松评估收益潜力。由于收益和奖励值不断波动，该数字只是估计值。\n\n有关收益明细的更多信息，请访问 <0>{{providerName}}</0>。"
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "您需要 {{tokenSymbol}} 在 {{tokenNetwork}} 上存款",
+      "crossChainAlternativeDescription": "如果您不想在 {{tokenNetwork}}上使用代币，请在下面选择一个选项。您需要稍后返回完成泳池存款。",
+      "beforeYouCanDepositTitle": "在存款之前...",
+      "beforeYouCanDepositDescription": "您需要添加一个游泳池代币。添加后，您需要返回以完成泳池存款。",
+      "action": {
+        "swapAndDeposit": "交换与存款",
+        "swapAndDepositDescription": "在 {{tokenNetwork}}上选择任何代币。我们将同时为您交换和存入。",
+        "crossChainSwap": "跨链交换",
+        "crossChainSwapDescription": "在另一个网络上交换令牌 {{tokenSymbol}}",
+        "swap": "交换",
+        "swapDescription": "在 {{tokenNetwork}} 上从钱包中的另一种代币换入 {{tokenSymbol}}",
+        "add": "买入",
+        "addDescription": "使用我们值得信赖的提供商之一，在 {{tokenNetwork}} 上购买 {{tokenSymbol}}",
+        "transfer": "转账",
+        "transferDescription": "使用任何与 {{tokenNetwork}} 兼容的钱包或交易所，来存入 {{tokenSymbol}}"
       }
     }
   },

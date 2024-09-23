@@ -1,12 +1,16 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { useAsyncCallback } from 'react-async-hook'
-import { PrepareWithdrawAndClaimParams } from 'src/earn/types'
+import { EarnDepositMode, PrepareWithdrawAndClaimParams } from 'src/earn/types'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
 import { RawShortcutTransaction } from 'src/positions/slice'
 import { rawShortcutTransactionsToTransactionRequests } from 'src/positions/transactions'
 import { EarnPosition } from 'src/positions/types'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { SwapTransaction } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -15,13 +19,14 @@ import { Address } from 'viem'
 
 const TAG = 'earn/prepareTransactions'
 
-export async function prepareSupplyTransactions({
+export async function prepareDepositTransactions({
   amount,
   token,
   walletAddress,
   feeCurrencies,
   pool,
   hooksApiUrl,
+  shortcutId,
 }: {
   amount: string
   token: TokenBalance
@@ -29,42 +34,75 @@ export async function prepareSupplyTransactions({
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
   hooksApiUrl: string
+  shortcutId: EarnDepositMode
 }) {
-  const { transactions }: { transactions: RawShortcutTransaction[] } = await triggerShortcutRequest(
-    hooksApiUrl,
-    {
+  const enableSwapFee = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
+  ).enableAppFee
+  const args =
+    shortcutId === 'deposit'
+      ? {
+          tokens: [
+            {
+              tokenId: token.tokenId,
+              amount,
+            },
+          ],
+        }
+      : {
+          swapFromToken: {
+            tokenId: token.tokenId,
+            amount,
+            decimals: token.decimals,
+            address: token.address,
+            isNative: token.isNative ?? false,
+          },
+          enableSwapFee,
+        }
+
+  const {
+    transactions,
+    dataProps,
+  }: { transactions: RawShortcutTransaction[]; dataProps?: { swapTransaction: SwapTransaction } } =
+    await triggerShortcutRequest(hooksApiUrl, {
       address: walletAddress,
       appId: pool.appId,
       networkId: pool.networkId,
-      shortcutId: 'deposit',
-      tokens: [
-        {
-          tokenId: token.tokenId,
-          amount,
-        },
-      ],
-      ...pool.shortcutTriggerArgs?.deposit,
-    }
-  )
+      shortcutId,
+      ...args,
+      ...pool.shortcutTriggerArgs?.[shortcutId],
+    })
 
-  return prepareTransactions({
-    feeCurrencies,
-    baseTransactions: rawShortcutTransactionsToTransactionRequests(transactions),
-    spendToken: token,
-    spendTokenAmount: new BigNumber(amount).shiftedBy(token.decimals),
-    isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),
-    origin: 'earn-deposit',
-  })
+  if (shortcutId === 'swap-deposit' && !dataProps?.swapTransaction) {
+    Logger.error(
+      `${TAG}/prepareDepositTransactions`,
+      'Swap transaction not found in swap-deposit shortcut response',
+      { dataProps }
+    )
+    throw new Error('Swap transaction not found in swap-deposit shortcut response')
+  }
+
+  return {
+    prepareTransactionsResult: await prepareTransactions({
+      feeCurrencies,
+      baseTransactions: rawShortcutTransactionsToTransactionRequests(transactions),
+      spendToken: token,
+      spendTokenAmount: new BigNumber(amount).shiftedBy(token.decimals),
+      isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),
+      origin: `earn-${shortcutId}`,
+    }),
+    swapTransaction: dataProps?.swapTransaction,
+  }
 }
 
 /**
  * Hook to prepare transactions for supplying crypto.
  */
-export function usePrepareSupplyTransactions() {
-  const prepareTransactions = useAsyncCallback(prepareSupplyTransactions, {
+export function usePrepareDepositTransactions() {
+  const prepareTransactions = useAsyncCallback(prepareDepositTransactions, {
     onError: (err) => {
       const error = ensureError(err)
-      Logger.error(TAG, 'usePrepareSupplyTransactions', error)
+      Logger.error(TAG, 'usePrepareDepositTransactions', error)
     },
   })
 

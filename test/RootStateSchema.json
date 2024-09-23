@@ -246,6 +246,8 @@
                                 "failedFetchMnemonic",
                                 "fetchFailed",
                                 "fiatConnectKycStatusScreen.tryAgainFailed",
+                                "fiatDetailsScreen.addFiatAccountFailed",
+                                "fiatDetailsScreen.addFiatAccountResourceExist",
                                 "firebaseDisabled",
                                 "firebaseFailed",
                                 "hooksPreview.invalidApiUrl",
@@ -254,6 +256,7 @@
                                 "incorrectPin",
                                 "invalidBackupPhrase",
                                 "invalidWordsInBackupPhrase",
+                                "inviteWithUrl.error",
                                 "keychainAccountAlreadyExists",
                                 "keychainFetchAccounts",
                                 "missingFullName",
@@ -263,6 +266,7 @@
                                 "providerFetchFailed",
                                 "qrFailedInvalidAddress",
                                 "qrFailedInvalidRecipient",
+                                "revokePhoneNumber.revokeError",
                                 "sendPaymentFailed",
                                 "simplexPurchaseFetchFailed",
                                 "swapScreen.fetchSwapQuoteFailed",
@@ -1333,6 +1337,88 @@
                 "outAmount",
                 "providerId",
                 "status",
+                "timestamp",
+                "transactionHash",
+                "type"
+            ],
+            "type": "object"
+        },
+        "EarnSwapDeposit": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "EarnSwapDeposit",
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "deposit": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "providerId": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount",
+                        "providerId"
+                    ],
+                    "type": "object"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "swap": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount"
+                    ],
+                    "type": "object"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "block",
+                "deposit",
+                "fees",
+                "networkId",
+                "status",
+                "swap",
                 "timestamp",
                 "transactionHash",
                 "type"
@@ -2547,6 +2633,84 @@
             ],
             "type": "object"
         },
+        "PendingStandbyTransaction<EarnSwapDeposit>": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "EarnSwapDeposit",
+                    "type": "string"
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "deposit": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "providerId": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount",
+                        "providerId"
+                    ],
+                    "type": "object"
+                },
+                "feeCurrencyId": {
+                    "type": "string"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "const": "Pending",
+                    "type": "string"
+                },
+                "swap": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount"
+                    ],
+                    "type": "object"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "context",
+                "deposit",
+                "networkId",
+                "status",
+                "swap",
+                "timestamp",
+                "type"
+            ],
+            "type": "object"
+        },
         "PendingStandbyTransaction<EarnWithdraw>": {
             "additionalProperties": false,
             "properties": {
@@ -3292,7 +3456,6 @@
                 "DappShortcutTransactionRequest",
                 "DappShortcutsRewards",
                 "DappsScreen",
-                "Debug",
                 "DebugImages",
                 "EarnCollectScreen",
                 "EarnEnterAmount",
@@ -3599,6 +3762,9 @@
                 },
                 {
                     "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnSwapDeposit>"
                 },
                 {
                     "$ref": "#/definitions/PendingStandbyTransaction<EarnWithdraw>"
@@ -3942,6 +4108,99 @@
                     "additionalProperties": false,
                     "properties": {
                         "__typename": {
+                            "const": "EarnSwapDeposit",
+                            "type": "string"
+                        },
+                        "block": {
+                            "type": "string"
+                        },
+                        "context": {
+                            "$ref": "#/definitions/TransactionContext"
+                        },
+                        "deposit": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "inAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                },
+                                "outAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                },
+                                "providerId": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "inAmount",
+                                "outAmount",
+                                "providerId"
+                            ],
+                            "type": "object"
+                        },
+                        "feeCurrencyId": {
+                            "type": "string"
+                        },
+                        "fees": {
+                            "items": {
+                                "$ref": "#/definitions/Fee"
+                            },
+                            "type": "array"
+                        },
+                        "networkId": {
+                            "$ref": "#/definitions/NetworkId"
+                        },
+                        "status": {
+                            "enum": [
+                                "Complete",
+                                "Failed"
+                            ],
+                            "type": "string"
+                        },
+                        "swap": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "inAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                },
+                                "outAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                }
+                            },
+                            "required": [
+                                "inAmount",
+                                "outAmount"
+                            ],
+                            "type": "object"
+                        },
+                        "timestamp": {
+                            "type": "number"
+                        },
+                        "transactionHash": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "block",
+                        "context",
+                        "deposit",
+                        "fees",
+                        "networkId",
+                        "status",
+                        "swap",
+                        "timestamp",
+                        "transactionHash",
+                        "type"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "__typename": {
                             "const": "EarnWithdraw",
                             "type": "string"
                         },
@@ -4145,9 +4404,6 @@
                 "networkTimeoutSeconds": {
                     "type": "number"
                 },
-                "numberVerified": {
-                    "type": "boolean"
-                },
                 "pendingDeepLinks": {
                     "items": {
                         "$ref": "#/definitions/PendingDeepLink"
@@ -4232,7 +4488,6 @@
                 "maxSwapSlippagePercentage",
                 "multichainBetaStatus",
                 "networkTimeoutSeconds",
-                "numberVerified",
                 "pendingDeepLinks",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
@@ -5003,6 +5258,9 @@
                     ],
                     "type": "string"
                 },
+                "introHasBeenSeen": {
+                    "type": "boolean"
+                },
                 "reclaimStatus": {
                     "enum": [
                         "error",
@@ -5016,6 +5274,7 @@
             "required": [
                 "claimStatus",
                 "depositStatus",
+                "introHasBeenSeen",
                 "reclaimStatus"
             ],
             "type": "object"
@@ -5800,6 +6059,9 @@
                     "$ref": "#/definitions/EarnDeposit"
                 },
                 {
+                    "$ref": "#/definitions/EarnSwapDeposit"
+                },
+                {
                     "$ref": "#/definitions/EarnWithdraw"
                 },
                 {
@@ -5813,6 +6075,7 @@
                 "CROSS_CHAIN_SWAP_TRANSACTION",
                 "EARN_CLAIM_REWARD",
                 "EARN_DEPOSIT",
+                "EARN_SWAP_DEPOSIT",
                 "EARN_WITHDRAW",
                 "EXCHANGE",
                 "NFT_RECEIVED",

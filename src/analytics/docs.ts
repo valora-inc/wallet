@@ -344,6 +344,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
     'When user taps the CTA to show ways to add assets',
   [JumpstartEvents.jumpstart_add_assets_action_press]:
     'When user selects an add assets action from the available options',
+  [JumpstartEvents.jumpstart_intro_seen]: `when jumpstart intro is seen by the user`,
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,
   [QrScreenEvents.qr_scanner_open]: `When unique "QR scanner" button is pressed`,
@@ -581,7 +582,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // Events related to earn program
   [EarnEvents.earn_cta_press]: `When a user taps on the earn your stablecoins CTA on the discover tab (only for MVP w/ AAVE)`,
   [EarnEvents.earn_entrypoint_press]: `When a user taps on the earn your stablecoins entrypoint on the discover tab (only for multiple pools)`,
-  [EarnEvents.earn_add_crypto_action_press]: `When a user in the Earn flow enters an amount higher than their balance and chooses an option to add crypto`,
+  [EarnEvents.earn_before_deposit_action_press]: `When a user in the Earn flow doesn't have the deposit token and so chooses an option to add it`,
   [EarnEvents.earn_deposit_provider_info_press]: `When a user taps on the info icon next to the provider name on the deposit bottom sheet`,
   [EarnEvents.earn_deposit_terms_and_conditions_press]: `When a user taps on the terms and conditions link on the deposit bottom sheet`,
   [EarnEvents.earn_deposit_complete]: `When a user taps on the complete button on the deposit bottom sheet`,
@@ -657,4 +658,5 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [KeylessBackupEvents.cab_sign_in_with_google_success]: ``, renamed to cab_sign_in_success when we started supporting Apple sign in
   // [EarnEvents.earn_pool_card_cta_press]: `When the user taps a cta button on the pool card`,
   // [EarnEvents.earn_active_pools_cta_press]: `cta buttons on the card were removed and replaced with a single card press event`,
+  // [EarnEvents.earn_add_crypto_action_press]: `When a user in the Earn flow enters an amount higher than their balance and chooses an option to add crypto`,
 }

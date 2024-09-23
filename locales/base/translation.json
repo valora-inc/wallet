@@ -56,8 +56,8 @@
   },
   "accountKeyModal": {
     "header": "Without your Recovery Phrase you will lose access to your funds forever",
-    "body1": "In order to reset Valora, you will need to confirm you've written your Recovery Phrase.",
-    "body2": "Nobody, not even Valora, can recover your account without your Phrase."
+    "body1": "In order to reset {{appName}}, you will need to confirm you've written your Recovery Phrase.",
+    "body2": "Nobody, not even {{appName}}, can recover your account without your Phrase."
   },
   "promptConfirmRemovalModal": {
     "header": "Are you sure you want to proceed?",
@@ -77,7 +77,7 @@
     "title": "Your recovery phrase",
     "titleV1_90": "Your Recovery Phrase",
     "body": "Write these 12 words down somewhere safe, where it cannot be stolen or damaged.",
-    "bodyV1_90": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
+    "bodyV1_90": "If you lose your recovery phrase, you will lose access to all funds held in {{appName}}.",
     "continue": "I've saved it",
     "copy": "Copy to clipboard",
     "mnemonicCopied": "Recovery phrase copied to clipboard",
@@ -89,7 +89,7 @@
   },
   "walletSecurityPrimer": {
     "title": "Keep your wallet safe",
-    "description": "Only you can access your wallet. If your phone is lost or stolen, Valora cannot recover it for you.\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
+    "description": "Only you can access your wallet. If your phone is lost or stolen, {{appName}} cannot recover it for you.\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
   },
   "keylessBackupIntro": {
     "emailAddress": "Email Address",
@@ -98,7 +98,7 @@
       "title": "Set Up Wallet Backup",
       "description": "You'll use the following to set up your email & phone number backup",
       "useRecoveryPhrase": "Use a recovery phrase instead",
-      "reminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!"
+      "reminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. {{appName}} does not store your email or phone number. Keep it safe!"
     },
     "restore": {
       "description": "Make sure you have the following available to restore your wallet.",
@@ -232,7 +232,7 @@
   "keylessBackupNotification": "Set up your email & phone number to back up your seed phrase",
   "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Find a private place and write down your Recovery Phrase. Please store it somewhere safe. Do not save it in your phone.",
-  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
+  "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in {{appName}}.",
   "copied": "Phrase copied to clipboard",
   "moreInfo": "More Info",
   "savedConfirmation": "Yes, I have written down my Phrase.",
@@ -303,7 +303,7 @@
     "dismiss": "Dismiss"
   },
   "superchargingTitle": "App update required",
-  "superchargingDescription": "Update the Valora app to continue receiving your weekly Supercharge rewards.",
+  "superchargingDescription": "Update the {{appName}} app to continue receiving your weekly Supercharge rewards.",
   "superchargingTitleV1_54": "Supercharge is ending",
   "superchargingDescriptionV1_54": "Weekly rewards will be available to claim until Tuesday, May 28, at 23:59 UTC. Beginning May 29, you will nor longer be able to claim Supercharge rewards.",
   "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
@@ -393,7 +393,7 @@
   "tokenBalance": "{{token}} Balance",
   "addFunds": "Add Funds",
   "addFundsHeaderWithCurrency": "Add {{token}}",
-  "addFundsSubtitle": "Fund your Valora account",
+  "addFundsSubtitle": "Fund your {{appName}} account",
   "exchanges": "Exchanges",
   "noExchanges": "There are no exchanges available for {{digitalAsset}} in your region.",
   "buySellOnExchanges": "Buy/Sell on Exchanges",
@@ -447,11 +447,11 @@
   },
   "providerFeeDiscountDialog": {
     "title": "Fee Discount",
-    "body": "As a promotion, fees are temporarily subsidized to celebrate the launch of Valora!"
+    "body": "As a promotion, fees are temporarily subsidized to celebrate the launch of {{appName}}!"
   },
   "pleaseSelectProvider": "Please select a provider below. These links connect to a third party service.",
   "otherFundingOptions": "For more ways to add and withdraw funds, visit <0>How to fund your account</0>",
-  "youCanTransferIn": "You can use a third party exchange to send {{digitalAsset}} to your Valora account. You'll need your Account Address for this.",
+  "youCanTransferIn": "You can use a third party exchange to send {{digitalAsset}} to your {{appName}} account. You'll need your Account Address for this.",
   "youCanTransferOut": "You can withdraw your funds by sending them to a third party exchange that supports {{digitalAsset}}.",
   "useBalanceWithMerchants": "Use your balance with supporting merchants",
   "findMerchants": "Find local merchants near you",
@@ -710,7 +710,7 @@
       "body": "Invite your friends and family to download {{appName}} and each of you will get an exclusive NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "GET UP TO 12 cUSD for inviting your friends to Valora!",
+      "title": "GET UP TO 12 cUSD for inviting your friends to {{appName}}!",
       "body": "Get 0.50 cUSD for every friend you invite to {{appName}}. Once they connect their number, add funds, and hold them for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
     }
   },
@@ -724,9 +724,9 @@
     "heading1": "Data and Privacy",
     "heading2": "Digital Assets and {{appName}}",
     "info": "In order to use our services, please read and accept our <0>User Agreement and Terms</0> by clicking the accept button below.",
-    "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
-    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset.",
-    "goldDisclaimerWithPoints": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Valora grants tokenized loyalty rewards (\"Points\") to Users for engaging in certain in-app activities. Points are on-chain, non-transferable, and non-redeemable collectibles. No guarantees are made about Points availability or value. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset."
+    "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored. If you grant {{appName}} access to your contact list, {{appName}} will import each contact's name, phone number and profile picture to allow users to connect through the {{appName}} app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
+    "goldDisclaimer": "When you create an \"account\" with {{appName}} you are creating a digital wallet to which only you hold the keys. No other person or entity, including {{appName}}, can recover your key, change or undo transactions, or recover lost funds. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset.",
+    "goldDisclaimerWithPoints": "When you create an \"account\" with {{appName}} you are creating a digital wallet to which only you hold the keys. No other person or entity, including {{appName}}, can recover your key, change or undo transactions, or recover lost funds. {{appName}} grants tokenized loyalty rewards (\"Points\") to Users for engaging in certain in-app activities. Points are on-chain, non-transferable, and non-redeemable collectibles. No guarantees are made about Points availability or value. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset."
   },
   "termsColloquial": {
     "title": "Let’s start by creating your wallet",
@@ -734,9 +734,9 @@
     "privacy1": "We gather usage data which helps us improve the app and security. The type of information we collect, how we use it and your rights related to that information can all be seen in our <0>Privacy Policy</0>.",
     "privacy2": "If you decide to link your phone number, we will store an encrypted copy of it.",
     "privacy3": "If you decide to connect your contacts, we use their names, numbers, and profile pictures to make it easier to find them.",
-    "walletHeading": "Your Digital Wallet with Valora:",
-    "wallet1": "You’re about to create a digital wallet. Only you have the key to your wallet. We cannot recover your key or your assets if you lose your key. We also cannot reverse actions taken through Valora on blockchains.",
-    "wallet2": "Digital assets, the assets with which you will interact with Valora, come with unique risks. By using Valora, you accept these risks and take responsibility for them. Please consider your finances and risk tolerance before making choices.",
+    "walletHeading": "Your Digital Wallet with {{appName}}:",
+    "wallet1": "You’re about to create a digital wallet. Only you have the key to your wallet. We cannot recover your key or your assets if you lose your key. We also cannot reverse actions taken through {{appName}} on blockchains.",
+    "wallet2": "Digital assets, the assets with which you will interact with {{appName}}, come with unique risks. By using {{appName}}, you accept these risks and take responsibility for them. Please consider your finances and risk tolerance before making choices.",
     "fullTerms": "Read our full <0>Terms & Conditions</0>"
   },
   "fullNameOrPsuedonym": "Full name or pseudonym",
@@ -853,7 +853,7 @@
   "accessContacts": {
     "disclosure": {
       "title": "Import Contacts",
-      "body": "Valora would like to import your contacts. By tapping below, I allow access to my contacts' phone numbers, names and photos for purposes of connecting with them through Valora"
+      "body": "{{appName}} would like to import your contacts. By tapping below, I allow access to my contacts' phone numbers, names and photos for purposes of connecting with them through {{appName}}"
     }
   },
   "createAccount": "Create Account",
@@ -903,12 +903,12 @@
   "verificationPrematureRevealMessage": "Please wait one minute before resending",
   "verificationLearnMoreDialog": {
     "title": "Phone Numbers and {{appName}}",
-    "body": "Connecting allows you to send and receive funds with your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but wallets that aren’t connected can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
+    "body": "Connecting allows you to send and receive funds with your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but wallets that aren’t connected can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\n{{appName}} uses state of the art cryptography to keep your phone number private.",
     "dismiss": "Dismiss"
   },
   "phoneVerificationScreen": {
     "screenTitle": "Phone Number",
-    "title": "Connect your phone number to Valora",
+    "title": "Connect your phone number to {{appName}}",
     "description": "This links your wallet address to your phone number so sending crypto is easy",
     "startButtonLabel": "Connect",
     "learnMore": {
@@ -961,7 +961,7 @@
     },
     "recoveryPhrase": {
       "title": "From recovery phrase",
-      "description": "Enter your 12 word recovery phrase to regain access to Valora"
+      "description": "Enter your 12 word recovery phrase to regain access to {{appName}}"
     }
   },
   "verificationInput": {
@@ -1060,7 +1060,7 @@
   "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
   "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
   "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
-  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free $0.50 reward if you sign up, connect your number, and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\n Hurry, the referral promotion ends soon.",
+  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free $0.50 reward if you sign up, connect your number, and fund your {{appName}} wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\n Hurry, the referral promotion ends soon.",
   "loadingContacts": "Finding your contacts",
   "myCode": "My Code",
   "scanCode": "Scan",
@@ -1367,10 +1367,10 @@
   "transactionHeaderNftSent": "NFT Sent",
   "feedSectionHeaderRecent": "Recent",
   "cashInBottomSheet": {
-    "title": "Add funds to start using Valora!",
+    "title": "Add funds to start using {{appName}}!",
     "subtitle": "Your account is currently empty",
     "addFunds": "Add Funds",
-    "titleRamp": "Add {{currency}} to start using Valora",
+    "titleRamp": "Add {{currency}} to start using {{appName}}",
     "subtitleRamp": "Add funds with low fees through one of our trusted external providers."
   },
   "balances": "Assets",
@@ -1387,7 +1387,7 @@
   "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "What does Total Balance mean?",
-    "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome assets may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
+    "body": "Your Total Balance is an approximate sum of all your {{appName}} assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome assets may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
     "dismiss": "Dismiss"
   },
   "supportExportLogsStart": "Exporting logs...",
@@ -1425,15 +1425,15 @@
     "stepTwo": {
       "label": "Step 2",
       "disabledTitle": "Link a bank account",
-      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to Valora.",
+      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to {{appName}}.",
       "disabledCta": "Coming Soon!",
       "title": "Enter Bank Details",
-      "description": "You're almost done! Enter bank details to link your account to Valora.",
+      "description": "You're almost done! Enter bank details to link your account to {{appName}}.",
       "cta": "Link Bank Account",
       "error": {
         "title": "Unable to link bank account.",
         "description": "Please try to link your bank account again, or contact support.",
-        "contactSupportPrefill": "I was unable to link my bank account to Valora"
+        "contactSupportPrefill": "I was unable to link my bank account to {{appName}}"
       }
     }
   },
@@ -1507,12 +1507,12 @@
   },
   "dappsScreenHelpDialog": {
     "title": "What are dapps?",
-    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore Web3.\n\nConnect Valora to a dapp to get started.",
+    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore Web3.\n\nConnect {{appName}} to a dapp to get started.",
     "dismiss": "Dismiss"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} is an external application",
-    "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
+    "message": "You are about to open an application not operated by {{appName}}.\n\n{{appName}} makes no representations about this application. Use at your own risk.",
     "button": "Go to {{dappName}}"
   },
   "dappsScreenInfoSheet": {
@@ -1565,7 +1565,7 @@
     "newLabel": "NEW",
     "newDialog": {
       "title": "New ways to transfer funds",
-      "body": "We are releasing new ways to transfer funds to and from bank accounts, directly from the Valora app.\n\nIf you are seeing this, it means you are able to access this feature in your region.",
+      "body": "We are releasing new ways to transfer funds to and from bank accounts, directly from the {{appName}} app.\n\nIf you are seeing this, it means you are able to access this feature in your region.",
       "dismiss": "Dismiss"
     },
     "cashIn": {
@@ -1598,7 +1598,7 @@
     "button": "Set up ID Verification"
   },
   "fiatConnectKycStatusScreen": {
-    "contactSupportPrefill": "I'm having trouble verifying my identity with Valora.",
+    "contactSupportPrefill": "I'm having trouble verifying my identity with {{appName}}.",
     "contactSupport": "Contact Support",
     "pending": {
       "title": "Your ID verification is in review.",
@@ -1665,7 +1665,7 @@
     },
     "cashIn": {
       "cancel": "Cancel Add Funds",
-      "contactSupportPrefill": "I'm having trouble adding funds to my Valora wallet."
+      "contactSupportPrefill": "I'm having trouble adding funds to my {{appName}} wallet."
     },
     "success": {
       "header": "Success",
@@ -1755,7 +1755,7 @@
       },
       "mobileDialog": {
         "title": "Phone Number",
-        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your valora phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
+        "body": "Use the phone number registered with your mobile money provider. This might not be the same as your {{appName}} phone number.\n\nPhone numbers must include country code displayed next to the phone number.",
         "dismiss": "Dismiss"
       }
     },
@@ -1981,7 +1981,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invite {{contactName}} to {{appName}} and get 0.50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, add funds and keep them in their wallet for 7 days, you will both get 0.50 cUSD while funds last."
+      "body": "Looks like {{contactName}} isn’t on {{appName}}. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download {{appName}}, connect their phone number, add funds and keep them in their wallet for 7 days, you will both get 0.50 cUSD while funds last."
     }
   },
   "celoNews": {
@@ -1992,7 +1992,7 @@
     "retryButtonText": "Retry"
   },
   "chooseYourAdventure": {
-    "header": "Welcome to Valora",
+    "header": "Welcome to {{appName}}",
     "subtitle": "What would you like to do first?",
     "later": "I'll explore later",
     "options": {
@@ -2128,7 +2128,7 @@
     "results": "Results",
     "qr": {
       "title": "Scan or Show QR Code",
-      "subtitle": "Quickly find addresses on Valora"
+      "subtitle": "Quickly find addresses on {{appName}}"
     },
     "invite": {
       "title": "Send crypto to your friends",
@@ -2139,7 +2139,7 @@
       "subtitle": "Share a link to send crypto like a text"
     },
     "getStarted": {
-      "title": "Ways to send funds on Valora",
+      "title": "Ways to send funds on {{appName}}",
       "subtitle": "GET STARTED",
       "options": {
         "one": {
@@ -2148,7 +2148,7 @@
         },
         "two": {
           "title": "Phone Number",
-          "subtitle": "Send directly to someone's phone number if they have Valora"
+          "subtitle": "Send directly to someone's phone number if they have {{appName}}"
         },
         "three": {
           "title": "ENS",
@@ -2156,7 +2156,7 @@
         },
         "four": {
           "title": "Profile Name",
-          "subtitle": "You can search for existing users on Valora"
+          "subtitle": "You can search for existing users on {{appName}}"
         }
       }
     },
@@ -2209,10 +2209,17 @@
     "prepareTransactionError": {
       "title": "Something went wrong!",
       "description": "It was not possible to prepare a transaction for this token."
+    },
+    "insufficientBalanceWarning": {
+      "title": "You need more {{tokenSymbol}}",
+      "description": "Insufficient {{tokenSymbol}} balance. Try a smaller amount or choose a different asset."
     }
   },
   "jumpstartIntro": {
     "title": "Share crypto like a text",
+    "description": "Live Links are a way to send crypto on the Celo network to a friend with a link",
+    "noFundsHint": "To get started, you’ll need some assets on Celo in your wallet.",
+    "haveFundsButton": "Send with a Live Link",
     "addFundsCelo": {
       "title": "Get Assets on Celo",
       "info": "Live Links are a way to send crypto on the Celo network to a friend with a link.\nTo get started, you’ll need some CELO assets in your wallet.",
@@ -2275,7 +2282,7 @@
   },
   "multichainBeta": {
     "beta": "BETA",
-    "title": "New! Ethereum is on Valora",
+    "title": "New! Ethereum is on {{appName}}",
     "description1": "We’re opening up this feature to a select group of people first. You’re one of the lucky ones!",
     "description2": "This is still new, and our team is still working hard to make things perfect. We’d love to hear your feedback.",
     "primaryCta": "Try it now",
@@ -2286,7 +2293,7 @@
     "body": "Buy or transfer compatible tokens to send crypto and explore web3!",
     "titleV1_86": "Add funds to your wallet",
     "exploreTokens": "Explore all tokens",
-    "exploreTokensBody": "You can buy up to 10+ tokens in Valora. Check them out!"
+    "exploreTokensBody": "You can buy up to 10+ tokens in {{appName}}. Check them out!"
   },
   "nftCelebration": {
     "bottomSheet": {
@@ -2480,7 +2487,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Valora's covering gas for this transaction!",
+    "gasSubsidized": "Transaction fees are covered for a limited time",
     "addCryptoBottomSheet": {
       "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
       "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
@@ -2507,17 +2514,23 @@
           "titleGasSubsidy": "Maximize Earnings without Gas Fees*",
           "title": "Explore and Compare Pools",
           "subtitle": "Compare earning potential and risks. Swap, buy, or transfer tokens to join the best pool for you.",
-          "footnoteSubsidy": "*Gas fees are temporarily covered by Valora"
+          "footnoteSubsidy": "*Gas fees are temporarily covered by {{appName}}"
+        },
+        "work": {
+          "title": "Put Your Assets To Work",
+          "subtitle": "Start earning on your crypto by depositing into a liquidity pool. "
         },
         "manage": {
-          "title": "Manage Directly from Valora",
+          "title": "Manage Directly from {{appName}}",
           "titleV1_92": "Manage Directly from {{appName}}",
-          "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving Valora.",
-          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}."
+          "titleV1_94": "Manage Your Positions",
+          "subtitle": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}.",
+          "subtitleV1_92": "We'll auto-connect your wallet so you can manage pools without leaving {{appName}}.",
+          "subtitleV1_94": "Choose a pool you like, add your tokens and monitor your gains."
         },
         "access": {
           "title": "Easily Access your Funds",
-          "subtitle": "Collect funds with a tap, just like your favorite protocols."
+          "subtitle": "Collect funds with a tap when you're ready."
         }
       },
       "action": {
@@ -2536,6 +2549,10 @@
       "description": "Earn on your stablecoins when you lend through a liquidity pool"
     },
     "enterAmount": {
+      "title": "How much would you like to deposit?",
+      "deposit": "Deposit",
+      "fees": "Fees",
+      "swap": "Swap",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
@@ -2544,15 +2561,26 @@
       "continue": "Continue",
       "info": "This pool is powered by Aave",
       "infoV1_93": "Powered by {{providerName}}",
-      "infoBottomSheet": {
-        "title": "Why this pool?",
-        "description": "This Aave pool has over $150M TVL and more than 6,000 contributors, indicating strong liquidity and trustworthiness. It also uses USDC as its token and Arbitrum as its network, which reduces volatility and ensures users will receive inexpensive gas rates.\n\nYou can explore other Aave pools <0>here</0>.",
-        "dismiss": "Dismiss"
-      },
       "notEnoughBalanceForGasWarning": {
         "title": "You need more {{feeTokenSymbol}} to continue",
         "description": "Add {{feeTokenSymbol}} on {{network}} to cover your gas fees",
         "noGasCta": "Buy {{feeTokenSymbol}} on {{network}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Fee Details",
+        "moreInformation": "More information",
+        "estNetworkFee": "Est. Network Fee",
+        "maxNetworkFee": "Max Network Fee",
+        "networkFeeDescription": "The network fee is required by the network to process the deposit transaction.",
+        "networkSwapFeeDescription": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
+        "appSwapFee": "{{appName}} Fee"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "Swap Details",
+        "swapFrom": "Swap From",
+        "swapTo": "Swap To",
+        "whySwap": "Why am I swapping?",
+        "swapDescription": "To deposit funds into the pool, your token is being swapped into a pool token."
       }
     },
     "activePools": {
@@ -2579,7 +2607,9 @@
       "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
       "footerV1_93": "By depositing crypto into an {{providerName}} pool, you accept the risks associated with using {{providerName}}. <0>Terms & Conditions</0>",
       "primaryCta": "Complete",
-      "secondaryCta": "Cancel"
+      "secondaryCta": "Cancel",
+      "yieldRate": "Yield Rate (est.)",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "Congratulations! Review & collect your earnings",
@@ -2613,7 +2643,10 @@
       "earnDepositDetails": "Amount Deposited",
       "earnWithdrawTitle": "Withdrew",
       "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
-      "earnWithdrawDetails": "Amount Withdrawn"
+      "earnWithdrawDetails": "Amount Withdrawn",
+      "swap": "Swap",
+      "network": "Network",
+      "fees": "Fees"
     },
     "home": {
       "title": "Earn",
@@ -2678,7 +2711,25 @@
         "ageTitle": "Age of Pool",
         "ageDescription": "Older liquidity pools can indicate a solid track record and a history of building community trust. Because of this, some may consider these pools to be safer.\n\nThere is no perfect way to determine risk, so use this info as part of your overall research to make the decision that is best for you.",
         "yieldRateTitle": "Yield Rate",
-        "yieldRateDescription": "While most pools offer earnings in the form of a liquidity pool token, some give additional token(s) as a reward or added incentive.\n\nSince Valora aggregates pools across multiple protocols, we have combined all the earning and reward rates into a single, overall yield rate to help easily evaluate your earning potential. This number is an estimate since the earning and reward values fluctuate constantly.\n\nFor further information about earning breakdowns you can visit <0>{{providerName}}</0>."
+        "yieldRateDescription": "While most pools offer earnings in the form of a liquidity pool token, some give additional token(s) as a reward or added incentive.\n\nSince {{appName}} aggregates pools across multiple protocols, we have combined all the earning and reward rates into a single, overall yield rate to help easily evaluate your earning potential. This number is an estimate since the earning and reward values fluctuate constantly.\n\nFor further information about earning breakdowns you can visit <0>{{providerName}}</0>."
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",
+      "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
+      "beforeYouCanDepositTitle": "Before you can deposit...",
+      "beforeYouCanDepositDescription": "You’ll need to add one of the pool tokens. Once added, you’ll need to return to complete your pool deposit.",
+      "action": {
+        "swapAndDeposit": "Swap & Deposit",
+        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "crossChainSwap": "Cross-chain Swap",
+        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
+        "swap": "Swap",
+        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
+        "add": "Buy",
+        "addDescription": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
+        "transfer": "Transfer",
+        "transferDescription": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}"
       }
     }
   },

@@ -1,6 +1,7 @@
 import {
   EarnClaimReward,
   EarnDeposit,
+  EarnSwapDeposit,
   EarnWithdraw,
   Fee,
   NetworkId,
@@ -28,6 +29,7 @@ export type BaseStandbyTransaction =
   | BaseStandbyTransactionType<TokenApproval>
   | BaseStandbyTransactionType<NftTransfer>
   | BaseStandbyTransactionType<EarnDeposit>
+  | BaseStandbyTransactionType<EarnSwapDeposit>
   | BaseStandbyTransactionType<EarnWithdraw>
   | BaseStandbyTransactionType<EarnClaimReward>
 
