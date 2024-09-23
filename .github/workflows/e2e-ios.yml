@@ -29,13 +29,13 @@ jobs:
           secrets: |-
             EMERGE_API_TOKEN:projects/1027349420744/secrets/EMERGE_API_TOKEN
       - uses: actions/checkout@v4
-      # - name: Install missing utils from namespace machine
-      #   run: |
-      #     brew tap wix/brew
-      #     brew install applesimutils
-      #   env:
-      #     HOMEBREW_NO_AUTO_UPDATE: 1
-      #     HOMEBREW_NO_INSTALL_CLEANUP: 1
+      - name: Install missing utils from namespace machine
+        run: |
+          brew tap wix/brew
+          brew install applesimutils
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: 1
+          HOMEBREW_NO_INSTALL_CLEANUP: 1
       - name: Cache Pods
         uses: actions/cache@v4
         with:
