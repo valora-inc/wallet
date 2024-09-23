@@ -8,6 +8,7 @@ import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
+import { openUrl } from 'src/app/actions'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
@@ -25,7 +26,7 @@ import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import type { EarningItem } from 'src/positions/types'
 import { EarnPosition } from 'src/positions/types'
-import { useSelector } from 'src/redux/hooks'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -221,14 +222,12 @@ function DepositAndEarningsCard({
   return (
     <View testID="DepositAndEarningsCard" style={[styles.card, styles.depositAndEarningCard]}>
       <View style={styles.depositAndEarningCardTitleContainer}>
-        <View style={styles.cardLineLabel}>
-          <LabelWithInfo
-            onPress={onInfoIconPress}
-            label={t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
-            labelStyle={styles.cardTitleText}
-            testID={'DepositInfoIcon'}
-          />
-        </View>
+        <LabelWithInfo
+          onPress={onInfoIconPress}
+          label={t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
+          labelStyle={styles.cardTitleText}
+          testID={'DepositInfoIcon'}
+        />
         <View>
           <Text style={styles.depositAndEarningCardTitleText}>
             {t('earnFlow.poolInfoScreen.titleLocalAmountDisplay', {
@@ -688,13 +687,14 @@ function InfoBottomSheet({
   testId: string
 }) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const onPressDismiss = () => {
     infoBottomSheetRef.current?.close()
   }
 
   const onPressUrl = () => {
-    descriptionUrl && navigate(Screens.WebViewScreen, { uri: descriptionUrl })
+    descriptionUrl && dispatch(openUrl(descriptionUrl, true))
   }
 
   return (

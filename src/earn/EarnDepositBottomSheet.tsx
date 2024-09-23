@@ -61,9 +61,12 @@ export default function EarnDepositBottomSheet({
   const commonAnalyticsProperties = {
     providerId: pool.appId,
     depositTokenId: pool.dataProps.depositTokenId,
-    tokenAmount: inputAmount.toString(),
+    depositTokenAmount: depositAmount.toString(),
+    fromTokenId: inputTokenId,
+    fromTokenAmount: inputAmount.toString(),
     networkId: pool.networkId,
     poolId: pool.positionId,
+    mode,
   }
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
@@ -95,6 +98,9 @@ export default function EarnDepositBottomSheet({
         amount: depositAmount.toString(),
         pool,
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
+        mode,
+        fromTokenId: inputTokenId,
+        fromTokenAmount: inputAmount.toString(),
       })
     )
     AppAnalytics.track(EarnEvents.earn_deposit_complete, commonAnalyticsProperties)

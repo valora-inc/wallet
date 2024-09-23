@@ -2561,6 +2561,22 @@
         "title": "您需要更多 {{feeTokenSymbol}} 才能继续",
         "description": "在 {{network}} 上添加 {{feeTokenSymbol}} 以支付手续费",
         "noGasCta": "在 {{network}} 上购买 {{feeTokenSymbol}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "费用详情",
+        "moreInformation": "更多信息",
+        "estNetworkFee": "估计网络费用",
+        "maxNetworkFee": "最高网络费用",
+        "networkFeeDescription": "网络费是网络处理存款交易所需的费用。",
+        "networkSwapFeeDescription": "网络费是网络处理存款交易所需的费用。 {{appName}} 费用为 {{appFeePercentage}}%，用于您使用我们的产品。",
+        "appSwapFee": "{{appName}} 费用"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "交换详情",
+        "swapFrom": "交换自",
+        "swapTo": "交换至",
+        "whySwap": "我为什么要交换？",
+        "swapDescription": "要将资金存入资金池，您的代币将被交换成资金池代币。"
       }
     },
     "activePools": {
@@ -2623,7 +2639,10 @@
       "earnDepositDetails": "已转入金额",
       "earnWithdrawTitle": "已取出",
       "earnWithdrawSubtitle": "已从 {{providerName}} 池取出 {{tokenSymbol}}",
-      "earnWithdrawDetails": "已提取金额"
+      "earnWithdrawDetails": "已提取金额",
+      "swap": "交换",
+      "network": "网络",
+      "fees": "费用"
     },
     "home": {
       "title": "赚钱",
@@ -2689,6 +2708,24 @@
         "ageDescription": "较早的流动性池可能拥有稳定的记录和社区信任基础。有些人可能据此认为这些资金池更安全。\n\n完美的风险评估方法是不存在的，因此请将此信息作为您全面考量的参考之一，以做出最佳决定。",
         "yieldRateTitle": "收益率",
         "yieldRateDescription": "虽然大多数资金池以流动性池代币的形式提供收益，但也有一些资金池提供额外代币作为奖励或额外激励。\n\n{{appName}} 集合了多个协议的资金池，因此我们将所有收益率和奖励率合并为一项总体收益率，以帮助您轻松评估收益潜力。由于收益和奖励值不断波动，该数字只是估计值。\n\n有关收益明细的更多信息，请访问 <0>{{providerName}}</0>。"
+      }
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "您需要 {{tokenSymbol}} 在 {{tokenNetwork}} 上存款",
+      "crossChainAlternativeDescription": "如果您不想在 {{tokenNetwork}}上使用代币，请在下面选择一个选项。您需要稍后返回完成泳池存款。",
+      "beforeYouCanDepositTitle": "在存款之前...",
+      "beforeYouCanDepositDescription": "您需要添加一个游泳池代币。添加后，您需要返回以完成泳池存款。",
+      "action": {
+        "swapAndDeposit": "交换与存款",
+        "swapAndDepositDescription": "在 {{tokenNetwork}}上选择任何代币。我们将同时为您交换和存入。",
+        "crossChainSwap": "跨链交换",
+        "crossChainSwapDescription": "在另一个网络上交换令牌 {{tokenSymbol}}",
+        "swap": "交换",
+        "swapDescription": "在 {{tokenNetwork}} 上从钱包中的另一种代币换入 {{tokenSymbol}}",
+        "add": "买入",
+        "addDescription": "使用我们值得信赖的提供商之一，在 {{tokenNetwork}} 上购买 {{tokenSymbol}}",
+        "transfer": "转账",
+        "transferDescription": "使用任何与 {{tokenNetwork}} 兼容的钱包或交易所，来存入 {{tokenSymbol}}"
       }
     }
   },

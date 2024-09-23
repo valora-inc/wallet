@@ -9,6 +9,9 @@ export interface DepositInfo {
   amount: string
   preparedTransactions: SerializableTransactionRequest[]
   pool: EarnPosition
+  mode: EarnDepositMode
+  fromTokenId: string
+  fromTokenAmount: string
 }
 
 export interface DepositSuccess {
