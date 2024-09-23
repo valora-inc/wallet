@@ -16,7 +16,7 @@ jobs:
     name: Android
     uses: ./.github/workflows/e2e-android.yml
     with:
-      android-api-level: 29
+      android-api-level: 28
     secrets: inherit
   #ios:
   #  name: iOS
