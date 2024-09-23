@@ -140,6 +140,7 @@ function TabHome(_props: Props) {
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         testID="WalletHome/FlatList"
+        // To remove the sticky header entirely remove stickyHeaderIndices & stickyHeaderHiddenOnScroll
         stickyHeaderIndices={[0]}
         stickyHeaderHiddenOnScroll={true}
       />
