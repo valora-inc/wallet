@@ -205,7 +205,7 @@
     "@react-native/metro-config": "^0.72.12",
     "@sentry/types": "^7.111.0",
     "@testing-library/jest-native": "^5.4.3",
-    "@testing-library/react-native": "^12.4.5",
+    "@testing-library/react-native": "^12.7.2",
     "@types/country-data": "^0.0.5",
     "@types/fast-levenshtein": "^0.0.2",
     "@types/fs-extra": "^9.0.13",
