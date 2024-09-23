@@ -347,11 +347,11 @@
           "os": "iOS 16.2"
         }
       },
-      "simulator.17.2": {
+      "simulator.17.5": {
         "type": "ios.simulator",
         "device": {
           "type": "iPhone SE (3rd generation)",
-          "os": "iOS 17.2"
+          "os": "iOS 17.5"
         }
       },
       "emulator": {
@@ -381,8 +381,8 @@
         "device": "simulator.16.2",
         "app": "ios.release"
       },
-      "ios.release.17.2": {
-        "device": "simulator.17.2",
+      "ios.release.17.5": {
+        "device": "simulator.17.5",
         "app": "ios.release"
       },
       "android.debug": {
