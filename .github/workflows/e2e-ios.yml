@@ -83,7 +83,7 @@ jobs:
           --record-logs=failing
           --loglevel info
           --debug-synchronization 10000
-          --maxWorkers 1
+          --maxWorkers 2
           --retries 3
         timeout-minutes: 60
       - name: Publish iOS JUnit Report
