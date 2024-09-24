@@ -12943,10 +12943,10 @@ react-native-version@^3.1.0:
     resolve-from "^5.0.0"
     semver "^6.0.0"
 
-react-native-video@^6.5.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.5.0.tgz#bcb591eeecc4784438a6f074ea3a456b22d6d1b7"
-  integrity sha512-P3FmyQgKigS4BmFG+6heRHzSp591U/Z+Iw08wWmiNsNiyLRa6x8B0ob4wqWTW4QfzsBf80udg1/T2W49KxxzYw==
+react-native-video@^6.6.2:
+  version "6.6.2"
+  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.6.2.tgz#2aa6637ab248f5f186582af20b12bac0a3c4bf4c"
+  integrity sha512-VYh4iZOsmb4nmRWhMCaWOay6TuSv446TcWYhnajvMPBJbB8zM25wwKmJs8hQ4lVqZeYSTIhdfl8yPez/eIyixA==
 
 react-native-webview@^13.12.2:
   version "13.12.2"
