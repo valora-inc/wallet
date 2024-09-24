@@ -2,7 +2,7 @@
 
 Valora supports [WalletConnect v2](https://docs.walletconnect.com/2.0/) for connecting Dapps to Valora. [WalletConnect v1 is end-of-life](https://docs.walletconnect.com/2.0/advanced/migration-from-v1.x/overview) and not supported.
 
-If you're building a Dapp we recommend [rainbowkit](https://github.com/rainbow-me/rainbowkit) or [Web3Modal](https://github.com/WalletConnect/web3modal) to make it easy to connect your Dapp to Valora via WalletConnect. Take a look to a [complete example](https://docs.celo.org/developer/rainbowkit-celo) to help you get started.
+If you're building a Dapp we recommend [rainbowkit](https://github.com/rainbow-me/rainbowkit) or [Web3Modal](https://github.com/WalletConnect/web3modal) to make it easy to connect your Dapp to Valora via WalletConnect. Take a look at a [complete example](https://docs.celo.org/developer/rainbowkit-celo) to help you get started.
 
 ## WalletConnect details
 
