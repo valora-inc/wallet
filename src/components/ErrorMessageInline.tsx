@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import { hideAlert } from 'src/alert/actions'
 import { ErrorDisplayType } from 'src/alert/reducer'
-import { ErrorMessages } from 'src/app/ErrorMessages'
+import { ErrorMessages, type ErrorMessagesTranslationKeys } from 'src/app/ErrorMessages'
 import { withTranslation } from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
@@ -57,7 +57,7 @@ function ErrorMessageInline(props: Props) {
 
   return (
     <View style={dismissAfter !== null && styles.errorContainer}>
-      <Text style={styles.errorMessage}>{t(error)} </Text>
+      <Text style={styles.errorMessage}>{t(error as ErrorMessagesTranslationKeys)} </Text>
     </View>
   )
 }

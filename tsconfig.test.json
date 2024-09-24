@@ -5,6 +5,7 @@
     "target": "es2018",
     // workaround for a bug in ts-jest where moduleResolution gets overwritten https://github.com/kulshekhar/ts-jest/issues/4198
     // TODO: try removing this when ts-jest is updated
-    "moduleResolution": "Classic"
+    "moduleResolution": "Classic",
+    "resolveJsonModule": false
   }
 }

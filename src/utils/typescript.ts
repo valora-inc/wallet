@@ -35,3 +35,11 @@ export function assertNever(x: never): never {
  * See https://github.com/microsoft/TypeScript/pull/35998
  */
 export type Awaited<T> = T extends Promise<infer U> ? U : never
+
+type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] extends N
+  ? Acc[number]
+  : Enumerate<N, [...Acc, Acc['length']]>
+
+export type NumberRange<F extends number, T extends number> =
+  | Exclude<Enumerate<T>, Enumerate<F>>
+  | T

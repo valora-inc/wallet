@@ -480,6 +480,8 @@ function ActionButtons({
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnPoolInfoScreen>
 
 export default function EarnPoolInfoScreen({ route, navigation }: Props) {
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
   const { pool } = route.params
   const { networkId, tokens, displayProps, appName, dataProps, appId, positionId, balance } = pool
   const allTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
@@ -626,37 +628,61 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       </Animated.ScrollView>
       <ActionButtons earnPosition={pool} onPressDeposit={onPressDeposit} />
       <InfoBottomSheet
-        infoBottomSheetRef={depositInfoBottomSheetRef}
-        titleKey="earnFlow.poolInfoScreen.depositAndEarnings"
-        descriptionKey={
-          dataProps.cantSeparateCompoundedInterest
-            ? 'earnFlow.poolInfoScreen.infoBottomSheet.depositNoBreakdownDescription'
-            : 'earnFlow.poolInfoScreen.infoBottomSheet.depositDescription'
-        }
-        providerName={appName}
         testId="DepositInfoBottomSheet"
+        infoBottomSheetRef={depositInfoBottomSheetRef}
+        title={t('earnFlow.poolInfoScreen.depositAndEarnings')}
+        descriptionText={
+          dataProps.cantSeparateCompoundedInterest
+            ? t('earnFlow.poolInfoScreen.infoBottomSheet.depositNoBreakdownDescription', {
+                providerName: appName,
+              })
+            : t('earnFlow.poolInfoScreen.infoBottomSheet.depositDescription', {
+                providerName: appName,
+              })
+        }
       />
       <InfoBottomSheet
-        infoBottomSheetRef={tvlInfoBottomSheetRef}
-        titleKey="earnFlow.poolInfoScreen.infoBottomSheet.tvlTitle"
-        descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.tvlDescription"
-        providerName={appName}
         testId="TvlInfoBottomSheet"
+        infoBottomSheetRef={tvlInfoBottomSheetRef}
+        title={t('earnFlow.poolInfoScreen.infoBottomSheet.tvlTitle')}
+        descriptionText={t('earnFlow.poolInfoScreen.infoBottomSheet.tvlDescription', {
+          providerName: appName,
+        })}
       />
       <InfoBottomSheet
-        infoBottomSheetRef={ageInfoBottomSheetRef}
-        titleKey="earnFlow.poolInfoScreen.infoBottomSheet.ageTitle"
-        descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.ageDescription"
-        providerName={appName}
         testId="AgeInfoBottomSheet"
+        infoBottomSheetRef={ageInfoBottomSheetRef}
+        title={t('earnFlow.poolInfoScreen.infoBottomSheet.ageTitle')}
+        descriptionText={t('earnFlow.poolInfoScreen.infoBottomSheet.ageDescription', {
+          providerName: appName,
+        })}
       />
       <InfoBottomSheet
-        infoBottomSheetRef={yieldRateInfoBottomSheetRef}
-        titleKey="earnFlow.poolInfoScreen.infoBottomSheet.yieldRateTitle"
-        descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.yieldRateDescription"
-        descriptionUrl={dataProps.manageUrl}
-        providerName={appName}
         testId="YieldRateInfoBottomSheet"
+        infoBottomSheetRef={yieldRateInfoBottomSheetRef}
+        title={t('earnFlow.poolInfoScreen.infoBottomSheet.yieldRateTitle')}
+        {...(dataProps.manageUrl
+          ? {
+              descriptionComponent: (
+                <Trans
+                  i18nKey="earnFlow.poolInfoScreen.infoBottomSheet.yieldRateDescription"
+                  tOptions={{ providerName: appName }}
+                >
+                  <Text
+                    style={styles.linkText}
+                    onPress={() => {
+                      dataProps.manageUrl && dispatch(openUrl(dataProps.manageUrl, true))
+                    }}
+                  />
+                </Trans>
+              ),
+            }
+          : {
+              // @ts-expect-error
+              descriptionText: t('earnFlow.poolInfoScreen.infoBottomSheet.yieldRateDescription', {
+                providerName: appName,
+              }),
+            })}
       />
       <BeforeDepositBottomSheet
         forwardedRef={beforeDepositBottomSheetRef}
@@ -671,48 +697,37 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
   )
 }
 
-function InfoBottomSheet({
-  infoBottomSheetRef,
-  titleKey,
-  descriptionKey,
-  descriptionUrl,
-  providerName,
-  testId,
-}: {
-  infoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
-  titleKey: string
-  descriptionKey: string
-  descriptionUrl?: string
-  providerName: string
+type Description =
+  | { descriptionText: string; descriptionComponent?: never }
+  | { descriptionText?: never; descriptionComponent: React.ReactNode }
+
+type InfoBottomSheetProps = {
+  title: string
   testId: string
-}) {
+  infoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
+} & Description
+
+function InfoBottomSheet({
+  title,
+  testId,
+  descriptionText,
+  descriptionComponent,
+  infoBottomSheetRef,
+}: InfoBottomSheetProps) {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
 
   const onPressDismiss = () => {
     infoBottomSheetRef.current?.close()
   }
 
-  const onPressUrl = () => {
-    descriptionUrl && dispatch(openUrl(descriptionUrl, true))
-  }
-
   return (
     <BottomSheet
       forwardedRef={infoBottomSheetRef}
-      title={t(titleKey)}
+      title={title}
       testId={testId}
       titleStyle={styles.infoBottomSheetTitle}
     >
-      {descriptionUrl ? (
-        <Text style={styles.infoBottomSheetText}>
-          <Trans i18nKey={descriptionKey} tOptions={{ providerName }}>
-            <Text onPress={onPressUrl} style={styles.linkText} />
-          </Trans>
-        </Text>
-      ) : (
-        <Text style={styles.infoBottomSheetText}>{t(descriptionKey, { providerName })}</Text>
-      )}
+      <Text style={styles.infoBottomSheetText}>{descriptionText ?? descriptionComponent}</Text>
       <Button
         onPress={onPressDismiss}
         text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}

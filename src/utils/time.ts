@@ -80,17 +80,17 @@ export function formattedDuration(interval: Duration) {
 
   if (years === 0 && months === 0) {
     if (days === 0) {
-      tParams = { context: 'lessThanADay' }
+      tParams = { context: 'lessThanADay' as const }
     } else {
-      tParams = { context: 'day', count: days }
+      tParams = { context: 'day' as const, count: days }
     }
   } else if (years === 0) {
-    tParams = { context: 'month', count: months }
+    tParams = { context: 'month' as const, count: months }
   } else {
     if (months === 0) {
-      tParams = { context: 'year', count: years }
+      tParams = { context: 'year' as const, count: years }
     } else {
-      tParams = { context: 'yearMonth', count: years, count2: months }
+      tParams = { context: 'yearMonth' as const, count: years, count2: months }
     }
   }
 

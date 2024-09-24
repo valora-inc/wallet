@@ -1,10 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
-import Education, { EducationTopic } from 'src/account/Education'
-import { OnboardingEvents } from 'src/analytics/Events'
+import Education, { type EducationStep, EducationTopic } from 'src/account/Education'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import { BtnTypes } from 'src/components/Button'
 import { accountKey1, accountKey2, accountKey3, accountKey4 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
@@ -52,22 +52,35 @@ AccountKeyEducation.navigationOptions = {
   }),
 }
 
-function useSteps() {
+function useSteps(): EducationStep[] {
   const { t } = useTranslation()
-  return React.useMemo(
-    () =>
-      [
-        { image: accountKey1, topic: EducationTopic.backup },
-        { image: accountKey2, topic: EducationTopic.backup },
-        { image: accountKey3, topic: EducationTopic.backup },
-        { image: accountKey4, topic: EducationTopic.backup },
-      ].map((step, index) => {
-        return {
-          ...step,
-          title: t(`guide.${index}.title`),
-          text: t(`guide.${index}.text`),
-        }
-      }),
+  return useMemo(
+    () => [
+      {
+        image: accountKey1,
+        topic: EducationTopic.backup,
+        title: t(`guide.0.title`),
+        text: t(`guide.0.text`),
+      },
+      {
+        image: accountKey2,
+        topic: EducationTopic.backup,
+        title: t(`guide.1.title`),
+        text: t(`guide.1.text`),
+      },
+      {
+        image: accountKey3,
+        topic: EducationTopic.backup,
+        title: t(`guide.2.title`),
+        text: t(`guide.2.text`),
+      },
+      {
+        image: accountKey4,
+        topic: EducationTopic.backup,
+        title: t(`guide.3.title`),
+        text: t(`guide.3.text`),
+      },
+    ],
     []
   )
 }

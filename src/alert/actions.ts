@@ -1,7 +1,7 @@
 import { TOptions } from 'i18next'
 import { ErrorDisplayType } from 'src/alert/reducer'
-import { AppEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AppEvents } from 'src/analytics/Events'
 import { OpenUrlAction } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ALERT_BANNER_DURATION } from 'src/config'
@@ -58,12 +58,13 @@ export const showToast = (
 export const showError = (
   error: ErrorMessages,
   dismissAfter?: number | null | undefined,
-  i18nOptions?: object
+  i18nOptions?: TOptions
 ): ShowAlertAction => {
   AppAnalytics.track(AppEvents.error_displayed, { error })
   return showAlert(
     AlertTypes.ERROR,
-    i18n.t(error, { ...(i18nOptions || {}) }),
+    // @ts-expect-error
+    i18n.t(error, i18nOptions ?? {}),
     dismissAfter,
     null,
     null,
@@ -76,7 +77,8 @@ export const showErrorInline = (error: ErrorMessages, i18nOptions?: TOptions): S
   type: Actions.SHOW,
   alertType: AlertTypes.ERROR,
   displayMethod: ErrorDisplayType.INLINE,
-  message: i18n.t(error, { ...(i18nOptions || {}) }),
+  // @ts-expect-error
+  message: i18n.t(error, i18nOptions || {}),
   underlyingError: error,
 })
 
