@@ -48,7 +48,9 @@ jobs:
           mv "$ANDROID_HOME/cmdline-tools/cmdline-tools" "$ANDROID_HOME/cmdline-tools/latest"
 
           # Accept all licenses
+          set +o pipefail
           yes | sdkmanager --licenses
+          set -o pipefail
 
           # Install Android SDK
           sdkmanager "platform-tools" "platforms;android-${{ env.ANDROID_COMPILE_SDK_VERSION }}"
