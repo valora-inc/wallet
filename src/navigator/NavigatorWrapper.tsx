@@ -60,7 +60,7 @@ export const NavigatorWrapper = () => {
   const { minRequiredVersion } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG]
   )
-  const routeNameRef = React.useRef()
+  const routeNameRef = React.useRef<string>()
   const inSanctionedCountry = useSelector(userInSanctionedCountrySelector)
 
   const dispatch = useDispatch()
@@ -148,7 +148,7 @@ export const NavigatorWrapper = () => {
         previousScreen: previousRouteName,
         currentScreen: currentRouteName,
       })
-      dispatch(activeScreenChanged(currentRouteName))
+      dispatch(activeScreenChanged(currentRouteName as Screens))
       Sentry.addBreadcrumb({
         category: 'navigation',
         message: `Navigated to ${currentRouteName}`,
