@@ -23,7 +23,9 @@
     "skipLibCheck": true,
     "target": "es2015",
     "strict": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo"
   },
   "files": ["jest_setup.ts"],
   "include": ["src"],

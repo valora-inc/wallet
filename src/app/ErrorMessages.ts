@@ -40,3 +40,5 @@ export enum ErrorMessages {
   SHORTCUT_CLAIM_REWARD_FAILED = 'dappShortcuts.claimRewardFailure',
   INVITE_WITH_URL_FAILED = 'inviteWithUrl.error',
 }
+
+export type ErrorMessagesTranslationKeys = `${ErrorMessages}`

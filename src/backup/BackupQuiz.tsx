@@ -7,9 +7,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { setBackupCompleted } from 'src/account/actions'
 import { showError } from 'src/alert/actions'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
 import { BackQuizProgress } from 'src/analytics/types'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import CancelConfirm from 'src/backup/CancelConfirm'
 import { QuizzBottom } from 'src/backup/QuizzBottom'
 import { getStoredMnemonic, onGetMnemonicFail } from 'src/backup/utils'
@@ -27,6 +27,7 @@ import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
+import type { NumberRange } from 'src/utils/typescript'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'backup/BackupQuiz'
@@ -211,7 +212,7 @@ export class BackupQuiz extends React.Component<Props, State> {
   render() {
     const { t } = this.props
     const { mnemonicWords: mnemonicWordButtons, userChosenWords, mnemonicLength } = this.state
-    const currentWordIndex = userChosenWords.length + 1
+    const currentWordIndex = (userChosenWords.length + 1) as NumberRange<0, 30>
     const isQuizComplete = userChosenWords.length === mnemonicLength && mnemonicLength !== 0
     const mnemonicWordsToDisplay = mnemonicWordButtons.slice(0, MNEMONIC_BUTTONS_TO_DISPLAY)
     return (
@@ -247,7 +248,9 @@ export class BackupQuiz extends React.Component<Props, State> {
                 <Text style={styles.bodyText}>
                   <Trans
                     i18nKey={'backupQuizWordCountV1_83'}
-                    tOptions={{ wordNumber: t(`ordinals.${currentWordIndex}`) }}
+                    tOptions={{
+                      wordNumber: t(`ordinals.${currentWordIndex}`),
+                    }}
                   >
                     <Text style={styles.bodyTextBold}>X</Text>
                   </Trans>

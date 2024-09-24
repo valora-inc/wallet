@@ -53,7 +53,8 @@
     "deploy:update-disclaimer": "yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
     "postinstall": "patch-package && yarn keys:decrypt && ./scripts/copy_license_to_android_assets.sh",
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
-    "keys:encrypt": "bash scripts/key_placer.sh encrypt"
+    "keys:encrypt": "bash scripts/key_placer.sh encrypt",
+    "i18n:generate-interface": "i18next-resources-for-ts interface -i ./locales/base -o ./src/i18n/i18next-resources.d.ts"
   },
   "husky": {
     "hooks": {
@@ -247,6 +248,7 @@
     "ethers": "^5.7.2",
     "expect": "^29.7.0",
     "husky": "^3.0.0",
+    "i18next-resources-for-ts": "^1.5.0",
     "jest": "^29.6.2",
     "jest-circus": "^29.6.2",
     "jest-diff": "^29.6.4",

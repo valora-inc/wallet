@@ -36,7 +36,7 @@ class ErrorScreen extends React.Component<Props> {
       >
         <View>
           <Text style={styles.errorMessage} numberOfLines={10} ellipsizeMode="tail">
-            {t(errorMessage)}
+            {t(errorMessage as unknown as any)}
           </Text>
         </View>
       </FullscreenCTA>

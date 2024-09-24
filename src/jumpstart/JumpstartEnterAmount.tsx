@@ -36,7 +36,7 @@ import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 const TAG = 'JumpstartEnterAmount'
 
 function JumpstartEnterAmount() {
-  const { t } = useTranslation()
+  const { t } = useTranslation('translation')
   const dispatch = useDispatch()
 
   const [sendAmountExceedsThreshold, setSendAmountExceedsThreshold] = useState(false)

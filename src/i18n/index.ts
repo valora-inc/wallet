@@ -55,7 +55,7 @@ export async function initI18n(
     resources,
     // Only enable for debugging as it forces evaluation of all our lazy loaded locales
     // and prints out all strings when initializing
-    debug: false,
+    debug: true,
     interpolation: {
       escapeValue: false,
       defaultVariables: {

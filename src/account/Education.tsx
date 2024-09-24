@@ -30,7 +30,7 @@ export enum EducationTopic {
   celo = 'celo',
 }
 
-interface EducationStep {
+export interface EducationStep {
   image: ImageSourcePropType | null
   topic: EducationTopic
   title: string

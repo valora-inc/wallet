@@ -710,6 +710,7 @@ function FeeDetailsBottomSheet({
           </Text>
           {swapFeeAmount ? (
             <Text style={styles.bottomSheetDescriptionText}>
+              {/* @ts-expect-error */}
               {t('earnFlow.enterAmount.feeBottomSheet.networkSwapFeeDescription', {
                 appFeePercentage: swapTransaction?.appFeePercentageIncludedInPrice,
               })}
