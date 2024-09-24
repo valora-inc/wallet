@@ -80,7 +80,7 @@
     "@noble/secp256k1": "^1.7.1",
     "@react-native-async-storage/async-storage": "^2.0.0",
     "@react-native-clipboard/clipboard": "^1.14.2",
-    "@react-native-community/netinfo": "^11.4.0",
+    "@react-native-community/netinfo": "^11.4.1",
     "@react-native-cookies/cookies": "^6.2.1",
     "@react-native-firebase/analytics": "19.1.0",
     "@react-native-firebase/app": "19.1.0",
