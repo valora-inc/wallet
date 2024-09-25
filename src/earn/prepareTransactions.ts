@@ -36,9 +36,7 @@ export async function prepareDepositTransactions({
   hooksApiUrl: string
   shortcutId: EarnDepositMode
 }) {
-  const enableSwapFee = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
-  ).enableAppFee
+  const { enableAppFee } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG])
   const args =
     shortcutId === 'deposit'
       ? {
@@ -57,7 +55,7 @@ export async function prepareDepositTransactions({
             address: token.address,
             isNative: token.isNative ?? false,
           },
-          enableSwapFee,
+          enableAppFee,
         }
 
   const {
