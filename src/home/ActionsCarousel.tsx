@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   carouselContainer: {
-    padding: Spacing.Regular16,
+    paddingHorizontal: Spacing.Regular16,
+    paddingBottom: Spacing.Regular16,
     gap: Spacing.Regular16,
   },
   card: {
