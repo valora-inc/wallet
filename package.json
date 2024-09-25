@@ -116,7 +116,7 @@
     "bignumber.js": "^9.1.2",
     "clevertap-react-native": "^2.2.1",
     "country-data": "^0.0.31",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.1.0",
     "dot-prop-immutable": "^2.1.1",
     "fast-levenshtein": "^3.0.0",
     "fp-ts": "2.16.9",
