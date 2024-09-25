@@ -208,7 +208,7 @@ describe('prepareTransactions', () => {
         expect(triggerShortcutRequest).toHaveBeenCalledWith('https://hooks.api', {
           address: '0x1234',
           appId: mockEarnPositions[0].appId,
-          enableSwapFee: true,
+          enableAppFee: true,
           networkId: mockEarnPositions[0].networkId,
           shortcutId: 'swap-deposit',
           swapFromToken: {
