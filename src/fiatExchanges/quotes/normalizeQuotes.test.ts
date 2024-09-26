@@ -34,7 +34,7 @@ describe('normalizeQuotes', () => {
       ['provider-two', 100],
       ['provider-three', 100], //provider-three supports Mobile Money and Bank Account
       ['provider-three', 100],
-      ['Ramp', 100],
+      ['Ramp Network', 100],
       ['Moonpay', 95],
       ['Fonbnk', 93],
       ['Moonpay', 90],
@@ -61,7 +61,7 @@ describe('normalizeQuotes', () => {
     expect(
       normalizedQuotes.map((quote) => [quote.getProviderId(), quote.getReceiveAmount()?.toNumber()])
     ).toEqual([
-      ['Ramp', 100],
+      ['Ramp Network', 100],
       ['Simplex', 25],
       ['Moonpay', undefined],
     ])

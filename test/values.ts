@@ -710,7 +710,7 @@ export const mockProviders: FetchProvidersOutput[] = [
     ],
   },
   {
-    name: 'Ramp',
+    name: 'Ramp Network',
     restricted: false,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'www.fakewebsite.com',
@@ -767,7 +767,7 @@ export const mockProviders: FetchProvidersOutput[] = [
     cashOut: false,
   },
   {
-    name: 'Ramp',
+    name: 'Ramp Network',
     restricted: false,
     unavailable: false,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
