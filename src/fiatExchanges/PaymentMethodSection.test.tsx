@@ -103,8 +103,8 @@ describe('PaymentMethodSection', () => {
       </Provider>
     )
     expect(queryByText('selectProviderScreen.card')).toBeTruthy()
-    expect(queryByTestId('image-Ramp')).toBeTruthy()
-    expect(queryByTestId('newLabel-Ramp')).toBeFalsy()
+    expect(queryByTestId('image-Ramp Network')).toBeTruthy()
+    expect(queryByTestId('newLabel-Ramp Network')).toBeFalsy()
     expect(queryByTestId('Card/provider-0')).toHaveTextContent(
       'selectProviderScreen.receiveAmount100.00 cUSD'
     )
@@ -125,12 +125,12 @@ describe('PaymentMethodSection', () => {
       </Provider>
     )
     expect(getByText('selectProviderScreen.card')).toBeTruthy()
-    expect(getByTestId('image-Ramp')).toBeTruthy()
-    expect(getByTestId('newLabel-Ramp')).toBeTruthy()
+    expect(getByTestId('image-Ramp Network')).toBeTruthy()
+    expect(getByTestId('newLabel-Ramp Network')).toBeTruthy()
     expect(getByTestId('newDialog')).toBeTruthy()
     expect(getByTestId('newDialog')).not.toBeVisible()
 
-    fireEvent.press(getByTestId('newLabel-Ramp'))
+    fireEvent.press(getByTestId('newLabel-Ramp Network'))
     expect(getByTestId('newDialog')).toBeVisible()
     fireEvent.press(getByTestId('newDialog/PrimaryAction'))
     await waitFor(() => expect(getByTestId('newDialog')).not.toBeVisible())
@@ -150,10 +150,10 @@ describe('PaymentMethodSection', () => {
     expect(queryByText('selectProviderScreen.card')).toBeTruthy()
     expect(queryByText('selectProviderScreen.numProviders, {"count":3}')).toBeTruthy()
 
-    expect(queryByTestId('image-Ramp')).toBeTruthy()
+    expect(queryByTestId('image-Ramp Network')).toBeTruthy()
     expect(queryByTestId('image-Simplex')).toBeTruthy()
     expect(queryByTestId('image-Moonpay')).toBeTruthy()
-    expect(queryByTestId('newLabel-Ramp')).toBeFalsy()
+    expect(queryByTestId('newLabel-Ramp Network')).toBeFalsy()
     expect(queryByTestId('newLabel-Simplex')).toBeTruthy()
     expect(queryByTestId('newLabel-Moonpay')).toBeTruthy()
 
@@ -167,7 +167,7 @@ describe('PaymentMethodSection', () => {
 
     // Collapse works
     fireEvent.press(getByText('selectProviderScreen.numProviders, {"count":3}'))
-    expect(queryByTestId('image-Ramp')).toBeFalsy()
+    expect(queryByTestId('image-Ramp Network')).toBeFalsy()
     expect(queryByTestId('image-Simplex')).toBeFalsy()
     expect(queryByTestId('image-Moonpay')).toBeFalsy()
   })
