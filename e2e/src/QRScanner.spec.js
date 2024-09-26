@@ -39,7 +39,7 @@ describe('Given QR Scanner', () => {
 
   describe("When 'scanning' QR", () => {
     beforeEach(async () => {
-      await reloadReactNative()
+      await launchApp()
       await waitForElementId('HomeAction-Receive')
       await element(by.id('HomeAction-Receive')).tap()
       await waitForElementId('Scan')
