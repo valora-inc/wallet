@@ -63,7 +63,7 @@ $.exec('mkdir cacerts')
 $.exec('tar -xzvf android-ca.tar.gz -C cacerts/')
 $.exec('adb root')
 $.exec('adb remount')
-$.exec('adb push ~/.android/cacerts /system/etc/security/cacerts')
+$.exec('adb push cacerts /system/etc/security/cacerts')
 
 $.echo('Saving snapshot...')
 $.exec('adb emu avd snapshot save ci_boot')
