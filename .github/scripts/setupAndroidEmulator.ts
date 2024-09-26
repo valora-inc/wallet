@@ -19,8 +19,7 @@ const argv = yargs(process.argv.slice(2))
 
 const { image, emulatorName } = argv
 
-$.exec(`sdkmanager "${image}"`)
-$.exec(`sdkmanager "emulator"`)
+$.exec(`sdkmanager "${image}" "emulator"`)
 $.exec(`avdmanager create avd --force --name ${emulatorName} --package "${image}" --device pixel`)
 
 const iniLocation = `~/.android/avd/${emulatorName}.ini`
@@ -30,7 +29,7 @@ $.echo('hw.sdCard=yes').toEnd(iniLocation)
 $.echo('sdcard.size=1000M').toEnd(iniLocation)
 
 const child = spawn(
-  `emulator -avd ${emulatorName} -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim`,
+  `emulator -avd ${emulatorName} -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -writable-system`,
   { detached: true, stdio: 'inherit', shell: true }
 )
 
@@ -53,8 +52,20 @@ $.exec(
 )
 // Check the service is launched
 $.exec('until [ `adb shell ps | grep butler | wc -l` -gt 0 ]; do sleep 3; done')
+$.echo('Background service running!')
 
-$.echo('Background service running! Saving snapshot...')
+// Update root CA certificates
+$.echo('Updating root CA cerificates...')
+$.exec(
+  'wget -O android-ca.tar.gz https://android.googlesource.com/platform/system/ca-certificates/+archive/refs/heads/main/files.tar.gz'
+)
+$.exec('mkdir cacerts')
+$.exec('tar -xzvf android-ca.tar.gz -C cacerts/')
+$.exec('adb root')
+$.exec('adb remount')
+$.exec('adb push ~/.android/cacerts /system/etc/security/cacerts')
+
+$.echo('Saving snapshot...')
 $.exec('adb emu avd snapshot save ci_boot')
 $.echo('Snapshot saved! Killing emulator...')
 child.kill()
