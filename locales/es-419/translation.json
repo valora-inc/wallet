@@ -2548,7 +2548,7 @@
     },
     "enterAmount": {
       "title": "¿Cuánto quieres depositar?",
-      "deposit": "Depósito",
+      "deposit": "Depositar",
       "fees": "Tarifas",
       "swap": "Cambio",
       "earnUpToLabel": "Podrías ganar hasta:",

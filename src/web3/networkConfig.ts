@@ -1,6 +1,12 @@
 import _ from 'lodash'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
-import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
+import {
+  APP_REGISTRY_NAME,
+  BIDALI_URL,
+  DEFAULT_FORNO_URL,
+  DEFAULT_TESTNET,
+  RECAPTCHA_SITE_KEY,
+} from 'src/config'
 import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
@@ -281,8 +287,6 @@ const SIMULATE_TRANSACTIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/simulateTransa
 const INTERNAL_ARBITRUM_RPC_URL_STAGING = `${CLOUD_FUNCTIONS_STAGING}/rpc/${NetworkId['arbitrum-sepolia']}`
 const INTERNAL_ARBITRUM_RPC_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/rpc/${NetworkId['arbitrum-one']}`
 
-const AUTH_HEADER_ISSUER = 'Valora'
-
 const WEB3_AUTH_VERIFIER = 'valora-cab-auth0'
 
 const BASE_SET_REGISTRATION_PROPERTIES_AUTH = {
@@ -295,11 +299,11 @@ const BASE_SET_REGISTRATION_PROPERTIES_AUTH = {
     Message: [{ name: 'content', type: 'string' }],
   },
   domain: {
-    name: 'Valora',
+    name: APP_REGISTRY_NAME,
     version: '1',
   },
   message: {
-    content: 'valora auth message',
+    content: `${APP_REGISTRY_NAME.toLowerCase()} auth message`,
   },
   primaryType: 'Message',
 } as const
@@ -420,7 +424,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     internalRpcUrl: {
       [Network.Arbitrum]: INTERNAL_ARBITRUM_RPC_URL_STAGING,
     },
-    authHeaderIssuer: AUTH_HEADER_ISSUER,
+    authHeaderIssuer: APP_REGISTRY_NAME,
     web3AuthVerifier: WEB3_AUTH_VERIFIER,
     crossChainExplorerUrl: CROSS_CHAIN_EXPLORER_URL,
   },
@@ -522,7 +526,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     internalRpcUrl: {
       [Network.Arbitrum]: INTERNAL_ARBITRUM_RPC_URL_MAINNET,
     },
-    authHeaderIssuer: AUTH_HEADER_ISSUER,
+    authHeaderIssuer: APP_REGISTRY_NAME,
     web3AuthVerifier: WEB3_AUTH_VERIFIER,
     crossChainExplorerUrl: CROSS_CHAIN_EXPLORER_URL,
   },
