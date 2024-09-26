@@ -2717,9 +2717,9 @@
       }
     },
     "beforeDepositBottomSheet": {
-      "youNeedTitle": "Для поповнення рахунку потрібно {{tokenSymbol}} на {{tokenNetwork}}",
-      "crossChainAlternativeDescription": "Якщо ви не хочете використовувати свої токени на {{tokenNetwork}}, виберіть опцію нижче. Пізніше вам потрібно буде повернутися, щоб поповнити свій депозит у пулі.",
-      "beforeYouCanDepositTitle": "Перш ніж поповнити рахунок...",
+      "youNeedTitle": "Вам потрібен {{tokenSymbol}} в {{tokenNetwork}} для внесення депозиту",
+      "crossChainAlternativeDescription": "Якщо ви не хочете використовувати свої токени в мережі {{tokenNetwork}}, виберіть один із варіантів нижче. Вам треба буде повернутися пізніше, щоб внести кошти в пул.",
+      "beforeYouCanDepositTitle": "Перш ніж внести депозит...",
       "beforeYouCanDepositDescription": "Вам потрібно буде додати один з токенів пулу. Після додавання вам потрібно буде повернутися, щоб поповнити свій депозит у пулі.",
       "action": {
         "swapAndDeposit": "Своп та депозит",
