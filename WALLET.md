@@ -442,7 +442,7 @@ If you have not yet created a keystore, one will be required to generate a relea
 
 ```sh
 cd android/app
-keytool -genkey -v -keystore mobilestack-release-key.keystore -alias mobilestack-key-alias -storepass mobilestackFakeReleaseStorePass -keypass mobilestackFakeReleaseKeyPass -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+keytool -genkey -v -keystore mobilestack-release-key.keystore -alias celo-key-alias -storepass mobilestackFakeReleaseStorePass -keypass mobilestackFakeReleaseKeyPass -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
 export MOBILESTACK_RELEASE_STORE_PASSWORD=mobilestackFakeReleaseStorePass
 export MOBILESTACK_RELEASE_KEY_PASSWORD=mobilestackFakeReleaseKeyPass
 ```
