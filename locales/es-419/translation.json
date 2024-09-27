@@ -2485,7 +2485,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Los gastos de transacción están cubiertos durante un tiempo limitado",
+    "gasSubsidized": "Las tarifas de transacción están cubiertas por un tiempo limitado",
     "addCryptoBottomSheet": {
       "title": "Agrega {{tokenSymbol}} en {{tokenNetwork}}",
       "description": "Una vez que agregues tokens, tendrás que volver para terminar de depositar en esta pool.",
@@ -2567,18 +2567,18 @@
       "feeBottomSheet": {
         "feeDetails": "Detalles de la tarifa",
         "moreInformation": "Más información",
-        "estNetworkFee": "Est. Tasa de red",
+        "estNetworkFee": "Tarifa de red est.",
         "maxNetworkFee": "Tarifa máxima de red",
-        "networkFeeDescription": "La comisión de red es exigida por la red para procesar la transacción de depósito.",
-        "networkSwapFeeDescription": "La comisión de red es exigida por la red para procesar las transacciones de depósito. La comisión {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto.",
+        "networkFeeDescription": "La tarifa de red es requerida por la red para procesar la transacción de depósito.",
+        "networkSwapFeeDescription": "La tarifa de red es requerida por la red para procesar las transacciones de depósito. La tarifa de {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto.",
         "appSwapFee": "Tarifa de {{appName}}"
       },
       "swapBottomSheet": {
         "swapDetails": "Detalles del intercambio",
         "swapFrom": "Cambiar de",
         "swapTo": "Cambiar a",
-        "whySwap": "¿Por qué cambio?",
-        "swapDescription": "Para depositar fondos en el fondo común, tu ficha se cambia por una ficha del fondo común."
+        "whySwap": "¿Por qué estoy intercambiando?",
+        "swapDescription": "Para depositar fondos en el pool, tu token se está cambiando por un token del pool."
       }
     },
     "activePools": {
@@ -2714,16 +2714,16 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Necesitas {{tokenSymbol}} en {{tokenNetwork}} para depositar",
-      "crossChainAlternativeDescription": "Si no quieres utilizar tus fichas en {{tokenNetwork}}, elige una opción a continuación. Tendrás que volver más tarde para completar el depósito de tu piscina.",
+      "crossChainAlternativeDescription": "Si no quieres usar tus tokens en {{tokenNetwork}}, elige una opción a continuación. Tendrás que volver para completar tu depósito en el pool más tarde.",
       "beforeYouCanDepositTitle": "Antes de que puedas depositar...",
-      "beforeYouCanDepositDescription": "Tendrás que añadir una de las fichas de la piscina. Una vez añadido, tendrás que volver para completar el depósito de la piscina.",
+      "beforeYouCanDepositDescription": "Tendrás que agregarr uno de los tokens del pool. Una vez agregado, tendrás que volver para completar el depósito en el pool.",
       "action": {
-        "swapAndDeposit": "Canje y depósito",
-        "swapAndDepositDescription": "Elige cualquier ficha en {{tokenNetwork}}. Lo canjearemos y depositaremos simultáneamente por ti.",
+        "swapAndDeposit": "Intercambiar y depositar",
+        "swapAndDepositDescription": "Elige cualquier token en {{tokenNetwork}}. Lo cambiaremos y lo depositaremos simultáneamente por ti.",
         "crossChainSwap": "Intercambio entre cadenas",
         "crossChainSwapDescription": "Intercambia un token en otra red por {{tokenSymbol}}",
         "swap": "Cambio",
-        "swapDescription": "Cambia a {{tokenSymbol}} en {{tokenNetwork}} desde otro token de tu cartera.",
+        "swapDescription": "Intercambia a {{tokenSymbol}} en {{tokenNetwork}} desde otro token de tu wallet",
         "add": "Comprar",
         "addDescription": "Compra {{tokenSymbol}} en {{tokenNetwork}} a uno de nuestros proveedores de confianza.",
         "transfer": "Transferir",
