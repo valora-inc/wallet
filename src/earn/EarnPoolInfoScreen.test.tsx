@@ -224,7 +224,7 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
-        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"132.00","cryptoAmount":"99.00","cryptoSymbol":"USDC"}'
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"131.67","cryptoAmount":"99.00","cryptoSymbol":"USDC"}'
       )
     ).toBeTruthy()
     expect(getAllByTestId('EarningItemLineItem')).toHaveLength(2)
