@@ -54,7 +54,7 @@ $.exec(
 $.exec('until [ `adb shell ps | grep butler | wc -l` -gt 0 ]; do sleep 3; done')
 $.echo('Background service running!')
 
-// Update root CA certificates
+// Install latest root CA certificates
 $.echo('Updating root CA cerificates...')
 $.exec(
   'wget -O android-ca.tar.gz https://android.googlesource.com/platform/system/ca-certificates/+archive/refs/heads/main/files.tar.gz'
