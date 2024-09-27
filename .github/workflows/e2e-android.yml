@@ -93,7 +93,7 @@ jobs:
           --maxWorkers 12
           --headless
           --retries 3
-          --device-launch-args="-snapshot ci_boot"
+          --device-boot-args="-snapshot ci_boot"
       - name: Publish Android JUnit Report
         if: always()
         uses: mikepenz/action-junit-report@v4
