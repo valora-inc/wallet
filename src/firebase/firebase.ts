@@ -265,8 +265,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   await remoteConfig().fetchAndActivate()
 
   const flags: FirebaseRemoteConfigTypes.ConfigValues = remoteConfig().getAll()
-  Logger.debug(TAG, `Updated remote config values:`, flags)
-
   // When adding a new remote config value there are 2 places that need updating:
   // the RemoteConfigValues interface as well as the REMOTE_CONFIG_VALUES_DEFAULTS map
   // REMOTE_CONFIG_VALUES_DEFAULTS is in remoteConfigValuesDefaults.ts

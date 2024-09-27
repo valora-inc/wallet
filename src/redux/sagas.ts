@@ -14,6 +14,7 @@ import {
   checkAndroidMobileServicesSaga,
 } from 'src/app/saga'
 import { dappsSaga } from 'src/dapps/saga'
+import { fetchDappsListCompleted } from 'src/dapps/slice'
 import { earnSaga } from 'src/earn/saga'
 import { fiatExchangesSaga } from 'src/fiatExchanges/saga'
 import { fiatConnectSaga } from 'src/fiatconnect/saga'
@@ -28,15 +29,23 @@ import { keylessBackupSaga } from 'src/keylessBackup/saga'
 import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { nftsSaga } from 'src/nfts/saga'
+import { fetchNftsCompleted } from 'src/nfts/slice'
 import { pointsSaga } from 'src/points/saga'
 import { positionsSaga } from 'src/positions/saga'
+import { fetchPositionsSuccess, fetchShortcutsSuccess } from 'src/positions/slice'
 import { priceHistorySaga } from 'src/priceHistory/saga'
-import { setPhoneRecipientCache, updateAppRecipientCache } from 'src/recipients/reducer'
+import { fetchPriceHistorySuccess } from 'src/priceHistory/slice'
+import {
+  rewardsSendersFetched,
+  setPhoneRecipientCache,
+  updateAppRecipientCache,
+} from 'src/recipients/reducer'
 import { recipientsSaga } from 'src/recipients/saga'
 import { sendSaga } from 'src/send/saga'
 import { sentrySaga } from 'src/sentry/saga'
 import { swapSaga } from 'src/swap/saga'
 import { tokensSaga } from 'src/tokens/saga'
+import { setTokenBalances } from 'src/tokens/slice'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { transactionSaga } from 'src/transactions/saga'
 import Logger from 'src/utils/Logger'
@@ -44,7 +53,9 @@ import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import { walletConnectSaga } from 'src/walletConnect/saga'
 import { call, select, spawn, take, takeEvery } from 'typed-redux-saga'
 
-const loggerBlocklist = [
+// Actions that should not be logged along with their payload, particularly
+// those containing API responses, as they add unnecessary noise to the logs.
+const loggerPayloadBlocklist = [
   REHYDRATE,
   AppActions.PHONE_NUMBER_VERIFICATION_COMPLETED,
   AccountActions.SET_PHONE_NUMBER,
@@ -52,6 +63,14 @@ const loggerBlocklist = [
   setPhoneRecipientCache.toString(),
   updateAppRecipientCache.toString(),
   TransactionActions.UPDATE_TRANSACTIONS,
+  setTokenBalances.toString(),
+  fetchPriceHistorySuccess.toString(),
+  rewardsSendersFetched.toString(),
+  fetchDappsListCompleted.toString(),
+  fetchNftsCompleted.toString(),
+  fetchPositionsSuccess.toString(),
+  fetchShortcutsSuccess.toString(),
+  AppActions.UPDATE_REMOTE_CONFIG_VALUES,
 ]
 
 function* loggerSaga() {
@@ -63,11 +82,12 @@ function* loggerSaga() {
   yield* takeEvery('*', (action: UnknownAction) => {
     if (
       action?.type &&
-      (action.type.includes('IDENTITY/') || loggerBlocklist.includes(action.type))
+      (action.type.includes('IDENTITY/') || loggerPayloadBlocklist.includes(action.type))
     ) {
-      // Log only action type, but not the payload as it can have
-      // sensitive information. Excluding all IDENTITY/ actions because high likelyhood
-      // they contain PII and the blocklist may get out of date.
+      // Log only action type, but not the payload as it can have sensitive
+      // information or information that is not helpful for debugging. Excluding
+      // all IDENTITY/ actions because high likelyhood they contain PII and the
+      // blocklist may get out of date.
       Logger.debug('redux/saga@logger', `${action.type} (payload not logged)`)
       return
     }
