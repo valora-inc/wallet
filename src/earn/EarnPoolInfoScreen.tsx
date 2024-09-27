@@ -189,26 +189,6 @@ function DepositAndEarningsCard({
     localCurrencyExchangeRate,
   ])
 
-  const totalDepositBalanceInLocalCurrency = useMemo(() => {
-    return depositBalanceInLocalCurrency.minus(
-      earningItems
-        .filter((item) => item.includedInPoolBalance)
-        .reduce((acc, item) => {
-          const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
-          return acc.plus(
-            new BigNumber(item.amount)
-              .multipliedBy(tokenInfo?.priceUsd ?? 0)
-              .multipliedBy(localCurrencyExchangeRate ?? 0)
-          )
-        }, new BigNumber(0))
-    )
-  }, [
-    depositBalanceInLocalCurrency,
-    earningItems,
-    earningItemsTokenInfo,
-    localCurrencyExchangeRate,
-  ])
-
   const totalDepositBalanceInCrypto = useMemo(() => {
     return new BigNumber(balance).minus(
       earningItems
@@ -223,6 +203,14 @@ function DepositAndEarningsCard({
         }, new BigNumber(0))
     )
   }, [balance, earningItems, earningItemsTokenInfo, depositTokenInfo])
+
+  const totalDepositBalanceInLocalCurrency = useMemo(() => {
+    return (
+      useDollarsToLocalAmount(
+        totalDepositBalanceInCrypto.multipliedBy(depositTokenInfo?.priceUsd ?? 0)
+      ) ?? new BigNumber(0)
+    )
+  }, [totalDepositBalanceInCrypto, depositTokenInfo])
 
   return (
     <View testID="DepositAndEarningsCard" style={[styles.card, styles.depositAndEarningCard]}>
