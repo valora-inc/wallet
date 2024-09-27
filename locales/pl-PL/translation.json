@@ -2569,20 +2569,20 @@
         "noGasCta": "Kup {{feeTokenSymbol}} w {{network}}"
       },
       "feeBottomSheet": {
-        "feeDetails": "Szczegóły dotyczące opłat",
+        "feeDetails": "Dane opłat",
         "moreInformation": "Więcej informacji",
-        "estNetworkFee": "Oszacuj. Opłata sieciowa",
+        "estNetworkFee": "Szac. opłata sieciowa",
         "maxNetworkFee": "Maksymalna opłata sieciowa",
-        "networkFeeDescription": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji wpłaty.",
-        "networkSwapFeeDescription": "Opłata sieciowa jest wymagana przez sieć do przetwarzania transakcji depozytowych. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
+        "networkFeeDescription": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję wpłaty.",
+        "networkSwapFeeDescription": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcje wpłaty. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
         "appSwapFee": "Opłata w aplikacji {{appName}}"
       },
       "swapBottomSheet": {
-        "swapDetails": "Szczegóły wymiany",
+        "swapDetails": "Dane wymiany",
         "swapFrom": "Zamień z",
         "swapTo": "Zamień na",
-        "whySwap": "Dlaczego się zamieniam?",
-        "swapDescription": "Aby wpłacić środki do puli, twój token jest zamieniany na token puli."
+        "whySwap": "Dlaczego dokonuję wymiany?",
+        "swapDescription": "Aby można było wpłacić środki do puli, token jest wymieniany na token puli."
       }
     },
     "activePools": {
@@ -2717,17 +2717,17 @@
       }
     },
     "beforeDepositBottomSheet": {
-      "youNeedTitle": "Potrzebujesz {{tokenSymbol}} na {{tokenNetwork}} , aby dokonać wpłaty",
-      "crossChainAlternativeDescription": "Jeśli nie chcesz używać swoich tokenów na {{tokenNetwork}}, wybierz opcję poniżej. Będziesz musiał wrócić, aby uzupełnić depozyt w puli później.",
-      "beforeYouCanDepositTitle": "Zanim będziesz mógł wpłacić...",
-      "beforeYouCanDepositDescription": "Musisz dodać jeden z żetonów do puli. Po dodaniu musisz wrócić, aby dokończyć wpłatę do puli.",
+      "youNeedTitle": "Aby dokonać wpłaty, potrzebny jest {{tokenSymbol}} w {{tokenNetwork}}",
+      "crossChainAlternativeDescription": "Jeśli nie chcesz użyć swoich tokenów w {{tokenNetwork}}, wybierz poniższą opcję. Trzeba będzie tu wrócić, aby później sfinalizować wpłatę do puli.",
+      "beforeYouCanDepositTitle": "Zanim będzie można dokonać wpłaty...",
+      "beforeYouCanDepositDescription": "Musisz dodać jeden z tokenów puli. Po dodaniu musisz tu wrócić, aby sfinalizować wpłatę do puli.",
       "action": {
-        "swapAndDeposit": "Swap i depozyt",
-        "swapAndDepositDescription": "Wybierz dowolny token na {{tokenNetwork}}. Wymienimy i zdeponujemy go jednocześnie dla Ciebie.",
+        "swapAndDeposit": "Wymiana i wpłata",
+        "swapAndDepositDescription": "Wybierz dowolny token w {{tokenNetwork}}. Wymienimy go i jednocześnie wpłacimy za Ciebie.",
         "crossChainSwap": "Wymiana międzyłańcuchowa",
-        "crossChainSwapDescription": "Wymień token w innej sieci na {{tokenSymbol}}",
+        "crossChainSwapDescription": "Wymień token z innej sieci na {{tokenSymbol}}",
         "swap": "Zamieniaj",
-        "swapDescription": "Wymień na {{tokenSymbol}} na {{tokenNetwork}} z innego tokena w swoim portfelu.",
+        "swapDescription": "Wymień inny token w swoim portfelu na {{tokenSymbol}} w {{tokenNetwork}}",
         "add": "Kup",
         "addDescription": "Kup {{tokenSymbol}} w {{tokenNetwork}}, korzystając z usług jednego z naszych zaufanych dostawców",
         "transfer": "Transfer",

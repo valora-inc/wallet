@@ -2489,7 +2489,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Комісії за транзакції покриваються протягом обмеженого часу",
+    "gasSubsidized": "Комісії за транзакції покриваються протягом обмеженого періоду",
     "addCryptoBottomSheet": {
       "title": "Додати {{tokenSymbol}} у мережі {{tokenNetwork}}",
       "description": "Коли токени додано, вам потрібно повернутися і завершити поповнення пулу.",
@@ -2569,20 +2569,20 @@
         "noGasCta": "Купити {{feeTokenSymbol}} у мережі {{network}}"
       },
       "feeBottomSheet": {
-        "feeDetails": "Детальна інформація про збори",
+        "feeDetails": "Деталі комісії",
         "moreInformation": "Докладніше",
-        "estNetworkFee": "Орієнтовно. Мережевий збір",
+        "estNetworkFee": "Орієнтовна комісія мережі",
         "maxNetworkFee": "Максимальна комісія мережі",
-        "networkFeeDescription": "Мережева комісія стягується за обробку транзакції поповнення рахунку.",
-        "networkSwapFeeDescription": "Мережева комісія стягується мережею за обробку депозитних транзакцій. Комісія {{appName}} у розмірі {{appFeePercentage}}% стягується за користування нашим продуктом.",
+        "networkFeeDescription": "Комісія мережі стягується за оброблення транзакції депозиту.",
+        "networkSwapFeeDescription": "Комісія мережі стягується за оброблення транзакції депозиту. Комісія {{appName}} в розмірі {{appFeePercentage}}% сплачується за використання нашого продукту.",
         "appSwapFee": "Комісія {{appName}}"
       },
       "swapBottomSheet": {
         "swapDetails": "Деталі обміну",
         "swapFrom": "Обміняти з",
         "swapTo": "Обміняти на",
-        "whySwap": "Чому я міняю?",
-        "swapDescription": "Щоб внести кошти в пул, ваш токен обмінюється на токен пулу."
+        "whySwap": "Навіщо обмінювати?",
+        "swapDescription": "Для внесення коштів у пул ваш токен обмінюється на токен пулу."
       }
     },
     "activePools": {
@@ -2717,17 +2717,17 @@
       }
     },
     "beforeDepositBottomSheet": {
-      "youNeedTitle": "Для поповнення рахунку потрібно {{tokenSymbol}} на {{tokenNetwork}}",
-      "crossChainAlternativeDescription": "Якщо ви не хочете використовувати свої токени на {{tokenNetwork}}, виберіть опцію нижче. Пізніше вам потрібно буде повернутися, щоб поповнити свій депозит у пулі.",
-      "beforeYouCanDepositTitle": "Перш ніж поповнити рахунок...",
-      "beforeYouCanDepositDescription": "Вам потрібно буде додати один з токенів пулу. Після додавання вам потрібно буде повернутися, щоб поповнити свій депозит у пулі.",
+      "youNeedTitle": "Вам потрібен {{tokenSymbol}} в {{tokenNetwork}} для внесення депозиту",
+      "crossChainAlternativeDescription": "Якщо ви не хочете використовувати свої токени в мережі {{tokenNetwork}}, виберіть один із варіантів нижче. Вам треба буде повернутися пізніше, щоб внести кошти в пул.",
+      "beforeYouCanDepositTitle": "Перш ніж внести депозит...",
+      "beforeYouCanDepositDescription": "Потрібно додати один із токенів пулу. Після додавання вам треба буде повернутися, щоб внести кошти в пул.",
       "action": {
-        "swapAndDeposit": "Своп та депозит",
-        "swapAndDepositDescription": "Обирайте будь-який токен на сайті {{tokenNetwork}}. Ми обміняємо і поповнимо його одночасно для вас.",
-        "crossChainSwap": "Перехресний обмін ланцюжками",
+        "swapAndDeposit": "Обмін і внесення депозиту",
+        "swapAndDepositDescription": "Виберіть будь-який токен у мережі {{tokenNetwork}}. Ми одночасно обміняємо його та внесемо депозит за вас.",
+        "crossChainSwap": "Кроссчейн-обмін",
         "crossChainSwapDescription": "Обміняйте токен в іншій мережі на {{tokenSymbol}}",
         "swap": "Обміняти",
-        "swapDescription": "Обмін на {{tokenSymbol}} на {{tokenNetwork}} з іншого токена у вашому гаманці",
+        "swapDescription": "Обміняйте інший токен у вашому гаманці на {{tokenSymbol}} в мережі {{tokenNetwork}}",
         "add": "Купити",
         "addDescription": "Купіть {{tokenSymbol}} у мережі {{tokenNetwork}} через одного з наших довірених постачальників",
         "transfer": "Переказати",
