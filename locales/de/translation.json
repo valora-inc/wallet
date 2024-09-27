@@ -2485,7 +2485,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Die Transaktionsgebühren sind für eine begrenzte Zeit abgedeckt",
+    "gasSubsidized": "Die Transaktionsgebühren wird für eine begrenzte Zeit übernommen",
     "addCryptoBottomSheet": {
       "title": "Füge {{tokenSymbol}} auf {{tokenNetwork}} hinzu",
       "description": "Sobald du Tokens hinzugefügt hast, musst du zurückkommen, um die Einzahlung in einen Pool zu beenden.",
@@ -2565,20 +2565,20 @@
         "noGasCta": "Kaufe {{feeTokenSymbol}} auf {{network}}"
       },
       "feeBottomSheet": {
-        "feeDetails": "Gebühr Details",
+        "feeDetails": "Gebührendetails",
         "moreInformation": "Weitere Informationen",
-        "estNetworkFee": "Est. Netzwerk-Gebühr",
+        "estNetworkFee": "Geschätzte Netzwerkgebühr",
         "maxNetworkFee": "Maximale Netzwerkgebühr",
-        "networkFeeDescription": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Einzahlungstransaktion zu bearbeiten.",
-        "networkSwapFeeDescription": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Einzahlungstransaktionen zu verarbeiten. Die {{appName}} Gebühr von {{appFeePercentage}}wird für deine Nutzung unseres Produkts erhoben.",
+        "networkFeeDescription": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Einzahlungstransaktion verarbeiten kann.",
+        "networkSwapFeeDescription": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Einzahlungstransaktionen verarbeiten kann. Die {{appName}}-Gebühr von {{appFeePercentage}} % wird für deine Nutzung unseres Produkts erhoben.",
         "appSwapFee": "{{appName}}-Gebühr"
       },
       "swapBottomSheet": {
-        "swapDetails": "Swap Details",
+        "swapDetails": "Swap-Details",
         "swapFrom": "Tausch von",
         "swapTo": "Tausch zu",
-        "whySwap": "Warum tausche ich?",
-        "swapDescription": "Um Geld in den Pool einzuzahlen, wird dein Token in einen Pool-Token getauscht."
+        "whySwap": "Weshalb tausche ich?",
+        "swapDescription": "Um Guthaben in den Pool einzuzahlen, wird dein Token in einen Pool-Token getauscht."
       }
     },
     "activePools": {
@@ -2607,7 +2607,7 @@
       "primaryCta": "Abschließen",
       "secondaryCta": "Abbrechen",
       "yieldRate": "Rendite (geschätzt)",
-      "apy": "{{apy}}%"
+      "apy": "{{apy}} %"
     },
     "collect": {
       "title": "Herzlichen Glückwunsch! Überprüfe und sammle deinen Verdienst ein",
@@ -2714,16 +2714,16 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Du brauchst {{tokenSymbol}} auf {{tokenNetwork}} zum Einzahlen",
-      "crossChainAlternativeDescription": "Wenn du deine Token nicht auf {{tokenNetwork}}verwenden möchtest, wähle unten eine Option. Du musst später zurückkehren, um deine Pool-Einzahlung abzuschließen.",
-      "beforeYouCanDepositTitle": "Bevor du einzahlen kannst...",
-      "beforeYouCanDepositDescription": "Du musst einen der Pool Token hinzufügen. Sobald du es hinzugefügt hast, musst du zurückkehren, um deine Pool-Einzahlung abzuschließen.",
+      "crossChainAlternativeDescription": "Wenn du deine Token nicht auf {{tokenNetwork}} verwenden möchtest, wähle eine der untenstehenden Optionen. Du musst später zurückkehren, um deine Pool-Einzahlung abzuschließen.",
+      "beforeYouCanDepositTitle": "Bevor du eine Einzahlung vornehmen kannst ...",
+      "beforeYouCanDepositDescription": "Du musst einen der Pool-Token hinzufügen. Sobald du es hinzugefügt hast, musst du zurückkehren, um deine Pool-Einzahlung abzuschließen.",
       "action": {
-        "swapAndDeposit": "Tausch & Einzahlung",
+        "swapAndDeposit": "Tausch und Einzahlung",
         "swapAndDepositDescription": "Wähle einen beliebigen Token auf {{tokenNetwork}}. Wir tauschen und hinterlegen ihn gleichzeitig für dich.",
-        "crossChainSwap": "Kettenübergreifender Tausch",
+        "crossChainSwap": "Cross-Chain-Tausch",
         "crossChainSwapDescription": "Tausche einen Token in einem anderen Netzwerk gegen {{tokenSymbol}}",
         "swap": "Tauschen",
-        "swapDescription": "Tausche auf {{tokenSymbol}} auf {{tokenNetwork}} von einem anderen Token in deiner Geldbörse",
+        "swapDescription": "Tausche in {{tokenSymbol}} auf {{tokenNetwork}} von einem anderen Token in deiner Wallet",
         "add": "Kaufen",
         "addDescription": "Kaufe {{tokenSymbol}} auf {{tokenNetwork}} über einen unserer vertrauenswürdigen Anbieter",
         "transfer": "Überweisung",
