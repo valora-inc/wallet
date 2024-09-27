@@ -1,10 +1,11 @@
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import _ from 'lodash'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -36,7 +37,6 @@ import {
 } from 'src/fiatconnect/selectors'
 import { fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
-import i18n from 'src/i18n'
 import {
   getDefaultLocalCurrencyCode,
   getLocalCurrencyCode,
@@ -48,9 +48,9 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -104,6 +104,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const tokenInfo = useTokenInfo(tokenId)
 
   const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
 
   if (!tokenInfo) {
     throw new Error(`Token info not found for token ID ${tokenId}`)
@@ -113,6 +114,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
   const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
   const appId = appIdResponse.result
+  const insets = useSafeAreaInsets()
 
   useEffect(() => {
     if (FETCH_FIATCONNECT_QUOTES) {
@@ -132,6 +134,17 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
     }
   }, [fiatConnectQuotesError])
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle:
+        route.params.flow === CICOFlow.CashIn
+          ? t(`fiatExchangeFlow.cashIn.selectProviderHeader`, {
+              context: showUKCompliantVariant ? 'UK' : undefined,
+            })
+          : t(`fiatExchangeFlow.cashOut.selectProviderHeader`),
+    })
+  }, [navigation])
 
   const asyncExchanges = useAsync(async () => {
     try {
@@ -267,7 +280,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
   if (!anyProviders) {
     return (
-      <View style={styles.noPaymentMethodsContainer}>
+      <SafeAreaView style={styles.noPaymentMethodsContainer}>
         <Text testID="NoPaymentMethods" style={styles.noPaymentMethods}>
           {t('noPaymentMethods', {
             digitalAsset: tokenInfo.symbol,
@@ -287,12 +300,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         >
           {t('contactSupport')}
         </TextButton>
-      </View>
+      </SafeAreaView>
     )
   }
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ paddingBottom: Math.min(insets.bottom, Spacing.Thick24) }}>
       <AmountSpentInfo {...route.params} />
       {paymentMethodSections.map((paymentMethod) => (
         <PaymentMethodSection
@@ -329,6 +342,9 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         analyticsData={analyticsData}
       />
 
+      {showUKCompliantVariant && (
+        <Text style={styles.disclaimerText}>{t('selectProviderScreen.disclaimerUK')}</Text>
+      )}
       {somePaymentMethodsUnavailable ? (
         <LimitedPaymentMethods flow={flow} />
       ) : (
@@ -653,8 +669,4 @@ SelectProviderScreen.navigationOptions = ({
       eventProperties={{ flow: route.params.flow }}
     />
   ),
-  headerTitle:
-    route.params.flow === CICOFlow.CashIn
-      ? i18n.t(`fiatExchangeFlow.cashIn.selectProviderHeader`)
-      : i18n.t(`fiatExchangeFlow.cashOut.selectProviderHeader`),
 })
