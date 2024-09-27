@@ -39,10 +39,7 @@ export default SecureSend = () => {
       await quickOnboarding({ mnemonic: SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED })
     })
 
-    // TODO: Disabled to unlock the CI
-    // To enable once the secure send issue on Alfajores is fixed
-    // Context: https://valora-app.slack.com/archives/C025V1D6F3J/p1727427797940139
-    xit('Send cUSD to phone number with multiple mappings', async () => {
+    it('Send cUSD to phone number with multiple mappings', async () => {
       await waitForElementByIdAndTap('HomeAction-Send', 30_000)
       await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 3000)
       await element(by.id('SendSelectRecipientSearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
