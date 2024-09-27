@@ -79,7 +79,7 @@ jobs:
         run: echo WALLET_CONNECT_PROJECT_ID_E2E=${{ secrets.WALLET_CONNECT_PROJECT_ID_E2E }} >> .env
       - name: Create Detox Build
         run: CELO_TEST_CONFIG=e2e yarn detox build -c android.release
-      - run: ls -lah ~/.android/avd/Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64/snapshots
+      - run: ls -lah ~/.android/avd/Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64.avd/snapshots
       - name: Run Detox
         run: >
           yarn detox test
