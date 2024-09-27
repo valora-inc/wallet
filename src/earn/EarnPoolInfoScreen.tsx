@@ -204,13 +204,10 @@ function DepositAndEarningsCard({
     )
   }, [balance, earningItems, earningItemsTokenInfo, depositTokenInfo])
 
-  const totalDepositBalanceInLocalCurrency = useMemo(() => {
-    return (
-      useDollarsToLocalAmount(
-        totalDepositBalanceInCrypto.multipliedBy(depositTokenInfo?.priceUsd ?? 0)
-      ) ?? new BigNumber(0)
-    )
-  }, [totalDepositBalanceInCrypto, depositTokenInfo])
+  const totalDepositBalanceInLocalCurrency =
+    useDollarsToLocalAmount(
+      totalDepositBalanceInCrypto.multipliedBy(depositTokenInfo?.priceUsd ?? 0)
+    ) ?? new BigNumber(0)
 
   return (
     <View testID="DepositAndEarningsCard" style={[styles.card, styles.depositAndEarningCard]}>
