@@ -438,7 +438,7 @@ async function queryTransactionsFeed({
         networkId,
         afterCursor,
       })
-      Logger.info(TAG, `Fetched transactions for ${networkId}`, result)
+      Logger.info(TAG, `Fetched transactions for ${networkId}`)
       onNetworkResponse(networkId, result) // Update state as soon as data is available
     } finally {
       setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
