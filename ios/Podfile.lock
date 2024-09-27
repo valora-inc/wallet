@@ -611,11 +611,11 @@ PODS:
     - Toast (~> 4)
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-video (6.5.0):
+  - react-native-video (6.6.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-    - react-native-video/Video (= 6.5.0)
-  - react-native-video/Video (6.5.0):
+    - react-native-video/Video (= 6.6.2)
+  - react-native-video/Video (6.6.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - react-native-webview (13.12.2):
@@ -740,7 +740,7 @@ PODS:
     - React-Core
   - RNCPicker (2.8.1):
     - React-Core
-  - RNDeviceInfo (10.14.0):
+  - RNDeviceInfo (13.0.0):
     - React-Core
   - RNExitApp (2.0.0):
     - React-Core
@@ -818,9 +818,10 @@ PODS:
     - React-Core
     - React-hermes
     - Sentry/HybridSDK (= 8.36.0)
-  - RNShare (10.2.1):
+  - RNShare (11.0.3):
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNSVG (15.5.0):
+  - RNSVG (15.7.1):
     - React-Core
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
@@ -1279,7 +1280,7 @@ SPEC CHECKSUMS:
   react-native-shake: 0c36371dd63019afa68890ccc65a442ee21b4dde
   react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-video: 34095830f0a9cce593700f3f0744e34c667052c5
+  react-native-video: bee03a6bf4d8b008f51c637b79460e6e7f81bac9
   react-native-webview: b8d475bafdb35f80fb3329fe32ac180bab4e7c58
   React-NativeModulesApple: a2c783eea2b9354534d6e991669d5051435b51db
   React-perflogger: 6acc671f527e69c0cd93b8e62821d33d3ddf25ca
@@ -1303,7 +1304,7 @@ SPEC CHECKSUMS:
   RNCClipboard: 5e503962f0719ace8f7fdfe9c60282b526305c85
   RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
   RNCPicker: 0b6860a6b208d4046227d2f626ad0722f99a969c
-  RNDeviceInfo: 59344c19152c4b2b32283005f9737c5c64b42fba
+  RNDeviceInfo: 55264dd7cc939dad6e9c231a7621311f5277f1dc
   RNExitApp: 00036cabe7bacbb413d276d5520bf74ba39afa6a
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBAnalytics: 695dcc7123daa3cf938cf7123b8715c0b5c8c657
@@ -1323,8 +1324,8 @@ SPEC CHECKSUMS:
   RNReanimated: 739d696f5bd3bea1d675a86caec05064ab4d898f
   RNScreens: a1db0ca347cf9f44ae57b0a2d31991af6d872f7c
   RNSentry: b3148dd1d982d13fd68ec93566f8b4552d29a286
-  RNShare: 0fad69ae2d71de9d1f7b9a43acf876886a6cb99c
-  RNSVG: b986585e367f4a49d8aa43065066cc9c290b3d9b
+  RNShare: cc904a0d9305649d0fe7897fc6de938f958c3a40
+  RNSVG: 4590aa95758149fa27c5c83e54a6a466349a1688
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   segment-analytics-react-native: 4bac3da03dd4a1eed178786b1d7025cd2c0ed6c9
