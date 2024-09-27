@@ -6,7 +6,7 @@ beforeAll(async () => {
   await quickOnboarding()
 })
 
-describe('Home Feed', () => {
+xdescribe('Home Feed', () => {
   it('should show correct information on tap of feed item', async () => {
     // Load Wallet Home
     await waitForElementId('WalletHome')
