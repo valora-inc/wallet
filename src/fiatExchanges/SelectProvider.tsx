@@ -5,7 +5,7 @@ import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -280,7 +280,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
   if (!anyProviders) {
     return (
-      <SafeAreaView style={styles.noPaymentMethodsContainer}>
+      <View style={styles.noPaymentMethodsContainer}>
         <Text testID="NoPaymentMethods" style={styles.noPaymentMethods}>
           {t('noPaymentMethods', {
             digitalAsset: tokenInfo.symbol,
@@ -300,12 +300,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         >
           {t('contactSupport')}
         </TextButton>
-      </SafeAreaView>
+      </View>
     )
   }
 
   return (
-    <ScrollView contentContainerStyle={{ paddingBottom: Math.min(insets.bottom, Spacing.Thick24) }}>
+    <ScrollView contentContainerStyle={{ paddingBottom: Math.max(insets.bottom, Spacing.Thick24) }}>
       <AmountSpentInfo {...route.params} />
       {paymentMethodSections.map((paymentMethod) => (
         <PaymentMethodSection
@@ -343,7 +343,9 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       />
 
       {showUKCompliantVariant && (
-        <Text style={styles.disclaimerText}>{t('selectProviderScreen.disclaimerUK')}</Text>
+        <View style={styles.disclaimerUKContainer}>
+          <Text style={styles.disclaimerText}>{t('selectProviderScreen.disclaimerUK')}</Text>
+        </View>
       )}
       {somePaymentMethodsUnavailable ? (
         <LimitedPaymentMethods flow={flow} />
@@ -628,6 +630,10 @@ const styles = StyleSheet.create({
   },
   disclaimerContainer: {
     padding: Spacing.Regular16,
+  },
+  disclaimerUKContainer: {
+    paddingTop: Spacing.Thick24,
+    paddingHorizontal: Spacing.Regular16,
   },
   disclaimerText: {
     ...typeScale.bodySmall,
