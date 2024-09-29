@@ -65,8 +65,8 @@ $.exec('adb root')
 $.exec('adb remount')
 $.exec('adb push cacerts /system/etc/security/cacerts')
 
-$.echo('Saving snapshot...')
-$.exec('adb emu avd snapshot save ci_boot')
+// $.echo('Saving snapshot...')
+// $.exec('adb emu avd snapshot save ci_boot')
 $.echo('Snapshot saved! Killing emulator...')
 child.kill()
 
