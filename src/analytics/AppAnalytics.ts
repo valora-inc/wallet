@@ -203,7 +203,11 @@ class AppAnalytics {
       ...eventProperties,
     }
 
-    Logger.info(TAG, `Tracking event ${eventName} with properties:`, props)
+    if (__DEV__) {
+      Logger.debug(TAG, `Tracking event ${eventName} with properties:`, props)
+    } else {
+      Logger.info(TAG, `Tracking event ${eventName}`)
+    }
 
     this.segmentClient.track(eventName, props).catch((err) => {
       Logger.error(TAG, `Failed to track event ${eventName}`, err)

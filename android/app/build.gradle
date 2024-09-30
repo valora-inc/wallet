@@ -164,7 +164,7 @@ android {
 
         manifestPlaceholders = [
             auth0Domain: project.env.get("AUTH0_DOMAIN"),
-            auth0Scheme: "${applicationId}",
+            auth0Scheme: "${applicationId}.auth0",
             clevertapAccountId: secrets['CLEVERTAP_ACCOUNT_ID'] ?: '', // these values cannot be null
             clevertapToken: secrets['CLEVERTAP_TOKEN'] ?: ''
         ]

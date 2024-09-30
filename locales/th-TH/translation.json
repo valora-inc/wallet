@@ -2483,7 +2483,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Transaction fees are covered for a limited time",
+    "gasSubsidized": "ครอบคลุมค่าธรรมเนียมการดำเนินการในระยะเวลาจำกัด",
     "addCryptoBottomSheet": {
       "title": "เพิ่ม {{tokenSymbol}} บน {{tokenNetwork}}",
       "description": "เมื่อคุณเพิ่มโทเค็นแล้ว คุณจะต้องย้อนกลับมาฝากเข้าพูลให้เสร็จสิ้น",
@@ -2563,20 +2563,20 @@
         "noGasCta": "ซื้อ {{feeTokenSymbol}} บน {{network}}"
       },
       "feeBottomSheet": {
-        "feeDetails": "Fee Details",
+        "feeDetails": "รายละเอียดค่าธรรมเนียม",
         "moreInformation": "ข้อมูลเพิ่มเติม",
-        "estNetworkFee": "Est. Network Fee",
+        "estNetworkFee": "ค่าธรรมเนียมเครือข่ายโดยประมาณ",
         "maxNetworkFee": "ค่าธรรมเนียมเครือข่ายสูงสุด",
-        "networkFeeDescription": "The network fee is required by the network to process the deposit transaction.",
-        "networkSwapFeeDescription": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
+        "networkFeeDescription": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน",
+        "networkSwapFeeDescription": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน โดยเรียกเก็บค่าธรรมเนียม {{appName}} จำนวน {{appFeePercentage}}% สำหรับการที่คุณใช้ผลิตภัณฑ์ของเรา",
         "appSwapFee": "ค่าธรรมเนียม {{appName}}"
       },
       "swapBottomSheet": {
-        "swapDetails": "Swap Details",
+        "swapDetails": "รายละเอียดสว็อป",
         "swapFrom": "สว็อปจาก",
         "swapTo": "สว็อปเป็น",
-        "whySwap": "Why am I swapping?",
-        "swapDescription": "To deposit funds into the pool, your token is being swapped into a pool token."
+        "whySwap": "เหตุใดฉันจึงต้องสว็อป",
+        "swapDescription": "โทเค็นของคุณจะถูกสว็อปไปยังโทเค็นพูลเพื่อฝากเงินเข้าพูล"
       }
     },
     "activePools": {
@@ -2711,17 +2711,17 @@
       }
     },
     "beforeDepositBottomSheet": {
-      "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",
-      "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
-      "beforeYouCanDepositTitle": "Before you can deposit...",
-      "beforeYouCanDepositDescription": "You’ll need to add one of the pool tokens. Once added, you’ll need to return to complete your pool deposit.",
+      "youNeedTitle": "คุณจำเป็นต้องมี {{tokenSymbol}} บน {{tokenNetwork}} จึงจะฝากเงินได้",
+      "crossChainAlternativeDescription": "หากคุณไม่ต้องการใช้โทเค็นของคุณบน {{tokenNetwork}} ให้เลือกตัวเลือกด้านล่างนี้ ทั้งนี้ คุณจะต้องกลับมาฝากเงินเข้าพูลในภายหลัง",
+      "beforeYouCanDepositTitle": "ก่อนที่คุณจะสามารถฝากเงินได้...",
+      "beforeYouCanDepositDescription": "คุณจะต้องเพิ่มโทเค็นพูลหนึ่งรายการ เมื่อเพิ่มแล้ว คุณจะต้องกลับไปเพื่อทำการฝากเงินเข้าพูลให้เสร็จสมบูรณ์",
       "action": {
-        "swapAndDeposit": "Swap & Deposit",
-        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
-        "crossChainSwap": "Cross-chain Swap",
-        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
+        "swapAndDeposit": "สว็อปและฝากเงิน",
+        "swapAndDepositDescription": "เลือกโทเค็นใดโทเค็นหนึ่งบน {{tokenNetwork}} เราจะสว็อปและฝากเงินให้คุณในเวลาเดียวกัน",
+        "crossChainSwap": "สว็อปแบบ Cross-chain",
+        "crossChainSwapDescription": "สว็อปโทเค็นบนเครือข่ายอื่นสำหรับ {{tokenSymbol}}",
         "swap": "สว็อป",
-        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
+        "swapDescription": "สว็อปเป็น {{tokenSymbol}} บน {{tokenNetwork}} จากโทเค็นอื่นในกระเป๋าเงินของคุณ",
         "add": "ซื้อ",
         "addDescription": "ซื้อ {{tokenSymbol}} บน {{tokenNetwork}} ผ่านหนึ่งในผู้ให้บริการที่น่าเชื่อถือของเรา",
         "transfer": "โอน",

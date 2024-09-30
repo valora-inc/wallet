@@ -3,14 +3,15 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -167,6 +168,27 @@ describe(SelectProviderScreen, () => {
       </Provider>
     )
     await waitFor(() => expect(fetchExchanges).toHaveBeenCalledWith('MX', mockCusdTokenId))
+  })
+  it('shows an additional disclaimer for UK compliance', async () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((feature) => feature === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+    const { getByText } = render(
+      <Provider
+        store={createMockStore({
+          ...MOCK_STORE_DATA,
+          fiatConnect: {
+            quotesError: null,
+            quotesLoading: false,
+            quotes: [mockFiatConnectQuotes[4]],
+          },
+        })}
+      >
+        <SelectProviderScreen {...mockScreenProps()} />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByText('selectProviderScreen.disclaimerUK')).toBeTruthy())
   })
   it('shows spinner and avoids publishing analytics event if quotes still loading', async () => {
     const { getByTestId } = render(

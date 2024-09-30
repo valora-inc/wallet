@@ -1,15 +1,15 @@
 PODS:
-  - A0Auth0 (2.17.4):
-    - Auth0 (= 2.3.2)
-    - JWTDecode (= 3.0.1)
+  - A0Auth0 (3.2.1):
+    - Auth0 (= 2.7.2)
+    - JWTDecode (= 3.1.0)
     - React-Core
-    - SimpleKeychain (= 1.0.1)
+    - SimpleKeychain (= 1.1.0)
   - Adjust (4.38.2):
     - Adjust/Core (= 4.38.2)
   - Adjust/Core (4.38.2)
-  - Auth0 (2.3.2):
-    - JWTDecode (~> 3.0)
-    - SimpleKeychain (~> 1.0)
+  - Auth0 (2.7.2):
+    - JWTDecode (~> 3.1)
+    - SimpleKeychain (~> 1.1)
   - boost (1.76.0)
   - BVLinearGradient (2.8.3):
     - React-Core
@@ -234,7 +234,7 @@ PODS:
   - hermes-engine (0.72.15):
     - hermes-engine/Pre-built (= 0.72.15)
   - hermes-engine/Pre-built (0.72.15)
-  - JWTDecode (3.0.1)
+  - JWTDecode (3.1.0)
   - leveldb-library (1.22.2)
   - libevent (2.1.12)
   - libwebp (1.3.2):
@@ -812,7 +812,7 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - React-RCTImage
-  - RNSentry (5.33.0):
+  - RNSentry (5.33.1):
     - hermes-engine
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -833,7 +833,7 @@ PODS:
     - React-Core
     - sovran-react-native
   - Sentry/HybridSDK (8.36.0)
-  - SimpleKeychain (1.0.1)
+  - SimpleKeychain (1.1.0)
   - SocketRocket (0.6.1)
   - sovran-react-native (1.1.2):
     - React-Core
@@ -1196,9 +1196,9 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  A0Auth0: 5ae918d2f043395f83ac26d6eb85b249bcb54634
+  A0Auth0: 47cb14c87d549b95b92242675ff2198ccd9dcbc5
   Adjust: 5a0f813fe079212bed61404d1f635cc330068b4a
-  Auth0: 64da28fdc5cd499aa516dc4bfd0ace8efae2c1da
+  Auth0: 28cb24cb19ebd51f0b07751f16d83b59f4019532
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   CleverTap-iOS-SDK: 78ea6d752d84918f0426f7b3959777d862bcb348
@@ -1238,7 +1238,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
   hermes-engine: 5b340c6a5affbf3aba22185be41563bbb2426654
-  JWTDecode: 2eed97c2fa46ccaf3049a787004eedf0be474a87
+  JWTDecode: 3eaab1e06b6f4dcbdd6716aff09ba4c2104ca8b7
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
@@ -1323,14 +1323,14 @@ SPEC CHECKSUMS:
   RNReactNativeHapticFeedback: a15559aa2aa8b5e5d49616fd84259dfb3c415230
   RNReanimated: 739d696f5bd3bea1d675a86caec05064ab4d898f
   RNScreens: a1db0ca347cf9f44ae57b0a2d31991af6d872f7c
-  RNSentry: b3148dd1d982d13fd68ec93566f8b4552d29a286
+  RNSentry: b66de7515ae09a4ada52aa31625ef1953c53760c
   RNShare: cc904a0d9305649d0fe7897fc6de938f958c3a40
   RNSVG: 4590aa95758149fa27c5c83e54a6a466349a1688
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   segment-analytics-react-native: 4bac3da03dd4a1eed178786b1d7025cd2c0ed6c9
   Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
-  SimpleKeychain: 130211269f88f038d7dc5254cf0b1b9ce978c398
+  SimpleKeychain: f8707c8e97b38c6a6e687b17732afc9bcef06439
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   sovran-react-native: 5f02bd2d111ffe226d00c7b0435290eae6f10934
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196

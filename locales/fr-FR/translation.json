@@ -2567,18 +2567,18 @@
       "feeBottomSheet": {
         "feeDetails": "Détails des frais",
         "moreInformation": "Plus d'informations",
-        "estNetworkFee": "Est. Frais de réseau",
+        "estNetworkFee": "Frais de réseau estimés",
         "maxNetworkFee": "Frais de réseau maximum",
-        "networkFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter la transaction de dépôt.",
-        "networkSwapFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter les transactions de dépôt. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit.",
+        "networkFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter la transaction.",
+        "networkSwapFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter la transaction de dépôt. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit.",
         "appSwapFee": "Frais de {{appName}}"
       },
       "swapBottomSheet": {
-        "swapDetails": "Détails de l'échange",
+        "swapDetails": "Informations de l'échange",
         "swapFrom": "Échanger de",
         "swapTo": "Échanger pour",
-        "whySwap": "Pourquoi est-ce que j'échange ?",
-        "swapDescription": "Pour déposer des fonds dans le pool, ton jeton est échangé contre un jeton du pool."
+        "whySwap": "Pourquoi est-ce que je fais un swap ?",
+        "swapDescription": "Pour déposer des fonds dans le pool, votre jeton est converti en jeton de pool."
       }
     },
     "activePools": {
@@ -2713,17 +2713,17 @@
       }
     },
     "beforeDepositBottomSheet": {
-      "youNeedTitle": "Tu as besoin de {{tokenSymbol}} sur {{tokenNetwork}} pour déposer",
-      "crossChainAlternativeDescription": "Si tu ne veux pas utiliser tes jetons sur {{tokenNetwork}}, choisis une option ci-dessous. Tu devras revenir pour effectuer ton dépôt de piscine plus tard.",
-      "beforeYouCanDepositTitle": "Avant de pouvoir déposer...",
-      "beforeYouCanDepositDescription": "Tu devras ajouter l'un des jetons de la piscine. Une fois ajouté, tu devras revenir pour compléter ton dépôt de piscine.",
+      "youNeedTitle": "Vous avez besoin de {{tokenSymbol}} sur {{tokenNetwork}} pour faire un dépôt",
+      "crossChainAlternativeDescription": "Si vous ne voulez pas utiliser vos jetons sur {{tokenNetwork}}, choisissez une option ci-dessous. Vous devrez revenir pour compléter votre dépôt de pool plus tard.",
+      "beforeYouCanDepositTitle": "Avant de pouvoir effectuer un dépôt...",
+      "beforeYouCanDepositDescription": "Vous devrez ajouter un des jetons du pool. Une fois ajouté, vous devrez revenir pour compléter votre dépôt de pool.",
       "action": {
         "swapAndDeposit": "Échange et dépôt",
-        "swapAndDepositDescription": "Choisis n'importe quel jeton sur {{tokenNetwork}}. Nous l'échangerons et le déposerons simultanément pour toi.",
-        "crossChainSwap": "Échange inter-chaînes",
-        "crossChainSwapDescription": "Échange un jeton sur un autre réseau pour {{tokenSymbol}}",
+        "swapAndDepositDescription": "Choisissez n'importe quel jeton sur {{tokenNetwork}}. Nous le changerons et le déposerons simultanément pour vous.",
+        "crossChainSwap": "Échange cross-chain",
+        "crossChainSwapDescription": "Échanger un jeton sur un autre réseau pour {{tokenSymbol}}",
         "swap": "Échange",
-        "swapDescription": "Échange avec {{tokenSymbol}} sur {{tokenNetwork}} à partir d'un autre jeton de ton portefeuille.",
+        "swapDescription": "Échangez en {{tokenSymbol}} sur {{tokenNetwork}} à partir d'un autre jeton dans votre portefeuille",
         "add": "Acheter",
         "addDescription": "Achetez des {{tokenSymbol}} sur {{tokenNetwork}} en utilisant un de nos fournisseurs de confiance",
         "transfer": "Transférer",
