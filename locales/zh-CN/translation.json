@@ -2483,7 +2483,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "交易费用在有限的时间内可报销",
+    "gasSubsidized": "在一定时间内可免除交易费用",
     "addCryptoBottomSheet": {
       "title": "在 {{tokenNetwork}} 上添加 {{tokenSymbol}}",
       "description": "添加代币后，就必须返回并完成将资金存入池中。",
@@ -2565,18 +2565,18 @@
       "feeBottomSheet": {
         "feeDetails": "费用详情",
         "moreInformation": "更多信息",
-        "estNetworkFee": "估计网络费用",
+        "estNetworkFee": "预估网络费用",
         "maxNetworkFee": "最高网络费用",
-        "networkFeeDescription": "网络费是网络处理存款交易所需的费用。",
-        "networkSwapFeeDescription": "网络费是网络处理存款交易所需的费用。 {{appName}} 费用为 {{appFeePercentage}}%，用于您使用我们的产品。",
+        "networkFeeDescription": "使用网络处理存款交易需支付网络费用。",
+        "networkSwapFeeDescription": "使用网络处理存款交易需支付网络费用。使用我们的产品时，将收取 {{appFeePercentage}}% 的 {{appName}} 费用。",
         "appSwapFee": "{{appName}} 费用"
       },
       "swapBottomSheet": {
         "swapDetails": "交换详情",
         "swapFrom": "交换自",
         "swapTo": "交换至",
-        "whySwap": "我为什么要交换？",
-        "swapDescription": "要将资金存入资金池，您的代币将被交换成资金池代币。"
+        "whySwap": "我为什么要进行交换？",
+        "swapDescription": "当您向某个资金池存入资金时，您的代币将会交换成资金池代币。"
       }
     },
     "activePools": {
@@ -2711,17 +2711,17 @@
       }
     },
     "beforeDepositBottomSheet": {
-      "youNeedTitle": "您需要 {{tokenSymbol}} 在 {{tokenNetwork}} 上存款",
-      "crossChainAlternativeDescription": "如果您不想在 {{tokenNetwork}}上使用代币，请在下面选择一个选项。您需要稍后返回完成泳池存款。",
-      "beforeYouCanDepositTitle": "在存款之前...",
-      "beforeYouCanDepositDescription": "您需要添加一个游泳池代币。添加后，您需要返回以完成泳池存款。",
+      "youNeedTitle": "您需要在 {{tokenNetwork}} 上持有 {{tokenSymbol}} 才可进行存款",
+      "crossChainAlternativeDescription": "如果您不想使用 {{tokenNetwork}} 上的代币，请选择以下选项。您需要稍后返回，继续完成资金池存款操作。",
+      "beforeYouCanDepositTitle": "在您进行存款之前……",
+      "beforeYouCanDepositDescription": "您需要添加某一资金池的代币。成功添加代币后，您需要返回继续完成资金池存款操作。",
       "action": {
         "swapAndDeposit": "交换与存款",
-        "swapAndDepositDescription": "在 {{tokenNetwork}}上选择任何代币。我们将同时为您交换和存入。",
+        "swapAndDepositDescription": "请选择 {{tokenNetwork}} 上的任何代币。我们将同步为您进行交换和存款。",
         "crossChainSwap": "跨链交换",
-        "crossChainSwapDescription": "在另一个网络上交换令牌 {{tokenSymbol}}",
+        "crossChainSwapDescription": "将另一个网络上的某种代币交换为 {{tokenSymbol}}",
         "swap": "交换",
-        "swapDescription": "在 {{tokenNetwork}} 上从钱包中的另一种代币换入 {{tokenSymbol}}",
+        "swapDescription": "将您钱包中的另一种代币交换为 {{tokenNetwork}} 上的 {{tokenSymbol}}",
         "add": "买入",
         "addDescription": "使用我们值得信赖的提供商之一，在 {{tokenNetwork}} 上购买 {{tokenSymbol}}",
         "transfer": "转账",

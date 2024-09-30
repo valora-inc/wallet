@@ -39,6 +39,7 @@ export enum StatsigFeatureGates {
   SHOW_MULTIPLE_EARN_POOLS = 'show_multiple_earn_pools',
   SHOW_APPLE_IN_CAB = 'show_apple_in_cab',
   SHOW_SWAP_AND_DEPOSIT = 'show_swap_and_deposit',
+  SHOW_UK_COMPLIANT_VARIANT = 'show_uk_compliant_variant',
 }
 
 export enum StatsigExperiments {

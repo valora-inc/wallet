@@ -2570,14 +2570,14 @@
         "estNetworkFee": "Commissione di rete stimata",
         "maxNetworkFee": "Commissione di rete massima",
         "networkFeeDescription": "La commissione di rete viene richiesta dalla rete per elaborare la transazione di deposito.",
-        "networkSwapFeeDescription": "La commissione di rete è richiesta dalla rete per elaborare le transazioni di deposito. La commissione di {{appName}} di {{appFeePercentage}}% viene addebitata per l'utilizzo del nostro prodotto.",
+        "networkSwapFeeDescription": "La commissione di rete viene richiesta dalla rete per elaborare la transazione di deposito. La commissione di {{appName}} del {{appFeePercentage}}% viene addebitata per l'utilizzo del nostro prodotto.",
         "appSwapFee": "Commissione di {{appName}}"
       },
       "swapBottomSheet": {
-        "swapDetails": "Dettagli sullo scambio",
+        "swapDetails": "Dettagli swap",
         "swapFrom": "Scambia da",
         "swapTo": "Scambia a",
-        "whySwap": "Perché sto scambiando?",
+        "whySwap": "Perché uno swap?",
         "swapDescription": "Per depositare fondi nel pool, il tuo token viene scambiato con un token del pool."
       }
     },

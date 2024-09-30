@@ -812,7 +812,7 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - React-RCTImage
-  - RNSentry (5.33.0):
+  - RNSentry (5.33.1):
     - hermes-engine
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -1323,7 +1323,7 @@ SPEC CHECKSUMS:
   RNReactNativeHapticFeedback: a15559aa2aa8b5e5d49616fd84259dfb3c415230
   RNReanimated: 739d696f5bd3bea1d675a86caec05064ab4d898f
   RNScreens: a1db0ca347cf9f44ae57b0a2d31991af6d872f7c
-  RNSentry: b3148dd1d982d13fd68ec93566f8b4552d29a286
+  RNSentry: b66de7515ae09a4ada52aa31625ef1953c53760c
   RNShare: cc904a0d9305649d0fe7897fc6de938f958c3a40
   RNSVG: 4590aa95758149fa27c5c83e54a6a466349a1688
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
