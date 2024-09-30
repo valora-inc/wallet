@@ -65,10 +65,13 @@ $.exec('adb root')
 $.exec('adb remount')
 $.exec('adb push cacerts /system/etc/security/cacerts')
 
-// $.echo('Saving snapshot...')
-// $.exec('adb emu avd snapshot save ci_boot')
+$.echo('Saving snapshot...')
+$.exec('adb emu avd snapshot save ci_boot')
 $.echo('Snapshot saved! Killing emulator...')
 child.kill()
 
 // Wait until the emulator is off
 $.exec('until [ `adb devices | grep emulator | wc -l` -gt 0 ]; do sleep 3; done')
+
+$.exec('qemu-img snapshot -a ci_boot ~/.android/avd/${emulatorName}.avd/system.img.qcow2')
+$.exec('qemu-img commit ~/.android/avd/${emulatorName}.avd/system.img.qcow2')
