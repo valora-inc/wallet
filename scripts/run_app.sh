@@ -130,7 +130,7 @@ elif [ "$PLATFORM" = "ios" ]; then
   if [ -n "$DEVICE" ]; then
     device_param="--device=$DEVICE"
   fi 
-  yarn react-native run-ios --scheme "celo-${ENV_NAME}" --configuration "$CONFIGURATION" --no-packager "${simulator_param}" "${device_param}"
+  yarn react-native run-ios --scheme "MobileStack-${ENV_NAME}" --configuration "$CONFIGURATION" --no-packager "${simulator_param}" "${device_param}"
 
 else
   echo "Invalid value for platform, must be 'android' or 'ios'"

@@ -284,17 +284,15 @@ export function* handleSubmitFiatAccount({
     })
     if (postFiatAccountResponse.error.fiatConnectError === FiatConnectError.ResourceExists) {
       yield* put(
-        showError(
-          i18n.t('fiatDetailsScreen.addFiatAccountResourceExist', {
-            provider: quote.getProviderName(),
-          })
-        )
+        showError(ErrorMessages.FIATCONNECT_ADD_ACCOUNT_EXISTS, undefined, {
+          provider: quote.getProviderName(),
+        })
       )
     } else {
       yield* put(
-        showError(
-          i18n.t('fiatDetailsScreen.addFiatAccountFailed', { provider: quote.getProviderName() })
-        )
+        showError(ErrorMessages.FIATCONNECT_ADD_ACCOUNT_FAILED, undefined, {
+          provider: quote.getProviderName(),
+        })
       )
     }
   }

@@ -54,7 +54,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
-import { SerializableRewardsInfo } from 'src/earn/types'
+import { EarnDepositMode, BeforeDepositActionName, SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -1552,7 +1552,12 @@ interface EarnCommonProperties {
 }
 
 interface EarnDepositProperties extends EarnCommonProperties {
-  tokenAmount: string
+  depositTokenAmount: string
+  mode: EarnDepositMode
+  // the below are mainly for swap-deposit. For deposit, this would just be
+  // same as the depositTokenAmount and depositTokenId
+  fromTokenAmount: string
+  fromTokenId: string
 }
 
 interface EarnWithdrawProperties extends EarnCommonProperties {
@@ -1578,8 +1583,8 @@ interface EarnEventsProperties {
     depositTokenId: string
   }
   [EarnEvents.earn_entrypoint_press]: undefined
-  [EarnEvents.earn_add_crypto_action_press]: {
-    action: AddAssetsActionType
+  [EarnEvents.earn_before_deposit_action_press]: {
+    action: BeforeDepositActionName
   } & TokenProperties
   [EarnEvents.earn_deposit_provider_info_press]: EarnDepositProperties
   [EarnEvents.earn_deposit_terms_and_conditions_press]: EarnDepositProperties
@@ -1599,7 +1604,6 @@ interface EarnEventsProperties {
   }
   [EarnEvents.earn_enter_amount_info_press]: undefined
   [EarnEvents.earn_enter_amount_continue_press]: {
-    userHasFunds: boolean
     amountInUsd: string
     amountEnteredIn: AmountEnteredIn
   } & EarnDepositProperties
@@ -1610,7 +1614,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_deposit_more_press]: EarnCommonProperties
   [EarnEvents.earn_deposit_add_gas_press]: { gasTokenId: string }
   [EarnEvents.earn_feed_item_select]: {
-    origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward'
+    origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward' | 'EarnSwapDeposit'
   }
   [EarnEvents.earn_collect_earnings_press]: EarnWithdrawProperties
   [EarnEvents.earn_withdraw_submit_start]: EarnWithdrawProperties
@@ -1635,7 +1639,11 @@ interface EarnEventsProperties {
   [EarnEvents.earn_pool_info_tap_withdraw]: {
     poolAmount: string
   } & EarnCommonProperties
-  [EarnEvents.earn_pool_info_tap_deposit]: EarnCommonProperties
+  [EarnEvents.earn_pool_info_tap_deposit]: EarnCommonProperties & {
+    hasDepositToken: boolean
+    hasTokensOnSameNetwork: boolean
+    hasTokensOnOtherNetworks: boolean
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

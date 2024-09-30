@@ -31,6 +31,9 @@ function useFilterChips(
     () => new Set(feeCurrencies.map((currency) => currency.tokenId)),
     [feeCurrencies]
   )
+
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+
   if (
     flow !== FiatExchangeFlow.CashIn ||
     !getFeatureGate(StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS)
@@ -44,12 +47,16 @@ function useFilterChips(
   ).popularTokenIds
 
   return [
-    {
-      id: 'popular',
-      name: t('tokenBottomSheet.filters.popular'),
-      filterFn: (token: TokenBalance) => popularTokenIds.includes(token.tokenId),
-      isSelected: false,
-    },
+    ...(showUKCompliantVariant
+      ? []
+      : [
+          {
+            id: 'popular',
+            name: t('tokenBottomSheet.filters.popular'),
+            filterFn: (token: TokenBalance) => popularTokenIds.includes(token.tokenId),
+            isSelected: false,
+          },
+        ]),
     {
       id: 'stablecoins',
       name: t('tokenBottomSheet.filters.stablecoins'),

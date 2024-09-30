@@ -36,6 +36,7 @@ const configOrThrow = (key: string) => {
 }
 
 export const APP_NAME = 'Valora'
+export const APP_REGISTRY_NAME = configOrThrow('APP_REGISTRY_NAME')
 
 // DEV only related settings
 export const isE2EEnv = stringToBoolean(Config.IS_E2E || 'false')
@@ -69,6 +70,7 @@ export const DEFAULT_FORNO_URL =
     : 'https://alfajores-forno.celo-testnet.org/'
 
 export const APP_BUNDLE_ID = configOrThrow('APP_BUNDLE_ID')
+export const DEEP_LINK_URL_SCHEME = configOrThrow('DEEP_LINK_URL_SCHEME')
 
 // The network that FiatConnect providers operate on
 export const FIATCONNECT_NETWORK =
@@ -160,12 +162,6 @@ export const SUPERCHARGE_LOGO_URL =
 
 export const SIMPLEX_FEES_URL =
   'https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-am-I-paying-'
-
-// N.B.: Make sure to update the following files to match this value:
-// * app.json
-// * android/**/AndroidManifest.xml
-// * ios/**/AppDelegate.mm
-export const DEEPLINK_PREFIX = 'celo'
 
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN_URI_PREFIX = 'https://vlra.app'
