@@ -2057,12 +2057,12 @@ export const mockEarnDepositTransaction: EarnDeposit = {
     localAmount: undefined,
     tokenAddress: mockAaveArbUsdcAddress,
     tokenId: networkConfig.aaveArbUsdcTokenId,
-    value: '10',
+    value: '10.01',
   },
   outAmount: {
     localAmount: undefined,
     tokenAddress: '0xdef',
-    tokenId: networkConfig.arbUsdcTokenId,
+    tokenId: mockArbUsdcTokenId,
     value: '10',
   },
   block: '210927567',
@@ -2085,56 +2085,6 @@ export const mockEarnDepositTransaction: EarnDeposit = {
   type: TokenTransactionTypeV2.EarnDeposit,
 }
 
-export const mockEarnSwapDepositTransactionNetworkConfigVersion: EarnSwapDeposit = {
-  __typename: 'EarnSwapDeposit',
-  deposit: {
-    inAmount: {
-      localAmount: undefined,
-      tokenAddress: mockAaveArbUsdcAddress,
-      tokenId: networkConfig.aaveArbUsdcTokenId,
-      value: '10',
-    },
-    outAmount: {
-      localAmount: undefined,
-      tokenAddress: '0xdef',
-      tokenId: networkConfig.arbUsdcTokenId,
-      value: '10',
-    },
-    providerId: 'aave',
-  },
-  swap: {
-    inAmount: {
-      localAmount: undefined,
-      tokenAddress: '0xdef',
-      tokenId: networkConfig.arbUsdcTokenId,
-      value: '10',
-    },
-    outAmount: {
-      localAmount: undefined,
-      tokenAddress: mockCeloAddress,
-      tokenId: mockCeloTokenId,
-      value: '50',
-    },
-  },
-  block: '210927567',
-  fees: [
-    {
-      amount: {
-        localAmount: undefined,
-        tokenAddress: mockArbArbAddress,
-        tokenId: mockArbArbTokenId,
-        value: '0.00000284243',
-      },
-      type: 'SECURITY_FEE',
-    },
-  ],
-  networkId: NetworkId['arbitrum-sepolia'],
-  timestamp: Date.now(),
-  transactionHash: '0xHASH1',
-  status: TransactionStatus.Complete,
-  type: TokenTransactionTypeV2.EarnDeposit,
-}
-
 export const mockEarnSwapDeposit: EarnSwapDeposit = {
   __typename: 'EarnSwapDeposit',
   deposit: {
@@ -2142,7 +2092,7 @@ export const mockEarnSwapDeposit: EarnSwapDeposit = {
       localAmount: undefined,
       tokenAddress: mockAaveArbUsdcAddress,
       tokenId: networkConfig.aaveArbUsdcTokenId,
-      value: '10',
+      value: '10.01',
     },
     outAmount: {
       localAmount: undefined,
@@ -2190,14 +2140,14 @@ export const mockEarnWithdrawTransaction: EarnWithdraw = {
   inAmount: {
     localAmount: undefined,
     tokenAddress: '0xdef',
-    tokenId: networkConfig.arbUsdcTokenId,
+    tokenId: mockArbUsdcTokenId,
     value: '1',
   },
   outAmount: {
     localAmount: undefined,
     tokenAddress: mockAaveArbUsdcAddress,
     tokenId: networkConfig.aaveArbUsdcTokenId,
-    value: '0.996614',
+    value: '0.986614',
   },
   block: '211276583',
   fees: [

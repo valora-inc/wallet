@@ -71,15 +71,15 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
 
   switch (transaction.__typename) {
     case 'EarnDeposit':
-      amountValue = new BigNumber(-transaction.inAmount.value)
+      amountValue = new BigNumber(-transaction.outAmount.value)
       tokenId = transaction.outAmount.tokenId
       break
     case 'EarnSwapDeposit':
-      amountValue = new BigNumber(-transaction.deposit.inAmount.value)
+      amountValue = new BigNumber(-transaction.deposit.outAmount.value)
       tokenId = transaction.deposit.outAmount.tokenId
       break
     case 'EarnWithdraw':
-      amountValue = new BigNumber(transaction.outAmount.value)
+      amountValue = new BigNumber(transaction.inAmount.value)
       tokenId = transaction.inAmount.tokenId
       break
     case 'EarnClaimReward':
