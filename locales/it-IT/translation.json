@@ -1793,7 +1793,7 @@
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
     "disclaimer": "La tariffa migliore è determinata da fonti decentralizzate. <0>Scopri di più</0>",
-    "disclaimer_UK": "Questo non è un invito a vendere o acquistare criptoasset. Facendo clic su Voglio Scambiare stai dando istruzioni a un router di swap di terze parti di eseguire la tua transazione di swap al miglior tasso. Il miglior tasso è fornito dai partner della rete. <0>Per saperne di più</0>",
+    "disclaimer_UK": "Questo non è un invito a vendere o acquistare criptoasset. Facendo clic su Voglio scambiare, stai dando istruzioni a un router di swap di terze parti di eseguire la tua transazione di swap al miglior tasso. Il miglior tasso è fornito dai partner della rete. <0>Per saperne di più</0>",
     "swapFromTokenSelection": "SCAMBIA DA",
     "swapToTokenSelection": "SCAMBIA CON",
     "tokenUsdValueUnknown": "-",
