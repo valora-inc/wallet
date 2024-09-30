@@ -1,4 +1,4 @@
-package xyz.mobilestack.mobile;
+package xyz.mobilestack;
 
 import android.content.Intent;
 import android.graphics.Color;

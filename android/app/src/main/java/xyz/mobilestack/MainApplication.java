@@ -1,4 +1,4 @@
-package xyz.mobilestack.mobile;
+package xyz.mobilestack;
 
 import android.util.Log;
 import androidx.multidex.MultiDexApplication;

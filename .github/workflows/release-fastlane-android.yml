@@ -38,9 +38,9 @@ jobs:
         uses: google-github-actions/get-secretmanager-secrets@v2
         with:
           secrets: |-
-            ANDROID_RELEASE_KEYSTORE:projects/1027349420744/secrets/ANDROID_VALORA_MOBILESTACK_RELEASE_KEYSTORE
-            MOBILESTACK_RELEASE_KEY_PASSWORD:projects/1027349420744/secrets/VALORA_MOBILESTACK_RELEASE_KEY_PASSWORD
-            MOBILESTACK_RELEASE_STORE_PASSWORD:projects/1027349420744/secrets/VALORA_MOBILESTACK_RELEASE_STORE_PASSWORD
+            ANDROID_RELEASE_KEYSTORE:projects/1027349420744/secrets/VALORA_RELEASE_KEYSTORE
+            RELEASE_KEY_PASSWORD:projects/1027349420744/secrets/VALORA_RELEASE_KEY_PASSWORD
+            RELEASE_STORE_PASSWORD:projects/1027349420744/secrets/VALORA_RELEASE_STORE_PASSWORD
             SLACK_WEBHOOK_URL:projects/1027349420744/secrets/SLACK_WEBHOOK_URL
             BOT_SSH_KEY:projects/1027349420744/secrets/BOT_SSH_PRIVATE_KEY
             GOOGLE_PLAY_SERVICE_ACCOUNT_KEY_JSON:projects/1027349420744/secrets/GOOGLE_PLAY_SERVICE_ACCOUNT_KEY_JSON
@@ -95,11 +95,11 @@ jobs:
       # TODO: use ram disk
       - name: Write secrets
         run: |
-          echo '${{ steps.google-secrets.outputs.ANDROID_RELEASE_KEYSTORE }}' | base64 -d > android/app/mobilestack-release-key.keystore
+          echo '${{ steps.google-secrets.outputs.ANDROID_RELEASE_KEYSTORE }}' | base64 -d > android/app/release-key.keystore
           echo '${{ steps.google-secrets.outputs.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY_JSON }}' > fastlane/google-play-service-account.json
       - env:
-          MOBILESTACK_RELEASE_STORE_PASSWORD: ${{ steps.google-secrets.outputs.MOBILESTACK_RELEASE_STORE_PASSWORD }}
-          MOBILESTACK_RELEASE_KEY_PASSWORD: ${{ steps.google-secrets.outputs.MOBILESTACK_RELEASE_KEY_PASSWORD }}
+          RELEASE_STORE_PASSWORD: ${{ steps.google-secrets.outputs.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_PASSWORD: ${{ steps.google-secrets.outputs.RELEASE_KEY_PASSWORD }}
           EMERGE_API_TOKEN: ${{ steps.google-secrets.outputs.EMERGE_API_TOKEN }}
           SUPPLY_UPLOAD_MAX_RETRIES: 5
           RUBYOPT: '-rostruct' # TODO: Remove when https://github.com/fastlane/fastlane/pull/21950 gets released

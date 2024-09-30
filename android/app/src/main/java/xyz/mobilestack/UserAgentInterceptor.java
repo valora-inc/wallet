@@ -1,4 +1,4 @@
-package xyz.mobilestack.mobile;
+package xyz.mobilestack;
 
 import android.os.Build;
 import java.io.IOException;

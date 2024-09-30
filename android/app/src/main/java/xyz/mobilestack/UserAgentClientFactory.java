@@ -1,4 +1,4 @@
-package xyz.mobilestack.mobile;
+package xyz.mobilestack;
 
 import android.content.Context;
 import com.facebook.react.modules.network.OkHttpClientFactory;
