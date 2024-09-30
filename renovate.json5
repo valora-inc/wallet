@@ -58,14 +58,6 @@
       prPriority: -1,
     },
     {
-      // Group updates for @celo packages
-      matchPackagePatterns: ['^@celo/'],
-      groupName: 'celo',
-      // major upgrade has multiple breaking changes
-      // TODO(ACT-1088): enable once done
-      enabled: false,
-    },
-    {
       // Group updates for @testing-library packages
       matchPackagePatterns: ['^@testing-library/'],
       groupName: 'testing-library',
@@ -86,6 +78,11 @@
       // Group updates for prettier packages
       matchPackagePatterns: ['^prettier'],
       groupName: 'prettier',
+    },
+    {
+      // Group updates for walletconnect packages
+      matchPackagePatterns: ['^@walletconnect/'],
+      groupName: 'walletconnect',
     },
     {
       // Avoid auto merge of major updates on rn, auth0, firebase and walletconnect

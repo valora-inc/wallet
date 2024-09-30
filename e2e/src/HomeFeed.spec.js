@@ -6,7 +6,10 @@ beforeAll(async () => {
   await quickOnboarding()
 })
 
-describe('Home Feed', () => {
+// TODO: Disabled to unlock the CI
+// To enable once the home feed issue on Alfajores is fixed
+// Context: https://valora-app.slack.com/archives/C025V1D6F3J/p1727427797940139
+xdescribe('Home Feed', () => {
   it('should show correct information on tap of feed item', async () => {
     // Load Wallet Home
     await waitForElementId('WalletHome')
@@ -34,8 +37,8 @@ describe('Home Feed', () => {
 
     // Scroll to bottom - Android will scroll forever so we set a static value
     device.getPlatform() === 'ios'
-      ? await element(by.id('WalletHome/SectionList')).scrollTo('bottom')
-      : await element(by.id('WalletHome/SectionList')).scroll(2000, 'down')
+      ? await element(by.id('WalletHome/FlatList')).scrollTo('bottom')
+      : await element(by.id('WalletHome/FlatList')).scroll(2000, 'down')
     await sleep(5000)
 
     // Compare initial number of items to new number of items after scroll

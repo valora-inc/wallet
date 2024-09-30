@@ -17,12 +17,15 @@ export default function useFilterChip(
   preselectedNetworkId?: NetworkId
 ): FilterChip<TokenBalance>[] {
   const { t } = useTranslation()
+
   const showSwapTokenFilters = getFeatureGate(StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS)
-  const recentlySwappedTokens = useSelector(lastSwappedSelector)
-  const tokensWithBalance = useTokensWithTokenBalance()
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
   const popularTokenIds: string[] = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   ).popularTokenIds
+
+  const recentlySwappedTokens = useSelector(lastSwappedSelector)
+  const tokensWithBalance = useTokensWithTokenBalance()
   const supportedNetworkIds = getSupportedNetworkIdsForSwap()
 
   if (!showSwapTokenFilters) {
@@ -36,12 +39,16 @@ export default function useFilterChip(
       filterFn: (token: TokenBalance) => token.balance.gte(TOKEN_MIN_AMOUNT),
       isSelected: selectingField === Field.FROM && tokensWithBalance.length > 0,
     },
-    {
-      id: 'popular',
-      name: t('tokenBottomSheet.filters.popular'),
-      filterFn: (token: TokenBalance) => popularTokenIds.includes(token.tokenId),
-      isSelected: false,
-    },
+    ...(showUKCompliantVariant
+      ? []
+      : [
+          {
+            id: 'popular',
+            name: t('tokenBottomSheet.filters.popular'),
+            filterFn: (token: TokenBalance) => popularTokenIds.includes(token.tokenId),
+            isSelected: false,
+          },
+        ]),
     {
       id: 'recently-swapped',
       name: t('tokenBottomSheet.filters.recentlySwapped'),

@@ -2,14 +2,14 @@ import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState, MultichainBetaStatus } from 'src/app/actions'
 import { CeloNewsConfig } from 'src/celoNews/types'
-import { DEEPLINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
 const PERSISTED_DEEP_LINKS = [
   'https://valoraapp.com/share',
-  `${DEEPLINK_PREFIX}://wallet/jumpstart`,
+  `${DEEP_LINK_URL_SCHEME}://wallet/jumpstart`,
 ]
 
 interface State {

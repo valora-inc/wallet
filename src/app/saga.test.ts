@@ -29,7 +29,7 @@ import {
   inAppReviewLastInteractionTimestampSelector,
   sentryNetworkErrorsSelector,
 } from 'src/app/selectors'
-import { DEEPLINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { initI18n } from 'src/i18n'
@@ -96,7 +96,7 @@ describe('handleDeepLink', () => {
     }
 
     const params = new URLSearchParams(data)
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/pay?${params.toString()}`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/pay?${params.toString()}`
 
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([
@@ -113,7 +113,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles cash in deep link', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/cashIn`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/cashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -128,7 +128,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles Bidali deep link', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/bidali`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/bidali`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -141,7 +141,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles cash-in-success deep link', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/cash-in-success/simplex`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/cash-in-success/simplex`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -154,7 +154,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles cash-in-success deep link with query params', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/cash-in-success/simplex?isApproved=true`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/cash-in-success/simplex?isApproved=true`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -167,7 +167,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles openScreen deep link with safe origin', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, true))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -183,7 +183,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles openScreen deep link without safe origin', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, false))
       .provide([[select(walletAddressSelector), mockAccount]])
       .run()
@@ -232,7 +232,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles jumpstart links', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/jumpstart/0xPrivateKey/celo-alfajores`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/jumpstart/0xPrivateKey/celo-alfajores`
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       jumpstartContracts: {
         [NetworkId['celo-alfajores']]: { contractAddress: '0xTEST' },
@@ -263,7 +263,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles hooks enable preview links', async () => {
-    const deepLink = `${DEEPLINK_PREFIX}://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000`
+    const deepLink = `${DEEP_LINK_URL_SCHEME}://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000`
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([
         [select(allowHooksPreviewSelector), true],
@@ -298,7 +298,7 @@ describe('WalletConnect deeplinks', () => {
     },
     {
       name: 'iOS deeplink',
-      link: `${DEEPLINK_PREFIX}://wallet/wc?uri=${connectionString}`,
+      link: `${DEEP_LINK_URL_SCHEME}://wallet/wc?uri=${connectionString}`,
     },
     {
       name: 'iOS universal link',
@@ -376,7 +376,7 @@ describe('WalletConnect deeplinks', () => {
   const actionString = 'wc:1234'
   const actionLinks = [
     { name: 'Android', link: actionString },
-    { name: 'iOS deeplink', link: `${DEEPLINK_PREFIX}://wallet/wc?uri=${actionString}` },
+    { name: 'iOS deeplink', link: `${DEEP_LINK_URL_SCHEME}://wallet/wc?uri=${actionString}` },
     { name: 'iOS universal link', link: `https://valoraapp.com/wc?uri=${actionString}` },
   ]
   for (const { name, link } of actionLinks) {
@@ -419,7 +419,7 @@ describe('handleOpenUrl', () => {
 
   const httpLink = 'http://example.com'
   const httpsLink = 'https://example.com'
-  const appLink = `${DEEPLINK_PREFIX}://something`
+  const appLink = `${DEEP_LINK_URL_SCHEME}://something`
   const otherDeepLink = 'other://deeplink'
 
   describe('when openExternal is `false` or not specified', () => {
