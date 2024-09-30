@@ -73,5 +73,5 @@ child.kill()
 // Wait until the emulator is off
 $.exec('until [ `adb devices | grep emulator | wc -l` -gt 0 ]; do sleep 3; done')
 
-$.exec('qemu-img snapshot -a ci_boot ~/.android/avd/${emulatorName}.avd/system.img.qcow2')
-$.exec('qemu-img commit ~/.android/avd/${emulatorName}.avd/system.img.qcow2')
+$.exec(`qemu-img snapshot -a ci_boot ~/.android/avd/${emulatorName}.avd/system.img.qcow2`)
+$.exec(`qemu-img commit ~/.android/avd/${emulatorName}.avd/system.img.qcow2`)
