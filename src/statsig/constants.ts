@@ -127,6 +127,12 @@ export const DynamicConfigs = {
       },
     },
   },
+  [StatsigDynamicConfigs.SUPPORTED_EARN_POOLS]: {
+    configName: StatsigDynamicConfigs.SUPPORTED_EARN_POOLS,
+    defaultValues: {
+      supportedPools: [] as string[],
+    },
+  },
 } satisfies {
   [key in StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig]: {
     configName: key
