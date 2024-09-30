@@ -185,6 +185,29 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
     expect(getByText('tokenBottomSheet.filters.selectNetwork')).toBeTruthy()
   })
 
+  it('hides the popular filter for UK compliance', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (feature) =>
+          feature === StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS ||
+          feature === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT
+      )
+    const { queryByText, getByText } = render(
+      <Provider store={mockStore}>
+        <MockedNavigator
+          component={FiatExchangeCurrencyBottomSheet}
+          params={{ flow: FiatExchangeFlow.CashIn }}
+        />
+      </Provider>
+    )
+
+    expect(queryByText('tokenBottomSheet.filters.popular')).toBeFalsy()
+    expect(getByText('tokenBottomSheet.filters.stablecoins')).toBeTruthy()
+    expect(getByText('tokenBottomSheet.filters.gasTokens')).toBeTruthy()
+    expect(getByText('tokenBottomSheet.filters.selectNetwork')).toBeTruthy()
+  })
+
   it('popular filter filters correctly', () => {
     jest
       .mocked(getFeatureGate)
