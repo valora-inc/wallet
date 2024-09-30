@@ -91,13 +91,16 @@ async function fetchPositions({
   networkIds.forEach((networkId) => getPositionsUrl.searchParams.append('networkIds', networkId))
 
   const getEarnPositionsUrl = getHooksApiFunctionUrl(hooksApiUrl, 'getEarnPositions')
-  const { supportedPools } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.SUPPORTED_EARN_POOLS]
+  const { supportedPools, supportedAppIds } = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.EARN_CONFIG]
   )
   networkIds.forEach((networkId) =>
     getEarnPositionsUrl.searchParams.append('networkIds', networkId)
   )
   supportedPools.forEach((pool) => getEarnPositionsUrl.searchParams.append('supportedPools', pool))
+  supportedAppIds.forEach((appId) =>
+    getEarnPositionsUrl.searchParams.append('supportedAppIds', appId)
+  )
 
   const options: RequestInit = { headers: { 'Accept-Language': language } }
 

@@ -127,10 +127,11 @@ export const DynamicConfigs = {
       },
     },
   },
-  [StatsigDynamicConfigs.SUPPORTED_EARN_POOLS]: {
-    configName: StatsigDynamicConfigs.SUPPORTED_EARN_POOLS,
+  [StatsigDynamicConfigs.EARN_CONFIG]: {
+    configName: StatsigDynamicConfigs.EARN_CONFIG,
     defaultValues: {
       supportedPools: [] as string[],
+      supportedAppIds: [] as string[],
     },
   },
 } satisfies {
