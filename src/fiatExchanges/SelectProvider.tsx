@@ -144,7 +144,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
             })
           : t(`fiatExchangeFlow.cashOut.selectProviderHeader`),
     })
-  }, [navigation])
+  }, [route.params.flow])
 
   const asyncExchanges = useAsync(async () => {
     try {
