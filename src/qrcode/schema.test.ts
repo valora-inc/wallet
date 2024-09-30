@@ -1,4 +1,4 @@
-import { DEEPLINK_PREFIX } from 'src/config'
+import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { UriData, uriDataFromJson, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
 import { zeroAddress } from 'viem'
 
@@ -89,12 +89,12 @@ describe('qrcode/schema', () => {
 
   describe('#urlFromUriData', () => {
     it('should strip undefined values', () => {
-      expect(url1).toBe(`${DEEPLINK_PREFIX}://wallet/pay?address=${data1.address}`)
+      expect(url1).toBe(`${DEEP_LINK_URL_SCHEME}://wallet/pay?address=${data1.address}`)
     })
 
     it('should include defined values', () => {
       const params = new URLSearchParams(Object(data2))
-      expect(url2).toBe(encodeURI(`${DEEPLINK_PREFIX}://wallet/pay?${params.toString()}`))
+      expect(url2).toBe(encodeURI(`${DEEP_LINK_URL_SCHEME}://wallet/pay?${params.toString()}`))
     })
   })
 

@@ -438,7 +438,7 @@ async function queryTransactionsFeed({
         networkId,
         afterCursor,
       })
-      Logger.info(TAG, `Fetched transactions for ${networkId}`, result)
+      Logger.info(TAG, `Fetched transactions for ${networkId}`)
       onNetworkResponse(networkId, result) // Update state as soon as data is available
     } finally {
       setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
@@ -572,6 +572,7 @@ export const TRANSACTIONS_QUERY = gql`
         ...NftTransferItemV3
         ...TokenExchangeItemV3
         ...EarnDepositItem
+        ...EarnSwapDepositItem
         ...EarnWithdrawItem
         ...EarnClaimRewardItem
         ...TokenApprovalItem
@@ -721,6 +722,73 @@ export const TRANSACTIONS_QUERY = gql`
         currencyCode
         exchangeRate
       }
+    }
+    fees {
+      type
+      amount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+  }
+
+  fragment EarnSwapDepositItem on EarnSwapDeposit {
+    __typename
+    type
+    transactionHash
+    status
+    timestamp
+    block
+    swap {
+      inAmount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+      outAmount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+    deposit {
+      inAmount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+      outAmount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+      providerId
     }
     fees {
       type

@@ -22,10 +22,10 @@ jobs:
         with:
           files: |
             locales/*/translation.json
-            ios/celo/*.lproj/InfoPlist.strings
+            ios/MobileStack/*.lproj/InfoPlist.strings
           files_ignore: |
             locales/base/translation.json
-            ios/celo/Base.lproj/InfoPlist.strings
+            ios/MobileStack/Base.lproj/InfoPlist.strings
       - name: Fail if translation files are changed
         if: ${{ (github.event_name != 'merge_group') && (github.head_ref != 'l10n/main') && (steps.changed-files.outputs.any_changed == 'true') }}
         run: |

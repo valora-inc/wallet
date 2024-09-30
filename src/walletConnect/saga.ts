@@ -12,7 +12,7 @@ import { WalletConnect2Properties } from 'src/analytics/Properties'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { getDappRequestOrigin } from 'src/app/utils'
-import { APP_NAME, DEEPLINK_PREFIX, WALLET_CONNECT_PROJECT_ID } from 'src/config'
+import { APP_NAME, DEEP_LINK_URL_SCHEME, WALLET_CONNECT_PROJECT_ID } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
@@ -145,7 +145,7 @@ function* createWalletConnectChannel() {
         url: links.web,
         icons: [appendPath(links.web, 'favicon.ico')],
         redirect: {
-          native: `${DEEPLINK_PREFIX}://wallet/wc`,
+          native: `${DEEP_LINK_URL_SCHEME}://wallet/wc`,
           universal: 'https://valoraapp.com/wc',
         },
       },

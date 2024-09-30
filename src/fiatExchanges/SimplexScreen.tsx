@@ -5,14 +5,14 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import WebView from 'src/components/WebView'
-import { SIMPLEX_FEES_URL } from 'src/config'
+import { DEEP_LINK_URL_SCHEME, SIMPLEX_FEES_URL } from 'src/config'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import { fetchSimplexPaymentData } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -27,7 +27,6 @@ import { useTokenInfo } from 'src/tokens/hooks'
 import { resolveCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { DEEPLINK_PREFIX } from 'src/config'
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.Simplex>
 type Props = RouteProps
@@ -59,7 +58,7 @@ function SimplexScreen({ route, navigation }: Props) {
   const onNavigationStateChange = ({ url }: any) => {
     if (url?.includes('/payments/new')) {
       setRedirected(true)
-    } else if (url?.startsWith(`${DEEPLINK_PREFIX}://wallet`)) {
+    } else if (url?.startsWith(`${DEEP_LINK_URL_SCHEME}://wallet`)) {
       navigateToURI(url)
     }
   }

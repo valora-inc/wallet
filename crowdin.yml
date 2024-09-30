@@ -3,5 +3,5 @@ files:
   - source: /locales/base/*.json
     translation: /locales/%locale%/%original_file_name%
     type: i18next_json
-  - source: /ios/celo/Base.lproj/InfoPlist.strings
-    translation: /ios/celo/%osx_code%/%original_file_name%
+  - source: /ios/MobileStack/Base.lproj/InfoPlist.strings
+    translation: /ios/MobileStack/%osx_code%/%original_file_name%
