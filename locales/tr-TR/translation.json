@@ -2570,15 +2570,15 @@
         "estNetworkFee": "Tahmini Ağ Ücreti",
         "maxNetworkFee": "Maks. Ağ Ücreti",
         "networkFeeDescription": "Ağ ücreti, yatırma işlemin gerçekleştirilmesi için ağ tarafından talep edilir.",
-        "networkSwapFeeDescription": "Ağ ücreti, para yatırma işlemlerini işlemek için ağ tarafından talep edilir. Ürünümüzü kullanmanız için {{appName}} ücreti {{appFeePercentage}}% tahsil edilir.",
+        "networkSwapFeeDescription": "Ağ ücreti, para yatırma işlemlerinin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için %{{appFeePercentage}} {{appName}} ücreti tahsil edilir.",
         "appSwapFee": "{{appName}} Ücreti"
       },
       "swapBottomSheet": {
         "swapDetails": "Takas Detayları",
         "swapFrom": "Şuradan Gelen Takas",
         "swapTo": "Şuraya Giden Takas",
-        "whySwap": "Neden değiş tokuş yapıyorum?",
-        "swapDescription": "Havuza para yatırmak için tokenınız bir havuz tokenı ile takas edilir."
+        "whySwap": "Neden takas yapıyorum?",
+        "swapDescription": "Havuza fon yatırmak için tokeniniz bir havuz tokeni ile takas edilir."
       }
     },
     "activePools": {
