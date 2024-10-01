@@ -1534,6 +1534,7 @@
     "somePaymentsUnavailable": "As compras são fornecidas por nossos fornecedores parceiros. As taxas podem variar. Algumas formas de pagamento não estão disponíveis na sua região.",
     "disclaimerWithSomePaymentsUnavailable": "Os pagamentos são fornecidos por parceiros de rede. As taxas podem variar. Algumas formas de pagamento não estão disponíveis em sua região. <0>Saiba mais.</0>",
     "disclaimer": "Os pagamentos são fornecidos por parceiros de rede. As taxas podem variar. <0>Saiba mais.</0>",
+    "disclaimerUK": "Este não é um convite para você comprar criptoativos. Fornecemos apenas uma lista de provedores de criptoativos com informações de preço e um link para o site deles.",
     "learnMore": "Saiba mais.",
     "whyMissingPayments": "Porque não vejo mais métodos de pagamento?",
     "dismiss": "Ignorar",
@@ -1695,6 +1696,7 @@
       "selectCurrencyTitle": "Adicionar Fundos",
       "exchangeAmountTitle": "Adicionar {{currency}}",
       "selectProviderHeader": "Método de pagamento",
+      "selectProviderHeader_UK": "Detalhes do provedor",
       "depositExchangeTitle": "Depositar cripto"
     },
     "cashOut": {
@@ -1785,11 +1787,13 @@
     "title": "Trocar",
     "review": "Revisar",
     "confirmSwap": "Confirmar troca",
+    "confirmSwap_UK": "Quero fazer uma troca",
     "swapFrom": "DE",
     "swapTo": "PARA",
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um ativo diferente.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
     "disclaimer": "A melhor taxa determinada por fontes descentralizadas. <0>Saiba mais</0>",
+    "disclaimer_UK": "Este não é um convite para você vender ou comprar criptoativos. Ao clicar em Quero fazer uma troca, você está instruindo um roteador de swap de terceiros a executar sua transação de swap com a melhor taxa. A melhor taxa é fornecida pelos parceiros da rede. <0>Saiba mais</0>",
     "swapFromTokenSelection": "TROCA DE",
     "swapToTokenSelection": "TROCA PARA",
     "tokenUsdValueUnknown": "-",
@@ -2485,7 +2489,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "As taxas de transação são cobertas por um período limitado",
+    "gasSubsidized": "As taxas de transação serão cobertas por tempo limitado",
     "addCryptoBottomSheet": {
       "title": "Adicionar {{tokenSymbol}} na {{tokenNetwork}}",
       "description": "Após adicionar tokens, você terá que voltar para terminar de depositar em um pool.",
@@ -2567,10 +2571,10 @@
       "feeBottomSheet": {
         "feeDetails": "Detalhes da taxa",
         "moreInformation": "Mais informações",
-        "estNetworkFee": "Est. Taxa de rede",
+        "estNetworkFee": "Taxa de rede est.",
         "maxNetworkFee": "Taxa de rede máx.",
         "networkFeeDescription": "A taxa de rede é exigida pela rede para processar a transação de depósito.",
-        "networkSwapFeeDescription": "A taxa de rede é exigida pela rede para processar as transações de depósito. A taxa {{appName}} de {{appFeePercentage}}% é cobrada pelo uso que você faz do nosso produto.",
+        "networkSwapFeeDescription": "A taxa de rede é exigida pela rede para processar a transação de depósito. A taxa de {{appFeePercentage}}% da {{appName}} é cobrada pelo uso que você faz do nosso produto.",
         "appSwapFee": "Taxa da {{appName}}"
       },
       "swapBottomSheet": {
@@ -2713,17 +2717,17 @@
       }
     },
     "beforeDepositBottomSheet": {
-      "youNeedTitle": "Você precisa de {{tokenSymbol}} em {{tokenNetwork}} para depositar",
-      "crossChainAlternativeDescription": "Se você não quiser usar seus tokens no site {{tokenNetwork}}, escolha uma opção abaixo. Você precisará retornar para concluir o depósito na piscina mais tarde.",
-      "beforeYouCanDepositTitle": "Antes que você possa depositar...",
-      "beforeYouCanDepositDescription": "Você precisará adicionar um dos tokens da piscina. Depois de adicionadas, você precisará retornar para concluir o depósito na piscina.",
+      "youNeedTitle": "Você precisa de {{tokenSymbol}} da {{tokenNetwork}} para depositar",
+      "crossChainAlternativeDescription": "Se não quiser usar seus tokens da {{tokenNetwork}}, escolha uma opção abaixo. Você precisará retornar para concluir o depósito no pool mais tarde.",
+      "beforeYouCanDepositTitle": "Antes de poder depositar...",
+      "beforeYouCanDepositDescription": "Você precisará adicionar um dos tokens do pool. Depois de adicionar, você precisará retornar para concluir o depósito no pool.",
       "action": {
-        "swapAndDeposit": "Troca e depósito",
-        "swapAndDepositDescription": "Escolha qualquer token em {{tokenNetwork}}. Faremos a troca e o depósito simultaneamente para você.",
+        "swapAndDeposit": "Trocar e depositar",
+        "swapAndDepositDescription": "Escolha qualquer token da {{tokenNetwork}}. Faremos a troca e o depósito simultaneamente para você.",
         "crossChainSwap": "Troca entre cadeias",
-        "crossChainSwapDescription": "Troque um token em outra rede por {{tokenSymbol}}",
+        "crossChainSwapDescription": "Troque um token de outra rede por {{tokenSymbol}}",
         "swap": "Trocar",
-        "swapDescription": "Troque para {{tokenSymbol}} em {{tokenNetwork}} a partir de outro token em sua carteira",
+        "swapDescription": "Troque para {{tokenSymbol}} da {{tokenNetwork}} a partir de outro token em sua carteira",
         "add": "Comprar",
         "addDescription": "Compre {{tokenSymbol}} na {{tokenNetwork}} usando um dos nossos provedores confiáveis",
         "transfer": "Transferir",

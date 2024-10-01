@@ -155,12 +155,12 @@ function DepositAndEarningsCard({
   const { t } = useTranslation()
   const { balance } = earnPosition
   const { earningItems, depositTokenId, cantSeparateCompoundedInterest } = earnPosition.dataProps
-  const tokenInfo = useTokenInfo(depositTokenId)
+  const depositTokenInfo = useTokenInfo(depositTokenId)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
 
   // Deposit items used to calculate the total balance and total deposited
-  const depositBalanceInUsd = tokenInfo?.priceUsd?.multipliedBy(balance)
+  const depositBalanceInUsd = depositTokenInfo?.priceUsd?.multipliedBy(balance)
   const depositBalanceInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
     depositBalanceInUsd ?? 0
   )
@@ -189,21 +189,6 @@ function DepositAndEarningsCard({
     localCurrencyExchangeRate,
   ])
 
-  const totalDepositBalanceInLocalCurrency = useMemo(() => {
-    return depositBalanceInLocalCurrency.minus(
-      earningItems
-        .filter((item) => item.includedInPoolBalance)
-        .reduce((acc, item) => {
-          const tokenInfo = earningItemsTokenInfo.find((token) => token?.tokenId === item.tokenId)
-          return acc.plus(
-            new BigNumber(item.amount)
-              .multipliedBy(tokenInfo?.priceUsd ?? 0)
-              .dividedBy(tokenInfo?.priceUsd ?? 1)
-          )
-        }, new BigNumber(0))
-    )
-  }, [depositBalanceInLocalCurrency, earningItems, earningItemsTokenInfo])
-
   const totalDepositBalanceInCrypto = useMemo(() => {
     return new BigNumber(balance).minus(
       earningItems
@@ -213,11 +198,16 @@ function DepositAndEarningsCard({
           return acc.plus(
             new BigNumber(item.amount)
               .multipliedBy(tokenInfo?.priceUsd ?? 0)
-              .dividedBy(tokenInfo?.priceUsd ?? 1)
+              .dividedBy(depositTokenInfo?.priceUsd ?? 1)
           )
         }, new BigNumber(0))
     )
-  }, [balance, earningItems, earningItemsTokenInfo])
+  }, [balance, earningItems, earningItemsTokenInfo, depositTokenInfo])
+
+  const totalDepositBalanceInLocalCurrency =
+    useDollarsToLocalAmount(
+      totalDepositBalanceInCrypto.multipliedBy(depositTokenInfo?.priceUsd ?? 0)
+    ) ?? new BigNumber(0)
 
   return (
     <View testID="DepositAndEarningsCard" style={[styles.card, styles.depositAndEarningCard]}>
@@ -257,7 +247,7 @@ function DepositAndEarningsCard({
                 localCurrencySymbol,
                 localCurrencyAmount: formatValueToDisplay(totalDepositBalanceInLocalCurrency),
                 cryptoAmount: formatValueToDisplay(totalDepositBalanceInCrypto),
-                cryptoSymbol: tokenInfo?.symbol,
+                cryptoSymbol: depositTokenInfo?.symbol,
               })}
             </Text>
           </View>

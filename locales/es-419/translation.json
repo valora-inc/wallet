@@ -1534,6 +1534,7 @@
     "somePaymentsUnavailable": "Las compras se realizan a través de nuestros proveedores asociados. Las tarifas pueden variar. Algunos métodos de pago no están disponibles en tu región.",
     "disclaimerWithSomePaymentsUnavailable": "Los pagos se realizan a través de socios de la red. Las tarifass pueden variar. Algunos métodos de pago no están disponibles en tu región. <0>Más información.</0>",
     "disclaimer": "Los pagos se realizan a través de socios de la red. Las tarifass pueden variar. <0>Más información.</0>",
+    "disclaimerUK": "Esto no es una invitación a comprar criptoactivos. Solo proporcionamos una lista de proveedores que venden criptoactivos con información sobre precios y un enlace a su sitio web.",
     "learnMore": "Más información.",
     "whyMissingPayments": "¿Por qué no veo más métodos de pago?",
     "dismiss": "Ignorar",
@@ -1695,6 +1696,7 @@
       "selectCurrencyTitle": "Agregar fondos",
       "exchangeAmountTitle": "Agregar {{currency}}",
       "selectProviderHeader": "Selecciona el método de pago",
+      "selectProviderHeader_UK": "Datos del proveedor",
       "depositExchangeTitle": "Depositar cripto"
     },
     "cashOut": {
@@ -1785,11 +1787,13 @@
     "title": "Cambiar",
     "review": "Revisar",
     "confirmSwap": "Confirmar intercambio",
+    "confirmSwap_UK": "Quiero cambiar",
     "swapFrom": "DE",
     "swapTo": "A",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro activo.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
     "disclaimer": "La mejor tarifa la determinan fuentes descentralizadas. <0>Más información</0>",
+    "disclaimer_UK": "Esto no es una invitación a vender o comprar criptoactivos. Al hacer clic en Quiero cambiar, estás dando instrucciones a un enrutador de intercambio de terceros para que ejecute tu transacción de intercambio al mejor tipo de cambio. La mejor tarifa la proporcionan los socios de la red. <0>Más información</0>",
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "tokenUsdValueUnknown": "-",
@@ -2485,7 +2489,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "Los gastos de transacción están cubiertos durante un tiempo limitado",
+    "gasSubsidized": "Las tarifas de transacción están cubiertas por un tiempo limitado",
     "addCryptoBottomSheet": {
       "title": "Agrega {{tokenSymbol}} en {{tokenNetwork}}",
       "description": "Una vez que agregues tokens, tendrás que volver para terminar de depositar en esta pool.",
@@ -2567,18 +2571,18 @@
       "feeBottomSheet": {
         "feeDetails": "Detalles de la tarifa",
         "moreInformation": "Más información",
-        "estNetworkFee": "Est. Tasa de red",
+        "estNetworkFee": "Tarifa de red est.",
         "maxNetworkFee": "Tarifa máxima de red",
-        "networkFeeDescription": "La comisión de red es exigida por la red para procesar la transacción de depósito.",
-        "networkSwapFeeDescription": "La comisión de red es exigida por la red para procesar las transacciones de depósito. La comisión {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto.",
+        "networkFeeDescription": "La tarifa de red es requerida por la red para procesar la transacción de depósito.",
+        "networkSwapFeeDescription": "La tarifa de red es requerida por la red para procesar las transacciones de depósito. La tarifa de {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto.",
         "appSwapFee": "Tarifa de {{appName}}"
       },
       "swapBottomSheet": {
         "swapDetails": "Detalles del intercambio",
         "swapFrom": "Cambiar de",
         "swapTo": "Cambiar a",
-        "whySwap": "¿Por qué cambio?",
-        "swapDescription": "Para depositar fondos en el fondo común, tu ficha se cambia por una ficha del fondo común."
+        "whySwap": "¿Por qué estoy intercambiando?",
+        "swapDescription": "Para depositar fondos en el pool, tu token se está cambiando por un token del pool."
       }
     },
     "activePools": {
@@ -2714,16 +2718,16 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Necesitas {{tokenSymbol}} en {{tokenNetwork}} para depositar",
-      "crossChainAlternativeDescription": "Si no quieres utilizar tus fichas en {{tokenNetwork}}, elige una opción a continuación. Tendrás que volver más tarde para completar el depósito de tu piscina.",
+      "crossChainAlternativeDescription": "Si no quieres usar tus tokens en {{tokenNetwork}}, elige una opción a continuación. Tendrás que volver para completar tu depósito en el pool más tarde.",
       "beforeYouCanDepositTitle": "Antes de que puedas depositar...",
-      "beforeYouCanDepositDescription": "Tendrás que añadir una de las fichas de la piscina. Una vez añadido, tendrás que volver para completar el depósito de la piscina.",
+      "beforeYouCanDepositDescription": "Tendrás que agregarr uno de los tokens del pool. Una vez agregado, tendrás que volver para completar el depósito en el pool.",
       "action": {
-        "swapAndDeposit": "Canje y depósito",
-        "swapAndDepositDescription": "Elige cualquier ficha en {{tokenNetwork}}. Lo canjearemos y depositaremos simultáneamente por ti.",
+        "swapAndDeposit": "Intercambiar y depositar",
+        "swapAndDepositDescription": "Elige cualquier token en {{tokenNetwork}}. Lo cambiaremos y lo depositaremos simultáneamente por ti.",
         "crossChainSwap": "Intercambio entre cadenas",
         "crossChainSwapDescription": "Intercambia un token en otra red por {{tokenSymbol}}",
         "swap": "Cambio",
-        "swapDescription": "Cambia a {{tokenSymbol}} en {{tokenNetwork}} desde otro token de tu cartera.",
+        "swapDescription": "Intercambia a {{tokenSymbol}} en {{tokenNetwork}} desde otro token de tu wallet",
         "add": "Comprar",
         "addDescription": "Compra {{tokenSymbol}} en {{tokenNetwork}} a uno de nuestros proveedores de confianza.",
         "transfer": "Transferir",

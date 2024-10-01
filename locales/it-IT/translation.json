@@ -1534,6 +1534,7 @@
     "somePaymentsUnavailable": "Gli acquisti sono gestiti dai nostri fornitori partner. Le tariffe possono variare. Alcuni metodi di pagamento non sono disponibili nella tua area geografica.",
     "disclaimerWithSomePaymentsUnavailable": "I pagamenti sono gestiti da partner della rete. Le commissioni possono variare. Alcuni metodi di pagamento non sono disponibili nella tua area geografica. <0>Altre informazioni.</0>",
     "disclaimer": "I pagamenti sono gestiti da partner della rete. Le commissioni possono variare. <0>Altre informazioni.</0>",
+    "disclaimerUK": "Questo non è un invito ad acquistare criptoasset. Forniamo solo un elenco di fornitori che vendono criptoasset con informazioni sui prezzi e un link al loro sito web.",
     "learnMore": "Scopri di più.",
     "whyMissingPayments": "Perché non vedo più metodi di pagamento?",
     "dismiss": "Ignora",
@@ -1695,6 +1696,7 @@
       "selectCurrencyTitle": "Aggiungi fondi",
       "exchangeAmountTitle": "Aggiungi {{currency}}",
       "selectProviderHeader": "Metodo di pagamento",
+      "selectProviderHeader_UK": "Dettagli del fornitore",
       "depositExchangeTitle": "Deposita criptovalute"
     },
     "cashOut": {
@@ -1785,11 +1787,13 @@
     "title": "Scambia",
     "review": "Rivedi",
     "confirmSwap": "Conferma lo scambio",
+    "confirmSwap_UK": "Voglio scambiare",
     "swapFrom": "DA",
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
     "disclaimer": "La tariffa migliore è determinata da fonti decentralizzate. <0>Scopri di più</0>",
+    "disclaimer_UK": "Questo non è un invito a vendere o acquistare criptoasset. Facendo clic su Voglio scambiare, stai dando istruzioni a un router di swap di terze parti di eseguire la tua transazione di swap al miglior tasso. Il miglior tasso è fornito dai partner della rete. <0>Per saperne di più</0>",
     "swapFromTokenSelection": "SCAMBIA DA",
     "swapToTokenSelection": "SCAMBIA CON",
     "tokenUsdValueUnknown": "-",
@@ -2570,14 +2574,14 @@
         "estNetworkFee": "Commissione di rete stimata",
         "maxNetworkFee": "Commissione di rete massima",
         "networkFeeDescription": "La commissione di rete viene richiesta dalla rete per elaborare la transazione di deposito.",
-        "networkSwapFeeDescription": "La commissione di rete è richiesta dalla rete per elaborare le transazioni di deposito. La commissione di {{appName}} di {{appFeePercentage}}% viene addebitata per l'utilizzo del nostro prodotto.",
+        "networkSwapFeeDescription": "La commissione di rete viene richiesta dalla rete per elaborare la transazione di deposito. La commissione di {{appName}} del {{appFeePercentage}}% viene addebitata per l'utilizzo del nostro prodotto.",
         "appSwapFee": "Commissione di {{appName}}"
       },
       "swapBottomSheet": {
-        "swapDetails": "Dettagli sullo scambio",
+        "swapDetails": "Dettagli swap",
         "swapFrom": "Scambia da",
         "swapTo": "Scambia a",
-        "whySwap": "Perché sto scambiando?",
+        "whySwap": "Perché uno swap?",
         "swapDescription": "Per depositare fondi nel pool, il tuo token viene scambiato con un token del pool."
       }
     },

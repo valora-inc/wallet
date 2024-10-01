@@ -1534,6 +1534,7 @@
     "somePaymentsUnavailable": "Satın alımlar ortak sağlayıcılarımız tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır.",
     "disclaimerWithSomePaymentsUnavailable": "Ödemeler ağ ortakları tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır. <0>Daha fazla bilgi edinin.</0>",
     "disclaimer": "Ödemeler ağ ortakları tarafından desteklenmektedir. Ücretler değişebilir. <0>Daha fazla bilgi edinin.</0>",
+    "disclaimerUK": "Bu, kripto varlık satın almak için bir davet değildir. Yalnızca fiyat bilgileri ve web sitelerine bir bağlantı ile kripto varlık satan sağlayıcıların bir listesini sunuyoruz.",
     "learnMore": "Daha fazla bilgi edinin.",
     "whyMissingPayments": "Neden başka ödeme yöntemi göremiyorum?",
     "dismiss": "Yoksay",
@@ -1695,6 +1696,7 @@
       "selectCurrencyTitle": "Bakiye Ekle",
       "exchangeAmountTitle": "{{currency}} ekle",
       "selectProviderHeader": "Ödeme Yöntemi Seç",
+      "selectProviderHeader_UK": "Sağlayıcı Detayları",
       "depositExchangeTitle": "Kripto Para Yatır"
     },
     "cashOut": {
@@ -1785,11 +1787,13 @@
     "title": "Swap",
     "review": "Gözden Geçir",
     "confirmSwap": "Swap'ı Onayla",
+    "confirmSwap_UK": "Takas Yapmak İstiyorum",
     "swapFrom": "KAYNAK",
     "swapTo": "HEDEF",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
     "disclaimer": "En iyi fiyat merkezi olmayan kaynaklar tarafından belirlenir. <0>Daha fazla bilgi</0>",
+    "disclaimer_UK": "Bu, kripto varlık satmak veya almak için bir davet değildir. Takas Yapmak İstiyorum seçeneğine tıklayarak, takas işleminizi en iyi kurdan gerçekleştirmesi için üçüncü taraf bir takas yönlendiricisine talimat vermiş olursunuz. En iyi oran ağ ortakları tarafından sağlanır. <0>Daha fazla bilgi</0>",
     "swapFromTokenSelection": "ŞURADAN TAKAS",
     "swapToTokenSelection": "ŞUNA TAKAS",
     "tokenUsdValueUnknown": "-",
@@ -2570,15 +2574,15 @@
         "estNetworkFee": "Tahmini Ağ Ücreti",
         "maxNetworkFee": "Maks. Ağ Ücreti",
         "networkFeeDescription": "Ağ ücreti, yatırma işlemin gerçekleştirilmesi için ağ tarafından talep edilir.",
-        "networkSwapFeeDescription": "Ağ ücreti, para yatırma işlemlerini işlemek için ağ tarafından talep edilir. Ürünümüzü kullanmanız için {{appName}} ücreti {{appFeePercentage}}% tahsil edilir.",
+        "networkSwapFeeDescription": "Ağ ücreti, para yatırma işlemlerinin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için %{{appFeePercentage}} {{appName}} ücreti tahsil edilir.",
         "appSwapFee": "{{appName}} Ücreti"
       },
       "swapBottomSheet": {
         "swapDetails": "Takas Detayları",
         "swapFrom": "Şuradan Gelen Takas",
         "swapTo": "Şuraya Giden Takas",
-        "whySwap": "Neden değiş tokuş yapıyorum?",
-        "swapDescription": "Havuza para yatırmak için tokenınız bir havuz tokenı ile takas edilir."
+        "whySwap": "Neden takas yapıyorum?",
+        "swapDescription": "Havuza fon yatırmak için tokeniniz bir havuz tokeni ile takas edilir."
       }
     },
     "activePools": {

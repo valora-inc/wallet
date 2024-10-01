@@ -231,6 +231,7 @@ export function SwapScreen({ route }: Props) {
   const estimatedDurationBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const allowCrossChainSwaps = getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -964,14 +965,17 @@ export function SwapScreen({ route }: Props) {
           )}
         </View>
         <Text style={styles.disclaimerText}>
-          <Trans i18nKey="swapScreen.disclaimer">
+          <Trans
+            i18nKey="swapScreen.disclaimer"
+            context={showUKCompliantVariant ? 'UK' : undefined}
+          >
             <Text style={styles.disclaimerLink} onPress={onPressLearnMore}></Text>
           </Trans>
         </Text>
         <Button
           testID="ConfirmSwapButton"
           onPress={handleConfirmSwap}
-          text={t('swapScreen.confirmSwap')}
+          text={t('swapScreen.confirmSwap', { context: showUKCompliantVariant ? 'UK' : undefined })}
           size={BtnSizes.FULL}
           disabled={!allowSwap}
           showLoading={confirmSwapIsLoading}
