@@ -29,7 +29,7 @@ $.echo('hw.sdCard=yes').toEnd(iniLocation)
 $.echo('sdcard.size=1000M').toEnd(iniLocation)
 
 const child = spawn(
-  `emulator -avd ${emulatorName} -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -writable-system`,
+  `emulator -avd ${emulatorName} -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim`,
   { detached: true, stdio: 'inherit', shell: true }
 )
 
@@ -52,26 +52,11 @@ $.exec(
 )
 // Check the service is launched
 $.exec('until [ `adb shell ps | grep butler | wc -l` -gt 0 ]; do sleep 3; done')
-$.echo('Background service running!')
 
-// Install latest root CA certificates
-$.echo('Updating root CA cerificates...')
-$.exec(
-  'wget -O android-ca.tar.gz https://android.googlesource.com/platform/system/ca-certificates/+archive/refs/heads/main/files.tar.gz'
-)
-$.exec('mkdir cacerts')
-$.exec('tar -xzvf android-ca.tar.gz -C cacerts/')
-$.exec('adb root')
-$.exec('adb remount')
-$.exec('adb push cacerts /system/etc/security/cacerts')
-
-$.echo('Saving snapshot...')
+$.echo('Background service running! Saving snapshot...')
 $.exec('adb emu avd snapshot save ci_boot')
 $.echo('Snapshot saved! Killing emulator...')
 child.kill()
 
 // Wait until the emulator is off
 $.exec('until [ `adb devices | grep emulator | wc -l` -gt 0 ]; do sleep 3; done')
-
-$.exec(`qemu-img snapshot -a ci_boot ~/.android/avd/${emulatorName}.avd/system.img.qcow2`)
-$.exec(`qemu-img commit ~/.android/avd/${emulatorName}.avd/system.img.qcow2`)
