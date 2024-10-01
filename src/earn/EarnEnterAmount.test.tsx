@@ -493,6 +493,10 @@ describe('EarnEnterAmount', () => {
     )
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_add_gas_press, {
       gasTokenId: mockArbEthTokenId,
+      networkId: NetworkId['arbitrum-sepolia'],
+      poolId: mockEarnPositions[0].positionId,
+      providerId: mockEarnPositions[0].appId,
+      depositTokenId: mockArbUsdcTokenId,
     })
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockArbEthTokenId,

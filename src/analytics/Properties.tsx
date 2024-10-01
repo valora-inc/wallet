@@ -54,7 +54,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
-import { EarnDepositMode, BeforeDepositActionName, SerializableRewardsInfo } from 'src/earn/types'
+import { BeforeDepositActionName, EarnDepositMode, SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -1544,7 +1544,7 @@ interface PointsEventsProperties {
   [PointsEvents.points_screen_disclaimer_press]: undefined
 }
 
-interface EarnCommonProperties {
+export interface EarnCommonProperties {
   providerId: string
   poolId: string
   networkId: NetworkId
@@ -1585,7 +1585,8 @@ interface EarnEventsProperties {
   [EarnEvents.earn_entrypoint_press]: undefined
   [EarnEvents.earn_before_deposit_action_press]: {
     action: BeforeDepositActionName
-  } & TokenProperties
+  } & TokenProperties &
+    EarnCommonProperties
   [EarnEvents.earn_deposit_provider_info_press]: EarnDepositProperties
   [EarnEvents.earn_deposit_terms_and_conditions_press]: EarnDepositProperties
   [EarnEvents.earn_deposit_complete]: EarnDepositProperties
@@ -1612,7 +1613,7 @@ interface EarnEventsProperties {
     tokenAmount: string
   } & EarnCommonProperties
   [EarnEvents.earn_deposit_more_press]: EarnCommonProperties
-  [EarnEvents.earn_deposit_add_gas_press]: { gasTokenId: string }
+  [EarnEvents.earn_deposit_add_gas_press]: EarnCommonProperties & { gasTokenId: string }
   [EarnEvents.earn_feed_item_select]: {
     origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward' | 'EarnSwapDeposit'
   }
@@ -1623,7 +1624,7 @@ interface EarnEventsProperties {
     error: string
   }
   [EarnEvents.earn_withdraw_submit_cancel]: EarnWithdrawProperties
-  [EarnEvents.earn_withdraw_add_gas_press]: { gasTokenId: string }
+  [EarnEvents.earn_withdraw_add_gas_press]: EarnCommonProperties & { gasTokenId: string }
   [EarnEvents.earn_info_learn_press]: undefined
   [EarnEvents.earn_info_earn_press]: undefined
   [EarnEvents.earn_active_pools_card_press]: undefined
