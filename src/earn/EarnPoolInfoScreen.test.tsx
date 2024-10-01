@@ -224,13 +224,65 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
-        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"132.00","cryptoAmount":"99.00","cryptoSymbol":"USDC"}'
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"131.67","cryptoAmount":"99.00","cryptoSymbol":"USDC"}'
       )
     ).toBeTruthy()
     expect(getAllByTestId('EarningItemLineItem')).toHaveLength(2)
     expect(
       within(getAllByTestId('EarningItemLineItem')[0]).getByText(
         'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"19.95","cryptoAmount":"15.00","cryptoSymbol":"USDC"}'
+      )
+    ).toBeTruthy()
+  })
+
+  it('renders correctly when includedInPoolBalance is true for an earning item and earning item is a different token', () => {
+    const mockPool = {
+      ...mockEarnPositions[0],
+      balance: '100',
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        earningItems: [
+          { amount: '15', label: 'Earnings', tokenId: mockArbUsdcTokenId },
+          {
+            amount: '0.001',
+            label: 'Reward',
+            tokenId: mockArbEthTokenId,
+            includedInPoolBalance: true,
+          },
+        ],
+      },
+    }
+
+    const { getByTestId, getAllByTestId } = render(
+      <Provider store={getStore({ includeSameChainToken: true })}>
+        <MockedNavigator component={EarnPoolInfoScreen} params={{ pool: mockPool }} />
+      </Provider>
+    )
+
+    expect(
+      within(getByTestId('DepositAndEarningsCard')).getByText(
+        'earnFlow.poolInfoScreen.totalDepositAndEarnings'
+      )
+    ).toBeTruthy()
+    expect(
+      within(getByTestId('DepositAndEarningsCard')).getByText(
+        'earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"152.95"}'
+      )
+    ).toBeTruthy()
+    expect(
+      within(getByTestId('DepositAndEarningsCard')).getByText(
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"131.01","cryptoAmount":"98.50","cryptoSymbol":"USDC"}'
+      )
+    ).toBeTruthy()
+    expect(getAllByTestId('EarningItemLineItem')).toHaveLength(2)
+    expect(
+      within(getAllByTestId('EarningItemLineItem')[0]).getByText(
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"19.95","cryptoAmount":"15.00","cryptoSymbol":"USDC"}'
+      )
+    ).toBeTruthy()
+    expect(
+      within(getAllByTestId('EarningItemLineItem')[1]).getByText(
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"2.00","cryptoAmount":"0.001","cryptoSymbol":"ETH"}'
       )
     ).toBeTruthy()
   })

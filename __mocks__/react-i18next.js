@@ -13,7 +13,7 @@ const renderTrans = ({ i18nKey, tOptions, context, children }) => {
 
 // Output the key and any params sent to the translation function.
 const translationFunction = (key, params) => {
-  if (typeof params !== 'object' || Object.keys(params).length === 0) {
+  if (typeof params !== 'object' || Object.values(params).every((value) => value === undefined)) {
     return key
   }
   return [key, JSON.stringify(params)].join(', ')

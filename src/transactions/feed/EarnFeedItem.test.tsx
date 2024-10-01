@@ -14,9 +14,10 @@ import { createMockStore } from 'test/utils'
 import {
   mockAaveArbUsdcAddress,
   mockArbArbTokenId,
+  mockArbUsdcTokenId,
   mockEarnClaimRewardTransaction,
   mockEarnDepositTransaction,
-  mockEarnSwapDepositTransactionNetworkConfigVersion,
+  mockEarnSwapDeposit,
   mockEarnWithdrawTransaction,
 } from 'test/values'
 
@@ -28,8 +29,8 @@ jest
 const store = createMockStore({
   tokens: {
     tokenBalances: {
-      [networkConfig.arbUsdcTokenId]: {
-        tokenId: networkConfig.arbUsdcTokenId,
+      [mockArbUsdcTokenId]: {
+        tokenId: mockArbUsdcTokenId,
         symbol: 'USDC',
         priceUsd: '1',
         priceFetchedAt: Date.now(),
@@ -123,7 +124,7 @@ describe.each([
   },
   {
     type: 'EarnSwapDeposit',
-    transaction: mockEarnSwapDepositTransactionNetworkConfigVersion,
+    transaction: mockEarnSwapDeposit,
     expectedTitle: 'earnFlow.transactionFeed.earnDepositTitle',
     expectedSubTitle: 'earnFlow.transactionFeed.earnDepositSubtitle, {"providerName":"Aave"}',
     expectedTotal: '-10.00 USDC',
