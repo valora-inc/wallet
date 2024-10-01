@@ -76,7 +76,7 @@ export const nuxNavigationOptionsNoBackButton: NativeStackNavigationOptions = {
 }
 
 export const emptyHeader: NativeStackNavigationOptions = {
-  headerTitle: ' ',
+  headerTitle: '',
   headerShown: true,
   // Prevents double back button on Android
   headerBackVisible: false,
