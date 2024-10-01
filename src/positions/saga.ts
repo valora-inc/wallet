@@ -36,8 +36,9 @@ import {
 import { Position, Shortcut } from 'src/positions/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -90,8 +91,15 @@ async function fetchPositions({
   networkIds.forEach((networkId) => getPositionsUrl.searchParams.append('networkIds', networkId))
 
   const getEarnPositionsUrl = getHooksApiFunctionUrl(hooksApiUrl, 'getEarnPositions')
+  const { supportedPools, supportedAppIds } = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.EARN_CONFIG]
+  )
   networkIds.forEach((networkId) =>
     getEarnPositionsUrl.searchParams.append('networkIds', networkId)
+  )
+  supportedPools.forEach((pool) => getEarnPositionsUrl.searchParams.append('supportedPools', pool))
+  supportedAppIds.forEach((appId) =>
+    getEarnPositionsUrl.searchParams.append('supportedAppIds', appId)
   )
 
   const options: RequestInit = { headers: { 'Accept-Language': language } }
