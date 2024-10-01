@@ -4298,10 +4298,10 @@
     deepmerge "^4.3.1"
     loglevel "^1.9.1"
 
-"@toruslabs/torus.js@^15.0.4":
-  version "15.0.4"
-  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-15.0.4.tgz#fe362e2dd4077f6d0d01b0b379baf0dde110434b"
-  integrity sha512-+fmVA0oPx0ruEm8OARYsrcvKd+sZpH7r1XUxmJjwF/V69el4/f2xMQTcDI0IAR+xDlx+X+ZJaFsczDanCG3NnQ==
+"@toruslabs/torus.js@^15.0.5":
+  version "15.0.5"
+  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-15.0.5.tgz#d28933d43a7331165a981eb1eb0d6e0c5febb113"
+  integrity sha512-G7DUIqNsOShoVHxSDR3hGmILHM9a35diikydskQXfEdtVVObhWEZgOjz//sA0r7pxICxN+834WgYo4UWCFBUAg==
   dependencies:
     "@toruslabs/bs58" "^1.0.0"
     "@toruslabs/constants" "^14.0.0"
