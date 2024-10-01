@@ -4298,10 +4298,10 @@
     deepmerge "^4.3.1"
     loglevel "^1.9.1"
 
-"@toruslabs/torus.js@^15.0.4":
-  version "15.0.4"
-  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-15.0.4.tgz#fe362e2dd4077f6d0d01b0b379baf0dde110434b"
-  integrity sha512-+fmVA0oPx0ruEm8OARYsrcvKd+sZpH7r1XUxmJjwF/V69el4/f2xMQTcDI0IAR+xDlx+X+ZJaFsczDanCG3NnQ==
+"@toruslabs/torus.js@^15.0.5":
+  version "15.0.5"
+  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-15.0.5.tgz#d28933d43a7331165a981eb1eb0d6e0c5febb113"
+  integrity sha512-G7DUIqNsOShoVHxSDR3hGmILHM9a35diikydskQXfEdtVVObhWEZgOjz//sA0r7pxICxN+834WgYo4UWCFBUAg==
   dependencies:
     "@toruslabs/bs58" "^1.0.0"
     "@toruslabs/constants" "^14.0.0"
@@ -15535,10 +15535,10 @@ victory@^36.9.2:
     victory-voronoi-container "^36.9.2"
     victory-zoom-container "^36.9.2"
 
-viem@^2.21.14:
-  version "2.21.15"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-2.21.15.tgz#068c010946151e7f256bb7da601ab9b8287c583b"
-  integrity sha512-Ae05NQzMsqPWRwuAHf1OfmL0SjI+1GBgiFB0JA9BAbK/61nJXsTPsQxfV5CbLe4c3ct8IEZTX89rdeW4dqf97g==
+viem@^2.21.15:
+  version "2.21.16"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-2.21.16.tgz#cf32200bbd1696bd6e86de7e1c12fcdfd77b63c1"
+  integrity sha512-SvhaPzTj3a+zR/5OmtJ0acjA6oGDrgPg4vtO8KboXtvbjksXEkz+oFaNjZDgxpkqbps2SLi8oPCjdpRm6WgDmw==
   dependencies:
     "@adraffy/ens-normalize" "1.10.0"
     "@noble/curves" "1.4.0"

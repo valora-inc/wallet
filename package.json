@@ -109,7 +109,7 @@
     "@th3rdwave/react-navigation-bottom-sheet": "^0.3.2",
     "@toruslabs/constants": "^14.0.0",
     "@toruslabs/fetch-node-details": "^14.0.1",
-    "@toruslabs/torus.js": "^15.0.4",
+    "@toruslabs/torus.js": "^15.0.5",
     "@walletconnect/react-native-compat": "^2.16.2",
     "@walletconnect/utils": "^2.16.2",
     "@walletconnect/web3wallet": "^1.15.2",
@@ -188,7 +188,7 @@
     "typed-redux-saga": "^1.5.0",
     "uuid": "^10.0.0",
     "victory-native": "^36.9.2",
-    "viem": "^2.21.14",
+    "viem": "^2.21.15",
     "web3-utils": "^4.3.1"
   },
   "devDependencies": {
