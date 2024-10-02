@@ -2505,12 +2505,12 @@
       }
     },
     "cta": {
-      "title": "Gana con tus stablecoins",
+      "title": "Gana con tus criptomonedas",
       "subtitle": "Deposita hoy y gana beneficios",
       "description": "Mira cuánto puedes ganar en una pool de préstamo"
     },
     "earnInfo": {
-      "title": "Gana con tus \nstablecoins",
+      "title": "Gana con tu cripto\n",
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiza tus ganancias sin tarifas*",
@@ -2546,9 +2546,9 @@
       "description": "Gana aproximadamente {{apy}}% al año en la pool de {{symbol}}"
     },
     "entrypoint": {
-      "title": "Gana con tus stablecoins",
+      "title": "Gana con tus criptomonedas",
       "subtitle": "Deposita y gana",
-      "description": "Gana sobre tus stablecoins en pools de liquidez."
+      "description": "Gana sobre tus criptoactivos cuando prestes a través de un fondo de liquidez"
     },
     "enterAmount": {
       "title": "¿Cuánto quieres depositar?",
@@ -2665,7 +2665,7 @@
         "chooseDescription": "Cualquier decisión financiera es una elección personal. Hemos agrupado algunos pools en distintos protocolos, pero cada pool tiene sus ventajas y sus riesgos. Hacemos todo lo posible por ofrecer información útil sobre cada pool, pero siempre es mejor que investigues más si no estás seguro."
       },
       "noPoolsTitle": "Aún no te has unido a ningún pool",
-      "noPoolsDescription": "Descubre los pools disponibles, elige uno que se ajuste a tus objetivos y saca el máximo de tus stablecoins.",
+      "noPoolsDescription": "Descubre los fondos disponibles, elige uno que se ajuste a tus objetivos y saca el máximo partido a tus criptomonedas.",
       "errorTitle": "No se pueden cargar pools",
       "errorDescription": "Ups, algo salió mal al intentar cargar la información del pool. Vuelve a intentarlo.",
       "errorButton": "Inténtalo de nuevo"
