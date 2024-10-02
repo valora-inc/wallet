@@ -2505,12 +2505,12 @@
       }
     },
     "cta": {
-      "title": "Verdiene an deinen Stablecoins",
+      "title": "Verdiene mit deiner Kryptowährung",
       "subtitle": "Zahle heute ein und verdiene Rendite",
       "description": "Erfahre, wie viel du an der Bereitstellung eines Kreditpools verdienen kannst"
     },
     "earnInfo": {
-      "title": "Verdiene mit deinen\nStablecoins",
+      "title": "Verdiene mit deiner\nKrypto",
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiere Verdienste ohne Gasgebühren*",
@@ -2546,9 +2546,9 @@
       "description": "Verdiene etwa {{apy}}% pro Jahr, wenn du {{symbol}} zu einem Pool hinzufügst"
     },
     "entrypoint": {
-      "title": "Verdiene an deinen Stablecoins",
+      "title": "Verdiene mit deiner Kryptowährung",
       "subtitle": "Einzahlen und verdienen",
-      "description": "Verdiene an deinen Stablecoins, wenn du über einen Liquiditätspool verleihst"
+      "description": "Verdiene an deinem Krypto-Vermögen, wenn du es über einen Liquiditätspool ausleihst"
     },
     "enterAmount": {
       "title": "Wie viel möchtest du einzahlen?",
@@ -2665,7 +2665,7 @@
         "chooseDescription": "Jede finanzielle Entscheidung ist individuell. Wir haben einige Pools aus verschiedenen Protokollen zusammengefasst, jeder Pool hat jedoch seine Vorteile und Risiken. Wir tun unser Bestes, um einige hilfreiche Informationen zu jedem Pool bereitzustellen, aber es ist immer ratsam, zusätzliche Recherchen anzustellen, wenn du unsicher bist."
       },
       "noPoolsTitle": "Du bist noch keinen Pools beigetreten",
-      "noPoolsDescription": "Entdecke verfügbare Pools, wähle einen aus, der zu deinen Zielen passt, und hole das Beste aus deinen Stablecoins heraus.",
+      "noPoolsDescription": "Entdecke die verfügbaren Pools, wähle einen, der zu deinen Zielen passt, und mache das Beste aus deiner Kryptowährung.",
       "errorTitle": "Pools können nicht geladen werden",
       "errorDescription": "Ups, beim Laden der Pool-Informationen ist etwas schiefgelaufen. Bitte versuche es erneut.",
       "errorButton": "Erneut versuchen"
