@@ -2507,12 +2507,12 @@
       }
     },
     "cta": {
-      "title": "Earn on your stablecoins",
+      "title": "Earn on your crypto",
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
     },
     "earnInfo": {
-      "title": "Earn on your\nstablecoins",
+      "title": "Earn on your\ncrypto",
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximize Earnings without Gas Fees*",
@@ -2548,9 +2548,9 @@
       "description": "Earn approximately {{apy}}% per year when you add {{symbol}} to a pool"
     },
     "entrypoint": {
-      "title": "Earn on your stablecoins",
+      "title": "Earn on your crypto",
       "subtitle": "Deposit and earn",
-      "description": "Earn on your stablecoins when you lend through a liquidity pool"
+      "description": "Earn on your crypto assets when you lend through a liquidity pool"
     },
     "enterAmount": {
       "title": "How much would you like to deposit?",
@@ -2667,7 +2667,7 @@
         "chooseDescription": "Any financial decision is a personal choice. We have aggregated some pools across different protocols, but each pool has benefits and risks. We do our best to provide some helpful info for each pool, but it’s always best to do additional research if you’re unsure."
       },
       "noPoolsTitle": "You haven’t joined any pools yet",
-      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your stablecoins.",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your crypto.",
       "errorTitle": "Unable to load pools",
       "errorDescription": "Oops, something went wrong when trying to load the pool information. Please try again.",
       "errorButton": "Try again"
