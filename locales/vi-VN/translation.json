@@ -2606,6 +2606,7 @@
       "network": "Mạng lưới",
       "footer": "Khi nạp tiền điện tử vào quỹ Aave, bạn chấp nhận các rủi ro liên quan đến việc sử dụng Aave. <0>Điều khoản & Điều kiện</0>",
       "footerV1_93": "Khi nạp tiền điện tử vào bể {{providerName}}, bạn chấp nhận các rủi ro liên quan đến việc sử dụng {{providerName}}. <0>Điều khoản và điều kiện</0>",
+      "noTermsUrlFooter": "You are responsible for your actions in {{appName}}. {{appName}} disclaims all responsibility for your assets or interactions with {{providerName}}. You can review {{providerName}}'s documents <0>here</0> and our Terms & Conditions <1>here</1>.",
       "primaryCta": "Hoàn thành",
       "secondaryCta": "Hủy",
       "yieldRate": "Mức sinh lợi (ước tính)",
