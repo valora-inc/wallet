@@ -2606,6 +2606,7 @@
       "network": "เครือข่าย",
       "footer": "เมื่อฝากคริปโตในพูล Aave คุณยอมรับความเสี่ยงที่มาพร้อมการใช้ Aave <0>ข้อกำหนดและเงื่อนไข</0>",
       "footerV1_93": "เมื่อฝากคริปโตในพูล {{providerName}} คุณยอมรับความเสี่ยงที่มาพร้อมการใช้ {{providerName}} <0>ข้อกำหนดและเงื่อนไข</0>",
+      "noTermsUrlFooter": "You are responsible for your actions in {{appName}}. {{appName}} disclaims all responsibility for your assets or interactions with {{providerName}}. You can review {{providerName}}'s documents <0>here</0> and our Terms & Conditions <1>here</1>.",
       "primaryCta": "เสร็จสมบูรณ์",
       "secondaryCta": "ยกเลิก",
       "yieldRate": "อัตราผลตอบแทน (โดยประมาณ)",
