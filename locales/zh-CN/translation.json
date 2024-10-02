@@ -2606,6 +2606,7 @@
       "network": "网络",
       "footer": "向 Aave 池存入加密货币，即表示您接受与使用 Aave 相关的风险。<0>条款和条件</0>",
       "footerV1_93": "向 {{providerName}} 池存入加密货币，即表示您接受使用 {{providerName}} 的相关风险。<0>条款和条件</0>",
+      "noTermsUrlFooter": "您要对自己在 {{appName}}上的行为负责。 {{appName}} 不对您的资产或与 {{providerName}}的互动承担任何责任。您可以<0>在此处</0>查看 {{providerName}}的文件，<1>在此处</1>查看我们的条款和条件。",
       "primaryCta": "完成",
       "secondaryCta": "取消",
       "yieldRate": "收益率（估计值）",
