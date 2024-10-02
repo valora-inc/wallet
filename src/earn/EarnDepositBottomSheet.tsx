@@ -247,23 +247,25 @@ export default function EarnDepositBottomSheet({
             </Trans>
           </Text>
         ) : (
-          <Text style={styles.footer}>
-            <Trans
-              i18nKey="earnFlow.depositBottomSheet.noTermsUrlFooter"
-              tOptions={{ providerName: pool.appName }}
-            >
-              <Text
-                testID="EarnDeposit/ProviderDocuments"
-                style={styles.termsLink}
-                onPress={onPressProviderDocuments}
-              />
-              <Text
-                testID="EarnDeposit/AppTermsAndConditions"
-                style={styles.termsLink}
-                onPress={onPressAppTermsAndConditions}
-              />
-            </Trans>
-          </Text>
+          APP_ID_TO_PROVIDER_DOCUMENTS_URL[pool.appId] && (
+            <Text style={styles.footer}>
+              <Trans
+                i18nKey="earnFlow.depositBottomSheet.noTermsUrlFooter"
+                tOptions={{ providerName: pool.appName }}
+              >
+                <Text
+                  testID="EarnDeposit/ProviderDocuments"
+                  style={styles.termsLink}
+                  onPress={onPressProviderDocuments}
+                />
+                <Text
+                  testID="EarnDeposit/AppTermsAndConditions"
+                  style={styles.termsLink}
+                  onPress={onPressAppTermsAndConditions}
+                />
+              </Trans>
+            </Text>
+          )
         )}
         <View style={styles.ctaContainer}>
           <Button

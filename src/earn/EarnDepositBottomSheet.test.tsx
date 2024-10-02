@@ -286,6 +286,56 @@ describe('EarnDepositBottomSheet', () => {
       expect(store.getActions()).toEqual([openUrl('termsUrl', true)])
     })
 
+    it('pressing provider docs opens the providers doc URL (when provider does not have terms and conditions)', () => {
+      const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EarnDepositBottomSheet
+            {...{
+              ...props,
+              pool: {
+                ...props.pool,
+                appId: 'beefy',
+                dataProps: { ...props.pool.dataProps, termsUrl: undefined },
+              },
+            }}
+          />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('EarnDeposit/ProviderDocuments'))
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
+        EarnEvents.earn_deposit_terms_and_conditions_press,
+        { type: 'providerDocuments', ...expectedAnalyticsProperties, providerId: 'beefy' }
+      )
+      expect(store.getActions()).toEqual([openUrl('https://docs.beefy.finance/', true)])
+    })
+
+    it('pressing app terms and conditions opens the app T&C URL (when provider does not have terms and conditions)', () => {
+      const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EarnDepositBottomSheet
+            {...{
+              ...props,
+              pool: {
+                ...props.pool,
+                appId: 'beefy',
+                dataProps: { ...props.pool.dataProps, termsUrl: undefined },
+              },
+            }}
+          />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('EarnDeposit/AppTermsAndConditions'))
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
+        EarnEvents.earn_deposit_terms_and_conditions_press,
+        { type: 'appTermsAndConditions', ...expectedAnalyticsProperties, providerId: 'beefy' }
+      )
+      expect(store.getActions()).toEqual([openUrl('https://valora.xyz/terms', true)])
+    })
+
     it('shows loading state and buttons are disabled when deposit is submitted', () => {
       const store = createMockStore({
         tokens: { tokenBalances: mockTokenBalances },
