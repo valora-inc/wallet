@@ -281,7 +281,7 @@ describe('EarnDepositBottomSheet', () => {
       fireEvent.press(getByTestId('EarnDeposit/TermsAndConditions'))
       expect(AppAnalytics.track).toHaveBeenCalledWith(
         EarnEvents.earn_deposit_terms_and_conditions_press,
-        expectedAnalyticsProperties
+        { type: 'providerTermsAndConditions', ...expectedAnalyticsProperties }
       )
       expect(store.getActions()).toEqual([openUrl('termsUrl', true)])
     })

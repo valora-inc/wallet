@@ -28,6 +28,11 @@ import {
 } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 
+const APP_ID_TO_PROVIDER_DOCUMENTS_URL: Record<string, string | undefined> = {
+  beefy: 'https://docs.beefy.finance/',
+}
+const APP_TERMS_AND_CONDITIONS_URL = 'https://valora.xyz/terms'
+
 export default function EarnDepositBottomSheet({
   forwardedRef,
   preparedTransaction,
@@ -85,11 +90,28 @@ export default function EarnDepositBottomSheet({
   }
 
   const onPressTermsAndConditions = () => {
-    AppAnalytics.track(
-      EarnEvents.earn_deposit_terms_and_conditions_press,
-      commonAnalyticsProperties
-    )
+    AppAnalytics.track(EarnEvents.earn_deposit_terms_and_conditions_press, {
+      type: 'providerTermsAndConditions',
+      ...commonAnalyticsProperties,
+    })
     termsUrl && dispatch(openUrl(termsUrl, true))
+  }
+
+  const onPressProviderDocuments = () => {
+    AppAnalytics.track(EarnEvents.earn_deposit_terms_and_conditions_press, {
+      type: 'providerDocuments',
+      ...commonAnalyticsProperties,
+    })
+    const providerDocumentsUrl = APP_ID_TO_PROVIDER_DOCUMENTS_URL[pool.appId]
+    providerDocumentsUrl && dispatch(openUrl(providerDocumentsUrl, true))
+  }
+
+  const onPressAppTermsAndConditions = () => {
+    AppAnalytics.track(EarnEvents.earn_deposit_terms_and_conditions_press, {
+      type: 'appTermsAndConditions',
+      ...commonAnalyticsProperties,
+    })
+    dispatch(openUrl(APP_TERMS_AND_CONDITIONS_URL, true))
   }
 
   const onPressComplete = () => {
@@ -211,7 +233,7 @@ export default function EarnDepositBottomSheet({
             {NETWORK_NAMES[preparedTransaction.feeCurrency.networkId]}
           </Text>
         </LabelledItem>
-        {!!termsUrl && (
+        {termsUrl ? (
           <Text style={styles.footer}>
             <Trans
               i18nKey="earnFlow.depositBottomSheet.footerV1_93"
@@ -221,6 +243,24 @@ export default function EarnDepositBottomSheet({
                 testID="EarnDeposit/TermsAndConditions"
                 style={styles.termsLink}
                 onPress={onPressTermsAndConditions}
+              />
+            </Trans>
+          </Text>
+        ) : (
+          <Text style={styles.footer}>
+            <Trans
+              i18nKey="earnFlow.depositBottomSheet.noTermsUrlFooter"
+              tOptions={{ providerName: pool.appName }}
+            >
+              <Text
+                testID="EarnDeposit/ProviderDocuments"
+                style={styles.termsLink}
+                onPress={onPressProviderDocuments}
+              />
+              <Text
+                testID="EarnDeposit/AppTermsAndConditions"
+                style={styles.termsLink}
+                onPress={onPressAppTermsAndConditions}
               />
             </Trans>
           </Text>

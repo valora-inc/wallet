@@ -54,7 +54,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
-import { EarnDepositMode, BeforeDepositActionName, SerializableRewardsInfo } from 'src/earn/types'
+import { BeforeDepositActionName, EarnDepositMode, SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -1587,7 +1587,9 @@ interface EarnEventsProperties {
     action: BeforeDepositActionName
   } & TokenProperties
   [EarnEvents.earn_deposit_provider_info_press]: EarnDepositProperties
-  [EarnEvents.earn_deposit_terms_and_conditions_press]: EarnDepositProperties
+  [EarnEvents.earn_deposit_terms_and_conditions_press]: {
+    type: 'providerTermsAndConditions' | 'providerDocuments' | 'appTermsAndConditions'
+  } & EarnDepositProperties
   [EarnEvents.earn_deposit_complete]: EarnDepositProperties
   [EarnEvents.earn_deposit_cancel]: EarnDepositProperties
   [EarnEvents.earn_deposit_submit_start]: EarnDepositProperties
