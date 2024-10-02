@@ -2503,12 +2503,12 @@
       }
     },
     "cta": {
-      "title": "Nhận stablecoin",
+      "title": "Earn on your crypto",
       "subtitle": "Nạp tiền ngay hôm nay và nhận tiền lãi",
       "description": "Xem số tiền bạn có thể kiếm được khi nạp tiền vào quỹ cho vay"
     },
     "earnInfo": {
-      "title": "Kiếm tiền từ\nstablecoin",
+      "title": "Earn on your\ncrypto",
       "details": {
         "earn": {
           "titleGasSubsidy": "Tối đa hóa thu nhập mà không mất phí ga*",
@@ -2544,9 +2544,9 @@
       "description": "Kiếm khoảng {{apy}}% mỗi năm khi bạn nạp {{symbol}} vào quỹ"
     },
     "entrypoint": {
-      "title": "Nhận stablecoin",
+      "title": "Earn on your crypto",
       "subtitle": "Nạp tiền và kiếm tiền",
-      "description": "Kiếm tiền từ stablecoin bằng cách cho vay thông qua một bể thanh khoản"
+      "description": "Earn on your crypto assets when you lend through a liquidity pool"
     },
     "enterAmount": {
       "title": "Bạn muốn nạp bao nhiêu tiền?",
@@ -2663,7 +2663,7 @@
         "chooseDescription": "Mọi quyết định về tài chính đều là lựa chọn mang tính cá nhân. Chúng tôi đã tổng hợp một số quỹ từ các giao thức khác nhau, nhưng mỗi quỹ lại có lợi ích và rủi ro riêng. Chúng tôi cố gắng hết sức để mang đến những thông tin hữu ích của từng quỹ, nhưng tốt nhất bạn vẫn tự nghiên cứu thêm nếu không chắc chắn."
       },
       "noPoolsTitle": "Bạn chưa tham gia bất kỳ quỹ nào",
-      "noPoolsDescription": "Khám phá các quỹ hiện có, chọn quỹ phù hợp với mục tiêu của bạn và tận dụng tối đa stablecoin.",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your crypto.",
       "errorTitle": "Không thể tải bể",
       "errorDescription": "Rất tiếc, đã xảy ra sự cố khi tải thông tin về bể. Vui lòng thử lại.",
       "errorButton": "Thử lại"
