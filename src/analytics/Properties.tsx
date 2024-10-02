@@ -1588,7 +1588,9 @@ interface EarnEventsProperties {
   } & TokenProperties &
     EarnCommonProperties
   [EarnEvents.earn_deposit_provider_info_press]: EarnDepositProperties
-  [EarnEvents.earn_deposit_terms_and_conditions_press]: EarnDepositProperties
+  [EarnEvents.earn_deposit_terms_and_conditions_press]: {
+    type: 'providerTermsAndConditions' | 'providerDocuments' | 'appTermsAndConditions'
+  } & EarnDepositProperties
   [EarnEvents.earn_deposit_complete]: EarnDepositProperties
   [EarnEvents.earn_deposit_cancel]: EarnDepositProperties
   [EarnEvents.earn_deposit_submit_start]: EarnDepositProperties
