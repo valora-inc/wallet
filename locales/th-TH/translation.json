@@ -2503,12 +2503,12 @@
       }
     },
     "cta": {
-      "title": "สร้างรายได้ผ่าน Stablecoin",
+      "title": "Earn on your crypto",
       "subtitle": "ฝากวันนี้แล้วรับผลตอบแทน",
       "description": "ดูรายได้ที่คุณสามารถรับเมื่อเข้าร่วมพูลการให้ยืม"
     },
     "earnInfo": {
-      "title": "สร้างรายได้ผ่าน\nStablecoin",
+      "title": "Earn on your\ncrypto",
       "details": {
         "earn": {
           "titleGasSubsidy": "สร้างรายได้สูงสุดโดยไม่เสียค่าก๊าซ*",
@@ -2544,9 +2544,9 @@
       "description": "สร้างรายได้ประมาณ {{apy}}% ต่อปีเมื่อเพิ่ม {{symbol}} ลงในพูล"
     },
     "entrypoint": {
-      "title": "สร้างรายได้ผ่าน Stablecoin",
+      "title": "Earn on your crypto",
       "subtitle": "ฝากเงินและสร้างรายได้",
-      "description": "สร้างรายได้จาก Stablecoin เมื่อให้ยืมผ่าน Liquidity Pool"
+      "description": "Earn on your crypto assets when you lend through a liquidity pool"
     },
     "enterAmount": {
       "title": "คุณต้องการฝากจำนวนเท่าไร",
@@ -2663,7 +2663,7 @@
         "chooseDescription": "การตัดสินใจทางการเงินใดๆ ก็ตามถือเป็นทางเลือกส่วนบุคคล เราได้รวบรวมพูลบางส่วนจากโปรโตคอลต่างๆ ทว่าแต่ละพูลจะมีทั้งข้อดีและความเสี่ยง เราพยายามอย่างเต็มที่เพื่อมอบข้อมูลที่เป็นประโยชน์สำหรับแต่ละพูล แต่แนะนำอย่างยิ่งให้ค้นคว้าหาข้อมูลเพิ่มเติมหากคุณไม่แน่ใจ"
       },
       "noPoolsTitle": "คุณยังไม่ได้เข้าร่วมพูลใดเลย",
-      "noPoolsDescription": "มาดูกันว่ามีพูลอะไรให้เข้าร่วมบ้าง เลือกพูลที่ตรงกับเป้าหมายของคุณและใช้ Stablecoin ของคุณให้เกิดประโยชน์สูงสุด",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your crypto.",
       "errorTitle": "ไม่สามารถโหลดพูลได้",
       "errorDescription": "อุ้ย เกิดข้อผิดพลาดขณะพยายามโหลดข้อมูลพูล โปรดลองอีกครั้ง",
       "errorButton": "ลองอีกครั้ง"
