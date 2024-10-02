@@ -421,9 +421,11 @@ function LearnMoreTouchable({
 function ActionButtons({
   earnPosition,
   onPressDeposit,
+  onPressWithdraw,
 }: {
   earnPosition: EarnPosition
   onPressDeposit: () => void
+  onPressWithdraw: () => void
 }) {
   const { bottom } = useSafeAreaInsets()
   const insetsStyle = {
@@ -440,16 +442,7 @@ function ActionButtons({
       {withdraw && (
         <Button
           text={t('earnFlow.poolInfoScreen.withdraw')}
-          onPress={() => {
-            AppAnalytics.track(EarnEvents.earn_pool_info_tap_withdraw, {
-              poolId: earnPosition.positionId,
-              providerId: earnPosition.appId,
-              poolAmount: earnPosition.balance,
-              networkId: earnPosition.networkId,
-              depositTokenId: earnPosition.dataProps.depositTokenId,
-            })
-            navigate(Screens.EarnCollectScreen, { pool: earnPosition })
-          }}
+          onPress={onPressWithdraw}
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}
           style={styles.flex}
@@ -492,6 +485,23 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     canCashIn,
     exchanges,
   } = useDepositEntrypointInfo({ allTokens, pool })
+
+  const onPressWithdraw = () => {
+    AppAnalytics.track(EarnEvents.earn_pool_info_tap_withdraw, {
+      poolId: positionId,
+      providerId: appId,
+      poolAmount: balance,
+      networkId,
+      depositTokenId: dataProps.depositTokenId,
+    })
+    // TODO(Tomm): is a feature flag for partial withdrawals needed?
+    const partialWithdrawalsEnabled = true
+    if (partialWithdrawalsEnabled) {
+      navigate(Screens.EarnEnterAmount, { pool, mode: 'withdraw' })
+    } else {
+      navigate(Screens.EarnCollectScreen, { pool })
+    }
+  }
 
   const onPressDeposit = () => {
     AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
@@ -614,7 +624,11 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           ) : null}
         </View>
       </Animated.ScrollView>
-      <ActionButtons earnPosition={pool} onPressDeposit={onPressDeposit} />
+      <ActionButtons
+        earnPosition={pool}
+        onPressDeposit={onPressDeposit}
+        onPressWithdraw={onPressWithdraw}
+      />
       <InfoBottomSheet
         infoBottomSheetRef={depositInfoBottomSheetRef}
         titleKey="earnFlow.poolInfoScreen.depositAndEarnings"

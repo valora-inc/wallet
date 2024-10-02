@@ -164,3 +164,69 @@ export async function prepareWithdrawAndClaimTransactions({
     origin: 'earn-withdraw',
   })
 }
+
+export async function prepareWithdrawTransactions({
+  amount,
+  token,
+  walletAddress,
+  feeCurrencies,
+  pool,
+  hooksApiUrl,
+  shortcutId,
+  useMax,
+}: {
+  amount: string
+  token: TokenBalance
+  walletAddress: Address
+  feeCurrencies: TokenBalance[]
+  pool: EarnPosition
+  hooksApiUrl: string
+  shortcutId: EarnEnterMode
+  useMax: boolean
+}) {
+  const { dataProps } = pool
+  const { transactions }: { transactions: RawShortcutTransaction[] } = await triggerShortcutRequest(
+    hooksApiUrl,
+    {
+      address: walletAddress,
+      appId: pool.appId,
+      networkId: pool.networkId,
+      shortcutId,
+      tokens: [
+        {
+          tokenId: dataProps.withdrawTokenId,
+          amount,
+          useMax,
+        },
+      ],
+      ...pool.shortcutTriggerArgs?.[shortcutId],
+    }
+  )
+
+  return {
+    prepareTransactionsResult: await prepareTransactions({
+      feeCurrencies,
+      baseTransactions: rawShortcutTransactionsToTransactionRequests(transactions),
+      isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),
+      origin: `earn-${shortcutId}`,
+    }),
+    swapTransaction: null,
+  }
+}
+
+export function usePrepareWithdrawTransactions() {
+  const prepareTransactions = useAsyncCallback(prepareWithdrawTransactions, {
+    onError: (err) => {
+      const error = ensureError(err)
+      Logger.error(TAG, 'usePrepareWithdrawTransactions', error)
+    },
+  })
+
+  return {
+    prepareTransactionsResult: prepareTransactions.result,
+    refreshPreparedTransactions: prepareTransactions.execute,
+    clearPreparedTransactions: prepareTransactions.reset,
+    prepareTransactionError: prepareTransactions.error,
+    isPreparingTransactions: prepareTransactions.loading,
+  }
+}
