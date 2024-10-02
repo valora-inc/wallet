@@ -2608,6 +2608,7 @@
       "network": "Netzwerk",
       "footer": "Wenn du Kryptowährungen in einen Aave-Pool einzahlst, akzeptierst du die mit der Nutzung von Aave verbundenen Risiken. <0>Allgemeine Nutzungsbedingungen</0>",
       "footerV1_93": "Indem du Krypto in einen {{providerName}}-Pool einzahlst, akzeptierst du die Risiken, die mit der Nutzung von {{providerName}} verbunden sind. <0>Allgemeine Nutzungsbedingungen</0>",
+      "noTermsUrlFooter": "Du bist für deine Handlungen auf {{appName}}verantwortlich. {{appName}} lehnt jede Verantwortung für dein Vermögen oder deine Interaktionen mit {{providerName}}ab. Du kannst die Dokumente von {{providerName}}<0>hier</0> und unsere Allgemeinen Geschäftsbedingungen <1>hier</1> einsehen.",
       "primaryCta": "Abschließen",
       "secondaryCta": "Abbrechen",
       "yieldRate": "Rendite (geschätzt)",
