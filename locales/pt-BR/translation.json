@@ -2608,6 +2608,7 @@
       "network": "Rede",
       "footer": "Ao depositar cripto em um pool da Aave, você aceita os riscos associados ao uso da Aave. <0>Termos e condições</0>",
       "footerV1_93": "Ao depositar criptomoedas em um pool da {{providerName}}, você aceita os riscos associados ao uso da {{providerName}}. <0>Termos e condições</0>",
+      "noTermsUrlFooter": "Você é responsável por suas ações em {{appName}}. {{appName}} se isenta de qualquer responsabilidade por seus ativos ou interações com {{providerName}}. Você pode consultar os documentos do {{providerName}}<0>aqui</0> e nossos Termos e Condições <1>aqui</1>.",
       "primaryCta": "Concluir",
       "secondaryCta": "Cancelar",
       "yieldRate": "Taxa de rendimento (est.)",
