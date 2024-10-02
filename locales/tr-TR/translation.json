@@ -2608,6 +2608,7 @@
       "network": "Ağ",
       "footer": "Bir Aave havuzuna kripto yatırarak, Aave kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
       "footerV1_93": "Bir {{providerName}} havuzuna kripto yatırarak {{providerName}} kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
+      "noTermsUrlFooter": "{{appName}}adresindeki eylemlerinizden siz sorumlusunuz. {{appName}} , varlıklarınız veya {{providerName}}ile etkileşimleriniz için tüm sorumluluğu reddeder. {{providerName}}'un belgelerini <0>buradan</0> ve Hüküm ve Koşullarımızı <1>buradan</1> inceleyebilirsiniz.",
       "primaryCta": "Tamamlandı",
       "secondaryCta": "İptal",
       "yieldRate": "Verim Oranı (tahmini)",
