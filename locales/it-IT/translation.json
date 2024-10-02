@@ -2505,12 +2505,12 @@
       }
     },
     "cta": {
-      "title": "Guadagna sui tuoi stablecoin",
+      "title": "Guadagna sulla tua criptovaluta",
       "subtitle": "Deposita oggi stesso e guadagna",
       "description": "Scopri quanto puoi guadagnare mettendo a disposizione un lending pool"
     },
     "earnInfo": {
-      "title": "Guadagna sulle tue stablecoin",
+      "title": "Guadagna sulla tua criptovaluta\n",
       "details": {
         "earn": {
           "titleGasSubsidy": "Massimizza i guadagni senza Gas fee*",
@@ -2546,9 +2546,9 @@
       "description": "Guadagna circa {{apy}}% all'anno quando aggiungi {{symbol}} a un pool."
     },
     "entrypoint": {
-      "title": "Guadagna sui tuoi stablecoin",
+      "title": "Guadagna sulla tua criptovaluta",
       "subtitle": "Deposita e guadagna",
-      "description": "Guadagna sulle tue stablecoin attraverso un pool di liquidità."
+      "description": "Guadagna sulle tue attività in criptovaluta quando presti attraverso un pool di liquidità"
     },
     "enterAmount": {
       "title": "Quanto vuoi depositare?",
@@ -2665,7 +2665,7 @@
         "chooseDescription": "Qualsiasi decisione finanziaria è una scelta personale. Noi abbiamo aggregato alcuni pool che utilizzano protocolli diversi, ma ciascuno presenta rischi e benefici. Ci adoperiamo al meglio per fornire una serie di informazioni utili su ogni pool, ma sono sempre consigliabili ulteriori approfondimenti se non si è sicuri."
       },
       "noPoolsTitle": "Non ti sei ancora iscritto a nessun pool",
-      "noPoolsDescription": "Scopri i pool disponibili, scegline uno che corrisponda ai tuoi obiettivi e sfrutta al meglio le tue stablecoin.",
+      "noPoolsDescription": "Scopri i pool disponibili, scegline uno che corrisponda ai tuoi obiettivi e sfrutta al meglio le tue criptovalute.",
       "errorTitle": "Impossibile caricare i pool",
       "errorDescription": "Ops. Qualcosa è andato storto durante il caricamento delle informazioni relative ai pool. Riprova.",
       "errorButton": "Riprova"
