@@ -40,7 +40,7 @@ import {
   triggerShortcutSuccess,
 } from 'src/positions/slice'
 import { Position } from 'src/positions/types'
-import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { sendPreparedTransactions } from 'src/viem/saga'
@@ -137,6 +137,10 @@ describe(fetchPositionsSaga, () => {
     jest.mocked(getMultichainFeatures).mockReturnValue({
       showPositions: [NetworkId['celo-mainnet']],
     })
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      supportedPools: ['arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216'],
+      supportedAppIds: ['aave'],
+    })
     await expectSaga(fetchPositionsSaga)
       .provide([
         [select(walletAddressSelector), mockAccount],
@@ -160,6 +164,10 @@ describe(fetchPositionsSaga, () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     jest.mocked(getMultichainFeatures).mockReturnValue({
       showPositions: [NetworkId['celo-mainnet']],
+    })
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      supportedPools: ['arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216'],
+      supportedAppIds: ['aave'],
     })
     await expectSaga(fetchPositionsSaga)
       .provide([

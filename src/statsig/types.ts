@@ -8,6 +8,7 @@ export enum StatsigDynamicConfigs {
   NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
   EARN_STABLECOIN_CONFIG = 'earn_stablecoin_config',
   APP_CONFIG = 'app_config',
+  EARN_CONFIG = 'earn_config',
 }
 
 // Separating into different enum from StatsigDynamicConfigs to allow for more strict typing
@@ -39,6 +40,7 @@ export enum StatsigFeatureGates {
   SHOW_MULTIPLE_EARN_POOLS = 'show_multiple_earn_pools',
   SHOW_APPLE_IN_CAB = 'show_apple_in_cab',
   SHOW_SWAP_AND_DEPOSIT = 'show_swap_and_deposit',
+  SHOW_UK_COMPLIANT_VARIANT = 'show_uk_compliant_variant',
 }
 
 export enum StatsigExperiments {
