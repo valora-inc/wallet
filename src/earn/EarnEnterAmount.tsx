@@ -22,7 +22,7 @@ import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareDepositTransactions } from 'src/earn/prepareTransactions'
-import { EarnDepositMode } from 'src/earn/types'
+import { EarnEnterMode } from 'src/earn/types'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
@@ -59,7 +59,7 @@ const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
-function useTokens({ pool, mode }: { pool: EarnPosition; mode: EarnDepositMode }) {
+function useTokens({ pool, mode }: { pool: EarnPosition; mode: EarnEnterMode }) {
   const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
   const swappableTokens = useSelector((state) =>
     swappableFromTokensByNetworkIdSelector(state, [pool.networkId])

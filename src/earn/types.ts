@@ -64,4 +64,4 @@ export interface BeforeDepositAction {
   onPress: () => void
 }
 
-export type EarnDepositMode = 'deposit' | 'swap-deposit'
+export type EarnEnterMode = 'deposit' | 'swap-deposit' | 'withdraw'
