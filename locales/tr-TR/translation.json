@@ -2505,12 +2505,12 @@
       }
     },
     "cta": {
-      "title": "Sabit coinlerinizden kazanın",
+      "title": "Kripto paranızdan kazanın",
       "subtitle": "Bugün para yatırın ve getiri kazanın",
       "description": "Bir kredi havuzu sağlarken ne kadar kazanabileceğinizi görün"
     },
     "earnInfo": {
-      "title": "Sabit coinlerinizden\nkazanın",
+      "title": "\nkripto paranızdan kazanın",
       "details": {
         "earn": {
           "titleGasSubsidy": "Gas Ücretleri Olmadan Kazancınızı En Üst Düzeye Çıkarın*",
@@ -2546,9 +2546,9 @@
       "description": "Bir havuza {{symbol}} ekleyerek yılda yaklaşık %{{apy}} kazanın"
     },
     "entrypoint": {
-      "title": "Sabit coinlerinizden kazanın",
+      "title": "Kripto paranızdan kazanın",
       "subtitle": "Yatırın ve kazanın",
-      "description": "Bir likidite havuzu aracılığıyla ödünç vererek sabit coinlerinizden kazanın"
+      "description": "Bir likidite havuzu aracılığıyla borç verdiğinizde kripto varlıklarınızdan kazanın"
     },
     "enterAmount": {
       "title": "Ne kadar yatırmak istersiniz?",
@@ -2665,7 +2665,7 @@
         "chooseDescription": "Her türlü finansal karar kişisel bir seçimdir. Farklı protokollerdeki bazı havuzları bir araya getirdik, ancak her havuzun avantajları ve riskleri vardır. Her havuza ilişkin bazı yararlı bilgiler sağlamak için elimizden geleni yapıyoruz ancak emin değilseniz ek araştırma yapmak her zaman en iyisidir."
       },
       "noPoolsTitle": "Henüz hiçbir havuza katılmadınız",
-      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun bir havuz seçin ve sabit coin'lerinizden en iyi şekilde yararlanın.",
+      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun olanı seçin ve kripto paranızdan en iyi şekilde yararlanın.",
       "errorTitle": "Havuzlar yüklenemiyor.",
       "errorDescription": "Hay aksi, havuz bilgileri yüklenirken bir şeyler ters gitti. Lütfen tekrar deneyin.",
       "errorButton": "Tekrar deneyin"
