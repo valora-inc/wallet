@@ -2505,12 +2505,12 @@
       }
     },
     "cta": {
-      "title": "Gagnez de l'argent sur vos stablecoins",
+      "title": "Gagne sur ta crypto",
       "subtitle": "Déposez des fonds et obtenez un retour sur investissement",
       "description": "Voyez combien vous pouvez gagner en participant à un pool de prêt"
     },
     "earnInfo": {
-      "title": "Gagnez de l'argent sur vos stablecoins",
+      "title": "Gagne sur ton\ncrypto",
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiser vos gains sans frais de gaz*",
@@ -2546,9 +2546,9 @@
       "description": "Gagnez environ {{apy}}% par an lorsque vous ajoutez {{symbol}} à un pool"
     },
     "entrypoint": {
-      "title": "Gagnez de l'argent sur vos stablecoins",
+      "title": "Gagne sur ta crypto",
       "subtitle": "Déposez et gagnez",
-      "description": "Gagnez sur vos stablecoins via un pool de liquidité."
+      "description": "Gagne sur tes crypto-actifs lorsque tu prêtes par l'intermédiaire d'un pool de liquidités."
     },
     "enterAmount": {
       "title": "Combien souhaitez-vous déposer ?",
@@ -2665,7 +2665,7 @@
         "chooseDescription": "Toute décision financière est un choix personnel. Nous avons regroupé certains pools dans différents protocoles, mais chaque pool présente des avantages et des risques. Nous faisons de notre mieux pour fournir des informations utiles pour chaque pool, mais il est toujours préférable de faire des recherches supplémentaires en cas de doute."
       },
       "noPoolsTitle": "Vous n'avez encore rejoint aucun pool",
-      "noPoolsDescription": "Découvrez les pools disponibles, choisissez celui qui correspond à vos objectifs et profitez au maximum de vos stablecoins.",
+      "noPoolsDescription": "Découvre les pools disponibles, choisis-en un qui correspond à tes objectifs et tire le meilleur parti de ta crypto.",
       "errorTitle": "Impossible de charger les pools",
       "errorDescription": "Oups, une erreur s'est produite lors du chargement des informations du pool. Veuillez réessayer.",
       "errorButton": "Veuillez réessayer"
