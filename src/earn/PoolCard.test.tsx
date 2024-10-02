@@ -44,7 +44,7 @@ describe('PoolCard', () => {
       getByText('earnFlow.poolCard.onNetwork, {"networkName":"Arbitrum Sepolia"}')
     ).toBeTruthy()
     expect(getByText('earnFlow.poolCard.percentage, {"percentage":"1.92"}')).toBeTruthy()
-    expect(getByText('₱2,170,560.00')).toBeTruthy()
+    expect(getByText('₱1,808,800.00')).toBeTruthy()
   })
 
   it('correct behavior when tapping pool card', () => {
