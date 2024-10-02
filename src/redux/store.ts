@@ -10,6 +10,7 @@ import { createMigrate } from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import rootReducer, { RootState as ReducersRootState } from 'src/redux/reducers'
 import { rootSaga } from 'src/redux/sagas'
+import { transactionFeedV2Api } from 'src/transactions/feed/TransactionFeedV2'
 import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -103,7 +104,7 @@ export const setupStore = (initialState?: ReducersRootState, config = persistCon
       )
     },
   })
-  const middlewares: Middleware[] = [sagaMiddleware]
+  const middlewares: Middleware[] = [sagaMiddleware, transactionFeedV2Api.middleware]
 
   if (__DEV__ && !process.env.JEST_WORKER_ID) {
     const createDebugger = require('redux-flipper').default
