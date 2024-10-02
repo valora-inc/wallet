@@ -2503,12 +2503,12 @@
       }
     },
     "cta": {
-      "title": "通过稳定币赚取收入",
+      "title": "赚取您的加密货币",
       "subtitle": "现在就存款，赚取收益",
       "description": "了解在提供贷款池时您能赚取多少收入"
     },
     "earnInfo": {
-      "title": "通过稳定币赚取收入",
+      "title": "赚取\n加密货币",
       "details": {
         "earn": {
           "titleGasSubsidy": "实现收入最大化，且无需手续费*",
@@ -2544,9 +2544,9 @@
       "description": "将 {{symbol}} 添加到池中，每年可赚取大约 {{apy}}%"
     },
     "entrypoint": {
-      "title": "通过稳定币赚取收入",
+      "title": "赚取您的加密货币",
       "subtitle": "存入并赚取收益",
-      "description": "通过流动性池出借稳定币，赚取稳定币收益"
+      "description": "通过流动性池出借加密资产，赚取收益"
     },
     "enterAmount": {
       "title": "您想存入多少钱？",
@@ -2663,7 +2663,7 @@
         "chooseDescription": "任何财务决定都是个人选择。我们汇总了一些不同协议中的资金池，但每个资金池都有好处和风险。我们会尽力提供关于每个资金池的有用信息，如果不确定，最好还是多做一些研究。"
       },
       "noPoolsTitle": "您还没有加入任何池",
-      "noPoolsDescription": "探索可用的池，选择一个符合您目标的池，充分利用您的稳定币。",
+      "noPoolsDescription": "发现可用的资金池，选择一个符合您目标的资金池，充分利用您的加密货币。",
       "errorTitle": "无法加载资金池",
       "errorDescription": "哎呀，在加载资金池信息时出了点问题。请重试。",
       "errorButton": "再试一次"
