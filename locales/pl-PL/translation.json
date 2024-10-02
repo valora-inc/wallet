@@ -2612,6 +2612,7 @@
       "network": "Sieć",
       "footer": "Wpłacając kryptowaluty do puli Aave, akceptujesz ryzyko związane z korzystaniem z Aave. <0>Warunki</0>",
       "footerV1_93": "Wpłacając kryptowaluty do puli {{providerName}}, akceptujesz ryzyko związane z korzystaniem z {{providerName}}. <0>Warunki</0>",
+      "noTermsUrlFooter": "Ponosisz odpowiedzialność za swoje działania w {{appName}}. {{appName}} zrzeka się wszelkiej odpowiedzialności za Twoje zasoby lub interakcje z {{providerName}}. Możesz zapoznać się z dokumentami {{providerName}}<0>tutaj</0> i naszym Regulaminem <1>tutaj</1>.",
       "primaryCta": "Zakończ",
       "secondaryCta": "Anuluj",
       "yieldRate": "Stopa zwrotu (szac.)",
