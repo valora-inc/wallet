@@ -147,6 +147,26 @@ describe('EarnCollectScreen', () => {
     expect(store.getActions()).toEqual([])
   })
 
+  it('renders total balance correctly when pricePerShare is not 1', async () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={EarnCollectScreen}
+          params={{
+            pool: { ...mockEarnPositions[0], pricePerShare: ['2'] },
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByText('earnFlow.collect.title')).toBeTruthy()
+    expect(getByText('earnFlow.collect.total')).toBeTruthy()
+    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
+      '21.50 USDC'
+    )
+    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱28.60')
+  })
+
   it('skips rewards section when no rewards', async () => {
     const { getByText, getByTestId, queryByTestId, queryByText } = render(
       <Provider
