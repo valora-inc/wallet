@@ -1534,7 +1534,7 @@
     "somePaymentsUnavailable": "Die Einkäufe werden über unsere Partneranbieter abgewickelt. Die Gebühren können variieren. Einige Zahlungsarten sind in deiner Region nicht verfügbar.",
     "disclaimerWithSomePaymentsUnavailable": "Zahlungen werden von Netzwerk-Partnern unterstützt. Gebühren können sich im Laufe der Zeit ändern. Einige Zahlungsarten sind in deiner Region nicht verfügbar. <0>Mehr Infos.</0>",
     "disclaimer": "Zahlungen werden von Netzwerk-Partnern unterstützt. Die Gebühren können sich im Laufe der Zeit ändern. <0>Mehr Infos.</0>",
-    "disclaimerUK": "Dies ist keine Aufforderung zum Kauf von Kryptoassets. Wir stellen nur eine Liste von Anbietern zur Verfügung, die Kryptoassets mit Preisinformationen und einem Link zu ihrer Website verkaufen.",
+    "disclaimerUK": "Dies ist keine Einladung zum Kauf von Krypto-Vermögen. Wir stellen nur eine Liste von Anbietern zur Verfügung, die Krypto-Vermögen mit Preisinformationen und einem Link zu ihrer Website verkaufen.",
     "learnMore": "Mehr Infos.",
     "whyMissingPayments": "Warum kann nicht keine weiteren Zahlungsmethoden sehen?",
     "dismiss": "Verwerfen",
@@ -1696,7 +1696,7 @@
       "selectCurrencyTitle": "Guthaben hinzufügen",
       "exchangeAmountTitle": "{{currency}} hinzufügen",
       "selectProviderHeader": "Zahlungsmethode auswählen",
-      "selectProviderHeader_UK": "Anbieter Details",
+      "selectProviderHeader_UK": "Anbieterdetails",
       "depositExchangeTitle": "Krypto einzahlen"
     },
     "cashOut": {
@@ -1793,7 +1793,7 @@
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
     "disclaimer": "Bester Kurs von dezentralen Quellen. <0>Mehr erfahren</0>",
-    "disclaimer_UK": "Dies ist keine Aufforderung zum Kauf oder Verkauf von Kryptowährungen. Wenn du auf \"Ich möchte tauschen\" klickst, beauftragst du einen dritten Swap-Router, deine Swap-Transaktion zum besten Kurs durchzuführen. Der beste Kurs wird von den Netzwerkpartnern bereitgestellt. <0>Mehr erfahren</0>",
+    "disclaimer_UK": "Dies ist keine Einladung zum Kauf oder Verkauf von Krypto-Vermögen. Wenn du auf „Ich möchte tauschen“ klickst, beauftragst du einen dritten Tausch-Router, um deine Tausch-Transaktion zum besten Kurs durchzuführen. Der beste Kurs wird von den Netzwerkpartnern bereitgestellt. <0>Mehr Infos</0>",
     "swapFromTokenSelection": "TAUSCH VON",
     "swapToTokenSelection": "TAUSCH ZU",
     "tokenUsdValueUnknown": "-",
@@ -2505,12 +2505,12 @@
       }
     },
     "cta": {
-      "title": "Verdiene an deinen Stablecoins",
+      "title": "Verdiene mit deiner Kryptowährung",
       "subtitle": "Zahle heute ein und verdiene Rendite",
       "description": "Erfahre, wie viel du an der Bereitstellung eines Kreditpools verdienen kannst"
     },
     "earnInfo": {
-      "title": "Verdiene mit deinen\nStablecoins",
+      "title": "Verdiene mit deiner\nKrypto",
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiere Verdienste ohne Gasgebühren*",
@@ -2546,9 +2546,9 @@
       "description": "Verdiene etwa {{apy}}% pro Jahr, wenn du {{symbol}} zu einem Pool hinzufügst"
     },
     "entrypoint": {
-      "title": "Verdiene an deinen Stablecoins",
+      "title": "Verdiene mit deiner Kryptowährung",
       "subtitle": "Einzahlen und verdienen",
-      "description": "Verdiene an deinen Stablecoins, wenn du über einen Liquiditätspool verleihst"
+      "description": "Verdiene an deinem Krypto-Vermögen, wenn du es über einen Liquiditätspool ausleihst"
     },
     "enterAmount": {
       "title": "Wie viel möchtest du einzahlen?",
@@ -2608,6 +2608,7 @@
       "network": "Netzwerk",
       "footer": "Wenn du Kryptowährungen in einen Aave-Pool einzahlst, akzeptierst du die mit der Nutzung von Aave verbundenen Risiken. <0>Allgemeine Nutzungsbedingungen</0>",
       "footerV1_93": "Indem du Krypto in einen {{providerName}}-Pool einzahlst, akzeptierst du die Risiken, die mit der Nutzung von {{providerName}} verbunden sind. <0>Allgemeine Nutzungsbedingungen</0>",
+      "noTermsUrlFooter": "Du bist für deine Handlungen auf {{appName}}verantwortlich. {{appName}} lehnt jede Verantwortung für dein Vermögen oder deine Interaktionen mit {{providerName}}ab. Du kannst die Dokumente von {{providerName}}<0>hier</0> und unsere Allgemeinen Geschäftsbedingungen <1>hier</1> einsehen.",
       "primaryCta": "Abschließen",
       "secondaryCta": "Abbrechen",
       "yieldRate": "Rendite (geschätzt)",
@@ -2665,7 +2666,7 @@
         "chooseDescription": "Jede finanzielle Entscheidung ist individuell. Wir haben einige Pools aus verschiedenen Protokollen zusammengefasst, jeder Pool hat jedoch seine Vorteile und Risiken. Wir tun unser Bestes, um einige hilfreiche Informationen zu jedem Pool bereitzustellen, aber es ist immer ratsam, zusätzliche Recherchen anzustellen, wenn du unsicher bist."
       },
       "noPoolsTitle": "Du bist noch keinen Pools beigetreten",
-      "noPoolsDescription": "Entdecke verfügbare Pools, wähle einen aus, der zu deinen Zielen passt, und hole das Beste aus deinen Stablecoins heraus.",
+      "noPoolsDescription": "Entdecke die verfügbaren Pools, wähle einen, der zu deinen Zielen passt, und mache das Beste aus deiner Kryptowährung.",
       "errorTitle": "Pools können nicht geladen werden",
       "errorDescription": "Ups, beim Laden der Pool-Informationen ist etwas schiefgelaufen. Bitte versuche es erneut.",
       "errorButton": "Erneut versuchen"

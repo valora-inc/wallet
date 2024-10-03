@@ -2509,12 +2509,12 @@
       }
     },
     "cta": {
-      "title": "Zarabiaj na swoich stablecoinach",
+      "title": "Zarabiaj na swoich kryptowalutach",
       "subtitle": "Dokonaj wpłaty już dziś i zarabiaj",
       "description": "Zobacz, ile możesz zarobić, zasilając pulę pożyczkową"
     },
     "earnInfo": {
-      "title": "Zarabiaj na swoich\nstablecoinach",
+      "title": "Zarabiaj na swojej kryptowalucie\n",
       "details": {
         "earn": {
           "titleGasSubsidy": "Maksymalizuj zarobki bez opłat za gaz*",
@@ -2550,9 +2550,9 @@
       "description": "Zarabiaj około {{apy}}% rocznie, dodając {{symbol}} do puli"
     },
     "entrypoint": {
-      "title": "Zarabiaj na swoich stablecoinach",
+      "title": "Zarabiaj na swoich kryptowalutach",
       "subtitle": "Wpłacaj i zarabiaj",
-      "description": "Zarabiaj na swoich tokenach płatniczych, pożyczając za pośrednictwem puli płynności"
+      "description": "Zarabiaj na swoich aktywach kryptograficznych, udzielając pożyczek za pośrednictwem puli płynności."
     },
     "enterAmount": {
       "title": "Ile chcesz wpłacić?",
@@ -2612,6 +2612,7 @@
       "network": "Sieć",
       "footer": "Wpłacając kryptowaluty do puli Aave, akceptujesz ryzyko związane z korzystaniem z Aave. <0>Warunki</0>",
       "footerV1_93": "Wpłacając kryptowaluty do puli {{providerName}}, akceptujesz ryzyko związane z korzystaniem z {{providerName}}. <0>Warunki</0>",
+      "noTermsUrlFooter": "Ponosisz odpowiedzialność za swoje działania w {{appName}}. {{appName}} zrzeka się wszelkiej odpowiedzialności za Twoje zasoby lub interakcje z {{providerName}}. Możesz zapoznać się z dokumentami {{providerName}}<0>tutaj</0> i naszym Regulaminem <1>tutaj</1>.",
       "primaryCta": "Zakończ",
       "secondaryCta": "Anuluj",
       "yieldRate": "Stopa zwrotu (szac.)",
@@ -2669,7 +2670,7 @@
         "chooseDescription": "Każda decyzja finansowa jest osobistym wyborem. Zebraliśmy wybrane pule z różnych protokołów, ale każda pula zapewnia inne korzyści i wiąże się z innym ryzykiem. Dokładamy wszelkich starań, aby zapewnić przydatne informacje o wszystkich pulach, ale lepiej zrobić własne rozeznanie w razie jakichkolwiek wątpliwości."
       },
       "noPoolsTitle": "Nie dołączono jeszcze do żadnej puli",
-      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom, i w pełni wykorzystaj swoje tokeny płatnicze.",
+      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom i w pełni wykorzystaj swoje kryptowaluty.",
       "errorTitle": "Nie można wczytać pul",
       "errorDescription": "Wystąpił błąd podczas próby wczytania informacji o puli. Spróbuj ponownie.",
       "errorButton": "Spróbuj ponownie"

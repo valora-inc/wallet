@@ -2505,12 +2505,12 @@
       }
     },
     "cta": {
-      "title": "Earn on your stablecoins",
+      "title": "Earn on your crypto",
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
     },
     "earnInfo": {
-      "title": "Earn on your\nstablecoins",
+      "title": "Earn on your\ncrypto",
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximize Earnings without Gas Fees*",
@@ -2546,9 +2546,9 @@
       "description": "Earn approximately {{apy}}% per year when you add {{symbol}} to a pool"
     },
     "entrypoint": {
-      "title": "Earn on your stablecoins",
+      "title": "Earn on your crypto",
       "subtitle": "Deposit and earn",
-      "description": "Earn on your stablecoins when you lend through a liquidity pool"
+      "description": "Earn on your crypto assets when you lend through a liquidity pool"
     },
     "enterAmount": {
       "title": "How much would you like to deposit?",
@@ -2608,6 +2608,7 @@
       "network": "Network",
       "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
       "footerV1_93": "By depositing crypto into an {{providerName}} pool, you accept the risks associated with using {{providerName}}. <0>Terms & Conditions</0>",
+      "noTermsUrlFooter": "You are responsible for your actions in {{appName}}. {{appName}} disclaims all responsibility for your assets or interactions with {{providerName}}. You can review {{providerName}}'s documents <0>here</0> and our Terms & Conditions <1>here</1>.",
       "primaryCta": "Complete",
       "secondaryCta": "Cancel",
       "yieldRate": "Yield Rate (est.)",
@@ -2665,7 +2666,7 @@
         "chooseDescription": "Any financial decision is a personal choice. We have aggregated some pools across different protocols, but each pool has benefits and risks. We do our best to provide some helpful info for each pool, but it’s always best to do additional research if you’re unsure."
       },
       "noPoolsTitle": "You haven’t joined any pools yet",
-      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your stablecoins.",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your crypto.",
       "errorTitle": "Unable to load pools",
       "errorDescription": "Oops, something went wrong when trying to load the pool information. Please try again.",
       "errorButton": "Try again"
