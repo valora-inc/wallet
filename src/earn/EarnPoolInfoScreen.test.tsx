@@ -147,7 +147,7 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
-        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"133.00","cryptoAmount":"100.00","cryptoSymbol":"USDC"}'
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"146.30","cryptoAmount":"110.00","cryptoSymbol":"USDC"}'
       )
     ).toBeTruthy()
     expect(getAllByTestId('EarningItemLineItem')).toHaveLength(2)
@@ -187,7 +187,7 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
-        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"133.00","cryptoAmount":"100.00","cryptoSymbol":"USDC"}'
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"146.30","cryptoAmount":"110.00","cryptoSymbol":"USDC"}'
       )
     ).toBeTruthy()
   })
@@ -224,7 +224,7 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
-        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"131.67","cryptoAmount":"99.00","cryptoSymbol":"USDC"}'
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"144.97","cryptoAmount":"109.00","cryptoSymbol":"USDC"}'
       )
     ).toBeTruthy()
     expect(getAllByTestId('EarningItemLineItem')).toHaveLength(2)
@@ -271,7 +271,7 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
-        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"131.01","cryptoAmount":"98.50","cryptoSymbol":"USDC"}'
+        'earnFlow.poolInfoScreen.lineItemAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"144.31","cryptoAmount":"108.50","cryptoSymbol":"USDC"}'
       )
     ).toBeTruthy()
     expect(getAllByTestId('EarningItemLineItem')).toHaveLength(2)
