@@ -397,6 +397,10 @@ function EarnEnterAmount({ route }: Props) {
             onPressCta={() => {
               AppAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {
                 gasTokenId: feeCurrencies[0].tokenId,
+                depositTokenId: pool.dataProps.depositTokenId,
+                networkId: pool.networkId,
+                providerId: pool.appId,
+                poolId: pool.positionId,
               })
               navigate(Screens.FiatExchangeAmount, {
                 tokenId: prepareTransactionsResult.feeCurrencies[0].tokenId,

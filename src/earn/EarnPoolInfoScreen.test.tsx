@@ -103,7 +103,7 @@ describe('EarnPoolInfoScreen', () => {
       )
     ).toBeTruthy()
     expect(within(getByTestId('TvlCard')).getByText('earnFlow.poolInfoScreen.tvl')).toBeTruthy()
-    expect(within(getByTestId('TvlCard')).getByText('₱2,170,560.00')).toBeTruthy()
+    expect(within(getByTestId('TvlCard')).getByText('₱1,808,800.00')).toBeTruthy()
     expect(
       within(getByTestId('AgeCard')).getByText('duration, {"context":"month","count":5}')
     ).toBeTruthy()
@@ -142,7 +142,7 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
-        ' earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"154.28"}'
+        ' earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"180.88"}'
       )
     ).toBeTruthy()
     expect(
@@ -182,7 +182,7 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
-        ' earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"133.00"}'
+        ' earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"159.60"}'
       )
     ).toBeTruthy()
     expect(
@@ -219,7 +219,7 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
-        'earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"152.95"}'
+        'earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"179.55"}'
       )
     ).toBeTruthy()
     expect(
@@ -266,7 +266,7 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
     expect(
       within(getByTestId('DepositAndEarningsCard')).getByText(
-        'earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"152.95"}'
+        'earnFlow.poolInfoScreen.titleLocalAmountDisplay, {"localCurrencySymbol":"₱","localCurrencyAmount":"179.55"}'
       )
     ).toBeTruthy()
     expect(

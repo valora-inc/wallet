@@ -184,6 +184,10 @@ export default function EarnCollectScreen({ route }: Props) {
             onPressCta={() => {
               AppAnalytics.track(EarnEvents.earn_withdraw_add_gas_press, {
                 gasTokenId: feeCurrencies[0].tokenId,
+                depositTokenId: pool.dataProps.depositTokenId,
+                networkId: pool.networkId,
+                providerId: pool.appId,
+                poolId: pool.positionId,
               })
               navigate(Screens.FiatExchangeAmount, {
                 tokenId: feeCurrencies[0].tokenId,
