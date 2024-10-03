@@ -1782,7 +1782,7 @@ export const mockEarnPositions: EarnPosition[] = [
         balance: '0',
       },
     ],
-    pricePerShare: ['1'],
+    pricePerShare: ['1.1'],
     priceUsd: '1.2',
     balance: '0',
     supply: '190288.768509',

@@ -116,9 +116,9 @@ describe('EarnCollectScreen', () => {
     expect(getByText('earnFlow.collect.title')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
     expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
-      '10.75 USDC'
+      '11.83 USDC'
     )
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱14.30')
+    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱15.73')
     expect(queryByTestId('EarnCollect/ApyLoading')).toBeFalsy()
     expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
@@ -147,26 +147,6 @@ describe('EarnCollectScreen', () => {
     expect(store.getActions()).toEqual([])
   })
 
-  it('renders total balance correctly when pricePerShare is not 1', async () => {
-    const { getByText, getByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator
-          component={EarnCollectScreen}
-          params={{
-            pool: { ...mockEarnPositions[0], pricePerShare: ['2'] },
-          }}
-        />
-      </Provider>
-    )
-
-    expect(getByText('earnFlow.collect.title')).toBeTruthy()
-    expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
-      '21.50 USDC'
-    )
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱28.60')
-  })
-
   it('skips rewards section when no rewards', async () => {
     const { getByText, getByTestId, queryByTestId, queryByText } = render(
       <Provider
@@ -193,9 +173,9 @@ describe('EarnCollectScreen', () => {
     expect(getByText('earnFlow.collect.title')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
     expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
-      '10.75 USDC'
+      '11.83 USDC'
     )
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱14.30')
+    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱15.73')
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
 
     expect(queryByText('earnFlow.collect.plus')).toBeFalsy()
@@ -298,7 +278,7 @@ describe('EarnCollectScreen', () => {
 
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_collect_earnings_press, {
       depositTokenId: mockArbUsdcTokenId,
-      tokenAmount: '10.75',
+      tokenAmount: '11.825',
       networkId: NetworkId['arbitrum-sepolia'],
       providerId: mockEarnPositions[0].appId,
       rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],
