@@ -2505,12 +2505,12 @@
       }
     },
     "cta": {
-      "title": "Ganhe com suas stablecoins",
+      "title": "Ganhe com sua criptografia",
       "subtitle": "Deposite hoje e ganhe retornos",
       "description": "Veja quanto você pode ganhar ao fornecer um pool de empréstimos"
     },
     "earnInfo": {
-      "title": "Ganhe com as\nsuas stablecoins",
+      "title": "Ganhe com sua criptografia\n",
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximize seus ganhos sem taxas de gás*",
@@ -2546,9 +2546,9 @@
       "description": "Ganhe cerca de {{apy}}% por ano ao adicionar {{symbol}} a um pool"
     },
     "entrypoint": {
-      "title": "Ganhe com suas stablecoins",
+      "title": "Ganhe com sua criptografia",
       "subtitle": "Deposite e ganhe",
-      "description": "Ganhe em suas stablecoins por um pool de liquidez."
+      "description": "Ganhe com seus ativos de criptografia quando você emprestar por meio de um pool de liquidez"
     },
     "enterAmount": {
       "title": "Quanto gostaria de depositar?",
@@ -2608,6 +2608,7 @@
       "network": "Rede",
       "footer": "Ao depositar cripto em um pool da Aave, você aceita os riscos associados ao uso da Aave. <0>Termos e condições</0>",
       "footerV1_93": "Ao depositar criptomoedas em um pool da {{providerName}}, você aceita os riscos associados ao uso da {{providerName}}. <0>Termos e condições</0>",
+      "noTermsUrlFooter": "Você é responsável por suas ações em {{appName}}. {{appName}} se isenta de qualquer responsabilidade por seus ativos ou interações com {{providerName}}. Você pode consultar os documentos do {{providerName}}<0>aqui</0> e nossos Termos e Condições <1>aqui</1>.",
       "primaryCta": "Concluir",
       "secondaryCta": "Cancelar",
       "yieldRate": "Taxa de rendimento (est.)",
@@ -2665,7 +2666,7 @@
         "chooseDescription": "Qualquer decisão financeira é uma escolha pessoal. Agrupamos alguns pools em diversos protocolos, mas cada um tem seus benefícios e riscos. Fazemos o nosso melhor para fornecer informações úteis sobre cada pool, mas é sempre recomendável realizar uma pesquisa adicional se tiver dúvidas."
       },
       "noPoolsTitle": "Você ainda não entrou em nenhum pool",
-      "noPoolsDescription": "Descubra os pools disponíveis, escolha um que corresponda às suas metas e aproveite ao máximo suas stablecoins.",
+      "noPoolsDescription": "Descubra os pools disponíveis, escolha um que corresponda a seus objetivos e aproveite ao máximo suas criptomoedas.",
       "errorTitle": "Não foi possível carregar pools",
       "errorDescription": "Opa, algo deu errado ao tentar carregar as informações do pool. Tente novamente.",
       "errorButton": "Tentar novamente"

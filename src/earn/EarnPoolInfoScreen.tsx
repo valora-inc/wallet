@@ -153,14 +153,14 @@ function DepositAndEarningsCard({
   onInfoIconPress: () => void
 }) {
   const { t } = useTranslation()
-  const { balance } = earnPosition
+  const { balance, priceUsd, pricePerShare } = earnPosition
   const { earningItems, depositTokenId, cantSeparateCompoundedInterest } = earnPosition.dataProps
   const depositTokenInfo = useTokenInfo(depositTokenId)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
 
   // Deposit items used to calculate the total balance and total deposited
-  const depositBalanceInUsd = depositTokenInfo?.priceUsd?.multipliedBy(balance)
+  const depositBalanceInUsd = new BigNumber(priceUsd).multipliedBy(balance)
   const depositBalanceInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
     depositBalanceInUsd ?? 0
   )
@@ -190,7 +190,7 @@ function DepositAndEarningsCard({
   ])
 
   const totalDepositBalanceInCrypto = useMemo(() => {
-    return new BigNumber(balance).minus(
+    return new BigNumber(balance).multipliedBy(new BigNumber(pricePerShare[0]) ?? 1).minus(
       earningItems
         .filter((item) => item.includedInPoolBalance)
         .reduce((acc, item) => {
@@ -202,7 +202,7 @@ function DepositAndEarningsCard({
           )
         }, new BigNumber(0))
     )
-  }, [balance, earningItems, earningItemsTokenInfo, depositTokenInfo])
+  }, [balance, pricePerShare, earningItems, earningItemsTokenInfo, depositTokenInfo])
 
   const totalDepositBalanceInLocalCurrency =
     useDollarsToLocalAmount(
@@ -328,10 +328,7 @@ function TvlCard({
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const { t } = useTranslation()
   const tvl = earnPosition.dataProps.tvl
-  const priceUsd = earnPosition.priceUsd
-  const tvlInFiat = useDollarsToLocalAmount(
-    tvl ? new BigNumber(tvl).times(new BigNumber(priceUsd)) : null
-  )
+  const tvlInFiat = useDollarsToLocalAmount(tvl ?? null)
   const tvlString = useMemo(() => {
     return `${localCurrencySymbol}${tvlInFiat ? formatValueToDisplay(tvlInFiat) : '--'}`
   }, [localCurrencySymbol, tvlInFiat])

@@ -75,9 +75,7 @@ export default function PoolCard({
     [localCurrencySymbol, poolBalanceInFiat, rewardAmountInFiat]
   )
 
-  const tvlInFiat = useDollarsToLocalAmount(
-    tvl ? new BigNumber(tvl).times(new BigNumber(priceUsd)) : null
-  )
+  const tvlInFiat = useDollarsToLocalAmount(tvl ?? null)
   const tvlString = useMemo(() => {
     return `${localCurrencySymbol}${tvlInFiat ? formatValueToDisplay(tvlInFiat) : '--'}`
   }, [localCurrencySymbol, tvlInFiat])

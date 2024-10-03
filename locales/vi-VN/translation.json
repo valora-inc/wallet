@@ -1532,7 +1532,7 @@
     "somePaymentsUnavailable": "Giao dịch mua hàng được hỗ trợ bởi các nhà cung cấp đối tác của chúng tôi. Lệ phí có thể khác nhau. Một số phương thức thanh toán không có sẵn tại khu vực của bạn.",
     "disclaimerWithSomePaymentsUnavailable": "Thanh toán do các đối tác mạng hỗ trợ. Mức phí có thể khác nhau. Một số phương thức thanh toán không khả dụng ở khu vực của bạn. <0>Tìm hiểu thêm.</0>",
     "disclaimer": "Thanh toán do các đối tác mạng hỗ trợ. Mức phí có thể khác nhau. <0>Tìm hiểu thêm.</0>",
-    "disclaimerUK": "This is not an invitation to buy cryptoassets. We only provide a list of providers who are selling cryptoassets with price information and a link to their website.",
+    "disclaimerUK": "Đây không phải là lời mời mua tài sản tiền điện tử. Chúng tôi chỉ cung cấp danh sách các nhà cung cấp bán tài sản tiền điện tử cùng thông tin về giá và liên kết đến trang web của họ.",
     "learnMore": "Tìm hiểu thêm.",
     "whyMissingPayments": "Tại sao tôi không thấy các phương thức thanh toán khác?",
     "dismiss": "Bỏ qua",
@@ -1694,7 +1694,7 @@
       "selectCurrencyTitle": "Nạp tiền",
       "exchangeAmountTitle": "Nạp {{currency}}",
       "selectProviderHeader": "Chọn phương thức thanh toán",
-      "selectProviderHeader_UK": "Provider Details",
+      "selectProviderHeader_UK": "Thông tin nhà cung cấp",
       "depositExchangeTitle": "Tiền gửi tiền điện tử"
     },
     "cashOut": {
@@ -1785,13 +1785,13 @@
     "title": "Trao đổi",
     "review": "Xem lại",
     "confirmSwap": "Xác nhận giao dịch trao đổi",
-    "confirmSwap_UK": "I Want To Swap",
+    "confirmSwap_UK": "Tôi muốn giao dịch trao đổi",
     "swapFrom": "TỪ",
     "swapTo": "SANG",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
     "disclaimer": "Tỷ giá tốt nhất được quyết định bởi các nguồn phi tập trung. <0>Tìm hiểu thêm</0>",
-    "disclaimer_UK": "This is not an invitation to sell or buy cryptoassets. By clicking I Want To Swap you are instructing a third party swap router to execute your swap transaction at the best rate. Best rate provided by network partners. <0>Learn more</0>",
+    "disclaimer_UK": "Đây không phải là lời mời mua hoặc bán tài sản tiền điện tử. Khi nhấp vào Tôi muốn giao dịch trao đổi, bạn đang ra chỉ lệnh cho một bộ định tuyến trao đổi của bên thứ ba thực hiện giao dịch trao đổi với mức giá tốt nhất. Mức giá tốt nhất này do các đối tác trong mạng cung cấp. <0>Tìm hiểu thêm</0>",
     "swapFromTokenSelection": "TRAO ĐỔI TỪ",
     "swapToTokenSelection": "TRAO ĐỔI SANG",
     "tokenUsdValueUnknown": "-",
@@ -2503,12 +2503,12 @@
       }
     },
     "cta": {
-      "title": "Nhận stablecoin",
+      "title": "Earn on your crypto",
       "subtitle": "Nạp tiền ngay hôm nay và nhận tiền lãi",
       "description": "Xem số tiền bạn có thể kiếm được khi nạp tiền vào quỹ cho vay"
     },
     "earnInfo": {
-      "title": "Kiếm tiền từ\nstablecoin",
+      "title": "Earn on your\ncrypto",
       "details": {
         "earn": {
           "titleGasSubsidy": "Tối đa hóa thu nhập mà không mất phí ga*",
@@ -2544,9 +2544,9 @@
       "description": "Kiếm khoảng {{apy}}% mỗi năm khi bạn nạp {{symbol}} vào quỹ"
     },
     "entrypoint": {
-      "title": "Nhận stablecoin",
+      "title": "Earn on your crypto",
       "subtitle": "Nạp tiền và kiếm tiền",
-      "description": "Kiếm tiền từ stablecoin bằng cách cho vay thông qua một bể thanh khoản"
+      "description": "Earn on your crypto assets when you lend through a liquidity pool"
     },
     "enterAmount": {
       "title": "Bạn muốn nạp bao nhiêu tiền?",
@@ -2606,6 +2606,7 @@
       "network": "Mạng lưới",
       "footer": "Khi nạp tiền điện tử vào quỹ Aave, bạn chấp nhận các rủi ro liên quan đến việc sử dụng Aave. <0>Điều khoản & Điều kiện</0>",
       "footerV1_93": "Khi nạp tiền điện tử vào bể {{providerName}}, bạn chấp nhận các rủi ro liên quan đến việc sử dụng {{providerName}}. <0>Điều khoản và điều kiện</0>",
+      "noTermsUrlFooter": "You are responsible for your actions in {{appName}}. {{appName}} disclaims all responsibility for your assets or interactions with {{providerName}}. You can review {{providerName}}'s documents <0>here</0> and our Terms & Conditions <1>here</1>.",
       "primaryCta": "Hoàn thành",
       "secondaryCta": "Hủy",
       "yieldRate": "Mức sinh lợi (ước tính)",
@@ -2663,7 +2664,7 @@
         "chooseDescription": "Mọi quyết định về tài chính đều là lựa chọn mang tính cá nhân. Chúng tôi đã tổng hợp một số quỹ từ các giao thức khác nhau, nhưng mỗi quỹ lại có lợi ích và rủi ro riêng. Chúng tôi cố gắng hết sức để mang đến những thông tin hữu ích của từng quỹ, nhưng tốt nhất bạn vẫn tự nghiên cứu thêm nếu không chắc chắn."
       },
       "noPoolsTitle": "Bạn chưa tham gia bất kỳ quỹ nào",
-      "noPoolsDescription": "Khám phá các quỹ hiện có, chọn quỹ phù hợp với mục tiêu của bạn và tận dụng tối đa stablecoin.",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your crypto.",
       "errorTitle": "Không thể tải bể",
       "errorDescription": "Rất tiếc, đã xảy ra sự cố khi tải thông tin về bể. Vui lòng thử lại.",
       "errorButton": "Thử lại"
