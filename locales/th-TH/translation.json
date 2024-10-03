@@ -1532,7 +1532,7 @@
     "somePaymentsUnavailable": "การซื้อดำเนินการโดยผู้ให้บริการที่เป็นพันธมิตรของเรา วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ ค่าธรรมเนียมอาจแตกต่างกันไป",
     "disclaimerWithSomePaymentsUnavailable": "การชำระเงินดำเนินการโดยพาร์ทเนอร์เครือข่าย ซึ่งอาจมีค่าธรรมเนียมแตกต่างกันไป วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ <0>ดูข้อมูลเพิ่มเติม</0>",
     "disclaimer": "การชำระเงินดำเนินการโดยพาร์ทเนอร์เครือข่าย ซึ่งอาจมีค่าธรรมเนียมแตกต่างกันไป <0>ดูข้อมูลเพิ่มเติม</0>",
-    "disclaimerUK": "This is not an invitation to buy cryptoassets. We only provide a list of providers who are selling cryptoassets with price information and a link to their website.",
+    "disclaimerUK": "นี่ไม่ใช่คำเชิญสำหรับการซื้อสินทรัพย์คริปโต เรามอบเพียงรายชื่อผู้ให้บริการที่จำหน่ายสินทรัพย์คริปโต พร้อมข้อมูลราคา และลิงก์ไปยังเว็บไซต์เท่านั้น",
     "learnMore": "ดูข้อมูลเพิ่มเติม",
     "whyMissingPayments": "ทำไมฉันจึงเห็นวิธีการชำระเงินเพียงเท่านี้",
     "dismiss": "ปิด",
@@ -1694,7 +1694,7 @@
       "selectCurrencyTitle": "เพิ่มเงินทุน",
       "exchangeAmountTitle": "เพิ่ม {{currency}}",
       "selectProviderHeader": "เลือกวิธีการชำระเงิน",
-      "selectProviderHeader_UK": "Provider Details",
+      "selectProviderHeader_UK": "รายละเอียดผู้ให้บริการ",
       "depositExchangeTitle": "เงินฝาก"
     },
     "cashOut": {
@@ -1785,13 +1785,13 @@
     "title": "สว็อป",
     "review": "ตรวจสอบ",
     "confirmSwap": "ยืนยันสว็อป",
-    "confirmSwap_UK": "I Want To Swap",
+    "confirmSwap_UK": "ฉันต้องการสว็อป",
     "swapFrom": "จาก",
     "swapTo": "เป็น",
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
     "disclaimer": "อัตราที่ดีที่สุดซึ่งกำหนดโดยแหล่งข้อมูลแบบกระจายศูนย์ <0>ดูข้อมูลเพิ่มเติม</0>",
-    "disclaimer_UK": "This is not an invitation to sell or buy cryptoassets. By clicking I Want To Swap you are instructing a third party swap router to execute your swap transaction at the best rate. Best rate provided by network partners. <0>Learn more</0>",
+    "disclaimer_UK": "นี่ไม่ใช่คำเชิญสำหรับการซื้อสินทรัพย์คริปโต เมื่อคลิกที่ ฉันต้องการสว็อป แสดงว่าคุณกำลังสั่งให้เราเตอร์สว็อปของบุคคลที่สามดำเนินการธุรกรรมสว็อปของคุณในอัตราราคาที่ดีที่สุด อัตราที่ดีที่สุดซึ่งกำหนดโดยพาร์ทเนอร์เครือข่าย<0>ดูข้อมูลเพิ่มเติม</0>",
     "swapFromTokenSelection": "สว็อปจาก",
     "swapToTokenSelection": "สว็อปเป็น",
     "tokenUsdValueUnknown": "-",
@@ -2503,12 +2503,12 @@
       }
     },
     "cta": {
-      "title": "สร้างรายได้ผ่าน Stablecoin",
+      "title": "Earn on your crypto",
       "subtitle": "ฝากวันนี้แล้วรับผลตอบแทน",
       "description": "ดูรายได้ที่คุณสามารถรับเมื่อเข้าร่วมพูลการให้ยืม"
     },
     "earnInfo": {
-      "title": "สร้างรายได้ผ่าน\nStablecoin",
+      "title": "Earn on your\ncrypto",
       "details": {
         "earn": {
           "titleGasSubsidy": "สร้างรายได้สูงสุดโดยไม่เสียค่าก๊าซ*",
@@ -2544,9 +2544,9 @@
       "description": "สร้างรายได้ประมาณ {{apy}}% ต่อปีเมื่อเพิ่ม {{symbol}} ลงในพูล"
     },
     "entrypoint": {
-      "title": "สร้างรายได้ผ่าน Stablecoin",
+      "title": "Earn on your crypto",
       "subtitle": "ฝากเงินและสร้างรายได้",
-      "description": "สร้างรายได้จาก Stablecoin เมื่อให้ยืมผ่าน Liquidity Pool"
+      "description": "Earn on your crypto assets when you lend through a liquidity pool"
     },
     "enterAmount": {
       "title": "คุณต้องการฝากจำนวนเท่าไร",
@@ -2606,6 +2606,7 @@
       "network": "เครือข่าย",
       "footer": "เมื่อฝากคริปโตในพูล Aave คุณยอมรับความเสี่ยงที่มาพร้อมการใช้ Aave <0>ข้อกำหนดและเงื่อนไข</0>",
       "footerV1_93": "เมื่อฝากคริปโตในพูล {{providerName}} คุณยอมรับความเสี่ยงที่มาพร้อมการใช้ {{providerName}} <0>ข้อกำหนดและเงื่อนไข</0>",
+      "noTermsUrlFooter": "You are responsible for your actions in {{appName}}. {{appName}} disclaims all responsibility for your assets or interactions with {{providerName}}. You can review {{providerName}}'s documents <0>here</0> and our Terms & Conditions <1>here</1>.",
       "primaryCta": "เสร็จสมบูรณ์",
       "secondaryCta": "ยกเลิก",
       "yieldRate": "อัตราผลตอบแทน (โดยประมาณ)",
@@ -2663,7 +2664,7 @@
         "chooseDescription": "การตัดสินใจทางการเงินใดๆ ก็ตามถือเป็นทางเลือกส่วนบุคคล เราได้รวบรวมพูลบางส่วนจากโปรโตคอลต่างๆ ทว่าแต่ละพูลจะมีทั้งข้อดีและความเสี่ยง เราพยายามอย่างเต็มที่เพื่อมอบข้อมูลที่เป็นประโยชน์สำหรับแต่ละพูล แต่แนะนำอย่างยิ่งให้ค้นคว้าหาข้อมูลเพิ่มเติมหากคุณไม่แน่ใจ"
       },
       "noPoolsTitle": "คุณยังไม่ได้เข้าร่วมพูลใดเลย",
-      "noPoolsDescription": "มาดูกันว่ามีพูลอะไรให้เข้าร่วมบ้าง เลือกพูลที่ตรงกับเป้าหมายของคุณและใช้ Stablecoin ของคุณให้เกิดประโยชน์สูงสุด",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your crypto.",
       "errorTitle": "ไม่สามารถโหลดพูลได้",
       "errorDescription": "อุ้ย เกิดข้อผิดพลาดขณะพยายามโหลดข้อมูลพูล โปรดลองอีกครั้ง",
       "errorButton": "ลองอีกครั้ง"
