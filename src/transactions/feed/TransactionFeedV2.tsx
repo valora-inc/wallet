@@ -1,146 +1,176 @@
-import type { Action } from '@reduxjs/toolkit'
-import { createApi, fetchBaseQuery, skipToken } from '@reduxjs/toolkit/query/react'
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
-import { REHYDRATE } from 'redux-persist'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
 import { useSelector } from 'src/redux/hooks'
-import { getRehydratePayload } from 'src/redux/persist-helper'
-import { RootState } from 'src/redux/store'
+import { RootState } from 'src/redux/reducers'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import { getSupportedNetworkIdsForApprovalTxsInHomefeed } from 'src/tokens/utils'
 import NoActivity from 'src/transactions/NoActivity'
+import { useTransactionFeedV2Query } from 'src/transactions/api'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
-import { NetworkId, type TokenTransaction, TransactionStatus } from 'src/transactions/types'
-import { groupFeedItemsInSections } from 'src/transactions/utils'
+import { NetworkId, TransactionStatus, type TokenTransaction } from 'src/transactions/types'
+import {
+  groupFeedItemsInSections,
+  standByTransactionToTokenTransaction,
+} from 'src/transactions/utils'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-type Response = {
-  transactions: TokenTransaction[]
-  pageInfo: {
-    hasPreviousPage: boolean
-    hasNextPage: boolean
-  }
+type PaginatedData = {
+  [timestamp: number]: TokenTransaction[]
 }
 
-function isHydrateAction(action: Action): action is Action<typeof REHYDRATE> & {
-  key: string
-  payload: RootState
-  err: unknown
-} {
-  return action.type === REHYDRATE
-}
-
-export const transactionFeedV2Api = createApi({
-  reducerPath: 'transactionFeedV2Api',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8080/wallet/',
-    headers: {
-      Accept: 'application/json',
-    },
-  }),
-  // keepUnusedDataFor: 0,
-  endpoints: (builder) => ({
-    transactionFeedV2: builder.query<Response, string>({
-      query: (address) => `${address}/transactions`,
-    }),
-  }),
-  extractRehydrationInfo: (action, { reducerPath }): any => {
-    if (isHydrateAction(action)) {
-      const supportedNetworkIdsForApprovalTxs = getSupportedNetworkIdsForApprovalTxsInHomefeed()
-
-      const persistedTransactionsState: RootState['transactions'] = getRehydratePayload(
-        action,
-        'transactions'
-      )
-      const walletPersistedState: RootState['web3'] = getRehydratePayload(action, 'web3')
-      const walletAddress = walletPersistedState.account?.toLowerCase() ?? null
-      const standbyTransactions = persistedTransactionsState.standbyTransactions.filter((tx) => {
-        if (tx.__typename === 'TokenApproval') {
-          return supportedNetworkIdsForApprovalTxs.includes(tx.networkId)
-        }
-        return true
-      })
-
-      const cachedApiState = { ...action.payload[reducerPath] }
-
-      // eslint-disable-next-line no-restricted-syntax
-      for (const queryKey in cachedApiState.queries) {
-        const queryState = cachedApiState.queries[queryKey]
-        if (queryState?.originalArgs === walletAddress) {
-          const data = queryState.data as Response
-          const hashes = data.transactions.map((tx) => tx.transactionHash)
-
-          data.transactions = standbyTransactions
-            .reduce((acc, tx) => {
-              if (tx.transactionHash && !hashes.includes(tx.transactionHash)) {
-                acc.push({
-                  block: '',
-                  fees: [],
-                  transactionHash: tx.transactionHash || '',
-                  ...tx, // in case the transaction already has the above (e.g. cross chain swaps), use the real values
-                })
-              }
-              return acc
-            }, data.transactions)
-            .sort((a, b) => b.timestamp - a.timestamp)
-
-          // console.log(data.transactions.length)
-          // console.log(data.transactions.map((tx) => new Date(tx.timestamp)).join('\n'))
-        }
-      }
-
-      return cachedApiState
-    }
-
-    return undefined
-  },
-})
-
-const { useTransactionFeedV2Query } = transactionFeedV2Api
+// Query poll interval
+const POLL_INTERVAL = 10000 // 10 secs
+const INITIAL_PAGE_TIMESTAMP = 0
 
 function getAllowedNetworkIdsForTransfers() {
   return getMultichainFeatures().showTransfers.join(',').split(',') as NetworkId[]
 }
 
+function mergeStandByTransactionsInRange(
+  transactions: TokenTransaction[],
+  standBy: TokenTransaction[]
+) {
+  if (transactions.length === 0) return []
+
+  const allowedNetworks = getAllowedNetworkIdsForTransfers()
+  const max = transactions[0].timestamp
+  const min = transactions.at(-1)!.timestamp
+
+  const standByInRange = standBy.filter((tx) => tx.timestamp >= min && tx.timestamp <= max)
+  const mergedTransactions = [...transactions, ...standByInRange].reduce(
+    (acc, tx) => {
+      if (!allowedNetworks.includes(tx.networkId)) return acc
+
+      if (!acc.used[tx.transactionHash]) {
+        acc.used[tx.transactionHash] = true
+        acc.list.push(tx)
+      }
+      return acc
+    },
+    { list: [] as TokenTransaction[], used: {} as { [hash: string]: true } }
+  )
+
+  const sortedTransactions = mergedTransactions.list.sort((a, b) => b.timestamp - a.timestamp)
+  return sortedTransactions
+}
+
+function useStandByTransactions() {
+  const supportedNetworkrsForApproval = getSupportedNetworkIdsForApprovalTxsInHomefeed().join(',')
+  const standByTransactions = useSelector(
+    (state: RootState) => state.transactions.standbyTransactions
+  )
+
+  return useMemo(() => {
+    const networkIds = supportedNetworkrsForApproval.split(',') as NetworkId[]
+    return standByTransactions
+      .filter((tx) => {
+        return tx.__typename === 'TokenApproval' ? networkIds.includes(tx.networkId) : true
+      })
+      .reduce(
+        (acc, tx) => {
+          if (tx.status === TransactionStatus.Pending) {
+            acc.pending.push(standByTransactionToTokenTransaction(tx))
+          } else {
+            acc.confirmed.push(tx)
+          }
+
+          return acc
+        },
+        { pending: [] as TokenTransaction[], confirmed: [] as TokenTransaction[] }
+      )
+  }, [standByTransactions, supportedNetworkrsForApproval])
+}
+
 export default function TransactionFeedV2() {
   const address = useSelector(walletAddressSelector)
+  const standByTransactions = useStandByTransactions()
+  const [endCursor, setEndCursor] = useState(0)
+  const [paginatedData, setPaginatedData] = useState<PaginatedData>({})
+  const { pageData, isFetching, error } = useTransactionFeedV2Query(
+    { address: address!, endCursor },
+    {
+      skip: !address,
+      refetchOnMountOrArgChange: true,
+      selectFromResult: (result) => {
+        return {
+          ...result,
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          pageData: useMemo(
+            () => ({
+              currentCursor: result.originalArgs?.endCursor || 0,
+              nextCursor: result.data?.transactions.at(-1)?.timestamp,
+              transactions: result.data?.transactions || [],
+            }),
+            [result]
+          ),
+        }
+      },
+    }
+  )
 
-  const { sections, isFetching, error } = useTransactionFeedV2Query(address ?? skipToken, {
-    selectFromResult: (result) => {
-      const { data } = result
-      const transactions = data?.transactions || []
-      const allowedNetworks = getAllowedNetworkIdsForTransfers()
+  useEffect(() => {
+    if (isFetching) return
 
-      const { pending, confirmed } = transactions
-        .filter((tx) => allowedNetworks.includes(tx.networkId))
-        .reduce(
-          (acc, tx) => {
-            const key: keyof typeof acc =
-              tx.status === TransactionStatus.Pending ? 'pending' : 'confirmed'
-            acc[key].push(tx)
-            return acc
-          },
-          {
-            pending: [] as TokenTransaction[],
-            confirmed: [] as TokenTransaction[],
-          }
-        )
+    setPaginatedData((prev) => {
+      /**
+       * We are going to poll only the first page so if we already fetched other pages -
+       * just leave them as is. All new transactions are gonna be added to the first page (at the top).
+       */
+      if (pageData.currentCursor !== INITIAL_PAGE_TIMESTAMP && prev[pageData.currentCursor]) {
+        return prev
+      }
 
-      const noTransactions = pending.length === 0 && confirmed.length === 0
-      const sections = noTransactions ? [] : groupFeedItemsInSections(pending, confirmed)
+      const transactions = mergeStandByTransactionsInRange(
+        pageData.transactions,
+        standByTransactions.confirmed
+      )
 
-      return { ...result, sections }
-    },
-  })
+      return { ...prev, [pageData.currentCursor]: transactions }
+    })
+  }, [isFetching, pageData, standByTransactions.confirmed])
+
+  // Poll the initial page
+  useTransactionFeedV2Query(
+    { address: address!, endCursor: INITIAL_PAGE_TIMESTAMP },
+    { skip: !address, pollingInterval: POLL_INTERVAL }
+  )
+
+  const pendingTransactions = useMemo(() => {
+    const allowedNetworks = getAllowedNetworkIdsForTransfers()
+    return standByTransactions.pending.filter((tx) => {
+      return allowedNetworks.includes(tx.networkId)
+    })
+  }, [standByTransactions.pending])
+
+  const confirmedTransactions = useMemo(() => {
+    return Object.values(paginatedData)
+      .flat()
+      .reduce(
+        (acc, tx) => {
+          if (!acc.used[tx.transactionHash]) acc.list.push(tx)
+          return acc
+        },
+        {
+          list: [] as TokenTransaction[],
+          used: {} as { [hash: string]: true },
+        }
+      ).list
+  }, [paginatedData])
+
+  const sections = useMemo(() => {
+    const noTransactions = pendingTransactions.length === 0 && confirmedTransactions.length === 0
+    if (noTransactions) return []
+    return groupFeedItemsInSections(pendingTransactions, confirmedTransactions)
+  }, [paginatedData])
 
   if (!sections.length) {
     return getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? (
@@ -150,7 +180,11 @@ export default function TransactionFeedV2() {
     )
   }
 
-  function fetchMoreTransactions() {}
+  function fetchMoreTransactions() {
+    if (pageData.nextCursor) {
+      setEndCursor(pageData.nextCursor)
+    }
+  }
 
   function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
     switch (tx.__typename) {

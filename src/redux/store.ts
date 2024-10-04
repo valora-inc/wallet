@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { configureStore, Middleware } from '@reduxjs/toolkit'
+import { setupListeners } from '@reduxjs/toolkit/query'
 import { getStoredState, PersistConfig, persistReducer, persistStore } from 'redux-persist'
 import FSStorage from 'redux-persist-fs-storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
@@ -10,7 +11,7 @@ import { createMigrate } from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import rootReducer, { RootState as ReducersRootState } from 'src/redux/reducers'
 import { rootSaga } from 'src/redux/sagas'
-import { transactionFeedV2Api } from 'src/transactions/feed/TransactionFeedV2'
+import { transactionFeedV2Api } from 'src/transactions/api'
 import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -173,3 +174,5 @@ export { persistor, store }
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
+
+setupListeners(store.dispatch)
