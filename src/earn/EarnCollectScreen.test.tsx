@@ -15,7 +15,6 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
-import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
 import {
@@ -33,10 +32,10 @@ import {
 const mockStoreTokens = {
   tokenBalances: {
     ...mockTokenBalances,
-    [networkConfig.aaveArbUsdcTokenId]: {
+    [`${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`]: {
       networkId: NetworkId['arbitrum-sepolia'],
       address: mockAaveArbUsdcAddress,
-      tokenId: networkConfig.aaveArbUsdcTokenId,
+      tokenId: `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`,
       symbol: 'aArbSepUSDC',
       priceUsd: '1',
       balance: '10.75',

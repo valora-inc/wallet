@@ -9,7 +9,6 @@ import PointsHome from 'src/points/PointsHome'
 import { getPointsConfigRetry, pointsDataRefreshStarted } from 'src/points/slice'
 import { RootState } from 'src/redux/store'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockEarnPositions } from 'test/values'
@@ -217,10 +216,7 @@ describe(PointsHome, () => {
     })
   })
 
-  it('navigates to Earn home screen on earn CTA press when multiple pools gate is on', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
+  it('navigates to Earn home screen on earn CTA press', async () => {
     const { getByText } = renderPointsHome()
     fireEvent.press(getByText('points.activityCards.depositEarn.title'))
     await waitFor(() =>
@@ -231,27 +227,6 @@ describe(PointsHome, () => {
 
     fireEvent.press(getByText('points.activityCards.depositEarn.bottomSheet.cta'))
     await waitFor(() => expect(navigate).toHaveBeenCalledWith(Screens.EarnHome))
-    expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
-      activityId: 'deposit-earn',
-    })
-  })
-
-  it('navigates to Earn enter amount on earn CTA press when multiple pools gate is off', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POSITIONS)
-    const { getByText } = renderPointsHome()
-    fireEvent.press(getByText('points.activityCards.depositEarn.title'))
-    await waitFor(() =>
-      expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_press, {
-        activityId: 'deposit-earn',
-      })
-    )
-
-    fireEvent.press(getByText('points.activityCards.depositEarn.bottomSheet.cta'))
-    await waitFor(() =>
-      expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, { pool: mockEarnPositions[0] })
-    )
     expect(AppAnalytics.track).toHaveBeenCalledWith(PointsEvents.points_screen_card_cta_press, {
       activityId: 'deposit-earn',
     })

@@ -5,14 +5,12 @@ import { EarnCardDiscover } from 'src/earn/EarnCard'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import { mockArbUsdcTokenId, mockTokenBalances } from 'test/values'
 
 jest.mock('src/statsig')
 
-const mockDepositTokenId = mockArbUsdcTokenId
-const mockPoolTokenId = networkConfig.aaveArbUsdcTokenId
+const mockPoolTokenId = `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`
 
 function createStore(balance: string = '0') {
   return createMockStore({
@@ -79,14 +77,12 @@ describe('EarnCardDiscover', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation(
-        (featureGateName) =>
-          featureGateName === StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS ||
-          featureGateName === StatsigFeatureGates.SHOW_POSITIONS
+        (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_POSITIONS
       )
 
     const { getByTestId, queryByTestId } = render(
       <Provider store={createStore()}>
-        <EarnCardDiscover depositTokenId={mockDepositTokenId} poolTokenId={mockPoolTokenId} />
+        <EarnCardDiscover />
       </Provider>
     )
 
@@ -94,23 +90,20 @@ describe('EarnCardDiscover', () => {
     expect(queryByTestId('EarnActivePools')).toBeFalsy()
     expect(queryByTestId('EarnCta')).toBeFalsy()
     expect(queryByTestId('EarnActivePool')).toBeFalsy()
-    expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_POSITIONS)
-    expect(getFeatureGate).toHaveBeenCalledTimes(2)
+    expect(getFeatureGate).toHaveBeenCalledTimes(1)
   })
 
   it('renders EarnActivePools when multiple pools is enabled and there are active pools', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation(
-        (featureGateName) =>
-          featureGateName === StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS ||
-          featureGateName === StatsigFeatureGates.SHOW_POSITIONS
+        (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_POSITIONS
       )
 
     const { getByTestId, queryByTestId } = render(
       <Provider store={createStore('10')}>
-        <EarnCardDiscover depositTokenId={mockDepositTokenId} poolTokenId={mockPoolTokenId} />
+        <EarnCardDiscover />
       </Provider>
     )
 
@@ -118,18 +111,11 @@ describe('EarnCardDiscover', () => {
     expect(queryByTestId('EarnEntryPoint')).toBeFalsy()
     expect(queryByTestId('EarnCta')).toBeFalsy()
     expect(queryByTestId('EarnActivePool')).toBeFalsy()
-    expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_POSITIONS)
-    expect(getFeatureGate).toHaveBeenCalledTimes(2)
+    expect(getFeatureGate).toHaveBeenCalledTimes(1)
   })
 
   it('renders EarnCta when multiple pools is disabled and show stable coin earn is enabled', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_STABLECOIN_EARN
-      )
-
     const { getByTestId, queryByTestId } = render(
       <Provider
         store={createMockStore({
@@ -138,7 +124,7 @@ describe('EarnCardDiscover', () => {
           },
         })}
       >
-        <EarnCardDiscover depositTokenId={mockDepositTokenId} poolTokenId={mockPoolTokenId} />
+        <EarnCardDiscover />
       </Provider>
     )
 
@@ -146,19 +132,11 @@ describe('EarnCardDiscover', () => {
     expect(queryByTestId('EarnEntryPoint')).toBeFalsy()
     expect(queryByTestId('EarnActivePools')).toBeFalsy()
     expect(queryByTestId('EarnActivePool')).toBeFalsy()
-    expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
-    expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_STABLECOIN_EARN)
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_POSITIONS)
-    expect(getFeatureGate).toHaveBeenCalledTimes(3)
+    expect(getFeatureGate).toHaveBeenCalledTimes(1)
   })
 
   it('renders EarnActivePool when multiple pools is disabled and show stable coin earn is enabled and pool token has balance', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_STABLECOIN_EARN
-      )
-
     const { getByTestId, queryByTestId } = render(
       <Provider
         store={createMockStore({
@@ -173,7 +151,7 @@ describe('EarnCardDiscover', () => {
           },
         })}
       >
-        <EarnCardDiscover depositTokenId={mockDepositTokenId} poolTokenId={mockPoolTokenId} />
+        <EarnCardDiscover />
       </Provider>
     )
 
@@ -181,16 +159,14 @@ describe('EarnCardDiscover', () => {
     expect(queryByTestId('EarnEntryPoint')).toBeFalsy()
     expect(queryByTestId('EarnActivePools')).toBeFalsy()
     expect(queryByTestId('EarnCta')).toBeFalsy()
-    expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
-    expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_STABLECOIN_EARN)
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_POSITIONS)
-    expect(getFeatureGate).toHaveBeenCalledTimes(3)
+    expect(getFeatureGate).toHaveBeenCalledTimes(1)
   })
 
   it('renders nothing if multiple pools and show stable coin earn are disabled', () => {
     const { queryByTestId } = render(
       <Provider store={createMockStore()}>
-        <EarnCardDiscover depositTokenId={mockArbUsdcTokenId} poolTokenId={mockArbUsdcTokenId} />
+        <EarnCardDiscover />
       </Provider>
     )
 
@@ -198,9 +174,7 @@ describe('EarnCardDiscover', () => {
     expect(queryByTestId('EarnActivePools')).toBeFalsy()
     expect(queryByTestId('EarnCta')).toBeFalsy()
     expect(queryByTestId('EarnActivePool')).toBeFalsy()
-    expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
-    expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_STABLECOIN_EARN)
     expect(getFeatureGate).toHaveBeenCalledWith(StatsigFeatureGates.SHOW_POSITIONS)
-    expect(getFeatureGate).toHaveBeenCalledTimes(3)
+    expect(getFeatureGate).toHaveBeenCalledTimes(1)
   })
 })

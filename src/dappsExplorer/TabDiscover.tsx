@@ -14,7 +14,6 @@ import PointsDiscoverCard from 'src/points/PointsDiscoverCard'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import networkConfig from 'src/web3/networkConfig'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TabDiscover>
 
@@ -53,10 +52,7 @@ function TabDiscover({ navigation }: Props) {
           </Text>
           <DappFeaturedActions />
           <PointsDiscoverCard />
-          <EarnCardDiscover
-            poolTokenId={networkConfig.aaveArbUsdcTokenId}
-            depositTokenId={networkConfig.arbUsdcTokenId}
-          />
+          <EarnCardDiscover />
           <DiscoverDappsCard />
         </View>
       </SafeAreaView>

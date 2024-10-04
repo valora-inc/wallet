@@ -28,7 +28,6 @@ import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/typ
 import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
-import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
   mockAaveArbUsdcTokenId,
@@ -176,7 +175,7 @@ describe('depositSubmitSaga', () => {
     networkId: NetworkId['arbitrum-sepolia'],
     inAmount: {
       value: '100',
-      tokenId: networkConfig.aaveArbUsdcTokenId,
+      tokenId: `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`,
     },
     outAmount: {
       value: '100',
@@ -209,7 +208,7 @@ describe('depositSubmitSaga', () => {
     deposit: {
       inAmount: {
         value: '100',
-        tokenId: networkConfig.aaveArbUsdcTokenId,
+        tokenId: `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`,
       },
       outAmount: {
         value: '100',
