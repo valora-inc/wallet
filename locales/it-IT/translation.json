@@ -2505,12 +2505,12 @@
       }
     },
     "cta": {
-      "title": "Guadagna sulla tua criptovaluta",
+      "title": "Guadagna sulle tue cripto",
       "subtitle": "Deposita oggi stesso e guadagna",
       "description": "Scopri quanto puoi guadagnare mettendo a disposizione un lending pool"
     },
     "earnInfo": {
-      "title": "Guadagna sulla tua criptovaluta\n",
+      "title": "Guadagna sulle\ntue cripto",
       "details": {
         "earn": {
           "titleGasSubsidy": "Massimizza i guadagni senza Gas fee*",
@@ -2546,9 +2546,9 @@
       "description": "Guadagna circa {{apy}}% all'anno quando aggiungi {{symbol}} a un pool."
     },
     "entrypoint": {
-      "title": "Guadagna sulla tua criptovaluta",
+      "title": "Guadagna sulle tue cripto",
       "subtitle": "Deposita e guadagna",
-      "description": "Guadagna sulle tue attività in criptovaluta quando presti attraverso un pool di liquidità"
+      "description": "Guadagna sulle tue criptovalute attraverso un pool di liquidità."
     },
     "enterAmount": {
       "title": "Quanto vuoi depositare?",
