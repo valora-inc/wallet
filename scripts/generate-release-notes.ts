@@ -37,16 +37,25 @@ function log(message: string) {
 
 function getLastTag(): string {
   log(chalk.blue('Fetching the last tag...'))
-  // We can't use `git describe --tags --abbrev=0` because that returns the latest tag that is a direct ancestor of the current branch
+  // Get all tags sorted by version, then filter for those that look like semantic version tags
+  // Note: We can't use `git describe --tags --abbrev=0` because that returns the latest tag that is a direct ancestor of the current branch
   // But patch releases are not direct ancestors
-  const result = shell.exec('git tag --sort=-v:refname | grep "^valora-v" | head -n 1', {
-    silent: true,
-  })
+  const result = shell.exec(
+    'git tag --sort=-v:refname | grep -E "^.*[0-9]+\\.[0-9]+\\.[0-9]+" | head -n 1',
+    {
+      silent: true,
+    }
+  )
   if (result.code !== 0) {
     console.error(chalk.red('Error fetching last tag:', result.stderr))
     process.exit(1)
   }
   return result.stdout.trim()
+}
+
+function getTagPrefix(tag: string): string {
+  const match = tag.match(/^(.*)v?\d+\.\d+\.\d+$/)
+  return match ? match[1] : ''
 }
 
 function getCommits(lastTag: string, toRef: string): Commit[] {
@@ -78,7 +87,7 @@ function generateMainReleaseNotes(commits: Commit[], version: string): string {
 
   let notes = `# Summary
 
-We've updated Valora to fix bugs, enhance our features, and improve overall performance.
+We've updated the app to fix bugs, enhance our features, and improve overall performance.
 
 `
 
@@ -133,6 +142,9 @@ function main() {
   const lastTag = userProvidedLastTag || getLastTag()
   log(chalk.green(`Using last tag: ${lastTag}`))
 
+  const tagPrefix = getTagPrefix(lastTag)
+  log(chalk.green(`Detected tag prefix: "${tagPrefix}"`))
+
   let commits = getCommits(lastTag, toRef)
   log(chalk.green(`Found ${commits.length} commits`))
 
@@ -142,7 +154,7 @@ function main() {
   if (!isPatchRelease) {
     // For main releases, remove cherry-picked commits from the previous main release
     const [major, minor] = currentVersion.split('.')
-    const lastMainTag = `valora-v${major}.${parseInt(minor) - 1}.0`
+    const lastMainTag = `${tagPrefix}${major}.${parseInt(minor) - 1}.0`
 
     if (lastMainTag !== lastTag) {
       const possibleCherryPickedCommits = getCommits(lastMainTag, lastTag)
