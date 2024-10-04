@@ -2608,7 +2608,7 @@
       "network": "Réseau",
       "footer": "En déposant des crypto-monnaies dans un pool Aave, vous acceptez les risques associés à l'utilisation d'Aave. <0>Conditions Générales</0>",
       "footerV1_93": "En déposant des crypto-monnaies dans un pool {{providerName}}, vous acceptez les risques associés à l'utilisation de {{providerName}}. <0>Conditions Générales</0>",
-      "noTermsUrlFooter": "Vous êtes responsable de vos actions dans {{appName}}. {{appName}} décline toute responsabilité pour vos actifs ou interactions avec {{providerName}}. Vous pouvez consulter les documents de {{providerName}}<0>ici</0> et nos conditions générales <1>ici</1>.",
+      "noTermsUrlFooter": "Vous êtes responsable de vos actions dans {{appName}}. {{appName}} décline toute responsabilité pour vos actifs ou interactions avec {{providerName}}. Vous pouvez consulter les documents de {{providerName}} <0>ici</0> et nos conditions générales <1>ici</1>.",
       "primaryCta": "Valider",
       "secondaryCta": "Annuler",
       "yieldRate": "Taux de rendement (est.)",
