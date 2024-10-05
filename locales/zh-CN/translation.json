@@ -2503,12 +2503,12 @@
       }
     },
     "cta": {
-      "title": "赚取您的加密货币",
+      "title": "让您的加密货币增值",
       "subtitle": "现在就存款，赚取收益",
       "description": "了解在提供贷款池时您能赚取多少收入"
     },
     "earnInfo": {
-      "title": "赚取\n加密货币",
+      "title": "让您的加密货币增值",
       "details": {
         "earn": {
           "titleGasSubsidy": "实现收入最大化，且无需手续费*",
@@ -2544,7 +2544,7 @@
       "description": "将 {{symbol}} 添加到池中，每年可赚取大约 {{apy}}%"
     },
     "entrypoint": {
-      "title": "赚取您的加密货币",
+      "title": "让您的加密货币增值",
       "subtitle": "存入并赚取收益",
       "description": "通过流动性池出借加密资产，赚取收益"
     },

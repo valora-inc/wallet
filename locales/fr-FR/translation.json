@@ -2505,12 +2505,12 @@
       }
     },
     "cta": {
-      "title": "Gagne sur ta crypto",
+      "title": "Développez vos cryptos",
       "subtitle": "Déposez des fonds et obtenez un retour sur investissement",
       "description": "Voyez combien vous pouvez gagner en participant à un pool de prêt"
     },
     "earnInfo": {
-      "title": "Gagne sur ton\ncrypto",
+      "title": "Développez\nvos cryptos",
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximiser vos gains sans frais de gaz*",
@@ -2546,9 +2546,9 @@
       "description": "Gagnez environ {{apy}}% par an lorsque vous ajoutez {{symbol}} à un pool"
     },
     "entrypoint": {
-      "title": "Gagne sur ta crypto",
+      "title": "Développez vos cryptos",
       "subtitle": "Déposez et gagnez",
-      "description": "Gagne sur tes crypto-actifs lorsque tu prêtes par l'intermédiaire d'un pool de liquidités."
+      "description": "Gagnez sur vos crypto-actifs via un pool de liquidité."
     },
     "enterAmount": {
       "title": "Combien souhaitez-vous déposer ?",
@@ -2608,7 +2608,7 @@
       "network": "Réseau",
       "footer": "En déposant des crypto-monnaies dans un pool Aave, vous acceptez les risques associés à l'utilisation d'Aave. <0>Conditions Générales</0>",
       "footerV1_93": "En déposant des crypto-monnaies dans un pool {{providerName}}, vous acceptez les risques associés à l'utilisation de {{providerName}}. <0>Conditions Générales</0>",
-      "noTermsUrlFooter": "Tu es responsable de tes actions sur {{appName}}. {{appName}} décline toute responsabilité pour tes biens ou tes interactions avec {{providerName}}. Tu peux consulter les documents de {{providerName}}<0>ici</0> et nos conditions générales <1>ici</1>.",
+      "noTermsUrlFooter": "Vous êtes responsable de vos actions dans {{appName}}. {{appName}} décline toute responsabilité pour vos actifs ou interactions avec {{providerName}}. Vous pouvez consulter les documents de {{providerName}} <0>ici</0> et nos conditions générales <1>ici</1>.",
       "primaryCta": "Valider",
       "secondaryCta": "Annuler",
       "yieldRate": "Taux de rendement (est.)",
@@ -2666,7 +2666,7 @@
         "chooseDescription": "Toute décision financière est un choix personnel. Nous avons regroupé certains pools dans différents protocoles, mais chaque pool présente des avantages et des risques. Nous faisons de notre mieux pour fournir des informations utiles pour chaque pool, mais il est toujours préférable de faire des recherches supplémentaires en cas de doute."
       },
       "noPoolsTitle": "Vous n'avez encore rejoint aucun pool",
-      "noPoolsDescription": "Découvre les pools disponibles, choisis-en un qui correspond à tes objectifs et tire le meilleur parti de ta crypto.",
+      "noPoolsDescription": "Découvrez les pools disponibles, choisissez celui qui correspond à vos objectifs et profitez au maximum de vos cryptos.",
       "errorTitle": "Impossible de charger les pools",
       "errorDescription": "Oups, une erreur s'est produite lors du chargement des informations du pool. Veuillez réessayer.",
       "errorButton": "Veuillez réessayer"
