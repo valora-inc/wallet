@@ -187,7 +187,7 @@
     "tslib": "^2.7.0",
     "typed-redux-saga": "^1.5.0",
     "uuid": "^10.0.0",
-    "victory-native": "^36.9.2",
+    "victory-native": "^41.6.0",
     "viem": "^2.21.15",
     "web3-utils": "^4.3.1"
   },
