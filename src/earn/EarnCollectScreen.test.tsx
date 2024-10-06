@@ -116,9 +116,9 @@ describe('EarnCollectScreen', () => {
     expect(getByText('earnFlow.collect.title')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
     expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
-      '10.75 USDC'
+      '11.83 USDC'
     )
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱14.30')
+    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱15.73')
     expect(queryByTestId('EarnCollect/ApyLoading')).toBeFalsy()
     expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
@@ -173,9 +173,9 @@ describe('EarnCollectScreen', () => {
     expect(getByText('earnFlow.collect.title')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
     expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
-      '10.75 USDC'
+      '11.83 USDC'
     )
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱14.30')
+    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱15.73')
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
 
     expect(queryByText('earnFlow.collect.plus')).toBeFalsy()
@@ -278,7 +278,7 @@ describe('EarnCollectScreen', () => {
 
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_collect_earnings_press, {
       depositTokenId: mockArbUsdcTokenId,
-      tokenAmount: '10.75',
+      tokenAmount: '11.825',
       networkId: NetworkId['arbitrum-sepolia'],
       providerId: mockEarnPositions[0].appId,
       rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],

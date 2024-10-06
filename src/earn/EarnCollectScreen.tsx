@@ -80,6 +80,10 @@ export default function EarnCollectScreen({ route }: Props) {
     rewardsPositions,
   })
 
+  const withdrawAmountInDepositToken = useMemo(() => {
+    return withdrawToken.balance.multipliedBy(pool.pricePerShare[0] ?? 1)
+  }, [withdrawToken, pool.pricePerShare])
+
   const onPress = () => {
     if (prepareTransactionsResult?.type !== 'possible') {
       // should never happen because button is disabled if withdraw is not possible
@@ -98,7 +102,7 @@ export default function EarnCollectScreen({ route }: Props) {
 
     AppAnalytics.track(EarnEvents.earn_collect_earnings_press, {
       depositTokenId,
-      tokenAmount: withdrawToken.balance.toString(),
+      tokenAmount: withdrawAmountInDepositToken.toString(),
       networkId: withdrawToken.networkId,
       providerId: pool.appId,
       poolId: pool.positionId,
@@ -139,7 +143,7 @@ export default function EarnCollectScreen({ route }: Props) {
           <CollectItem
             title={t('earnFlow.collect.total')}
             tokenInfo={depositToken}
-            rewardAmount={withdrawToken.balance}
+            rewardAmount={withdrawAmountInDepositToken}
           />
           {rewardsTokens.map((token, index) => (
             <CollectItem
