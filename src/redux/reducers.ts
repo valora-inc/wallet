@@ -24,6 +24,7 @@ import { recipientsReducer as recipients } from 'src/recipients/reducer'
 import { sendReducer as send } from 'src/send/reducers'
 import swapReducer from 'src/swap/slice'
 import tokenReducer from 'src/tokens/slice'
+import { transactionFeedV2Api } from 'src/transactions/api'
 import { reducer as transactions } from 'src/transactions/reducer'
 import { reducer as walletConnect } from 'src/walletConnect/reducer'
 import { reducer as web3 } from 'src/web3/reducer'
@@ -55,6 +56,8 @@ const appReducer = combineReducers({
   jumpstart: jumpstartReducer,
   points: pointsReducer,
   earn: earnReducer,
+
+  [transactionFeedV2Api.reducerPath]: transactionFeedV2Api.reducer,
 })
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {

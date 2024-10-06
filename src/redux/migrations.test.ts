@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { exchangeInitialState, migrations } from 'src/redux/migrations'
+import { transactionFeedV2Api } from 'src/transactions/api'
 import {
   Network,
   NetworkId,
@@ -57,6 +58,7 @@ import {
   v227Schema,
   v228Schema,
   v230Schema,
+  v232Schema,
   v28Schema,
   v2Schema,
   v35Schema,
@@ -1701,6 +1703,29 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[231](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.jumpstart.introHasBeenSeen = false
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+  it('works from 232 to 233', () => {
+    const oldSchema = v232Schema
+    const migratedSchema = migrations[233](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema[transactionFeedV2Api.reducerPath] = {
+      config: {
+        focused: true,
+        invalidationBehavior: 'delayed',
+        keepUnusedDataFor: 60,
+        middlewareRegistered: true,
+        online: true,
+        reducerPath: transactionFeedV2Api.reducerPath,
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false,
+        refetchOnReconnect: false,
+      },
+      mutations: {},
+      provided: {},
+      queries: {},
+      subscriptions: {},
+    }
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

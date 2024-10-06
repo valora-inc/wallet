@@ -83,7 +83,7 @@ describe('store state', () => {
 
     const data = store.getState()
 
-    const ajv = new Ajv({ allErrors: true })
+    const ajv = new Ajv({ allErrors: true, allowUnionTypes: true })
     const schema = require('test/RootStateSchema.json')
     const validate = ajv.compile(schema)
     const isValid = validate(data)
@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 232,
+          "version": 233,
         },
         "account": {
           "acceptedTerms": false,
@@ -325,6 +325,23 @@ describe('store state', () => {
           "error": false,
           "loading": false,
           "tokenBalances": {},
+        },
+        "transactionFeedV2Api": {
+          "config": {
+            "focused": true,
+            "invalidationBehavior": "delayed",
+            "keepUnusedDataFor": 60,
+            "middlewareRegistered": true,
+            "online": true,
+            "reducerPath": "transactionFeedV2Api",
+            "refetchOnFocus": false,
+            "refetchOnMountOrArgChange": false,
+            "refetchOnReconnect": false,
+          },
+          "mutations": {},
+          "provided": {},
+          "queries": {},
+          "subscriptions": {},
         },
         "transactions": {
           "standbyTransactions": [],

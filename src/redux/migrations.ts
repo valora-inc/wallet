@@ -10,6 +10,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
 import { Recipient } from 'src/recipients/recipient'
+import { transactionFeedV2Api } from 'src/transactions/api'
 import { Network, NetworkId, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
@@ -1915,5 +1916,25 @@ export const migrations = {
   232: (state: any) => ({
     ...state,
     app: _.omit(state.app, 'numberVerified'),
+  }),
+  233: (state: any) => ({
+    ...state,
+    [transactionFeedV2Api.reducerPath]: {
+      config: {
+        focused: true,
+        invalidationBehavior: 'delayed',
+        keepUnusedDataFor: 60,
+        middlewareRegistered: true,
+        online: true,
+        reducerPath: transactionFeedV2Api.reducerPath,
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false,
+        refetchOnReconnect: false,
+      },
+      mutations: {},
+      provided: {},
+      queries: {},
+      subscriptions: {},
+    },
   }),
 }
