@@ -29,7 +29,7 @@ type PaginatedData = {
 
 // Query poll interval
 const POLL_INTERVAL = 10000 // 10 secs
-const INITIAL_PAGE_TIMESTAMP = 0
+const FIRST_PAGE_TIMESTAMP = 0
 
 function getAllowedNetworkIdsForTransfers() {
   return getMultichainFeatures().showTransfers.join(',').split(',') as NetworkId[]
@@ -90,6 +90,25 @@ function useStandByTransactions() {
   }, [standByTransactions, supportedNetworkrsForApproval])
 }
 
+function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
+  switch (tx.__typename) {
+    case 'TokenExchangeV3':
+    case 'CrossChainTokenExchange':
+      return <SwapFeedItem key={tx.transactionHash} transaction={tx} />
+    case 'TokenTransferV3':
+      return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
+    case 'NftTransferV3':
+      return <NftFeedItem key={tx.transactionHash} transaction={tx} />
+    case 'TokenApproval':
+      return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
+    case 'EarnDeposit':
+    case 'EarnSwapDeposit':
+    case 'EarnWithdraw':
+    case 'EarnClaimReward':
+      return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
+  }
+}
+
 export default function TransactionFeedV2() {
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
@@ -106,7 +125,8 @@ export default function TransactionFeedV2() {
           // eslint-disable-next-line react-hooks/rules-of-hooks
           pageData: useMemo(
             () => ({
-              currentCursor: result.originalArgs?.endCursor || 0,
+              hasNextPage: !!result.data?.pageInfo.hasNextPage,
+              currentCursor: result.originalArgs?.endCursor,
               nextCursor: result.data?.transactions.at(-1)?.timestamp,
               transactions: result.data?.transactions || [],
             }),
@@ -117,6 +137,12 @@ export default function TransactionFeedV2() {
     }
   )
 
+  // // Poll the first page
+  useTransactionFeedV2Query(
+    { address: address!, endCursor: FIRST_PAGE_TIMESTAMP },
+    { skip: !address, pollingInterval: POLL_INTERVAL }
+  )
+
   useEffect(() => {
     if (isFetching) return
 
@@ -125,7 +151,11 @@ export default function TransactionFeedV2() {
        * We are going to poll only the first page so if we already fetched other pages -
        * just leave them as is. All new transactions are gonna be added to the first page (at the top).
        */
-      if (pageData.currentCursor !== INITIAL_PAGE_TIMESTAMP && prev[pageData.currentCursor]) {
+      if (pageData.currentCursor === FIRST_PAGE_TIMESTAMP && prev[pageData.currentCursor]) {
+        return prev
+      }
+
+      if (pageData.currentCursor === undefined) {
         return prev
       }
 
@@ -137,12 +167,6 @@ export default function TransactionFeedV2() {
       return { ...prev, [pageData.currentCursor]: transactions }
     })
   }, [isFetching, pageData, standByTransactions.confirmed])
-
-  // Poll the initial page
-  useTransactionFeedV2Query(
-    { address: address!, endCursor: INITIAL_PAGE_TIMESTAMP },
-    { skip: !address, pollingInterval: POLL_INTERVAL }
-  )
 
   const pendingTransactions = useMemo(() => {
     const allowedNetworks = getAllowedNetworkIdsForTransfers()
@@ -163,7 +187,16 @@ export default function TransactionFeedV2() {
           list: [] as TokenTransaction[],
           used: {} as { [hash: string]: true },
         }
-      ).list
+      )
+      .list.sort((a, b) => {
+        const diff = b.timestamp - a.timestamp
+        if (diff === 0) {
+          // if the timestamps are the same, most likely one of the transactions
+          // is an approval. on the feed we want to show the approval first.
+          return a.__typename === 'TokenApproval' ? 1 : b.__typename === 'TokenApproval' ? -1 : 0
+        }
+        return diff
+      })
   }, [paginatedData])
 
   const sections = useMemo(() => {
@@ -186,25 +219,6 @@ export default function TransactionFeedV2() {
     }
   }
 
-  function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
-    switch (tx.__typename) {
-      case 'TokenExchangeV3':
-      case 'CrossChainTokenExchange':
-        return <SwapFeedItem key={tx.transactionHash} transaction={tx} />
-      case 'TokenTransferV3':
-        return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
-      case 'NftTransferV3':
-        return <NftFeedItem key={tx.transactionHash} transaction={tx} />
-      case 'TokenApproval':
-        return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
-      case 'EarnDeposit':
-      case 'EarnSwapDeposit':
-      case 'EarnWithdraw':
-      case 'EarnClaimReward':
-        return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
-    }
-  }
-
   return (
     <>
       <SectionList
@@ -214,7 +228,7 @@ export default function TransactionFeedV2() {
         keyExtractor={(item) => `${item.transactionHash}-${item.timestamp.toString()}`}
         keyboardShouldPersistTaps="always"
         testID="TransactionList"
-        onEndReached={() => fetchMoreTransactions()}
+        onEndReached={fetchMoreTransactions}
         initialNumToRender={20}
       />
       {isFetching && (
