@@ -11,7 +11,6 @@ import { KeylessBackupDeleteStatus, KeylessBackupStatus } from 'src/keylessBacku
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/store'
-import { transactionFeedV2Api } from 'src/transactions/api'
 import { Network, NetworkId, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
@@ -3539,23 +3538,6 @@ export const v233Schema = {
   _persist: {
     ...v232Schema._persist,
     version: 233,
-  },
-  [transactionFeedV2Api.reducerPath]: {
-    config: {
-      focused: true,
-      invalidationBehavior: 'delayed',
-      keepUnusedDataFor: 60,
-      middlewareRegistered: true,
-      online: true,
-      reducerPath: transactionFeedV2Api.reducerPath,
-      refetchOnFocus: false,
-      refetchOnMountOrArgChange: false,
-      refetchOnReconnect: false,
-    },
-    mutations: {},
-    provided: {},
-    queries: {},
-    subscriptions: {},
   },
 }
 
