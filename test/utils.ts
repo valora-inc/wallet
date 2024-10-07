@@ -101,6 +101,9 @@ export function getMockStoreData(overrides: RecursivePartial<RootState> = {}): R
     ...defaultSchema,
     ...contactMappingData,
     ...recipientData,
+
+    // ignore api reducers that are managed by RTK-Query library itself
+    transactionFeedV2Api: undefined,
   }
 
   // Apply overrides. Note: only merges one level deep
