@@ -4,15 +4,12 @@ import { call } from 'redux-saga-test-plan/matchers'
 import { StaticProvider, dynamic, throwError } from 'redux-saga-test-plan/providers'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import { fetchAavePoolInfo } from 'src/earn/poolInfo'
-import { depositSubmitSaga, fetchPoolInfoSaga, withdrawSubmitSaga } from 'src/earn/saga'
+import { depositSubmitSaga, withdrawSubmitSaga } from 'src/earn/saga'
 import {
   depositCancel,
   depositError,
   depositStart,
   depositSuccess,
-  fetchPoolInfoError,
-  fetchPoolInfoSuccess,
   withdrawCancel,
   withdrawError,
   withdrawStart,
@@ -22,7 +19,6 @@ import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { EarnPosition } from 'src/positions/types'
-import { getTokenInfo } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
@@ -955,30 +951,4 @@ describe('withdrawSubmitSaga', () => {
       })
     }
   )
-})
-
-describe('fetchPoolInfoSaga', () => {
-  it('fetches pool info and dispatches success action', async () => {
-    const mockPoolInfo = {
-      apy: 0.1,
-    }
-
-    await expectSaga(fetchPoolInfoSaga)
-      .provide([
-        [matchers.call.fn(fetchAavePoolInfo), mockPoolInfo],
-        [matchers.call.fn(getTokenInfo), mockTokenBalances[mockArbUsdcTokenId]],
-      ])
-      .put(fetchPoolInfoSuccess(mockPoolInfo))
-      .run()
-  })
-
-  it('dispatches error action if pool info fetch fails', async () => {
-    await expectSaga(fetchPoolInfoSaga)
-      .provide([
-        [matchers.call.fn(fetchAavePoolInfo), throwError(new Error('Failed to fetch pool info'))],
-        [matchers.call.fn(getTokenInfo), mockTokenBalances[mockArbUsdcTokenId]],
-      ])
-      .put(fetchPoolInfoError())
-      .run()
-  })
 })
