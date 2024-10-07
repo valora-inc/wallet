@@ -3,7 +3,7 @@
   <!-- This allows unencrypted communication to these domains, which the bundler needs when running on an emulator -->
   <domain-config cleartextTrafficPermitted="true">
     <domain includeSubdomains="true">localhost</domain>
-    <!-- For Valora hooks preview mode with a local server -->
+    <!-- For MS hooks preview mode with a local server -->
     <domain includeSubdomains="true">sslip.io</domain>
     <domain includeSubdomains="true">10.0.1.1</domain>
     <domain includeSubdomains="true">10.0.2.2</domain>
