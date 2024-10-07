@@ -45,7 +45,7 @@ function getAllowedNetworkIdsForTransfers() {
  * we only want to add those stand by transactions that are within the time period of the new page.
  * Otherwise, if we merge all the stand by transactins into the page it will cause more late transactions
  * that were already merged to be removed from the top of the list and move them to the bottom.
- * This will cause the screen "shift".
+ * This will cause the screen to "shift".
  */
 function mergeStandByTransactionsInRange(
   transactions: TokenTransaction[],
