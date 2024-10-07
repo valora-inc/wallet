@@ -54,7 +54,6 @@ const store = createMockStore({
 jest.mock('src/statsig')
 jest.mock('src/earn/utils')
 jest.mock('src/earn/prepareTransactions')
-jest.mock('src/earn/poolInfo')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
