@@ -92,12 +92,7 @@ describe('TransactionFeed', () => {
   mockFetch.mockResponse(typedResponse({}))
   it('renders correctly when there is a response', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
-
     const { store, ...tree } = renderScreen()
-
-    await store.dispatch(
-      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 0 })
-    )
 
     await waitFor(() => expect(tree.getByTestId('TransactionList').props.data.length).toBe(1))
     expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
@@ -113,12 +108,7 @@ describe('TransactionFeed', () => {
 
   it("doesn't render transfers for tokens that we don't know about", async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
-
     const { store, ...tree } = renderScreen()
-
-    await store.dispatch(
-      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 0 })
-    )
 
     await waitFor(() => tree.getByTestId('TransactionList'))
     const items = tree.getAllByTestId('TransferFeedItem/title')
@@ -134,8 +124,8 @@ describe('TransactionFeed', () => {
 
   it("renders an error screen if there's no cache and the query fails", async () => {
     mockFetch.mockReject(new Error('Test error'))
-
     const tree = renderScreen()
+
     await waitFor(() => tree.getByTestId('NoActivity/error'))
     expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
     expect(tree.queryByTestId('TransactionList')).toBeNull()
@@ -143,7 +133,6 @@ describe('TransactionFeed', () => {
 
   it('renders correct status for a complete transaction', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
-
     const tree = renderScreen()
 
     await waitFor(() => tree.getByTestId('TransactionList'))
