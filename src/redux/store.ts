@@ -7,6 +7,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import createSagaMiddleware from 'redux-saga'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { PerformanceEvents } from 'src/analytics/Events'
+import { apiMiddlewares } from 'src/redux/apiReducersList'
 import { createMigrate } from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import rootReducer, { RootState as ReducersRootState } from 'src/redux/reducers'
@@ -26,7 +27,14 @@ const persistConfig: PersistConfig<ReducersRootState> = {
   version: 233,
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
-  blacklist: ['networkInfo', 'alert', 'imports', 'keylessBackup', 'jumpstart'],
+  blacklist: [
+    'networkInfo',
+    'alert',
+    'imports',
+    'keylessBackup',
+    'jumpstart',
+    transactionFeedV2Api.reducerPath,
+  ],
   stateReconciler: autoMergeLevel2,
   migrate: async (...args) => {
     const migrate = createMigrate(migrations)
@@ -106,7 +114,7 @@ export const setupStore = (initialState?: ReducersRootState, config = persistCon
     },
   })
 
-  const middlewares: Middleware[] = [sagaMiddleware, transactionFeedV2Api.middleware]
+  const middlewares: Middleware[] = [sagaMiddleware, ...apiMiddlewares]
 
   if (__DEV__ && !process.env.JEST_WORKER_ID) {
     const createDebugger = require('redux-flipper').default

@@ -1,7 +1,9 @@
 import Ajv from 'ajv'
 import { spawn, takeEvery } from 'redux-saga/effects'
+import { ApiReducersKeys } from 'src/redux/apiReducersList'
 import * as createMigrateModule from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
+import { RootState } from 'src/redux/reducers'
 import { rootSaga } from 'src/redux/sagas'
 import { _persistConfig, setupStore } from 'src/redux/store'
 import * as accountCheckerModule from 'src/utils/accountChecker'
@@ -24,6 +26,16 @@ const resetStateOnInvalidStoredAccount = jest.spyOn(
 )
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
+
+const getNonApiReducers = <R = Omit<RootState, ApiReducersKeys>>(state: RootState): R => {
+  const apiReducersKeys: string[] = ['transactionFeedV2Api'] satisfies ApiReducersKeys[]
+  return Object.entries(state).reduce((acc, [reducerKey, value]) => {
+    const key = reducerKey as keyof R
+    if (apiReducersKeys.includes(reducerKey)) return acc
+    acc[key] = value as unknown as any
+    return acc
+  }, {} as R)
+}
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -81,7 +93,7 @@ describe('store state', () => {
       })
     })
 
-    const data = store.getState()
+    const data = getNonApiReducers(store.getState())
 
     const ajv = new Ajv({ allErrors: true, allowUnionTypes: true })
     const schema = require('test/RootStateSchema.json')
@@ -325,23 +337,6 @@ describe('store state', () => {
           "error": false,
           "loading": false,
           "tokenBalances": {},
-        },
-        "transactionFeedV2Api": {
-          "config": {
-            "focused": true,
-            "invalidationBehavior": "delayed",
-            "keepUnusedDataFor": 60,
-            "middlewareRegistered": true,
-            "online": true,
-            "reducerPath": "transactionFeedV2Api",
-            "refetchOnFocus": false,
-            "refetchOnMountOrArgChange": false,
-            "refetchOnReconnect": false,
-          },
-          "mutations": {},
-          "provided": {},
-          "queries": {},
-          "subscriptions": {},
         },
         "transactions": {
           "standbyTransactions": [],
