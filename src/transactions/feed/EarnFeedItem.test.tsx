@@ -12,6 +12,7 @@ import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import {
   mockAaveArbUsdcAddress,
+  mockAaveArbUsdcTokenId,
   mockArbArbTokenId,
   mockArbUsdcTokenId,
   mockEarnClaimRewardTransaction,
@@ -42,10 +43,10 @@ const store = createMockStore({
         priceFetchedAt: Date.now(),
         networkId: NetworkId['arbitrum-sepolia'],
       },
-      [`${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`]: {
+      [mockAaveArbUsdcTokenId]: {
         networkId: NetworkId['arbitrum-sepolia'],
         address: mockAaveArbUsdcAddress,
-        tokenId: `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`,
+        tokenId: mockAaveArbUsdcTokenId,
         symbol: 'aArbSepUSDC',
         priceUsd: '1',
         priceFetchedAt: Date.now(),

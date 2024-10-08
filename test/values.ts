@@ -2055,7 +2055,7 @@ export const mockEarnDepositTransaction: EarnDeposit = {
   inAmount: {
     localAmount: undefined,
     tokenAddress: mockAaveArbUsdcAddress,
-    tokenId: `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`,
+    tokenId: mockAaveArbUsdcTokenId,
     value: '10.01',
   },
   outAmount: {
@@ -2090,7 +2090,7 @@ export const mockEarnSwapDeposit: EarnSwapDeposit = {
     inAmount: {
       localAmount: undefined,
       tokenAddress: mockAaveArbUsdcAddress,
-      tokenId: `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`,
+      tokenId: mockAaveArbUsdcTokenId,
       value: '10.01',
     },
     outAmount: {
@@ -2145,7 +2145,7 @@ export const mockEarnWithdrawTransaction: EarnWithdraw = {
   outAmount: {
     localAmount: undefined,
     tokenAddress: mockAaveArbUsdcAddress,
-    tokenId: `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`,
+    tokenId: mockAaveArbUsdcTokenId,
     value: '0.986614',
   },
   block: '211276583',

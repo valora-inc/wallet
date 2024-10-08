@@ -14,7 +14,13 @@ import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockAaveArbUsdcAddress, mockDappListWithCategoryNames, mockUSDCAddress } from 'test/values'
+import {
+  mockAaveArbUsdcAddress,
+  mockAaveArbUsdcTokenId,
+  mockDappListWithCategoryNames,
+  mockEarnPositions,
+  mockUSDCAddress,
+} from 'test/values'
 
 jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/statsig', () => ({
@@ -362,54 +368,7 @@ describe('TabDiscover', () => {
           },
         },
         positions: {
-          positions: [
-            {
-              type: 'app-token',
-              networkId: NetworkId['arbitrum-sepolia'],
-              address: '0x460b97bd498e1157530aeb3086301d5225b91216',
-              tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
-              positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
-              appId: 'aave',
-              appName: 'Aave',
-              symbol: 'aArbSepUSDC',
-              decimals: 6,
-              displayProps: {
-                title: 'USDC',
-                description: 'Supplied (APY: 1.92%)',
-                imageUrl:
-                  'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
-              },
-              dataProps: {
-                yieldRates: [
-                  {
-                    percentage: 1.9194202601763743,
-                    label: 'Earnings APY',
-                    tokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
-                  },
-                ],
-                earningItems: [],
-                depositTokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
-                withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
-              },
-              tokens: [
-                {
-                  tokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
-                  networkId: NetworkId['arbitrum-sepolia'],
-                  address: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d',
-                  symbol: 'USDC',
-                  decimals: 6,
-                  priceUsd: '0',
-                  type: 'base-token',
-                  balance: '0',
-                },
-              ],
-              pricePerShare: ['1'],
-              priceUsd: '0.999',
-              balance: '0',
-              supply: '190288.768509',
-              availableShortcutIds: ['deposit', 'withdraw'],
-            },
-          ],
+          positions: [mockEarnPositions[0]],
           earnPositionIds: ['arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216'],
         },
       })
@@ -434,10 +393,10 @@ describe('TabDiscover', () => {
         dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
         tokens: {
           tokenBalances: {
-            [`${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`]: {
+            [mockAaveArbUsdcTokenId]: {
               networkId: NetworkId['arbitrum-sepolia'],
               address: mockAaveArbUsdcAddress,
-              tokenId: `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`,
+              tokenId: mockAaveArbUsdcTokenId,
               symbol: 'aArbSepUSDC',
               priceUsd: '1',
               balance: '10',
@@ -446,54 +405,7 @@ describe('TabDiscover', () => {
           },
         },
         positions: {
-          positions: [
-            {
-              type: 'app-token',
-              networkId: NetworkId['arbitrum-sepolia'],
-              address: '0x460b97bd498e1157530aeb3086301d5225b91216',
-              tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
-              positionId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
-              appId: 'aave',
-              appName: 'Aave',
-              symbol: 'aArbSepUSDC',
-              decimals: 6,
-              displayProps: {
-                title: 'USDC',
-                description: 'Supplied (APY: 1.92%)',
-                imageUrl:
-                  'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/aave.png',
-              },
-              dataProps: {
-                yieldRates: [
-                  {
-                    percentage: 1.9194202601763743,
-                    label: 'Earnings APY',
-                    tokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
-                  },
-                ],
-                earningItems: [],
-                depositTokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
-                withdrawTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
-              },
-              tokens: [
-                {
-                  tokenId: 'arbitrum-sepolia:0x75faf114eafb1bdbe2f0316df893fd58ce46aa4d',
-                  networkId: NetworkId['arbitrum-sepolia'],
-                  address: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d',
-                  symbol: 'USDC',
-                  decimals: 6,
-                  priceUsd: '0',
-                  type: 'base-token',
-                  balance: '0',
-                },
-              ],
-              pricePerShare: ['1'],
-              priceUsd: '0.999',
-              balance: '10',
-              supply: '190288.768509',
-              availableShortcutIds: ['deposit', 'withdraw'],
-            },
-          ],
+          positions: [{ ...mockEarnPositions[0], balance: '10' }],
           earnPositionIds: ['arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216'],
         },
       })

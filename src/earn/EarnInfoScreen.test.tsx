@@ -77,7 +77,7 @@ describe('EarnInfoScreen', () => {
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_learn_press)
   })
 
-  it('should navigate and fire analytics correctly on Start Earning button press for multiple pools', () => {
+  it('should navigate and fire analytics correctly on Start Earning button press', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POSITIONS)

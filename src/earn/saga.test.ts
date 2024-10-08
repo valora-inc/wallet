@@ -171,7 +171,7 @@ describe('depositSubmitSaga', () => {
     networkId: NetworkId['arbitrum-sepolia'],
     inAmount: {
       value: '100',
-      tokenId: `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`,
+      tokenId: mockAaveArbUsdcTokenId,
     },
     outAmount: {
       value: '100',
@@ -204,7 +204,7 @@ describe('depositSubmitSaga', () => {
     deposit: {
       inAmount: {
         value: '100',
-        tokenId: `${NetworkId['arbitrum-sepolia']}:0x460b97bd498e1157530aeb3086301d5225b91216`,
+        tokenId: mockAaveArbUsdcTokenId,
       },
       outAmount: {
         value: '100',
