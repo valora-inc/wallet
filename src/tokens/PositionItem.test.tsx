@@ -57,7 +57,7 @@ describe('PositionItem', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  it('navigates to internal browser manageUrl when tapped and manageUrl exists, not an earnPosition', () => {
+  it('navigates to EarnPoolInfoScreen when tapped if position is an earnPosition', () => {
     const { getByText } = render(
       <Provider
         store={createMockStore({
