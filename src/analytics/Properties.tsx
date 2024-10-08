@@ -54,7 +54,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
-import { BeforeDepositActionName, EarnDepositMode, SerializableRewardsInfo } from 'src/earn/types'
+import { BeforeDepositActionName, EarnEnterMode, SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -1553,7 +1553,7 @@ export interface EarnCommonProperties {
 
 interface EarnDepositProperties extends EarnCommonProperties {
   depositTokenAmount: string
-  mode: EarnDepositMode
+  mode: EarnEnterMode
   // the below are mainly for swap-deposit. For deposit, this would just be
   // same as the depositTokenAmount and depositTokenId
   fromTokenAmount: string
