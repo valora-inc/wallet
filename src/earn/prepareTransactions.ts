@@ -165,7 +165,7 @@ export async function prepareWithdrawAndClaimTransactions({
   })
 }
 
-export async function prepareWithdrawTransactions({
+async function prepareWithdrawTransactions({
   amount,
   token,
   walletAddress,
