@@ -142,7 +142,7 @@ export default function TransactionFeedV2() {
     const noTransactions = pendingTransactions.length === 0 && confirmedTransactions.length === 0
     if (noTransactions) return []
     return groupFeedItemsInSections(pendingTransactions, confirmedTransactions)
-  }, [paginatedData])
+  }, [pendingTransactions, confirmedTransactions])
 
   if (!sections.length) {
     return getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? (
