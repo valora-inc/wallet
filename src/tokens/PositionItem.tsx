@@ -2,15 +2,19 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import { AssetsEvents } from 'src/analytics/Events'
+import { useSelector } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AssetsEvents } from 'src/analytics/Events'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
-import { Position } from 'src/positions/types'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { earnPositionIdsSelector } from 'src/positions/selectors'
+import { EarnPosition, Position } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { Currency } from 'src/utils/currencies'
 import { PositionIcon } from 'src/tokens/PositionIcon'
+import { Currency } from 'src/utils/currencies'
 
 export const PositionItem = ({
   position,
@@ -25,6 +29,7 @@ export const PositionItem = ({
     position.type === 'contract-position'
       ? new BigNumber(position.balanceUsd)
       : new BigNumber(position.balance).multipliedBy(position.priceUsd)
+  const earnPositionIds = useSelector(earnPositionIdsSelector)
 
   const onPress = () => {
     AppAnalytics.track(AssetsEvents.tap_asset, {
@@ -36,6 +41,13 @@ export const PositionItem = ({
       description: position.displayProps.description,
       balanceUsd: balanceUsd.toNumber(),
     })
+    earnPositionIds.includes(position.positionId)
+      ? navigate(Screens.EarnPoolInfoScreen, { pool: position as EarnPosition })
+      : position.displayProps.manageUrl
+        ? navigate(Screens.WebViewScreen, {
+            uri: position.displayProps.manageUrl,
+          })
+        : null
   }
 
   return (
