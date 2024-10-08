@@ -123,9 +123,9 @@ export function getPrefixedTxAnalyticsProperties<Prefix extends string>(
 
 export function standByTransactionToTokenTransaction(tx: StandbyTransaction): TokenTransaction {
   return {
-    block: '',
     fees: [],
-    transactionHash: tx.transactionHash || '',
+    block: '',
+    transactionHash: '',
     ...tx, // in case the transaction already has the above (e.g. cross chain swaps), use the real values
   }
 }

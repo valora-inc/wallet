@@ -45,7 +45,7 @@ function getAllowedNetworkIdsForTransfers() {
  * we only want to add those stand by transactions that are within the time period of the new page.
  * Otherwise, if we merge all the stand by transactins into the page it will cause more late transactions
  * that were already merged to be removed from the top of the list and move them to the bottom.
- * This will cause the screen to "shift".
+ * This will cause the screen to "shift", which we're trying to avoid.
  */
 function mergeStandByTransactionsInRange(
   transactions: TokenTransaction[],
@@ -76,13 +76,17 @@ function mergeStandByTransactionsInRange(
 }
 
 /**
- * Current inmplementation of allStandbyTransactionsSelector has function
- * getSupportedNetworkIdsForApprovalTxsInHomefeed in its' selectors list which triggers a lot of
- * unnecessary re-renders. This can be avoided if we join it's result in a string and memoize it.
+ * Current implementation of allStandbyTransactionsSelector contains function
+ * getSupportedNetworkIdsForApprovalTxsInHomefeed in its selectors list which triggers a lot of
+ * unnecessary re-renders. This can be avoided if we join it's result in a string and memoize it,
+ * similar to how it was done with useAllowedNetworkIdsForTransfers hook from queryHelpers.ts
  *
  * Not using existing selectors for pending/confirmed stand by transaction only cause they are
- * dependant on the un-memoized allStandbyTransactionsSelector selector which will break the flow
- * of the new pagination management.
+ * dependant on the un-memoized allStandbyTransactionsSelector selector which will break the new
+ * pagination flow.
+ *
+ * Implementation of pending is identical to pendingStandbyTransactionsSelector.
+ * Implementation of confirmed is identical to confirmedStandbyTransactionsSelector.
  */
 function useStandByTransactions() {
   const supportedNetworkrsForApproval = getSupportedNetworkIdsForApprovalTxsInHomefeed().join(',')
@@ -143,6 +147,15 @@ export default function TransactionFeedV2() {
       selectFromResult: (result) => {
         return {
           ...result,
+
+          /**
+           * Under the hood, selectFromResult is passed to the "createSelector" function so we need
+           * to memoize any processed data in order to keep the reference. We could move the whole
+           * implementation outside of the component into a pure function but then we'll lose the type inference.
+           *
+           * Considering this function changes the type definition of useTransactionFeedV2Query result
+           * object - it is easier to use "useMemo" to keep the type-safety.
+           */
           // eslint-disable-next-line react-hooks/rules-of-hooks
           pageData: useMemo(
             () => ({
@@ -169,7 +182,7 @@ export default function TransactionFeedV2() {
     setPaginatedData((prev) => {
       /**
        * We are going to poll only the first page so if we already fetched other pages -
-       * just leave them as is. All new transactions are only gonna be added to the first page (at the top).
+       * just leave them as is. All new transactions are only gonna be added to the top of the first page.
        */
       if (pageData.currentCursor === FIRST_PAGE_TIMESTAMP && prev[pageData.currentCursor]) {
         return prev
@@ -214,11 +227,15 @@ export default function TransactionFeedV2() {
       )
       .list.sort((a, b) => {
         const diff = b.timestamp - a.timestamp
+
+        /**
+         * If the timestamps are the same, most likely one of the transactions is an approval.
+         * On the feed we want to show the approval first.
+         */
         if (diff === 0) {
-          // if the timestamps are the same, most likely one of the transactions
-          // is an approval. on the feed we want to show the approval first.
           return a.__typename === 'TokenApproval' ? 1 : b.__typename === 'TokenApproval' ? -1 : 0
         }
+
         return diff
       })
   }, [paginatedData])
@@ -227,7 +244,7 @@ export default function TransactionFeedV2() {
     const noTransactions = pendingTransactions.length === 0 && confirmedTransactions.length === 0
     if (noTransactions) return []
     return groupFeedItemsInSections(pendingTransactions, confirmedTransactions)
-  }, [paginatedData])
+  }, [pendingTransactions, confirmedTransactions])
 
   if (!sections.length) {
     return getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? (

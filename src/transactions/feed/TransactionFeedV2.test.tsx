@@ -88,7 +88,7 @@ beforeEach(() => {
   })
 })
 
-describe('TransactionFeed', () => {
+describe('TransactionFeedV2', () => {
   mockFetch.mockResponse(typedResponse({}))
   it('renders correctly when there is a response', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
@@ -150,7 +150,7 @@ describe('TransactionFeed', () => {
     expect(tree.getByText('feedItemFailedTransaction')).toBeTruthy()
   })
 
-  it('tries to fetch 20 transactions, unless the end is reached', async () => {
+  it('tries to fetch pages until the end is reached', async () => {
     mockFetch
       .mockResponseOnce(
         typedResponse({
@@ -213,5 +213,75 @@ describe('TransactionFeed', () => {
     const tree = renderScreen()
     expect(tree.getByTestId('NoActivity/loading')).toBeDefined()
     expect(tree.getByText('noTransactionActivity')).toBeTruthy()
+  })
+
+  it('useStandByTransactions properly splits pending/confirmed transactions', async () => {
+    mockFetch.mockResponse(
+      typedResponse({
+        transactions: [
+          mockTransaction({ transactionHash: '0x4000000' }), // confirmed
+          mockTransaction({ transactionHash: '0x3000000' }), // confirmed
+          mockTransaction({ transactionHash: '0x2000000' }), // confirmed
+          mockTransaction({ transactionHash: '0x1000000' }), // confirmed
+        ],
+      })
+    )
+
+    const { store, ...tree } = renderScreen({
+      transactions: {
+        standbyTransactions: [
+          mockTransaction({ transactionHash: '0x10', status: TransactionStatus.Complete }), // confirmed
+          mockTransaction({ transactionHash: '0x20', status: TransactionStatus.Complete }), // confirmed
+          mockTransaction({ transactionHash: '0x30', status: TransactionStatus.Pending }), // pending
+          mockTransaction({ transactionHash: '0x40', status: TransactionStatus.Pending }), // pending
+          mockTransaction({ transactionHash: '0x50', status: TransactionStatus.Failed }), // confirmed
+        ],
+      },
+    })
+
+    await store.dispatch(
+      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 0 })
+    )
+
+    await waitFor(() => {
+      expect(tree.getByTestId('TransactionList').props.data.length).toBe(2)
+    })
+
+    // from total of 9 transactions there should be 2 pending in a "recent" section
+    expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(2)
+    // from total of 9 transactions there should be 7 confirmed in a "general" section
+    expect(tree.getByTestId('TransactionList').props.data[1].data.length).toBe(7)
+  })
+
+  it('merges only those stand by transactions that fit the timeline between min/max timestamps of the page', async () => {
+    mockFetch.mockResponse(
+      typedResponse({
+        transactions: [
+          mockTransaction({ transactionHash: '0x4000000', timestamp: 49 }), // max
+          mockTransaction({ transactionHash: '0x3000000', timestamp: 47 }),
+          mockTransaction({ transactionHash: '0x2000000', timestamp: 25 }),
+          mockTransaction({ transactionHash: '0x1000000', timestamp: 21 }), // min
+        ],
+      })
+    )
+
+    const { store, ...tree } = renderScreen({
+      transactions: {
+        standbyTransactions: [
+          mockTransaction({ transactionHash: '0x10', timestamp: 10 }), // not in scope
+          mockTransaction({ transactionHash: '0x20', timestamp: 20 }), // not in scope
+          mockTransaction({ transactionHash: '0x30', timestamp: 30 }), // in scope
+          mockTransaction({ transactionHash: '0x40', timestamp: 40 }), // in scope
+          mockTransaction({ transactionHash: '0x50', timestamp: 50 }), // not in scope
+        ],
+      },
+    })
+
+    await store.dispatch(
+      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 0 })
+    )
+
+    await waitFor(() => tree.getByTestId('TransactionList'))
+    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(6)
   })
 })
