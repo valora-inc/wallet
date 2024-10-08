@@ -111,6 +111,7 @@ const mockSwapTransaction: SwapTransaction = {
 const store = createMockStore({
   tokens: {
     tokenBalances: {
+      ...mockTokenBalances,
       [mockArbUsdcTokenId]: {
         ...mockTokenBalances[mockArbUsdcTokenId],
         balance: '10',
@@ -187,6 +188,7 @@ describe('EarnEnterAmount', () => {
         hooksApiUrl: networkConfig.hooksApiUrl,
         feeCurrencies: mockFeeCurrencies,
         shortcutId: 'deposit',
+        useMax: false,
       })
     })
 
@@ -262,6 +264,7 @@ describe('EarnEnterAmount', () => {
       const store = createMockStore({
         tokens: {
           tokenBalances: {
+            ...mockTokenBalances,
             [mockArbUsdcTokenId]: {
               ...mockTokenBalances[mockArbUsdcTokenId],
               balance: '10',
@@ -314,6 +317,7 @@ describe('EarnEnterAmount', () => {
         hooksApiUrl: networkConfig.hooksApiUrl,
         feeCurrencies: mockFeeCurrencies,
         shortcutId: 'swap-deposit',
+        useMax: false,
       })
     })
 
@@ -443,6 +447,7 @@ describe('EarnEnterAmount', () => {
     const mockStore = createMockStore({
       tokens: {
         tokenBalances: {
+          ...mockTokenBalances,
           [mockArbUsdcTokenId]: {
             ...mockTokenBalances[mockArbUsdcTokenId],
             balance: '100000.42',

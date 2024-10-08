@@ -210,7 +210,7 @@ export async function prepareWithdrawTransactions({
       isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),
       origin: `earn-${shortcutId}`,
     }),
-    swapTransaction: null,
+    swapTransaction: undefined,
   }
 }
 

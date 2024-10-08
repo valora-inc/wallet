@@ -9,7 +9,7 @@ export interface DepositInfo {
   amount: string
   preparedTransactions: SerializableTransactionRequest[]
   pool: EarnPosition
-  mode: EarnDepositMode
+  mode: EarnEnterMode
   fromTokenId: string
   fromTokenAmount: string
 }
