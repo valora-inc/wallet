@@ -12,7 +12,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import { getTotalYieldRate } from 'src/earn/poolInfo'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
-import { EarnDepositMode } from 'src/earn/types'
+import { EarnEnterMode } from 'src/earn/types'
 import { getSwapToAmountInDecimals, isGasSubsidizedForNetwork } from 'src/earn/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { EarnPosition } from 'src/positions/types'
@@ -47,7 +47,7 @@ export default function EarnDepositBottomSheet({
   inputTokenId: string
   inputAmount: BigNumber
   pool: EarnPosition
-  mode: EarnDepositMode
+  mode: EarnEnterMode
   swapTransaction?: SwapTransaction
 }) {
   const { t } = useTranslation()
