@@ -3201,6 +3201,9 @@
                 "imageUrl": {
                     "type": "string"
                 },
+                "manageUrl": {
+                    "type": "string"
+                },
                 "title": {
                     "type": "string"
                 }
