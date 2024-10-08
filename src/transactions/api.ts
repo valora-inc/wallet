@@ -30,5 +30,4 @@ export const transactionFeedV2Api = createApi({
   },
 })
 
-const { useTransactionFeedV2Query } = transactionFeedV2Api
-export { useTransactionFeedV2Query }
+export const { useTransactionFeedV2Query } = transactionFeedV2Api
