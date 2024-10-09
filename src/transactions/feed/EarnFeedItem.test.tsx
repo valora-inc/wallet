@@ -9,10 +9,10 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import { NetworkId } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
   mockAaveArbUsdcAddress,
+  mockAaveArbUsdcTokenId,
   mockArbArbTokenId,
   mockArbUsdcTokenId,
   mockEarnClaimRewardTransaction,
@@ -43,10 +43,10 @@ const store = createMockStore({
         priceFetchedAt: Date.now(),
         networkId: NetworkId['arbitrum-sepolia'],
       },
-      [networkConfig.aaveArbUsdcTokenId]: {
+      [mockAaveArbUsdcTokenId]: {
         networkId: NetworkId['arbitrum-sepolia'],
         address: mockAaveArbUsdcAddress,
-        tokenId: networkConfig.aaveArbUsdcTokenId,
+        tokenId: mockAaveArbUsdcTokenId,
         symbol: 'aArbSepUSDC',
         priceUsd: '1',
         priceFetchedAt: Date.now(),

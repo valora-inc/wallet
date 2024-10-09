@@ -1,7 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { useEarnPosition } from 'src/earn/hooks'
 import Celebration from 'src/icons/Celebration'
 import EarnCoins from 'src/icons/EarnCoins'
 import MagicWand from 'src/icons/MagicWand'
@@ -11,8 +10,6 @@ import { Screens } from 'src/navigator/Screens'
 import ActivityCard, { Props as ActivityCardProps, MoreComingCard } from 'src/points/ActivityCard'
 import { compareAmountAndTitle } from 'src/points/cardSort'
 import { BottomSheetParams, PointsActivity } from 'src/points/types'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -24,7 +21,6 @@ interface Props {
 
 export default function ActivityCardSection({ pointsActivities, onCardPress }: Props) {
   const { t } = useTranslation()
-  const aavePosition = useEarnPosition()
 
   function mapActivityToCardProps(activity: PointsActivity): ActivityCardProps {
     switch (activity.activityId) {
@@ -89,12 +85,7 @@ export default function ActivityCardSection({ pointsActivities, onCardPress }: P
               cta: {
                 text: t('points.activityCards.depositEarn.bottomSheet.cta'),
                 onPress: () => {
-                  getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
-                    ? navigate(Screens.EarnHome)
-                    : aavePosition &&
-                      navigate(Screens.EarnEnterAmount, {
-                        pool: aavePosition,
-                      })
+                  navigate(Screens.EarnHome)
                 },
               },
             }),
