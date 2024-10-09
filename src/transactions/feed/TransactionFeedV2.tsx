@@ -15,7 +15,16 @@ import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import { pendingStandbyTransactionsSelector } from 'src/transactions/reducer'
-import { NetworkId, type TokenTransaction } from 'src/transactions/types'
+import {
+  type NetworkId,
+  type NftTransfer,
+  type TokenApproval,
+  type TokenEarn,
+  type TokenExchange,
+  type TokenTransaction,
+  TokenTransactionTypeV2,
+  type TokenTransfer,
+} from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -24,7 +33,7 @@ type PaginatedData = {
 }
 
 // Query poll interval
-const POLL_INTERVAL = 10000 // 10 secs
+const POLL_INTERVAL_MS = 10000 // 10 sec
 const FIRST_PAGE_TIMESTAMP = 0
 
 function getAllowedNetworkIdsForTransfers() {
@@ -32,21 +41,24 @@ function getAllowedNetworkIdsForTransfers() {
 }
 
 function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
-  switch (tx.__typename) {
-    case 'TokenExchangeV3':
-    case 'CrossChainTokenExchange':
-      return <SwapFeedItem key={tx.transactionHash} transaction={tx} />
-    case 'TokenTransferV3':
-      return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
-    case 'NftTransferV3':
-      return <NftFeedItem key={tx.transactionHash} transaction={tx} />
-    case 'TokenApproval':
-      return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
-    case 'EarnDeposit':
-    case 'EarnSwapDeposit':
-    case 'EarnWithdraw':
-    case 'EarnClaimReward':
-      return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
+  switch (tx.type) {
+    case TokenTransactionTypeV2.Exchange:
+    case TokenTransactionTypeV2.SwapTransaction:
+    case TokenTransactionTypeV2.CrossChainSwapTransaction:
+      return <SwapFeedItem key={tx.transactionHash} transaction={tx as TokenExchange} />
+    case TokenTransactionTypeV2.Sent:
+    case TokenTransactionTypeV2.Received:
+      return <TransferFeedItem key={tx.transactionHash} transfer={tx as TokenTransfer} />
+    case TokenTransactionTypeV2.NftSent:
+    case TokenTransactionTypeV2.NftReceived:
+      return <NftFeedItem key={tx.transactionHash} transaction={tx as NftTransfer} />
+    case TokenTransactionTypeV2.Approval:
+      return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx as TokenApproval} />
+    case TokenTransactionTypeV2.EarnDeposit:
+    case TokenTransactionTypeV2.EarnSwapDeposit:
+    case TokenTransactionTypeV2.EarnWithdraw:
+    case TokenTransactionTypeV2.EarnClaimReward:
+      return <EarnFeedItem key={tx.transactionHash} transaction={tx as TokenEarn} />
   }
 }
 
@@ -54,7 +66,7 @@ export default function TransactionFeedV2() {
   const address = useSelector(walletAddressSelector)
   const pendingStandByTransactions = useSelector(pendingStandbyTransactionsSelector)
   const [endCursor, setEndCursor] = useState(0)
-  const [paginatedData, setPaginatedData] = useState<PaginatedData>({})
+  const [paginatedData, setPaginatedData] = useState<PaginatedData>({ [FIRST_PAGE_TIMESTAMP]: [] })
   const { pageData, isFetching, error } = useTransactionFeedV2Query(
     { address: address!, endCursor },
     {
@@ -80,32 +92,34 @@ export default function TransactionFeedV2() {
   // Poll the first page
   useTransactionFeedV2Query(
     { address: address!, endCursor: FIRST_PAGE_TIMESTAMP },
-    { skip: !address, pollingInterval: POLL_INTERVAL }
+    { skip: !address, pollingInterval: POLL_INTERVAL_MS }
   )
 
-  useEffect(() => {
-    if (isFetching) return
+  useEffect(
+    function updatePaginatedData() {
+      if (isFetching) return
 
-    setPaginatedData((prev) => {
-      /**
-       * We are going to poll only the first page so if we already fetched other pages -
-       * just leave them as is. All new transactions are only gonna be added to the first page (at the top).
-       */
-      if (pageData.currentCursor === FIRST_PAGE_TIMESTAMP && prev[pageData.currentCursor]) {
+      setPaginatedData((prev) => {
+        /**
+         * Only update pagination data in the following scenarios:
+         *   - if it's a first page (which is polling every POLL_INTERVAL)
+         *   - if it's a page, that wasn't fetched yet
+         */
+        const isFirstPage = pageData.currentCursor === FIRST_PAGE_TIMESTAMP
+        const pageDataIsAbsent =
+          pageData.currentCursor !== FIRST_PAGE_TIMESTAMP && // not the first page
+          pageData.currentCursor !== undefined && // it is SOME page
+          prev[pageData.currentCursor] === undefined // data for this page wasn't fetched yet
+
+        if (isFirstPage || pageDataIsAbsent) {
+          return { ...prev, [pageData.currentCursor!]: pageData.transactions }
+        }
+
         return prev
-      }
-
-      /**
-       * undefined currentCursor means that we've received empty transactions which means this is
-       * the last page.
-       */
-      if (pageData.currentCursor === undefined) {
-        return prev
-      }
-
-      return { ...prev, [pageData.currentCursor]: pageData.transactions }
-    })
-  }, [isFetching, pageData])
+      })
+    },
+    [isFetching, pageData]
+  )
 
   const pendingTransactions = useMemo(() => {
     const allowedNetworks = getAllowedNetworkIdsForTransfers()
@@ -133,7 +147,11 @@ export default function TransactionFeedV2() {
       if (diff === 0) {
         // if the timestamps are the same, most likely one of the transactions
         // is an approval. on the feed we want to show the approval first.
-        return a.__typename === 'TokenApproval' ? 1 : b.__typename === 'TokenApproval' ? -1 : 0
+        return a.type === TokenTransactionTypeV2.Approval
+          ? 1
+          : b.type === TokenTransactionTypeV2.Approval
+            ? -1
+            : 0
       }
       return diff
     })
