@@ -37,7 +37,6 @@ const config: KnipConfig = {
     'src/utils/inputValidation.ts',
     'src/utils/country.json',
     'src/redux/reducersForSchemaGeneration.ts',
-    'src/transactions/apiTestHelpers.ts',
   ],
 }
 
