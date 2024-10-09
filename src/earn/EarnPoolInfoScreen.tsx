@@ -493,7 +493,6 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       networkId,
       depositTokenId: dataProps.depositTokenId,
     })
-    // TODO(Tomm): is a feature flag for partial withdrawals needed?
     const partialWithdrawalsEnabled = getFeatureGate(
       StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL
     )
