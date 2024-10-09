@@ -2,9 +2,16 @@ import type { EnhancedStore, Middleware, Reducer, UnknownAction } from '@reduxjs
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { ApiReducersKeys } from 'src/redux/apiReducersList'
 import { RootState } from 'src/redux/reducers'
-import { RecursivePartial } from 'test/utils'
+import { getMockStoreData, RecursivePartial } from 'test/utils'
 
-// https://medium.com/@johnmcdowell0801/testing-rtk-query-with-jest-cdfa5aaf3dc1
+/**
+ * This function is taken from the Redux team. It creates a testable store that is compatible with RTK-Query.
+ * It is slightly modified to also include the preloaded state.
+ * https://github.com/reduxjs/redux-toolkit/blob/e7540a5594b0d880037f2ff41a83a32c629d3117/packages/toolkit/src/tests/utils/helpers.tsx#L186
+ *
+ * For more info on why this is needed and how it works - here's an article that answers some of the questions:
+ * https://medium.com/@johnmcdowell0801/testing-rtk-query-with-jest-cdfa5aaf3dc1
+ */
 export function setupApiStore<
   A extends {
     reducer: Reducer<any, any>
@@ -17,13 +24,17 @@ export function setupApiStore<
 >(api: A, preloadedState: Preloaded, extraReducers?: R) {
   const getStore = () =>
     configureStore({
-      preloadedState,
+      preloadedState: getMockStoreData(preloadedState),
       reducer: combineReducers({
         [api.reducerPath]: api.reducer,
         ...extraReducers,
       }),
-      middleware: (gdm) =>
-        gdm({ serializableCheck: false, immutableCheck: false }).concat(api.middleware),
+      middleware: (getDefaultMiddleware) => {
+        return getDefaultMiddleware({
+          serializableCheck: false,
+          immutableCheck: false,
+        }).concat(api.middleware)
+      },
     })
 
   type StoreType = EnhancedStore<
