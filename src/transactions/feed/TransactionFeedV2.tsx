@@ -3,7 +3,6 @@ import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
 import { useSelector } from 'src/redux/hooks'
-import { RootState } from 'src/redux/reducers'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
@@ -16,6 +15,7 @@ import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
+import { allStandbyTransactionsSelector } from 'src/transactions/reducer'
 import { NetworkId, TransactionStatus, type TokenTransaction } from 'src/transactions/types'
 import {
   groupFeedItemsInSections,
@@ -82,7 +82,7 @@ function mergeStandByTransactionsInRange(
  * similar to how it was done with useAllowedNetworkIdsForTransfers hook from queryHelpers.ts
  *
  * Not using existing selectors for pending/confirmed stand by transaction only cause they are
- * dependant on the un-memoized allStandbyTransactionsSelector selector which will break the new
+ * dependant on the un-memoized standbyTransactionsSelector selector which will break the new
  * pagination flow.
  *
  * Implementation of pending is identical to pendingStandbyTransactionsSelector.
@@ -91,9 +91,7 @@ function mergeStandByTransactionsInRange(
 
 function useStandByTransactions() {
   const supportedNetworkrsForApproval = getSupportedNetworkIdsForApprovalTxsInHomefeed().join(',')
-  const standByTransactions = useSelector(
-    (state: RootState) => state.transactions.standbyTransactions
-  )
+  const standByTransactions = useSelector(allStandbyTransactionsSelector)
 
   return useMemo(() => {
     const networkIds = supportedNetworkrsForApproval.split(',') as NetworkId[]
