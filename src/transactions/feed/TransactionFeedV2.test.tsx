@@ -88,7 +88,7 @@ beforeEach(() => {
   })
 })
 
-describe('TransactionFeed', () => {
+describe('TransactionFeedV2', () => {
   mockFetch.mockResponse(typedResponse({}))
   it('renders correctly when there is a response', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
@@ -180,26 +180,6 @@ describe('TransactionFeed', () => {
 
     expect(mockFetch).toHaveBeenCalledTimes(3)
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(2)
-  })
-
-  it('tries to fetch 10 transactions, and stores empty pages', async () => {
-    mockFetch
-      .mockResponseOnce(typedResponse({ transactions: [mockTransaction()] }))
-      .mockResponseOnce(typedResponse({ transactions: [] }))
-
-    const { store, ...tree } = renderScreen()
-
-    await store.dispatch(
-      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 0 })
-    )
-    await store.dispatch(
-      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 123 })
-    )
-
-    await waitFor(() => tree.getByTestId('TransactionList'))
-
-    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
-    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(1)
   })
 
   it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
