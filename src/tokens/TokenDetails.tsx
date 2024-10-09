@@ -15,7 +15,6 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { EarnCardTokenDetails } from 'src/earn/EarnCard'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DataDown from 'src/icons/DataDown'
@@ -116,12 +115,6 @@ export default function TokenDetailsScreen({ route }: Props) {
           />
         )}
         {token.tokenId === networkConfig.celoTokenId && <CeloNewsFeed />}
-        {token.tokenId === networkConfig.aaveArbUsdcTokenId && (
-          <EarnCardTokenDetails
-            poolTokenId={networkConfig.aaveArbUsdcTokenId}
-            depositTokenId={networkConfig.arbUsdcTokenId}
-          />
-        )}
       </ScrollView>
       <TokenDetailsMoreActions
         forwardedRef={tokenDetailsMoreActionsBottomSheetRef}

@@ -78,27 +78,9 @@ describe('EarnInfoScreen', () => {
   })
 
   it('should navigate and fire analytics correctly on Start Earning button press', () => {
-    const { getByText } = render(
-      <Provider store={store}>
-        <MockedNavigator component={EarnInfoScreen} />
-      </Provider>
-    )
-
-    fireEvent.press(getByText('earnFlow.earnInfo.action.earn'))
-    expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
-      pool: mockEarnPositions[0],
-    })
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_info_earn_press)
-  })
-
-  it('should navigate and fire analytics correctly on Start Earning button press for multiple pools', () => {
     jest
       .mocked(getFeatureGate)
-      .mockImplementation(
-        (gate) =>
-          gate === StatsigFeatureGates.SHOW_POSITIONS ||
-          gate === StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS
-      )
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POSITIONS)
     const { getByText } = render(
       <Provider store={store}>
         <MockedNavigator component={EarnInfoScreen} />
