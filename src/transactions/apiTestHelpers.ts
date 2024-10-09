@@ -2,7 +2,7 @@ import type { EnhancedStore, Middleware, Reducer, UnknownAction } from '@reduxjs
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { ApiReducersKeys } from 'src/redux/apiReducersList'
 import { RootState } from 'src/redux/reducers'
-import { RecursivePartial } from 'test/utils'
+import { getMockStoreData, RecursivePartial } from 'test/utils'
 
 /**
  * This function is taken from the Redux team. It creates a testable store that is compatible with RTK-Query.
@@ -24,7 +24,7 @@ export function setupApiStore<
 >(api: A, preloadedState: Preloaded, extraReducers?: R) {
   const getStore = () =>
     configureStore({
-      preloadedState,
+      preloadedState: getMockStoreData(preloadedState),
       reducer: combineReducers({
         [api.reducerPath]: api.reducer,
         ...extraReducers,
