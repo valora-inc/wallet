@@ -1503,6 +1503,7 @@ export const mockPositions: Position[] = [
       title: 'MOO / CELO',
       description: 'Pool',
       imageUrl: '',
+      manageUrl: 'mock-position.com',
     },
     tokens: [
       {
