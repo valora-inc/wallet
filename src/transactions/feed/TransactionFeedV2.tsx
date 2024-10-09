@@ -88,6 +88,7 @@ function mergeStandByTransactionsInRange(
  * Implementation of pending is identical to pendingStandbyTransactionsSelector.
  * Implementation of confirmed is identical to confirmedStandbyTransactionsSelector.
  */
+
 function useStandByTransactions() {
   const supportedNetworkrsForApproval = getSupportedNetworkIdsForApprovalTxsInHomefeed().join(',')
   const standByTransactions = useSelector(
@@ -96,22 +97,22 @@ function useStandByTransactions() {
 
   return useMemo(() => {
     const networkIds = supportedNetworkrsForApproval.split(',') as NetworkId[]
-    return standByTransactions
-      .filter((tx) => {
-        return tx.__typename === 'TokenApproval' ? networkIds.includes(tx.networkId) : true
-      })
-      .reduce(
-        (acc, tx) => {
-          if (tx.status === TransactionStatus.Pending) {
-            acc.pending.push(standByTransactionToTokenTransaction(tx))
-          } else {
-            acc.confirmed.push(tx)
-          }
+    return standByTransactions.reduce(
+      (acc, tx) => {
+        const isApproval = tx.__typename === 'TokenApproval'
+        const networkAllowed = networkIds.includes(tx.networkId)
+        if (isApproval && !networkAllowed) return acc
 
-          return acc
-        },
-        { pending: [] as TokenTransaction[], confirmed: [] as TokenTransaction[] }
-      )
+        if (tx.status === TransactionStatus.Pending) {
+          acc.pending.push(standByTransactionToTokenTransaction(tx))
+        } else {
+          acc.confirmed.push(tx)
+        }
+
+        return acc
+      },
+      { pending: [] as TokenTransaction[], confirmed: [] as TokenTransaction[] }
+    )
   }, [standByTransactions, supportedNetworkrsForApproval])
 }
 
