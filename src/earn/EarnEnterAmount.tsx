@@ -450,7 +450,7 @@ function EarnEnterAmount({ route }: Props) {
               swapTransaction={swapTransaction}
             />
           )}
-          {tokenAmount && prepareTransactionsResult && isWithdrawal && (
+          {tokenAmount && isWithdrawal && (
             <TransactionWithdrawDetails
               pool={pool}
               token={inputToken}
@@ -595,7 +595,7 @@ function TransactionWithdrawDetails({
         <View style={styles.txDetailsValue}>
           <TokenDisplay
             tokenId={token.tokenId}
-            testID="EarnEnterAmount/Deposit/Crypto"
+            testID="EarnEnterAmount/Withdraw/Fiat"
             amount={pool.balance}
             showLocalAmount={true}
             style={styles.txDetailsValueText}
@@ -603,7 +603,7 @@ function TransactionWithdrawDetails({
           <Text style={[styles.txDetailsValueText, styles.gray4]}>
             {'('}
             <TokenDisplay
-              testID="EarnEnterAmount/Deposit/Fiat"
+              testID="EarnEnterAmount/Withdraw/Crypto"
               tokenId={token.tokenId}
               amount={pool.balance}
               showLocalAmount={false}
