@@ -572,7 +572,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceUsd: '1.2',
     priceFetchedAt: Date.now(),
   },
-  [mockAaveArbUsdcAddress]: {
+  [mockAaveArbUsdcTokenId]: {
     name: 'Aave USDC',
     networkId: NetworkId['arbitrum-sepolia'],
     tokenId: mockAaveArbUsdcTokenId,
