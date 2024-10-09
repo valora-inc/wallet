@@ -1,6 +1,6 @@
 import Ajv from 'ajv'
 import { spawn, takeEvery } from 'redux-saga/effects'
-import { ApiReducersKeys } from 'src/redux/apiReducersList'
+import { ApiReducersKeys, apiReducersList } from 'src/redux/apiReducersList'
 import * as createMigrateModule from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
@@ -27,8 +27,8 @@ const resetStateOnInvalidStoredAccount = jest.spyOn(
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
-const getNonApiReducers = <R = Omit<RootState, ApiReducersKeys>>(state: RootState): R => {
-  const apiReducersKeys: string[] = ['transactionFeedV2Api'] satisfies ApiReducersKeys[]
+function getNonApiReducers<R = Omit<RootState, ApiReducersKeys>>(state: RootState): R {
+  const apiReducersKeys: string[] = Object.keys(apiReducersList)
   return Object.entries(state).reduce((acc, [reducerKey, value]) => {
     const key = reducerKey as keyof R
     if (apiReducersKeys.includes(reducerKey)) return acc
