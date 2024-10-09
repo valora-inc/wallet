@@ -1577,11 +1577,6 @@ export type EarnDepositTxsReceiptProperties = Partial<ApproveTxReceiptProperties
   }>
 
 interface EarnEventsProperties {
-  [EarnEvents.earn_cta_press]: {
-    providerId: string
-    networkId: NetworkId
-    depositTokenId: string
-  }
   [EarnEvents.earn_entrypoint_press]: undefined
   [EarnEvents.earn_before_deposit_action_press]: {
     action: BeforeDepositActionName
@@ -1600,21 +1595,10 @@ interface EarnEventsProperties {
       error: string
     }
   [EarnEvents.earn_deposit_submit_cancel]: EarnDepositProperties
-  [EarnEvents.earn_view_pools_press]: {
-    poolTokenId: string
-    networkId: string
-    providerId: 'aave-v3'
-  }
-  [EarnEvents.earn_enter_amount_info_press]: undefined
   [EarnEvents.earn_enter_amount_continue_press]: {
     amountInUsd: string
     amountEnteredIn: AmountEnteredIn
   } & EarnDepositProperties
-  [EarnEvents.earn_enter_amount_info_more_pools]: undefined
-  [EarnEvents.earn_exit_pool_press]: {
-    tokenAmount: string
-  } & EarnCommonProperties
-  [EarnEvents.earn_deposit_more_press]: EarnCommonProperties
   [EarnEvents.earn_deposit_add_gas_press]: EarnCommonProperties & { gasTokenId: string }
   [EarnEvents.earn_feed_item_select]: {
     origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward' | 'EarnSwapDeposit'

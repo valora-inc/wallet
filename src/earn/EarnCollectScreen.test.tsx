@@ -15,11 +15,11 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
-import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
 import {
   mockAaveArbUsdcAddress,
+  mockAaveArbUsdcTokenId,
   mockAccount,
   mockArbArbTokenId,
   mockArbEthTokenId,
@@ -33,10 +33,10 @@ import {
 const mockStoreTokens = {
   tokenBalances: {
     ...mockTokenBalances,
-    [networkConfig.aaveArbUsdcTokenId]: {
+    [mockAaveArbUsdcTokenId]: {
       networkId: NetworkId['arbitrum-sepolia'],
       address: mockAaveArbUsdcAddress,
-      tokenId: networkConfig.aaveArbUsdcTokenId,
+      tokenId: mockAaveArbUsdcTokenId,
       symbol: 'aArbSepUSDC',
       priceUsd: '1',
       balance: '10.75',
@@ -55,7 +55,6 @@ const store = createMockStore({
 jest.mock('src/statsig')
 jest.mock('src/earn/utils')
 jest.mock('src/earn/prepareTransactions')
-jest.mock('src/earn/poolInfo')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,

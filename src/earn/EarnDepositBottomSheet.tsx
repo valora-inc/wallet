@@ -9,11 +9,14 @@ import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { getTotalYieldRate } from 'src/earn/poolInfo'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
 import { EarnEnterMode } from 'src/earn/types'
-import { getSwapToAmountInDecimals, isGasSubsidizedForNetwork } from 'src/earn/utils'
+import {
+  getSwapToAmountInDecimals,
+  getTotalYieldRate,
+  isGasSubsidizedForNetwork,
+} from 'src/earn/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { EarnPosition } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
