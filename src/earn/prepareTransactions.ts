@@ -93,26 +93,6 @@ export async function prepareDepositTransactions({
   }
 }
 
-/**
- * Hook to prepare transactions for supplying crypto.
- */
-export function usePrepareDepositTransactions() {
-  const prepareTransactions = useAsyncCallback(prepareDepositTransactions, {
-    onError: (err) => {
-      const error = ensureError(err)
-      Logger.error(TAG, 'usePrepareDepositTransactions', error)
-    },
-  })
-
-  return {
-    prepareTransactionsResult: prepareTransactions.result,
-    refreshPreparedTransactions: prepareTransactions.execute,
-    clearPreparedTransactions: prepareTransactions.reset,
-    prepareTransactionError: prepareTransactions.error,
-    isPreparingTransactions: prepareTransactions.loading,
-  }
-}
-
 export async function prepareWithdrawAndClaimTransactions({
   pool,
   walletAddress,
@@ -214,13 +194,16 @@ async function prepareWithdrawTransactions({
   }
 }
 
-export function usePrepareWithdrawTransactions() {
-  const prepareTransactions = useAsyncCallback(prepareWithdrawTransactions, {
-    onError: (err) => {
-      const error = ensureError(err)
-      Logger.error(TAG, 'usePrepareWithdrawTransactions', error)
-    },
-  })
+export function usePrepareTransactions(mode: EarnEnterMode) {
+  const prepareTransactions = useAsyncCallback(
+    mode === 'withdraw' ? prepareWithdrawTransactions : prepareDepositTransactions,
+    {
+      onError: (err) => {
+        const error = ensureError(err)
+        Logger.error(TAG, 'usePrepareWithdrawTransactions', error)
+      },
+    }
+  )
 
   return {
     prepareTransactionsResult: prepareTransactions.result,

@@ -21,10 +21,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
-import {
-  usePrepareDepositTransactions,
-  usePrepareWithdrawTransactions,
-} from 'src/earn/prepareTransactions'
+import { usePrepareTransactions } from 'src/earn/prepareTransactions'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
@@ -146,17 +143,13 @@ function EarnEnterAmount({ route }: Props) {
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
-  // Avoid conditionally calling hooks
-  const depositTransaction = usePrepareDepositTransactions()
-  const withdrawTransaction = usePrepareWithdrawTransactions()
-
   const {
     prepareTransactionsResult: { prepareTransactionsResult, swapTransaction } = {},
     refreshPreparedTransactions,
     clearPreparedTransactions,
     prepareTransactionError,
     isPreparingTransactions,
-  } = isWithdrawal ? withdrawTransaction : depositTransaction
+  } = usePrepareTransactions(mode)
 
   const walletAddress = useSelector(walletAddressSelector)
 
