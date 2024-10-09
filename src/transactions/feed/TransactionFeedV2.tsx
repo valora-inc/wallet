@@ -211,32 +211,36 @@ export default function TransactionFeedV2() {
     })
   }, [standByTransactions.pending])
 
+  /**
+   * This function uses the same deduplication approach as "deduplicateTransactions"
+   * function from queryHelper.ts but only for a single flattened array instead of
+   * two separate arrays.
+   */
   const confirmedTransactions = useMemo(() => {
-    return Object.values(paginatedData)
-      .flat()
-      .reduce(
-        (acc, tx) => {
-          if (!acc.used[tx.transactionHash]) acc.list.push(tx)
-          return acc
-        },
-        {
-          list: [] as TokenTransaction[],
-          used: {} as { [hash: string]: true },
-        }
-      )
-      .list.sort((a, b) => {
-        const diff = b.timestamp - a.timestamp
+    const flattenedPages = Object.values(paginatedData).flat()
+    const transactionMap: { [txHash: string]: TokenTransaction } = {}
 
-        /**
-         * If the timestamps are the same, most likely one of the transactions is an approval.
-         * On the feed we want to show the approval first.
-         */
-        if (diff === 0) {
-          return a.__typename === 'TokenApproval' ? 1 : b.__typename === 'TokenApproval' ? -1 : 0
-        }
+    for (const tx of flattenedPages) {
+      transactionMap[tx.transactionHash] = tx
+    }
 
-        return diff
-      })
+    const deduplicatedTransactions = Object.values(transactionMap)
+
+    /**
+     * If the timestamps are the same, most likely one of the transactions is an approval.
+     * On the feed we want to show the approval first.
+     */
+    const sortedTransactions = deduplicatedTransactions.sort((a, b) => {
+      const diff = b.timestamp - a.timestamp
+
+      if (diff === 0) {
+        return a.__typename === 'TokenApproval' ? 1 : b.__typename === 'TokenApproval' ? -1 : 0
+      }
+
+      return diff
+    })
+
+    return sortedTransactions
   }, [paginatedData])
 
   const sections = useMemo(() => {
