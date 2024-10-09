@@ -35,22 +35,24 @@ function getAllowedNetworksForTransfers() {
   return getMultichainFeatures().showTransfers
 }
 
+/**
+ * Join allowed networks into a string to help react memoization.
+ * N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
+ * on the home feed, since they get cached in Redux -- this is just a network optimization.
+ */
 function useAllowedNetworksForTransfers() {
-  // return a string to help react memoization
-  const allowedNetworkIdsString = getAllowedNetworksForTransfers().join(',')
-  // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
-  // on the home feed, since they get cached in Redux -- this is just a network optimization.
-  return useMemo(() => allowedNetworkIdsString.split(',') as NetworkId[], [allowedNetworkIdsString])
+  const allowedNetworks = getAllowedNetworksForTransfers().join(',')
+  return useMemo(() => allowedNetworks.split(',') as NetworkId[], [allowedNetworks])
 }
 
+/**
+ * Join supported networks for approval into a string to help react memoization.
+ * N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
+ * on the home feed, since they get cached in Redux -- this is just a network optimization.
+ */
 function useSupportedNetworksForApproval() {
-  const supportedNetworkrsForApproval = getSupportedNetworkIdsForApprovalTxsInHomefeed().join(',')
-  // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
-  // on the home feed, since they get cached in Redux -- this is just a network optimization.
-  return useMemo(
-    () => supportedNetworkrsForApproval.split(',') as NetworkId[],
-    [supportedNetworkrsForApproval]
-  )
+  const supportedNetworks = getSupportedNetworkIdsForApprovalTxsInHomefeed().join(',')
+  return useMemo(() => supportedNetworks.split(',') as NetworkId[], [supportedNetworks])
 }
 
 /**
@@ -87,10 +89,6 @@ function sortTransactions(transactions: TokenTransaction[]): TokenTransaction[] 
 
 /**
  * Every page of paginated data includes a limited amount of transactions within a certain period.
- * When the new page is added - we concatenate all the pages into a single array and sort them.
- * Currently, the sorting is necessary to ensure that approvals are always shown first if the
- * corresponding transaction has identical timestamp.
- *
  * In standByTransactions we might have transactions from months ago. Whenever we load a new page
  * we only want to add those stand by transactions that are within the time period of the new page.
  * Otherwise, if we merge all the stand by transactins into the page it will cause more late transactions
@@ -113,8 +111,7 @@ function mergeStandByTransactionsInRange(
     allowedNetworks.includes(tx.networkId)
   )
 
-  const sortedTransactions = sortTransactions(transactionsFromAllowedNetworks)
-  return sortedTransactions
+  return transactionsFromAllowedNetworks
 }
 
 /**
@@ -130,7 +127,6 @@ function mergeStandByTransactionsInRange(
  * Implementation of pending is identical to pendingStandbyTransactionsSelector.
  * Implementation of confirmed is identical to confirmedStandbyTransactionsSelector.
  */
-
 function useStandByTransactions() {
   const standByTransactions = useSelector(allStandbyTransactionsSelector)
   const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
