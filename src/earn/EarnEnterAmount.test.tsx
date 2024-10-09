@@ -6,7 +6,10 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
-import { usePrepareDepositTransactions } from 'src/earn/prepareTransactions'
+import {
+  usePrepareDepositTransactions,
+  usePrepareWithdrawTransactions,
+} from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -112,7 +115,7 @@ const store = createMockStore({
   tokens: {
     tokenBalances: {
       ...mockTokenBalances,
-      [mockArbUsdcTokenId]: {
+      mockArbUsdcTokenId: {
         ...mockTokenBalances[mockArbUsdcTokenId],
         balance: '10',
       },
@@ -373,6 +376,75 @@ describe('EarnEnterAmount', () => {
         mode: 'swap-deposit',
       })
       await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
+    })
+  })
+
+  describe('withdraw', () => {
+    // Pool balance should be set to determine available withdrawal amount
+    const withdrawalPool = mockEarnPositions[0]
+    withdrawalPool.balance = '10'
+    const withdrawParams = { pool: withdrawalPool, mode: 'withdraw' }
+    it('should show only the withdrawal token and not include the token dropdown', async () => {
+      jest.mocked(usePrepareWithdrawTransactions).mockReturnValue({
+        prepareTransactionsResult: {
+          prepareTransactionsResult: mockPreparedTransaction,
+          swapTransaction: undefined,
+        },
+        refreshPreparedTransactions: jest.fn(),
+        clearPreparedTransactions: jest.fn(),
+        prepareTransactionError: undefined,
+        isPreparingTransactions: false,
+      })
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={withdrawParams} />
+        </Provider>
+      )
+
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toHaveTextContent('USDC')
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeDisabled()
+      expect(queryByTestId('downArrowIcon')).toBeFalsy()
+    })
+
+    it('should show tx details for withdrawal', async () => {
+      const { getByTestId, getByText } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={withdrawParams} />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '8')
+
+      await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
+
+      expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toHaveTextContent('10.00 USDC')
+
+      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toHaveTextContent('₱13.30')
+
+      expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
+
+      fireEvent.press(getByText('earnFlow.enterAmount.continue'))
+
+      await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
+      expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_continue_press, {
+        amountEnteredIn: 'token',
+        amountInUsd: '8.00',
+        networkId: NetworkId['arbitrum-sepolia'],
+        depositTokenId: mockArbUsdcTokenId,
+        providerId: mockEarnPositions[0].appId,
+        poolId: mockEarnPositions[0].positionId,
+        fromTokenId: mockArbUsdcTokenId,
+        fromTokenAmount: '8',
+        depositTokenAmount: '8',
+        mode: 'withdraw',
+      })
+
+      //TODO(ACT-1389): check navigation to withdrawal confirmation screen
     })
   })
 
