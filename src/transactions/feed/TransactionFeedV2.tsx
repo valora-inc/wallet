@@ -31,8 +31,58 @@ type PaginatedData = {
 const POLL_INTERVAL = 10000 // 10 secs
 const FIRST_PAGE_TIMESTAMP = 0
 
-function getAllowedNetworkIdsForTransfers() {
-  return getMultichainFeatures().showTransfers.join(',').split(',') as NetworkId[]
+function getAllowedNetworksForTransfers() {
+  return getMultichainFeatures().showTransfers
+}
+
+function useAllowedNetworksForTransfers() {
+  // return a string to help react memoization
+  const allowedNetworkIdsString = getAllowedNetworksForTransfers().join(',')
+  // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
+  // on the home feed, since they get cached in Redux -- this is just a network optimization.
+  return useMemo(() => allowedNetworkIdsString.split(',') as NetworkId[], [allowedNetworkIdsString])
+}
+
+function useSupportedNetworksForApproval() {
+  const supportedNetworkrsForApproval = getSupportedNetworkIdsForApprovalTxsInHomefeed().join(',')
+  // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
+  // on the home feed, since they get cached in Redux -- this is just a network optimization.
+  return useMemo(
+    () => supportedNetworkrsForApproval.split(',') as NetworkId[],
+    [supportedNetworkrsForApproval]
+  )
+}
+
+/**
+ * This function uses the same deduplication approach as "deduplicateTransactions" function from
+ * queryHelper but only for a single flattened array instead of two.
+ * Also, the queryHelper is going to be removed once we fully migrate to TransactionFeedV2,
+ * so this function would have needed to be moved from queryHelper anyway.
+ */
+function deduplicateTransactions(transactions: TokenTransaction[]): TokenTransaction[] {
+  const transactionMap: { [txHash: string]: TokenTransaction } = {}
+
+  for (const tx of transactions) {
+    transactionMap[tx.transactionHash] = tx
+  }
+
+  return Object.values(transactionMap)
+}
+
+/**
+ * If the timestamps are the same, most likely one of the transactions is an approval.
+ * On the feed we want to show the approval first.
+ */
+function sortTransactions(transactions: TokenTransaction[]): TokenTransaction[] {
+  return transactions.sort((a, b) => {
+    const diff = b.timestamp - a.timestamp
+
+    if (diff === 0) {
+      return a.__typename === 'TokenApproval' ? 1 : b.__typename === 'TokenApproval' ? -1 : 0
+    }
+
+    return diff
+  })
 }
 
 /**
@@ -53,25 +103,17 @@ function mergeStandByTransactionsInRange(
 ) {
   if (transactions.length === 0) return []
 
-  const allowedNetworks = getAllowedNetworkIdsForTransfers()
+  const allowedNetworks = getAllowedNetworksForTransfers()
   const max = transactions[0].timestamp
   const min = transactions.at(-1)!.timestamp
 
   const standByInRange = standBy.filter((tx) => tx.timestamp >= min && tx.timestamp <= max)
-  const mergedTransactions = [...transactions, ...standByInRange].reduce(
-    (acc, tx) => {
-      if (!allowedNetworks.includes(tx.networkId)) return acc
-
-      if (!acc.used[tx.transactionHash]) {
-        acc.used[tx.transactionHash] = true
-        acc.list.push(tx)
-      }
-      return acc
-    },
-    { list: [] as TokenTransaction[], used: {} as { [hash: string]: true } }
+  const deduplicatedTransactions = deduplicateTransactions([...transactions, ...standByInRange])
+  const transactionsFromAllowedNetworks = deduplicatedTransactions.filter((tx) =>
+    allowedNetworks.includes(tx.networkId)
   )
 
-  const sortedTransactions = mergedTransactions.list.sort((a, b) => b.timestamp - a.timestamp)
+  const sortedTransactions = sortTransactions(transactionsFromAllowedNetworks)
   return sortedTransactions
 }
 
@@ -90,28 +132,34 @@ function mergeStandByTransactionsInRange(
  */
 
 function useStandByTransactions() {
-  const supportedNetworkrsForApproval = getSupportedNetworkIdsForApprovalTxsInHomefeed().join(',')
   const standByTransactions = useSelector(allStandbyTransactionsSelector)
+  const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
+  const supportedNetworksForApproval = useSupportedNetworksForApproval()
 
   return useMemo(() => {
-    const networkIds = supportedNetworkrsForApproval.split(',') as NetworkId[]
-    return standByTransactions.reduce(
-      (acc, tx) => {
-        const isApproval = tx.__typename === 'TokenApproval'
-        const networkAllowed = networkIds.includes(tx.networkId)
-        if (isApproval && !networkAllowed) return acc
-
-        if (tx.status === TransactionStatus.Pending) {
-          acc.pending.push(standByTransactionToTokenTransaction(tx))
-        } else {
-          acc.confirmed.push(tx)
+    const transactionsFromAllowedNetworks = standByTransactions
+      .filter((tx) => allowedNetworkForTransfers.includes(tx.networkId))
+      .filter((tx) => {
+        if (tx.__typename === 'TokenApproval') {
+          return supportedNetworksForApproval.includes(tx.networkId)
         }
 
-        return acc
-      },
-      { pending: [] as TokenTransaction[], confirmed: [] as TokenTransaction[] }
-    )
-  }, [standByTransactions, supportedNetworkrsForApproval])
+        return true
+      })
+
+    const pending: TokenTransaction[] = []
+    const confirmed: TokenTransaction[] = []
+
+    for (const tx of transactionsFromAllowedNetworks) {
+      if (tx.status === TransactionStatus.Pending) {
+        pending.push(standByTransactionToTokenTransaction(tx))
+      } else {
+        confirmed.push(tx)
+      }
+    }
+
+    return { pending, confirmed }
+  }, [standByTransactions, supportedNetworksForApproval, allowedNetworkForTransfers])
 }
 
 function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
@@ -146,7 +194,6 @@ export default function TransactionFeedV2() {
       selectFromResult: (result) => {
         return {
           ...result,
-
           /**
            * Under the hood, selectFromResult is passed to the "createSelector" function so we need
            * to memoize any processed data in order to keep the reference. We could move the whole
@@ -187,10 +234,7 @@ export default function TransactionFeedV2() {
         return prev
       }
 
-      /**
-       * undefined currentCursor means that we've received empty transactions which means this is
-       * the last page.
-       */
+      // undefined currentCursor means that we've received empty transactions which means this is the last page.
       if (pageData.currentCursor === undefined) {
         return prev
       }
@@ -204,50 +248,19 @@ export default function TransactionFeedV2() {
     })
   }, [isFetching, pageData, standByTransactions.confirmed])
 
-  const pendingTransactions = useMemo(() => {
-    const allowedNetworks = getAllowedNetworkIdsForTransfers()
-    return standByTransactions.pending.filter((tx) => {
-      return allowedNetworks.includes(tx.networkId)
-    })
-  }, [standByTransactions.pending])
-
-  /**
-   * This function uses the same deduplication approach as "deduplicateTransactions"
-   * function from queryHelper.ts but only for a single flattened array instead of
-   * two separate arrays.
-   */
   const confirmedTransactions = useMemo(() => {
     const flattenedPages = Object.values(paginatedData).flat()
-    const transactionMap: { [txHash: string]: TokenTransaction } = {}
-
-    for (const tx of flattenedPages) {
-      transactionMap[tx.transactionHash] = tx
-    }
-
-    const deduplicatedTransactions = Object.values(transactionMap)
-
-    /**
-     * If the timestamps are the same, most likely one of the transactions is an approval.
-     * On the feed we want to show the approval first.
-     */
-    const sortedTransactions = deduplicatedTransactions.sort((a, b) => {
-      const diff = b.timestamp - a.timestamp
-
-      if (diff === 0) {
-        return a.__typename === 'TokenApproval' ? 1 : b.__typename === 'TokenApproval' ? -1 : 0
-      }
-
-      return diff
-    })
-
+    const deduplicatedTransactions = deduplicateTransactions(flattenedPages)
+    const sortedTransactions = sortTransactions(deduplicatedTransactions)
     return sortedTransactions
   }, [paginatedData])
 
   const sections = useMemo(() => {
-    const noTransactions = pendingTransactions.length === 0 && confirmedTransactions.length === 0
-    if (noTransactions) return []
-    return groupFeedItemsInSections(pendingTransactions, confirmedTransactions)
-  }, [pendingTransactions, confirmedTransactions])
+    const noPendingTransactions = standByTransactions.pending.length === 0
+    const noConfirmedTransactions = confirmedTransactions.length === 0
+    if (noPendingTransactions && noConfirmedTransactions) return []
+    return groupFeedItemsInSections(standByTransactions.pending, confirmedTransactions)
+  }, [standByTransactions.pending, confirmedTransactions])
 
   if (!sections.length) {
     return getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? (
