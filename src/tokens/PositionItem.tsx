@@ -45,15 +45,14 @@ export const PositionItem = ({
       description: position.displayProps.description,
       balanceUsd: balanceUsd.toNumber(),
     })
-    earnPositionIds.includes(position.positionId)
-      ? navigate(Screens.EarnPoolInfoScreen, { pool: position as EarnPosition })
-      : position.displayProps.manageUrl
-        ? Platform.OS === 'android'
-          ? navigate(Screens.WebViewScreen, {
-              uri: position.displayProps.manageUrl,
-            })
-          : dispatch(openUrl(position.displayProps.manageUrl, true))
-        : null
+    const uri = position.displayProps.manageUrl
+    if (earnPositionIds.includes(position.positionId)) {
+      navigate(Screens.EarnPoolInfoScreen, { pool: position as EarnPosition })
+    } else if (uri) {
+      Platform.OS === 'android'
+        ? navigate(Screens.WebViewScreen, { uri })
+        : dispatch(openUrl(uri, true))
+    }
   }
 
   return (
