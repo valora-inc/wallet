@@ -13,7 +13,7 @@ import {
   TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
-import { mockCusdAddress, mockCusdTokenId } from 'test/values'
+import { mockApprovalTransaction, mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 import { ApiReducersKeys } from 'src/redux/apiReducersList'
 import { transactionFeedV2Api, type TransactionFeedV2Response } from 'src/transactions/api'
@@ -22,7 +22,10 @@ import { RecursivePartial } from 'test/utils'
 
 jest.mock('src/statsig')
 
-const mockTransaction = (data?: Partial<TokenTransaction>): TokenTransaction => {
+const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
+const mockFetch = fetch as FetchMock
+
+function mockTransaction(data?: Partial<TokenTransaction>): TokenTransaction {
   return {
     __typename: 'TokenTransferV3',
     networkId: NetworkId['celo-alfajores'],
@@ -42,8 +45,6 @@ const mockTransaction = (data?: Partial<TokenTransaction>): TokenTransaction => 
     ...(data as any),
   }
 }
-
-const mockFetch = fetch as FetchMock
 
 function getNumTransactionItems(sectionList: ReactTestInstance) {
   // data[0] is the first section in the section list - all mock transactions
@@ -89,7 +90,31 @@ beforeEach(() => {
 })
 
 describe('TransactionFeedV2', () => {
-  mockFetch.mockResponse(typedResponse({}))
+  it('only renders approval txs from supported networks', async () => {
+    mockFetch.mockResponse(
+      typedResponse({
+        transactions: [
+          mockApprovalTransaction,
+          {
+            ...mockApprovalTransaction,
+            networkId: NetworkId['celo-alfajores'],
+            transactionHash: '0xfoo',
+          },
+        ],
+      })
+    )
+
+    const tree = renderScreen()
+
+    await waitFor(() => expect(tree.getByTestId('TransactionList').props.data.length).toBe(1))
+
+    expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
+    expect(tree.queryByTestId('NoActivity/error')).toBeNull()
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(tree.getAllByTestId(new RegExp('TokenApprovalFeedItem', 'i')).length).toBe(1)
+    expect(tree.queryByTestId(`TokenApprovalFeedItem/0xfoo`)).not.toBeNull()
+  })
+
   it('renders correctly when there is a response', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
     const { store, ...tree } = renderScreen()
@@ -104,6 +129,18 @@ describe('TransactionFeedV2', () => {
     ).toHaveTextContent(
       'feedItemReceivedTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xd683...ea33\\"}"}'
     )
+  })
+
+  it('renders correctly with completed standby transactions', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
+
+    const tree = renderScreen({
+      transactions: {
+        standbyTransactions: [mockTransaction({ transactionHash: '0x10' })],
+      },
+    })
+
+    await waitFor(() => expect(tree.getAllByTestId('TransferFeedItem').length).toBe(2))
   })
 
   it("doesn't render transfers for tokens that we don't know about", async () => {
@@ -129,6 +166,30 @@ describe('TransactionFeedV2', () => {
     await waitFor(() => tree.getByTestId('NoActivity/error'))
     expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
     expect(tree.queryByTestId('TransactionList')).toBeNull()
+  })
+
+  it('renders correctly when there are confirmed transactions and stand by transactions', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
+
+    const tree = renderScreen({
+      transactions: {
+        standbyTransactions: [
+          mockTransaction({ transactionHash: '0x10', status: TransactionStatus.Pending }),
+        ],
+      },
+    })
+
+    await waitFor(() => tree.getByTestId('TransactionList'))
+
+    expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
+    expect(tree.queryByTestId('NoActivity/error')).toBeNull()
+
+    const subtitles = tree.queryAllByTestId('TransferFeedItem/subtitle')
+
+    const pendingSubtitles = subtitles.filter((node) =>
+      node.children.some((ch) => ch === STAND_BY_TRANSACTION_SUBTITLE_KEY)
+    )
+    expect(pendingSubtitles.length).toBe(1)
   })
 
   it('renders correct status for a complete transaction', async () => {
@@ -182,7 +243,7 @@ describe('TransactionFeedV2', () => {
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(2)
   })
 
-  it('tries to fetch 10 transactions, and stores empty pages', async () => {
+  it('tries to fetch a page of transactions, and stores empty pages', async () => {
     mockFetch
       .mockResponseOnce(typedResponse({ transactions: [mockTransaction()] }))
       .mockResponseOnce(typedResponse({ transactions: [] }))
