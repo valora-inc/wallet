@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from 'src/redux/api'
 import type { TokenTransaction } from 'src/transactions/types'
 
-export type TransactionFeedV2Response = {
+type TransactionFeedV2Response = {
   transactions: TokenTransaction[]
   pageInfo: {
     hasNextPage: boolean
@@ -21,5 +21,3 @@ export const transactionFeedV2Api = createApi({
     }),
   }),
 })
-
-export const { useTransactionFeedV2Query } = transactionFeedV2Api

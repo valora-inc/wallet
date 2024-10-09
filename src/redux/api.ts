@@ -11,7 +11,7 @@ export const baseQuery = fetchBaseQuery({
   },
 })
 
-export function isRehydrateAction(action: Action): action is Action<typeof REHYDRATE> & {
+function isRehydrateAction(action: Action): action is Action<typeof REHYDRATE> & {
   key: string
   payload: RootState
   err: unknown
