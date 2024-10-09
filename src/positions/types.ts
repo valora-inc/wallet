@@ -7,6 +7,7 @@ export interface PositionDisplayProps {
   title: string
   description: string
   imageUrl: string
+  manageUrl?: string
 }
 
 type DataProps = EarnDataProps
