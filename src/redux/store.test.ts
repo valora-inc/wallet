@@ -28,13 +28,19 @@ const resetStateOnInvalidStoredAccount = jest.spyOn(
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
 function getNonApiReducers<R = Omit<RootState, ApiReducersKeys>>(state: RootState): R {
-  const apiReducersKeys: string[] = Object.keys(apiReducersList)
-  return Object.entries(state).reduce((acc, [reducerKey, value]) => {
-    const key = reducerKey as keyof R
-    if (apiReducersKeys.includes(reducerKey)) return acc
-    acc[key] = value as unknown as any
-    return acc
-  }, {} as R)
+  const apiReducersKeys = Object.keys(apiReducersList)
+  const nonApiReducers = {} as R
+
+  for (const [key, value] of Object.entries(state)) {
+    const isApiReducer = apiReducersKeys.includes(key)
+
+    // api reducers are not persisted so skip them
+    if (isApiReducer) continue
+
+    nonApiReducers[key as keyof R] = value as unknown as any
+  }
+
+  return nonApiReducers
 }
 
 beforeEach(() => {
