@@ -28,6 +28,8 @@ import type { EarningItem } from 'src/positions/types'
 import { EarnPosition } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -492,7 +494,9 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       depositTokenId: dataProps.depositTokenId,
     })
     // TODO(Tomm): is a feature flag for partial withdrawals needed?
-    const partialWithdrawalsEnabled = true
+    const partialWithdrawalsEnabled = getFeatureGate(
+      StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL
+    )
     if (partialWithdrawalsEnabled) {
       navigate(Screens.EarnEnterAmount, { pool, mode: 'withdraw' })
     } else {
