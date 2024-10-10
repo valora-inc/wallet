@@ -16,7 +16,17 @@ import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import { allStandbyTransactionsSelector } from 'src/transactions/reducer'
-import { NetworkId, TransactionStatus, type TokenTransaction } from 'src/transactions/types'
+import {
+  TokenTransactionTypeV2,
+  TransactionStatus,
+  type NetworkId,
+  type NftTransfer,
+  type TokenApproval,
+  type TokenEarn,
+  type TokenExchange,
+  type TokenTransaction,
+  type TokenTransfer,
+} from 'src/transactions/types'
 import {
   groupFeedItemsInSections,
   standByTransactionToTokenTransaction,
@@ -28,7 +38,7 @@ type PaginatedData = {
 }
 
 // Query poll interval
-const POLL_INTERVAL = 10000 // 10 secs
+const POLL_INTERVAL_MS = 10000 // 10 sec
 const FIRST_PAGE_TIMESTAMP = 0
 
 function getAllowedNetworksForTransfers() {
@@ -136,7 +146,7 @@ function useStandByTransactions() {
     const transactionsFromAllowedNetworks = standByTransactions
       .filter((tx) => allowedNetworkForTransfers.includes(tx.networkId))
       .filter((tx) => {
-        if (tx.__typename === 'TokenApproval') {
+        if (tx.type === TokenTransactionTypeV2.Approval) {
           return supportedNetworksForApproval.includes(tx.networkId)
         }
 
@@ -159,21 +169,24 @@ function useStandByTransactions() {
 }
 
 function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
-  switch (tx.__typename) {
-    case 'TokenExchangeV3':
-    case 'CrossChainTokenExchange':
-      return <SwapFeedItem key={tx.transactionHash} transaction={tx} />
-    case 'TokenTransferV3':
-      return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
-    case 'NftTransferV3':
-      return <NftFeedItem key={tx.transactionHash} transaction={tx} />
-    case 'TokenApproval':
-      return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
-    case 'EarnDeposit':
-    case 'EarnSwapDeposit':
-    case 'EarnWithdraw':
-    case 'EarnClaimReward':
-      return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
+  switch (tx.type) {
+    case TokenTransactionTypeV2.Exchange:
+    case TokenTransactionTypeV2.SwapTransaction:
+    case TokenTransactionTypeV2.CrossChainSwapTransaction:
+      return <SwapFeedItem key={tx.transactionHash} transaction={tx as TokenExchange} />
+    case TokenTransactionTypeV2.Sent:
+    case TokenTransactionTypeV2.Received:
+      return <TransferFeedItem key={tx.transactionHash} transfer={tx as TokenTransfer} />
+    case TokenTransactionTypeV2.NftSent:
+    case TokenTransactionTypeV2.NftReceived:
+      return <NftFeedItem key={tx.transactionHash} transaction={tx as NftTransfer} />
+    case TokenTransactionTypeV2.Approval:
+      return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx as TokenApproval} />
+    case TokenTransactionTypeV2.EarnDeposit:
+    case TokenTransactionTypeV2.EarnSwapDeposit:
+    case TokenTransactionTypeV2.EarnWithdraw:
+    case TokenTransactionTypeV2.EarnClaimReward:
+      return <EarnFeedItem key={tx.transactionHash} transaction={tx as TokenEarn} />
   }
 }
 
@@ -181,8 +194,8 @@ export default function TransactionFeedV2() {
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
   const [endCursor, setEndCursor] = useState(0)
-  const [paginatedData, setPaginatedData] = useState<PaginatedData>({})
-  const { pageData, isFetching, error } = useTransactionFeedV2Query(
+  const [paginatedData, setPaginatedData] = useState<PaginatedData>({ [FIRST_PAGE_TIMESTAMP]: [] })
+  const { data, originalArgs, nextCursor, isFetching, error } = useTransactionFeedV2Query(
     { address: address!, endCursor },
     {
       skip: !address,
@@ -190,23 +203,7 @@ export default function TransactionFeedV2() {
       selectFromResult: (result) => {
         return {
           ...result,
-          /**
-           * Under the hood, selectFromResult is passed to the "createSelector" function so we need
-           * to memoize any processed data in order to keep the reference. We could move the whole
-           * implementation outside of the component into a pure function but then we'll lose the type inference.
-           *
-           * Considering this function changes the type definition of useTransactionFeedV2Query result
-           * object - it is easier to use "useMemo" to keep the type-safety.
-           */
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          pageData: useMemo(
-            () => ({
-              currentCursor: result.originalArgs?.endCursor, // timestamp from the last transaction from the previous page.
-              nextCursor: result.data?.transactions.at(-1)?.timestamp, // timestamp from the last transaction from the current page
-              transactions: result.data?.transactions || [],
-            }),
-            [result]
-          ),
+          nextCursor: result.data?.transactions.at(-1)?.timestamp,
         }
       },
     }
@@ -215,34 +212,42 @@ export default function TransactionFeedV2() {
   // Poll the first page
   useTransactionFeedV2Query(
     { address: address!, endCursor: FIRST_PAGE_TIMESTAMP },
-    { skip: !address, pollingInterval: POLL_INTERVAL }
+    { skip: !address, pollingInterval: POLL_INTERVAL_MS }
   )
 
-  useEffect(() => {
-    if (isFetching) return
+  useEffect(
+    function updatePaginatedData() {
+      if (isFetching) return
 
-    setPaginatedData((prev) => {
-      /**
-       * We are going to poll only the first page so if we already fetched other pages -
-       * just leave them as is. All new transactions are only gonna be added to the top of the first page.
-       */
-      if (pageData.currentCursor === FIRST_PAGE_TIMESTAMP && prev[pageData.currentCursor]) {
+      const currentCursor = originalArgs?.endCursor // timestamp from the last transaction from the previous page.
+      const transactions = data?.transactions || []
+
+      setPaginatedData((prev) => {
+        /**
+         * Only update pagination data in the following scenarios:
+         *   - if it's a first page (which is polling every POLL_INTERVAL)
+         *   - if it's a page, that wasn't fetched yet
+         */
+        const isFirstPage = currentCursor === FIRST_PAGE_TIMESTAMP
+        const pageDataIsAbsent =
+          currentCursor !== FIRST_PAGE_TIMESTAMP && // not the first page
+          currentCursor !== undefined && // it is SOME page
+          prev[currentCursor] === undefined // data for this page wasn't fetched yet
+
+        if (isFirstPage || pageDataIsAbsent) {
+          const processedTransactions = mergeStandByTransactionsInRange(
+            transactions,
+            standByTransactions.confirmed
+          )
+
+          return { ...prev, [currentCursor!]: processedTransactions }
+        }
+
         return prev
-      }
-
-      // undefined currentCursor means that we've received empty transactions which means this is the last page.
-      if (pageData.currentCursor === undefined) {
-        return prev
-      }
-
-      const transactions = mergeStandByTransactionsInRange(
-        pageData.transactions,
-        standByTransactions.confirmed
-      )
-
-      return { ...prev, [pageData.currentCursor]: transactions }
-    })
-  }, [isFetching, pageData, standByTransactions.confirmed])
+      })
+    },
+    [isFetching, data?.transactions, originalArgs?.endCursor, standByTransactions.confirmed]
+  )
 
   const confirmedTransactions = useMemo(() => {
     const flattenedPages = Object.values(paginatedData).flat()
@@ -267,8 +272,8 @@ export default function TransactionFeedV2() {
   }
 
   function fetchMoreTransactions() {
-    if (pageData.nextCursor) {
-      setEndCursor(pageData.nextCursor)
+    if (nextCursor) {
+      setEndCursor(nextCursor)
     }
   }
 
