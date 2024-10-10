@@ -7,7 +7,7 @@ set -euo pipefail
 
 root_state_schema="test/RootStateSchema.json"
 
-typescript-json-schema ./tsconfig.json RootState --include src/redux/reducers.ts --ignoreErrors --required --noExtraProps > "$root_state_schema"
+typescript-json-schema ./tsconfig.json RootStateForSchemaGeneration --include src/redux/reducersForSchemaGeneration.ts --ignoreErrors --required --noExtraProps > "$root_state_schema"
 
 if git diff --exit-code "$root_state_schema"; then
   echo "$root_state_schema is up to date"

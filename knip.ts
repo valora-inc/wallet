@@ -33,7 +33,12 @@ const config: KnipConfig = {
     '@types/jest',
     'husky',
   ],
-  ignore: ['src/utils/inputValidation.ts', 'src/utils/country.json'],
+  ignore: [
+    'src/utils/inputValidation.ts',
+    'src/utils/country.json',
+    'src/redux/reducersForSchemaGeneration.ts',
+    'src/transactions/apiTestHelpers.ts',
+  ],
 }
 
 export default config
