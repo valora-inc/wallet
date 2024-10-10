@@ -603,7 +603,7 @@ describe('EarnPoolInfoScreen', () => {
   })
 
   it('navigate to EarnCollectScreen when Withdraw button is tapped', () => {
-    const { getByText } = render(
+    const { getByTestId } = render(
       <Provider store={getStore()}>
         <MockedNavigator
           component={EarnPoolInfoScreen}
@@ -613,7 +613,7 @@ describe('EarnPoolInfoScreen', () => {
         />
       </Provider>
     )
-    fireEvent.press(getByText('earnFlow.poolInfoScreen.withdraw'))
+    fireEvent.press(getByTestId('WithdrawButton'))
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_withdraw, {
       providerId: 'aave',
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',

@@ -451,6 +451,7 @@ function ActionButtons({
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}
           style={styles.flex}
+          testID="WithdrawButton"
         />
       )}
       {deposit && (
@@ -459,6 +460,7 @@ function ActionButtons({
           onPress={onPressDeposit}
           size={BtnSizes.FULL}
           style={styles.flex}
+          testID="DepositButton"
         />
       )}
     </View>
