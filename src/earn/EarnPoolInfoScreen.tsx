@@ -298,11 +298,10 @@ function YieldCard({
           return (
             <View style={styles.cardLineContainer} key={index}>
               <View style={styles.cardLineLabel}>
-                <View style={styles.earningsTitleContainer}>
+                <View style={styles.yieldRateLabelContainer}>
                   <Text numberOfLines={1} style={styles.cardLabelText}>
                     {rate.label}
                   </Text>
-
                   <TokenIcons
                     tokensInfo={tokenInfo}
                     size={IconSize.XXSMALL}
@@ -780,7 +779,7 @@ const styles = StyleSheet.create({
   cardLineLabel: {
     paddingRight: 20, // Prevents Icon from being cut off on long labels
   },
-  earningsTitleContainer: {
+  yieldRateLabelContainer: {
     flexDirection: 'row',
     gap: Spacing.Tiny4,
   },
