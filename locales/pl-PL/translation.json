@@ -2670,7 +2670,7 @@
         "chooseDescription": "Każda decyzja finansowa jest osobistym wyborem. Zebraliśmy wybrane pule z różnych protokołów, ale każda pula zapewnia inne korzyści i wiąże się z innym ryzykiem. Dokładamy wszelkich starań, aby zapewnić przydatne informacje o wszystkich pulach, ale lepiej zrobić własne rozeznanie w razie jakichkolwiek wątpliwości."
       },
       "noPoolsTitle": "Nie dołączono jeszcze do żadnej puli",
-      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom i w pełni wykorzystaj swoje kryptowaluty.",
+      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom, i w pełni wykorzystaj swoje kryptowaluty.",
       "errorTitle": "Nie można wczytać pul",
       "errorDescription": "Wystąpił błąd podczas próby wczytania informacji o puli. Spróbuj ponownie.",
       "errorButton": "Spróbuj ponownie"
