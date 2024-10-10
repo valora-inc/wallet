@@ -21,16 +21,24 @@ import { Spacing } from 'src/styles/styles'
 function PartialWithdrawAction({
   forwardedRef,
   pool,
+  hasRewards,
 }: {
   forwardedRef: React.RefObject<BottomSheetModalRefType>
   pool: EarnPosition
+  hasRewards: boolean
 }) {
   const { t } = useTranslation()
 
   const action = {
     name: WithdrawActionName.Withdraw,
-    title: t('earnFlow.poolInfoScreen.withdraw'),
-    details: t('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawDescription'),
+    title:
+      hasRewards && pool.dataProps.withdrawalIncludesClaim
+        ? t('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaim')
+        : t('earnFlow.poolInfoScreen.withdraw'),
+    details:
+      hasRewards && pool.dataProps.withdrawalIncludesClaim
+        ? t('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaimDescription')
+        : t('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawDescription'),
     iconComponent: QuickActionsWithdraw,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'partialWithdraw' })
@@ -131,7 +139,9 @@ export default function WithdrawBottomSheet({
       testId={'Earn/WithdrawBottomSheet'}
     >
       <View style={styles.actionsContainer}>
-        {canPartialWithdraw && <PartialWithdrawAction forwardedRef={forwardedRef} pool={pool} />}
+        {canPartialWithdraw && (
+          <PartialWithdrawAction forwardedRef={forwardedRef} pool={pool} hasRewards={hasRewards} />
+        )}
         {canClaim && <ClaimAction forwardedRef={forwardedRef} pool={pool} />}
         <ExitAction forwardedRef={forwardedRef} pool={pool} hasRewards={hasRewards} />
       </View>

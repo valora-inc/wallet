@@ -2706,7 +2706,9 @@
       "withdraw": "Withdraw",
       "withdrawBottomSheet": {
         "title": "Select withdraw type",
+        "withdrawAndClaim": "Withdraw and Claim",
         "withdrawDescription": "Withdraw a specific amount of any tokens you have deposited in the pool",
+        "withdrawAndClaimDescription": "Withdraw a specific amount of any tokens you have deposited in the pool and claim your rewards automatically",
         "claimRewards": "Claim Rewards",
         "claimRewardsDescription": "Claim your rewards. Partial amounts of the reward cannot be claimed",
         "claimEarnings": "Claim Earnings",
