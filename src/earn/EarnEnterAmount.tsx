@@ -360,8 +360,16 @@ function EarnEnterAmount({ route }: Props) {
         ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
         : tokenAmount.toString(),
     })
-    // TODO(ACT-1389) if mode === 'withdraw' navigate to EarnConfirmationScreen
-    reviewBottomSheetRef.current?.snapToIndex(0)
+
+    if (mode === 'withdraw') {
+      navigate(Screens.EarnConfirmationScreen, {
+        pool,
+        mode,
+        inputAmount: tokenAmount.toString(),
+      })
+    } else {
+      reviewBottomSheetRef.current?.snapToIndex(0)
+    }
   }
 
   const dropdownEnabled = useMemo(() => {

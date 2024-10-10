@@ -65,3 +65,5 @@ export interface BeforeDepositAction {
 }
 
 export type EarnEnterMode = 'deposit' | 'swap-deposit' | 'withdraw'
+
+export type OutletMode = 'withdraw' | 'collect' | 'exit'

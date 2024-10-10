@@ -36,8 +36,12 @@ interface EarnDataProps {
   depositTokenId: string
   withdrawTokenId: string
   rewardsPositionIds?: string[]
+  claimType?: ClaimType
+  withdrawalIncludesClaim?: boolean
   // We'll add more fields here as needed
 }
+
+export type ClaimType = 'earnings' | 'rewards'
 
 export type EarnPosition = AppTokenPosition & { dataProps: EarnDataProps }
 
