@@ -167,7 +167,8 @@ export const reducer = (
   }
 }
 
-const allStandbyTransactionsSelector = (state: RootState) => state.transactions.standbyTransactions
+export const allStandbyTransactionsSelector = (state: RootState) =>
+  state.transactions.standbyTransactions
 const standbyTransactionsSelector = createSelector(
   [allStandbyTransactionsSelector, getSupportedNetworkIdsForApprovalTxsInHomefeed],
   (standbyTransactions, supportedNetworkIdsForApprovalTxs) => {

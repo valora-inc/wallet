@@ -17,7 +17,11 @@ export const transactionFeedV2Api = createApi({
       TransactionFeedV2Response,
       { address: string; endCursor: number }
     >({
-      query: ({ address, endCursor }) => `/wallet/${address}/transactions?endCursor=${endCursor}`,
+      query: ({ address, endCursor }) => {
+        const cursor = endCursor ? `?endCursor=${endCursor}` : ''
+        return `/wallet/${address}/transactions${cursor}`
+      },
+      keepUnusedDataFor: 60, // 1 min
     }),
   }),
 })

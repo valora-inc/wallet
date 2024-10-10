@@ -22,7 +22,10 @@ import { RecursivePartial } from 'test/utils'
 
 jest.mock('src/statsig')
 
-const mockTransaction = (data?: Partial<TokenTransaction>): TokenTransaction => {
+const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
+const mockFetch = fetch as FetchMock
+
+function mockTransaction(data?: Partial<TokenTransaction>): TokenTransaction {
   return {
     __typename: 'TokenTransferV3',
     networkId: NetworkId['celo-alfajores'],
@@ -42,8 +45,6 @@ const mockTransaction = (data?: Partial<TokenTransaction>): TokenTransaction => 
     ...(data as any),
   }
 }
-
-const mockFetch = fetch as FetchMock
 
 function getNumTransactionItems(sectionList: ReactTestInstance) {
   // data[0] is the first section in the section list - all mock transactions
@@ -89,7 +90,6 @@ beforeEach(() => {
 })
 
 describe('TransactionFeedV2', () => {
-  mockFetch.mockResponse(typedResponse({}))
   it('renders correctly when there is a response', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
     const { store, ...tree } = renderScreen()
@@ -104,6 +104,18 @@ describe('TransactionFeedV2', () => {
     ).toHaveTextContent(
       'feedItemReceivedTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xd683...ea33\\"}"}'
     )
+  })
+
+  it('renders correctly with completed standby transactions', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
+
+    const tree = renderScreen({
+      transactions: {
+        standbyTransactions: [mockTransaction({ transactionHash: '0x10' })],
+      },
+    })
+
+    await waitFor(() => expect(tree.getAllByTestId('TransferFeedItem').length).toBe(2))
   })
 
   it("doesn't render transfers for tokens that we don't know about", async () => {
@@ -131,6 +143,30 @@ describe('TransactionFeedV2', () => {
     expect(tree.queryByTestId('TransactionList')).toBeNull()
   })
 
+  it('renders correctly when there are confirmed transactions and stand by transactions', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
+
+    const tree = renderScreen({
+      transactions: {
+        standbyTransactions: [
+          mockTransaction({ transactionHash: '0x10', status: TransactionStatus.Pending }),
+        ],
+      },
+    })
+
+    await waitFor(() => tree.getByTestId('TransactionList'))
+
+    expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
+    expect(tree.queryByTestId('NoActivity/error')).toBeNull()
+
+    const subtitles = tree.queryAllByTestId('TransferFeedItem/subtitle')
+
+    const pendingSubtitles = subtitles.filter((node) =>
+      node.children.some((ch) => ch === STAND_BY_TRANSACTION_SUBTITLE_KEY)
+    )
+    expect(pendingSubtitles.length).toBe(1)
+  })
+
   it('renders correct status for a complete transaction', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
     const tree = renderScreen()
@@ -150,7 +186,7 @@ describe('TransactionFeedV2', () => {
     expect(tree.getByText('feedItemFailedTransaction')).toBeTruthy()
   })
 
-  it('tries to fetch 20 transactions, unless the end is reached', async () => {
+  it('tries to fetch pages until the end is reached', async () => {
     mockFetch
       .mockResponseOnce(
         typedResponse({
@@ -182,6 +218,26 @@ describe('TransactionFeedV2', () => {
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(2)
   })
 
+  it('tries to fetch a page of transactions, and stores empty pages', async () => {
+    mockFetch
+      .mockResponseOnce(typedResponse({ transactions: [mockTransaction()] }))
+      .mockResponseOnce(typedResponse({ transactions: [] }))
+
+    const { store, ...tree } = renderScreen()
+
+    await store.dispatch(
+      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 0 })
+    )
+    await store.dispatch(
+      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 123 })
+    )
+
+    await waitFor(() => tree.getByTestId('TransactionList'))
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
+    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(1)
+  })
+
   it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const tree = renderScreen()
@@ -193,5 +249,75 @@ describe('TransactionFeedV2', () => {
     const tree = renderScreen()
     expect(tree.getByTestId('NoActivity/loading')).toBeDefined()
     expect(tree.getByText('noTransactionActivity')).toBeTruthy()
+  })
+
+  it('useStandByTransactions properly splits pending/confirmed transactions', async () => {
+    mockFetch.mockResponse(
+      typedResponse({
+        transactions: [
+          mockTransaction({ transactionHash: '0x4000000' }), // confirmed
+          mockTransaction({ transactionHash: '0x3000000' }), // confirmed
+          mockTransaction({ transactionHash: '0x2000000' }), // confirmed
+          mockTransaction({ transactionHash: '0x1000000' }), // confirmed
+        ],
+      })
+    )
+
+    const { store, ...tree } = renderScreen({
+      transactions: {
+        standbyTransactions: [
+          mockTransaction({ transactionHash: '0x10', status: TransactionStatus.Complete }), // confirmed
+          mockTransaction({ transactionHash: '0x20', status: TransactionStatus.Complete }), // confirmed
+          mockTransaction({ transactionHash: '0x30', status: TransactionStatus.Pending }), // pending
+          mockTransaction({ transactionHash: '0x40', status: TransactionStatus.Pending }), // pending
+          mockTransaction({ transactionHash: '0x50', status: TransactionStatus.Failed }), // confirmed
+        ],
+      },
+    })
+
+    await store.dispatch(
+      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 0 })
+    )
+
+    await waitFor(() => {
+      expect(tree.getByTestId('TransactionList').props.data.length).toBe(2)
+    })
+
+    // from total of 9 transactions there should be 2 pending in a "recent" section
+    expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(2)
+    // from total of 9 transactions there should be 7 confirmed in a "general" section
+    expect(tree.getByTestId('TransactionList').props.data[1].data.length).toBe(7)
+  })
+
+  it('merges only those stand by transactions that fit the timeline between min/max timestamps of the page', async () => {
+    mockFetch.mockResponse(
+      typedResponse({
+        transactions: [
+          mockTransaction({ transactionHash: '0x4000000', timestamp: 49 }), // max
+          mockTransaction({ transactionHash: '0x3000000', timestamp: 47 }),
+          mockTransaction({ transactionHash: '0x2000000', timestamp: 25 }),
+          mockTransaction({ transactionHash: '0x1000000', timestamp: 21 }), // min
+        ],
+      })
+    )
+
+    const { store, ...tree } = renderScreen({
+      transactions: {
+        standbyTransactions: [
+          mockTransaction({ transactionHash: '0x10', timestamp: 10 }), // not in scope
+          mockTransaction({ transactionHash: '0x20', timestamp: 20 }), // not in scope
+          mockTransaction({ transactionHash: '0x30', timestamp: 30 }), // in scope
+          mockTransaction({ transactionHash: '0x40', timestamp: 40 }), // in scope
+          mockTransaction({ transactionHash: '0x50', timestamp: 50 }), // not in scope
+        ],
+      },
+    })
+
+    await store.dispatch(
+      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 0 })
+    )
+
+    await waitFor(() => tree.getByTestId('TransactionList'))
+    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(6)
   })
 })
