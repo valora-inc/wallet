@@ -2704,6 +2704,18 @@
       "deposit": "Deposit",
       "depositAndEarnings": "Deposit & Earnings",
       "withdraw": "Withdraw",
+      "withdrawBottomSheet": {
+        "title": "Select withdraw type",
+        "withdrawDescription": "Withdraw a specific amount of any tokens you have deposited in the pool",
+        "claimRewards": "Claim Rewards",
+        "claimRewardsDescription": "Claim your rewards. Partial amounts of the reward cannot be claimed",
+        "claimEarnings": "Claim Earnings",
+        "claimEarningsDescription": "Claim the earnings on your deposit. Partial amounts cannot be claimed ",
+        "exit": "Exit",
+        "exitDescription": "Exiting will withdraw everything you have in the pool",
+        "exitWithRewardsDescription": "Exiting will withdraw everything you have in the pool, including rewards",
+        "exitWithEarningsDescription": "Exiting will withdraw everything you have in the pool, including earnings"
+      },
       "totalDepositAndEarnings": "Total Deposit & Earnings",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
