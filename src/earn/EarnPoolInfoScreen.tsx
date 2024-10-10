@@ -17,6 +17,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import BeforeDepositBottomSheet from 'src/earn/BeforeDepositBottomSheet'
 import { useDepositEntrypointInfo } from 'src/earn/hooks'
+import WithdrawBottomSheet from 'src/earn/WithdrawBottomSheet'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -450,6 +451,7 @@ function ActionButtons({
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}
           style={styles.flex}
+          testID="WithdrawButton"
         />
       )}
       {deposit && (
@@ -458,6 +460,7 @@ function ActionButtons({
           onPress={onPressDeposit}
           size={BtnSizes.FULL}
           style={styles.flex}
+          testID="DepositButton"
         />
       )}
     </View>
@@ -507,11 +510,14 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     }
   }
 
+  // TODO: update onPressWithdraw to either open the bottom sheet or navigate if only 1 option
+
   const beforeDepositBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const depositInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tvlInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const ageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const yieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const withdrawBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
@@ -654,6 +660,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         canAdd={canCashIn}
         exchanges={exchanges}
       />
+      <WithdrawBottomSheet forwardedRef={withdrawBottomSheetRef} pool={pool} />
     </SafeAreaView>
   )
 }

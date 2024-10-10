@@ -6,7 +6,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import { EarnCommonProperties, TokenProperties } from 'src/analytics/Properties'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
-import { BeforeDepositAction, BeforeDepositActionName } from 'src/earn/types'
+import { BeforeDepositAction, BeforeDepositActionName, WithdrawAction } from 'src/earn/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
@@ -25,7 +25,7 @@ import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenAnalyticsProps } from 'src/tokens/utils'
 
-function ActionCard({ action }: { action: BeforeDepositAction }) {
+export function ActionCard({ action }: { action: BeforeDepositAction | WithdrawAction }) {
   return (
     <Touchable
       style={styles.touchable}
