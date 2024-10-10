@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
-import { usePrepareDepositTransactions } from 'src/earn/prepareTransactions'
+import { usePrepareTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -111,7 +111,8 @@ const mockSwapTransaction: SwapTransaction = {
 const store = createMockStore({
   tokens: {
     tokenBalances: {
-      [mockArbUsdcTokenId]: {
+      ...mockTokenBalances,
+      mockArbUsdcTokenId: {
         ...mockTokenBalances[mockArbUsdcTokenId],
         balance: '10',
       },
@@ -140,7 +141,7 @@ describe('EarnEnterAmount', () => {
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
     store.clearActions()
-    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+    jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: undefined,
       refreshPreparedTransactions: refreshPreparedTransactionsSpy,
       clearPreparedTransactions: jest.fn(),
@@ -187,11 +188,12 @@ describe('EarnEnterAmount', () => {
         hooksApiUrl: networkConfig.hooksApiUrl,
         feeCurrencies: mockFeeCurrencies,
         shortcutId: 'deposit',
+        useMax: false,
       })
     })
 
     it('should show tx details and handle navigating to the deposit bottom sheet', async () => {
-      jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+      jest.mocked(usePrepareTransactions).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
           swapTransaction: undefined,
@@ -262,6 +264,7 @@ describe('EarnEnterAmount', () => {
       const store = createMockStore({
         tokens: {
           tokenBalances: {
+            ...mockTokenBalances,
             [mockArbUsdcTokenId]: {
               ...mockTokenBalances[mockArbUsdcTokenId],
               balance: '10',
@@ -314,11 +317,12 @@ describe('EarnEnterAmount', () => {
         hooksApiUrl: networkConfig.hooksApiUrl,
         feeCurrencies: mockFeeCurrencies,
         shortcutId: 'swap-deposit',
+        useMax: false,
       })
     })
 
     it('should show tx details and handle navigating to the deposit bottom sheet', async () => {
-      jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+      jest.mocked(usePrepareTransactions).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
           swapTransaction: mockSwapTransaction,
@@ -372,9 +376,82 @@ describe('EarnEnterAmount', () => {
     })
   })
 
+  describe('withdraw', () => {
+    // Pool balance should be set to determine available withdrawal amount
+    const withdrawalPool = mockEarnPositions[0]
+    withdrawalPool.balance = '10'
+    const withdrawParams = { pool: withdrawalPool, mode: 'withdraw' }
+
+    beforeEach(() => {
+      jest.clearAllMocks()
+      jest.mocked(usePrepareTransactions).mockReturnValue({
+        prepareTransactionsResult: {
+          prepareTransactionsResult: mockPreparedTransaction,
+          swapTransaction: undefined,
+        },
+        refreshPreparedTransactions: jest.fn(),
+        clearPreparedTransactions: jest.fn(),
+        prepareTransactionError: undefined,
+        isPreparingTransactions: false,
+      })
+    })
+    it('should show only the withdrawal token and not include the token dropdown', async () => {
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={withdrawParams} />
+        </Provider>
+      )
+
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toHaveTextContent('USDC')
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeDisabled()
+      expect(queryByTestId('downArrowIcon')).toBeFalsy()
+    })
+
+    it('should show tx details for withdrawal', async () => {
+      const { getByTestId, getByText } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={withdrawParams} />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '8')
+
+      await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
+
+      expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toHaveTextContent('10.00 USDC')
+
+      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toHaveTextContent('₱13.30')
+
+      expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
+
+      fireEvent.press(getByText('earnFlow.enterAmount.continue'))
+
+      await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(1))
+      expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_continue_press, {
+        amountEnteredIn: 'token',
+        amountInUsd: '8.00',
+        networkId: NetworkId['arbitrum-sepolia'],
+        depositTokenId: mockArbUsdcTokenId,
+        providerId: mockEarnPositions[0].appId,
+        poolId: mockEarnPositions[0].positionId,
+        fromTokenId: mockArbUsdcTokenId,
+        fromTokenAmount: '8',
+        depositTokenAmount: '8',
+        mode: 'withdraw',
+      })
+
+      //TODO(ACT-1389): check navigation to withdrawal confirmation screen
+    })
+  })
+
   // tests independent of deposit / swap-deposit
   it('should show a warning and not allow the user to continue if they input an amount greater than balance', async () => {
-    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+    jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
         swapTransaction: undefined,
@@ -397,7 +474,7 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should show loading spinner when preparing transaction', async () => {
-    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+    jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: undefined,
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
@@ -443,6 +520,7 @@ describe('EarnEnterAmount', () => {
     const mockStore = createMockStore({
       tokens: {
         tokenBalances: {
+          ...mockTokenBalances,
           [mockArbUsdcTokenId]: {
             ...mockTokenBalances[mockArbUsdcTokenId],
             balance: '100000.42',
@@ -469,7 +547,7 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should track analytics and navigate correctly when tapping cta to add gas', async () => {
-    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+    jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransactionNotEnough,
         swapTransaction: undefined,
@@ -506,7 +584,7 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should show the FeeDetailsBottomSheet when the user taps the fee details icon', async () => {
-    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+    jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
         swapTransaction: undefined,
@@ -531,7 +609,7 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should show swap fees on the FeeDetailsBottomSheet when swap transaction is present', async () => {
-    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+    jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
         swapTransaction: mockSwapTransaction,
@@ -562,7 +640,7 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should display swap bottom sheet when the user taps the swap details icon', async () => {
-    jest.mocked(usePrepareDepositTransactions).mockReturnValue({
+    jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
         swapTransaction: mockSwapTransaction,

@@ -2554,8 +2554,10 @@
     },
     "enterAmount": {
       "title": "How much would you like to deposit?",
+      "titleWithdraw": "How much would you like to withdraw?",
       "deposit": "Deposit",
       "fees": "Fees",
+      "available": "Available",
       "swap": "Swap",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
