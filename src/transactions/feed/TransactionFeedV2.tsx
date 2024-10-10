@@ -7,7 +7,6 @@ import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
-import { getSupportedNetworkIdsForApprovalTxsInHomefeed } from 'src/tokens/utils'
 import NoActivity from 'src/transactions/NoActivity'
 import { useTransactionFeedV2Query } from 'src/transactions/api'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
@@ -56,16 +55,6 @@ function useAllowedNetworksForTransfers() {
 }
 
 /**
- * Join supported networks for approval into a string to help react memoization.
- * N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
- * on the home feed, since they get cached in Redux -- this is just a network optimization.
- */
-function useSupportedNetworksForApproval() {
-  const supportedNetworks = getSupportedNetworkIdsForApprovalTxsInHomefeed().join(',')
-  return useMemo(() => supportedNetworks.split(',') as NetworkId[], [supportedNetworks])
-}
-
-/**
  * This function uses the same deduplication approach as "deduplicateTransactions" function from
  * queryHelper but only for a single flattened array instead of two.
  * Also, the queryHelper is going to be removed once we fully migrate to TransactionFeedV2,
@@ -90,7 +79,9 @@ function sortTransactions(transactions: TokenTransaction[]): TokenTransaction[] 
     const diff = b.timestamp - a.timestamp
 
     if (diff === 0) {
-      return a.__typename === 'TokenApproval' ? 1 : b.__typename === 'TokenApproval' ? -1 : 0
+      if (a.type === TokenTransactionTypeV2.Approval) return 1
+      if (b.type === TokenTransactionTypeV2.Approval) return -1
+      return 0
     }
 
     return diff
@@ -140,18 +131,11 @@ function mergeStandByTransactionsInRange(
 function useStandByTransactions() {
   const standByTransactions = useSelector(allStandbyTransactionsSelector)
   const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
-  const supportedNetworksForApproval = useSupportedNetworksForApproval()
 
   return useMemo(() => {
-    const transactionsFromAllowedNetworks = standByTransactions
-      .filter((tx) => allowedNetworkForTransfers.includes(tx.networkId))
-      .filter((tx) => {
-        if (tx.type === TokenTransactionTypeV2.Approval) {
-          return supportedNetworksForApproval.includes(tx.networkId)
-        }
-
-        return true
-      })
+    const transactionsFromAllowedNetworks = standByTransactions.filter((tx) =>
+      allowedNetworkForTransfers.includes(tx.networkId)
+    )
 
     const pending: TokenTransaction[] = []
     const confirmed: TokenTransaction[] = []
@@ -165,10 +149,10 @@ function useStandByTransactions() {
     }
 
     return { pending, confirmed }
-  }, [standByTransactions, supportedNetworksForApproval, allowedNetworkForTransfers])
+  }, [standByTransactions, allowedNetworkForTransfers])
 }
 
-function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
+function renderItem({ item: tx }: { item: TokenTransaction }) {
   switch (tx.type) {
     case TokenTransactionTypeV2.Exchange:
     case TokenTransactionTypeV2.SwapTransaction:
@@ -200,12 +184,10 @@ export default function TransactionFeedV2() {
     {
       skip: !address,
       refetchOnMountOrArgChange: true,
-      selectFromResult: (result) => {
-        return {
-          ...result,
-          nextCursor: result.data?.transactions.at(-1)?.timestamp,
-        }
-      },
+      selectFromResult: (result) => ({
+        ...result,
+        nextCursor: result.data?.transactions.at(-1)?.timestamp,
+      }),
     }
   )
 
@@ -222,12 +204,12 @@ export default function TransactionFeedV2() {
       const currentCursor = originalArgs?.endCursor // timestamp from the last transaction from the previous page.
       const transactions = data?.transactions || []
 
+      /**
+       * Only update pagination data in the following scenarios:
+       *   - if it's a first page (which is polling every POLL_INTERVAL)
+       *   - if it's a page, that wasn't fetched yet
+       */
       setPaginatedData((prev) => {
-        /**
-         * Only update pagination data in the following scenarios:
-         *   - if it's a first page (which is polling every POLL_INTERVAL)
-         *   - if it's a page, that wasn't fetched yet
-         */
         const isFirstPage = currentCursor === FIRST_PAGE_TIMESTAMP
         const pageDataIsAbsent =
           currentCursor !== FIRST_PAGE_TIMESTAMP && // not the first page
@@ -267,7 +249,7 @@ export default function TransactionFeedV2() {
     return getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? (
       <GetStarted />
     ) : (
-      <NoActivity loading={isFetching} error={error as any} />
+      <NoActivity loading={isFetching} error={error} />
     )
   }
 
