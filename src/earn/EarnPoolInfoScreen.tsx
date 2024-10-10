@@ -298,14 +298,17 @@ function YieldCard({
           return (
             <View style={styles.cardLineContainer} key={index}>
               <View style={styles.cardLineLabel}>
-                <Text numberOfLines={1} style={styles.cardLabelText}>
-                  {rate.label}
-                </Text>
-                <TokenIcons
-                  tokensInfo={tokenInfo}
-                  size={IconSize.XXSMALL}
-                  showNetworkIcon={false}
-                />
+                <View style={styles.earningsTitleContainer}>
+                  <Text numberOfLines={1} style={styles.cardLabelText}>
+                    {rate.label}
+                  </Text>
+
+                  <TokenIcons
+                    tokensInfo={tokenInfo}
+                    size={IconSize.XXSMALL}
+                    showNetworkIcon={false}
+                  />
+                </View>
               </View>
               <Text style={styles.cardLabelText}>
                 {t('earnFlow.poolInfoScreen.ratePercent', { rate: rate.percentage.toFixed(2) })}
@@ -757,6 +760,7 @@ const styles = StyleSheet.create({
   tokenIconsContainer: {
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   contentContainer: {
     gap: Spacing.Regular16,
@@ -772,15 +776,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
   },
   cardLineLabel: {
-    flex: 1,
+    paddingRight: 20, // Prevents Icon from being cut off on long labels
+  },
+  earningsTitleContainer: {
     flexDirection: 'row',
     gap: Spacing.Tiny4,
-    alignItems: 'center',
-    paddingRight: 20, // Prevents Icon from being cut off on long labels
-    minWidth: '35%',
   },
   cardTitleText: {
     ...typeScale.labelSemiBoldMedium,
