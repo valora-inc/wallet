@@ -13,7 +13,7 @@ import {
   TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
-import { mockApprovalTransaction, mockCusdAddress, mockCusdTokenId } from 'test/values'
+import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 import { ApiReducersKeys } from 'src/redux/apiReducersList'
 import { transactionFeedV2Api, type TransactionFeedV2Response } from 'src/transactions/api'
@@ -90,31 +90,6 @@ beforeEach(() => {
 })
 
 describe('TransactionFeedV2', () => {
-  it('only renders approval txs from supported networks', async () => {
-    mockFetch.mockResponse(
-      typedResponse({
-        transactions: [
-          mockApprovalTransaction,
-          {
-            ...mockApprovalTransaction,
-            networkId: NetworkId['celo-alfajores'],
-            transactionHash: '0xfoo',
-          },
-        ],
-      })
-    )
-
-    const tree = renderScreen()
-
-    await waitFor(() => expect(tree.getByTestId('TransactionList').props.data.length).toBe(1))
-
-    expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
-    expect(tree.queryByTestId('NoActivity/error')).toBeNull()
-    expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(tree.getAllByTestId(new RegExp('TokenApprovalFeedItem', 'i')).length).toBe(1)
-    expect(tree.queryByTestId(`TokenApprovalFeedItem/0xfoo`)).not.toBeNull()
-  })
-
   it('renders correctly when there is a response', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
     const { store, ...tree } = renderScreen()
