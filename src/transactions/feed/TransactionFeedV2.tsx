@@ -99,7 +99,7 @@ function sortTransactions(transactions: TokenTransaction[]): TokenTransaction[] 
 function mergeStandByTransactionsInRange(
   transactions: TokenTransaction[],
   standBy: TokenTransaction[]
-) {
+): TokenTransaction[] {
   if (transactions.length === 0) return []
 
   const allowedNetworks = getAllowedNetworksForTransfers()
@@ -177,8 +177,22 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
 export default function TransactionFeedV2() {
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
-  const [endCursor, setEndCursor] = useState(0)
+  const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
   const [paginatedData, setPaginatedData] = useState<PaginatedData>({ [FIRST_PAGE_TIMESTAMP]: [] })
+
+  /**
+   * This hook automatically fetches the pagination data when (and only when) the endCursor changes
+   * (we can safely ignore wallet address change as it's impossible to get changed on the fly).
+   * When components mounts, it fetches data for the first page using FIRST_PAGE_TIMESTAMP for endCursor
+   * (which is ignored in the request only for the first page as it's just an endCursor placeholder).
+   * Once the data is returned – we process it with "selectFromResult" for convenience and return the
+   * data. It gets further processed within the "updatePaginatedData" useEffect.
+   *
+   * Cursor for the next page is the timestamp of the last transaction of the last fetched page.
+   * This hook doesn't refetch data for none of the pages, neither does it do any polling. It's
+   * intention is to only fetch the next page whenever endCursor changes. Polling is handled by
+   * calling the same hook below.
+   */
   const { data, originalArgs, nextCursor, isFetching, error } = useTransactionFeedV2Query(
     { address: address!, endCursor },
     {
@@ -191,7 +205,15 @@ export default function TransactionFeedV2() {
     }
   )
 
-  // Poll the first page
+  /**
+   * This is the same hook as above and it only triggers the fetch request. It's intention is to
+   * only poll the data for the first page of the feed, using the FIRST_PAGE_TIMESTAMP endCursor.
+   * Thanks to how RTK-Query stores the fetched data, we know that using "useTransactionFeedV2Query"
+   * with the same arguments in multiple places will always point to the same data. This means, that
+   * we can trigger fetch request here and once data arrives - the same hook above will re-run the
+   * "selectFromResult" function for FIRST_PAGE_TIMESTAMP endCursor and will trigger the data update
+   * flow for the first page.
+   */
   useTransactionFeedV2Query(
     { address: address!, endCursor: FIRST_PAGE_TIMESTAMP },
     { skip: !address, pollingInterval: POLL_INTERVAL_MS }
@@ -205,24 +227,33 @@ export default function TransactionFeedV2() {
       const transactions = data?.transactions || []
 
       /**
-       * Only update pagination data in the following scenarios:
-       *   - if it's a first page (which is polling every POLL_INTERVAL)
-       *   - if it's a page, that wasn't fetched yet
+       * There are only 2 scenarios when we actually update the paginated data:
+       *
+       * 1. Always update the first page. First page will be polled every "POLL_INTERVAL"
+       *    milliseconds. Whenever new data arrives - replace the existing first page data
+       *    with the new data as it might contain some updated information about the transactions
+       *    that are already present. The first page should not contain an empty array, unless
+       *    wallet doesn't have any transactions at all.
+       *
+       * 2. Data for every page after the first page is only set once. All the pending transactions
+       *    are supposed to arrive in the first page so everything after the first page can be
+       *    considered confirmed (completed/failed). For this reason, there's no point in updating
+       *    the data as its very unlikely to update.
        */
       setPaginatedData((prev) => {
         const isFirstPage = currentCursor === FIRST_PAGE_TIMESTAMP
         const pageDataIsAbsent =
           currentCursor !== FIRST_PAGE_TIMESTAMP && // not the first page
-          currentCursor !== undefined && // it is SOME page
-          prev[currentCursor] === undefined // data for this page wasn't fetched yet
+          currentCursor !== undefined && // it is a page after the first
+          prev[currentCursor] === undefined // data for this page wasn't stored yet
 
         if (isFirstPage || pageDataIsAbsent) {
-          const processedTransactions = mergeStandByTransactionsInRange(
+          const mergedTransactions = mergeStandByTransactionsInRange(
             transactions,
             standByTransactions.confirmed
           )
 
-          return { ...prev, [currentCursor!]: processedTransactions }
+          return { ...prev, [currentCursor!]: mergedTransactions }
         }
 
         return prev
