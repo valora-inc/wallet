@@ -199,11 +199,11 @@ function EarnEnterAmount({ route }: Props) {
 
   const tokenToLocal = useTokenToLocalAmount(
     parsedTokenAmount,
-    isWithdrawal ? inputToken.tokenId : withdrawToken.tokenId
+    isWithdrawal ? withdrawToken.tokenId : inputToken.tokenId
   )
   const localToToken = useLocalToTokenAmount(
     parsedLocalAmount,
-    isWithdrawal ? inputToken.tokenId : withdrawToken.tokenId
+    isWithdrawal ? withdrawToken.tokenId : inputToken.tokenId
   )
 
   const { tokenAmount } = useMemo(() => {
