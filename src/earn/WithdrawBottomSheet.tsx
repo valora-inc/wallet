@@ -97,7 +97,7 @@ function ExitAction({
 
   const action = {
     name: WithdrawActionName.Exit,
-    title: t('earnFlow.poolInfoScreen.withdrawDescription.exit'),
+    title: t('earnFlow.poolInfoScreen.withdrawBottomSheet.exit'),
     details,
     iconComponent: Exit,
     onPress: () => {

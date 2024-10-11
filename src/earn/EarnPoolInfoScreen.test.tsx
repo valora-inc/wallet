@@ -794,7 +794,7 @@ describe('EarnPoolInfoScreen', () => {
       getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.exitWithEarningsDescription')
     ).toBeTruthy()
   })
-  it('shows correct copy when ClaimType is Earnings', () => {
+  it('shows correct copy when ClaimType is Rewards', () => {
     jest.mocked(getFeatureGate).mockImplementation(
       (gate) =>
         //       gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
