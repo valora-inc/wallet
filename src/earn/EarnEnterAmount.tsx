@@ -357,7 +357,7 @@ function EarnEnterAmount({ route }: Props) {
         ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
         : tokenAmount.toString(),
     })
-
+    
     if (isWithdrawal) {
       navigate(Screens.EarnConfirmationScreen, {
         pool,
