@@ -58,7 +58,7 @@ function TokenDisplay({
   errorFallback = '-',
 }: Props) {
   const tokenInfo = useTokenInfo(tokenId)
-  const tokenDisplayOverrideInfo = useTokenInfo(tokenSymbolOverrideId)
+  const tokenSymbolOverrideInfo = useTokenInfo(tokenSymbolOverrideId)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const showError = showLocalAmount
@@ -92,7 +92,7 @@ function TokenDisplay({
             : formatValueToDisplay(amountToShow.absoluteValue())}
           {!showLocalAmount &&
             showSymbol &&
-            ` ${tokenSymbolOverrideId ? tokenDisplayOverrideInfo?.symbol : (tokenInfo?.symbol ?? '')}`}
+            ` ${tokenSymbolOverrideId ? tokenSymbolOverrideInfo?.symbol : (tokenInfo?.symbol ?? '')}`}
         </>
       )}
     </Text>
