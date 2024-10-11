@@ -1328,6 +1328,9 @@ describe('SwapScreen', () => {
           status: 'started',
         },
       },
+
+      // as per test/utils.ts, line 105
+      transactionFeedV2Api: undefined,
     })
 
     update(
@@ -1373,6 +1376,9 @@ describe('SwapScreen', () => {
           status: 'error',
         },
       },
+
+      // as per test/utils.ts, line 105
+      transactionFeedV2Api: undefined,
     })
 
     update(

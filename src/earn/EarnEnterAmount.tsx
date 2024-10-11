@@ -112,6 +112,9 @@ function EarnEnterAmount({ route }: Props) {
 
   const [inputToken, setInputToken] = useState<TokenBalance>(() => availableFromTokens[0])
   const [withdrawToken, _setWithdrawToken] = useState<TokenBalance>(() => withdrawTokens[0])
+  const [transactionToken, _setTransactionToken] = useState<TokenBalance>(() =>
+    isWithdrawal ? withdrawToken : inputToken
+  )
 
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -197,14 +200,8 @@ function EarnEnterAmount({ route }: Props) {
     [localAmountInput]
   )
 
-  const tokenToLocal = useTokenToLocalAmount(
-    parsedTokenAmount,
-    isWithdrawal ? inputToken.tokenId : withdrawToken.tokenId
-  )
-  const localToToken = useLocalToTokenAmount(
-    parsedLocalAmount,
-    isWithdrawal ? inputToken.tokenId : withdrawToken.tokenId
-  )
+  const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, transactionToken.tokenId)
+  const localToToken = useLocalToTokenAmount(parsedLocalAmount, transactionToken.tokenId)
 
   const { tokenAmount } = useMemo(() => {
     if (enteredIn === 'token') {
@@ -231,13 +228,18 @@ function EarnEnterAmount({ route }: Props) {
         localAmount: parsedLocalAmount,
       }
     }
-  }, [tokenAmountInput, localAmountInput, enteredIn, inputToken, mode, withdrawToken])
+  }, [
+    tokenAmountInput,
+    localAmountInput,
+    enteredIn,
+    inputToken,
+    mode,
+    withdrawToken,
+    transactionToken,
+  ])
 
   const feeCurrencies = useSelector((state) =>
-    feeCurrenciesSelector(
-      state,
-      mode === 'withdraw' ? withdrawToken.networkId : inputToken.networkId
-    )
+    feeCurrenciesSelector(state, transactionToken.networkId)
   )
 
   useEffect(() => {
@@ -246,27 +248,22 @@ function EarnEnterAmount({ route }: Props) {
     if (
       !tokenAmount ||
       tokenAmount.isLessThanOrEqualTo(0) ||
-      tokenAmount.isGreaterThan(isWithdrawal ? withdrawToken.balance : inputToken.balance)
+      tokenAmount.isGreaterThan(transactionToken.balance)
     ) {
       return
     }
     const debouncedRefreshTransactions = setTimeout(() => {
-      return handleRefreshPreparedTransactions(
-        tokenAmount,
-        isWithdrawal ? withdrawToken : inputToken,
-        feeCurrencies
-      )
+      return handleRefreshPreparedTransactions(tokenAmount, transactionToken, feeCurrencies)
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [tokenAmount, inputToken, mode, withdrawToken, feeCurrencies])
+  }, [tokenAmount, inputToken, mode, withdrawToken, transactionToken, feeCurrencies])
 
   const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
-  const isAmountLessThanBalance =
-    mode === 'withdraw'
-      ? tokenAmount && tokenAmount.lte(pool.balance)
-      : tokenAmount && tokenAmount.lte(inputToken.balance)
+  const isAmountLessThanBalance = isWithdrawal
+    ? tokenAmount && tokenAmount.lte(pool.balance)
+    : tokenAmount && tokenAmount.lte(inputToken.balance)
   const showNotEnoughBalanceForGasWarning =
     isAmountLessThanBalance &&
     prepareTransactionsResult &&
@@ -279,7 +276,7 @@ function EarnEnterAmount({ route }: Props) {
 
   const disabled =
     // Should disable if the user enters 0, has enough balance but the transaction is not possible, or does not have enough balance
-    !!tokenAmount?.isZero() || (!isWithdrawal && !transactionIsPossible)
+    !!tokenAmount?.isZero() || !transactionIsPossible
 
   const onTokenAmountInputChange = (value: string) => {
     setMaxPressed(false)
@@ -361,7 +358,7 @@ function EarnEnterAmount({ route }: Props) {
         : tokenAmount.toString(),
     })
 
-    if (mode === 'withdraw') {
+    if (isWithdrawal) {
       navigate(Screens.EarnConfirmationScreen, {
         pool,
         mode,
@@ -428,7 +425,7 @@ function EarnEnterAmount({ route }: Props) {
                 testID="EarnEnterAmount/LocalAmountInput"
                 editable={!!inputToken.priceUsd}
               />
-              {(isWithdrawal ? !withdrawToken.balance.isZero() : !inputToken.balance.isZero()) && (
+              {!transactionToken.balance.isZero() && (
                 <Touchable
                   borderRadius={MAX_BORDER_RADIUS}
                   onPress={onMaxAmountPress}
