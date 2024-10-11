@@ -3,15 +3,11 @@ import BigNumber from 'bignumber.js'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnDepositTxsReceiptProperties } from 'src/analytics/Properties'
-import { fetchAavePoolInfo } from 'src/earn/poolInfo'
 import {
   depositCancel,
   depositError,
   depositStart,
   depositSuccess,
-  fetchPoolInfo,
-  fetchPoolInfoError,
-  fetchPoolInfoSuccess,
   withdrawCancel,
   withdrawError,
   withdrawStart,
@@ -42,9 +38,9 @@ import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
-import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { all, call, put, select, takeLeading } from 'typed-redux-saga'
-import { decodeFunctionData, erc20Abi, isAddress } from 'viem'
+import { decodeFunctionData, erc20Abi } from 'viem'
 
 const TAG = 'earn/saga'
 
@@ -464,34 +460,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
   }
 }
 
-export function* fetchPoolInfoSaga() {
-  try {
-    const depositTokenId = networkConfig.arbUsdcTokenId
-    const depositToken = yield* call(getTokenInfo, depositTokenId)
-
-    if (!depositToken || !depositToken.address) {
-      throw new Error(`Token with id ${depositTokenId} not found`)
-    }
-
-    if (!isAddress(depositToken.address)) {
-      throw new Error(`Token with id ${depositTokenId} does not contain a valid address`)
-    }
-
-    const poolInfo = yield* call(fetchAavePoolInfo, {
-      assetAddress: depositToken.address,
-      contractAddress: networkConfig.arbAavePoolV3ContractAddress,
-      network: networkIdToNetwork[depositToken.networkId],
-    })
-
-    yield* put(fetchPoolInfoSuccess(poolInfo))
-  } catch (error) {
-    Logger.error(`${TAG}/fetchPoolInfoSaga`, 'Failed to fetch pool info', error)
-    yield* put(fetchPoolInfoError())
-  }
-}
-
 export function* earnSaga() {
   yield* takeLeading(depositStart.type, safely(depositSubmitSaga))
   yield* takeLeading(withdrawStart.type, safely(withdrawSubmitSaga))
-  yield* takeLeading(fetchPoolInfo.type, safely(fetchPoolInfoSaga))
 }

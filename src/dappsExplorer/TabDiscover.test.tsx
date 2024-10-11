@@ -1,20 +1,26 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { DappExplorerEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { DappExplorerEvents } from 'src/analytics/Events'
 import { dappSelected, fetchDappsList } from 'src/dapps/slice'
 import { DappCategory, DappSection } from 'src/dapps/types'
 import TabDiscover from 'src/dappsExplorer/TabDiscover'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockAaveArbUsdcAddress, mockDappListWithCategoryNames, mockUSDCAddress } from 'test/values'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import {
+  mockAaveArbUsdcAddress,
+  mockAaveArbUsdcTokenId,
+  mockDappListWithCategoryNames,
+  mockEarnPositions,
+  mockUSDCAddress,
+} from 'test/values'
 
 jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/statsig', () => ({
@@ -345,11 +351,7 @@ describe('TabDiscover', () => {
       expect(queryByTestId('EarnActivePool')).toBeFalsy()
     })
 
-    it('displays earn cta if feature gate is true and balance is zero', () => {
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
-
+    it('displays EarnEntrypoint if balance is zero', () => {
       const store = createMockStore({
         dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
         tokens: {
@@ -365,37 +367,9 @@ describe('TabDiscover', () => {
             },
           },
         },
-      })
-
-      const { getByTestId, queryByTestId } = render(
-        <Provider store={store}>
-          <MockedNavigator component={TabDiscover} />
-        </Provider>
-      )
-
-      expect(getByTestId('EarnCta')).toBeTruthy()
-      expect(queryByTestId('EarnActivePool')).toBeFalsy()
-    })
-
-    it('displays earn active pool if feature gate is true and balance is not zero', () => {
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_STABLECOIN_EARN)
-
-      const store = createMockStore({
-        dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
-        tokens: {
-          tokenBalances: {
-            [networkConfig.aaveArbUsdcTokenId]: {
-              networkId: NetworkId['arbitrum-sepolia'],
-              address: mockAaveArbUsdcAddress,
-              tokenId: networkConfig.aaveArbUsdcTokenId,
-              symbol: 'aArbSepUSDC',
-              priceUsd: '1',
-              balance: '10',
-              priceFetchedAt: Date.now(),
-            },
-          },
+        positions: {
+          positions: [mockEarnPositions[0]],
+          earnPositionIds: ['arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216'],
         },
       })
 
@@ -405,8 +379,45 @@ describe('TabDiscover', () => {
         </Provider>
       )
 
-      expect(queryByTestId('EarnCta')).toBeFalsy()
-      expect(getByTestId('EarnActivePool')).toBeTruthy()
+      expect(getByTestId('EarnEntrypoint')).toBeTruthy()
+      expect(queryByTestId('EarnActivePools')).toBeFalsy()
+    })
+
+    it('displays earn active pool if balance is not zero', () => {
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation(
+          (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_POSITIONS
+        )
+      const store = createMockStore({
+        dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
+        tokens: {
+          tokenBalances: {
+            [mockAaveArbUsdcTokenId]: {
+              networkId: NetworkId['arbitrum-sepolia'],
+              address: mockAaveArbUsdcAddress,
+              tokenId: mockAaveArbUsdcTokenId,
+              symbol: 'aArbSepUSDC',
+              priceUsd: '1',
+              balance: '10',
+              priceFetchedAt: Date.now(),
+            },
+          },
+        },
+        positions: {
+          positions: [{ ...mockEarnPositions[0], balance: '10' }],
+          earnPositionIds: ['arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216'],
+        },
+      })
+
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={TabDiscover} />
+        </Provider>
+      )
+
+      expect(queryByTestId('EarnEntrypoint')).toBeFalsy()
+      expect(getByTestId('EarnActivePools')).toBeTruthy()
     })
   })
 })

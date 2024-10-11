@@ -59,7 +59,6 @@ import {
 } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import networkConfig from 'src/web3/networkConfig'
 import { Address, privateKeyToAccount } from 'viem/accounts'
 
 export const nullAddress = '0x0'
@@ -1492,6 +1491,7 @@ export const mockPositions: Position[] = [
       title: 'MOO / CELO',
       description: 'Pool',
       imageUrl: '',
+      manageUrl: 'mock-position.com',
     },
     tokens: [
       {
@@ -2056,7 +2056,7 @@ export const mockEarnDepositTransaction: EarnDeposit = {
   inAmount: {
     localAmount: undefined,
     tokenAddress: mockAaveArbUsdcAddress,
-    tokenId: networkConfig.aaveArbUsdcTokenId,
+    tokenId: mockAaveArbUsdcTokenId,
     value: '10.01',
   },
   outAmount: {
@@ -2091,7 +2091,7 @@ export const mockEarnSwapDeposit: EarnSwapDeposit = {
     inAmount: {
       localAmount: undefined,
       tokenAddress: mockAaveArbUsdcAddress,
-      tokenId: networkConfig.aaveArbUsdcTokenId,
+      tokenId: mockAaveArbUsdcTokenId,
       value: '10.01',
     },
     outAmount: {
@@ -2146,7 +2146,7 @@ export const mockEarnWithdrawTransaction: EarnWithdraw = {
   outAmount: {
     localAmount: undefined,
     tokenAddress: mockAaveArbUsdcAddress,
-    tokenId: networkConfig.aaveArbUsdcTokenId,
+    tokenId: mockAaveArbUsdcTokenId,
     value: '0.986614',
   },
   block: '211276583',

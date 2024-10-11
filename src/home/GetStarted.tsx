@@ -1,76 +1,33 @@
-import BigNumber from 'bignumber.js'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import TokenIcon, { IconSize } from 'src/components/TokenIcon'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import Touchable from 'src/components/Touchable'
-import { poolInfoSelector } from 'src/earn/selectors'
-import { fetchPoolInfo } from 'src/earn/slice'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import CircledIcon from 'src/icons/CircledIcon'
 import EarnCoins from 'src/icons/EarnCoins'
 import ExploreTokens from 'src/icons/ExploreTokens'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo } from 'src/tokens/hooks'
-import networkConfig from 'src/web3/networkConfig'
 
 function EarnItem() {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const poolInfo = useSelector(poolInfoSelector)
-  const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
 
-  useEffect(() => {
-    if (!showMultiplePools) {
-      dispatch(fetchPoolInfo())
-    }
-  }, [])
-
-  const earnToken = useTokenInfo(networkConfig.arbUsdcTokenId)
-
-  const apyDisplay = poolInfo?.apy ? new BigNumber(poolInfo.apy).multipliedBy(100).toFixed(2) : '--'
-
-  if (showMultiplePools) {
-    return (
-      <Item
-        icon={
-          <CircledIcon radius={32} backgroundColor={colors.successLight}>
-            <EarnCoins color={colors.successDark} />
-          </CircledIcon>
-        }
-        title={t('earnFlow.entrypoint.title')}
-        body={t('earnFlow.entrypoint.description')}
-      />
-    )
-  }
-
-  if (earnToken) {
-    return (
-      <Item
-        icon={
-          <CircledIcon radius={32} backgroundColor={colors.gray1}>
-            <TokenIcon token={earnToken} size={IconSize.SMALL} />
-          </CircledIcon>
-        }
-        title={t('earnFlow.ctaV1_86.subtitle', { symbol: earnToken.symbol })}
-        body={t('earnFlow.ctaV1_86.description', {
-          apy: apyDisplay,
-          symbol: earnToken.symbol,
-        })}
-      />
-    )
-  }
-
-  return null
+  return (
+    <Item
+      icon={
+        <CircledIcon radius={32} backgroundColor={colors.successLight}>
+          <EarnCoins color={colors.successDark} />
+        </CircledIcon>
+      }
+      title={t('earnFlow.entrypoint.title')}
+      body={t('earnFlow.entrypoint.description')}
+    />
+  )
 }
 
 export default function GetStarted() {

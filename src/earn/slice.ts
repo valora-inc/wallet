@@ -46,16 +46,6 @@ export const slice = createSlice({
     withdrawCancel: (state) => {
       state.withdrawStatus = 'idle'
     },
-    fetchPoolInfo: (state) => {
-      state.poolInfoFetchStatus = 'loading'
-    },
-    fetchPoolInfoSuccess: (state, action: PayloadAction<PoolInfo>) => {
-      state.poolInfoFetchStatus = 'success'
-      state.poolInfo = action.payload
-    },
-    fetchPoolInfoError: (state) => {
-      state.poolInfoFetchStatus = 'error'
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -78,9 +68,6 @@ export const {
   withdrawSuccess,
   withdrawError,
   withdrawCancel,
-  fetchPoolInfo,
-  fetchPoolInfoSuccess,
-  fetchPoolInfoError,
 } = slice.actions
 
 export default slice.reducer
