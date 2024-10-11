@@ -162,6 +162,16 @@ export const reducer = (
         },
         standbyTransactions: updatedStandbyTransactions,
       }
+
+    case Actions.REMOVE_STANDBY_TRANSACTIONS:
+      return {
+        ...state,
+        standbyTransactions: state.standbyTransactions.filter((tx) => {
+          if (!tx.transactionHash) return true
+          return !action.transactionHashesToRemove.includes(tx.transactionHash)
+        }),
+      }
+
     default:
       return state
   }
