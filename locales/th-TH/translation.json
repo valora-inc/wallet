@@ -2503,12 +2503,12 @@
       }
     },
     "cta": {
-      "title": "Earn on your crypto",
+      "title": "สร้างรายได้จากคริปโต",
       "subtitle": "ฝากวันนี้แล้วรับผลตอบแทน",
       "description": "ดูรายได้ที่คุณสามารถรับเมื่อเข้าร่วมพูลการให้ยืม"
     },
     "earnInfo": {
-      "title": "Earn on your\ncrypto",
+      "title": "สร้างรายได้จากคริปโต",
       "details": {
         "earn": {
           "titleGasSubsidy": "สร้างรายได้สูงสุดโดยไม่เสียค่าก๊าซ*",
@@ -2544,9 +2544,9 @@
       "description": "สร้างรายได้ประมาณ {{apy}}% ต่อปีเมื่อเพิ่ม {{symbol}} ลงในพูล"
     },
     "entrypoint": {
-      "title": "Earn on your crypto",
+      "title": "สร้างรายได้จากคริปโต",
       "subtitle": "ฝากเงินและสร้างรายได้",
-      "description": "Earn on your crypto assets when you lend through a liquidity pool"
+      "description": "สร้างรายได้จากสินทรัพย์คริปโตเมื่อให้ยืมผ่าน Liquidity Pool"
     },
     "enterAmount": {
       "title": "คุณต้องการฝากจำนวนเท่าไร",
@@ -2606,7 +2606,7 @@
       "network": "เครือข่าย",
       "footer": "เมื่อฝากคริปโตในพูล Aave คุณยอมรับความเสี่ยงที่มาพร้อมการใช้ Aave <0>ข้อกำหนดและเงื่อนไข</0>",
       "footerV1_93": "เมื่อฝากคริปโตในพูล {{providerName}} คุณยอมรับความเสี่ยงที่มาพร้อมการใช้ {{providerName}} <0>ข้อกำหนดและเงื่อนไข</0>",
-      "noTermsUrlFooter": "You are responsible for your actions in {{appName}}. {{appName}} disclaims all responsibility for your assets or interactions with {{providerName}}. You can review {{providerName}}'s documents <0>here</0> and our Terms & Conditions <1>here</1>.",
+      "noTermsUrlFooter": "คุณต้องรับผิดชอบในการกระทำของคุณใน {{appName}} โดย {{appName}} ขอปฏิเสธความรับผิดชอบใดๆ ต่อสินทรัพย์หรือปฎิสัมพันธ์ระหว่างคุณกับ {{providerName}} คุณสามารถตรวจสอบเอกสารของ {{providerName}} ได้<0>ที่นี่</0> และตรวจสอบข้อกำหนดและเงื่อนไขของเราได้<1>ที่นี่</1>",
       "primaryCta": "เสร็จสมบูรณ์",
       "secondaryCta": "ยกเลิก",
       "yieldRate": "อัตราผลตอบแทน (โดยประมาณ)",
@@ -2664,7 +2664,7 @@
         "chooseDescription": "การตัดสินใจทางการเงินใดๆ ก็ตามถือเป็นทางเลือกส่วนบุคคล เราได้รวบรวมพูลบางส่วนจากโปรโตคอลต่างๆ ทว่าแต่ละพูลจะมีทั้งข้อดีและความเสี่ยง เราพยายามอย่างเต็มที่เพื่อมอบข้อมูลที่เป็นประโยชน์สำหรับแต่ละพูล แต่แนะนำอย่างยิ่งให้ค้นคว้าหาข้อมูลเพิ่มเติมหากคุณไม่แน่ใจ"
       },
       "noPoolsTitle": "คุณยังไม่ได้เข้าร่วมพูลใดเลย",
-      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your crypto.",
+      "noPoolsDescription": "มาดูกันว่ามีพูลอะไรให้เข้าร่วมบ้าง เลือกพูลที่ตรงกับเป้าหมายของคุณและใช้คริปโตของคุณให้เกิดประโยชน์สูงสุด",
       "errorTitle": "ไม่สามารถโหลดพูลได้",
       "errorDescription": "อุ้ย เกิดข้อผิดพลาดขณะพยายามโหลดข้อมูลพูล โปรดลองอีกครั้ง",
       "errorButton": "ลองอีกครั้ง"
