@@ -3533,6 +3533,14 @@ export const v232Schema = {
   app: _.omit(v231Schema.app, 'numberVerified'),
 }
 
+export const v233Schema = {
+  ...v232Schema,
+  _persist: {
+    ...v232Schema._persist,
+    version: 233,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v232Schema as Partial<RootState>
+  return v233Schema as Partial<RootState>
 }
