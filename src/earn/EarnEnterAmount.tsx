@@ -111,9 +111,8 @@ function EarnEnterAmount({ route }: Props) {
   }, [mode])
 
   const [inputToken, setInputToken] = useState<TokenBalance>(() => availableFromTokens[0])
-  const [withdrawToken, _setWithdrawToken] = useState<TokenBalance>(() => withdrawTokens[0])
   const [transactionToken, _setTransactionToken] = useState<TokenBalance>(() =>
-    isWithdrawal ? withdrawToken : inputToken
+    isWithdrawal ? withdrawTokens[0] : inputToken
   )
 
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -228,15 +227,7 @@ function EarnEnterAmount({ route }: Props) {
         localAmount: parsedLocalAmount,
       }
     }
-  }, [
-    tokenAmountInput,
-    localAmountInput,
-    enteredIn,
-    inputToken,
-    mode,
-    withdrawToken,
-    transactionToken,
-  ])
+  }, [tokenAmountInput, localAmountInput, enteredIn, inputToken, mode, transactionToken])
 
   const feeCurrencies = useSelector((state) =>
     feeCurrenciesSelector(state, transactionToken.networkId)
@@ -256,7 +247,7 @@ function EarnEnterAmount({ route }: Props) {
       return handleRefreshPreparedTransactions(tokenAmount, transactionToken, feeCurrencies)
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [tokenAmount, inputToken, mode, withdrawToken, transactionToken, feeCurrencies])
+  }, [tokenAmount, inputToken, mode, transactionToken, feeCurrencies])
 
   const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
@@ -584,7 +575,7 @@ function TransactionWithdrawDetails({
         />
         <View style={styles.txDetailsValue}>
           <TokenDisplay
-            tokenId={token.tokenId}
+            tokenId={pool.dataProps.withdrawTokenId}
             testID="EarnEnterAmount/Withdraw/Fiat"
             amount={pool.balance}
             showLocalAmount={true}
@@ -594,7 +585,8 @@ function TransactionWithdrawDetails({
             {'('}
             <TokenDisplay
               testID="EarnEnterAmount/Withdraw/Crypto"
-              tokenId={token.tokenId}
+              tokenId={pool.dataProps.withdrawTokenId}
+              tokenSymbolOverrideId={token.tokenId}
               amount={pool.balance}
               showLocalAmount={false}
             />
