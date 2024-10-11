@@ -216,7 +216,7 @@ export const confirmedStandbyTransactionsSelector = createSelector(
   }
 )
 
-export const transactionsByNetworkIdSelector = (state: RootState) =>
+const transactionsByNetworkIdSelector = (state: RootState) =>
   state.transactions.transactionsByNetworkId
 
 export const transactionsSelector = createSelector(

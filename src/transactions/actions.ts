@@ -60,7 +60,7 @@ export interface UpdateTransactionsAction {
   networkId: NetworkId
 }
 
-export interface RemoveStandByTransactionsAction {
+interface RemoveStandByTransactionsAction {
   type: Actions.REMOVE_STANDBY_TRANSACTIONS
   transactionHashesToRemove: string[]
 }
