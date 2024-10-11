@@ -2505,12 +2505,12 @@
       }
     },
     "cta": {
-      "title": "Kripto paranızdan kazanın",
+      "title": "Kripto paranızdan kazanç sağlayın",
       "subtitle": "Bugün para yatırın ve getiri kazanın",
       "description": "Bir kredi havuzu sağlarken ne kadar kazanabileceğinizi görün"
     },
     "earnInfo": {
-      "title": "\nkripto paranızdan kazanın",
+      "title": "Kripto paranızdan\nkazanç sağlayın",
       "details": {
         "earn": {
           "titleGasSubsidy": "Gas Ücretleri Olmadan Kazancınızı En Üst Düzeye Çıkarın*",
@@ -2546,9 +2546,9 @@
       "description": "Bir havuza {{symbol}} ekleyerek yılda yaklaşık %{{apy}} kazanın"
     },
     "entrypoint": {
-      "title": "Kripto paranızdan kazanın",
+      "title": "Kripto paranızdan kazanç sağlayın",
       "subtitle": "Yatırın ve kazanın",
-      "description": "Bir likidite havuzu aracılığıyla borç verdiğinizde kripto varlıklarınızdan kazanın"
+      "description": "Bir likidite havuzu aracılığıyla borç vererek kripto varlıklarınızdan kazanç sağlayın"
     },
     "enterAmount": {
       "title": "Ne kadar yatırmak istersiniz?",
@@ -2608,7 +2608,7 @@
       "network": "Ağ",
       "footer": "Bir Aave havuzuna kripto yatırarak, Aave kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
       "footerV1_93": "Bir {{providerName}} havuzuna kripto yatırarak {{providerName}} kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
-      "noTermsUrlFooter": "{{appName}}adresindeki eylemlerinizden siz sorumlusunuz. {{appName}} , varlıklarınız veya {{providerName}}ile etkileşimleriniz için tüm sorumluluğu reddeder. {{providerName}}'un belgelerini <0>buradan</0> ve Hüküm ve Koşullarımızı <1>buradan</1> inceleyebilirsiniz.",
+      "noTermsUrlFooter": "{{appName}} uygulamasındaki eylemlerinizden siz sorumlusunuz. {{appName}}, varlıklarınız veya {{providerName}} ile etkileşimlerinizden doğabilecek tüm sorumluluğu reddeder. {{providerName}} sağlayıcısına ait belgeleri <0>buradan</0> ve Hüküm ve Koşullarımızı ise <1>buradan</1> inceleyebilirsiniz.",
       "primaryCta": "Tamamlandı",
       "secondaryCta": "İptal",
       "yieldRate": "Verim Oranı (tahmini)",
@@ -2666,7 +2666,7 @@
         "chooseDescription": "Her türlü finansal karar kişisel bir seçimdir. Farklı protokollerdeki bazı havuzları bir araya getirdik, ancak her havuzun avantajları ve riskleri vardır. Her havuza ilişkin bazı yararlı bilgiler sağlamak için elimizden geleni yapıyoruz ancak emin değilseniz ek araştırma yapmak her zaman en iyisidir."
       },
       "noPoolsTitle": "Henüz hiçbir havuza katılmadınız",
-      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun olanı seçin ve kripto paranızdan en iyi şekilde yararlanın.",
+      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun bir havuz seçin ve kripto paralarınızdan en iyi şekilde yararlanın.",
       "errorTitle": "Havuzlar yüklenemiyor.",
       "errorDescription": "Hay aksi, havuz bilgileri yüklenirken bir şeyler ters gitti. Lütfen tekrar deneyin.",
       "errorButton": "Tekrar deneyin"

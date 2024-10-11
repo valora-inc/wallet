@@ -2546,7 +2546,7 @@
     "entrypoint": {
       "title": "让您的加密货币增值",
       "subtitle": "存入并赚取收益",
-      "description": "通过流动性池出借加密资产，赚取收益"
+      "description": "通过流动性池出借加密货币资产，赚取收益"
     },
     "enterAmount": {
       "title": "您想存入多少钱？",
@@ -2606,7 +2606,7 @@
       "network": "网络",
       "footer": "向 Aave 池存入加密货币，即表示您接受与使用 Aave 相关的风险。<0>条款和条件</0>",
       "footerV1_93": "向 {{providerName}} 池存入加密货币，即表示您接受使用 {{providerName}} 的相关风险。<0>条款和条件</0>",
-      "noTermsUrlFooter": "您要对自己在 {{appName}}上的行为负责。 {{appName}} 不对您的资产或与 {{providerName}}的互动承担任何责任。您可以<0>在此处</0>查看 {{providerName}}的文件，<1>在此处</1>查看我们的条款和条件。",
+      "noTermsUrlFooter": "您要对自己在 {{appName}} 上的行为负责。{{appName}} 不对您的资产或与 {{providerName}} 的互动承担任何责任。您可以在<0>此处</0>查看 {{providerName}} 的文件，在<1>此处</1>查看我们的条款和条件。",
       "primaryCta": "完成",
       "secondaryCta": "取消",
       "yieldRate": "收益率（估计值）",
@@ -2664,7 +2664,7 @@
         "chooseDescription": "任何财务决定都是个人选择。我们汇总了一些不同协议中的资金池，但每个资金池都有好处和风险。我们会尽力提供关于每个资金池的有用信息，如果不确定，最好还是多做一些研究。"
       },
       "noPoolsTitle": "您还没有加入任何池",
-      "noPoolsDescription": "发现可用的资金池，选择一个符合您目标的资金池，充分利用您的加密货币。",
+      "noPoolsDescription": "探索可用的池，选择一个符合您目标的池，充分利用您的加密货币。",
       "errorTitle": "无法加载资金池",
       "errorDescription": "哎呀，在加载资金池信息时出了点问题。请重试。",
       "errorButton": "再试一次"
