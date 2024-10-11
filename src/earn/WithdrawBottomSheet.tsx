@@ -66,7 +66,7 @@ function ClaimAction({
     details:
       claimType === ClaimType.Rewards
         ? t('earnFlow.poolInfoScreen.withdrawBottomSheet.claimRewardsDescription')
-        : t('earnFlow.poolInfoScreen.withdrawBottomSheet.claimRewardsDescription'),
+        : t('earnFlow.poolInfoScreen.withdrawBottomSheet.claimEarningsDescription'),
     iconComponent: Claim,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'claim' })

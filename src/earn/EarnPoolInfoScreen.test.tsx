@@ -7,7 +7,7 @@ import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { EarnPosition } from 'src/positions/types'
+import { ClaimType, EarnPosition } from 'src/positions/types'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
@@ -756,5 +756,107 @@ describe('EarnPoolInfoScreen', () => {
       type: 'exit',
     })
     // TODO (ACT-1389): Check that navigate called with confirmation screen for Claim
+  })
+  it('shows correct copy when ClaimType is Earnings', () => {
+    jest.mocked(getFeatureGate).mockImplementation(
+      (gate) =>
+        //       gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
+        gate === StatsigFeatureGates.SHOW_POSITIONS
+    )
+    const { getByTestId, getByText } = render(
+      <Provider store={getStore()}>
+        <MockedNavigator
+          component={EarnPoolInfoScreen}
+          params={{
+            pool: {
+              ...mockEarnPositions[0],
+              dataProps: {
+                ...mockEarnPositions[0].dataProps,
+                claimType: ClaimType.Earnings,
+              },
+              balance: '100',
+              availableShortcutIds: ['withdraw', 'deposit', 'claim-rewards'],
+            },
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByTestId('WithdrawButton'))
+    expect(getByTestId('Earn/WithdrawBottomSheet')).toBeVisible()
+    expect(
+      getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawDescription')
+    ).toBeTruthy()
+    expect(getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.claimEarnings')).toBeTruthy()
+    expect(
+      getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.claimEarningsDescription')
+    ).toBeTruthy()
+    expect(
+      getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.exitWithEarningsDescription')
+    ).toBeTruthy()
+  })
+  it('shows correct copy when ClaimType is Earnings', () => {
+    jest.mocked(getFeatureGate).mockImplementation(
+      (gate) =>
+        //       gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
+        gate === StatsigFeatureGates.SHOW_POSITIONS
+    )
+    const { getByTestId, getByText } = render(
+      <Provider store={getStore()}>
+        <MockedNavigator
+          component={EarnPoolInfoScreen}
+          params={{
+            pool: {
+              ...mockEarnPositions[0],
+              dataProps: {
+                ...mockEarnPositions[0].dataProps,
+                claimType: ClaimType.Rewards,
+              },
+              balance: '100',
+              availableShortcutIds: ['withdraw', 'deposit', 'claim-rewards'],
+            },
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByTestId('WithdrawButton'))
+    expect(getByTestId('Earn/WithdrawBottomSheet')).toBeVisible()
+    expect(getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.claimRewards')).toBeTruthy()
+    expect(
+      getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.claimRewardsDescription')
+    ).toBeTruthy()
+    expect(
+      getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.exitWithRewardsDescription')
+    ).toBeTruthy()
+  })
+  it('shows correct copy when withdrawalIncludesClaim is true', () => {
+    jest.mocked(getFeatureGate).mockImplementation(
+      (gate) =>
+        //       gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
+        gate === StatsigFeatureGates.SHOW_POSITIONS
+    )
+    const { getByTestId, getByText } = render(
+      <Provider store={getStore()}>
+        <MockedNavigator
+          component={EarnPoolInfoScreen}
+          params={{
+            pool: {
+              ...mockEarnPositions[0],
+              dataProps: {
+                ...mockEarnPositions[0].dataProps,
+                withdrawalIncludesClaim: true,
+              },
+              balance: '100',
+              availableShortcutIds: ['withdraw', 'deposit', 'claim-rewards'],
+            },
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByTestId('WithdrawButton'))
+    expect(getByTestId('Earn/WithdrawBottomSheet')).toBeVisible()
+    expect(getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaim')).toBeTruthy()
+    expect(
+      getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaimDescription')
+    ).toBeTruthy()
   })
 })
