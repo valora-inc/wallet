@@ -32,7 +32,7 @@ export function ActionCard({ action }: { action: BeforeDepositAction | WithdrawA
       key={action.name}
       borderRadius={20}
       onPress={action.onPress}
-      testID={`Earn/BeforeDepositBottomSheet/${action.name}`}
+      testID={`Earn/ActionCard/${action.name}`}
     >
       <>
         <action.iconComponent color={Colors.black} />

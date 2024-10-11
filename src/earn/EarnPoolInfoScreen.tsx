@@ -25,6 +25,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
+import { positionsWithBalanceSelector } from 'src/positions/selectors'
 import type { EarningItem } from 'src/positions/types'
 import { EarnPosition } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -419,9 +420,11 @@ function LearnMoreTouchable({
 function ActionButtons({
   earnPosition,
   onPressDeposit,
+  onPressWithdraw,
 }: {
   earnPosition: EarnPosition
   onPressDeposit: () => void
+  onPressWithdraw: () => void
 }) {
   const { bottom } = useSafeAreaInsets()
   const insetsStyle = {
@@ -438,16 +441,7 @@ function ActionButtons({
       {withdraw && (
         <Button
           text={t('earnFlow.poolInfoScreen.withdraw')}
-          onPress={() => {
-            AppAnalytics.track(EarnEvents.earn_pool_info_tap_withdraw, {
-              poolId: earnPosition.positionId,
-              providerId: earnPosition.appId,
-              poolAmount: earnPosition.balance,
-              networkId: earnPosition.networkId,
-              depositTokenId: earnPosition.dataProps.depositTokenId,
-            })
-            navigate(Screens.EarnCollectScreen, { pool: earnPosition })
-          }}
+          onPress={onPressWithdraw}
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}
           style={styles.flex}
@@ -493,6 +487,28 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     exchanges,
   } = useDepositEntrypointInfo({ allTokens, pool })
 
+  const rewardsPositions = useSelector(positionsWithBalanceSelector).filter((position) =>
+    pool.dataProps.rewardsPositionIds?.includes(position.positionId)
+  )
+  const hasRewards = useMemo(() => rewardsPositions.length > 0, [rewardsPositions])
+  const canClaim = pool.availableShortcutIds.includes('claim-rewards') && hasRewards
+
+  const onPressWithdraw = () => {
+    AppAnalytics.track(EarnEvents.earn_pool_info_tap_withdraw, {
+      poolId: positionId,
+      providerId: appId,
+      poolAmount: balance,
+      networkId,
+      depositTokenId: dataProps.depositTokenId,
+    })
+    const partialWithdrawalsEnabled = true // TODO (ACT-1385): after Tom's PR getFeatureGate(StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL)
+    if (canClaim || partialWithdrawalsEnabled) {
+      withdrawBottomSheetRef.current?.snapToIndex(0)
+    } else {
+      navigate(Screens.EarnCollectScreen, { pool }) // TODO (ACT-1389): Confirmation screen for Claim & Withdraw
+    }
+  }
+
   const onPressDeposit = () => {
     AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
       poolId: positionId,
@@ -509,9 +525,6 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       beforeDepositBottomSheetRef.current?.snapToIndex(0)
     }
   }
-
-  // TODO: update onPressWithdraw to either open the bottom sheet or navigate if only 1 option
-
   const beforeDepositBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const depositInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tvlInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -617,7 +630,11 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           ) : null}
         </View>
       </Animated.ScrollView>
-      <ActionButtons earnPosition={pool} onPressDeposit={onPressDeposit} />
+      <ActionButtons
+        earnPosition={pool}
+        onPressDeposit={onPressDeposit}
+        onPressWithdraw={onPressWithdraw}
+      />
       <InfoBottomSheet
         infoBottomSheetRef={depositInfoBottomSheetRef}
         titleKey="earnFlow.poolInfoScreen.depositAndEarnings"
@@ -660,7 +677,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         canAdd={canCashIn}
         exchanges={exchanges}
       />
-      <WithdrawBottomSheet forwardedRef={withdrawBottomSheetRef} pool={pool} />
+      <WithdrawBottomSheet forwardedRef={withdrawBottomSheetRef} pool={pool} canClaim={canClaim} />
     </SafeAreaView>
   )
 }

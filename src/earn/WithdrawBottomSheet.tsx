@@ -1,7 +1,6 @@
-import React, { RefObject, useMemo } from 'react'
+import React, { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
@@ -12,7 +11,6 @@ import Exit from 'src/icons/Exit'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { positionsWithBalanceSelector } from 'src/positions/selectors'
 import { ClaimType, EarnPosition } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -42,7 +40,7 @@ function PartialWithdrawAction({
     iconComponent: QuickActionsWithdraw,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'partialWithdraw' })
-      navigate(Screens.EarnEnterAmount, { pool }) //, mode: 'withdraw' })  TODO: Add this in after Tom's PR merges
+      navigate(Screens.EarnEnterAmount, { pool }) //, mode: 'withdraw' })  TODO (ACT-1385): Add this in after Tom's PR merges
       forwardedRef.current?.close()
     },
   }
@@ -114,22 +112,14 @@ function ExitAction({
 export default function WithdrawBottomSheet({
   forwardedRef,
   pool,
+  canClaim,
 }: {
   forwardedRef: RefObject<BottomSheetModalRefType>
   pool: EarnPosition
+  canClaim: boolean
 }) {
   const { t } = useTranslation()
-
-  const canClaim = pool.availableShortcutIds.includes('claim-rewards')
-  const canPartialWithdraw = true // getFeatureGate(StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL)
-
-  const rewardsPositions = useSelector(positionsWithBalanceSelector).filter((position) =>
-    pool.dataProps.rewardsPositionIds?.includes(position.positionId)
-  )
-  const hasRewards = useMemo(
-    () => rewardsPositions.flatMap((position) => position.tokens).length > 0,
-    [rewardsPositions]
-  )
+  const canPartialWithdraw = true // TODO (ACT-1385): after Tom's PR getFeatureGate(StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL)
 
   return (
     <BottomSheet
@@ -140,10 +130,10 @@ export default function WithdrawBottomSheet({
     >
       <View style={styles.actionsContainer}>
         {canPartialWithdraw && (
-          <PartialWithdrawAction forwardedRef={forwardedRef} pool={pool} hasRewards={hasRewards} />
+          <PartialWithdrawAction forwardedRef={forwardedRef} pool={pool} hasRewards={canClaim} />
         )}
         {canClaim && <ClaimAction forwardedRef={forwardedRef} pool={pool} />}
-        <ExitAction forwardedRef={forwardedRef} pool={pool} hasRewards={hasRewards} />
+        <ExitAction forwardedRef={forwardedRef} pool={pool} hasRewards={canClaim} />
       </View>
     </BottomSheet>
   )
