@@ -1916,4 +1916,5 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'numberVerified'),
   }),
+  233: (state: any) => state,
 }
