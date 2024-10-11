@@ -299,11 +299,17 @@ describe('TransactionFeedV2', () => {
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(7)
   })
 
-  // it('cleanup is triggered for confirmed stand by transactions', async () => {
-  //   mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
-  //   const { store, ...tree } = renderScreen({
-  //     transactions: { standbyTransactions: [mockTransaction()] },
-  //   })
+  it('cleanup is triggered for confirmed stand by transactions', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
+    const { store } = renderScreen({
+      transactions: { standbyTransactions: [mockTransaction()] },
+    })
 
-  // })
+    /**
+     * For now, there's no way to check for dispatched actions via getActions as we usually do
+     * as the current setupApiStore doesn't return it. But at least we can make sure that the
+     * transaction gets removed.
+     */
+    await waitFor(() => expect(store.getState().transactions.standbyTransactions.length).toBe(0))
+  })
 })
