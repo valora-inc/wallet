@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { PrefixedTxReceiptProperties, TxReceiptProperties } from 'src/analytics/Properties'
 import i18n from 'src/i18n'
 import { TokenBalances } from 'src/tokens/slice'
-import { NetworkId, TrackedTx } from 'src/transactions/types'
+import { NetworkId, StandbyTransaction, TokenTransaction, TrackedTx } from 'src/transactions/types'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 import {
   getEstimatedGasFee,
@@ -119,4 +119,13 @@ export function getPrefixedTxAnalyticsProperties<Prefix extends string>(
     prefixedProperties[`${prefix}${key[0].toUpperCase()}${key.slice(1)}`] = value
   }
   return prefixedProperties as Partial<PrefixedTxReceiptProperties<Prefix>>
+}
+
+export function standByTransactionToTokenTransaction(tx: StandbyTransaction): TokenTransaction {
+  return {
+    fees: [],
+    block: '',
+    transactionHash: '',
+    ...tx, // in case the transaction already has the above (e.g. cross chain swaps), use the real values
+  }
 }

@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from 'src/redux/api'
 import type { TokenTransaction } from 'src/transactions/types'
 
-type TransactionFeedV2Response = {
+export type TransactionFeedV2Response = {
   transactions: TokenTransaction[]
   pageInfo: {
     hasNextPage: boolean
@@ -17,7 +17,13 @@ export const transactionFeedV2Api = createApi({
       TransactionFeedV2Response,
       { address: string; endCursor: number }
     >({
-      query: ({ address, endCursor }) => `/wallet/${address}/transactions?endCursor=${endCursor}`,
+      query: ({ address, endCursor }) => {
+        const cursor = endCursor ? `?endCursor=${endCursor}` : ''
+        return `/wallet/${address}/transactions${cursor}`
+      },
+      keepUnusedDataFor: 60, // 1 min
     }),
   }),
 })
+
+export const { useTransactionFeedV2Query } = transactionFeedV2Api

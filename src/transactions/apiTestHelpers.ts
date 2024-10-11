@@ -5,8 +5,8 @@ import { RootState } from 'src/redux/reducers'
 import { getMockStoreData, RecursivePartial } from 'test/utils'
 
 /**
- * This function is taken from the Redux team. It creates a testable store that is compatible with RTK-Query.
- * It is slightly modified to also include the preloaded state.
+ * This function is taken from the Redux team. It creates a testable store that is compatible
+ * with RTK-Query. It is slightly modified to also include the preloaded state.
  * https://github.com/reduxjs/redux-toolkit/blob/e7540a5594b0d880037f2ff41a83a32c629d3117/packages/toolkit/src/tests/utils/helpers.tsx#L186
  *
  * For more info on why this is needed and how it works - here's an article that answers some of the questions:
@@ -17,7 +17,6 @@ export function setupApiStore<
     reducer: Reducer<any, any>
     reducerPath: string
     middleware: Middleware
-    util: { resetApiState(): any }
   },
   Preloaded extends RecursivePartial<Omit<RootState, ApiReducersKeys>>,
   R extends Record<string, Reducer<any, any>> = Record<never, never>,
@@ -37,12 +36,9 @@ export function setupApiStore<
       },
     })
 
+  type Store = { api: ReturnType<A['reducer']> } & { [K in keyof R]: ReturnType<R[K]> }
   type StoreType = EnhancedStore<
-    {
-      api: ReturnType<A['reducer']>
-    } & {
-      [K in keyof R]: ReturnType<R[K]>
-    },
+    Store,
     UnknownAction,
     ReturnType<typeof getStore> extends EnhancedStore<any, any, infer M> ? M : never
   >
