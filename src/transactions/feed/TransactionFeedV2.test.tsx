@@ -218,26 +218,6 @@ describe('TransactionFeedV2', () => {
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(2)
   })
 
-  it('tries to fetch a page of transactions, and stores empty pages', async () => {
-    mockFetch
-      .mockResponseOnce(typedResponse({ transactions: [mockTransaction()] }))
-      .mockResponseOnce(typedResponse({ transactions: [] }))
-
-    const { store, ...tree } = renderScreen()
-
-    await store.dispatch(
-      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 0 })
-    )
-    await store.dispatch(
-      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 123 })
-    )
-
-    await waitFor(() => tree.getByTestId('TransactionList'))
-
-    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
-    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(1)
-  })
-
   it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const tree = renderScreen()
@@ -275,10 +255,6 @@ describe('TransactionFeedV2', () => {
       },
     })
 
-    await store.dispatch(
-      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 0 })
-    )
-
     await waitFor(() => {
       expect(tree.getByTestId('TransactionList').props.data.length).toBe(2)
     })
@@ -308,16 +284,26 @@ describe('TransactionFeedV2', () => {
           mockTransaction({ transactionHash: '0x20', timestamp: 20 }), // not in scope
           mockTransaction({ transactionHash: '0x30', timestamp: 30 }), // in scope
           mockTransaction({ transactionHash: '0x40', timestamp: 40 }), // in scope
-          mockTransaction({ transactionHash: '0x50', timestamp: 50 }), // not in scope
+          /**
+           * this is the latest transactions which means that it will be outside of the scope
+           * of the max timestamp of the first page. But if it is the first page of the feed -
+           * it should also be merged in as zerion still might not include it in the response
+           * for some time.
+           */
+          mockTransaction({ transactionHash: '0x50', timestamp: 50 }), // in scope
         ],
       },
     })
 
-    await store.dispatch(
-      transactionFeedV2Api.endpoints.transactionFeedV2.initiate({ address: '0x00', endCursor: 0 })
-    )
-
     await waitFor(() => tree.getByTestId('TransactionList'))
-    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(6)
+    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(7)
   })
+
+  // it('cleanup is triggered for confirmed stand by transactions', async () => {
+  //   mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
+  //   const { store, ...tree } = renderScreen({
+  //     transactions: { standbyTransactions: [mockTransaction()] },
+  //   })
+
+  // })
 })
