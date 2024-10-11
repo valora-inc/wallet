@@ -279,7 +279,7 @@ function EarnEnterAmount({ route }: Props) {
 
   const disabled =
     // Should disable if the user enters 0, has enough balance but the transaction is not possible, or does not have enough balance
-    !!tokenAmount?.isZero() || (!isWithdrawal && !transactionIsPossible)
+    !!tokenAmount?.isZero() || !transactionIsPossible
 
   const onTokenAmountInputChange = (value: string) => {
     setMaxPressed(false)
