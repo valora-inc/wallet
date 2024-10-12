@@ -97,7 +97,7 @@
     "@react-navigation/material-top-tabs": "^6.6.14",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
-    "@reduxjs/toolkit": "^2.2.7",
+    "@reduxjs/toolkit": "^2.2.8",
     "@scure/bip39": "^1.4.0",
     "@segment/analytics-react-native": "^2.19.5",
     "@segment/analytics-react-native-plugin-adjust": "^0.7.0",
