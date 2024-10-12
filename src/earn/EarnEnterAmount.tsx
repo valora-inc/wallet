@@ -100,20 +100,18 @@ function EarnEnterAmount({ route }: Props) {
   const isWithdrawal = mode === 'withdraw'
   const { depositTokens, withdrawTokens, eligibleSwappableTokens } = useTokens({ pool })
 
-  const availableFromTokens = useMemo(() => {
+  const availableInputTokens = useMemo(() => {
     switch (mode) {
       case 'deposit':
-      case 'withdraw': // We want to show the deposit token in the dropdown for withdrawal
         return depositTokens
+      case 'withdraw':
+        return withdrawTokens
       case 'swap-deposit':
         return eligibleSwappableTokens
     }
   }, [mode])
 
-  const [inputToken, setInputToken] = useState<TokenBalance>(() => availableFromTokens[0])
-  const [transactionToken, _setTransactionToken] = useState<TokenBalance>(() =>
-    isWithdrawal ? withdrawTokens[0] : inputToken
-  )
+  const [inputToken, setInputToken] = useState<TokenBalance>(() => availableInputTokens[0])
 
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -199,8 +197,8 @@ function EarnEnterAmount({ route }: Props) {
     [localAmountInput]
   )
 
-  const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, transactionToken.tokenId)
-  const localToToken = useLocalToTokenAmount(parsedLocalAmount, transactionToken.tokenId)
+  const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, inputToken.tokenId)
+  const localToToken = useLocalToTokenAmount(parsedLocalAmount, inputToken.tokenId)
 
   const { tokenAmount } = useMemo(() => {
     if (enteredIn === 'token') {
@@ -227,11 +225,9 @@ function EarnEnterAmount({ route }: Props) {
         localAmount: parsedLocalAmount,
       }
     }
-  }, [tokenAmountInput, localAmountInput, enteredIn, inputToken, mode, transactionToken])
+  }, [tokenAmountInput, localAmountInput, enteredIn, inputToken, mode])
 
-  const feeCurrencies = useSelector((state) =>
-    feeCurrenciesSelector(state, transactionToken.networkId)
-  )
+  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, inputToken.networkId))
 
   useEffect(() => {
     clearPreparedTransactions()
@@ -239,15 +235,15 @@ function EarnEnterAmount({ route }: Props) {
     if (
       !tokenAmount ||
       tokenAmount.isLessThanOrEqualTo(0) ||
-      tokenAmount.isGreaterThan(transactionToken.balance)
+      tokenAmount.isGreaterThan(inputToken.balance)
     ) {
       return
     }
     const debouncedRefreshTransactions = setTimeout(() => {
-      return handleRefreshPreparedTransactions(tokenAmount, transactionToken, feeCurrencies)
+      return handleRefreshPreparedTransactions(tokenAmount, inputToken, feeCurrencies)
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [tokenAmount, inputToken, mode, transactionToken, feeCurrencies])
+  }, [tokenAmount, inputToken, mode, inputToken, feeCurrencies])
 
   const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
@@ -359,9 +355,9 @@ function EarnEnterAmount({ route }: Props) {
       default:
       case 'swap-deposit':
       case 'deposit':
-        return availableFromTokens.length > 1
+        return availableInputTokens.length > 1
     }
-  }, [mode, availableFromTokens, withdrawTokens, depositTokens])
+  }, [mode, availableInputTokens, withdrawTokens, depositTokens])
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
@@ -392,8 +388,13 @@ function EarnEnterAmount({ route }: Props) {
                 testID="EarnEnterAmount/TokenSelect"
               >
                 <>
-                  <TokenIcon token={inputToken} size={IconSize.SMALL} />
-                  <Text style={styles.tokenName}>{inputToken.symbol}</Text>
+                  <TokenIcon
+                    token={isWithdrawal ? depositTokens[0] : inputToken}
+                    size={IconSize.SMALL}
+                  />
+                  <Text style={styles.tokenName}>
+                    {isWithdrawal ? depositTokens[0].symbol : inputToken.symbol}
+                  </Text>
                   {dropdownEnabled && <DownArrowIcon color={Colors.gray5} />}
                 </>
               </Touchable>
@@ -408,7 +409,7 @@ function EarnEnterAmount({ route }: Props) {
                 testID="EarnEnterAmount/LocalAmountInput"
                 editable={!!inputToken.priceUsd}
               />
-              {!transactionToken.balance.isZero() && (
+              {!inputToken.balance.isZero() && (
                 <Touchable
                   borderRadius={MAX_BORDER_RADIUS}
                   onPress={onMaxAmountPress}
@@ -544,7 +545,7 @@ function EarnEnterAmount({ route }: Props) {
         forwardedRef={tokenBottomSheetRef}
         origin={TokenPickerOrigin.Earn}
         onTokenSelected={onSelectToken}
-        tokens={availableFromTokens}
+        tokens={availableInputTokens}
         title={t('sendEnterAmountScreen.selectToken')}
         titleStyle={styles.title}
       />
@@ -554,7 +555,6 @@ function EarnEnterAmount({ route }: Props) {
 
 function TransactionWithdrawDetails({
   pool,
-  token,
   prepareTransactionsResult,
   feeDetailsBottomSheetRef,
 }: {
@@ -586,7 +586,7 @@ function TransactionWithdrawDetails({
             <TokenDisplay
               testID="EarnEnterAmount/Withdraw/Crypto"
               tokenId={pool.dataProps.withdrawTokenId}
-              tokenSymbolOverrideId={token.tokenId}
+              tokenSymbolOverrideId={pool.dataProps.depositTokenId}
               amount={pool.balance}
               showLocalAmount={false}
             />

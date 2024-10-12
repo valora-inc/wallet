@@ -439,7 +439,7 @@ describe('EarnEnterAmount', () => {
         depositTokenId: mockArbUsdcTokenId,
         providerId: mockEarnPositions[0].appId,
         poolId: mockEarnPositions[0].positionId,
-        fromTokenId: mockArbUsdcTokenId,
+        fromTokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
         fromTokenAmount: '8',
         depositTokenAmount: '8',
         mode: 'withdraw',
