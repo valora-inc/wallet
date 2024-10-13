@@ -2503,12 +2503,12 @@
       }
     },
     "cta": {
-      "title": "Earn on your crypto",
+      "title": "Kiếm tiền từ tiền điện tử của bạn",
       "subtitle": "Nạp tiền ngay hôm nay và nhận tiền lãi",
       "description": "Xem số tiền bạn có thể kiếm được khi nạp tiền vào quỹ cho vay"
     },
     "earnInfo": {
-      "title": "Earn on your\ncrypto",
+      "title": "Kiếm tiền từ tiền điện tử\ncủa bạn",
       "details": {
         "earn": {
           "titleGasSubsidy": "Tối đa hóa thu nhập mà không mất phí ga*",
@@ -2544,9 +2544,9 @@
       "description": "Kiếm khoảng {{apy}}% mỗi năm khi bạn nạp {{symbol}} vào quỹ"
     },
     "entrypoint": {
-      "title": "Earn on your crypto",
+      "title": "Kiếm tiền từ tiền điện tử của bạn",
       "subtitle": "Nạp tiền và kiếm tiền",
-      "description": "Earn on your crypto assets when you lend through a liquidity pool"
+      "description": "Kiếm tiền từ tài sản tiền điện tử của bạn bằng cách cho vay thông qua bể thanh khoản"
     },
     "enterAmount": {
       "title": "Bạn muốn nạp bao nhiêu tiền?",
@@ -2606,7 +2606,7 @@
       "network": "Mạng lưới",
       "footer": "Khi nạp tiền điện tử vào quỹ Aave, bạn chấp nhận các rủi ro liên quan đến việc sử dụng Aave. <0>Điều khoản & Điều kiện</0>",
       "footerV1_93": "Khi nạp tiền điện tử vào bể {{providerName}}, bạn chấp nhận các rủi ro liên quan đến việc sử dụng {{providerName}}. <0>Điều khoản và điều kiện</0>",
-      "noTermsUrlFooter": "You are responsible for your actions in {{appName}}. {{appName}} disclaims all responsibility for your assets or interactions with {{providerName}}. You can review {{providerName}}'s documents <0>here</0> and our Terms & Conditions <1>here</1>.",
+      "noTermsUrlFooter": "Bạn phải tự chịu trách nhiệm cho những hành động của mình trong {{appName}}. {{appName}} tuyên bố miễn trừ mọi trách nhiệm đối với tài sản hoặc hoạt động tương tác của bạn với {{providerName}}. Bạn có thể xem lại các tài liệu của {{providerName}} <0>tại đây</0> và các Điều khoản và Điều kiện của chúng tôi <1>tại đây</1>.",
       "primaryCta": "Hoàn thành",
       "secondaryCta": "Hủy",
       "yieldRate": "Mức sinh lợi (ước tính)",
@@ -2664,7 +2664,7 @@
         "chooseDescription": "Mọi quyết định về tài chính đều là lựa chọn mang tính cá nhân. Chúng tôi đã tổng hợp một số quỹ từ các giao thức khác nhau, nhưng mỗi quỹ lại có lợi ích và rủi ro riêng. Chúng tôi cố gắng hết sức để mang đến những thông tin hữu ích của từng quỹ, nhưng tốt nhất bạn vẫn tự nghiên cứu thêm nếu không chắc chắn."
       },
       "noPoolsTitle": "Bạn chưa tham gia bất kỳ quỹ nào",
-      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your crypto.",
+      "noPoolsDescription": "Khám phá các bể hiện có, chọn bể phù hợp với mục tiêu của bạn và tận dụng tối đa tiền điện tử.",
       "errorTitle": "Không thể tải bể",
       "errorDescription": "Rất tiếc, đã xảy ra sự cố khi tải thông tin về bể. Vui lòng thử lại.",
       "errorButton": "Thử lại"
