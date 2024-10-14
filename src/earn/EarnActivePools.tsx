@@ -6,6 +6,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
+import { useEarnPositionBalanceValues } from 'src/earn/hooks'
 import { EarnTabType } from 'src/earn/types'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -26,13 +27,12 @@ export default function EarnActivePools() {
     () => pools.filter((pool) => new BigNumber(pool.balance).gt(0)).length,
     [pools]
   )
-  const totalSuppliedValueUsd = useMemo(
-    () =>
-      pools.reduce(
-        (acc, pool) => acc.plus(new BigNumber(pool.balance).times(new BigNumber(pool.priceUsd))),
-        new BigNumber(0) ?? null
-      ),
-    [pools]
+  const totalSuppliedValueUsd = pools.reduce(
+    (acc, pool) => {
+      const { poolBalanceInUsd } = useEarnPositionBalanceValues({ pool })
+      return acc.plus(poolBalanceInUsd)
+    },
+    new BigNumber(0) ?? null
   )
   const totalSuppliedValue = useDollarsToLocalAmount(totalSuppliedValueUsd)
   const totalSupplied = useMemo(
