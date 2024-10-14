@@ -1631,6 +1631,7 @@ interface EarnEventsProperties {
     hasTokensOnSameNetwork: boolean
     hasTokensOnOtherNetworks: boolean
   }
+  [EarnEvents.earn_select_withdraw_type]: { type: 'partialWithdraw' | 'claim' | 'exit' }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
