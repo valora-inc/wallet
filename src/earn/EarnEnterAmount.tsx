@@ -579,9 +579,9 @@ function TransactionWithdrawDetails({
         />
         <View style={styles.txDetailsValue}>
           <TokenDisplay
-            tokenId={pool.dataProps.withdrawTokenId}
+            tokenId={pool.dataProps.depositTokenId}
             testID="EarnEnterAmount/Withdraw/Fiat"
-            amount={pool.balance}
+            amount={new BigNumber(pool.balance).multipliedBy(pool.pricePerShare[0])}
             showLocalAmount={true}
             style={styles.txDetailsValueText}
           />
