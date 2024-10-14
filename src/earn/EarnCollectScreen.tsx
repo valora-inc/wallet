@@ -11,7 +11,7 @@ import InLineNotification, { NotificationVariant } from 'src/components/InLineNo
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import {
-  useEarnPositionUsdAndDepositCryptoValues,
+  useEarnPositionBalanceValues,
   usePrepareWithdrawAndClaimTransactions,
 } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
@@ -83,8 +83,9 @@ export default function EarnCollectScreen({ route }: Props) {
     rewardsPositions,
   })
 
-  const { poolBalanceInDepositToken: withdrawAmountInDepositToken } =
-    useEarnPositionUsdAndDepositCryptoValues({ pool })
+  const { poolBalanceInDepositToken: withdrawAmountInDepositToken } = useEarnPositionBalanceValues({
+    pool,
+  })
 
   const onPress = () => {
     if (prepareTransactionsResult?.type !== 'possible') {

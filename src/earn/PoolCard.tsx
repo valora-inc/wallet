@@ -7,7 +7,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
-import { useEarnPositionUsdAndDepositCryptoValues } from 'src/earn/hooks'
+import { useEarnPositionBalanceValues } from 'src/earn/hooks'
 import { getTotalYieldRate } from 'src/earn/utils'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -48,7 +48,7 @@ export default function PoolCard({
   const depositTokenInfo = allTokens[depositTokenId]
 
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const { poolBalanceInUsd } = useEarnPositionUsdAndDepositCryptoValues({ pool })
+  const { poolBalanceInUsd } = useEarnPositionBalanceValues({ pool })
   const poolBalanceInFiat = useDollarsToLocalAmount(poolBalanceInUsd) ?? null
 
   const rewardAmountInUsd = useMemo(

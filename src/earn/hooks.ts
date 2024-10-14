@@ -96,7 +96,7 @@ export function useDepositEntrypointInfo({
   return { hasDepositToken, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canCashIn, exchanges }
 }
 
-export function useEarnPositionUsdAndDepositCryptoValues({ pool }: { pool: EarnPosition }) {
+export function useEarnPositionBalanceValues({ pool }: { pool: EarnPosition }) {
   const poolBalanceInUsd = useMemo(() => {
     return new BigNumber(pool.balance).multipliedBy(pool.priceUsd)
   }, [pool.balance, pool.priceUsd])

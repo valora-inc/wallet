@@ -16,7 +16,7 @@ import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import BeforeDepositBottomSheet from 'src/earn/BeforeDepositBottomSheet'
-import { useDepositEntrypointInfo, useEarnPositionUsdAndDepositCryptoValues } from 'src/earn/hooks'
+import { useDepositEntrypointInfo, useEarnPositionBalanceValues } from 'src/earn/hooks'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -160,7 +160,7 @@ function DepositAndEarningsCard({
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
 
   const { poolBalanceInUsd: depositBalanceInUsd, poolBalanceInDepositToken } =
-    useEarnPositionUsdAndDepositCryptoValues({
+    useEarnPositionBalanceValues({
       pool: earnPosition,
     })
   // Deposit items used to calculate the total balance and total deposited
