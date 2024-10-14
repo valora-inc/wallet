@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
-import { useSelector } from 'src/redux/hooks'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
@@ -30,6 +32,7 @@ import {
   groupFeedItemsInSections,
   standByTransactionToTokenTransaction,
 } from 'src/transactions/utils'
+import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type PaginatedData = {
@@ -39,6 +42,7 @@ type PaginatedData = {
 // Query poll interval
 const POLL_INTERVAL_MS = 10000 // 10 sec
 const FIRST_PAGE_TIMESTAMP = 0
+const LOGGER_TAG = 'transactions/feed/TransactionFeedV2'
 
 function getAllowedNetworksForTransfers() {
   return getMultichainFeatures().showTransfers
@@ -175,6 +179,7 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
 }
 
 export default function TransactionFeedV2() {
+  const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
   const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
@@ -260,6 +265,16 @@ export default function TransactionFeedV2() {
       })
     },
     [isFetching, data?.transactions, originalArgs?.endCursor, standByTransactions.confirmed]
+  )
+
+  useEffect(
+    function handleError() {
+      if (error === undefined) return
+
+      Logger.error(LOGGER_TAG, 'Error while fetching transactions', error)
+      dispatch(showError(ErrorMessages.FETCH_FAILED))
+    },
+    [error]
   )
 
   const confirmedTransactions = useMemo(() => {

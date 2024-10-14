@@ -1,6 +1,5 @@
 import type { EnhancedStore, Middleware, Reducer, UnknownAction } from '@reduxjs/toolkit'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { rtkQueryErrorLoggerMiddleware } from 'src/redux/api'
 import { ApiReducersKeys } from 'src/redux/apiReducersList'
 import { RootState } from 'src/redux/reducers'
 import { getMockStoreData, RecursivePartial } from 'test/utils'
@@ -33,9 +32,7 @@ export function setupApiStore<
         return getDefaultMiddleware({
           serializableCheck: false,
           immutableCheck: false,
-        })
-          .concat(api.middleware)
-          .concat(rtkQueryErrorLoggerMiddleware)
+        }).concat(api.middleware)
       },
     })
 

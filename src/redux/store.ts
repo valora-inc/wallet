@@ -7,7 +7,6 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import createSagaMiddleware from 'redux-saga'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { PerformanceEvents } from 'src/analytics/Events'
-import { rtkQueryErrorLoggerMiddleware } from 'src/redux/api'
 import { apiMiddlewares } from 'src/redux/apiReducersList'
 import { createMigrate } from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
@@ -115,11 +114,7 @@ export const setupStore = (initialState?: ReducersRootState, config = persistCon
     },
   })
 
-  const middlewares: Middleware[] = [
-    sagaMiddleware,
-    ...apiMiddlewares,
-    rtkQueryErrorLoggerMiddleware,
-  ]
+  const middlewares: Middleware[] = [sagaMiddleware, ...apiMiddlewares]
 
   if (__DEV__ && !process.env.JEST_WORKER_ID) {
     const createDebugger = require('redux-flipper').default
