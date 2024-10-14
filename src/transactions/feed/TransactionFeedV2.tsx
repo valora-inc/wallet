@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
+import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import NoActivity from 'src/transactions/NoActivity'
 import { removeDuplicatedStandByTransactions } from 'src/transactions/actions'
@@ -188,6 +189,37 @@ function useStandByTransactions() {
   }, [standByTransactions, allowedNetworkForTransfers])
 }
 
+function useNewlyCompletedTransactions(
+  standByTransactions: ReturnType<typeof useStandByTransactions>
+) {
+  const [prevStandBy, setPrevStandBy] = useState({
+    pending: [] as string[],
+    confirmed: [] as string[],
+    hasNewlyCompletedTransactions: false,
+  })
+
+  useEffect(
+    function updatePrevStandBy() {
+      setPrevStandBy((prev) => {
+        const pendingHashes = standByTransactions.pending.map((tx) => tx.transactionHash)
+        const confirmedHashes = standByTransactions.confirmed.map((tx) => tx.transactionHash)
+        const hasNewlyCompletedTransactions = prev.pending.some((hash) => {
+          return confirmedHashes.includes(hash)
+        })
+
+        return {
+          pending: pendingHashes,
+          confirmed: confirmedHashes,
+          hasNewlyCompletedTransactions,
+        }
+      })
+    },
+    [standByTransactions]
+  )
+
+  return prevStandBy.hasNewlyCompletedTransactions
+}
+
 function renderItem({ item: tx }: { item: TokenTransaction }) {
   switch (tx.type) {
     case TokenTransactionTypeV2.Exchange:
@@ -215,6 +247,7 @@ export default function TransactionFeedV2() {
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
+  const newlyCompletedTransactions = useNewlyCompletedTransactions(standByTransactions)
   const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
   const [paginatedData, setPaginatedData] = useState<PaginatedData>({ [FIRST_PAGE_TIMESTAMP]: [] })
 
@@ -316,6 +349,15 @@ export default function TransactionFeedV2() {
     },
     [data?.transactions]
   )
+
+  useEffect(() => {
+    if (originalArgs?.endCursor === undefined) return
+
+    const isFirstPage = originalArgs.endCursor === FIRST_PAGE_TIMESTAMP
+    if (isFirstPage && newlyCompletedTransactions) {
+      vibrateSuccess()
+    }
+  }, [newlyCompletedTransactions, originalArgs])
 
   const confirmedTransactions = useMemo(() => {
     const flattenedPages = Object.values(paginatedData).flat()

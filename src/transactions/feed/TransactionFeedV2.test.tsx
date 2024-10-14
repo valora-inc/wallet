@@ -17,12 +17,14 @@ import {
 import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 import { ApiReducersKeys } from 'src/redux/apiReducersList'
+import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { transactionFeedV2Api, type TransactionFeedV2Response } from 'src/transactions/api'
 import { setupApiStore } from 'src/transactions/apiTestHelpers'
 import { RecursivePartial } from 'test/utils'
 
 jest.mock('src/statsig')
 jest.mock('react-native-simple-toast')
+jest.mock('src/styles/hapticFeedback')
 
 const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
 const mockFetch = fetch as FetchMock
@@ -56,23 +58,24 @@ function getNumTransactionItems(sectionList: ReactTestInstance) {
 
 const typedResponse = (response: Partial<TransactionFeedV2Response>) => JSON.stringify(response)
 
-function renderScreen(storeOverrides: RecursivePartial<Omit<RootState, ApiReducersKeys>> = {}) {
+function getInitialStore(storeOverrides: RecursivePartial<Omit<RootState, ApiReducersKeys>> = {}) {
   const state: typeof storeOverrides = {
     web3: { account: '0x00' },
     ...storeOverrides,
   }
   const storeRef = setupApiStore(transactionFeedV2Api, state, reducersList)
+  return storeRef.store
+}
 
+function renderScreen(storeOverrides: RecursivePartial<Omit<RootState, ApiReducersKeys>> = {}) {
+  const store = getInitialStore(storeOverrides)
   const tree = render(
-    <Provider store={storeRef.store}>
+    <Provider store={store}>
       <TransactionFeedV2 />
     </Provider>
   )
 
-  return {
-    ...tree,
-    store: storeRef.store,
-  }
+  return { ...tree, store }
 }
 
 beforeEach(() => {
@@ -308,8 +311,7 @@ describe('TransactionFeedV2', () => {
 
     /**
      * For now, there's no way to check for dispatched actions via getActions as we usually do
-     * as the current setupApiStore doesn't return it. But at least we can make sure that the
-     * transaction gets removed.
+     * as the current setupApiStore doesn't return it.
      */
     await waitFor(() => expect(store.getState().transactions.standbyTransactions.length).toBe(0))
   })
@@ -432,4 +434,65 @@ describe('TransactionFeedV2', () => {
     await waitFor(() => expect(tree.queryByTestId('TransactionList/loading')).toBeFalsy())
     await waitFor(() => expect(Toast.showWithGravity).toBeCalledTimes(0))
   })
+})
+
+it('should vibrate when there are new completed transactions', async () => {
+  mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
+  const { store } = renderScreen({ transactions: { standbyTransactions: [mockTransaction()] } })
+
+  await waitFor(() => expect(store.getState().transactions.standbyTransactions.length).toBe(0))
+  expect(vibrateSuccess).toHaveBeenCalledTimes(1)
+})
+
+it('should vibrate when there are pending transactions that turned into completed', async () => {
+  const standByTransactionHash = '0x02' as string
+  mockFetch
+    .mockResponseOnce(
+      typedResponse({ transactions: [mockTransaction({ transactionHash: '0x01' })] })
+    )
+    .mockResponseOnce(
+      typedResponse({
+        transactions: [
+          mockTransaction({ transactionHash: '0x01' }),
+          mockTransaction({ transactionHash: standByTransactionHash }),
+        ],
+      })
+    )
+
+  const { store, rerender, ...tree } = renderScreen({
+    transactions: {
+      standbyTransactions: [
+        mockTransaction({
+          transactionHash: standByTransactionHash,
+          status: TransactionStatus.Pending,
+        }),
+      ],
+    },
+  })
+
+  await waitFor(() => expect(tree.getByTestId('TransactionList').props.data.length).toBe(2))
+  expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
+  expect(tree.getByTestId('TransactionList').props.data[1].data.length).toBe(1)
+  const updatedStore = getInitialStore({
+    transactions: {
+      standbyTransactions: [
+        mockTransaction({
+          transactionHash: standByTransactionHash,
+          status: TransactionStatus.Complete,
+        }),
+      ],
+    },
+  })
+
+  rerender(
+    <Provider store={updatedStore}>
+      <TransactionFeedV2 />
+    </Provider>
+  )
+
+  await waitFor(() => expect(tree.getByTestId('TransactionList').props.data.length).toBe(1))
+  await waitFor(() => {
+    expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(2)
+  })
+  await waitFor(() => expect(vibrateSuccess).toBeCalled())
 })
