@@ -19,7 +19,7 @@ export enum Actions {
   TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
-  REMOVE_STANDBY_TRANSACTIONS = 'TRANSACTIONS/REMOVE_STANDBY_TRANSACTIONS',
+  REMOVE_DUPLICATED_STANDBY_TRANSACTIONS = 'TRANSACTIONS/REMOVE_DUPLICATED_STANDBY_TRANSACTIONS',
 }
 
 type BaseStandbyTransactionType<T> = Omit<PendingStandbyTransaction<T>, 'timestamp' | 'status'>
@@ -60,16 +60,16 @@ export interface UpdateTransactionsAction {
   networkId: NetworkId
 }
 
-interface RemoveStandByTransactionsAction {
-  type: Actions.REMOVE_STANDBY_TRANSACTIONS
-  transactionHashesToRemove: string[]
+interface RemoveDuplicatedStandByTransactionsAction {
+  type: Actions.REMOVE_DUPLICATED_STANDBY_TRANSACTIONS
+  newPageTransactions: TokenTransaction[]
 }
 
 export type ActionTypes =
   | AddStandbyTransactionAction
   | UpdateTransactionsAction
   | TransactionConfirmedAction
-  | RemoveStandByTransactionsAction
+  | RemoveDuplicatedStandByTransactionsAction
 
 export const addStandbyTransaction = (
   transaction: BaseStandbyTransaction
@@ -98,9 +98,9 @@ export const updateTransactions = (
   transactions,
 })
 
-export const removeStandByTransactions = (
-  transactionHashesToRemove: string[]
-): RemoveStandByTransactionsAction => ({
-  type: Actions.REMOVE_STANDBY_TRANSACTIONS,
-  transactionHashesToRemove,
+export const removeDuplicatedStandByTransactions = (
+  newPageTransactions: TokenTransaction[]
+): RemoveDuplicatedStandByTransactionsAction => ({
+  type: Actions.REMOVE_DUPLICATED_STANDBY_TRANSACTIONS,
+  newPageTransactions,
 })

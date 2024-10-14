@@ -163,12 +163,22 @@ export const reducer = (
         standbyTransactions: updatedStandbyTransactions,
       }
 
-    case Actions.REMOVE_STANDBY_TRANSACTIONS:
+    case Actions.REMOVE_DUPLICATED_STANDBY_TRANSACTIONS:
+      const confirmedTransactionsFromNewPage = action.newPageTransactions
+        .filter((tx) => tx.status !== TransactionStatus.Pending)
+        .map((tx) => tx.transactionHash)
+
       return {
         ...state,
         standbyTransactions: state.standbyTransactions.filter((tx) => {
-          if (!tx.transactionHash) return true
-          return !action.transactionHashesToRemove.includes(tx.transactionHash)
+          /**
+           * - ignore empty hashes as there's no way to compare them
+           * - ignore pending as it should only affect confirmed transactions that are already
+           *   present in the paginated data
+           */
+          if (!tx.transactionHash || tx.status === TransactionStatus.Pending) return true
+
+          return !confirmedTransactionsFromNewPage.includes(tx.transactionHash)
         }),
       }
 

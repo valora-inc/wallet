@@ -8,7 +8,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import NoActivity from 'src/transactions/NoActivity'
-import { removeStandByTransactions } from 'src/transactions/actions'
+import { removeDuplicatedStandByTransactions } from 'src/transactions/actions'
 import { useTransactionFeedV2Query } from 'src/transactions/api'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
@@ -288,23 +288,11 @@ export default function TransactionFeedV2() {
    */
   useEffect(
     function cleanupStandByTransactions() {
-      const confirmedPaginationTransactions =
-        data?.transactions
-          ?.filter((tx) => tx.status !== TransactionStatus.Pending)
-          .map((tx) => tx.transactionHash) || []
-
-      const standByTransactionsToRemove: string[] = []
-      for (const tx of standByTransactions.confirmed) {
-        if (confirmedPaginationTransactions.includes(tx.transactionHash)) {
-          standByTransactionsToRemove.push(tx.transactionHash)
-        }
-      }
-
-      if (standByTransactionsToRemove.length) {
-        dispatch(removeStandByTransactions(standByTransactionsToRemove))
+      if (data?.transactions.length) {
+        dispatch(removeDuplicatedStandByTransactions(data.transactions))
       }
     },
-    [data?.transactions, standByTransactions]
+    [data?.transactions]
   )
 
   const confirmedTransactions = useMemo(() => {
