@@ -10,7 +10,10 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
-import { usePrepareWithdrawAndClaimTransactions } from 'src/earn/hooks'
+import {
+  useEarnPositionUsdAndDepositCryptoValues,
+  usePrepareWithdrawAndClaimTransactions,
+} from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
@@ -80,9 +83,8 @@ export default function EarnCollectScreen({ route }: Props) {
     rewardsPositions,
   })
 
-  const withdrawAmountInDepositToken = useMemo(() => {
-    return withdrawToken.balance.multipliedBy(pool.pricePerShare[0] ?? 1)
-  }, [withdrawToken, pool.pricePerShare])
+  const { poolBalanceInDepositToken: withdrawAmountInDepositToken } =
+    useEarnPositionUsdAndDepositCryptoValues({ pool })
 
   const onPress = () => {
     if (prepareTransactionsResult?.type !== 'possible') {

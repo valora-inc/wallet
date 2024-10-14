@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
 import { useAsync } from 'react-async-hook'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
@@ -93,4 +94,14 @@ export function useDepositEntrypointInfo({
     return asyncExchanges.result ?? []
   }, [asyncExchanges.result])
   return { hasDepositToken, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canCashIn, exchanges }
+}
+
+export function useEarnPositionUsdAndDepositCryptoValues({ pool }: { pool: EarnPosition }) {
+  const poolBalanceInUsd = useMemo(() => {
+    return new BigNumber(pool.balance).multipliedBy(pool.priceUsd)
+  }, [pool.balance, pool.priceUsd])
+  const poolBalanceInDepositToken = useMemo(() => {
+    return new BigNumber(pool.balance).multipliedBy(pool.pricePerShare[0] ?? 1)
+  }, [pool.balance, pool.pricePerShare])
+  return { poolBalanceInUsd, poolBalanceInDepositToken }
 }
