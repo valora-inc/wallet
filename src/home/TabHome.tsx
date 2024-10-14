@@ -27,7 +27,7 @@ import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { initializeSentryUserContext } from 'src/sentry/actions'
 import colors from 'src/styles/colors'
-import TransactionFeedV2 from 'src/transactions/feed/TransactionFeedV2'
+import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { hasGrantedContactsPermission } from 'src/utils/contacts'
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
@@ -120,7 +120,7 @@ function TabHome(_props: Props) {
       key: 'NotificationBox',
       component: <NotificationBox showOnlyHomeScreenNotifications={true} />,
     },
-    { key: 'TransactionFeed', component: <TransactionFeedV2 /> },
+    { key: 'TransactionFeed', component: <TransactionFeed /> },
   ]
 
   const renderItem = ({ item }: { item: any }) => item.component
