@@ -491,7 +491,6 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     pool.dataProps.rewardsPositionIds?.includes(position.positionId)
   )
   const hasRewards = useMemo(() => rewardsPositions.length > 0, [rewardsPositions])
-  const canClaim = pool.availableShortcutIds.includes('claim-rewards') && hasRewards
 
   const onPressWithdraw = () => {
     AppAnalytics.track(EarnEvents.earn_pool_info_tap_withdraw, {
@@ -502,7 +501,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       depositTokenId: dataProps.depositTokenId,
     })
     const partialWithdrawalsEnabled = true // TODO (ACT-1385): after Tom's PR getFeatureGate(StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL)
-    if (canClaim || partialWithdrawalsEnabled) {
+    if (hasRewards || partialWithdrawalsEnabled) {
       withdrawBottomSheetRef.current?.snapToIndex(0)
     } else {
       navigate(Screens.EarnCollectScreen, { pool }) // TODO (ACT-1389): Confirmation screen for Claim & Withdraw
@@ -677,7 +676,11 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         canAdd={canCashIn}
         exchanges={exchanges}
       />
-      <WithdrawBottomSheet forwardedRef={withdrawBottomSheetRef} pool={pool} canClaim={canClaim} />
+      <WithdrawBottomSheet
+        forwardedRef={withdrawBottomSheetRef}
+        pool={pool}
+        canClaim={hasRewards}
+      />
     </SafeAreaView>
   )
 }
