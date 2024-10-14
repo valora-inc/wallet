@@ -98,7 +98,7 @@ function sortTransactions(transactions: TokenTransaction[]): TokenTransaction[] 
  * This will cause the screen to "shift", which we're trying to avoid.
  *
  * Note: when merging the first page – stand by transactions might include some new pending transaction.
- * In order to include them in the merged list we need to also check if the stand by transction is newer
+ * In order to include them in the merged list we need to also check if the stand by transaction is newer
  * than the max timestamp from the page. But this must only happen for the first page as otherwise any
  * following page would include stand by transactions from previous pages.
  */
@@ -288,14 +288,14 @@ export default function TransactionFeedV2() {
    */
   useEffect(
     function cleanupStandByTransactions() {
-      const completeTransactionsOnFirstPage =
+      const confirmedPaginationTransactions =
         data?.transactions
           ?.filter((tx) => tx.status !== TransactionStatus.Pending)
           .map((tx) => tx.transactionHash) || []
 
       const standByTransactionsToRemove: string[] = []
       for (const tx of standByTransactions.confirmed) {
-        if (completeTransactionsOnFirstPage.includes(tx.transactionHash)) {
+        if (confirmedPaginationTransactions.includes(tx.transactionHash)) {
           standByTransactionsToRemove.push(tx.transactionHash)
         }
       }
