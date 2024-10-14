@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
+import Toast from 'react-native-simple-toast'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -37,9 +39,14 @@ type PaginatedData = {
   [timestamp: number]: TokenTransaction[]
 }
 
-// Query poll interval
+/**
+ * In case there's more transaction than MIN_NUM_TRANSACTIONS - the screen can be scrolled
+ * and user might think there can be more transactions to load. This is used when trying to
+ * detect if the "No more transactions" toast has to be shown.
+ */
+const MIN_NUM_TRANSACTIONS = 10
 const POLL_INTERVAL_MS = 10000 // 10 sec
-const FIRST_PAGE_TIMESTAMP = 0
+const FIRST_PAGE_TIMESTAMP = 0 // placeholder
 
 function getAllowedNetworksForTransfers() {
   return getMultichainFeatures().showTransfers
@@ -204,6 +211,7 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
 }
 
 export default function TransactionFeedV2() {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
@@ -331,9 +339,20 @@ export default function TransactionFeedV2() {
     )
   }
 
+  // This logic will change once the real api is connected
   function fetchMoreTransactions() {
     if (nextCursor) {
       setEndCursor(nextCursor)
+      return
+    }
+
+    const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
+    const moreThanMinumumTransactions = (data?.transactions || []).length > MIN_NUM_TRANSACTIONS
+    const isFirstPageWithEnoughtTransactions = isFirstPage && moreThanMinumumTransactions
+    const shouldShowToast = isFirstPageWithEnoughtTransactions || !isFirstPage
+
+    if (shouldShowToast) {
+      Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
     }
   }
 
