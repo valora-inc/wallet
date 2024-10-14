@@ -106,7 +106,7 @@ describe('EarnCollectScreen', () => {
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            pool: mockEarnPositions[0],
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
           }}
         />
       </Provider>
@@ -138,7 +138,7 @@ describe('EarnCollectScreen', () => {
     expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
     expect(prepareWithdrawAndClaimTransactions).toHaveBeenCalledWith({
       feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
-      pool: mockEarnPositions[0],
+      pool: { ...mockEarnPositions[0], balance: '10.75' },
       rewardsPositions: [mockRewardsPositions[1]],
       walletAddress: mockAccount.toLowerCase(),
       hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
@@ -163,7 +163,7 @@ describe('EarnCollectScreen', () => {
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            pool: mockEarnPositions[0],
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
           }}
         />
       </Provider>
@@ -250,7 +250,7 @@ describe('EarnCollectScreen', () => {
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            pool: mockEarnPositions[0],
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
           }}
         />
       </Provider>
@@ -266,7 +266,7 @@ describe('EarnCollectScreen', () => {
       {
         type: withdrawStart.type,
         payload: {
-          pool: mockEarnPositions[0],
+          pool: { ...mockEarnPositions[0], balance: '10.75' },
           preparedTransactions: getSerializablePreparedTransactions(
             mockPreparedTransaction.transactions
           ),
