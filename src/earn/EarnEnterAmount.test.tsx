@@ -424,7 +424,7 @@ describe('EarnEnterAmount', () => {
 
       expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
-      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toHaveTextContent('₱13.30')
+      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toHaveTextContent('₱14.63')
 
       expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
