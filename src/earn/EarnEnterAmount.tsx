@@ -264,8 +264,7 @@ function EarnEnterAmount({ route }: Props) {
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const isAmountLessThanBalance = isWithdrawal
-    ? tokenAmount &&
-      tokenAmount.lte(new BigNumber(pool.balance).multipliedBy(pool.pricePerShare[0]))
+    ? tokenAmount && tokenAmount.lte(transactionToken.balance.multipliedBy(pool.pricePerShare[0]))
     : tokenAmount && tokenAmount.lte(transactionToken.balance)
   const showNotEnoughBalanceForGasWarning =
     isAmountLessThanBalance &&
@@ -456,6 +455,7 @@ function EarnEnterAmount({ route }: Props) {
               token={transactionToken}
               prepareTransactionsResult={prepareTransactionsResult}
               feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
+              transactionToken={transactionToken}
             />
           )}
         </View>
@@ -575,11 +575,13 @@ function TransactionWithdrawDetails({
   pool,
   prepareTransactionsResult,
   feeDetailsBottomSheetRef,
+  transactionToken,
 }: {
   pool: EarnPosition
   token: TokenBalance
   prepareTransactionsResult?: PreparedTransactionsResult
   feeDetailsBottomSheetRef: React.RefObject<BottomSheetModalRefType>
+  transactionToken: TokenBalance
 }) {
   const { t } = useTranslation()
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
@@ -595,7 +597,7 @@ function TransactionWithdrawDetails({
           <TokenDisplay
             tokenId={pool.dataProps.depositTokenId}
             testID="EarnEnterAmount/Withdraw/Fiat"
-            amount={new BigNumber(pool.balance).multipliedBy(pool.pricePerShare[0])}
+            amount={transactionToken.balance.multipliedBy(pool.pricePerShare[0])}
             showLocalAmount={true}
             style={styles.txDetailsValueText}
           />
@@ -603,9 +605,8 @@ function TransactionWithdrawDetails({
             {'('}
             <TokenDisplay
               testID="EarnEnterAmount/Withdraw/Crypto"
-              tokenId={pool.dataProps.withdrawTokenId}
-              tokenSymbolOverrideId={pool.dataProps.depositTokenId}
-              amount={new BigNumber(pool.balance).multipliedBy(pool.pricePerShare[0])}
+              tokenId={pool.dataProps.depositTokenId}
+              amount={transactionToken.balance.multipliedBy(pool.pricePerShare[0])}
               showLocalAmount={false}
             />
             {')'}

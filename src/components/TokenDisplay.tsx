@@ -31,7 +31,6 @@ export function formatValueToDisplay(value: BigNumber) {
 interface Props {
   amount: BigNumber.Value
   tokenId?: string
-  tokenSymbolOverrideId?: string
   showSymbol?: boolean
   showLocalAmount?: boolean
   hideSign?: boolean
@@ -46,7 +45,6 @@ interface Props {
 function TokenDisplay({
   amount,
   tokenId,
-  tokenSymbolOverrideId,
   showLocalAmount = true,
   showSymbol = true,
   showExplicitPositiveSign = false,
@@ -58,7 +56,6 @@ function TokenDisplay({
   errorFallback = '-',
 }: Props) {
   const tokenInfo = useTokenInfo(tokenId)
-  const tokenSymbolOverrideInfo = useTokenInfo(tokenSymbolOverrideId)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const showError = showLocalAmount
@@ -90,9 +87,7 @@ function TokenDisplay({
           {amountToShow.isNaN()
             ? amountFallback
             : formatValueToDisplay(amountToShow.absoluteValue())}
-          {!showLocalAmount &&
-            showSymbol &&
-            ` ${tokenSymbolOverrideId ? tokenSymbolOverrideInfo?.symbol : (tokenInfo?.symbol ?? '')}`}
+          {!showLocalAmount && showSymbol && ` ${tokenInfo?.symbol ?? ''}`}
         </>
       )}
     </Text>

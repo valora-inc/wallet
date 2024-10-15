@@ -21,6 +21,7 @@ import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
+  mockAaveArbUsdcTokenId,
   mockAccount,
   mockArbArbTokenId,
   mockArbEthTokenId,
@@ -124,6 +125,10 @@ const store = createMockStore({
         ...mockTokenBalances[mockArbArbTokenId],
         minimumAppVersionToSwap: '1.0.0',
         balance: '1',
+      },
+      mockAaveArbUsdcTokenId: {
+        ...mockTokenBalances[mockAaveArbUsdcTokenId],
+        balance: '10',
       },
     },
   },
