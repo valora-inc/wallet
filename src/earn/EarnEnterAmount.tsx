@@ -314,9 +314,9 @@ function EarnEnterAmount({ route }: Props) {
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
     // if there is not enough for gas
     if (isWithdrawal) {
-      setTokenAmountInput(new BigNumber(transactionToken.balance).toFormat({ decimalSeparator }))
-    } else {
       setTokenAmountInput(transactionToken.balance.toFormat({ decimalSeparator }))
+    } else {
+      setTokenAmountInput(inputToken.balance.toFormat({ decimalSeparator }))
     }
     setEnteredIn('token')
     setMaxPressed(true)
