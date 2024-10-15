@@ -111,10 +111,3 @@ export const removeDuplicatedStandByTransactions = (
   type: Actions.REMOVE_DUPLICATED_STANDBY_TRANSACTIONS,
   newPageTransactions,
 })
-
-export const updateKnownCompletedTransactionsHashes = (
-  newPageTransactions: TokenTransaction[]
-): UpdateKnownCompletedTransactionsHashesAction => ({
-  type: Actions.UPDATE_KNOWN_COMPLETED_TRANSACTIONS_HASHES,
-  newPageTransactions,
-})
