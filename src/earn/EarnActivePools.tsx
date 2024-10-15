@@ -27,9 +27,9 @@ export default function EarnActivePools() {
     () => pools.filter((pool) => new BigNumber(pool.balance).gt(0)).length,
     [pools]
   )
-  const totalSuppliedValueUsd = pools.reduce(
-    (acc, pool) => {
-      const { poolBalanceInUsd } = useEarnPositionBalanceValues({ pool })
+  const poolBalances = useEarnPositionBalanceValues({ pools })
+  const totalSuppliedValueUsd = poolBalances.reduce(
+    (acc, { poolBalanceInUsd }) => {
       return acc.plus(poolBalanceInUsd)
     },
     new BigNumber(0) ?? null

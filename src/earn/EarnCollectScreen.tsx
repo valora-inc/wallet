@@ -84,8 +84,8 @@ export default function EarnCollectScreen({ route }: Props) {
   })
 
   const { poolBalanceInDepositToken: withdrawAmountInDepositToken } = useEarnPositionBalanceValues({
-    pool,
-  })
+    pools: [pool],
+  })[0]
 
   const onPress = () => {
     if (prepareTransactionsResult?.type !== 'possible') {

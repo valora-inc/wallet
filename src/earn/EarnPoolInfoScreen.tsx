@@ -161,8 +161,8 @@ function DepositAndEarningsCard({
 
   const { poolBalanceInUsd: depositBalanceInUsd, poolBalanceInDepositToken } =
     useEarnPositionBalanceValues({
-      pool: earnPosition,
-    })
+      pools: [earnPosition],
+    })[0]
   // Deposit items used to calculate the total balance and total deposited
   const depositBalanceInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
     depositBalanceInUsd ?? 0

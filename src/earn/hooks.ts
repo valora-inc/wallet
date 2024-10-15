@@ -96,12 +96,17 @@ export function useDepositEntrypointInfo({
   return { hasDepositToken, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canCashIn, exchanges }
 }
 
-export function useEarnPositionBalanceValues({ pool }: { pool: EarnPosition }) {
-  const poolBalanceInUsd = useMemo(() => {
-    return new BigNumber(pool.balance).multipliedBy(pool.priceUsd)
-  }, [pool.balance, pool.priceUsd])
-  const poolBalanceInDepositToken = useMemo(() => {
-    return new BigNumber(pool.balance).multipliedBy(pool.pricePerShare[0] ?? 1)
-  }, [pool.balance, pool.pricePerShare])
-  return { poolBalanceInUsd, poolBalanceInDepositToken }
+export function useEarnPositionBalanceValues({ pools }: { pools: EarnPosition[] }) {
+  const poolBalances = useMemo(
+    () =>
+      pools.map((pool) => {
+        const poolBalanceInUsd = new BigNumber(pool.balance).multipliedBy(pool.priceUsd)
+        const poolBalanceInDepositToken = new BigNumber(pool.balance).multipliedBy(
+          pool.pricePerShare[0] ?? 1
+        )
+        return { poolBalanceInUsd, poolBalanceInDepositToken }
+      }),
+    [pools]
+  )
+  return poolBalances
 }

@@ -48,7 +48,7 @@ export default function PoolCard({
   const depositTokenInfo = allTokens[depositTokenId]
 
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const { poolBalanceInUsd } = useEarnPositionBalanceValues({ pool })
+  const { poolBalanceInUsd } = useEarnPositionBalanceValues({ pools: [pool] })[0]
   const poolBalanceInFiat = useDollarsToLocalAmount(poolBalanceInUsd) ?? null
 
   const rewardAmountInUsd = useMemo(
