@@ -20,6 +20,7 @@ export enum Actions {
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
   REMOVE_DUPLICATED_STANDBY_TRANSACTIONS = 'TRANSACTIONS/REMOVE_DUPLICATED_STANDBY_TRANSACTIONS',
+  UPDATE_KNOWN_COMPLETED_TRANSACTIONS_HASHES = 'TRANSACTIONS/UPDATE_KNOWN_COMPLETED_TRANSACTIONS_HASHES',
 }
 
 type BaseStandbyTransactionType<T> = Omit<PendingStandbyTransaction<T>, 'timestamp' | 'status'>
@@ -65,11 +66,17 @@ interface RemoveDuplicatedStandByTransactionsAction {
   newPageTransactions: TokenTransaction[]
 }
 
+interface UpdateKnownCompletedTransactionsHashesAction {
+  type: Actions.UPDATE_KNOWN_COMPLETED_TRANSACTIONS_HASHES
+  newPageTransactions: TokenTransaction[]
+}
+
 export type ActionTypes =
   | AddStandbyTransactionAction
   | UpdateTransactionsAction
   | TransactionConfirmedAction
   | RemoveDuplicatedStandByTransactionsAction
+  | UpdateKnownCompletedTransactionsHashesAction
 
 export const addStandbyTransaction = (
   transaction: BaseStandbyTransaction
@@ -102,5 +109,12 @@ export const removeDuplicatedStandByTransactions = (
   newPageTransactions: TokenTransaction[]
 ): RemoveDuplicatedStandByTransactionsAction => ({
   type: Actions.REMOVE_DUPLICATED_STANDBY_TRANSACTIONS,
+  newPageTransactions,
+})
+
+export const updateKnownCompletedTransactionsHashes = (
+  newPageTransactions: TokenTransaction[]
+): UpdateKnownCompletedTransactionsHashesAction => ({
+  type: Actions.UPDATE_KNOWN_COMPLETED_TRANSACTIONS_HASHES,
   newPageTransactions,
 })

@@ -18,7 +18,10 @@ import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
-import { allStandbyTransactionsSelector } from 'src/transactions/reducer'
+import {
+  allKnownCompletedTransactionsHashesSelector,
+  allStandbyTransactionsSelector,
+} from 'src/transactions/reducer'
 import {
   TokenTransactionTypeV2,
   TransactionStatus,
@@ -248,6 +251,7 @@ export default function TransactionFeedV2() {
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
   const newlyCompletedTransactions = useNewlyCompletedTransactions(standByTransactions)
+  const knownCompletedTransactionsHashes = useSelector(allKnownCompletedTransactionsHashesSelector)
   const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
   const [paginatedData, setPaginatedData] = useState<PaginatedData>({ [FIRST_PAGE_TIMESTAMP]: [] })
 
@@ -351,13 +355,26 @@ export default function TransactionFeedV2() {
   )
 
   useEffect(
-    function vibrateForNewCompletedTransactions() {
+    function vibrateForNewlyCompletedTransactions() {
       const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
       if (isFirstPage && newlyCompletedTransactions) {
         vibrateSuccess()
       }
     },
     [newlyCompletedTransactions, originalArgs]
+  )
+
+  useEffect(
+    function vibrateForUnknownCompletedTransactions() {
+      const unknownCompletedTransactions = (data?.transactions || [])
+        .filter((tx) => tx.status === TransactionStatus.Complete)
+        .filter((tx) => !knownCompletedTransactionsHashes.includes(tx.transactionHash))
+
+      if (unknownCompletedTransactions.length) {
+        vibrateSuccess()
+      }
+    },
+    [data?.transactions, knownCompletedTransactionsHashes]
   )
 
   const confirmedTransactions = useMemo(() => {

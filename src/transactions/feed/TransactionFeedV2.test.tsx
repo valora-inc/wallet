@@ -519,5 +519,23 @@ describe('TransactionFeedV2', () => {
     expect(vibrateSuccess).not.toHaveBeenCalled()
   })
 
-  // it('should vibrate when there are new completed transactions', () => {})
+  it('should vibrate when there are new completed transactions', async () => {
+    mockFetch.mockResponse(
+      typedResponse({
+        transactions: [
+          mockTransaction({ transactionHash: '0x01', timestamp: 50 }),
+          mockTransaction({ transactionHash: '0x02', timestamp: 40 }),
+        ],
+      })
+    )
+
+    const { store, ...tree } = renderScreen({
+      transactions: { knownCompletedTransactionsHashes: ['0x01'] },
+    })
+
+    await waitFor(() =>
+      expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(2)
+    )
+    expect(vibrateSuccess).toHaveBeenCalledTimes(1)
+  })
 })

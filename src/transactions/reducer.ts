@@ -22,11 +22,13 @@ interface State {
   // feed instantly.
   standbyTransactions: StandbyTransaction[]
   transactionsByNetworkId: TransactionsByNetworkId
+  knownCompletedTransactionsHashes: string[]
 }
 
 const initialState = {
   standbyTransactions: [],
   transactionsByNetworkId: {},
+  knownCompletedTransactionsHashes: [],
 }
 // export for testing
 export const _initialState = initialState
@@ -182,6 +184,22 @@ export const reducer = (
         }),
       }
 
+    case Actions.UPDATE_KNOWN_COMPLETED_TRANSACTIONS_HASHES:
+      const completedTransactionsFromNewPage = action.newPageTransactions
+        .filter((tx) => tx.status === TransactionStatus.Complete)
+        .map((tx) => tx.transactionHash)
+
+      const newKnownHashes = [
+        ...new Set([
+          ...completedTransactionsFromNewPage,
+          ...state.knownCompletedTransactionsHashes,
+        ]),
+      ]
+      return {
+        ...state,
+        knownCompletedTransactionsHashes: newKnownHashes,
+      }
+
     default:
       return state
   }
@@ -294,4 +312,12 @@ export const pendingStandbyTxHashesByNetworkIdSelector = createSelector(
 
     return hashesByNetwork
   }
+)
+
+const knownCompletedTransactionsHashesSelector = (state: RootState) =>
+  state.transactions.knownCompletedTransactionsHashes
+
+export const allKnownCompletedTransactionsHashesSelector = createSelector(
+  [knownCompletedTransactionsHashesSelector],
+  (knownHashes) => knownHashes
 )
