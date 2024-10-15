@@ -1,15 +1,21 @@
+import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
 import Toast from 'react-native-simple-toast'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SwapEvents } from 'src/analytics/Events'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { store } from 'src/redux/store'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import NoActivity from 'src/transactions/NoActivity'
 import {
   removeDuplicatedStandByTransactions,
@@ -26,6 +32,7 @@ import {
   allStandbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import {
+  FeeType,
   TokenTransactionTypeV2,
   TransactionStatus,
   type NetworkId,
@@ -57,6 +64,56 @@ const FIRST_PAGE_TIMESTAMP = 0 // placeholder
 
 function getAllowedNetworksForTransfers() {
   return getMultichainFeatures().showTransfers
+}
+
+function trackCompletionOfCrossChainSwaps(transactions: TokenExchange[]) {
+  const tokensById = tokensByIdSelector(store.getState(), getSupportedNetworkIdsForSwap())
+
+  for (const tx of transactions) {
+    const toTokenPrice = tokensById[tx.inAmount.tokenId]?.priceUsd
+    const fromTokenPrice = tokensById[tx.outAmount.tokenId]?.priceUsd
+
+    const networkFee = tx.fees.find((fee) => fee.type === FeeType.SecurityFee)
+    const networkFeeTokenPrice = networkFee && tokensById[networkFee?.amount.tokenId]?.priceUsd
+    const appFee = tx.fees.find((fee) => fee.type === FeeType.AppFee)
+    const appFeeTokenPrice = appFee && tokensById[appFee?.amount.tokenId]?.priceUsd
+    const crossChainFee = tx.fees.find((fee) => fee.type === FeeType.CrossChainFee)
+    const crossChainFeeTokenPrice =
+      crossChainFee && tokensById[crossChainFee?.amount.tokenId]?.priceUsd
+
+    AppAnalytics.track(SwapEvents.swap_execute_success, {
+      swapType: 'cross-chain',
+      swapExecuteTxId: tx.transactionHash,
+      toTokenId: tx.inAmount.tokenId,
+      toTokenAmount: tx.inAmount.value.toString(),
+      toTokenAmountUsd: toTokenPrice
+        ? BigNumber(tx.inAmount.value).times(toTokenPrice).toNumber()
+        : undefined,
+      fromTokenId: tx.outAmount.tokenId,
+      fromTokenAmount: tx.outAmount.value.toString(),
+      fromTokenAmountUsd: fromTokenPrice
+        ? BigNumber(tx.outAmount.value).times(fromTokenPrice).toNumber()
+        : undefined,
+      networkFeeTokenId: networkFee?.amount.tokenId,
+      networkFeeAmount: networkFee?.amount.value.toString(),
+      networkFeeAmountUsd:
+        networkFeeTokenPrice && networkFee.amount.value
+          ? BigNumber(networkFee.amount.value).times(networkFeeTokenPrice).toNumber()
+          : undefined,
+      appFeeTokenId: appFee?.amount.tokenId,
+      appFeeAmount: appFee?.amount.value.toString(),
+      appFeeAmountUsd:
+        appFeeTokenPrice && appFee.amount.value
+          ? BigNumber(appFee.amount.value).times(appFeeTokenPrice).toNumber()
+          : undefined,
+      crossChainFeeTokenId: crossChainFee?.amount.tokenId,
+      crossChainFeeAmount: crossChainFee?.amount.value.toString(),
+      crossChainFeeAmountUsd:
+        crossChainFeeTokenPrice && crossChainFee.amount.value
+          ? BigNumber(crossChainFee.amount.value).times(crossChainFeeTokenPrice).toNumber()
+          : undefined,
+    })
+  }
 }
 
 /**
@@ -369,7 +426,7 @@ export default function TransactionFeedV2() {
         vibrateSuccess()
       }
     },
-    [newlyCompletedTransactions, originalArgs]
+    [newlyCompletedTransactions, originalArgs?.endCursor]
   )
 
   useEffect(
@@ -392,6 +449,29 @@ export default function TransactionFeedV2() {
       }
     },
     [data?.transactions]
+  )
+
+  useEffect(
+    function trackCrossChainSwaps() {
+      if (!data?.transactions) return
+
+      const completedCrossChainSwaps = data.transactions
+        .filter(
+          (tx) =>
+            tx.status === TransactionStatus.Complete &&
+            tx.type === TokenTransactionTypeV2.CrossChainSwapTransaction
+        )
+        .map((tx) => tx.transactionHash)
+
+      const newlyCompletedCrossChainSwaps = standByTransactions.pending.filter(
+        (tx): tx is TokenExchange => completedCrossChainSwaps.includes(tx.transactionHash)
+      )
+
+      if (newlyCompletedCrossChainSwaps.length) {
+        trackCompletionOfCrossChainSwaps(newlyCompletedCrossChainSwaps)
+      }
+    },
+    [data?.transactions, standByTransactions.pending]
   )
 
   const confirmedTransactions = useMemo(() => {
