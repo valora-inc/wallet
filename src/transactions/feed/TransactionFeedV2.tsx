@@ -192,7 +192,7 @@ function useStandByTransactions() {
 function useNewlyCompletedTransactions(
   standByTransactions: ReturnType<typeof useStandByTransactions>
 ) {
-  const [prevStandBy, setPrevStandBy] = useState({
+  const [previousStandBy, setPreviousStandBy] = useState({
     pending: [] as string[],
     confirmed: [] as string[],
     hasNewlyCompletedTransactions: false,
@@ -200,7 +200,7 @@ function useNewlyCompletedTransactions(
 
   useEffect(
     function updatePrevStandBy() {
-      setPrevStandBy((prev) => {
+      setPreviousStandBy((prev) => {
         const pendingHashes = standByTransactions.pending.map((tx) => tx.transactionHash)
         const confirmedHashes = standByTransactions.confirmed.map((tx) => tx.transactionHash)
         const hasNewlyCompletedTransactions = prev.pending.some((hash) => {
@@ -217,7 +217,7 @@ function useNewlyCompletedTransactions(
     [standByTransactions]
   )
 
-  return prevStandBy.hasNewlyCompletedTransactions
+  return previousStandBy.hasNewlyCompletedTransactions
 }
 
 function renderItem({ item: tx }: { item: TokenTransaction }) {
@@ -350,14 +350,15 @@ export default function TransactionFeedV2() {
     [data?.transactions]
   )
 
-  useEffect(() => {
-    if (originalArgs?.endCursor === undefined) return
-
-    const isFirstPage = originalArgs.endCursor === FIRST_PAGE_TIMESTAMP
-    if (isFirstPage && newlyCompletedTransactions) {
-      vibrateSuccess()
-    }
-  }, [newlyCompletedTransactions, originalArgs])
+  useEffect(
+    function vibrateForNewCompletedTransactions() {
+      const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
+      if (isFirstPage && newlyCompletedTransactions) {
+        vibrateSuccess()
+      }
+    },
+    [newlyCompletedTransactions, originalArgs]
+  )
 
   const confirmedTransactions = useMemo(() => {
     const flattenedPages = Object.values(paginatedData).flat()
