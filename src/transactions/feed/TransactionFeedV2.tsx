@@ -195,6 +195,11 @@ function useStandByTransactions() {
   }, [standByTransactions, allowedNetworkForTransfers])
 }
 
+/**
+ * In order to properly detect if any of the existing pending transactions turned into completed
+ * we need to listen to the updates of stand by transactions. Whenever we detect that a confirmed
+ * transaction was in pending status on previous render - we consider it a newly completed transaction.
+ */
 function useNewlyCompletedTransactions(
   standByTransactions: ReturnType<typeof useStandByTransactions>
 ) {
