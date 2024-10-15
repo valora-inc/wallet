@@ -3541,6 +3541,18 @@ export const v233Schema = {
   },
 }
 
+export const v234Schema = {
+  ...v233Schema,
+  _persist: {
+    ...v233Schema._persist,
+    version: 234,
+  },
+  transactions: {
+    ...v233Schema.transactions,
+    knownCompletedTransactionsHashes: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v233Schema as Partial<RootState>
+  return v234Schema as Partial<RootState>
 }

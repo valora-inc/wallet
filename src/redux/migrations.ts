@@ -10,7 +10,13 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
 import { Recipient } from 'src/recipients/recipient'
-import { Network, NetworkId, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
+import {
+  Network,
+  NetworkId,
+  StandbyTransaction,
+  TokenTransaction,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -1917,4 +1923,29 @@ export const migrations = {
     app: _.omit(state.app, 'numberVerified'),
   }),
   233: (state: any) => state,
+  234: (state: any) => {
+    const knownCompletedStandByTransactions: string[] = state.transactions.standbyTransactions
+      .filter((tx: StandbyTransaction) => tx.status === TransactionStatus.Complete)
+      .map((tx: TokenTransaction) => tx.transactionHash)
+
+    const flattenedTransactions = Object.values(
+      state.transactions.transactionsByNetworkId
+    ).flat() as TokenTransaction[]
+
+    const knownCompletedTransactionsFromNetworks = flattenedTransactions
+      .filter((tx: TokenTransaction) => tx.status === TransactionStatus.Complete)
+      .map((tx: TokenTransaction) => tx.transactionHash)
+
+    const knownCompletedTransactionsHashes = [
+      ...new Set([...knownCompletedStandByTransactions, ...knownCompletedTransactionsFromNetworks]),
+    ]
+
+    return {
+      ...state,
+      transactions: {
+        ...state.transactions,
+        knownCompletedTransactionsHashes,
+      },
+    }
+  },
 }
