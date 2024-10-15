@@ -590,6 +590,7 @@ interface SendEventsProperties {
     tokenId: string
     tokenAddress: string | null
     networkId: NetworkId | null
+    mode?: EarnEnterMode
   }
   [SendEvents.swap_input_pressed]: {
     swapToLocalAmount: boolean

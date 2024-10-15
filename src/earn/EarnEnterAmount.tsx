@@ -133,9 +133,9 @@ function EarnEnterAmount({ route }: Props) {
   const onTokenPickerSelect = () => {
     tokenBottomSheetRef.current?.snapToIndex(0)
     AppAnalytics.track(SendEvents.token_dropdown_opened, {
-      currentTokenId: transactionToken.tokenId,
-      currentTokenAddress: transactionToken.address,
-      currentNetworkId: transactionToken.networkId,
+      currentTokenId: inputToken.tokenId,
+      currentTokenAddress: inputToken.address,
+      currentNetworkId: inputToken.networkId,
     })
   }
 
@@ -340,6 +340,7 @@ function EarnEnterAmount({ route }: Props) {
       tokenId: transactionToken.tokenId,
       tokenAddress: transactionToken.address,
       networkId: transactionToken.networkId,
+      mode,
     })
   }
 
@@ -370,9 +371,9 @@ function EarnEnterAmount({ route }: Props) {
     switch (mode) {
       case 'withdraw':
         return withdrawTokens.length > 1
-      default:
       case 'swap-deposit':
       case 'deposit':
+      default:
         return availableInputTokens.length > 1
     }
   }, [mode, availableInputTokens, withdrawTokens, depositTokens])
@@ -406,13 +407,8 @@ function EarnEnterAmount({ route }: Props) {
                 testID="EarnEnterAmount/TokenSelect"
               >
                 <>
-                  <TokenIcon
-                    token={isWithdrawal ? depositTokens[0] : inputToken}
-                    size={IconSize.SMALL}
-                  />
-                  <Text style={styles.tokenName}>
-                    {isWithdrawal ? depositTokens[0].symbol : inputToken.symbol}
-                  </Text>
+                  <TokenIcon token={inputToken} size={IconSize.SMALL} />
+                  <Text style={styles.tokenName}>{inputToken.symbol}</Text>
                   {dropdownEnabled && <DownArrowIcon color={Colors.gray5} />}
                 </>
               </Touchable>
