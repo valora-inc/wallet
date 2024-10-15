@@ -383,9 +383,7 @@ describe('EarnEnterAmount', () => {
 
   describe('withdraw', () => {
     // Pool balance should be set to determine available withdrawal amount
-    const withdrawalPool = mockEarnPositions[0]
-    withdrawalPool.balance = '10'
-    const withdrawParams = { pool: withdrawalPool, mode: 'withdraw' }
+    const withdrawParams = { ...params, mode: 'withdraw' }
 
     beforeEach(() => {
       jest.clearAllMocks()
