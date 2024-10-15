@@ -536,6 +536,7 @@ function EarnEnterAmount({ route }: Props) {
           pool={pool}
           token={inputToken}
           tokenAmount={tokenAmount}
+          isWithdrawal={isWithdrawal}
         />
       )}
       {swapTransaction && tokenAmount && (
@@ -754,6 +755,7 @@ function FeeDetailsBottomSheet({
   pool,
   token,
   tokenAmount,
+  isWithdrawal,
 }: {
   forwardedRef: React.RefObject<BottomSheetModalRefType>
   testID: string
@@ -764,6 +766,7 @@ function FeeDetailsBottomSheet({
   pool: EarnPosition
   token: TokenBalance
   tokenAmount: BigNumber
+  isWithdrawal: boolean
 }) {
   const { t } = useTranslation()
   const inputToken = useTokenInfo(pool.dataProps.depositTokenId)
@@ -866,7 +869,9 @@ function FeeDetailsBottomSheet({
             </Text>
           ) : (
             <Text style={styles.bottomSheetDescriptionText}>
-              {t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')}
+              {isWithdrawal
+                ? t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescriptionWithdrawal')
+                : t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')}
             </Text>
           )}
         </View>
