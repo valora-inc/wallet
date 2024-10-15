@@ -39,12 +39,7 @@ type PaginatedData = {
   [timestamp: number]: TokenTransaction[]
 }
 
-/**
- * In case there's more transaction than MIN_NUM_TRANSACTIONS - the screen can be scrolled
- * and user might think there can be more transactions to load. This is used when trying to
- * detect if the "No more transactions" toast has to be shown.
- */
-const MIN_NUM_TRANSACTIONS = 10
+const MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL = 10
 const POLL_INTERVAL_MS = 10000 // 10 sec
 const FIRST_PAGE_TIMESTAMP = 0 // placeholder
 
@@ -346,12 +341,8 @@ export default function TransactionFeedV2() {
       return
     }
 
-    const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
-    const moreThanMinumumTransactions = (data?.transactions || []).length > MIN_NUM_TRANSACTIONS
-    const isFirstPageWithEnoughtTransactions = isFirstPage && moreThanMinumumTransactions
-    const shouldShowToast = isFirstPageWithEnoughtTransactions || !isFirstPage
-
-    if (shouldShowToast) {
+    const totalTxCount = standByTransactions.pending.length + confirmedTransactions.length
+    if (totalTxCount > MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL) {
       Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
     }
   }
