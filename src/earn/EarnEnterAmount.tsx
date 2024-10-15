@@ -59,7 +59,7 @@ const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
 function useTokens({ pool }: { pool: EarnPosition }) {
-  const inputToken = useTokenInfo(pool.dataProps.depositTokenId)
+  const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
   const withdrawToken = useTokenInfo(pool.dataProps.withdrawTokenId)
   const swappableTokens = useSelector((state) =>
     swappableFromTokensByNetworkIdSelector(state, [pool.networkId])
@@ -76,7 +76,7 @@ function useTokens({ pool }: { pool: EarnPosition }) {
     [swappableTokens, pool.dataProps.depositTokenId, pool.dataProps.withdrawTokenId]
   )
 
-  if (!inputToken) {
+  if (!depositToken) {
     // should never happen
     throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
   }
@@ -87,7 +87,7 @@ function useTokens({ pool }: { pool: EarnPosition }) {
   }
 
   return {
-    depositTokens: [inputToken],
+    depositTokens: [depositToken],
     withdrawTokens: [withdrawToken],
     eligibleSwappableTokens: eligibleSwappableTokens,
   }
