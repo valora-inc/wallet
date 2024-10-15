@@ -398,7 +398,7 @@ describe('EarnEnterAmount', () => {
         isPreparingTransactions: false,
       })
     })
-    it('should show only the withdrawal token and not include the token dropdown', async () => {
+    it('should show only the deposit token and not include the token dropdown', async () => {
       const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
           <MockedNavigator component={EarnEnterAmount} params={withdrawParams} />
