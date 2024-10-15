@@ -111,7 +111,7 @@ function EarnEnterAmount({ route }: Props) {
   }, [mode])
 
   const [inputToken, setInputToken] = useState<TokenBalance>(() => availableInputTokens[0])
-  const [transactionToken, _setTransactionToken] = useState<TokenBalance>(() =>
+  const [transactionToken, setTransactionToken] = useState<TokenBalance>(() =>
     isWithdrawal ? withdrawTokens[0] : inputToken
   )
 
@@ -141,6 +141,7 @@ function EarnEnterAmount({ route }: Props) {
 
   const onSelectToken = (token: TokenBalance) => {
     setInputToken(token)
+    if (!isWithdrawal) setTransactionToken(token)
     tokenBottomSheetRef.current?.close()
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
