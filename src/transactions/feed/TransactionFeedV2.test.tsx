@@ -538,4 +538,37 @@ describe('TransactionFeedV2', () => {
     )
     expect(vibrateSuccess).toHaveBeenCalledTimes(1)
   })
+
+  it('should update known completed transactions when there is a new completed transaction', async () => {
+    const mockedTransaction = mockTransaction()
+    mockFetch.mockResponse(typedResponse({ transactions: [mockedTransaction] }))
+
+    const { store, ...tree } = renderScreen({
+      transactions: { knownCompletedTransactionsHashes: ['0x02'] },
+    })
+
+    await waitFor(() => {
+      expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
+      expect(store.getState().transactions.knownCompletedTransactionsHashes).toStrictEqual([
+        '0x02',
+        mockedTransaction.transactionHash,
+      ])
+    })
+  })
+
+  it('should not update known completed transactions when there are no new completed transaction', async () => {
+    const mockedTransaction = mockTransaction()
+    mockFetch.mockResponse(typedResponse({ transactions: [mockedTransaction] }))
+
+    const { store, ...tree } = renderScreen({
+      transactions: { knownCompletedTransactionsHashes: [mockedTransaction.transactionHash] },
+    })
+
+    await waitFor(() => {
+      expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
+      expect(store.getState().transactions.knownCompletedTransactionsHashes).toStrictEqual([
+        mockedTransaction.transactionHash,
+      ])
+    })
+  })
 })

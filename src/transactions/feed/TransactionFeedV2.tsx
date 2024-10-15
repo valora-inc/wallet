@@ -11,7 +11,10 @@ import colors from 'src/styles/colors'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import NoActivity from 'src/transactions/NoActivity'
-import { removeDuplicatedStandByTransactions } from 'src/transactions/actions'
+import {
+  removeDuplicatedStandByTransactions,
+  updateKnownCompletedTransactionsHashes,
+} from 'src/transactions/actions'
 import { useTransactionFeedV2Query } from 'src/transactions/api'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
@@ -375,6 +378,15 @@ export default function TransactionFeedV2() {
       }
     },
     [data?.transactions, knownCompletedTransactionsHashes]
+  )
+
+  useEffect(
+    function updateKnownCompletedTransactions() {
+      if (data?.transactions.length) {
+        dispatch(updateKnownCompletedTransactionsHashes(data.transactions))
+      }
+    },
+    [data?.transactions]
   )
 
   const confirmedTransactions = useMemo(() => {

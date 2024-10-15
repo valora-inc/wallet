@@ -191,8 +191,8 @@ export const reducer = (
 
       const newKnownHashes = [
         ...new Set([
-          ...completedTransactionsFromNewPage,
           ...state.knownCompletedTransactionsHashes,
+          ...completedTransactionsFromNewPage,
         ]),
       ]
       return {
