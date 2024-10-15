@@ -199,8 +199,14 @@ function EarnEnterAmount({ route }: Props) {
     [localAmountInput]
   )
 
-  const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, transactionToken.tokenId)
-  const localToToken = useLocalToTokenAmount(parsedLocalAmount, transactionToken.tokenId)
+  const tokenToLocal = useTokenToLocalAmount(
+    parsedTokenAmount,
+    isWithdrawal ? inputToken.tokenId : transactionToken.tokenId
+  )
+  const localToToken = useLocalToTokenAmount(
+    parsedLocalAmount,
+    isWithdrawal ? inputToken.tokenId : transactionToken.tokenId
+  )
 
   const { tokenAmount } = useMemo(() => {
     if (enteredIn === 'token') {
@@ -239,7 +245,12 @@ function EarnEnterAmount({ route }: Props) {
     if (
       !tokenAmount ||
       tokenAmount.isLessThanOrEqualTo(0) ||
-      tokenAmount.isGreaterThan(transactionToken.balance)
+      tokenAmount.isLessThanOrEqualTo(0) ||
+      tokenAmount.isGreaterThan(
+        isWithdrawal
+          ? transactionToken.balance.multipliedBy(pool.pricePerShare[0])
+          : transactionToken.balance
+      )
     ) {
       return
     }
@@ -253,7 +264,8 @@ function EarnEnterAmount({ route }: Props) {
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const isAmountLessThanBalance = isWithdrawal
-    ? tokenAmount && tokenAmount.lte(pool.balance)
+    ? tokenAmount &&
+      tokenAmount.lte(new BigNumber(pool.balance).multipliedBy(pool.pricePerShare[0]))
     : tokenAmount && tokenAmount.lte(transactionToken.balance)
   const showNotEnoughBalanceForGasWarning =
     isAmountLessThanBalance &&
@@ -314,7 +326,9 @@ function EarnEnterAmount({ route }: Props) {
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
     // if there is not enough for gas
     if (isWithdrawal) {
-      setTokenAmountInput(transactionToken.balance.toFormat({ decimalSeparator }))
+      setTokenAmountInput(
+        transactionToken.balance.multipliedBy(pool.pricePerShare[0]).toFormat({ decimalSeparator })
+      )
     } else {
       setTokenAmountInput(inputToken.balance.toFormat({ decimalSeparator }))
     }
