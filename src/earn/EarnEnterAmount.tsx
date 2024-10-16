@@ -623,7 +623,6 @@ function TransactionWithdrawDetails({
             <TokenDisplay
               testID="EarnEnterAmount/Fees"
               tokenId={feeCurrency.tokenId}
-              // TODO: add swap fees to this amount
               amount={maxFeeAmount.toString()}
               style={styles.txDetailsValueText}
             />
