@@ -111,6 +111,9 @@ function EarnEnterAmount({ route }: Props) {
   }, [mode])
 
   const [inputToken, setInputToken] = useState<TokenBalance>(() => availableInputTokens[0])
+  const [transactionToken, setTransactionToken] = useState<TokenBalance>(() =>
+    isWithdrawal ? withdrawToken : inputToken
+  )
 
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -138,6 +141,7 @@ function EarnEnterAmount({ route }: Props) {
 
   const onSelectToken = (token: TokenBalance) => {
     setInputToken(token)
+    if (!isWithdrawal) setTransactionToken(token)
     tokenBottomSheetRef.current?.close()
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
@@ -224,20 +228,15 @@ function EarnEnterAmount({ route }: Props) {
         localAmount: parsedLocalAmount,
       }
     }
-  }, [tokenAmountInput, localAmountInput, enteredIn, mode])
+  }, [tokenAmountInput, localAmountInput, enteredIn, mode, transactionToken])
 
   // This is for withdrawals as we want the user to be able to input the amounts in the deposit token
-  const { transactionToken, transactionTokenAmount } = useMemo(() => {
-    const transactionToken = isWithdrawal ? withdrawToken : inputToken
-    const transactionTokenAmount = isWithdrawal
-      ? tokenAmount && tokenAmount.dividedBy(pool.pricePerShare[0])
-      : tokenAmount
+  const transactionTokenAmount = useMemo(
+    () =>
+      isWithdrawal ? tokenAmount && tokenAmount.dividedBy(pool.pricePerShare[0]) : tokenAmount,
 
-    return {
-      transactionToken,
-      transactionTokenAmount,
-    }
-  }, [inputToken, withdrawToken, tokenAmount, isWithdrawal, pool])
+    [transactionToken, inputToken, withdrawToken, tokenAmount, isWithdrawal, pool]
+  )
 
   const balanceInInputToken = useMemo(
     () =>
