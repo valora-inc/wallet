@@ -27,12 +27,16 @@ export default function EarnActivePools() {
     () => pools.filter((pool) => new BigNumber(pool.balance).gt(0)).length,
     [pools]
   )
-  const totalSuppliedValueUsd = pools.reduce(
-    (acc, pool) => {
-      const { poolBalanceInUsd } = getEarnPositionBalanceValues({ pool })
-      return acc.plus(poolBalanceInUsd)
-    },
-    new BigNumber(0) ?? null
+  const totalSuppliedValueUsd = useMemo(
+    () =>
+      pools.reduce(
+        (acc, pool) => {
+          const { poolBalanceInUsd } = getEarnPositionBalanceValues({ pool })
+          return acc.plus(poolBalanceInUsd)
+        },
+        new BigNumber(0) ?? null
+      ),
+    [pools]
   )
   const totalSuppliedValue = useDollarsToLocalAmount(totalSuppliedValueUsd)
   const totalSupplied = useMemo(
