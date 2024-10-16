@@ -162,6 +162,26 @@ export const reducer = (
         },
         standbyTransactions: updatedStandbyTransactions,
       }
+
+    case Actions.REMOVE_DUPLICATED_STANDBY_TRANSACTIONS:
+      const confirmedTransactionsFromNewPage = action.newPageTransactions
+        .filter((tx) => tx.status !== TransactionStatus.Pending)
+        .map((tx) => tx.transactionHash)
+
+      return {
+        ...state,
+        standbyTransactions: state.standbyTransactions.filter((tx) => {
+          /**
+           * - ignore empty hashes as there's no way to compare them
+           * - ignore pending as it should only affect confirmed transactions that are already
+           *   present in the paginated data
+           */
+          if (!tx.transactionHash || tx.status === TransactionStatus.Pending) return true
+
+          return !confirmedTransactionsFromNewPage.includes(tx.transactionHash)
+        }),
+      }
+
     default:
       return state
   }
@@ -206,7 +226,7 @@ export const confirmedStandbyTransactionsSelector = createSelector(
   }
 )
 
-export const transactionsByNetworkIdSelector = (state: RootState) =>
+const transactionsByNetworkIdSelector = (state: RootState) =>
   state.transactions.transactionsByNetworkId
 
 export const transactionsSelector = createSelector(
