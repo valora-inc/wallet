@@ -39,7 +39,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.EarnConfirmationScre
 export default function EarnConfirmationScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { pool, mode, inputAmount } = route.params
+  const { pool, mode, inputAmount, useMax } = route.params
   const { depositTokenId, withdrawTokenId, rewardsPositionIds } = pool.dataProps
   const withdrawStatus = useSelector(withdrawStatusSelector)
   const rewardsPositions = useSelector(positionsWithBalanceSelector).filter((position) =>
@@ -69,19 +69,6 @@ export default function EarnConfirmationScreen({ route }: Props) {
 
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
 
-  // TODO(tomm): this should handle partial withdrawals
-  const {
-    result: prepareTransactionsResult,
-    loading: isPreparingTransactions,
-    error: prepareTransactionError,
-  } = usePrepareWithdrawAndClaimTransactions({
-    pool,
-    walletAddress,
-    feeCurrencies,
-    hooksApiUrl,
-    rewardsPositions,
-  })
-
   const withdrawAmountInDepositToken = useMemo(() => {
     if (inputAmount) {
       return new BigNumber(inputAmount).multipliedBy(pool.pricePerShare[0] ?? 1)
@@ -89,6 +76,20 @@ export default function EarnConfirmationScreen({ route }: Props) {
       return withdrawToken.balance.multipliedBy(pool.pricePerShare[0] ?? 1)
     }
   }, [withdrawToken, pool.pricePerShare, inputAmount])
+
+  const {
+    result: prepareTransactionsResult,
+    loading: isPreparingTransactions,
+    error: prepareTransactionError,
+  } = usePrepareWithdrawAndClaimTransactions({
+    amount: withdrawAmountInDepositToken.toString(),
+    pool,
+    walletAddress,
+    feeCurrencies,
+    hooksApiUrl,
+    rewardsPositions,
+    useMax,
+  })
 
   const onPress = () => {
     if (prepareTransactionsResult?.type !== 'possible') {
@@ -103,6 +104,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
         ),
         rewardsTokens,
         pool,
+        amount: withdrawAmountInDepositToken.toString(),
       })
     )
 

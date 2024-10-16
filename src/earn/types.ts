@@ -26,6 +26,7 @@ export interface SerializableRewardsInfo {
 }
 
 export interface WithdrawInfo {
+  amount?: string
   pool: EarnPosition
   preparedTransactions: SerializableTransactionRequest[]
   rewardsTokens: Token[]
@@ -46,6 +47,8 @@ export interface PrepareWithdrawAndClaimParams {
   feeCurrencies: TokenBalance[]
   hooksApiUrl: string
   rewardsPositions: Position[]
+  amount?: string
+  useMax?: boolean
 }
 
 export enum BeforeDepositActionName {

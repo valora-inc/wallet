@@ -87,6 +87,7 @@ export type StackParamList = {
     pool: EarnPosition
     mode: OutletMode
     inputAmount?: string
+    useMax?: boolean
   }
   [Screens.EarnHome]: { activeEarnTab?: EarnTabType } | undefined
   [Screens.EarnPoolInfoScreen]: { pool: EarnPosition }

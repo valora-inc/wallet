@@ -369,6 +369,7 @@ function EarnEnterAmount({ route }: Props) {
         pool,
         mode,
         inputAmount: tokenAmount.dividedBy(pool.pricePerShare[0] ?? 0).toString(),
+        useMax: maxPressed,
       })
     } else {
       reviewBottomSheetRef.current?.snapToIndex(0)

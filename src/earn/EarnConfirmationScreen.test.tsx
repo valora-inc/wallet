@@ -225,6 +225,7 @@ describe('EarnConfirmationScreen', () => {
       {
         type: withdrawStart.type,
         payload: {
+          amount: '11.825',
           pool: mockEarnPositions[0],
           preparedTransactions: getSerializablePreparedTransactions(
             mockPreparedTransaction.transactions
