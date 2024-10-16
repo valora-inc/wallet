@@ -260,32 +260,40 @@ function useStandByTransactions() {
 function useNewlyCompletedTransactions(
   standByTransactions: ReturnType<typeof useStandByTransactions>
 ) {
-  const [previousStandBy, setPreviousStandBy] = useState({
-    pending: [] as string[],
-    confirmed: [] as string[],
-    hasNewlyCompletedTransactions: false,
-  })
+  const [{ hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps }, setPreviousStandBy] =
+    useState({
+      pending: [] as TokenTransaction[],
+      confirmed: [] as TokenTransaction[],
+      newlyCompletedCrossChainSwaps: [] as TokenExchange[],
+      hasNewlyCompletedTransactions: false,
+    })
 
   useEffect(
     function updatePrevStandBy() {
       setPreviousStandBy((prev) => {
-        const pendingHashes = standByTransactions.pending.map((tx) => tx.transactionHash)
         const confirmedHashes = standByTransactions.confirmed.map((tx) => tx.transactionHash)
-        const hasNewlyCompletedTransactions = prev.pending.some((hash) => {
-          return confirmedHashes.includes(hash)
+        const newlyCompleted = prev.pending.filter((tx) => {
+          return confirmedHashes.includes(tx.transactionHash)
         })
+        const newlyCompletedCrossChainSwaps = newlyCompleted.filter(
+          (tx): tx is TokenExchange => tx.type === TokenTransactionTypeV2.CrossChainSwapTransaction
+        )
 
         return {
-          pending: pendingHashes,
-          confirmed: confirmedHashes,
-          hasNewlyCompletedTransactions,
+          pending: [...standByTransactions.pending],
+          confirmed: [...standByTransactions.confirmed],
+          newlyCompletedCrossChainSwaps,
+          hasNewlyCompletedTransactions: !!newlyCompleted.length,
         }
       })
     },
     [standByTransactions]
   )
 
-  return previousStandBy.hasNewlyCompletedTransactions
+  return {
+    hasNewlyCompletedTransactions,
+    newlyCompletedCrossChainSwaps,
+  }
 }
 
 function renderItem({ item: tx }: { item: TokenTransaction }) {
@@ -315,7 +323,8 @@ export default function TransactionFeedV2() {
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
-  const newlyCompletedTransactions = useNewlyCompletedTransactions(standByTransactions)
+  const { hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps } =
+    useNewlyCompletedTransactions(standByTransactions)
   const knownCompletedTransactionsHashes = useSelector(allKnownCompletedTransactionsHashesSelector)
   const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
   const [paginatedData, setPaginatedData] = useState<PaginatedData>({ [FIRST_PAGE_TIMESTAMP]: [] })
@@ -422,11 +431,11 @@ export default function TransactionFeedV2() {
   useEffect(
     function vibrateForNewlyCompletedTransactions() {
       const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
-      if (isFirstPage && newlyCompletedTransactions) {
+      if (isFirstPage && hasNewlyCompletedTransactions) {
         vibrateSuccess()
       }
     },
-    [newlyCompletedTransactions, originalArgs?.endCursor]
+    [hasNewlyCompletedTransactions, originalArgs?.endCursor]
   )
 
   useEffect(
@@ -453,25 +462,11 @@ export default function TransactionFeedV2() {
 
   useEffect(
     function trackCrossChainSwaps() {
-      if (!data?.transactions) return
-
-      const completedCrossChainSwaps = data.transactions
-        .filter(
-          (tx) =>
-            tx.status === TransactionStatus.Complete &&
-            tx.type === TokenTransactionTypeV2.CrossChainSwapTransaction
-        )
-        .map((tx) => tx.transactionHash)
-
-      const newlyCompletedCrossChainSwaps = standByTransactions.pending.filter(
-        (tx): tx is TokenExchange => completedCrossChainSwaps.includes(tx.transactionHash)
-      )
-
       if (newlyCompletedCrossChainSwaps.length) {
         trackCompletionOfCrossChainSwaps(newlyCompletedCrossChainSwaps)
       }
     },
-    [data?.transactions, standByTransactions.pending]
+    [newlyCompletedCrossChainSwaps]
   )
 
   const confirmedTransactions = useMemo(() => {

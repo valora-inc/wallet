@@ -582,11 +582,13 @@ describe('TransactionFeedV2', () => {
       'base-mainnet:native': { priceUsd: new BigNumber(1000) } as TokenBalance,
     })
 
+    const hash = '0x01' as string
     const mockedTransaction = {
+      context: { id: hash },
       __typename: 'CrossChainTokenExchange',
-      transactionHash: '0xabc',
+      transactionHash: hash,
       type: TokenTransactionTypeV2.CrossChainSwapTransaction,
-      status: TransactionStatus.Complete,
+      status: TransactionStatus.Pending,
       networkId: NetworkId['celo-alfajores'],
       inAmount: { value: '0.1', tokenId: 'op-mainnet:native' },
       outAmount: { value: '0.2', tokenId: 'base-mainnet:native' },
@@ -596,36 +598,43 @@ describe('TransactionFeedV2', () => {
         { type: 'APP_FEE', amount: { value: '0.4', tokenId: 'base-mainnet:native' } },
         { type: 'CROSS_CHAIN_FEE', amount: { value: '0.5', tokenId: 'base-mainnet:native' } },
       ],
-    } as TokenTransaction
+    } as StandbyTransaction
 
-    mockFetch.mockResponse(typedResponse({ transactions: [mockedTransaction] }))
-
-    renderScreen({
+    const { store } = renderScreen({
       transactions: {
-        standbyTransactions: [{ ...mockedTransaction, status: TransactionStatus.Pending }],
+        standbyTransactions: [mockedTransaction],
       },
     })
 
-    await waitFor(() =>
-      expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
-        swapType: 'cross-chain',
-        swapExecuteTxId: '0xabc',
-        toTokenId: 'op-mainnet:native',
-        toTokenAmount: '0.1',
-        toTokenAmountUsd: 10,
-        fromTokenId: 'base-mainnet:native',
-        fromTokenAmount: '0.2',
-        fromTokenAmountUsd: 200,
-        networkFeeTokenId: 'base-mainnet:native',
-        networkFeeAmount: '0.3',
-        networkFeeAmountUsd: 300,
-        appFeeTokenId: 'base-mainnet:native',
-        appFeeAmount: '0.4',
-        appFeeAmountUsd: 400,
-        crossChainFeeTokenId: 'base-mainnet:native',
-        crossChainFeeAmount: '0.5',
-        crossChainFeeAmountUsd: 500,
-      })
-    )
+    // imitate changing of pending stand by transaction to confirmed
+    await act(() => {
+      const changePendingToConfirmed = transactionConfirmed(
+        hash,
+        { status: TransactionStatus.Complete, transactionHash: hash, block: '' },
+        mockTransaction().timestamp
+      ) as Action
+      store.dispatch(changePendingToConfirmed)
+    })
+
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
+      swapType: 'cross-chain',
+      swapExecuteTxId: hash,
+      toTokenId: 'op-mainnet:native',
+      toTokenAmount: '0.1',
+      toTokenAmountUsd: 10,
+      fromTokenId: 'base-mainnet:native',
+      fromTokenAmount: '0.2',
+      fromTokenAmountUsd: 200,
+      networkFeeTokenId: 'base-mainnet:native',
+      networkFeeAmount: '0.3',
+      networkFeeAmountUsd: 300,
+      appFeeTokenId: 'base-mainnet:native',
+      appFeeAmount: '0.4',
+      appFeeAmountUsd: 400,
+      crossChainFeeTokenId: 'base-mainnet:native',
+      crossChainFeeAmount: '0.5',
+      crossChainFeeAmountUsd: 500,
+    })
+    expect(AppAnalytics.track).toBeCalledTimes(1)
   })
 })
