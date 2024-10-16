@@ -41,7 +41,7 @@ interface EarnDataProps {
   // We'll add more fields here as needed
 }
 
-export type ClaimType = 'earnings' | 'rewards'
+type ClaimType = 'earnings' | 'rewards'
 
 export type EarnPosition = AppTokenPosition & { dataProps: EarnDataProps }
 
