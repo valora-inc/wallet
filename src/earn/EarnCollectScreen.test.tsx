@@ -7,7 +7,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
 import { withdrawStart } from 'src/earn/slice'
-import { isGasSubsidizedForNetwork } from 'src/earn/utils'
+import { getEarnPositionBalanceValues, isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
@@ -97,6 +97,12 @@ describe('EarnCollectScreen', () => {
         (gateName: StatsigFeatureGates) => gateName === StatsigFeatureGates.SHOW_POSITIONS
       )
     jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
+    jest
+      .mocked(getEarnPositionBalanceValues)
+      .mockReturnValue({
+        poolBalanceInUsd: new BigNumber(11.825),
+        poolBalanceInDepositToken: new BigNumber(11.825),
+      })
     store.clearActions()
   })
 
