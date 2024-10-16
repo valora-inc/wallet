@@ -366,16 +366,7 @@ function EarnEnterAmount({ route }: Props) {
     reviewBottomSheetRef.current?.snapToIndex(0)
   }
 
-  const dropdownEnabled = useMemo(() => {
-    switch (mode) {
-      case 'withdraw':
-        return withdrawTokens.length > 1
-      case 'swap-deposit':
-      case 'deposit':
-      default:
-        return availableInputTokens.length > 1
-    }
-  }, [mode, availableInputTokens, withdrawTokens, depositTokens])
+  const dropdownEnabled = availableInputTokens.length > 1
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
