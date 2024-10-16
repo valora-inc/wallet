@@ -518,6 +518,4 @@ describe('TransactionFeedV2', () => {
     })
     expect(vibrateSuccess).not.toHaveBeenCalled()
   })
-
-  // it('should vibrate when there are new completed transactions', () => {})
 })
