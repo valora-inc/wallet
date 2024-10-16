@@ -240,6 +240,14 @@ function EarnEnterAmount({ route }: Props) {
     feeCurrenciesSelector(state, transactionToken.networkId)
   )
 
+  const balanceInTransactionToken = useMemo(
+    () =>
+      isWithdrawal
+        ? transactionToken.balance.multipliedBy(pool.pricePerShare[0])
+        : transactionToken.balance,
+    [transactionToken, pool, mode]
+  )
+
   useEffect(() => {
     clearPreparedTransactions()
 
@@ -247,11 +255,7 @@ function EarnEnterAmount({ route }: Props) {
       !tokenAmount ||
       tokenAmount.isLessThanOrEqualTo(0) ||
       tokenAmount.isLessThanOrEqualTo(0) ||
-      tokenAmount.isGreaterThan(
-        isWithdrawal
-          ? transactionToken.balance.multipliedBy(pool.pricePerShare[0])
-          : transactionToken.balance
-      )
+      tokenAmount.isGreaterThan(balanceInTransactionToken)
     ) {
       return
     }
@@ -264,9 +268,7 @@ function EarnEnterAmount({ route }: Props) {
   const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
-  const isAmountLessThanBalance = isWithdrawal
-    ? tokenAmount && tokenAmount.lte(transactionToken.balance.multipliedBy(pool.pricePerShare[0]))
-    : tokenAmount && tokenAmount.lte(transactionToken.balance)
+  const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(balanceInTransactionToken)
   const showNotEnoughBalanceForGasWarning =
     isAmountLessThanBalance &&
     prepareTransactionsResult &&
@@ -326,9 +328,7 @@ function EarnEnterAmount({ route }: Props) {
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
     // if there is not enough for gas
     if (isWithdrawal) {
-      setTokenAmountInput(
-        transactionToken.balance.multipliedBy(pool.pricePerShare[0]).toFormat({ decimalSeparator })
-      )
+      setTokenAmountInput(balanceInTransactionToken.toFormat({ decimalSeparator }))
     } else {
       setTokenAmountInput(inputToken.balance.toFormat({ decimalSeparator }))
     }
@@ -452,7 +452,7 @@ function EarnEnterAmount({ route }: Props) {
               token={transactionToken}
               prepareTransactionsResult={prepareTransactionsResult}
               feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
-              transactionToken={transactionToken}
+              balanceInTransactionToken={balanceInTransactionToken}
             />
           )}
         </View>
@@ -573,13 +573,13 @@ function TransactionWithdrawDetails({
   pool,
   prepareTransactionsResult,
   feeDetailsBottomSheetRef,
-  transactionToken,
+  balanceInTransactionToken,
 }: {
   pool: EarnPosition
   token: TokenBalance
   prepareTransactionsResult?: PreparedTransactionsResult
   feeDetailsBottomSheetRef: React.RefObject<BottomSheetModalRefType>
-  transactionToken: TokenBalance
+  balanceInTransactionToken: BigNumber
 }) {
   const { t } = useTranslation()
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
@@ -595,7 +595,7 @@ function TransactionWithdrawDetails({
           <TokenDisplay
             tokenId={pool.dataProps.depositTokenId}
             testID="EarnEnterAmount/Withdraw/Fiat"
-            amount={transactionToken.balance.multipliedBy(pool.pricePerShare[0])}
+            amount={balanceInTransactionToken}
             showLocalAmount={true}
             style={styles.txDetailsValueText}
           />
@@ -604,7 +604,7 @@ function TransactionWithdrawDetails({
             <TokenDisplay
               testID="EarnEnterAmount/Withdraw/Crypto"
               tokenId={pool.dataProps.depositTokenId}
-              amount={transactionToken.balance.multipliedBy(pool.pricePerShare[0])}
+              amount={balanceInTransactionToken}
               showLocalAmount={false}
             />
             {')'}
