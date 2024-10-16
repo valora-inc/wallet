@@ -1948,4 +1948,11 @@ export const migrations = {
       },
     }
   },
+  235: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      feedFirstPage: [],
+    },
+  }),
 }

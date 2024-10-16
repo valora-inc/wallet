@@ -5513,6 +5513,12 @@
         "State_6": {
             "additionalProperties": false,
             "properties": {
+                "feedFirstPage": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
                 "knownCompletedTransactionsHashes": {
                     "items": {
                         "type": "string"
@@ -5530,6 +5536,7 @@
                 }
             },
             "required": [
+                "feedFirstPage",
                 "knownCompletedTransactionsHashes",
                 "standbyTransactions",
                 "transactionsByNetworkId"

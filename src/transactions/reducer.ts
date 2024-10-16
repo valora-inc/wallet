@@ -23,12 +23,14 @@ interface State {
   standbyTransactions: StandbyTransaction[]
   transactionsByNetworkId: TransactionsByNetworkId
   knownCompletedTransactionsHashes: string[]
+  feedFirstPage: TokenTransaction[]
 }
 
 const initialState = {
   standbyTransactions: [],
   transactionsByNetworkId: {},
   knownCompletedTransactionsHashes: [],
+  feedFirstPage: [],
 }
 // export for testing
 export const _initialState = initialState
@@ -198,6 +200,12 @@ export const reducer = (
       return {
         ...state,
         knownCompletedTransactionsHashes: newKnownHashes,
+      }
+
+    case Actions.UPDATE_FEED_FIRST_PAGE:
+      return {
+        ...state,
+        feedFirstPage: [...action.transactions],
       }
 
     default:

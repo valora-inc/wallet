@@ -21,6 +21,7 @@ export enum Actions {
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
   REMOVE_DUPLICATED_STANDBY_TRANSACTIONS = 'TRANSACTIONS/REMOVE_DUPLICATED_STANDBY_TRANSACTIONS',
   UPDATE_KNOWN_COMPLETED_TRANSACTIONS_HASHES = 'TRANSACTIONS/UPDATE_KNOWN_COMPLETED_TRANSACTIONS_HASHES',
+  UPDATE_FEED_FIRST_PAGE = 'TRANSACTIONS/UPDATE_FEED_FIRST_PAGE',
 }
 
 type BaseStandbyTransactionType<T> = Omit<PendingStandbyTransaction<T>, 'timestamp' | 'status'>
@@ -71,12 +72,18 @@ interface UpdateKnownCompletedTransactionsHashesAction {
   newPageTransactions: TokenTransaction[]
 }
 
+interface UpdateFeedFirstPageAction {
+  type: Actions.UPDATE_FEED_FIRST_PAGE
+  transactions: TokenTransaction[]
+}
+
 export type ActionTypes =
   | AddStandbyTransactionAction
   | UpdateTransactionsAction
   | TransactionConfirmedAction
   | RemoveDuplicatedStandByTransactionsAction
   | UpdateKnownCompletedTransactionsHashesAction
+  | UpdateFeedFirstPageAction
 
 export const addStandbyTransaction = (
   transaction: BaseStandbyTransaction
@@ -117,4 +124,11 @@ export const updateKnownCompletedTransactionsHashes = (
 ): UpdateKnownCompletedTransactionsHashesAction => ({
   type: Actions.UPDATE_KNOWN_COMPLETED_TRANSACTIONS_HASHES,
   newPageTransactions,
+})
+
+export const updateFeedFirstPage = (
+  transactions: TokenTransaction[]
+): UpdateFeedFirstPageAction => ({
+  type: Actions.UPDATE_FEED_FIRST_PAGE,
+  transactions,
 })
