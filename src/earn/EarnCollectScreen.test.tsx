@@ -97,12 +97,10 @@ describe('EarnCollectScreen', () => {
         (gateName: StatsigFeatureGates) => gateName === StatsigFeatureGates.SHOW_POSITIONS
       )
     jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
-    jest
-      .mocked(getEarnPositionBalanceValues)
-      .mockReturnValue({
-        poolBalanceInUsd: new BigNumber(11.825),
-        poolBalanceInDepositToken: new BigNumber(11.825),
-      })
+    jest.mocked(getEarnPositionBalanceValues).mockReturnValue({
+      poolBalanceInUsd: new BigNumber(11.825),
+      poolBalanceInDepositToken: new BigNumber(11.825),
+    })
     store.clearActions()
   })
 
