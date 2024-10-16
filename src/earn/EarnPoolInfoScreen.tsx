@@ -286,7 +286,7 @@ function YieldCard({
           />
         </View>
         <Text style={styles.cardTitleText}>
-          {yieldRateSum > 0
+          {yieldRateSum > 0.00005
             ? t('earnFlow.poolInfoScreen.ratePercent', { rate: yieldRateSum.toFixed(2) })
             : '--'}
         </Text>
