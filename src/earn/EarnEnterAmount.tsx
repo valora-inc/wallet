@@ -111,9 +111,6 @@ function EarnEnterAmount({ route }: Props) {
   }, [mode])
 
   const [inputToken, setInputToken] = useState<TokenBalance>(() => availableInputTokens[0])
-  const [transactionToken, setTransactionToken] = useState<TokenBalance>(() =>
-    isWithdrawal ? withdrawToken : inputToken
-  )
 
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -141,7 +138,6 @@ function EarnEnterAmount({ route }: Props) {
 
   const onSelectToken = (token: TokenBalance) => {
     setInputToken(token)
-    if (!isWithdrawal) setTransactionToken(token)
     tokenBottomSheetRef.current?.close()
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
@@ -228,18 +224,31 @@ function EarnEnterAmount({ route }: Props) {
         localAmount: parsedLocalAmount,
       }
     }
-  }, [tokenAmountInput, localAmountInput, enteredIn, transactionToken, mode])
+  }, [tokenAmountInput, localAmountInput, enteredIn, mode])
 
-  const feeCurrencies = useSelector((state) =>
-    feeCurrenciesSelector(state, transactionToken.networkId)
-  )
+  // This is for withdrawals as we want the user to be able to input the amounts in the deposit token
+  const { transactionToken, transactionTokenAmount } = useMemo(() => {
+    const transactionToken = isWithdrawal ? withdrawToken : inputToken
+    const transactionTokenAmount = isWithdrawal
+      ? tokenAmount && tokenAmount.dividedBy(pool.pricePerShare[0])
+      : tokenAmount
+
+    return {
+      transactionToken,
+      transactionTokenAmount,
+    }
+  }, [inputToken, withdrawToken, tokenAmount, isWithdrawal, pool])
 
   const balanceInInputToken = useMemo(
     () =>
       isWithdrawal
         ? transactionToken.balance.multipliedBy(pool.pricePerShare[0])
         : transactionToken.balance,
-    [transactionToken, pool, mode]
+    [transactionToken, isWithdrawal, pool]
+  )
+
+  const feeCurrencies = useSelector((state) =>
+    feeCurrenciesSelector(state, transactionToken.networkId)
   )
 
   useEffect(() => {
@@ -247,6 +256,7 @@ function EarnEnterAmount({ route }: Props) {
 
     if (
       !tokenAmount ||
+      !transactionTokenAmount ||
       tokenAmount.isLessThanOrEqualTo(0) ||
       tokenAmount.isGreaterThan(balanceInInputToken)
     ) {
@@ -254,7 +264,7 @@ function EarnEnterAmount({ route }: Props) {
     }
     const debouncedRefreshTransactions = setTimeout(() => {
       return handleRefreshPreparedTransactions(
-        isWithdrawal ? tokenAmount.multipliedBy(pool.pricePerShare[0]) : tokenAmount,
+        transactionTokenAmount,
         transactionToken,
         feeCurrencies
       )
@@ -324,11 +334,7 @@ function EarnEnterAmount({ route }: Props) {
     // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
     // if there is not enough for gas
-    if (isWithdrawal) {
-      setTokenAmountInput(balanceInInputToken.toFormat({ decimalSeparator }))
-    } else {
-      setTokenAmountInput(inputToken.balance.toFormat({ decimalSeparator }))
-    }
+    setTokenAmountInput(balanceInInputToken.toFormat({ decimalSeparator }))
     setEnteredIn('token')
     setMaxPressed(true)
     tokenAmountInputRef.current?.blur()
