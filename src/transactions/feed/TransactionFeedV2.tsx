@@ -42,7 +42,7 @@ type PaginatedData = {
 // Query poll interval
 const POLL_INTERVAL_MS = 10000 // 10 sec
 const FIRST_PAGE_TIMESTAMP = 0
-const LOGGER_TAG = 'transactions/feed/TransactionFeedV2'
+const TAG = 'transactions/feed/TransactionFeedV2'
 
 function getAllowedNetworksForTransfers() {
   return getMultichainFeatures().showTransfers
@@ -271,7 +271,7 @@ export default function TransactionFeedV2() {
     function handleError() {
       if (error === undefined) return
 
-      Logger.error(LOGGER_TAG, 'Error while fetching transactions', error)
+      Logger.error(TAG, 'Error while fetching transactions', error)
       dispatch(showError(ErrorMessages.FETCH_FAILED))
     },
     [error]
