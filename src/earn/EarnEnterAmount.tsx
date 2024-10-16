@@ -348,7 +348,9 @@ function EarnEnterAmount({ route }: Props) {
       return
     }
     AppAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
-      amountInUsd: tokenAmount.multipliedBy(transactionToken.priceUsd ?? 0).toFixed(2),
+      amountInUsd: isWithdrawal
+        ? tokenAmount.multipliedBy(inputToken.priceUsd ?? 0).toFixed(2)
+        : tokenAmount.multipliedBy(transactionToken.priceUsd ?? 0).toFixed(2),
       amountEnteredIn: enteredIn,
       depositTokenId: pool.dataProps.depositTokenId,
       networkId: transactionToken.networkId,
