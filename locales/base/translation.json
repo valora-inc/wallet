@@ -2578,6 +2578,7 @@
         "estNetworkFee": "Est. Network Fee",
         "maxNetworkFee": "Max Network Fee",
         "networkFeeDescription": "The network fee is required by the network to process the deposit transaction.",
+        "networkFeeDescriptionWithdrawal": "The network fee is required by the network to process the withdrawal transaction.",
         "networkSwapFeeDescription": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
         "appSwapFee": "{{appName}} Fee"
       },

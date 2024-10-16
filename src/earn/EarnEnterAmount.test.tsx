@@ -21,6 +21,7 @@ import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
+  mockAaveArbUsdcTokenId,
   mockAccount,
   mockArbArbTokenId,
   mockArbEthTokenId,
@@ -124,6 +125,10 @@ const store = createMockStore({
         ...mockTokenBalances[mockArbArbTokenId],
         minimumAppVersionToSwap: '1.0.0',
         balance: '1',
+      },
+      mockAaveArbUsdcTokenId: {
+        ...mockTokenBalances[mockAaveArbUsdcTokenId],
+        balance: '10',
       },
     },
   },
@@ -378,9 +383,7 @@ describe('EarnEnterAmount', () => {
 
   describe('withdraw', () => {
     // Pool balance should be set to determine available withdrawal amount
-    const withdrawalPool = mockEarnPositions[0]
-    withdrawalPool.balance = '10'
-    const withdrawParams = { pool: withdrawalPool, mode: 'withdraw' }
+    const withdrawParams = { ...params, mode: 'withdraw' }
 
     beforeEach(() => {
       jest.clearAllMocks()
@@ -395,7 +398,7 @@ describe('EarnEnterAmount', () => {
         isPreparingTransactions: false,
       })
     })
-    it('should show only the withdrawal token and not include the token dropdown', async () => {
+    it('should show only the deposit token and not include the token dropdown', async () => {
       const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
           <MockedNavigator component={EarnEnterAmount} params={withdrawParams} />
@@ -420,11 +423,11 @@ describe('EarnEnterAmount', () => {
       await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
 
       expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toBeTruthy()
-      expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toHaveTextContent('10.00 USDC')
+      expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toHaveTextContent('11.00 USDC')
 
       expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
-      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toHaveTextContent('₱13.30')
+      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toHaveTextContent('₱14.63')
 
       expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
