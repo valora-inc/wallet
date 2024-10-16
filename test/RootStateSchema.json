@@ -1245,6 +1245,9 @@
                 "contractCreatedAt": {
                     "type": "string"
                 },
+                "dailyYieldRatePercentage": {
+                    "type": "number"
+                },
                 "depositTokenId": {
                     "type": "string"
                 },
