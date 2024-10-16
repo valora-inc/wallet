@@ -31,6 +31,7 @@ import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import {
   allKnownCompletedTransactionsHashesSelector,
   allStandbyTransactionsSelector,
+  feedFirstPageSelector,
 } from 'src/transactions/reducer'
 import {
   FeeType,
@@ -317,8 +318,11 @@ export default function TransactionFeedV2() {
   const standByTransactions = useStandByTransactions()
   const newlyCompletedTransactions = useNewlyCompletedTransactions(standByTransactions)
   const knownCompletedTransactionsHashes = useSelector(allKnownCompletedTransactionsHashesSelector)
+  const feedFirstPage = useSelector(feedFirstPageSelector)
   const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
-  const [paginatedData, setPaginatedData] = useState<PaginatedData>({ [FIRST_PAGE_TIMESTAMP]: [] })
+  const [paginatedData, setPaginatedData] = useState<PaginatedData>({
+    [FIRST_PAGE_TIMESTAMP]: feedFirstPage,
+  })
 
   /**
    * This hook automatically fetches the pagination data when (and only when) the endCursor changes

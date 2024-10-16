@@ -329,3 +329,6 @@ export const allKnownCompletedTransactionsHashesSelector = createSelector(
   [knownCompletedTransactionsHashesSelector],
   (knownHashes) => knownHashes
 )
+
+const feedFirstPage = (state: RootState) => state.transactions.feedFirstPage
+export const feedFirstPageSelector = createSelector(feedFirstPage, (feed) => feed)
