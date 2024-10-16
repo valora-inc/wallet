@@ -19,9 +19,10 @@ import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import NoActivity from 'src/transactions/NoActivity'
 import {
   removeDuplicatedStandByTransactions,
+  updateFeedFirstPage,
   updateKnownCompletedTransactionsHashes,
 } from 'src/transactions/actions'
-import { useTransactionFeedV2Query } from 'src/transactions/api'
+import { FIRST_PAGE_TIMESTAMP, useTransactionFeedV2Query } from 'src/transactions/api'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
@@ -60,7 +61,6 @@ type PaginatedData = {
  */
 const MIN_NUM_TRANSACTIONS = 10
 const POLL_INTERVAL_MS = 10000 // 10 sec
-const FIRST_PAGE_TIMESTAMP = 0 // placeholder
 
 function getAllowedNetworksForTransfers() {
   return getMultichainFeatures().showTransfers
@@ -401,6 +401,17 @@ export default function TransactionFeedV2() {
       })
     },
     [isFetching, data?.transactions, originalArgs?.endCursor, standByTransactions.confirmed]
+  )
+
+  useEffect(
+    function updatePersistedFeedFirstPage() {
+      const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
+
+      if (isFirstPage && data?.transactions) {
+        dispatch(updateFeedFirstPage(data.transactions))
+      }
+    },
+    [data?.transactions, originalArgs?.endCursor]
   )
 
   /**
