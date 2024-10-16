@@ -248,7 +248,6 @@ function EarnEnterAmount({ route }: Props) {
     if (
       !tokenAmount ||
       tokenAmount.isLessThanOrEqualTo(0) ||
-      tokenAmount.isLessThanOrEqualTo(0) ||
       tokenAmount.isGreaterThan(balanceInTransactionToken)
     ) {
       return
