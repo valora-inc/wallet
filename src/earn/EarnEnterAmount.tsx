@@ -87,9 +87,9 @@ function useTokens({ pool }: { pool: EarnPosition }) {
   }
 
   return {
-    depositTokens: [depositToken],
-    withdrawTokens: [withdrawToken],
-    eligibleSwappableTokens: eligibleSwappableTokens,
+    depositToken,
+    withdrawToken,
+    eligibleSwappableTokens,
   }
 }
 
@@ -98,13 +98,13 @@ function EarnEnterAmount({ route }: Props) {
 
   const { pool, mode = 'deposit' } = route.params
   const isWithdrawal = mode === 'withdraw'
-  const { depositTokens, withdrawTokens, eligibleSwappableTokens } = useTokens({ pool })
+  const { depositToken, withdrawToken, eligibleSwappableTokens } = useTokens({ pool })
 
   const availableInputTokens = useMemo(() => {
     switch (mode) {
       case 'deposit':
       case 'withdraw':
-        return depositTokens
+        return [depositToken]
       case 'swap-deposit':
         return eligibleSwappableTokens
     }
@@ -112,7 +112,7 @@ function EarnEnterAmount({ route }: Props) {
 
   const [inputToken, setInputToken] = useState<TokenBalance>(() => availableInputTokens[0])
   const [transactionToken, setTransactionToken] = useState<TokenBalance>(() =>
-    isWithdrawal ? withdrawTokens[0] : inputToken
+    isWithdrawal ? withdrawToken : inputToken
   )
 
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
