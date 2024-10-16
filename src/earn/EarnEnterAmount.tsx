@@ -254,7 +254,11 @@ function EarnEnterAmount({ route }: Props) {
       return
     }
     const debouncedRefreshTransactions = setTimeout(() => {
-      return handleRefreshPreparedTransactions(tokenAmount, transactionToken, feeCurrencies)
+      return handleRefreshPreparedTransactions(
+        isWithdrawal ? tokenAmount.multipliedBy(pool.pricePerShare[0]) : tokenAmount,
+        transactionToken,
+        feeCurrencies
+      )
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [tokenAmount, mode, transactionToken, feeCurrencies])
