@@ -5,6 +5,7 @@ import React from 'react'
 import Toast from 'react-native-simple-toast'
 import { Provider } from 'react-redux'
 import { type ReactTestInstance } from 'react-test-renderer'
+import { REHYDRATE } from 'redux-persist'
 import { type Action } from 'redux-saga'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
@@ -627,5 +628,24 @@ describe('TransactionFeedV2', () => {
         crossChainFeeAmountUsd: 500,
       })
     )
+  })
+
+  it('should pre-populate persisted first page of the feed', async () => {
+    const store = getInitialStore()
+    store.dispatch({
+      type: REHYDRATE,
+      payload: {
+        web3: { account: '0x00' },
+        transactions: { feedFirstPage: [mockTransaction()] },
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <TransactionFeedV2 />
+      </Provider>
+    )
+
+    expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
   })
 })

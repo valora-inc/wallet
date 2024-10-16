@@ -37,7 +37,7 @@ export const transactionFeedV2Api = createApi({
    * Implementation is based on this conversation:
    * https://github.com/reduxjs/redux-toolkit/issues/4334
    */
-  extractRehydrationInfo: (action, { reducerPath }): any => {
+  extractRehydrationInfo: (action): any => {
     if (isRehydrateAction(action)) {
       const persistedWeb3 = getRehydratePayload(action, 'web3') as RootState['web3'] | undefined
       const walletAddress = persistedWeb3?.account?.toLowerCase() ?? null
