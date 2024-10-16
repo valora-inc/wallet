@@ -770,11 +770,8 @@ function InfoBottomSheet({
           >
             <View style={styles.learnMoreView}>
               <Text style={styles.learnMoreText}>
-                <Trans i18nKey={linkKey} tOptions={{ providerName }}>
-                  <Text />
-                </Trans>
+                <Trans i18nKey={linkKey} tOptions={{ providerName }} />
               </Text>
-
               <OpenLinkIcon color={Colors.black} size={16} />
             </View>
           </Touchable>
