@@ -2,12 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
-import { useSelector } from 'src/redux/hooks'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import NoActivity from 'src/transactions/NoActivity'
+import { removeDuplicatedStandByTransactions } from 'src/transactions/actions'
 import { useTransactionFeedV2Query } from 'src/transactions/api'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
@@ -95,18 +96,32 @@ function sortTransactions(transactions: TokenTransaction[]): TokenTransaction[] 
  * Otherwise, if we merge all the stand by transactins into the page it will cause more late transactions
  * that were already merged to be removed from the top of the list and move them to the bottom.
  * This will cause the screen to "shift", which we're trying to avoid.
+ *
+ * Note: when merging the first page – stand by transactions might include some new pending transaction.
+ * In order to include them in the merged list we need to also check if the stand by transaction is newer
+ * than the max timestamp from the page. But this must only happen for the first page as otherwise any
+ * following page would include stand by transactions from previous pages.
  */
-function mergeStandByTransactionsInRange(
-  transactions: TokenTransaction[],
-  standBy: TokenTransaction[]
-): TokenTransaction[] {
+function mergeStandByTransactionsInRange({
+  transactions,
+  standByTransactions,
+  currentCursor,
+}: {
+  transactions: TokenTransaction[]
+  standByTransactions: TokenTransaction[]
+  currentCursor?: number
+}): TokenTransaction[] {
   if (transactions.length === 0) return []
 
   const allowedNetworks = getAllowedNetworksForTransfers()
   const max = transactions[0].timestamp
   const min = transactions.at(-1)!.timestamp
 
-  const standByInRange = standBy.filter((tx) => tx.timestamp >= min && tx.timestamp <= max)
+  const standByInRange = standByTransactions.filter((tx) => {
+    const inRange = tx.timestamp >= min && tx.timestamp <= max
+    const newTransaction = currentCursor === FIRST_PAGE_TIMESTAMP && tx.timestamp > max
+    return inRange || newTransaction
+  })
   const deduplicatedTransactions = deduplicateTransactions([...transactions, ...standByInRange])
   const transactionsFromAllowedNetworks = deduplicatedTransactions.filter((tx) =>
     allowedNetworks.includes(tx.networkId)
@@ -116,8 +131,8 @@ function mergeStandByTransactionsInRange(
 }
 
 /**
- * Current implementation of allStandbyTransactionsSelector contains function
- * getSupportedNetworkIdsForApprovalTxsInHomefeed in its selectors list which triggers a lot of
+ * Current implementation of standbyTransactionsSelector contains function
+ * getSupportedNetworkIdsForApprovalTxsInHomefeed in its selectors which triggers a lot of
  * unnecessary re-renders. This can be avoided if we join it's result in a string and memoize it,
  * similar to how it was done with useAllowedNetworkIdsForTransfers hook from queryHelpers.ts
  *
@@ -175,6 +190,7 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
 }
 
 export default function TransactionFeedV2() {
+  const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
   const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
@@ -248,10 +264,11 @@ export default function TransactionFeedV2() {
           prev[currentCursor] === undefined // data for this page wasn't stored yet
 
         if (isFirstPage || pageDataIsAbsent) {
-          const mergedTransactions = mergeStandByTransactionsInRange(
+          const mergedTransactions = mergeStandByTransactionsInRange({
             transactions,
-            standByTransactions.confirmed
-          )
+            standByTransactions: standByTransactions.confirmed,
+            currentCursor,
+          })
 
           return { ...prev, [currentCursor!]: mergedTransactions }
         }
@@ -260,6 +277,22 @@ export default function TransactionFeedV2() {
       })
     },
     [isFetching, data?.transactions, originalArgs?.endCursor, standByTransactions.confirmed]
+  )
+
+  /**
+   * In order to avoid bloating stand by transactions with confirmed transactions that are already
+   * present in the feed via pagination – we need to cleanup them up. This must run for every page
+   * as standByTransaction selector might include very old transactions. We should use the chance
+   * whenever the user managed to scroll to those old transactions and remove them from persisted
+   * storage. Maybe there is a better way to keep it clean with another saga watcher?
+   */
+  useEffect(
+    function cleanupStandByTransactions() {
+      if (data?.transactions.length) {
+        dispatch(removeDuplicatedStandByTransactions(data.transactions))
+      }
+    },
+    [data?.transactions]
   )
 
   const confirmedTransactions = useMemo(() => {
