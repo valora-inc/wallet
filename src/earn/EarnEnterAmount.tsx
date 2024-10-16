@@ -219,7 +219,7 @@ function EarnEnterAmount({ route }: Props) {
         localToToken && localToToken.gt(0)
           ? // no group separator for token amount, round to token.decimals and strip trailing zeros
             localToToken
-              .toFormat(transactionToken.decimals, { decimalSeparator })
+              .toFormat(inputToken.decimals, { decimalSeparator })
               .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
           : ''
       )
