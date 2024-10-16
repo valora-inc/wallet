@@ -2695,7 +2695,7 @@
       "chainName": "Chain: <0>{{networkName}}</0>",
       "protocolName": "Protocol: <0>{{providerName}}</0>",
       "yieldRate": "Yield Rate",
-      "dailyRate": "Daily Rate",
+      "dailyYieldRate": "Daily Rate",
       "ratePercent": "{{rate}}%",
       "rewards": "Rewards",
       "noRewards": "No rewards",

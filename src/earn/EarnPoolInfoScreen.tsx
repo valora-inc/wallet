@@ -320,29 +320,27 @@ function YieldCard({
   )
 }
 
-function DailyYieldCard({
-  dailyYield,
+function DailyYieldRateCard({
+  dailyYieldRate,
   onInfoIconPress,
 }: {
-  dailyYield: number
+  dailyYieldRate: number
   onInfoIconPress: () => void
 }) {
   const { t } = useTranslation()
   return (
-    <View style={styles.card} testID="DailyYieldCard">
+    <View style={styles.card} testID="DailyYieldRateCard">
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
           <LabelWithInfo
             onPress={onInfoIconPress}
-            label={t('earnFlow.poolInfoScreen.dailyRate')}
+            label={t('earnFlow.poolInfoScreen.dailyYieldRate')}
             labelStyle={styles.cardTitleText}
-            testID="DailyRateInfoIcon"
+            testID="DailyYieldRateInfoIcon"
           />
         </View>
         <Text style={styles.cardTitleText}>
-          {dailyYield > 0
-            ? t('earnFlow.poolInfoScreen.ratePercent', { rate: dailyYield.toFixed(4) })
-            : '--'}
+          {t('earnFlow.poolInfoScreen.ratePercent', { rate: dailyYieldRate.toFixed(4) })}
         </Text>
       </View>
     </View>
@@ -604,8 +602,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
             earnPosition={pool}
           />
           {!!dataProps.dailyYieldRatePercentage && dataProps.dailyYieldRatePercentage > 0 && (
-            <DailyYieldCard
-              dailyYield={dataProps.dailyYieldRatePercentage}
+            <DailyYieldRateCard
+              dailyYieldRate={dataProps.dailyYieldRatePercentage}
               onInfoIconPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
                   providerId: appId,
@@ -756,7 +754,7 @@ function InfoBottomSheet({
       {descriptionUrl ? (
         <Text style={styles.infoBottomSheetText}>
           <Trans i18nKey={descriptionKey} tOptions={{ providerName }}>
-            <Text onPress={onPressUrl} style={styles.descriptionLinkText} />
+            <Text onPress={onPressUrl} style={styles.linkText} />
           </Trans>
         </Text>
       ) : (
@@ -938,7 +936,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Thick24,
     color: Colors.black,
   },
-  descriptionLinkText: {
+  linkText: {
     textDecorationLine: 'underline',
   },
 })
