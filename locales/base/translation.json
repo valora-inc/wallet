@@ -2723,7 +2723,8 @@
         "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
         "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}"
       },
-      "viewMoreDetails": "View More Details"
+      "viewMoreDetails": "View More Details",
+      "viewLessDetails": "View Less Details"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",

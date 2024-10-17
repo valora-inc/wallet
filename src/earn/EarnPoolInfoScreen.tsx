@@ -8,6 +8,7 @@ import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
+import { EarnCommonProperties } from 'src/analytics/Properties'
 import { openUrl } from 'src/app/actions'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -37,7 +38,6 @@ import variables from 'src/styles/variables'
 import { useTokenInfo, useTokensInfo } from 'src/tokens/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
 import { formattedDuration } from 'src/utils/time'
 
@@ -411,17 +411,11 @@ function AgeCard({ ageOfPool, onInfoIconPress }: { ageOfPool: Date; onInfoIconPr
 function LearnMoreTouchable({
   url,
   providerName,
-  appId,
-  positionId,
-  networkId,
-  depositTokenId,
+  commonAnalyticsProps,
 }: {
   url: string
   providerName: string
-  appId: string
-  positionId: string
-  networkId: NetworkId
-  depositTokenId: string
+  commonAnalyticsProps: EarnCommonProperties
 }) {
   const { t } = useTranslation()
   return (
@@ -429,12 +423,7 @@ function LearnMoreTouchable({
       <Touchable
         borderRadius={8}
         onPress={() => {
-          AppAnalytics.track(EarnEvents.earn_pool_info_view_pool, {
-            providerId: appId,
-            poolId: positionId,
-            networkId,
-            depositTokenId,
-          })
+          AppAnalytics.track(EarnEvents.earn_pool_info_view_pool, commonAnalyticsProps)
           navigateToURI(url)
         }}
       >
@@ -516,6 +505,13 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     throw new Error(`Token ${dataProps.depositTokenId} not found`)
   }
 
+  const commonAnalyticsProps: EarnCommonProperties = {
+    providerId: appId,
+    poolId: positionId,
+    networkId,
+    depositTokenId: dataProps.depositTokenId,
+  }
+
   const {
     hasDepositToken,
     hasTokensOnSameNetwork,
@@ -526,10 +522,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
 
   const onPressDeposit = () => {
     AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
-      poolId: positionId,
-      providerId: appId,
-      networkId: networkId,
-      depositTokenId: dataProps.depositTokenId,
+      ...commonAnalyticsProps,
       hasDepositToken,
       hasTokensOnSameNetwork,
       hasTokensOnOtherNetworks,
@@ -582,11 +575,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
               earnPosition={pool}
               onInfoIconPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
-                  providerId: appId,
-                  poolId: positionId,
                   type: 'deposit',
-                  networkId,
-                  depositTokenId: dataProps.depositTokenId,
+                  ...commonAnalyticsProps,
                 })
                 depositInfoBottomSheetRef.current?.snapToIndex(0)
               }}
@@ -595,11 +585,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           <YieldCard
             onInfoIconPress={() => {
               AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
-                providerId: appId,
-                poolId: positionId,
                 type: 'yieldRate',
-                networkId,
-                depositTokenId: dataProps.depositTokenId,
+                ...commonAnalyticsProps,
               })
               yieldRateInfoBottomSheetRef.current?.snapToIndex(0)
             }}
@@ -611,26 +598,22 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
               dailyYieldRate={dataProps.dailyYieldRatePercentage}
               onInfoIconPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
-                  providerId: appId,
-                  poolId: positionId,
                   type: 'dailyYieldRate',
-                  networkId,
-                  depositTokenId: dataProps.depositTokenId,
+                  ...commonAnalyticsProps,
                 })
                 dailyYieldRateInfoBottomSheetRef.current?.snapToIndex(0)
               }}
             />
           )}
-          {!!dataProps.safety && <SafetyCard safety={dataProps.safety} />}
+          {!!dataProps.safety && (
+            <SafetyCard safety={dataProps.safety} commonAnalyticsProps={commonAnalyticsProps} />
+          )}
           <TvlCard
             earnPosition={pool}
             onInfoIconPress={() => {
               AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
-                providerId: appId,
-                poolId: positionId,
                 type: 'tvl',
-                networkId,
-                depositTokenId: dataProps.depositTokenId,
+                ...commonAnalyticsProps,
               })
               tvlInfoBottomSheetRef.current?.snapToIndex(0)
             }}
@@ -640,11 +623,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
               ageOfPool={new Date(dataProps.contractCreatedAt)}
               onInfoIconPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
-                  providerId: appId,
-                  poolId: positionId,
                   type: 'age',
-                  networkId,
-                  depositTokenId: dataProps.depositTokenId,
+                  ...commonAnalyticsProps,
                 })
                 ageInfoBottomSheetRef.current?.snapToIndex(0)
               }}
@@ -654,10 +634,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
             <LearnMoreTouchable
               url={dataProps.manageUrl}
               providerName={appName}
-              appId={appId}
-              positionId={positionId}
-              networkId={networkId}
-              depositTokenId={dataProps.depositTokenId}
+              commonAnalyticsProps={commonAnalyticsProps}
             />
           ) : null}
         </View>
