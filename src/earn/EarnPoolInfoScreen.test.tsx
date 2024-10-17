@@ -602,7 +602,7 @@ describe('EarnPoolInfoScreen', () => {
     expect(getByTestId('Earn/BeforeDepositBottomSheet/Transfer')).toBeTruthy()
   })
 
-  it('navigate to EarnCollectScreen when Withdraw button is tapped', () => {
+  it('navigate to EarnConfirmationScreen when Withdraw button is tapped', () => {
     const { getByText } = render(
       <Provider store={getStore()}>
         <MockedNavigator
@@ -621,8 +621,9 @@ describe('EarnPoolInfoScreen', () => {
       networkId: 'arbitrum-sepolia',
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
-    expect(navigate).toHaveBeenCalledWith(Screens.EarnCollectScreen, {
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnConfirmationScreen, {
       pool: { ...mockEarnPositions[0], balance: '100' },
+      mode: 'withdraw',
     })
   })
 

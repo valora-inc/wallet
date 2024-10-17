@@ -1242,6 +1242,13 @@
                 "cantSeparateCompoundedInterest": {
                     "type": "boolean"
                 },
+                "claimType": {
+                    "enum": [
+                        "earnings",
+                        "rewards"
+                    ],
+                    "type": "string"
+                },
                 "contractCreatedAt": {
                     "type": "string"
                 },
@@ -1274,6 +1281,9 @@
                 },
                 "withdrawTokenId": {
                     "type": "string"
+                },
+                "withdrawalIncludesClaim": {
+                    "type": "boolean"
                 },
                 "yieldRates": {
                     "items": {
@@ -3463,7 +3473,7 @@
                 "DappShortcutsRewards",
                 "DappsScreen",
                 "DebugImages",
-                "EarnCollectScreen",
+                "EarnConfirmationScreen",
                 "EarnEnterAmount",
                 "EarnHome",
                 "EarnInfoScreen",
