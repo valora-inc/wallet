@@ -55,14 +55,12 @@ interface State {
   // feed instantly.
   standbyTransactions: StandbyTransaction[]
   transactionsByNetworkId: TransactionsByNetworkId
-  knownCompletedTransactionsHashes: string[]
   feedFirstPage: TokenTransaction[]
 }
 
 const initialState: State = {
   standbyTransactions: [],
   transactionsByNetworkId: {},
-  knownCompletedTransactionsHashes: [],
   feedFirstPage: [],
 }
 

@@ -15,7 +15,7 @@ import {
   sendPaymentSuccess,
 } from 'src/send/actions'
 import { sendPaymentSaga } from 'src/send/saga'
-import { actions as TransactionActions, addStandbyTransaction } from 'src/transactions/slice'
+import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/slice'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
@@ -241,8 +241,8 @@ describe(sendPaymentSaga, () => {
       .call(getViemWallet, networkConfig.viemChain.celo, false)
       .put(sendPaymentFailure())
       .put(showError(ErrorMessages.SEND_PAYMENT_FAILED))
-      .not.put.actionType(TransactionActions.addStandbyTransaction.type)
-      .not.put.actionType(TransactionActions.transactionConfirmed.type)
+      .not.put.actionType(addStandbyTransaction.type)
+      .not.put.actionType(transactionConfirmed.type)
       .run()
     expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_start)
     expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_error, {

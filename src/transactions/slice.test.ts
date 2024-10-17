@@ -1,7 +1,7 @@
 import { type RootState } from 'src/redux/store'
 import { getMultichainFeatures } from 'src/statsig'
 import { pendingStandbyTransactionsSelector } from 'src/transactions/selectors'
-import reducer, { _initialState, actions } from 'src/transactions/slice'
+import reducer, { _initialState, updateTransactions } from 'src/transactions/slice'
 import {
   NetworkId,
   type StandbyTransaction,
@@ -133,18 +133,20 @@ describe('transactions reducer', () => {
           [NetworkId['ethereum-mainnet']]: mockEthTransactions,
         },
       }
-      const result = reducer(state, {
-        type: actions.updateTransactions.type,
-        networkId: NetworkId['ethereum-mainnet'],
-        transactions: [
-          {
-            status: TransactionStatus.Complete,
-            transactionHash: '0x1111',
-            networkId: NetworkId['ethereum-mainnet'],
-          },
-          ...mockEthTransactions,
-        ] as TokenTransaction[],
-      })
+      const result = reducer(
+        state,
+        updateTransactions({
+          networkId: NetworkId['ethereum-mainnet'],
+          transactions: [
+            {
+              status: TransactionStatus.Complete,
+              transactionHash: '0x1111',
+              networkId: NetworkId['ethereum-mainnet'],
+            },
+            ...mockEthTransactions,
+          ] as TokenTransaction[],
+        })
+      )
 
       expect(result).toEqual({
         ..._initialState,
@@ -168,11 +170,13 @@ describe('transactions reducer', () => {
         ..._initialState,
         standbyTransactions: [standbyCrossChainSwap],
       }
-      const updatedState = reducer(state, {
-        type: actions.updateTransactions.type,
-        networkId: NetworkId['celo-mainnet'],
-        transactions: [incomingCrossChainSwap],
-      })
+      const updatedState = reducer(
+        state,
+        updateTransactions({
+          networkId: NetworkId['celo-mainnet'],
+          transactions: [incomingCrossChainSwap],
+        })
+      )
 
       expect(updatedState).toEqual({
         ..._initialState,
@@ -200,11 +204,13 @@ describe('transactions reducer', () => {
     })
 
     it('should store a pending cross chain swap that has no corresponding standby transaction', () => {
-      const updatedState = reducer(_initialState, {
-        type: actions.updateTransactions.type,
-        networkId: NetworkId['celo-mainnet'],
-        transactions: [incomingCrossChainSwap],
-      })
+      const updatedState = reducer(
+        _initialState,
+        updateTransactions({
+          networkId: NetworkId['celo-mainnet'],
+          transactions: [incomingCrossChainSwap],
+        })
+      )
 
       expect(updatedState).toEqual({
         ..._initialState,
@@ -220,11 +226,13 @@ describe('transactions reducer', () => {
         ..._initialState,
         standbyTransactions: [standbyCrossChainSwap],
       }
-      const updatedState = reducer(state, {
-        type: actions.updateTransactions.type,
-        networkId: NetworkId['celo-mainnet'],
-        transactions: [{ ...incomingCrossChainSwap, status: TransactionStatus.Complete }],
-      })
+      const updatedState = reducer(
+        state,
+        updateTransactions({
+          networkId: NetworkId['celo-mainnet'],
+          transactions: [{ ...incomingCrossChainSwap, status: TransactionStatus.Complete }],
+        })
+      )
 
       expect(updatedState).toEqual({
         ..._initialState,
