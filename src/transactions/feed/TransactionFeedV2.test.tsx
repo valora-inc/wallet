@@ -369,51 +369,31 @@ describe('TransactionFeedV2', () => {
     await waitFor(() => expect(Toast.showWithGravity).toBeCalledTimes(1))
   })
 
-  it('should show "no transactions" toast if there is no more transactions after the second page', async () => {
-    mockFetch
-      .mockResponseOnce(
-        typedResponse({
-          transactions: [
-            mockTransaction({ transactionHash: '0x01', timestamp: 50 }),
-            mockTransaction({ transactionHash: '0x02', timestamp: 49 }),
-            mockTransaction({ transactionHash: '0x03', timestamp: 48 }),
-            mockTransaction({ transactionHash: '0x04', timestamp: 47 }),
-            mockTransaction({ transactionHash: '0x05', timestamp: 46 }),
-            mockTransaction({ transactionHash: '0x06', timestamp: 45 }),
-            mockTransaction({ transactionHash: '0x07', timestamp: 44 }),
-            mockTransaction({ transactionHash: '0x08', timestamp: 43 }),
-            mockTransaction({ transactionHash: '0x09', timestamp: 42 }),
-            mockTransaction({ transactionHash: '0x10', timestamp: 41 }),
-            mockTransaction({ transactionHash: '0x11', timestamp: 40 }),
-          ],
-        })
-      )
-      .mockResponseOnce(
-        typedResponse({
-          transactions: [
-            mockTransaction({ transactionHash: '0x12', timestamp: 39 }),
-            mockTransaction({ transactionHash: '0x13', timestamp: 38 }),
-            mockTransaction({ transactionHash: '0x14', timestamp: 37 }),
-          ],
-        })
-      )
-      .mockResponseOnce(typedResponse({ transactions: [] }))
+  it('should not show "no transactions" toast if there is not enough transactions to trigger the toast', async () => {
+    mockFetch.mockResponseOnce(
+      typedResponse({
+        transactions: [
+          mockTransaction({ transactionHash: '0x01', timestamp: 50 }),
+          mockTransaction({ transactionHash: '0x02', timestamp: 49 }),
+          mockTransaction({ transactionHash: '0x03', timestamp: 48 }),
+          mockTransaction({ transactionHash: '0x04', timestamp: 47 }),
+          mockTransaction({ transactionHash: '0x05', timestamp: 46 }),
+          mockTransaction({ transactionHash: '0x06', timestamp: 45 }),
+          mockTransaction({ transactionHash: '0x07', timestamp: 44 }),
+          mockTransaction({ transactionHash: '0x08', timestamp: 43 }),
+          mockTransaction({ transactionHash: '0x09', timestamp: 42 }),
+        ],
+      })
+    )
 
-    const { store, ...tree } = renderScreen()
+    const tree = renderScreen()
 
     await waitFor(() => tree.getByTestId('TransactionList'))
     fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
     await waitFor(() => expect(mockFetch).toBeCalled())
     await waitFor(() => expect(tree.getByTestId('TransactionList/loading')).toBeVisible())
     await waitFor(() => expect(tree.queryByTestId('TransactionList/loading')).toBeFalsy())
-
-    fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
-    await waitFor(() => expect(mockFetch).toBeCalled())
-    await waitFor(() => expect(tree.getByTestId('TransactionList/loading')).toBeVisible())
-    await waitFor(() => expect(tree.queryByTestId('TransactionList/loading')).toBeFalsy())
-
-    fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
-    await waitFor(() => expect(Toast.showWithGravity).toBeCalledTimes(1))
+    await waitFor(() => expect(Toast.showWithGravity).not.toBeCalled())
   })
 
   it('should not show "no transactions" toast if there are still data in next pages', async () => {
@@ -517,31 +497,5 @@ describe('TransactionFeedV2', () => {
       expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(2)
     })
     expect(vibrateSuccess).not.toHaveBeenCalled()
-    it('should not show "no transactions" toast if there is not enough transactions to trigger the toast', async () => {
-      mockFetch.mockResponseOnce(
-        typedResponse({
-          transactions: [
-            mockTransaction({ transactionHash: '0x01', timestamp: 50 }),
-            mockTransaction({ transactionHash: '0x02', timestamp: 49 }),
-            mockTransaction({ transactionHash: '0x03', timestamp: 48 }),
-            mockTransaction({ transactionHash: '0x04', timestamp: 47 }),
-            mockTransaction({ transactionHash: '0x05', timestamp: 46 }),
-            mockTransaction({ transactionHash: '0x06', timestamp: 45 }),
-            mockTransaction({ transactionHash: '0x07', timestamp: 44 }),
-            mockTransaction({ transactionHash: '0x08', timestamp: 43 }),
-            mockTransaction({ transactionHash: '0x09', timestamp: 42 }),
-          ],
-        })
-      )
-
-      const tree = renderScreen()
-
-      await waitFor(() => tree.getByTestId('TransactionList'))
-      fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
-      await waitFor(() => expect(mockFetch).toBeCalled())
-      await waitFor(() => expect(tree.getByTestId('TransactionList/loading')).toBeVisible())
-      await waitFor(() => expect(tree.queryByTestId('TransactionList/loading')).toBeFalsy())
-      await waitFor(() => expect(Toast.showWithGravity).not.toBeCalled())
-    })
   })
 })
