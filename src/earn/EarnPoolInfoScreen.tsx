@@ -288,7 +288,7 @@ function YieldCard({
           />
         </View>
         <Text style={styles.cardTitleText}>
-          {yieldRateSum > 0
+          {yieldRateSum > 0.00005
             ? t('earnFlow.poolInfoScreen.ratePercent', { rate: yieldRateSum.toFixed(2) })
             : '--'}
         </Text>
@@ -317,6 +317,33 @@ function YieldCard({
             </View>
           )
         })}
+      </View>
+    </View>
+  )
+}
+
+function DailyYieldRateCard({
+  dailyYieldRate,
+  onInfoIconPress,
+}: {
+  dailyYieldRate: number
+  onInfoIconPress: () => void
+}) {
+  const { t } = useTranslation()
+  return (
+    <View style={styles.card} testID="DailyYieldRateCard">
+      <View style={styles.cardLineContainer}>
+        <View style={styles.cardLineLabel}>
+          <LabelWithInfo
+            onPress={onInfoIconPress}
+            label={t('earnFlow.poolInfoScreen.dailyYieldRate')}
+            labelStyle={styles.cardTitleText}
+            testID="DailyYieldRateInfoIcon"
+          />
+        </View>
+        <Text style={styles.cardTitleText}>
+          {t('earnFlow.poolInfoScreen.ratePercent', { rate: dailyYieldRate.toFixed(4) })}
+        </Text>
       </View>
     </View>
   )
@@ -409,10 +436,10 @@ function LearnMoreTouchable({
         }}
       >
         <View style={styles.learnMoreView}>
-          <OpenLinkIcon color={Colors.black} size={24} />
           <Text style={styles.learnMoreText}>
             {t('earnFlow.poolInfoScreen.learnMoreOnProvider', { providerName })}
           </Text>
+          <OpenLinkIcon color={Colors.black} size={16} />
         </View>
       </Touchable>
     </View>
@@ -527,6 +554,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
   const tvlInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const ageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const yieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const dailyYieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
@@ -586,6 +614,22 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
             tokensInfo={tokensInfo}
             earnPosition={pool}
           />
+          {!!dataProps.dailyYieldRatePercentage && dataProps.dailyYieldRatePercentage > 0 && (
+            <DailyYieldRateCard
+              dailyYieldRate={dataProps.dailyYieldRatePercentage}
+              onInfoIconPress={() => {
+                AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
+                  providerId: appId,
+                  poolId: positionId,
+                  type: 'dailyYieldRate',
+                  networkId,
+                  depositTokenId: dataProps.depositTokenId,
+                })
+                dailyYieldRateInfoBottomSheetRef.current?.snapToIndex(0)
+              }}
+            />
+          )}
+
           <TvlCard
             earnPosition={pool}
             onInfoIconPress={() => {
@@ -664,6 +708,16 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         providerName={appName}
         testId="YieldRateInfoBottomSheet"
       />
+      <InfoBottomSheet
+        infoBottomSheetRef={dailyYieldRateInfoBottomSheetRef}
+        titleKey="earnFlow.poolInfoScreen.infoBottomSheet.dailyYieldRateTitle"
+        descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.dailyYieldRateDescription"
+        descriptionUrl={dataProps.manageUrl}
+        providerName={appName}
+        linkKey="earnFlow.poolInfoScreen.infoBottomSheet.dailyYieldRateLink"
+        linkUrl={dataProps.manageUrl}
+        testId="DailyYieldRateInfoBottomSheet"
+      />
       <BeforeDepositBottomSheet
         forwardedRef={beforeDepositBottomSheetRef}
         token={depositToken}
@@ -684,6 +738,8 @@ function InfoBottomSheet({
   descriptionUrl,
   providerName,
   testId,
+  linkUrl,
+  linkKey,
 }: {
   infoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
   titleKey: string
@@ -691,6 +747,8 @@ function InfoBottomSheet({
   descriptionUrl?: string
   providerName: string
   testId: string
+  linkUrl?: string
+  linkKey?: string
 }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -718,6 +776,23 @@ function InfoBottomSheet({
         </Text>
       ) : (
         <Text style={styles.infoBottomSheetText}>{t(descriptionKey, { providerName })}</Text>
+      )}
+      {!!linkUrl && !!linkKey && (
+        <View style={styles.learnMoreContainer}>
+          <Touchable
+            borderRadius={8}
+            onPress={() => {
+              navigateToURI(linkUrl)
+            }}
+          >
+            <View style={styles.learnMoreView}>
+              <Text style={styles.learnMoreText}>
+                <Trans i18nKey={linkKey} tOptions={{ providerName }} />
+              </Text>
+              <OpenLinkIcon color={Colors.black} size={16} />
+            </View>
+          </Touchable>
+        </View>
       )}
       <Button
         onPress={onPressDismiss}
@@ -854,10 +929,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: Spacing.Smallest8,
+    marginBottom: Spacing.Thick24,
   },
   learnMoreText: {
-    ...typeScale.bodyMedium,
+    ...typeScale.labelSemiBoldSmall,
     color: Colors.black,
   },
   buttonContainer: {

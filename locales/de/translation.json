@@ -2693,6 +2693,7 @@
       "chainName": "Kette: <0>{{networkName}}</0>",
       "protocolName": "Protokoll: <0>{{providerName}}</0>",
       "yieldRate": "Rendite",
+      "dailyYieldRate": "Tagessatz",
       "ratePercent": "{{rate}} %",
       "rewards": "Rewards",
       "noRewards": "Keine Rewards",
@@ -2714,7 +2715,10 @@
         "ageTitle": "Alter des Pools",
         "ageDescription": "Ältere Liquiditätspools können auf eine solide Erfolgsbilanz und eine Geschichte des Vertrauens der Community hinweisen. Aus diesem Grund halten manche diese Pools für sicherer.\n\nEs gibt keine perfekte Methode, um das Risiko zu bestimmen, also nutze diese Informationen als Teil deiner allgemeinen Recherche, um die für dich beste Entscheidung zu treffen.",
         "yieldRateTitle": "Rendite",
-        "yieldRateDescription": "Die meisten Pools bieten Verdienst in Form eines Liquiditätspool-Tokens, aber einige geben zusätzliche Token als Reward oder zusätzlichen Anreiz.\n\nDa {{appName}} Pools über mehrere Protokolle hinweg zusammenfasst, haben wir alle Verdienst- und Reward-Sätze zu einer einzigen Gesamtrendite zusammengefasst, damit du dein Verdienstpotenzial leichter einschätzen kannst. Bei dieser Zahl handelt es sich um eine Schätzung, da die Verdienst- und Reward-Werte ständig schwanken.\n\nWeitere Informationen über die Verdienstaufteilung findest du unter <0>{{providerName}}</0>."
+        "yieldRateDescription": "Die meisten Pools bieten Verdienst in Form eines Liquiditätspool-Tokens, aber einige geben zusätzliche Token als Reward oder zusätzlichen Anreiz.\n\nDa {{appName}} Pools über mehrere Protokolle hinweg zusammenfasst, haben wir alle Verdienst- und Reward-Sätze zu einer einzigen Gesamtrendite zusammengefasst, damit du dein Verdienstpotenzial leichter einschätzen kannst. Bei dieser Zahl handelt es sich um eine Schätzung, da die Verdienst- und Reward-Werte ständig schwanken.\n\nWeitere Informationen über die Verdienstaufteilung findest du unter <0>{{providerName}}</0>.",
+        "dailyYieldRateTitle": "Tagessatz",
+        "dailyYieldRateDescription": "Der angezeigte Tagessatz entspricht dem von {{providerName}}angebotenen Tagessatz.",
+        "dailyYieldRateLink": "Weitere Details zum Tagessatz findest du auf {{providerName}}"
       }
     },
     "beforeDepositBottomSheet": {
