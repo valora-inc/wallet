@@ -7,8 +7,8 @@ import {
   throwError,
 } from 'redux-saga-test-plan/providers'
 import { fork } from 'redux-saga/effects'
-import { JumpstartEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { JumpstartEvents } from 'src/analytics/Events'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import {
   dispatchPendingERC20Transactions,
@@ -30,7 +30,7 @@ import {
   jumpstartReclaimSucceeded,
 } from 'src/jumpstart/slice'
 import { getDynamicConfigParams } from 'src/statsig'
-import { addStandbyTransaction } from 'src/transactions/actions'
+import { addStandbyTransaction } from 'src/transactions/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -44,13 +44,13 @@ import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockAccount2,
+  mockAccountInvite,
   mockAccountInvitePrivKey,
   mockCusdAddress,
   mockCusdTokenBalance,
   mockCusdTokenId,
   mockNftAllFields,
   mockTokenBalances,
-  mockAccountInvite,
 } from 'test/values'
 import { Hash, TransactionReceipt, parseEventLogs } from 'viem'
 
@@ -244,14 +244,16 @@ describe('dispatchPendingERC20Transactions', () => {
       )
       .put(
         addStandbyTransaction({
-          __typename: 'TokenTransferV3',
-          type: TokenTransactionTypeV2.Received,
-          context: { id: mockTransactionHash },
-          transactionHash: mockTransactionHash,
-          networkId,
-          amount: { value: '1', tokenAddress: mockCusdAddress, tokenId: mockCusdTokenId },
-          address: mockAccount2,
-          metadata: {},
+          transaction: {
+            __typename: 'TokenTransferV3',
+            type: TokenTransactionTypeV2.Received,
+            context: { id: mockTransactionHash },
+            transactionHash: mockTransactionHash,
+            networkId,
+            amount: { value: '1', tokenAddress: mockCusdAddress, tokenId: mockCusdTokenId },
+            address: mockAccount2,
+            metadata: {},
+          },
         })
       )
       .run()
@@ -305,20 +307,22 @@ describe('dispatchPendingERC721Transactions', () => {
       ])
       .put(
         addStandbyTransaction({
-          __typename: 'NftTransferV3',
-          type: TokenTransactionTypeV2.NftReceived,
-          context: { id: mockTransactionHash },
-          transactionHash: mockTransactionHash,
-          networkId,
-          nfts: [
-            {
-              tokenId: mockNftAllFields.tokenId,
-              contractAddress: mockNftAllFields.contractAddress.toLowerCase(),
-              tokenUri,
-              metadata,
-              media: [{ raw: metadata.image, gateway: metadata.image }],
-            },
-          ],
+          transaction: {
+            __typename: 'NftTransferV3',
+            type: TokenTransactionTypeV2.NftReceived,
+            context: { id: mockTransactionHash },
+            transactionHash: mockTransactionHash,
+            networkId,
+            nfts: [
+              {
+                tokenId: mockNftAllFields.tokenId,
+                contractAddress: mockNftAllFields.contractAddress.toLowerCase(),
+                tokenUri,
+                metadata,
+                media: [{ raw: metadata.image, gateway: metadata.image }],
+              },
+            ],
+          },
         })
       )
       .run()

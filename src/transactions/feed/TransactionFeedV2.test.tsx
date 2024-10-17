@@ -5,7 +5,6 @@ import React from 'react'
 import Toast from 'react-native-simple-toast'
 import { Provider } from 'react-redux'
 import { type ReactTestInstance } from 'react-test-renderer'
-import { type Action } from 'redux-saga'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { type ApiReducersKeys } from 'src/redux/apiReducersList'
@@ -461,20 +460,22 @@ describe('TransactionFeedV2', () => {
 
     await act(() => {
       const newPendingTransaction = addStandbyTransaction({
-        __typename: 'TokenTransferV3',
-        context: { id: pendingStandByTransactionHash2 },
-        type: TokenTransactionTypeV2.Sent,
-        networkId: NetworkId['celo-alfajores'],
-        amount: {
-          value: BigNumber(10).negated().toString(),
-          tokenAddress: mockCusdAddress,
-          tokenId: mockCusdTokenId,
+        transaction: {
+          __typename: 'TokenTransferV3',
+          context: { id: pendingStandByTransactionHash2 },
+          type: TokenTransactionTypeV2.Sent,
+          networkId: NetworkId['celo-alfajores'],
+          amount: {
+            value: BigNumber(10).negated().toString(),
+            tokenAddress: mockCusdAddress,
+            tokenId: mockCusdTokenId,
+          },
+          address: mockQRCodeRecipient.address,
+          metadata: {},
+          feeCurrencyId: mockCeloTokenId,
+          transactionHash: pendingStandByTransactionHash2,
         },
-        address: mockQRCodeRecipient.address,
-        metadata: {},
-        feeCurrencyId: mockCeloTokenId,
-        transactionHash: pendingStandByTransactionHash2,
-      }) as Action
+      })
       store.dispatch(newPendingTransaction)
     })
 

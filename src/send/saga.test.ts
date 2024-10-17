@@ -4,8 +4,8 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
-import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import {
@@ -15,7 +15,7 @@ import {
   sendPaymentSuccess,
 } from 'src/send/actions'
 import { sendPaymentSaga } from 'src/send/saga'
-import { Actions as TransactionActions, addStandbyTransaction } from 'src/transactions/actions'
+import { actions as TransactionActions, addStandbyTransaction } from 'src/transactions/slice'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
@@ -135,19 +135,21 @@ describe(sendPaymentSaga, () => {
         .call(getViemWallet, networkConfig.viemChain.celo, false)
         .put(
           addStandbyTransaction({
-            __typename: 'TokenTransferV3',
-            context: { id: 'mock' },
-            type: TokenTransactionTypeV2.Sent,
-            networkId: NetworkId['celo-alfajores'],
-            amount: {
-              value: BigNumber(10).negated().toString(),
-              tokenAddress: mockCusdAddress,
-              tokenId: mockCusdTokenId,
+            transaction: {
+              __typename: 'TokenTransferV3',
+              context: { id: 'mock' },
+              type: TokenTransactionTypeV2.Sent,
+              networkId: NetworkId['celo-alfajores'],
+              amount: {
+                value: BigNumber(10).negated().toString(),
+                tokenAddress: mockCusdAddress,
+                tokenId: mockCusdTokenId,
+              },
+              address: mockQRCodeRecipient.address,
+              metadata: {},
+              feeCurrencyId: mockCeloTokenId,
+              transactionHash: mockTxHash,
             },
-            address: mockQRCodeRecipient.address,
-            metadata: {},
-            feeCurrencyId: mockCeloTokenId,
-            transactionHash: mockTxHash,
           })
         )
         .put(sendPaymentSuccess({ amount, tokenId: mockCusdTokenId }))
@@ -176,19 +178,21 @@ describe(sendPaymentSaga, () => {
       .call(getViemWallet, networkConfig.viemChain.celo, false)
       .put(
         addStandbyTransaction({
-          __typename: 'TokenTransferV3',
-          context: { id: 'mock' },
-          type: TokenTransactionTypeV2.Sent,
-          networkId: NetworkId['celo-alfajores'],
-          amount: {
-            value: BigNumber(10).negated().toString(),
-            tokenAddress: mockCeloAddress,
-            tokenId: mockCeloTokenId,
+          transaction: {
+            __typename: 'TokenTransferV3',
+            context: { id: 'mock' },
+            type: TokenTransactionTypeV2.Sent,
+            networkId: NetworkId['celo-alfajores'],
+            amount: {
+              value: BigNumber(10).negated().toString(),
+              tokenAddress: mockCeloAddress,
+              tokenId: mockCeloTokenId,
+            },
+            address: mockQRCodeRecipient.address,
+            metadata: {},
+            feeCurrencyId: mockCeloTokenId,
+            transactionHash: mockTxHash,
           },
-          address: mockQRCodeRecipient.address,
-          metadata: {},
-          feeCurrencyId: mockCeloTokenId,
-          transactionHash: mockTxHash,
         })
       )
       .put(sendPaymentSuccess({ amount, tokenId: mockCeloTokenId }))
@@ -237,8 +241,8 @@ describe(sendPaymentSaga, () => {
       .call(getViemWallet, networkConfig.viemChain.celo, false)
       .put(sendPaymentFailure())
       .put(showError(ErrorMessages.SEND_PAYMENT_FAILED))
-      .not.put.actionType(TransactionActions.ADD_STANDBY_TRANSACTION)
-      .not.put.actionType(TransactionActions.TRANSACTION_CONFIRMED)
+      .not.put.actionType(TransactionActions.addStandbyTransaction.type)
+      .not.put.actionType(TransactionActions.transactionConfirmed.type)
       .run()
     expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_start)
     expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_error, {

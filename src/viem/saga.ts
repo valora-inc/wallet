@@ -90,7 +90,7 @@ export function* sendPreparedTransactions(
 
     const standByTx = createBaseStandbyTransaction(hash, feeCurrencyId)
     if (standByTx) {
-      yield* put(addStandbyTransaction(standByTx))
+      yield* put(addStandbyTransaction({ transaction: standByTx }))
     }
     txHashes.push(hash)
   }
