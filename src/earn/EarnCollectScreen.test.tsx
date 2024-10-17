@@ -7,7 +7,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import EarnCollectScreen from 'src/earn/EarnCollectScreen'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
 import { withdrawStart } from 'src/earn/slice'
-import { getEarnPositionBalanceValues, isGasSubsidizedForNetwork } from 'src/earn/utils'
+import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
@@ -53,7 +53,10 @@ const store = createMockStore({
 })
 
 jest.mock('src/statsig')
-jest.mock('src/earn/utils')
+jest.mock('src/earn/utils', () => ({
+  ...(jest.requireActual('src/earn/utils') as any),
+  isGasSubsidizedForNetwork: jest.fn(),
+}))
 jest.mock('src/earn/prepareTransactions')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
@@ -97,10 +100,6 @@ describe('EarnCollectScreen', () => {
         (gateName: StatsigFeatureGates) => gateName === StatsigFeatureGates.SHOW_POSITIONS
       )
     jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
-    jest.mocked(getEarnPositionBalanceValues).mockReturnValue({
-      poolBalanceInUsd: new BigNumber(11.825),
-      poolBalanceInDepositToken: new BigNumber(11.825),
-    })
     store.clearActions()
   })
 
