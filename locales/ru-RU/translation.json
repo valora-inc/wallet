@@ -2701,6 +2701,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "Вознаграждения",
       "noRewards": "Нет вознаграждений",
+      "safetyScore": "Оценка за безопасность",
       "tvl": "Общая заблокированная стоимость",
       "ageOfPool": "Возраст пула",
       "learnMoreOnProvider": "Посмотреть пул на {{providerName}}",
@@ -2723,7 +2724,8 @@
         "dailyYieldRateTitle": "Дневная ставка",
         "dailyYieldRateDescription": "Отображаемый дневной тариф отражает дневной тариф, предоставленный сайтом {{providerName}}.",
         "dailyYieldRateLink": "Подробнее о суточных тарифах на сайте {{providerName}}"
-      }
+      },
+      "viewMoreDetails": "Посмотреть больше деталей"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Для пополнения счета потребуется {{tokenSymbol}} в {{tokenNetwork}}",
