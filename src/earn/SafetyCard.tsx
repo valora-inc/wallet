@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import Touchable from 'src/components/Touchable'
-import { Safety } from 'src/positions/types'
+import DataDown from 'src/icons/DataDown'
+import DataUp from 'src/icons/DataUp'
+import { Safety, SafetyRisk } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -16,8 +18,27 @@ const LEVEL_TO_MAX_HIGHLIGHTED_BAR: Record<Safety['level'], 1 | 2 | 3> = {
   high: 3,
 }
 
+function Risk({ risk }: { risk: SafetyRisk }) {
+  return (
+    <View style={styles.riskContainer} testID="SafetyCard/Risk">
+      <View style={styles.icon}>
+        {risk.isPositive ? (
+          <DataUp color={Colors.primary} testID="SafetyCard/RiskPositive" />
+        ) : (
+          <DataDown color={Colors.error} testID="SafetyCard/RiskNegative" />
+        )}
+      </View>
+      <View>
+        <Text style={styles.riskTitle}>{risk.title}</Text>
+        <Text style={styles.riskCategory}>{risk.category}</Text>
+      </View>
+    </View>
+  )
+}
+
 export function SafetyCard({ safety }: { safety: Safety }) {
   const { t } = useTranslation()
+  const [expanded, setExpanded] = React.useState(false)
   return (
     <View style={styles.card} testID="SafetyCard">
       <View style={styles.cardLineContainer}>
@@ -45,14 +66,25 @@ export function SafetyCard({ safety }: { safety: Safety }) {
           ))}
         </View>
       </View>
+      {expanded && (
+        <View style={styles.risksContainer}>
+          {safety.risks.map((risk, index) => (
+            <Risk key={`risk-${index}`} risk={risk} />
+          ))}
+        </View>
+      )}
       <Touchable
         testID="SafetyCard/ViewDetails"
         style={styles.cardLineContainer}
         onPress={() => {
-          // todo(act-1405): expand and display risks
+          setExpanded((prev) => !prev)
         }}
       >
-        <Text style={styles.viewDetailsText}>{t('earnFlow.poolInfoScreen.viewMoreDetails')}</Text>
+        <Text style={styles.viewDetailsText}>
+          {expanded
+            ? t('earnFlow.poolInfoScreen.viewLessDetails')
+            : t('earnFlow.poolInfoScreen.viewMoreDetails')}
+        </Text>
       </Touchable>
     </View>
   )
@@ -98,5 +130,26 @@ const styles = StyleSheet.create({
     color: Colors.gray3,
     textAlign: 'center',
     flex: 1,
+  },
+  risksContainer: {
+    gap: Spacing.Thick24,
+  },
+  riskContainer: {
+    flexDirection: 'row',
+    gap: Spacing.Smallest8,
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  riskTitle: {
+    ...typeScale.labelMedium,
+    color: Colors.black,
+  },
+  riskCategory: {
+    ...typeScale.bodySmall,
+    color: Colors.gray3,
   },
 })
