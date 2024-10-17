@@ -39,6 +39,11 @@ type BaseTransactionReceipt = {
   fees?: Fee[]
 }
 
+export type UpdateTransactionsPayload = PayloadAction<{
+  networkId: NetworkId
+  transactions: TokenTransaction[]
+}>
+
 type TransactionsByNetworkId = {
   [networkId in NetworkId]?: TokenTransaction[]
 }
@@ -128,10 +133,7 @@ const slice = createSlice({
       }
     },
 
-    updateTransactions: (
-      state,
-      action: PayloadAction<{ networkId: NetworkId; transactions: TokenTransaction[] }>
-    ) => {
+    updateTransactions: (state, action: UpdateTransactionsPayload) => {
       const standbyTransactionHashes = new Set(
         state.standbyTransactions
           .map((tx) => tx.transactionHash)

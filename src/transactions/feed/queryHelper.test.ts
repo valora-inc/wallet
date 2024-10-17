@@ -4,8 +4,8 @@ import { SwapEvents } from 'src/analytics/Events'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import * as TokenSelectors from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { updateTransactions } from 'src/transactions/actions'
 import { QueryResponse, handlePollResponse } from 'src/transactions/feed/queryHelper'
+import { updateTransactions } from 'src/transactions/slice'
 import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 
 jest.mock('src/styles/hapticFeedback')
@@ -98,7 +98,7 @@ describe('handlePollResponse', () => {
     expect(vibrateSuccess).toHaveBeenCalledTimes(1)
     expect(dispatchSpy).toHaveBeenCalledTimes(1)
     expect(dispatchSpy).toHaveBeenCalledWith(
-      updateTransactions(NetworkId['celo-mainnet'], mockTransactions)
+      updateTransactions({ networkId: NetworkId['celo-mainnet'], transactions: mockTransactions })
     )
   })
 
@@ -119,7 +119,7 @@ describe('handlePollResponse', () => {
     expect(vibrateSuccess).toHaveBeenCalledTimes(1)
     expect(dispatchSpy).toHaveBeenCalledTimes(1)
     expect(dispatchSpy).toHaveBeenCalledWith(
-      updateTransactions(NetworkId['celo-mainnet'], mockTransactions)
+      updateTransactions({ networkId: NetworkId['celo-mainnet'], transactions: mockTransactions })
     )
   })
 
@@ -155,7 +155,7 @@ describe('handlePollResponse', () => {
     expect(vibrateSuccess).not.toHaveBeenCalled()
     expect(dispatchSpy).toHaveBeenCalledTimes(1)
     expect(dispatchSpy).toHaveBeenCalledWith(
-      updateTransactions(NetworkId['celo-mainnet'], mockTransactions)
+      updateTransactions({ networkId: NetworkId['celo-mainnet'], transactions: mockTransactions })
     )
   })
 
