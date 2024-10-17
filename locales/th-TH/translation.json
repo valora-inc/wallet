@@ -2695,6 +2695,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "ผลตอบแทน",
       "noRewards": "ไม่มีรางวัล",
+      "safetyScore": "Safety Score",
       "tvl": "TVL",
       "ageOfPool": "อายุของพูล",
       "learnMoreOnProvider": "ดูพูลบน {{providerName}}",
@@ -2717,7 +2718,8 @@
         "dailyYieldRateTitle": "Daily Rate",
         "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
         "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}"
-      }
+      },
+      "viewMoreDetails": "View More Details"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "คุณจำเป็นต้องมี {{tokenSymbol}} บน {{tokenNetwork}} จึงจะฝากเงินได้",
