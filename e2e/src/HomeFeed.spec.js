@@ -6,10 +6,7 @@ beforeAll(async () => {
   await quickOnboarding()
 })
 
-// TODO: Disabled to unlock the CI
-// To enable once the home feed issue on Alfajores is fixed
-// Context: https://valora-app.slack.com/archives/C025V1D6F3J/p1727427797940139
-xdescribe('Home Feed', () => {
+describe('Home Feed', () => {
   it('should show correct information on tap of feed item', async () => {
     // Load Wallet Home
     await waitForElementId('WalletHome')
