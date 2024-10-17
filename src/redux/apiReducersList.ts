@@ -7,3 +7,5 @@ export const apiReducersList = {
 } as const
 
 export const apiMiddlewares = [transactionFeedV2Api.middleware]
+
+export const apiReducersKeys = Object.keys(apiReducersList)

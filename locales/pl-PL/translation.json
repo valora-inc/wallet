@@ -2514,7 +2514,7 @@
       "description": "Zobacz, ile możesz zarobić, zasilając pulę pożyczkową"
     },
     "earnInfo": {
-      "title": "Zarabiaj na swojej kryptowalucie\n",
+      "title": "Zarabiaj na swoich kryptowalutach",
       "details": {
         "earn": {
           "titleGasSubsidy": "Maksymalizuj zarobki bez opłat za gaz*",
@@ -2552,7 +2552,7 @@
     "entrypoint": {
       "title": "Zarabiaj na swoich kryptowalutach",
       "subtitle": "Wpłacaj i zarabiaj",
-      "description": "Zarabiaj na swoich aktywach kryptograficznych, udzielając pożyczek za pośrednictwem puli płynności."
+      "description": "Zarabiaj na swoich kryptowalutach, pożyczając za pośrednictwem puli płynności"
     },
     "enterAmount": {
       "title": "Ile chcesz wpłacić?",
@@ -2612,7 +2612,7 @@
       "network": "Sieć",
       "footer": "Wpłacając kryptowaluty do puli Aave, akceptujesz ryzyko związane z korzystaniem z Aave. <0>Warunki</0>",
       "footerV1_93": "Wpłacając kryptowaluty do puli {{providerName}}, akceptujesz ryzyko związane z korzystaniem z {{providerName}}. <0>Warunki</0>",
-      "noTermsUrlFooter": "Ponosisz odpowiedzialność za swoje działania w {{appName}}. {{appName}} zrzeka się wszelkiej odpowiedzialności za Twoje zasoby lub interakcje z {{providerName}}. Możesz zapoznać się z dokumentami {{providerName}}<0>tutaj</0> i naszym Regulaminem <1>tutaj</1>.",
+      "noTermsUrlFooter": "Ponosisz odpowiedzialność za swoje działania w aplikacji {{appName}}. Producent aplikacji {{appName}} zrzeka się wszelkiej odpowiedzialności za Twoje aktywa lub interakcje z dostawcą {{providerName}}. Możesz zapoznać się z dokumentami dostawcy {{providerName}} <0>tutaj</0>, a naszymi warunkami <1>tutaj</1>.",
       "primaryCta": "Zakończ",
       "secondaryCta": "Anuluj",
       "yieldRate": "Stopa zwrotu (szac.)",
@@ -2670,7 +2670,7 @@
         "chooseDescription": "Każda decyzja finansowa jest osobistym wyborem. Zebraliśmy wybrane pule z różnych protokołów, ale każda pula zapewnia inne korzyści i wiąże się z innym ryzykiem. Dokładamy wszelkich starań, aby zapewnić przydatne informacje o wszystkich pulach, ale lepiej zrobić własne rozeznanie w razie jakichkolwiek wątpliwości."
       },
       "noPoolsTitle": "Nie dołączono jeszcze do żadnej puli",
-      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom i w pełni wykorzystaj swoje kryptowaluty.",
+      "noPoolsDescription": "Odkryj dostępne pule, wybierz taką, która odpowiada Twoim celom, i w pełni wykorzystaj swoje kryptowaluty.",
       "errorTitle": "Nie można wczytać pul",
       "errorDescription": "Wystąpił błąd podczas próby wczytania informacji o puli. Spróbuj ponownie.",
       "errorButton": "Spróbuj ponownie"
@@ -2697,6 +2697,7 @@
       "chainName": "Łańcuch: <0>{{networkName}}</0>",
       "protocolName": "Protokół: <0>{{providerName}}</0>",
       "yieldRate": "Stopa zwrotu",
+      "dailyYieldRate": "Stawka dzienna",
       "ratePercent": "{{rate}}%",
       "rewards": "Nagrody",
       "noRewards": "Brak nagród",
@@ -2718,7 +2719,10 @@
         "ageTitle": "Wiek puli",
         "ageDescription": "Starsze pule płynności mogą mieć dobre referencje i cieszyć się zaufaniem społeczności. Ze względu na to niektóre osoby mogą uznawać te pule za bezpieczniejsze.\n\nNie ma idealnego sposobu na określanie ryzyka, dlatego wykorzystaj te informacje w swoich ogólnych badaniach, aby podjąć najlepszą dla siebie decyzję.",
         "yieldRateTitle": "Stopa zwrotu",
-        "yieldRateDescription": "Większość pul oferuje zarobki w postaci tokenów pul płynności. Niektóre z nich oferują dodatkowe tokeny jako nagrody lub dodatkowe zachęty.\n\nAplikacja {{appName}} agreguje pule z wielu protokołów, dlatego połączyliśmy wszystkie stawki zarobków i nagród w pojedynczą, ogólną stawkę zysku, która ułatwia ocenę potencjału zarobków. Wartość ta jest tylko szacunkiem, gdyż wartości zarobków i nagród nie są stałe.\n\nWięcej informacji o podziale zysków możesz uzyskać, odwiedzając stronę <0>{{providerName}}</0>."
+        "yieldRateDescription": "Większość pul oferuje zarobki w postaci tokenów pul płynności. Niektóre z nich oferują dodatkowe tokeny jako nagrody lub dodatkowe zachęty.\n\nAplikacja {{appName}} agreguje pule z wielu protokołów, dlatego połączyliśmy wszystkie stawki zarobków i nagród w pojedynczą, ogólną stawkę zysku, która ułatwia ocenę potencjału zarobków. Wartość ta jest tylko szacunkiem, gdyż wartości zarobków i nagród nie są stałe.\n\nWięcej informacji o podziale zysków możesz uzyskać, odwiedzając stronę <0>{{providerName}}</0>.",
+        "dailyYieldRateTitle": "Stawka dzienna",
+        "dailyYieldRateDescription": "Wyświetlana stawka dzienna odzwierciedla stawkę dzienną podaną przez {{providerName}}.",
+        "dailyYieldRateLink": "Zobacz więcej szczegółów dotyczących stawek dziennych na {{providerName}}"
       }
     },
     "beforeDepositBottomSheet": {

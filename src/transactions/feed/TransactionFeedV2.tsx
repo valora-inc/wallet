@@ -2,13 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
 import Toast from 'react-native-simple-toast'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import NoActivity from 'src/transactions/NoActivity'
 import { removeDuplicatedStandByTransactions } from 'src/transactions/actions'
@@ -34,20 +35,17 @@ import {
   groupFeedItemsInSections,
   standByTransactionToTokenTransaction,
 } from 'src/transactions/utils'
+import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type PaginatedData = {
   [timestamp: number]: TokenTransaction[]
 }
 
-/**
- * In case there's more transaction than MIN_NUM_TRANSACTIONS - the screen can be scrolled
- * and user might think there can be more transactions to load. This is used when trying to
- * detect if the "No more transactions" toast has to be shown.
- */
-const MIN_NUM_TRANSACTIONS = 10
+const MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL = 10
 const POLL_INTERVAL_MS = 10000 // 10 sec
 const FIRST_PAGE_TIMESTAMP = 0 // placeholder
+const TAG = 'transactions/feed/TransactionFeedV2'
 
 function getAllowedNetworksForTransfers() {
   return getMultichainFeatures().showTransfers
@@ -339,6 +337,16 @@ export default function TransactionFeedV2() {
     [isFetching, data?.transactions, originalArgs?.endCursor, standByTransactions.confirmed]
   )
 
+  useEffect(
+    function handleError() {
+      if (error === undefined) return
+
+      Logger.error(TAG, 'Error while fetching transactions', error)
+      dispatch(showError(ErrorMessages.FETCH_FAILED))
+    },
+    [error]
+  )
+
   /**
    * In order to avoid bloating stand by transactions with confirmed transactions that are already
    * present in the feed via pagination – we need to cleanup them up. This must run for every page
@@ -353,16 +361,6 @@ export default function TransactionFeedV2() {
       }
     },
     [data?.transactions]
-  )
-
-  useEffect(
-    function vibrateForNewCompletedTransactions() {
-      const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
-      if (isFirstPage && newlyCompletedTransactions) {
-        vibrateSuccess()
-      }
-    },
-    [newlyCompletedTransactions, originalArgs]
   )
 
   const confirmedTransactions = useMemo(() => {
@@ -394,12 +392,8 @@ export default function TransactionFeedV2() {
       return
     }
 
-    const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
-    const moreThanMinumumTransactions = (data?.transactions || []).length > MIN_NUM_TRANSACTIONS
-    const isFirstPageWithEnoughtTransactions = isFirstPage && moreThanMinumumTransactions
-    const shouldShowToast = isFirstPageWithEnoughtTransactions || !isFirstPage
-
-    if (shouldShowToast) {
+    const totalTxCount = standByTransactions.pending.length + confirmedTransactions.length
+    if (totalTxCount > MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL) {
       Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
     }
   }
