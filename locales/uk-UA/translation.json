@@ -2725,7 +2725,8 @@
         "dailyYieldRateDescription": "Відображувана денна ставка відображає денну ставку, надану сайтом {{providerName}}.",
         "dailyYieldRateLink": "Детальна інформація про щоденні ціни на {{providerName}}"
       },
-      "viewMoreDetails": "Переглянути більше деталей"
+      "viewMoreDetails": "Переглянути більше деталей",
+      "viewLessDetails": "Переглянути менше деталей"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Вам потрібен {{tokenSymbol}} в {{tokenNetwork}} для внесення депозиту",
