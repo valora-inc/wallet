@@ -2721,7 +2721,8 @@
         "dailyYieldRateDescription": "Der angezeigte Tagessatz entspricht dem von {{providerName}}angebotenen Tagessatz.",
         "dailyYieldRateLink": "Weitere Details zum Tagessatz findest du auf {{providerName}}"
       },
-      "viewMoreDetails": "Mehr Details anzeigen"
+      "viewMoreDetails": "Mehr Details anzeigen",
+      "viewLessDetails": "Weniger Details anzeigen"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Du brauchst {{tokenSymbol}} auf {{tokenNetwork}} zum Einzahlen",
