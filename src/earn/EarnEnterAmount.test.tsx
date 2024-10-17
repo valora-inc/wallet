@@ -138,6 +138,12 @@ const params = {
   pool: mockEarnPositions[0],
 }
 
+const mockPoolWithHighPricePerShare = {
+  ...mockEarnPositions[0],
+  pricePerShare: '2',
+  balance: '10',
+}
+
 describe('EarnEnterAmount', () => {
   const refreshPreparedTransactionsSpy = jest.fn()
   beforeEach(() => {
@@ -382,7 +388,6 @@ describe('EarnEnterAmount', () => {
   })
 
   describe('withdraw', () => {
-    // Pool balance should be set to determine available withdrawal amount
     const withdrawParams = { ...params, mode: 'withdraw' }
 
     beforeEach(() => {
@@ -398,7 +403,7 @@ describe('EarnEnterAmount', () => {
         isPreparingTransactions: false,
       })
     })
-    it('should show only the deposit token and not include the token dropdown', async () => {
+    it('should show the deposit token and a disabled token dropdown', async () => {
       const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
           <MockedNavigator component={EarnEnterAmount} params={withdrawParams} />
@@ -448,6 +453,36 @@ describe('EarnEnterAmount', () => {
       })
 
       //TODO(ACT-1389): check navigation to withdrawal confirmation screen
+    })
+
+    it('should allow the user to set an input value over the pool balance if pricePerShare is great than 1', async () => {
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator
+            component={EarnEnterAmount}
+            params={{ pool: mockPoolWithHighPricePerShare, mode: 'withdraw' }}
+          />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '15')
+      expect(queryByTestId('EarnEnterAmount/NotEnoughBalanceWarning')).toBeFalsy()
+      expect(getByTestId('EarnEnterAmount/Continue')).toBeEnabled()
+    })
+
+    it('should not allow the user to set an input amount higher than pool balance * pricePerShare', async () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator
+            component={EarnEnterAmount}
+            params={{ pool: mockPoolWithHighPricePerShare, mode: 'withdraw' }}
+          />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '20.001')
+      expect(getByTestId('EarnEnterAmount/NotEnoughBalanceWarning')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
     })
   })
 
