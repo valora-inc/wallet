@@ -540,6 +540,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
   const ageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const yieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const dailyYieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const safetyScoreInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
@@ -606,7 +607,17 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
             />
           )}
           {!!dataProps.safety && (
-            <SafetyCard safety={dataProps.safety} commonAnalyticsProps={commonAnalyticsProps} />
+            <SafetyCard
+              safety={dataProps.safety}
+              commonAnalyticsProps={commonAnalyticsProps}
+              onInfoIconPress={() => {
+                AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
+                  type: 'safetyScore',
+                  ...commonAnalyticsProps,
+                })
+                safetyScoreInfoBottomSheetRef.current?.snapToIndex(0)
+              }}
+            />
           )}
           <TvlCard
             earnPosition={pool}
@@ -682,6 +693,15 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         linkKey="earnFlow.poolInfoScreen.infoBottomSheet.dailyYieldRateLink"
         linkUrl={dataProps.manageUrl}
         testId="DailyYieldRateInfoBottomSheet"
+      />
+      <InfoBottomSheet
+        infoBottomSheetRef={safetyScoreInfoBottomSheetRef}
+        titleKey="earnFlow.poolInfoScreen.infoBottomSheet.safetyScoreTitle"
+        descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.safetyScoreDescription"
+        providerName={appName}
+        linkKey="earnFlow.poolInfoScreen.infoBottomSheet.safetyScoreRateLink"
+        linkUrl={dataProps.manageUrl}
+        testId="SafetyScoreInfoBottomSheet"
       />
       <BeforeDepositBottomSheet
         forwardedRef={beforeDepositBottomSheetRef}

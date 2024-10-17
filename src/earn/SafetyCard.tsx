@@ -42,9 +42,11 @@ function Risk({ risk }: { risk: SafetyRisk }) {
 export function SafetyCard({
   safety,
   commonAnalyticsProps,
+  onInfoIconPress,
 }: {
   safety: Safety
   commonAnalyticsProps: EarnCommonProperties
+  onInfoIconPress: () => void
 }) {
   const { t } = useTranslation()
   const [expanded, setExpanded] = React.useState(false)
@@ -53,9 +55,7 @@ export function SafetyCard({
       <View style={styles.cardLineContainer}>
         <View style={styles.cardLineLabel}>
           <LabelWithInfo
-            onPress={() => {
-              // todo(act-1405): open bottom sheet
-            }}
+            onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.safetyScore')}
             labelStyle={styles.cardTitleText}
             testID="SafetyCardInfoIcon"
