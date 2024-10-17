@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
+import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import NoActivity from 'src/transactions/NoActivity'
 import { removeDuplicatedStandByTransactions } from 'src/transactions/actions'
@@ -361,6 +362,16 @@ export default function TransactionFeedV2() {
       }
     },
     [data?.transactions]
+  )
+
+  useEffect(
+    function vibrateForNewCompletedTransactions() {
+      const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
+      if (isFirstPage && newlyCompletedTransactions) {
+        vibrateSuccess()
+      }
+    },
+    [newlyCompletedTransactions, originalArgs]
   )
 
   const confirmedTransactions = useMemo(() => {

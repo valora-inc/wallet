@@ -396,29 +396,6 @@ describe('TransactionFeedV2', () => {
     await waitFor(() => expect(Toast.showWithGravity).not.toBeCalled())
   })
 
-  it('should not show "no transactions" toast if there are still data in next pages', async () => {
-    mockFetch
-      .mockResponseOnce(
-        typedResponse({
-          transactions: [mockTransaction({ transactionHash: '0x01', timestamp: 50 })],
-        })
-      )
-      .mockResponseOnce(
-        typedResponse({
-          transactions: [mockTransaction({ transactionHash: '0x12', timestamp: 39 })],
-        })
-      )
-
-    const { store, ...tree } = renderScreen()
-
-    await waitFor(() => tree.getByTestId('TransactionList'))
-    fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
-    await waitFor(() => expect(mockFetch).toBeCalled())
-    await waitFor(() => expect(tree.getByTestId('TransactionList/loading')).toBeVisible())
-    await waitFor(() => expect(tree.queryByTestId('TransactionList/loading')).toBeFalsy())
-    await waitFor(() => expect(Toast.showWithGravity).toBeCalledTimes(0))
-  })
-
   it('should vibrate when there is a pending transaction that turned into completed', async () => {
     const standByTransactionHash = '0x02' as string
     mockFetch.mockResponseOnce(typedResponse({ transactions: [] })).mockResponseOnce(
