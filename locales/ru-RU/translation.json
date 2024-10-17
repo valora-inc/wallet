@@ -2725,7 +2725,8 @@
         "dailyYieldRateDescription": "Отображаемый дневной тариф отражает дневной тариф, предоставленный сайтом {{providerName}}.",
         "dailyYieldRateLink": "Подробнее о суточных тарифах на сайте {{providerName}}"
       },
-      "viewMoreDetails": "Посмотреть больше деталей"
+      "viewMoreDetails": "Посмотреть больше деталей",
+      "viewLessDetails": "Посмотреть меньше деталей"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Для пополнения счета потребуется {{tokenSymbol}} в {{tokenNetwork}}",
