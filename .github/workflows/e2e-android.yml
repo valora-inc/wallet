@@ -100,7 +100,7 @@ jobs:
           check_name: Android (${{ inputs.android-api-level }}) e2e Test Report
           report_paths: 'e2e/test-results/junit.xml'
       - name: 'Upload Android E2E Artifacts'
-        if: failure()
+        if: failure() || cancelled()
         uses: actions/upload-artifact@v4
         with:
           name: android-${{ inputs.android-api-level }}-e2e-artifact
