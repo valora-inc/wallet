@@ -4,9 +4,11 @@ PODS:
     - JWTDecode (= 3.1.0)
     - React-Core
     - SimpleKeychain (= 1.1.0)
-  - Adjust (4.38.2):
-    - Adjust/Core (= 4.38.2)
-  - Adjust/Core (4.38.2)
+  - Adjust (5.0.1):
+    - Adjust/Adjust (= 5.0.1)
+  - Adjust/Adjust (5.0.1):
+    - AdjustSignature (~> 3.18)
+  - AdjustSignature (3.20.2)
   - Auth0 (2.7.2):
     - JWTDecode (~> 3.1)
     - SimpleKeychain (~> 1.1)
@@ -561,8 +563,8 @@ PODS:
   - React-jsinspector (0.72.15)
   - React-logger (0.72.15):
     - glog
-  - react-native-adjust (4.38.1):
-    - Adjust (= 4.38.2)
+  - react-native-adjust (5.0.2):
+    - Adjust (= 5.0.1)
     - React-Core
   - react-native-camera (4.2.1):
     - React-Core
@@ -963,6 +965,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Adjust
+    - AdjustSignature
     - Auth0
     - CleverTap-iOS-SDK
     - CocoaAsyncSocket
@@ -1197,7 +1200,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   A0Auth0: 47cb14c87d549b95b92242675ff2198ccd9dcbc5
-  Adjust: 5a0f813fe079212bed61404d1f635cc330068b4a
+  Adjust: f27daaa40d0df5550b89dd428cd8545d812e1f6d
+  AdjustSignature: f42d8c64cda8361ff5b5a31e4536d82076be4306
   Auth0: 28cb24cb19ebd51f0b07751f16d83b59f4019532
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
@@ -1263,7 +1267,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d3eef5ddc78eeb9f0d02bed657a7f41d4910b966
   React-jsinspector: b86a8abae760c28d69366bbc1d991561e51341ed
   React-logger: ed7c9e01e58529065e7da6bf8318baf15024283e
-  react-native-adjust: 83114d391a4a7a438e2c4d8e8137bc7810e7076f
+  react-native-adjust: 6a73063a62fb0f21dd2220f15b315c1e323268b0
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-compat: 24dedfbd7faba258560048606bc0fe9e73f7d2a3
   react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
