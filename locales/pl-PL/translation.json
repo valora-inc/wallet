@@ -2725,7 +2725,8 @@
         "dailyYieldRateDescription": "Wyświetlana stawka dzienna odzwierciedla stawkę dzienną podaną przez {{providerName}}.",
         "dailyYieldRateLink": "Zobacz więcej szczegółów dotyczących stawek dziennych na {{providerName}}"
       },
-      "viewMoreDetails": "Zobacz więcej szczegółów"
+      "viewMoreDetails": "Zobacz więcej szczegółów",
+      "viewLessDetails": "Wyświetl mniej szczegółów"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Aby dokonać wpłaty, potrzebny jest {{tokenSymbol}} w {{tokenNetwork}}",
