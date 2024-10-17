@@ -115,7 +115,21 @@ function mergeStandByTransactionsInRange({
   standByTransactions: TokenTransaction[]
   currentCursor?: number
 }): TokenTransaction[] {
-  if (transactions.length === 0) return []
+  /**
+   * If the data from the first page is empty - there's no successful transactions in the wallet.
+   * Maybe the user executed a single transaction, it failed and now it's in the standByTransactions.
+   * In this case we need to show whatever we've got in standByTransactions, until we have some
+   * paginated data to merge it with.
+   */
+  const isFirstPage = currentCursor === FIRST_PAGE_TIMESTAMP
+  if (isFirstPage && transactions.length === 0) {
+    return standByTransactions
+  }
+
+  // return empty array for any page other than the first
+  if (transactions.length === 0) {
+    return []
+  }
 
   const allowedNetworks = getAllowedNetworksForTransfers()
   const max = transactions[0].timestamp
@@ -123,7 +137,7 @@ function mergeStandByTransactionsInRange({
 
   const standByInRange = standByTransactions.filter((tx) => {
     const inRange = tx.timestamp >= min && tx.timestamp <= max
-    const newTransaction = currentCursor === FIRST_PAGE_TIMESTAMP && tx.timestamp > max
+    const newTransaction = isFirstPage && tx.timestamp > max
     return inRange || newTransaction
   })
   const deduplicatedTransactions = deduplicateTransactions([...transactions, ...standByInRange])

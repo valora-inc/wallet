@@ -312,4 +312,20 @@ describe('TransactionFeedV2', () => {
      */
     await waitFor(() => expect(store.getState().transactions.standbyTransactions.length).toBe(0))
   })
+
+  it('should show stand by transactions if paginated data is empty', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [] }))
+    const { store, ...tree } = renderScreen({
+      transactions: {
+        standbyTransactions: [
+          mockTransaction({ transactionHash: '0x01', status: TransactionStatus.Complete }),
+          mockTransaction({ transactionHash: '0x02', status: TransactionStatus.Pending }),
+        ],
+      },
+    })
+
+    await waitFor(() => expect(tree.getByTestId('TransactionList').props.data.length).toBe(2))
+    expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
+    expect(tree.getByTestId('TransactionList').props.data[1].data.length).toBe(1)
+  })
 })
