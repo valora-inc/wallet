@@ -455,7 +455,7 @@ describe('EarnEnterAmount', () => {
       //TODO(ACT-1389): check navigation to withdrawal confirmation screen
     })
 
-    it('should allow the user to set an input value over the pool balance if pricePerShare is great than 1', async () => {
+    it('should allow the user to set an input value over the pool balance if pricePerShare is greater than 1', async () => {
       const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
           <MockedNavigator
