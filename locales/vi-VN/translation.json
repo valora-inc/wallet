@@ -2719,7 +2719,8 @@
         "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
         "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}"
       },
-      "viewMoreDetails": "View More Details"
+      "viewMoreDetails": "View More Details",
+      "viewLessDetails": "View Less Details"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Bạn cần {{tokenSymbol}} trên {{tokenNetwork}} để nạp",
