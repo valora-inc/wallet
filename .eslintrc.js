@@ -10,6 +10,7 @@ module.exports = {
     'jest/valid-title': ['error', { ignoreTypeOfDescribeName: true }],
     'no-console': ['error', { allow: [''] }],
     '@jambit/typed-redux-saga/delegate-effects': 'error',
+    '@typescript-eslint/no-shadow': 'error',
   },
   overrides: [
     {
