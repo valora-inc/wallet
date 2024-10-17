@@ -2719,7 +2719,8 @@
         "dailyYieldRateDescription": "显示的每日费率反映了 {{providerName}}提供的每日费率。",
         "dailyYieldRateLink": "查看更多每日房价详情，请访问 {{providerName}}"
       },
-      "viewMoreDetails": "查看更多详情"
+      "viewMoreDetails": "查看更多详情",
+      "viewLessDetails": "查看更多详情"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "您需要在 {{tokenNetwork}} 上持有 {{tokenSymbol}} 才可进行存款",
