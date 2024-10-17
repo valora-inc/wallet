@@ -36,6 +36,7 @@ interface EarnDataProps {
   depositTokenId: string
   withdrawTokenId: string
   rewardsPositionIds?: string[]
+  withdrawalIncludesClaim?: boolean
   dailyYieldRatePercentage?: number
   // We'll add more fields here as needed
 }

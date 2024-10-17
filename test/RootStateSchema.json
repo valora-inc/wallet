@@ -1275,6 +1275,9 @@
                 "withdrawTokenId": {
                     "type": "string"
                 },
+                "withdrawalIncludesClaim": {
+                    "type": "boolean"
+                },
                 "yieldRates": {
                     "items": {
                         "$ref": "#/definitions/YieldRate"

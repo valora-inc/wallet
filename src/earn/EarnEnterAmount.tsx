@@ -507,6 +507,17 @@ function EarnEnterAmount({ route }: Props) {
             testID="EarnEnterAmount/PrepareTransactionError"
           />
         )}
+        {isWithdrawal && pool.dataProps.withdrawalIncludesClaim && (
+          <InLineNotification
+            variant={NotificationVariant.Info}
+            title={t('earnFlow.enterAmount.withdrawingAndClaimingCard.title')}
+            description={t('earnFlow.enterAmount.withdrawingAndClaimingCard.description', {
+              providerName: pool.appName,
+            })}
+            style={styles.warning}
+            testID="EarnEnterAmount/WithdrawingAndClaimingCard"
+          />
+        )}
         <Button
           onPress={onPressContinue}
           text={t('earnFlow.enterAmount.continue')}
