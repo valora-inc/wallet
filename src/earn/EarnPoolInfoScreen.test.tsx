@@ -287,6 +287,27 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
   })
 
+  it('renders safety card when safety is provided', () => {
+    const mockPool = {
+      ...mockEarnPositions[0],
+      balance: '100',
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        safety: {
+          level: 'high' as const,
+          risks: [
+            { isPositive: false, title: 'Risk 1', category: 'Category 1' },
+            { isPositive: true, title: 'Risk 2', category: 'Category 2' },
+          ],
+        },
+      },
+    }
+
+    const { getByTestId } = renderEarnPoolInfoScreen(mockPool)
+
+    expect(getByTestId('SafetyCard')).toBeTruthy()
+  })
+
   it('navigates to external URI when "View Pool on Provider" is tapped', () => {
     const { getByText } = renderEarnPoolInfoScreen(mockEarnPositions[0])
 
