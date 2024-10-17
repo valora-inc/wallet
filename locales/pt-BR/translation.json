@@ -2697,6 +2697,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "Prêmios",
       "noRewards": "Sem recompensas",
+      "safetyScore": "Pontuação de segurança",
       "tvl": "TVL",
       "ageOfPool": "Piscina criada:",
       "learnMoreOnProvider": "Ver pool no {{providerName}}",
@@ -2719,7 +2720,8 @@
         "dailyYieldRateTitle": "Taxa diária",
         "dailyYieldRateDescription": "A tarifa diária exibida reflete a tarifa diária fornecida pelo site {{providerName}}.",
         "dailyYieldRateLink": "Veja mais detalhes sobre a tarifa diária em {{providerName}}"
-      }
+      },
+      "viewMoreDetails": "Ver mais detalhes"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Você precisa de {{tokenSymbol}} da {{tokenNetwork}} para depositar",
