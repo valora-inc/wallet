@@ -2701,6 +2701,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "Nagrody",
       "noRewards": "Brak nagród",
+      "safetyScore": "Wynik bezpieczeństwa",
       "tvl": "TVL",
       "ageOfPool": "Wiek puli",
       "learnMoreOnProvider": "Wyświetl pulę w {{providerName}}",
@@ -2723,7 +2724,8 @@
         "dailyYieldRateTitle": "Stawka dzienna",
         "dailyYieldRateDescription": "Wyświetlana stawka dzienna odzwierciedla stawkę dzienną podaną przez {{providerName}}.",
         "dailyYieldRateLink": "Zobacz więcej szczegółów dotyczących stawek dziennych na {{providerName}}"
-      }
+      },
+      "viewMoreDetails": "Zobacz więcej szczegółów"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Aby dokonać wpłaty, potrzebny jest {{tokenSymbol}} w {{tokenNetwork}}",
