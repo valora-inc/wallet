@@ -6,22 +6,29 @@ import { SafetyCard } from 'src/earn/SafetyCard'
 import Colors from 'src/styles/colors'
 import { NetworkId } from 'src/transactions/types'
 
-const mockAnalyticsProps = {
-  poolId: 'poolId',
-  providerId: 'providerId',
-  networkId: NetworkId['arbitrum-sepolia'],
-  depositTokenId: 'depositTokenId',
-}
-
 describe('SafetyCard', () => {
+  const mockProps = {
+    commonAnalyticsProps: {
+      poolId: 'poolId',
+      providerId: 'providerId',
+      networkId: NetworkId['arbitrum-sepolia'],
+      depositTokenId: 'depositTokenId',
+    },
+    safety: {
+      level: 'low' as const,
+      risks: [
+        { title: 'Risk 1', category: 'Category 1', isPositive: true },
+        { title: 'Risk 2', category: 'Category 2', isPositive: false },
+      ],
+    },
+    onInfoIconPress: jest.fn(),
+  }
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   it('renders correctly', () => {
-    const { getByTestId, getAllByTestId } = render(
-      <SafetyCard safety={{ level: 'low', risks: [] }} commonAnalyticsProps={mockAnalyticsProps} />
-    )
+    const { getByTestId, getAllByTestId } = render(<SafetyCard {...mockProps} />)
 
     expect(getByTestId('SafetyCard')).toBeTruthy()
     expect(getByTestId('SafetyCardInfoIcon')).toBeTruthy()
@@ -37,9 +44,7 @@ describe('SafetyCard', () => {
     { level: 'medium', colors: [Colors.primary, Colors.primary, Colors.gray2] },
     { level: 'high', colors: [Colors.primary, Colors.primary, Colors.primary] },
   ] as const)('should render correct triple bars for safety level $level', ({ level, colors }) => {
-    const { getAllByTestId } = render(
-      <SafetyCard safety={{ level, risks: [] }} commonAnalyticsProps={mockAnalyticsProps} />
-    )
+    const { getAllByTestId } = render(<SafetyCard {...mockProps} safety={{ level, risks: [] }} />)
 
     const bars = getAllByTestId('SafetyCard/Bar')
     expect(bars).toHaveLength(3)
@@ -49,18 +54,7 @@ describe('SafetyCard', () => {
   })
 
   it('expands and collapses card and displays risks when View More/Less Details is pressed', () => {
-    const { getByTestId, getAllByTestId, queryByTestId } = render(
-      <SafetyCard
-        safety={{
-          level: 'low',
-          risks: [
-            { title: 'Risk 1', category: 'Category 1', isPositive: true },
-            { title: 'Risk 2', category: 'Category 2', isPositive: false },
-          ],
-        }}
-        commonAnalyticsProps={mockAnalyticsProps}
-      />
-    )
+    const { getByTestId, getAllByTestId, queryByTestId } = render(<SafetyCard {...mockProps} />)
 
     expect(queryByTestId('SafetyCard/Risk')).toBeFalsy()
     expect(getByTestId('SafetyCard/ViewDetails')).toHaveTextContent(
@@ -85,7 +79,7 @@ describe('SafetyCard', () => {
     expect(getAllByTestId('SafetyCard/Risk')[1]).toHaveTextContent('Category 2')
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_safety_details, {
       action: 'expand',
-      ...mockAnalyticsProps,
+      ...mockProps.commonAnalyticsProps,
     })
     expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
 
@@ -97,8 +91,14 @@ describe('SafetyCard', () => {
     )
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_safety_details, {
       action: 'collapse',
-      ...mockAnalyticsProps,
+      ...mockProps.commonAnalyticsProps,
     })
     expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+  })
+
+  it('triggers callback when info icon is pressed', () => {
+    const { getByTestId } = render(<SafetyCard {...mockProps} />)
+    fireEvent.press(getByTestId('SafetyCardInfoIcon'))
+    expect(mockProps.onInfoIconPress).toHaveBeenCalledTimes(1)
   })
 })
