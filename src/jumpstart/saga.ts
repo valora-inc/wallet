@@ -27,7 +27,7 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getTokenId } from 'src/tokens/utils'
-import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
+import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/slice'
 import { NetworkId, TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -121,20 +121,22 @@ export function* dispatchPendingERC20Transactions(
 
       yield* put(
         addStandbyTransaction({
-          __typename: 'TokenTransferV3',
-          type: TokenTransactionTypeV2.Received,
-          context: {
-            id: transactionHash,
+          transaction: {
+            __typename: 'TokenTransferV3',
+            type: TokenTransactionTypeV2.Received,
+            context: {
+              id: transactionHash,
+            },
+            transactionHash,
+            networkId,
+            amount: {
+              value,
+              tokenAddress,
+              tokenId,
+            },
+            address,
+            metadata: {},
           },
-          transactionHash,
-          networkId,
-          amount: {
-            value,
-            tokenAddress,
-            tokenId,
-          },
-          address,
-          metadata: {},
         })
       )
 
@@ -175,27 +177,29 @@ export function* dispatchPendingERC721Transactions(
 
         yield* put(
           addStandbyTransaction({
-            __typename: 'NftTransferV3',
-            type: TokenTransactionTypeV2.NftReceived,
-            context: {
-              id: transactionHash,
-            },
-            transactionHash,
-            networkId,
-            nfts: [
-              {
-                tokenId: tokenId.toString(),
-                contractAddress: contractAddress.toLowerCase(),
-                tokenUri,
-                metadata,
-                media: [
-                  {
-                    raw: metadata?.image,
-                    gateway: metadata?.image,
-                  },
-                ],
+            transaction: {
+              __typename: 'NftTransferV3',
+              type: TokenTransactionTypeV2.NftReceived,
+              context: {
+                id: transactionHash,
               },
-            ],
+              transactionHash,
+              networkId,
+              nfts: [
+                {
+                  tokenId: tokenId.toString(),
+                  contractAddress: contractAddress.toLowerCase(),
+                  tokenUri,
+                  metadata,
+                  media: [
+                    {
+                      raw: metadata?.image,
+                      gateway: metadata?.image,
+                    },
+                  ],
+                },
+              ],
+            },
           })
         )
 

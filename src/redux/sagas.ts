@@ -46,8 +46,8 @@ import { sentrySaga } from 'src/sentry/saga'
 import { swapSaga } from 'src/swap/saga'
 import { tokensSaga } from 'src/tokens/saga'
 import { setTokenBalances } from 'src/tokens/slice'
-import { Actions as TransactionActions } from 'src/transactions/actions'
 import { transactionSaga } from 'src/transactions/saga'
+import { updateTransactions } from 'src/transactions/slice'
 import Logger from 'src/utils/Logger'
 import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import { walletConnectSaga } from 'src/walletConnect/saga'
@@ -62,7 +62,7 @@ const loggerPayloadBlocklist = [
   ImportActions.IMPORT_BACKUP_PHRASE,
   setPhoneRecipientCache.toString(),
   updateAppRecipientCache.toString(),
-  TransactionActions.UPDATE_TRANSACTIONS,
+  updateTransactions.type,
   setTokenBalances.type,
   fetchPriceHistorySuccess.type,
   rewardsSendersFetched.type,

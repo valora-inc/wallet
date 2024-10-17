@@ -18,15 +18,15 @@ import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import NoActivity from 'src/transactions/NoActivity'
-import { removeDuplicatedStandByTransactions, updateFeedFirstPage } from 'src/transactions/actions'
 import { FIRST_PAGE_TIMESTAMP, useTransactionFeedV2Query } from 'src/transactions/api'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
-import { allStandbyTransactionsSelector, feedFirstPageSelector } from 'src/transactions/reducer'
+import NoActivity from 'src/transactions/NoActivity'
+import { allStandbyTransactionsSelector, feedFirstPageSelector } from 'src/transactions/selectors'
+import { removeDuplicatedStandByTransactions, updateFeedFirstPage } from 'src/transactions/slice'
 import {
   FeeType,
   TokenTransactionTypeV2,
@@ -411,7 +411,7 @@ export default function TransactionFeedV2() {
       const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
 
       if (isFirstPage && data?.transactions) {
-        dispatch(updateFeedFirstPage(data.transactions))
+        dispatch(updateFeedFirstPage({ transactions: data.transactions }))
       }
     },
     [data?.transactions, originalArgs?.endCursor]
@@ -437,7 +437,7 @@ export default function TransactionFeedV2() {
   useEffect(
     function cleanupStandByTransactions() {
       if (data?.transactions.length) {
-        dispatch(removeDuplicatedStandByTransactions(data.transactions))
+        dispatch(removeDuplicatedStandByTransactions({ newPageTransactions: data.transactions }))
       }
     },
     [data?.transactions]

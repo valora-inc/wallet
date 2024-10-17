@@ -5,12 +5,12 @@ import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
 import { trackPointsEvent } from 'src/points/slice'
 import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import { transactionConfirmed } from 'src/transactions/actions'
 import {
   internalWatchPendingTransactionsInNetwork,
   watchPendingTransactions,
   watchPendingTransactionsInNetwork,
 } from 'src/transactions/saga'
+import { transactionConfirmed } from 'src/transactions/slice'
 import {
   Network,
   NetworkId,
@@ -99,16 +99,16 @@ describe('watchPendingTransactions', () => {
         ...createDefaultProviders(Network.Celo),
       ])
       .put(
-        transactionConfirmed(
-          transactionId,
-          {
+        transactionConfirmed({
+          txId: transactionId,
+          blockTimestampInMs: 1701102971000,
+          receipt: {
             transactionHash,
             block: '123',
             status: TransactionStatus.Failed,
             fees: [],
           },
-          1701102971000
-        )
+        })
       )
       .not.put(trackPointsEvent(expect.any(Object))) // transaction reverted, no points
       .run()
@@ -145,16 +145,16 @@ describe('watchPendingTransactions', () => {
       )
       .provide(createDefaultProviders(Network.Celo))
       .put(
-        transactionConfirmed(
-          transactionId,
-          {
+        transactionConfirmed({
+          txId: transactionId,
+          blockTimestampInMs: 1701102971000,
+          receipt: {
             transactionHash,
             block: '123',
             status: TransactionStatus.Complete,
             fees: [],
           },
-          1701102971000
-        )
+        })
       )
       .put(
         trackPointsEvent({
@@ -179,9 +179,10 @@ describe('watchPendingTransactions', () => {
       )
       .provide(createDefaultProviders(Network.Celo))
       .put(
-        transactionConfirmed(
-          transactionId,
-          {
+        transactionConfirmed({
+          txId: transactionId,
+          blockTimestampInMs: 1701102971000,
+          receipt: {
             transactionHash,
             block: '123',
             status: TransactionStatus.Complete,
@@ -195,8 +196,7 @@ describe('watchPendingTransactions', () => {
               },
             ],
           },
-          1701102971000
-        )
+        })
       )
       .not.put(trackPointsEvent(expect.any(Object))) // not a swap transaction
       .run()
@@ -222,9 +222,10 @@ describe('watchPendingTransactions', () => {
       )
       .provide(createDefaultProviders(Network.Ethereum))
       .put(
-        transactionConfirmed(
-          transactionId,
-          {
+        transactionConfirmed({
+          txId: transactionId,
+          blockTimestampInMs: 1701102971000,
+          receipt: {
             transactionHash,
             block: '123',
             status: TransactionStatus.Complete,
@@ -238,8 +239,7 @@ describe('watchPendingTransactions', () => {
               },
             ],
           },
-          1701102971000
-        )
+        })
       )
       .run()
   })
@@ -257,7 +257,13 @@ describe('watchPendingTransactions', () => {
         [call([publicClient.celo, 'waitForTransactionReceipt'], { hash: transactionHash }), null],
         ...createDefaultProviders(Network.Celo),
       ])
-      .not.put(transactionConfirmed(expect.any(String), expect.any(Object), expect.any(Number)))
+      .not.put(
+        transactionConfirmed({
+          txId: expect.any(String),
+          receipt: expect.any(Object),
+          blockTimestampInMs: expect.any(Number),
+        })
+      )
       .not.put(trackPointsEvent(expect.any(Object))) // no receipt, no points
       .run()
   })

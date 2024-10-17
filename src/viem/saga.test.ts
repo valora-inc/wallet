@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
-import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
+import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/slice'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { TransactionRequest } from 'src/viem/prepareTransactions'
@@ -119,16 +119,20 @@ describe('sendPreparedTransactions', () => {
       .call(getViemWallet, networkConfig.viemChain.celo, false)
       .put(
         addStandbyTransaction({
-          ...mockStandbyTransactions[0],
-          feeCurrencyId: mockCeloTokenId,
-          transactionHash: '0xmockTxHash1',
+          transaction: {
+            ...mockStandbyTransactions[0],
+            feeCurrencyId: mockCeloTokenId,
+            transactionHash: '0xmockTxHash1',
+          },
         })
       )
       .put(
         addStandbyTransaction({
-          ...mockStandbyTransactions[1],
-          feeCurrencyId: mockCeloTokenId,
-          transactionHash: '0xmockTxHash2',
+          transaction: {
+            ...mockStandbyTransactions[1],
+            feeCurrencyId: mockCeloTokenId,
+            transactionHash: '0xmockTxHash2',
+          },
         })
       )
       .returns(['0xmockTxHash1', '0xmockTxHash2'])

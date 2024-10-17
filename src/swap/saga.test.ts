@@ -9,7 +9,7 @@ import { getMultichainFeatures } from 'src/statsig'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo } from 'src/swap/types'
-import { Actions, addStandbyTransaction } from 'src/transactions/actions'
+import { actions, addStandbyTransaction } from 'src/transactions/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
@@ -398,40 +398,44 @@ describe(swapSubmitSaga, () => {
         )
         .put(
           addStandbyTransaction({
-            context: {
-              id: 'id-swap/saga-Swap/Approve',
-              tag: 'swap/saga',
-              description: 'Swap/Approve',
+            transaction: {
+              context: {
+                id: 'id-swap/saga-Swap/Approve',
+                tag: 'swap/saga',
+                description: 'Swap/Approve',
+              },
+              __typename: 'TokenApproval',
+              networkId,
+              type: TokenTransactionTypeV2.Approval,
+              transactionHash: mockApproveTxReceipt.transactionHash,
+              tokenId: fromTokenId,
+              approvedAmount: '1',
+              feeCurrencyId,
             },
-            __typename: 'TokenApproval',
-            networkId,
-            type: TokenTransactionTypeV2.Approval,
-            transactionHash: mockApproveTxReceipt.transactionHash,
-            tokenId: fromTokenId,
-            approvedAmount: '1',
-            feeCurrencyId,
           })
         )
         .put(
           addStandbyTransaction({
-            context: {
-              id: 'id-swap/saga-Swap/Execute',
-              tag: 'swap/saga',
-              description: 'Swap/Execute',
+            transaction: {
+              context: {
+                id: 'id-swap/saga-Swap/Execute',
+                tag: 'swap/saga',
+                description: 'Swap/Execute',
+              },
+              __typename: 'TokenExchangeV3',
+              networkId,
+              type: TokenTransactionTypeV2.SwapTransaction,
+              inAmount: {
+                value: swapPrepared.payload.userInput.swapAmount[Field.TO],
+                tokenId: toTokenId,
+              },
+              outAmount: {
+                value: swapPrepared.payload.userInput.swapAmount[Field.FROM],
+                tokenId: fromTokenId,
+              },
+              transactionHash: mockSwapTxReceipt.transactionHash,
+              feeCurrencyId,
             },
-            __typename: 'TokenExchangeV3',
-            networkId,
-            type: TokenTransactionTypeV2.SwapTransaction,
-            inAmount: {
-              value: swapPrepared.payload.userInput.swapAmount[Field.TO],
-              tokenId: toTokenId,
-            },
-            outAmount: {
-              value: swapPrepared.payload.userInput.swapAmount[Field.FROM],
-              tokenId: fromTokenId,
-            },
-            transactionHash: mockSwapTxReceipt.transactionHash,
-            feeCurrencyId,
           })
         )
         .call([publicClient[network], 'waitForTransactionReceipt'], { hash: '0x1' })
@@ -553,29 +557,31 @@ describe(swapSubmitSaga, () => {
       )
       .put(
         addStandbyTransaction({
-          context: {
-            id: 'id-swap/saga-Swap/Execute',
-            tag: 'swap/saga',
-            description: 'Swap/Execute',
+          transaction: {
+            context: {
+              id: 'id-swap/saga-Swap/Execute',
+              tag: 'swap/saga',
+              description: 'Swap/Execute',
+            },
+            __typename: 'TokenExchangeV3',
+            networkId: NetworkId['celo-alfajores'],
+            type: TokenTransactionTypeV2.SwapTransaction,
+            inAmount: {
+              value: mockSwapWithNativeSellToken.payload.userInput.swapAmount[Field.TO],
+              tokenId: mockCeloTokenId,
+            },
+            outAmount: {
+              value: mockSwapWithNativeSellToken.payload.userInput.swapAmount[Field.FROM],
+              tokenId: mockCeurTokenId,
+            },
+            transactionHash: '0x1',
+            feeCurrencyId: mockCeloTokenId,
           },
-          __typename: 'TokenExchangeV3',
-          networkId: NetworkId['celo-alfajores'],
-          type: TokenTransactionTypeV2.SwapTransaction,
-          inAmount: {
-            value: mockSwapWithNativeSellToken.payload.userInput.swapAmount[Field.TO],
-            tokenId: mockCeloTokenId,
-          },
-          outAmount: {
-            value: mockSwapWithNativeSellToken.payload.userInput.swapAmount[Field.FROM],
-            tokenId: mockCeurTokenId,
-          },
-          transactionHash: '0x1',
-          feeCurrencyId: mockCeloTokenId,
         })
       )
       .not.put.like({
         action: {
-          type: Actions.ADD_STANDBY_TRANSACTION,
+          type: actions.addStandbyTransaction.type,
           transaction: {
             __typename: 'TokenApproval',
           },
@@ -596,40 +602,44 @@ describe(swapSubmitSaga, () => {
       .provide(createDefaultProviders(Network.Celo))
       .put(
         addStandbyTransaction({
-          context: {
-            id: 'id-swap/saga-Swap/Approve',
-            tag: 'swap/saga',
-            description: 'Swap/Approve',
+          transaction: {
+            context: {
+              id: 'id-swap/saga-Swap/Approve',
+              tag: 'swap/saga',
+              description: 'Swap/Approve',
+            },
+            __typename: 'TokenApproval',
+            networkId: NetworkId['celo-alfajores'],
+            type: TokenTransactionTypeV2.Approval,
+            transactionHash: mockApproveTxReceipt.transactionHash,
+            tokenId: mockCeurTokenId,
+            approvedAmount: '1',
+            feeCurrencyId: mockCeloTokenId,
           },
-          __typename: 'TokenApproval',
-          networkId: NetworkId['celo-alfajores'],
-          type: TokenTransactionTypeV2.Approval,
-          transactionHash: mockApproveTxReceipt.transactionHash,
-          tokenId: mockCeurTokenId,
-          approvedAmount: '1',
-          feeCurrencyId: mockCeloTokenId,
         })
       )
       .put(
         addStandbyTransaction({
-          context: {
-            id: 'id-swap/saga-Swap/Execute',
-            tag: 'swap/saga',
-            description: 'Swap/Execute',
+          transaction: {
+            context: {
+              id: 'id-swap/saga-Swap/Execute',
+              tag: 'swap/saga',
+              description: 'Swap/Execute',
+            },
+            __typename: 'TokenExchangeV3',
+            networkId: NetworkId['celo-alfajores'],
+            type: TokenTransactionTypeV2.SwapTransaction,
+            inAmount: {
+              value: mockSwapWithWBTCBuyToken.payload.userInput.swapAmount[Field.TO],
+              tokenId: mockWBTCTokenId,
+            },
+            outAmount: {
+              value: mockSwapWithWBTCBuyToken.payload.userInput.swapAmount[Field.FROM],
+              tokenId: mockCeurTokenId,
+            },
+            transactionHash: mockSwapTxReceipt.transactionHash,
+            feeCurrencyId: mockCeloTokenId,
           },
-          __typename: 'TokenExchangeV3',
-          networkId: NetworkId['celo-alfajores'],
-          type: TokenTransactionTypeV2.SwapTransaction,
-          inAmount: {
-            value: mockSwapWithWBTCBuyToken.payload.userInput.swapAmount[Field.TO],
-            tokenId: mockWBTCTokenId,
-          },
-          outAmount: {
-            value: mockSwapWithWBTCBuyToken.payload.userInput.swapAmount[Field.FROM],
-            tokenId: mockCeurTokenId,
-          },
-          transactionHash: mockSwapTxReceipt.transactionHash,
-          feeCurrencyId: mockCeloTokenId,
         })
       )
       .run()
@@ -641,40 +651,44 @@ describe(swapSubmitSaga, () => {
       .provide(createDefaultProviders(Network.Celo))
       .put(
         addStandbyTransaction({
-          context: {
-            id: 'id-swap/saga-Swap/Approve',
-            tag: 'swap/saga',
-            description: 'Swap/Approve',
+          transaction: {
+            context: {
+              id: 'id-swap/saga-Swap/Approve',
+              tag: 'swap/saga',
+              description: 'Swap/Approve',
+            },
+            __typename: 'TokenApproval',
+            networkId: NetworkId['celo-alfajores'],
+            type: TokenTransactionTypeV2.Approval,
+            transactionHash: mockApproveTxReceipt.transactionHash,
+            tokenId: mockCeurTokenId,
+            approvedAmount: '1',
+            feeCurrencyId: mockCeloTokenId,
           },
-          __typename: 'TokenApproval',
-          networkId: NetworkId['celo-alfajores'],
-          type: TokenTransactionTypeV2.Approval,
-          transactionHash: mockApproveTxReceipt.transactionHash,
-          tokenId: mockCeurTokenId,
-          approvedAmount: '1',
-          feeCurrencyId: mockCeloTokenId,
         })
       )
       .put(
         addStandbyTransaction({
-          context: {
-            id: 'id-swap/saga-Swap/Execute',
-            tag: 'swap/saga',
-            description: 'Swap/Execute',
+          transaction: {
+            context: {
+              id: 'id-swap/saga-Swap/Execute',
+              tag: 'swap/saga',
+              description: 'Swap/Execute',
+            },
+            __typename: 'CrossChainTokenExchange',
+            networkId: NetworkId['celo-alfajores'],
+            type: TokenTransactionTypeV2.CrossChainSwapTransaction,
+            inAmount: {
+              value: mockSwap.payload.userInput.swapAmount[Field.TO],
+              tokenId: mockEthTokenId,
+            },
+            outAmount: {
+              value: mockSwap.payload.userInput.swapAmount[Field.FROM],
+              tokenId: mockCeurTokenId,
+            },
+            transactionHash: mockSwapTxReceipt.transactionHash,
+            feeCurrencyId: mockCeloTokenId,
           },
-          __typename: 'CrossChainTokenExchange',
-          networkId: NetworkId['celo-alfajores'],
-          type: TokenTransactionTypeV2.CrossChainSwapTransaction,
-          inAmount: {
-            value: mockSwap.payload.userInput.swapAmount[Field.TO],
-            tokenId: mockEthTokenId,
-          },
-          outAmount: {
-            value: mockSwap.payload.userInput.swapAmount[Field.FROM],
-            tokenId: mockCeurTokenId,
-          },
-          transactionHash: mockSwapTxReceipt.transactionHash,
-          feeCurrencyId: mockCeloTokenId,
         })
       )
       .run()
