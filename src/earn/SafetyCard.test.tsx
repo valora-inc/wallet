@@ -83,7 +83,7 @@ describe('SafetyCard', () => {
     )
     expect(getAllByTestId('SafetyCard/Risk')[1]).toHaveTextContent('Risk 2')
     expect(getAllByTestId('SafetyCard/Risk')[1]).toHaveTextContent('Category 2')
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_safety_details, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_safety_details, {
       action: 'expand',
       ...mockAnalyticsProps,
     })
@@ -95,7 +95,7 @@ describe('SafetyCard', () => {
     expect(getByTestId('SafetyCard/ViewDetails')).toHaveTextContent(
       'earnFlow.poolInfoScreen.viewMoreDetails'
     )
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_safety_details, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_safety_details, {
       action: 'collapse',
       ...mockAnalyticsProps,
     })

@@ -1631,7 +1631,7 @@ interface EarnEventsProperties {
     hasTokensOnSameNetwork: boolean
     hasTokensOnOtherNetworks: boolean
   }
-  [EarnEvents.earn_pool_info_safety_details]: EarnCommonProperties & {
+  [EarnEvents.earn_pool_info_tap_safety_details]: EarnCommonProperties & {
     action: 'expand' | 'collapse'
   }
 }

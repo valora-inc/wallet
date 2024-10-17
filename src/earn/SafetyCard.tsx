@@ -31,7 +31,7 @@ function Risk({ risk }: { risk: SafetyRisk }) {
           <DataDown color={Colors.error} testID="SafetyCard/RiskNegative" />
         )}
       </View>
-      <View>
+      <View style={styles.riskTextContainer}>
         <Text style={styles.riskTitle}>{risk.title}</Text>
         <Text style={styles.riskCategory}>{risk.category}</Text>
       </View>
@@ -87,7 +87,7 @@ export function SafetyCard({
         style={styles.cardLineContainer}
         onPress={() => {
           setExpanded((prev) => !prev)
-          AppAnalytics.track(EarnEvents.earn_pool_info_safety_details, {
+          AppAnalytics.track(EarnEvents.earn_pool_info_tap_safety_details, {
             action: expanded ? 'collapse' : 'expand',
             ...commonAnalyticsProps,
           })
@@ -150,6 +150,9 @@ const styles = StyleSheet.create({
   riskContainer: {
     flexDirection: 'row',
     gap: Spacing.Smallest8,
+  },
+  riskTextContainer: {
+    flex: 1,
   },
   icon: {
     width: 24,
