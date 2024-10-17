@@ -117,13 +117,13 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
-            mode: 'collect',
+            mode: 'withdraw',
           }}
         />
       </Provider>
     )
 
-    expect(getByText('earnFlow.collect.titleClaim')).toBeTruthy()
+    expect(getByText('earnFlow.collect.titleWithdraw')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
     expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
       '11.83 USDC'
@@ -154,13 +154,13 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
-            mode: 'collect',
+            mode: 'withdraw',
           }}
         />
       </Provider>
     )
 
-    expect(getByText('earnFlow.collect.titleClaim')).toBeTruthy()
+    expect(getByText('earnFlow.collect.titleWithdraw')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
     expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
@@ -184,13 +184,13 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
-            mode: 'collect',
+            mode: 'withdraw',
           }}
         />
       </Provider>
     )
 
-    expect(getByText('earnFlow.collect.titleClaim')).toBeTruthy()
+    expect(getByText('earnFlow.collect.titleWithdraw')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
     expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
@@ -209,7 +209,7 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
-            mode: 'collect',
+            mode: 'withdraw',
           }}
         />
       </Provider>
@@ -259,7 +259,7 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
-            mode: 'collect',
+            mode: 'withdraw',
           }}
         />
       </Provider>
@@ -287,7 +287,7 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
-            mode: 'collect',
+            mode: 'withdraw',
           }}
         />
       </Provider>
@@ -327,11 +327,31 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
-            mode: 'collect',
+            mode: 'withdraw',
           }}
         />
       </Provider>
     )
     expect(getByTestId('EarnConfirmation/GasSubsidized')).toBeTruthy()
+  })
+
+  it.each([
+    ['claim', 'earnFlow.collect.titleClaim'],
+    ['withdraw', 'earnFlow.collect.titleWithdraw'],
+    ['exit', 'earnFlow.collect.titleCollect'],
+  ])('shows correct header text for %s', async (mode, expectedHeader) => {
+    const { getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={EarnConfirmationScreen}
+          params={{
+            pool: mockEarnPositions[0],
+            mode: mode,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByText(expectedHeader)).toBeTruthy()
   })
 })

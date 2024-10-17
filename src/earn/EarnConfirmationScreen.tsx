@@ -20,7 +20,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions/selectors'
-import { EarnPosition, Token } from 'src/positions/types'
+import { Token } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
@@ -146,7 +146,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        <Title pool={pool} mode={mode} />
+        <Title mode={mode} />
         <View style={styles.collectInfoContainer}>
           <CollectItem
             title={t('earnFlow.collect.total')}
@@ -319,25 +319,17 @@ function GasFee({
   )
 }
 
-// TODO: add fallback title for when claimType is not earnings or rewards
-function Title({ pool, mode }: { pool: EarnPosition; mode: OutletMode }) {
+function Title({ mode }: { mode: OutletMode }) {
   const { t } = useTranslation()
-  return (
-    <>
-      {mode === 'withdraw' ? (
-        <Text style={styles.title}>{t('earnFlow.collect.titleWithdraw')}</Text>
-      ) : (
-        <>
-          {pool.dataProps.claimType === 'earnings' && (
-            <Text style={styles.title}>{t('earnFlow.collect.titleClaim')}</Text>
-          )}
-          {pool.dataProps.claimType === 'rewards' && (
-            <Text style={styles.title}>{t('earnFlow.collect.titleCollect')}</Text>
-          )}
-        </>
-      )}
-    </>
-  )
+  switch (mode) {
+    case 'claim':
+      return <Text style={styles.title}>{t('earnFlow.collect.titleClaim')}</Text>
+    case 'withdraw':
+      return <Text style={styles.title}>{t('earnFlow.collect.titleWithdraw')}</Text>
+    case 'exit':
+    default:
+      return <Text style={styles.title}>{t('earnFlow.collect.titleCollect')}</Text>
+  }
 }
 
 const styles = StyleSheet.create({
