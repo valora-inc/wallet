@@ -2697,6 +2697,7 @@
       "ratePercent": "{{rate}} %",
       "rewards": "Rewards",
       "noRewards": "Keine Rewards",
+      "safetyScore": "Sicherheitspunkte",
       "tvl": "TVL",
       "ageOfPool": "Alter des Pools",
       "learnMoreOnProvider": "Pool ansehen auf {{providerName}}",
@@ -2719,7 +2720,8 @@
         "dailyYieldRateTitle": "Tagessatz",
         "dailyYieldRateDescription": "Der angezeigte Tagessatz entspricht dem von {{providerName}}angebotenen Tagessatz.",
         "dailyYieldRateLink": "Weitere Details zum Tagessatz findest du auf {{providerName}}"
-      }
+      },
+      "viewMoreDetails": "Mehr Details anzeigen"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Du brauchst {{tokenSymbol}} auf {{tokenNetwork}} zum Einzahlen",
