@@ -1,16 +1,12 @@
-import { RootState } from 'src/redux/store'
+import { type RootState } from 'src/redux/store'
 import { getMultichainFeatures } from 'src/statsig'
-import { Actions } from 'src/transactions/actions'
-import {
-  _initialState,
-  pendingStandbyTransactionsSelector,
-  reducer,
-} from 'src/transactions/reducer'
+import { pendingStandbyTransactionsSelector } from 'src/transactions/selectors'
+import reducer, { _initialState, actions } from 'src/transactions/slice'
 import {
   NetworkId,
-  StandbyTransaction,
-  TokenExchange,
-  TokenTransaction,
+  type StandbyTransaction,
+  type TokenExchange,
+  type TokenTransaction,
   TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
@@ -138,7 +134,7 @@ describe('transactions reducer', () => {
         },
       }
       const result = reducer(state, {
-        type: Actions.UPDATE_TRANSACTIONS,
+        type: actions.updateTransactions.type,
         networkId: NetworkId['ethereum-mainnet'],
         transactions: [
           {
@@ -173,7 +169,7 @@ describe('transactions reducer', () => {
         standbyTransactions: [standbyCrossChainSwap],
       }
       const updatedState = reducer(state, {
-        type: Actions.UPDATE_TRANSACTIONS,
+        type: actions.updateTransactions.type,
         networkId: NetworkId['celo-mainnet'],
         transactions: [incomingCrossChainSwap],
       })
@@ -205,7 +201,7 @@ describe('transactions reducer', () => {
 
     it('should store a pending cross chain swap that has no corresponding standby transaction', () => {
       const updatedState = reducer(_initialState, {
-        type: Actions.UPDATE_TRANSACTIONS,
+        type: actions.updateTransactions.type,
         networkId: NetworkId['celo-mainnet'],
         transactions: [incomingCrossChainSwap],
       })
@@ -225,7 +221,7 @@ describe('transactions reducer', () => {
         standbyTransactions: [standbyCrossChainSwap],
       }
       const updatedState = reducer(state, {
-        type: Actions.UPDATE_TRANSACTIONS,
+        type: actions.updateTransactions.type,
         networkId: NetworkId['celo-mainnet'],
         transactions: [{ ...incomingCrossChainSwap, status: TransactionStatus.Complete }],
       })

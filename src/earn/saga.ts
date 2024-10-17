@@ -21,7 +21,7 @@ import { vibrateError } from 'src/styles/hapticFeedback'
 import { getTokenInfo } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalances, fetchTokenBalances } from 'src/tokens/slice'
-import { BaseStandbyTransaction } from 'src/transactions/actions'
+import { BaseStandbyTransaction } from 'src/transactions/slice'
 import {
   NetworkId,
   TokenTransactionTypeV2,
