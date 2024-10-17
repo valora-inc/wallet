@@ -224,7 +224,7 @@ function EarnEnterAmount({ route }: Props) {
         localAmount: parsedLocalAmount,
       }
     }
-  }, [tokenAmountInput, localAmountInput, enteredIn, mode])
+  }, [tokenAmountInput, localAmountInput, enteredIn, inputToken])
 
   // This is for withdrawals as we want the user to be able to input the amounts in the deposit token
   const { transactionToken, transactionTokenAmount } = useMemo(() => {
