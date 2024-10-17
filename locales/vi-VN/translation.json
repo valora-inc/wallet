@@ -2691,6 +2691,7 @@
       "chainName": "Chuỗi: <0>{{networkName}}</0>",
       "protocolName": "Giao thức: <0>{{providerName}}</0>",
       "yieldRate": "Mức sinh lợi",
+      "dailyYieldRate": "Daily Rate",
       "ratePercent": "{{rate}}%",
       "rewards": "Tiền thưởng",
       "noRewards": "Không có tiền thưởng",
@@ -2712,7 +2713,10 @@
         "ageTitle": "Thời gian hoạt động của bể",
         "ageDescription": "Các bể thanh khoản cũ hơn có thể cho thấy một thành tích hoạt động ổn định và lịch sử xây dựng niềm tin trong cộng đồng. Vì lý do này, một số người có thể coi những bể này an toàn hơn.\n\nKhông có cách nào toàn vẹn trong việc xác định rủi ro; vì vậy, hãy sử dụng thông tin này vào nghiên cứu tổng thể của bạn để đưa ra quyết định tốt nhất cho bản thân.",
         "yieldRateTitle": "Mức sinh lợi",
-        "yieldRateDescription": "Trong khi hầu hết các bể cung cấp thu nhập dưới dạng token của bể thanh khoản, một số bể lại cung cấp (các) token khác dưới dạng tiền thưởng hoặc ưu đãi bổ sung.\n\nVì {{appName}} tổng hợp các bể từ nhiều giao thức, chúng tôi đã kết hợp tất cả các tỷ lệ thu nhập và tiền thưởng thành một mức sinh lợi chung duy nhất để dễ dàng đánh giá tiềm năng thu nhập của bạn. Con số này chỉ là ước tính vì giá trị thu nhập và tiền thưởng thay đổi liên tục.\n\nĐể tìm hiểu thêm các phân tích chi tiết về thu nhập, bạn có thể truy cập <0>{{providerName}}</0>."
+        "yieldRateDescription": "Trong khi hầu hết các bể cung cấp thu nhập dưới dạng token của bể thanh khoản, một số bể lại cung cấp (các) token khác dưới dạng tiền thưởng hoặc ưu đãi bổ sung.\n\nVì {{appName}} tổng hợp các bể từ nhiều giao thức, chúng tôi đã kết hợp tất cả các tỷ lệ thu nhập và tiền thưởng thành một mức sinh lợi chung duy nhất để dễ dàng đánh giá tiềm năng thu nhập của bạn. Con số này chỉ là ước tính vì giá trị thu nhập và tiền thưởng thay đổi liên tục.\n\nĐể tìm hiểu thêm các phân tích chi tiết về thu nhập, bạn có thể truy cập <0>{{providerName}}</0>.",
+        "dailyYieldRateTitle": "Daily Rate",
+        "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
+        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}"
       }
     },
     "beforeDepositBottomSheet": {
