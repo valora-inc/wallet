@@ -15,10 +15,10 @@ import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 's
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import * as TokenSelectors from 'src/tokens/selectors'
 import { type TokenBalance } from 'src/tokens/slice'
-import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
 import { transactionFeedV2Api, type TransactionFeedV2Response } from 'src/transactions/api'
 import { setupApiStore } from 'src/transactions/apiTestHelpers'
 import TransactionFeedV2 from 'src/transactions/feed/TransactionFeedV2'
+import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/slice'
 import {
   NetworkId,
   type StandbyTransaction,
@@ -424,11 +424,15 @@ describe('TransactionFeedV2', () => {
 
     // imitate changing of pending stand by transaction to confirmed
     await act(() => {
-      const changePendingToConfirmed = transactionConfirmed(
-        standByTransactionHash,
-        { status: TransactionStatus.Complete, transactionHash: standByTransactionHash, block: '' },
-        mockTransaction().timestamp
-      ) as Action
+      const changePendingToConfirmed = transactionConfirmed({
+        txId: standByTransactionHash,
+        receipt: {
+          status: TransactionStatus.Complete,
+          transactionHash: standByTransactionHash,
+          block: '',
+        },
+        blockTimestampInMs: mockTransaction().timestamp,
+      })
       store.dispatch(changePendingToConfirmed)
     })
 
@@ -512,11 +516,11 @@ describe('TransactionFeedV2', () => {
 
     // imitate changing of pending stand by transaction to confirmed
     await act(() => {
-      const changePendingToConfirmed = transactionConfirmed(
-        hash,
-        { status: TransactionStatus.Complete, transactionHash: hash, block: '' },
-        mockTransaction().timestamp
-      ) as Action
+      const changePendingToConfirmed = transactionConfirmed({
+        txId: hash,
+        receipt: { status: TransactionStatus.Complete, transactionHash: hash, block: '' },
+        blockTimestampInMs: mockTransaction().timestamp,
+      })
       store.dispatch(changePendingToConfirmed)
     })
 
