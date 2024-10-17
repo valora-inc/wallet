@@ -31,7 +31,7 @@ import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { hooksApiUrlSelector } from 'src/positions/selectors'
+import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions/selectors'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { AmountInput } from 'src/send/EnterAmount'
@@ -592,6 +592,11 @@ function TransactionWithdrawDetails({
   const { t } = useTranslation()
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
+  const rewardsPositions = useSelector(positionsWithBalanceSelector).filter((position) =>
+    pool.dataProps.rewardsPositionIds?.includes(position.positionId)
+  )
+  const hasRewards = useMemo(() => rewardsPositions.length > 0, [rewardsPositions])
+
   return (
     <View style={styles.txDetailsContainer} testID="EnterAmountWithdrawInfoCard">
       <View style={styles.txDetailsLineItem}>
@@ -619,6 +624,24 @@ function TransactionWithdrawDetails({
           </Text>
         </View>
       </View>
+      {pool.dataProps.withdrawalIncludesClaim &&
+        hasRewards &&
+        rewardsPositions.map((position, index) => (
+          <View style={styles.txDetailsLineItem}>
+            <LabelWithInfo
+              label={t('earnFlow.enterAmount.claimingReward')}
+              testID={`LabelWithInfo/ClaimingReward-${index}`}
+            />
+            <View style={styles.txDetailsValue}>
+              <TokenDisplay
+                testID={`EarnEnterAmount/Reward-${index}`}
+                tokenId={position.tokens[0].tokenId}
+                amount={position.tokens[0].balance.toString()}
+                style={styles.txDetailsValueText}
+              />
+            </View>
+          </View>
+        ))}
       {feeCurrency && maxFeeAmount && (
         <View style={styles.txDetailsLineItem}>
           <LabelWithInfo
