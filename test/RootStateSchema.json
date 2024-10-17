@@ -5563,12 +5563,6 @@
         "State_6": {
             "additionalProperties": false,
             "properties": {
-                "knownCompletedTransactionsHashes": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
                 "standbyTransactions": {
                     "items": {
                         "$ref": "#/definitions/StandbyTransaction"
@@ -5580,7 +5574,6 @@
                 }
             },
             "required": [
-                "knownCompletedTransactionsHashes",
                 "standbyTransactions",
                 "transactionsByNetworkId"
             ],

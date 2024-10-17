@@ -19,20 +19,14 @@ import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import NoActivity from 'src/transactions/NoActivity'
-import {
-  removeDuplicatedStandByTransactions,
-  updateKnownCompletedTransactionsHashes,
-} from 'src/transactions/actions'
+import { removeDuplicatedStandByTransactions } from 'src/transactions/actions'
 import { useTransactionFeedV2Query } from 'src/transactions/api'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
-import {
-  allKnownCompletedTransactionsHashesSelector,
-  allStandbyTransactionsSelector,
-} from 'src/transactions/reducer'
+import { allStandbyTransactionsSelector } from 'src/transactions/reducer'
 import {
   FeeType,
   TokenTransactionTypeV2,
@@ -324,7 +318,6 @@ export default function TransactionFeedV2() {
   const standByTransactions = useStandByTransactions()
   const { hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps } =
     useNewlyCompletedTransactions(standByTransactions)
-  const knownCompletedTransactionsHashes = useSelector(allKnownCompletedTransactionsHashesSelector)
   const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
   const [paginatedData, setPaginatedData] = useState<PaginatedData>({ [FIRST_PAGE_TIMESTAMP]: [] })
 
@@ -445,28 +438,6 @@ export default function TransactionFeedV2() {
       }
     },
     [hasNewlyCompletedTransactions, originalArgs?.endCursor]
-  )
-
-  useEffect(
-    function vibrateForUnknownCompletedTransactions() {
-      const unknownCompletedTransactions = (data?.transactions || [])
-        .filter((tx) => tx.status === TransactionStatus.Complete)
-        .filter((tx) => !knownCompletedTransactionsHashes.includes(tx.transactionHash))
-
-      if (unknownCompletedTransactions.length) {
-        vibrateSuccess()
-      }
-    },
-    [data?.transactions, knownCompletedTransactionsHashes]
-  )
-
-  useEffect(
-    function updateKnownCompletedTransactions() {
-      if (data?.transactions.length) {
-        dispatch(updateKnownCompletedTransactionsHashes(data.transactions))
-      }
-    },
-    [data?.transactions]
   )
 
   useEffect(

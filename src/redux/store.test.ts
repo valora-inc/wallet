@@ -115,7 +115,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 234,
+          "version": 233,
         },
         "account": {
           "acceptedTerms": false,
@@ -344,7 +344,6 @@ describe('store state', () => {
           "tokenBalances": {},
         },
         "transactions": {
-          "knownCompletedTransactionsHashes": [],
           "standbyTransactions": [],
           "transactionsByNetworkId": {},
         },
