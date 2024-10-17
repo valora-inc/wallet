@@ -287,6 +287,27 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
   })
 
+  it('renders safety card when safety is provided', () => {
+    const mockPool = {
+      ...mockEarnPositions[0],
+      balance: '100',
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        safety: {
+          level: 'high' as const,
+          risks: [
+            { isPositive: false, title: 'Risk 1', category: 'Category 1' },
+            { isPositive: true, title: 'Risk 2', category: 'Category 2' },
+          ],
+        },
+      },
+    }
+
+    const { getByTestId } = renderEarnPoolInfoScreen(mockPool)
+
+    expect(getByTestId('SafetyCard')).toBeTruthy()
+  })
+
   it('navigates to external URI when "View Pool on Provider" is tapped', () => {
     const { getByText } = renderEarnPoolInfoScreen(mockEarnPositions[0])
 
@@ -622,5 +643,29 @@ describe('EarnPoolInfoScreen', () => {
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
     // TODO (ACT-1343): check that navigate is called with correct params
+  })
+  it('shows the daily yield rate when it is available', () => {
+    const { getByTestId } = renderEarnPoolInfoScreen({
+      ...mockEarnPositions[0],
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        dailyYieldRatePercentage: 0.0452483,
+      },
+    })
+    expect(
+      within(getByTestId('DailyYieldRateCard')).getAllByText(
+        'earnFlow.poolInfoScreen.ratePercent, {"rate":"0.0452"}'
+      )
+    ).toBeTruthy()
+  })
+  it.each([0, undefined])('does not show the daily yield rate when it is %s', (dailyYieldRate) => {
+    const { queryByTestId } = renderEarnPoolInfoScreen({
+      ...mockEarnPositions[0],
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        dailyYieldRatePercentage: dailyYieldRate,
+      },
+    })
+    expect(queryByTestId('DailyYieldRateCard')).toBeFalsy()
   })
 })

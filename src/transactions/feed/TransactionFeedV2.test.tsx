@@ -431,5 +431,7 @@ describe('TransactionFeedV2', () => {
     await waitFor(() => expect(tree.getByTestId('TransactionList/loading')).toBeVisible())
     await waitFor(() => expect(tree.queryByTestId('TransactionList/loading')).toBeFalsy())
     await waitFor(() => expect(Toast.showWithGravity).toBeCalledTimes(0))
+    await waitFor(() => tree.getByTestId('TransactionList'))
+    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(7)
   })
 })

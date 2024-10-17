@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
 import Toast from 'react-native-simple-toast'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -33,6 +35,7 @@ import {
   groupFeedItemsInSections,
   standByTransactionToTokenTransaction,
 } from 'src/transactions/utils'
+import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type PaginatedData = {
@@ -42,6 +45,7 @@ type PaginatedData = {
 const MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL = 10
 const POLL_INTERVAL_MS = 10000 // 10 sec
 const FIRST_PAGE_TIMESTAMP = 0 // placeholder
+const TAG = 'transactions/feed/TransactionFeedV2'
 
 function getAllowedNetworksForTransfers() {
   return getMultichainFeatures().showTransfers
@@ -294,6 +298,16 @@ export default function TransactionFeedV2() {
       })
     },
     [isFetching, data?.transactions, originalArgs?.endCursor, standByTransactions.confirmed]
+  )
+
+  useEffect(
+    function handleError() {
+      if (error === undefined) return
+
+      Logger.error(TAG, 'Error while fetching transactions', error)
+      dispatch(showError(ErrorMessages.FETCH_FAILED))
+    },
+    [error]
   )
 
   /**

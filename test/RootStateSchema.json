@@ -1245,6 +1245,9 @@
                 "contractCreatedAt": {
                     "type": "string"
                 },
+                "dailyYieldRatePercentage": {
+                    "type": "number"
+                },
                 "depositTokenId": {
                     "type": "string"
                 },
@@ -1262,6 +1265,9 @@
                         "type": "string"
                     },
                     "type": "array"
+                },
+                "safety": {
+                    "$ref": "#/definitions/Safety"
                 },
                 "termsUrl": {
                     "type": "string"
@@ -3440,6 +3446,50 @@
             },
             "required": [
                 "protocol"
+            ],
+            "type": "object"
+        },
+        "Safety": {
+            "additionalProperties": false,
+            "properties": {
+                "level": {
+                    "enum": [
+                        "high",
+                        "low",
+                        "medium"
+                    ],
+                    "type": "string"
+                },
+                "risks": {
+                    "items": {
+                        "$ref": "#/definitions/SafetyRisk"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "level",
+                "risks"
+            ],
+            "type": "object"
+        },
+        "SafetyRisk": {
+            "additionalProperties": false,
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "isPositive": {
+                    "type": "boolean"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "category",
+                "isPositive",
+                "title"
             ],
             "type": "object"
         },
