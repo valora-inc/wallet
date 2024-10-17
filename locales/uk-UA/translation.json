@@ -2701,6 +2701,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "Винагорода",
       "noRewards": "Винагород немає",
+      "safetyScore": "Оцінка безпеки",
       "tvl": "TVL",
       "ageOfPool": "Вік пулу",
       "learnMoreOnProvider": "Переглянути пул на {{providerName}}",
@@ -2723,7 +2724,8 @@
         "dailyYieldRateTitle": "Добовий тариф",
         "dailyYieldRateDescription": "Відображувана денна ставка відображає денну ставку, надану сайтом {{providerName}}.",
         "dailyYieldRateLink": "Детальна інформація про щоденні ціни на {{providerName}}"
-      }
+      },
+      "viewMoreDetails": "Переглянути більше деталей"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Вам потрібен {{tokenSymbol}} в {{tokenNetwork}} для внесення депозиту",
