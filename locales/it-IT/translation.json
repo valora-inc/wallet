@@ -2697,6 +2697,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "Ricompense",
       "noRewards": "Senza ricompense",
+      "safetyScore": "Punteggio di sicurezza",
       "tvl": "TVL",
       "ageOfPool": "Pool creato:",
       "learnMoreOnProvider": "Visualizza pool su {{providerName}}",
@@ -2719,7 +2720,8 @@
         "dailyYieldRateTitle": "Tariffa giornaliera",
         "dailyYieldRateDescription": "La tariffa giornaliera visualizzata riflette la tariffa giornaliera fornita da {{providerName}}.",
         "dailyYieldRateLink": "Vedi ulteriori dettagli sulle tariffe giornaliere su {{providerName}}"
-      }
+      },
+      "viewMoreDetails": "Vedi altri dettagli"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Hai bisogno di {{tokenSymbol}} su {{tokenNetwork}} per depositare",
