@@ -2695,6 +2695,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "Tiền thưởng",
       "noRewards": "Không có tiền thưởng",
+      "safetyScore": "Safety Score",
       "tvl": "TVL",
       "ageOfPool": "Thời gian hoạt động của bể",
       "learnMoreOnProvider": "Xem bể trên {{providerName}}",
@@ -2717,7 +2718,8 @@
         "dailyYieldRateTitle": "Daily Rate",
         "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
         "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}"
-      }
+      },
+      "viewMoreDetails": "View More Details"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Bạn cần {{tokenSymbol}} trên {{tokenNetwork}} để nạp",
