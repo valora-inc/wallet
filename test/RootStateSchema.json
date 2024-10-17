@@ -5563,6 +5563,12 @@
         "State_6": {
             "additionalProperties": false,
             "properties": {
+                "feedFirstPage": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
                 "standbyTransactions": {
                     "items": {
                         "$ref": "#/definitions/StandbyTransaction"
@@ -5574,6 +5580,7 @@
                 }
             },
             "required": [
+                "feedFirstPage",
                 "standbyTransactions",
                 "transactionsByNetworkId"
             ],

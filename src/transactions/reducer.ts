@@ -22,11 +22,13 @@ interface State {
   // feed instantly.
   standbyTransactions: StandbyTransaction[]
   transactionsByNetworkId: TransactionsByNetworkId
+  feedFirstPage: TokenTransaction[]
 }
 
 const initialState = {
   standbyTransactions: [],
   transactionsByNetworkId: {},
+  feedFirstPage: [],
 }
 // export for testing
 export const _initialState = initialState
@@ -182,6 +184,12 @@ export const reducer = (
         }),
       }
 
+    case Actions.UPDATE_FEED_FIRST_PAGE:
+      return {
+        ...state,
+        feedFirstPage: [...action.transactions],
+      }
+
     default:
       return state
   }
@@ -295,3 +303,6 @@ export const pendingStandbyTxHashesByNetworkIdSelector = createSelector(
     return hashesByNetwork
   }
 )
+
+const feedFirstPage = (state: RootState) => state.transactions.feedFirstPage
+export const feedFirstPageSelector = createSelector(feedFirstPage, (feed) => feed)

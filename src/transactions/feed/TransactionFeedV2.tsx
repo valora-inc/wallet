@@ -19,14 +19,14 @@ import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import NoActivity from 'src/transactions/NoActivity'
-import { removeDuplicatedStandByTransactions } from 'src/transactions/actions'
-import { useTransactionFeedV2Query } from 'src/transactions/api'
+import { removeDuplicatedStandByTransactions, updateFeedFirstPage } from 'src/transactions/actions'
+import { FIRST_PAGE_TIMESTAMP, useTransactionFeedV2Query } from 'src/transactions/api'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
-import { allStandbyTransactionsSelector } from 'src/transactions/reducer'
+import { allStandbyTransactionsSelector, feedFirstPageSelector } from 'src/transactions/reducer'
 import {
   FeeType,
   TokenTransactionTypeV2,
@@ -52,7 +52,6 @@ type PaginatedData = {
 
 const MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL = 10
 const POLL_INTERVAL_MS = 10000 // 10 sec
-const FIRST_PAGE_TIMESTAMP = 0 // placeholder
 const TAG = 'transactions/feed/TransactionFeedV2'
 
 function getAllowedNetworksForTransfers() {
@@ -316,10 +315,13 @@ export default function TransactionFeedV2() {
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
+  const feedFirstPage = useSelector(feedFirstPageSelector)
   const { hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps } =
     useNewlyCompletedTransactions(standByTransactions)
   const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
-  const [paginatedData, setPaginatedData] = useState<PaginatedData>({ [FIRST_PAGE_TIMESTAMP]: [] })
+  const [paginatedData, setPaginatedData] = useState<PaginatedData>({
+    [FIRST_PAGE_TIMESTAMP]: feedFirstPage,
+  })
 
   /**
    * This hook automatically fetches the pagination data when (and only when) the endCursor changes
@@ -402,6 +404,17 @@ export default function TransactionFeedV2() {
       })
     },
     [isFetching, data?.transactions, originalArgs?.endCursor, standByTransactions.confirmed]
+  )
+
+  useEffect(
+    function updatePersistedFeedFirstPage() {
+      const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
+
+      if (isFirstPage && data?.transactions) {
+        dispatch(updateFeedFirstPage(data.transactions))
+      }
+    },
+    [data?.transactions, originalArgs?.endCursor]
   )
 
   useEffect(
