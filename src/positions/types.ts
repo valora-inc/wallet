@@ -38,6 +38,7 @@ interface EarnDataProps {
   rewardsPositionIds?: string[]
   claimType?: ClaimType
   withdrawalIncludesClaim?: boolean
+  dailyYieldRatePercentage?: number
   // We'll add more fields here as needed
 }
 
