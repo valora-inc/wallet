@@ -353,20 +353,21 @@ function EarnEnterAmount({ route }: Props) {
       return
     }
     AppAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
-      amountInUsd: isWithdrawal
-        ? tokenAmount.multipliedBy(inputToken.priceUsd ?? 0).toFixed(2)
-        : tokenAmount.multipliedBy(transactionToken.priceUsd ?? 0).toFixed(2),
+      // TokenAmount is always deposit token
+      amountInUsd: tokenAmount.multipliedBy(inputToken.priceUsd ?? 0).toFixed(2),
       amountEnteredIn: enteredIn,
       depositTokenId: pool.dataProps.depositTokenId,
       networkId: transactionToken.networkId,
       providerId: pool.appId,
       poolId: pool.positionId,
-      fromTokenId: transactionToken.tokenId,
+      fromTokenId: inputToken.tokenId,
       fromTokenAmount: tokenAmount.toString(),
       mode,
-      depositTokenAmount: swapTransaction
-        ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
-        : tokenAmount.toString(),
+      depositTokenAmount: isWithdrawal
+        ? undefined
+        : swapTransaction
+          ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
+          : tokenAmount.toString(),
     })
     // TODO(ACT-1389) if isWithdrawal === true navigate to EarnConfirmationScreen
     reviewBottomSheetRef.current?.snapToIndex(0)
