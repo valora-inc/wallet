@@ -2691,6 +2691,7 @@
       "chainName": "链：<0>{{networkName}}</0>",
       "protocolName": "协议：<0>{{providerName}}</0>",
       "yieldRate": "收益率",
+      "dailyYieldRate": "每日费率",
       "ratePercent": "{{rate}}%",
       "rewards": "奖励",
       "noRewards": "暂无奖励",
@@ -2712,7 +2713,10 @@
         "ageTitle": "资金池年龄",
         "ageDescription": "较早的流动性池可能拥有稳定的记录和社区信任基础。有些人可能据此认为这些资金池更安全。\n\n完美的风险评估方法是不存在的，因此请将此信息作为您全面考量的参考之一，以做出最佳决定。",
         "yieldRateTitle": "收益率",
-        "yieldRateDescription": "虽然大多数资金池以流动性池代币的形式提供收益，但也有一些资金池提供额外代币作为奖励或额外激励。\n\n{{appName}} 集合了多个协议的资金池，因此我们将所有收益率和奖励率合并为一项总体收益率，以帮助您轻松评估收益潜力。由于收益和奖励值不断波动，该数字只是估计值。\n\n有关收益明细的更多信息，请访问 <0>{{providerName}}</0>。"
+        "yieldRateDescription": "虽然大多数资金池以流动性池代币的形式提供收益，但也有一些资金池提供额外代币作为奖励或额外激励。\n\n{{appName}} 集合了多个协议的资金池，因此我们将所有收益率和奖励率合并为一项总体收益率，以帮助您轻松评估收益潜力。由于收益和奖励值不断波动，该数字只是估计值。\n\n有关收益明细的更多信息，请访问 <0>{{providerName}}</0>。",
+        "dailyYieldRateTitle": "每日费率",
+        "dailyYieldRateDescription": "显示的每日费率反映了 {{providerName}}提供的每日费率。",
+        "dailyYieldRateLink": "查看更多每日房价详情，请访问 {{providerName}}"
       }
     },
     "beforeDepositBottomSheet": {
