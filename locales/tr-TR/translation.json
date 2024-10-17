@@ -2721,7 +2721,8 @@
         "dailyYieldRateDescription": "Görüntülenen günlük ücret {{providerName}}tarafından sağlanan günlük ücreti yansıtmaktadır.",
         "dailyYieldRateLink": "Daha Fazla Günlük Fiyat Ayrıntılarını {{providerName}}adresinde görüntüleyin"
       },
-      "viewMoreDetails": "Daha Fazla Ayrıntı Görüntüle"
+      "viewMoreDetails": "Daha Fazla Ayrıntı Görüntüle",
+      "viewLessDetails": "Daha Az Ayrıntı Görüntüle"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Yatırma İşlemi için {{tokenNetwork}} ağında {{tokenSymbol}} tokenine sahip olmalısınız",
