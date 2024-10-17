@@ -1,6 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
+import { EarnCommonProperties } from 'src/analytics/Properties'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import Touchable from 'src/components/Touchable'
 import DataDown from 'src/icons/DataDown'
@@ -36,7 +39,13 @@ function Risk({ risk }: { risk: SafetyRisk }) {
   )
 }
 
-export function SafetyCard({ safety }: { safety: Safety }) {
+export function SafetyCard({
+  safety,
+  commonAnalyticsProps,
+}: {
+  safety: Safety
+  commonAnalyticsProps: EarnCommonProperties
+}) {
   const { t } = useTranslation()
   const [expanded, setExpanded] = React.useState(false)
   return (
@@ -78,6 +87,10 @@ export function SafetyCard({ safety }: { safety: Safety }) {
         style={styles.cardLineContainer}
         onPress={() => {
           setExpanded((prev) => !prev)
+          AppAnalytics.track(EarnEvents.earn_pool_info_safety_details, {
+            action: expanded ? 'collapse' : 'expand',
+            ...commonAnalyticsProps,
+          })
         }}
       >
         <Text style={styles.viewDetailsText}>
