@@ -2721,7 +2721,8 @@
         "dailyYieldRateDescription": "La tarifa diaria mostrada refleja la tarifa diaria proporcionada por {{providerName}}.",
         "dailyYieldRateLink": "Ver más detalles de la tarifa diaria en {{providerName}}"
       },
-      "viewMoreDetails": "Ver más detalles"
+      "viewMoreDetails": "Ver más detalles",
+      "viewLessDetails": "Ver menos detalles"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Necesitas {{tokenSymbol}} en {{tokenNetwork}} para depositar",
