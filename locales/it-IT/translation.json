@@ -2693,6 +2693,7 @@
       "chainName": "Rete: <0>{{networkName}}</0>",
       "protocolName": "Protocollo: <0>{{providerName}}</0>",
       "yieldRate": "Tasso di rendimento",
+      "dailyYieldRate": "Tariffa giornaliera",
       "ratePercent": "{{rate}}%",
       "rewards": "Ricompense",
       "noRewards": "Senza ricompense",
@@ -2714,7 +2715,10 @@
         "ageTitle": "Pool creato:",
         "ageDescription": "L'anzianità di un pool di liquidità può essere indicativa di risultati consolidati nel tempo e di una certa esperienza nel costruire la fiducia della comunità. Per questo alcuni considerano più sicuri i pool meno recenti.\n\nNon esiste un modo perfetto per determinare il rischio; pertanto, usa queste informazioni nel contesto della tua indagine generale per prendere la decisione migliore per te.",
         "yieldRateTitle": "Tasso di rendimento",
-        "yieldRateDescription": "Sebbene la maggior parte dei pool converta i guadagni in token di liquidità, alcuni offrono token aggiuntivi come ricompensa o ulteriore incentivo.\n\nPoiché {{appName}} aggrega pool che utilizzano più protocolli, tutti i tassi di guadagno e ricompensa sono stati riuniti in un unico tasso di rendimento complessivo, in modo che risulti più facile valutare il potenziale di guadagno. Tale numero è una stima poiché i valori di guadagno e ricompensa fluttuano costantemente.\n\nPer ulteriori informazioni sulla ripartizione del guadagno, visita <0>{{providerName}}</0>."
+        "yieldRateDescription": "Sebbene la maggior parte dei pool converta i guadagni in token di liquidità, alcuni offrono token aggiuntivi come ricompensa o ulteriore incentivo.\n\nPoiché {{appName}} aggrega pool che utilizzano più protocolli, tutti i tassi di guadagno e ricompensa sono stati riuniti in un unico tasso di rendimento complessivo, in modo che risulti più facile valutare il potenziale di guadagno. Tale numero è una stima poiché i valori di guadagno e ricompensa fluttuano costantemente.\n\nPer ulteriori informazioni sulla ripartizione del guadagno, visita <0>{{providerName}}</0>.",
+        "dailyYieldRateTitle": "Tariffa giornaliera",
+        "dailyYieldRateDescription": "La tariffa giornaliera visualizzata riflette la tariffa giornaliera fornita da {{providerName}}.",
+        "dailyYieldRateLink": "Vedi ulteriori dettagli sulle tariffe giornaliere su {{providerName}}"
       }
     },
     "beforeDepositBottomSheet": {

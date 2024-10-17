@@ -58,7 +58,6 @@ import {
   v228Schema,
   v230Schema,
   v233Schema,
-  v234Schema,
   v28Schema,
   v2Schema,
   v35Schema,
@@ -1707,36 +1706,8 @@ describe('Redux persist migrations', () => {
   })
 
   it('works from 233 to 234', () => {
-    const existingStandByHash = '0x01' as string
-    const existingNetworkIdTxHash = '0x02' as string
-    const oldSchema = {
-      ...v233Schema,
-      transactions: {
-        ...v233Schema.transactions,
-        transactionsByNetworkId: {
-          ...v233Schema.transactions.transactionsByNetworkId,
-          [NetworkId['arbitrum-sepolia']]: [
-            { ...mockEarnDepositTransaction, transactionHash: existingStandByHash },
-          ],
-        },
-        standbyTransactions: [
-          { ...mockEarnDepositTransaction, transactionHash: existingNetworkIdTxHash },
-        ],
-      },
-    }
-
+    const oldSchema = v233Schema
     const migratedSchema = migrations[234](oldSchema)
-    const expectedSchema: any = _.cloneDeep(oldSchema)
-
-    expectedSchema.transactions.knownCompletedTransactionsHashes = [
-      existingNetworkIdTxHash,
-      existingStandByHash,
-    ]
-    expect(migratedSchema).toStrictEqual(expectedSchema)
-  })
-  it('works from 234 to 235', () => {
-    const oldSchema = v234Schema
-    const migratedSchema = migrations[235](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.transactions.feedFirstPage = []
     expect(migratedSchema).toStrictEqual(expectedSchema)
