@@ -25,7 +25,7 @@ export interface EarningItem {
   includedInPoolBalance?: boolean
 }
 
-export interface SafetyRisk {
+interface SafetyRisk {
   isPositive: boolean
   title: string
   category: string
