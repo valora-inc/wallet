@@ -1599,7 +1599,14 @@ interface EarnEventsProperties {
   [EarnEvents.earn_enter_amount_continue_press]: {
     amountInUsd: string
     amountEnteredIn: AmountEnteredIn
-  } & EarnDepositProperties
+    mode: EarnEnterMode
+    // For deposits these will be the same as the depositTokenId and depositTokenAmount
+    // For swaps these will be the swapFromTokenId and swapFromTokenAmount
+    // For withdrawals this will be in units of the depositToken
+    fromTokenAmount: string
+    fromTokenId: string
+    depositTokenAmount?: string
+  } & EarnCommonProperties
   [EarnEvents.earn_deposit_add_gas_press]: EarnCommonProperties & { gasTokenId: string }
   [EarnEvents.earn_feed_item_select]: {
     origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward' | 'EarnSwapDeposit'
