@@ -1,34 +1,38 @@
 import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
-import { FetchMock } from 'jest-fetch-mock/types'
+import BigNumber from 'bignumber.js'
+import { type FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import Toast from 'react-native-simple-toast'
 import { Provider } from 'react-redux'
-import { ReactTestInstance } from 'react-test-renderer'
-import { RootState } from 'src/redux/reducers'
+import { type ReactTestInstance } from 'react-test-renderer'
+import { type Action } from 'redux-saga'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SwapEvents } from 'src/analytics/Events'
+import { type ApiReducersKeys } from 'src/redux/apiReducersList'
+import { type RootState } from 'src/redux/reducers'
 import { reducersList } from 'src/redux/reducersList'
 import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
-import TransactionFeedV2 from 'src/transactions/feed/TransactionFeedV2'
-import {
-  NetworkId,
-  StandbyTransaction,
-  TokenTransaction,
-  TokenTransactionTypeV2,
-  TransactionStatus,
-} from 'src/transactions/types'
-import { mockCeloTokenId, mockCusdAddress, mockCusdTokenId, mockQRCodeRecipient } from 'test/values'
-
-import BigNumber from 'bignumber.js'
-import { Action } from 'redux-saga'
-import { ApiReducersKeys } from 'src/redux/apiReducersList'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
+import * as TokenSelectors from 'src/tokens/selectors'
+import { type TokenBalance } from 'src/tokens/slice'
 import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
 import { transactionFeedV2Api, type TransactionFeedV2Response } from 'src/transactions/api'
 import { setupApiStore } from 'src/transactions/apiTestHelpers'
-import { RecursivePartial } from 'test/utils'
+import TransactionFeedV2 from 'src/transactions/feed/TransactionFeedV2'
+import {
+  NetworkId,
+  type StandbyTransaction,
+  type TokenTransaction,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
+import { type RecursivePartial } from 'test/utils'
+import { mockCeloTokenId, mockCusdAddress, mockCusdTokenId, mockQRCodeRecipient } from 'test/values'
 
 jest.mock('src/statsig')
 jest.mock('react-native-simple-toast')
 jest.mock('src/styles/hapticFeedback')
+jest.mock('src/analytics/AppAnalytics')
 
 const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
 const mockFetch = fetch as FetchMock
@@ -437,7 +441,7 @@ describe('TransactionFeedV2', () => {
   it('should not vibrate when there is a new pending transaction', async () => {
     const pendingStandByTransactionHash1 = '0x01' as string
     const pendingStandByTransactionHash2 = '0x02' as string
-    const { store, rerender, ...tree } = renderScreen({
+    const { store, ...tree } = renderScreen({
       transactions: {
         standbyTransactions: [
           mockTransaction({
@@ -474,5 +478,67 @@ describe('TransactionFeedV2', () => {
       expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(2)
     })
     expect(vibrateSuccess).not.toHaveBeenCalled()
+  })
+
+  it('should send analytics event when cross-chain swap transaction status changed to "Complete"', async () => {
+    jest.spyOn(TokenSelectors, 'tokensByIdSelector').mockReturnValue({
+      'op-mainnet:native': { priceUsd: new BigNumber(100) } as TokenBalance,
+      'base-mainnet:native': { priceUsd: new BigNumber(1000) } as TokenBalance,
+    })
+
+    const hash = '0x01' as string
+    const mockedTransaction = {
+      context: { id: hash },
+      __typename: 'CrossChainTokenExchange',
+      transactionHash: hash,
+      type: TokenTransactionTypeV2.CrossChainSwapTransaction,
+      status: TransactionStatus.Pending,
+      networkId: NetworkId['celo-alfajores'],
+      inAmount: { value: '0.1', tokenId: 'op-mainnet:native' },
+      outAmount: { value: '0.2', tokenId: 'base-mainnet:native' },
+      timestamp: Date.now(),
+      fees: [
+        { type: 'SECURITY_FEE', amount: { value: '0.3', tokenId: 'base-mainnet:native' } },
+        { type: 'APP_FEE', amount: { value: '0.4', tokenId: 'base-mainnet:native' } },
+        { type: 'CROSS_CHAIN_FEE', amount: { value: '0.5', tokenId: 'base-mainnet:native' } },
+      ],
+    } as StandbyTransaction
+
+    const { store } = renderScreen({
+      transactions: {
+        standbyTransactions: [mockedTransaction],
+      },
+    })
+
+    // imitate changing of pending stand by transaction to confirmed
+    await act(() => {
+      const changePendingToConfirmed = transactionConfirmed(
+        hash,
+        { status: TransactionStatus.Complete, transactionHash: hash, block: '' },
+        mockTransaction().timestamp
+      ) as Action
+      store.dispatch(changePendingToConfirmed)
+    })
+
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
+      swapType: 'cross-chain',
+      swapExecuteTxId: hash,
+      toTokenId: 'op-mainnet:native',
+      toTokenAmount: '0.1',
+      toTokenAmountUsd: 10,
+      fromTokenId: 'base-mainnet:native',
+      fromTokenAmount: '0.2',
+      fromTokenAmountUsd: 200,
+      networkFeeTokenId: 'base-mainnet:native',
+      networkFeeAmount: '0.3',
+      networkFeeAmountUsd: 300,
+      appFeeTokenId: 'base-mainnet:native',
+      appFeeAmount: '0.4',
+      appFeeAmountUsd: 400,
+      crossChainFeeTokenId: 'base-mainnet:native',
+      crossChainFeeAmount: '0.5',
+      crossChainFeeAmountUsd: 500,
+    })
+    expect(AppAnalytics.track).toBeCalledTimes(1)
   })
 })

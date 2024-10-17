@@ -1,17 +1,23 @@
+import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
 import Toast from 'react-native-simple-toast'
 import { showError } from 'src/alert/actions'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { store } from 'src/redux/store'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import NoActivity from 'src/transactions/NoActivity'
 import { removeDuplicatedStandByTransactions } from 'src/transactions/actions'
 import { useTransactionFeedV2Query } from 'src/transactions/api'
@@ -22,6 +28,7 @@ import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import { allStandbyTransactionsSelector } from 'src/transactions/reducer'
 import {
+  FeeType,
   TokenTransactionTypeV2,
   TransactionStatus,
   type NetworkId,
@@ -50,6 +57,56 @@ const TAG = 'transactions/feed/TransactionFeedV2'
 
 function getAllowedNetworksForTransfers() {
   return getMultichainFeatures().showTransfers
+}
+
+function trackCompletionOfCrossChainSwaps(transactions: TokenExchange[]) {
+  const tokensById = tokensByIdSelector(store.getState(), getSupportedNetworkIdsForSwap())
+
+  for (const tx of transactions) {
+    const toTokenPrice = tokensById[tx.inAmount.tokenId]?.priceUsd
+    const fromTokenPrice = tokensById[tx.outAmount.tokenId]?.priceUsd
+
+    const networkFee = tx.fees.find((fee) => fee.type === FeeType.SecurityFee)
+    const networkFeeTokenPrice = networkFee && tokensById[networkFee?.amount.tokenId]?.priceUsd
+    const appFee = tx.fees.find((fee) => fee.type === FeeType.AppFee)
+    const appFeeTokenPrice = appFee && tokensById[appFee?.amount.tokenId]?.priceUsd
+    const crossChainFee = tx.fees.find((fee) => fee.type === FeeType.CrossChainFee)
+    const crossChainFeeTokenPrice =
+      crossChainFee && tokensById[crossChainFee?.amount.tokenId]?.priceUsd
+
+    AppAnalytics.track(SwapEvents.swap_execute_success, {
+      swapType: 'cross-chain',
+      swapExecuteTxId: tx.transactionHash,
+      toTokenId: tx.inAmount.tokenId,
+      toTokenAmount: tx.inAmount.value.toString(),
+      toTokenAmountUsd: toTokenPrice
+        ? BigNumber(tx.inAmount.value).times(toTokenPrice).toNumber()
+        : undefined,
+      fromTokenId: tx.outAmount.tokenId,
+      fromTokenAmount: tx.outAmount.value.toString(),
+      fromTokenAmountUsd: fromTokenPrice
+        ? BigNumber(tx.outAmount.value).times(fromTokenPrice).toNumber()
+        : undefined,
+      networkFeeTokenId: networkFee?.amount.tokenId,
+      networkFeeAmount: networkFee?.amount.value.toString(),
+      networkFeeAmountUsd:
+        networkFeeTokenPrice && networkFee.amount.value
+          ? BigNumber(networkFee.amount.value).times(networkFeeTokenPrice).toNumber()
+          : undefined,
+      appFeeTokenId: appFee?.amount.tokenId,
+      appFeeAmount: appFee?.amount.value.toString(),
+      appFeeAmountUsd:
+        appFeeTokenPrice && appFee.amount.value
+          ? BigNumber(appFee.amount.value).times(appFeeTokenPrice).toNumber()
+          : undefined,
+      crossChainFeeTokenId: crossChainFee?.amount.tokenId,
+      crossChainFeeAmount: crossChainFee?.amount.value.toString(),
+      crossChainFeeAmountUsd:
+        crossChainFeeTokenPrice && crossChainFee.amount.value
+          ? BigNumber(crossChainFee.amount.value).times(crossChainFeeTokenPrice).toNumber()
+          : undefined,
+    })
+  }
 }
 
 /**
@@ -196,32 +253,40 @@ function useStandByTransactions() {
 function useNewlyCompletedTransactions(
   standByTransactions: ReturnType<typeof useStandByTransactions>
 ) {
-  const [previousStandBy, setPreviousStandBy] = useState({
-    pending: [] as string[],
-    confirmed: [] as string[],
-    hasNewlyCompletedTransactions: false,
-  })
+  const [{ hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps }, setPreviousStandBy] =
+    useState({
+      pending: [] as TokenTransaction[],
+      confirmed: [] as TokenTransaction[],
+      newlyCompletedCrossChainSwaps: [] as TokenExchange[],
+      hasNewlyCompletedTransactions: false,
+    })
 
   useEffect(
     function updatePrevStandBy() {
       setPreviousStandBy((prev) => {
-        const pendingHashes = standByTransactions.pending.map((tx) => tx.transactionHash)
         const confirmedHashes = standByTransactions.confirmed.map((tx) => tx.transactionHash)
-        const hasNewlyCompletedTransactions = prev.pending.some((hash) => {
-          return confirmedHashes.includes(hash)
+        const newlyCompleted = prev.pending.filter((tx) => {
+          return confirmedHashes.includes(tx.transactionHash)
         })
+        const newlyCompletedCrossChainSwaps = newlyCompleted.filter(
+          (tx): tx is TokenExchange => tx.type === TokenTransactionTypeV2.CrossChainSwapTransaction
+        )
 
         return {
-          pending: pendingHashes,
-          confirmed: confirmedHashes,
-          hasNewlyCompletedTransactions,
+          pending: [...standByTransactions.pending],
+          confirmed: [...standByTransactions.confirmed],
+          newlyCompletedCrossChainSwaps,
+          hasNewlyCompletedTransactions: !!newlyCompleted.length,
         }
       })
     },
     [standByTransactions]
   )
 
-  return previousStandBy.hasNewlyCompletedTransactions
+  return {
+    hasNewlyCompletedTransactions,
+    newlyCompletedCrossChainSwaps,
+  }
 }
 
 function renderItem({ item: tx }: { item: TokenTransaction }) {
@@ -251,7 +316,8 @@ export default function TransactionFeedV2() {
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
-  const newlyCompletedTransactions = useNewlyCompletedTransactions(standByTransactions)
+  const { hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps } =
+    useNewlyCompletedTransactions(standByTransactions)
   const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
   const [paginatedData, setPaginatedData] = useState<PaginatedData>({ [FIRST_PAGE_TIMESTAMP]: [] })
 
@@ -365,13 +431,22 @@ export default function TransactionFeedV2() {
   )
 
   useEffect(
-    function vibrateForNewCompletedTransactions() {
+    function vibrateForNewlyCompletedTransactions() {
       const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
-      if (isFirstPage && newlyCompletedTransactions) {
+      if (isFirstPage && hasNewlyCompletedTransactions) {
         vibrateSuccess()
       }
     },
-    [newlyCompletedTransactions, originalArgs]
+    [hasNewlyCompletedTransactions, originalArgs?.endCursor]
+  )
+
+  useEffect(
+    function trackCrossChainSwaps() {
+      if (newlyCompletedCrossChainSwaps.length) {
+        trackCompletionOfCrossChainSwaps(newlyCompletedCrossChainSwaps)
+      }
+    },
+    [newlyCompletedCrossChainSwaps]
   )
 
   const confirmedTransactions = useMemo(() => {
