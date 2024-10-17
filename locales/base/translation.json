@@ -2699,6 +2699,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "Rewards",
       "noRewards": "No rewards",
+      "safetyScore": "Safety Score",
       "tvl": "TVL",
       "ageOfPool": "Age of Pool",
       "learnMoreOnProvider": "View Pool on {{providerName}}",
@@ -2721,7 +2722,8 @@
         "dailyYieldRateTitle": "Daily Rate",
         "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
         "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}"
-      }
+      },
+      "viewMoreDetails": "View More Details"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",

@@ -17,6 +17,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import BeforeDepositBottomSheet from 'src/earn/BeforeDepositBottomSheet'
 import { useDepositEntrypointInfo } from 'src/earn/hooks'
+import { SafetyCard } from 'src/earn/SafetyCard'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -616,7 +617,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
               }}
             />
           )}
-
+          {!!dataProps.safety && <SafetyCard safety={dataProps.safety} />}
           <TvlCard
             earnPosition={pool}
             onInfoIconPress={() => {
