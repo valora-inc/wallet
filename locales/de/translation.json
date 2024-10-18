@@ -2719,7 +2719,10 @@
         "yieldRateDescription": "Die meisten Pools bieten Verdienst in Form eines Liquiditätspool-Tokens, aber einige geben zusätzliche Token als Reward oder zusätzlichen Anreiz.\n\nDa {{appName}} Pools über mehrere Protokolle hinweg zusammenfasst, haben wir alle Verdienst- und Reward-Sätze zu einer einzigen Gesamtrendite zusammengefasst, damit du dein Verdienstpotenzial leichter einschätzen kannst. Bei dieser Zahl handelt es sich um eine Schätzung, da die Verdienst- und Reward-Werte ständig schwanken.\n\nWeitere Informationen über die Verdienstaufteilung findest du unter <0>{{providerName}}</0>.",
         "dailyYieldRateTitle": "Tagessatz",
         "dailyYieldRateDescription": "Der angezeigte Tagessatz entspricht dem von {{providerName}}angebotenen Tagessatz.",
-        "dailyYieldRateLink": "Weitere Details zum Tagessatz findest du auf {{providerName}}"
+        "dailyYieldRateLink": "Weitere Details zum Tagessatz findest du auf {{providerName}}",
+        "safetyScoreTitle": "Sicherheitspunkte",
+        "safetyScoreDescription": "Der Safety Score schlüsselt die Sicherheit des zugrunde liegenden Tresorvermögens in mehrere Schlüsselfaktoren auf. Er soll dich auf die Risiken aufmerksam machen, die du vor einer Investition berücksichtigen musst, und dich über technische Details informieren, die du vielleicht nicht selbst beurteilen kannst.\nAuch wenn die vollständige Position immer komplizierter ist, soll der Safety Score die wichtigsten Risiko- und Sicherheitsüberlegungen vereinfachen und dir einen Anstoß für deine eigene Due Diligence geben. Unser Team wägt jeden Faktor sorgfältig ab, bevor ein Tresor eingesetzt wird, und hat ein wachsames Auge auf alle Anlagen, Ketten und Protokolle, die {{providerName}} integriert hat.",
+        "safetyScoreRateLink": "Mehr Details zur Sicherheitsbewertung auf {{providerName}}"
       },
       "viewMoreDetails": "Mehr Details anzeigen",
       "viewLessDetails": "Weniger Details anzeigen"
