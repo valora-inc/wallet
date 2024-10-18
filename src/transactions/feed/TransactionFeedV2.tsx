@@ -434,25 +434,6 @@ export default function TransactionFeedV2() {
     [newlyCompletedCrossChainSwaps]
   )
 
-  useEffect(
-    function vibrateForNewlyCompletedTransactions() {
-      const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
-      if (isFirstPage && hasNewlyCompletedTransactions) {
-        vibrateSuccess()
-      }
-    },
-    [hasNewlyCompletedTransactions, originalArgs?.endCursor]
-  )
-
-  useEffect(
-    function trackCrossChainSwaps() {
-      if (newlyCompletedCrossChainSwaps.length) {
-        trackCompletionOfCrossChainSwaps(newlyCompletedCrossChainSwaps)
-      }
-    },
-    [newlyCompletedCrossChainSwaps]
-  )
-
   const confirmedTransactions = useMemo(() => {
     const flattenedPages = Object.values(paginatedData).flat()
     const deduplicatedTransactions = deduplicateTransactions(flattenedPages)
