@@ -2719,7 +2719,10 @@
         "yieldRateDescription": "Aunque la mayoría de los pools ofrecen ganancias en forma de token de pool de liquidez, algunos dan token(s) adicionales como recompensa o incentivo añadido.\n\nDado que {{appName}} agrega pools a través de múltiples protocolos, hemos combinado todas las tasas de ganancia y recompensa en una única tasa de rendimiento global para ayudarte a evaluar fácilmente tu potencial de ganancia. Esta cifra es estimada, ya que los valores de ganancia y recompensa fluctúan constantemente.\n\nPara más información sobre los desgloses de ganancias puedes visitar <0>{{providerName}}</0>.",
         "dailyYieldRateTitle": "Tarifa diaria",
         "dailyYieldRateDescription": "La tarifa diaria mostrada refleja la tarifa diaria proporcionada por {{providerName}}.",
-        "dailyYieldRateLink": "Ver más detalles de la tarifa diaria en {{providerName}}"
+        "dailyYieldRateLink": "Ver más detalles de la tarifa diaria en {{providerName}}",
+        "safetyScoreTitle": "Puntuación de seguridad",
+        "safetyScoreDescription": "La Puntuación de Seguridad desglosa la seguridad del activo bóveda subyacente en varios factores clave. Su objetivo es llamar tu atención sobre los riesgos que debes tener en cuenta antes de invertir, e informarte sobre detalles técnicos que quizá no puedas evaluar por ti mismo.\nAunque la posición completa siempre es más complicada, la puntuación de seguridad se proporciona para simplificar las consideraciones clave sobre riesgos y seguridad y poner en marcha tu propia diligencia debida. Nuestro equipo considera cuidadosamente cada factor antes de desplegar una cámara acorazada, y vigila cada activo, cadena y protocolo que ha integrado {{providerName}} .",
+        "safetyScoreRateLink": "Ver más detalles sobre la puntuación de seguridad en {{providerName}}"
       },
       "viewMoreDetails": "Ver más detalles",
       "viewLessDetails": "Ver menos detalles"
