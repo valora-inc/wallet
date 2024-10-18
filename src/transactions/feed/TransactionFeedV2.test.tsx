@@ -460,21 +460,19 @@ describe('TransactionFeedV2', () => {
 
     await act(() => {
       const newPendingTransaction = addStandbyTransaction({
-        transaction: {
-          __typename: 'TokenTransferV3',
-          context: { id: pendingStandByTransactionHash2 },
-          type: TokenTransactionTypeV2.Sent,
-          networkId: NetworkId['celo-alfajores'],
-          amount: {
-            value: BigNumber(10).negated().toString(),
-            tokenAddress: mockCusdAddress,
-            tokenId: mockCusdTokenId,
-          },
-          address: mockQRCodeRecipient.address,
-          metadata: {},
-          feeCurrencyId: mockCeloTokenId,
-          transactionHash: pendingStandByTransactionHash2,
+        __typename: 'TokenTransferV3',
+        context: { id: pendingStandByTransactionHash2 },
+        type: TokenTransactionTypeV2.Sent,
+        networkId: NetworkId['celo-alfajores'],
+        amount: {
+          value: BigNumber(10).negated().toString(),
+          tokenAddress: mockCusdAddress,
+          tokenId: mockCusdTokenId,
         },
+        address: mockQRCodeRecipient.address,
+        metadata: {},
+        feeCurrencyId: mockCeloTokenId,
+        transactionHash: pendingStandByTransactionHash2,
       })
       store.dispatch(newPendingTransaction)
     })

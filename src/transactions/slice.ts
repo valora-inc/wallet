@@ -71,17 +71,14 @@ const slice = createSlice({
   name: 'transactions',
   initialState,
   reducers: {
-    addStandbyTransaction: (
-      state,
-      action: PayloadAction<{ transaction: BaseStandbyTransaction }>
-    ) => {
+    addStandbyTransaction: (state, action: PayloadAction<BaseStandbyTransaction>) => {
       // Removing any duplicate transactions
       const otherStandbyTransactions = (state.standbyTransactions || []).filter(
         (tx) =>
           !(
-            tx.context.id === action.payload.transaction.context.id ||
-            (action.payload.transaction.transactionHash &&
-              tx.transactionHash === action.payload.transaction.transactionHash)
+            tx.context.id === action.payload.context.id ||
+            (action.payload.transactionHash &&
+              tx.transactionHash === action.payload.transactionHash)
           )
       )
 
@@ -89,7 +86,7 @@ const slice = createSlice({
         ...state,
         standbyTransactions: [
           {
-            ...action.payload.transaction,
+            ...action.payload,
             timestamp: Date.now(),
             status: TransactionStatus.Pending,
           },
