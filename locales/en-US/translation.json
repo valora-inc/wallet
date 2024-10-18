@@ -2552,8 +2552,10 @@
     },
     "enterAmount": {
       "title": "How much would you like to deposit?",
+      "titleWithdraw": "How much would you like to withdraw?",
       "deposit": "Deposit",
       "fees": "Fees",
+      "available": "Available",
       "swap": "Swap",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
@@ -2574,6 +2576,7 @@
         "estNetworkFee": "Est. Network Fee",
         "maxNetworkFee": "Max Network Fee",
         "networkFeeDescription": "The network fee is required by the network to process the deposit transaction.",
+        "networkFeeDescriptionWithdrawal": "The network fee is required by the network to process the withdrawal transaction.",
         "networkSwapFeeDescription": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
         "appSwapFee": "{{appName}} Fee"
       },
