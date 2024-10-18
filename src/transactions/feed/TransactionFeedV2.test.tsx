@@ -140,6 +140,7 @@ describe('TransactionFeedV2', () => {
   })
 
   it('renders the loading indicator while it loads', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [] }))
     const tree = renderScreen()
     expect(tree.getByTestId('NoActivity/loading')).toBeDefined()
     expect(tree.queryByTestId('NoActivity/error')).toBeNull()
@@ -230,12 +231,14 @@ describe('TransactionFeedV2', () => {
   })
 
   it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [] }))
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const tree = renderScreen()
     expect(tree.getByTestId('GetStarted')).toBeDefined()
   })
 
   it('renders NoActivity by default if transaction feed is empty', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [] }))
     jest.mocked(getFeatureGate).mockReturnValue(false)
     const tree = renderScreen()
     expect(tree.getByTestId('NoActivity/loading')).toBeDefined()
@@ -373,7 +376,7 @@ describe('TransactionFeedV2', () => {
   })
 
   it('should not show "no transactions" toast if there is not enough transactions to trigger the toast', async () => {
-    mockFetch.mockResponseOnce(
+    mockFetch.mockResponse(
       typedResponse({
         transactions: [
           mockTransaction({ transactionHash: '0x01', timestamp: 50 }),
@@ -442,6 +445,8 @@ describe('TransactionFeedV2', () => {
   })
 
   it('should not vibrate when there is a new pending transaction', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [] }))
+
     const pendingStandByTransactionHash1 = '0x01' as string
     const pendingStandByTransactionHash2 = '0x02' as string
     const { store, ...tree } = renderScreen({
@@ -484,6 +489,7 @@ describe('TransactionFeedV2', () => {
   })
 
   it('should send analytics event when cross-chain swap transaction status changed to "Complete"', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [] }))
     jest.spyOn(TokenSelectors, 'tokensByIdSelector').mockReturnValue({
       'op-mainnet:native': { priceUsd: new BigNumber(100) } as TokenBalance,
       'base-mainnet:native': { priceUsd: new BigNumber(1000) } as TokenBalance,
@@ -546,6 +552,7 @@ describe('TransactionFeedV2', () => {
   })
 
   it('should pre-populate persisted first page of the feed', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [] }))
     const tree = renderScreen({ transactions: { feedFirstPage: [mockTransaction()] } })
     expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
     expect(mockFetch).not.toBeCalled()
