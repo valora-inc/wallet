@@ -21,7 +21,7 @@ import { recipientsReducer as recipients } from 'src/recipients/reducer'
 import { sendReducer as send } from 'src/send/reducers'
 import swapReducer from 'src/swap/slice'
 import tokenReducer from 'src/tokens/slice'
-import transactionsSlice from 'src/transactions/slice'
+import transactionsReducer from 'src/transactions/slice'
 import { reducer as walletConnect } from 'src/walletConnect/reducer'
 import { reducer as web3 } from 'src/web3/reducer'
 
@@ -32,7 +32,7 @@ export const reducersList = {
   alert,
   send,
   home,
-  transactions: transactionsSlice,
+  transactions: transactionsReducer,
   web3,
   identity,
   account,
