@@ -554,7 +554,6 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('EarnEnterAmount/Reward-0-crypto')).toHaveTextContent('0.01 ARB')
     })
 
-
     it('should show the  Withdrawing and Claiming card if withdrawalIncludesClaim is true', async () => {
       const { getByTestId } = render(
         <Provider store={store}>
