@@ -2584,6 +2584,10 @@
         "swapTo": "交换至",
         "whySwap": "我为什么要进行交换？",
         "swapDescription": "当您向某个资金池存入资金时，您的代币将会交换成资金池代币。"
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "退出和申请",
+        "description": "{{providerName}} 要求您在任何时候提款时都要申领所有可用奖励。"
       }
     },
     "activePools": {
