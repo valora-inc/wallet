@@ -2552,8 +2552,10 @@
     },
     "enterAmount": {
       "title": "Combien souhaitez-vous déposer ?",
+      "titleWithdraw": "Combien souhaites-tu retirer ?",
       "deposit": "Dépôt",
       "fees": "Frais",
+      "available": "Disponible",
       "swap": "Échange",
       "earnUpToLabel": "Vous pourriez gagner jusqu'à :",
       "rateLabel": "Taux (est.)",
@@ -2574,6 +2576,7 @@
         "estNetworkFee": "Frais de réseau estimés",
         "maxNetworkFee": "Frais de réseau maximum",
         "networkFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter la transaction.",
+        "networkFeeDescriptionWithdrawal": "Les frais de réseau sont exigés par le réseau pour traiter l'opération de retrait.",
         "networkSwapFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter la transaction de dépôt. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit.",
         "appSwapFee": "Frais de {{appName}}"
       },
@@ -2583,6 +2586,10 @@
         "swapTo": "Échanger pour",
         "whySwap": "Pourquoi est-ce que je fais un swap ?",
         "swapDescription": "Pour déposer des fonds dans le pool, votre jeton est converti en jeton de pool."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Retrait et réclamation",
+        "description": "{{providerName}} exige que tu réclames toutes les récompenses disponibles à chaque fois que tu effectues un retrait."
       }
     },
     "activePools": {

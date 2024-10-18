@@ -2552,8 +2552,10 @@
     },
     "enterAmount": {
       "title": "Quanto vuoi depositare?",
+      "titleWithdraw": "Quanto vorresti prelevare?",
       "deposit": "Deposito",
       "fees": "Commissioni",
+      "available": "Disponibile",
       "swap": "Scambio",
       "earnUpToLabel": "Puoi guadagnare fino a:",
       "rateLabel": "Tasso (stima)",
@@ -2574,6 +2576,7 @@
         "estNetworkFee": "Commissione di rete stimata",
         "maxNetworkFee": "Commissione di rete massima",
         "networkFeeDescription": "La commissione di rete viene richiesta dalla rete per elaborare la transazione di deposito.",
+        "networkFeeDescriptionWithdrawal": "La commissione di rete è richiesta dal network per elaborare la transazione di prelievo.",
         "networkSwapFeeDescription": "La commissione di rete viene richiesta dalla rete per elaborare la transazione di deposito. La commissione di {{appName}} del {{appFeePercentage}}% viene addebitata per l'utilizzo del nostro prodotto.",
         "appSwapFee": "Commissione di {{appName}}"
       },
@@ -2583,6 +2586,10 @@
         "swapTo": "Scambia a",
         "whySwap": "Perché uno swap?",
         "swapDescription": "Per depositare fondi nel pool, il tuo token viene scambiato con un token del pool."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Recesso e richiesta di rimborso",
+        "description": "{{providerName}} ti obbliga a richiedere tutti i premi disponibili ogni volta che effettui un prelievo."
       }
     },
     "activePools": {

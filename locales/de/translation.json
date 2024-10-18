@@ -2552,8 +2552,10 @@
     },
     "enterAmount": {
       "title": "Wie viel möchtest du einzahlen?",
+      "titleWithdraw": "Wie viel möchtest du abheben?",
       "deposit": "Einzahlung",
       "fees": "Gebühren",
+      "available": "Verfügbar",
       "swap": "Tauschen",
       "earnUpToLabel": "Verdienst von bis zu:",
       "rateLabel": "Rate (geschätzt)",
@@ -2574,6 +2576,7 @@
         "estNetworkFee": "Geschätzte Netzwerkgebühr",
         "maxNetworkFee": "Maximale Netzwerkgebühr",
         "networkFeeDescription": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Einzahlungstransaktion verarbeiten kann.",
+        "networkFeeDescriptionWithdrawal": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Abhebungstransaktion zu bearbeiten.",
         "networkSwapFeeDescription": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Einzahlungstransaktionen verarbeiten kann. Die {{appName}}-Gebühr von {{appFeePercentage}} % wird für deine Nutzung unseres Produkts erhoben.",
         "appSwapFee": "{{appName}}-Gebühr"
       },
@@ -2583,6 +2586,10 @@
         "swapTo": "Tausch zu",
         "whySwap": "Weshalb tausche ich?",
         "swapDescription": "Um Guthaben in den Pool einzuzahlen, wird dein Token in einen Pool-Token getauscht."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Zurückziehen und Reklamieren",
+        "description": "{{providerName}} verlangt, dass du bei jeder Abhebung alle verfügbaren Prämien einforderst."
       }
     },
     "activePools": {

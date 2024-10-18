@@ -2552,8 +2552,10 @@
     },
     "enterAmount": {
       "title": "Quanto gostaria de depositar?",
+      "titleWithdraw": "Quanto você gostaria de sacar?",
       "deposit": "Depósito",
       "fees": "Taxas",
+      "available": "Disponível",
       "swap": "Trocar",
       "earnUpToLabel": "Você pode ganhar até:",
       "rateLabel": "Taxa (est.)",
@@ -2574,6 +2576,7 @@
         "estNetworkFee": "Taxa de rede est.",
         "maxNetworkFee": "Taxa de rede máx.",
         "networkFeeDescription": "A taxa de rede é exigida pela rede para processar a transação de depósito.",
+        "networkFeeDescriptionWithdrawal": "A taxa de rede é exigida pela rede para processar a transação de saque.",
         "networkSwapFeeDescription": "A taxa de rede é exigida pela rede para processar a transação de depósito. A taxa de {{appFeePercentage}}% da {{appName}} é cobrada pelo uso que você faz do nosso produto.",
         "appSwapFee": "Taxa da {{appName}}"
       },
@@ -2583,6 +2586,10 @@
         "swapTo": "Trocar para",
         "whySwap": "Por que estou fazendo a troca?",
         "swapDescription": "Para depositar fundos no pool, seu token está sendo trocado por um token do pool."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Retirada e reivindicação",
+        "description": "{{providerName}} exige que você reivindique todas as recompensas disponíveis sempre que fizer um saque."
       }
     },
     "activePools": {
