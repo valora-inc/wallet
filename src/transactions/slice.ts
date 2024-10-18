@@ -215,34 +215,40 @@ const slice = createSlice({
       }
     })
 
+    /**
+     * Whenever we get new data from the feed pagination - we need to perform updates on some portion
+     * of our reducer data, as side-effects. These scenarios include:
+     *
+     * - Updating "feedFirstPage" whenever we get new data for the first page. We use this to instantly
+     *   show the user something that can be interacted with while we're actually refetching the latest
+     *   state in the background.
+     *
+     * - In order to avoid bloating stand by transactions with confirmed transactions that are already
+     *   present in the feed via pagination – we need to clean them up. This must run for every page
+     *   as standByTransaction might include very old transactions. We should use the chance whenever
+     *   the user managed to scroll to those old transactions and remove them from persisted storage.
+     */
     builder.addMatcher(
       transactionFeedV2Api.endpoints.transactionFeedV2.matchFulfilled,
       (state, { payload, meta }) => {
-        // Update the first page of the feed whenever we get an updated list of transactions
         const isFirstPage = meta.arg.originalArgs.endCursor === FIRST_PAGE_TIMESTAMP
-        if (isFirstPage) {
-          state.feedFirstPage = payload.transactions
-        }
-
-        /**
-         * In order to avoid bloating stand by transactions with confirmed transactions that are already
-         * present in the feed via pagination – we need to cleanup them up. This must run for every page
-         * as standByTransaction might include very old transactions. We should use the chance whenever
-         * the user managed to scroll to those old transactions and remove them from persisted storage.
-         */
         const confirmedTransactionsFromNewPage = payload.transactions
           .filter((tx) => tx.status !== TransactionStatus.Pending)
           .map((tx) => tx.transactionHash)
 
-        /**
-         * - ignore empty hashes as there's no way to compare them
-         * - ignore pending as it should only affect confirmed transactions that are already
-         *   present in the paginated data
-         */
-        state.standbyTransactions = state.standbyTransactions.filter((tx) => {
-          if (!tx.transactionHash || tx.status === TransactionStatus.Pending) return true
-          return !confirmedTransactionsFromNewPage.includes(tx.transactionHash)
-        })
+        return {
+          ...state,
+          feedFirstPage: isFirstPage ? payload.transactions : state.feedFirstPage,
+          standbyTransactions: state.standbyTransactions.filter((tx) => {
+            /**
+             * - ignore empty hashes as there's no way to compare them
+             * - ignore pending as it should only affect confirmed transactions that are already
+             *   present in the paginated data
+             */
+            if (!tx.transactionHash || tx.status === TransactionStatus.Pending) return true
+            return !confirmedTransactionsFromNewPage.includes(tx.transactionHash)
+          }),
+        }
       }
     )
   },
