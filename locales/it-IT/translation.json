@@ -2586,6 +2586,10 @@
         "swapTo": "Scambia a",
         "whySwap": "Perché uno swap?",
         "swapDescription": "Per depositare fondi nel pool, il tuo token viene scambiato con un token del pool."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Recesso e richiesta di rimborso",
+        "description": "{{providerName}} ti obbliga a richiedere tutti i premi disponibili ogni volta che effettui un prelievo."
       }
     },
     "activePools": {
