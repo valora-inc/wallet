@@ -2719,7 +2719,10 @@
         "yieldRateDescription": "Çoğu havuz, kazançları likidite havuzunun tokeni şeklinde sağlarken bazı havuzlar, ödül veya ek teşvik olarak ek tokenler verebilir.\n\n{{appName}} çeşitli protokoller genelindeki havuzları bir araya toplar. Bu nedenle, kazanç potansiyelinizi kolayca değerlendirebilmeniz için tüm kazanç ve ödül oranlarını tek bir genel getiri oranı altında birleştirdik. Kazanç ve ödül değerleri sürekli dalgalandığı için bu rakam, tahmini bir değeri gösterir.\n\nKazanç dökümleri hakkında daha fazla bilgi için <0>{{providerName}}</0> sayfasını ziyaret edebilirsiniz.",
         "dailyYieldRateTitle": "Günlük Ücret",
         "dailyYieldRateDescription": "Görüntülenen günlük ücret {{providerName}}tarafından sağlanan günlük ücreti yansıtmaktadır.",
-        "dailyYieldRateLink": "Daha Fazla Günlük Fiyat Ayrıntılarını {{providerName}}adresinde görüntüleyin"
+        "dailyYieldRateLink": "Daha Fazla Günlük Fiyat Ayrıntılarını {{providerName}}adresinde görüntüleyin",
+        "safetyScoreTitle": "Güvenlik Puanı",
+        "safetyScoreDescription": "Güvenlik Puanı, dayanak kasa varlığının güvenliğini birkaç temel faktöre ayırır. Yatırım yapmadan önce göz önünde bulundurmanız gereken risklere dikkatinizi çekmeyi ve kendi başınıza değerlendiremeyebileceğiniz teknik ayrıntılar hakkında sizi bilgilendirmeyi amaçlamaktadır.\nTam pozisyon her zaman daha karmaşık olsa da, Güvenlik Puanı temel risk ve güvenlik hususlarını basitleştirmek ve kendi durum tespitinizi başlatmak için sağlanmıştır. Ekibimiz bir kasa devreye alınmadan önce her bir faktörü dikkatle değerlendirmekte ve {{providerName}} 'un entegre ettiği her bir varlık, zincir ve protokolü dikkatle izlemektedir.",
+        "safetyScoreRateLink": "Daha Fazla Güvenlik Puanı Ayrıntılarını {{providerName}}adresinde görüntüleyin"
       },
       "viewMoreDetails": "Daha Fazla Ayrıntı Görüntüle",
       "viewLessDetails": "Daha Az Ayrıntı Görüntüle"
