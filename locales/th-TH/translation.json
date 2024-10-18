@@ -2550,8 +2550,10 @@
     },
     "enterAmount": {
       "title": "คุณต้องการฝากจำนวนเท่าไร",
+      "titleWithdraw": "How much would you like to withdraw?",
       "deposit": "ฝากเงิน",
       "fees": "ค่าธรรมเนียม",
+      "available": "ใช้ได้",
       "swap": "สว็อป",
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
       "rateLabel": "อัตรา (โดยประมาณ)",
@@ -2572,6 +2574,7 @@
         "estNetworkFee": "ค่าธรรมเนียมเครือข่ายโดยประมาณ",
         "maxNetworkFee": "ค่าธรรมเนียมเครือข่ายสูงสุด",
         "networkFeeDescription": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน",
+        "networkFeeDescriptionWithdrawal": "The network fee is required by the network to process the withdrawal transaction.",
         "networkSwapFeeDescription": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน โดยเรียกเก็บค่าธรรมเนียม {{appName}} จำนวน {{appFeePercentage}}% สำหรับการที่คุณใช้ผลิตภัณฑ์ของเรา",
         "appSwapFee": "ค่าธรรมเนียม {{appName}}"
       },
