@@ -32,7 +32,7 @@ import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionRequest'
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import DappsScreen from 'src/dapps/DappsScreen'
-import EarnCollectScreen from 'src/earn/EarnCollectScreen'
+import EarnConfirmationScreen from 'src/earn/EarnConfirmationScreen'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import EarnHome from 'src/earn/EarnHome'
 import EarnInfoScreen from 'src/earn/EarnInfoScreen'
@@ -543,8 +543,8 @@ const earnScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen name={Screens.EarnHome} component={EarnHome} options={headerWithBackButton} />
     <Navigator.Screen
-      name={Screens.EarnCollectScreen}
-      component={EarnCollectScreen}
+      name={Screens.EarnConfirmationScreen}
+      component={EarnConfirmationScreen}
       options={headerWithBackButton}
     />
     <Navigator.Screen

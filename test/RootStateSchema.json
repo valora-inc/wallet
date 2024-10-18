@@ -1242,6 +1242,13 @@
                 "cantSeparateCompoundedInterest": {
                     "type": "boolean"
                 },
+                "claimType": {
+                    "enum": [
+                        "earnings",
+                        "rewards"
+                    ],
+                    "type": "string"
+                },
                 "contractCreatedAt": {
                     "type": "string"
                 },
@@ -3513,7 +3520,7 @@
                 "DappShortcutsRewards",
                 "DappsScreen",
                 "DebugImages",
-                "EarnCollectScreen",
+                "EarnConfirmationScreen",
                 "EarnEnterAmount",
                 "EarnHome",
                 "EarnInfoScreen",
