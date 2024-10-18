@@ -9,7 +9,7 @@ export interface DepositInfo {
   amount: string
   preparedTransactions: SerializableTransactionRequest[]
   pool: EarnPosition
-  mode: EarnDepositMode
+  mode: EarnEnterMode
   fromTokenId: string
   fromTokenAmount: string
 }
@@ -64,4 +64,4 @@ export interface BeforeDepositAction {
   onPress: () => void
 }
 
-export type EarnDepositMode = 'deposit' | 'swap-deposit'
+export type EarnEnterMode = 'deposit' | 'swap-deposit' | 'withdraw'
