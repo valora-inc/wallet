@@ -25,7 +25,11 @@ import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
-import { allStandbyTransactionsSelector, feedFirstPageSelector } from 'src/transactions/selectors'
+import {
+  allStandbyTransactionsSelector,
+  feedFirstPageSelector,
+  hasNewUnknownCompletedTransactionsSelector,
+} from 'src/transactions/selectors'
 import {
   FeeType,
   TokenTransactionTypeV2,
@@ -315,6 +319,7 @@ export default function TransactionFeedV2() {
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
   const feedFirstPage = useSelector(feedFirstPageSelector)
+  const hasNewUnknownCompletedTransactions = useSelector(hasNewUnknownCompletedTransactionsSelector)
   const { hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps } =
     useNewlyCompletedTransactions(standByTransactions)
   const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
@@ -424,6 +429,12 @@ export default function TransactionFeedV2() {
     },
     [hasNewlyCompletedTransactions, originalArgs?.endCursor]
   )
+
+  useEffect(() => {
+    if (hasNewUnknownCompletedTransactions) {
+      vibrateSuccess()
+    }
+  }, [hasNewUnknownCompletedTransactions])
 
   useEffect(
     function trackCrossChainSwaps() {

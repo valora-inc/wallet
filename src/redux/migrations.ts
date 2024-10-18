@@ -1924,4 +1924,11 @@ export const migrations = {
       feedFirstPage: [],
     },
   }),
+  235: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      hasNewUnknownCompletedTransactions: false,
+    },
+  }),
 }
