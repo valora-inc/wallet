@@ -119,20 +119,16 @@ describe('sendPreparedTransactions', () => {
       .call(getViemWallet, networkConfig.viemChain.celo, false)
       .put(
         addStandbyTransaction({
-          transaction: {
-            ...mockStandbyTransactions[0],
-            feeCurrencyId: mockCeloTokenId,
-            transactionHash: '0xmockTxHash1',
-          },
+          ...mockStandbyTransactions[0],
+          feeCurrencyId: mockCeloTokenId,
+          transactionHash: '0xmockTxHash1',
         })
       )
       .put(
         addStandbyTransaction({
-          transaction: {
-            ...mockStandbyTransactions[1],
-            feeCurrencyId: mockCeloTokenId,
-            transactionHash: '0xmockTxHash2',
-          },
+          ...mockStandbyTransactions[1],
+          feeCurrencyId: mockCeloTokenId,
+          transactionHash: '0xmockTxHash2',
         })
       )
       .returns(['0xmockTxHash1', '0xmockTxHash2'])

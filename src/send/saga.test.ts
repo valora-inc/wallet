@@ -135,21 +135,19 @@ describe(sendPaymentSaga, () => {
         .call(getViemWallet, networkConfig.viemChain.celo, false)
         .put(
           addStandbyTransaction({
-            transaction: {
-              __typename: 'TokenTransferV3',
-              context: { id: 'mock' },
-              type: TokenTransactionTypeV2.Sent,
-              networkId: NetworkId['celo-alfajores'],
-              amount: {
-                value: BigNumber(10).negated().toString(),
-                tokenAddress: mockCusdAddress,
-                tokenId: mockCusdTokenId,
-              },
-              address: mockQRCodeRecipient.address,
-              metadata: {},
-              feeCurrencyId: mockCeloTokenId,
-              transactionHash: mockTxHash,
+            __typename: 'TokenTransferV3',
+            context: { id: 'mock' },
+            type: TokenTransactionTypeV2.Sent,
+            networkId: NetworkId['celo-alfajores'],
+            amount: {
+              value: BigNumber(10).negated().toString(),
+              tokenAddress: mockCusdAddress,
+              tokenId: mockCusdTokenId,
             },
+            address: mockQRCodeRecipient.address,
+            metadata: {},
+            feeCurrencyId: mockCeloTokenId,
+            transactionHash: mockTxHash,
           })
         )
         .put(sendPaymentSuccess({ amount, tokenId: mockCusdTokenId }))
@@ -178,21 +176,19 @@ describe(sendPaymentSaga, () => {
       .call(getViemWallet, networkConfig.viemChain.celo, false)
       .put(
         addStandbyTransaction({
-          transaction: {
-            __typename: 'TokenTransferV3',
-            context: { id: 'mock' },
-            type: TokenTransactionTypeV2.Sent,
-            networkId: NetworkId['celo-alfajores'],
-            amount: {
-              value: BigNumber(10).negated().toString(),
-              tokenAddress: mockCeloAddress,
-              tokenId: mockCeloTokenId,
-            },
-            address: mockQRCodeRecipient.address,
-            metadata: {},
-            feeCurrencyId: mockCeloTokenId,
-            transactionHash: mockTxHash,
+          __typename: 'TokenTransferV3',
+          context: { id: 'mock' },
+          type: TokenTransactionTypeV2.Sent,
+          networkId: NetworkId['celo-alfajores'],
+          amount: {
+            value: BigNumber(10).negated().toString(),
+            tokenAddress: mockCeloAddress,
+            tokenId: mockCeloTokenId,
           },
+          address: mockQRCodeRecipient.address,
+          metadata: {},
+          feeCurrencyId: mockCeloTokenId,
+          transactionHash: mockTxHash,
         })
       )
       .put(sendPaymentSuccess({ amount, tokenId: mockCeloTokenId }))

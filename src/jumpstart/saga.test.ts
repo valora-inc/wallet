@@ -244,16 +244,14 @@ describe('dispatchPendingERC20Transactions', () => {
       )
       .put(
         addStandbyTransaction({
-          transaction: {
-            __typename: 'TokenTransferV3',
-            type: TokenTransactionTypeV2.Received,
-            context: { id: mockTransactionHash },
-            transactionHash: mockTransactionHash,
-            networkId,
-            amount: { value: '1', tokenAddress: mockCusdAddress, tokenId: mockCusdTokenId },
-            address: mockAccount2,
-            metadata: {},
-          },
+          __typename: 'TokenTransferV3',
+          type: TokenTransactionTypeV2.Received,
+          context: { id: mockTransactionHash },
+          transactionHash: mockTransactionHash,
+          networkId,
+          amount: { value: '1', tokenAddress: mockCusdAddress, tokenId: mockCusdTokenId },
+          address: mockAccount2,
+          metadata: {},
         })
       )
       .run()
@@ -307,22 +305,20 @@ describe('dispatchPendingERC721Transactions', () => {
       ])
       .put(
         addStandbyTransaction({
-          transaction: {
-            __typename: 'NftTransferV3',
-            type: TokenTransactionTypeV2.NftReceived,
-            context: { id: mockTransactionHash },
-            transactionHash: mockTransactionHash,
-            networkId,
-            nfts: [
-              {
-                tokenId: mockNftAllFields.tokenId,
-                contractAddress: mockNftAllFields.contractAddress.toLowerCase(),
-                tokenUri,
-                metadata,
-                media: [{ raw: metadata.image, gateway: metadata.image }],
-              },
-            ],
-          },
+          __typename: 'NftTransferV3',
+          type: TokenTransactionTypeV2.NftReceived,
+          context: { id: mockTransactionHash },
+          transactionHash: mockTransactionHash,
+          networkId,
+          nfts: [
+            {
+              tokenId: mockNftAllFields.tokenId,
+              contractAddress: mockNftAllFields.contractAddress.toLowerCase(),
+              tokenUri,
+              metadata,
+              media: [{ raw: metadata.image, gateway: metadata.image }],
+            },
+          ],
         })
       )
       .run()
