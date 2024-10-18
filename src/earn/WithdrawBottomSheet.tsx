@@ -12,6 +12,8 @@ import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { ClaimType, EarnPosition } from 'src/positions/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -40,7 +42,7 @@ function PartialWithdrawAction({
     iconComponent: QuickActionsWithdraw,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'partialWithdraw' })
-      navigate(Screens.EarnEnterAmount, { pool }) //, mode: 'withdraw' })  TODO (ACT-1385): Add this in after Tom's PR merges
+      navigate(Screens.EarnEnterAmount, { pool, mode: 'withdraw' })
       forwardedRef.current?.close()
     },
   }
@@ -119,7 +121,7 @@ export default function WithdrawBottomSheet({
   canClaim: boolean
 }) {
   const { t } = useTranslation()
-  const canPartialWithdraw = true // TODO (ACT-1385): after Tom's PR getFeatureGate(StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL)
+  const canPartialWithdraw = getFeatureGate(StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL)
 
   return (
     <BottomSheet

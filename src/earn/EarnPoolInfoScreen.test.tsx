@@ -35,10 +35,12 @@ function getStore({
   balance = '0',
   includeSameChainToken = false,
   includeOtherChainToken = false,
+  includeRewardPositions = true,
 }: {
   balance?: string
   includeSameChainToken?: boolean
   includeOtherChainToken?: boolean
+  includeRewardPositions?: boolean
 } = {}) {
   const sameChainToken = includeSameChainToken
     ? { [mockArbEthTokenId]: { ...mockTokenBalances[mockArbEthTokenId], balance: '1' } }
@@ -59,7 +61,7 @@ function getStore({
       },
     },
     positions: {
-      positions: [...mockPositions, ...mockRewardsPositions],
+      positions: includeRewardPositions ? [...mockPositions, ...mockRewardsPositions] : [],
     },
     app: { showSwapMenuInDrawerMenu: true },
   })
@@ -640,14 +642,14 @@ describe('EarnPoolInfoScreen', () => {
     expect(getByTestId('Earn/ActionCard/Transfer')).toBeTruthy()
   })
 
-  it('navigate to EarnCollectScreen when Withdraw button is tapped, no claim-rewards shortcut and cannot partial withdraw', () => {
+  it('navigate to EarnCollectScreen when Withdraw button is tapped, no rewards and cannot partial withdraw', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation(
         (gateName: StatsigFeatureGates) => gateName === StatsigFeatureGates.SHOW_POSITIONS
       )
     const { getByTestId } = render(
-      <Provider store={getStore()}>
+      <Provider store={getStore({ includeRewardPositions: false })}>
         <MockedNavigator
           component={EarnPoolInfoScreen}
           params={{
@@ -670,11 +672,13 @@ describe('EarnPoolInfoScreen', () => {
     })
   })
   it('open WithdrawBottomSheet when Withdraw button pressed, check that expected options exist', () => {
-    jest.mocked(getFeatureGate).mockImplementation(
-      (gate) =>
-        //       gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
-        gate === StatsigFeatureGates.SHOW_POSITIONS
-    )
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gate) =>
+          gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
+          gate === StatsigFeatureGates.SHOW_POSITIONS
+      )
     const { getByTestId } = render(
       <Provider store={getStore()}>
         <MockedNavigator
@@ -683,7 +687,6 @@ describe('EarnPoolInfoScreen', () => {
             pool: {
               ...mockEarnPositions[0],
               balance: '100',
-              availableShortcutIds: ['withdraw', 'deposit', 'claim-rewards'],
             },
           }}
         />
@@ -696,12 +699,9 @@ describe('EarnPoolInfoScreen', () => {
     expect(getByTestId('Earn/ActionCard/Exit')).toBeTruthy()
   })
   it('tapping withdraw on WithdrawBottomSheet navigates to enter amount screen', () => {
-    // jest
-    //   .mocked(getFeatureGate)
-    //   .mockImplementation(
-    //     (gate) =>
-    //       gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL
-    //   )
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL)
     const { getByTestId } = render(
       <Provider store={getStore()}>
         <MockedNavigator
@@ -710,7 +710,6 @@ describe('EarnPoolInfoScreen', () => {
             pool: {
               ...mockEarnPositions[0],
               balance: '100',
-              availableShortcutIds: ['withdraw', 'deposit', 'claim-rewards'],
             },
           }}
         />
@@ -727,16 +726,18 @@ describe('EarnPoolInfoScreen', () => {
       pool: {
         ...mockEarnPositions[0],
         balance: '100',
-        availableShortcutIds: ['withdraw', 'deposit', 'claim-rewards'],
       },
-    }) //, mode: 'withdraw' })  TODO (ACT-1385): Add this in after Tom's PR merges
+      mode: 'withdraw',
+    })
   })
   it('tapping claim on WithdrawBottomSheet navigates to confirmation screen', () => {
-    jest.mocked(getFeatureGate).mockImplementation(
-      (gate) =>
-        //       gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
-        gate === StatsigFeatureGates.SHOW_POSITIONS
-    )
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gate) =>
+          gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
+          gate === StatsigFeatureGates.SHOW_POSITIONS
+      )
     const { getByTestId } = render(
       <Provider store={getStore()}>
         <MockedNavigator
@@ -745,7 +746,6 @@ describe('EarnPoolInfoScreen', () => {
             pool: {
               ...mockEarnPositions[0],
               balance: '100',
-              availableShortcutIds: ['withdraw', 'deposit', 'claim-rewards'],
             },
           }}
         />
@@ -761,12 +761,9 @@ describe('EarnPoolInfoScreen', () => {
     // TODO (ACT-1389): Check that navigate called with confirmation screen for Claim
   })
   it('tapping exit on WithdrawBottomSheet navigates to enter amount screen', () => {
-    // jest
-    //   .mocked(getFeatureGate)
-    //   .mockImplementation(
-    //     (gate) =>
-    //       gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL
-    //   )
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL)
     const { getByTestId } = render(
       <Provider store={getStore()}>
         <MockedNavigator
@@ -775,7 +772,6 @@ describe('EarnPoolInfoScreen', () => {
             pool: {
               ...mockEarnPositions[0],
               balance: '100',
-              availableShortcutIds: ['withdraw', 'deposit', 'claim-rewards'],
             },
           }}
         />
@@ -791,11 +787,13 @@ describe('EarnPoolInfoScreen', () => {
     // TODO (ACT-1389): Check that navigate called with confirmation screen for Claim
   })
   it('shows correct copy when ClaimType is Earnings', () => {
-    jest.mocked(getFeatureGate).mockImplementation(
-      (gate) =>
-        //       gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
-        gate === StatsigFeatureGates.SHOW_POSITIONS
-    )
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gate) =>
+          gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
+          gate === StatsigFeatureGates.SHOW_POSITIONS
+      )
     const { getByTestId, getByText } = render(
       <Provider store={getStore()}>
         <MockedNavigator
@@ -808,7 +806,6 @@ describe('EarnPoolInfoScreen', () => {
                 claimType: ClaimType.Earnings,
               },
               balance: '100',
-              availableShortcutIds: ['withdraw', 'deposit', 'claim-rewards'],
             },
           }}
         />
@@ -828,11 +825,13 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
   })
   it('shows correct copy when ClaimType is Rewards', () => {
-    jest.mocked(getFeatureGate).mockImplementation(
-      (gate) =>
-        //       gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
-        gate === StatsigFeatureGates.SHOW_POSITIONS
-    )
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gate) =>
+          gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
+          gate === StatsigFeatureGates.SHOW_POSITIONS
+      )
     const { getByTestId, getByText } = render(
       <Provider store={getStore()}>
         <MockedNavigator
@@ -845,7 +844,6 @@ describe('EarnPoolInfoScreen', () => {
                 claimType: ClaimType.Rewards,
               },
               balance: '100',
-              availableShortcutIds: ['withdraw', 'deposit', 'claim-rewards'],
             },
           }}
         />
@@ -862,11 +860,13 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
   })
   it('shows correct copy when withdrawalIncludesClaim is true', () => {
-    jest.mocked(getFeatureGate).mockImplementation(
-      (gate) =>
-        //       gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
-        gate === StatsigFeatureGates.SHOW_POSITIONS
-    )
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gate) =>
+          gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
+          gate === StatsigFeatureGates.SHOW_POSITIONS
+      )
     const { getByTestId, getByText } = render(
       <Provider store={getStore()}>
         <MockedNavigator
@@ -879,7 +879,6 @@ describe('EarnPoolInfoScreen', () => {
                 withdrawalIncludesClaim: true,
               },
               balance: '100',
-              availableShortcutIds: ['withdraw', 'deposit', 'claim-rewards'],
             },
           }}
         />
@@ -891,7 +890,8 @@ describe('EarnPoolInfoScreen', () => {
     expect(
       getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaimDescription')
     ).toBeTruthy()
- 
+  })
+
   it('shows the daily yield rate when it is available', () => {
     const { getByTestId } = renderEarnPoolInfoScreen({
       ...mockEarnPositions[0],

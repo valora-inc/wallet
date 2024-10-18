@@ -28,6 +28,7 @@ export interface EarningItem {
 export enum ClaimType {
   Earnings = 'earnings',
   Rewards = 'rewards',
+}
 
 export interface SafetyRisk {
   isPositive: boolean

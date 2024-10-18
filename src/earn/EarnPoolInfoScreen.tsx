@@ -18,9 +18,9 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import BeforeDepositBottomSheet from 'src/earn/BeforeDepositBottomSheet'
 import { useDepositEntrypointInfo } from 'src/earn/hooks'
-import WithdrawBottomSheet from 'src/earn/WithdrawBottomSheet'
 import { SafetyCard } from 'src/earn/SafetyCard'
 import { getEarnPositionBalanceValues } from 'src/earn/utils'
+import WithdrawBottomSheet from 'src/earn/WithdrawBottomSheet'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -532,7 +532,9 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       networkId,
       depositTokenId: dataProps.depositTokenId,
     })
-    const partialWithdrawalsEnabled = true // TODO (ACT-1385): after Tom's PR getFeatureGate(StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL)
+    const partialWithdrawalsEnabled = getFeatureGate(
+      StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL
+    )
     if (hasRewards || partialWithdrawalsEnabled) {
       withdrawBottomSheetRef.current?.snapToIndex(0)
     } else {
