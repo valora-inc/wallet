@@ -2695,6 +2695,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "奖励",
       "noRewards": "暂无奖励",
+      "safetyScore": "安全得分",
       "tvl": "TVL",
       "ageOfPool": "资金池年龄",
       "learnMoreOnProvider": "在 {{providerName}} 上查看资金池",
@@ -2716,8 +2717,13 @@
         "yieldRateDescription": "虽然大多数资金池以流动性池代币的形式提供收益，但也有一些资金池提供额外代币作为奖励或额外激励。\n\n{{appName}} 集合了多个协议的资金池，因此我们将所有收益率和奖励率合并为一项总体收益率，以帮助您轻松评估收益潜力。由于收益和奖励值不断波动，该数字只是估计值。\n\n有关收益明细的更多信息，请访问 <0>{{providerName}}</0>。",
         "dailyYieldRateTitle": "每日费率",
         "dailyYieldRateDescription": "显示的每日费率反映了 {{providerName}}提供的每日费率。",
-        "dailyYieldRateLink": "查看更多每日房价详情，请访问 {{providerName}}"
-      }
+        "dailyYieldRateLink": "查看更多每日房价详情，请访问 {{providerName}}",
+        "safetyScoreTitle": "安全得分",
+        "safetyScoreDescription": "安全分数将相关金库资产的安全性分解为几个关键因素。它旨在提醒您在投资前应考虑的风险，并告知您可能无法自行评估的技术细节。\n尽管全部头寸总是更为复杂，但安全分数的提供简化了主要风险和安全考虑因素，并启动了您自己的尽职调查。在部署保险库之前，我们的团队会仔细考虑每个因素，并密切关注 {{providerName}} 集成的每个资产、链和协议。",
+        "safetyScoreRateLink": "查看更多安全分数详情，请访问 {{providerName}}"
+      },
+      "viewMoreDetails": "查看更多详情",
+      "viewLessDetails": "查看更多详情"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "您需要在 {{tokenNetwork}} 上持有 {{tokenSymbol}} 才可进行存款",
