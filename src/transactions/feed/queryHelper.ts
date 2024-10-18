@@ -15,13 +15,13 @@ import { getMultichainFeatures } from 'src/statsig/index'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import { updateTransactions } from 'src/transactions/actions'
 import {
   completedTxHashesByNetworkIdSelector,
   pendingStandbyTxHashesByNetworkIdSelector,
   pendingTxHashesByNetworkIdSelector,
   transactionsSelector,
-} from 'src/transactions/reducer'
+} from 'src/transactions/selectors'
+import { updateTransactions } from 'src/transactions/slice'
 import {
   FeeType,
   NetworkId,
@@ -393,7 +393,7 @@ export function handlePollResponse({
       }
       // If there are new transactions update transactions in redux and fetch balances
       if (shouldUpdateCachedTransactions) {
-        dispatch(updateTransactions(networkId, nonEmptyTransactions))
+        dispatch(updateTransactions({ networkId, transactions: nonEmptyTransactions }))
       }
       if (hasNewCompletedTransaction) {
         vibrateSuccess()

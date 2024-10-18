@@ -340,9 +340,9 @@ function EarnEnterAmount({ route }: Props) {
     tokenAmountInputRef.current?.blur()
     localAmountInputRef.current?.blur()
     AppAnalytics.track(SendEvents.max_pressed, {
-      tokenId: transactionToken.tokenId,
-      tokenAddress: transactionToken.address,
-      networkId: transactionToken.networkId,
+      tokenId: inputToken.tokenId,
+      tokenAddress: inputToken.address,
+      networkId: inputToken.networkId,
       mode,
     })
   }
@@ -357,7 +357,7 @@ function EarnEnterAmount({ route }: Props) {
       amountInUsd: tokenAmount.multipliedBy(inputToken.priceUsd ?? 0).toFixed(2),
       amountEnteredIn: enteredIn,
       depositTokenId: pool.dataProps.depositTokenId,
-      networkId: transactionToken.networkId,
+      networkId: inputToken.networkId,
       providerId: pool.appId,
       poolId: pool.positionId,
       fromTokenId: inputToken.tokenId,

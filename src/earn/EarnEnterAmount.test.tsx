@@ -150,7 +150,7 @@ const params = {
 
 const mockPoolWithHighPricePerShare = {
   ...mockEarnPositions[0],
-  pricePerShare: '2',
+  pricePerShare: ['2'],
   balance: '10',
 }
 
@@ -399,20 +399,6 @@ describe('EarnEnterAmount', () => {
 
   describe('withdraw', () => {
     const withdrawParams = { ...params, mode: 'withdraw' }
-
-    beforeEach(() => {
-      jest.clearAllMocks()
-      jest.mocked(usePrepareTransactions).mockReturnValue({
-        prepareTransactionsResult: {
-          prepareTransactionsResult: mockPreparedTransaction,
-          swapTransaction: undefined,
-        },
-        refreshPreparedTransactions: jest.fn(),
-        clearPreparedTransactions: jest.fn(),
-        prepareTransactionError: undefined,
-        isPreparingTransactions: false,
-      })
-    })
     it('should show the deposit token and a disabled token dropdown', async () => {
       const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
@@ -426,7 +412,48 @@ describe('EarnEnterAmount', () => {
       expect(queryByTestId('downArrowIcon')).toBeFalsy()
     })
 
+    it('should prepare transactions with the expected inputs', async () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator
+            component={EarnEnterAmount}
+            params={{ pool: mockPoolWithHighPricePerShare, mode: 'withdraw' }}
+          />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '.25')
+
+      await waitFor(() => expect(refreshPreparedTransactionsSpy).toHaveBeenCalledTimes(1))
+      expect(refreshPreparedTransactionsSpy).toHaveBeenCalledWith({
+        amount: '0.125',
+        token: {
+          ...mockTokenBalances[mockAaveArbUsdcTokenId],
+          priceUsd: new BigNumber(1),
+          lastKnownPriceUsd: new BigNumber(1),
+          balance: new BigNumber(10),
+        },
+        walletAddress: mockAccount.toLowerCase(),
+        pool: mockPoolWithHighPricePerShare,
+        hooksApiUrl: networkConfig.hooksApiUrl,
+        feeCurrencies: mockFeeCurrencies,
+        shortcutId: 'withdraw',
+        useMax: false,
+      })
+    })
+
     it('should show tx details for withdrawal', async () => {
+      jest.mocked(usePrepareTransactions).mockReturnValue({
+        prepareTransactionsResult: {
+          prepareTransactionsResult: mockPreparedTransaction,
+          swapTransaction: undefined,
+        },
+        refreshPreparedTransactions: jest.fn(),
+        clearPreparedTransactions: jest.fn(),
+        prepareTransactionError: undefined,
+        isPreparingTransactions: false,
+      })
+
       const { getByTestId, getByText } = render(
         <Provider store={store}>
           <MockedNavigator component={EarnEnterAmount} params={withdrawParams} />
@@ -465,7 +492,18 @@ describe('EarnEnterAmount', () => {
       //TODO(ACT-1389): check navigation to withdrawal confirmation screen
     })
 
-    it('should allow the user to set an input value over the pool balance if pricePerShare is great than 1', async () => {
+    it('should allow the user to set an input value over the pool balance if pricePerShare is greater than 1', async () => {
+      jest.mocked(usePrepareTransactions).mockReturnValue({
+        prepareTransactionsResult: {
+          prepareTransactionsResult: mockPreparedTransaction,
+          swapTransaction: undefined,
+        },
+        refreshPreparedTransactions: jest.fn(),
+        clearPreparedTransactions: jest.fn(),
+        prepareTransactionError: undefined,
+        isPreparingTransactions: false,
+      })
+
       const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
           <MockedNavigator
@@ -516,7 +554,8 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('EarnEnterAmount/Reward-0-crypto')).toHaveTextContent('0.01 ARB')
     })
 
-    it('should show the Withdrawing and Claiming card if withdrawalIncludesClaim is true', async () => {
+
+    it('should show the  Withdrawing and Claiming card if withdrawalIncludesClaim is true', async () => {
       const { getByTestId } = render(
         <Provider store={store}>
           <MockedNavigator

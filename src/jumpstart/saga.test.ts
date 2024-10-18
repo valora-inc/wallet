@@ -7,8 +7,8 @@ import {
   throwError,
 } from 'redux-saga-test-plan/providers'
 import { fork } from 'redux-saga/effects'
-import { JumpstartEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { JumpstartEvents } from 'src/analytics/Events'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import {
   dispatchPendingERC20Transactions,
@@ -30,7 +30,7 @@ import {
   jumpstartReclaimSucceeded,
 } from 'src/jumpstart/slice'
 import { getDynamicConfigParams } from 'src/statsig'
-import { addStandbyTransaction } from 'src/transactions/actions'
+import { addStandbyTransaction } from 'src/transactions/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -44,13 +44,13 @@ import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockAccount2,
+  mockAccountInvite,
   mockAccountInvitePrivKey,
   mockCusdAddress,
   mockCusdTokenBalance,
   mockCusdTokenId,
   mockNftAllFields,
   mockTokenBalances,
-  mockAccountInvite,
 } from 'test/values'
 import { Hash, TransactionReceipt, parseEventLogs } from 'viem'
 

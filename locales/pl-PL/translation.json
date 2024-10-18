@@ -2701,6 +2701,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "Nagrody",
       "noRewards": "Brak nagród",
+      "safetyScore": "Wynik bezpieczeństwa",
       "tvl": "TVL",
       "ageOfPool": "Wiek puli",
       "learnMoreOnProvider": "Wyświetl pulę w {{providerName}}",
@@ -2722,8 +2723,13 @@
         "yieldRateDescription": "Większość pul oferuje zarobki w postaci tokenów pul płynności. Niektóre z nich oferują dodatkowe tokeny jako nagrody lub dodatkowe zachęty.\n\nAplikacja {{appName}} agreguje pule z wielu protokołów, dlatego połączyliśmy wszystkie stawki zarobków i nagród w pojedynczą, ogólną stawkę zysku, która ułatwia ocenę potencjału zarobków. Wartość ta jest tylko szacunkiem, gdyż wartości zarobków i nagród nie są stałe.\n\nWięcej informacji o podziale zysków możesz uzyskać, odwiedzając stronę <0>{{providerName}}</0>.",
         "dailyYieldRateTitle": "Stawka dzienna",
         "dailyYieldRateDescription": "Wyświetlana stawka dzienna odzwierciedla stawkę dzienną podaną przez {{providerName}}.",
-        "dailyYieldRateLink": "Zobacz więcej szczegółów dotyczących stawek dziennych na {{providerName}}"
-      }
+        "dailyYieldRateLink": "Zobacz więcej szczegółów dotyczących stawek dziennych na {{providerName}}",
+        "safetyScoreTitle": "Wynik bezpieczeństwa",
+        "safetyScoreDescription": "Wskaźnik bezpieczeństwa dzieli bezpieczeństwo bazowego aktywa skarbcowego na kilka kluczowych czynników. Jego celem jest zwrócenie Twojej uwagi na ryzyko, które należy rozważyć przed dokonaniem inwestycji, oraz poinformowanie Cię o szczegółach technicznych, których możesz nie być w stanie samodzielnie ocenić.\nChociaż pełna pozycja jest zawsze bardziej skomplikowana, ocena bezpieczeństwa ma na celu uproszczenie kluczowych czynników ryzyka i bezpieczeństwa oraz rozpoczęcie własnej analizy due diligence. Nasz zespół starannie rozważa każdy czynnik przed wdrożeniem sejfu i uważnie obserwuje każdy zasób, łańcuch i protokół, który został zintegrowany z {{providerName}} .",
+        "safetyScoreRateLink": "Zobacz więcej szczegółów dotyczących bezpieczeństwa na {{providerName}}"
+      },
+      "viewMoreDetails": "Zobacz więcej szczegółów",
+      "viewLessDetails": "Wyświetl mniej szczegółów"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Aby dokonać wpłaty, potrzebny jest {{tokenSymbol}} w {{tokenNetwork}}",

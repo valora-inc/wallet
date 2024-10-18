@@ -11,7 +11,7 @@ import { fetchCurrentRate } from 'src/localCurrency/actions'
 import { executeShortcutSuccess } from 'src/positions/slice'
 import { withTimeout } from 'src/redux/sagas-helpers'
 import { fetchTokenBalances } from 'src/tokens/slice'
-import { Actions as TransactionActions } from 'src/transactions/actions'
+import { updateTransactions } from 'src/transactions/slice'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { getConnectedAccount } from 'src/web3/saga'
@@ -45,10 +45,7 @@ export function* watchRefreshBalances() {
     [Actions.REFRESH_BALANCES, executeShortcutSuccess.type],
     safely(withLoading(withTimeout(REFRESH_TIMEOUT, refreshBalances)))
   )
-  yield* takeLeading(
-    TransactionActions.UPDATE_TRANSACTIONS,
-    safely(withTimeout(REFRESH_TIMEOUT, refreshBalances))
-  )
+  yield* takeLeading(updateTransactions.type, safely(withTimeout(REFRESH_TIMEOUT, refreshBalances)))
 }
 
 function* fetchNotifications() {
