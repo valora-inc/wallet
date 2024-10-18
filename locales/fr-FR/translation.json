@@ -2586,6 +2586,10 @@
         "swapTo": "Échanger pour",
         "whySwap": "Pourquoi est-ce que je fais un swap ?",
         "swapDescription": "Pour déposer des fonds dans le pool, votre jeton est converti en jeton de pool."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Retrait et réclamation",
+        "description": "{{providerName}} exige que tu réclames toutes les récompenses disponibles à chaque fois que tu effectues un retrait."
       }
     },
     "activePools": {
