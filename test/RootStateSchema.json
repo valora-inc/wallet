@@ -1273,6 +1273,9 @@
                     },
                     "type": "array"
                 },
+                "safety": {
+                    "$ref": "#/definitions/Safety"
+                },
                 "termsUrl": {
                     "type": "string"
                 },
@@ -3456,6 +3459,50 @@
             ],
             "type": "object"
         },
+        "Safety": {
+            "additionalProperties": false,
+            "properties": {
+                "level": {
+                    "enum": [
+                        "high",
+                        "low",
+                        "medium"
+                    ],
+                    "type": "string"
+                },
+                "risks": {
+                    "items": {
+                        "$ref": "#/definitions/SafetyRisk"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "level",
+                "risks"
+            ],
+            "type": "object"
+        },
+        "SafetyRisk": {
+            "additionalProperties": false,
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "isPositive": {
+                    "type": "boolean"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "category",
+                "isPositive",
+                "title"
+            ],
+            "type": "object"
+        },
         "Screens": {
             "enum": [
                 "AccounSetupFailureScreen",
@@ -5526,6 +5573,12 @@
         "State_6": {
             "additionalProperties": false,
             "properties": {
+                "feedFirstPage": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
                 "standbyTransactions": {
                     "items": {
                         "$ref": "#/definitions/StandbyTransaction"
@@ -5537,6 +5590,7 @@
                 }
             },
             "required": [
+                "feedFirstPage",
                 "standbyTransactions",
                 "transactionsByNetworkId"
             ],

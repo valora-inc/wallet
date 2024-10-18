@@ -25,6 +25,17 @@ export interface EarningItem {
   includedInPoolBalance?: boolean
 }
 
+export interface SafetyRisk {
+  isPositive: boolean
+  title: string
+  category: string
+}
+
+export interface Safety {
+  level: 'low' | 'medium' | 'high'
+  risks: SafetyRisk[]
+}
+
 interface EarnDataProps {
   contractCreatedAt?: string // ISO string
   manageUrl?: string
@@ -39,6 +50,7 @@ interface EarnDataProps {
   claimType?: ClaimType
   withdrawalIncludesClaim?: boolean
   dailyYieldRatePercentage?: number
+  safety?: Safety
   // We'll add more fields here as needed
 }
 

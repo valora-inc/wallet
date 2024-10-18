@@ -16,10 +16,11 @@ import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore } from 'test/utils'
+import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
 import {
   mockAaveArbUsdcAddress,
   mockAaveArbUsdcTokenId,
+  mockAccount,
   mockArbArbTokenId,
   mockArbEthTokenId,
   mockArbUsdcTokenId,
@@ -52,7 +53,10 @@ const store = createMockStore({
 })
 
 jest.mock('src/statsig')
-jest.mock('src/earn/utils')
+jest.mock('src/earn/utils', () => ({
+  ...(jest.requireActual('src/earn/utils') as any),
+  isGasSubsidizedForNetwork: jest.fn(),
+}))
 jest.mock('src/earn/prepareTransactions')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
@@ -99,6 +103,57 @@ describe('EarnConfirmationScreen', () => {
     store.clearActions()
   })
 
+  it('renders total balance, rewards, apy and gas after fetching rewards and preparing tx', async () => {
+    const { getByText, getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={EarnConfirmationScreen}
+          params={{
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
+            mode: 'withdraw',
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByText('earnFlow.collect.titleWithdraw')).toBeTruthy()
+    expect(getByText('earnFlow.collect.total')).toBeTruthy()
+    expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
+      '11.83 USDC'
+    )
+    expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent(
+      '₱15.73'
+    )
+    expect(queryByTestId('EarnConfirmation/ApyLoading')).toBeFalsy()
+    expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
+
+    expect(getByText('earnFlow.collect.plus')).toBeTruthy()
+    expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/CryptoAmount`)).toHaveTextContent(
+      '0.01 ARB'
+    )
+    expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/FiatAmount`)).toHaveTextContent(
+      '₱0.016'
+    )
+
+    await waitFor(() => {
+      expect(queryByTestId('EarnConfirmation/GasLoading')).toBeFalsy()
+    })
+    expect(getByTestId('EarnConfirmation/GasFeeCryptoAmount')).toHaveTextContent('0.06 ETH')
+    expect(getByTestId('EarnConfirmation/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
+    expect(queryByTestId('EarnConfirmation/GasSubsidized')).toBeFalsy()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
+    expect(prepareWithdrawAndClaimTransactions).toHaveBeenCalledWith({
+      feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
+      pool: { ...mockEarnPositions[0], balance: '10.75' },
+      rewardsPositions: [mockRewardsPositions[1]],
+      walletAddress: mockAccount.toLowerCase(),
+      hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
+      amount: '11.825',
+    })
+    expect(store.getActions()).toEqual([])
+  })
+
   it('skips rewards section when no rewards', async () => {
     const { getByText, getByTestId, queryByTestId, queryByText } = render(
       <Provider
@@ -116,7 +171,7 @@ describe('EarnConfirmationScreen', () => {
         <MockedNavigator
           component={EarnConfirmationScreen}
           params={{
-            pool: mockEarnPositions[0],
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
             mode: 'withdraw',
           }}
         />
@@ -208,7 +263,7 @@ describe('EarnConfirmationScreen', () => {
         <MockedNavigator
           component={EarnConfirmationScreen}
           params={{
-            pool: mockEarnPositions[0],
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
             mode: 'withdraw',
           }}
         />
@@ -226,7 +281,7 @@ describe('EarnConfirmationScreen', () => {
         type: withdrawStart.type,
         payload: {
           amount: '11.825',
-          pool: mockEarnPositions[0],
+          pool: { ...mockEarnPositions[0], balance: '10.75' },
           preparedTransactions: getSerializablePreparedTransactions(
             mockPreparedTransaction.transactions
           ),

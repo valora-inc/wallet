@@ -91,6 +91,12 @@ export default function EarnConfirmationScreen({ route }: Props) {
     useMax,
   })
 
+  // TODO(tomm): use hook and use in Screen
+  // const { withdrawAmountInDepositToken,  } = useMemo(
+  //   () => getEarnPositionBalanceValues({ pool }),
+  //   [pool]
+  // )
+
   const onPress = () => {
     if (prepareTransactionsResult?.type !== 'possible') {
       // should never happen because button is disabled if withdraw is not possible
