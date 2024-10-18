@@ -2586,6 +2586,10 @@
         "swapTo": "Cambiar a",
         "whySwap": "¿Por qué estoy intercambiando?",
         "swapDescription": "Para depositar fondos en el pool, tu token se está cambiando por un token del pool."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Retirada y reclamación",
+        "description": "{{providerName}} te obliga a reclamar todas las recompensas disponibles cada vez que te retires."
       }
     },
     "activePools": {
