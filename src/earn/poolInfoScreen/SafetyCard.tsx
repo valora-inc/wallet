@@ -6,6 +6,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import { EarnCommonProperties } from 'src/analytics/Properties'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import Touchable from 'src/components/Touchable'
+import { styles as cardStyles } from 'src/earn/poolInfoScreen/Cards'
 import DataDown from 'src/icons/DataDown'
 import DataUp from 'src/icons/DataUp'
 import { Safety, SafetyRisk } from 'src/positions/types'
@@ -51,13 +52,13 @@ export function SafetyCard({
   const { t } = useTranslation()
   const [expanded, setExpanded] = React.useState(false)
   return (
-    <View style={styles.card} testID="SafetyCard">
-      <View style={styles.cardLineContainer}>
-        <View style={styles.cardLineLabel}>
+    <View style={cardStyles.card} testID="SafetyCard">
+      <View style={cardStyles.cardLineContainer}>
+        <View style={cardStyles.cardLineLabel}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.safetyScore')}
-            labelStyle={styles.cardTitleText}
+            labelStyle={cardStyles.cardTitleText}
             testID="SafetyCardInfoIcon"
           />
         </View>
@@ -84,7 +85,7 @@ export function SafetyCard({
       )}
       <Touchable
         testID="SafetyCard/ViewDetails"
-        style={styles.cardLineContainer}
+        style={cardStyles.cardLineContainer}
         onPress={() => {
           setExpanded((prev) => !prev)
           AppAnalytics.track(EarnEvents.earn_pool_info_tap_safety_details, {
@@ -104,24 +105,6 @@ export function SafetyCard({
 }
 
 const styles = StyleSheet.create({
-  card: {
-    padding: Spacing.Regular16,
-    borderColor: Colors.gray2,
-    borderWidth: 1,
-    borderRadius: 12,
-    gap: Spacing.Regular16,
-  },
-  cardLineContainer: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  cardTitleText: {
-    ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
-  },
-  cardLineLabel: {
-    paddingRight: 20, // Prevents Icon from being cut off on long labels
-  },
   tripleBarContainer: {
     flex: 1,
     gap: 2,
