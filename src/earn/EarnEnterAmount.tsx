@@ -637,6 +637,16 @@ function TransactionWithdrawDetails({
                 amount={position.tokens[0].balance.toString()}
                 style={styles.txDetailsValueText}
               />
+              <Text style={[styles.txDetailsValueText, styles.gray4]}>
+                {'('}
+                <TokenDisplay
+                  testID={`EarnEnterAmount/Reward-${index}-crypto`}
+                  tokenId={position.tokens[0].tokenId}
+                  amount={position.tokens[0].balance.toString()}
+                  showLocalAmount={false}
+                />
+                {')'}
+              </Text>
             </View>
           </View>
         ))}
