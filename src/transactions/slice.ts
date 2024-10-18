@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, type RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
+import { FIRST_PAGE_TIMESTAMP, transactionFeedV2Api } from 'src/transactions/api'
 import {
   TransactionStatus,
   type EarnClaimReward,
@@ -201,34 +202,6 @@ const slice = createSlice({
         standbyTransactions: updatedStandbyTransactions,
       }
     },
-
-    removeDuplicatedStandByTransactions: (
-      state,
-      action: PayloadAction<{ newPageTransactions: TokenTransaction[] }>
-    ) => {
-      const confirmedTransactionsFromNewPage = action.payload.newPageTransactions
-        .filter((tx) => tx.status !== TransactionStatus.Pending)
-        .map((tx) => tx.transactionHash)
-
-      return {
-        ...state,
-        standbyTransactions: state.standbyTransactions.filter((tx) => {
-          /**
-           * - ignore empty hashes as there's no way to compare them
-           * - ignore pending as it should only affect confirmed transactions that are already
-           *   present in the paginated data
-           */
-          if (!tx.transactionHash || tx.status === TransactionStatus.Pending) return true
-
-          return !confirmedTransactionsFromNewPage.includes(tx.transactionHash)
-        }),
-      }
-    },
-
-    updateFeedFirstPage: (state, action: PayloadAction<{ transactions: TokenTransaction[] }>) => ({
-      ...state,
-      feedFirstPage: [...action.payload.transactions],
-    }),
   },
 
   extraReducers: (builder) => {
@@ -241,16 +214,41 @@ const slice = createSlice({
         standbyTransactions: filtered,
       }
     })
+
+    builder.addMatcher(
+      transactionFeedV2Api.endpoints.transactionFeedV2.matchFulfilled,
+      (state, { payload, meta }) => {
+        // Update the first page of the feed whenever we get an updated list of transactions
+        const isFirstPage = meta.arg.originalArgs.endCursor === FIRST_PAGE_TIMESTAMP
+        if (isFirstPage) {
+          state.feedFirstPage = payload.transactions
+        }
+
+        /**
+         * In order to avoid bloating stand by transactions with confirmed transactions that are already
+         * present in the feed via pagination – we need to cleanup them up. This must run for every page
+         * as standByTransaction might include very old transactions. We should use the chance whenever
+         * the user managed to scroll to those old transactions and remove them from persisted storage.
+         */
+        const confirmedTransactionsFromNewPage = payload.transactions
+          .filter((tx) => tx.status !== TransactionStatus.Pending)
+          .map((tx) => tx.transactionHash)
+
+        /**
+         * - ignore empty hashes as there's no way to compare them
+         * - ignore pending as it should only affect confirmed transactions that are already
+         *   present in the paginated data
+         */
+        state.standbyTransactions = state.standbyTransactions.filter((tx) => {
+          if (!tx.transactionHash || tx.status === TransactionStatus.Pending) return true
+          return !confirmedTransactionsFromNewPage.includes(tx.transactionHash)
+        })
+      }
+    )
   },
 })
 
-export const {
-  addStandbyTransaction,
-  transactionConfirmed,
-  updateTransactions,
-  removeDuplicatedStandByTransactions,
-  updateFeedFirstPage,
-} = slice.actions
+export const { addStandbyTransaction, transactionConfirmed, updateTransactions } = slice.actions
 
 export const { actions } = slice
 

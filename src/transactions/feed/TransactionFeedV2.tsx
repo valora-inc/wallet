@@ -26,7 +26,6 @@ import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
 import { allStandbyTransactionsSelector, feedFirstPageSelector } from 'src/transactions/selectors'
-import { removeDuplicatedStandByTransactions, updateFeedFirstPage } from 'src/transactions/slice'
 import {
   FeeType,
   TokenTransactionTypeV2,
@@ -407,17 +406,6 @@ export default function TransactionFeedV2() {
   )
 
   useEffect(
-    function updatePersistedFeedFirstPage() {
-      const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
-
-      if (isFirstPage && data?.transactions) {
-        dispatch(updateFeedFirstPage({ transactions: data.transactions }))
-      }
-    },
-    [data?.transactions, originalArgs?.endCursor]
-  )
-
-  useEffect(
     function handleError() {
       if (error === undefined) return
 
@@ -425,22 +413,6 @@ export default function TransactionFeedV2() {
       dispatch(showError(ErrorMessages.FETCH_FAILED))
     },
     [error]
-  )
-
-  /**
-   * In order to avoid bloating stand by transactions with confirmed transactions that are already
-   * present in the feed via pagination – we need to cleanup them up. This must run for every page
-   * as standByTransaction selector might include very old transactions. We should use the chance
-   * whenever the user managed to scroll to those old transactions and remove them from persisted
-   * storage. Maybe there is a better way to keep it clean with another saga watcher?
-   */
-  useEffect(
-    function cleanupStandByTransactions() {
-      if (data?.transactions.length) {
-        dispatch(removeDuplicatedStandByTransactions({ newPageTransactions: data.transactions }))
-      }
-    },
-    [data?.transactions]
   )
 
   useEffect(
