@@ -2717,7 +2717,10 @@
         "yieldRateDescription": "Trong khi hầu hết các bể cung cấp thu nhập dưới dạng token của bể thanh khoản, một số bể lại cung cấp (các) token khác dưới dạng tiền thưởng hoặc ưu đãi bổ sung.\n\nVì {{appName}} tổng hợp các bể từ nhiều giao thức, chúng tôi đã kết hợp tất cả các tỷ lệ thu nhập và tiền thưởng thành một mức sinh lợi chung duy nhất để dễ dàng đánh giá tiềm năng thu nhập của bạn. Con số này chỉ là ước tính vì giá trị thu nhập và tiền thưởng thay đổi liên tục.\n\nĐể tìm hiểu thêm các phân tích chi tiết về thu nhập, bạn có thể truy cập <0>{{providerName}}</0>.",
         "dailyYieldRateTitle": "Daily Rate",
         "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
-        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}"
+        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}",
+        "safetyScoreTitle": "Safety Score",
+        "safetyScoreDescription": "The Safety Score breaks down the safety of the underlying vault asset into several key factors. It aims to draw your attention to the risks to consider before investing, and to inform you about technical details that you may not be able to evaluate for yourself.\nThough the full position is always more complicated, the Safety Score is provided to simplify the key risk and safety considerations and kick-start your own due diligence. Our team carefully considers each factor before a vault is deployed, and keeps a watchful eye on each asset, chain and protocol which {{providerName}} has integrated.",
+        "safetyScoreRateLink": "View More Safety Score Details On {{providerName}}"
       },
       "viewMoreDetails": "View More Details",
       "viewLessDetails": "View Less Details"
