@@ -23,7 +23,7 @@ export const showClaimShortcutsSelector = () =>
 export const allowHooksPreviewSelector = () =>
   getFeatureGate(StatsigFeatureGates.ALLOW_HOOKS_PREVIEW)
 
-const positionsSelector = (state: RootState) =>
+export const positionsSelector = (state: RootState) =>
   showPositionsSelector() ? state.positions.positions : []
 export const earnPositionIdsSelector = (state: RootState) => state.positions.earnPositionIds
 export const positionsStatusSelector = (state: RootState) =>
@@ -32,14 +32,15 @@ export const positionsFetchedAtSelector = (state: RootState) => state.positions.
 
 // When displaying user positions, we don't want positions which don't have a balance
 // For instance earn positions which aren't yet held by the user
-export const positionsWithBalanceSelector = createSelector([positionsSelector], (positions) =>
-  positions.filter((position) => {
+export const positionsWithBalanceSelector = createSelector([positionsSelector], (positions) => {
+  console.log('!!!abc', positions)
+  return positions.filter((position) => {
     if (position.type === 'app-token') {
       return new BigNumber(position.balance).gt(0)
     }
     return position.tokens.some((token) => new BigNumber(token.balance).gt(0))
   })
-)
+})
 
 export const earnPositionsSelector = createSelector(
   [positionsSelector, earnPositionIdsSelector],

@@ -595,7 +595,6 @@ function TransactionWithdrawDetails({
   const rewardsPositions = useSelector(positionsWithBalanceSelector).filter((position) =>
     pool.dataProps.rewardsPositionIds?.includes(position.positionId)
   )
-  const hasRewards = useMemo(() => rewardsPositions.length > 0, [rewardsPositions])
 
   return (
     <View style={styles.txDetailsContainer} testID="EnterAmountWithdrawInfoCard">
@@ -625,9 +624,8 @@ function TransactionWithdrawDetails({
         </View>
       </View>
       {pool.dataProps.withdrawalIncludesClaim &&
-        hasRewards &&
         rewardsPositions.map((position, index) => (
-          <View style={styles.txDetailsLineItem}>
+          <View key={index} style={styles.txDetailsLineItem}>
             <LabelWithInfo
               label={t('earnFlow.enterAmount.claimingReward')}
               testID={`LabelWithInfo/ClaimingReward-${index}`}
