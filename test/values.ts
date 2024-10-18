@@ -572,6 +572,18 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceUsd: '1.2',
     priceFetchedAt: Date.now(),
   },
+  [mockAaveArbUsdcTokenId]: {
+    name: 'Aave USDC',
+    networkId: NetworkId['arbitrum-sepolia'],
+    tokenId: mockAaveArbUsdcTokenId,
+    address: mockAaveArbUsdcAddress,
+    symbol: 'AUSDC',
+    decimals: 6,
+    imageUrl: 'https://example.com/address-metadata/main/assets/tokens/AUSDC.png',
+    balance: '0',
+    priceUsd: '1',
+    priceFetchedAt: Date.now(),
+  },
 }
 
 export const mockCeloTokenBalance: TokenBalance = {
