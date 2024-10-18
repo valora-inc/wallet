@@ -2584,6 +2584,10 @@
         "swapTo": "สว็อปเป็น",
         "whySwap": "เหตุใดฉันจึงต้องสว็อป",
         "swapDescription": "โทเค็นของคุณจะถูกสว็อปไปยังโทเค็นพูลเพื่อฝากเงินเข้าพูล"
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Withdrawing and Claiming",
+        "description": "{{providerName}} requires you to claim all available rewards anytime you withdraw."
       }
     },
     "activePools": {
