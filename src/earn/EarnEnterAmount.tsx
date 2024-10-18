@@ -633,7 +633,7 @@ function TransactionWithdrawDetails({
               label={t('earnFlow.enterAmount.claimingReward')}
               testID={`LabelWithInfo/ClaimingReward-${index}`}
             />
-            <View style={styles.txDetailsValue}>
+            <View style={{ ...styles.txDetailsValue, flex: 1 }}>
               <TokenDisplay
                 testID={`EarnEnterAmount/Reward-${index}`}
                 tokenId={position.tokens[0].tokenId}
