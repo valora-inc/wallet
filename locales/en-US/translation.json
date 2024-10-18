@@ -2697,6 +2697,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "Rewards",
       "noRewards": "No rewards",
+      "safetyScore": "Safety Score",
       "tvl": "TVL",
       "ageOfPool": "Age of Pool",
       "learnMoreOnProvider": "View Pool on {{providerName}}",
@@ -2718,8 +2719,13 @@
         "yieldRateDescription": "While most pools offer earnings in the form of a liquidity pool token, some give additional token(s) as a reward or added incentive.\n\nSince {{appName}} aggregates pools across multiple protocols, we have combined all the earning and reward rates into a single, overall yield rate to help easily evaluate your earning potential. This number is an estimate since the earning and reward values fluctuate constantly.\n\nFor further information about earning breakdowns you can visit <0>{{providerName}}</0>.",
         "dailyYieldRateTitle": "Daily Rate",
         "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
-        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}"
-      }
+        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}",
+        "safetyScoreTitle": "Safety Score",
+        "safetyScoreDescription": "The Safety Score breaks down the safety of the underlying vault asset into several key factors. It aims to draw your attention to the risks to consider before investing, and to inform you about technical details that you may not be able to evaluate for yourself.\nThough the full position is always more complicated, the Safety Score is provided to simplify the key risk and safety considerations and kick-start your own due diligence. Our team carefully considers each factor before a vault is deployed, and keeps a watchful eye on each asset, chain and protocol which {{providerName}} has integrated.",
+        "safetyScoreRateLink": "View More Safety Score Details On {{providerName}}"
+      },
+      "viewMoreDetails": "View More Details",
+      "viewLessDetails": "View Less Details"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",

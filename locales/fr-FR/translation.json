@@ -2697,6 +2697,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "Récompenses",
       "noRewards": "Pas de récompense",
+      "safetyScore": "Score de sécurité",
       "tvl": "TVL",
       "ageOfPool": "Pool crée",
       "learnMoreOnProvider": "Voir pool sur {{providerName}}",
@@ -2718,8 +2719,13 @@
         "yieldRateDescription": "Alors que la plupart des pools offrent des gains sous la forme de jeton de pool de liquidité, certains donnent un ou plusieurs jetons supplémentaires en guise de récompense ou d'incitation.\n\nÉtant donné que {{appName}} regroupe des pools sur plusieurs protocoles, nous avons combiné tous les taux de gain et de récompense en un seul taux de rendement global afin de déterminer facilement votre potentiel de gain. Ce chiffre est une estimation car les valeurs des gains et des récompenses fluctuent constamment.\n\nPour plus d'informations sur la répartition des gains, vous pouvez consulter le site <0>{{providerName}}</0>.",
         "dailyYieldRateTitle": "Taux journalier",
         "dailyYieldRateDescription": "Le tarif journalier affiché reflète le tarif journalier fourni par {{providerName}}.",
-        "dailyYieldRateLink": "Voir plus de détails sur les tarifs journaliers sur {{providerName}}"
-      }
+        "dailyYieldRateLink": "Voir plus de détails sur les tarifs journaliers sur {{providerName}}",
+        "safetyScoreTitle": "Score de sécurité",
+        "safetyScoreDescription": "Le score de sécurité décompose la sécurité de l'actif sous-jacent du coffre-fort en plusieurs facteurs clés. Il a pour but d'attirer ton attention sur les risques à prendre en compte avant d'investir, et de t'informer sur les détails techniques que tu n'es peut-être pas en mesure d'évaluer par toi-même.\nBien que la position complète soit toujours plus compliquée, le score de sécurité est fourni pour simplifier les principales considérations de risque et de sécurité et donner le coup d'envoi à ta propre diligence raisonnable. Notre équipe examine soigneusement chaque facteur avant qu'un coffre-fort ne soit déployé, et garde un œil vigilant sur chaque bien, chaîne et protocole que {{providerName}} a intégré.",
+        "safetyScoreRateLink": "Voir plus de détails sur le score de sécurité sur {{providerName}}"
+      },
+      "viewMoreDetails": "Voir plus de détails",
+      "viewLessDetails": "Voir moins de détails"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Vous avez besoin de {{tokenSymbol}} sur {{tokenNetwork}} pour faire un dépôt",
