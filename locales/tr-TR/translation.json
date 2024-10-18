@@ -2586,6 +2586,10 @@
         "swapTo": "Şuraya Giden Takas",
         "whySwap": "Neden takas yapıyorum?",
         "swapDescription": "Havuza fon yatırmak için tokeniniz bir havuz tokeni ile takas edilir."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Para Çekme ve Talep Etme",
+        "description": "{{providerName}} her para çektiğinizde mevcut tüm ödülleri talep etmenizi gerektirir."
       }
     },
     "activePools": {
