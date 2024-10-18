@@ -2552,8 +2552,10 @@
     },
     "enterAmount": {
       "title": "Ne kadar yatırmak istersiniz?",
+      "titleWithdraw": "Ne kadar çekmek istersiniz?",
       "deposit": "Patra Yatırma",
       "fees": "Ücretler",
+      "available": "Kullanılabilir",
       "swap": "Swap",
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
@@ -2574,6 +2576,7 @@
         "estNetworkFee": "Tahmini Ağ Ücreti",
         "maxNetworkFee": "Maks. Ağ Ücreti",
         "networkFeeDescription": "Ağ ücreti, yatırma işlemin gerçekleştirilmesi için ağ tarafından talep edilir.",
+        "networkFeeDescriptionWithdrawal": "Ağ ücreti, para çekme işlemini gerçekleştirmek için ağ tarafından talep edilir.",
         "networkSwapFeeDescription": "Ağ ücreti, para yatırma işlemlerinin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için %{{appFeePercentage}} {{appName}} ücreti tahsil edilir.",
         "appSwapFee": "{{appName}} Ücreti"
       },
