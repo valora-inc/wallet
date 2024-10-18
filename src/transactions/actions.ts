@@ -20,6 +20,7 @@ export enum Actions {
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
   REMOVE_DUPLICATED_STANDBY_TRANSACTIONS = 'TRANSACTIONS/REMOVE_DUPLICATED_STANDBY_TRANSACTIONS',
+  UPDATE_FEED_FIRST_PAGE = 'TRANSACTIONS/UPDATE_FEED_FIRST_PAGE',
 }
 
 type BaseStandbyTransactionType<T> = Omit<PendingStandbyTransaction<T>, 'timestamp' | 'status'>
@@ -65,11 +66,17 @@ interface RemoveDuplicatedStandByTransactionsAction {
   newPageTransactions: TokenTransaction[]
 }
 
+interface UpdateFeedFirstPageAction {
+  type: Actions.UPDATE_FEED_FIRST_PAGE
+  transactions: TokenTransaction[]
+}
+
 export type ActionTypes =
   | AddStandbyTransactionAction
   | UpdateTransactionsAction
   | TransactionConfirmedAction
   | RemoveDuplicatedStandByTransactionsAction
+  | UpdateFeedFirstPageAction
 
 export const addStandbyTransaction = (
   transaction: BaseStandbyTransaction
@@ -103,4 +110,11 @@ export const removeDuplicatedStandByTransactions = (
 ): RemoveDuplicatedStandByTransactionsAction => ({
   type: Actions.REMOVE_DUPLICATED_STANDBY_TRANSACTIONS,
   newPageTransactions,
+})
+
+export const updateFeedFirstPage = (
+  transactions: TokenTransaction[]
+): UpdateFeedFirstPageAction => ({
+  type: Actions.UPDATE_FEED_FIRST_PAGE,
+  transactions,
 })

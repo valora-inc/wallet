@@ -541,4 +541,10 @@ describe('TransactionFeedV2', () => {
     })
     expect(AppAnalytics.track).toBeCalledTimes(1)
   })
+
+  it('should pre-populate persisted first page of the feed', async () => {
+    const tree = renderScreen({ transactions: { feedFirstPage: [mockTransaction()] } })
+    expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
+    expect(mockFetch).not.toBeCalled()
+  })
 })

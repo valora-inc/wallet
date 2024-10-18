@@ -2,6 +2,8 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from 'src/redux/api'
 import type { TokenTransaction } from 'src/transactions/types'
 
+export const FIRST_PAGE_TIMESTAMP = 0 // placeholder
+
 export type TransactionFeedV2Response = {
   transactions: TokenTransaction[]
   pageInfo: {
