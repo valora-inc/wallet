@@ -1,7 +1,9 @@
-import { isGasSubsidizedForNetwork } from 'src/earn/utils'
+import BigNumber from 'bignumber.js'
+import { getEarnPositionBalanceValues, isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
+import { mockEarnPositions } from 'test/values'
 
 jest.mock('src/statsig')
 
@@ -32,5 +34,15 @@ describe('isGasSubsidizedForNetwork', () => {
     expect(isGasSubsidizedForNetwork(NetworkId['arbitrum-sepolia'])).toEqual(false)
     expect(isGasSubsidizedForNetwork(NetworkId['celo-mainnet'])).toEqual(false)
     expect(isGasSubsidizedForNetwork(NetworkId['celo-alfajores'])).toEqual(false)
+  })
+})
+
+describe('getEarnPositionBalanceValues', () => {
+  it('should return the correct USD and depositToken crypto balances for a pool', () => {
+    const { poolBalanceInUsd, poolBalanceInDepositToken } = getEarnPositionBalanceValues({
+      pool: { ...mockEarnPositions[0], balance: '100' },
+    })
+    expect(poolBalanceInUsd).toEqual(new BigNumber(120))
+    expect(poolBalanceInDepositToken).toEqual(new BigNumber(110))
   })
 })

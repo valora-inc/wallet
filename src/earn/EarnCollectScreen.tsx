@@ -13,7 +13,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { usePrepareWithdrawAndClaimTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
-import { isGasSubsidizedForNetwork } from 'src/earn/utils'
+import { getEarnPositionBalanceValues, isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -80,9 +80,10 @@ export default function EarnCollectScreen({ route }: Props) {
     rewardsPositions,
   })
 
-  const withdrawAmountInDepositToken = useMemo(() => {
-    return withdrawToken.balance.multipliedBy(pool.pricePerShare[0] ?? 1)
-  }, [withdrawToken, pool.pricePerShare])
+  const { poolBalanceInDepositToken: withdrawAmountInDepositToken } = useMemo(
+    () => getEarnPositionBalanceValues({ pool }),
+    [pool]
+  )
 
   const onPress = () => {
     if (prepareTransactionsResult?.type !== 'possible') {
