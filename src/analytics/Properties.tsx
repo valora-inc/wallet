@@ -1629,7 +1629,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_home_error_try_again]: undefined
   [EarnEvents.earn_pool_info_view_pool]: EarnCommonProperties
   [EarnEvents.earn_pool_info_tap_info_icon]: {
-    type: 'tvl' | 'age' | 'yieldRate' | 'deposit' | 'dailyYieldRate'
+    type: 'tvl' | 'age' | 'yieldRate' | 'deposit' | 'dailyYieldRate' | 'safetyScore'
   } & EarnCommonProperties
   [EarnEvents.earn_pool_info_tap_withdraw]: {
     poolAmount: string
@@ -1638,6 +1638,9 @@ interface EarnEventsProperties {
     hasDepositToken: boolean
     hasTokensOnSameNetwork: boolean
     hasTokensOnOtherNetworks: boolean
+  }
+  [EarnEvents.earn_pool_info_tap_safety_details]: EarnCommonProperties & {
+    action: 'expand' | 'collapse'
   }
 }
 

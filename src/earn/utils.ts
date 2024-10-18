@@ -44,3 +44,11 @@ export function getTotalYieldRate(pool: EarnPosition) {
     pool.dataProps.yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
   )
 }
+
+export function getEarnPositionBalanceValues({ pool }: { pool: EarnPosition }) {
+  const poolBalanceInUsd = new BigNumber(pool.balance).multipliedBy(pool.priceUsd)
+  const poolBalanceInDepositToken = new BigNumber(pool.balance).multipliedBy(
+    pool.pricePerShare[0] ?? 1
+  )
+  return { poolBalanceInUsd, poolBalanceInDepositToken }
+}

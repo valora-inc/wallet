@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
+import Toast from 'react-native-simple-toast'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import SectionHead from 'src/components/SectionHead'
@@ -40,9 +42,9 @@ type PaginatedData = {
   [timestamp: number]: TokenTransaction[]
 }
 
-// Query poll interval
+const MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL = 10
 const POLL_INTERVAL_MS = 10000 // 10 sec
-const FIRST_PAGE_TIMESTAMP = 0
+const FIRST_PAGE_TIMESTAMP = 0 // placeholder
 const TAG = 'transactions/feed/TransactionFeedV2'
 
 function getAllowedNetworksForTransfers() {
@@ -115,7 +117,21 @@ function mergeStandByTransactionsInRange({
   standByTransactions: TokenTransaction[]
   currentCursor?: number
 }): TokenTransaction[] {
-  if (transactions.length === 0) return []
+  /**
+   * If the data from the first page is empty - there's no successful transactions in the wallet.
+   * Maybe the user executed a single transaction, it failed and now it's in the standByTransactions.
+   * In this case we need to show whatever we've got in standByTransactions, until we have some
+   * paginated data to merge it with.
+   */
+  const isFirstPage = currentCursor === FIRST_PAGE_TIMESTAMP
+  if (isFirstPage && transactions.length === 0) {
+    return standByTransactions
+  }
+
+  // return empty array for any page other than the first
+  if (transactions.length === 0) {
+    return []
+  }
 
   const allowedNetworks = getAllowedNetworksForTransfers()
   const max = transactions[0].timestamp
@@ -123,7 +139,7 @@ function mergeStandByTransactionsInRange({
 
   const standByInRange = standByTransactions.filter((tx) => {
     const inRange = tx.timestamp >= min && tx.timestamp <= max
-    const newTransaction = currentCursor === FIRST_PAGE_TIMESTAMP && tx.timestamp > max
+    const newTransaction = isFirstPage && tx.timestamp > max
     return inRange || newTransaction
   })
   const deduplicatedTransactions = deduplicateTransactions([...transactions, ...standByInRange])
@@ -194,6 +210,7 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
 }
 
 export default function TransactionFeedV2() {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const standByTransactions = useStandByTransactions()
@@ -331,9 +348,16 @@ export default function TransactionFeedV2() {
     )
   }
 
+  // This logic will change once the real api is connected
   function fetchMoreTransactions() {
     if (nextCursor) {
       setEndCursor(nextCursor)
+      return
+    }
+
+    const totalTxCount = standByTransactions.pending.length + confirmedTransactions.length
+    if (totalTxCount > MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL) {
+      Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
     }
   }
 
