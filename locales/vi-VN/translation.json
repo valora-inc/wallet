@@ -2584,6 +2584,10 @@
         "swapTo": "Trao đổi sang",
         "whySwap": "Tại sao tôi nên thực hiện trao đổi?",
         "swapDescription": "Để nạp được tiền vào bể thì token của bạn cần được đổi sang token bể."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Withdrawing and Claiming",
+        "description": "{{providerName}} requires you to claim all available rewards anytime you withdraw."
       }
     },
     "activePools": {
