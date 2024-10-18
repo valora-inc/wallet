@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import { SafetyCard } from 'src/earn/SafetyCard'
+import { SafetyCard } from 'src/earn/poolInfoScreen/SafetyCard'
 import Colors from 'src/styles/colors'
 import { NetworkId } from 'src/transactions/types'
 
