@@ -2717,7 +2717,10 @@
         "yieldRateDescription": "แม้ว่าพูลส่วนใหญ่จะเสนอรายได้ในรูปแบบของโทเค็น Liquidity Pool (พูลสภาพคล่อง) แต่บางพูลก็เสนอโทเค็นเพิ่มเติมเป็นรางวัลหรือสิ่งจูงใจพิเศษ \n\nเนื่องจาก {{appName}} รวมพูลต่างๆ จากหลายโปรโตคอล เราจึงรวมอัตรารายได้และรางวัลทั้งหมดไว้ในอัตราผลตอบแทนโดยรวมเพียงอัตราเดียว เพื่อช่วยให้คุณประเมินศักยภาพในการสร้างรายได้ได้ง่ายๆ ตัวเลขนี้เป็นตัวเลขประมาณการเนื่องจากรายได้และมูลค่ารางวัลมีความผันผวนอย่างต่อเนื่อง\n\nโปรดดูข้อมูลเพิ่มเติมเกี่ยวกับรายละเอียดรายได้ที่ <0>{{providerName}}</0>",
         "dailyYieldRateTitle": "Daily Rate",
         "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
-        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}"
+        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}",
+        "safetyScoreTitle": "Safety Score",
+        "safetyScoreDescription": "The Safety Score breaks down the safety of the underlying vault asset into several key factors. It aims to draw your attention to the risks to consider before investing, and to inform you about technical details that you may not be able to evaluate for yourself.\nThough the full position is always more complicated, the Safety Score is provided to simplify the key risk and safety considerations and kick-start your own due diligence. Our team carefully considers each factor before a vault is deployed, and keeps a watchful eye on each asset, chain and protocol which {{providerName}} has integrated.",
+        "safetyScoreRateLink": "View More Safety Score Details On {{providerName}}"
       },
       "viewMoreDetails": "View More Details",
       "viewLessDetails": "View Less Details"
