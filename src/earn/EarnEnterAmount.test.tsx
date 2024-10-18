@@ -433,7 +433,6 @@ describe('EarnEnterAmount', () => {
     })
 
     it('should show tx details for withdrawal', async () => {
-      jest.clearAllMocks()
       jest.mocked(usePrepareTransactions).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
@@ -484,7 +483,6 @@ describe('EarnEnterAmount', () => {
     })
 
     it('should allow the user to set an input value over the pool balance if pricePerShare is greater than 1', async () => {
-      jest.clearAllMocks()
       jest.mocked(usePrepareTransactions).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
