@@ -32,7 +32,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions/selectors'
-import { EarnPosition } from 'src/positions/types'
+import { EarnPosition, Position } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { AmountInput } from 'src/send/EnterAmount'
 import { AmountEnteredIn } from 'src/send/types'
@@ -286,6 +286,10 @@ function EarnEnterAmount({ route }: Props) {
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
 
+  const rewardsPositions = useSelector(positionsWithBalanceSelector).filter((position) =>
+    pool.dataProps.rewardsPositionIds?.includes(position.positionId)
+  )
+
   const disabled =
     // Should disable if the user enters 0, has enough balance but the transaction is not possible, or does not have enough balance
     !!tokenAmount?.isZero() || !transactionIsPossible
@@ -450,6 +454,7 @@ function EarnEnterAmount({ route }: Props) {
               prepareTransactionsResult={prepareTransactionsResult}
               feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
               balanceInInputToken={balanceInInputToken}
+              rewardsPositions={rewardsPositions}
             />
           )}
         </View>
@@ -507,7 +512,7 @@ function EarnEnterAmount({ route }: Props) {
             testID="EarnEnterAmount/PrepareTransactionError"
           />
         )}
-        {isWithdrawal && pool.dataProps.withdrawalIncludesClaim && (
+        {isWithdrawal && pool.dataProps.withdrawalIncludesClaim && rewardsPositions.length > 0 && (
           <InLineNotification
             variant={NotificationVariant.Info}
             title={t('earnFlow.enterAmount.withdrawingAndClaimingCard.title')}
@@ -582,19 +587,17 @@ function TransactionWithdrawDetails({
   prepareTransactionsResult,
   feeDetailsBottomSheetRef,
   balanceInInputToken,
+  rewardsPositions,
 }: {
   pool: EarnPosition
   token: TokenBalance
   prepareTransactionsResult?: PreparedTransactionsResult
   feeDetailsBottomSheetRef: React.RefObject<BottomSheetModalRefType>
   balanceInInputToken: BigNumber
+  rewardsPositions: Position[]
 }) {
   const { t } = useTranslation()
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
-
-  const rewardsPositions = useSelector(positionsWithBalanceSelector).filter((position) =>
-    pool.dataProps.rewardsPositionIds?.includes(position.positionId)
-  )
 
   return (
     <View style={styles.txDetailsContainer} testID="EnterAmountWithdrawInfoCard">
