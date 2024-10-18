@@ -1,4 +1,4 @@
-import { fireEvent, render, within } from '@testing-library/react-native'
+import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -292,6 +292,27 @@ describe('EarnPoolInfoScreen', () => {
     ).toBeTruthy()
   })
 
+  it('renders safety card when safety is provided', () => {
+    const mockPool = {
+      ...mockEarnPositions[0],
+      balance: '100',
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        safety: {
+          level: 'high' as const,
+          risks: [
+            { isPositive: false, title: 'Risk 1', category: 'Category 1' },
+            { isPositive: true, title: 'Risk 2', category: 'Category 2' },
+          ],
+        },
+      },
+    }
+
+    const { getByTestId } = renderEarnPoolInfoScreen(mockPool)
+
+    expect(getByTestId('SafetyCard')).toBeTruthy()
+  })
+
   it('navigates to external URI when "View Pool on Provider" is tapped', () => {
     const { getByText } = renderEarnPoolInfoScreen(mockEarnPositions[0])
 
@@ -329,7 +350,12 @@ describe('EarnPoolInfoScreen', () => {
       infoIconTestId: 'YieldRateInfoIcon',
       type: 'yieldRate',
     },
-  ])('opens $testId and track analytics event', ({ testId, infoIconTestId, type }) => {
+    {
+      testId: 'SafetyScoreInfoBottomSheet',
+      infoIconTestId: 'SafetyCardInfoIcon',
+      type: 'safetyScore',
+    },
+  ])('opens $testId and track analytics event', async ({ testId, infoIconTestId, type }) => {
     const mockPool = {
       ...mockEarnPositions[0],
       balance: '100',
@@ -344,12 +370,19 @@ describe('EarnPoolInfoScreen', () => {
             includedInPoolBalance: false,
           },
         ],
+        safety: {
+          level: 'high' as const,
+          risks: [
+            { isPositive: false, title: 'Risk 1', category: 'Category 1' },
+            { isPositive: true, title: 'Risk 2', category: 'Category 2' },
+          ],
+        },
       },
     }
 
     const { getByTestId } = renderEarnPoolInfoScreen(mockPool)
     fireEvent.press(getByTestId(infoIconTestId))
-    expect(getByTestId(testId)).toBeVisible()
+    await waitFor(() => expect(getByTestId(testId)).toBeVisible())
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_info_icon, {
       providerId: 'aave',
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
@@ -858,5 +891,29 @@ describe('EarnPoolInfoScreen', () => {
     expect(
       getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaimDescription')
     ).toBeTruthy()
+ 
+  it('shows the daily yield rate when it is available', () => {
+    const { getByTestId } = renderEarnPoolInfoScreen({
+      ...mockEarnPositions[0],
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        dailyYieldRatePercentage: 0.0452483,
+      },
+    })
+    expect(
+      within(getByTestId('DailyYieldRateCard')).getAllByText(
+        'earnFlow.poolInfoScreen.ratePercent, {"rate":"0.0452"}'
+      )
+    ).toBeTruthy()
+  })
+  it.each([0, undefined])('does not show the daily yield rate when it is %s', (dailyYieldRate) => {
+    const { queryByTestId } = renderEarnPoolInfoScreen({
+      ...mockEarnPositions[0],
+      dataProps: {
+        ...mockEarnPositions[0].dataProps,
+        dailyYieldRatePercentage: dailyYieldRate,
+      },
+    })
+    expect(queryByTestId('DailyYieldRateCard')).toBeFalsy()
   })
 })

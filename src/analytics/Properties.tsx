@@ -54,7 +54,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
-import { BeforeDepositActionName, EarnDepositMode, SerializableRewardsInfo } from 'src/earn/types'
+import { BeforeDepositActionName, EarnEnterMode, SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -590,6 +590,7 @@ interface SendEventsProperties {
     tokenId: string
     tokenAddress: string | null
     networkId: NetworkId | null
+    mode?: EarnEnterMode
   }
   [SendEvents.swap_input_pressed]: {
     swapToLocalAmount: boolean
@@ -1553,7 +1554,7 @@ export interface EarnCommonProperties {
 
 interface EarnDepositProperties extends EarnCommonProperties {
   depositTokenAmount: string
-  mode: EarnDepositMode
+  mode: EarnEnterMode
   // the below are mainly for swap-deposit. For deposit, this would just be
   // same as the depositTokenAmount and depositTokenId
   fromTokenAmount: string
@@ -1598,7 +1599,14 @@ interface EarnEventsProperties {
   [EarnEvents.earn_enter_amount_continue_press]: {
     amountInUsd: string
     amountEnteredIn: AmountEnteredIn
-  } & EarnDepositProperties
+    mode: EarnEnterMode
+    // For deposits these will be the same as the depositTokenId and depositTokenAmount
+    // For swaps these will be the swapFromTokenId and swapFromTokenAmount
+    // For withdrawals this will be in units of the depositToken
+    fromTokenAmount: string
+    fromTokenId: string
+    depositTokenAmount?: string
+  } & EarnCommonProperties
   [EarnEvents.earn_deposit_add_gas_press]: EarnCommonProperties & { gasTokenId: string }
   [EarnEvents.earn_feed_item_select]: {
     origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward' | 'EarnSwapDeposit'
@@ -1621,7 +1629,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_home_error_try_again]: undefined
   [EarnEvents.earn_pool_info_view_pool]: EarnCommonProperties
   [EarnEvents.earn_pool_info_tap_info_icon]: {
-    type: 'tvl' | 'age' | 'yieldRate' | 'deposit'
+    type: 'tvl' | 'age' | 'yieldRate' | 'deposit' | 'dailyYieldRate' | 'safetyScore'
   } & EarnCommonProperties
   [EarnEvents.earn_pool_info_tap_withdraw]: {
     poolAmount: string
@@ -1632,6 +1640,9 @@ interface EarnEventsProperties {
     hasTokensOnOtherNetworks: boolean
   }
   [EarnEvents.earn_select_withdraw_type]: { type: 'partialWithdraw' | 'claim' | 'exit' }
+  [EarnEvents.earn_pool_info_tap_safety_details]: EarnCommonProperties & {
+    action: 'expand' | 'collapse'
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

@@ -2505,12 +2505,12 @@
       }
     },
     "cta": {
-      "title": "Kripto paranızdan kazanın",
+      "title": "Kripto paranızdan kazanç sağlayın",
       "subtitle": "Bugün para yatırın ve getiri kazanın",
       "description": "Bir kredi havuzu sağlarken ne kadar kazanabileceğinizi görün"
     },
     "earnInfo": {
-      "title": "\nkripto paranızdan kazanın",
+      "title": "Kripto paranızdan\nkazanç sağlayın",
       "details": {
         "earn": {
           "titleGasSubsidy": "Gas Ücretleri Olmadan Kazancınızı En Üst Düzeye Çıkarın*",
@@ -2546,9 +2546,9 @@
       "description": "Bir havuza {{symbol}} ekleyerek yılda yaklaşık %{{apy}} kazanın"
     },
     "entrypoint": {
-      "title": "Kripto paranızdan kazanın",
+      "title": "Kripto paranızdan kazanç sağlayın",
       "subtitle": "Yatırın ve kazanın",
-      "description": "Bir likidite havuzu aracılığıyla borç verdiğinizde kripto varlıklarınızdan kazanın"
+      "description": "Bir likidite havuzu aracılığıyla borç vererek kripto varlıklarınızdan kazanç sağlayın"
     },
     "enterAmount": {
       "title": "Ne kadar yatırmak istersiniz?",
@@ -2608,7 +2608,7 @@
       "network": "Ağ",
       "footer": "Bir Aave havuzuna kripto yatırarak, Aave kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
       "footerV1_93": "Bir {{providerName}} havuzuna kripto yatırarak {{providerName}} kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
-      "noTermsUrlFooter": "{{appName}}adresindeki eylemlerinizden siz sorumlusunuz. {{appName}} , varlıklarınız veya {{providerName}}ile etkileşimleriniz için tüm sorumluluğu reddeder. {{providerName}}'un belgelerini <0>buradan</0> ve Hüküm ve Koşullarımızı <1>buradan</1> inceleyebilirsiniz.",
+      "noTermsUrlFooter": "{{appName}} uygulamasındaki eylemlerinizden siz sorumlusunuz. {{appName}}, varlıklarınız veya {{providerName}} ile etkileşimlerinizden doğabilecek tüm sorumluluğu reddeder. {{providerName}} sağlayıcısına ait belgeleri <0>buradan</0> ve Hüküm ve Koşullarımızı ise <1>buradan</1> inceleyebilirsiniz.",
       "primaryCta": "Tamamlandı",
       "secondaryCta": "İptal",
       "yieldRate": "Verim Oranı (tahmini)",
@@ -2666,7 +2666,7 @@
         "chooseDescription": "Her türlü finansal karar kişisel bir seçimdir. Farklı protokollerdeki bazı havuzları bir araya getirdik, ancak her havuzun avantajları ve riskleri vardır. Her havuza ilişkin bazı yararlı bilgiler sağlamak için elimizden geleni yapıyoruz ancak emin değilseniz ek araştırma yapmak her zaman en iyisidir."
       },
       "noPoolsTitle": "Henüz hiçbir havuza katılmadınız",
-      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun olanı seçin ve kripto paranızdan en iyi şekilde yararlanın.",
+      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun bir havuz seçin ve kripto paralarınızdan en iyi şekilde yararlanın.",
       "errorTitle": "Havuzlar yüklenemiyor.",
       "errorDescription": "Hay aksi, havuz bilgileri yüklenirken bir şeyler ters gitti. Lütfen tekrar deneyin.",
       "errorButton": "Tekrar deneyin"
@@ -2693,9 +2693,11 @@
       "chainName": "Zincir: <0>{{networkName}}</0>",
       "protocolName": "Protokol: <0>{{providerName}}</0>",
       "yieldRate": "Getiri Oranı",
+      "dailyYieldRate": "Günlük Ücret",
       "ratePercent": "%{{rate}}",
       "rewards": "Ödüller",
       "noRewards": "Ödül yok",
+      "safetyScore": "Güvenlik Puanı",
       "tvl": "TVL",
       "ageOfPool": "Havuz Yaşı",
       "learnMoreOnProvider": "Havuzu {{providerName}} üzerinde görüntüleyin.",
@@ -2714,8 +2716,16 @@
         "ageTitle": "Havuz Yaşı",
         "ageDescription": "Likidite havuzunun eski olması, o havuzun sağlam bir geçmiş performansı olduğuna ve toplulukta güven inşa ettiğine işaret edebilir. Bu nedenle, bazıları bu havuzların daha güvenli olduğunu düşünebilir.\n\nRiski tam olarak belirleyebilecek bir yöntem yoktur; bu nedenle genel araştırmanızı desteklemek için bu bilgilerden yararlanabilirsiniz.",
         "yieldRateTitle": "Getiri Oranı",
-        "yieldRateDescription": "Çoğu havuz, kazançları likidite havuzunun tokeni şeklinde sağlarken bazı havuzlar, ödül veya ek teşvik olarak ek tokenler verebilir.\n\n{{appName}} çeşitli protokoller genelindeki havuzları bir araya toplar. Bu nedenle, kazanç potansiyelinizi kolayca değerlendirebilmeniz için tüm kazanç ve ödül oranlarını tek bir genel getiri oranı altında birleştirdik. Kazanç ve ödül değerleri sürekli dalgalandığı için bu rakam, tahmini bir değeri gösterir.\n\nKazanç dökümleri hakkında daha fazla bilgi için <0>{{providerName}}</0> sayfasını ziyaret edebilirsiniz."
-      }
+        "yieldRateDescription": "Çoğu havuz, kazançları likidite havuzunun tokeni şeklinde sağlarken bazı havuzlar, ödül veya ek teşvik olarak ek tokenler verebilir.\n\n{{appName}} çeşitli protokoller genelindeki havuzları bir araya toplar. Bu nedenle, kazanç potansiyelinizi kolayca değerlendirebilmeniz için tüm kazanç ve ödül oranlarını tek bir genel getiri oranı altında birleştirdik. Kazanç ve ödül değerleri sürekli dalgalandığı için bu rakam, tahmini bir değeri gösterir.\n\nKazanç dökümleri hakkında daha fazla bilgi için <0>{{providerName}}</0> sayfasını ziyaret edebilirsiniz.",
+        "dailyYieldRateTitle": "Günlük Ücret",
+        "dailyYieldRateDescription": "Görüntülenen günlük ücret {{providerName}}tarafından sağlanan günlük ücreti yansıtmaktadır.",
+        "dailyYieldRateLink": "Daha Fazla Günlük Fiyat Ayrıntılarını {{providerName}}adresinde görüntüleyin",
+        "safetyScoreTitle": "Güvenlik Puanı",
+        "safetyScoreDescription": "Güvenlik Puanı, dayanak kasa varlığının güvenliğini birkaç temel faktöre ayırır. Yatırım yapmadan önce göz önünde bulundurmanız gereken risklere dikkatinizi çekmeyi ve kendi başınıza değerlendiremeyebileceğiniz teknik ayrıntılar hakkında sizi bilgilendirmeyi amaçlamaktadır.\nTam pozisyon her zaman daha karmaşık olsa da, Güvenlik Puanı temel risk ve güvenlik hususlarını basitleştirmek ve kendi durum tespitinizi başlatmak için sağlanmıştır. Ekibimiz bir kasa devreye alınmadan önce her bir faktörü dikkatle değerlendirmekte ve {{providerName}} 'un entegre ettiği her bir varlık, zincir ve protokolü dikkatle izlemektedir.",
+        "safetyScoreRateLink": "Daha Fazla Güvenlik Puanı Ayrıntılarını {{providerName}}adresinde görüntüleyin"
+      },
+      "viewMoreDetails": "Daha Fazla Ayrıntı Görüntüle",
+      "viewLessDetails": "Daha Az Ayrıntı Görüntüle"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Yatırma İşlemi için {{tokenNetwork}} ağında {{tokenSymbol}} tokenine sahip olmalısınız",

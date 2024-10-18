@@ -2693,9 +2693,11 @@
       "chainName": "Rede: <0>{{networkName}}</0>",
       "protocolName": "Protocolo: <0>{{providerName}}</0>",
       "yieldRate": "Taxa de rendimento",
+      "dailyYieldRate": "Taxa diária",
       "ratePercent": "{{rate}}%",
       "rewards": "Prêmios",
       "noRewards": "Sem recompensas",
+      "safetyScore": "Pontuação de segurança",
       "tvl": "TVL",
       "ageOfPool": "Piscina criada:",
       "learnMoreOnProvider": "Ver pool no {{providerName}}",
@@ -2714,8 +2716,16 @@
         "ageTitle": "Piscina criada:",
         "ageDescription": "Os pools de liquidez mais antigos podem indicar um histórico sólido e um histórico de construção da confiança da comunidade. Por esse motivo, alguns podem considerar esses pools mais seguros.\n\nNão existe uma maneira perfeita de determinar o risco, portanto, use essas informações como parte de sua pesquisa geral para tomar a melhor decisão para você.",
         "yieldRateTitle": "Taxa de rendimento",
-        "yieldRateDescription": "Embora a maioria dos pools ofereça ganhos na forma de um token de pool de liquidez, alguns oferecem tokens adicionais como recompensa ou incentivo adicional.\n\nComo a {{appName}} agrega pools em vários protocolos, combinamos todas as taxas de ganhos e recompensas em uma única taxa de rendimento geral para ajudar você a avaliar facilmente seu potencial de ganhos. Esse número é uma estimativa, pois os valores de ganhos e recompensas flutuam constantemente.\n\nPara obter mais informações sobre a detalhamento dos ganhos, acesse <0>{{providerName}}</0>."
-      }
+        "yieldRateDescription": "Embora a maioria dos pools ofereça ganhos na forma de um token de pool de liquidez, alguns oferecem tokens adicionais como recompensa ou incentivo adicional.\n\nComo a {{appName}} agrega pools em vários protocolos, combinamos todas as taxas de ganhos e recompensas em uma única taxa de rendimento geral para ajudar você a avaliar facilmente seu potencial de ganhos. Esse número é uma estimativa, pois os valores de ganhos e recompensas flutuam constantemente.\n\nPara obter mais informações sobre a detalhamento dos ganhos, acesse <0>{{providerName}}</0>.",
+        "dailyYieldRateTitle": "Taxa diária",
+        "dailyYieldRateDescription": "A tarifa diária exibida reflete a tarifa diária fornecida pelo site {{providerName}}.",
+        "dailyYieldRateLink": "Veja mais detalhes sobre a tarifa diária em {{providerName}}",
+        "safetyScoreTitle": "Pontuação de segurança",
+        "safetyScoreDescription": "A pontuação de segurança divide a segurança do ativo subjacente do cofre em vários fatores-chave. O objetivo é chamar sua atenção para os riscos a serem considerados antes de investir e informá-lo sobre detalhes técnicos que você talvez não consiga avaliar por si mesmo.\nEmbora a posição completa seja sempre mais complicada, a pontuação de segurança é fornecida para simplificar as principais considerações de risco e segurança e dar início à sua própria diligência prévia. Nossa equipe considera cuidadosamente cada fator antes da implantação de um cofre e mantém um olhar atento sobre cada ativo, cadeia e protocolo que o {{providerName}} integrou.",
+        "safetyScoreRateLink": "Veja mais detalhes sobre a pontuação de segurança em {{providerName}}"
+      },
+      "viewMoreDetails": "Ver mais detalhes",
+      "viewLessDetails": "Ver menos detalhes"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Você precisa de {{tokenSymbol}} da {{tokenNetwork}} para depositar",

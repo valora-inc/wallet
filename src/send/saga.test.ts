@@ -4,8 +4,8 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
-import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import {
@@ -15,7 +15,7 @@ import {
   sendPaymentSuccess,
 } from 'src/send/actions'
 import { sendPaymentSaga } from 'src/send/saga'
-import { Actions as TransactionActions, addStandbyTransaction } from 'src/transactions/actions'
+import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/slice'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
@@ -237,8 +237,8 @@ describe(sendPaymentSaga, () => {
       .call(getViemWallet, networkConfig.viemChain.celo, false)
       .put(sendPaymentFailure())
       .put(showError(ErrorMessages.SEND_PAYMENT_FAILED))
-      .not.put.actionType(TransactionActions.ADD_STANDBY_TRANSACTION)
-      .not.put.actionType(TransactionActions.TRANSACTION_CONFIRMED)
+      .not.put.actionType(addStandbyTransaction.type)
+      .not.put.actionType(transactionConfirmed.type)
       .run()
     expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_start)
     expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_error, {

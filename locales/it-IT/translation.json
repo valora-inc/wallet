@@ -2693,9 +2693,11 @@
       "chainName": "Rete: <0>{{networkName}}</0>",
       "protocolName": "Protocollo: <0>{{providerName}}</0>",
       "yieldRate": "Tasso di rendimento",
+      "dailyYieldRate": "Tariffa giornaliera",
       "ratePercent": "{{rate}}%",
       "rewards": "Ricompense",
       "noRewards": "Senza ricompense",
+      "safetyScore": "Punteggio di sicurezza",
       "tvl": "TVL",
       "ageOfPool": "Pool creato:",
       "learnMoreOnProvider": "Visualizza pool su {{providerName}}",
@@ -2714,8 +2716,16 @@
         "ageTitle": "Pool creato:",
         "ageDescription": "L'anzianità di un pool di liquidità può essere indicativa di risultati consolidati nel tempo e di una certa esperienza nel costruire la fiducia della comunità. Per questo alcuni considerano più sicuri i pool meno recenti.\n\nNon esiste un modo perfetto per determinare il rischio; pertanto, usa queste informazioni nel contesto della tua indagine generale per prendere la decisione migliore per te.",
         "yieldRateTitle": "Tasso di rendimento",
-        "yieldRateDescription": "Sebbene la maggior parte dei pool converta i guadagni in token di liquidità, alcuni offrono token aggiuntivi come ricompensa o ulteriore incentivo.\n\nPoiché {{appName}} aggrega pool che utilizzano più protocolli, tutti i tassi di guadagno e ricompensa sono stati riuniti in un unico tasso di rendimento complessivo, in modo che risulti più facile valutare il potenziale di guadagno. Tale numero è una stima poiché i valori di guadagno e ricompensa fluttuano costantemente.\n\nPer ulteriori informazioni sulla ripartizione del guadagno, visita <0>{{providerName}}</0>."
-      }
+        "yieldRateDescription": "Sebbene la maggior parte dei pool converta i guadagni in token di liquidità, alcuni offrono token aggiuntivi come ricompensa o ulteriore incentivo.\n\nPoiché {{appName}} aggrega pool che utilizzano più protocolli, tutti i tassi di guadagno e ricompensa sono stati riuniti in un unico tasso di rendimento complessivo, in modo che risulti più facile valutare il potenziale di guadagno. Tale numero è una stima poiché i valori di guadagno e ricompensa fluttuano costantemente.\n\nPer ulteriori informazioni sulla ripartizione del guadagno, visita <0>{{providerName}}</0>.",
+        "dailyYieldRateTitle": "Tariffa giornaliera",
+        "dailyYieldRateDescription": "La tariffa giornaliera visualizzata riflette la tariffa giornaliera fornita da {{providerName}}.",
+        "dailyYieldRateLink": "Vedi ulteriori dettagli sulle tariffe giornaliere su {{providerName}}",
+        "safetyScoreTitle": "Punteggio di sicurezza",
+        "safetyScoreDescription": "Il Punteggio di Sicurezza analizza la sicurezza dell'asset sottostante in base a diversi fattori chiave. Ha lo scopo di attirare la tua attenzione sui rischi da considerare prima di investire e di informarti sui dettagli tecnici che potresti non essere in grado di valutare da solo.\nSebbene la posizione completa sia sempre più complicata, il Punteggio di sicurezza viene fornito per semplificare le principali considerazioni sui rischi e sulla sicurezza e per dare il via alla tua due diligence. Il nostro team considera attentamente ogni fattore prima che un caveau venga utilizzato e tiene sotto controllo ogni asset, catena e protocollo che {{providerName}} ha integrato.",
+        "safetyScoreRateLink": "Visualizza ulteriori dettagli sul punteggio di sicurezza su {{providerName}}"
+      },
+      "viewMoreDetails": "Vedi altri dettagli",
+      "viewLessDetails": "Vedi meno dettagli"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Hai bisogno di {{tokenSymbol}} su {{tokenNetwork}} per depositare",

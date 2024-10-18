@@ -28,6 +28,16 @@ export interface EarningItem {
 export enum ClaimType {
   Earnings = 'earnings',
   Rewards = 'rewards',
+
+export interface SafetyRisk {
+  isPositive: boolean
+  title: string
+  category: string
+}
+
+export interface Safety {
+  level: 'low' | 'medium' | 'high'
+  risks: SafetyRisk[]
 }
 
 interface EarnDataProps {
@@ -43,6 +53,8 @@ interface EarnDataProps {
   rewardsPositionIds?: string[]
   claimType?: ClaimType
   withdrawalIncludesClaim?: boolean
+  dailyYieldRatePercentage?: number
+  safety?: Safety
   // We'll add more fields here as needed
 }
 

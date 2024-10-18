@@ -8,6 +8,7 @@ import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
+import { EarnCommonProperties } from 'src/analytics/Properties'
 import { openUrl } from 'src/app/actions'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -18,6 +19,8 @@ import Touchable from 'src/components/Touchable'
 import BeforeDepositBottomSheet from 'src/earn/BeforeDepositBottomSheet'
 import { useDepositEntrypointInfo } from 'src/earn/hooks'
 import WithdrawBottomSheet from 'src/earn/WithdrawBottomSheet'
+import { SafetyCard } from 'src/earn/SafetyCard'
+import { getEarnPositionBalanceValues } from 'src/earn/utils'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -30,6 +33,8 @@ import type { EarningItem } from 'src/positions/types'
 import { EarnPosition } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -37,7 +42,6 @@ import variables from 'src/styles/variables'
 import { useTokenInfo, useTokensInfo } from 'src/tokens/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
 import { formattedDuration } from 'src/utils/time'
 
@@ -155,14 +159,17 @@ function DepositAndEarningsCard({
   onInfoIconPress: () => void
 }) {
   const { t } = useTranslation()
-  const { balance, priceUsd, pricePerShare } = earnPosition
+  const { balance, pricePerShare } = earnPosition
   const { earningItems, depositTokenId, cantSeparateCompoundedInterest } = earnPosition.dataProps
   const depositTokenInfo = useTokenInfo(depositTokenId)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
 
+  const { poolBalanceInUsd: depositBalanceInUsd, poolBalanceInDepositToken } = useMemo(
+    () => getEarnPositionBalanceValues({ pool: earnPosition }),
+    [earnPosition]
+  )
   // Deposit items used to calculate the total balance and total deposited
-  const depositBalanceInUsd = new BigNumber(priceUsd).multipliedBy(balance)
   const depositBalanceInLocalCurrency = new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(
     depositBalanceInUsd ?? 0
   )
@@ -192,7 +199,7 @@ function DepositAndEarningsCard({
   ])
 
   const totalDepositBalanceInCrypto = useMemo(() => {
-    return new BigNumber(balance).multipliedBy(new BigNumber(pricePerShare[0]) ?? 1).minus(
+    return poolBalanceInDepositToken.minus(
       earningItems
         .filter((item) => item.includedInPoolBalance)
         .reduce((acc, item) => {
@@ -288,7 +295,7 @@ function YieldCard({
           />
         </View>
         <Text style={styles.cardTitleText}>
-          {yieldRateSum > 0
+          {yieldRateSum > 0.00005
             ? t('earnFlow.poolInfoScreen.ratePercent', { rate: yieldRateSum.toFixed(2) })
             : '--'}
         </Text>
@@ -300,14 +307,16 @@ function YieldCard({
           return (
             <View style={styles.cardLineContainer} key={index}>
               <View style={styles.cardLineLabel}>
-                <Text numberOfLines={1} style={styles.cardLabelText}>
-                  {rate.label}
-                </Text>
-                <TokenIcons
-                  tokensInfo={tokenInfo}
-                  size={IconSize.XXSMALL}
-                  showNetworkIcon={false}
-                />
+                <View style={styles.yieldRateLabelContainer}>
+                  <Text numberOfLines={1} style={styles.cardLabelText}>
+                    {rate.label}
+                  </Text>
+                  <TokenIcons
+                    tokensInfo={tokenInfo}
+                    size={IconSize.XXSMALL}
+                    showNetworkIcon={false}
+                  />
+                </View>
               </View>
               <Text style={styles.cardLabelText}>
                 {t('earnFlow.poolInfoScreen.ratePercent', { rate: rate.percentage.toFixed(2) })}
@@ -315,6 +324,33 @@ function YieldCard({
             </View>
           )
         })}
+      </View>
+    </View>
+  )
+}
+
+function DailyYieldRateCard({
+  dailyYieldRate,
+  onInfoIconPress,
+}: {
+  dailyYieldRate: number
+  onInfoIconPress: () => void
+}) {
+  const { t } = useTranslation()
+  return (
+    <View style={styles.card} testID="DailyYieldRateCard">
+      <View style={styles.cardLineContainer}>
+        <View style={styles.cardLineLabel}>
+          <LabelWithInfo
+            onPress={onInfoIconPress}
+            label={t('earnFlow.poolInfoScreen.dailyYieldRate')}
+            labelStyle={styles.cardTitleText}
+            testID="DailyYieldRateInfoIcon"
+          />
+        </View>
+        <Text style={styles.cardTitleText}>
+          {t('earnFlow.poolInfoScreen.ratePercent', { rate: dailyYieldRate.toFixed(4) })}
+        </Text>
       </View>
     </View>
   )
@@ -379,17 +415,11 @@ function AgeCard({ ageOfPool, onInfoIconPress }: { ageOfPool: Date; onInfoIconPr
 function LearnMoreTouchable({
   url,
   providerName,
-  appId,
-  positionId,
-  networkId,
-  depositTokenId,
+  commonAnalyticsProps,
 }: {
   url: string
   providerName: string
-  appId: string
-  positionId: string
-  networkId: NetworkId
-  depositTokenId: string
+  commonAnalyticsProps: EarnCommonProperties
 }) {
   const { t } = useTranslation()
   return (
@@ -397,20 +427,15 @@ function LearnMoreTouchable({
       <Touchable
         borderRadius={8}
         onPress={() => {
-          AppAnalytics.track(EarnEvents.earn_pool_info_view_pool, {
-            providerId: appId,
-            poolId: positionId,
-            networkId,
-            depositTokenId,
-          })
+          AppAnalytics.track(EarnEvents.earn_pool_info_view_pool, commonAnalyticsProps)
           navigateToURI(url)
         }}
       >
         <View style={styles.learnMoreView}>
-          <OpenLinkIcon color={Colors.black} size={24} />
           <Text style={styles.learnMoreText}>
             {t('earnFlow.poolInfoScreen.learnMoreOnProvider', { providerName })}
           </Text>
+          <OpenLinkIcon color={Colors.black} size={16} />
         </View>
       </Touchable>
     </View>
@@ -479,6 +504,13 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     throw new Error(`Token ${dataProps.depositTokenId} not found`)
   }
 
+  const commonAnalyticsProps: EarnCommonProperties = {
+    providerId: appId,
+    poolId: positionId,
+    networkId,
+    depositTokenId: dataProps.depositTokenId,
+  }
+
   const {
     hasDepositToken,
     hasTokensOnSameNetwork,
@@ -510,10 +542,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
 
   const onPressDeposit = () => {
     AppAnalytics.track(EarnEvents.earn_pool_info_tap_deposit, {
-      poolId: positionId,
-      providerId: appId,
-      networkId: networkId,
-      depositTokenId: dataProps.depositTokenId,
+      ...commonAnalyticsProps,
       hasDepositToken,
       hasTokensOnSameNetwork,
       hasTokensOnOtherNetworks,
@@ -530,6 +559,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
   const ageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const yieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const withdrawBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const dailyYieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const safetyScoreInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   // Scroll Aware Header
   const scrollPosition = useSharedValue(0)
@@ -565,11 +596,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
               earnPosition={pool}
               onInfoIconPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
-                  providerId: appId,
-                  poolId: positionId,
                   type: 'deposit',
-                  networkId,
-                  depositTokenId: dataProps.depositTokenId,
+                  ...commonAnalyticsProps,
                 })
                 depositInfoBottomSheetRef.current?.snapToIndex(0)
               }}
@@ -578,26 +606,45 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
           <YieldCard
             onInfoIconPress={() => {
               AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
-                providerId: appId,
-                poolId: positionId,
                 type: 'yieldRate',
-                networkId,
-                depositTokenId: dataProps.depositTokenId,
+                ...commonAnalyticsProps,
               })
               yieldRateInfoBottomSheetRef.current?.snapToIndex(0)
             }}
             tokensInfo={tokensInfo}
             earnPosition={pool}
           />
+          {!!dataProps.dailyYieldRatePercentage && dataProps.dailyYieldRatePercentage > 0 && (
+            <DailyYieldRateCard
+              dailyYieldRate={dataProps.dailyYieldRatePercentage}
+              onInfoIconPress={() => {
+                AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
+                  type: 'dailyYieldRate',
+                  ...commonAnalyticsProps,
+                })
+                dailyYieldRateInfoBottomSheetRef.current?.snapToIndex(0)
+              }}
+            />
+          )}
+          {!!dataProps.safety && (
+            <SafetyCard
+              safety={dataProps.safety}
+              commonAnalyticsProps={commonAnalyticsProps}
+              onInfoIconPress={() => {
+                AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
+                  type: 'safetyScore',
+                  ...commonAnalyticsProps,
+                })
+                safetyScoreInfoBottomSheetRef.current?.snapToIndex(0)
+              }}
+            />
+          )}
           <TvlCard
             earnPosition={pool}
             onInfoIconPress={() => {
               AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
-                providerId: appId,
-                poolId: positionId,
                 type: 'tvl',
-                networkId,
-                depositTokenId: dataProps.depositTokenId,
+                ...commonAnalyticsProps,
               })
               tvlInfoBottomSheetRef.current?.snapToIndex(0)
             }}
@@ -607,11 +654,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
               ageOfPool={new Date(dataProps.contractCreatedAt)}
               onInfoIconPress={() => {
                 AppAnalytics.track(EarnEvents.earn_pool_info_tap_info_icon, {
-                  providerId: appId,
-                  poolId: positionId,
                   type: 'age',
-                  networkId,
-                  depositTokenId: dataProps.depositTokenId,
+                  ...commonAnalyticsProps,
                 })
                 ageInfoBottomSheetRef.current?.snapToIndex(0)
               }}
@@ -621,10 +665,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
             <LearnMoreTouchable
               url={dataProps.manageUrl}
               providerName={appName}
-              appId={appId}
-              positionId={positionId}
-              networkId={networkId}
-              depositTokenId={dataProps.depositTokenId}
+              commonAnalyticsProps={commonAnalyticsProps}
             />
           ) : null}
         </View>
@@ -667,6 +708,25 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         providerName={appName}
         testId="YieldRateInfoBottomSheet"
       />
+      <InfoBottomSheet
+        infoBottomSheetRef={dailyYieldRateInfoBottomSheetRef}
+        titleKey="earnFlow.poolInfoScreen.infoBottomSheet.dailyYieldRateTitle"
+        descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.dailyYieldRateDescription"
+        descriptionUrl={dataProps.manageUrl}
+        providerName={appName}
+        linkKey="earnFlow.poolInfoScreen.infoBottomSheet.dailyYieldRateLink"
+        linkUrl={dataProps.manageUrl}
+        testId="DailyYieldRateInfoBottomSheet"
+      />
+      <InfoBottomSheet
+        infoBottomSheetRef={safetyScoreInfoBottomSheetRef}
+        titleKey="earnFlow.poolInfoScreen.infoBottomSheet.safetyScoreTitle"
+        descriptionKey="earnFlow.poolInfoScreen.infoBottomSheet.safetyScoreDescription"
+        providerName={appName}
+        linkKey="earnFlow.poolInfoScreen.infoBottomSheet.safetyScoreRateLink"
+        linkUrl={dataProps.manageUrl}
+        testId="SafetyScoreInfoBottomSheet"
+      />
       <BeforeDepositBottomSheet
         forwardedRef={beforeDepositBottomSheetRef}
         token={depositToken}
@@ -692,6 +752,8 @@ function InfoBottomSheet({
   descriptionUrl,
   providerName,
   testId,
+  linkUrl,
+  linkKey,
 }: {
   infoBottomSheetRef: React.RefObject<BottomSheetModalRefType>
   titleKey: string
@@ -699,6 +761,8 @@ function InfoBottomSheet({
   descriptionUrl?: string
   providerName: string
   testId: string
+  linkUrl?: string
+  linkKey?: string
 }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -726,6 +790,23 @@ function InfoBottomSheet({
         </Text>
       ) : (
         <Text style={styles.infoBottomSheetText}>{t(descriptionKey, { providerName })}</Text>
+      )}
+      {!!linkUrl && !!linkKey && (
+        <View style={styles.learnMoreContainer}>
+          <Touchable
+            borderRadius={8}
+            onPress={() => {
+              navigateToURI(linkUrl)
+            }}
+          >
+            <View style={styles.learnMoreView}>
+              <Text style={styles.learnMoreText}>
+                <Trans i18nKey={linkKey} tOptions={{ providerName }} />
+              </Text>
+              <OpenLinkIcon color={Colors.black} size={16} />
+            </View>
+          </Touchable>
+        </View>
       )}
       <Button
         onPress={onPressDismiss}
@@ -784,6 +865,7 @@ const styles = StyleSheet.create({
   tokenIconsContainer: {
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   contentContainer: {
     gap: Spacing.Regular16,
@@ -799,15 +881,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
   },
   cardLineLabel: {
-    flex: 1,
+    paddingRight: 20, // Prevents Icon from being cut off on long labels
+  },
+  yieldRateLabelContainer: {
     flexDirection: 'row',
     gap: Spacing.Tiny4,
-    alignItems: 'center',
-    paddingRight: 20, // Prevents Icon from being cut off on long labels
-    minWidth: '35%',
   },
   cardTitleText: {
     ...typeScale.labelSemiBoldMedium,
@@ -863,10 +943,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: Spacing.Smallest8,
+    marginBottom: Spacing.Thick24,
   },
   learnMoreText: {
-    ...typeScale.bodyMedium,
+    ...typeScale.labelSemiBoldSmall,
     color: Colors.black,
   },
   buttonContainer: {

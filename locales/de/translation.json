@@ -2505,7 +2505,7 @@
       }
     },
     "cta": {
-      "title": "Verdiene mit deiner Kryptowährung",
+      "title": "Verdiene mit deiner Krypto",
       "subtitle": "Zahle heute ein und verdiene Rendite",
       "description": "Erfahre, wie viel du an der Bereitstellung eines Kreditpools verdienen kannst"
     },
@@ -2546,9 +2546,9 @@
       "description": "Verdiene etwa {{apy}}% pro Jahr, wenn du {{symbol}} zu einem Pool hinzufügst"
     },
     "entrypoint": {
-      "title": "Verdiene mit deiner Kryptowährung",
+      "title": "Verdiene mit deiner Krypto",
       "subtitle": "Einzahlen und verdienen",
-      "description": "Verdiene an deinem Krypto-Vermögen, wenn du es über einen Liquiditätspool ausleihst"
+      "description": "Verdiene an deinem Krypto-Vermögen, indem du es über einen Liquiditätspool anderen leihst"
     },
     "enterAmount": {
       "title": "Wie viel möchtest du einzahlen?",
@@ -2608,7 +2608,7 @@
       "network": "Netzwerk",
       "footer": "Wenn du Kryptowährungen in einen Aave-Pool einzahlst, akzeptierst du die mit der Nutzung von Aave verbundenen Risiken. <0>Allgemeine Nutzungsbedingungen</0>",
       "footerV1_93": "Indem du Krypto in einen {{providerName}}-Pool einzahlst, akzeptierst du die Risiken, die mit der Nutzung von {{providerName}} verbunden sind. <0>Allgemeine Nutzungsbedingungen</0>",
-      "noTermsUrlFooter": "Du bist für deine Handlungen auf {{appName}}verantwortlich. {{appName}} lehnt jede Verantwortung für dein Vermögen oder deine Interaktionen mit {{providerName}}ab. Du kannst die Dokumente von {{providerName}}<0>hier</0> und unsere Allgemeinen Geschäftsbedingungen <1>hier</1> einsehen.",
+      "noTermsUrlFooter": "Du bist für deine Handlungen in {{appName}} verantwortlich. {{appName}} lehnt jede Verantwortung für dein Vermögen oder deine Interaktionen mit {{providerName}} ab. Du kannst die Dokumente von {{providerName}} <0>hier</0> und unsere allgemeinen Geschäftsbedingungen <1>hier</1> einsehen.",
       "primaryCta": "Abschließen",
       "secondaryCta": "Abbrechen",
       "yieldRate": "Rendite (geschätzt)",
@@ -2666,7 +2666,7 @@
         "chooseDescription": "Jede finanzielle Entscheidung ist individuell. Wir haben einige Pools aus verschiedenen Protokollen zusammengefasst, jeder Pool hat jedoch seine Vorteile und Risiken. Wir tun unser Bestes, um einige hilfreiche Informationen zu jedem Pool bereitzustellen, aber es ist immer ratsam, zusätzliche Recherchen anzustellen, wenn du unsicher bist."
       },
       "noPoolsTitle": "Du bist noch keinen Pools beigetreten",
-      "noPoolsDescription": "Entdecke die verfügbaren Pools, wähle einen, der zu deinen Zielen passt, und mache das Beste aus deiner Kryptowährung.",
+      "noPoolsDescription": "Entdecke verfügbare Pools, wähle einen Pool aus, der zu deinen Zielen passt, und hole das Maximum aus deiner Krypto heraus.",
       "errorTitle": "Pools können nicht geladen werden",
       "errorDescription": "Ups, beim Laden der Pool-Informationen ist etwas schiefgelaufen. Bitte versuche es erneut.",
       "errorButton": "Erneut versuchen"
@@ -2693,9 +2693,11 @@
       "chainName": "Kette: <0>{{networkName}}</0>",
       "protocolName": "Protokoll: <0>{{providerName}}</0>",
       "yieldRate": "Rendite",
+      "dailyYieldRate": "Tagessatz",
       "ratePercent": "{{rate}} %",
       "rewards": "Rewards",
       "noRewards": "Keine Rewards",
+      "safetyScore": "Sicherheitspunkte",
       "tvl": "TVL",
       "ageOfPool": "Alter des Pools",
       "learnMoreOnProvider": "Pool ansehen auf {{providerName}}",
@@ -2714,8 +2716,16 @@
         "ageTitle": "Alter des Pools",
         "ageDescription": "Ältere Liquiditätspools können auf eine solide Erfolgsbilanz und eine Geschichte des Vertrauens der Community hinweisen. Aus diesem Grund halten manche diese Pools für sicherer.\n\nEs gibt keine perfekte Methode, um das Risiko zu bestimmen, also nutze diese Informationen als Teil deiner allgemeinen Recherche, um die für dich beste Entscheidung zu treffen.",
         "yieldRateTitle": "Rendite",
-        "yieldRateDescription": "Die meisten Pools bieten Verdienst in Form eines Liquiditätspool-Tokens, aber einige geben zusätzliche Token als Reward oder zusätzlichen Anreiz.\n\nDa {{appName}} Pools über mehrere Protokolle hinweg zusammenfasst, haben wir alle Verdienst- und Reward-Sätze zu einer einzigen Gesamtrendite zusammengefasst, damit du dein Verdienstpotenzial leichter einschätzen kannst. Bei dieser Zahl handelt es sich um eine Schätzung, da die Verdienst- und Reward-Werte ständig schwanken.\n\nWeitere Informationen über die Verdienstaufteilung findest du unter <0>{{providerName}}</0>."
-      }
+        "yieldRateDescription": "Die meisten Pools bieten Verdienst in Form eines Liquiditätspool-Tokens, aber einige geben zusätzliche Token als Reward oder zusätzlichen Anreiz.\n\nDa {{appName}} Pools über mehrere Protokolle hinweg zusammenfasst, haben wir alle Verdienst- und Reward-Sätze zu einer einzigen Gesamtrendite zusammengefasst, damit du dein Verdienstpotenzial leichter einschätzen kannst. Bei dieser Zahl handelt es sich um eine Schätzung, da die Verdienst- und Reward-Werte ständig schwanken.\n\nWeitere Informationen über die Verdienstaufteilung findest du unter <0>{{providerName}}</0>.",
+        "dailyYieldRateTitle": "Tagessatz",
+        "dailyYieldRateDescription": "Der angezeigte Tagessatz entspricht dem von {{providerName}}angebotenen Tagessatz.",
+        "dailyYieldRateLink": "Weitere Details zum Tagessatz findest du auf {{providerName}}",
+        "safetyScoreTitle": "Sicherheitspunkte",
+        "safetyScoreDescription": "Der Safety Score schlüsselt die Sicherheit des zugrunde liegenden Tresorvermögens in mehrere Schlüsselfaktoren auf. Er soll dich auf die Risiken aufmerksam machen, die du vor einer Investition berücksichtigen musst, und dich über technische Details informieren, die du vielleicht nicht selbst beurteilen kannst.\nAuch wenn die vollständige Position immer komplizierter ist, soll der Safety Score die wichtigsten Risiko- und Sicherheitsüberlegungen vereinfachen und dir einen Anstoß für deine eigene Due Diligence geben. Unser Team wägt jeden Faktor sorgfältig ab, bevor ein Tresor eingesetzt wird, und hat ein wachsames Auge auf alle Anlagen, Ketten und Protokolle, die {{providerName}} integriert hat.",
+        "safetyScoreRateLink": "Mehr Details zur Sicherheitsbewertung auf {{providerName}}"
+      },
+      "viewMoreDetails": "Mehr Details anzeigen",
+      "viewLessDetails": "Weniger Details anzeigen"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Du brauchst {{tokenSymbol}} auf {{tokenNetwork}} zum Einzahlen",
