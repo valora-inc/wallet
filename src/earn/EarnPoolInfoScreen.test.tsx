@@ -1,4 +1,4 @@
-import { fireEvent, render, within } from '@testing-library/react-native'
+import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -345,7 +345,12 @@ describe('EarnPoolInfoScreen', () => {
       infoIconTestId: 'YieldRateInfoIcon',
       type: 'yieldRate',
     },
-  ])('opens $testId and track analytics event', ({ testId, infoIconTestId, type }) => {
+    {
+      testId: 'SafetyScoreInfoBottomSheet',
+      infoIconTestId: 'SafetyCardInfoIcon',
+      type: 'safetyScore',
+    },
+  ])('opens $testId and track analytics event', async ({ testId, infoIconTestId, type }) => {
     const mockPool = {
       ...mockEarnPositions[0],
       balance: '100',
@@ -360,12 +365,19 @@ describe('EarnPoolInfoScreen', () => {
             includedInPoolBalance: false,
           },
         ],
+        safety: {
+          level: 'high' as const,
+          risks: [
+            { isPositive: false, title: 'Risk 1', category: 'Category 1' },
+            { isPositive: true, title: 'Risk 2', category: 'Category 2' },
+          ],
+        },
       },
     }
 
     const { getByTestId } = renderEarnPoolInfoScreen(mockPool)
     fireEvent.press(getByTestId(infoIconTestId))
-    expect(getByTestId(testId)).toBeVisible()
+    await waitFor(() => expect(getByTestId(testId)).toBeVisible())
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_info_icon, {
       providerId: 'aave',
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
