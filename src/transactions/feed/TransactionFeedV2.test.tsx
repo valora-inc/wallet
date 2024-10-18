@@ -557,4 +557,30 @@ describe('TransactionFeedV2', () => {
     expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
     expect(mockFetch).not.toBeCalled()
   })
+
+  it('should do smth', async () => {
+    mockFetch
+      .mockResponseOnce(
+        typedResponse({
+          transactions: [mockTransaction({ transactionHash: '0x01', timestamp: 60 })],
+        })
+      )
+      .mockResponseOnce(
+        typedResponse({
+          transactions: [mockTransaction({ transactionHash: '0x01', timestamp: 60 })],
+        })
+      )
+
+    const tree = renderScreen({
+      transactions: {
+        feedFirstPage: [mockTransaction({ transactionHash: '0x02', timestamp: 50 })],
+      },
+    })
+
+    await waitFor(() => expect(vibrateSuccess).toHaveBeenCalledTimes(1))
+    fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
+    await waitFor(() => expect(tree.getByTestId('TransactionList/loading')).toBeVisible())
+    await waitFor(() => expect(tree.queryByTestId('TransactionList/loading')).toBeFalsy())
+    expect(vibrateSuccess).toHaveBeenCalledTimes(1)
+  })
 })

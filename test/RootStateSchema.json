@@ -5569,6 +5569,9 @@
                     },
                     "type": "array"
                 },
+                "hasNewUnknownCompletedTransactions": {
+                    "type": "boolean"
+                },
                 "standbyTransactions": {
                     "items": {
                         "$ref": "#/definitions/StandbyTransaction"
@@ -5581,6 +5584,7 @@
             },
             "required": [
                 "feedFirstPage",
+                "hasNewUnknownCompletedTransactions",
                 "standbyTransactions",
                 "transactionsByNetworkId"
             ],

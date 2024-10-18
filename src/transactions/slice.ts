@@ -57,12 +57,14 @@ interface State {
   standbyTransactions: StandbyTransaction[]
   transactionsByNetworkId: TransactionsByNetworkId
   feedFirstPage: TokenTransaction[]
+  hasNewUnknownCompletedTransactions: boolean
 }
 
 const initialState: State = {
   standbyTransactions: [],
   transactionsByNetworkId: {},
   feedFirstPage: [],
+  hasNewUnknownCompletedTransactions: false,
 }
 
 // export for testing
@@ -233,8 +235,17 @@ const slice = createSlice({
           .filter((tx) => tx.status !== TransactionStatus.Pending)
           .map((tx) => tx.transactionHash)
 
+        const latestTimestamp = state.feedFirstPage[0]?.timestamp as number | undefined
+
+        const hasNewUnknownCompletedTransactions = latestTimestamp
+          ? !!payload.transactions.filter(
+              (tx) => tx.status === TransactionStatus.Complete && tx.timestamp > latestTimestamp
+            ).length
+          : false
+
         return {
           ...state,
+          hasNewUnknownCompletedTransactions,
           feedFirstPage: isFirstPage ? payload.transactions : state.feedFirstPage,
           standbyTransactions: state.standbyTransactions.filter((tx) => {
             /**
