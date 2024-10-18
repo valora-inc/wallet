@@ -1639,6 +1639,7 @@ interface EarnEventsProperties {
     hasTokensOnSameNetwork: boolean
     hasTokensOnOtherNetworks: boolean
   }
+  [EarnEvents.earn_select_withdraw_type]: { type: 'partialWithdraw' | 'claim' | 'exit' }
   [EarnEvents.earn_pool_info_tap_safety_details]: EarnCommonProperties & {
     action: 'expand' | 'collapse'
   }

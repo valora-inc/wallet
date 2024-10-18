@@ -56,8 +56,22 @@ export enum BeforeDepositActionName {
   Swap = 'Swap',
 }
 
+export enum WithdrawActionName {
+  Withdraw = 'Withdraw',
+  Claim = 'Claim',
+  Exit = 'Exit',
+}
+
 export interface BeforeDepositAction {
   name: BeforeDepositActionName
+  title: string
+  details: string
+  iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
+  onPress: () => void
+}
+
+export interface WithdrawAction {
+  name: WithdrawActionName
   title: string
   details: string
   iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>

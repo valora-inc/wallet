@@ -25,6 +25,11 @@ export interface EarningItem {
   includedInPoolBalance?: boolean
 }
 
+export enum ClaimType {
+  Earnings = 'earnings',
+  Rewards = 'rewards',
+}
+
 export interface SafetyRisk {
   isPositive: boolean
   title: string
@@ -47,6 +52,7 @@ interface EarnDataProps {
   depositTokenId: string
   withdrawTokenId: string
   rewardsPositionIds?: string[]
+  claimType?: ClaimType
   withdrawalIncludesClaim?: boolean
   dailyYieldRatePercentage?: number
   safety?: Safety

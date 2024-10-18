@@ -20,6 +20,7 @@ import BeforeDepositBottomSheet from 'src/earn/BeforeDepositBottomSheet'
 import { useDepositEntrypointInfo } from 'src/earn/hooks'
 import { SafetyCard } from 'src/earn/SafetyCard'
 import { getEarnPositionBalanceValues } from 'src/earn/utils'
+import WithdrawBottomSheet from 'src/earn/WithdrawBottomSheet'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -27,6 +28,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
+import { positionsWithBalanceSelector } from 'src/positions/selectors'
 import type { EarningItem } from 'src/positions/types'
 import { EarnPosition } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -468,6 +470,7 @@ function ActionButtons({
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}
           style={styles.flex}
+          testID="WithdrawButton"
         />
       )}
       {deposit && (
@@ -476,6 +479,7 @@ function ActionButtons({
           onPress={onPressDeposit}
           size={BtnSizes.FULL}
           style={styles.flex}
+          testID="DepositButton"
         />
       )}
     </View>
@@ -515,6 +519,11 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     exchanges,
   } = useDepositEntrypointInfo({ allTokens, pool })
 
+  const rewardsPositions = useSelector(positionsWithBalanceSelector).filter((position) =>
+    pool.dataProps.rewardsPositionIds?.includes(position.positionId)
+  )
+  const hasRewards = useMemo(() => rewardsPositions.length > 0, [rewardsPositions])
+
   const onPressWithdraw = () => {
     AppAnalytics.track(EarnEvents.earn_pool_info_tap_withdraw, {
       poolId: positionId,
@@ -526,10 +535,10 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     const partialWithdrawalsEnabled = getFeatureGate(
       StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL
     )
-    if (partialWithdrawalsEnabled) {
-      navigate(Screens.EarnEnterAmount, { pool, mode: 'withdraw' })
+    if (hasRewards || partialWithdrawalsEnabled) {
+      withdrawBottomSheetRef.current?.snapToIndex(0)
     } else {
-      navigate(Screens.EarnCollectScreen, { pool })
+      navigate(Screens.EarnCollectScreen, { pool }) // TODO (ACT-1389): Confirmation screen for Claim & Withdraw
     }
   }
 
@@ -546,12 +555,12 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       beforeDepositBottomSheetRef.current?.snapToIndex(0)
     }
   }
-
   const beforeDepositBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const depositInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tvlInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const ageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const yieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const withdrawBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const dailyYieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const safetyScoreInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
@@ -728,6 +737,11 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         hasTokensOnOtherNetworks={hasTokensOnOtherNetworks}
         canAdd={canCashIn}
         exchanges={exchanges}
+      />
+      <WithdrawBottomSheet
+        forwardedRef={withdrawBottomSheetRef}
+        pool={pool}
+        canClaim={hasRewards}
       />
     </SafeAreaView>
   )
