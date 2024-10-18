@@ -2556,8 +2556,10 @@
     },
     "enterAmount": {
       "title": "Ile chcesz wpłacić?",
+      "titleWithdraw": "Jaką kwotę chcesz wypłacić?",
       "deposit": "Wpłatę",
       "fees": "Opłaty",
+      "available": "Dostępne",
       "swap": "Zamieniaj",
       "earnUpToLabel": "Możesz zarobić do:",
       "rateLabel": "Stawka (szac.)",
@@ -2578,6 +2580,7 @@
         "estNetworkFee": "Szac. opłata sieciowa",
         "maxNetworkFee": "Maksymalna opłata sieciowa",
         "networkFeeDescription": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję wpłaty.",
+        "networkFeeDescriptionWithdrawal": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji wypłaty.",
         "networkSwapFeeDescription": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcje wpłaty. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
         "appSwapFee": "Opłata w aplikacji {{appName}}"
       },
