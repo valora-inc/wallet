@@ -103,7 +103,7 @@ describe('EarnConfirmationScreen', () => {
     store.clearActions()
   })
 
-  it('renders total balance, rewards, apy and gas after fetching rewards and preparing tx', async () => {
+  it('renders total balance, rewards and gas after fetching rewards and preparing tx', async () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
@@ -124,7 +124,6 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent(
       '₱15.73'
     )
-    expect(queryByTestId('EarnConfirmation/ApyLoading')).toBeFalsy()
     expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
