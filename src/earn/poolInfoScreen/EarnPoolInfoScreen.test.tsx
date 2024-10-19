@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
+import EarnPoolInfoScreen from 'src/earn/poolInfoScreen/EarnPoolInfoScreen'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -654,7 +654,33 @@ describe('EarnPoolInfoScreen', () => {
       networkId: 'arbitrum-sepolia',
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
-    // TODO (ACT-1343): check that navigate is called with correct params
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnCollectScreen, {
+      pool: { ...mockEarnPositions[0], balance: '100' },
+    })
+  })
+
+  it('navigates to EarnEnterAmount when partial withdrawals are enabled', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (featureGateName) => featureGateName === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL
+      )
+
+    const { getByText } = render(
+      <Provider store={getStore()}>
+        <MockedNavigator
+          component={EarnPoolInfoScreen}
+          params={{
+            pool: { ...mockEarnPositions[0], balance: '100' },
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.withdraw'))
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
+      pool: { ...mockEarnPositions[0], balance: '100' },
+      mode: 'withdraw',
+    })
   })
   it('shows the daily yield rate when it is available', () => {
     const { getByTestId } = renderEarnPoolInfoScreen({

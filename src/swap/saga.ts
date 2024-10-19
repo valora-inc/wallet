@@ -12,7 +12,7 @@ import { Field, SwapInfo } from 'src/swap/types'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import { BaseStandbyTransaction } from 'src/transactions/actions'
+import { BaseStandbyTransaction } from 'src/transactions/slice'
 import {
   NetworkId,
   TokenTransactionTypeV2,

@@ -57,6 +57,7 @@ import {
   v227Schema,
   v228Schema,
   v230Schema,
+  v233Schema,
   v28Schema,
   v2Schema,
   v35Schema,
@@ -1701,6 +1702,14 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[231](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.jumpstart.introHasBeenSeen = false
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 233 to 234', () => {
+    const oldSchema = v233Schema
+    const migratedSchema = migrations[234](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.transactions.feedFirstPage = []
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

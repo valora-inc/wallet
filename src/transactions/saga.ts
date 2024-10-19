@@ -3,8 +3,8 @@ import { trackPointsEvent } from 'src/points/slice'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseToken } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import { transactionConfirmed } from 'src/transactions/actions'
-import { pendingStandbyTransactionsSelector } from 'src/transactions/reducer'
+import { pendingStandbyTransactionsSelector } from 'src/transactions/selectors'
+import { transactionConfirmed } from 'src/transactions/slice'
 import {
   Fee,
   Network,
@@ -181,14 +181,14 @@ function* handleTransactionReceiptReceived({
   const blockTimestampInMs = Number(blockDetails.timestamp) * 1000
 
   yield* put(
-    transactionConfirmed(
+    transactionConfirmed({
       txId,
-      {
+      receipt: {
         ...baseDetails,
         fees: feeTokenInfo ? buildGasFees(feeTokenInfo, gasFeeInSmallestUnit) : [],
       },
-      blockTimestampInMs
-    )
+      blockTimestampInMs,
+    })
   )
 }
 
