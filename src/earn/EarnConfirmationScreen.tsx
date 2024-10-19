@@ -14,7 +14,7 @@ import { usePrepareWithdrawAndClaimTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
 import { OutletMode } from 'src/earn/types'
-import { isGasSubsidizedForNetwork } from 'src/earn/utils'
+import { getEarnPositionBalanceValues, isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -73,7 +73,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
     if (inputAmount) {
       return new BigNumber(inputAmount).multipliedBy(pool.pricePerShare[0] ?? 1)
     } else {
-      return withdrawToken.balance.multipliedBy(pool.pricePerShare[0] ?? 1)
+      return getEarnPositionBalanceValues({ pool }).poolBalanceInDepositToken
     }
   }, [withdrawToken, pool.pricePerShare, inputAmount])
 
@@ -90,12 +90,6 @@ export default function EarnConfirmationScreen({ route }: Props) {
     rewardsPositions,
     useMax,
   })
-
-  // TODO(tomm): use hook and use in Screen
-  // const { withdrawAmountInDepositToken,  } = useMemo(
-  //   () => getEarnPositionBalanceValues({ pool }),
-  //   [pool]
-  // )
 
   const onPress = () => {
     if (prepareTransactionsResult?.type !== 'possible') {
