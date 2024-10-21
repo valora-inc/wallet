@@ -48,7 +48,12 @@ export interface PrepareWithdrawAndClaimParams {
   rewardsPositions: Position[]
 }
 
-export type BeforeDepositActionName = 'Add' | 'Transfer' | 'SwapAndDeposit' | 'CrossChainSwap' | 'Swap'
+export type BeforeDepositActionName =
+  | 'Add'
+  | 'Transfer'
+  | 'SwapAndDeposit'
+  | 'CrossChainSwap'
+  | 'Swap'
 
 type WithdrawActionName = 'Withdraw' | 'Claim' | 'Exit'
 
