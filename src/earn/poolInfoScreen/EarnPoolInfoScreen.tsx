@@ -516,9 +516,6 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
-  flexShrink: {
-    flexShrink: 1,
-  },
   scrollContainer: {
     padding: Spacing.Thick24,
     ...(Platform.OS === 'android' && {
