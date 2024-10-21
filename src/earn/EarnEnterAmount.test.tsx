@@ -10,6 +10,8 @@ import { usePrepareTransactions } from 'src/earn/prepareTransactions'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { SwapTransaction } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
@@ -27,6 +29,8 @@ import {
   mockArbEthTokenId,
   mockArbUsdcTokenId,
   mockEarnPositions,
+  mockPositions,
+  mockRewardsPositions,
   mockTokenBalances,
   mockUSDCAddress,
 } from 'test/values'
@@ -34,6 +38,9 @@ import {
 jest.mock('src/earn/prepareTransactions')
 jest.mock('react-native-localize')
 jest.mock('src/statsig') // statsig isn't used directly but the hooksApiSelector uses it
+jest
+  .mocked(getFeatureGate)
+  .mockImplementation((featureGateName) => featureGateName === StatsigFeatureGates.SHOW_POSITIONS)
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -131,6 +138,9 @@ const store = createMockStore({
         balance: '10',
       },
     },
+  },
+  positions: {
+    positions: [...mockPositions, ...mockRewardsPositions],
   },
 })
 
@@ -523,7 +533,28 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
     })
 
-    it('should show the the Withdrawing and Claiming card if withdrawalIncludesClaim is true', async () => {
+    it('should show the Claiming Reward line item if withdrawalIncludesClaim is true and user has rewards', async () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator
+            component={EarnEnterAmount}
+            params={{
+              pool: {
+                ...mockEarnPositions[0],
+                dataProps: { ...mockEarnPositions[0].dataProps, withdrawalIncludesClaim: true },
+              },
+              mode: 'withdraw',
+            }}
+          />
+        </Provider>
+      )
+
+      expect(getByTestId('LabelWithInfo/ClaimingReward-0')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Reward-0')).toHaveTextContent('₱0.016')
+      expect(getByTestId('EarnEnterAmount/Reward-0-crypto')).toHaveTextContent('0.01 ARB')
+    })
+
+    it('should show the Withdrawing and Claiming card if withdrawalIncludesClaim is true', async () => {
       const { getByTestId } = render(
         <Provider store={store}>
           <MockedNavigator
