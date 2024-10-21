@@ -2721,7 +2721,7 @@
         "claimRewards": "Claim Rewards",
         "claimRewardsDescription": "Claim your rewards. Partial amounts of the reward cannot be claimed",
         "claimEarnings": "Claim Earnings",
-        "claimEarningsDescription": "Claim the earnings on your deposit. Partial amounts cannot be claimed ",
+        "claimEarningsDescription": "Claim the earnings on your deposit. Partial amounts cannot be claimed",
         "exit": "Exit",
         "exitDescription": "Exiting will withdraw everything you have in the pool",
         "exitWithRewardsDescription": "Exiting will withdraw everything you have in the pool, including rewards",
