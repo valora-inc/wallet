@@ -558,7 +558,7 @@ describe('TransactionFeedV2', () => {
     expect(mockFetch).not.toBeCalled()
   })
 
-  it('should do smth', async () => {
+  it('should vibrate when there are new unknown completed transactions', async () => {
     mockFetch
       .mockResponseOnce(
         typedResponse({

@@ -236,11 +236,10 @@ const slice = createSlice({
           .map((tx) => tx.transactionHash)
 
         const latestTimestamp = state.feedFirstPage[0]?.timestamp as number | undefined
-
         const hasNewUnknownCompletedTransactions = latestTimestamp
-          ? !!payload.transactions.filter(
+          ? payload.transactions.some(
               (tx) => tx.status === TransactionStatus.Complete && tx.timestamp > latestTimestamp
-            ).length
+            )
           : false
 
         return {

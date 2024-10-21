@@ -119,10 +119,5 @@ export const pendingStandbyTxHashesByNetworkIdSelector = createSelector(
 const feedFirstPage = (state: RootState) => state.transactions.feedFirstPage
 export const feedFirstPageSelector = createSelector(feedFirstPage, (feed) => feed)
 
-const hasNewUnknownCompletedTransactions = (state: RootState) =>
+export const hasNewUnknownCompletedTransactionsSelector = (state: RootState) =>
   state.transactions.hasNewUnknownCompletedTransactions
-
-export const hasNewUnknownCompletedTransactionsSelector = createSelector(
-  hasNewUnknownCompletedTransactions,
-  (hasNewTransactions) => hasNewTransactions
-)
