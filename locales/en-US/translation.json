@@ -2557,6 +2557,7 @@
       "fees": "Fees",
       "available": "Available",
       "swap": "Swap",
+      "claimingReward": "Claiming Reward",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",

@@ -2557,6 +2557,7 @@
       "fees": "Ücretler",
       "available": "Kullanılabilir",
       "swap": "Swap",
+      "claimingReward": "Ödül Talep Etme",
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yıl",

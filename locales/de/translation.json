@@ -2557,6 +2557,7 @@
       "fees": "Gebühren",
       "available": "Verfügbar",
       "swap": "Tauschen",
+      "claimingReward": "Belohnung einfordern",
       "earnUpToLabel": "Verdienst von bis zu:",
       "rateLabel": "Rate (geschätzt)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / Jahr",

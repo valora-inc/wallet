@@ -2555,6 +2555,7 @@
       "fees": "ค่าธรรมเนียม",
       "available": "ใช้ได้",
       "swap": "สว็อป",
+      "claimingReward": "Claiming Reward",
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
       "rateLabel": "อัตรา (โดยประมาณ)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / ปี",

@@ -2557,6 +2557,7 @@
       "fees": "Frais",
       "available": "Disponible",
       "swap": "Échange",
+      "claimingReward": "Réclamer une récompense",
       "earnUpToLabel": "Vous pourriez gagner jusqu'à :",
       "rateLabel": "Taux (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / an",
