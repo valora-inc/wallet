@@ -85,11 +85,12 @@ export function DappFeaturedActions() {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: -Spacing.Thick24,
-    marginTop: Spacing.Smallest8,
-    marginBottom: Spacing.Thick24,
+    paddingTop: Spacing.Smallest8,
+    paddingBottom: Spacing.Thick24,
   },
   contentContainer: {
     paddingHorizontal: Spacing.Thick24,
+    gap: Spacing.Regular16,
   },
   pressableCard: {
     padding: Spacing.Regular16,
@@ -108,7 +109,6 @@ const styles = StyleSheet.create({
   },
   reducedWidthCard: {
     width: variables.width - Spacing.Thick24 * 4,
-    marginRight: Spacing.Regular16,
   },
   title: {
     ...typeScale.labelSemiBoldMedium,
