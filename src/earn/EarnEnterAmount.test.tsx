@@ -522,6 +522,25 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('EarnEnterAmount/NotEnoughBalanceWarning')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
     })
+
+    it('should show the the Withdrawing and Claiming card if withdrawalIncludesClaim is true', async () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator
+            component={EarnEnterAmount}
+            params={{
+              pool: {
+                ...mockEarnPositions[0],
+                dataProps: { ...mockEarnPositions[0].dataProps, withdrawalIncludesClaim: true },
+              },
+              mode: 'withdraw',
+            }}
+          />
+        </Provider>
+      )
+
+      expect(getByTestId('EarnEnterAmount/WithdrawingAndClaimingCard')).toBeTruthy()
+    })
   })
 
   // tests independent of deposit / swap-deposit
