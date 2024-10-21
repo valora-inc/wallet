@@ -2556,8 +2556,10 @@
     },
     "enterAmount": {
       "title": "Ile chcesz wpłacić?",
+      "titleWithdraw": "Jaką kwotę chcesz wypłacić?",
       "deposit": "Wpłatę",
       "fees": "Opłaty",
+      "available": "Dostępne",
       "swap": "Zamieniaj",
       "earnUpToLabel": "Możesz zarobić do:",
       "rateLabel": "Stawka (szac.)",
@@ -2578,6 +2580,7 @@
         "estNetworkFee": "Szac. opłata sieciowa",
         "maxNetworkFee": "Maksymalna opłata sieciowa",
         "networkFeeDescription": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję wpłaty.",
+        "networkFeeDescriptionWithdrawal": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji wypłaty.",
         "networkSwapFeeDescription": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcje wpłaty. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
         "appSwapFee": "Opłata w aplikacji {{appName}}"
       },
@@ -2587,6 +2590,10 @@
         "swapTo": "Zamień na",
         "whySwap": "Dlaczego dokonuję wymiany?",
         "swapDescription": "Aby można było wpłacić środki do puli, token jest wymieniany na token puli."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Wycofanie i roszczenie",
+        "description": "{{providerName}} wymaga, abyś odebrał wszystkie dostępne nagrody za każdym razem, gdy dokonujesz wypłaty."
       }
     },
     "activePools": {

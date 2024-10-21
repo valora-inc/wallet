@@ -2550,8 +2550,10 @@
     },
     "enterAmount": {
       "title": "Bạn muốn nạp bao nhiêu tiền?",
+      "titleWithdraw": "How much would you like to withdraw?",
       "deposit": "Nạp tiền",
       "fees": "Phí",
+      "available": "Khả dụng",
       "swap": "Trao đổi",
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
       "rateLabel": "Tỷ giá (ước tính)",
@@ -2572,6 +2574,7 @@
         "estNetworkFee": "Phí mạng ước tính",
         "maxNetworkFee": "Phí mạng tối đa",
         "networkFeeDescription": "Phí mạng là khoản phí bắt buộc giúp mạng có thể xử lý giao dịch nạp tiền.",
+        "networkFeeDescriptionWithdrawal": "The network fee is required by the network to process the withdrawal transaction.",
         "networkSwapFeeDescription": "Phí mạng là khoản phí bắt buộc giúp mạng có thể xử lý giao dịch nạp tiền. Chúng tôi sẽ thu phí {{appName}} là {{appFeePercentage}}% khi bạn sử dụng sản phẩm của chúng tôi.",
         "appSwapFee": "Phí {{appName}}"
       },
@@ -2581,6 +2584,10 @@
         "swapTo": "Trao đổi sang",
         "whySwap": "Tại sao tôi nên thực hiện trao đổi?",
         "swapDescription": "Để nạp được tiền vào bể thì token của bạn cần được đổi sang token bể."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Withdrawing and Claiming",
+        "description": "{{providerName}} requires you to claim all available rewards anytime you withdraw."
       }
     },
     "activePools": {
