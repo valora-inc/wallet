@@ -1,6 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import { Duration, intervalToDuration } from 'date-fns'
 import React, { useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, StyleSheet, Text, View } from 'react-native'
@@ -12,24 +11,26 @@ import { EarnCommonProperties } from 'src/analytics/Properties'
 import { openUrl } from 'src/app/actions'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { LabelWithInfo } from 'src/components/LabelWithInfo'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
-import TokenIcon, { IconSize } from 'src/components/TokenIcon'
+import { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import { useDepositEntrypointInfo } from 'src/earn/hooks'
 import BeforeDepositBottomSheet from 'src/earn/poolInfoScreen/BeforeDepositBottomSheet'
-import { SafetyCard } from 'src/earn/SafetyCard'
-import { getEarnPositionBalanceValues } from 'src/earn/utils'
+import {
+  AgeCard,
+  DailyYieldRateCard,
+  DepositAndEarningsCard,
+  TvlCard,
+  YieldCard,
+} from 'src/earn/poolInfoScreen/Cards'
+import { SafetyCard } from 'src/earn/poolInfoScreen/SafetyCard'
+import TokenIcons from 'src/earn/poolInfoScreen/TokenIcons'
 import WithdrawBottomSheet from 'src/earn/WithdrawBottomSheet'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
-import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
-import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import { positionsWithBalanceSelector } from 'src/positions/selectors'
-import type { EarningItem } from 'src/positions/types'
 import { EarnPosition } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
@@ -39,11 +40,9 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { useTokenInfo, useTokensInfo } from 'src/tokens/hooks'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { navigateToURI } from 'src/utils/linking'
-import { formattedDuration } from 'src/utils/time'
 
 function HeaderTitleSection({
   earnPosition,

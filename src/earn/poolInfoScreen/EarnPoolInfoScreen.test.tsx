@@ -841,7 +841,7 @@ describe('EarnPoolInfoScreen', () => {
               ...mockEarnPositions[0],
               dataProps: {
                 ...mockEarnPositions[0].dataProps,
-                claimType: 'Rewards',
+                claimType: 'rewards',
               },
               balance: '100',
             },
