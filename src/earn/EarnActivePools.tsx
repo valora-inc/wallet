@@ -52,6 +52,7 @@ export default function EarnActivePools() {
 
   return (
     <Touchable
+      shouldRenderRippleAbove
       style={styles.card}
       borderRadius={Spacing.Smallest8}
       testID="EarnActivePools"
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: Spacing.Smallest8,
     marginBottom: Spacing.Thick24,
+    overflow: 'hidden',
   },
   title: {
     ...typeScale.labelSemiBoldMedium,
