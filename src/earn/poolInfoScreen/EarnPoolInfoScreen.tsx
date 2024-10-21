@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: variables.contentPadding,
+    padding: Spacing.Thick24,
   },
   learnMoreText: {
     ...typeScale.labelSemiBoldSmall,
