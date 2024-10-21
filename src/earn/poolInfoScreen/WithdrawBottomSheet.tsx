@@ -30,7 +30,7 @@ function PartialWithdrawAction({
   const { t } = useTranslation()
 
   const action: WithdrawAction = {
-    name: 'Withdraw',
+    name: 'PartialWithdraw',
     title:
       hasRewards && pool.dataProps.withdrawalIncludesClaim
         ? t('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaim')
@@ -41,7 +41,7 @@ function PartialWithdrawAction({
         : t('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawDescription'),
     iconComponent: QuickActionsWithdraw,
     onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'partialWithdraw' })
+      AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'PartialWithdraw' })
       navigate(Screens.EarnEnterAmount, { pool, mode: 'withdraw' })
       forwardedRef.current?.close()
     },
@@ -71,7 +71,7 @@ function ClaimAction({
         : t('earnFlow.poolInfoScreen.withdrawBottomSheet.claimEarningsDescription'),
     iconComponent: Trophy,
     onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'claim' })
+      AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'Claim' })
       navigate(Screens.EarnCollectScreen, { pool }) // TODO (ACT-1389): Confirmation screen for Claim
       forwardedRef.current?.close()
     },
@@ -103,7 +103,7 @@ function ExitAction({
     details,
     iconComponent: Exit,
     onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'exit' })
+      AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'Exit' })
       navigate(Screens.EarnCollectScreen, { pool }) // TODO (ACT-1389): Confirmation screen for Claim & Withdraw
       forwardedRef.current?.close()
     },

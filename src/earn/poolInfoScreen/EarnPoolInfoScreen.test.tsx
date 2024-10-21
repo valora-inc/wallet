@@ -694,7 +694,7 @@ describe('EarnPoolInfoScreen', () => {
     )
     fireEvent.press(getByTestId('WithdrawButton'))
     expect(getByTestId('Earn/WithdrawBottomSheet')).toBeVisible()
-    expect(getByTestId('Earn/ActionCard/Withdraw')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/PartialWithdraw')).toBeTruthy()
     expect(getByTestId('Earn/ActionCard/Claim')).toBeTruthy()
     expect(getByTestId('Earn/ActionCard/Exit')).toBeTruthy()
   })

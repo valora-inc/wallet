@@ -57,8 +57,8 @@ import { DappSection } from 'src/dapps/types'
 import {
   BeforeDepositActionName,
   EarnEnterMode,
-  EarnWithdrawType,
   SerializableRewardsInfo,
+  WithdrawActionName,
 } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
@@ -1647,7 +1647,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_pool_info_tap_safety_details]: EarnCommonProperties & {
     action: 'expand' | 'collapse'
   }
-  [EarnEvents.earn_select_withdraw_type]: { type: EarnWithdrawType }
+  [EarnEvents.earn_select_withdraw_type]: { type: WithdrawActionName }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

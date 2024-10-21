@@ -51,10 +51,10 @@ it('tapping withdraw on WithdrawBottomSheet navigates to enter amount screen', (
       />
     </Provider>
   )
-  expect(getByTestId('Earn/ActionCard/Withdraw')).toBeTruthy()
-  fireEvent.press(getByTestId('Earn/ActionCard/Withdraw'))
+  expect(getByTestId('Earn/ActionCard/PartialWithdraw')).toBeTruthy()
+  fireEvent.press(getByTestId('Earn/ActionCard/PartialWithdraw'))
   expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_select_withdraw_type, {
-    type: 'partialWithdraw',
+    type: 'PartialWithdraw',
   })
   expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
     pool: {
@@ -84,7 +84,7 @@ it('tapping claim on WithdrawBottomSheet navigates to confirmation screen', () =
   expect(getByTestId('Earn/ActionCard/Claim')).toBeTruthy()
   fireEvent.press(getByTestId('Earn/ActionCard/Claim'))
   expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_select_withdraw_type, {
-    type: 'claim',
+    type: 'Claim',
   })
   // TODO (ACT-1389): Check that navigate called with confirmation screen for Claim
 })
@@ -104,7 +104,7 @@ it('tapping exit on WithdrawBottomSheet navigates to enter amount screen', () =>
   expect(getByTestId('Earn/ActionCard/Exit')).toBeTruthy()
   fireEvent.press(getByTestId('Earn/ActionCard/Exit'))
   expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_select_withdraw_type, {
-    type: 'exit',
+    type: 'Exit',
   })
   // TODO (ACT-1389): Check that navigate called with confirmation screen for Claim
 })

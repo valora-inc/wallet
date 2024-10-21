@@ -55,7 +55,7 @@ export type BeforeDepositActionName =
   | 'CrossChainSwap'
   | 'Swap'
 
-type WithdrawActionName = 'Withdraw' | 'Claim' | 'Exit'
+export type WithdrawActionName = 'PartialWithdraw' | 'Claim' | 'Exit'
 
 export interface BeforeDepositAction {
   name: BeforeDepositActionName
@@ -74,5 +74,3 @@ export interface WithdrawAction {
 }
 
 export type EarnEnterMode = 'deposit' | 'swap-deposit' | 'withdraw'
-
-export type EarnWithdrawType = 'partialWithdraw' | 'claim' | 'exit'
