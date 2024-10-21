@@ -25,10 +25,7 @@ export interface EarningItem {
   includedInPoolBalance?: boolean
 }
 
-export enum ClaimType {
-  Earnings = 'earnings',
-  Rewards = 'rewards',
-}
+type ClaimType = 'rewards' | 'earnings'
 
 export interface SafetyRisk {
   isPositive: boolean

@@ -54,7 +54,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
-import { BeforeDepositActionName, EarnEnterMode, SerializableRewardsInfo } from 'src/earn/types'
+import { BeforeDepositActionName, EarnEnterMode, EarnWithdrawType, SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -1639,10 +1639,10 @@ interface EarnEventsProperties {
     hasTokensOnSameNetwork: boolean
     hasTokensOnOtherNetworks: boolean
   }
-  [EarnEvents.earn_select_withdraw_type]: { type: 'partialWithdraw' | 'claim' | 'exit' }
   [EarnEvents.earn_pool_info_tap_safety_details]: EarnCommonProperties & {
     action: 'expand' | 'collapse'
   }
+  [EarnEvents.earn_select_withdraw_type]: { type: EarnWithdrawType }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

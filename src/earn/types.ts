@@ -48,19 +48,9 @@ export interface PrepareWithdrawAndClaimParams {
   rewardsPositions: Position[]
 }
 
-export enum BeforeDepositActionName {
-  Add = 'Add',
-  Transfer = 'Transfer',
-  SwapAndDeposit = 'SwapAndDeposit',
-  CrossChainSwap = 'CrossChainSwap',
-  Swap = 'Swap',
-}
+export type BeforeDepositActionName = 'Add' | 'Transfer' | 'SwapAndDeposit' | 'CrossChainSwap' | 'Swap'
 
-export enum WithdrawActionName {
-  Withdraw = 'Withdraw',
-  Claim = 'Claim',
-  Exit = 'Exit',
-}
+type WithdrawActionName = 'Withdraw' | 'Claim' | 'Exit'
 
 export interface BeforeDepositAction {
   name: BeforeDepositActionName
@@ -79,3 +69,5 @@ export interface WithdrawAction {
 }
 
 export type EarnEnterMode = 'deposit' | 'swap-deposit' | 'withdraw'
+
+export type EarnWithdrawType = 'partialWithdraw' | 'claim' | 'exit'

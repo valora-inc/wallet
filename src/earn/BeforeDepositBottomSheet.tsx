@@ -6,7 +6,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import { EarnCommonProperties, TokenProperties } from 'src/analytics/Properties'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
-import { BeforeDepositAction, BeforeDepositActionName, WithdrawAction } from 'src/earn/types'
+import { BeforeDepositAction, WithdrawAction } from 'src/earn/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
@@ -56,8 +56,8 @@ function AddAction({
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.Add,
+  const action: BeforeDepositAction = {
+    name: 'Add',
     title: t('earnFlow.beforeDepositBottomSheet.action.add'),
     details: t('earnFlow.beforeDepositBottomSheet.action.addDescription', {
       tokenSymbol: token.symbol,
@@ -66,7 +66,7 @@ function AddAction({
     iconComponent: QuickActionsAdd,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.Add,
+        action: 'Add',
         ...analyticsProps,
       })
 
@@ -94,8 +94,8 @@ function TransferAction({
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.Transfer,
+  const action: BeforeDepositAction = {
+    name: 'Transfer',
     title: t('earnFlow.beforeDepositBottomSheet.action.transfer'),
     details: t('earnFlow.beforeDepositBottomSheet.action.transferDescription', {
       tokenSymbol: token.symbol,
@@ -104,7 +104,7 @@ function TransferAction({
     iconComponent: QuickActionsSend,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.Transfer,
+        action: 'Transfer',
         ...analyticsProps,
       })
 
@@ -126,8 +126,8 @@ function CrossChainSwapAction({
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.CrossChainSwap,
+  const action: BeforeDepositAction = {
+    name: 'CrossChainSwap',
     title: t('earnFlow.beforeDepositBottomSheet.action.crossChainSwap'),
     details: t('earnFlow.beforeDepositBottomSheet.action.crossChainSwapDescription', {
       tokenSymbol: token.symbol,
@@ -135,7 +135,7 @@ function CrossChainSwapAction({
     iconComponent: SwapArrows,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.CrossChainSwap,
+        action: 'CrossChainSwap',
         ...analyticsProps,
       })
 
@@ -157,8 +157,8 @@ function SwapAction({
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.Swap,
+  const action: BeforeDepositAction = {
+    name: 'Swap',
     title: t('earnFlow.beforeDepositBottomSheet.action.swap'),
     details: t('earnFlow.beforeDepositBottomSheet.action.swapDescription', {
       tokenSymbol: token.symbol,
@@ -167,7 +167,7 @@ function SwapAction({
     iconComponent: SwapArrows,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.Swap,
+        action: 'Swap',
         ...analyticsProps,
       })
 
@@ -191,8 +191,8 @@ function SwapAndDepositAction({
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.SwapAndDeposit,
+  const action: BeforeDepositAction = {
+    name: 'SwapAndDeposit',
     title: t('earnFlow.beforeDepositBottomSheet.action.swapAndDeposit'),
     details: t('earnFlow.beforeDepositBottomSheet.action.swapAndDepositDescription', {
       tokenSymbol: token.symbol,
@@ -201,7 +201,7 @@ function SwapAndDepositAction({
     iconComponent: SwapAndDeposit,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.SwapAndDeposit,
+        action: 'SwapAndDeposit',
         ...analyticsProps,
       })
 
