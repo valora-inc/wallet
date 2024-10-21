@@ -2550,8 +2550,10 @@
     },
     "enterAmount": {
       "title": "您想存入多少钱？",
+      "titleWithdraw": "您想提取多少钱？",
       "deposit": "存款",
       "fees": "费用",
+      "available": "可用",
       "swap": "交换",
       "earnUpToLabel": "您最多可以赚取：",
       "rateLabel": "费率（估算）",
@@ -2572,6 +2574,7 @@
         "estNetworkFee": "预估网络费用",
         "maxNetworkFee": "最高网络费用",
         "networkFeeDescription": "使用网络处理存款交易需支付网络费用。",
+        "networkFeeDescriptionWithdrawal": "网络费是网络处理取款交易所需的费用。",
         "networkSwapFeeDescription": "使用网络处理存款交易需支付网络费用。使用我们的产品时，将收取 {{appFeePercentage}}% 的 {{appName}} 费用。",
         "appSwapFee": "{{appName}} 费用"
       },
@@ -2581,6 +2584,10 @@
         "swapTo": "交换至",
         "whySwap": "我为什么要进行交换？",
         "swapDescription": "当您向某个资金池存入资金时，您的代币将会交换成资金池代币。"
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "退出和申请",
+        "description": "{{providerName}} 要求您在任何时候提款时都要申领所有可用奖励。"
       }
     },
     "activePools": {
