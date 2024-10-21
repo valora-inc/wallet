@@ -24,7 +24,7 @@ import {
 } from 'src/earn/poolInfoScreen/Cards'
 import { SafetyCard } from 'src/earn/poolInfoScreen/SafetyCard'
 import TokenIcons from 'src/earn/poolInfoScreen/TokenIcons'
-import WithdrawBottomSheet from 'src/earn/WithdrawBottomSheet'
+import WithdrawBottomSheet from 'src/earn/poolInfoScreen/WithdrawBottomSheet'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
