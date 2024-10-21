@@ -286,14 +286,14 @@ function EarnEnterAmount({ route }: Props) {
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
 
-  const allRewardsPositions = useSelector(positionsWithBalanceSelector)
+  const allPositionsWithBalance = useSelector(positionsWithBalanceSelector)
 
   const rewardsPositions = useMemo(
     () =>
-      allRewardsPositions.filter((position) =>
+      allPositionsWithBalance.filter((position) =>
         pool.dataProps.rewardsPositionIds?.includes(position.positionId)
       ),
-    [allRewardsPositions, pool.dataProps.rewardsPositionIds]
+    [allPositionsWithBalance, pool.dataProps.rewardsPositionIds]
   )
 
   const disabled =
