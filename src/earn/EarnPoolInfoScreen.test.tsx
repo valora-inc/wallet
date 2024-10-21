@@ -7,7 +7,7 @@ import EarnPoolInfoScreen from 'src/earn/EarnPoolInfoScreen'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { ClaimType, EarnPosition } from 'src/positions/types'
+import { EarnPosition } from 'src/positions/types'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
@@ -803,7 +803,7 @@ describe('EarnPoolInfoScreen', () => {
               ...mockEarnPositions[0],
               dataProps: {
                 ...mockEarnPositions[0].dataProps,
-                claimType: ClaimType.Earnings,
+                claimType: 'Earnings',
               },
               balance: '100',
             },
@@ -841,7 +841,7 @@ describe('EarnPoolInfoScreen', () => {
               ...mockEarnPositions[0],
               dataProps: {
                 ...mockEarnPositions[0].dataProps,
-                claimType: ClaimType.Rewards,
+                claimType: 'Rewards',
               },
               balance: '100',
             },

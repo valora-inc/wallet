@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
-import { ActionCard } from 'src/earn/BeforeDepositBottomSheet'
 import { WithdrawAction } from 'src/earn/types'
 import Exit from 'src/icons/Exit'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
@@ -17,6 +16,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { ActionCard } from 'src/utils/ActionCard'
 
 function PartialWithdrawAction({
   forwardedRef,

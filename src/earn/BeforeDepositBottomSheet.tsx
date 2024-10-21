@@ -5,8 +5,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnCommonProperties, TokenProperties } from 'src/analytics/Properties'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
-import Touchable from 'src/components/Touchable'
-import { BeforeDepositAction, WithdrawAction } from 'src/earn/types'
+import { BeforeDepositAction } from 'src/earn/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
@@ -24,26 +23,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenAnalyticsProps } from 'src/tokens/utils'
-
-export function ActionCard({ action }: { action: BeforeDepositAction | WithdrawAction }) {
-  return (
-    <Touchable
-      style={styles.touchable}
-      key={action.name}
-      borderRadius={20}
-      onPress={action.onPress}
-      testID={`Earn/ActionCard/${action.name}`}
-    >
-      <>
-        <action.iconComponent color={Colors.black} />
-        <View style={styles.cardContainer}>
-          <Text style={styles.actionTitle}>{action.title}</Text>
-          <Text style={styles.actionDetails}>{action.details}</Text>
-        </View>
-      </>
-    </Touchable>
-  )
-}
+import { ActionCard } from 'src/utils/ActionCard'
 
 function AddAction({
   token,
@@ -311,10 +291,6 @@ const styles = StyleSheet.create({
     gap: Spacing.Regular16,
     marginVertical: Spacing.Thick24,
   },
-  actionTitle: {
-    ...typeScale.labelMedium,
-    color: Colors.black,
-  },
   actionDetails: {
     ...typeScale.bodySmall,
     color: Colors.black,
@@ -322,15 +298,5 @@ const styles = StyleSheet.create({
   bottomSheetTitle: {
     ...typeScale.titleSmall,
     color: Colors.black,
-  },
-  touchable: {
-    backgroundColor: Colors.gray1,
-    padding: Spacing.Regular16,
-    flexDirection: 'row',
-    gap: Spacing.Regular16,
-    alignItems: 'center',
-  },
-  cardContainer: {
-    flex: 1,
   },
 })
