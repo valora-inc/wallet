@@ -2555,6 +2555,7 @@
       "fees": "费用",
       "available": "可用",
       "swap": "交换",
+      "claimingReward": "申请奖励",
       "earnUpToLabel": "您最多可以赚取：",
       "rateLabel": "费率（估算）",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/年",

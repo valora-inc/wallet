@@ -2555,6 +2555,7 @@
       "fees": "Phí",
       "available": "Khả dụng",
       "swap": "Trao đổi",
+      "claimingReward": "Claiming Reward",
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
       "rateLabel": "Tỷ giá (ước tính)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / năm",

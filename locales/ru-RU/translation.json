@@ -2561,6 +2561,7 @@
       "fees": "Комиссия",
       "available": "Доступно",
       "swap": "Обмен",
+      "claimingReward": "Претензия на вознаграждение",
       "earnUpToLabel": "Вы можете заработать до:",
       "rateLabel": "Ставка (прибл.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / год",

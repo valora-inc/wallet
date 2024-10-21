@@ -2561,6 +2561,7 @@
       "fees": "Opłaty",
       "available": "Dostępne",
       "swap": "Zamieniaj",
+      "claimingReward": "Odebranie nagrody",
       "earnUpToLabel": "Możesz zarobić do:",
       "rateLabel": "Stawka (szac.)",
       "earnUpTo": "~{{amount}}{{fiatSymbol}} / rok",
