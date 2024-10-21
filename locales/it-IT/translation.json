@@ -2557,6 +2557,7 @@
       "fees": "Commissioni",
       "available": "Disponibile",
       "swap": "Scambio",
+      "claimingReward": "Richiedere la ricompensa",
       "earnUpToLabel": "Puoi guadagnare fino a:",
       "rateLabel": "Tasso (stima)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / anno",
