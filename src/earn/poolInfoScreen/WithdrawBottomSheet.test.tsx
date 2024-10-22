@@ -207,6 +207,7 @@ describe('WithdrawBottomSheet', () => {
             ...mockEarnPositions[0],
             dataProps: {
               ...mockEarnPositions[0].dataProps,
+              claimType: 'earnings',
               withdrawalIncludesClaim: true,
             },
             balance: '100',
@@ -217,7 +218,7 @@ describe('WithdrawBottomSheet', () => {
     )
     expect(getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaim')).toBeTruthy()
     expect(
-      getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaimDescription')
+      getByText('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaimEarningsDescription')
     ).toBeTruthy()
   })
 })

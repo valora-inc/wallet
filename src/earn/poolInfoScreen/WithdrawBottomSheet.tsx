@@ -26,6 +26,7 @@ function PartialWithdrawAction({
   hasRewards: boolean
 }) {
   const { t } = useTranslation()
+  const claimType = pool.dataProps.claimType
 
   const action: WithdrawAction = {
     name: 'PartialWithdraw',
@@ -35,7 +36,9 @@ function PartialWithdrawAction({
         : t('earnFlow.poolInfoScreen.withdraw'),
     details:
       hasRewards && pool.dataProps.withdrawalIncludesClaim
-        ? t('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaimDescription')
+        ? claimType === 'rewards'
+          ? t('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaimRewardsDescription')
+          : t('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaimEarningsDescription')
         : t('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawDescription'),
     iconComponent: QuickActionsWithdraw,
     onPress: () => {
