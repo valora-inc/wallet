@@ -25,7 +25,7 @@ const ALLOWED_ZERION_NETWORKS: NetworkId[] = [
 ]
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:8080' || networkConfig.getWalletTransactionsUrl,
+  baseUrl: networkConfig.getWalletTransactionsUrl,
   headers: { Accept: 'application/json' },
 })
 
