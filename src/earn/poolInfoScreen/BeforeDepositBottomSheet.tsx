@@ -5,6 +5,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnCommonProperties, TokenProperties } from 'src/analytics/Properties'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import { ActionCard } from 'src/earn/ActionCard'
 import { BeforeDepositAction } from 'src/earn/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -23,7 +24,6 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenAnalyticsProps } from 'src/tokens/utils'
-import { ActionCard } from 'src/utils/ActionCard'
 
 function AddAction({
   token,

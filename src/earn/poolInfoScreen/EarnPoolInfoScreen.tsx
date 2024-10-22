@@ -202,10 +202,14 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     exchanges,
   } = useDepositEntrypointInfo({ allTokens, pool })
 
-  const rewardsPositions = useSelector(positionsWithBalanceSelector).filter((position) =>
-    pool.dataProps.rewardsPositionIds?.includes(position.positionId)
-  )
-  const hasRewards = useMemo(() => rewardsPositions.length > 0, [rewardsPositions])
+  const allPositionsWithBalance = useSelector(positionsWithBalanceSelector)
+
+  const hasRewards = useMemo(() => {
+    const rewardsPositions = allPositionsWithBalance.filter((position) =>
+      pool.dataProps.rewardsPositionIds?.includes(position.positionId)
+    )
+    return rewardsPositions.length > 0
+  }, [allPositionsWithBalance])
 
   const onPressWithdraw = () => {
     AppAnalytics.track(EarnEvents.earn_pool_info_tap_withdraw, {

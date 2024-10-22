@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import { ActionCard } from 'src/earn/ActionCard'
 import { WithdrawAction } from 'src/earn/types'
 import Exit from 'src/icons/Exit'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
@@ -16,7 +17,6 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { ActionCard } from 'src/utils/ActionCard'
 
 function PartialWithdrawAction({
   forwardedRef,
@@ -41,7 +41,13 @@ function PartialWithdrawAction({
         : t('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawDescription'),
     iconComponent: QuickActionsWithdraw,
     onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'PartialWithdraw' })
+      AppAnalytics.track(EarnEvents.earn_select_withdraw_type, {
+        type: 'PartialWithdraw',
+        providerId: pool.appId,
+        poolId: pool.positionId,
+        networkId: pool.networkId,
+        depositTokenId: pool.dataProps.depositTokenId,
+      })
       navigate(Screens.EarnEnterAmount, { pool, mode: 'withdraw' })
       forwardedRef.current?.close()
     },
@@ -71,7 +77,13 @@ function ClaimAction({
         : t('earnFlow.poolInfoScreen.withdrawBottomSheet.claimEarningsDescription'),
     iconComponent: Trophy,
     onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'Claim' })
+      AppAnalytics.track(EarnEvents.earn_select_withdraw_type, {
+        type: 'Claim',
+        providerId: pool.appId,
+        poolId: pool.positionId,
+        networkId: pool.networkId,
+        depositTokenId: pool.dataProps.depositTokenId,
+      })
       navigate(Screens.EarnCollectScreen, { pool }) // TODO (ACT-1389): Confirmation screen for Claim
       forwardedRef.current?.close()
     },
@@ -103,7 +115,13 @@ function ExitAction({
     details,
     iconComponent: Exit,
     onPress: () => {
-      AppAnalytics.track(EarnEvents.earn_select_withdraw_type, { type: 'Exit' })
+      AppAnalytics.track(EarnEvents.earn_select_withdraw_type, {
+        type: 'Exit',
+        providerId: pool.appId,
+        poolId: pool.positionId,
+        networkId: pool.networkId,
+        depositTokenId: pool.dataProps.depositTokenId,
+      })
       navigate(Screens.EarnCollectScreen, { pool }) // TODO (ACT-1389): Confirmation screen for Claim & Withdraw
       forwardedRef.current?.close()
     },

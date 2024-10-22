@@ -1647,7 +1647,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_pool_info_tap_safety_details]: EarnCommonProperties & {
     action: 'expand' | 'collapse'
   }
-  [EarnEvents.earn_select_withdraw_type]: { type: WithdrawActionName }
+  [EarnEvents.earn_select_withdraw_type]: EarnCommonProperties & { type: WithdrawActionName }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
