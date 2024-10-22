@@ -272,6 +272,10 @@ function useNewlyCompletedTransactions(
           (tx): tx is TokenExchange => tx.type === TokenTransactionTypeV2.CrossChainSwapTransaction
         )
 
+        if (newlyCompleted.length) {
+          vibrateSuccess()
+        }
+
         return {
           pending: [...standByTransactions.pending],
           confirmed: [...standByTransactions.confirmed],
@@ -318,8 +322,7 @@ export default function TransactionFeedV2() {
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const standByTransactions = useStandByTransactions()
   const feedFirstPage = useSelector(feedFirstPageSelector)
-  const { hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps } =
-    useNewlyCompletedTransactions(standByTransactions)
+  const { newlyCompletedCrossChainSwaps } = useNewlyCompletedTransactions(standByTransactions)
   const [endCursor, setEndCursor] = useState<string | undefined>(undefined)
   const [paginatedData, setPaginatedData] = useState<PaginatedData>({
     [FIRST_PAGE_CURSOR]: feedFirstPage,
@@ -394,19 +397,6 @@ export default function TransactionFeedV2() {
       dispatch(showError(ErrorMessages.FETCH_FAILED))
     },
     [error]
-  )
-
-  useEffect(
-    function vibrateForNewlyCompletedTransactions() {
-      const isFirstPage = data?.pageInfo.hasPreviousPage
-        ? data.pageInfo.startCursor
-        : FIRST_PAGE_CURSOR
-
-      if (isFirstPage && hasNewlyCompletedTransactions) {
-        vibrateSuccess()
-      }
-    },
-    [hasNewlyCompletedTransactions, data?.pageInfo]
   )
 
   useEffect(

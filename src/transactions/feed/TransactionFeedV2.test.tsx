@@ -414,7 +414,7 @@ describe('TransactionFeedV2', () => {
   })
 
   // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('should vibrate when there is a pending transaction that turned into completed', async () => {
+  it('should vibrate when there is a pending transaction that turned into completed', async () => {
     const standByTransactionHash = '0x02' as string
     mockFetch
       .mockResponseOnce(

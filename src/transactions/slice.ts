@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, type RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
+import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { transactionFeedV2Api } from 'src/transactions/api'
 import {
   TransactionStatus,
@@ -232,6 +233,17 @@ const slice = createSlice({
         const confirmedTransactionsFromNewPage = payload.transactions
           .filter((tx) => tx.status !== TransactionStatus.Pending)
           .map((tx) => tx.transactionHash)
+
+        const latestTimestamp = state.feedFirstPage[0]?.timestamp as number | undefined
+        const hasNewUnknownCompletedTransactions = latestTimestamp
+          ? payload.transactions.some(
+              (tx) => tx.status === TransactionStatus.Complete && tx.timestamp > latestTimestamp
+            )
+          : false
+
+        if (hasNewUnknownCompletedTransactions) {
+          vibrateSuccess()
+        }
 
         return {
           ...state,
