@@ -225,7 +225,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     if (partialWithdrawalsEnabled) {
       withdrawBottomSheetRef.current?.snapToIndex(0)
     } else {
-      navigate(Screens.EarnCollectScreen, { pool }) // TODO (ACT-1389): Confirmation screen for Claim & Withdraw
+      navigate(Screens.EarnCollectScreen, { pool })
     }
   }
 
