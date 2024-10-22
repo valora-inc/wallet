@@ -222,7 +222,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     const partialWithdrawalsEnabled = getFeatureGate(
       StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL
     )
-    if (hasRewards || partialWithdrawalsEnabled) {
+    if (partialWithdrawalsEnabled) {
       withdrawBottomSheetRef.current?.snapToIndex(0)
     } else {
       navigate(Screens.EarnCollectScreen, { pool }) // TODO (ACT-1389): Confirmation screen for Claim & Withdraw

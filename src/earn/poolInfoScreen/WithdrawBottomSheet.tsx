@@ -12,8 +12,6 @@ import Trophy from 'src/icons/Trophy'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -139,7 +137,6 @@ export default function WithdrawBottomSheet({
   canClaim: boolean
 }) {
   const { t } = useTranslation()
-  const canPartialWithdraw = getFeatureGate(StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL)
 
   return (
     <BottomSheet
@@ -149,9 +146,7 @@ export default function WithdrawBottomSheet({
       testId={'Earn/WithdrawBottomSheet'}
     >
       <View style={styles.actionsContainer}>
-        {canPartialWithdraw && (
-          <PartialWithdrawAction forwardedRef={forwardedRef} pool={pool} hasRewards={canClaim} />
-        )}
+        <PartialWithdrawAction forwardedRef={forwardedRef} pool={pool} hasRewards={canClaim} />
         {canClaim && <ClaimAction forwardedRef={forwardedRef} pool={pool} />}
         <ExitAction forwardedRef={forwardedRef} pool={pool} hasRewards={canClaim} />
       </View>
