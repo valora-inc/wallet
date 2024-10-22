@@ -1,15 +1,33 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
-import { baseQuery } from 'src/redux/api'
-import type { TokenTransaction } from 'src/transactions/types'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { type LocalCurrencyCode } from 'src/localCurrency/consts'
+import {
+  NetworkId,
+  TokenTransactionTypeV2,
+  type PageInfo,
+  type TokenTransaction,
+} from 'src/transactions/types'
+import networkConfig from 'src/web3/networkConfig'
 
-export const FIRST_PAGE_TIMESTAMP = 0 // placeholder
+export const FIRST_PAGE_CURSOR = 'FIRST_PAGE'
 
 export type TransactionFeedV2Response = {
   transactions: TokenTransaction[]
-  pageInfo: {
-    hasNextPage: boolean
-  }
+  pageInfo: PageInfo
 }
+
+const ALLOWED_ZERION_NETWORKS: NetworkId[] = [
+  NetworkId['ethereum-mainnet'],
+  NetworkId['celo-mainnet'],
+  NetworkId['op-mainnet'],
+  NetworkId['base-mainnet'],
+  NetworkId['arbitrum-one'],
+  NetworkId['polygon-pos-mainnet'],
+]
+
+const baseQuery = fetchBaseQuery({
+  baseUrl: 'http://localhost:8080' || networkConfig.getWalletTransactionsUrl,
+  headers: { Accept: 'application/json' },
+})
 
 export const transactionFeedV2Api = createApi({
   reducerPath: 'transactionFeedV2Api',
@@ -17,11 +35,17 @@ export const transactionFeedV2Api = createApi({
   endpoints: (builder) => ({
     transactionFeedV2: builder.query<
       TransactionFeedV2Response,
-      { address: string; endCursor: number }
+      {
+        address: string
+        localCurrencyCode: LocalCurrencyCode
+        endCursor: PageInfo['endCursor'] | undefined
+      }
     >({
-      query: ({ address, endCursor }) => {
-        const cursor = endCursor ? `?endCursor=${endCursor}` : ''
-        return `/wallet/${address}/transactions${cursor}`
+      query: ({ address, localCurrencyCode, endCursor }) => {
+        const networkIds = ALLOWED_ZERION_NETWORKS.join('&networkIds[]=')
+        const includeTypes = Object.values(TokenTransactionTypeV2).join('&includeTypes[]=')
+        const cursor = endCursor === undefined ? '' : `&afterCursor=${endCursor}`
+        return `?networkIds[]=${networkIds}&includeTypes[]=${includeTypes}&address=${address}&localCurrencyCode=${localCurrencyCode}${cursor}`
       },
       keepUnusedDataFor: 60, // 1 min
     }),

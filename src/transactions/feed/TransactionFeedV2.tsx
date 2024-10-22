@@ -9,6 +9,7 @@ import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
+import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { store } from 'src/redux/store'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
@@ -18,7 +19,7 @@ import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import { FIRST_PAGE_TIMESTAMP, useTransactionFeedV2Query } from 'src/transactions/api'
+import { FIRST_PAGE_CURSOR, useTransactionFeedV2Query } from 'src/transactions/api'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
@@ -46,11 +47,12 @@ import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type PaginatedData = {
-  [timestamp: number]: TokenTransaction[]
+  [FIRST_PAGE_CURSOR]: TokenTransaction[]
+  [endCursor: string]: TokenTransaction[]
 }
 
 const MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL = 10
-const POLL_INTERVAL_MS = 10000 // 10 sec
+const POLL_INTERVAL_MS = 10_000 // 10 sec
 const TAG = 'transactions/feed/TransactionFeedV2'
 
 function getAllowedNetworksForTransfers() {
@@ -171,7 +173,7 @@ function mergeStandByTransactionsInRange({
 }: {
   transactions: TokenTransaction[]
   standByTransactions: TokenTransaction[]
-  currentCursor?: number
+  currentCursor?: keyof PaginatedData
 }): TokenTransaction[] {
   /**
    * If the data from the first page is empty - there's no successful transactions in the wallet.
@@ -179,7 +181,7 @@ function mergeStandByTransactionsInRange({
    * In this case we need to show whatever we've got in standByTransactions, until we have some
    * paginated data to merge it with.
    */
-  const isFirstPage = currentCursor === FIRST_PAGE_TIMESTAMP
+  const isFirstPage = currentCursor === FIRST_PAGE_CURSOR
   if (isFirstPage && transactions.length === 0) {
     return standByTransactions
   }
@@ -313,13 +315,14 @@ export default function TransactionFeedV2() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
+  const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const standByTransactions = useStandByTransactions()
   const feedFirstPage = useSelector(feedFirstPageSelector)
   const { hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps } =
     useNewlyCompletedTransactions(standByTransactions)
-  const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
+  const [endCursor, setEndCursor] = useState<string | undefined>(undefined)
   const [paginatedData, setPaginatedData] = useState<PaginatedData>({
-    [FIRST_PAGE_TIMESTAMP]: feedFirstPage,
+    [FIRST_PAGE_CURSOR]: feedFirstPage,
   })
 
   /**
@@ -335,16 +338,9 @@ export default function TransactionFeedV2() {
    * intention is to only fetch the next page whenever endCursor changes. Polling is handled by
    * calling the same hook below.
    */
-  const { data, originalArgs, nextCursor, isFetching, error } = useTransactionFeedV2Query(
-    { address: address!, endCursor },
-    {
-      skip: !address,
-      refetchOnMountOrArgChange: true,
-      selectFromResult: (result) => ({
-        ...result,
-        nextCursor: result.data?.transactions.at(-1)?.timestamp,
-      }),
-    }
+  const { data, isFetching, error } = useTransactionFeedV2Query(
+    { address: address!, endCursor, localCurrencyCode },
+    { skip: !address, refetchOnMountOrArgChange: true }
   )
 
   /**
@@ -357,16 +353,17 @@ export default function TransactionFeedV2() {
    * flow for the first page.
    */
   useTransactionFeedV2Query(
-    { address: address!, endCursor: FIRST_PAGE_TIMESTAMP },
+    { address: address!, localCurrencyCode, endCursor: undefined },
     { skip: !address, pollingInterval: POLL_INTERVAL_MS }
   )
 
   useEffect(
     function updatePaginatedData() {
-      if (isFetching) return
+      if (isFetching || !data) return
 
-      const currentCursor = originalArgs?.endCursor // timestamp from the last transaction from the previous page.
-      const transactions = data?.transactions || []
+      const currentCursor = data?.pageInfo.hasPreviousPage
+        ? data.pageInfo.startCursor
+        : FIRST_PAGE_CURSOR
 
       /**
        * There are only 2 scenarios when we actually update the paginated data:
@@ -382,16 +379,17 @@ export default function TransactionFeedV2() {
        *    considered confirmed (completed/failed). For this reason, there's no point in updating
        *    the data as its very unlikely to update.
        */
+
       setPaginatedData((prev) => {
-        const isFirstPage = currentCursor === FIRST_PAGE_TIMESTAMP
+        const isFirstPage = currentCursor === FIRST_PAGE_CURSOR
         const pageDataIsAbsent =
-          currentCursor !== FIRST_PAGE_TIMESTAMP && // not the first page
+          currentCursor !== FIRST_PAGE_CURSOR && // not the first page
           currentCursor !== undefined && // it is a page after the first
           prev[currentCursor] === undefined // data for this page wasn't stored yet
 
         if (isFirstPage || pageDataIsAbsent) {
           const mergedTransactions = mergeStandByTransactionsInRange({
-            transactions,
+            transactions: data?.transactions || [],
             standByTransactions: standByTransactions.confirmed,
             currentCursor,
           })
@@ -402,7 +400,7 @@ export default function TransactionFeedV2() {
         return prev
       })
     },
-    [isFetching, data?.transactions, originalArgs?.endCursor, standByTransactions.confirmed]
+    [isFetching, data, standByTransactions.confirmed]
   )
 
   useEffect(
@@ -417,12 +415,15 @@ export default function TransactionFeedV2() {
 
   useEffect(
     function vibrateForNewlyCompletedTransactions() {
-      const isFirstPage = originalArgs?.endCursor === FIRST_PAGE_TIMESTAMP
+      const isFirstPage = data?.pageInfo.hasPreviousPage
+        ? data.pageInfo.startCursor
+        : FIRST_PAGE_CURSOR
+
       if (isFirstPage && hasNewlyCompletedTransactions) {
         vibrateSuccess()
       }
     },
-    [hasNewlyCompletedTransactions, originalArgs?.endCursor]
+    [hasNewlyCompletedTransactions, data?.pageInfo]
   )
 
   useEffect(
@@ -458,8 +459,8 @@ export default function TransactionFeedV2() {
 
   // This logic will change once the real api is connected
   function fetchMoreTransactions() {
-    if (nextCursor) {
-      setEndCursor(nextCursor)
+    if (data?.pageInfo.hasNextPage && data?.pageInfo.endCursor) {
+      setEndCursor(data.pageInfo.endCursor)
       return
     }
 
