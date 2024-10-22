@@ -247,7 +247,7 @@ function useStandByTransactions() {
 
 /**
  * In order to properly detect if any of the existing pending transactions turned into completed
- * we need to listen to the updates of stand by transactions. Whenever we detect that a confirmed
+ * we need to listen to the updates of stand by transactions. Whenever we detect that a completed
  * transaction was in pending status on previous render - we consider it a newly completed transaction.
  */
 function useNewlyCompletedTransactions(
@@ -325,38 +325,36 @@ export default function TransactionFeedV2() {
     [FIRST_PAGE_CURSOR]: feedFirstPage,
   })
 
-  /**
-   * This hook automatically fetches the pagination data when (and only when) the endCursor changes
-   * (we can safely ignore wallet address change as it's impossible to get changed on the fly).
-   * When components mounts, it fetches data for the first page using FIRST_PAGE_TIMESTAMP for endCursor
-   * (which is ignored in the request only for the first page as it's just an endCursor placeholder).
-   * Once the data is returned – we process it with "selectFromResult" for convenience and return the
-   * data. It gets further processed within the "updatePaginatedData" useEffect.
-   *
-   * Cursor for the next page is the timestamp of the last transaction of the last fetched page.
-   * This hook doesn't refetch data for none of the pages, neither does it do any polling. It's
-   * intention is to only fetch the next page whenever endCursor changes. Polling is handled by
-   * calling the same hook below.
-   */
   const { data, isFetching, error } = useTransactionFeedV2Query(
     { address: address!, endCursor, localCurrencyCode },
     { skip: !address, refetchOnMountOrArgChange: true }
   )
 
   /**
-   * This is the same hook as above and it only triggers the fetch request. It's intention is to
-   * only poll the data for the first page of the feed, using the FIRST_PAGE_TIMESTAMP endCursor.
-   * Thanks to how RTK-Query stores the fetched data, we know that using "useTransactionFeedV2Query"
-   * with the same arguments in multiple places will always point to the same data. This means, that
-   * we can trigger fetch request here and once data arrives - the same hook above will re-run the
-   * "selectFromResult" function for FIRST_PAGE_TIMESTAMP endCursor and will trigger the data update
-   * flow for the first page.
+   * This is the same hook as above and it only polls the first page of the feed. Thanks to how
+   * RTK-Query stores the fetched data, we know that using "useTransactionFeedV2Query" with the
+   * same arguments in multiple places will always point to the same data. This means that we can
+   * trigger fetch request here and once data arrives - the same hook above will also get the same data.
    */
   useTransactionFeedV2Query(
     { address: address!, localCurrencyCode, endCursor: undefined },
     { skip: !address, pollingInterval: POLL_INTERVAL_MS }
   )
 
+  /**
+   * There are only 2 scenarios when we actually update the paginated data:
+   *
+   * 1. Always update the first page. First page will be polled every "POLL_INTERVAL"
+   *    milliseconds. Whenever new data arrives - replace the existing first page data
+   *    with the new data as it might contain some updated information about the transactions
+   *    that are already present or new transactions. The first page should not contain an
+   *    empty array, unless wallet doesn't have any transactions at all.
+   *
+   * 2. Data for every page after the first page is only set once. All the pending transactions
+   *    are supposed to arrive in the first page so everything after the first page can be
+   *    considered confirmed (completed/failed). For this reason, there's no point in updating
+   *    the data as its very unlikely to update.
+   */
   useEffect(
     function updatePaginatedData() {
       if (isFetching || !data) return
@@ -364,21 +362,6 @@ export default function TransactionFeedV2() {
       const currentCursor = data?.pageInfo.hasPreviousPage
         ? data.pageInfo.startCursor
         : FIRST_PAGE_CURSOR
-
-      /**
-       * There are only 2 scenarios when we actually update the paginated data:
-       *
-       * 1. Always update the first page. First page will be polled every "POLL_INTERVAL"
-       *    milliseconds. Whenever new data arrives - replace the existing first page data
-       *    with the new data as it might contain some updated information about the transactions
-       *    that are already present. The first page should not contain an empty array, unless
-       *    wallet doesn't have any transactions at all.
-       *
-       * 2. Data for every page after the first page is only set once. All the pending transactions
-       *    are supposed to arrive in the first page so everything after the first page can be
-       *    considered confirmed (completed/failed). For this reason, there's no point in updating
-       *    the data as its very unlikely to update.
-       */
 
       setPaginatedData((prev) => {
         const isFirstPage = currentCursor === FIRST_PAGE_CURSOR
@@ -457,7 +440,6 @@ export default function TransactionFeedV2() {
     )
   }
 
-  // This logic will change once the real api is connected
   function fetchMoreTransactions() {
     if (data?.pageInfo.hasNextPage && data?.pageInfo.endCursor) {
       setEndCursor(data.pageInfo.endCursor)
