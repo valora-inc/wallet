@@ -1242,6 +1242,13 @@
                 "cantSeparateCompoundedInterest": {
                     "type": "boolean"
                 },
+                "claimType": {
+                    "enum": [
+                        "earnings",
+                        "rewards"
+                    ],
+                    "type": "string"
+                },
                 "contractCreatedAt": {
                     "type": "string"
                 },
