@@ -40,6 +40,7 @@ export enum StatsigFeatureGates {
   SHOW_SWAP_AND_DEPOSIT = 'show_swap_and_deposit',
   SHOW_UK_COMPLIANT_VARIANT = 'show_uk_compliant_variant',
   ALLOW_EARN_PARTIAL_WITHDRAWAL = 'allow_earn_partial_withdrawal',
+  SHOW_ZERION_TRANSACTION_FEED = 'show_zerion_transaction_feed',
 }
 
 export enum StatsigExperiments {

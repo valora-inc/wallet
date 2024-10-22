@@ -24,11 +24,13 @@ import {
 } from 'src/earn/poolInfoScreen/Cards'
 import { SafetyCard } from 'src/earn/poolInfoScreen/SafetyCard'
 import TokenIcons from 'src/earn/poolInfoScreen/TokenIcons'
+import WithdrawBottomSheet from 'src/earn/poolInfoScreen/WithdrawBottomSheet'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
+import { positionsWithBalanceSelector } from 'src/positions/selectors'
 import { EarnPosition } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
@@ -151,6 +153,7 @@ function ActionButtons({
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}
           style={styles.flex}
+          testID="WithdrawButton"
         />
       )}
       {deposit && (
@@ -159,6 +162,7 @@ function ActionButtons({
           onPress={onPressDeposit}
           size={BtnSizes.FULL}
           style={styles.flex}
+          testID="DepositButton"
         />
       )}
     </View>
@@ -198,6 +202,15 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     exchanges,
   } = useDepositEntrypointInfo({ allTokens, pool })
 
+  const allPositionsWithBalance = useSelector(positionsWithBalanceSelector)
+
+  const hasRewards = useMemo(() => {
+    const rewardsPositions = allPositionsWithBalance.filter((position) =>
+      pool.dataProps.rewardsPositionIds?.includes(position.positionId)
+    )
+    return rewardsPositions.length > 0
+  }, [allPositionsWithBalance])
+
   const onPressWithdraw = () => {
     // TODO(tomm): once act-1385 is merge use the bottom sheet button presses
     AppAnalytics.track(EarnEvents.earn_pool_info_tap_withdraw, {
@@ -211,9 +224,9 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL
     )
     if (partialWithdrawalsEnabled) {
-      navigate(Screens.EarnEnterAmount, { pool, mode: 'withdraw' })
+      withdrawBottomSheetRef.current?.snapToIndex(0)
     } else {
-      navigate(Screens.EarnConfirmationScreen, { pool, mode: 'withdraw' })
+      navigate(Screens.EarnConfirmationScreen, { pool, mode: 'Exit' })
     }
   }
 
@@ -236,6 +249,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
   const tvlInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const ageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const yieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const withdrawBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const dailyYieldRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const safetyScoreInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
@@ -413,6 +427,11 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         canAdd={canCashIn}
         exchanges={exchanges}
       />
+      <WithdrawBottomSheet
+        forwardedRef={withdrawBottomSheetRef}
+        pool={pool}
+        canClaim={hasRewards}
+      />
     </SafeAreaView>
   )
 }
@@ -547,7 +566,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: Spacing.Thick24,
+    padding: Spacing.Thick24,
   },
   learnMoreText: {
     ...typeScale.labelSemiBoldSmall,

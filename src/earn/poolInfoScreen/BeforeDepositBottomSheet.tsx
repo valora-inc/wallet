@@ -5,8 +5,8 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnCommonProperties, TokenProperties } from 'src/analytics/Properties'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
-import Touchable from 'src/components/Touchable'
-import { BeforeDepositAction, BeforeDepositActionName } from 'src/earn/types'
+import { ActionCard } from 'src/earn/ActionCard'
+import { BeforeDepositAction } from 'src/earn/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
@@ -25,26 +25,6 @@ import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenAnalyticsProps } from 'src/tokens/utils'
 
-function ActionCard({ action }: { action: BeforeDepositAction }) {
-  return (
-    <Touchable
-      style={styles.touchable}
-      key={action.name}
-      borderRadius={20}
-      onPress={action.onPress}
-      testID={`Earn/BeforeDepositBottomSheet/${action.name}`}
-    >
-      <>
-        <action.iconComponent color={Colors.black} />
-        <View style={styles.cardContainer}>
-          <Text style={styles.actionTitle}>{action.title}</Text>
-          <Text style={styles.actionDetails}>{action.details}</Text>
-        </View>
-      </>
-    </Touchable>
-  )
-}
-
 function AddAction({
   token,
   forwardedRef,
@@ -56,8 +36,8 @@ function AddAction({
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.Add,
+  const action: BeforeDepositAction = {
+    name: 'Add',
     title: t('earnFlow.beforeDepositBottomSheet.action.add'),
     details: t('earnFlow.beforeDepositBottomSheet.action.addDescription', {
       tokenSymbol: token.symbol,
@@ -66,7 +46,7 @@ function AddAction({
     iconComponent: QuickActionsAdd,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.Add,
+        action: 'Add',
         ...analyticsProps,
       })
 
@@ -94,8 +74,8 @@ function TransferAction({
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.Transfer,
+  const action: BeforeDepositAction = {
+    name: 'Transfer',
     title: t('earnFlow.beforeDepositBottomSheet.action.transfer'),
     details: t('earnFlow.beforeDepositBottomSheet.action.transferDescription', {
       tokenSymbol: token.symbol,
@@ -104,7 +84,7 @@ function TransferAction({
     iconComponent: QuickActionsSend,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.Transfer,
+        action: 'Transfer',
         ...analyticsProps,
       })
 
@@ -126,8 +106,8 @@ function CrossChainSwapAction({
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.CrossChainSwap,
+  const action: BeforeDepositAction = {
+    name: 'CrossChainSwap',
     title: t('earnFlow.beforeDepositBottomSheet.action.crossChainSwap'),
     details: t('earnFlow.beforeDepositBottomSheet.action.crossChainSwapDescription', {
       tokenSymbol: token.symbol,
@@ -135,7 +115,7 @@ function CrossChainSwapAction({
     iconComponent: SwapArrows,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.CrossChainSwap,
+        action: 'CrossChainSwap',
         ...analyticsProps,
       })
 
@@ -157,8 +137,8 @@ function SwapAction({
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.Swap,
+  const action: BeforeDepositAction = {
+    name: 'Swap',
     title: t('earnFlow.beforeDepositBottomSheet.action.swap'),
     details: t('earnFlow.beforeDepositBottomSheet.action.swapDescription', {
       tokenSymbol: token.symbol,
@@ -167,7 +147,7 @@ function SwapAction({
     iconComponent: SwapArrows,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.Swap,
+        action: 'Swap',
         ...analyticsProps,
       })
 
@@ -191,8 +171,8 @@ function SwapAndDepositAction({
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.SwapAndDeposit,
+  const action: BeforeDepositAction = {
+    name: 'SwapAndDeposit',
     title: t('earnFlow.beforeDepositBottomSheet.action.swapAndDeposit'),
     details: t('earnFlow.beforeDepositBottomSheet.action.swapAndDepositDescription', {
       tokenSymbol: token.symbol,
@@ -201,7 +181,7 @@ function SwapAndDepositAction({
     iconComponent: SwapAndDeposit,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.SwapAndDeposit,
+        action: 'SwapAndDeposit',
         ...analyticsProps,
       })
 
@@ -311,10 +291,6 @@ const styles = StyleSheet.create({
     gap: Spacing.Regular16,
     marginVertical: Spacing.Thick24,
   },
-  actionTitle: {
-    ...typeScale.labelMedium,
-    color: Colors.black,
-  },
   actionDetails: {
     ...typeScale.bodySmall,
     color: Colors.black,
@@ -322,15 +298,5 @@ const styles = StyleSheet.create({
   bottomSheetTitle: {
     ...typeScale.titleSmall,
     color: Colors.black,
-  },
-  touchable: {
-    backgroundColor: Colors.gray1,
-    padding: Spacing.Regular16,
-    flexDirection: 'row',
-    gap: Spacing.Regular16,
-    alignItems: 'center',
-  },
-  cardContainer: {
-    flex: 1,
   },
 })

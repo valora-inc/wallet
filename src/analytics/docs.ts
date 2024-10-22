@@ -610,6 +610,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_pool_info_tap_withdraw]: `When the user taps the withdraw button on the pool info screen`,
   [EarnEvents.earn_pool_info_tap_deposit]: `When the user taps the deposit button on the pool info screen`,
   [EarnEvents.earn_pool_info_tap_safety_details]: `When the user taps the view more/less details on the safety card on the pool info screen`,
+  [EarnEvents.earn_select_withdraw_type]: `When a user selects a withdrawal type on the withdraw bottom sheet`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

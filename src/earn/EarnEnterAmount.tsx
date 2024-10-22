@@ -383,7 +383,7 @@ function EarnEnterAmount({ route }: Props) {
     if (isWithdrawal) {
       navigate(Screens.EarnConfirmationScreen, {
         pool,
-        mode,
+        mode: 'PartialWithdraw',
         inputAmount: tokenAmount.dividedBy(pool.pricePerShare[0] ?? 0).toString(),
         useMax: maxPressed,
       })

@@ -13,7 +13,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { usePrepareWithdrawAndClaimTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
-import { OutletMode } from 'src/earn/types'
+import { WithdrawActionName } from 'src/earn/types'
 import { getEarnPositionBalanceValues, isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
@@ -214,9 +214,9 @@ export default function EarnConfirmationScreen({ route }: Props) {
         style={styles.button}
         size={BtnSizes.FULL}
         text={
-          mode === 'withdraw'
+          mode === 'PartialWithdraw'
             ? t('earnFlow.collect.ctaWithdraw')
-            : mode === 'exit'
+            : mode === 'Exit'
               ? t('earnFlow.collect.ctaExit')
               : t('earnFlow.collect.ctaReward')
         }
@@ -319,14 +319,14 @@ function GasFee({
   )
 }
 
-function Title({ mode }: { mode: OutletMode }) {
+function Title({ mode }: { mode: WithdrawActionName }) {
   const { t } = useTranslation()
   switch (mode) {
-    case 'claim':
+    case 'Claim':
       return <Text style={styles.title}>{t('earnFlow.collect.titleClaim')}</Text>
-    case 'withdraw':
+    case 'PartialWithdraw':
       return <Text style={styles.title}>{t('earnFlow.collect.titleWithdraw')}</Text>
-    case 'exit':
+    case 'Exit':
     default:
       return <Text style={styles.title}>{t('earnFlow.collect.titleCollect')}</Text>
   }

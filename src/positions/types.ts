@@ -25,6 +25,8 @@ export interface EarningItem {
   includedInPoolBalance?: boolean
 }
 
+type ClaimType = 'rewards' | 'earnings'
+
 export interface SafetyRisk {
   isPositive: boolean
   title: string
@@ -53,8 +55,6 @@ interface EarnDataProps {
   safety?: Safety
   // We'll add more fields here as needed
 }
-
-type ClaimType = 'earnings' | 'rewards'
 
 export type EarnPosition = AppTokenPosition & { dataProps: EarnDataProps }
 
