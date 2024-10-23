@@ -85,7 +85,7 @@ function ClaimAction({
         networkId: pool.networkId,
         depositTokenId: pool.dataProps.depositTokenId,
       })
-      navigate(Screens.EarnConfirmationScreen, { pool, mode: action.name }) // TODO (ACT-1389): Confirmation screen for Claim
+      navigate(Screens.EarnConfirmationScreen, { pool, mode: action.name })
       forwardedRef.current?.close()
     },
   }
