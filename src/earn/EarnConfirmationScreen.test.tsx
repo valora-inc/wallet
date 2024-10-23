@@ -148,7 +148,7 @@ describe('EarnConfirmationScreen', () => {
       rewardsPositions: [mockRewardsPositions[1]],
       walletAddress: mockAccount.toLowerCase(),
       hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
-      amount: '11.825',
+      amount: '10.75',
     })
     expect(store.getActions()).toEqual([])
   })
