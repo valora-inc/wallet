@@ -19,6 +19,8 @@ import {
   mockArbUsdcTokenId,
   mockCusdTokenId,
   mockEarnPositions,
+  mockPositions,
+  mockRewardsPositions,
   mockTokenBalances,
 } from 'test/values'
 
@@ -33,10 +35,12 @@ function getStore({
   balance = '0',
   includeSameChainToken = false,
   includeOtherChainToken = false,
+  includeRewardPositions = true,
 }: {
   balance?: string
   includeSameChainToken?: boolean
   includeOtherChainToken?: boolean
+  includeRewardPositions?: boolean
 } = {}) {
   const sameChainToken = includeSameChainToken
     ? { [mockArbEthTokenId]: { ...mockTokenBalances[mockArbEthTokenId], balance: '1' } }
@@ -55,6 +59,9 @@ function getStore({
           isCashInEligible: true,
         },
       },
+    },
+    positions: {
+      positions: includeRewardPositions ? [...mockPositions, ...mockRewardsPositions] : [],
     },
     app: { showSwapMenuInDrawerMenu: true },
   })
@@ -435,9 +442,9 @@ describe('EarnPoolInfoScreen', () => {
       hasTokensOnOtherNetworks: true,
     })
     expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/SwapAndDeposit')).toBeTruthy()
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/CrossChainSwap')).toBeTruthy()
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/SwapAndDeposit')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/CrossChainSwap')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/Add')).toBeTruthy()
   })
 
   it('navigates correctly when swap and deposit action item is tapped', () => {
@@ -457,8 +464,8 @@ describe('EarnPoolInfoScreen', () => {
       </Provider>
     )
     fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/SwapAndDeposit')).toBeTruthy()
-    fireEvent.press(getByTestId('Earn/BeforeDepositBottomSheet/SwapAndDeposit'))
+    expect(getByTestId('Earn/ActionCard/SwapAndDeposit')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/ActionCard/SwapAndDeposit'))
     expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
       pool: mockEarnPositions[0],
       mode: 'swap-deposit',
@@ -483,8 +490,8 @@ describe('EarnPoolInfoScreen', () => {
       </Provider>
     )
     fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/CrossChainSwap')).toBeTruthy()
-    fireEvent.press(getByTestId('Earn/BeforeDepositBottomSheet/CrossChainSwap'))
+    expect(getByTestId('Earn/ActionCard/CrossChainSwap')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/ActionCard/CrossChainSwap'))
     expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack, {
       toTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
@@ -508,8 +515,8 @@ describe('EarnPoolInfoScreen', () => {
       </Provider>
     )
     fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
-    fireEvent.press(getByTestId('Earn/BeforeDepositBottomSheet/Add'))
+    expect(getByTestId('Earn/ActionCard/Add')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/ActionCard/Add'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockEarnPositions[0].dataProps.depositTokenId,
       flow: CICOFlow.CashIn,
@@ -545,9 +552,9 @@ describe('EarnPoolInfoScreen', () => {
       hasTokensOnOtherNetworks: true,
     })
     expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/Swap')).toBeTruthy()
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/Transfer')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/Swap')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/Add')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/Transfer')).toBeTruthy()
   })
 
   it('navigates correctly when swap action item is tapped', () => {
@@ -570,8 +577,8 @@ describe('EarnPoolInfoScreen', () => {
       </Provider>
     )
     fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/Swap')).toBeTruthy()
-    fireEvent.press(getByTestId('Earn/BeforeDepositBottomSheet/Swap'))
+    expect(getByTestId('Earn/ActionCard/Swap')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/ActionCard/Swap'))
     expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack, {
       toTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
@@ -595,8 +602,8 @@ describe('EarnPoolInfoScreen', () => {
       </Provider>
     )
     fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/Transfer')).toBeTruthy()
-    fireEvent.press(getByTestId('Earn/BeforeDepositBottomSheet/Transfer'))
+    expect(getByTestId('Earn/ActionCard/Transfer')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/ActionCard/Transfer'))
     expect(navigate).toHaveBeenCalledWith(Screens.ExchangeQR, {
       flow: CICOFlow.CashIn,
       exchanges: [],
@@ -631,13 +638,18 @@ describe('EarnPoolInfoScreen', () => {
       hasTokensOnOtherNetworks: false,
     })
     expect(getByTestId('Earn/BeforeDepositBottomSheet')).toBeVisible()
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/Add')).toBeTruthy()
-    expect(getByTestId('Earn/BeforeDepositBottomSheet/Transfer')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/Add')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/Transfer')).toBeTruthy()
   })
 
-  it('navigate to EarnCollectScreen when Withdraw button is tapped', () => {
-    const { getByText } = render(
-      <Provider store={getStore()}>
+  it('navigate to EarnCollectScreen when Withdraw button is tapped, no rewards and cannot partial withdraw', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gateName: StatsigFeatureGates) => gateName === StatsigFeatureGates.SHOW_POSITIONS
+      )
+    const { getByTestId } = render(
+      <Provider store={getStore({ includeRewardPositions: false })}>
         <MockedNavigator
           component={EarnPoolInfoScreen}
           params={{
@@ -646,7 +658,7 @@ describe('EarnPoolInfoScreen', () => {
         />
       </Provider>
     )
-    fireEvent.press(getByText('earnFlow.poolInfoScreen.withdraw'))
+    fireEvent.press(getByTestId('WithdrawButton'))
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_pool_info_tap_withdraw, {
       providerId: 'aave',
       poolId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
@@ -654,34 +666,39 @@ describe('EarnPoolInfoScreen', () => {
       networkId: 'arbitrum-sepolia',
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
+    // TODO (ACT-1389): Check that this navigates to confirmation screen for Claim & Withdraw
     expect(navigate).toHaveBeenCalledWith(Screens.EarnCollectScreen, {
       pool: { ...mockEarnPositions[0], balance: '100' },
     })
   })
-
-  it('navigates to EarnEnterAmount when partial withdrawals are enabled', () => {
+  it('open WithdrawBottomSheet when Withdraw button pressed, check that expected options exist', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation(
-        (featureGateName) => featureGateName === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL
+        (gate) =>
+          gate === StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL ||
+          gate === StatsigFeatureGates.SHOW_POSITIONS
       )
-
-    const { getByText } = render(
+    const { getByTestId } = render(
       <Provider store={getStore()}>
         <MockedNavigator
           component={EarnPoolInfoScreen}
           params={{
-            pool: { ...mockEarnPositions[0], balance: '100' },
+            pool: {
+              ...mockEarnPositions[0],
+              balance: '100',
+            },
           }}
         />
       </Provider>
     )
-    fireEvent.press(getByText('earnFlow.poolInfoScreen.withdraw'))
-    expect(navigate).toHaveBeenCalledWith(Screens.EarnEnterAmount, {
-      pool: { ...mockEarnPositions[0], balance: '100' },
-      mode: 'withdraw',
-    })
+    fireEvent.press(getByTestId('WithdrawButton'))
+    expect(getByTestId('Earn/WithdrawBottomSheet')).toBeVisible()
+    expect(getByTestId('Earn/ActionCard/PartialWithdraw')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/Claim')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/Exit')).toBeTruthy()
   })
+
   it('shows the daily yield rate when it is available', () => {
     const { getByTestId } = renderEarnPoolInfoScreen({
       ...mockEarnPositions[0],
