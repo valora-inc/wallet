@@ -79,7 +79,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
     loading: isPreparingTransactions,
     error: prepareTransactionError,
   } = usePrepareWithdrawAndClaimTransactions({
-    amount: withdrawAmountInDepositToken.toString(),
+    amount: new BigNumber(withdrawAmountInDepositToken).dividedBy(pool.pricePerShare[0]).toString(),
     pool,
     walletAddress,
     feeCurrencies,
