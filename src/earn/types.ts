@@ -48,16 +48,25 @@ export interface PrepareWithdrawAndClaimParams {
   rewardsPositions: Position[]
 }
 
-export enum BeforeDepositActionName {
-  Add = 'Add',
-  Transfer = 'Transfer',
-  SwapAndDeposit = 'SwapAndDeposit',
-  CrossChainSwap = 'CrossChainSwap',
-  Swap = 'Swap',
-}
+export type BeforeDepositActionName =
+  | 'Add'
+  | 'Transfer'
+  | 'SwapAndDeposit'
+  | 'CrossChainSwap'
+  | 'Swap'
+
+export type WithdrawActionName = 'PartialWithdraw' | 'Claim' | 'Exit'
 
 export interface BeforeDepositAction {
   name: BeforeDepositActionName
+  title: string
+  details: string
+  iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
+  onPress: () => void
+}
+
+export interface WithdrawAction {
+  name: WithdrawActionName
   title: string
   details: string
   iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>

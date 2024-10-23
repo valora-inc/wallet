@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, type RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
-import { FIRST_PAGE_TIMESTAMP, transactionFeedV2Api } from 'src/transactions/api'
+import { transactionFeedV2Api } from 'src/transactions/api'
 import {
   TransactionStatus,
   type EarnClaimReward,
@@ -228,7 +228,7 @@ const slice = createSlice({
     builder.addMatcher(
       transactionFeedV2Api.endpoints.transactionFeedV2.matchFulfilled,
       (state, { payload, meta }) => {
-        const isFirstPage = meta.arg.originalArgs.endCursor === FIRST_PAGE_TIMESTAMP
+        const isFirstPage = meta.arg.originalArgs.endCursor === undefined
         const confirmedTransactionsFromNewPage = payload.transactions
           .filter((tx) => tx.status !== TransactionStatus.Pending)
           .map((tx) => tx.transactionHash)
