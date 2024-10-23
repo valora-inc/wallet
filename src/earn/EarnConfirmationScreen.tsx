@@ -69,13 +69,10 @@ export default function EarnConfirmationScreen({ route }: Props) {
 
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
 
-  const withdrawAmountInDepositToken = useMemo(() => {
-    if (inputAmount) {
-      return new BigNumber(inputAmount).multipliedBy(pool.pricePerShare[0] ?? 1)
-    } else {
-      return getEarnPositionBalanceValues({ pool }).poolBalanceInDepositToken
-    }
-  }, [withdrawToken, pool.pricePerShare, inputAmount])
+  const withdrawAmountInDepositToken = useMemo(
+    () => inputAmount ?? getEarnPositionBalanceValues({ pool }).poolBalanceInDepositToken,
+    [withdrawToken, pool.pricePerShare, inputAmount]
+  )
 
   const {
     result: prepareTransactionsResult,
