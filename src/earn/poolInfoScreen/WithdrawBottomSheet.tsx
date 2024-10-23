@@ -150,9 +150,7 @@ export default function WithdrawBottomSheet({
     >
       <View style={styles.actionsContainer}>
         <PartialWithdrawAction forwardedRef={forwardedRef} pool={pool} hasRewards={canClaim} />
-        {canClaim && !pool.dataProps.withdrawalIncludesClaim && (
-          <ClaimAction forwardedRef={forwardedRef} pool={pool} />
-        )}
+        {canClaim && <ClaimAction forwardedRef={forwardedRef} pool={pool} />}
         <ExitAction forwardedRef={forwardedRef} pool={pool} hasRewards={canClaim} />
       </View>
     </BottomSheet>
