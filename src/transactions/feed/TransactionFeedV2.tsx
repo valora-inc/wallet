@@ -19,7 +19,7 @@ import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import { FIRST_PAGE_CURSOR, useTransactionFeedV2Query } from 'src/transactions/api'
+import { useTransactionFeedV2Query } from 'src/transactions/api'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
@@ -51,6 +51,7 @@ type PaginatedData = {
   [endCursor: string]: TokenTransaction[]
 }
 
+const FIRST_PAGE_CURSOR = 'FIRST_PAGE'
 const MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL = 10
 const POLL_INTERVAL_MS = 10_000 // 10 sec
 const TAG = 'transactions/feed/TransactionFeedV2'
@@ -350,10 +351,10 @@ export default function TransactionFeedV2() {
    *    that are already present or new transactions. The first page should not contain an
    *    empty array, unless wallet doesn't have any transactions at all.
    *
-   * 2. Data for every page after the first page is only set once. All the pending transactions
-   *    are supposed to arrive in the first page so everything after the first page can be
-   *    considered confirmed (completed/failed). For this reason, there's no point in updating
-   *    the data as its very unlikely to update.
+   * 2. Data for every page after the first page is only set once. Considering the big enough
+   *    page size (currently 100 transactions per page) all the pending transactions are supposed
+   *    to arrive in the first page so everything after the first page can be considered confirmed
+   *    (completed/failed). For this reason, there's no point in updating the data as its very unlikely to update.
    */
   useEffect(
     function updatePaginatedData() {
