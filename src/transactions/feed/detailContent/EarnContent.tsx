@@ -17,6 +17,7 @@ import {
   EarnSwapDeposit,
   EarnWithdraw,
   FeeType,
+  TokenTransactionTypeV2,
 } from 'src/transactions/types'
 
 interface EarnClaimRewardProps {
@@ -74,12 +75,14 @@ interface EarnDepositProps {
 export function EarnDepositContent({ transaction }: EarnDepositProps) {
   const { t } = useTranslation()
   const providerName = useEarnPositionProviderName(
-    transaction.__typename === 'EarnSwapDeposit'
+    transaction.type === TokenTransactionTypeV2.EarnSwapDeposit
       ? transaction.deposit.providerId
       : transaction.providerId
   )
   const depositAmount =
-    transaction.__typename === 'EarnDeposit' ? transaction.outAmount : transaction.deposit.outAmount
+    transaction.type === TokenTransactionTypeV2.EarnDeposit
+      ? transaction.outAmount
+      : transaction.deposit.outAmount
   const depositTokenInfo = useTokenInfo(depositAmount.tokenId)
   const depositTokenSymbol = depositTokenInfo?.symbol ?? ''
 
@@ -115,7 +118,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
             style={styles.amountSubtitle}
           />
         </View>
-        {transaction.__typename === 'EarnSwapDeposit' && (
+        {transaction.type === TokenTransactionTypeV2.EarnSwapDeposit && (
           <View style={styles.row}>
             <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.swap')}</Text>
             <View style={styles.swapValueContainer}>
@@ -137,7 +140,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
             </View>
           </View>
         )}
-        {transaction.__typename === 'EarnSwapDeposit' && (
+        {transaction.type === TokenTransactionTypeV2.EarnSwapDeposit && (
           <View style={styles.row}>
             <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.network')}</Text>
             <Text style={styles.bodyTextValue}>{NETWORK_NAMES[transaction.networkId]}</Text>
@@ -152,7 +155,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
           feeType={FeeType.SecurityFee}
           transactionStatus={transaction.status}
         />
-        {transaction.__typename === 'EarnSwapDeposit' && (
+        {transaction.type === TokenTransactionTypeV2.EarnSwapDeposit && (
           <FeeRowItem
             fees={transaction.fees}
             feeType={FeeType.AppFee}

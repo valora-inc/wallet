@@ -46,14 +46,12 @@ const serializablePreparedTransactions = getSerializablePreparedTransactions(pre
 const mockStandbyTransactions: BaseStandbyTransaction[] = [
   {
     context: { id: 'mockContext1' },
-    __typename: 'TokenApproval',
     networkId: NetworkId['celo-alfajores'],
     type: TokenTransactionTypeV2.Approval,
     tokenId: mockCusdTokenId,
     approvedAmount: '1',
   },
   {
-    __typename: 'TokenTransferV3',
     context: { id: 'mockContext2' },
     type: TokenTransactionTypeV2.Sent,
     networkId: NetworkId['celo-alfajores'],

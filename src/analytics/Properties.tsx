@@ -1614,7 +1614,11 @@ interface EarnEventsProperties {
   } & EarnCommonProperties
   [EarnEvents.earn_deposit_add_gas_press]: EarnCommonProperties & { gasTokenId: string }
   [EarnEvents.earn_feed_item_select]: {
-    origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward' | 'EarnSwapDeposit'
+    origin:
+      | TokenTransactionTypeV2.EarnDeposit
+      | TokenTransactionTypeV2.EarnWithdraw
+      | TokenTransactionTypeV2.EarnClaimReward
+      | TokenTransactionTypeV2.EarnSwapDeposit
   }
   [EarnEvents.earn_collect_earnings_press]: EarnWithdrawProperties
   [EarnEvents.earn_withdraw_submit_start]: EarnWithdrawProperties

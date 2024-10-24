@@ -3,6 +3,7 @@ import { REHYDRATE, type RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 import { transactionFeedV2Api } from 'src/transactions/api'
 import {
+  TokenTransactionTypeV2,
   TransactionStatus,
   type EarnClaimReward,
   type EarnDeposit,
@@ -118,7 +119,8 @@ const slice = createSlice({
                 block,
                 timestamp: action.payload.blockTimestampInMs,
                 fees: fees || [],
-                ...(standbyTransaction.__typename === 'CrossChainTokenExchange' && {
+                ...(standbyTransaction.type ===
+                  TokenTransactionTypeV2.CrossChainSwapTransaction && {
                   isSourceNetworkTxConfirmed: true,
                 }),
               }
@@ -149,7 +151,7 @@ const slice = createSlice({
       action.payload.transactions.forEach((tx) => {
         if (
           tx.status === TransactionStatus.Pending &&
-          tx.__typename === 'CrossChainTokenExchange' &&
+          tx.type === TokenTransactionTypeV2.CrossChainSwapTransaction &&
           standbyTransactionHashes.has(tx.transactionHash)
         ) {
           pendingCrossChainTxsWithStandby.push(tx)
@@ -171,7 +173,10 @@ const slice = createSlice({
           // augment existing standby cross chain swap transactions with
           // received tx information from blockchain-api, but keep the estimated
           // inAmount value from the original standby transaction
-          if (standbyTx.transactionHash && standbyTx.__typename === 'CrossChainTokenExchange') {
+          if (
+            standbyTx.transactionHash &&
+            standbyTx.type === TokenTransactionTypeV2.CrossChainSwapTransaction
+          ) {
             const receivedCrossChainTx = pendingCrossChainTxsWithStandby.find(
               (tx) => tx.transactionHash === standbyTx.transactionHash
             )

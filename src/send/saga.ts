@@ -67,7 +67,6 @@ export function* sendPaymentSaga({
       transactionHash: string,
       feeCurrencyId?: string
     ): BaseStandbyTransaction => ({
-      __typename: 'TokenTransferV3',
       type: TokenTransactionTypeV2.Sent,
       context,
       networkId: tokenInfo.networkId,

@@ -9,7 +9,6 @@ import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 const mockFeedItem = (timestamp: number, status = TransactionStatus.Complete): TokenTransaction => {
   return {
-    __typename: 'TokenTransferV3',
     networkId: NetworkId['celo-alfajores'],
     type: TokenTransactionTypeV2.Sent,
     block: '8648978',

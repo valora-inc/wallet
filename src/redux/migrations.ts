@@ -1924,4 +1924,5 @@ export const migrations = {
       feedFirstPage: [],
     },
   }),
+  235: (state: any) => state,
 }

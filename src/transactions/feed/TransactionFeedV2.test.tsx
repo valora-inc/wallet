@@ -38,7 +38,6 @@ const mockFetch = fetch as FetchMock
 
 function mockTransaction(data?: Partial<TokenTransaction | StandbyTransaction>): TokenTransaction {
   return {
-    __typename: 'TokenTransferV3',
     networkId: NetworkId['celo-alfajores'],
     address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
     amount: {
@@ -495,7 +494,6 @@ describe('TransactionFeedV2', () => {
 
     await act(() => {
       const newPendingTransaction = addStandbyTransaction({
-        __typename: 'TokenTransferV3',
         context: { id: pendingStandByTransactionHash2 },
         type: TokenTransactionTypeV2.Sent,
         networkId: NetworkId['celo-alfajores'],
@@ -528,7 +526,6 @@ describe('TransactionFeedV2', () => {
     const hash = '0x01' as string
     const mockedTransaction = {
       context: { id: hash },
-      __typename: 'CrossChainTokenExchange',
       transactionHash: hash,
       type: TokenTransactionTypeV2.CrossChainSwapTransaction,
       status: TransactionStatus.Pending,

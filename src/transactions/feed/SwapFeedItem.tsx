@@ -37,7 +37,7 @@ function SwapFeedItem({ transaction }: Props) {
       <View style={styles.container}>
         <TransactionFeedItemImage
           status={transaction.status}
-          transactionType={transaction.__typename}
+          transactionType={transaction.type}
           networkId={transaction.networkId}
           hideNetworkIcon={isCrossChainSwap}
         />

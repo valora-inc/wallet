@@ -4,6 +4,7 @@ import { getSupportedNetworkIdsForApprovalTxsInHomefeed } from 'src/tokens/utils
 import {
   type ConfirmedStandbyTransaction,
   type NetworkId,
+  TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
 
@@ -13,7 +14,7 @@ const standbyTransactionsSelector = createSelector(
   [allStandbyTransactionsSelector, getSupportedNetworkIdsForApprovalTxsInHomefeed],
   (standbyTransactions, supportedNetworkIdsForApprovalTxs) => {
     return standbyTransactions.filter((tx) => {
-      if (tx.__typename === 'TokenApproval') {
+      if (tx.type === TokenTransactionTypeV2.Approval) {
         return supportedNetworkIdsForApprovalTxs.includes(tx.networkId)
       }
       return true
@@ -56,7 +57,7 @@ export const transactionsSelector = createSelector(
     return transactionsForAllNetworks
       .sort((a, b) => b.timestamp - a.timestamp)
       .filter((tx) => {
-        if (tx.__typename === 'TokenApproval') {
+        if (tx.type === TokenTransactionTypeV2.Approval) {
           return supportedNetworkIdsForApprovalTxs.includes(tx.networkId)
         }
         return true

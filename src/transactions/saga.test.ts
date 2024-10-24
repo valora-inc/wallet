@@ -35,7 +35,6 @@ describe('watchPendingTransactions', () => {
   const transactionHash = '0x123'
 
   const pendingTransaction: StandbyTransaction = {
-    __typename: 'TokenTransferV3',
     context: { id: transactionId },
     networkId: NetworkId['celo-alfajores'],
     type: TokenTransactionTypeV2.Sent,
@@ -116,7 +115,6 @@ describe('watchPendingTransactions', () => {
 
   it('updates and tracks the pending swap transaction', async () => {
     const standbySwaptransaction: StandbyTransaction = {
-      __typename: 'TokenExchangeV3',
       context: {
         id: transactionId,
       },

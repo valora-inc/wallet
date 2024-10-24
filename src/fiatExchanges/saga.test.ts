@@ -225,7 +225,6 @@ describe(tagTxsWithProviderInfo, () => {
   const mockProviderAccount = '0x30d5ca2a263e0c0d11e7a668ccf30b38f1482251'
 
   const mockTransactionDetails = {
-    __typename: 'TokenTransferV3' as const,
     amount: mockAmount,
     timestamp: 1578530602,
     address: mockAccount,

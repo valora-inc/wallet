@@ -244,7 +244,6 @@ describe('dispatchPendingERC20Transactions', () => {
       )
       .put(
         addStandbyTransaction({
-          __typename: 'TokenTransferV3',
           type: TokenTransactionTypeV2.Received,
           context: { id: mockTransactionHash },
           transactionHash: mockTransactionHash,
@@ -305,7 +304,6 @@ describe('dispatchPendingERC721Transactions', () => {
       ])
       .put(
         addStandbyTransaction({
-          __typename: 'NftTransferV3',
           type: TokenTransactionTypeV2.NftReceived,
           context: { id: mockTransactionHash },
           transactionHash: mockTransactionHash,

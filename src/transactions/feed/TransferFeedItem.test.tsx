@@ -88,7 +88,7 @@ describe('TransferFeedItem', () => {
     status = TransactionStatus.Complete,
     address = MOCK_ADDRESS,
   }: {
-    type?: TokenTransactionTypeV2
+    type?: TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
     amount?: TokenAmount
     metadata?: TokenTransferMetadata
     fees?: Fee[]
@@ -104,7 +104,6 @@ describe('TransferFeedItem', () => {
       <Provider store={store}>
         <TransferFeedItem
           transfer={{
-            __typename: 'TokenTransferV3',
             networkId: NetworkId['celo-alfajores'],
             type,
             status,

@@ -147,7 +147,6 @@ describe('depositSubmitSaga', () => {
   }
 
   const expectedApproveStandbyTx = {
-    __typename: 'TokenApproval',
     context: {
       id: 'id-earn/saga-Earn/Approve',
       tag: 'earn/saga',
@@ -162,7 +161,6 @@ describe('depositSubmitSaga', () => {
   }
 
   const expectedDepositStandbyTx = {
-    __typename: 'EarnDeposit',
     context: {
       id: 'id-earn/saga-Earn/Deposit',
       tag: 'earn/saga',
@@ -184,7 +182,6 @@ describe('depositSubmitSaga', () => {
   }
 
   const expectedSwapDepositStandbyTx = {
-    __typename: 'EarnSwapDeposit',
     context: {
       id: 'id-earn/saga-Earn/SwapDeposit',
       tag: 'earn/saga',
@@ -734,7 +731,6 @@ describe('withdrawSubmitSaga', () => {
   }
 
   const expectedWithdrawStandbyTx = {
-    __typename: 'EarnWithdraw',
     context: {
       id: 'id-earn/saga-Earn/Withdraw',
       tag: 'earn/saga',
@@ -757,7 +753,6 @@ describe('withdrawSubmitSaga', () => {
 
   // TODO: replace with EarnClaimReward type
   const expectedClaimRewardTx = {
-    __typename: 'EarnClaimReward',
     context: {
       id: 'id-earn/saga-Earn/ClaimReward-1',
       tag: 'earn/saga',

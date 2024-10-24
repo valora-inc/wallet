@@ -142,7 +142,7 @@ export function* tagTxsWithProviderInfo(action: UpdateTransactionsPayload) {
     const txHashesToProvider = yield* call(fetchTxHashesToProviderMapping)
 
     for (const tx of transactions) {
-      if (tx.__typename !== 'TokenTransferV3' || tx.type !== TokenTransactionTypeV2.Received) {
+      if (tx.type !== TokenTransactionTypeV2.Received) {
         continue
       }
 
