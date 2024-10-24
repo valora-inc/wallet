@@ -622,23 +622,11 @@ describe('TransactionFeedV2', () => {
       },
     })
 
-    await waitFor(() => {
-      expect(tree.getByTestId('TransactionList')).toBeVisible()
+    await waitFor(() => expect(tree.getByTestId('TransactionList')).toBeVisible())
 
-      const hashes = tree
-        .getByTestId('TransactionList')
-        .props.data[0].data.map((item: TokenTransaction) => item.transactionHash)
-
-      expect(hashes).toStrictEqual([
-        '0x100',
-        '0x95',
-        '0x90',
-        '0x85',
-        '0x80',
-        '0x30',
-        '0x20',
-        '0x10',
-      ])
-    })
+    const hashes = tree
+      .getByTestId('TransactionList')
+      .props.data[0].data.map((item: TokenTransaction) => item.transactionHash)
+    expect(hashes).toStrictEqual(['0x100', '0x95', '0x90', '0x85', '0x80', '0x30', '0x20', '0x10'])
   })
 })
