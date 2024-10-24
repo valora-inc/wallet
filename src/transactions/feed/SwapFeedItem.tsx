@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { HomeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { HomeEvents } from 'src/analytics/Events'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   amount: {
     ...typeScale.labelMedium,
-    color: colors.primary,
+    color: colors.accent,
     flexWrap: 'wrap',
     textAlign: 'right',
   },

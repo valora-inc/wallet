@@ -93,7 +93,7 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
     : [
         styles.amountTitle,
         transaction.__typename !== 'EarnDeposit' &&
-          transaction.__typename !== 'EarnSwapDeposit' && { color: Colors.primary },
+          transaction.__typename !== 'EarnSwapDeposit' && { color: Colors.accent },
       ]
 
   return (

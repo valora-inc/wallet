@@ -79,7 +79,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           <View style={styles.rightIconContainer}>
             <ActivityIndicator
               size="small"
-              color={colors.primary}
+              color={colors.accent}
               testID="RecipientItem/ActivityIndicator"
             />
           </View>
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 22,
     left: 22,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.accent,
     padding: 4,
     borderRadius: 100,
     // To override the default shadow props on the logo

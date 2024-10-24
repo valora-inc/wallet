@@ -113,7 +113,7 @@ function TabHome(_props: Props) {
   }
 
   const refresh: React.ReactElement<RefreshControlProps> = (
-    <RefreshControl refreshing={isLoading} onRefresh={onRefresh} colors={[colors.primary]} />
+    <RefreshControl refreshing={isLoading} onRefresh={onRefresh} colors={[colors.accent]} />
   ) as React.ReactElement<RefreshControlProps>
 
   const flatListSections = [

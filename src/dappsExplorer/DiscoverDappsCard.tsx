@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionList, StyleSheet, Text, View } from 'react-native'
-import { DappExplorerEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { DappExplorerEvents } from 'src/analytics/Events'
 import TextButton from 'src/components/TextButton'
 import { favoriteDappsSelector, mostPopularDappsSelector } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     ...typeScale.labelSemiBoldXSmall,
-    color: Colors.primary,
+    color: Colors.accent,
   },
   title: {
     ...typeScale.labelSemiBoldMedium,

@@ -472,7 +472,7 @@ export default function TransactionFeedV2() {
       />
       {isFetching && (
         <View style={styles.centerContainer} testID="TransactionList/loading">
-          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.primary} />
+          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
         </View>
       )}
     </>

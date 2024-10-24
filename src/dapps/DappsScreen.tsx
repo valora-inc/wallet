@@ -13,8 +13,8 @@ import {
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { DappExplorerEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { DappExplorerEvents } from 'src/analytics/Events'
 import FilterChipsCarousel, { BooleanFilterChip } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import {
@@ -204,8 +204,8 @@ function DappsScreen({ navigation }: Props) {
           <AnimatedSectionList
             refreshControl={
               <RefreshControl
-                tintColor={Colors.primary}
-                colors={[Colors.primary]}
+                tintColor={Colors.accent}
+                colors={[Colors.accent]}
                 style={styles.refreshControl}
                 refreshing={loading}
                 onRefresh={() => dispatch(fetchDappsList())}
