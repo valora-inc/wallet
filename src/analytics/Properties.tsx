@@ -54,12 +54,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
-import {
-  BeforeDepositActionName,
-  EarnEnterMode,
-  SerializableRewardsInfo,
-  WithdrawActionName,
-} from 'src/earn/types'
+import { BeforeDepositActionName, EarnActiveAction, SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -595,7 +590,7 @@ interface SendEventsProperties {
     tokenId: string
     tokenAddress: string | null
     networkId: NetworkId | null
-    mode?: EarnEnterMode
+    mode?: EarnActiveAction
   }
   [SendEvents.swap_input_pressed]: {
     swapToLocalAmount: boolean
@@ -1559,7 +1554,7 @@ export interface EarnCommonProperties {
 
 interface EarnDepositProperties extends EarnCommonProperties {
   depositTokenAmount: string
-  mode: EarnEnterMode
+  mode: EarnActiveAction
   // the below are mainly for swap-deposit. For deposit, this would just be
   // same as the depositTokenAmount and depositTokenId
   fromTokenAmount: string
@@ -1604,7 +1599,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_enter_amount_continue_press]: {
     amountInUsd: string
     amountEnteredIn: AmountEnteredIn
-    mode: EarnEnterMode
+    mode: EarnActiveAction
     // For deposits these will be the same as the depositTokenId and depositTokenAmount
     // For swaps these will be the swapFromTokenId and swapFromTokenAmount
     // For withdrawals this will be in units of the depositToken
@@ -1647,7 +1642,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_pool_info_tap_safety_details]: EarnCommonProperties & {
     action: 'expand' | 'collapse'
   }
-  [EarnEvents.earn_select_withdraw_type]: EarnCommonProperties & { type: WithdrawActionName }
+  [EarnEvents.earn_select_withdraw_type]: EarnCommonProperties & { type: EarnActiveAction }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

@@ -38,6 +38,7 @@ export type TransactionOrigin =
   | 'earn-deposit'
   | 'earn-swap-deposit'
   | 'earn-withdraw'
+  | 'earn-claim-rewards'
   | 'jumpstart-send'
   | 'jumpstart-claim'
   | 'wallet-connect'

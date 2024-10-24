@@ -106,6 +106,7 @@ function EarnEnterAmount({ route }: Props) {
       case 'withdraw':
         return [depositToken]
       case 'swap-deposit':
+      default:
         return eligibleSwappableTokens
     }
   }, [mode])
@@ -169,7 +170,8 @@ function EarnEnterAmount({ route }: Props) {
       feeCurrencies,
       pool,
       hooksApiUrl,
-      shortcutId: mode,
+      // Mode is the same and shortcutId, except for exit which is withdraw
+      shortcutId: mode === 'exit' ? 'withdraw' : mode,
       useMax: maxPressed,
     })
   }
@@ -383,7 +385,7 @@ function EarnEnterAmount({ route }: Props) {
     if (isWithdrawal) {
       navigate(Screens.EarnConfirmationScreen, {
         pool,
-        mode: 'PartialWithdraw',
+        mode,
         inputAmount: tokenAmount.toString(),
         useMax: maxPressed,
       })

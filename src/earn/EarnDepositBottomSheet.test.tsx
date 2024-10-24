@@ -7,6 +7,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import { openUrl } from 'src/app/actions'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { depositStart } from 'src/earn/slice'
+import { EarnActiveAction } from 'src/earn/types'
 import * as earnUtils from 'src/earn/utils'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
@@ -57,13 +58,13 @@ const mockDepositProps = {
   inputAmount: new BigNumber(100),
   preparedTransaction: mockPreparedTransaction,
   pool: mockEarnPositions[0],
-  mode: 'deposit' as const,
+  mode: 'deposit' as EarnActiveAction,
   inputTokenId: mockArbUsdcTokenId,
 }
 
 const mockSwapDepositProps = {
   ...mockDepositProps,
-  mode: 'swap-deposit' as const,
+  mode: 'swap-deposit' as EarnActiveAction,
   inputTokenId: mockArbEthTokenId,
   inputAmount: new BigNumber(0.041),
   swapTransaction: {

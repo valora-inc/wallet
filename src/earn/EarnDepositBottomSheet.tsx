@@ -11,7 +11,7 @@ import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
-import { EarnEnterMode } from 'src/earn/types'
+import { EarnActiveAction } from 'src/earn/types'
 import {
   getSwapToAmountInDecimals,
   getTotalYieldRate,
@@ -50,7 +50,7 @@ export default function EarnDepositBottomSheet({
   inputTokenId: string
   inputAmount: BigNumber
   pool: EarnPosition
-  mode: EarnEnterMode
+  mode: EarnActiveAction
   swapTransaction?: SwapTransaction
 }) {
   const { t } = useTranslation()
