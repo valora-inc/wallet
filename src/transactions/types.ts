@@ -62,9 +62,10 @@ export type StandbyTransaction =
   | ConfirmedStandbyTransaction
 
 type PendingTokenExchange =
-  | (Omit<TokenExchange, '__typename'> & { __typename: 'TokenExchangeV3' })
-  | (Omit<TokenExchange, '__typename'> & {
-      __typename: 'CrossChainTokenExchange'
+  | (Omit<TokenExchange, 'type'> & { type: TokenTransactionTypeV2.Exchange })
+  | (Omit<TokenExchange, 'type'> & { type: TokenTransactionTypeV2.SwapTransaction })
+  | (Omit<TokenExchange, 'type'> & {
+      type: TokenTransactionTypeV2.CrossChainSwapTransaction
       isSourceNetworkTxConfirmed?: boolean
     })
 
@@ -142,9 +143,8 @@ export enum TokenTransactionTypeV2 {
 
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenTransfer {
-  __typename: 'TokenTransferV3'
   networkId: NetworkId
-  type: TokenTransactionTypeV2
+  type: TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
   transactionHash: string
   timestamp: number
   block: string
@@ -162,9 +162,8 @@ export interface TokenTransferMetadata {
 }
 
 export interface NftTransfer {
-  __typename: 'NftTransferV3'
   networkId: NetworkId
-  type: TokenTransactionTypeV2
+  type: TokenTransactionTypeV2.NftReceived | TokenTransactionTypeV2.NftSent
   transactionHash: string
   timestamp: number
   block: string
@@ -175,9 +174,11 @@ export interface NftTransfer {
 
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenExchange {
-  __typename: 'TokenExchangeV3' | 'CrossChainTokenExchange'
   networkId: NetworkId
-  type: TokenTransactionTypeV2
+  type:
+    | TokenTransactionTypeV2.Exchange
+    | TokenTransactionTypeV2.SwapTransaction
+    | TokenTransactionTypeV2.CrossChainSwapTransaction
   transactionHash: string
   timestamp: number
   block: string
@@ -207,9 +208,8 @@ export interface Fee {
 }
 
 export interface TokenApproval {
-  __typename: 'TokenApproval'
   networkId: NetworkId
-  type: TokenTransactionTypeV2
+  type: TokenTransactionTypeV2.Approval
   timestamp: number
   block: string
   transactionHash: string
@@ -220,9 +220,8 @@ export interface TokenApproval {
 }
 
 export interface EarnDeposit {
-  __typename: 'EarnDeposit'
   networkId: NetworkId
-  type: TokenTransactionTypeV2
+  type: TokenTransactionTypeV2.EarnDeposit
   transactionHash: string
   timestamp: number
   block: string
@@ -234,9 +233,8 @@ export interface EarnDeposit {
 }
 
 export interface EarnSwapDeposit {
-  __typename: 'EarnSwapDeposit'
   networkId: NetworkId
-  type: TokenTransactionTypeV2
+  type: TokenTransactionTypeV2.EarnSwapDeposit
   transactionHash: string
   timestamp: number
   block: string
@@ -254,9 +252,8 @@ export interface EarnSwapDeposit {
 }
 
 export interface EarnWithdraw {
-  __typename: 'EarnWithdraw'
   networkId: NetworkId
-  type: TokenTransactionTypeV2
+  type: TokenTransactionTypeV2.EarnWithdraw
   transactionHash: string
   timestamp: number
   block: string
@@ -268,10 +265,9 @@ export interface EarnWithdraw {
 }
 
 export interface EarnClaimReward {
-  __typename: 'EarnClaimReward'
   networkId: NetworkId
   amount: TokenAmount
-  type: TokenTransactionTypeV2
+  type: TokenTransactionTypeV2.EarnClaimReward
   transactionHash: string
   timestamp: number
   block: string
