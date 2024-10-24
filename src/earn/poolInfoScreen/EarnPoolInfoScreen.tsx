@@ -212,6 +212,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
   }, [allPositionsWithBalance])
 
   const onPressWithdraw = () => {
+    // TODO(tomm): once act-1385 is merge use the bottom sheet button presses
     AppAnalytics.track(EarnEvents.earn_pool_info_tap_withdraw, {
       poolId: positionId,
       providerId: appId,
@@ -225,7 +226,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     if (partialWithdrawalsEnabled) {
       withdrawBottomSheetRef.current?.snapToIndex(0)
     } else {
-      navigate(Screens.EarnCollectScreen, { pool })
+      navigate(Screens.EarnConfirmationScreen, { pool, mode: 'Exit' })
     }
   }
 

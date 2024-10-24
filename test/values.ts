@@ -1781,6 +1781,7 @@ export const mockEarnPositions: EarnPosition[] = [
       rewardsPositionIds: [
         'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216:supply-incentives',
       ],
+      claimType: 'earnings',
     },
     tokens: [
       {
