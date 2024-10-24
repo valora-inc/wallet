@@ -32,12 +32,8 @@ import {
   TokenTransactionTypeV2,
   TransactionStatus,
   type NetworkId,
-  type NftTransfer,
-  type TokenApproval,
-  type TokenEarn,
   type TokenExchange,
   type TokenTransaction,
-  type TokenTransfer,
 } from 'src/transactions/types'
 import {
   groupFeedItemsInSections,
@@ -295,20 +291,20 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
     case TokenTransactionTypeV2.Exchange:
     case TokenTransactionTypeV2.SwapTransaction:
     case TokenTransactionTypeV2.CrossChainSwapTransaction:
-      return <SwapFeedItem key={tx.transactionHash} transaction={tx as TokenExchange} />
+      return <SwapFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.Sent:
     case TokenTransactionTypeV2.Received:
-      return <TransferFeedItem key={tx.transactionHash} transfer={tx as TokenTransfer} />
+      return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
     case TokenTransactionTypeV2.NftSent:
     case TokenTransactionTypeV2.NftReceived:
-      return <NftFeedItem key={tx.transactionHash} transaction={tx as NftTransfer} />
+      return <NftFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.Approval:
-      return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx as TokenApproval} />
+      return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.EarnDeposit:
     case TokenTransactionTypeV2.EarnSwapDeposit:
     case TokenTransactionTypeV2.EarnWithdraw:
     case TokenTransactionTypeV2.EarnClaimReward:
-      return <EarnFeedItem key={tx.transactionHash} transaction={tx as TokenEarn} />
+      return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
   }
 }
 
