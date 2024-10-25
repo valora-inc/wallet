@@ -79,8 +79,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
   )
 
   const {
-    // @ts-expect-error prepareTransactionsResult & swapTransaction are only set when mode === 'deposit' or 'swap-deposit'
-    prepareTransactionsResult: { prepareTransactionsResult, swapTransaction } = {},
+    prepareTransactionsResult: { prepareTransactionsResult } = {},
     refreshPreparedTransactions,
     clearPreparedTransactions,
     prepareTransactionError,
