@@ -362,8 +362,8 @@ function EnterAmount({
             localAmountValue={localAmountInput}
             onInputChange={onInputChange}
             localCurrencySymbol={localCurrencySymbol}
-            amountEnteredIn={enteredIn}
-            toggleEditUnit={onToggleEditUnit}
+            amountType={enteredIn}
+            toggleAmountType={onToggleEditUnit}
             autoFocus
             testID="SendEnterAmount/TokenAmountInput"
             allowEnterLocalAmount={!!token.priceUsd}

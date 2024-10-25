@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import {
   Platform,
   TextInput as RNTextInput,
@@ -25,40 +26,45 @@ import { TokenBalance } from 'src/tokens/slice'
 const BORDER_RADIUS = 12
 
 export function TokenEnterAmount({
+  token,
+  onTokenPickerSelect,
+  tokenSelectionDisabled = false,
   tokenValue,
-  localAmountValue,
   onInputChange,
-  amountEnteredIn,
-  toggleEditUnit,
+  localAmountValue,
+  allowEnterLocalAmount,
+  localCurrencySymbol,
+  amountType,
+  toggleAmountType,
   inputRef,
   inputStyle,
   autoFocus,
   testID = 'AmountInput',
-  localCurrencySymbol,
-  allowEnterLocalAmount,
-  onTokenPickerSelect,
-  tokenSelectionDisabled = false,
-  token,
 }: {
+  token?: TokenBalance
+  onTokenPickerSelect(): void
+  tokenSelectionDisabled?: boolean
   tokenValue: string
-  localAmountValue: string
   onInputChange(value: string): void
-  amountEnteredIn: AmountEnteredIn
-  toggleEditUnit(): void
+  localAmountValue: string
+  allowEnterLocalAmount: boolean
+  localCurrencySymbol: string
+  amountType: AmountEnteredIn
+  toggleAmountType(): void
   inputRef: React.MutableRefObject<RNTextInput | null>
   inputStyle?: StyleProp<TextStyle>
   autoFocus?: boolean
   testID?: string
-  localCurrencySymbol: string
-  allowEnterLocalAmount: boolean
-  onTokenPickerSelect(): void
-  tokenSelectionDisabled?: boolean
-  token?: TokenBalance
 }) {
+  const { t } = useTranslation()
   // the startPosition and inputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android
   // https://github.com/facebook/react-native/issues/14845
   const [startPosition, setStartPosition] = useState<number | undefined>(0)
+
+  const tokenValuePlaceholder = new BigNumber(0).toFormat(2)
+  const localAmountPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`
+  const inputValue = amountType === 'token' ? tokenValue : localAmountValue
 
   const handleSetStartPosition = (value?: number) => {
     if (Platform.OS === 'android') {
@@ -66,9 +72,6 @@ export function TokenEnterAmount({
     }
   }
 
-  const tokenValuePlaceholder = new BigNumber(0).toFormat(2)
-  const localAmountPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`
-  const inputValue = amountEnteredIn === 'token' ? tokenValue : localAmountValue
   return (
     <View>
       <Touchable
@@ -95,17 +98,18 @@ export function TokenEnterAmount({
                   {token.symbol} on {NETWORK_NAMES[token.networkId]}
                 </Text>
                 <Text style={styles.tokenBalance}>
-                  Available:{' '}
-                  <TokenDisplay
-                    tokenId={token.tokenId}
-                    amount={token.balance}
-                    showLocalAmount={false}
-                  />
+                  <Trans i18nKey="tokenEnterAmount.availableBalance">
+                    <TokenDisplay
+                      tokenId={token.tokenId}
+                      amount={token.balance}
+                      showLocalAmount={false}
+                    />
+                  </Trans>
                 </Text>
               </View>
             </View>
           ) : (
-            <Text style={styles.placeholderText}>Select token</Text>
+            <Text style={styles.placeholderText}>{t('tokenEnterAmount.selectToken')}</Text>
           )}
           <DownArrowIcon height={24} color={Colors.gray3} />
         </View>
@@ -120,9 +124,7 @@ export function TokenEnterAmount({
             }}
             value={inputValue ?? undefined}
             placeholderTextColor={Colors.gray3}
-            placeholder={
-              amountEnteredIn === 'token' ? tokenValuePlaceholder : localAmountPlaceholder
-            }
+            placeholder={amountType === 'token' ? tokenValuePlaceholder : localAmountPlaceholder}
             keyboardType="decimal-pad"
             // Work around for RN issue with Samsung keyboards
             // https://github.com/facebook/react-native/issues/22005
@@ -156,18 +158,20 @@ export function TokenEnterAmount({
 
           {allowEnterLocalAmount ? (
             <>
-              <Touchable onPress={toggleEditUnit} style={styles.swapArrowContainer}>
+              <Touchable onPress={toggleAmountType} style={styles.swapArrowContainer}>
                 <SwapArrows color={Colors.gray3} size={24} />
               </Touchable>
 
               <Text numberOfLines={1} style={[styles.secondaryAmountText, { maxWidth: '35%' }]}>
-                {amountEnteredIn === 'token'
+                {amountType === 'token'
                   ? `≈ ${inputValue ? localAmountValue : localAmountPlaceholder}`
                   : `≈ ${inputValue ? tokenValue : tokenValuePlaceholder}`}
               </Text>
             </>
           ) : (
-            <Text style={styles.secondaryAmountText}>Price unavailable</Text>
+            <Text style={styles.secondaryAmountText}>
+              {t('tokenEnterAmount.fiatPriceUnavailable')}
+            </Text>
           )}
         </View>
       )}
