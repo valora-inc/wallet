@@ -150,7 +150,6 @@ function EnterAmount({
   const { t } = useTranslation()
 
   const tokenAmountInputRef = useRef<RNTextInput>(null)
-  const localAmountInputRef = useRef<RNTextInput>(null)
   const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
@@ -169,7 +168,7 @@ function EnterAmount({
     })
   }
 
-  const onToggleEditUnit = () => {
+  const handleToggleAmountType = () => {
     setEnteredIn((prev) => (prev === 'token' ? 'local' : 'token'))
     tokenAmountInputRef.current?.blur()
   }
@@ -191,7 +190,6 @@ function EnterAmount({
     setTokenAmountInput(token.balance.toFormat({ decimalSeparator }))
     setEnteredIn('token')
     tokenAmountInputRef.current?.blur()
-    localAmountInputRef.current?.blur()
     AppAnalytics.track(SendEvents.max_pressed, {
       tokenId: token.tokenId,
       tokenAddress: token.address,
@@ -302,7 +300,7 @@ function EnterAmount({
     feeAmountSection = <FeeAmount feeAmount={maxFeeAmount} feeTokenId={feeTokenId} />
   }
 
-  const onInputChange = (value: string) => {
+  const handleAmountInputChange = (value: string) => {
     if (enteredIn === 'token') {
       onTokenAmountInputChange(value)
     } else {
@@ -360,10 +358,10 @@ function EnterAmount({
             inputRef={tokenAmountInputRef}
             tokenValue={tokenAmountInput}
             localAmountValue={localAmountInput}
-            onInputChange={onInputChange}
+            onInputChange={handleAmountInputChange}
             localCurrencySymbol={localCurrencySymbol}
             amountType={enteredIn}
-            toggleAmountType={onToggleEditUnit}
+            toggleAmountType={handleToggleAmountType}
             autoFocus
             testID="SendEnterAmount/TokenAmountInput"
             allowEnterLocalAmount={!!token.priceUsd}
