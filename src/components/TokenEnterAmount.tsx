@@ -32,14 +32,13 @@ export function TokenEnterAmount({
   tokenValue,
   onInputChange,
   localAmountValue,
-  allowEnterLocalAmount,
   localCurrencySymbol,
   amountType,
   toggleAmountType,
   inputRef,
   inputStyle,
-  autoFocus,
-  testID = 'AmountInput',
+  autoFocus = true,
+  testID,
 }: {
   token?: TokenBalance
   onTokenPickerSelect(): void
@@ -47,7 +46,6 @@ export function TokenEnterAmount({
   tokenValue: string
   onInputChange(value: string): void
   localAmountValue: string
-  allowEnterLocalAmount: boolean
   localCurrencySymbol: string
   amountType: AmountEnteredIn
   toggleAmountType(): void
@@ -78,8 +76,8 @@ export function TokenEnterAmount({
         borderless
         borderRadius={BORDER_RADIUS}
         onPress={onTokenPickerSelect}
-        testID="SendEnterAmount/TokenSelect"
         disabled={tokenSelectionDisabled}
+        testID={`${testID}/TokenSelect`}
       >
         <View
           style={[
@@ -111,11 +109,17 @@ export function TokenEnterAmount({
           ) : (
             <Text style={styles.placeholderText}>{t('tokenEnterAmount.selectToken')}</Text>
           )}
-          <DownArrowIcon height={24} color={Colors.gray3} />
+
+          {!tokenSelectionDisabled && <DownArrowIcon height={24} color={Colors.gray3} />}
         </View>
       </Touchable>
       {token && (
-        <View style={[styles.rowContainer, { borderTopLeftRadius: 0, borderTopRightRadius: 0 }]}>
+        <View
+          style={[
+            styles.rowContainer,
+            { borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTopWidth: 0 },
+          ]}
+        >
           <TextInput
             forwardedRef={inputRef}
             onChangeText={(value) => {
@@ -138,7 +142,6 @@ export function TokenEnterAmount({
               inputStyle,
               Platform.select({ ios: { lineHeight: undefined } }),
             ]}
-            testID={testID}
             onBlur={() => {
               handleSetStartPosition(0)
             }}
@@ -154,9 +157,10 @@ export function TokenEnterAmount({
                 : undefined
             }
             showClearButton={false}
+            testID={`${testID}/TokenAmountInput`}
           />
 
-          {allowEnterLocalAmount ? (
+          {token.priceUsd ? (
             <>
               <Touchable onPress={toggleAmountType} style={styles.swapArrowContainer}>
                 <SwapArrows color={Colors.gray3} size={24} />

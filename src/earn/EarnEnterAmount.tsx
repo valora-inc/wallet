@@ -17,15 +17,13 @@ import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import RowDivider from 'src/components/RowDivider'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
-import TokenIcon, { IconSize } from 'src/components/TokenIcon'
-import Touchable from 'src/components/Touchable'
+import TokenEnterAmount from 'src/components/TokenEnterAmount'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareTransactions } from 'src/earn/prepareTransactions'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
-import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -34,7 +32,6 @@ import { StackParamList } from 'src/navigator/types'
 import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions/selectors'
 import { EarnPosition, Position } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
-import { AmountInput } from 'src/send/EnterAmount'
 import { AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
@@ -175,9 +172,9 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
-  // only allow numbers, one decimal separator, and two decimal places
+  // only allow numbers, one decimal separator, and any number of decimal places
   const localAmountRegex = new RegExp(
-    `^(\\d+([${decimalSeparator}])?\\d{0,2}|[${decimalSeparator}]\\d{0,2}|[${decimalSeparator}])$`
+    `^(\\d+([${decimalSeparator}])?\\d*|[${decimalSeparator}]\\d*|[${decimalSeparator}])$`
   )
   // only allow numbers, one decimal separator
   const tokenAmountRegex = new RegExp(
@@ -300,6 +297,19 @@ function EarnEnterAmount({ route }: Props) {
     // Should disable if the user enters 0, has enough balance but the transaction is not possible, or does not have enough balance
     !!tokenAmount?.isZero() || !transactionIsPossible
 
+  const handleToggleAmountType = () => {
+    setEnteredIn((prev) => (prev === 'token' ? 'local' : 'token'))
+    tokenAmountInputRef.current?.blur()
+  }
+
+  const handleAmountInputChange = (value: string) => {
+    if (enteredIn === 'token') {
+      onTokenAmountInputChange(value)
+    } else {
+      onLocalAmountInputChange(value)
+    }
+  }
+
   const onTokenAmountInputChange = (value: string) => {
     setMaxPressed(false)
     if (!value) {
@@ -332,8 +342,10 @@ function EarnEnterAmount({ route }: Props) {
       }
       if (value.match(localAmountRegex)) {
         // add back currency symbol and grouping separators
+        const [integerPart, decimalPart] = value.split(decimalSeparator)
+        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
         setLocalAmountInput(
-          `${localCurrencySymbol}${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
+          `${localCurrencySymbol}${formattedInteger}${decimalPart !== undefined ? `${decimalSeparator}${decimalPart}` : ''}`
         )
         setEnteredIn('local')
       }
@@ -395,53 +407,19 @@ function EarnEnterAmount({ route }: Props) {
               ? t('earnFlow.enterAmount.titleWithdraw')
               : t('earnFlow.enterAmount.title')}
           </Text>
-          <View style={styles.inputBox}>
-            <View style={styles.inputRow}>
-              <AmountInput
-                inputRef={tokenAmountInputRef}
-                inputValue={tokenAmountInput}
-                onInputChange={onTokenAmountInputChange}
-                inputStyle={styles.inputText}
-                autoFocus
-                placeholder={new BigNumber(0).toFormat(2)}
-                testID="EarnEnterAmount/TokenAmountInput"
-              />
-              <Touchable
-                borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
-                onPress={onTokenPickerSelect}
-                style={styles.tokenSelectButton}
-                disabled={!dropdownEnabled}
-                testID="EarnEnterAmount/TokenSelect"
-              >
-                <>
-                  <TokenIcon token={inputToken} size={IconSize.SMALL} />
-                  <Text style={styles.tokenName}>{inputToken.symbol}</Text>
-                  {dropdownEnabled && <DownArrowIcon color={Colors.gray5} />}
-                </>
-              </Touchable>
-            </View>
-            <View style={styles.localAmountRow}>
-              <AmountInput
-                inputValue={transactionToken.priceUsd ? localAmountInput : '-'}
-                onInputChange={onLocalAmountInputChange}
-                inputRef={localAmountInputRef}
-                inputStyle={styles.localAmount}
-                placeholder={`${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`}
-                testID="EarnEnterAmount/LocalAmountInput"
-                editable={!!transactionToken.priceUsd}
-              />
-              {!transactionToken.balance.isZero() && (
-                <Touchable
-                  borderRadius={MAX_BORDER_RADIUS}
-                  onPress={onMaxAmountPress}
-                  style={styles.maxTouchable}
-                  testID="EarnEnterAmount/Max"
-                >
-                  <Text style={styles.maxText}>{t('max')}</Text>
-                </Touchable>
-              )}
-            </View>
-          </View>
+          <TokenEnterAmount
+            token={inputToken}
+            onTokenPickerSelect={onTokenPickerSelect}
+            tokenSelectionDisabled={!dropdownEnabled}
+            tokenValue={tokenAmountInput}
+            onInputChange={handleAmountInputChange}
+            localAmountValue={localAmountInput}
+            localCurrencySymbol={localCurrencySymbol}
+            amountType={enteredIn}
+            toggleAmountType={handleToggleAmountType}
+            inputRef={tokenAmountInputRef}
+            testID="EarnEnterAmount"
+          />
           {tokenAmount && prepareTransactionsResult && !isWithdrawal && (
             <TransactionDepositDetails
               pool={pool}
@@ -1033,71 +1011,13 @@ const styles = StyleSheet.create({
   title: {
     ...typeScale.titleSmall,
     color: Colors.black,
+    marginBottom: Spacing.Thick24,
   },
   inputContainer: {
     flex: 1,
   },
   continueButton: {
     paddingVertical: Spacing.Thick24,
-  },
-  inputBox: {
-    marginTop: Spacing.Large32,
-    backgroundColor: Colors.gray1,
-    borderWidth: 1,
-    borderRadius: 16,
-    borderColor: Colors.gray2,
-  },
-  inputRow: {
-    paddingHorizontal: Spacing.Regular16,
-    paddingTop: Spacing.Smallest8,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  localAmountRow: {
-    marginTop: Spacing.Thick24,
-    marginLeft: Spacing.Regular16,
-    paddingRight: Spacing.Regular16,
-    paddingBottom: Spacing.Regular16,
-    paddingTop: Spacing.Thick24,
-    borderTopColor: Colors.gray2,
-    borderTopWidth: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  inputText: {
-    ...typeScale.titleMedium,
-    color: Colors.black,
-  },
-  tokenSelectButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.white,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    borderRadius: TOKEN_SELECTOR_BORDER_RADIUS,
-    paddingHorizontal: Spacing.Smallest8,
-    paddingVertical: Spacing.Tiny4,
-  },
-  tokenName: {
-    ...typeScale.labelSmall,
-    paddingLeft: Spacing.Tiny4,
-    paddingRight: Spacing.Smallest8,
-    color: Colors.black,
-  },
-  localAmount: {
-    ...typeScale.labelMedium,
-  },
-  maxTouchable: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    backgroundColor: Colors.gray2,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    borderRadius: MAX_BORDER_RADIUS,
-  },
-  maxText: {
-    ...typeScale.labelSmall,
-    color: Colors.black,
   },
   warning: {
     marginTop: Spacing.Regular16,

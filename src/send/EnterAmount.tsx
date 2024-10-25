@@ -1,14 +1,7 @@
 import BigNumber from 'bignumber.js'
 import React, { ComponentType, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Platform,
-  TextInput as RNTextInput,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-} from 'react-native'
+import { TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -21,7 +14,6 @@ import InLineNotification, { NotificationVariant } from 'src/components/InLineNo
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
-import TextInput from 'src/components/TextInput'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenEnterAmount from 'src/components/TokenEnterAmount'
@@ -198,7 +190,7 @@ function EnterAmount({
   }
 
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
-  // only allow numbers, one decimal separator, and 2 decimal places
+  // only allow numbers, one decimal separator, and any number of decimal places
   const localAmountRegex = new RegExp(
     `^(\\d+([${decimalSeparator}])?\\d*|[${decimalSeparator}]\\d*|[${decimalSeparator}])$`
   )
@@ -341,7 +333,7 @@ function EnterAmount({
         const [integerPart, decimalPart] = value.split(decimalSeparator)
         const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
         setLocalAmountInput(
-          `${localCurrencySymbol}${formattedInteger}${decimalPart ? `${decimalSeparator}${decimalPart}` : ''}`
+          `${localCurrencySymbol}${formattedInteger}${decimalPart !== undefined ? `${decimalSeparator}${decimalPart}` : ''}`
         )
         setEnteredIn('local')
       }
@@ -364,7 +356,6 @@ function EnterAmount({
             toggleAmountType={handleToggleAmountType}
             autoFocus
             testID="SendEnterAmount/TokenAmountInput"
-            allowEnterLocalAmount={!!token.priceUsd}
             onTokenPickerSelect={onTokenPickerSelect}
             tokenSelectionDisabled={tokenSelectionDisabled}
             token={token}
@@ -438,76 +429,6 @@ function EnterAmount({
   )
 }
 
-export function AmountInput({
-  inputValue,
-  onInputChange,
-  inputRef,
-  inputStyle,
-  autoFocus,
-  placeholder = '0',
-  testID = 'AmountInput',
-  editable = true,
-}: {
-  inputValue: string
-  onInputChange(value: string): void
-  inputRef: React.MutableRefObject<RNTextInput | null>
-  inputStyle?: StyleProp<TextStyle>
-  autoFocus?: boolean
-  placeholder?: string
-  testID?: string
-  editable?: boolean
-}) {
-  // the startPosition and inputRef variables exist to ensure TextInput
-  // displays the start of the value for long values on Android
-  // https://github.com/facebook/react-native/issues/14845
-  const [startPosition, setStartPosition] = useState<number | undefined>(0)
-
-  const handleSetStartPosition = (value?: number) => {
-    if (Platform.OS === 'android') {
-      setStartPosition(value)
-    }
-  }
-
-  return (
-    <View style={styles.input}>
-      <TextInput
-        forwardedRef={inputRef}
-        onChangeText={(value) => {
-          handleSetStartPosition(undefined)
-          onInputChange(value)
-        }}
-        editable={editable}
-        value={inputValue || undefined}
-        placeholder={placeholder}
-        keyboardType="decimal-pad"
-        // Work around for RN issue with Samsung keyboards
-        // https://github.com/facebook/react-native/issues/22005
-        autoCapitalize="words"
-        autoFocus={autoFocus}
-        // unset lineHeight to allow ellipsis on long inputs on iOS. For
-        // android, ellipses doesn't work and unsetting line height causes
-        // height changes when amount is entered
-        inputStyle={[inputStyle, Platform.select({ ios: { lineHeight: undefined } })]}
-        testID={testID}
-        onBlur={() => {
-          handleSetStartPosition(0)
-        }}
-        onFocus={() => {
-          handleSetStartPosition(inputValue?.length ?? 0)
-        }}
-        onSelectionChange={() => {
-          handleSetStartPosition(undefined)
-        }}
-        selection={
-          Platform.OS === 'android' && typeof startPosition === 'number'
-            ? { start: startPosition }
-            : undefined
-        }
-      />
-    </View>
-  )
-}
-
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
@@ -523,10 +444,6 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
-  },
-  input: {
-    flex: 1,
-    marginRight: Spacing.Smallest8,
   },
   feeContainer: {
     flexDirection: 'row',
