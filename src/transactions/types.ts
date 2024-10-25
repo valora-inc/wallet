@@ -281,5 +281,3 @@ export interface TrackedTx {
   txHash: Hash | undefined
   txReceipt: TransactionReceipt | undefined
 }
-
-export type TokenEarn = EarnWithdraw | EarnDeposit | EarnClaimReward | EarnSwapDeposit
