@@ -144,7 +144,7 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const {
-    // @ts-expect-error prepareTransactionsResult & swapTransaction are only set when mode === 'deposit' or 'swap-deposit'
+    // @ts-expect-error swapTransaction only exists on swap-deposit mode
     prepareTransactionsResult: { prepareTransactionsResult, swapTransaction } = {},
     refreshPreparedTransactions,
     clearPreparedTransactions,
