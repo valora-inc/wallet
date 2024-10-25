@@ -216,13 +216,13 @@ export async function prepareClaimTransactions({
   walletAddress: Address
   feeCurrencies: TokenBalance[]
   hooksApiUrl: string
-  rewardsPositions: Position[]
+  rewardsPositions?: Position[]
 }) {
   const { appId, networkId } = pool
 
   // Prepare the claim transactions if there are rewards positions
   const claimTransactions =
-    rewardsPositions.length > 0
+    rewardsPositions && rewardsPositions.length > 0
       ? await Promise.all(
           rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
             const { transactions }: { transactions?: RawShortcutTransaction[] } =
