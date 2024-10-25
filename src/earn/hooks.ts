@@ -1,7 +1,12 @@
 import { useMemo } from 'react'
-import { useAsync } from 'react-async-hook'
-import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
-import { PrepareWithdrawAndClaimParams } from 'src/earn/types'
+import { useAsync, useAsyncCallback } from 'react-async-hook'
+import {
+  prepareClaimTransactions,
+  prepareDepositTransactions,
+  prepareWithdrawAndClaimTransactions,
+  prepareWithdrawTransactions,
+} from 'src/earn/prepareTransactions'
+import { EarnActiveAction } from 'src/earn/types'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -16,15 +21,6 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 
 const TAG = 'earn/hooks'
-
-export function usePrepareWithdrawAndClaimTransactions(params: PrepareWithdrawAndClaimParams) {
-  return useAsync(() => prepareWithdrawAndClaimTransactions(params), [], {
-    onError: (err) => {
-      const error = ensureError(err)
-      Logger.error(TAG, 'usePrepareWithdrawAndClaimTransactions', error)
-    },
-  })
-}
 
 export function useEarnPositionProviderName(providerId: string) {
   const pools = useSelector(earnPositionsSelector)
@@ -93,4 +89,45 @@ export function useDepositEntrypointInfo({
     return asyncExchanges.result ?? []
   }, [asyncExchanges.result])
   return { hasDepositToken, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canCashIn, exchanges }
+}
+
+export function usePrepareTransactions(mode: EarnActiveAction) {
+  const getTransactionFunction = () => {
+    switch (mode) {
+      case 'deposit':
+      case 'swap-deposit':
+        return prepareDepositTransactions
+      case 'withdraw':
+        return prepareWithdrawTransactions
+      case 'claim-rewards':
+        return prepareClaimTransactions
+      case 'exit':
+        return prepareWithdrawAndClaimTransactions
+      default:
+        throw new Error(`Invalid mode: ${mode}`)
+    }
+  }
+
+  const prepareTransactions = useAsyncCallback(
+    async (args) => {
+      // Get the appropriate function based on the mode
+      const prepareFunction = getTransactionFunction()
+      // Ensure the function is called with the necessary arguments
+      return prepareFunction(args)
+    },
+    {
+      onError: (err) => {
+        const error = ensureError(err)
+        Logger.error(TAG, 'usePrepareTransactions - Error:', error)
+      },
+    }
+  )
+
+  return {
+    prepareTransactionsResult: prepareTransactions.result,
+    refreshPreparedTransactions: prepareTransactions.execute,
+    clearPreparedTransactions: prepareTransactions.reset,
+    prepareTransactionError: prepareTransactions.error,
+    isPreparingTransactions: prepareTransactions.loading,
+  }
 }

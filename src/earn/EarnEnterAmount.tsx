@@ -21,7 +21,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
-import { usePrepareTransactions } from 'src/earn/prepareTransactions'
+import { usePrepareTransactions } from 'src/earn/hooks'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
@@ -144,6 +144,7 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const {
+    // @ts-expect-error prepareTransactionsResult & swapTransaction are only set when mode === 'deposit' or 'swap-deposit'
     prepareTransactionsResult: { prepareTransactionsResult, swapTransaction } = {},
     refreshPreparedTransactions,
     clearPreparedTransactions,
@@ -483,11 +484,17 @@ function EarnEnterAmount({ route }: Props) {
             })}
             description={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.description', {
               feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
+              network:
+                NETWORK_NAMES[
+                  prepareTransactionsResult.feeCurrencies[0].networkId as keyof typeof NETWORK_NAMES
+                ],
             })}
             ctaLabel={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta', {
               feeTokenSymbol: feeCurrencies[0].symbol,
-              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
+              network:
+                NETWORK_NAMES[
+                  prepareTransactionsResult.feeCurrencies[0].networkId as keyof typeof NETWORK_NAMES
+                ],
             })}
             onPressCta={() => {
               AppAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {

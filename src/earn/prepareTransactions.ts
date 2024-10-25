@@ -1,19 +1,16 @@
 import BigNumber from 'bignumber.js'
-import _ from 'lodash'
-import { useAsyncCallback } from 'react-async-hook'
-import { EarnActiveAction, PrepareWithdrawAndClaimParams } from 'src/earn/types'
+import { EarnActiveAction } from 'src/earn/types'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
 import { RawShortcutTransaction } from 'src/positions/slice'
 import { rawShortcutTransactionsToTransactionRequests } from 'src/positions/transactions'
-import { EarnPosition } from 'src/positions/types'
+import { EarnPosition, Position } from 'src/positions/types'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { SwapTransaction } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import { ensureError } from 'src/utils/ensureError'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
 import { Address } from 'viem'
 
@@ -36,6 +33,7 @@ export async function prepareDepositTransactions({
   hooksApiUrl: string
   shortcutId: Exclude<EarnActiveAction, 'exit'>
 }) {
+  const { appId, networkId } = pool
   const { enableAppFee } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG])
   const args =
     shortcutId === 'deposit'
@@ -64,8 +62,8 @@ export async function prepareDepositTransactions({
   }: { transactions: RawShortcutTransaction[]; dataProps?: { swapTransaction: SwapTransaction } } =
     await triggerShortcutRequest(hooksApiUrl, {
       address: walletAddress,
-      appId: pool.appId,
-      networkId: pool.networkId,
+      appId,
+      networkId,
       shortcutId,
       ...args,
       ...pool.shortcutTriggerArgs?.[shortcutId],
@@ -94,17 +92,91 @@ export async function prepareDepositTransactions({
 }
 
 export async function prepareWithdrawAndClaimTransactions({
-  pool,
+  token,
   walletAddress,
   feeCurrencies,
+  pool,
   hooksApiUrl,
   rewardsPositions,
-  amount,
-  useMax = true,
-}: PrepareWithdrawAndClaimParams) {
-  const { dataProps, balance, appId, networkId, shortcutTriggerArgs } = pool
+}: {
+  token: TokenBalance
+  walletAddress: Address
+  feeCurrencies: TokenBalance[]
+  pool: EarnPosition
+  hooksApiUrl: string
+  rewardsPositions?: Position[]
+}) {
+  const { appId, balance, dataProps, networkId, shortcutTriggerArgs } = pool
   const { transactions: withdrawTransactions }: { transactions: RawShortcutTransaction[] } =
     await triggerShortcutRequest(hooksApiUrl, {
+      address: walletAddress,
+      appId,
+      networkId,
+      shortcutId: 'withdraw',
+      tokens: [
+        {
+          tokenId: dataProps.withdrawTokenId,
+          amount: balance,
+          useMax: true,
+        },
+      ],
+      ...shortcutTriggerArgs?.withdraw,
+    })
+
+  // Prepare the claim transactions if there are rewards positions
+  const claimTransactions = rewardsPositions
+    ? await Promise.all(
+        rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
+          const { transactions }: { transactions?: RawShortcutTransaction[] } =
+            await triggerShortcutRequest(hooksApiUrl, {
+              address: walletAddress,
+              appId,
+              networkId,
+              shortcutId: 'claim-rewards',
+              ...position.shortcutTriggerArgs?.['claim-rewards'],
+            })
+          return transactions ?? [] // Default to an empty array if rewardsPositions is undefined
+        })
+      )
+    : []
+
+  return {
+    prepareTransactionsResult: await prepareTransactions({
+      feeCurrencies,
+      baseTransactions: rawShortcutTransactionsToTransactionRequests([
+        ...withdrawTransactions,
+        ...claimTransactions.flat(),
+      ]),
+      spendToken: token,
+      spendTokenAmount: new BigNumber(balance).shiftedBy(token.decimals),
+      isGasSubsidized: isGasSubsidizedForNetwork(networkId),
+      origin: 'earn-withdraw',
+    }),
+  }
+}
+
+export async function prepareWithdrawTransactions({
+  amount,
+  token,
+  walletAddress,
+  feeCurrencies,
+  pool,
+  hooksApiUrl,
+  useMax,
+}: {
+  amount: string
+  token: TokenBalance
+  walletAddress: Address
+  feeCurrencies: TokenBalance[]
+  pool: EarnPosition
+  hooksApiUrl: string
+  shortcutId: Exclude<EarnActiveAction, 'exit'>
+  useMax: boolean
+}) {
+  const { appId, balance, dataProps, networkId, shortcutTriggerArgs } = pool
+  const { transactions }: { transactions: RawShortcutTransaction[] } = await triggerShortcutRequest(
+    hooksApiUrl,
+    {
       address: walletAddress,
       appId,
       networkId,
@@ -117,71 +189,6 @@ export async function prepareWithdrawAndClaimTransactions({
         },
       ],
       ...shortcutTriggerArgs?.withdraw,
-    })
-  const claimTransactions = await Promise.all(
-    rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
-      const { transactions }: { transactions: RawShortcutTransaction[] } =
-        await triggerShortcutRequest(hooksApiUrl, {
-          address: walletAddress,
-          appId,
-          networkId,
-          shortcutId: 'claim-rewards',
-          ...position.shortcutTriggerArgs?.['claim-rewards'],
-        })
-      return transactions
-    })
-  )
-  Logger.debug(TAG, 'prepareWithdrawAndClaimTransactions', {
-    withdrawTransactions,
-    claimTransactions,
-    pool,
-  })
-  return prepareTransactions({
-    feeCurrencies,
-    baseTransactions: rawShortcutTransactionsToTransactionRequests([
-      ...withdrawTransactions,
-      ..._.flatten(claimTransactions),
-    ]),
-    isGasSubsidized: isGasSubsidizedForNetwork(pool.networkId),
-    origin: 'earn-withdraw',
-  })
-}
-
-export async function prepareWithdrawTransactions({
-  amount,
-  token,
-  walletAddress,
-  feeCurrencies,
-  pool,
-  hooksApiUrl,
-  shortcutId,
-  useMax,
-}: {
-  amount: string
-  token: TokenBalance
-  walletAddress: Address
-  feeCurrencies: TokenBalance[]
-  pool: EarnPosition
-  hooksApiUrl: string
-  shortcutId: Exclude<EarnActiveAction, 'exit'>
-  useMax: boolean
-}) {
-  const { dataProps } = pool
-  const { transactions }: { transactions: RawShortcutTransaction[] } = await triggerShortcutRequest(
-    hooksApiUrl,
-    {
-      address: walletAddress,
-      appId: pool.appId,
-      networkId: pool.networkId,
-      shortcutId,
-      tokens: [
-        {
-          tokenId: dataProps.withdrawTokenId,
-          amount,
-          useMax,
-        },
-      ],
-      ...pool.shortcutTriggerArgs?.[shortcutId],
     }
   )
 
@@ -189,29 +196,56 @@ export async function prepareWithdrawTransactions({
     prepareTransactionsResult: await prepareTransactions({
       feeCurrencies,
       baseTransactions: rawShortcutTransactionsToTransactionRequests(transactions),
-      isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),
-      origin: `earn-${shortcutId}`,
+      spendToken: token,
+      spendTokenAmount: new BigNumber(amount).shiftedBy(token.decimals),
+      isGasSubsidized: isGasSubsidizedForNetwork(networkId),
+      origin: 'earn-withdraw',
     }),
-    swapTransaction: undefined,
   }
 }
 
-export function usePrepareTransactions(mode: EarnActiveAction) {
-  const prepareTransactions = useAsyncCallback(
-    mode === 'withdraw' ? prepareWithdrawTransactions : prepareDepositTransactions,
-    {
-      onError: (err) => {
-        const error = ensureError(err)
-        Logger.error(TAG, 'usePrepareWithdrawTransactions', error)
-      },
-    }
-  )
+export async function prepareClaimTransactions({
+  pool,
+  walletAddress,
+  feeCurrencies,
+  hooksApiUrl,
+  rewardsPositions,
+}: {
+  pool: EarnPosition
+  walletAddress: Address
+  feeCurrencies: TokenBalance[]
+  hooksApiUrl: string
+  rewardsPositions: Position[]
+}) {
+  const { appId, networkId } = pool
 
+  // Prepare the claim transactions if there are rewards positions
+  const claimTransactions = rewardsPositions
+    ? await Promise.all(
+        rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
+          const { transactions }: { transactions?: RawShortcutTransaction[] } =
+            await triggerShortcutRequest(hooksApiUrl, {
+              address: walletAddress,
+              appId,
+              networkId,
+              shortcutId: 'claim-rewards',
+              ...position.shortcutTriggerArgs?.['claim-rewards'],
+            })
+          return transactions ?? [] // Default to an empty array if rewardsPositions is undefined
+        })
+      )
+    : []
+
+  Logger.debug(TAG, 'prepareClaimTransactions', {
+    claimTransactions,
+    pool,
+  })
   return {
-    prepareTransactionsResult: prepareTransactions.result,
-    refreshPreparedTransactions: prepareTransactions.execute,
-    clearPreparedTransactions: prepareTransactions.reset,
-    prepareTransactionError: prepareTransactions.error,
-    isPreparingTransactions: prepareTransactions.loading,
+    prepareTransactionsResult: await prepareTransactions({
+      feeCurrencies,
+      baseTransactions: rawShortcutTransactionsToTransactionRequests(claimTransactions.flat()),
+      isGasSubsidized: isGasSubsidizedForNetwork(networkId),
+      origin: 'earn-claim-rewards',
+    }),
   }
 }
