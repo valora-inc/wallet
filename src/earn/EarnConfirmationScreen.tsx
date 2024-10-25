@@ -104,8 +104,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
       feeCurrencies,
       pool,
       hooksApiUrl,
-      // Mode === shortcutId, except for exit which is withdraw
-      shortcutId: mode === 'exit' ? 'withdraw' : mode,
+      shortcutId: mode,
       useMax,
     })
   }
