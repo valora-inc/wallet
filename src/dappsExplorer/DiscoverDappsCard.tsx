@@ -12,7 +12,7 @@ import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 

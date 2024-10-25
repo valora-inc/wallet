@@ -24,7 +24,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
 import appTheme from 'src/styles/appTheme'
-import colors, { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -158,7 +158,7 @@ function SuccessOrProcessingSection({
   } else {
     icon = (
       <CircledIcon>
-        <ClockIcon color={colors.white} height={22} width={22} />
+        <ClockIcon color={Colors.white} height={22} width={22} />
       </CircledIcon>
     )
     title = t('fiatConnectStatusScreen.txProcessing.title')
@@ -196,7 +196,7 @@ function SuccessOrProcessingSection({
             <Text style={styles.txDetails}>
               {t('fiatConnectStatusScreen.success.viewOnCeloScan')}
             </Text>
-            <OpenLinkIcon color={colors.gray4} />
+            <OpenLinkIcon color={Colors.gray4} />
           </View>
         </Touchable>
       )}
@@ -241,7 +241,7 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
     case SendingTransferStatus.Sending:
       return (
         <View style={styles.activityIndicatorContainer}>
-          <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.accent} />
+          <ActivityIndicator testID="loadingTransferStatus" size="large" color={Colors.accent} />
           <Text
             style={{ ...styles.loadingDescription, color: loadingDescriptionColor }}
             testID="loadingDescription"
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   txDetails: {
-    color: colors.gray4,
+    color: Colors.gray4,
   },
   iconContainer: {
     marginBottom: 24,
@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
   },
   cancelBtn: {
     ...typeScale.bodyMedium,
-    color: colors.gray3,
+    color: Colors.gray3,
     paddingHorizontal: Spacing.Thick24,
   },
 })

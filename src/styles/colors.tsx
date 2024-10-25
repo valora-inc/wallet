@@ -1,6 +1,6 @@
 // Designer Created Figma Colors
 // from https://www.figma.com/design/erFfzHvSTm5g1sjK6jWyEH/Working-Design-System?node-id=2100-4881&node-type=frame&t=vKGGXrs3Torz7kFE-0
-export enum Colors {
+enum Colors {
   // black & white
   black = '#2E3338',
   white = '#FFFFFF',
@@ -14,7 +14,6 @@ export enum Colors {
 
   // primary
   primary = '#2E3338',
-  primaryDisabled = '#2E333840',
   accent = '#1AB775',
 
   // other

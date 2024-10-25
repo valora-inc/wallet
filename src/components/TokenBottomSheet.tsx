@@ -22,7 +22,7 @@ import SearchInput from 'src/components/SearchInput'
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
 import InfoIcon from 'src/icons/InfoIcon'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import colors, { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
@@ -399,7 +399,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     padding: Spacing.Thick24,
-    backgroundColor: colors.white,
+    backgroundColor: Colors.white,
     width: '100%',
   },
   title: {
