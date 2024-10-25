@@ -114,6 +114,10 @@ function TransactionFeed() {
         return <NftFeedItem key={tx.transactionHash} transaction={tx} />
       case TokenTransactionTypeV2.Approval:
         return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
+      case TokenTransactionTypeV2.Deposit:
+      case TokenTransactionTypeV2.Withdraw:
+        // These are handled by the FeedV2 only
+        return null
       case TokenTransactionTypeV2.EarnDeposit:
       case TokenTransactionTypeV2.EarnSwapDeposit:
       case TokenTransactionTypeV2.EarnWithdraw:
