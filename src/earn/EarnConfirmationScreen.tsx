@@ -13,7 +13,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { usePrepareWithdrawAndClaimTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
-import { WithdrawActionName } from 'src/earn/types'
+import { EarnActiveAction } from 'src/earn/types'
 import { getEarnPositionBalanceValues, isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
@@ -74,6 +74,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
     [withdrawToken, pool.pricePerShare, inputAmount]
   )
 
+  // Will need this to handle preparing a claim transaction, a withdrawal transaction and a withdrawal and claim transaction
   const {
     result: prepareTransactionsResult,
     loading: isPreparingTransactions,
@@ -211,9 +212,9 @@ export default function EarnConfirmationScreen({ route }: Props) {
         style={styles.button}
         size={BtnSizes.FULL}
         text={
-          mode === 'PartialWithdraw'
+          mode === 'withdraw'
             ? t('earnFlow.collect.ctaWithdraw')
-            : mode === 'Exit'
+            : mode === 'exit'
               ? t('earnFlow.collect.ctaExit')
               : t('earnFlow.collect.ctaReward')
         }
@@ -316,14 +317,14 @@ function GasFee({
   )
 }
 
-function Title({ mode }: { mode: WithdrawActionName }) {
+function Title({ mode }: { mode: EarnActiveAction }) {
   const { t } = useTranslation()
   switch (mode) {
-    case 'Claim':
+    case 'claim-rewards':
       return <Text style={styles.title}>{t('earnFlow.collect.titleClaim')}</Text>
-    case 'PartialWithdraw':
+    case 'withdraw':
       return <Text style={styles.title}>{t('earnFlow.collect.titleWithdraw')}</Text>
-    case 'Exit':
+    case 'exit':
     default:
       return <Text style={styles.title}>{t('earnFlow.collect.titleCollect')}</Text>
   }
