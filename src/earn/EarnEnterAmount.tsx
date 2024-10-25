@@ -170,7 +170,7 @@ function EarnEnterAmount({ route }: Props) {
       feeCurrencies,
       pool,
       hooksApiUrl,
-      // Mode is the same and shortcutId, except for exit which is withdraw
+      // Mode === shortcutId, except for exit which is withdraw
       shortcutId: mode === 'exit' ? 'withdraw' : mode,
       useMax: maxPressed,
     })
