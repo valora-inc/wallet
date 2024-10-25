@@ -124,21 +124,22 @@ export async function prepareWithdrawAndClaimTransactions({
     })
 
   // Prepare the claim transactions if there are rewards positions
-  const claimTransactions = rewardsPositions
-    ? await Promise.all(
-        rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
-          const { transactions }: { transactions?: RawShortcutTransaction[] } =
-            await triggerShortcutRequest(hooksApiUrl, {
-              address: walletAddress,
-              appId,
-              networkId,
-              shortcutId: 'claim-rewards',
-              ...position.shortcutTriggerArgs?.['claim-rewards'],
-            })
-          return transactions ?? [] // Default to an empty array if rewardsPositions is undefined
-        })
-      )
-    : []
+  const claimTransactions =
+    rewardsPositions && rewardsPositions.length > 0
+      ? await Promise.all(
+          rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
+            const { transactions }: { transactions?: RawShortcutTransaction[] } =
+              await triggerShortcutRequest(hooksApiUrl, {
+                address: walletAddress,
+                appId,
+                networkId,
+                shortcutId: 'claim-rewards',
+                ...position.shortcutTriggerArgs?.['claim-rewards'],
+              })
+            return transactions ?? [] // Default to an empty array if rewardsPositions is undefined
+          })
+        )
+      : []
 
   return {
     prepareTransactionsResult: await prepareTransactions({
@@ -220,21 +221,22 @@ export async function prepareClaimTransactions({
   const { appId, networkId } = pool
 
   // Prepare the claim transactions if there are rewards positions
-  const claimTransactions = rewardsPositions
-    ? await Promise.all(
-        rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
-          const { transactions }: { transactions?: RawShortcutTransaction[] } =
-            await triggerShortcutRequest(hooksApiUrl, {
-              address: walletAddress,
-              appId,
-              networkId,
-              shortcutId: 'claim-rewards',
-              ...position.shortcutTriggerArgs?.['claim-rewards'],
-            })
-          return transactions ?? [] // Default to an empty array if rewardsPositions is undefined
-        })
-      )
-    : []
+  const claimTransactions =
+    rewardsPositions.length > 0
+      ? await Promise.all(
+          rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
+            const { transactions }: { transactions?: RawShortcutTransaction[] } =
+              await triggerShortcutRequest(hooksApiUrl, {
+                address: walletAddress,
+                appId,
+                networkId,
+                shortcutId: 'claim-rewards',
+                ...position.shortcutTriggerArgs?.['claim-rewards'],
+              })
+            return transactions ?? [] // Default to an empty array if rewardsPositions is undefined
+          })
+        )
+      : []
 
   Logger.debug(TAG, 'prepareClaimTransactions', {
     claimTransactions,
