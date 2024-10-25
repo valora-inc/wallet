@@ -10,6 +10,7 @@ import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
+import TextButton from 'src/components/TextButton'
 import AppleIcon from 'src/icons/Apple'
 import GoogleIcon from 'src/icons/Google'
 import { email } from 'src/images/Images'
@@ -255,13 +256,13 @@ function SignInWithEmail({ route }: Props) {
           />
         )}
         {isSetupInOnboarding && (
-          <Button
+          <TextButton
+            style={styles.signInAnotherWay}
             testID="SignInWithEmail/SignInAnotherWay"
             onPress={onPressSignInAnotherWay}
-            size={BtnSizes.FULL}
-            type={BtnTypes.SECONDARY}
-            text={t('signInWithEmail.signInAnotherWay')}
-          />
+          >
+            {t('signInWithEmail.signInAnotherWay')}
+          </TextButton>
         )}
       </View>
       {isSetupInOnboarding && (
@@ -327,5 +328,9 @@ const styles = StyleSheet.create({
   },
   bottomSheetButtonContainer: {
     gap: Spacing.Smallest8,
+  },
+  signInAnotherWay: {
+    alignSelf: 'center',
+    marginTop: Spacing.Smallest8,
   },
 })
