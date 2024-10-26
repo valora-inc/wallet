@@ -84,7 +84,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
     clearPreparedTransactions,
     prepareTransactionError,
     isPreparingTransactions,
-  } = usePrepareTransactions(mode)
+  } = usePrepareTransactions(mode, { rewardsPositions })
 
   const handleRefreshPreparedTransactions = (
     amount: BigNumber,

@@ -11,7 +11,7 @@ import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { earnPositionsSelector } from 'src/positions/selectors'
-import { EarnPosition } from 'src/positions/types'
+import { EarnPosition, Position } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -91,7 +91,10 @@ export function useDepositEntrypointInfo({
   return { hasDepositToken, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canCashIn, exchanges }
 }
 
-export function usePrepareTransactions(mode: EarnActiveAction) {
+export function usePrepareTransactions(
+  mode: EarnActiveAction,
+  additionalArgs?: { rewardsPositions: Position[] }
+) {
   const getTransactionFunction = () => {
     switch (mode) {
       case 'deposit':
@@ -110,10 +113,15 @@ export function usePrepareTransactions(mode: EarnActiveAction) {
 
   const prepareTransactions = useAsyncCallback(
     async (args) => {
+      const modifiedArgs = { ...args }
+      // Add rewardsPositions passed to usePrepareTransactions if the mode is 'exit' or 'claim-rewards'
+      if (mode === 'exit' || mode === 'claim-rewards') {
+        modifiedArgs.rewardsPositions = additionalArgs?.rewardsPositions
+      }
       // Get the appropriate function based on the mode
       const prepareFunction = getTransactionFunction()
       // Ensure the function is called with the necessary arguments
-      return prepareFunction(args)
+      return prepareFunction(modifiedArgs)
     },
     {
       onError: (err) => {
