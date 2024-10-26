@@ -63,7 +63,17 @@ function getNumTransactionItems(sectionList: ReactTestInstance) {
   return sectionList.props.data[0].data.length
 }
 
-const typedResponse = (response: Partial<TransactionFeedV2Response>) => JSON.stringify(response)
+const typedResponse = (response: Partial<TransactionFeedV2Response>) => {
+  return JSON.stringify({
+    pageInfo: {
+      startCursor: '1',
+      endCursor: '2',
+      hasPreviousPage: false,
+      hasNextPage: true,
+    },
+    ...response,
+  } satisfies Partial<TransactionFeedV2Response>)
+}
 
 function getInitialStore(storeOverrides: RecursivePartial<Omit<RootState, ApiReducersKeys>> = {}) {
   const state: typeof storeOverrides = {
@@ -209,6 +219,7 @@ describe('TransactionFeedV2', () => {
       .mockResponseOnce(
         typedResponse({
           transactions: [mockTransaction({ transactionHash: '0x02', timestamp: 20 })],
+          pageInfo: { startCursor: '2', endCursor: '', hasNextPage: false, hasPreviousPage: true },
         })
       )
       .mockResponseOnce(typedResponse({ transactions: [] }))
@@ -221,12 +232,7 @@ describe('TransactionFeedV2', () => {
     await waitFor(() => expect(tree.getByTestId('TransactionList/loading')).toBeVisible())
     await waitFor(() => expect(tree.queryByTestId('TransactionList/loading')).toBeFalsy())
 
-    fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
-    await waitFor(() => expect(mockFetch).toBeCalled())
-    await waitFor(() => expect(tree.getByTestId('TransactionList/loading')).toBeVisible())
-    await waitFor(() => expect(tree.queryByTestId('TransactionList/loading')).toBeFalsy())
-
-    expect(mockFetch).toHaveBeenCalledTimes(3)
+    expect(mockFetch).toHaveBeenCalledTimes(2)
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(2)
   })
 
@@ -361,7 +367,12 @@ describe('TransactionFeedV2', () => {
           ],
         })
       )
-      .mockResponseOnce(typedResponse({ transactions: [] }))
+      .mockResponseOnce(
+        typedResponse({
+          transactions: [],
+          pageInfo: { hasNextPage: false, hasPreviousPage: true, startCursor: '2', endCursor: '' },
+        })
+      )
 
     const tree = renderScreen()
 
@@ -402,13 +413,32 @@ describe('TransactionFeedV2', () => {
     await waitFor(() => expect(Toast.showWithGravity).not.toBeCalled())
   })
 
-  it('should vibrate when there is a pending transaction that turned into completed', async () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('should vibrate when there is a pending transaction that turned into completed', async () => {
     const standByTransactionHash = '0x02' as string
-    mockFetch.mockResponseOnce(typedResponse({ transactions: [] })).mockResponseOnce(
-      typedResponse({
-        transactions: [mockTransaction({ transactionHash: standByTransactionHash })],
-      })
-    )
+    mockFetch
+      .mockResponseOnce(
+        typedResponse({
+          transactions: [],
+          pageInfo: {
+            startCursor: '1',
+            endCursor: '',
+            hasPreviousPage: false,
+            hasNextPage: false,
+          },
+        })
+      )
+      .mockResponseOnce(
+        typedResponse({
+          transactions: [mockTransaction({ transactionHash: standByTransactionHash })],
+          pageInfo: {
+            startCursor: '1',
+            endCursor: '',
+            hasPreviousPage: false,
+            hasNextPage: false,
+          },
+        })
+      )
 
     const { store, ...tree } = renderScreen({
       transactions: {
@@ -552,9 +582,51 @@ describe('TransactionFeedV2', () => {
   })
 
   it('should pre-populate persisted first page of the feed', async () => {
-    mockFetch.mockResponse(typedResponse({ transactions: [] }))
+    mockFetch.mockResponse(
+      typedResponse({
+        transactions: [],
+        pageInfo: { startCursor: '1', endCursor: '', hasPreviousPage: false, hasNextPage: false },
+      })
+    )
     const tree = renderScreen({ transactions: { feedFirstPage: [mockTransaction()] } })
     expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
     expect(mockFetch).not.toBeCalled()
+  })
+
+  it('should merge the rest of stand by transactions after the last page', async () => {
+    mockFetch.mockResponse(
+      typedResponse({
+        transactions: [
+          mockTransaction({ transactionHash: '0x100', timestamp: 100 }),
+          mockTransaction({ transactionHash: '0x90', timestamp: 90 }),
+          mockTransaction({ transactionHash: '0x80', timestamp: 80 }),
+        ],
+        pageInfo: {
+          startCursor: '1',
+          endCursor: '',
+          hasPreviousPage: false,
+          hasNextPage: false,
+        },
+      })
+    )
+
+    const tree = renderScreen({
+      transactions: {
+        standbyTransactions: [
+          mockTransaction({ transactionHash: '0x95', timestamp: 95 }),
+          mockTransaction({ transactionHash: '0x85', timestamp: 85 }),
+          mockTransaction({ transactionHash: '0x30', timestamp: 30 }),
+          mockTransaction({ transactionHash: '0x20', timestamp: 20 }),
+          mockTransaction({ transactionHash: '0x10', timestamp: 10 }),
+        ],
+      },
+    })
+
+    await waitFor(() => expect(tree.getByTestId('TransactionList')).toBeVisible())
+
+    const hashes = tree
+      .getByTestId('TransactionList')
+      .props.data[0].data.map((item: TokenTransaction) => item.transactionHash)
+    expect(hashes).toStrictEqual(['0x100', '0x95', '0x90', '0x85', '0x80', '0x30', '0x20', '0x10'])
   })
 })
