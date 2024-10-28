@@ -6,7 +6,12 @@ import * as TokenSelectors from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { QueryResponse, handlePollResponse } from 'src/transactions/feed/queryHelper'
 import { updateTransactions } from 'src/transactions/slice'
-import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import {
+  NetworkId,
+  TokenTransaction,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 
 jest.mock('src/styles/hapticFeedback')
 
@@ -24,13 +29,13 @@ describe('handlePollResponse', () => {
   } as TokenTransaction
 
   const mockPendingCrossChainTransaction = {
-    __typename: 'CrossChainTokenExchange',
+    type: TokenTransactionTypeV2.CrossChainSwapTransaction,
     transactionHash: '0xabc',
     status: TransactionStatus.Pending,
   } as TokenTransaction
 
   const mockCompletedCrossChainTransaction = {
-    __typename: 'CrossChainTokenExchange',
+    type: TokenTransactionTypeV2.CrossChainSwapTransaction,
     transactionHash: '0xabc',
     status: TransactionStatus.Complete,
     inAmount: {

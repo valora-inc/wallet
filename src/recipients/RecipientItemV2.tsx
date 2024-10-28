@@ -16,7 +16,7 @@ import {
   getDisplayName,
 } from 'src/recipients/recipient'
 import { useSelector } from 'src/redux/hooks'
-import colors, { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -62,7 +62,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           />
           {!!showAppIcon && (
             <Logo
-              color={colors.white}
+              color={Colors.white}
               style={styles.appIcon}
               size={ICON_SIZE}
               testID="RecipientItem/AppIcon"
@@ -79,7 +79,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           <View style={styles.rightIconContainer}>
             <ActivityIndicator
               size="small"
-              color={colors.primary}
+              color={Colors.accent}
               testID="RecipientItem/ActivityIndicator"
             />
           </View>
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rowSelected: {
-    backgroundColor: colors.gray1,
+    backgroundColor: Colors.gray1,
   },
   avatar: {
     marginRight: Spacing.Small12,
@@ -105,10 +105,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
   },
-  name: { ...typeScale.labelMedium, color: colors.black },
+  name: { ...typeScale.labelMedium, color: Colors.black },
   phone: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: Colors.gray4,
   },
   rightIconContainer: {
     justifyContent: 'center',
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 22,
     left: 22,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.accent,
     padding: 4,
     borderRadius: 100,
     // To override the default shadow props on the logo

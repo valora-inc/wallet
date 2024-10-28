@@ -152,7 +152,6 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
           ): BaseStandbyTransaction => {
             return {
               context: newTransactionContext(TAG, 'Earn/Approve'),
-              __typename: 'TokenApproval',
               networkId,
               type: TokenTransactionTypeV2.Approval,
               transactionHash,
@@ -177,7 +176,6 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       ): BaseStandbyTransaction => {
         return {
           context: newTransactionContext(TAG, 'Earn/Deposit'),
-          __typename: 'EarnDeposit',
           networkId,
           type: TokenTransactionTypeV2.EarnDeposit,
           inAmount: {
@@ -199,7 +197,6 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       ): BaseStandbyTransaction => {
         return {
           context: newTransactionContext(TAG, 'Earn/SwapDeposit'),
-          __typename: 'EarnSwapDeposit',
           networkId,
           type: TokenTransactionTypeV2.EarnSwapDeposit,
           swap: {
@@ -353,7 +350,6 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     ): BaseStandbyTransaction => {
       return {
         context: newTransactionContext(TAG, 'Earn/Withdraw'),
-        __typename: 'EarnWithdraw',
         networkId,
         type: TokenTransactionTypeV2.EarnWithdraw,
         inAmount: {
@@ -379,7 +375,6 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
       ): BaseStandbyTransaction => {
         return {
           context: newTransactionContext(TAG, `Earn/ClaimReward-${index + 1}`),
-          __typename: 'EarnClaimReward',
           networkId,
           amount: {
             value: balance,

@@ -38,7 +38,6 @@ const mockFetch = fetch as FetchMock
 
 function mockTransaction(data?: Partial<TokenTransaction | StandbyTransaction>): TokenTransaction {
   return {
-    __typename: 'TokenTransferV3',
     networkId: NetworkId['celo-alfajores'],
     address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
     amount: {
@@ -495,7 +494,6 @@ describe('TransactionFeedV2', () => {
 
     await act(() => {
       const newPendingTransaction = addStandbyTransaction({
-        __typename: 'TokenTransferV3',
         context: { id: pendingStandByTransactionHash2 },
         type: TokenTransactionTypeV2.Sent,
         networkId: NetworkId['celo-alfajores'],
@@ -528,7 +526,6 @@ describe('TransactionFeedV2', () => {
     const hash = '0x01' as string
     const mockedTransaction = {
       context: { id: hash },
-      __typename: 'CrossChainTokenExchange',
       transactionHash: hash,
       type: TokenTransactionTypeV2.CrossChainSwapTransaction,
       status: TransactionStatus.Pending,
@@ -591,5 +588,42 @@ describe('TransactionFeedV2', () => {
     const tree = renderScreen({ transactions: { feedFirstPage: [mockTransaction()] } })
     expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
     expect(mockFetch).not.toBeCalled()
+  })
+
+  it('should merge the rest of stand by transactions after the last page', async () => {
+    mockFetch.mockResponse(
+      typedResponse({
+        transactions: [
+          mockTransaction({ transactionHash: '0x100', timestamp: 100 }),
+          mockTransaction({ transactionHash: '0x90', timestamp: 90 }),
+          mockTransaction({ transactionHash: '0x80', timestamp: 80 }),
+        ],
+        pageInfo: {
+          startCursor: '1',
+          endCursor: '',
+          hasPreviousPage: false,
+          hasNextPage: false,
+        },
+      })
+    )
+
+    const tree = renderScreen({
+      transactions: {
+        standbyTransactions: [
+          mockTransaction({ transactionHash: '0x95', timestamp: 95 }),
+          mockTransaction({ transactionHash: '0x85', timestamp: 85 }),
+          mockTransaction({ transactionHash: '0x30', timestamp: 30 }),
+          mockTransaction({ transactionHash: '0x20', timestamp: 20 }),
+          mockTransaction({ transactionHash: '0x10', timestamp: 10 }),
+        ],
+      },
+    })
+
+    await waitFor(() => expect(tree.getByTestId('TransactionList')).toBeVisible())
+
+    const hashes = tree
+      .getByTestId('TransactionList')
+      .props.data[0].data.map((item: TokenTransaction) => item.transactionHash)
+    expect(hashes).toStrictEqual(['0x100', '0x95', '0x90', '0x85', '0x80', '0x30', '0x20', '0x10'])
   })
 })

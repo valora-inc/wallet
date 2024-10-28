@@ -54,7 +54,7 @@ export default function KycLanding(
   if (personaInProgress) {
     return (
       <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator testID="personaInProgress" size="large" color={Colors.primary} />
+        <ActivityIndicator testID="personaInProgress" size="large" color={Colors.accent} />
       </View>
     )
   }

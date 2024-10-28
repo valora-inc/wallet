@@ -29,7 +29,7 @@ export default function SegmentedControl({ values, selectedIndex = 0, onChange }
     Extrapolation.CLAMP
   )
 
-  const color = interpolateColor(selectedIndex, [0.5, 1], [colors.primary, colors.white])
+  const color = interpolateColor(selectedIndex, [0.5, 1], [colors.accent, colors.white])
   const colorInverted = interpolateColor(selectedIndex, [0.5, 1], [colors.white, colors.black])
 
   const onLayout = ({
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     height: HEIGHT,
     borderRadius: HEIGHT / 2,
     borderWidth: 1,
-    borderColor: colors.primary,
+    borderColor: colors.accent,
     overflow: 'hidden',
     marginHorizontal: 30,
   },
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.accent,
   },
   maskedContainer: {
     // Transparent background because mask is based off alpha channel.
@@ -145,6 +145,6 @@ const styles = StyleSheet.create({
   },
   text: {
     ...typeScale.labelSemiBoldXSmall,
-    color: colors.primary,
+    color: colors.accent,
   },
 })
