@@ -164,7 +164,7 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: { ...mockEarnPositions[0], balance: '10.75' },
-            mode: 'PartialWithdraw',
+            mode: 'withdraw',
             inputAmount: (10.75 * +mockEarnPositions[0].pricePerShare) / 2, // Input amount is half of the balance
           }}
         />
