@@ -3,10 +3,10 @@ import { StyleSheet, Switch, Text, View } from 'react-native'
 import ListItem from 'src/components/ListItem'
 import TextInput from 'src/components/TextInput'
 import ForwardChevron from 'src/icons/ForwardChevron'
+import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 
 interface WrapperProps {
   testID?: string
@@ -65,7 +65,7 @@ export function SettingsItemTextValue({
             </Text>
           )}
           {(!!value || showChevron) && (
-            <ForwardChevron height={12} color={isValueActionable ? colors.primary : colors.gray3} />
+            <ForwardChevron height={12} color={isValueActionable ? colors.accent : colors.gray3} />
           )}
           {isExternalLink && <OpenLinkIcon size={16} color={colors.black} />}
         </View>
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   },
   valueActionable: {
     ...typeScale.bodyMedium,
-    color: colors.primary,
+    color: colors.accent,
     marginRight: 8,
   },
   details: {

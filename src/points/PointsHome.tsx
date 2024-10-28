@@ -30,7 +30,7 @@ import {
 import { getPointsConfigRetry, pointsDataRefreshStarted } from 'src/points/slice'
 import { BottomSheetParams, PointsActivityId } from 'src/points/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -107,8 +107,8 @@ export default function PointsHome({ route, navigation }: Props) {
         contentContainerStyle={styles.contentContainer}
         refreshControl={
           <RefreshControl
-            tintColor={Colors.primary}
-            colors={[Colors.primary]}
+            tintColor={Colors.accent}
+            colors={[Colors.accent]}
             refreshing={pointsBalanceStatus === 'loading'}
             onRefresh={onRefreshHistoryAndBalance}
           />

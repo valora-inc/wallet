@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   link: {
     ...typeScale.labelSemiBoldMedium,
     textDecorationLine: 'underline',
-    color: colors.primary,
+    color: colors.accent,
     flexWrap: 'wrap',
   },
   qrContainer: {

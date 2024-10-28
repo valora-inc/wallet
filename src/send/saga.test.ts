@@ -135,7 +135,6 @@ describe(sendPaymentSaga, () => {
         .call(getViemWallet, networkConfig.viemChain.celo, false)
         .put(
           addStandbyTransaction({
-            __typename: 'TokenTransferV3',
             context: { id: 'mock' },
             type: TokenTransactionTypeV2.Sent,
             networkId: NetworkId['celo-alfajores'],
@@ -176,7 +175,6 @@ describe(sendPaymentSaga, () => {
       .call(getViemWallet, networkConfig.viemChain.celo, false)
       .put(
         addStandbyTransaction({
-          __typename: 'TokenTransferV3',
           context: { id: 'mock' },
           type: TokenTransactionTypeV2.Sent,
           networkId: NetworkId['celo-alfajores'],

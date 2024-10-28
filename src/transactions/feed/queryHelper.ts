@@ -27,6 +27,7 @@ import {
   NetworkId,
   TokenExchange,
   TokenTransaction,
+  TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -376,7 +377,7 @@ export function handlePollResponse({
 
           if (
             // Track cross-chain swap transaction status change to `Complete`
-            tx.__typename === 'CrossChainTokenExchange' &&
+            tx.type === TokenTransactionTypeV2.CrossChainSwapTransaction &&
             (pendingStandbyTransactionHashes?.has(tx.transactionHash) ||
               knownPendingTransactionHashes?.has(tx.transactionHash))
           ) {
@@ -582,7 +583,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment TokenTransferItemV3 on TokenTransferV3 {
-    __typename
     type
     transactionHash
     timestamp
@@ -620,7 +620,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment NftTransferItemV3 on NftTransferV3 {
-    __typename
     type
     transactionHash
     status
@@ -651,7 +650,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment TokenExchangeItemV3 on TokenExchangeV3 {
-    __typename
     type
     transactionHash
     status
@@ -697,7 +695,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment CrossChainTokenExchangeItem on CrossChainTokenExchange {
-    __typename
     type
     transactionHash
     status
@@ -739,7 +736,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment EarnSwapDepositItem on EarnSwapDeposit {
-    __typename
     type
     transactionHash
     status
@@ -806,7 +802,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment EarnDepositItem on EarnDeposit {
-    __typename
     type
     transactionHash
     status
@@ -849,7 +844,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment EarnWithdrawItem on EarnWithdraw {
-    __typename
     type
     transactionHash
     status
@@ -892,7 +886,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment EarnClaimRewardItem on EarnClaimReward {
-    __typename
     type
     transactionHash
     status
@@ -925,7 +918,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment TokenApprovalItem on TokenApproval {
-    __typename
     type
     timestamp
     block

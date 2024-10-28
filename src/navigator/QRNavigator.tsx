@@ -20,7 +20,7 @@ import QRTabBar from 'src/qrcode/QRTabBar'
 import { useDispatch } from 'src/redux/hooks'
 import { SVG, handleQRCodeDetected } from 'src/send/actions'
 import { QrCode } from 'src/send/types'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 
 const Tab = createMaterialTopTabNavigator()

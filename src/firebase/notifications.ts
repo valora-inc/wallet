@@ -25,7 +25,6 @@ function handlePaymentReceived(transferNotification: TransferNotificationData) {
 
   navigate(Screens.TransactionDetailsScreen, {
     transaction: {
-      __typename: 'TokenTransferV3',
       networkId: networkConfig.defaultNetworkId,
       type: TokenTransactionTypeV2.Received,
       transactionHash: transferNotification.txHash,

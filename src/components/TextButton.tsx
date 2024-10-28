@@ -17,6 +17,6 @@ export default function TextButton({ style, ...passThroughProps }: Props) {
 const styles = StyleSheet.create({
   text: {
     ...typeScale.labelSemiBoldMedium,
-    color: colors.primary,
+    color: colors.accent,
   },
 })

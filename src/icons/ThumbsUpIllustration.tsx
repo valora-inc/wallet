@@ -9,7 +9,7 @@ export interface Props {
 const ThumbsUpIllustration = ({ size = 72 }: Props) => (
   <Svg width={size} height={size} fill="none" viewBox="0 0 72 72">
     <Path
-      fill={Colors.primaryDisabled}
+      fill={Colors.accentDisabled}
       fill-rule="evenodd"
       d="M22.95 36.138c3.475-7.578-.332-20.911 13.982-18.603 14.466 2.332 18.973 15.283 24.031 24.732 3.496 6.532 4.065 12.679-2.324 15.822-12.112 5.958-27.096 16.644-43.348 6.647-16.057-9.875 3.113-18.682 7.66-28.598Z"
       clip-rule="evenodd"
