@@ -70,7 +70,10 @@ export default function EarnConfirmationScreen({ route }: Props) {
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
 
   const withdrawAmountInDepositToken = useMemo(
-    () => inputAmount ?? getEarnPositionBalanceValues({ pool }).poolBalanceInDepositToken,
+    () =>
+      inputAmount
+        ? new BigNumber(inputAmount)
+        : getEarnPositionBalanceValues({ pool }).poolBalanceInDepositToken,
     [withdrawToken, pool.pricePerShare, inputAmount]
   )
 
@@ -80,7 +83,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
     loading: isPreparingTransactions,
     error: prepareTransactionError,
   } = usePrepareWithdrawAndClaimTransactions({
-    amount: new BigNumber(withdrawAmountInDepositToken).dividedBy(pool.pricePerShare[0]).toString(),
+    amount: withdrawAmountInDepositToken.dividedBy(pool.pricePerShare[0]).toString(),
     pool,
     walletAddress,
     feeCurrencies,
@@ -146,14 +149,16 @@ export default function EarnConfirmationScreen({ route }: Props) {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <Title mode={mode} />
         <View style={styles.collectInfoContainer}>
-          <CollectItem
-            title={t('earnFlow.collect.total')}
-            tokenInfo={depositToken}
-            rewardAmount={withdrawAmountInDepositToken}
-          />
+          {mode !== 'Claim' && (
+            <CollectItem
+              title={t('earnFlow.collect.total')}
+              tokenInfo={depositToken}
+              rewardAmount={withdrawAmountInDepositToken}
+            />
+          )}
           {rewardsTokens.map((token, index) => (
             <CollectItem
-              title={t('earnFlow.collect.plus')}
+              title={t('earnFlow.collect.reward')}
               key={index}
               tokenInfo={token}
               rewardAmount={token.balance}

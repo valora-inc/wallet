@@ -327,7 +327,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     depositTokenId: tokenId,
     networkId,
     poolId: pool.positionId,
-    tokenAmount: pool.balance,
+    tokenAmount: amount ?? pool.balance,
     providerId: pool.appId,
     rewards: rewardsTokens.map(({ tokenId, balance }) => ({
       tokenId,

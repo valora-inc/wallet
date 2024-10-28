@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { StyleSheet, Switch, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import ListItem from 'src/components/ListItem'
+import Switch from 'src/components/Switch'
 import TextInput from 'src/components/TextInput'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
