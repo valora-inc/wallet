@@ -137,6 +137,11 @@ export async function prepareWithdrawAndClaimTransactions({
       return transactions ?? [] // Default to an empty array if rewardsPositions is undefined
     })
   )
+  Logger.debug(TAG, 'prepareWithdrawAndClaimTransactions', {
+    withdrawTransactions,
+    claimTransactions,
+    pool,
+  })
 
   return {
     prepareTransactionsResult: await prepareTransactions({
@@ -168,7 +173,6 @@ export async function prepareWithdrawTransactions({
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
   hooksApiUrl: string
-  shortcutId: Exclude<EarnActiveMode, 'exit'>
   useMax: boolean
 }) {
   const { appId, balance, dataProps, networkId, shortcutTriggerArgs } = pool
