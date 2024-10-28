@@ -146,7 +146,6 @@ export enum TokenTransactionTypeV2 {
   EarnSwapDeposit = 'EARN_SWAP_DEPOSIT',
   /** @deprecated Use Withdraw instead */
   EarnWithdraw = 'EARN_WITHDRAW',
-  /** @deprecated Use Received instead */
   EarnClaimReward = 'EARN_CLAIM_REWARD',
 }
 
