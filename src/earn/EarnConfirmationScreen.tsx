@@ -317,7 +317,7 @@ function GasFee({
   )
 }
 
-function Title({ mode }: { mode: EarnActiveMode }) {
+function Title({ mode }: { mode: Exclude<EarnActiveMode, 'deposit' | 'swap-deposit'> }) {
   const { t } = useTranslation()
   switch (mode) {
     case 'claim-rewards':

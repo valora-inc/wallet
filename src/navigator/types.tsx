@@ -81,11 +81,11 @@ export type StackParamList = {
   [Screens.EarnInfoScreen]: undefined
   [Screens.EarnEnterAmount]: {
     pool: EarnPosition
-    mode?: EarnActiveMode
+    mode?: Exclude<EarnActiveMode, 'claim-rewards' | 'exit'>
   }
   [Screens.EarnConfirmationScreen]: {
     pool: EarnPosition
-    mode: EarnActiveMode
+    mode: Exclude<EarnActiveMode, 'deposit' | 'swap-deposit'>
     inputAmount?: string
     useMax?: boolean
   }
