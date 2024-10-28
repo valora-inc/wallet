@@ -585,7 +585,7 @@ describe('TransactionDetailsScreen', () => {
         block: '123456',
         transactionHash: '0x123',
         fees: [],
-        providerName: 'Aave',
+        appName: 'Aave',
         inAmount: {
           value: '100',
           tokenId: mockCeloTokenId,

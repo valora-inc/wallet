@@ -2284,17 +2284,17 @@
     "descriptionLabel": "Details",
     "crossChainSwapTransactionLabel": "Cross-chain",
     "depositTitle": "Deposited",
-    "depositSubtitle": "to {{providerName}} Pool",
+    "depositSubtitle": "to {{appName}} Pool",
     "withdrawTitle": "Withdrew",
-    "withdrawSubtitle": "from {{providerName}} Pool"
+    "withdrawSubtitle": "from {{appName}} Pool"
   },
   "transactionDetails": {
     "descriptionLabel": "Details",
     "depositTitle": "Deposited",
-    "depositSubtitle": "Deposited {{tokenSymbol}} to {{providerName}} Pool",
+    "depositSubtitle": "Deposited {{tokenSymbol}} to {{appName}} Pool",
     "depositDetails": "Amount Deposited",
     "withdrawTitle": "Withdrew",
-    "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
+    "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{appName}} Pool",
     "withdrawDetails": "Amount Withdrawn",
     "swap": "Swap",
     "network": "Network",

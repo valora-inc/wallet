@@ -16,7 +16,7 @@ describe('DepositOrWithdrawFeedItem', () => {
     block: '123456',
     transactionHash: '0x123',
     fees: [],
-    providerName: 'Test Provider',
+    appName: 'Some Dapp',
     inAmount: {
       value: '100',
       tokenId: mockCeloTokenId,
@@ -41,9 +41,7 @@ describe('DepositOrWithdrawFeedItem', () => {
     )
 
     expect(getByText('transactionFeed.depositTitle')).toBeTruthy()
-    expect(
-      getByText('transactionFeed.depositSubtitle, {"providerName":"Test Provider"}')
-    ).toBeTruthy()
+    expect(getByText('transactionFeed.depositSubtitle, {"appName":"Some Dapp"}')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/DEPOSIT-amount-crypto')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/DEPOSIT-amount-local')).toBeTruthy()
   })
@@ -56,29 +54,25 @@ describe('DepositOrWithdrawFeedItem', () => {
     )
 
     expect(getByText('transactionFeed.withdrawTitle')).toBeTruthy()
-    expect(
-      getByText('transactionFeed.withdrawSubtitle, {"providerName":"Test Provider"}')
-    ).toBeTruthy()
+    expect(getByText('transactionFeed.withdrawSubtitle, {"appName":"Some Dapp"}')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/WITHDRAW-amount-crypto')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/WITHDRAW-amount-local')).toBeTruthy()
   })
 
-  it('displays provider name when available', () => {
+  it('displays app name when available', () => {
     const { getByText } = render(
       <Provider store={store}>
         <DepositOrWithdrawFeedItem transaction={depositTransaction} />
       </Provider>
     )
 
-    expect(
-      getByText('transactionFeed.depositSubtitle, {"providerName":"Test Provider"}')
-    ).toBeTruthy()
+    expect(getByText('transactionFeed.depositSubtitle, {"appName":"Some Dapp"}')).toBeTruthy()
   })
 
-  it('does not display provider name when not available', () => {
+  it('does not display app name when not available', () => {
     const transactionWithoutProvider = {
       ...depositTransaction,
-      providerName: undefined,
+      appName: undefined,
     }
 
     const { queryByText } = render(
@@ -87,8 +81,6 @@ describe('DepositOrWithdrawFeedItem', () => {
       </Provider>
     )
 
-    expect(
-      queryByText('transactionFeed.depositSubtitle, {"providerName":"Test Provider"}')
-    ).toBeNull()
+    expect(queryByText('transactionFeed.depositSubtitle, {"appName":"Some Dapp"}')).toBeNull()
   })
 })

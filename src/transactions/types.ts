@@ -234,7 +234,7 @@ export interface DepositOrWithdraw {
   timestamp: number
   block: string
   fees: Fee[]
-  providerName: string | undefined
+  appName: string | undefined
   inAmount: TokenAmount
   outAmount: TokenAmount
   // If the deposit/withdraw also includes a swap, it will be provided here.
