@@ -127,7 +127,7 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
-    expect(getByText('earnFlow.collect.plus')).toBeTruthy()
+    expect(getByText('earnFlow.collect.reward')).toBeTruthy()
     expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/CryptoAmount`)).toHaveTextContent(
       '0.01 ARB'
     )
@@ -187,7 +187,7 @@ describe('EarnConfirmationScreen', () => {
     )
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
-    expect(queryByText('earnFlow.collect.plus')).toBeFalsy()
+    expect(queryByText('earnFlow.collect.reward')).toBeFalsy()
     expect(queryByTestId(`EarnConfirmation/${mockArbArbTokenId}/CryptoAmount`)).toBeFalsy()
     expect(queryByTestId(`EarnConfirmation/${mockArbArbTokenId}/FiatAmount`)).toBeFalsy()
     await waitFor(() => {
