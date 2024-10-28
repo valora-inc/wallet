@@ -10,6 +10,7 @@ import {
   Network,
   NetworkId,
   StandbyTransaction,
+  TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -37,7 +38,7 @@ export function* getTransactionReceipt(
   network: Network
 ) {
   if (
-    transaction.__typename === 'CrossChainTokenExchange' &&
+    transaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction &&
     'isSourceNetworkTxConfirmed' in transaction &&
     transaction.isSourceNetworkTxConfirmed
   ) {
@@ -48,10 +49,10 @@ export function* getTransactionReceipt(
     return
   }
 
-  const { feeCurrencyId, transactionHash, __typename } = transaction
+  const { feeCurrencyId, transactionHash, type } = transaction
   const networkId = networkConfig.networkToNetworkId[network]
-  const isCrossChainSwapTransaction = __typename === 'CrossChainTokenExchange'
-  const isSwapTransaction = __typename === 'TokenExchangeV3'
+  const isCrossChainSwapTransaction = type === TokenTransactionTypeV2.CrossChainSwapTransaction
+  const isSwapTransaction = type === TokenTransactionTypeV2.SwapTransaction
 
   try {
     const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
