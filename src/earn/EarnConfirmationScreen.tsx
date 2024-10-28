@@ -149,7 +149,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <Title mode={mode} />
         <View style={styles.collectInfoContainer}>
-          {mode !== 'Claim' && (
+          {mode !== 'claim-rewards' && (
             <CollectItem
               title={t('earnFlow.collect.total')}
               tokenInfo={depositToken}
