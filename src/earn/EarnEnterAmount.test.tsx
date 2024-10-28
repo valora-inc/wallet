@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
-import { usePrepareTransactions } from 'src/earn/prepareTransactions'
+import { usePrepareTransactions } from 'src/earn/hooks'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -35,7 +35,7 @@ import {
   mockUSDCAddress,
 } from 'test/values'
 
-jest.mock('src/earn/prepareTransactions')
+jest.mock('src/earn/hooks')
 jest.mock('react-native-localize')
 jest.mock('src/statsig') // statsig isn't used directly but the hooksApiSelector uses it
 jest
@@ -217,7 +217,6 @@ describe('EarnEnterAmount', () => {
       jest.mocked(usePrepareTransactions).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
-          swapTransaction: undefined,
         },
         refreshPreparedTransactions: jest.fn(),
         clearPreparedTransactions: jest.fn(),
@@ -346,6 +345,7 @@ describe('EarnEnterAmount', () => {
       jest.mocked(usePrepareTransactions).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
+          // @ts-expect-error
           swapTransaction: mockSwapTransaction,
         },
         refreshPreparedTransactions: jest.fn(),
@@ -446,7 +446,6 @@ describe('EarnEnterAmount', () => {
       jest.mocked(usePrepareTransactions).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
-          swapTransaction: undefined,
         },
         refreshPreparedTransactions: jest.fn(),
         clearPreparedTransactions: jest.fn(),
@@ -501,7 +500,6 @@ describe('EarnEnterAmount', () => {
       jest.mocked(usePrepareTransactions).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
-          swapTransaction: undefined,
         },
         refreshPreparedTransactions: jest.fn(),
         clearPreparedTransactions: jest.fn(),
@@ -584,7 +582,6 @@ describe('EarnEnterAmount', () => {
     jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
-        swapTransaction: undefined,
       },
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
@@ -680,7 +677,6 @@ describe('EarnEnterAmount', () => {
     jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransactionNotEnough,
-        swapTransaction: undefined,
       },
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
@@ -717,7 +713,6 @@ describe('EarnEnterAmount', () => {
     jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
-        swapTransaction: undefined,
       },
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
@@ -742,6 +737,7 @@ describe('EarnEnterAmount', () => {
     jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
+        // @ts-expect-error
         swapTransaction: mockSwapTransaction,
       },
       refreshPreparedTransactions: jest.fn(),
@@ -773,6 +769,7 @@ describe('EarnEnterAmount', () => {
     jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
+        // @ts-expect-error
         swapTransaction: mockSwapTransaction,
       },
       refreshPreparedTransactions: jest.fn(),

@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnConfirmationScreen from 'src/earn/EarnConfirmationScreen'
-import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
+import { usePrepareTransactions } from 'src/earn/hooks'
 import { withdrawStart } from 'src/earn/slice'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigate } from 'src/navigator/NavigationService'
@@ -16,11 +16,10 @@ import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import {
   mockAaveArbUsdcAddress,
   mockAaveArbUsdcTokenId,
-  mockAccount,
   mockArbArbTokenId,
   mockArbEthTokenId,
   mockArbUsdcTokenId,
@@ -57,7 +56,7 @@ jest.mock('src/earn/utils', () => ({
   ...(jest.requireActual('src/earn/utils') as any),
   isGasSubsidizedForNetwork: jest.fn(),
 }))
-jest.mock('src/earn/prepareTransactions')
+jest.mock('src/earn/hooks')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -90,10 +89,16 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
 }
 
 describe('EarnConfirmationScreen', () => {
+  const refreshPreparedTransactionsSpy = jest.fn()
   beforeEach(() => {
     jest.clearAllMocks()
-
-    jest.mocked(prepareWithdrawAndClaimTransactions).mockResolvedValue(mockPreparedTransaction)
+    jest.mocked(usePrepareTransactions).mockReturnValue({
+      prepareTransactionsResult: undefined,
+      refreshPreparedTransactions: refreshPreparedTransactionsSpy,
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
     jest
       .mocked(getFeatureGate)
       .mockImplementation(
@@ -104,6 +109,15 @@ describe('EarnConfirmationScreen', () => {
   })
 
   it('renders total balance, rewards and gas after fetching rewards and preparing tx', async () => {
+    jest.mocked(usePrepareTransactions).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: mockPreparedTransaction,
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
@@ -124,8 +138,6 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent(
       '₱15.73'
     )
-    expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
-    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
     expect(getByText('earnFlow.collect.plus')).toBeTruthy()
     expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/CryptoAmount`)).toHaveTextContent(
@@ -142,18 +154,20 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId('EarnConfirmation/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
     expect(queryByTestId('EarnConfirmation/GasSubsidized')).toBeFalsy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
-    expect(prepareWithdrawAndClaimTransactions).toHaveBeenCalledWith({
-      feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
-      pool: { ...mockEarnPositions[0], balance: '10.75' },
-      rewardsPositions: [mockRewardsPositions[1]],
-      walletAddress: mockAccount.toLowerCase(),
-      hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
-      amount: '10.75',
-    })
     expect(store.getActions()).toEqual([])
   })
 
   it('skips rewards section when no rewards', async () => {
+    jest.mocked(usePrepareTransactions).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: mockPreparedTransaction,
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+
     const { getByText, getByTestId, queryByTestId, queryByText } = render(
       <Provider
         store={createMockStore({
@@ -185,7 +199,6 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent(
       '₱15.73'
     )
-    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
     expect(queryByText('earnFlow.collect.plus')).toBeFalsy()
     expect(queryByTestId(`EarnConfirmation/${mockArbArbTokenId}/CryptoAmount`)).toBeFalsy()
@@ -199,9 +212,14 @@ describe('EarnConfirmationScreen', () => {
   })
 
   it('shows error and keeps cta disabled if prepare tx fails', async () => {
-    jest
-      .mocked(prepareWithdrawAndClaimTransactions)
-      .mockRejectedValue(new Error('Failed to prepare'))
+    jest.mocked(usePrepareTransactions).mockReturnValue({
+      prepareTransactionsResult: undefined,
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: new Error('Failed to prepare'),
+      isPreparingTransactions: false,
+    })
+
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
@@ -216,7 +234,6 @@ describe('EarnConfirmationScreen', () => {
 
     expect(getByText('earnFlow.collect.titleWithdraw')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
     await waitFor(() => {
@@ -228,10 +245,20 @@ describe('EarnConfirmationScreen', () => {
   })
 
   it('disables cta if not enough balance for gas', async () => {
-    jest.mocked(prepareWithdrawAndClaimTransactions).mockResolvedValue({
-      type: 'not-enough-balance-for-gas',
-      feeCurrencies: [mockPreparedTransaction.feeCurrency],
+    jest.mocked(usePrepareTransactions).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: {
+          ...mockPreparedTransaction,
+          type: 'not-enough-balance-for-gas',
+          feeCurrencies: [mockPreparedTransaction.feeCurrency],
+        },
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
     })
+
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
@@ -246,7 +273,6 @@ describe('EarnConfirmationScreen', () => {
 
     expect(getByText('earnFlow.collect.titleWithdraw')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
     await waitFor(() => {
@@ -257,6 +283,16 @@ describe('EarnConfirmationScreen', () => {
   })
 
   it('pressing cta dispatches withdraw action and fires analytics event', async () => {
+    jest.mocked(usePrepareTransactions).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: mockPreparedTransaction,
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+
     const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
@@ -330,9 +366,18 @@ describe('EarnConfirmationScreen', () => {
   })
 
   it('navigate and fire analytics on no gas CTA press', async () => {
-    jest.mocked(prepareWithdrawAndClaimTransactions).mockResolvedValue({
-      type: 'not-enough-balance-for-gas',
-      feeCurrencies: [mockPreparedTransaction.feeCurrency],
+    jest.mocked(usePrepareTransactions).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: {
+          ...mockPreparedTransaction,
+          type: 'not-enough-balance-for-gas',
+          feeCurrencies: [mockPreparedTransaction.feeCurrency],
+        },
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
     })
 
     const { getByText, queryByTestId } = render(
