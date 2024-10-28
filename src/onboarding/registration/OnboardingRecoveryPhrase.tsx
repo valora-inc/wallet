@@ -60,7 +60,7 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
           testID="helpButton"
           title={t('help')}
           onPress={onPressHelp}
-          titleStyle={{ color: colors.black }}
+          titleStyle={{ color: colors.accent }}
         />
       ),
     })
@@ -105,7 +105,7 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
           testID={'protectWalletCopy'}
         >
           <View style={styles.copyIconStyle}>
-            <CopyIcon color={colors.black} />
+            <CopyIcon color={colors.accent} />
           </View>
           {t('recoveryPhrase.copy')}
         </TextButton>
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     paddingBottom: 30,
-    color: colors.black,
+    color: colors.accent,
   },
   buttonStyle: {
     marginTop: 37,

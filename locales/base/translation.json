@@ -2631,6 +2631,7 @@
       "titleWithdraw": "You’re going to withdraw:",
       "total": "TOTAL",
       "plus": "PLUS",
+      "reward": "REWARD",
       "rate": "Rate (est.)",
       "apy": "{{apy}}% APY",
       "fee": "Gas Fee",
