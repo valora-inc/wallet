@@ -27,12 +27,12 @@ function Description({ transaction }: DescriptionProps) {
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Deposit:
-      title = t('earnFlow.transactionFeed.depositTitle')
-      subtitle = t('earnFlow.transactionFeed.depositSubtitle', { providerName })
+      title = t('transactionFeed.depositTitle')
+      subtitle = t('transactionFeed.depositSubtitle', { providerName })
       break
     case TokenTransactionTypeV2.Withdraw:
-      title = t('earnFlow.transactionFeed.withdrawTitle')
-      subtitle = t('earnFlow.transactionFeed.withdrawSubtitle', { providerName })
+      title = t('transactionFeed.withdrawTitle')
+      subtitle = t('transactionFeed.withdrawSubtitle', { providerName })
       break
   }
 
@@ -117,7 +117,7 @@ export default function DepositOrWithdrawFeedItem({ transaction }: Props) {
     <Touchable
       testID={`DepositOrWithdrawFeedItem/${transaction.transactionHash}`}
       onPress={() => {
-        // AppAnalytics.track(EarnEvents.earn_feed_item_select, { origin: transaction.type })
+        // TODO: we'll add the type in a subsequent PR
         AppAnalytics.track(HomeEvents.transaction_feed_item_select)
         navigate(Screens.TransactionDetailsScreen, { transaction })
       }}

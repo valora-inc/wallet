@@ -666,7 +666,7 @@ describe('TransactionDetailsScreen', () => {
         transaction: transactionWithSwap,
       })
 
-      expect(getByText('earnFlow.transactionDetails.swap')).toBeTruthy()
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
       expect(getByTestId('DepositOrWithdraw/Swap/From')).toBeTruthy()
       expect(getByTestId('DepositOrWithdraw/Swap/To')).toBeTruthy()
     })
@@ -678,7 +678,7 @@ describe('TransactionDetailsScreen', () => {
         }),
       })
 
-      expect(getByText('earnFlow.transactionDetails.network')).toBeTruthy()
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
       expect(getByText(NETWORK_NAMES[NetworkId['celo-alfajores']])).toBeTruthy()
     })
 

@@ -40,9 +40,9 @@ describe('DepositOrWithdrawFeedItem', () => {
       </Provider>
     )
 
-    expect(getByText('earnFlow.transactionFeed.depositTitle')).toBeTruthy()
+    expect(getByText('transactionFeed.depositTitle')).toBeTruthy()
     expect(
-      getByText('earnFlow.transactionFeed.depositSubtitle, {"providerName":"Test Provider"}')
+      getByText('transactionFeed.depositSubtitle, {"providerName":"Test Provider"}')
     ).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/DEPOSIT-amount-crypto')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/DEPOSIT-amount-local')).toBeTruthy()
@@ -55,9 +55,9 @@ describe('DepositOrWithdrawFeedItem', () => {
       </Provider>
     )
 
-    expect(getByText('earnFlow.transactionFeed.withdrawTitle')).toBeTruthy()
+    expect(getByText('transactionFeed.withdrawTitle')).toBeTruthy()
     expect(
-      getByText('earnFlow.transactionFeed.withdrawSubtitle, {"providerName":"Test Provider"}')
+      getByText('transactionFeed.withdrawSubtitle, {"providerName":"Test Provider"}')
     ).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/WITHDRAW-amount-crypto')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/WITHDRAW-amount-local')).toBeTruthy()
@@ -71,7 +71,7 @@ describe('DepositOrWithdrawFeedItem', () => {
     )
 
     expect(
-      getByText('earnFlow.transactionFeed.depositSubtitle, {"providerName":"Test Provider"}')
+      getByText('transactionFeed.depositSubtitle, {"providerName":"Test Provider"}')
     ).toBeTruthy()
   })
 
@@ -88,7 +88,7 @@ describe('DepositOrWithdrawFeedItem', () => {
     )
 
     expect(
-      queryByText('earnFlow.transactionFeed.depositSubtitle, {"providerName":"Test Provider"}')
+      queryByText('transactionFeed.depositSubtitle, {"providerName":"Test Provider"}')
     ).toBeNull()
   })
 })

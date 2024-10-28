@@ -2282,7 +2282,23 @@
     "infiniteApprovalDescription": "Approved infinite {{tokenSymbol}} for trade",
     "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
     "descriptionLabel": "Details",
-    "crossChainSwapTransactionLabel": "Cross-chain"
+    "crossChainSwapTransactionLabel": "Cross-chain",
+    "depositTitle": "Deposited",
+    "depositSubtitle": "to {{providerName}} Pool",
+    "withdrawTitle": "Withdrew",
+    "withdrawSubtitle": "from {{providerName}} Pool"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Details",
+    "depositTitle": "Deposited",
+    "depositSubtitle": "Deposited {{tokenSymbol}} to {{providerName}} Pool",
+    "depositDetails": "Amount Deposited",
+    "withdrawTitle": "Withdrew",
+    "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
+    "withdrawDetails": "Amount Withdrawn",
+    "swap": "Swap",
+    "network": "Network",
+    "fees": "Fees"
   },
   "multichainBeta": {
     "beta": "BETA",

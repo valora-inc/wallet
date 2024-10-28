@@ -31,13 +31,13 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
 
   return (
     <>
-      <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.descriptionLabel')}</Text>
+      <Text style={styles.detailsTitle}>{t('transactionDetails.descriptionLabel')}</Text>
       {!!providerName && (
         <Text style={styles.detailsSubtitle}>
           {t(
             isDeposit
-              ? 'earnFlow.transactionDetails.depositSubtitle'
-              : 'earnFlow.transactionDetails.withdrawSubtitle',
+              ? 'transactionDetails.depositSubtitle'
+              : 'transactionDetails.withdrawSubtitle',
             { providerName, tokenSymbol }
           )}
         </Text>
@@ -52,8 +52,8 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
             >
               {t(
                 isDeposit
-                  ? 'earnFlow.transactionDetails.depositDetails'
-                  : 'earnFlow.transactionDetails.withdrawDetails'
+                  ? 'transactionDetails.depositDetails'
+                  : 'transactionDetails.withdrawDetails'
               )}
             </Text>
             <TokenDisplay
@@ -72,7 +72,7 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
         </View>
         {transaction.swap && (
           <View style={styles.row}>
-            <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.swap')}</Text>
+            <Text style={styles.bodyText}>{t('transactionDetails.swap')}</Text>
             <View style={styles.swapValueContainer}>
               <TokenDisplay
                 testID="DepositOrWithdraw/Swap/From"
@@ -93,12 +93,12 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
           </View>
         )}
         <View style={styles.row}>
-          <Text style={styles.bodyText}>{t('earnFlow.transactionDetails.network')}</Text>
+          <Text style={styles.bodyText}>{t('transactionDetails.network')}</Text>
           <Text style={styles.bodyTextValue}>{NETWORK_NAMES[transaction.networkId]}</Text>
         </View>
       </View>
       <RowDivider />
-      <Text style={styles.detailsTitle}>{t('earnFlow.transactionDetails.fees')}</Text>
+      <Text style={styles.detailsTitle}>{t('transactionDetails.fees')}</Text>
       <View style={styles.feeContainer}>
         <FeeRowItem
           fees={transaction.fees}
