@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   recoveryPhrase: {
     ...typeScale.labelSemiBoldMedium,
     textAlign: 'center',
-    color: Colors.black,
+    color: Colors.accent,
     margin: Spacing.Thick24,
   },
   button: {
