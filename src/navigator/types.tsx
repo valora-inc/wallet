@@ -1,6 +1,6 @@
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
-import { EarnActiveAction, EarnTabType } from 'src/earn/types'
+import { EarnActiveMode, EarnTabType } from 'src/earn/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
@@ -81,11 +81,11 @@ export type StackParamList = {
   [Screens.EarnInfoScreen]: undefined
   [Screens.EarnEnterAmount]: {
     pool: EarnPosition
-    mode?: EarnActiveAction
+    mode?: EarnActiveMode
   }
   [Screens.EarnConfirmationScreen]: {
     pool: EarnPosition
-    mode: EarnActiveAction
+    mode: EarnActiveMode
     inputAmount?: string
     useMax?: boolean
   }

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { EarnActiveAction } from 'src/earn/types'
+import { EarnActiveMode } from 'src/earn/types'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
 import { RawShortcutTransaction } from 'src/positions/slice'
@@ -31,7 +31,7 @@ export async function prepareDepositTransactions({
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
   hooksApiUrl: string
-  shortcutId: Exclude<EarnActiveAction, 'exit'>
+  shortcutId: Exclude<EarnActiveMode, 'exit'>
 }) {
   const { appId, networkId } = pool
   const { enableAppFee } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG])
@@ -168,7 +168,7 @@ export async function prepareWithdrawTransactions({
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
   hooksApiUrl: string
-  shortcutId: Exclude<EarnActiveAction, 'exit'>
+  shortcutId: Exclude<EarnActiveMode, 'exit'>
   useMax: boolean
 }) {
   const { appId, balance, dataProps, networkId, shortcutTriggerArgs } = pool
