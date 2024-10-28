@@ -57,7 +57,7 @@ function TransferFeedItem({ transfer }: Props) {
         <TransactionFeedItemImage
           recipient={recipient}
           status={transfer.status}
-          transactionType={transfer.__typename}
+          transactionType={transfer.type}
           isJumpstart={isJumpstart}
           networkId={transfer.networkId}
         />
