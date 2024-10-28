@@ -9,7 +9,7 @@ export interface DepositInfo {
   amount: string
   preparedTransactions: SerializableTransactionRequest[]
   pool: EarnPosition
-  mode: EarnActiveAction
+  mode: EarnActiveMode
   fromTokenId: string
   fromTokenAmount: string
 }
@@ -67,11 +67,11 @@ export interface BeforeDepositAction {
 }
 
 export interface WithdrawAction {
-  name: EarnActiveAction
+  name: EarnActiveMode
   title: string
   details: string
   iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
   onPress: () => void
 }
 
-export type EarnActiveAction = 'withdraw' | 'claim-rewards' | 'deposit' | 'swap-deposit' | 'exit'
+export type EarnActiveMode = 'withdraw' | 'claim-rewards' | 'deposit' | 'swap-deposit' | 'exit'

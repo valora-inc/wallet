@@ -13,7 +13,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { usePrepareWithdrawAndClaimTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
-import { EarnActiveAction } from 'src/earn/types'
+import { EarnActiveMode } from 'src/earn/types'
 import { getEarnPositionBalanceValues, isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
@@ -317,7 +317,7 @@ function GasFee({
   )
 }
 
-function Title({ mode }: { mode: EarnActiveAction }) {
+function Title({ mode }: { mode: EarnActiveMode }) {
   const { t } = useTranslation()
   switch (mode) {
     case 'claim-rewards':
