@@ -92,14 +92,12 @@ export async function prepareDepositTransactions({
 }
 
 export async function prepareWithdrawAndClaimTransactions({
-  token,
   walletAddress,
   feeCurrencies,
   pool,
   hooksApiUrl,
   rewardsPositions,
 }: {
-  token: TokenBalance
   walletAddress: Address
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
@@ -150,8 +148,6 @@ export async function prepareWithdrawAndClaimTransactions({
         ...withdrawTransactions,
         ...claimTransactions.flat(),
       ]),
-      spendToken: token,
-      spendTokenAmount: new BigNumber(balance).shiftedBy(token.decimals),
       isGasSubsidized: isGasSubsidizedForNetwork(networkId),
       origin: 'earn-withdraw',
     }),
@@ -160,7 +156,6 @@ export async function prepareWithdrawAndClaimTransactions({
 
 export async function prepareWithdrawTransactions({
   amount,
-  token,
   walletAddress,
   feeCurrencies,
   pool,
@@ -168,7 +163,6 @@ export async function prepareWithdrawTransactions({
   useMax,
 }: {
   amount: string
-  token: TokenBalance
   walletAddress: Address
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
@@ -198,8 +192,6 @@ export async function prepareWithdrawTransactions({
     prepareTransactionsResult: await prepareTransactions({
       feeCurrencies,
       baseTransactions: rawShortcutTransactionsToTransactionRequests(transactions),
-      spendToken: token,
-      spendTokenAmount: new BigNumber(amount).shiftedBy(token.decimals),
       isGasSubsidized: isGasSubsidizedForNetwork(networkId),
       origin: 'earn-withdraw',
     }),

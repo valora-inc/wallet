@@ -6,7 +6,7 @@ import {
   prepareWithdrawAndClaimTransactions,
   prepareWithdrawTransactions,
 } from 'src/earn/prepareTransactions'
-import { EarnActiveAction } from 'src/earn/types'
+import { EarnActiveMode } from 'src/earn/types'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -92,7 +92,7 @@ export function useDepositEntrypointInfo({
 }
 
 export function usePrepareTransactions(
-  mode: EarnActiveAction,
+  mode: EarnActiveMode,
   additionalArgs?: { rewardsPositions: Position[] }
 ) {
   const getTransactionFunction = () => {

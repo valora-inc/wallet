@@ -299,6 +299,7 @@ describe('prepareTransactions', () => {
           data: '0xencodedData',
           gas: BigInt(50200),
           _estimatedGasUse: BigInt(49900),
+          value: undefined,
         },
         {
           from: '0x1234',
@@ -306,9 +307,10 @@ describe('prepareTransactions', () => {
           data: '0xencodedData',
           gas: BigInt(50100),
           _estimatedGasUse: BigInt(49800),
+          value: undefined,
         },
       ]
-      expect(result).toEqual({
+      expect(result.prepareTransactionsResult).toEqual({
         type: 'possible',
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
@@ -362,7 +364,7 @@ describe('prepareTransactions', () => {
           _estimatedGasUse: BigInt(49900),
         },
       ]
-      expect(result).toEqual({
+      expect(result.prepareTransactionsResult).toEqual({
         type: 'possible',
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
@@ -410,12 +412,10 @@ describe('prepareTransactions', () => {
 
       const result = await prepareWithdrawTransactions({
         amount: '10',
-        token: mockToken,
         walletAddress: '0x1234',
         feeCurrencies: [mockFeeCurrency],
         pool: mockEarnPositions[0],
         hooksApiUrl: 'https://hooks.api',
-        shortcutId: 'withdraw',
         useMax: false,
       })
 
