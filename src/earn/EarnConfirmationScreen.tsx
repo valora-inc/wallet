@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
   },
   gasSubsidized: {
     ...typeScale.labelXSmall,
-    color: Colors.primary,
+    color: Colors.accent,
     marginTop: Spacing.Tiny4,
   },
 })

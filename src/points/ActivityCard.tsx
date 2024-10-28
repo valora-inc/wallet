@@ -8,7 +8,7 @@ import CheckCircle from 'src/icons/CheckCircle'
 import ComingSoon from 'src/icons/ComingSoon'
 import LogoHeart from 'src/images/LogoHeart'
 import { PointsActivity } from 'src/points/types'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 

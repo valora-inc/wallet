@@ -32,12 +32,8 @@ import {
   TokenTransactionTypeV2,
   TransactionStatus,
   type NetworkId,
-  type NftTransfer,
-  type TokenApproval,
-  type TokenEarn,
   type TokenExchange,
   type TokenTransaction,
-  type TokenTransfer,
 } from 'src/transactions/types'
 import {
   groupFeedItemsInSections,
@@ -171,10 +167,12 @@ function mergeStandByTransactionsInRange({
   transactions,
   standByTransactions,
   currentCursor,
+  isLastPage,
 }: {
   transactions: TokenTransaction[]
   standByTransactions: TokenTransaction[]
-  currentCursor?: keyof PaginatedData
+  currentCursor: keyof PaginatedData
+  isLastPage: boolean
 }): TokenTransaction[] {
   /**
    * If the data from the first page is empty - there's no successful transactions in the wallet.
@@ -199,7 +197,8 @@ function mergeStandByTransactionsInRange({
   const standByInRange = standByTransactions.filter((tx) => {
     const inRange = tx.timestamp >= min && tx.timestamp <= max
     const newTransaction = isFirstPage && tx.timestamp > max
-    return inRange || newTransaction
+    const veryOldTransaction = isLastPage && tx.timestamp < min
+    return inRange || newTransaction || veryOldTransaction
   })
   const deduplicatedTransactions = deduplicateTransactions([...transactions, ...standByInRange])
   const transactionsFromAllowedNetworks = deduplicatedTransactions.filter((tx) =>
@@ -295,20 +294,20 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
     case TokenTransactionTypeV2.Exchange:
     case TokenTransactionTypeV2.SwapTransaction:
     case TokenTransactionTypeV2.CrossChainSwapTransaction:
-      return <SwapFeedItem key={tx.transactionHash} transaction={tx as TokenExchange} />
+      return <SwapFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.Sent:
     case TokenTransactionTypeV2.Received:
-      return <TransferFeedItem key={tx.transactionHash} transfer={tx as TokenTransfer} />
+      return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
     case TokenTransactionTypeV2.NftSent:
     case TokenTransactionTypeV2.NftReceived:
-      return <NftFeedItem key={tx.transactionHash} transaction={tx as NftTransfer} />
+      return <NftFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.Approval:
-      return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx as TokenApproval} />
+      return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.EarnDeposit:
     case TokenTransactionTypeV2.EarnSwapDeposit:
     case TokenTransactionTypeV2.EarnWithdraw:
     case TokenTransactionTypeV2.EarnClaimReward:
-      return <EarnFeedItem key={tx.transactionHash} transaction={tx as TokenEarn} />
+      return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
   }
 }
 
@@ -360,7 +359,8 @@ export default function TransactionFeedV2() {
     function updatePaginatedData() {
       if (isFetching || !data) return
 
-      const currentCursor = data?.pageInfo.hasPreviousPage
+      const isLastPage = !data.pageInfo.hasNextPage
+      const currentCursor = data.pageInfo.hasPreviousPage
         ? data.pageInfo.startCursor
         : FIRST_PAGE_CURSOR
 
@@ -373,9 +373,10 @@ export default function TransactionFeedV2() {
 
         if (isFirstPage || pageDataIsAbsent) {
           const mergedTransactions = mergeStandByTransactionsInRange({
-            transactions: data?.transactions || [],
+            transactions: data.transactions,
             standByTransactions: standByTransactions.confirmed,
             currentCursor,
+            isLastPage,
           })
 
           return { ...prev, [currentCursor!]: mergedTransactions }
@@ -467,7 +468,7 @@ export default function TransactionFeedV2() {
       />
       {isFetching && (
         <View style={styles.centerContainer} testID="TransactionList/loading">
-          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.primary} />
+          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
         </View>
       )}
     </>
