@@ -165,6 +165,10 @@ exports[`SettingsItemSwitch renders correctly 1`] = `
         onChange={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
+        thumbTintColor="#E6E6E6"
+        trackColorForFalse="#757575"
+        trackColorForTrue="#1AB775"
+        trackTintColor="#1AB775"
       />
     </View>
   </View>
