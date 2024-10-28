@@ -135,7 +135,7 @@ function TransactionFeed() {
       />
       {fetchingMoreTransactions && (
         <View style={styles.centerContainer}>
-          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.primary} />
+          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
         </View>
       )}
     </>

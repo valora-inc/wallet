@@ -40,9 +40,9 @@ describe('SafetyCard', () => {
   })
 
   it.each([
-    { level: 'low', colors: [Colors.primary, Colors.gray2, Colors.gray2] },
-    { level: 'medium', colors: [Colors.primary, Colors.primary, Colors.gray2] },
-    { level: 'high', colors: [Colors.primary, Colors.primary, Colors.primary] },
+    { level: 'low', colors: [Colors.accent, Colors.gray2, Colors.gray2] },
+    { level: 'medium', colors: [Colors.accent, Colors.accent, Colors.gray2] },
+    { level: 'high', colors: [Colors.accent, Colors.accent, Colors.accent] },
   ] as const)('should render correct triple bars for safety level $level', ({ level, colors }) => {
     const { getAllByTestId } = render(<SafetyCard {...mockProps} safety={{ level, risks: [] }} />)
 

@@ -36,7 +36,7 @@ import {
   positionsStatusSelector,
 } from 'src/positions/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'

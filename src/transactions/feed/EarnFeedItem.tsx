@@ -9,7 +9,7 @@ import Touchable from 'src/components/Touchable'
 import { useEarnPositionProviderName } from 'src/earn/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -99,7 +99,7 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
     : [
         styles.amountTitle,
         transaction.type !== TokenTransactionTypeV2.EarnDeposit &&
-          transaction.type !== TokenTransactionTypeV2.EarnSwapDeposit && { color: Colors.primary },
+          transaction.type !== TokenTransactionTypeV2.EarnSwapDeposit && { color: Colors.accent },
       ]
 
   return (

@@ -28,13 +28,12 @@ import {
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import Colors from 'src/styles/colors'
+import { default as Colors, default as colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
-import colors from 'src/styles/colors'
 
 const TAG = 'keylessBackup/SignInWithEmail'
 
@@ -180,7 +179,7 @@ function SignInWithEmail({ route }: Props) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.activityIndicatorContainer}>
-          <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.primary} />
+          <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.accent} />
         </View>
       </SafeAreaView>
     )
