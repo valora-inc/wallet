@@ -10,18 +10,10 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendOrigin } from 'src/analytics/types'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
-import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import CircledIcon from 'src/icons/CircledIcon'
 import Times from 'src/icons/Times'
 import { importContacts } from 'src/identity/actions'
-import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
-import { AddressValidationType } from 'src/identity/reducer'
-import { getAddressValidationType } from 'src/identity/secureSend'
-import {
-  e164NumberToAddressSelector,
-  secureSendPhoneNumberMappingSelector,
-} from 'src/identity/selectors'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -29,7 +21,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
-import { Recipient, RecipientType, recipientHasNumber } from 'src/recipients/recipient'
+import { Recipient, RecipientType } from 'src/recipients/recipient'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import InviteRewardsCard from 'src/send/InviteRewardsCard'
 import PasteAddressButton from 'src/send/PasteAddressButton'
@@ -81,11 +73,6 @@ function GetStartedSection() {
       optionNum: '1',
       title: t('sendSelectRecipient.getStarted.options.one.title'),
       subtitle: t('sendSelectRecipient.getStarted.options.one.subtitle'),
-    },
-    {
-      optionNum: '2',
-      title: t('sendSelectRecipient.getStarted.options.two.title'),
-      subtitle: t('sendSelectRecipient.getStarted.options.two.subtitle'),
     },
   ]
 
@@ -185,8 +172,6 @@ function SendSelectRecipient({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
-  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
-  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
 
   const forceTokenId = route.params?.forceTokenId
   const defaultTokenIdOverride = route.params?.defaultTokenIdOverride
@@ -197,7 +182,7 @@ function SendSelectRecipient({ route }: Props) {
 
   const [activeView, setActiveView] = useState(SelectRecipientView.Recent)
 
-  const [showInviteModal, setShowInviteModal] = useState(false)
+  const [_showInviteModal, setShowInviteModal] = useState(false)
 
   const onSearch = (searchQuery: string) => {
     // Always unset the selected recipient and hide the send/invite button
@@ -208,7 +193,7 @@ function SendSelectRecipient({ route }: Props) {
     setShowSendOrInviteButton(false)
     setShowSearchResults(!!searchQuery)
   }
-  const { contactRecipients, recentRecipients } = useSendRecipients()
+  const { recentRecipients } = useSendRecipients()
   const { mergedRecipients, searchQuery, setSearchQuery } = useMergedSearchRecipients(onSearch)
 
   const { recipientVerificationStatus, recipient, setSelectedRecipient, unsetSelectedRecipient } =
@@ -245,31 +230,7 @@ function SendSelectRecipient({ route }: Props) {
 
   const nextScreen = (selectedRecipient: Recipient) => {
     // use the address from the recipient object
-    let address: string | null | undefined = selectedRecipient.address
-
-    // if not present there must be a phone number, route through secure send or get
-    // the secure send mapped address
-    if (!address && recipientHasNumber(selectedRecipient)) {
-      const addressValidationType: AddressValidationType = getAddressValidationType(
-        selectedRecipient,
-        secureSendPhoneNumberMapping
-      )
-      if (addressValidationType !== AddressValidationType.NONE) {
-        navigate(Screens.ValidateRecipientIntro, {
-          defaultTokenIdOverride,
-          forceTokenId,
-          recipient: selectedRecipient,
-          origin: SendOrigin.AppSendFlow,
-        })
-        return
-      }
-      address = getAddressFromPhoneNumber(
-        selectedRecipient.e164PhoneNumber,
-        e164NumberToAddress,
-        secureSendPhoneNumberMapping,
-        undefined
-      )
-    }
+    const address = selectedRecipient.address
 
     if (!address) {
       // this should never happen
@@ -306,10 +267,6 @@ function SendSelectRecipient({ route }: Props) {
       })
       nextScreen(recipient)
     }
-  }
-
-  const onCloseInviteModal = () => {
-    setShowInviteModal(false)
   }
 
   const renderSearchResults = () => {
@@ -360,19 +317,6 @@ function SendSelectRecipient({ route }: Props) {
         />
         {showSearchResults ? (
           renderSearchResults()
-        ) : activeView === SelectRecipientView.Contacts ? (
-          <>
-            <Text style={styles.title}>{t('sendSelectRecipient.contactsTitle')}</Text>
-            <RecipientPicker
-              testID={'SelectRecipient/ContactRecipientPicker'}
-              recipients={contactRecipients}
-              onSelectRecipient={setSelectedRecipientWrapper}
-              selectedRecipient={recipient}
-              isSelectedRecipientLoading={
-                !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
-              }
-            />
-          </>
         ) : (
           <>
             <Text style={styles.title}>{t('sendSelectRecipient.title')}</Text>
@@ -396,9 +340,6 @@ function SendSelectRecipient({ route }: Props) {
           </>
         )}
       </KeyboardAwareScrollView>
-      {showInviteModal && recipient && (
-        <InviteOptionsModal recipient={recipient} onClose={onCloseInviteModal} />
-      )}
       {showUnknownAddressInfo && (
         <InLineNotification
           variant={NotificationVariant.Info}

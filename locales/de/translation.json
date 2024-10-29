@@ -1047,7 +1047,7 @@
   "inviteVerifyPayment": "Einladen & Zahlung bestätigen",
   "noResultsFor": "Keine Ergebnisse für",
   "noContacts": "Keine Kontakte",
-  "searchForSomeone": "Suche nach jemandem mit Namen, Telefonnummer oder Adresse",
+  "searchForSomeone": "Suchen Sie nach jemandem, indem Sie dessen Wallet-Adresse verwenden",
   "sentPayment": "Zahlung gesendet",
   "sentEscrowPayment": "Escrow-Zahlung gesendet",
   "mobileNumber": "Handy #",
@@ -2122,7 +2122,7 @@
     "importButton": "Importieren"
   },
   "sendSelectRecipient": {
-    "searchText": "Suche nach Name, Telefon, Wallet ...",
+    "searchText": "Suche nach Wallet-Adresse",
     "paste": "Aus Zwischenablage einfügen",
     "title": "Einen Empfänger auswählen",
     "contactsTitle": "Kontakt wählen",

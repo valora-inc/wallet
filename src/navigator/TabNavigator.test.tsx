@@ -23,12 +23,12 @@ describe('TabNavigator', () => {
     // By Text
     expect(queryByText('bottomTabsNavigator.wallet.tabName')).toBeTruthy()
     expect(queryByText('bottomTabsNavigator.home.tabName')).toBeTruthy()
-    expect(queryByText('bottomTabsNavigator.discover.tabName')).toBeTruthy()
+    expect(queryByText('bottomTabsNavigator.activity.tabName')).toBeTruthy()
 
     // By testId - useful for e2e tests
     expect(getByTestId('Tab/Wallet')).toBeTruthy()
     expect(getByTestId('Tab/Home')).toBeTruthy()
-    expect(getByTestId('Tab/Discover')).toBeTruthy()
+    expect(getByTestId('Tab/Activity')).toBeTruthy()
   })
 
   it.each([
@@ -38,9 +38,9 @@ describe('TabNavigator', () => {
       expectedScreen: Screens.TabWallet,
     },
     {
-      testId: 'Tab/Discover',
-      tabName: 'bottomTabsNavigator.discover.tabName',
-      expectedScreen: Screens.TabDiscover,
+      testId: 'Tab/Activity',
+      tabName: 'bottomTabsNavigator.activity.tabName',
+      expectedScreen: Screens.TabActivity,
     },
   ])(
     `navigates to non initial screens $expectedScreen`,

@@ -132,8 +132,8 @@ export const RECAPTCHA_SITE_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, '
 export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
 export const WALLET_CONNECT_PROJECT_ID =
   keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'WALLET_CONNECT_PROJECT_ID') ??
-  // valora-e2e-client project in the WC project dashboard
-  '8f6f2517f4485c013849d38717ec90d1'
+  // mobilestack-e2e-client project in the WC project dashboard
+  '36d4ec3335559558180cc1079152fcb3'
 export const AUTH0_CLIENT_ID =
   keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'AUTH0_CLIENT_ID') ??
   // dev app client id as fallback for e2e tests

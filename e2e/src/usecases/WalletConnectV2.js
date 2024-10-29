@@ -20,7 +20,7 @@ import jestExpect from 'expect'
 
 const dappName = 'WalletConnectV2 E2E'
 const walletAddress = (
-  process.env.E2E_WALLET_ADDRESS || '0x6131a6d616a4be3737b38988847270a64bc10caa'
+  process.env.E2E_WALLET_ADDRESS || '0x3f4f42aC3a5A3c54454F9d00C27bCAFA78Cc6856'
 ).toLowerCase()
 
 const client = createPublicClient({
@@ -50,6 +50,7 @@ const verifySuccessfulConnection = async () => {
   await waitFor(element(by.text(`Success! Please go back to ${dappName} to continue`)))
     .toBeVisible()
     .withTimeout(15 * 1000)
+  await waitForElementByIdAndTap('Tab/Wallet')
   await waitFor(element(by.id('HomeAction-Send')))
     .toBeVisible()
     .withTimeout(15 * 1000)

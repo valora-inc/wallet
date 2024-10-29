@@ -254,15 +254,14 @@ describe('AssetsTokenBalance', () => {
     expect(getByText('totalAssetsInfo')).toBeTruthy()
   })
 
-  it('renders title, balance and eye icon', () => {
-    const { getByText, getByTestId, queryByText } = render(
+  it('renders balance and eye icon', () => {
+    const { getByTestId, queryByText } = render(
       <Provider store={createMockStore()}>
         <AssetsTokenBalance showInfo={false} />
       </Provider>
     )
 
     expect(getByTestId('EyeIcon')).toBeTruthy()
-    expect(getByText('bottomTabsNavigator.wallet.title')).toBeTruthy()
     expect(getByTestId('TotalTokenBalance')).toHaveTextContent('₱55.74')
     expect(queryByText('AssetsTokenBalance/Info')).toBeFalsy()
   })

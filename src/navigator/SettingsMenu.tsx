@@ -1,5 +1,4 @@
 import Clipboard from '@react-native-clipboard/clipboard'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -13,110 +12,34 @@ import {
 import deviceInfoModule from 'react-native-device-info'
 import { ScrollView } from 'react-native-gesture-handler'
 import { clearStoredAccount, devModeTriggerClicked } from 'src/account/actions'
-import {
-  defaultCountryCodeSelector,
-  devModeSelector,
-  e164NumberSelector,
-  nameSelector,
-} from 'src/account/selectors'
+import { devModeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
 import { setSessionId } from 'src/app/actions'
-import {
-  phoneNumberVerifiedSelector,
-  sessionIdSelector,
-  walletConnectEnabledSelector,
-} from 'src/app/selectors'
-import ContactCircleSelf from 'src/components/ContactCircleSelf'
+import { sessionIdSelector, walletConnectEnabledSelector } from 'src/app/selectors'
 import GradientBlock from 'src/components/GradientBlock'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import Touchable from 'src/components/Touchable'
-import Envelope from 'src/icons/Envelope'
-import ForwardChevron from 'src/icons/ForwardChevron'
 import Lock from 'src/icons/Lock'
 import Preferences from 'src/icons/Preferences'
 import Stack from 'src/icons/Stack'
 import Help from 'src/icons/navigator/Help'
 import Wallet from 'src/icons/navigator/Wallet'
+import MSLogoFull from 'src/images/MSLogoFull'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
-import { parsePhoneNumber } from 'src/utils/phoneNumbers'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { Statsig } from 'statsig-react-native'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.SettingsMenu>
-
-function ProfileMenuOption() {
-  const displayName = useSelector(nameSelector)
-  const e164PhoneNumber = useSelector(e164NumberSelector)
-  const defaultCountryCode = useSelector(defaultCountryCodeSelector)
-  const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
-  const displayNumber =
-    e164PhoneNumber && defaultCountryCode
-      ? parsePhoneNumber(e164PhoneNumber, defaultCountryCode)?.displayNumberInternational
-      : undefined
-
-  const renderContent = () => {
-    if (displayNumber && phoneNumberVerified && displayName) {
-      return (
-        <View style={styles.profileContent}>
-          <Text
-            numberOfLines={1}
-            style={styles.primaryProfileLabel}
-            testID="SettingsMenu/Profile/Username"
-          >
-            {displayName}
-          </Text>
-          <Text style={styles.secondaryProfileLabel} testID="SettingsMenu/Profile/Number">
-            {displayNumber}
-          </Text>
-        </View>
-      )
-    } else if (displayNumber && phoneNumberVerified) {
-      return (
-        <View style={styles.profileContent}>
-          <Text style={styles.primaryProfileLabel} testID="SettingsMenu/Profile/Number">
-            {displayNumber}
-          </Text>
-        </View>
-      )
-    } else if (displayName) {
-      return (
-        <View style={styles.profileContent}>
-          <Text style={styles.primaryProfileLabel} testID="SettingsMenu/Profile/Username">
-            {displayName}
-          </Text>
-        </View>
-      )
-    }
-    return null
-  }
-
-  return (
-    <Touchable
-      style={styles.profileTouchable}
-      onPress={() => navigate(Screens.ProfileSubmenu)}
-      testID="SettingsMenu/Profile"
-    >
-      <View style={styles.profileContainer}>
-        <ContactCircleSelf size={48} />
-        {renderContent()}
-        <ForwardChevron color={Colors.gray3} height={12} />
-      </View>
-    </Touchable>
-  )
-}
-
-export default function SettingsMenu({ route }: Props) {
+export default function SettingsMenu() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const account = useSelector(walletAddressSelector)
@@ -186,9 +109,8 @@ export default function SettingsMenu({ route }: Props) {
   }
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <ProfileMenuOption />
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <SettingsItemTextValue
           icon={<Wallet size={24} color={Colors.black} />}
           title={t('address')}
@@ -202,16 +124,8 @@ export default function SettingsMenu({ route }: Props) {
           showChevron
           borderless
         />
-        <SettingsItemTextValue
-          icon={<Envelope color={Colors.black} />}
-          title={t('invite')}
-          onPress={() => navigate(Screens.Invite)}
-          testID="SettingsMenu/Invite"
-          showChevron
-          borderless
-        />
 
-        <GradientBlock style={styles.divider} />
+        <GradientBlock style={styles.divider} colors={[Colors.black, Colors.black]} />
 
         <SettingsItemTextValue
           icon={<Preferences size={24} />}
@@ -249,7 +163,7 @@ export default function SettingsMenu({ route }: Props) {
           borderless
         />
 
-        <GradientBlock style={styles.divider} />
+        <GradientBlock style={styles.divider} colors={[Colors.black, Colors.black]} />
 
         <SettingsItemTextValue
           title={t('legal')}
@@ -265,6 +179,9 @@ export default function SettingsMenu({ route }: Props) {
           </View>
         </TouchableWithoutFeedback>
         {getDevSettingsComp()}
+        <View style={styles.logo}>
+          <MSLogoFull />
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
@@ -275,28 +192,12 @@ SettingsMenu.navigationOptions = () => ({
 })
 
 const styles = StyleSheet.create({
-  profileContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  container: {
+    flex: 1,
   },
-  profileTouchable: {
-    paddingTop: Spacing.Regular16,
-    paddingBottom: Spacing.Regular16,
-    paddingHorizontal: variables.contentPadding,
-  },
-  profileContent: {
-    alignContent: 'center',
+  scrollContainer: {
+    paddingTop: Spacing.Thick24,
     flexGrow: 1,
-    justifyContent: 'center',
-    paddingLeft: Spacing.Smallest8,
-  },
-  primaryProfileLabel: {
-    ...typeScale.labelSemiBoldMedium,
-  },
-  secondaryProfileLabel: {
-    ...typeScale.bodyMedium,
-    color: Colors.gray3,
   },
   appVersionContainer: {
     flexDirection: 'row',
@@ -310,7 +211,6 @@ const styles = StyleSheet.create({
     color: Colors.gray3,
   },
   devSettings: {
-    alignItems: 'flex-start',
     padding: Spacing.Regular16,
   },
   devSettingsItem: {
@@ -320,5 +220,10 @@ const styles = StyleSheet.create({
   divider: {
     marginVertical: Spacing.Smallest8,
     marginHorizontal: Spacing.Regular16,
+  },
+  logo: {
+    marginTop: 'auto',
+    paddingVertical: Spacing.Thick24,
+    alignItems: 'center',
   },
 })

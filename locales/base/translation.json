@@ -1049,7 +1049,7 @@
   "inviteVerifyPayment": "Invite & Confirm Payment",
   "noResultsFor": "No results for",
   "noContacts": "No contacts",
-  "searchForSomeone": "Search for someone using their name, phone number, or address",
+  "searchForSomeone": "Search for someone using their wallet address",
   "sentPayment": "Sent Payment",
   "sentEscrowPayment": "Sent Escrow Payment",
   "mobileNumber": "Mobile #",
@@ -2124,7 +2124,7 @@
     "importButton": "Import"
   },
   "sendSelectRecipient": {
-    "searchText": "Search by name, phone, wallet...",
+    "searchText": "Search by wallet address",
     "paste": "Paste from clipboard",
     "title": "Select a recipient",
     "contactsTitle": "Select a contact",
@@ -2342,6 +2342,10 @@
     "discover": {
       "tabName": "Discover",
       "title": "Discover"
+    },
+    "activity": {
+      "tabName": "Activity",
+      "title": "Activity"
     }
   },
   "jumpstartStatus": {

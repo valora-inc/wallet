@@ -173,14 +173,23 @@ describe('mergeRecipients', () => {
     })
     expect(mergedRecipients).toEqual([mockRecipient3, mockRecipient2, mockRecipient])
   })
-  it('uses the unique recipient if none other available', () => {
+  it('does not return phone number recipients', () => {
     const mergedRecipients = mergeRecipients({
       contactRecipients: [],
       recentRecipients: [],
       resolvedRecipients: [],
       uniqueSearchRecipient: mockRecipient4,
     })
-    expect(mergedRecipients).toEqual([mockRecipient4])
+    expect(mergedRecipients).toEqual([])
+  })
+  it('uses the unique recipient if none other available', () => {
+    const mergedRecipients = mergeRecipients({
+      contactRecipients: [],
+      recentRecipients: [],
+      resolvedRecipients: [],
+      uniqueSearchRecipient: mockRecipient3,
+    })
+    expect(mergedRecipients).toEqual([mockRecipient3])
   })
   it('returns empty list when no recipients available', () => {
     const mergedRecipients = mergeRecipients({

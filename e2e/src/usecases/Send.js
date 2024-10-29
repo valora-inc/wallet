@@ -22,6 +22,7 @@ export default Send = () => {
   describe('When multi-token send flow to address', () => {
     beforeAll(async () => {
       await launchApp({ newInstance: true })
+      await waitForElementByIdAndTap('Tab/Wallet')
     })
 
     it('Then should navigate to send search input from home action', async () => {
@@ -48,13 +49,13 @@ export default Send = () => {
 
     it('Then should be able to change token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('CELOSymbol')).tap()
+      await element(by.id('BottomSheetCELOSymbol')).tap()
       await expect(element(by.text('CELO')).atIndex(0)).toBeVisible()
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cUSDSymbol')).tap()
+      await element(by.id('BottomSheetcUSDSymbol')).tap()
       await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cEURSymbol')).tap()
+      await element(by.id('BottomSheetcEURSymbol')).tap()
       await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
     })
 
@@ -86,6 +87,7 @@ export default Send = () => {
       await waitForElementByIdAndTap('ConfirmButton', 30_000)
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementId('HomeAction-Send', 30_000)
     })
   })
@@ -96,6 +98,7 @@ export default Send = () => {
     })
 
     it('Then should navigate to send search input from home action', async () => {
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementByIdAndTap('HomeAction-Send', 30_000)
       await waitFor(element(by.text('0xe5f5...8846')))
         .toBeVisible()
@@ -109,7 +112,7 @@ export default Send = () => {
 
     it('Then should be able to choose token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cEURSymbol')).tap()
+      await element(by.id('BottomSheetcEURSymbol')).tap()
       await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
     })
 
@@ -129,11 +132,16 @@ export default Send = () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementId('HomeAction-Send', 30_000)
     })
   })
 
-  describe('When multi-token send flow to phone number with one address', () => {
+  // TODO(mobilestack): Un-skip these if we ever support CPV.
+  // This is the ONLY place in tests where the centrally verified e2e account
+  // is used, so enabling these also means we'll need to add this account (SAMPLE_BACKUP_KEY_VERIFIED)
+  // back into the funding scripts.
+  describe.skip('When multi-token send flow to phone number with one address', () => {
     beforeAll(async () => {
       await device.uninstallApp()
       await device.installApp()
@@ -142,6 +150,7 @@ export default Send = () => {
     })
 
     it('Then should navigate to send search input from home action', async () => {
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementByIdAndTap('HomeAction-Send', 30_000)
       await waitForElementId('SendSelectRecipientSearchInput', 10_000)
     })
@@ -167,7 +176,7 @@ export default Send = () => {
 
     it('Then should be able to select token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cUSDSymbol')).tap()
+      await element(by.id('BottomSheetcUSDSymbol')).tap()
       await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
     })
 
@@ -187,6 +196,7 @@ export default Send = () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementId('HomeAction-Send', 30_000)
     })
   })

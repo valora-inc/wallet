@@ -174,7 +174,8 @@ export default NewAccountPhoneVerification = () => {
   }
 
   // Assert correct content is visible on the phone verification screen
-  it('Then should have correct phone verification screen', async () => {
+  // TODO(mobilestack): Un-skip if CPV is enabled
+  it.skip('Then should have correct phone verification screen', async () => {
     await expect(element(by.id('PhoneVerificationHeader'))).toBeVisible()
     let skipAttributes = await element(by.text('Skip')).getAttributes()
     jestExpect(skipAttributes.enabled).toBe(true)
