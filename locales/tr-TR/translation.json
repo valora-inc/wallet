@@ -2280,7 +2280,27 @@
     "infiniteApprovalDescription": "{{tokenSymbol}} işlem için süresiz onaylandı",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
     "descriptionLabel": "Detaylar",
-    "crossChainSwapTransactionLabel": "Zincirler arası"
+    "crossChainSwapTransactionLabel": "Zincirler arası",
+    "depositTitle": "Yatırılan",
+    "depositSubtitle": "{{txAppName}} Havuzuna",
+    "depositSubtitle_noTxAppName": "bilinmeyen havuza",
+    "withdrawTitle": "Çekilen",
+    "withdrawSubtitle": "{{txAppName}} Havuzundan",
+    "withdrawSubtitle_noTxAppName": "bilinmeyen uygulamadan"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Detaylar",
+    "depositTitle": "Yatırılan",
+    "depositSubtitle": "{{txAppName}} Havuzuna {{tokenSymbol}} Yatırıldı",
+    "depositSubtitle_noTxAppName": "Bilinmeyen uygulamaya {{tokenSymbol}} yatırıldı",
+    "depositDetails": "Yatırılan Toplam",
+    "withdrawTitle": "Çekilen",
+    "withdrawSubtitle": "{{txAppName}} Havuzundan {{tokenSymbol}} Çekildi",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Çekilen Tutar",
+    "swap": "Swap",
+    "network": "Ağ",
+    "fees": "Ücretler"
   },
   "multichainBeta": {
     "beta": "BETA",
