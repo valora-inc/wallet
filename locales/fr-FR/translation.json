@@ -2280,7 +2280,27 @@
     "infiniteApprovalDescription": "{{tokenSymbol}} approuvé pour l'échange",
     "revokeApprovalDescription": "{{tokenSymbol}} retiré pour l'échange",
     "descriptionLabel": "Détails",
-    "crossChainSwapTransactionLabel": "Cross-chain"
+    "crossChainSwapTransactionLabel": "Cross-chain",
+    "depositTitle": "Déposé",
+    "depositSubtitle": "vers le pool {{txAppName}}",
+    "depositSubtitle_noTxAppName": "vers une piscine inconnue",
+    "withdrawTitle": "Retiré",
+    "withdrawSubtitle": "du pool {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "à partir d'une application inconnue"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Détails",
+    "depositTitle": "Deposited",
+    "depositSubtitle": "Deposited {{tokenSymbol}} to {{txAppName}} Pool",
+    "depositSubtitle_noTxAppName": "Déposé {{tokenSymbol}} sur une application inconnue",
+    "depositDetails": "Amount Deposited",
+    "withdrawTitle": "Withdrew",
+    "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{txAppName}} Pool",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Amount Withdrawn",
+    "swap": "Swap",
+    "network": "Network",
+    "fees": "Fees"
   },
   "multichainBeta": {
     "beta": "BETA",
