@@ -8,7 +8,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -84,7 +84,7 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
     ? styles.amountSubtitle
     : [
         styles.amountTitle,
-        transaction.type === TokenTransactionTypeV2.Withdraw && { color: Colors.primary },
+        transaction.type === TokenTransactionTypeV2.Withdraw && { color: Colors.accent },
       ]
 
   return (
