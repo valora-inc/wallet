@@ -2280,7 +2280,27 @@
     "infiniteApprovalDescription": "Unendliche {{tokenSymbol}} für Handel genehmigt",
     "revokeApprovalDescription": "{{tokenSymbol}} für Handel widerrufen",
     "descriptionLabel": "Details",
-    "crossChainSwapTransactionLabel": "Cross-Chain"
+    "crossChainSwapTransactionLabel": "Cross-Chain",
+    "depositTitle": "Eingezahlt",
+    "depositSubtitle": "in {{txAppName}} Pool",
+    "depositSubtitle_noTxAppName": "zum unbekannten Pool",
+    "withdrawTitle": "Abgehoben",
+    "withdrawSubtitle": "aus {{txAppName}} Pool",
+    "withdrawSubtitle_noTxAppName": "von unbekannter App"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Details",
+    "depositTitle": "Eingezahlt",
+    "depositSubtitle": "Deposited {{tokenSymbol}} to {{txAppName}} Pool",
+    "depositSubtitle_noTxAppName": "Hinterlegt {{tokenSymbol}} bei unbekannter App",
+    "depositDetails": "Eingezahlter Betrag",
+    "withdrawTitle": "Abgehoben",
+    "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{txAppName}} Pool",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Amount Withdrawn",
+    "swap": "Swap",
+    "network": "Network",
+    "fees": "Fees"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2557,7 +2577,7 @@
       "fees": "Gebühren",
       "available": "Verfügbar",
       "swap": "Tauschen",
-      "claimingReward": "Belohnung einfordern",
+      "claimingReward": "Reward wird beansprucht",
       "earnUpToLabel": "Verdienst von bis zu:",
       "rateLabel": "Rate (geschätzt)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / Jahr",
@@ -2589,8 +2609,8 @@
         "swapDescription": "Um Guthaben in den Pool einzuzahlen, wird dein Token in einen Pool-Token getauscht."
       },
       "withdrawingAndClaimingCard": {
-        "title": "Zurückziehen und Reklamieren",
-        "description": "{{providerName}} verlangt, dass du bei jeder Abhebung alle verfügbaren Prämien einforderst."
+        "title": "Abheben und Beanspruchen",
+        "description": "{{providerName}} verlangt, dass du bei jeder Abhebung alle verfügbaren Rewards beanspruchst."
       }
     },
     "activePools": {
@@ -2701,11 +2721,11 @@
       "chainName": "Kette: <0>{{networkName}}</0>",
       "protocolName": "Protokoll: <0>{{providerName}}</0>",
       "yieldRate": "Rendite",
-      "dailyYieldRate": "Tagessatz",
+      "dailyYieldRate": "Tageskurs",
       "ratePercent": "{{rate}} %",
       "rewards": "Rewards",
       "noRewards": "Keine Rewards",
-      "safetyScore": "Sicherheitspunkte",
+      "safetyScore": "Safety Score",
       "tvl": "TVL",
       "ageOfPool": "Alter des Pools",
       "learnMoreOnProvider": "Pool ansehen auf {{providerName}}",
@@ -2713,19 +2733,19 @@
       "depositAndEarnings": "Einzahlungen und Verdienste",
       "withdraw": "Abheben",
       "withdrawBottomSheet": {
-        "title": "Rückzugsart wählen",
-        "withdrawAndClaim": "Zurückziehen und fordern",
-        "withdrawDescription": "Einen bestimmten Betrag der Token, die du in den Pool eingezahlt hast, abheben",
-        "withdrawAndClaimRewardsDescription": "Ziehe eine bestimmte Menge an Token ab, die du in den Pool eingezahlt hast, und fordere deine Belohnungen automatisch ein",
-        "withdrawAndClaimEarningsDescription": "Ziehe einen bestimmten Betrag von Token ab, die du in den Pool eingezahlt hast, und fordere deinen Verdienst automatisch ein",
+        "title": "Abhebungsart auswählen",
+        "withdrawAndClaim": "Abheben und Beanspruchen",
+        "withdrawDescription": "Hebe einen bestimmten Betrag eines Tokens ab, den du im Pool hinterlegt hast",
+        "withdrawAndClaimRewardsDescription": "Hebe einen bestimmten Betrag eines Tokens ab, den du im Pool hinterlegt hast, und beanspruche automatisch deine Rewards",
+        "withdrawAndClaimEarningsDescription": "Hebe einen bestimmten Betrag eines Tokens ab, den du im Pool hinterlegt hast, und beanspruche automatisch deinen Verdienst",
         "claimRewards": "Belohnung beanspruchen",
-        "claimRewardsDescription": "Fordere deine Belohnungen ein. Teilbeträge der Belohnung können nicht eingefordert werden",
-        "claimEarnings": "Verdienst einfordern",
-        "claimEarningsDescription": "Beanspruche die Erträge deiner Einzahlung. Teilbeträge können nicht eingefordert werden",
-        "exit": "Ausfahrt",
-        "exitDescription": "Beim Verlassen wird alles, was du im Pool hast, abgezogen",
-        "exitWithRewardsDescription": "Wenn du den Pool verlässt, wird dir alles abgezogen, was du im Pool hast, einschließlich der Belohnungen.",
-        "exitWithEarningsDescription": "Wenn du den Pool verlässt, wird dir alles abgezogen, was du im Pool hast, einschließlich der Einnahmen."
+        "claimRewardsDescription": "Beanspruche deine Rewards. Der Reward kann nicht teilweise beansprucht werden",
+        "claimEarnings": "Verdienst beanspruchen",
+        "claimEarningsDescription": "Beanspruche den Verdienst auf deine Einzahlung. Es können keine Teilbeträge beansprucht werden",
+        "exit": "Verlassen",
+        "exitDescription": "Beim Verlassen wird alles, was du im Pool hast, abgehoben",
+        "exitWithRewardsDescription": "Beim Verlassen wird alles, was du im Pool hast, abgehoben, einschließlich Rewards",
+        "exitWithEarningsDescription": "Beim Verlassen wird alles, was du im Pool hast, abgehoben, einschließlich Verdienst"
       },
       "totalDepositAndEarnings": "Gesamteinlage und -Verdienst",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
@@ -2740,12 +2760,12 @@
         "ageDescription": "Ältere Liquiditätspools können auf eine solide Erfolgsbilanz und eine Geschichte des Vertrauens der Community hinweisen. Aus diesem Grund halten manche diese Pools für sicherer.\n\nEs gibt keine perfekte Methode, um das Risiko zu bestimmen, also nutze diese Informationen als Teil deiner allgemeinen Recherche, um die für dich beste Entscheidung zu treffen.",
         "yieldRateTitle": "Rendite",
         "yieldRateDescription": "Die meisten Pools bieten Verdienst in Form eines Liquiditätspool-Tokens, aber einige geben zusätzliche Token als Reward oder zusätzlichen Anreiz.\n\nDa {{appName}} Pools über mehrere Protokolle hinweg zusammenfasst, haben wir alle Verdienst- und Reward-Sätze zu einer einzigen Gesamtrendite zusammengefasst, damit du dein Verdienstpotenzial leichter einschätzen kannst. Bei dieser Zahl handelt es sich um eine Schätzung, da die Verdienst- und Reward-Werte ständig schwanken.\n\nWeitere Informationen über die Verdienstaufteilung findest du unter <0>{{providerName}}</0>.",
-        "dailyYieldRateTitle": "Tagessatz",
-        "dailyYieldRateDescription": "Der angezeigte Tagessatz entspricht dem von {{providerName}}angebotenen Tagessatz.",
-        "dailyYieldRateLink": "Weitere Details zum Tagessatz findest du auf {{providerName}}",
-        "safetyScoreTitle": "Sicherheitspunkte",
-        "safetyScoreDescription": "Der Safety Score schlüsselt die Sicherheit des zugrunde liegenden Tresorvermögens in mehrere Schlüsselfaktoren auf. Er soll dich auf die Risiken aufmerksam machen, die du vor einer Investition berücksichtigen musst, und dich über technische Details informieren, die du vielleicht nicht selbst beurteilen kannst.\nAuch wenn die vollständige Position immer komplizierter ist, soll der Safety Score die wichtigsten Risiko- und Sicherheitsüberlegungen vereinfachen und dir einen Anstoß für deine eigene Due Diligence geben. Unser Team wägt jeden Faktor sorgfältig ab, bevor ein Tresor eingesetzt wird, und hat ein wachsames Auge auf alle Anlagen, Ketten und Protokolle, die {{providerName}} integriert hat.",
-        "safetyScoreRateLink": "Mehr Details zur Sicherheitsbewertung auf {{providerName}}"
+        "dailyYieldRateTitle": "Tageskurs",
+        "dailyYieldRateDescription": "Der angezeigte Tageskurs entspricht dem von {{providerName}} angebotenen Tageskurs.",
+        "dailyYieldRateLink": "Weitere Details zum Tageskurs findest du auf {{providerName}}",
+        "safetyScoreTitle": "Safety Score",
+        "safetyScoreDescription": "Der Safety Score schlüsselt die Sicherheit des zugrunde liegenden Tresorvermögens in mehrere Schlüsselfaktoren auf. Er soll dich auf die Risiken aufmerksam machen, die du vor einer Investition berücksichtigen musst, und dich über technische Details informieren, die du vielleicht nicht selbst beurteilen kannst.\nAuch wenn die vollständige Position immer komplizierter ist, soll der Safety Score die wichtigsten Risiko- und Sicherheitsüberlegungen vereinfachen und dir einen Anstoß für deine eigene Sorgfaltspflicht geben. Unser Team wägt jeden Faktor sorgfältig ab, bevor ein Tresor bereitgestellt wird, und hat ein wachsames Auge auf alle Vermögenswerte, Chains und Protokolle, die {{providerName}} integriert hat.",
+        "safetyScoreRateLink": "Mehr Details zum Safety Score auf {{providerName}}"
       },
       "viewMoreDetails": "Mehr Details anzeigen",
       "viewLessDetails": "Weniger Details anzeigen"

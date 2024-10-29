@@ -2278,7 +2278,27 @@
     "infiniteApprovalDescription": "已批准无限 {{tokenSymbol}} 用于交易",
     "revokeApprovalDescription": "已撤销 {{tokenSymbol}} 用于交易",
     "descriptionLabel": "详细信息",
-    "crossChainSwapTransactionLabel": "跨链"
+    "crossChainSwapTransactionLabel": "跨链",
+    "depositTitle": "已存入",
+    "depositSubtitle": "至 {{txAppName}} 池",
+    "depositSubtitle_noTxAppName": "未知池",
+    "withdrawTitle": "已取出",
+    "withdrawSubtitle": "从 {{txAppName}} 池",
+    "withdrawSubtitle_noTxAppName": "来自未知应用程序"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "详细信息",
+    "depositTitle": "已存入",
+    "depositSubtitle": "已向 {{txAppName}} 池存入 {{tokenSymbol}}",
+    "depositSubtitle_noTxAppName": "将 {{tokenSymbol}} 存入未知应用程序",
+    "depositDetails": "已转入金额",
+    "withdrawTitle": "已取出",
+    "withdrawSubtitle": "已从 {{txAppName}} 池取出 {{tokenSymbol}}",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "已提取金额",
+    "swap": "交换",
+    "network": "网络",
+    "fees": "费用"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2555,7 +2575,7 @@
       "fees": "费用",
       "available": "可用",
       "swap": "交换",
-      "claimingReward": "申请奖励",
+      "claimingReward": "领取奖励",
       "earnUpToLabel": "您最多可以赚取：",
       "rateLabel": "费率（估算）",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/年",
@@ -2575,7 +2595,7 @@
         "estNetworkFee": "预估网络费用",
         "maxNetworkFee": "最高网络费用",
         "networkFeeDescription": "使用网络处理存款交易需支付网络费用。",
-        "networkFeeDescriptionWithdrawal": "网络费是网络处理取款交易所需的费用。",
+        "networkFeeDescriptionWithdrawal": "使用网络处理提款交易需支付网络费用。",
         "networkSwapFeeDescription": "使用网络处理存款交易需支付网络费用。使用我们的产品时，将收取 {{appFeePercentage}}% 的 {{appName}} 费用。",
         "appSwapFee": "{{appName}} 费用"
       },
@@ -2587,8 +2607,8 @@
         "swapDescription": "当您向某个资金池存入资金时，您的代币将会交换成资金池代币。"
       },
       "withdrawingAndClaimingCard": {
-        "title": "退出和申请",
-        "description": "{{providerName}} 要求您在任何时候提款时都要申领所有可用奖励。"
+        "title": "提款和领取",
+        "description": "{{providerName}} 要求您在任何时候提款时领取所有可用奖励。"
       }
     },
     "activePools": {
@@ -2703,7 +2723,7 @@
       "ratePercent": "{{rate}}%",
       "rewards": "奖励",
       "noRewards": "暂无奖励",
-      "safetyScore": "安全得分",
+      "safetyScore": "安全评分",
       "tvl": "TVL",
       "ageOfPool": "资金池年龄",
       "learnMoreOnProvider": "在 {{providerName}} 上查看资金池",
@@ -2712,18 +2732,18 @@
       "withdraw": "提取",
       "withdrawBottomSheet": {
         "title": "选择提款类型",
-        "withdrawAndClaim": "退出和索赔",
-        "withdrawDescription": "提取您存放在代币池中的特定数量的代币",
-        "withdrawAndClaimRewardsDescription": "从您存入代币池的任何代币中提取特定金额，并自动领取奖励",
-        "withdrawAndClaimEarningsDescription": "从您存入代币池的代币中提取特定金额，并自动领取收益",
+        "withdrawAndClaim": "提款和领取",
+        "withdrawDescription": "提取您存入池中的特定金额的任何代币",
+        "withdrawAndClaimRewardsDescription": "提取您存入池中的特定金额的任何代币，并自动领取奖励",
+        "withdrawAndClaimEarningsDescription": "提取您存入池中的特定金额的任何代币，并自动领取收益",
         "claimRewards": "领取奖励",
         "claimRewardsDescription": "领取奖励。不能领取部分奖励金额",
-        "claimEarnings": "索赔收入",
-        "claimEarningsDescription": "申请存款收益。不能申请部分金额",
+        "claimEarnings": "领取收益",
+        "claimEarningsDescription": "领取存款收益。不能领取部分金额",
         "exit": "退出",
-        "exitDescription": "退出时将收回您在水池中的所有资金",
-        "exitWithRewardsDescription": "退出时将收回您在池中的所有资金，包括奖励",
-        "exitWithEarningsDescription": "退出时将提取您在资金池中的所有资金，包括收益"
+        "exitDescription": "退出时将提取池中的所有资金",
+        "exitWithRewardsDescription": "退出时将提取池中的所有资金，包括奖励",
+        "exitWithEarningsDescription": "退出时将提取池中的所有资金，包括收益"
       },
       "totalDepositAndEarnings": "存款和收益总额",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
@@ -2739,14 +2759,14 @@
         "yieldRateTitle": "收益率",
         "yieldRateDescription": "虽然大多数资金池以流动性池代币的形式提供收益，但也有一些资金池提供额外代币作为奖励或额外激励。\n\n{{appName}} 集合了多个协议的资金池，因此我们将所有收益率和奖励率合并为一项总体收益率，以帮助您轻松评估收益潜力。由于收益和奖励值不断波动，该数字只是估计值。\n\n有关收益明细的更多信息，请访问 <0>{{providerName}}</0>。",
         "dailyYieldRateTitle": "每日费率",
-        "dailyYieldRateDescription": "显示的每日费率反映了 {{providerName}}提供的每日费率。",
-        "dailyYieldRateLink": "查看更多每日房价详情，请访问 {{providerName}}",
-        "safetyScoreTitle": "安全得分",
-        "safetyScoreDescription": "安全分数将相关金库资产的安全性分解为几个关键因素。它旨在提醒您在投资前应考虑的风险，并告知您可能无法自行评估的技术细节。\n尽管全部头寸总是更为复杂，但安全分数的提供简化了主要风险和安全考虑因素，并启动了您自己的尽职调查。在部署保险库之前，我们的团队会仔细考虑每个因素，并密切关注 {{providerName}} 集成的每个资产、链和协议。",
-        "safetyScoreRateLink": "查看更多安全分数详情，请访问 {{providerName}}"
+        "dailyYieldRateDescription": "显示的每日费率反映了 {{providerName}} 提供的每日费率。",
+        "dailyYieldRateLink": "在 {{providerName}} 上查看更多每日费率详情",
+        "safetyScoreTitle": "安全评分",
+        "safetyScoreDescription": "安全评分将基础金库资产的安全性划分为几个关键因素。旨在提醒您在投资前应考虑的风险，并告知您可能无法自行评估的技术细节。\n尽管全部头寸总是比较复杂，但安全评分简化了主要风险和安全考虑因素，还为您启动了尽职调查。在部署金库之前，我们的团队会仔细考虑每个因素，密切关注 {{providerName}} 集成的每个资产、链和协议。",
+        "safetyScoreRateLink": "在 {{providerName}} 上查看更多安全评分详情"
       },
       "viewMoreDetails": "查看更多详情",
-      "viewLessDetails": "查看更多详情"
+      "viewLessDetails": "查看更少详情"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "您需要在 {{tokenNetwork}} 上持有 {{tokenSymbol}} 才可进行存款",
