@@ -2280,7 +2280,27 @@
     "infiniteApprovalDescription": "Unendliche {{tokenSymbol}} für Handel genehmigt",
     "revokeApprovalDescription": "{{tokenSymbol}} für Handel widerrufen",
     "descriptionLabel": "Details",
-    "crossChainSwapTransactionLabel": "Cross-Chain"
+    "crossChainSwapTransactionLabel": "Cross-Chain",
+    "depositTitle": "Eingezahlt",
+    "depositSubtitle": "in {{txAppName}} Pool",
+    "depositSubtitle_noTxAppName": "zum unbekannten Pool",
+    "withdrawTitle": "Abgehoben",
+    "withdrawSubtitle": "aus {{txAppName}} Pool",
+    "withdrawSubtitle_noTxAppName": "von unbekannter App"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Details",
+    "depositTitle": "Eingezahlt",
+    "depositSubtitle": "Deposited {{tokenSymbol}} to {{txAppName}} Pool",
+    "depositSubtitle_noTxAppName": "Hinterlegt {{tokenSymbol}} bei unbekannter App",
+    "depositDetails": "Eingezahlter Betrag",
+    "withdrawTitle": "Abgehoben",
+    "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{txAppName}} Pool",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Amount Withdrawn",
+    "swap": "Swap",
+    "network": "Network",
+    "fees": "Fees"
   },
   "multichainBeta": {
     "beta": "BETA",
