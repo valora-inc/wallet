@@ -1171,6 +1171,9 @@
         "DepositOrWithdraw": {
             "additionalProperties": false,
             "properties": {
+                "appName": {
+                    "type": "string"
+                },
                 "block": {
                     "type": "string"
                 },
@@ -1188,9 +1191,6 @@
                 },
                 "outAmount": {
                     "$ref": "#/definitions/TokenAmount"
-                },
-                "providerName": {
-                    "type": "string"
                 },
                 "status": {
                     "$ref": "#/definitions/TransactionStatus"
@@ -1226,12 +1226,12 @@
                 }
             },
             "required": [
+                "appName",
                 "block",
                 "fees",
                 "inAmount",
                 "networkId",
                 "outAmount",
-                "providerName",
                 "status",
                 "timestamp",
                 "transactionHash",
@@ -2606,6 +2606,9 @@
         "PendingStandbyTransaction<DepositOrWithdraw>": {
             "additionalProperties": false,
             "properties": {
+                "appName": {
+                    "type": "string"
+                },
                 "context": {
                     "$ref": "#/definitions/TransactionContext"
                 },
@@ -2620,9 +2623,6 @@
                 },
                 "outAmount": {
                     "$ref": "#/definitions/TokenAmount"
-                },
-                "providerName": {
-                    "type": "string"
                 },
                 "status": {
                     "const": "Pending",
@@ -4187,6 +4187,9 @@
                 {
                     "additionalProperties": false,
                     "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
                         "block": {
                             "type": "string"
                         },
@@ -4210,9 +4213,6 @@
                         },
                         "outAmount": {
                             "$ref": "#/definitions/TokenAmount"
-                        },
-                        "providerName": {
-                            "type": "string"
                         },
                         "status": {
                             "enum": [
