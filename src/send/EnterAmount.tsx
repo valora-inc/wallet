@@ -175,6 +175,7 @@ function EnterAmount({
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
+  // @ts-ignore - the max button will be restored in the next PR
   const onMaxAmountPress = async () => {
     // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
@@ -355,7 +356,7 @@ function EnterAmount({
             amountType={enteredIn}
             toggleAmountType={handleToggleAmountType}
             autoFocus
-            testID="SendEnterAmount/TokenAmountInput"
+            testID="SendEnterAmount"
             onTokenPickerSelect={onTokenPickerSelect}
             tokenSelectionDisabled={tokenSelectionDisabled}
             token={token}

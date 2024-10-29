@@ -28,7 +28,7 @@ const BORDER_RADIUS = 12
 export function TokenEnterAmount({
   token,
   onTokenPickerSelect,
-  tokenSelectionDisabled = false,
+  tokenSelectionDisabled,
   tokenValue,
   onInputChange,
   localAmountValue,
@@ -38,6 +38,7 @@ export function TokenEnterAmount({
   inputRef,
   inputStyle,
   autoFocus = true,
+  editable = true,
   testID,
 }: {
   token?: TokenBalance
@@ -52,6 +53,7 @@ export function TokenEnterAmount({
   inputRef: React.MutableRefObject<RNTextInput | null>
   inputStyle?: StyleProp<TextStyle>
   autoFocus?: boolean
+  editable?: boolean
   testID?: string
 }) {
   const { t } = useTranslation()
@@ -70,11 +72,18 @@ export function TokenEnterAmount({
     }
   }
 
+  const touchableBorderStyle = token
+    ? {
+        borderTopLeftRadius: BORDER_RADIUS,
+        borderTopRightRadius: BORDER_RADIUS,
+      }
+    : BORDER_RADIUS
+
   return (
-    <View>
+    <View testID={testID}>
       <Touchable
         borderless
-        borderRadius={BORDER_RADIUS}
+        borderRadius={touchableBorderStyle}
         onPress={onTokenPickerSelect}
         disabled={tokenSelectionDisabled}
         testID={`${testID}/TokenSelect`}
@@ -157,6 +166,7 @@ export function TokenEnterAmount({
                 : undefined
             }
             showClearButton={false}
+            editable={editable}
             testID={`${testID}/TokenAmountInput`}
           />
 

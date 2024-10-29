@@ -51,8 +51,6 @@ type Props = NativeStackScreenProps<StackParamList, Screens.EarnEnterAmount>
 
 const TAG = 'EarnEnterAmount'
 
-const TOKEN_SELECTOR_BORDER_RADIUS = 100
-const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
 function useTokens({ pool }: { pool: EarnPosition }) {
@@ -352,6 +350,7 @@ function EarnEnterAmount({ route }: Props) {
     }
   }
 
+  // @ts-ignore - the max button will be restored in the next PR
   const onMaxAmountPress = async () => {
     // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
