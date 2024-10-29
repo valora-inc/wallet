@@ -129,6 +129,7 @@ export interface LocalAmount {
   exchangeRate: string
 }
 
+// Be sure to also update FEED_V2_INCLUDE_TYPES if you add a new type.
 export enum TokenTransactionTypeV2 {
   Exchange = 'EXCHANGE',
   Received = 'RECEIVED',
@@ -148,6 +149,20 @@ export enum TokenTransactionTypeV2 {
   EarnWithdraw = 'EARN_WITHDRAW',
   EarnClaimReward = 'EARN_CLAIM_REWARD',
 }
+
+// Because the codebase supports both the old and new feed,
+// we need this list. But we can remove it once we delete the old feed.
+export const FEED_V2_INCLUDE_TYPES = [
+  TokenTransactionTypeV2.Received,
+  TokenTransactionTypeV2.Sent,
+  TokenTransactionTypeV2.NftReceived,
+  TokenTransactionTypeV2.NftSent,
+  TokenTransactionTypeV2.SwapTransaction,
+  TokenTransactionTypeV2.CrossChainSwapTransaction,
+  TokenTransactionTypeV2.Approval,
+  TokenTransactionTypeV2.Deposit,
+  TokenTransactionTypeV2.Withdraw,
+]
 
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenTransfer {
