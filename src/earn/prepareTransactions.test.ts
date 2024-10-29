@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import {
+  prepareClaimTransactions,
   prepareDepositTransactions,
   prepareWithdrawAndClaimTransactions,
   prepareWithdrawTransactions,
@@ -453,6 +454,109 @@ describe('prepareTransactions', () => {
           { tokenId: mockEarnPositions[0].dataProps.withdrawTokenId, amount: '10', useMax: false },
         ],
         tokenDecimals: 6,
+      })
+    })
+  })
+
+  describe('prepareClaimTransactions', () => {
+    it('prepares claim transactions using claim-rewards shortcut', async () => {
+      jest.mocked(triggerShortcutRequest).mockResolvedValue({
+        transactions: [
+          {
+            from: '0x1234',
+            to: '0x5678',
+            data: '0xencodedData',
+            gas: '50100',
+            estimatedGasUse: '49800',
+          },
+        ],
+      })
+
+      const result = await prepareClaimTransactions({
+        pool: mockEarnPositions[0],
+        walletAddress: '0x1234',
+        feeCurrencies: [mockFeeCurrency],
+        hooksApiUrl: 'https://hooks.api',
+        rewardsPositions: [mockRewardsPositions[0]],
+      })
+
+      const expectedTransactions = [
+        {
+          from: '0x1234',
+          to: '0x5678',
+          data: '0xencodedData',
+          gas: BigInt(50100),
+          _estimatedGasUse: BigInt(49800),
+        },
+      ]
+
+      expect(result).toEqual({
+        prepareTransactionsResult: {
+          type: 'possible',
+          feeCurrency: mockFeeCurrency,
+          transactions: expectedTransactions,
+        },
+      })
+
+      expect(prepareTransactions).toHaveBeenCalledWith({
+        baseTransactions: expectedTransactions,
+        feeCurrencies: [mockFeeCurrency],
+        isGasSubsidized: false,
+        origin: 'earn-claim-rewards',
+      })
+
+      expect(triggerShortcutRequest).toHaveBeenCalledWith('https://hooks.api', {
+        address: '0x1234',
+        appId: mockEarnPositions[0].appId,
+        networkId: mockEarnPositions[0].networkId,
+        shortcutId: 'claim-rewards',
+      })
+    })
+
+    it('prepares claim transactions using claim-rewards shortcut with multiple rewards', async () => {
+      jest.mocked(triggerShortcutRequest).mockResolvedValue({
+        transactions: [
+          {
+            from: '0x1234',
+            to: '0x5678',
+            data: '0xencodedData',
+            gas: '50100',
+            estimatedGasUse: '49800',
+          },
+        ],
+      })
+
+      const result = await prepareClaimTransactions({
+        pool: mockEarnPositions[0],
+        walletAddress: '0x1234',
+        feeCurrencies: [mockFeeCurrency],
+        hooksApiUrl: 'https://hooks.api',
+        rewardsPositions: mockRewardsPositions,
+      })
+
+      const expectedTransactions = [
+        {
+          from: '0x1234',
+          to: '0x5678',
+          data: '0xencodedData',
+          gas: BigInt(50100),
+          _estimatedGasUse: BigInt(49800),
+        },
+        {
+          from: '0x1234',
+          to: '0x5678',
+          data: '0xencodedData',
+          gas: BigInt(50100),
+          _estimatedGasUse: BigInt(49800),
+        },
+      ]
+
+      expect(result).toEqual({
+        prepareTransactionsResult: {
+          type: 'possible',
+          feeCurrency: mockFeeCurrency,
+          transactions: expectedTransactions,
+        },
       })
     })
   })
