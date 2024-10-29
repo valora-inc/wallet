@@ -2278,7 +2278,27 @@
     "infiniteApprovalDescription": "อนุมัติ {{tokenSymbol}} ไม่จำกัดสำหรับการเทรด",
     "revokeApprovalDescription": "ยกเลิก {{tokenSymbol}} สำหรับการเทรด",
     "descriptionLabel": "รายละเอียด",
-    "crossChainSwapTransactionLabel": "Cross-chain"
+    "crossChainSwapTransactionLabel": "Cross-chain",
+    "depositTitle": "ฝากแล้ว",
+    "depositSubtitle": "ไปยังพูล {{txAppName}}",
+    "depositSubtitle_noTxAppName": "to unknown pool",
+    "withdrawTitle": "ถอนแล้ว",
+    "withdrawSubtitle": "จากพูล {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "from unknown app"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "รายละเอียด",
+    "depositTitle": "ฝากแล้ว",
+    "depositSubtitle": "ฝาก {{tokenSymbol}} ไปยังพูล {{txAppName}} แล้ว",
+    "depositSubtitle_noTxAppName": "Deposited {{tokenSymbol}} to unknown app",
+    "depositDetails": "จำนวนเงินที่ฝาก",
+    "withdrawTitle": "ถอนแล้ว",
+    "withdrawSubtitle": "ถอน {{tokenSymbol}} จากพูล {{txAppName}} แล้ว",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "จำนวนเงินที่ถอนแล้ว",
+    "swap": "สว็อป",
+    "network": "เครือข่าย",
+    "fees": "ค่าธรรมเนียม"
   },
   "multichainBeta": {
     "beta": "BETA",
