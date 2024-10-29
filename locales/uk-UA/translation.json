@@ -2300,7 +2300,7 @@
     "depositDetails": "Суму внесено",
     "withdrawTitle": "Знято",
     "withdrawSubtitle": "Знято {{tokenSymbol}} з пулу {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawSubtitle_noTxAppName": "Вилучено {{tokenSymbol}} з невідомого додатку",
     "withdrawDetails": "Знята сума",
     "swap": "Обміняти",
     "network": "Мережа",
