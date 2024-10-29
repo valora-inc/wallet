@@ -2291,16 +2291,16 @@
   "transactionDetails": {
     "descriptionLabel": "Detalles",
     "depositTitle": "Fondos depositados",
-    "depositSubtitle": "Deposited {{tokenSymbol}} to {{txAppName}} Pool",
+    "depositSubtitle": "{{tokenSymbol}} depositados en la pool {{txAppName}}",
     "depositSubtitle_noTxAppName": "Depositado {{tokenSymbol}} a app desconocida",
     "depositDetails": "Monto depositado",
     "withdrawTitle": "Fondos retirados",
-    "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{txAppName}} Pool",
-    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
-    "withdrawDetails": "Amount Withdrawn",
-    "swap": "Swap",
-    "network": "Network",
-    "fees": "Fees"
+    "withdrawSubtitle": "{{tokenSymbol}} retirados de la pool {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "Retirado {{tokenSymbol}} de una app desconocida",
+    "withdrawDetails": "Monto retirado",
+    "swap": "Cambio",
+    "network": "Red",
+    "fees": "Tarifas"
   },
   "multichainBeta": {
     "beta": "BETA",
