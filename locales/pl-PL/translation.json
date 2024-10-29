@@ -2284,7 +2284,27 @@
     "infiniteApprovalDescription": "Zatwierdzono nieskończoną ilość {{tokenSymbol}} do wymiany",
     "revokeApprovalDescription": "Cofnięto {{tokenSymbol}} do wymiany",
     "descriptionLabel": "Szczegóły",
-    "crossChainSwapTransactionLabel": "Wymiana między łańcuchami"
+    "crossChainSwapTransactionLabel": "Wymiana między łańcuchami",
+    "depositTitle": "Wpłacono",
+    "depositSubtitle": "do puli {{txAppName}}",
+    "depositSubtitle_noTxAppName": "do nieznanej puli",
+    "withdrawTitle": "Wycofano",
+    "withdrawSubtitle": "z puli {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "z nieznanej aplikacji"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Szczegóły",
+    "depositTitle": "Wpłacono",
+    "depositSubtitle": "Wpłacono {{tokenSymbol}} do puli {{txAppName}}",
+    "depositSubtitle_noTxAppName": "Przekazano {{tokenSymbol}} do nieznanej aplikacji",
+    "depositDetails": "Kwota wpłacona",
+    "withdrawTitle": "Wycofano",
+    "withdrawSubtitle": "Wycofano {{tokenSymbol}} z puli {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Wypłacona kwota",
+    "swap": "Swap",
+    "network": "Network",
+    "fees": "Fees"
   },
   "multichainBeta": {
     "beta": "BETA",
