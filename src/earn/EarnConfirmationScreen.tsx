@@ -156,7 +156,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
               rewardAmount={withdrawAmountInDepositToken}
             />
           )}
-          {(mode !== 'PartialWithdraw' || pool.dataProps.withdrawalIncludesClaim) &&
+          {(mode !== 'withdraw' || pool.dataProps.withdrawalIncludesClaim) &&
             rewardsTokens.map((token, index) => (
               <CollectItem
                 title={t('earnFlow.collect.reward')}
