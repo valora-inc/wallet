@@ -84,7 +84,7 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
     ? styles.amountSubtitle
     : [
         styles.amountTitle,
-        transaction.type !== TokenTransactionTypeV2.Deposit && { color: Colors.primary },
+        transaction.type === TokenTransactionTypeV2.Withdraw && { color: Colors.primary },
       ]
 
   return (

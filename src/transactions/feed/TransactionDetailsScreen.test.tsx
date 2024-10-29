@@ -561,18 +561,6 @@ describe('TransactionDetailsScreen', () => {
   describe('Deposit and Withdraw', () => {
     beforeEach(() => {
       jest.clearAllMocks()
-      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
-        switch (configName) {
-          case StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG:
-            return {
-              providerName: 'Aave',
-              providerLogoUrl: 'logoUrl',
-              providerTermsAndConditionsUrl: 'termsUrl',
-            }
-          default:
-            return defaultValues
-        }
-      })
     })
 
     function depositTransaction({
