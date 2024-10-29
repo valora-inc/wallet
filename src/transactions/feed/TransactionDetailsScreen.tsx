@@ -9,6 +9,7 @@ import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipien
 import { useSelector } from 'src/redux/hooks'
 import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionDetails from 'src/transactions/feed/TransactionDetails'
+import { ClaimRewardContent } from 'src/transactions/feed/detailContent/ClaimRewardContent'
 import {
   EarnClaimContent,
   EarnDepositContent,
@@ -64,6 +65,8 @@ function useHeaderTitle(transaction: TokenTransaction) {
       return t('swapScreen.title')
     case TokenTransactionTypeV2.Approval:
       return t('transactionFeed.approvalTransactionTitle')
+    case TokenTransactionTypeV2.ClaimReward:
+      return t('transactionFeed.claimRewardTitle')
     case TokenTransactionTypeV2.EarnWithdraw:
       return t('earnFlow.transactionFeed.earnWithdrawTitle')
     case TokenTransactionTypeV2.EarnClaimReward:
@@ -114,6 +117,9 @@ function TransactionDetailsScreen({ route }: Props) {
     case TokenTransactionTypeV2.Deposit:
     case TokenTransactionTypeV2.Withdraw:
       content = <DepositOrWithdrawContent transaction={transaction} />
+      break
+    case TokenTransactionTypeV2.ClaimReward:
+      content = <ClaimRewardContent transaction={transaction} />
       break
     case TokenTransactionTypeV2.EarnClaimReward:
       content = <EarnClaimContent transaction={transaction} />
