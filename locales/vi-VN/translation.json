@@ -2278,7 +2278,27 @@
     "infiniteApprovalDescription": "Đã phê duyệt {{tokenSymbol}} không giới hạn cho giao dịch",
     "revokeApprovalDescription": "Đã thu hồi {{tokenSymbol}} để giao dịch",
     "descriptionLabel": "Chi tiết",
-    "crossChainSwapTransactionLabel": "Chuỗi chéo"
+    "crossChainSwapTransactionLabel": "Chuỗi chéo",
+    "depositTitle": "Đã nạp",
+    "depositSubtitle": "vào Quỹ {{txAppName}}",
+    "depositSubtitle_noTxAppName": "to unknown pool",
+    "withdrawTitle": "Rút",
+    "withdrawSubtitle": "từ Quỹ {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "from unknown app"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Chi tiết",
+    "depositTitle": "Đã nạp",
+    "depositSubtitle": "Đã nạp {{tokenSymbol}} vào Quỹ {{txAppName}}",
+    "depositSubtitle_noTxAppName": "Deposited {{tokenSymbol}} to unknown app",
+    "depositDetails": "Số tiền đã nạp",
+    "withdrawTitle": "Rút",
+    "withdrawSubtitle": "Rút {{tokenSymbol}} từ Quỹ {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Số tiền đã rút",
+    "swap": "Trao đổi",
+    "network": "Mạng lưới",
+    "fees": "Phí"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2550,12 +2570,12 @@
     },
     "enterAmount": {
       "title": "Bạn muốn nạp bao nhiêu tiền?",
-      "titleWithdraw": "How much would you like to withdraw?",
+      "titleWithdraw": "Bạn muốn rút bao nhiêu tiền?",
       "deposit": "Nạp tiền",
       "fees": "Phí",
       "available": "Khả dụng",
       "swap": "Trao đổi",
-      "claimingReward": "Claiming Reward",
+      "claimingReward": "Nhận tiền thưởng",
       "earnUpToLabel": "Bạn có thể kiếm được đến:",
       "rateLabel": "Tỷ giá (ước tính)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / năm",
@@ -2575,7 +2595,7 @@
         "estNetworkFee": "Phí mạng ước tính",
         "maxNetworkFee": "Phí mạng tối đa",
         "networkFeeDescription": "Phí mạng là khoản phí bắt buộc giúp mạng có thể xử lý giao dịch nạp tiền.",
-        "networkFeeDescriptionWithdrawal": "The network fee is required by the network to process the withdrawal transaction.",
+        "networkFeeDescriptionWithdrawal": "Phí mạng là khoản phí bắt buộc giúp mạng có thể xử lý giao dịch rút tiền.",
         "networkSwapFeeDescription": "Phí mạng là khoản phí bắt buộc giúp mạng có thể xử lý giao dịch nạp tiền. Chúng tôi sẽ thu phí {{appName}} là {{appFeePercentage}}% khi bạn sử dụng sản phẩm của chúng tôi.",
         "appSwapFee": "Phí {{appName}}"
       },
@@ -2587,8 +2607,8 @@
         "swapDescription": "Để nạp được tiền vào bể thì token của bạn cần được đổi sang token bể."
       },
       "withdrawingAndClaimingCard": {
-        "title": "Withdrawing and Claiming",
-        "description": "{{providerName}} requires you to claim all available rewards anytime you withdraw."
+        "title": "Rút tiền và nhận tiền",
+        "description": "{{providerName}} yêu cầu bạn nhận tất cả các khoản tiền thưởng có sẵn mà bạn đã rút."
       }
     },
     "activePools": {
@@ -2699,11 +2719,11 @@
       "chainName": "Chuỗi: <0>{{networkName}}</0>",
       "protocolName": "Giao thức: <0>{{providerName}}</0>",
       "yieldRate": "Mức sinh lợi",
-      "dailyYieldRate": "Daily Rate",
+      "dailyYieldRate": "Mức sinh lợi hằng ngày",
       "ratePercent": "{{rate}}%",
       "rewards": "Tiền thưởng",
       "noRewards": "Không có tiền thưởng",
-      "safetyScore": "Safety Score",
+      "safetyScore": "Điểm an toàn",
       "tvl": "TVL",
       "ageOfPool": "Thời gian hoạt động của bể",
       "learnMoreOnProvider": "Xem bể trên {{providerName}}",
@@ -2711,19 +2731,19 @@
       "depositAndEarnings": "Nạp tiền & Thu nhập",
       "withdraw": "Rút tiền",
       "withdrawBottomSheet": {
-        "title": "Select withdraw type",
-        "withdrawAndClaim": "Withdraw and Claim",
-        "withdrawDescription": "Withdraw a specific amount of any tokens you have deposited in the pool",
-        "withdrawAndClaimRewardsDescription": "Withdraw a specific amount of any tokens you have deposited in the pool and claim your rewards automatically",
-        "withdrawAndClaimEarningsDescription": "Withdraw a specific amount of any tokens you have deposited in the pool and claim your earnings automatically",
+        "title": "Chọn phương thức rút tiền",
+        "withdrawAndClaim": "Rút tiền và nhận tiền",
+        "withdrawDescription": "Rút một số lượng cụ thể bất kỳ token nào mà bạn đã nạp vào bể",
+        "withdrawAndClaimRewardsDescription": "Rút một số lượng cụ thể bất kỳ token nào mà bạn đã nạp vào bể và tự động nhận tiền thưởng của bạn",
+        "withdrawAndClaimEarningsDescription": "Rút một số lượng cụ thể bất kỳ token nào mà bạn đã nạp vào bể và tự động nhận thu nhập của bạn",
         "claimRewards": "Xác nhận tiền thưởng",
-        "claimRewardsDescription": "Claim your rewards. Partial amounts of the reward cannot be claimed",
-        "claimEarnings": "Claim Earnings",
-        "claimEarningsDescription": "Claim the earnings on your deposit. Partial amounts cannot be claimed",
-        "exit": "Exit",
-        "exitDescription": "Exiting will withdraw everything you have in the pool",
-        "exitWithRewardsDescription": "Exiting will withdraw everything you have in the pool, including rewards",
-        "exitWithEarningsDescription": "Exiting will withdraw everything you have in the pool, including earnings"
+        "claimRewardsDescription": "Nhận tiền thưởng của bạn. Không nhận được một phần tiền thưởng",
+        "claimEarnings": "Nhận thu nhập",
+        "claimEarningsDescription": "Nhận thu nhập từ khoản tiền nạp của bạn. Không nhận được một phần thu nhập",
+        "exit": "Thoát",
+        "exitDescription": "Thao tác thoát sẽ rút toàn bộ tài sản mà bạn có trong bể",
+        "exitWithRewardsDescription": "Thao tác thoát sẽ rút toàn bộ tài sản mà bạn có trong bể, bao gồm tiền thưởng",
+        "exitWithEarningsDescription": "Thao tác thoát sẽ rút toàn bộ tài sản mà bạn có trong bể, bao gồm thu nhập"
       },
       "totalDepositAndEarnings": "Tổng tiền nạp và thu nhập",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
@@ -2738,15 +2758,15 @@
         "ageDescription": "Các bể thanh khoản cũ hơn có thể cho thấy một thành tích hoạt động ổn định và lịch sử xây dựng niềm tin trong cộng đồng. Vì lý do này, một số người có thể coi những bể này an toàn hơn.\n\nKhông có cách nào toàn vẹn trong việc xác định rủi ro; vì vậy, hãy sử dụng thông tin này vào nghiên cứu tổng thể của bạn để đưa ra quyết định tốt nhất cho bản thân.",
         "yieldRateTitle": "Mức sinh lợi",
         "yieldRateDescription": "Trong khi hầu hết các bể cung cấp thu nhập dưới dạng token của bể thanh khoản, một số bể lại cung cấp (các) token khác dưới dạng tiền thưởng hoặc ưu đãi bổ sung.\n\nVì {{appName}} tổng hợp các bể từ nhiều giao thức, chúng tôi đã kết hợp tất cả các tỷ lệ thu nhập và tiền thưởng thành một mức sinh lợi chung duy nhất để dễ dàng đánh giá tiềm năng thu nhập của bạn. Con số này chỉ là ước tính vì giá trị thu nhập và tiền thưởng thay đổi liên tục.\n\nĐể tìm hiểu thêm các phân tích chi tiết về thu nhập, bạn có thể truy cập <0>{{providerName}}</0>.",
-        "dailyYieldRateTitle": "Daily Rate",
-        "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
-        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}",
-        "safetyScoreTitle": "Safety Score",
-        "safetyScoreDescription": "The Safety Score breaks down the safety of the underlying vault asset into several key factors. It aims to draw your attention to the risks to consider before investing, and to inform you about technical details that you may not be able to evaluate for yourself.\nThough the full position is always more complicated, the Safety Score is provided to simplify the key risk and safety considerations and kick-start your own due diligence. Our team carefully considers each factor before a vault is deployed, and keeps a watchful eye on each asset, chain and protocol which {{providerName}} has integrated.",
-        "safetyScoreRateLink": "View More Safety Score Details On {{providerName}}"
+        "dailyYieldRateTitle": "Mức sinh lợi hằng ngày",
+        "dailyYieldRateDescription": "Mức sinh lợi hằng ngày mà bạn thấy là dữ liệu do {{providerName}} cung cấp.",
+        "dailyYieldRateLink": "Xem thêm thông tin đầy đủ về mức sinh lợi của {{providerName}}",
+        "safetyScoreTitle": "Điểm an toàn",
+        "safetyScoreDescription": "Điểm an toàn phân tách độ an toàn của tài sản cơ sở trong kho thành một vài yếu tố chính. Điểm an toàn giúp bạn chú ý đến các rủi ro cần cân nhắc trước khi đầu tư, đồng thời thông báo các chi tiết cơ bản mà bạn có thể không tự đánh giá được.\nMặc dù lệnh giao dịch đầy đủ sẽ luôn phức tạp hơn, nhưng Điểm an toàn vẫn có thể đơn giản hóa các rủi ro và an toàn chính cần cân nhắc và khởi động quá trình tự thẩm định của bạn. Đội ngũ của chúng tôi cẩn thận xem xét từng yếu tố trước khi áp dụng một kho tiền và luôn theo dõi từng tài sản, chuỗi và giao thức mà {{providerName}} đã tích hợp.",
+        "safetyScoreRateLink": "Xem thông tin đầy đủ về điểm an toàn của {{providerName}}"
       },
-      "viewMoreDetails": "View More Details",
-      "viewLessDetails": "View Less Details"
+      "viewMoreDetails": "Xem thêm thông tin",
+      "viewLessDetails": "Ẩn bớt thông tin"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Bạn cần {{tokenSymbol}} trên {{tokenNetwork}} để nạp",

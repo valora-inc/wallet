@@ -2278,7 +2278,27 @@
     "infiniteApprovalDescription": "อนุมัติ {{tokenSymbol}} ไม่จำกัดสำหรับการเทรด",
     "revokeApprovalDescription": "ยกเลิก {{tokenSymbol}} สำหรับการเทรด",
     "descriptionLabel": "รายละเอียด",
-    "crossChainSwapTransactionLabel": "Cross-chain"
+    "crossChainSwapTransactionLabel": "Cross-chain",
+    "depositTitle": "ฝากแล้ว",
+    "depositSubtitle": "ไปยังพูล {{txAppName}}",
+    "depositSubtitle_noTxAppName": "to unknown pool",
+    "withdrawTitle": "ถอนแล้ว",
+    "withdrawSubtitle": "จากพูล {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "from unknown app"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "รายละเอียด",
+    "depositTitle": "ฝากแล้ว",
+    "depositSubtitle": "ฝาก {{tokenSymbol}} ไปยังพูล {{txAppName}} แล้ว",
+    "depositSubtitle_noTxAppName": "Deposited {{tokenSymbol}} to unknown app",
+    "depositDetails": "จำนวนเงินที่ฝาก",
+    "withdrawTitle": "ถอนแล้ว",
+    "withdrawSubtitle": "ถอน {{tokenSymbol}} จากพูล {{txAppName}} แล้ว",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "จำนวนเงินที่ถอนแล้ว",
+    "swap": "สว็อป",
+    "network": "เครือข่าย",
+    "fees": "ค่าธรรมเนียม"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2550,12 +2570,12 @@
     },
     "enterAmount": {
       "title": "คุณต้องการฝากจำนวนเท่าไร",
-      "titleWithdraw": "How much would you like to withdraw?",
+      "titleWithdraw": "คุณต้องการถอนจำนวนเท่าไร",
       "deposit": "ฝากเงิน",
       "fees": "ค่าธรรมเนียม",
       "available": "ใช้ได้",
       "swap": "สว็อป",
-      "claimingReward": "Claiming Reward",
+      "claimingReward": "ขอรับรางวัล",
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
       "rateLabel": "อัตรา (โดยประมาณ)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / ปี",
@@ -2575,7 +2595,7 @@
         "estNetworkFee": "ค่าธรรมเนียมเครือข่ายโดยประมาณ",
         "maxNetworkFee": "ค่าธรรมเนียมเครือข่ายสูงสุด",
         "networkFeeDescription": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน",
-        "networkFeeDescriptionWithdrawal": "The network fee is required by the network to process the withdrawal transaction.",
+        "networkFeeDescriptionWithdrawal": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการถอนเงิน",
         "networkSwapFeeDescription": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน โดยเรียกเก็บค่าธรรมเนียม {{appName}} จำนวน {{appFeePercentage}}% สำหรับการที่คุณใช้ผลิตภัณฑ์ของเรา",
         "appSwapFee": "ค่าธรรมเนียม {{appName}}"
       },
@@ -2587,8 +2607,8 @@
         "swapDescription": "โทเค็นของคุณจะถูกสว็อปไปยังโทเค็นพูลเพื่อฝากเงินเข้าพูล"
       },
       "withdrawingAndClaimingCard": {
-        "title": "Withdrawing and Claiming",
-        "description": "{{providerName}} requires you to claim all available rewards anytime you withdraw."
+        "title": "การถอนเงินและการขอรับรางวัล",
+        "description": "{{providerName}} กำหนดให้คุณต้องขอรับรางวัลทั้งหมดที่สามารถใช้ได้ในทุกครั้งที่คุณถอนเงิน"
       }
     },
     "activePools": {
@@ -2699,11 +2719,11 @@
       "chainName": "เชน: <0>{{networkName}}</0>",
       "protocolName": "โปรโตคอล: <0>{{providerName}}</0>",
       "yieldRate": "อัตราผลตอบแทน",
-      "dailyYieldRate": "Daily Rate",
+      "dailyYieldRate": "อัตรารายวัน",
       "ratePercent": "{{rate}}%",
       "rewards": "ผลตอบแทน",
       "noRewards": "ไม่มีรางวัล",
-      "safetyScore": "Safety Score",
+      "safetyScore": "คะแนนความปลอดภัย",
       "tvl": "TVL",
       "ageOfPool": "อายุของพูล",
       "learnMoreOnProvider": "ดูพูลบน {{providerName}}",
@@ -2711,19 +2731,19 @@
       "depositAndEarnings": "ฝากเงินและสร้างรายได้",
       "withdraw": "ถอน",
       "withdrawBottomSheet": {
-        "title": "Select withdraw type",
-        "withdrawAndClaim": "Withdraw and Claim",
-        "withdrawDescription": "Withdraw a specific amount of any tokens you have deposited in the pool",
-        "withdrawAndClaimRewardsDescription": "Withdraw a specific amount of any tokens you have deposited in the pool and claim your rewards automatically",
-        "withdrawAndClaimEarningsDescription": "Withdraw a specific amount of any tokens you have deposited in the pool and claim your earnings automatically",
+        "title": "เลือกประเภทการถอนเงิน",
+        "withdrawAndClaim": "ถอนเงินและขอรับรางวัล",
+        "withdrawDescription": "ถอนเงินจากจำนวนโทเค็นที่คุณฝากเข้าพูลไว้",
+        "withdrawAndClaimRewardsDescription": "ถอนเงินจากจำนวนโทเค็นที่คุณฝากเข้าพูลไว้และขอรับรางวัลอัตโนมัติ",
+        "withdrawAndClaimEarningsDescription": "ถอนเงินจากจำนวนโทเค็นที่คุณฝากเข้าพูลไว้และขอรับรายได้อัตโนมัติ",
         "claimRewards": "ขอรับรางวัล",
-        "claimRewardsDescription": "Claim your rewards. Partial amounts of the reward cannot be claimed",
-        "claimEarnings": "Claim Earnings",
-        "claimEarningsDescription": "Claim the earnings on your deposit. Partial amounts cannot be claimed",
-        "exit": "Exit",
-        "exitDescription": "Exiting will withdraw everything you have in the pool",
-        "exitWithRewardsDescription": "Exiting will withdraw everything you have in the pool, including rewards",
-        "exitWithEarningsDescription": "Exiting will withdraw everything you have in the pool, including earnings"
+        "claimRewardsDescription": "ขอรับรางวัล ไม่สามารถขอรับรางวัลเพียงบางส่วนได้",
+        "claimEarnings": "ขอรับรายได้",
+        "claimEarningsDescription": "ขอรับรายได้จากการฝากเงินของคุณ ไม่สามารถขอรับในจำนวนเพียงบางส่วนได้",
+        "exit": "ออก",
+        "exitDescription": "เมื่อออก ระบบจะถอนทุกอย่างที่คุณมีในพูล",
+        "exitWithRewardsDescription": "เมื่อออก ระบบจะถอนทุกอย่างที่คุณมีในพูล ซึ่งรวมถึงรางวัลด้วย",
+        "exitWithEarningsDescription": "เมื่อออก ระบบจะถอนทุกอย่างที่คุณมีในพูล ซึ่งรวมถึงรายได้ด้วย"
       },
       "totalDepositAndEarnings": "เงินฝากและรายได้รวม",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
@@ -2738,15 +2758,15 @@
         "ageDescription": "Liquidity Pool ที่มีอายุมากกว่าสามารถบ่งชี้ถึงประวัติที่มั่นคงและประวัติการสร้างความไว้วางใจในชุมชน ด้วยเหตุนี้ บางคนจึงอาจถือว่าพูลเหล่านี้มีความปลอดภัยกว่า\n\nไม่มีวิธีใดที่สามารถพิจารณาความเสี่ยงได้อย่างสมบูรณ์แบบ จึงควรใช้ข้อมูลนี้เป็นส่วนหนึ่งของการค้นคว้าโดยรวมเพื่อตัดสินใจเลือกสิ่งที่ดีที่สุดสำหรับคุณ",
         "yieldRateTitle": "อัตราผลตอบแทน",
         "yieldRateDescription": "แม้ว่าพูลส่วนใหญ่จะเสนอรายได้ในรูปแบบของโทเค็น Liquidity Pool (พูลสภาพคล่อง) แต่บางพูลก็เสนอโทเค็นเพิ่มเติมเป็นรางวัลหรือสิ่งจูงใจพิเศษ \n\nเนื่องจาก {{appName}} รวมพูลต่างๆ จากหลายโปรโตคอล เราจึงรวมอัตรารายได้และรางวัลทั้งหมดไว้ในอัตราผลตอบแทนโดยรวมเพียงอัตราเดียว เพื่อช่วยให้คุณประเมินศักยภาพในการสร้างรายได้ได้ง่ายๆ ตัวเลขนี้เป็นตัวเลขประมาณการเนื่องจากรายได้และมูลค่ารางวัลมีความผันผวนอย่างต่อเนื่อง\n\nโปรดดูข้อมูลเพิ่มเติมเกี่ยวกับรายละเอียดรายได้ที่ <0>{{providerName}}</0>",
-        "dailyYieldRateTitle": "Daily Rate",
-        "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
-        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}",
-        "safetyScoreTitle": "Safety Score",
-        "safetyScoreDescription": "The Safety Score breaks down the safety of the underlying vault asset into several key factors. It aims to draw your attention to the risks to consider before investing, and to inform you about technical details that you may not be able to evaluate for yourself.\nThough the full position is always more complicated, the Safety Score is provided to simplify the key risk and safety considerations and kick-start your own due diligence. Our team carefully considers each factor before a vault is deployed, and keeps a watchful eye on each asset, chain and protocol which {{providerName}} has integrated.",
-        "safetyScoreRateLink": "View More Safety Score Details On {{providerName}}"
+        "dailyYieldRateTitle": "อัตรารายวัน",
+        "dailyYieldRateDescription": "อัตรารายวันที่ปรากฏแสดงถึงอัตรารายวันที่ {{providerName}} กำหนด",
+        "dailyYieldRateLink": "ดูรายละเอียดอัตรารายวันเพิ่มเติมได้ที่ {{providerName}}",
+        "safetyScoreTitle": "คะแนนความปลอดภัย",
+        "safetyScoreDescription": "คะแนนความปลอดภัยแบ่งความปลอดภัยของสินทรัพย์ในตู้นิรภัยอ้างอิงออกเป็นปัจจัยหลักหลายประการ คะแนนความปลอดภัยนี้เองที่ช่วยให้คุณหันมาสนใจกับความเสี่ยงในการพิจารณาก่อนการลงทุน และช่วยให้คุณทราบเกี่ยวกับรายละเอียดทางเทคนิคที่คุณอาจไม่สามารถประเมินได้ด้วยตัวคุณเอง\nแม้ว่าสถานะเต็มรูปแบบนั้นอาจจะมีความซับซ้อนกว่า แต่คะแนนความปลอดภัยนี้ช่วยลดความซับซ้อนของความเสี่ยงหลักและข้อควรพิจารณาด้านความปลอดภัย และเริ่มต้นการดำเนินการตามความสมควรของคุณเอง ทีมงานของเราพิจารณาปัจจัยแต่ละตัวอย่างละเอียดก่อนจะนำตู้นิรภัยมาใช้ อีกทั้งคอยสอดส่องดูแลสินทรัพย์ เชน และโปรโตคอลแต่ละรายการที่ {{providerName}} รวบรวมไว้อย่างเข้มงวด",
+        "safetyScoreRateLink": "ดูรายละเอียดคะแนนความปลอดภัยเพิ่มเติมได้ที่ {{providerName}}"
       },
-      "viewMoreDetails": "View More Details",
-      "viewLessDetails": "View Less Details"
+      "viewMoreDetails": "ดูรายละเอียดเพิ่มเติม",
+      "viewLessDetails": "ดูรายละเอียดน้อยลง"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "คุณจำเป็นต้องมี {{tokenSymbol}} บน {{tokenNetwork}} จึงจะฝากเงินได้",

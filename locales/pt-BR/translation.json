@@ -2280,7 +2280,27 @@
     "infiniteApprovalDescription": "{{tokenSymbol}} infinito aprovado para negociação",
     "revokeApprovalDescription": "{{tokenSymbol}} revogado para negociação",
     "descriptionLabel": "Detalhes",
-    "crossChainSwapTransactionLabel": "Cadeia cruzada"
+    "crossChainSwapTransactionLabel": "Cadeia cruzada",
+    "depositTitle": "Depositado",
+    "depositSubtitle": "para o pool da {{txAppName}}",
+    "depositSubtitle_noTxAppName": "para uma piscina desconhecida",
+    "withdrawTitle": "Sacado",
+    "withdrawSubtitle": "do pool da {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "de um aplicativo desconhecido"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Detalhes",
+    "depositTitle": "Depositado",
+    "depositSubtitle": "{{tokenSymbol}} depositado para o pool da {{txAppName}}",
+    "depositSubtitle_noTxAppName": "Depositou {{tokenSymbol}} em um aplicativo desconhecido",
+    "depositDetails": "Quantia depositada",
+    "withdrawTitle": "Sacado",
+    "withdrawSubtitle": "{{tokenSymbol}} sacado do pool da {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Quantia retirada",
+    "swap": "Trocar",
+    "network": "Rede",
+    "fees": "Taxas"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2557,7 +2577,7 @@
       "fees": "Taxas",
       "available": "Disponível",
       "swap": "Trocar",
-      "claimingReward": "Reivindicação de prêmio",
+      "claimingReward": "Resgatar recompensas",
       "earnUpToLabel": "Você pode ganhar até:",
       "rateLabel": "Taxa (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/ano",
@@ -2589,8 +2609,8 @@
         "swapDescription": "Para depositar fundos no pool, seu token está sendo trocado por um token do pool."
       },
       "withdrawingAndClaimingCard": {
-        "title": "Retirada e reivindicação",
-        "description": "{{providerName}} exige que você reivindique todas as recompensas disponíveis sempre que fizer um saque."
+        "title": "Saque e resgate",
+        "description": "{{providerName}} exige que você resgate todas as recompensas disponíveis sempre que fizer um saque."
       }
     },
     "activePools": {
@@ -2713,19 +2733,19 @@
       "depositAndEarnings": "Depósitos e ganhos",
       "withdraw": "Sacar",
       "withdrawBottomSheet": {
-        "title": "Selecione o tipo de retirada",
-        "withdrawAndClaim": "Retirada e reivindicação",
-        "withdrawDescription": "Retirar um valor específico de quaisquer tokens que você tenha depositado no pool",
-        "withdrawAndClaimRewardsDescription": "Retire um valor específico de quaisquer tokens que você tenha depositado no pool e receba suas recompensas automaticamente",
-        "withdrawAndClaimEarningsDescription": "Retire um valor específico de quaisquer tokens que você tenha depositado no pool e reivindique seus ganhos automaticamente",
+        "title": "Selecione o tipo de saque",
+        "withdrawAndClaim": "Saque e resgate",
+        "withdrawDescription": "Saque um valor específico de qualquer token que você tenha depositado no pool",
+        "withdrawAndClaimRewardsDescription": "Saque um valor específico de qualquer token que você tenha depositado no pool e resgate suas recompensas automaticamente",
+        "withdrawAndClaimEarningsDescription": "Saque um valor específico de qualquer token que você tenha depositado no pool e resgate seus ganhos automaticamente",
         "claimRewards": "Resgatar recompensas",
-        "claimRewardsDescription": "Solicite suas recompensas. Você não pode reivindicar valores parciais do prêmio",
-        "claimEarnings": "Ganhos de reclamações",
-        "claimEarningsDescription": "Solicite os ganhos de seu depósito. Não é possível reivindicar valores parciais",
+        "claimRewardsDescription": "Resgate suas recompensas. Você não pode resgatar valores parciais das recompensas",
+        "claimEarnings": "Resgatar ganhos",
+        "claimEarningsDescription": "Resgate os ganhos no seu depósito. Valores parciais não podem ser resgatados",
         "exit": "Sair",
-        "exitDescription": "A saída retirará tudo o que você tem na piscina",
-        "exitWithRewardsDescription": "A saída retirará tudo o que você tem na piscina, inclusive as recompensas",
-        "exitWithEarningsDescription": "A saída retirará tudo o que você tem no pool, inclusive os ganhos"
+        "exitDescription": "Sair irá sacar tudo que você tem no pool",
+        "exitWithRewardsDescription": "Sair irá sacar tudo que você tem no pool, incluindo recompensas",
+        "exitWithEarningsDescription": "Sair irá sacar tudo que você tem no pool, inclusive ganhos"
       },
       "totalDepositAndEarnings": "Total de depósitos e ganhos",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
@@ -2741,10 +2761,10 @@
         "yieldRateTitle": "Taxa de rendimento",
         "yieldRateDescription": "Embora a maioria dos pools ofereça ganhos na forma de um token de pool de liquidez, alguns oferecem tokens adicionais como recompensa ou incentivo adicional.\n\nComo a {{appName}} agrega pools em vários protocolos, combinamos todas as taxas de ganhos e recompensas em uma única taxa de rendimento geral para ajudar você a avaliar facilmente seu potencial de ganhos. Esse número é uma estimativa, pois os valores de ganhos e recompensas flutuam constantemente.\n\nPara obter mais informações sobre a detalhamento dos ganhos, acesse <0>{{providerName}}</0>.",
         "dailyYieldRateTitle": "Taxa diária",
-        "dailyYieldRateDescription": "A tarifa diária exibida reflete a tarifa diária fornecida pelo site {{providerName}}.",
-        "dailyYieldRateLink": "Veja mais detalhes sobre a tarifa diária em {{providerName}}",
+        "dailyYieldRateDescription": "A taxa diária exibida é a taxa diária fornecida por {{providerName}}.",
+        "dailyYieldRateLink": "Veja mais detalhes sobre a taxa diária em {{providerName}}",
         "safetyScoreTitle": "Pontuação de segurança",
-        "safetyScoreDescription": "A pontuação de segurança divide a segurança do ativo subjacente do cofre em vários fatores-chave. O objetivo é chamar sua atenção para os riscos a serem considerados antes de investir e informá-lo sobre detalhes técnicos que você talvez não consiga avaliar por si mesmo.\nEmbora a posição completa seja sempre mais complicada, a pontuação de segurança é fornecida para simplificar as principais considerações de risco e segurança e dar início à sua própria diligência prévia. Nossa equipe considera cuidadosamente cada fator antes da implantação de um cofre e mantém um olhar atento sobre cada ativo, cadeia e protocolo que o {{providerName}} integrou.",
+        "safetyScoreDescription": "A Pontuação de segurança detalha a segurança do ativo base do cofre em vários fatores-chave. Ele tem como objetivo chamar sua atenção para os riscos a serem considerados antes de investir e fornecer informações sobre detalhes técnicos que você talvez não consiga avaliar por conta própria.\nEmbora a posição completa seja sempre mais complexa, a Pontuação de segurança é disponibilizada para simplificar as principais considerações de risco e segurança e estimular sua própria análise criteriosa. Nossa equipe avalia cuidadosamente cada fator antes que um cofre seja implementado e mantém uma vigilância atenta sobre cada ativo, rede e protocolo que {{providerName}} integrou.",
         "safetyScoreRateLink": "Veja mais detalhes sobre a pontuação de segurança em {{providerName}}"
       },
       "viewMoreDetails": "Ver mais detalhes",
