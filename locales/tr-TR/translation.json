@@ -2296,7 +2296,7 @@
     "depositDetails": "Yatırılan Toplam",
     "withdrawTitle": "Çekilen",
     "withdrawSubtitle": "{{txAppName}} Havuzundan {{tokenSymbol}} Çekildi",
-    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawSubtitle_noTxAppName": "Bilinmeyen uygulamadan {{tokenSymbol}} çekildi",
     "withdrawDetails": "Çekilen Tutar",
     "swap": "Swap",
     "network": "Ağ",
