@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Svg, { Circle } from 'react-native-svg'
-import Colors from 'src/styles/colors'
 import User from 'src/icons/User'
+import Colors from 'src/styles/colors'
 
 interface Props {
   foregroundColor: Colors
@@ -10,7 +10,7 @@ interface Props {
 
 export default function DefaultAvatar({
   foregroundColor = Colors.white,
-  backgroundColor = Colors.primary,
+  backgroundColor = Colors.accent,
 }: Props) {
   return (
     <Svg width="40" height="40" viewBox="0 0 40 40" fill="none">

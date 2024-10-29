@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   help: {
-    color: colors.primary,
+    color: colors.accent,
     ...typeScale.labelSemiBoldMedium,
   },
 })

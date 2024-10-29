@@ -42,7 +42,7 @@ function PercentageIndicator({
   let color: Colors
 
   if (comparison > 0) {
-    color = Colors.primary
+    color = Colors.accent
     indicator = <UpIcon color={color} testID={`${testID}:UpIndicator`} />
   } else if (comparison < 0) {
     color = Colors.error

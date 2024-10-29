@@ -5,7 +5,7 @@ import Colors from 'src/styles/colors'
 const Wallet = () => (
   <Svg width={40} height={40} fill="none">
     <Path
-      fill={Colors.primaryDisabled}
+      fill={Colors.accentDisabled}
       fillRule="evenodd"
       d="M2.438 21.197c.941-3.634 7.045-4.151 11.427-5.68 3.816-1.332 7.451-3.395 11.691-2.387 4.699 1.117 8.11 4.187 10.202 7.591 2.477 4.032 4.614 8.63 2.018 12.293-2.794 3.944-8.794 6.328-14.94 5.948-5.58-.346-9.248-4.366-13.054-7.68-3.524-3.07-8.317-6.326-7.344-10.085Z"
       clipRule="evenodd"

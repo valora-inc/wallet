@@ -17,7 +17,7 @@ const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView)
 const STATUS_COLORS = {
   idle: colors.gray2,
   loading: colors.gray2,
-  success: colors.primary,
+  success: colors.accent,
   error: colors.errorDark,
 }
 

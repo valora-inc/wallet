@@ -8,7 +8,7 @@ interface Props {
   height?: number
 }
 
-const Lock = ({ color = colors.primary, width = 20, height = 20 }: Props) => (
+const Lock = ({ color = colors.accent, width = 20, height = 20 }: Props) => (
   <Svg width={width} height={height} fill="none" viewBox="0 0 20 20">
     <Path
       fill={color}

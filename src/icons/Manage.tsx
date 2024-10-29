@@ -8,7 +8,7 @@ interface Props {
   size?: number
 }
 
-function Manage({ color = colors.primary, testID = 'Manage', size = 20 }: Props) {
+function Manage({ color = colors.accent, testID = 'Manage', size = 20 }: Props) {
   return (
     <Svg width={size} height={size} viewBox="0 0 20 20" fill="none" testID={testID}>
       <Path

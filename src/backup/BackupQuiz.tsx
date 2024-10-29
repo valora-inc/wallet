@@ -7,9 +7,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { setBackupCompleted } from 'src/account/actions'
 import { showError } from 'src/alert/actions'
+import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
 import { BackQuizProgress } from 'src/analytics/types'
-import AppAnalytics from 'src/analytics/AppAnalytics'
 import CancelConfirm from 'src/backup/CancelConfirm'
 import { QuizzBottom } from 'src/backup/QuizzBottom'
 import { getStoredMnemonic, onGetMnemonicFail } from 'src/backup/utils'
@@ -321,7 +321,7 @@ function DeleteWord({
   }
   return (
     <Touchable borderless={true} onPress={onPressBackspace} style={styles.backWord}>
-      <Backspace color={colors.primary} />
+      <Backspace color={colors.accent} />
     </Touchable>
   )
 }
@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
   mnemonicWordButtonOutterRim: {
     borderRadius: 100,
     borderWidth: 1.5,
-    borderColor: colors.primary,
+    borderColor: colors.accent,
     overflow: 'hidden',
     marginVertical: 4,
     marginHorizontal: 4,
@@ -411,7 +411,7 @@ const styles = StyleSheet.create({
   },
   mnemonicWordButonText: {
     textAlign: 'center',
-    color: colors.primary,
+    color: colors.accent,
   },
   backWord: {
     paddingRight: 24,

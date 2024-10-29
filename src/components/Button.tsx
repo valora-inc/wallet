@@ -2,7 +2,7 @@ import { debounce } from 'lodash'
 import React, { ReactNode, useCallback } from 'react'
 import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Touchable from 'src/components/Touchable'
-import colors, { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 
@@ -160,20 +160,20 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
   let borderColor
   switch (type) {
     case BtnTypes.PRIMARY:
-      textColor = colors.white
-      backgroundColor = colors.black
+      textColor = Colors.white
+      backgroundColor = Colors.primary
       opacity = disabled ? 0.25 : 1.0
       break
     case BtnTypes.SECONDARY:
-      textColor = colors.black
-      backgroundColor = colors.gray1
-      borderColor = colors.gray2
+      textColor = Colors.black
+      backgroundColor = Colors.gray1
+      borderColor = Colors.gray2
       opacity = disabled ? 0.5 : 1.0
       break
     case BtnTypes.TERTIARY:
-      textColor = colors.black
-      backgroundColor = colors.white
-      borderColor = colors.gray2
+      textColor = Colors.black
+      backgroundColor = Colors.white
+      borderColor = Colors.gray2
       opacity = disabled ? 0.5 : 1.0
       break
   }

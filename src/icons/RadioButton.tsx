@@ -13,7 +13,7 @@ export default class RadioButton extends React.PureComponent<Props> {
   static defaultProps = {
     width: 20,
     height: 20,
-    color: colors.primary,
+    color: colors.accent,
     selected: true,
     disabled: false,
   }

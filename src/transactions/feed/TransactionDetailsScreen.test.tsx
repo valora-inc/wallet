@@ -112,7 +112,7 @@ describe('TransactionDetailsScreen', () => {
     fees = [],
     status = TransactionStatus.Complete,
   }: {
-    type: TokenTransactionTypeV2
+    type: TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
     address?: string
     amount?: TokenAmount
     metadata?: TokenTransferMetadata
@@ -120,7 +120,6 @@ describe('TransactionDetailsScreen', () => {
     status?: TransactionStatus
   }): TokenTransfer {
     return {
-      __typename: 'TokenTransferV3',
       networkId: NetworkId['celo-alfajores'],
       type,
       transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
@@ -167,7 +166,6 @@ describe('TransactionDetailsScreen', () => {
     networkId?: NetworkId
   }): TokenExchange {
     return {
-      __typename: 'TokenExchangeV3',
       networkId,
       type: TokenTransactionTypeV2.SwapTransaction,
       transactionHash: '0xf5J440sML02q2z8q92Vyt3psStjBACc3825KmFGB2Zk1zMil6wrI306097C1Rps2',
@@ -231,7 +229,6 @@ describe('TransactionDetailsScreen', () => {
       networkId: NetworkId['celo-mainnet'],
       type: TokenTransactionTypeV2.CrossChainSwapTransaction,
       timestamp: 1722345417000,
-      __typename: 'CrossChainTokenExchange',
     }
   }
 
@@ -377,7 +374,7 @@ describe('TransactionDetailsScreen', () => {
     expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('₱0.13')
   })
 
-  it.each([TokenTransactionTypeV2.Sent, TokenTransactionTypeV2.Received])(
+  it.each([TokenTransactionTypeV2.Sent, TokenTransactionTypeV2.Received] as const)(
     'renders details action for complete %s transaction',
     (type) => {
       const { getByText } = renderScreen({
@@ -401,7 +398,7 @@ describe('TransactionDetailsScreen', () => {
     expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
   })
 
-  it.each([TokenTransactionTypeV2.Sent, TokenTransactionTypeV2.Received])(
+  it.each([TokenTransactionTypeV2.Sent, TokenTransactionTypeV2.Received] as const)(
     'renders check status action for pending %s transaction',
     (type) => {
       const { getByText } = renderScreen({
