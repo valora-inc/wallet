@@ -2300,11 +2300,11 @@
     "depositDetails": "Вложенная сумма",
     "withdrawTitle": "Выведено",
     "withdrawSubtitle": "Выведено {{tokenSymbol}} из пула {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawSubtitle_noTxAppName": "Выведи {{tokenSymbol}} из неизвестного приложения",
     "withdrawDetails": "Сумма выведено",
     "swap": "Обмен",
     "network": "Сообщество",
-    "fees": "Fees"
+    "fees": "Комиссия"
   },
   "multichainBeta": {
     "beta": "BETA",
