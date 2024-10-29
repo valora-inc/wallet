@@ -40,6 +40,7 @@ export type ConfirmedStandbyTransaction = (
   | Omit<TokenTransfer, 'status'>
   | Omit<TokenApproval, 'status'>
   | Omit<NftTransfer, 'status'>
+  | Omit<DepositOrWithdraw, 'status'>
   | Omit<EarnDeposit, 'status'>
   | Omit<EarnSwapDeposit, 'status'>
   | Omit<EarnWithdraw, 'status'>
@@ -55,6 +56,7 @@ export type StandbyTransaction =
   | PendingStandbyTransaction<TokenTransfer>
   | PendingStandbyTransaction<TokenApproval>
   | PendingStandbyTransaction<NftTransfer>
+  | PendingStandbyTransaction<DepositOrWithdraw>
   | PendingStandbyTransaction<EarnDeposit>
   | PendingStandbyTransaction<EarnSwapDeposit>
   | PendingStandbyTransaction<EarnWithdraw>
@@ -108,6 +110,7 @@ export type TokenTransaction =
   | TokenExchange
   | NftTransfer
   | TokenApproval
+  | DepositOrWithdraw
   | EarnDeposit
   | EarnSwapDeposit
   | EarnWithdraw
@@ -135,8 +138,13 @@ export enum TokenTransactionTypeV2 {
   SwapTransaction = 'SWAP_TRANSACTION',
   CrossChainSwapTransaction = 'CROSS_CHAIN_SWAP_TRANSACTION',
   Approval = 'APPROVAL',
+  Deposit = 'DEPOSIT',
+  Withdraw = 'WITHDRAW',
+  /** @deprecated Use Deposit instead */
   EarnDeposit = 'EARN_DEPOSIT',
+  /** @deprecated Use Deposit instead */
   EarnSwapDeposit = 'EARN_SWAP_DEPOSIT',
+  /** @deprecated Use Withdraw instead */
   EarnWithdraw = 'EARN_WITHDRAW',
   EarnClaimReward = 'EARN_CLAIM_REWARD',
 }
@@ -219,6 +227,25 @@ export interface TokenApproval {
   status: TransactionStatus
 }
 
+export interface DepositOrWithdraw {
+  networkId: NetworkId
+  type: TokenTransactionTypeV2.Deposit | TokenTransactionTypeV2.Withdraw
+  transactionHash: string
+  timestamp: number
+  block: string
+  fees: Fee[]
+  appName: string | undefined
+  inAmount: TokenAmount
+  outAmount: TokenAmount
+  // If the deposit/withdraw also includes a swap, it will be provided here.
+  swap?: {
+    inAmount: TokenAmount
+    outAmount: TokenAmount
+  }
+  status: TransactionStatus
+}
+
+/** @deprecated Use DepositOrWithdraw instead */
 export interface EarnDeposit {
   networkId: NetworkId
   type: TokenTransactionTypeV2.EarnDeposit
@@ -232,6 +259,7 @@ export interface EarnDeposit {
   status: TransactionStatus
 }
 
+/** @deprecated Use DepositOrWithdraw instead */
 export interface EarnSwapDeposit {
   networkId: NetworkId
   type: TokenTransactionTypeV2.EarnSwapDeposit
@@ -251,6 +279,7 @@ export interface EarnSwapDeposit {
   status: TransactionStatus
 }
 
+/** @deprecated Use DepositOrWithdraw instead */
 export interface EarnWithdraw {
   networkId: NetworkId
   type: TokenTransactionTypeV2.EarnWithdraw
@@ -264,6 +293,7 @@ export interface EarnWithdraw {
   status: TransactionStatus
 }
 
+/** @deprecated Use TokenTransfer instead */
 export interface EarnClaimReward {
   networkId: NetworkId
   amount: TokenAmount

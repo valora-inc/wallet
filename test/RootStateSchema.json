@@ -1168,6 +1168,77 @@
             ],
             "type": "object"
         },
+        "DepositOrWithdraw": {
+            "additionalProperties": false,
+            "properties": {
+                "appName": {
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "inAmount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "outAmount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "swap": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount"
+                    ],
+                    "type": "object"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "DEPOSIT",
+                        "WITHDRAW"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "appName",
+                "block",
+                "fees",
+                "inAmount",
+                "networkId",
+                "outAmount",
+                "status",
+                "timestamp",
+                "transactionHash",
+                "type"
+            ],
+            "type": "object"
+        },
         "E164NumberToAddressType": {
             "additionalProperties": {
                 "anyOf": [
@@ -2532,6 +2603,72 @@
             ],
             "type": "object"
         },
+        "PendingStandbyTransaction<DepositOrWithdraw>": {
+            "additionalProperties": false,
+            "properties": {
+                "appName": {
+                    "type": "string"
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "feeCurrencyId": {
+                    "type": "string"
+                },
+                "inAmount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "outAmount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "status": {
+                    "const": "Pending",
+                    "type": "string"
+                },
+                "swap": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount"
+                    ],
+                    "type": "object"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "DEPOSIT",
+                        "WITHDRAW"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "context",
+                "inAmount",
+                "networkId",
+                "outAmount",
+                "status",
+                "timestamp",
+                "type"
+            ],
+            "type": "object"
+        },
         "PendingStandbyTransaction<EarnClaimReward>": {
             "additionalProperties": false,
             "properties": {
@@ -3792,6 +3929,9 @@
                     "$ref": "#/definitions/PendingStandbyTransaction<PendingTokenExchange>"
                 },
                 {
+                    "$ref": "#/definitions/PendingStandbyTransaction<DepositOrWithdraw>"
+                },
+                {
                     "additionalProperties": false,
                     "properties": {
                         "block": {
@@ -4037,6 +4177,87 @@
                         "block",
                         "context",
                         "networkId",
+                        "status",
+                        "timestamp",
+                        "transactionHash",
+                        "type"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "appName": {
+                            "type": "string"
+                        },
+                        "block": {
+                            "type": "string"
+                        },
+                        "context": {
+                            "$ref": "#/definitions/TransactionContext"
+                        },
+                        "feeCurrencyId": {
+                            "type": "string"
+                        },
+                        "fees": {
+                            "items": {
+                                "$ref": "#/definitions/Fee"
+                            },
+                            "type": "array"
+                        },
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "networkId": {
+                            "$ref": "#/definitions/NetworkId"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "status": {
+                            "enum": [
+                                "Complete",
+                                "Failed"
+                            ],
+                            "type": "string"
+                        },
+                        "swap": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "inAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                },
+                                "outAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                }
+                            },
+                            "required": [
+                                "inAmount",
+                                "outAmount"
+                            ],
+                            "type": "object"
+                        },
+                        "timestamp": {
+                            "type": "number"
+                        },
+                        "transactionHash": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "enum": [
+                                "DEPOSIT",
+                                "WITHDRAW"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "block",
+                        "context",
+                        "fees",
+                        "inAmount",
+                        "networkId",
+                        "outAmount",
                         "status",
                         "timestamp",
                         "transactionHash",
@@ -6057,6 +6278,9 @@
                 },
                 {
                     "$ref": "#/definitions/EarnClaimReward"
+                },
+                {
+                    "$ref": "#/definitions/DepositOrWithdraw"
                 }
             ]
         },
