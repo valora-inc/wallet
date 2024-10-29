@@ -100,7 +100,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
     }
 
     return refreshPreparedTransactions({
-      amount: new BigNumber(amount).dividedBy(pool.pricePerShare[0]).toString(),
+      amount: amount.toString(),
       token,
       walletAddress,
       feeCurrencies,
@@ -116,7 +116,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
 
     const debouncedRefreshTransactions = setTimeout(() => {
       return handleRefreshPreparedTransactions(
-        new BigNumber(withdrawAmountInDepositToken),
+        withdrawAmountInDepositToken,
         withdrawToken,
         feeCurrencies
       )
