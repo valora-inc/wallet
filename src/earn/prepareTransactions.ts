@@ -99,6 +99,8 @@ export async function prepareWithdrawAndClaimTransactions({
   feeCurrencies,
   hooksApiUrl,
   rewardsPositions,
+  amount,
+  useMax = true,
 }: PrepareWithdrawAndClaimParams) {
   const { dataProps, balance, appId, networkId, shortcutTriggerArgs } = pool
   const { transactions: withdrawTransactions }: { transactions: RawShortcutTransaction[] } =
@@ -110,8 +112,8 @@ export async function prepareWithdrawAndClaimTransactions({
       tokens: [
         {
           tokenId: dataProps.withdrawTokenId,
-          amount: balance,
-          useMax: true,
+          amount: useMax ? balance : amount,
+          useMax,
         },
       ],
       ...shortcutTriggerArgs?.withdraw,

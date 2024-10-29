@@ -489,7 +489,12 @@ describe('EarnEnterAmount', () => {
         mode: 'withdraw',
       })
 
-      //TODO(ACT-1389): check navigation to withdrawal confirmation screen
+      expect(navigate).toHaveBeenCalledWith(Screens.EarnConfirmationScreen, {
+        pool: mockEarnPositions[0],
+        mode: 'PartialWithdraw',
+        inputAmount: '8',
+        useMax: false,
+      })
     })
 
     it('should allow the user to set an input value over the pool balance if pricePerShare is greater than 1', async () => {

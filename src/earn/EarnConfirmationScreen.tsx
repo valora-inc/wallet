@@ -13,13 +13,14 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { usePrepareWithdrawAndClaimTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
+import { WithdrawActionName } from 'src/earn/types'
 import { getEarnPositionBalanceValues, isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions/selectors'
-import { EarnPosition, Token } from 'src/positions/types'
+import { Token } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
@@ -33,12 +34,12 @@ import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactio
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.EarnCollectScreen>
+type Props = NativeStackScreenProps<StackParamList, Screens.EarnConfirmationScreen>
 
-export default function EarnCollectScreen({ route }: Props) {
+export default function EarnConfirmationScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { pool } = route.params
+  const { pool, mode, inputAmount, useMax } = route.params
   const { depositTokenId, withdrawTokenId, rewardsPositionIds } = pool.dataProps
   const withdrawStatus = useSelector(withdrawStatusSelector)
   const rewardsPositions = useSelector(positionsWithBalanceSelector).filter((position) =>
@@ -68,22 +69,27 @@ export default function EarnCollectScreen({ route }: Props) {
 
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, depositToken.networkId))
 
+  const withdrawAmountInDepositToken = useMemo(
+    () =>
+      inputAmount
+        ? new BigNumber(inputAmount)
+        : getEarnPositionBalanceValues({ pool }).poolBalanceInDepositToken,
+    [withdrawToken, pool.pricePerShare, inputAmount]
+  )
+
   const {
     result: prepareTransactionsResult,
     loading: isPreparingTransactions,
     error: prepareTransactionError,
   } = usePrepareWithdrawAndClaimTransactions({
+    amount: withdrawAmountInDepositToken.dividedBy(pool.pricePerShare[0]).toString(),
     pool,
     walletAddress,
     feeCurrencies,
     hooksApiUrl,
     rewardsPositions,
+    useMax,
   })
-
-  const { poolBalanceInDepositToken: withdrawAmountInDepositToken } = useMemo(
-    () => getEarnPositionBalanceValues({ pool }),
-    [pool]
-  )
 
   const onPress = () => {
     if (prepareTransactionsResult?.type !== 'possible') {
@@ -98,6 +104,7 @@ export default function EarnCollectScreen({ route }: Props) {
         ),
         rewardsTokens,
         pool,
+        amount: withdrawAmountInDepositToken.toString(),
       })
     )
 
@@ -139,28 +146,30 @@ export default function EarnCollectScreen({ route }: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.title}>{t('earnFlow.collect.title')}</Text>
+        <Title mode={mode} />
         <View style={styles.collectInfoContainer}>
-          <CollectItem
-            title={t('earnFlow.collect.total')}
-            tokenInfo={depositToken}
-            rewardAmount={withdrawAmountInDepositToken}
-          />
-          {rewardsTokens.map((token, index) => (
+          {mode !== 'Claim' && (
             <CollectItem
-              title={t('earnFlow.collect.plus')}
-              key={index}
-              tokenInfo={token}
-              rewardAmount={token.balance}
+              title={t('earnFlow.collect.total')}
+              tokenInfo={depositToken}
+              rewardAmount={withdrawAmountInDepositToken}
             />
-          ))}
+          )}
+          {(mode !== 'PartialWithdraw' || pool.dataProps.withdrawalIncludesClaim) &&
+            rewardsTokens.map((token, index) => (
+              <CollectItem
+                title={t('earnFlow.collect.reward')}
+                key={index}
+                tokenInfo={token}
+                rewardAmount={token.balance}
+              />
+            ))}
           <View style={styles.separator} />
-          <Rate pool={pool} />
           <View>
             <Text style={styles.rateText}>{t('earnFlow.collect.fee')}</Text>
             {feeSection}
             {isGasSubsidized && (
-              <Text style={styles.gasSubsidized} testID={'EarnCollect/GasSubsidized'}>
+              <Text style={styles.gasSubsidized} testID={'EarnConfirmation/GasSubsidized'}>
                 {t('earnFlow.gasSubsidized')}
               </Text>
             )}
@@ -204,13 +213,18 @@ export default function EarnCollectScreen({ route }: Props) {
           />
         )}
       </ScrollView>
-
       <Button
         style={styles.button}
         size={BtnSizes.FULL}
-        text={t('earnFlow.collect.cta')}
+        text={
+          mode === 'PartialWithdraw'
+            ? t('earnFlow.collect.ctaWithdraw')
+            : mode === 'Exit'
+              ? t('earnFlow.collect.ctaExit')
+              : t('earnFlow.collect.ctaReward')
+        }
         onPress={onPress}
-        testID="EarnCollectScreen/CTA"
+        testID="EarnConfirmationScreen/CTA"
         disabled={!!ctaDisabled}
         showLoading={withdrawStatus === 'loading'}
       />
@@ -240,14 +254,14 @@ function CollectItem({
             tokenId={tokenInfo.tokenId}
             amount={rewardAmount}
             showLocalAmount={false}
-            testID={`EarnCollect/${tokenInfo.tokenId}/CryptoAmount`}
+            testID={`EarnConfirmation/${tokenInfo.tokenId}/CryptoAmount`}
           />
           <TokenDisplay
             style={styles.fiatText}
             tokenId={tokenInfo.tokenId}
             amount={rewardAmount}
             showLocalAmount={true}
-            testID={`EarnCollect/${tokenInfo.tokenId}/FiatAmount`}
+            testID={`EarnConfirmation/${tokenInfo.tokenId}/FiatAmount`}
           />
         </View>
       </View>
@@ -255,35 +269,9 @@ function CollectItem({
   )
 }
 
-function Rate({ pool }: { pool: EarnPosition }) {
-  const { t } = useTranslation()
-  const { depositTokenId } = pool.dataProps
-  const depositToken = useTokenInfo(depositTokenId)!
-  const apy = pool.dataProps.yieldRates.find((rate) => rate.tokenId === depositTokenId)
-
-  return (
-    <View>
-      <Text style={styles.rateText}>{t('earnFlow.collect.rate')}</Text>
-      <View style={styles.row}>
-        <TokenIcon token={depositToken} size={IconSize.SMALL} />
-
-        {apy ? (
-          <Text style={styles.apyText}>
-            {t('earnFlow.collect.apy', {
-              apy: apy.percentage.toFixed(2),
-            })}
-          </Text>
-        ) : (
-          <Text style={styles.apyText}>{t('earnFlow.collect.apy', { apy: '--' })}</Text>
-        )}
-      </View>
-    </View>
-  )
-}
-
 function GasFeeError() {
   return (
-    <View testID="EarnCollect/GasError">
+    <View testID="EarnConfirmation/GasError">
       <Text style={styles.apyText}> -- </Text>
       <Text style={styles.gasFeeFiat}> -- </Text>
     </View>
@@ -292,7 +280,7 @@ function GasFeeError() {
 
 function GasFeeLoading() {
   return (
-    <View testID="EarnCollect/GasLoading">
+    <View testID="EarnConfirmation/GasLoading">
       <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
         <View style={styles.gasFeeCryptoLoading} />
       </SkeletonPlaceholder>
@@ -319,7 +307,7 @@ function GasFee({
         tokenId={feeCurrency.tokenId}
         amount={maxFeeAmount}
         showLocalAmount={false}
-        testID="EarnCollect/GasFeeCryptoAmount"
+        testID="EarnConfirmation/GasFeeCryptoAmount"
       />
       {!isGasSubsidized && (
         <TokenDisplay
@@ -327,11 +315,24 @@ function GasFee({
           tokenId={feeCurrency.tokenId}
           amount={maxFeeAmount}
           showLocalAmount={true}
-          testID="EarnCollect/GasFeeFiatAmount"
+          testID="EarnConfirmation/GasFeeFiatAmount"
         />
       )}
     </>
   )
+}
+
+function Title({ mode }: { mode: WithdrawActionName }) {
+  const { t } = useTranslation()
+  switch (mode) {
+    case 'Claim':
+      return <Text style={styles.title}>{t('earnFlow.collect.titleClaim')}</Text>
+    case 'PartialWithdraw':
+      return <Text style={styles.title}>{t('earnFlow.collect.titleWithdraw')}</Text>
+    case 'Exit':
+    default:
+      return <Text style={styles.title}>{t('earnFlow.collect.titleCollect')}</Text>
+  }
 }
 
 const styles = StyleSheet.create({

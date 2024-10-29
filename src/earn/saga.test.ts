@@ -808,6 +808,45 @@ describe('withdrawSubmitSaga', () => {
     expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
   })
 
+  it('sends withdraw and claim transactions, navigates home and dispatches the success action (amount set & gas subsidy off)', async () => {
+    await expectSaga(withdrawSubmitSaga, {
+      type: withdrawStart.type,
+      payload: {
+        pool: mockPool,
+        preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
+        rewardsTokens: mockRewardsPositions[1].tokens,
+        amount: '5',
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide(sagaProviders)
+      .put(withdrawSuccess())
+      .put(fetchTokenBalances({ showLoading: false }))
+      .call.like({ fn: sendPreparedTransactions })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
+      .run()
+
+    expect(navigateHome).toHaveBeenCalled()
+    expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, {
+      ...expectedWithdrawStandbyTx,
+      inAmount: { ...expectedWithdrawStandbyTx.inAmount, value: '5' },
+      outAmount: { ...expectedWithdrawStandbyTx.outAmount, value: '5' },
+    })
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedClaimRewardTx)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_start, {
+      ...expectedAnalyticsPropsWithRewards,
+      tokenAmount: '5',
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_success, {
+      ...expectedAnalyticsPropsWithRewards,
+      tokenAmount: '5',
+    })
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
+  })
+
   it('sends only withdraw if there are no rewards (gas subsidy on)', async () => {
     jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
     await expectSaga(withdrawSubmitSaga, {

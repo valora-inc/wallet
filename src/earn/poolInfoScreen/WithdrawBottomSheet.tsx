@@ -85,7 +85,7 @@ function ClaimAction({
         networkId: pool.networkId,
         depositTokenId: pool.dataProps.depositTokenId,
       })
-      navigate(Screens.EarnCollectScreen, { pool }) // TODO (ACT-1389): Confirmation screen for Claim
+      navigate(Screens.EarnConfirmationScreen, { pool, mode: action.name })
       forwardedRef.current?.close()
     },
   }
@@ -123,7 +123,7 @@ function ExitAction({
         networkId: pool.networkId,
         depositTokenId: pool.dataProps.depositTokenId,
       })
-      navigate(Screens.EarnCollectScreen, { pool }) // TODO (ACT-1389): Confirmation screen for Claim & Withdraw
+      navigate(Screens.EarnConfirmationScreen, { pool, mode: action.name })
       forwardedRef.current?.close()
     },
   }
