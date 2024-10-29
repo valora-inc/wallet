@@ -2294,7 +2294,7 @@
     "depositDetails": "已转入金额",
     "withdrawTitle": "已取出",
     "withdrawSubtitle": "已从 {{txAppName}} 池取出 {{tokenSymbol}}",
-    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawSubtitle_noTxAppName": "从未知应用程序提取 {{tokenSymbol}}",
     "withdrawDetails": "已提取金额",
     "swap": "交换",
     "network": "网络",
