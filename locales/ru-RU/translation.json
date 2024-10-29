@@ -2284,7 +2284,27 @@
     "infiniteApprovalDescription": "Утвержден бесконечный {{tokenSymbol}} для сделки",
     "revokeApprovalDescription": "Отозван {{tokenSymbol}} для сделки",
     "descriptionLabel": "Подробности",
-    "crossChainSwapTransactionLabel": "Кроссчейн"
+    "crossChainSwapTransactionLabel": "Кроссчейн",
+    "depositTitle": "Депонировано",
+    "depositSubtitle": "в пул {{txAppName}}",
+    "depositSubtitle_noTxAppName": "в неизвестный бассейн",
+    "withdrawTitle": "Выведено",
+    "withdrawSubtitle": "из пула {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "из неизвестного приложения"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Подробности",
+    "depositTitle": "Депонировано",
+    "depositSubtitle": "Депонировано {{tokenSymbol}} в пул {{txAppName}}",
+    "depositSubtitle_noTxAppName": "Поместил {{tokenSymbol}} на неизвестное приложение",
+    "depositDetails": "Вложенная сумма",
+    "withdrawTitle": "Выведено",
+    "withdrawSubtitle": "Выведено {{tokenSymbol}} из пула {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Сумма выведено",
+    "swap": "Обмен",
+    "network": "Сообщество",
+    "fees": "Fees"
   },
   "multichainBeta": {
     "beta": "BETA",
