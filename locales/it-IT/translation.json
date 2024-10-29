@@ -2295,12 +2295,12 @@
     "depositSubtitle_noTxAppName": "Depositato {{tokenSymbol}} su un'applicazione sconosciuta",
     "depositDetails": "Somma depositata",
     "withdrawTitle": "Preleva",
-    "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{txAppName}} Pool",
-    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
-    "withdrawDetails": "Amount Withdrawn",
-    "swap": "Swap",
-    "network": "Network",
-    "fees": "Fees"
+    "withdrawSubtitle": "Prelevati {{tokenSymbol}} dal pool {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "Preleva {{tokenSymbol}} da un'applicazione sconosciuta",
+    "withdrawDetails": "Importo prelevato",
+    "swap": "Scambio",
+    "network": "Rete",
+    "fees": "Commissioni"
   },
   "multichainBeta": {
     "beta": "BETA",
