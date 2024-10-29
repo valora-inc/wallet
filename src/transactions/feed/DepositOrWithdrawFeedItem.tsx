@@ -21,18 +21,24 @@ interface DescriptionProps {
 
 function Description({ transaction }: DescriptionProps) {
   const { t } = useTranslation()
-  const appName = transaction.appName
+  const txAppName = transaction.appName
   let title
   let subtitle
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Deposit:
       title = t('transactionFeed.depositTitle')
-      subtitle = t('transactionFeed.depositSubtitle', { appName })
+      subtitle = t('transactionFeed.depositSubtitle', {
+        context: !txAppName ? 'noTxAppName' : undefined,
+        txAppName,
+      })
       break
     case TokenTransactionTypeV2.Withdraw:
       title = t('transactionFeed.withdrawTitle')
-      subtitle = t('transactionFeed.withdrawSubtitle', { appName })
+      subtitle = t('transactionFeed.withdrawSubtitle', {
+        context: !txAppName ? 'noTxAppName' : undefined,
+        txAppName,
+      })
       break
   }
 
@@ -41,7 +47,7 @@ function Description({ transaction }: DescriptionProps) {
       <Text style={styles.title} testID={'DepositOrWithdrawFeedItem/title'} numberOfLines={1}>
         {title}
       </Text>
-      {!!appName && (
+      {!!txAppName && (
         <Text
           style={styles.subtitle}
           testID={'DepositOrWithdrawFeedItem/subtitle'}

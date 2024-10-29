@@ -18,7 +18,7 @@ interface DepositOrWithdrawContentProps {
 
 export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawContentProps) {
   const { t } = useTranslation()
-  const appName = transaction.appName
+  const txAppName = transaction.appName
   const tokenInfo = useTokenInfo(
     transaction.type === TokenTransactionTypeV2.Deposit
       ? transaction.outAmount.tokenId
@@ -32,13 +32,13 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
   return (
     <>
       <Text style={styles.detailsTitle}>{t('transactionDetails.descriptionLabel')}</Text>
-      {!!appName && (
+      {!!txAppName && (
         <Text style={styles.detailsSubtitle}>
           {t(
             isDeposit
               ? 'transactionDetails.depositSubtitle'
               : 'transactionDetails.withdrawSubtitle',
-            { appName, tokenSymbol }
+            { context: !txAppName ? 'noTxAppName' : undefined, txAppName, tokenSymbol }
           )}
         </Text>
       )}

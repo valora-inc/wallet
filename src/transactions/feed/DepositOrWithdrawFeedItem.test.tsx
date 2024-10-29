@@ -41,7 +41,7 @@ describe('DepositOrWithdrawFeedItem', () => {
     )
 
     expect(getByText('transactionFeed.depositTitle')).toBeTruthy()
-    expect(getByText('transactionFeed.depositSubtitle, {"appName":"Some Dapp"}')).toBeTruthy()
+    expect(getByText('transactionFeed.depositSubtitle, {"txAppName":"Some Dapp"}')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/DEPOSIT-amount-crypto')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/DEPOSIT-amount-local')).toBeTruthy()
   })
@@ -54,7 +54,7 @@ describe('DepositOrWithdrawFeedItem', () => {
     )
 
     expect(getByText('transactionFeed.withdrawTitle')).toBeTruthy()
-    expect(getByText('transactionFeed.withdrawSubtitle, {"appName":"Some Dapp"}')).toBeTruthy()
+    expect(getByText('transactionFeed.withdrawSubtitle, {"txAppName":"Some Dapp"}')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/WITHDRAW-amount-crypto')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/WITHDRAW-amount-local')).toBeTruthy()
   })
@@ -66,7 +66,7 @@ describe('DepositOrWithdrawFeedItem', () => {
       </Provider>
     )
 
-    expect(getByText('transactionFeed.depositSubtitle, {"appName":"Some Dapp"}')).toBeTruthy()
+    expect(getByText('transactionFeed.depositSubtitle, {"txAppName":"Some Dapp"}')).toBeTruthy()
   })
 
   it('does not display app name when not available', () => {
@@ -81,6 +81,6 @@ describe('DepositOrWithdrawFeedItem', () => {
       </Provider>
     )
 
-    expect(queryByText('transactionFeed.depositSubtitle, {"appName":"Some Dapp"}')).toBeNull()
+    expect(queryByText('transactionFeed.depositSubtitle, {"txAppName":"Some Dapp"}')).toBeNull()
   })
 })
