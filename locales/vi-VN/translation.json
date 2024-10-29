@@ -2278,7 +2278,27 @@
     "infiniteApprovalDescription": "Đã phê duyệt {{tokenSymbol}} không giới hạn cho giao dịch",
     "revokeApprovalDescription": "Đã thu hồi {{tokenSymbol}} để giao dịch",
     "descriptionLabel": "Chi tiết",
-    "crossChainSwapTransactionLabel": "Chuỗi chéo"
+    "crossChainSwapTransactionLabel": "Chuỗi chéo",
+    "depositTitle": "Đã nạp",
+    "depositSubtitle": "vào Quỹ {{txAppName}}",
+    "depositSubtitle_noTxAppName": "to unknown pool",
+    "withdrawTitle": "Rút",
+    "withdrawSubtitle": "từ Quỹ {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "from unknown app"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Chi tiết",
+    "depositTitle": "Đã nạp",
+    "depositSubtitle": "Đã nạp {{tokenSymbol}} vào Quỹ {{txAppName}}",
+    "depositSubtitle_noTxAppName": "Deposited {{tokenSymbol}} to unknown app",
+    "depositDetails": "Số tiền đã nạp",
+    "withdrawTitle": "Rút",
+    "withdrawSubtitle": "Rút {{tokenSymbol}} từ Quỹ {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Số tiền đã rút",
+    "swap": "Trao đổi",
+    "network": "Mạng lưới",
+    "fees": "Phí"
   },
   "multichainBeta": {
     "beta": "BETA",
