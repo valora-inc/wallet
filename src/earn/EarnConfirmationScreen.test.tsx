@@ -103,20 +103,20 @@ describe('EarnConfirmationScreen', () => {
     store.clearActions()
   })
 
-  it('renders total balance, rewards and gas after fetching rewards and preparing tx', async () => {
+  it('renders total balance, rewards and gas after fetching rewards and preparing tx for exit', async () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
           component={EarnConfirmationScreen}
           params={{
             pool: { ...mockEarnPositions[0], balance: '10.75' },
-            mode: 'withdraw',
+            mode: 'Exit',
           }}
         />
       </Provider>
     )
 
-    expect(getByText('earnFlow.collect.titleWithdraw')).toBeTruthy()
+    expect(getByText('earnFlow.collect.titleCollect')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
     expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
       '11.83 USDC'
@@ -153,8 +153,8 @@ describe('EarnConfirmationScreen', () => {
     expect(store.getActions()).toEqual([])
   })
 
-  it('renders total balance, rewards and gas after fetching rewards and preparing tx for partial withdrawal', async () => {
-    const { getByText, getByTestId, queryByTestId } = render(
+  it('renders total balance and gas after fetching rewards and preparing tx for partial withdrawal', async () => {
+    const { getByText, getByTestId, queryByTestId, queryByText } = render(
       <Provider store={store}>
         <MockedNavigator
           component={EarnConfirmationScreen}
@@ -178,13 +178,7 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
-    expect(getByText('earnFlow.collect.reward')).toBeTruthy()
-    expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/CryptoAmount`)).toHaveTextContent(
-      '0.01 ARB'
-    )
-    expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/FiatAmount`)).toHaveTextContent(
-      '₱0.016'
-    )
+    expect(queryByText('earnFlow.collect.reward')).toBeFalsy()
 
     await waitFor(() => {
       expect(queryByTestId('EarnConfirmation/GasLoading')).toBeFalsy()
@@ -193,6 +187,7 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId('EarnConfirmation/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
     expect(queryByTestId('EarnConfirmation/GasSubsidized')).toBeFalsy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
+    // TODO(act-1389): update this test to make sure that reward positions are not included in partial withdrawals.
     expect(prepareWithdrawAndClaimTransactions).toHaveBeenCalledWith({
       feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
       pool: { ...mockEarnPositions[0], balance: '10.75' },
