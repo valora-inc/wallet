@@ -2300,11 +2300,11 @@
     "depositDetails": "Kwota wpłacona",
     "withdrawTitle": "Wycofano",
     "withdrawSubtitle": "Wycofano {{tokenSymbol}} z puli {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawSubtitle_noTxAppName": "Wycofano {{tokenSymbol}} z nieznanej aplikacji",
     "withdrawDetails": "Wypłacona kwota",
-    "swap": "Swap",
-    "network": "Network",
-    "fees": "Fees"
+    "swap": "Zamieniaj",
+    "network": "Sieć",
+    "fees": "Opłaty"
   },
   "multichainBeta": {
     "beta": "BETA",
