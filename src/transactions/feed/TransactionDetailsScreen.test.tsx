@@ -6,10 +6,12 @@ import { TransactionDetailsEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams } from 'src/statsig'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import {
+  DepositOrWithdraw,
   EarnClaimReward,
   EarnDeposit,
   EarnSwapDeposit,
@@ -553,6 +555,140 @@ describe('TransactionDetailsScreen', () => {
       })
 
       expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    })
+  })
+
+  describe('Deposit and Withdraw', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+    })
+
+    function depositTransaction({
+      status = TransactionStatus.Complete,
+    }: Partial<DepositOrWithdraw>): DepositOrWithdraw {
+      return {
+        type: TokenTransactionTypeV2.Deposit,
+        networkId: NetworkId['celo-alfajores'],
+        timestamp: 1234567890,
+        block: '123456',
+        transactionHash: '0x123',
+        fees: [],
+        appName: 'Aave',
+        inAmount: {
+          value: '100',
+          tokenId: mockCeloTokenId,
+        },
+        outAmount: {
+          value: '100',
+          tokenId: mockCusdTokenId,
+        },
+        status,
+      }
+    }
+
+    function withdrawTransaction({
+      status = TransactionStatus.Complete,
+    }: Partial<DepositOrWithdraw>): DepositOrWithdraw {
+      return {
+        ...depositTransaction({ status }),
+        type: TokenTransactionTypeV2.Withdraw,
+      }
+    }
+
+    it(`renders check status action for pending ${TokenTransactionTypeV2.Deposit} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: depositTransaction({
+          status: TransactionStatus.Pending,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+    })
+
+    it(`renders check status action for pending ${TokenTransactionTypeV2.Withdraw} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: withdrawTransaction({
+          status: TransactionStatus.Pending,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+    })
+
+    it(`renders details action for complete ${TokenTransactionTypeV2.Deposit} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: depositTransaction({
+          status: TransactionStatus.Complete,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    })
+
+    it(`renders details action for complete ${TokenTransactionTypeV2.Withdraw} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: withdrawTransaction({
+          status: TransactionStatus.Complete,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    })
+
+    it('renders swap details for deposit with swap', () => {
+      const transactionWithSwap = {
+        ...depositTransaction({ status: TransactionStatus.Complete }),
+        swap: {
+          inAmount: {
+            value: '50',
+            tokenId: mockCeloTokenId,
+          },
+          outAmount: {
+            value: '100',
+            tokenId: mockCusdTokenId,
+          },
+        },
+      }
+
+      const { getByText, getByTestId } = renderScreen({
+        transaction: transactionWithSwap,
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+      expect(getByTestId('DepositOrWithdraw/Swap/From')).toBeTruthy()
+      expect(getByTestId('DepositOrWithdraw/Swap/To')).toBeTruthy()
+    })
+
+    it('renders network information', () => {
+      const { getByText } = renderScreen({
+        transaction: depositTransaction({
+          status: TransactionStatus.Complete,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+      expect(getByText(NETWORK_NAMES[NetworkId['celo-alfajores']])).toBeTruthy()
+    })
+
+    it('renders fees correctly', () => {
+      const transactionWithFees = {
+        ...depositTransaction({ status: TransactionStatus.Complete }),
+        fees: [
+          {
+            type: FeeType.SecurityFee,
+            amount: {
+              value: '0.1',
+              tokenId: mockCeloTokenId,
+            },
+          },
+        ],
+      }
+
+      const { getByTestId } = renderScreen({
+        transaction: transactionWithFees,
+      })
+
+      expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('0.10 CELO')
     })
   })
 

@@ -19,6 +19,7 @@ import TransferSentContent from 'src/transactions/feed/detailContent/TransferSen
 import { TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
+import { DepositOrWithdrawContent } from './detailContent/DepositOrWithdrawContent'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
 import SwapContent from './detailContent/SwapContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
@@ -109,6 +110,10 @@ function TransactionDetailsScreen({ route }: Props) {
     case TokenTransactionTypeV2.SwapTransaction:
       content = <SwapContent transaction={transaction} />
       retryHandler = () => navigate(Screens.SwapScreenWithBack)
+      break
+    case TokenTransactionTypeV2.Deposit:
+    case TokenTransactionTypeV2.Withdraw:
+      content = <DepositOrWithdrawContent transaction={transaction} />
       break
     case TokenTransactionTypeV2.EarnClaimReward:
       content = <EarnClaimContent transaction={transaction} />

@@ -188,14 +188,15 @@ export default function EarnConfirmationScreen({ route }: Props) {
               rewardAmount={withdrawAmountInDepositToken}
             />
           )}
-          {rewardsTokens.map((token, index) => (
-            <CollectItem
-              title={t('earnFlow.collect.reward')}
-              key={index}
-              tokenInfo={token}
-              rewardAmount={token.balance}
-            />
-          ))}
+          {(mode !== 'withdraw' || pool.dataProps.withdrawalIncludesClaim) &&
+            rewardsTokens.map((token, index) => (
+              <CollectItem
+                title={t('earnFlow.collect.reward')}
+                key={index}
+                tokenInfo={token}
+                rewardAmount={token.balance}
+              />
+            ))}
           <View style={styles.separator} />
           <View>
             <Text style={styles.rateText}>{t('earnFlow.collect.fee')}</Text>
