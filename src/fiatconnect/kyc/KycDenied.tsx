@@ -60,7 +60,7 @@ function KycDenied({ route, navigation }: Props) {
   if (tryAgainLoading) {
     return (
       <View testID="spinnerContainer" style={styles.activityIndicatorContainer}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color={colors.accent} />
       </View>
     )
   }

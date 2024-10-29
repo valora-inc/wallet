@@ -53,7 +53,7 @@ export default function FiatConnectRefetchQuoteScreen({ route }: Props) {
 
   return (
     <View style={styles.activityIndicatorContainer}>
-      <ActivityIndicator size="large" color={colors.primary} />
+      <ActivityIndicator size="large" color={colors.accent} />
     </View>
   )
 }

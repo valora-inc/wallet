@@ -229,7 +229,7 @@ export function PaymentMethodSection({
       >
         <View>
           <Expandable
-            arrowColor={colors.primary}
+            arrowColor={colors.accent}
             containerStyle={{
               ...styles.expandableContainer,
               paddingVertical: isExpandable ? (expanded ? 22 : 27) : 16,
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
   },
   expandedTag: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.primary,
+    color: colors.accent,
     fontSize: 12,
     marginTop: 2,
   },

@@ -233,7 +233,20 @@ describe('ExternalQuote', () => {
         tokenId: mockCusdTokenId,
       })
       quote.navigate()
-      expect(navigateToURI).toHaveBeenCalled()
+      expect(navigateToURI).toHaveBeenCalledWith('https://www.moonpay.com/')
+    })
+    it('calls navigateToURI with quote specific url', () => {
+      const quote = new ExternalQuote({
+        quote: {
+          ...(mockProviders[1].quote as RawProviderQuote[])[0],
+          url: 'https://example.com',
+        },
+        provider: mockProviders[1],
+        flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
+      })
+      quote.navigate()
+      expect(navigateToURI).toHaveBeenCalledWith('https://example.com')
     })
   })
 

@@ -15,7 +15,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import CircleButton from 'src/components/CircleButton'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 

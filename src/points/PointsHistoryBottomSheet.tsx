@@ -114,7 +114,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         testID={'PointsHistoryBottomSheet/Loading'}
         style={styles.loadingIcon}
         size="large"
-        color={colors.primary}
+        color={colors.accent}
       />
     ) : null
 
