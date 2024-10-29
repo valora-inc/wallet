@@ -2296,7 +2296,7 @@
     "depositDetails": "Quantia depositada",
     "withdrawTitle": "Sacado",
     "withdrawSubtitle": "{{tokenSymbol}} sacado do pool da {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawSubtitle_noTxAppName": "Você retirou {{tokenSymbol}} de um aplicativo desconhecido",
     "withdrawDetails": "Quantia retirada",
     "swap": "Trocar",
     "network": "Rede",
