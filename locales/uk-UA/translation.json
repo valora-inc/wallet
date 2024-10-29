@@ -2284,7 +2284,27 @@
     "infiniteApprovalDescription": "За угодою затверджено неозначений {{tokenSymbol}}",
     "revokeApprovalDescription": "За угодою відкликано {{tokenSymbol}}",
     "descriptionLabel": "Подробиці",
-    "crossChainSwapTransactionLabel": "Кроссчейн-обмін"
+    "crossChainSwapTransactionLabel": "Кроссчейн-обмін",
+    "depositTitle": "Внесено",
+    "depositSubtitle": "до пулу {{txAppName}}",
+    "depositSubtitle_noTxAppName": "до невідомого басейну",
+    "withdrawTitle": "Знято",
+    "withdrawSubtitle": "з пулу {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "з невідомого додатку"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Подробиці",
+    "depositTitle": "Внесено",
+    "depositSubtitle": "Внесено {{tokenSymbol}} до пулу {{txAppName}}",
+    "depositSubtitle_noTxAppName": "Поповнив рахунок {{tokenSymbol}} у невідомому додатку",
+    "depositDetails": "Суму внесено",
+    "withdrawTitle": "Знято",
+    "withdrawSubtitle": "Знято {{tokenSymbol}} з пулу {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Знята сума",
+    "swap": "Обміняти",
+    "network": "Мережа",
+    "fees": "Комісії"
   },
   "multichainBeta": {
     "beta": "BETA",
