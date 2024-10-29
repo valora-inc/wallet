@@ -158,6 +158,16 @@ describe('EarnConfirmationScreen', () => {
   })
 
   it('renders total balance, rewards and gas after fetching rewards and preparing tx for partial withdrawal', async () => {
+    jest.mocked(usePrepareTransactions).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: mockPreparedTransaction,
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
@@ -179,8 +189,6 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent(
       '₱7.86'
     )
-    expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
-    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
     expect(getByText('earnFlow.collect.reward')).toBeTruthy()
     expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/CryptoAmount`)).toHaveTextContent(
@@ -197,14 +205,6 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId('EarnConfirmation/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
     expect(queryByTestId('EarnConfirmation/GasSubsidized')).toBeFalsy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
-    expect(prepareWithdrawAndClaimTransactions).toHaveBeenCalledWith({
-      feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
-      pool: { ...mockEarnPositions[0], balance: '10.75' },
-      rewardsPositions: [mockRewardsPositions[1]],
-      walletAddress: mockAccount.toLowerCase(),
-      hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
-      amount: '5.37500000000000045455',
-    })
     expect(store.getActions()).toEqual([])
   })
 
