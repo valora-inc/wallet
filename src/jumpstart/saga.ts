@@ -121,7 +121,6 @@ export function* dispatchPendingERC20Transactions(
 
       yield* put(
         addStandbyTransaction({
-          __typename: 'TokenTransferV3',
           type: TokenTransactionTypeV2.Received,
           context: {
             id: transactionHash,
@@ -175,7 +174,6 @@ export function* dispatchPendingERC721Transactions(
 
         yield* put(
           addStandbyTransaction({
-            __typename: 'NftTransferV3',
             type: TokenTransactionTypeV2.NftReceived,
             context: {
               id: transactionHash,
@@ -261,7 +259,6 @@ export function* sendJumpstartTransactions(
       ): BaseStandbyTransaction => {
         return {
           context: newTransactionContext(TAG, 'Approve jumpstart transaction'),
-          __typename: 'TokenApproval',
           networkId,
           type: TokenTransactionTypeV2.Approval,
           transactionHash: txHash,
@@ -277,7 +274,6 @@ export function* sendJumpstartTransactions(
       hash: string,
       feeCurrencyId?: string
     ): BaseStandbyTransaction => ({
-      __typename: 'TokenTransferV3',
       type: TokenTransactionTypeV2.Sent,
       context: newTransactionContext(TAG, 'Send jumpstart transaction'),
       networkId,
@@ -369,7 +365,6 @@ export function* jumpstartReclaim(action: PayloadAction<JumpstarReclaimAction>) 
     ): BaseStandbyTransaction => {
       return {
         context: newTransactionContext(TAG, 'Reclaim transaction'),
-        __typename: 'TokenTransferV3',
         networkId,
         type: TokenTransactionTypeV2.Received,
         transactionHash: transactionHash,

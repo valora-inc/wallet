@@ -256,7 +256,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   if (quotesLoading) {
     return (
       <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator testID="QuotesLoading" size="large" color={colors.primary} />
+        <ActivityIndicator testID="QuotesLoading" size="large" color={colors.accent} />
       </View>
     )
   }
@@ -603,7 +603,7 @@ const styles = StyleSheet.create({
   },
   switchCurrency: {
     ...typeScale.labelLarge,
-    color: colors.primary,
+    color: colors.accent,
     padding: Spacing.Smallest8,
   },
   noPaymentMethodsContainer: {

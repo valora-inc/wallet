@@ -25,7 +25,6 @@ const mockTransaction = (
   status = TransactionStatus.Complete
 ): TokenTransaction => {
   return {
-    __typename: 'TokenTransferV3',
     networkId: NetworkId['celo-alfajores'],
     address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
     amount: {
@@ -46,7 +45,6 @@ const mockTransaction = (
 const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
 
 const MOCK_STANDBY_TRANSACTION: StandbyTransaction = {
-  __typename: 'TokenTransferV3',
   context: { id: 'test' },
   networkId: NetworkId['celo-alfajores'],
   type: TokenTransactionTypeV2.Sent,

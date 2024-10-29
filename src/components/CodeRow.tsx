@@ -65,7 +65,7 @@ function CodeRow({
     return (
       <View style={styles.codeProcessingContainer}>
         <Text style={styles.codeValue}>{shortenedInput || t('processing')}</Text>
-        <ActivityIndicator size="small" color={colors.primary} style={styles.codeInputSpinner} />
+        <ActivityIndicator size="small" color={colors.accent} style={styles.codeInputSpinner} />
       </View>
     )
   }
