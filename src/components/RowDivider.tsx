@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 
 export interface Props {

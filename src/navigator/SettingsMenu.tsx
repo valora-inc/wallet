@@ -30,7 +30,7 @@ import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import colors, { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -112,7 +112,7 @@ export default function SettingsMenu() {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <SettingsItemTextValue
-          icon={<Wallet size={24} color={colors.black} />}
+          icon={<Wallet size={24} color={Colors.black} />}
           title={t('address')}
           onPress={() =>
             navigate(Screens.QRNavigator, {
@@ -125,7 +125,7 @@ export default function SettingsMenu() {
           borderless
         />
 
-        <GradientBlock style={styles.divider} colors={[colors.black, colors.black]} />
+        <GradientBlock style={styles.divider} colors={[Colors.black, Colors.black]} />
 
         <SettingsItemTextValue
           icon={<Preferences size={24} />}
@@ -136,7 +136,7 @@ export default function SettingsMenu() {
           borderless
         />
         <SettingsItemTextValue
-          icon={<Lock width={24} height={24} color={colors.black} />}
+          icon={<Lock width={24} height={24} color={Colors.black} />}
           title={t('securityPrivacy')}
           testID="SettingsMenu/Security"
           onPress={() => navigate(Screens.SecuritySubmenu)}
@@ -145,7 +145,7 @@ export default function SettingsMenu() {
         />
         {walletConnectEnabled && (
           <SettingsItemTextValue
-            icon={<Stack size={24} color={colors.black} />}
+            icon={<Stack size={24} color={Colors.black} />}
             title={t('connectedApplications')}
             testID="SettingsMenu/ConnectedDapps"
             value={connectedDapps.toString()}
@@ -163,7 +163,7 @@ export default function SettingsMenu() {
           borderless
         />
 
-        <GradientBlock style={styles.divider} colors={[colors.black, colors.black]} />
+        <GradientBlock style={styles.divider} colors={[Colors.black, Colors.black]} />
 
         <SettingsItemTextValue
           title={t('legal')}
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   },
   appVersionText: {
     ...typeScale.bodyMedium,
-    color: colors.gray3,
+    color: Colors.gray3,
   },
   devSettings: {
     padding: Spacing.Regular16,

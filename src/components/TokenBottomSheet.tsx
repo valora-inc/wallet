@@ -17,13 +17,12 @@ import FilterChipsCarousel, {
   FilterChip,
   NetworkFilterChip,
   isNetworkChip,
-  isTokenSelectChip,
 } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
 import InfoIcon from 'src/icons/InfoIcon'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import colors, { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
@@ -219,9 +218,6 @@ function TokenBottomSheet({
           if (isNetworkChip(filter)) {
             return filter.filterFn(token, filter.selectedNetworkIds)
           }
-          if (isTokenSelectChip(filter)) {
-            return filter.filterFn(token, filter.selectedTokenId)
-          }
           return filter.filterFn(token)
         })
       ) {
@@ -404,7 +400,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     padding: Spacing.Thick24,
-    backgroundColor: colors.white,
+    backgroundColor: Colors.white,
     width: '100%',
   },
   title: {

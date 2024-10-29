@@ -580,9 +580,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionDetailsEvents.transaction_details_tap_block_explorer]: `When a user press 'View on block explorer' on transaction details page`,
 
   // Events related to earn program
-  [EarnEvents.earn_cta_press]: `When a user taps on the earn your stablecoins CTA on the discover tab (only for MVP w/ AAVE)`,
   [EarnEvents.earn_entrypoint_press]: `When a user taps on the earn your stablecoins entrypoint on the discover tab (only for multiple pools)`,
-  [EarnEvents.earn_add_crypto_action_press]: `When a user in the Earn flow enters an amount higher than their balance and chooses an option to add crypto`,
+  [EarnEvents.earn_before_deposit_action_press]: `When a user in the Earn flow doesn't have the deposit token and so chooses an option to add it`,
   [EarnEvents.earn_deposit_provider_info_press]: `When a user taps on the info icon next to the provider name on the deposit bottom sheet`,
   [EarnEvents.earn_deposit_terms_and_conditions_press]: `When a user taps on the terms and conditions link on the deposit bottom sheet`,
   [EarnEvents.earn_deposit_complete]: `When a user taps on the complete button on the deposit bottom sheet`,
@@ -591,12 +590,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_deposit_submit_success]: `When the deposit transaction succeeds`,
   [EarnEvents.earn_deposit_submit_error]: `When the deposit transaction fails`,
   [EarnEvents.earn_deposit_submit_cancel]: `When the user cancels the deposit after submitting by cancelling PIN input`,
-  [EarnEvents.earn_view_pools_press]: `When the user taps on the view pools button from token details`,
-  [EarnEvents.earn_enter_amount_info_press]: `When a user taps on the info icon on the earn enter amount screen`,
   [EarnEvents.earn_enter_amount_continue_press]: `When a user taps continue on the earn enter amount`,
-  [EarnEvents.earn_enter_amount_info_more_pools]: `When a user taps to see other Aave pools`,
-  [EarnEvents.earn_exit_pool_press]: `When the user taps on the exit pool button from the earn card in discover tab`,
-  [EarnEvents.earn_deposit_more_press]: `When the user taps deposit more button from the earn card in discover tab`,
   [EarnEvents.earn_deposit_add_gas_press]: `When the user doesn't have enough for gas when trying to deposit and clicks on the button to add gas token`,
   [EarnEvents.earn_feed_item_select]: `When the users taps on an earn transaction feed item`,
   [EarnEvents.earn_collect_earnings_press]: `When the user taps on the collect earnings button in the collect screen`,
@@ -615,6 +609,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_pool_info_tap_info_icon]: `When the user taps an info icon on the earn pool info screen`,
   [EarnEvents.earn_pool_info_tap_withdraw]: `When the user taps the withdraw button on the pool info screen`,
   [EarnEvents.earn_pool_info_tap_deposit]: `When the user taps the deposit button on the pool info screen`,
+  [EarnEvents.earn_pool_info_tap_safety_details]: `When the user taps the view more/less details on the safety card on the pool info screen`,
+  [EarnEvents.earn_select_withdraw_type]: `When a user selects a withdrawal type on the withdraw bottom sheet`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.
@@ -658,4 +654,11 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [KeylessBackupEvents.cab_sign_in_with_google_success]: ``, renamed to cab_sign_in_success when we started supporting Apple sign in
   // [EarnEvents.earn_pool_card_cta_press]: `When the user taps a cta button on the pool card`,
   // [EarnEvents.earn_active_pools_cta_press]: `cta buttons on the card were removed and replaced with a single card press event`,
+  // [EarnEvents.earn_add_crypto_action_press]: `When a user in the Earn flow enters an amount higher than their balance and chooses an option to add crypto`,
+  // [EarnEvents.earn_cta_press]: `When a user taps on the earn your stablecoins CTA on the discover tab (only for MVP w/ AAVE)`,
+  // [EarnEvents.earn_view_pools_press]: `When the user taps on the view pools button from token details`,
+  // [EarnEvents.earn_enter_amount_info_press]: `When a user taps on the info icon on the earn enter amount screen`,
+  // [EarnEvents.earn_enter_amount_info_more_pools]: `When a user taps to see other Aave pools`,
+  // [EarnEvents.earn_exit_pool_press]: `When the user taps on the exit pool button from the earn card in discover tab`,
+  // [EarnEvents.earn_deposit_more_press]: `When the user taps deposit more button from the earn card in discover tab`,
 }

@@ -13,7 +13,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { usePrepareWithdrawAndClaimTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
-import { isGasSubsidizedForNetwork } from 'src/earn/utils'
+import { getEarnPositionBalanceValues, isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -80,6 +80,11 @@ export default function EarnCollectScreen({ route }: Props) {
     rewardsPositions,
   })
 
+  const { poolBalanceInDepositToken: withdrawAmountInDepositToken } = useMemo(
+    () => getEarnPositionBalanceValues({ pool }),
+    [pool]
+  )
+
   const onPress = () => {
     if (prepareTransactionsResult?.type !== 'possible') {
       // should never happen because button is disabled if withdraw is not possible
@@ -98,7 +103,7 @@ export default function EarnCollectScreen({ route }: Props) {
 
     AppAnalytics.track(EarnEvents.earn_collect_earnings_press, {
       depositTokenId,
-      tokenAmount: withdrawToken.balance.toString(),
+      tokenAmount: withdrawAmountInDepositToken.toString(),
       networkId: withdrawToken.networkId,
       providerId: pool.appId,
       poolId: pool.positionId,
@@ -139,7 +144,7 @@ export default function EarnCollectScreen({ route }: Props) {
           <CollectItem
             title={t('earnFlow.collect.total')}
             tokenInfo={depositToken}
-            rewardAmount={withdrawToken.balance}
+            rewardAmount={withdrawAmountInDepositToken}
           />
           {rewardsTokens.map((token, index) => (
             <CollectItem
@@ -184,6 +189,10 @@ export default function EarnCollectScreen({ route }: Props) {
             onPressCta={() => {
               AppAnalytics.track(EarnEvents.earn_withdraw_add_gas_press, {
                 gasTokenId: feeCurrencies[0].tokenId,
+                depositTokenId: pool.dataProps.depositTokenId,
+                networkId: pool.networkId,
+                providerId: pool.appId,
+                poolId: pool.positionId,
               })
               navigate(Screens.FiatExchangeAmount, {
                 tokenId: feeCurrencies[0].tokenId,
@@ -401,7 +410,7 @@ const styles = StyleSheet.create({
   },
   gasSubsidized: {
     ...typeScale.labelXSmall,
-    color: Colors.primary,
+    color: Colors.accent,
     marginTop: Spacing.Tiny4,
   },
 })

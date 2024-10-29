@@ -7,6 +7,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { EarnTabType } from 'src/earn/types'
+import { getEarnPositionBalanceValues } from 'src/earn/utils'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -29,7 +30,10 @@ export default function EarnActivePools() {
   const totalSuppliedValueUsd = useMemo(
     () =>
       pools.reduce(
-        (acc, pool) => acc.plus(new BigNumber(pool.balance).times(new BigNumber(pool.priceUsd))),
+        (acc, pool) => {
+          const { poolBalanceInUsd } = getEarnPositionBalanceValues({ pool })
+          return acc.plus(poolBalanceInUsd)
+        },
         new BigNumber(0) ?? null
       ),
     [pools]
@@ -48,6 +52,7 @@ export default function EarnActivePools() {
 
   return (
     <Touchable
+      shouldRenderRippleAbove
       style={styles.card}
       borderRadius={Spacing.Smallest8}
       testID="EarnActivePools"
@@ -77,6 +82,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: Spacing.Smallest8,
     marginBottom: Spacing.Thick24,
+    overflow: 'hidden',
   },
   title: {
     ...typeScale.labelSemiBoldMedium,

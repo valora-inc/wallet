@@ -127,7 +127,8 @@ export default class ExternalQuote extends NormalizedQuote {
         tokenId: this.tokenId,
       })
     } else {
-      navigateToURI(this.provider.url!)
+      const url = this.quote.url ?? this.provider.url
+      navigateToURI(url!)
     }
   }
 

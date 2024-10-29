@@ -1,60 +1,80 @@
 import BigNumber from 'bignumber.js'
-import React, { RefObject } from 'react'
+import React, { RefObject, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
-import { ResizeMode } from 'react-native-video'
-import { useDispatch } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
+import { openUrl } from 'src/app/actions'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import TokenDisplay from 'src/components/TokenDisplay'
-import Touchable from 'src/components/Touchable'
-import { EarnApyAndAmount } from 'src/earn/EarnApyAndAmount'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
-import { isGasSubsidizedForNetwork } from 'src/earn/utils'
-import InfoIcon from 'src/icons/InfoIcon'
-import Logo from 'src/images/Logo'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { EarnEnterMode } from 'src/earn/types'
+import {
+  getSwapToAmountInDecimals,
+  getTotalYieldRate,
+  isGasSubsidizedForNetwork,
+} from 'src/earn/utils'
+import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { EarnPosition } from 'src/positions/types'
-import { useSelector } from 'src/redux/hooks'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
+import { Spacing } from 'src/styles/styles'
+import { SwapTransaction } from 'src/swap/types'
 import {
   PreparedTransactionsPossible,
   getFeeCurrencyAndAmounts,
 } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 
-const LOGO_SIZE = 24
+const APP_ID_TO_PROVIDER_DOCUMENTS_URL: Record<string, string | undefined> = {
+  beefy: 'https://docs.beefy.finance/',
+}
+const APP_TERMS_AND_CONDITIONS_URL = 'https://valora.xyz/terms'
 
 export default function EarnDepositBottomSheet({
   forwardedRef,
   preparedTransaction,
-  amount,
+  inputAmount,
+  inputTokenId,
   pool,
+  mode,
+  swapTransaction,
 }: {
   forwardedRef: RefObject<BottomSheetModalRefType>
   preparedTransaction: PreparedTransactionsPossible
-  amount: BigNumber
+  inputTokenId: string
+  inputAmount: BigNumber
   pool: EarnPosition
+  mode: EarnEnterMode
+  swapTransaction?: SwapTransaction
 }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const depositStatus = useSelector(depositStatusSelector)
   const transactionSubmitted = depositStatus === 'loading'
 
+  const depositAmount = useMemo(
+    () =>
+      mode === 'swap-deposit' && swapTransaction
+        ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: inputAmount })
+        : inputAmount,
+    [inputAmount, swapTransaction]
+  )
+
   const commonAnalyticsProperties = {
     providerId: pool.appId,
     depositTokenId: pool.dataProps.depositTokenId,
-    tokenAmount: amount.toString(),
+    depositTokenAmount: depositAmount.toString(),
+    fromTokenId: inputTokenId,
+    fromTokenAmount: inputAmount.toString(),
     networkId: pool.networkId,
     poolId: pool.positionId,
+    mode,
   }
 
   const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
@@ -69,23 +89,43 @@ export default function EarnDepositBottomSheet({
 
   const onPressProviderIcon = () => {
     AppAnalytics.track(EarnEvents.earn_deposit_provider_info_press, commonAnalyticsProperties)
-    termsUrl && navigate(Screens.WebViewScreen, { uri: termsUrl })
+    termsUrl && dispatch(openUrl(termsUrl, true))
   }
 
   const onPressTermsAndConditions = () => {
-    AppAnalytics.track(
-      EarnEvents.earn_deposit_terms_and_conditions_press,
-      commonAnalyticsProperties
-    )
-    termsUrl && navigate(Screens.WebViewScreen, { uri: termsUrl })
+    AppAnalytics.track(EarnEvents.earn_deposit_terms_and_conditions_press, {
+      type: 'providerTermsAndConditions',
+      ...commonAnalyticsProperties,
+    })
+    termsUrl && dispatch(openUrl(termsUrl, true))
+  }
+
+  const onPressProviderDocuments = () => {
+    AppAnalytics.track(EarnEvents.earn_deposit_terms_and_conditions_press, {
+      type: 'providerDocuments',
+      ...commonAnalyticsProperties,
+    })
+    const providerDocumentsUrl = APP_ID_TO_PROVIDER_DOCUMENTS_URL[pool.appId]
+    providerDocumentsUrl && dispatch(openUrl(providerDocumentsUrl, true))
+  }
+
+  const onPressAppTermsAndConditions = () => {
+    AppAnalytics.track(EarnEvents.earn_deposit_terms_and_conditions_press, {
+      type: 'appTermsAndConditions',
+      ...commonAnalyticsProperties,
+    })
+    dispatch(openUrl(APP_TERMS_AND_CONDITIONS_URL, true))
   }
 
   const onPressComplete = () => {
     dispatch(
       depositStart({
-        amount: amount.toString(),
+        amount: depositAmount.toString(),
         pool,
         preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
+        mode,
+        fromTokenId: inputTokenId,
+        fromTokenAmount: inputAmount.toString(),
       })
     )
     AppAnalytics.track(EarnEvents.earn_deposit_complete, commonAnalyticsProperties)
@@ -99,35 +139,77 @@ export default function EarnDepositBottomSheet({
   return (
     <BottomSheet forwardedRef={forwardedRef} testId="EarnDepositBottomSheet">
       <View style={styles.container}>
-        <Logos providerUrl={pool.displayProps.imageUrl} />
         <Text style={styles.title}>{t('earnFlow.depositBottomSheet.title')}</Text>
         <Text style={styles.description}>
           {t('earnFlow.depositBottomSheet.descriptionV1_93', { providerName: pool.appName })}
         </Text>
-        <View style={styles.infoContainer}>
-          <EarnApyAndAmount
-            tokenAmount={amount}
-            pool={pool}
-            testIDPrefix={'EarnDepositBottomSheet'}
-          />
-        </View>
+        <LabelledItem label={t('earnFlow.depositBottomSheet.yieldRate')}>
+          <Text style={styles.value}>
+            {t('earnFlow.depositBottomSheet.apy', {
+              apy: getTotalYieldRate(pool).toFixed(2),
+            })}
+          </Text>
+        </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.amount')}>
-          <TokenDisplay
-            testID="EarnDeposit/Amount"
-            amount={amount}
-            tokenId={pool.dataProps.depositTokenId}
-            style={styles.value}
-            showLocalAmount={false}
-          />
+          <View style={styles.valueRow} testID="EarnDeposit/Amount">
+            <TokenDisplay
+              testID="EarnDeposit/AmountCrypto"
+              amount={depositAmount}
+              tokenId={pool.dataProps.depositTokenId}
+              style={styles.value}
+              showLocalAmount={false}
+            />
+            <Text style={styles.valueSecondary}>
+              {'('}
+              <TokenDisplay
+                testID="EarnDeposit/AmountFiat"
+                amount={depositAmount}
+                tokenId={pool.dataProps.depositTokenId}
+                showLocalAmount={true}
+              />
+              {')'}
+            </Text>
+          </View>
+          {mode === 'swap-deposit' && (
+            <View style={styles.valueRow}>
+              <TokenDisplay
+                testID="EarnDeposit/Swap/From"
+                tokenId={inputTokenId}
+                amount={inputAmount.toString()}
+                showLocalAmount={false}
+                style={styles.valueSecondary}
+              />
+              <ArrowRightThick size={20} color={Colors.gray3} />
+              <TokenDisplay
+                testID="EarnDeposit/Swap/To"
+                tokenId={pool.dataProps.depositTokenId}
+                amount={depositAmount}
+                showLocalAmount={false}
+                style={styles.valueSecondary}
+              />
+            </View>
+          )}
         </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.fee')}>
-          <TokenDisplay
-            testID="EarnDeposit/Fee"
-            amount={estimatedFeeAmount}
-            tokenId={feeCurrency.tokenId}
-            style={[styles.value, isGasSubsidized && { textDecorationLine: 'line-through' }]}
-            showLocalAmount={false}
-          />
+          <View style={styles.valueRow} testID="EarnDeposit/Fee">
+            <TokenDisplay
+              testID="EarnDeposit/FeeFiat"
+              amount={estimatedFeeAmount}
+              tokenId={feeCurrency.tokenId}
+              style={[styles.value, isGasSubsidized && { textDecorationLine: 'line-through' }]}
+              showLocalAmount={true}
+            />
+            <Text style={styles.valueSecondary}>
+              {'('}
+              <TokenDisplay
+                testID="EarnDeposit/FeeCrypto"
+                amount={estimatedFeeAmount}
+                tokenId={feeCurrency.tokenId}
+                showLocalAmount={false}
+              />
+              {')'}
+            </Text>
+          </View>
           {isGasSubsidized && (
             <Text style={styles.gasSubsidized} testID={'EarnDeposit/GasSubsidized'}>
               {t('earnFlow.gasSubsidized')}
@@ -136,15 +218,16 @@ export default function EarnDepositBottomSheet({
         </LabelledItem>
         <LabelledItem label={t('earnFlow.depositBottomSheet.provider')}>
           <View style={styles.providerNameContainer}>
-            <Text style={styles.value}>{pool.appName}</Text>
-            {!!termsUrl && (
-              <Touchable
-                testID="EarnDeposit/ProviderInfo"
-                borderRadius={24}
+            {termsUrl ? (
+              <LabelWithInfo
+                label={pool.appName}
+                labelStyle={styles.value}
                 onPress={onPressProviderIcon}
-              >
-                <InfoIcon size={12} />
-              </Touchable>
+                iconSize={12}
+                testID="EarnDeposit/ProviderInfo"
+              />
+            ) : (
+              <Text style={styles.value}>{pool.appName}</Text>
             )}
           </View>
         </LabelledItem>
@@ -153,7 +236,7 @@ export default function EarnDepositBottomSheet({
             {NETWORK_NAMES[preparedTransaction.feeCurrency.networkId]}
           </Text>
         </LabelledItem>
-        {!!termsUrl && (
+        {termsUrl ? (
           <Text style={styles.footer}>
             <Trans
               i18nKey="earnFlow.depositBottomSheet.footerV1_93"
@@ -166,6 +249,26 @@ export default function EarnDepositBottomSheet({
               />
             </Trans>
           </Text>
+        ) : (
+          APP_ID_TO_PROVIDER_DOCUMENTS_URL[pool.appId] && (
+            <Text style={styles.footer}>
+              <Trans
+                i18nKey="earnFlow.depositBottomSheet.noTermsUrlFooter"
+                tOptions={{ providerName: pool.appName }}
+              >
+                <Text
+                  testID="EarnDeposit/ProviderDocuments"
+                  style={styles.termsLink}
+                  onPress={onPressProviderDocuments}
+                />
+                <Text
+                  testID="EarnDeposit/AppTermsAndConditions"
+                  style={styles.termsLink}
+                  onPress={onPressAppTermsAndConditions}
+                />
+              </Trans>
+            </Text>
+          )
         )}
         <View style={styles.ctaContainer}>
           <Button
@@ -201,23 +304,6 @@ function LabelledItem({ label, children }: { label: string; children: React.Reac
   )
 }
 
-function Logos({ providerUrl }: { providerUrl: string }) {
-  return (
-    <View style={styles.logoContainer}>
-      <View style={styles.logoBackground}>
-        <Logo size={LOGO_SIZE} />
-      </View>
-      <View style={[styles.logoBackground, { marginLeft: -4 }]}>
-        <FastImage
-          style={styles.providerImage}
-          source={{ uri: providerUrl }}
-          resizeMode={ResizeMode.COVER}
-        />
-      </View>
-    </View>
-  )
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -236,29 +322,19 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typeScale.labelXSmall,
-    color: Colors.gray4,
+    color: Colors.gray3,
   },
   value: {
     ...typeScale.labelSemiBoldSmall,
     color: Colors.black,
   },
-  logoContainer: {
+  valueRow: {
     flexDirection: 'row',
+    gap: Spacing.Tiny4,
   },
-  logoBackground: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center',
-    height: 40,
-    width: 40,
-    borderRadius: 100,
-    backgroundColor: Colors.white,
-    ...getShadowStyle(Shadow.SoftLight),
-  },
-  providerImage: {
-    height: LOGO_SIZE,
-    width: LOGO_SIZE,
-    borderRadius: 100,
+  valueSecondary: {
+    ...typeScale.bodySmall,
+    color: Colors.gray3,
   },
   providerNameContainer: {
     flexDirection: 'row',
@@ -266,7 +342,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footer: {
-    marginTop: Spacing.XLarge48,
     ...typeScale.bodySmall,
     color: Colors.gray3,
   },
@@ -282,14 +357,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexBasis: 0,
   },
-  infoContainer: {
-    padding: Spacing.Regular16,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-  },
   gasSubsidized: {
     ...typeScale.labelXSmall,
-    color: Colors.primary,
+    color: Colors.accent,
   },
 })

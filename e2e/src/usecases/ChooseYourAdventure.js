@@ -56,6 +56,6 @@ export default ChooseYourAdventure = () => {
 
     await waitForElementId('EarnInfoScreen/Title')
     // Check that we are on the Earn On Your Stablecoins page
-    await expect(element(by.text('Earn on your\nstablecoins')).atIndex(0)).toBeVisible()
+    await expect(element(by.text('Earn on your\ncrypto')).atIndex(0)).toBeVisible()
   })
 }

@@ -338,6 +338,25 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
   })
 
+  it('should display the UK compliant variants', () => {
+    const mockedPopularTokens = [mockUSDCTokenId, mockPoofTokenId]
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      popularTokenIds: mockedPopularTokens,
+      maxSlippagePercentage: '0.3',
+    })
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+
+    const { getByText, tokenBottomSheets } = renderScreen({})
+
+    expect(getByText('swapScreen.confirmSwap, {"context":"UK"}')).toBeTruthy()
+    expect(getByText('swapScreen.disclaimer, {"context":"UK"}')).toBeTruthy()
+    // popular token filter chip is not shown
+    expect(within(tokenBottomSheets[0]).queryByText('tokenBottomSheet.filters.popular')).toBeFalsy()
+    expect(within(tokenBottomSheets[1]).queryByText('tokenBottomSheet.filters.popular')).toBeFalsy()
+  })
+
   it('should display the token set via fromTokenId prop', () => {
     const { swapFromContainer, swapToContainer } = renderScreen({ fromTokenId: mockCeurTokenId })
 
@@ -1309,6 +1328,9 @@ describe('SwapScreen', () => {
           status: 'started',
         },
       },
+
+      // as per test/utils.ts, line 105
+      transactionFeedV2Api: undefined,
     })
 
     update(
@@ -1354,6 +1376,9 @@ describe('SwapScreen', () => {
           status: 'error',
         },
       },
+
+      // as per test/utils.ts, line 105
+      transactionFeedV2Api: undefined,
     })
 
     update(

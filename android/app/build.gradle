@@ -150,7 +150,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
-        versionName "1.94.0"
+        versionName "1.97.0"
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -164,7 +164,7 @@ android {
 
         manifestPlaceholders = [
             auth0Domain: project.env.get("AUTH0_DOMAIN"),
-            auth0Scheme: "${applicationId}",
+            auth0Scheme: "${applicationId}.auth0",
             clevertapAccountId: secrets['CLEVERTAP_ACCOUNT_ID'] ?: '', // these values cannot be null
             clevertapToken: secrets['CLEVERTAP_TOKEN'] ?: ''
         ]

@@ -75,7 +75,7 @@ function ProtectWallet({ navigation }: Props) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.activityIndicatorContainer}>
-          <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.primary} />
+          <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.accent} />
         </View>
       </SafeAreaView>
     )

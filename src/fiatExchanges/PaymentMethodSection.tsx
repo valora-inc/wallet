@@ -15,6 +15,8 @@ import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -60,6 +62,8 @@ export function PaymentMethodSection({
   const isExpandable = sectionQuotes.length > 1
   const [expanded, setExpanded] = useState(isExpandable)
   const [newDialogVisible, setNewDialogVisible] = useState(false)
+
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
 
   useEffect(() => {
     if (sectionQuotes.length) {
@@ -225,7 +229,7 @@ export function PaymentMethodSection({
       >
         <View>
           <Expandable
-            arrowColor={colors.primary}
+            arrowColor={colors.accent}
             containerStyle={{
               ...styles.expandableContainer,
               paddingVertical: isExpandable ? (expanded ? 22 : 27) : 16,
@@ -258,7 +262,8 @@ export function PaymentMethodSection({
                   <Text style={styles.expandedInfo}>{renderInfoText(normalizedQuote)}</Text>
                   {index === 0 &&
                     !!tokenInfo &&
-                    normalizedQuote.getFeeInCrypto(usdToLocalRate, tokenInfo) && (
+                    normalizedQuote.getFeeInCrypto(usdToLocalRate, tokenInfo) &&
+                    !showUKCompliantVariant && (
                       <Text testID={`${paymentMethod}/bestRate`} style={styles.expandedTag}>
                         {t('selectProviderScreen.bestRate')}
                       </Text>
@@ -367,7 +372,7 @@ const styles = StyleSheet.create({
   },
   expandedTag: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.primary,
+    color: colors.accent,
     fontSize: 12,
     marginTop: 2,
   },

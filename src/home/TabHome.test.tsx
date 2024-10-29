@@ -1,9 +1,8 @@
-import { act, render } from '@testing-library/react-native'
+import { render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import TabHome from 'src/home/TabHome'
-import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
@@ -101,16 +100,14 @@ describe('TabHome', () => {
       },
     })
 
-    await act(() => {
-      jest.runOnlyPendingTimers()
-    })
-
-    expect(store.getActions().map((action) => action.type)).toEqual(
-      expect.arrayContaining([
-        'HOME/VISIT_HOME',
-        'HOME/REFRESH_BALANCES',
-        'IDENTITY/IMPORT_CONTACTS',
-      ])
+    await waitFor(() =>
+      expect(store.getActions().map((action) => action.type)).toEqual(
+        expect.arrayContaining([
+          'HOME/VISIT_HOME',
+          'HOME/REFRESH_BALANCES',
+          'IDENTITY/IMPORT_CONTACTS',
+        ])
+      )
     )
   })
 
@@ -124,13 +121,10 @@ describe('TabHome', () => {
       },
     })
 
-    await act(() => {
-      jest.runOnlyPendingTimers()
-    })
-
-    const importContactsAction = store
-      .getActions()
-      .find((action) => action.type === IdentityActions.IMPORT_CONTACTS)
-    expect(importContactsAction).toBeFalsy()
+    await waitFor(() =>
+      expect(store.getActions().map((action) => action.type)).toEqual(
+        expect.arrayContaining(['HOME/VISIT_HOME', 'HOME/REFRESH_BALANCES'])
+      )
+    )
   })
 })

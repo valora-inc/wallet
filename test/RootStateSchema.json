@@ -1187,10 +1187,6 @@
         "EarnClaimReward": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "const": "EarnClaimReward",
-                    "type": "string"
-                },
                 "amount": {
                     "$ref": "#/definitions/TokenAmount"
                 },
@@ -1219,11 +1215,11 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "const": "EARN_CLAIM_REWARD",
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "amount",
                 "block",
                 "fees",
@@ -1242,8 +1238,18 @@
                 "cantSeparateCompoundedInterest": {
                     "type": "boolean"
                 },
+                "claimType": {
+                    "enum": [
+                        "earnings",
+                        "rewards"
+                    ],
+                    "type": "string"
+                },
                 "contractCreatedAt": {
                     "type": "string"
+                },
+                "dailyYieldRatePercentage": {
+                    "type": "number"
                 },
                 "depositTokenId": {
                     "type": "string"
@@ -1263,6 +1269,9 @@
                     },
                     "type": "array"
                 },
+                "safety": {
+                    "$ref": "#/definitions/Safety"
+                },
                 "termsUrl": {
                     "type": "string"
                 },
@@ -1271,6 +1280,9 @@
                 },
                 "withdrawTokenId": {
                     "type": "string"
+                },
+                "withdrawalIncludesClaim": {
+                    "type": "boolean"
                 },
                 "yieldRates": {
                     "items": {
@@ -1290,10 +1302,6 @@
         "EarnDeposit": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "const": "EarnDeposit",
-                    "type": "string"
-                },
                 "block": {
                     "type": "string"
                 },
@@ -1325,11 +1333,11 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "const": "EARN_DEPOSIT",
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "block",
                 "fees",
                 "inAmount",
@@ -1343,13 +1351,87 @@
             ],
             "type": "object"
         },
+        "EarnSwapDeposit": {
+            "additionalProperties": false,
+            "properties": {
+                "block": {
+                    "type": "string"
+                },
+                "deposit": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "providerId": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount",
+                        "providerId"
+                    ],
+                    "type": "object"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "swap": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount"
+                    ],
+                    "type": "object"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "EARN_SWAP_DEPOSIT",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "block",
+                "deposit",
+                "fees",
+                "networkId",
+                "status",
+                "swap",
+                "timestamp",
+                "transactionHash",
+                "type"
+            ],
+            "type": "object"
+        },
         "EarnWithdraw": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "const": "EarnWithdraw",
-                    "type": "string"
-                },
                 "block": {
                     "type": "string"
                 },
@@ -1381,11 +1463,11 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "const": "EARN_WITHDRAW",
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "block",
                 "fees",
                 "inAmount",
@@ -2087,10 +2169,6 @@
         "NftTransfer": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "const": "NftTransferV3",
-                    "type": "string"
-                },
                 "block": {
                     "type": "string"
                 },
@@ -2119,11 +2197,14 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "enum": [
+                        "NFT_RECEIVED",
+                        "NFT_SENT"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "block",
                 "networkId",
                 "status",
@@ -2454,10 +2535,6 @@
         "PendingStandbyTransaction<EarnClaimReward>": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "const": "EarnClaimReward",
-                    "type": "string"
-                },
                 "amount": {
                     "$ref": "#/definitions/TokenAmount"
                 },
@@ -2484,11 +2561,11 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "const": "EARN_CLAIM_REWARD",
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "amount",
                 "context",
                 "networkId",
@@ -2502,10 +2579,6 @@
         "PendingStandbyTransaction<EarnDeposit>": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "const": "EarnDeposit",
-                    "type": "string"
-                },
                 "context": {
                     "$ref": "#/definitions/TransactionContext"
                 },
@@ -2535,11 +2608,11 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "const": "EARN_DEPOSIT",
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "context",
                 "inAmount",
                 "networkId",
@@ -2551,13 +2624,83 @@
             ],
             "type": "object"
         },
+        "PendingStandbyTransaction<EarnSwapDeposit>": {
+            "additionalProperties": false,
+            "properties": {
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "deposit": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "providerId": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount",
+                        "providerId"
+                    ],
+                    "type": "object"
+                },
+                "feeCurrencyId": {
+                    "type": "string"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "const": "Pending",
+                    "type": "string"
+                },
+                "swap": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "inAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "outAmount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        }
+                    },
+                    "required": [
+                        "inAmount",
+                        "outAmount"
+                    ],
+                    "type": "object"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "EARN_SWAP_DEPOSIT",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "context",
+                "deposit",
+                "networkId",
+                "status",
+                "swap",
+                "timestamp",
+                "type"
+            ],
+            "type": "object"
+        },
         "PendingStandbyTransaction<EarnWithdraw>": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "const": "EarnWithdraw",
-                    "type": "string"
-                },
                 "context": {
                     "$ref": "#/definitions/TransactionContext"
                 },
@@ -2587,11 +2730,11 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "const": "EARN_WITHDRAW",
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "context",
                 "inAmount",
                 "networkId",
@@ -2606,10 +2749,6 @@
         "PendingStandbyTransaction<NftTransfer>": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "const": "NftTransferV3",
-                    "type": "string"
-                },
                 "context": {
                     "$ref": "#/definitions/TransactionContext"
                 },
@@ -2636,11 +2775,14 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "enum": [
+                        "NFT_RECEIVED",
+                        "NFT_SENT"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "context",
                 "networkId",
                 "status",
@@ -2652,13 +2794,6 @@
         "PendingStandbyTransaction<PendingTokenExchange>": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "enum": [
-                        "CrossChainTokenExchange",
-                        "TokenExchangeV3"
-                    ],
-                    "type": "string"
-                },
                 "context": {
                     "$ref": "#/definitions/TransactionContext"
                 },
@@ -2688,11 +2823,10 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "$ref": "#/definitions/TokenTransactionTypeV2.Exchange"
                 }
             },
             "required": [
-                "__typename",
                 "context",
                 "inAmount",
                 "networkId",
@@ -2706,10 +2840,6 @@
         "PendingStandbyTransaction<TokenApproval>": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "const": "TokenApproval",
-                    "type": "string"
-                },
                 "approvedAmount": {
                     "type": [
                         "null",
@@ -2739,11 +2869,11 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "const": "APPROVAL",
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "approvedAmount",
                 "context",
                 "networkId",
@@ -2757,10 +2887,6 @@
         "PendingStandbyTransaction<TokenTransfer>": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "const": "TokenTransferV3",
-                    "type": "string"
-                },
                 "address": {
                     "type": "string"
                 },
@@ -2790,11 +2916,14 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "enum": [
+                        "RECEIVED",
+                        "SENT"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "address",
                 "amount",
                 "context",
@@ -3041,6 +3170,9 @@
                 "imageUrl": {
                     "type": "string"
                 },
+                "manageUrl": {
+                    "type": "string"
+                },
                 "title": {
                     "type": "string"
                 }
@@ -3277,6 +3409,50 @@
             },
             "required": [
                 "protocol"
+            ],
+            "type": "object"
+        },
+        "Safety": {
+            "additionalProperties": false,
+            "properties": {
+                "level": {
+                    "enum": [
+                        "high",
+                        "low",
+                        "medium"
+                    ],
+                    "type": "string"
+                },
+                "risks": {
+                    "items": {
+                        "$ref": "#/definitions/SafetyRisk"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "level",
+                "risks"
+            ],
+            "type": "object"
+        },
+        "SafetyRisk": {
+            "additionalProperties": false,
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "isPositive": {
+                    "type": "boolean"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "category",
+                "isPositive",
+                "title"
             ],
             "type": "object"
         },
@@ -3605,6 +3781,9 @@
                     "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
                 },
                 {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnSwapDeposit>"
+                },
+                {
                     "$ref": "#/definitions/PendingStandbyTransaction<EarnWithdraw>"
                 },
                 {
@@ -3616,13 +3795,6 @@
                 {
                     "additionalProperties": false,
                     "properties": {
-                        "__typename": {
-                            "enum": [
-                                "CrossChainTokenExchange",
-                                "TokenExchangeV3"
-                            ],
-                            "type": "string"
-                        },
                         "block": {
                             "type": "string"
                         },
@@ -3664,11 +3836,15 @@
                             "type": "string"
                         },
                         "type": {
-                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                            "enum": [
+                                "CROSS_CHAIN_SWAP_TRANSACTION",
+                                "EXCHANGE",
+                                "SWAP_TRANSACTION"
+                            ],
+                            "type": "string"
                         }
                     },
                     "required": [
-                        "__typename",
                         "block",
                         "context",
                         "fees",
@@ -3685,10 +3861,6 @@
                 {
                     "additionalProperties": false,
                     "properties": {
-                        "__typename": {
-                            "const": "TokenTransferV3",
-                            "type": "string"
-                        },
                         "address": {
                             "type": "string"
                         },
@@ -3730,11 +3902,14 @@
                             "type": "string"
                         },
                         "type": {
-                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                            "enum": [
+                                "RECEIVED",
+                                "SENT"
+                            ],
+                            "type": "string"
                         }
                     },
                     "required": [
-                        "__typename",
                         "address",
                         "amount",
                         "block",
@@ -3752,10 +3927,6 @@
                 {
                     "additionalProperties": false,
                     "properties": {
-                        "__typename": {
-                            "const": "TokenApproval",
-                            "type": "string"
-                        },
                         "approvedAmount": {
                             "type": [
                                 "null",
@@ -3797,11 +3968,11 @@
                             "type": "string"
                         },
                         "type": {
-                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                            "const": "APPROVAL",
+                            "type": "string"
                         }
                     },
                     "required": [
-                        "__typename",
                         "approvedAmount",
                         "block",
                         "context",
@@ -3818,10 +3989,6 @@
                 {
                     "additionalProperties": false,
                     "properties": {
-                        "__typename": {
-                            "const": "NftTransferV3",
-                            "type": "string"
-                        },
                         "block": {
                             "type": "string"
                         },
@@ -3860,11 +4027,14 @@
                             "type": "string"
                         },
                         "type": {
-                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                            "enum": [
+                                "NFT_RECEIVED",
+                                "NFT_SENT"
+                            ],
+                            "type": "string"
                         }
                     },
                     "required": [
-                        "__typename",
                         "block",
                         "context",
                         "networkId",
@@ -3878,10 +4048,6 @@
                 {
                     "additionalProperties": false,
                     "properties": {
-                        "__typename": {
-                            "const": "EarnDeposit",
-                            "type": "string"
-                        },
                         "block": {
                             "type": "string"
                         },
@@ -3923,11 +4089,11 @@
                             "type": "string"
                         },
                         "type": {
-                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                            "const": "EARN_DEPOSIT",
+                            "type": "string"
                         }
                     },
                     "required": [
-                        "__typename",
                         "block",
                         "context",
                         "fees",
@@ -3945,10 +4111,95 @@
                 {
                     "additionalProperties": false,
                     "properties": {
-                        "__typename": {
-                            "const": "EarnWithdraw",
+                        "block": {
                             "type": "string"
                         },
+                        "context": {
+                            "$ref": "#/definitions/TransactionContext"
+                        },
+                        "deposit": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "inAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                },
+                                "outAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                },
+                                "providerId": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "inAmount",
+                                "outAmount",
+                                "providerId"
+                            ],
+                            "type": "object"
+                        },
+                        "feeCurrencyId": {
+                            "type": "string"
+                        },
+                        "fees": {
+                            "items": {
+                                "$ref": "#/definitions/Fee"
+                            },
+                            "type": "array"
+                        },
+                        "networkId": {
+                            "$ref": "#/definitions/NetworkId"
+                        },
+                        "status": {
+                            "enum": [
+                                "Complete",
+                                "Failed"
+                            ],
+                            "type": "string"
+                        },
+                        "swap": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "inAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                },
+                                "outAmount": {
+                                    "$ref": "#/definitions/TokenAmount"
+                                }
+                            },
+                            "required": [
+                                "inAmount",
+                                "outAmount"
+                            ],
+                            "type": "object"
+                        },
+                        "timestamp": {
+                            "type": "number"
+                        },
+                        "transactionHash": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "const": "EARN_SWAP_DEPOSIT",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "block",
+                        "context",
+                        "deposit",
+                        "fees",
+                        "networkId",
+                        "status",
+                        "swap",
+                        "timestamp",
+                        "transactionHash",
+                        "type"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
                         "block": {
                             "type": "string"
                         },
@@ -3990,11 +4241,11 @@
                             "type": "string"
                         },
                         "type": {
-                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                            "const": "EARN_WITHDRAW",
+                            "type": "string"
                         }
                     },
                     "required": [
-                        "__typename",
                         "block",
                         "context",
                         "fees",
@@ -4012,10 +4263,6 @@
                 {
                     "additionalProperties": false,
                     "properties": {
-                        "__typename": {
-                            "const": "EarnClaimReward",
-                            "type": "string"
-                        },
                         "amount": {
                             "$ref": "#/definitions/TokenAmount"
                         },
@@ -4054,11 +4301,11 @@
                             "type": "string"
                         },
                         "type": {
-                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                            "const": "EARN_CLAIM_REWARD",
+                            "type": "string"
                         }
                     },
                     "required": [
-                        "__typename",
                         "amount",
                         "block",
                         "context",
@@ -5255,6 +5502,12 @@
         "State_6": {
             "additionalProperties": false,
             "properties": {
+                "feedFirstPage": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
                 "standbyTransactions": {
                     "items": {
                         "$ref": "#/definitions/StandbyTransaction"
@@ -5266,6 +5519,7 @@
                 }
             },
             "required": [
+                "feedFirstPage",
                 "standbyTransactions",
                 "transactionsByNetworkId"
             ],
@@ -5664,10 +5918,6 @@
         "TokenApproval": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "const": "TokenApproval",
-                    "type": "string"
-                },
                 "approvedAmount": {
                     "type": [
                         "null",
@@ -5699,11 +5949,11 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "const": "APPROVAL",
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "approvedAmount",
                 "block",
                 "fees",
@@ -5719,13 +5969,6 @@
         "TokenExchange": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "enum": [
-                        "CrossChainTokenExchange",
-                        "TokenExchangeV3"
-                    ],
-                    "type": "string"
-                },
                 "block": {
                     "type": "string"
                 },
@@ -5757,11 +6000,15 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "enum": [
+                        "CROSS_CHAIN_SWAP_TRANSACTION",
+                        "EXCHANGE",
+                        "SWAP_TRANSACTION"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "block",
                 "fees",
                 "inAmount",
@@ -5804,6 +6051,9 @@
                     "$ref": "#/definitions/EarnDeposit"
                 },
                 {
+                    "$ref": "#/definitions/EarnSwapDeposit"
+                },
+                {
                     "$ref": "#/definitions/EarnWithdraw"
                 },
                 {
@@ -5811,18 +6061,10 @@
                 }
             ]
         },
-        "TokenTransactionTypeV2": {
+        "TokenTransactionTypeV2.Exchange": {
             "enum": [
-                "APPROVAL",
                 "CROSS_CHAIN_SWAP_TRANSACTION",
-                "EARN_CLAIM_REWARD",
-                "EARN_DEPOSIT",
-                "EARN_WITHDRAW",
                 "EXCHANGE",
-                "NFT_RECEIVED",
-                "NFT_SENT",
-                "RECEIVED",
-                "SENT",
                 "SWAP_TRANSACTION"
             ],
             "type": "string"
@@ -5830,10 +6072,6 @@
         "TokenTransfer": {
             "additionalProperties": false,
             "properties": {
-                "__typename": {
-                    "const": "TokenTransferV3",
-                    "type": "string"
-                },
                 "address": {
                     "type": "string"
                 },
@@ -5865,11 +6103,14 @@
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                    "enum": [
+                        "RECEIVED",
+                        "SENT"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
-                "__typename",
                 "address",
                 "amount",
                 "block",

@@ -12,7 +12,7 @@ import { Field, SwapInfo } from 'src/swap/types'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import { BaseStandbyTransaction } from 'src/transactions/actions'
+import { BaseStandbyTransaction } from 'src/transactions/slice'
 import {
   NetworkId,
   TokenTransactionTypeV2,
@@ -207,7 +207,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         ): BaseStandbyTransaction => {
           return {
             context: swapApproveContext,
-            __typename: 'TokenApproval',
             networkId,
             type: TokenTransactionTypeV2.Approval,
             transactionHash,
@@ -225,7 +224,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       feeCurrencyId?: string
     ): BaseStandbyTransaction => ({
       context: swapExecuteContext,
-      __typename: swapType === 'same-chain' ? 'TokenExchangeV3' : 'CrossChainTokenExchange',
       networkId,
       type:
         swapType === 'same-chain'

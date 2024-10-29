@@ -15,18 +15,19 @@ import { getMultichainFeatures } from 'src/statsig/index'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import { updateTransactions } from 'src/transactions/actions'
 import {
   completedTxHashesByNetworkIdSelector,
   pendingStandbyTxHashesByNetworkIdSelector,
   pendingTxHashesByNetworkIdSelector,
   transactionsSelector,
-} from 'src/transactions/reducer'
+} from 'src/transactions/selectors'
+import { updateTransactions } from 'src/transactions/slice'
 import {
   FeeType,
   NetworkId,
   TokenExchange,
   TokenTransaction,
+  TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -376,7 +377,7 @@ export function handlePollResponse({
 
           if (
             // Track cross-chain swap transaction status change to `Complete`
-            tx.__typename === 'CrossChainTokenExchange' &&
+            tx.type === TokenTransactionTypeV2.CrossChainSwapTransaction &&
             (pendingStandbyTransactionHashes?.has(tx.transactionHash) ||
               knownPendingTransactionHashes?.has(tx.transactionHash))
           ) {
@@ -393,7 +394,7 @@ export function handlePollResponse({
       }
       // If there are new transactions update transactions in redux and fetch balances
       if (shouldUpdateCachedTransactions) {
-        dispatch(updateTransactions(networkId, nonEmptyTransactions))
+        dispatch(updateTransactions({ networkId, transactions: nonEmptyTransactions }))
       }
       if (hasNewCompletedTransaction) {
         vibrateSuccess()
@@ -438,7 +439,7 @@ async function queryTransactionsFeed({
         networkId,
         afterCursor,
       })
-      Logger.info(TAG, `Fetched transactions for ${networkId}`, result)
+      Logger.info(TAG, `Fetched transactions for ${networkId}`)
       onNetworkResponse(networkId, result) // Update state as soon as data is available
     } finally {
       setActiveRequests((prev) => ({ ...prev, [networkId]: false }))
@@ -572,6 +573,7 @@ export const TRANSACTIONS_QUERY = gql`
         ...NftTransferItemV3
         ...TokenExchangeItemV3
         ...EarnDepositItem
+        ...EarnSwapDepositItem
         ...EarnWithdrawItem
         ...EarnClaimRewardItem
         ...TokenApprovalItem
@@ -581,7 +583,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment TokenTransferItemV3 on TokenTransferV3 {
-    __typename
     type
     transactionHash
     timestamp
@@ -619,7 +620,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment NftTransferItemV3 on NftTransferV3 {
-    __typename
     type
     transactionHash
     status
@@ -650,7 +650,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment TokenExchangeItemV3 on TokenExchangeV3 {
-    __typename
     type
     transactionHash
     status
@@ -696,7 +695,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment CrossChainTokenExchangeItem on CrossChainTokenExchange {
-    __typename
     type
     transactionHash
     status
@@ -737,8 +735,73 @@ export const TRANSACTIONS_QUERY = gql`
     }
   }
 
+  fragment EarnSwapDepositItem on EarnSwapDeposit {
+    type
+    transactionHash
+    status
+    timestamp
+    block
+    swap {
+      inAmount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+      outAmount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+    deposit {
+      inAmount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+      outAmount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+      providerId
+    }
+    fees {
+      type
+      amount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+  }
+
   fragment EarnDepositItem on EarnDeposit {
-    __typename
     type
     transactionHash
     status
@@ -781,7 +844,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment EarnWithdrawItem on EarnWithdraw {
-    __typename
     type
     transactionHash
     status
@@ -824,7 +886,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment EarnClaimRewardItem on EarnClaimReward {
-    __typename
     type
     transactionHash
     status
@@ -857,7 +918,6 @@ export const TRANSACTIONS_QUERY = gql`
   }
 
   fragment TokenApprovalItem on TokenApproval {
-    __typename
     type
     timestamp
     block

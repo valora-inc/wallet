@@ -10,7 +10,7 @@ import MagicWand from 'src/icons/MagicWand'
 import SwapArrows from 'src/icons/SwapArrows'
 import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
-import { NetworkId, TransactionStatus } from 'src/transactions/types'
+import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 
 const AVATAR_SIZE = 40
@@ -18,15 +18,17 @@ const AVATAR_SIZE = 40
 type Props = { networkId: NetworkId; status: TransactionStatus; hideNetworkIcon?: boolean } & (
   | {
       transactionType:
-        | 'TokenExchangeV3'
-        | 'CrossChainTokenExchange'
-        | 'TokenApproval'
-        | 'EarnDeposit'
-        | 'EarnWithdraw'
-        | 'EarnClaimReward'
+        | TokenTransactionTypeV2.Exchange
+        | TokenTransactionTypeV2.SwapTransaction
+        | TokenTransactionTypeV2.CrossChainSwapTransaction
+        | TokenTransactionTypeV2.Approval
+        | TokenTransactionTypeV2.EarnDeposit
+        | TokenTransactionTypeV2.EarnSwapDeposit
+        | TokenTransactionTypeV2.EarnWithdraw
+        | TokenTransactionTypeV2.EarnClaimReward
     }
   | {
-      transactionType: 'TokenTransferV3'
+      transactionType: TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
       recipient: Recipient
       isJumpstart: boolean
     }
@@ -45,14 +47,17 @@ function TransactionFeedItemBaseImage(props: Props) {
   if (status === TransactionStatus.Pending) {
     return <GreenLoadingSpinner height={AVATAR_SIZE} />
   }
-  if (transactionType === 'TokenExchangeV3' || transactionType === 'CrossChainTokenExchange') {
+  if (
+    transactionType === TokenTransactionTypeV2.SwapTransaction ||
+    transactionType === TokenTransactionTypeV2.CrossChainSwapTransaction
+  ) {
     return (
       <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
         <SwapArrows color={Colors.successDark} />
       </CircledIcon>
     )
   }
-  if (transactionType === 'TokenApproval') {
+  if (transactionType === TokenTransactionTypeV2.Approval) {
     return (
       <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
         <Activity />
@@ -60,7 +65,10 @@ function TransactionFeedItemBaseImage(props: Props) {
     )
   }
 
-  if (transactionType === 'TokenTransferV3') {
+  if (
+    transactionType === TokenTransactionTypeV2.Sent ||
+    transactionType === TokenTransactionTypeV2.Received
+  ) {
     if (props.isJumpstart) {
       return (
         <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
@@ -72,7 +80,12 @@ function TransactionFeedItemBaseImage(props: Props) {
     return <ContactCircle recipient={props.recipient} size={AVATAR_SIZE} />
   }
 
-  if (['EarnWithdraw', 'EarnDeposit', 'EarnClaimReward'].includes(transactionType)) {
+  if (
+    transactionType === TokenTransactionTypeV2.EarnWithdraw ||
+    transactionType === TokenTransactionTypeV2.EarnDeposit ||
+    transactionType === TokenTransactionTypeV2.EarnClaimReward ||
+    transactionType === TokenTransactionTypeV2.EarnSwapDeposit
+  ) {
     return (
       <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
         <EarnCoins size={24} color={Colors.successDark} />

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { HomeEvents } from 'src/analytics/Events'
 import Card from 'src/components/Card'
@@ -11,8 +11,8 @@ import { HomeActionName } from 'src/home/types'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsReceive from 'src/icons/quick-actions/Receive'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
-import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
+import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
@@ -57,7 +57,7 @@ function ActionsCarousel() {
     },
     [HomeActionName.Swap]: {
       title: t('homeActions.swap'),
-      icon: <QuickActionsSwap color={Colors.black} />,
+      icon: <SwapArrows color={Colors.black} />,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack)
       },
@@ -77,53 +77,56 @@ function ActionsCarousel() {
   }
 
   return (
-    <ScrollView
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.carouselContainer}
-      testID={'HomeActionsCarousel'}
-    >
-      {ENABLED_QUICK_ACTIONS.map((name) => ({ ...actions[name], name }))
-        .filter(({ hidden }) => !hidden)
-        .map(({ name, title, icon, onPress }) => (
-          <Card
-            style={styles.card}
-            shadow={null}
-            key={`HomeAction-${name}`}
-            testID={`HomeAction-${name}`}
-          >
-            <Touchable
-              onPress={() => {
-                AppAnalytics.track(HomeEvents.home_action_pressed, { action: name })
-                onPress()
-              }}
-              style={styles.touchable}
-              borderRadius={8}
-              testID={`HomeActionTouchable-${name}`}
+    <View style={styles.viewContainer}>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.carouselContainer}
+        testID={'HomeActionsCarousel'}
+      >
+        {ENABLED_QUICK_ACTIONS.map((name) => ({ ...actions[name], name }))
+          .filter(({ hidden }) => !hidden)
+          .map(({ name, title, icon, onPress }) => (
+            <Card
+              style={styles.card}
+              shadow={null}
+              key={`HomeAction-${name}`}
+              testID={`HomeAction-${name}`}
             >
-              <>
-                {icon}
-                <Text
-                  numberOfLines={1}
-                  allowFontScaling={false}
-                  style={styles.name}
-                  testID={`HomeAction/Title-${name}`}
-                >
-                  {title}
-                </Text>
-              </>
-            </Touchable>
-          </Card>
-        ))}
-    </ScrollView>
+              <Touchable
+                onPress={() => {
+                  AppAnalytics.track(HomeEvents.home_action_pressed, { action: name })
+                  onPress()
+                }}
+                style={styles.touchable}
+                borderRadius={8}
+                testID={`HomeActionTouchable-${name}`}
+              >
+                <>
+                  {icon}
+                  <Text
+                    numberOfLines={1}
+                    allowFontScaling={false}
+                    style={styles.name}
+                    testID={`HomeAction/Title-${name}`}
+                  >
+                    {title}
+                  </Text>
+                </>
+              </Touchable>
+            </Card>
+          ))}
+      </ScrollView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  viewContainer: {
+    backgroundColor: Colors.white,
+  },
   carouselContainer: {
-    paddingHorizontal: Spacing.Regular16,
-    marginTop: Spacing.Regular16,
-    marginBottom: Spacing.Smallest8,
+    padding: Spacing.Regular16,
     gap: Spacing.Regular16,
   },
   card: {

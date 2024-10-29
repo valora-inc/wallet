@@ -80,7 +80,7 @@ export default function CodeInput({
       </View>
       {showStatus && (
         <View style={styles.statusContainer}>
-          {showSpinner && <ActivityIndicator size="small" color={colors.primary} />}
+          {showSpinner && <ActivityIndicator size="small" color={colors.accent} />}
           {showCheckmark && <Checkmark testID={testID ? `${testID}/CheckIcon` : undefined} />}
 
           {showError && (

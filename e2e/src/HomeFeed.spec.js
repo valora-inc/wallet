@@ -37,8 +37,8 @@ describe('Home Feed', () => {
 
     // Scroll to bottom - Android will scroll forever so we set a static value
     device.getPlatform() === 'ios'
-      ? await element(by.id('WalletHome/SectionList')).scrollTo('bottom')
-      : await element(by.id('WalletHome/SectionList')).scroll(2000, 'down')
+      ? await element(by.id('WalletHome/FlatList')).scrollTo('bottom')
+      : await element(by.id('WalletHome/FlatList')).scroll(2000, 'down')
     await sleep(5000)
 
     // Compare initial number of items to new number of items after scroll

@@ -8,29 +8,31 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetModalRefType } from 'src/components/BottomSheet'
-import Button, { BtnSizes } from 'src/components/Button'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import { LabelWithInfo } from 'src/components/LabelWithInfo'
+import RowDivider from 'src/components/RowDivider'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
-import { usePrepareDepositTransactions } from 'src/earn/prepareTransactions'
+import { usePrepareTransactions } from 'src/earn/prepareTransactions'
+import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
-import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { hooksApiUrlSelector } from 'src/positions/selectors'
-import { EarnPosition } from 'src/positions/types'
+import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions/selectors'
+import { EarnPosition, Position } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { AmountInput } from 'src/send/EnterAmount'
 import { AmountEnteredIn } from 'src/send/types'
@@ -44,7 +46,7 @@ import { feeCurrenciesSelector, swappableFromTokensByNetworkIdSelector } from 's
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { parseInputAmount } from 'src/utils/parsing'
-import { PreparedTransactionsResult, getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
+import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
 
@@ -56,8 +58,9 @@ const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
-function useTokens({ pool, mode }: { pool: EarnPosition; mode: 'deposit' | 'swap-deposit' }) {
+function useTokens({ pool }: { pool: EarnPosition }) {
   const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
+  const withdrawToken = useTokenInfo(pool.dataProps.withdrawTokenId)
   const swappableTokens = useSelector((state) =>
     swappableFromTokensByNetworkIdSelector(state, [pool.networkId])
   )
@@ -78,25 +81,47 @@ function useTokens({ pool, mode }: { pool: EarnPosition; mode: 'deposit' | 'swap
     throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
   }
 
-  return mode === 'deposit' ? [depositToken] : eligibleSwappableTokens
+  if (!withdrawToken) {
+    // should never happen
+    throw new Error(`Token info not found for token ID ${pool.dataProps.withdrawTokenId}`)
+  }
+
+  return {
+    depositToken,
+    withdrawToken,
+    eligibleSwappableTokens,
+  }
 }
 
 function EarnEnterAmount({ route }: Props) {
   const { t } = useTranslation()
 
   const { pool, mode = 'deposit' } = route.params
-  const tokens = useTokens({ pool, mode })
+  const isWithdrawal = mode === 'withdraw'
+  const { depositToken, withdrawToken, eligibleSwappableTokens } = useTokens({ pool })
 
-  const [token, setToken] = useState<TokenBalance>(() => tokens[0])
-  const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
+  const availableInputTokens = useMemo(() => {
+    switch (mode) {
+      case 'deposit':
+      case 'withdraw':
+        return [depositToken]
+      case 'swap-deposit':
+        return eligibleSwappableTokens
+    }
+  }, [mode])
+
+  const [inputToken, setInputToken] = useState<TokenBalance>(() => availableInputTokens[0])
 
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const swapDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tokenAmountInputRef = useRef<RNTextInput>(null)
   const localAmountInputRef = useRef<RNTextInput>(null)
 
   const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
   const [localAmountInput, setLocalAmountInput] = useState<string>('')
+  const [maxPressed, setMaxPressed] = useState(false)
   const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
@@ -105,14 +130,14 @@ function EarnEnterAmount({ route }: Props) {
   const onTokenPickerSelect = () => {
     tokenBottomSheetRef.current?.snapToIndex(0)
     AppAnalytics.track(SendEvents.token_dropdown_opened, {
-      currentTokenId: token.tokenId,
-      currentTokenAddress: token.address,
-      currentNetworkId: token.networkId,
+      currentTokenId: inputToken.tokenId,
+      currentTokenAddress: inputToken.address,
+      currentNetworkId: inputToken.networkId,
     })
   }
 
   const onSelectToken = (token: TokenBalance) => {
-    setToken(token)
+    setInputToken(token)
     tokenBottomSheetRef.current?.close()
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
@@ -123,7 +148,7 @@ function EarnEnterAmount({ route }: Props) {
     clearPreparedTransactions,
     prepareTransactionError,
     isPreparingTransactions,
-  } = usePrepareDepositTransactions()
+  } = usePrepareTransactions(mode)
 
   const walletAddress = useSelector(walletAddressSelector)
 
@@ -145,6 +170,7 @@ function EarnEnterAmount({ route }: Props) {
       pool,
       hooksApiUrl,
       shortcutId: mode,
+      useMax: maxPressed,
     })
   }
 
@@ -170,8 +196,9 @@ function EarnEnterAmount({ route }: Props) {
     [localAmountInput]
   )
 
-  const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, token.tokenId)
-  const localToToken = useLocalToTokenAmount(parsedLocalAmount, token.tokenId)
+  const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, inputToken.tokenId)
+  const localToToken = useLocalToTokenAmount(parsedLocalAmount, inputToken.tokenId)
+
   const { tokenAmount } = useMemo(() => {
     if (enteredIn === 'token') {
       setLocalAmountInput(
@@ -188,7 +215,7 @@ function EarnEnterAmount({ route }: Props) {
         localToToken && localToToken.gt(0)
           ? // no group separator for token amount, round to token.decimals and strip trailing zeros
             localToToken
-              .toFormat(token.decimals, { decimalSeparator })
+              .toFormat(inputToken.decimals, { decimalSeparator })
               .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
           : ''
       )
@@ -197,27 +224,58 @@ function EarnEnterAmount({ route }: Props) {
         localAmount: parsedLocalAmount,
       }
     }
-  }, [tokenAmountInput, localAmountInput, enteredIn, token])
+  }, [tokenAmountInput, localAmountInput, enteredIn, inputToken])
 
-  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
+  // This is for withdrawals as we want the user to be able to input the amounts in the deposit token
+  const { transactionToken, transactionTokenAmount } = useMemo(() => {
+    const transactionToken = isWithdrawal ? withdrawToken : inputToken
+    const transactionTokenAmount = isWithdrawal
+      ? tokenAmount && tokenAmount.dividedBy(pool.pricePerShare[0])
+      : tokenAmount
+
+    return {
+      transactionToken,
+      transactionTokenAmount,
+    }
+  }, [inputToken, withdrawToken, tokenAmount, isWithdrawal, pool])
+
+  const balanceInInputToken = useMemo(
+    () =>
+      isWithdrawal
+        ? transactionToken.balance.multipliedBy(pool.pricePerShare[0])
+        : transactionToken.balance,
+    [transactionToken, isWithdrawal, pool]
+  )
+
+  const feeCurrencies = useSelector((state) =>
+    feeCurrenciesSelector(state, transactionToken.networkId)
+  )
 
   useEffect(() => {
     clearPreparedTransactions()
 
     if (
       !tokenAmount ||
+      !transactionTokenAmount ||
       tokenAmount.isLessThanOrEqualTo(0) ||
-      tokenAmount.isGreaterThan(token.balance)
+      tokenAmount.isGreaterThan(balanceInInputToken)
     ) {
       return
     }
     const debouncedRefreshTransactions = setTimeout(() => {
-      return handleRefreshPreparedTransactions(tokenAmount, token, feeCurrencies)
+      return handleRefreshPreparedTransactions(
+        transactionTokenAmount,
+        transactionToken,
+        feeCurrencies
+      )
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [tokenAmount, token])
+  }, [tokenAmount, mode, transactionToken, feeCurrencies])
 
-  const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(token.balance)
+  const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
+    getFeeCurrencyAndAmounts(prepareTransactionsResult)
+
+  const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(balanceInInputToken)
   const showNotEnoughBalanceForGasWarning =
     isAmountLessThanBalance &&
     prepareTransactionsResult &&
@@ -228,11 +286,22 @@ function EarnEnterAmount({ route }: Props) {
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
 
+  const allPositionsWithBalance = useSelector(positionsWithBalanceSelector)
+
+  const rewardsPositions = useMemo(
+    () =>
+      allPositionsWithBalance.filter((position) =>
+        pool.dataProps.rewardsPositionIds?.includes(position.positionId)
+      ),
+    [allPositionsWithBalance, pool.dataProps.rewardsPositionIds]
+  )
+
   const disabled =
     // Should disable if the user enters 0, has enough balance but the transaction is not possible, or does not have enough balance
     !!tokenAmount?.isZero() || !transactionIsPossible
 
   const onTokenAmountInputChange = (value: string) => {
+    setMaxPressed(false)
     if (!value) {
       setTokenAmountInput('')
       setEnteredIn('token')
@@ -248,6 +317,7 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const onLocalAmountInputChange = (value: string) => {
+    setMaxPressed(false)
     // remove leading currency symbol and grouping separators
     if (value.startsWith(localCurrencySymbol)) {
       value = value.slice(1)
@@ -274,45 +344,57 @@ function EarnEnterAmount({ route }: Props) {
     // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
     // if there is not enough for gas
-    setTokenAmountInput(token.balance.toFormat({ decimalSeparator }))
+    setTokenAmountInput(balanceInInputToken.toFormat({ decimalSeparator }))
     setEnteredIn('token')
+    setMaxPressed(true)
     tokenAmountInputRef.current?.blur()
     localAmountInputRef.current?.blur()
     AppAnalytics.track(SendEvents.max_pressed, {
-      tokenId: token.tokenId,
-      tokenAddress: token.address,
-      networkId: token.networkId,
+      tokenId: inputToken.tokenId,
+      tokenAddress: inputToken.address,
+      networkId: inputToken.networkId,
+      mode,
     })
   }
 
   const onPressContinue = () => {
-    if (!tokenAmount || !depositToken) {
+    if (!tokenAmount || !transactionToken) {
       // should never happen
       return
     }
     AppAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
-      tokenAmount: tokenAmount.toString(),
-      amountInUsd: tokenAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
+      // TokenAmount is always deposit token
+      amountInUsd: tokenAmount.multipliedBy(inputToken.priceUsd ?? 0).toFixed(2),
       amountEnteredIn: enteredIn,
       depositTokenId: pool.dataProps.depositTokenId,
-      networkId: token.networkId,
+      networkId: inputToken.networkId,
       providerId: pool.appId,
       poolId: pool.positionId,
-      sourceTokenId: token.tokenId,
+      fromTokenId: inputToken.tokenId,
+      fromTokenAmount: tokenAmount.toString(),
       mode,
-      depositTokenAmount: swapTransaction
-        ? new BigNumber(swapTransaction.buyAmount).shiftedBy(-depositToken.decimals).toString()
-        : tokenAmount.toString(),
+      depositTokenAmount: isWithdrawal
+        ? undefined
+        : swapTransaction
+          ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
+          : tokenAmount.toString(),
     })
+    // TODO(ACT-1389) if isWithdrawal === true navigate to EarnConfirmationScreen
     reviewBottomSheetRef.current?.snapToIndex(0)
   }
+
+  const dropdownEnabled = availableInputTokens.length > 1
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.inputContainer}>
-          <Text style={styles.title}>{t('earnFlow.enterAmount.title')}</Text>
+          <Text style={styles.title}>
+            {isWithdrawal
+              ? t('earnFlow.enterAmount.titleWithdraw')
+              : t('earnFlow.enterAmount.title')}
+          </Text>
           <View style={styles.inputBox}>
             <View style={styles.inputRow}>
               <AmountInput
@@ -328,27 +410,27 @@ function EarnEnterAmount({ route }: Props) {
                 borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
                 onPress={onTokenPickerSelect}
                 style={styles.tokenSelectButton}
-                disabled={tokens.length === 1}
+                disabled={!dropdownEnabled}
                 testID="EarnEnterAmount/TokenSelect"
               >
                 <>
-                  <TokenIcon token={token} size={IconSize.SMALL} />
-                  <Text style={styles.tokenName}>{token.symbol}</Text>
-                  {tokens.length > 1 && <DownArrowIcon color={Colors.gray5} />}
+                  <TokenIcon token={inputToken} size={IconSize.SMALL} />
+                  <Text style={styles.tokenName}>{inputToken.symbol}</Text>
+                  {dropdownEnabled && <DownArrowIcon color={Colors.gray5} />}
                 </>
               </Touchable>
             </View>
             <View style={styles.localAmountRow}>
               <AmountInput
-                inputValue={token.priceUsd ? localAmountInput : '-'}
+                inputValue={transactionToken.priceUsd ? localAmountInput : '-'}
                 onInputChange={onLocalAmountInputChange}
                 inputRef={localAmountInputRef}
                 inputStyle={styles.localAmount}
                 placeholder={`${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`}
                 testID="EarnEnterAmount/LocalAmountInput"
-                editable={!!token.priceUsd}
+                editable={!!transactionToken.priceUsd}
               />
-              {!token.balance.isZero() && (
+              {!transactionToken.balance.isZero() && (
                 <Touchable
                   borderRadius={MAX_BORDER_RADIUS}
                   onPress={onMaxAmountPress}
@@ -360,13 +442,25 @@ function EarnEnterAmount({ route }: Props) {
               )}
             </View>
           </View>
-          {tokenAmount && prepareTransactionsResult && (
-            <TransactionDetails
+          {tokenAmount && prepareTransactionsResult && !isWithdrawal && (
+            <TransactionDepositDetails
               pool={pool}
-              token={token}
+              token={inputToken}
               tokenAmount={tokenAmount}
               prepareTransactionsResult={prepareTransactionsResult}
+              feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
+              swapDetailsBottomSheetRef={swapDetailsBottomSheetRef}
               swapTransaction={swapTransaction}
+            />
+          )}
+          {tokenAmount && isWithdrawal && (
+            <TransactionWithdrawDetails
+              pool={pool}
+              token={transactionToken}
+              prepareTransactionsResult={prepareTransactionsResult}
+              feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
+              balanceInInputToken={balanceInInputToken}
+              rewardsPositions={rewardsPositions}
             />
           )}
         </View>
@@ -387,6 +481,10 @@ function EarnEnterAmount({ route }: Props) {
             onPressCta={() => {
               AppAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {
                 gasTokenId: feeCurrencies[0].tokenId,
+                depositTokenId: pool.dataProps.depositTokenId,
+                networkId: pool.networkId,
+                providerId: pool.appId,
+                poolId: pool.positionId,
               })
               navigate(Screens.FiatExchangeAmount, {
                 tokenId: prepareTransactionsResult.feeCurrencies[0].tokenId,
@@ -402,10 +500,10 @@ function EarnEnterAmount({ route }: Props) {
           <InLineNotification
             variant={NotificationVariant.Warning}
             title={t('sendEnterAmountScreen.insufficientBalanceWarning.title', {
-              tokenSymbol: token.symbol,
+              tokenSymbol: inputToken.symbol,
             })}
             description={t('sendEnterAmountScreen.insufficientBalanceWarning.description', {
-              tokenSymbol: token.symbol,
+              tokenSymbol: inputToken.symbol,
             })}
             style={styles.warning}
             testID="EarnEnterAmount/NotEnoughBalanceWarning"
@@ -420,6 +518,17 @@ function EarnEnterAmount({ route }: Props) {
             testID="EarnEnterAmount/PrepareTransactionError"
           />
         )}
+        {isWithdrawal && pool.dataProps.withdrawalIncludesClaim && rewardsPositions.length > 0 && (
+          <InLineNotification
+            variant={NotificationVariant.Info}
+            title={t('earnFlow.enterAmount.withdrawingAndClaimingCard.title')}
+            description={t('earnFlow.enterAmount.withdrawingAndClaimingCard.description', {
+              providerName: pool.appName,
+            })}
+            style={styles.warning}
+            testID="EarnEnterAmount/WithdrawingAndClaimingCard"
+          />
+        )}
         <Button
           onPress={onPressContinue}
           text={t('earnFlow.enterAmount.continue')}
@@ -431,19 +540,47 @@ function EarnEnterAmount({ route }: Props) {
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
+      {tokenAmount && (
+        <FeeDetailsBottomSheet
+          forwardedRef={feeDetailsBottomSheetRef}
+          testID="FeeDetailsBottomSheet"
+          feeCurrency={feeCurrency}
+          estimatedFeeAmount={estimatedFeeAmount}
+          maxFeeAmount={maxFeeAmount}
+          swapTransaction={swapTransaction}
+          pool={pool}
+          token={inputToken}
+          tokenAmount={tokenAmount}
+          isWithdrawal={isWithdrawal}
+        />
+      )}
+      {swapTransaction && tokenAmount && (
+        <SwapDetailsBottomSheet
+          forwardedRef={swapDetailsBottomSheetRef}
+          testID="SwapDetailsBottomSheet"
+          swapTransaction={swapTransaction}
+          token={inputToken}
+          pool={pool}
+          tokenAmount={tokenAmount}
+          parsedTokenAmount={parsedTokenAmount}
+        />
+      )}
       {tokenAmount && prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
-          amount={tokenAmount}
+          inputAmount={tokenAmount}
           pool={pool}
+          mode={mode}
+          swapTransaction={swapTransaction}
+          inputTokenId={inputToken.tokenId}
         />
       )}
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
         origin={TokenPickerOrigin.Earn}
         onTokenSelected={onSelectToken}
-        tokens={tokens}
+        tokens={availableInputTokens}
         title={t('sendEnterAmountScreen.selectToken')}
         titleStyle={styles.title}
       />
@@ -451,93 +588,170 @@ function EarnEnterAmount({ route }: Props) {
   )
 }
 
-function LabelWithInfo({ label, onPress }: { label: string; onPress?: () => void }) {
+function TransactionWithdrawDetails({
+  pool,
+  prepareTransactionsResult,
+  feeDetailsBottomSheetRef,
+  balanceInInputToken,
+  rewardsPositions,
+}: {
+  pool: EarnPosition
+  token: TokenBalance
+  prepareTransactionsResult?: PreparedTransactionsResult
+  feeDetailsBottomSheetRef: React.RefObject<BottomSheetModalRefType>
+  balanceInInputToken: BigNumber
+  rewardsPositions: Position[]
+}) {
+  const { t } = useTranslation()
+  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
+
   return (
-    <Touchable style={styles.txDetailsLabel} onPress={onPress} disabled={!onPress}>
-      <>
-        <Text style={styles.txDetailsLabelText} numberOfLines={1}>
-          {label}
-        </Text>
-        {onPress && <InfoIcon size={16} color={Colors.gray3} />}
-      </>
-    </Touchable>
+    <View style={styles.txDetailsContainer} testID="EnterAmountWithdrawInfoCard">
+      <View style={styles.txDetailsLineItem}>
+        <LabelWithInfo
+          label={t('earnFlow.enterAmount.available')}
+          testID="LabelWithInfo/AvailableLabel"
+        />
+        <View style={styles.txDetailsValue}>
+          <TokenDisplay
+            tokenId={pool.dataProps.depositTokenId}
+            testID="EarnEnterAmount/Withdraw/Fiat"
+            amount={balanceInInputToken}
+            showLocalAmount={true}
+            style={styles.txDetailsValueText}
+          />
+          <Text style={[styles.txDetailsValueText, styles.gray4]}>
+            {'('}
+            <TokenDisplay
+              testID="EarnEnterAmount/Withdraw/Crypto"
+              tokenId={pool.dataProps.depositTokenId}
+              amount={balanceInInputToken}
+              showLocalAmount={false}
+            />
+            {')'}
+          </Text>
+        </View>
+      </View>
+      {pool.dataProps.withdrawalIncludesClaim &&
+        rewardsPositions.map((position, index) => (
+          <View key={index} style={styles.txDetailsLineItem}>
+            <LabelWithInfo
+              label={t('earnFlow.enterAmount.claimingReward')}
+              testID={`LabelWithInfo/ClaimingReward-${index}`}
+            />
+            <View style={{ ...styles.txDetailsValue, flex: 1 }}>
+              <TokenDisplay
+                testID={`EarnEnterAmount/Reward-${index}`}
+                tokenId={position.tokens[0].tokenId}
+                amount={position.tokens[0].balance.toString()}
+                style={styles.txDetailsValueText}
+              />
+              <Text style={[styles.txDetailsValueText, styles.gray4]}>
+                {'('}
+                <TokenDisplay
+                  testID={`EarnEnterAmount/Reward-${index}-crypto`}
+                  tokenId={position.tokens[0].tokenId}
+                  amount={position.tokens[0].balance.toString()}
+                  showLocalAmount={false}
+                />
+                {')'}
+              </Text>
+            </View>
+          </View>
+        ))}
+      {feeCurrency && maxFeeAmount && (
+        <View style={styles.txDetailsLineItem}>
+          <LabelWithInfo
+            label={t('earnFlow.enterAmount.fees')}
+            onPress={() => {
+              feeDetailsBottomSheetRef?.current?.snapToIndex(0)
+            }}
+            testID="LabelWithInfo/FeeLabel"
+          />
+          <View style={styles.txDetailsValue}>
+            <TokenDisplay
+              testID="EarnEnterAmount/Fees"
+              tokenId={feeCurrency.tokenId}
+              amount={maxFeeAmount.toString()}
+              style={styles.txDetailsValueText}
+            />
+          </View>
+        </View>
+      )}
+    </View>
   )
 }
 
-function TransactionDetails({
+function TransactionDepositDetails({
   pool,
   token,
   tokenAmount,
   prepareTransactionsResult,
   swapTransaction,
+  feeDetailsBottomSheetRef,
+  swapDetailsBottomSheetRef,
 }: {
   pool: EarnPosition
   token: TokenBalance
   tokenAmount: BigNumber
   prepareTransactionsResult: PreparedTransactionsResult
   swapTransaction?: SwapTransaction
+  feeDetailsBottomSheetRef: React.RefObject<BottomSheetModalRefType>
+  swapDetailsBottomSheetRef: React.RefObject<BottomSheetModalRefType>
 }) {
   const { t } = useTranslation()
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
-  const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
-
-  if (!depositToken) {
-    // should never happen
-    throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
-  }
-
-  const depositAmount = useMemo(() => {
-    if (swapTransaction) {
-      return new BigNumber(swapTransaction.buyAmount).shiftedBy(-depositToken.decimals).toString()
-    }
-    return tokenAmount.toString()
-  }, [tokenAmount, swapTransaction, depositToken])
+  const depositAmount = useMemo(
+    () =>
+      swapTransaction
+        ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
+        : tokenAmount.toString(),
+    [tokenAmount, swapTransaction]
+  )
 
   return (
     feeCurrency &&
     maxFeeAmount && (
-      <View style={styles.txDetailsContainer} testID="EnterAmountInfoCard">
+      <View style={styles.txDetailsContainer} testID="EnterAmountDepositInfoCard">
         {swapTransaction && (
           <View style={styles.txDetailsLineItem}>
             <LabelWithInfo
               label={t('earnFlow.enterAmount.swap')}
               onPress={() => {
-                // TODO(ACT-1357): show bottom sheet
+                swapDetailsBottomSheetRef?.current?.snapToIndex(0)
               }}
+              testID="LabelWithInfo/SwapLabel"
             />
             <View style={styles.txDetailsValue}>
-              <Text style={styles.txDetailsValueText}>
-                <TokenDisplay
-                  testID="EarnEnterAmount/Swap/From"
-                  tokenId={token.tokenId}
-                  amount={tokenAmount.toString()}
-                  showLocalAmount={false}
-                />
-              </Text>
+              <TokenDisplay
+                testID="EarnEnterAmount/Swap/From"
+                tokenId={token.tokenId}
+                amount={tokenAmount.toString()}
+                showLocalAmount={false}
+                style={styles.txDetailsValueText}
+              />
               <ArrowRightThick size={20} color={Colors.black} />
-              <Text style={styles.txDetailsValueText}>
-                <TokenDisplay
-                  testID="EarnEnterAmount/Swap/To"
-                  tokenId={pool.dataProps.depositTokenId}
-                  amount={depositAmount}
-                  showLocalAmount={false}
-                />
-              </Text>
+              <TokenDisplay
+                testID="EarnEnterAmount/Swap/To"
+                tokenId={pool.dataProps.depositTokenId}
+                amount={depositAmount}
+                showLocalAmount={false}
+                style={styles.txDetailsValueText}
+              />
             </View>
           </View>
         )}
         <View style={styles.txDetailsLineItem}>
           <LabelWithInfo label={t('earnFlow.enterAmount.deposit')} />
           <View style={styles.txDetailsValue}>
-            <Text style={styles.txDetailsValueText}>
-              <TokenDisplay
-                tokenId={pool.dataProps.depositTokenId}
-                testID="EarnEnterAmount/Deposit/Crypto"
-                amount={depositAmount}
-                showLocalAmount={false}
-              />
-            </Text>
+            <TokenDisplay
+              tokenId={pool.dataProps.depositTokenId}
+              testID="EarnEnterAmount/Deposit/Crypto"
+              amount={depositAmount}
+              showLocalAmount={false}
+              style={styles.txDetailsValueText}
+            />
             <Text style={[styles.txDetailsValueText, styles.gray4]}>
               {'('}
               <TokenDisplay
@@ -554,21 +768,256 @@ function TransactionDetails({
           <LabelWithInfo
             label={t('earnFlow.enterAmount.fees')}
             onPress={() => {
-              // TODO(ACT-1357): show bottom sheet
+              feeDetailsBottomSheetRef?.current?.snapToIndex(0)
             }}
+            testID="LabelWithInfo/FeeLabel"
           />
           <View style={styles.txDetailsValue}>
-            <Text style={styles.txDetailsValueText}>
-              <TokenDisplay
-                testID="EarnEnterAmount/Fees"
-                tokenId={feeCurrency.tokenId}
-                amount={maxFeeAmount.toString()}
-              />
-            </Text>
+            <TokenDisplay
+              testID="EarnEnterAmount/Fees"
+              tokenId={feeCurrency.tokenId}
+              // TODO: add swap fees to this amount
+              amount={maxFeeAmount.toString()}
+              style={styles.txDetailsValueText}
+            />
           </View>
         </View>
       </View>
     )
+  )
+}
+
+// Might be sharable with src/swap/FeeInfoBottomSheet.tsx
+function FeeDetailsBottomSheet({
+  forwardedRef,
+  testID,
+  feeCurrency,
+  estimatedFeeAmount,
+  maxFeeAmount,
+  swapTransaction,
+  pool,
+  token,
+  tokenAmount,
+  isWithdrawal,
+}: {
+  forwardedRef: React.RefObject<BottomSheetModalRefType>
+  testID: string
+  feeCurrency?: TokenBalance
+  estimatedFeeAmount?: BigNumber
+  maxFeeAmount?: BigNumber
+  swapTransaction?: SwapTransaction | undefined
+  pool: EarnPosition
+  token: TokenBalance
+  tokenAmount: BigNumber
+  isWithdrawal: boolean
+}) {
+  const { t } = useTranslation()
+  const inputToken = useTokenInfo(pool.dataProps.depositTokenId)
+
+  if (!inputToken) {
+    // should never happen
+    throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
+  }
+
+  const swapFeeAmount = useMemo(() => {
+    if (swapTransaction && swapTransaction.appFeePercentageIncludedInPrice) {
+      return tokenAmount.multipliedBy(
+        new BigNumber(swapTransaction.appFeePercentageIncludedInPrice).shiftedBy(-2) // To convert from percentage to decimal
+      )
+    }
+  }, [swapTransaction, token])
+
+  const descriptionContainerStyle = [
+    styles.bottomSheetDescriptionContainer,
+    !swapFeeAmount && { marginTop: Spacing.Regular16 },
+  ]
+
+  const handleClose = () => forwardedRef.current?.close()
+  return (
+    <BottomSheet
+      forwardedRef={forwardedRef}
+      title={t('earnFlow.enterAmount.feeBottomSheet.feeDetails')}
+      testId={testID}
+    >
+      <View style={styles.bottomSheetTextContent}>
+        <View style={styles.gap8}>
+          <View style={styles.bottomSheetLineItem} testID="EstNetworkFee">
+            <Text style={styles.bottomSheetLineLabel}>
+              {t('earnFlow.enterAmount.feeBottomSheet.estNetworkFee')}
+            </Text>
+            {feeCurrency && estimatedFeeAmount && (
+              <Text style={styles.bottomSheetLineLabelText} testID="EstNetworkFee/Value">
+                {'≈ '}
+                <TokenDisplay
+                  tokenId={feeCurrency.tokenId}
+                  amount={estimatedFeeAmount.toString()}
+                />
+                {' ('}
+                <TokenDisplay
+                  tokenId={feeCurrency.tokenId}
+                  showLocalAmount={false}
+                  amount={estimatedFeeAmount.toString()}
+                />
+                {')'}
+              </Text>
+            )}
+          </View>
+          <View style={styles.bottomSheetLineItem} testID="MaxNetworkFee">
+            <Text style={styles.bottomSheetLineLabel}>
+              {t('earnFlow.enterAmount.feeBottomSheet.maxNetworkFee')}
+            </Text>
+            {feeCurrency && maxFeeAmount && (
+              <Text style={styles.bottomSheetLineLabelText} testID="MaxNetworkFee/Value">
+                {'≈ '}
+                <TokenDisplay tokenId={feeCurrency.tokenId} amount={maxFeeAmount.toString()} />
+                {' ('}
+                <TokenDisplay
+                  tokenId={feeCurrency.tokenId}
+                  showLocalAmount={false}
+                  amount={maxFeeAmount.toString()}
+                />
+                {')'}
+              </Text>
+            )}
+          </View>
+        </View>
+        <RowDivider />
+        {swapFeeAmount && (
+          <View style={styles.bottomSheetLineItem} testID="SwapFee">
+            <Text style={styles.bottomSheetLineLabel}>
+              {t('earnFlow.enterAmount.feeBottomSheet.appSwapFee')}
+            </Text>
+            <Text style={styles.bottomSheetLineLabelText} testID="SwapFee/Value">
+              {'≈ '}
+              <TokenDisplay tokenId={token.tokenId} amount={swapFeeAmount.toString()} />
+              {' ('}
+              <TokenDisplay
+                tokenId={token.tokenId}
+                showLocalAmount={false}
+                amount={swapFeeAmount.toString()}
+              />
+              {')'}
+            </Text>
+          </View>
+        )}
+        <View style={descriptionContainerStyle}>
+          <Text style={styles.bottomSheetDescriptionTitle}>
+            {t('earnFlow.enterAmount.feeBottomSheet.moreInformation')}
+          </Text>
+          {swapFeeAmount ? (
+            <Text style={styles.bottomSheetDescriptionText}>
+              {t('earnFlow.enterAmount.feeBottomSheet.networkSwapFeeDescription', {
+                appFeePercentage: swapTransaction?.appFeePercentageIncludedInPrice,
+              })}
+            </Text>
+          ) : (
+            <Text style={styles.bottomSheetDescriptionText}>
+              {isWithdrawal
+                ? t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescriptionWithdrawal')
+                : t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')}
+            </Text>
+          )}
+        </View>
+      </View>
+      <Button
+        onPress={handleClose}
+        text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
+        size={BtnSizes.FULL}
+        type={BtnTypes.SECONDARY}
+        testID="FeeDetailsBottomSheet/GotIt"
+      />
+    </BottomSheet>
+  )
+}
+
+function SwapDetailsBottomSheet({
+  forwardedRef,
+  testID,
+  swapTransaction,
+  pool,
+  token,
+  tokenAmount,
+  parsedTokenAmount,
+}: {
+  forwardedRef: React.RefObject<BottomSheetModalRefType>
+  testID: string
+  swapTransaction: SwapTransaction
+  pool: EarnPosition
+  token: TokenBalance
+  tokenAmount: BigNumber
+  parsedTokenAmount: BigNumber
+}) {
+  const { t } = useTranslation()
+  const inputToken = useTokenInfo(pool.dataProps.depositTokenId)
+
+  if (!inputToken) {
+    // should never happen
+    throw new Error(`Token info not found for token ID ${pool.dataProps.depositTokenId}`)
+  }
+
+  const swapToAmount = useMemo(
+    () => getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString(),
+    [tokenAmount, swapTransaction]
+  )
+
+  const handleClose = () => forwardedRef.current?.close()
+
+  return (
+    <BottomSheet
+      forwardedRef={forwardedRef}
+      title={t('earnFlow.enterAmount.swapBottomSheet.swapDetails')}
+      testId={testID}
+    >
+      <View style={styles.bottomSheetTextContent}>
+        <View style={styles.gap8}>
+          <View style={styles.bottomSheetLineItem} testID="SwapFrom">
+            <Text style={styles.bottomSheetLineLabel}>
+              {t('earnFlow.enterAmount.swapBottomSheet.swapFrom')}
+            </Text>
+            <Text style={styles.bottomSheetLineLabelText} testID="SwapFrom/Value">
+              <TokenDisplay
+                tokenId={token.tokenId}
+                showLocalAmount={false}
+                amount={parsedTokenAmount}
+              />
+              {' ('}
+              <TokenDisplay tokenId={token.tokenId} amount={parsedTokenAmount} />
+              {')'}
+            </Text>
+          </View>
+          <View style={styles.bottomSheetLineItem} testID="SwapTo">
+            <Text style={styles.bottomSheetLineLabel}>
+              {t('earnFlow.enterAmount.swapBottomSheet.swapTo')}
+            </Text>
+            <Text style={styles.bottomSheetLineLabelText} testID="SwapTo/Value">
+              <TokenDisplay
+                tokenId={inputToken.tokenId}
+                showLocalAmount={false}
+                amount={swapToAmount}
+              />
+              {' ('}
+              <TokenDisplay tokenId={inputToken.tokenId} amount={swapToAmount} />
+              {')'}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.bottomSheetDescriptionContainer}>
+          <Text style={styles.bottomSheetDescriptionTitle}>
+            {t('earnFlow.enterAmount.swapBottomSheet.whySwap')}
+          </Text>
+          <Text style={styles.bottomSheetDescriptionText}>
+            {t('earnFlow.enterAmount.swapBottomSheet.swapDescription')}
+          </Text>
+        </View>
+      </View>
+      <Button
+        onPress={handleClose}
+        text={t('earnFlow.poolInfoScreen.infoBottomSheet.gotIt')}
+        size={BtnSizes.FULL}
+        type={BtnTypes.SECONDARY}
+        testID="SwapDetailsBottomSheet/GotIt"
+      />
+    </BottomSheet>
   )
 }
 
@@ -669,20 +1118,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
   },
-  txDetailsLabel: {
-    flex: 1,
-    flexDirection: 'row',
-    gap: Spacing.Tiny4,
-    alignItems: 'center',
-    paddingRight: 20, // Prevents Icon from being cut off on long labels
-    minWidth: '25%',
-  },
-  txDetailsLabelText: {
-    ...typeScale.bodyMedium,
-    color: Colors.black,
-    flexWrap: 'wrap',
-    textAlign: 'left',
-  },
   txDetailsValue: {
     flexShrink: 1,
     flexDirection: 'row',
@@ -691,14 +1126,47 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'flex-end',
   },
-  gray4: {
-    color: Colors.gray4,
-  },
   txDetailsValueText: {
     ...typeScale.bodyMedium,
     color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'right',
+  },
+  gray4: {
+    color: Colors.gray4,
+  },
+  gap8: {
+    gap: Spacing.Smallest8,
+  },
+  bottomSheetDescriptionContainer: {
+    gap: Spacing.Smallest8,
+    marginTop: Spacing.Large32,
+  },
+  bottomSheetTextContent: {
+    marginBottom: Spacing.XLarge48,
+    marginTop: Spacing.Smallest8,
+  },
+  bottomSheetLineItem: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  bottomSheetLineLabel: {
+    maxWidth: '40%',
+    textAlign: 'left',
+  },
+  bottomSheetLineLabelText: {
+    maxWidth: '60%',
+    textAlign: 'right',
+  },
+  bottomSheetDescriptionTitle: {
+    ...typeScale.labelSemiBoldSmall,
+    color: Colors.black,
+  },
+  bottomSheetDescriptionText: {
+    ...typeScale.bodySmall,
+    color: Colors.black,
   },
 })
 

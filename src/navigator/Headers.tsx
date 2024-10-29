@@ -12,7 +12,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import i18n from 'src/i18n'
 import Logo from 'src/images/Logo'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import colors, { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfoByCurrency } from 'src/tokens/hooks'
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     maxWidth: Dimensions.get('window').width * 0.6,
   },
   headerSubTitle: {
-    color: colors.gray4,
+    color: Colors.gray4,
   },
   header: {
     alignItems: 'center',
@@ -65,7 +65,7 @@ export const nuxNavigationOptions: NativeStackNavigationOptions = {
 
 export const nuxNavigationOptionsOnboarding: NativeStackNavigationOptions = {
   ...nuxNavigationOptions,
-  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton color={colors.black} /> : <View />),
+  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton color={Colors.black} /> : <View />),
 }
 
 export const nuxNavigationOptionsNoBackButton: NativeStackNavigationOptions = {
@@ -74,7 +74,7 @@ export const nuxNavigationOptionsNoBackButton: NativeStackNavigationOptions = {
 }
 
 export const emptyHeader: NativeStackNavigationOptions = {
-  headerTitle: ' ',
+  headerTitle: '',
   headerShown: true,
   // Prevents double back button on Android
   headerBackVisible: false,
@@ -82,7 +82,7 @@ export const emptyHeader: NativeStackNavigationOptions = {
   headerShadowVisible: false,
   headerTitleAlign: 'center',
   headerStyle: {
-    backgroundColor: colors.white,
+    backgroundColor: Colors.white,
   },
 }
 

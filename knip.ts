@@ -22,7 +22,6 @@ const config: KnipConfig = {
     'jest-snapshot',
     'lint-staged', // pre-commit hook
     'lokijs', // walletconnect e2e tests requires
-    'prettier-plugin-java',
     'react-devtools', // application profiling
     'react-native-version',
     'react-native-kill-packager',
@@ -33,7 +32,13 @@ const config: KnipConfig = {
     '@types/jest',
     'husky',
   ],
-  ignore: ['src/utils/inputValidation.ts', 'src/utils/country.json', 'src/icons/Social.tsx'],
+  ignore: [
+    'src/redux/reducersForSchemaGeneration.ts', // used for root state schema generation
+    'src/analytics/docs.ts', // documents analytics events, no references
+    'src/account/__mocks__/Persona.tsx', // unit test mocks
+    'src/firebase/remoteConfigValuesDefaults.e2e.ts', // e2e test setup
+    'src/setupE2eEnv.e2e.ts', // e2e test setup
+  ],
 }
 
 export default config

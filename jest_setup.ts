@@ -55,6 +55,3 @@ jest.mock('@react-native-clipboard/clipboard', () => ({
 
 // this mock defaults to granting all permissions
 jest.mock('react-native-permissions', () => require('react-native-permissions/mock'))
-
-// @ts-ignore
-global.__reanimatedWorkletInit = jest.fn()

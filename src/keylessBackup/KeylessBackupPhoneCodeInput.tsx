@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Regular16,
   },
   help: {
-    color: colors.primary,
+    color: colors.accent,
     ...typeScale.labelSemiBoldMedium,
   },
   bottomSheetTitle: {
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.Smallest8,
   },
   primaryCta: {
-    color: colors.primary,
+    color: colors.accent,
     textAlign: 'center',
   },
   secondaryCta: {

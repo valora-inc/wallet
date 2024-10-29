@@ -879,7 +879,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
     <View
       style={
         {
-          "backgroundColor": "#2E3338",
+          "backgroundColor": "#1AB775",
           "borderRadius": 5,
           "flex": 0,
           "height": 5,
@@ -891,7 +891,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
     <View
       style={
         {
-          "backgroundColor": "#666666",
+          "backgroundColor": "#E6E6E6",
           "borderRadius": 5,
           "flex": 0,
           "height": 5,
@@ -903,7 +903,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
     <View
       style={
         {
-          "backgroundColor": "#666666",
+          "backgroundColor": "#E6E6E6",
           "borderRadius": 5,
           "flex": 0,
           "height": 5,
@@ -915,7 +915,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
     <View
       style={
         {
-          "backgroundColor": "#666666",
+          "backgroundColor": "#E6E6E6",
           "borderRadius": 5,
           "flex": 0,
           "height": 5,

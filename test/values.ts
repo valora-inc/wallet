@@ -50,6 +50,7 @@ import { NativeTokenBalance, StoredTokenBalance, TokenBalance } from 'src/tokens
 import {
   EarnClaimReward,
   EarnDeposit,
+  EarnSwapDeposit,
   EarnWithdraw,
   NetworkId,
   TokenApproval,
@@ -58,7 +59,6 @@ import {
 } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import networkConfig from 'src/web3/networkConfig'
 import { Address, privateKeyToAccount } from 'viem/accounts'
 
 export const nullAddress = '0x0'
@@ -570,6 +570,18 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     imageUrl: 'https://example.com/address-metadata/main/assets/tokens/ARB.png',
     balance: '0',
     priceUsd: '1.2',
+    priceFetchedAt: Date.now(),
+  },
+  [mockAaveArbUsdcTokenId]: {
+    name: 'Aave USDC',
+    networkId: NetworkId['arbitrum-sepolia'],
+    tokenId: mockAaveArbUsdcTokenId,
+    address: mockAaveArbUsdcAddress,
+    symbol: 'AUSDC',
+    decimals: 6,
+    imageUrl: 'https://example.com/address-metadata/main/assets/tokens/AUSDC.png',
+    balance: '0',
+    priceUsd: '1',
     priceFetchedAt: Date.now(),
   },
 }
@@ -1491,6 +1503,7 @@ export const mockPositions: Position[] = [
       title: 'MOO / CELO',
       description: 'Pool',
       imageUrl: '',
+      manageUrl: 'mock-position.com',
     },
     tokens: [
       {
@@ -1781,11 +1794,11 @@ export const mockEarnPositions: EarnPosition[] = [
         balance: '0',
       },
     ],
-    pricePerShare: ['1'],
+    pricePerShare: ['1.1'],
     priceUsd: '1.2',
     balance: '0',
     supply: '190288.768509',
-    availableShortcutIds: ['deposit', 'withdraw'],
+    availableShortcutIds: ['deposit', 'withdraw', 'swap-deposit'],
     shortcutTriggerArgs: {
       deposit: {
         tokenDecimals: 6,
@@ -2003,7 +2016,6 @@ export const mockTypedData = {
 
 export const mockApprovalTransaction: TokenApproval = {
   tokenId: 'ethereum-sepolia:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-  __typename: 'TokenApproval',
   timestamp: 1695389027000,
   type: TokenTransactionTypeV2.Approval,
   networkId: NetworkId['ethereum-sepolia'],
@@ -2024,7 +2036,6 @@ export const mockApprovalTransaction: TokenApproval = {
 
 export const mockEarnClaimRewardTransaction: EarnClaimReward = {
   type: TokenTransactionTypeV2.EarnClaimReward,
-  __typename: 'EarnClaimReward',
   amount: {
     localAmount: undefined,
     tokenAddress: mockArbArbAddress,
@@ -2051,17 +2062,16 @@ export const mockEarnClaimRewardTransaction: EarnClaimReward = {
 }
 
 export const mockEarnDepositTransaction: EarnDeposit = {
-  __typename: 'EarnDeposit',
   inAmount: {
     localAmount: undefined,
     tokenAddress: mockAaveArbUsdcAddress,
-    tokenId: networkConfig.aaveArbUsdcTokenId,
-    value: '10',
+    tokenId: mockAaveArbUsdcTokenId,
+    value: '10.01',
   },
   outAmount: {
     localAmount: undefined,
     tokenAddress: '0xdef',
-    tokenId: networkConfig.arbUsdcTokenId,
+    tokenId: mockArbUsdcTokenId,
     value: '10',
   },
   block: '210927567',
@@ -2084,19 +2094,67 @@ export const mockEarnDepositTransaction: EarnDeposit = {
   type: TokenTransactionTypeV2.EarnDeposit,
 }
 
+export const mockEarnSwapDeposit: EarnSwapDeposit = {
+  deposit: {
+    inAmount: {
+      localAmount: undefined,
+      tokenAddress: mockAaveArbUsdcAddress,
+      tokenId: mockAaveArbUsdcTokenId,
+      value: '10.01',
+    },
+    outAmount: {
+      localAmount: undefined,
+      tokenAddress: mockUSDCAddress,
+      tokenId: mockArbUsdcTokenId,
+      value: '10',
+    },
+    providerId: 'aave',
+  },
+  swap: {
+    inAmount: {
+      localAmount: undefined,
+      tokenAddress: mockUSDCAddress,
+      tokenId: mockArbUsdcTokenId,
+      value: '10',
+    },
+    outAmount: {
+      localAmount: undefined,
+      tokenAddress: mockCeloAddress,
+      tokenId: mockCeloTokenId,
+      value: '50',
+    },
+  },
+  block: '210927567',
+  fees: [
+    {
+      amount: {
+        localAmount: undefined,
+        tokenAddress: mockArbArbAddress,
+        tokenId: mockArbArbTokenId,
+        value: '0.00000284243',
+      },
+      type: 'SECURITY_FEE',
+    },
+  ],
+  networkId: NetworkId['arbitrum-sepolia'],
+  timestamp: Date.now(),
+  transactionHash: '0xHASH1',
+  status: TransactionStatus.Complete,
+  type: TokenTransactionTypeV2.EarnSwapDeposit,
+}
+
 export const mockEarnWithdrawTransaction: EarnWithdraw = {
-  __typename: 'EarnWithdraw',
   inAmount: {
     localAmount: undefined,
     tokenAddress: '0xdef',
-    tokenId: networkConfig.arbUsdcTokenId,
+    tokenId: mockArbUsdcTokenId,
     value: '1',
   },
   outAmount: {
     localAmount: undefined,
     tokenAddress: mockAaveArbUsdcAddress,
-    tokenId: networkConfig.aaveArbUsdcTokenId,
-    value: '0.996614',
+    tokenId: mockAaveArbUsdcTokenId,
+    value: '0.986614',
   },
   block: '211276583',
   fees: [

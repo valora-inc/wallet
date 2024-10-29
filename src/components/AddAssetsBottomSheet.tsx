@@ -5,8 +5,8 @@ import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet
 import Touchable from 'src/components/Touchable'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
-import QuickActionsSwap from 'src/icons/quick-actions/Swap'
-import { Colors } from 'src/styles/colors'
+import SwapArrows from 'src/icons/SwapArrows'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenActionName } from 'src/tokens/types'
@@ -47,7 +47,7 @@ export default function AddAssetsBottomSheet({
       title: t('addFundsActions.transfer'),
     },
     [TokenActionName.Swap]: {
-      iconComponent: QuickActionsSwap,
+      iconComponent: SwapArrows,
       title: t('addFundsActions.swap'),
     },
   }

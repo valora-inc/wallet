@@ -6,7 +6,6 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { useEarnPosition } from 'src/earn/hooks'
 import { EarnTabType } from 'src/earn/types'
 import ArrowDown from 'src/icons/ArrowDown'
 import CircledIcon from 'src/icons/CircledIcon'
@@ -17,9 +16,9 @@ import Palm from 'src/images/Palm'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -59,9 +58,7 @@ function DetailsItem({
 
 export default function EarnInfoScreen() {
   const { t } = useTranslation()
-  const showMultiplePools = getFeatureGate(StatsigFeatureGates.SHOW_MULTIPLE_EARN_POOLS)
   const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
-  const aavePool = useEarnPosition()
 
   const headerHeight = useHeaderHeight()
   const { bottom } = useSafeAreaInsets()
@@ -106,9 +103,7 @@ export default function EarnInfoScreen() {
         <Button
           onPress={() => {
             AppAnalytics.track(EarnEvents.earn_info_earn_press)
-            showMultiplePools
-              ? navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.AllPools })
-              : aavePool && navigate(Screens.EarnEnterAmount, { pool: aavePool })
+            navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.AllPools })
           }}
           text={t('earnFlow.earnInfo.action.earn')}
           type={BtnTypes.PRIMARY}

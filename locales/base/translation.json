@@ -1536,6 +1536,7 @@
     "somePaymentsUnavailable": "Purchases are powered by our partner providers. Some payment methods are unavailable in your region.",
     "disclaimerWithSomePaymentsUnavailable": "Payments are powered by network partners. Fees may vary. Some payment methods are unavailable in your region. <0>Learn more.</0>",
     "disclaimer": "Payments are powered by network partners. Fees may vary. <0>Learn more.</0>",
+    "disclaimerUK": "This is not an invitation to buy cryptoassets. We only provide a list of providers who are selling cryptoassets with price information and a link to their website.",
     "learnMore": "Learn more.",
     "whyMissingPayments": "Why don't I see more payment methods?",
     "dismiss": "Dismiss",
@@ -1697,6 +1698,7 @@
       "selectCurrencyTitle": "Add Funds",
       "exchangeAmountTitle": "Add {{currency}}",
       "selectProviderHeader": "Select Payment Method",
+      "selectProviderHeader_UK": "Provider Details",
       "depositExchangeTitle": "Deposit Crypto"
     },
     "cashOut": {
@@ -1787,11 +1789,13 @@
     "title": "Swap",
     "review": "Review",
     "confirmSwap": "Confirm Swap",
+    "confirmSwap_UK": "I Want To Swap",
     "swapFrom": "FROM",
     "swapTo": "TO",
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes.",
     "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
+    "disclaimer_UK": "This is not an invitation to sell or buy cryptoassets. By clicking I Want To Swap you are instructing a third party swap router to execute your swap transaction at the best rate. Best rate provided by network partners. <0>Learn more</0>",
     "swapFromTokenSelection": "SWAP FROM",
     "swapToTokenSelection": "SWAP TO",
     "tokenUsdValueUnknown": "-",
@@ -2491,7 +2495,7 @@
     }
   },
   "earnFlow": {
-    "gasSubsidized": "{{appName}}'s covering gas for this transaction!",
+    "gasSubsidized": "Transaction fees are covered for a limited time",
     "addCryptoBottomSheet": {
       "title": "Add {{tokenSymbol}} on {{tokenNetwork}}",
       "description": "Once you add tokens you'll have to come back to finish depositing into a pool.",
@@ -2507,12 +2511,12 @@
       }
     },
     "cta": {
-      "title": "Earn on your stablecoins",
+      "title": "Earn on your crypto",
       "subtitle": "Deposit today and earn returns",
       "description": "See how much you can earn when supplying a lending pool"
     },
     "earnInfo": {
-      "title": "Earn on your\nstablecoins",
+      "title": "Earn on your\ncrypto",
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximize Earnings without Gas Fees*",
@@ -2548,15 +2552,18 @@
       "description": "Earn approximately {{apy}}% per year when you add {{symbol}} to a pool"
     },
     "entrypoint": {
-      "title": "Earn on your stablecoins",
+      "title": "Earn on your crypto",
       "subtitle": "Deposit and earn",
-      "description": "Earn on your stablecoins when you lend through a liquidity pool"
+      "description": "Earn on your crypto assets when you lend through a liquidity pool"
     },
     "enterAmount": {
       "title": "How much would you like to deposit?",
+      "titleWithdraw": "How much would you like to withdraw?",
       "deposit": "Deposit",
       "fees": "Fees",
+      "available": "Available",
       "swap": "Swap",
+      "claimingReward": "Claiming Reward",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
@@ -2569,6 +2576,27 @@
         "title": "You need more {{feeTokenSymbol}} to continue",
         "description": "Add {{feeTokenSymbol}} on {{network}} to cover your gas fees",
         "noGasCta": "Buy {{feeTokenSymbol}} on {{network}}"
+      },
+      "feeBottomSheet": {
+        "feeDetails": "Fee Details",
+        "moreInformation": "More information",
+        "estNetworkFee": "Est. Network Fee",
+        "maxNetworkFee": "Max Network Fee",
+        "networkFeeDescription": "The network fee is required by the network to process the deposit transaction.",
+        "networkFeeDescriptionWithdrawal": "The network fee is required by the network to process the withdrawal transaction.",
+        "networkSwapFeeDescription": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
+        "appSwapFee": "{{appName}} Fee"
+      },
+      "swapBottomSheet": {
+        "swapDetails": "Swap Details",
+        "swapFrom": "Swap From",
+        "swapTo": "Swap To",
+        "whySwap": "Why am I swapping?",
+        "swapDescription": "To deposit funds into the pool, your token is being swapped into a pool token."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Withdrawing and Claiming",
+        "description": "{{providerName}} requires you to claim all available rewards anytime you withdraw."
       }
     },
     "activePools": {
@@ -2594,8 +2622,11 @@
       "network": "Network",
       "footer": "By depositing crypto into an Aave pool, you accept the risks associated with using Aave. <0>Terms & Conditions</0>",
       "footerV1_93": "By depositing crypto into an {{providerName}} pool, you accept the risks associated with using {{providerName}}. <0>Terms & Conditions</0>",
+      "noTermsUrlFooter": "You are responsible for your actions in {{appName}}. {{appName}} disclaims all responsibility for your assets or interactions with {{providerName}}. You can review {{providerName}}'s documents <0>here</0> and our Terms & Conditions <1>here</1>.",
       "primaryCta": "Complete",
-      "secondaryCta": "Cancel"
+      "secondaryCta": "Cancel",
+      "yieldRate": "Yield Rate (est.)",
+      "apy": "{{apy}}%"
     },
     "collect": {
       "title": "Congratulations! Review & collect your earnings",
@@ -2629,7 +2660,10 @@
       "earnDepositDetails": "Amount Deposited",
       "earnWithdrawTitle": "Withdrew",
       "earnWithdrawSubtitle": "Withdrew {{tokenSymbol}} from {{providerName}} Pool",
-      "earnWithdrawDetails": "Amount Withdrawn"
+      "earnWithdrawDetails": "Amount Withdrawn",
+      "swap": "Swap",
+      "network": "Network",
+      "fees": "Fees"
     },
     "home": {
       "title": "Earn",
@@ -2646,7 +2680,7 @@
         "chooseDescription": "Any financial decision is a personal choice. We have aggregated some pools across different protocols, but each pool has benefits and risks. We do our best to provide some helpful info for each pool, but it’s always best to do additional research if you’re unsure."
       },
       "noPoolsTitle": "You haven’t joined any pools yet",
-      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your stablecoins.",
+      "noPoolsDescription": "Discover available pools, pick one that matches your goals, and make the most of your crypto.",
       "errorTitle": "Unable to load pools",
       "errorDescription": "Oops, something went wrong when trying to load the pool information. Please try again.",
       "errorButton": "Try again"
@@ -2673,15 +2707,32 @@
       "chainName": "Chain: <0>{{networkName}}</0>",
       "protocolName": "Protocol: <0>{{providerName}}</0>",
       "yieldRate": "Yield Rate",
+      "dailyYieldRate": "Daily Rate",
       "ratePercent": "{{rate}}%",
       "rewards": "Rewards",
       "noRewards": "No rewards",
+      "safetyScore": "Safety Score",
       "tvl": "TVL",
       "ageOfPool": "Age of Pool",
       "learnMoreOnProvider": "View Pool on {{providerName}}",
       "deposit": "Deposit",
       "depositAndEarnings": "Deposit & Earnings",
       "withdraw": "Withdraw",
+      "withdrawBottomSheet": {
+        "title": "Select withdraw type",
+        "withdrawAndClaim": "Withdraw and Claim",
+        "withdrawDescription": "Withdraw a specific amount of any tokens you have deposited in the pool",
+        "withdrawAndClaimRewardsDescription": "Withdraw a specific amount of any tokens you have deposited in the pool and claim your rewards automatically",
+        "withdrawAndClaimEarningsDescription": "Withdraw a specific amount of any tokens you have deposited in the pool and claim your earnings automatically",
+        "claimRewards": "Claim Rewards",
+        "claimRewardsDescription": "Claim your rewards. Partial amounts of the reward cannot be claimed",
+        "claimEarnings": "Claim Earnings",
+        "claimEarningsDescription": "Claim the earnings on your deposit. Partial amounts cannot be claimed",
+        "exit": "Exit",
+        "exitDescription": "Exiting will withdraw everything you have in the pool",
+        "exitWithRewardsDescription": "Exiting will withdraw everything you have in the pool, including rewards",
+        "exitWithEarningsDescription": "Exiting will withdraw everything you have in the pool, including earnings"
+      },
       "totalDepositAndEarnings": "Total Deposit & Earnings",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
@@ -2694,7 +2745,33 @@
         "ageTitle": "Age of Pool",
         "ageDescription": "Older liquidity pools can indicate a solid track record and a history of building community trust. Because of this, some may consider these pools to be safer.\n\nThere is no perfect way to determine risk, so use this info as part of your overall research to make the decision that is best for you.",
         "yieldRateTitle": "Yield Rate",
-        "yieldRateDescription": "While most pools offer earnings in the form of a liquidity pool token, some give additional token(s) as a reward or added incentive.\n\nSince {{appName}} aggregates pools across multiple protocols, we have combined all the earning and reward rates into a single, overall yield rate to help easily evaluate your earning potential. This number is an estimate since the earning and reward values fluctuate constantly.\n\nFor further information about earning breakdowns you can visit <0>{{providerName}}</0>."
+        "yieldRateDescription": "While most pools offer earnings in the form of a liquidity pool token, some give additional token(s) as a reward or added incentive.\n\nSince {{appName}} aggregates pools across multiple protocols, we have combined all the earning and reward rates into a single, overall yield rate to help easily evaluate your earning potential. This number is an estimate since the earning and reward values fluctuate constantly.\n\nFor further information about earning breakdowns you can visit <0>{{providerName}}</0>.",
+        "dailyYieldRateTitle": "Daily Rate",
+        "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
+        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}",
+        "safetyScoreTitle": "Safety Score",
+        "safetyScoreDescription": "The Safety Score breaks down the safety of the underlying vault asset into several key factors. It aims to draw your attention to the risks to consider before investing, and to inform you about technical details that you may not be able to evaluate for yourself.\nThough the full position is always more complicated, the Safety Score is provided to simplify the key risk and safety considerations and kick-start your own due diligence. Our team carefully considers each factor before a vault is deployed, and keeps a watchful eye on each asset, chain and protocol which {{providerName}} has integrated.",
+        "safetyScoreRateLink": "View More Safety Score Details On {{providerName}}"
+      },
+      "viewMoreDetails": "View More Details",
+      "viewLessDetails": "View Less Details"
+    },
+    "beforeDepositBottomSheet": {
+      "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",
+      "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
+      "beforeYouCanDepositTitle": "Before you can deposit...",
+      "beforeYouCanDepositDescription": "You’ll need to add one of the pool tokens. Once added, you’ll need to return to complete your pool deposit.",
+      "action": {
+        "swapAndDeposit": "Swap & Deposit",
+        "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "crossChainSwap": "Cross-chain Swap",
+        "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
+        "swap": "Swap",
+        "swapDescription": "Swap into {{tokenSymbol}} on {{tokenNetwork}} from another token in your wallet",
+        "add": "Buy",
+        "addDescription": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
+        "transfer": "Transfer",
+        "transferDescription": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}"
       }
     }
   },

@@ -9,7 +9,7 @@ import { getMultichainFeatures } from 'src/statsig'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo } from 'src/swap/types'
-import { Actions, addStandbyTransaction } from 'src/transactions/actions'
+import { actions, addStandbyTransaction } from 'src/transactions/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
@@ -403,7 +403,6 @@ describe(swapSubmitSaga, () => {
               tag: 'swap/saga',
               description: 'Swap/Approve',
             },
-            __typename: 'TokenApproval',
             networkId,
             type: TokenTransactionTypeV2.Approval,
             transactionHash: mockApproveTxReceipt.transactionHash,
@@ -419,7 +418,6 @@ describe(swapSubmitSaga, () => {
               tag: 'swap/saga',
               description: 'Swap/Execute',
             },
-            __typename: 'TokenExchangeV3',
             networkId,
             type: TokenTransactionTypeV2.SwapTransaction,
             inAmount: {
@@ -558,7 +556,6 @@ describe(swapSubmitSaga, () => {
             tag: 'swap/saga',
             description: 'Swap/Execute',
           },
-          __typename: 'TokenExchangeV3',
           networkId: NetworkId['celo-alfajores'],
           type: TokenTransactionTypeV2.SwapTransaction,
           inAmount: {
@@ -575,9 +572,9 @@ describe(swapSubmitSaga, () => {
       )
       .not.put.like({
         action: {
-          type: Actions.ADD_STANDBY_TRANSACTION,
+          type: actions.addStandbyTransaction.type,
           transaction: {
-            __typename: 'TokenApproval',
+            type: TokenTransactionTypeV2.Approval,
           },
         },
       })
@@ -601,7 +598,6 @@ describe(swapSubmitSaga, () => {
             tag: 'swap/saga',
             description: 'Swap/Approve',
           },
-          __typename: 'TokenApproval',
           networkId: NetworkId['celo-alfajores'],
           type: TokenTransactionTypeV2.Approval,
           transactionHash: mockApproveTxReceipt.transactionHash,
@@ -617,7 +613,6 @@ describe(swapSubmitSaga, () => {
             tag: 'swap/saga',
             description: 'Swap/Execute',
           },
-          __typename: 'TokenExchangeV3',
           networkId: NetworkId['celo-alfajores'],
           type: TokenTransactionTypeV2.SwapTransaction,
           inAmount: {
@@ -646,7 +641,6 @@ describe(swapSubmitSaga, () => {
             tag: 'swap/saga',
             description: 'Swap/Approve',
           },
-          __typename: 'TokenApproval',
           networkId: NetworkId['celo-alfajores'],
           type: TokenTransactionTypeV2.Approval,
           transactionHash: mockApproveTxReceipt.transactionHash,
@@ -662,7 +656,6 @@ describe(swapSubmitSaga, () => {
             tag: 'swap/saga',
             description: 'Swap/Execute',
           },
-          __typename: 'CrossChainTokenExchange',
           networkId: NetworkId['celo-alfajores'],
           type: TokenTransactionTypeV2.CrossChainSwapTransaction,
           inAmount: {

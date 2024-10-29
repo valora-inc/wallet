@@ -393,9 +393,9 @@ The flame graph provides a view of each component and sub-component. The width i
 
 ### App Profiling with Android Profiler
 
-The [Android Profiler (standalone)][androidprofilerstandalone] is useful for viewing memory, CPU, and energy consumption. Run the profiler either from Android Studio or following the standalone instructions.
+Profiling in release mode is recommended because memory usage tends to be significantly higher in development builds. To create a local mainnet release build for profiling, use the following command: `yarn dev:android -e mainnet -r -t`. This supplies an env flag: `-e <environment>`, the release flag: `-r` and the profile flag: `-t`.
 
-Release mode is preferred for profiling as memory usage can be significantly higher in development builds. To create a local mainnet release build for profiling run the app with `yarn dev:android -e mainnet -r -t`; this supplies an env flag: `-e <environment>`, the release flag: `-r` and the profile flag: `-t`. After both the app and profiler are launched, in the profiler attach a new session by selecting your device and a debuggable process e.g. `co.clabs.valora`.
+To analyze the app's memory, CPU, and energy usage, the [Android APK Profiler][androidprofilerapk] is a useful tool. In Android Studio, navigate to `File > Profile or Debug APK`, then select the APK built in the previous step, typically located at `android/app/build/outputs/apk/mainnet/release`. Once both the app and Android Studio are running, attach a new profiling session by selecting your device and choosing the debuggable process, such as co.clabs.valora.
 
 ## Testing
 
@@ -723,4 +723,4 @@ rm -rf $HOME/Library/Developer/Xcode/DerivedData/*
 [jq]: https://stedolan.github.io/jq/
 [rootstate]: src/redux/reducers.ts#L79
 [rootstateschema]: test/RootStateSchema.json
-[androidprofilerstandalone]: https://developer.android.com/studio/profile/android-profiler#standalone-profilers
+[androidprofilerapk]: https://developer.android.com/studio/profile/apk-profiler

@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { AppEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AppEvents } from 'src/analytics/Events'
 import { MultichainBetaStatus, optMultichainBeta } from 'src/app/actions'
 import { multichainBetaStatusSelector } from 'src/app/selectors'
 import BetaTag from 'src/components/BetaTag'
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     height: 56,
   },
   supportButton: {
-    color: Colors.primary,
+    color: Colors.accent,
     ...typeScale.bodyMedium,
   },
 })

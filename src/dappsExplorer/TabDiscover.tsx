@@ -1,20 +1,23 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useState } from 'react'
+import BigNumber from 'bignumber.js'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useSelector } from 'react-redux'
 import { DappFeaturedActions } from 'src/dappsExplorer/DappFeaturedActions'
 import DiscoverDappsCard from 'src/dappsExplorer/DiscoverDappsCard'
-import { EarnCardDiscover } from 'src/earn/EarnCard'
+import EarnActivePools from 'src/earn/EarnActivePools'
+import EarnEntrypoint from 'src/earn/EarnEntrypoint'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import PointsDiscoverCard from 'src/points/PointsDiscoverCard'
-import { Colors } from 'src/styles/colors'
+import { earnPositionsSelector } from 'src/positions/selectors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import networkConfig from 'src/web3/networkConfig'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TabDiscover>
 
@@ -40,6 +43,12 @@ function TabDiscover({ navigation }: Props) {
     animationDistance: titleHeight * 0.33,
   })
 
+  const pools = useSelector(earnPositionsSelector)
+  const poolsSupplied = useMemo(
+    () => pools.filter((pool) => new BigNumber(pool.balance).gt(0)).length,
+    [pools]
+  )
+
   return (
     <Animated.ScrollView
       testID="DiscoverScrollView"
@@ -53,10 +62,7 @@ function TabDiscover({ navigation }: Props) {
           </Text>
           <DappFeaturedActions />
           <PointsDiscoverCard />
-          <EarnCardDiscover
-            poolTokenId={networkConfig.aaveArbUsdcTokenId}
-            depositTokenId={networkConfig.arbUsdcTokenId}
-          />
+          {poolsSupplied > 0 ? <EarnActivePools /> : <EarnEntrypoint />}
           <DiscoverDappsCard />
         </View>
       </SafeAreaView>

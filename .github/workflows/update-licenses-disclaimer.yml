@@ -23,7 +23,7 @@ jobs:
           credentials_json: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
       - name: Google Secrets
         id: google-secrets
-        uses: google-github-actions/get-secretmanager-secrets@v2.1.3
+        uses: google-github-actions/get-secretmanager-secrets@v2.1.4
         with:
           secrets: |-
             BOT_SSH_KEY:projects/1027349420744/secrets/BOT_SSH_PRIVATE_KEY

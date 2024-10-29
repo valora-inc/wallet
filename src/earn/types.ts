@@ -1,4 +1,5 @@
 import { EarnPosition, Position, Token } from 'src/positions/types'
+import Colors from 'src/styles/colors'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -8,6 +9,9 @@ export interface DepositInfo {
   amount: string
   preparedTransactions: SerializableTransactionRequest[]
   pool: EarnPosition
+  mode: EarnEnterMode
+  fromTokenId: string
+  fromTokenAmount: string
 }
 
 export interface DepositSuccess {
@@ -43,3 +47,30 @@ export interface PrepareWithdrawAndClaimParams {
   hooksApiUrl: string
   rewardsPositions: Position[]
 }
+
+export type BeforeDepositActionName =
+  | 'Add'
+  | 'Transfer'
+  | 'SwapAndDeposit'
+  | 'CrossChainSwap'
+  | 'Swap'
+
+export type WithdrawActionName = 'PartialWithdraw' | 'Claim' | 'Exit'
+
+export interface BeforeDepositAction {
+  name: BeforeDepositActionName
+  title: string
+  details: string
+  iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
+  onPress: () => void
+}
+
+export interface WithdrawAction {
+  name: WithdrawActionName
+  title: string
+  details: string
+  iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
+  onPress: () => void
+}
+
+export type EarnEnterMode = 'deposit' | 'swap-deposit' | 'withdraw'

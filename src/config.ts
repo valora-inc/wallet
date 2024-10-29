@@ -36,6 +36,7 @@ const configOrThrow = (key: string) => {
 }
 
 export const APP_NAME = 'Valora'
+export const APP_REGISTRY_NAME = configOrThrow('APP_REGISTRY_NAME')
 
 // DEV only related settings
 export const isE2EEnv = stringToBoolean(Config.IS_E2E || 'false')

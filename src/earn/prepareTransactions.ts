@@ -1,12 +1,15 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { useAsyncCallback } from 'react-async-hook'
-import { PrepareWithdrawAndClaimParams } from 'src/earn/types'
+import { EarnEnterMode, PrepareWithdrawAndClaimParams } from 'src/earn/types'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
 import { RawShortcutTransaction } from 'src/positions/slice'
 import { rawShortcutTransactionsToTransactionRequests } from 'src/positions/transactions'
 import { EarnPosition } from 'src/positions/types'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { SwapTransaction } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
@@ -31,8 +34,9 @@ export async function prepareDepositTransactions({
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
   hooksApiUrl: string
-  shortcutId: 'deposit' | 'swap-deposit'
+  shortcutId: EarnEnterMode
 }) {
+  const { enableAppFee } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG])
   const args =
     shortcutId === 'deposit'
       ? {
@@ -49,8 +53,9 @@ export async function prepareDepositTransactions({
             amount,
             decimals: token.decimals,
             address: token.address,
-            isNative: token.isNative,
+            isNative: token.isNative ?? false,
           },
+          enableAppFee,
         }
 
   const {
@@ -85,26 +90,6 @@ export async function prepareDepositTransactions({
       origin: `earn-${shortcutId}`,
     }),
     swapTransaction: dataProps?.swapTransaction,
-  }
-}
-
-/**
- * Hook to prepare transactions for supplying crypto.
- */
-export function usePrepareDepositTransactions() {
-  const prepareTransactions = useAsyncCallback(prepareDepositTransactions, {
-    onError: (err) => {
-      const error = ensureError(err)
-      Logger.error(TAG, 'usePrepareDepositTransactions', error)
-    },
-  })
-
-  return {
-    prepareTransactionsResult: prepareTransactions.result,
-    refreshPreparedTransactions: prepareTransactions.execute,
-    clearPreparedTransactions: prepareTransactions.reset,
-    prepareTransactionError: prepareTransactions.error,
-    isPreparingTransactions: prepareTransactions.loading,
   }
 }
 
@@ -158,4 +143,73 @@ export async function prepareWithdrawAndClaimTransactions({
     isGasSubsidized: isGasSubsidizedForNetwork(pool.networkId),
     origin: 'earn-withdraw',
   })
+}
+
+export async function prepareWithdrawTransactions({
+  amount,
+  token,
+  walletAddress,
+  feeCurrencies,
+  pool,
+  hooksApiUrl,
+  shortcutId,
+  useMax,
+}: {
+  amount: string
+  token: TokenBalance
+  walletAddress: Address
+  feeCurrencies: TokenBalance[]
+  pool: EarnPosition
+  hooksApiUrl: string
+  shortcutId: EarnEnterMode
+  useMax: boolean
+}) {
+  const { dataProps } = pool
+  const { transactions }: { transactions: RawShortcutTransaction[] } = await triggerShortcutRequest(
+    hooksApiUrl,
+    {
+      address: walletAddress,
+      appId: pool.appId,
+      networkId: pool.networkId,
+      shortcutId,
+      tokens: [
+        {
+          tokenId: dataProps.withdrawTokenId,
+          amount,
+          useMax,
+        },
+      ],
+      ...pool.shortcutTriggerArgs?.[shortcutId],
+    }
+  )
+
+  return {
+    prepareTransactionsResult: await prepareTransactions({
+      feeCurrencies,
+      baseTransactions: rawShortcutTransactionsToTransactionRequests(transactions),
+      isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),
+      origin: `earn-${shortcutId}`,
+    }),
+    swapTransaction: undefined,
+  }
+}
+
+export function usePrepareTransactions(mode: EarnEnterMode) {
+  const prepareTransactions = useAsyncCallback(
+    mode === 'withdraw' ? prepareWithdrawTransactions : prepareDepositTransactions,
+    {
+      onError: (err) => {
+        const error = ensureError(err)
+        Logger.error(TAG, 'usePrepareWithdrawTransactions', error)
+      },
+    }
+  )
+
+  return {
+    prepareTransactionsResult: prepareTransactions.result,
+    refreshPreparedTransactions: prepareTransactions.execute,
+    clearPreparedTransactions: prepareTransactions.reset,
+    prepareTransactionError: prepareTransactions.error,
+    isPreparingTransactions: prepareTransactions.loading,
+  }
 }

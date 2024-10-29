@@ -2,9 +2,12 @@ import BigNumber from 'bignumber.js'
 import {
   prepareDepositTransactions,
   prepareWithdrawAndClaimTransactions,
+  prepareWithdrawTransactions,
 } from 'src/earn/prepareTransactions'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
@@ -57,6 +60,14 @@ describe('prepareTransactions', () => {
       feeCurrency: mockFeeCurrency,
     }))
     jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
+    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+      if (configName === StatsigDynamicConfigs.SWAP_CONFIG) {
+        return {
+          enableAppFee: true,
+        }
+      }
+      return {} as any
+    })
   })
 
   describe('prepareDepositTransactions', () => {
@@ -128,82 +139,89 @@ describe('prepareTransactions', () => {
       })
     })
 
-    it('prepares transactions using swap-deposit shortcut', async () => {
-      jest.mocked(triggerShortcutRequest).mockResolvedValue({
-        transactions: [
-          {
-            from: '0x1234',
-            to: '0x5678',
-            data: '0xencodedData',
+    it.each([
+      { isNative: true, testSuffix: 'native token', token: mockFeeCurrency },
+      { isNative: false, testSuffix: 'non native token', token: mockToken },
+    ])(
+      'prepares transactions using swap-deposit shortcut ($testSuffix)',
+      async ({ isNative, token }) => {
+        jest.mocked(triggerShortcutRequest).mockResolvedValue({
+          transactions: [
+            {
+              from: '0x1234',
+              to: '0x5678',
+              data: '0xencodedData',
+            },
+            {
+              from: '0x1234',
+              to: '0x5678',
+              data: '0xencodedData',
+              gas: '50100',
+              estimatedGasUse: '49800',
+            },
+          ],
+          dataProps: {
+            swapTransaction: 'swapTransaction',
           },
-          {
-            from: '0x1234',
-            to: '0x5678',
-            data: '0xencodedData',
-            gas: '50100',
-            estimatedGasUse: '49800',
-          },
-        ],
-        dataProps: {
-          swapTransaction: 'swapTransaction',
-        },
-      })
+        })
 
-      const result = await prepareDepositTransactions({
-        amount: '5',
-        token: mockToken,
-        walletAddress: '0x1234',
-        feeCurrencies: [mockFeeCurrency],
-        pool: mockEarnPositions[0],
-        hooksApiUrl: 'https://hooks.api',
-        shortcutId: 'swap-deposit',
-      })
-
-      const expectedTransactions = [
-        {
-          from: '0x1234',
-          to: '0x5678',
-          data: '0xencodedData',
-        },
-        {
-          from: '0x1234',
-          to: '0x5678',
-          data: '0xencodedData',
-          gas: BigInt(50100),
-          _estimatedGasUse: BigInt(49800),
-        },
-      ]
-      expect(result).toEqual({
-        prepareTransactionsResult: {
-          type: 'possible',
-          feeCurrency: mockFeeCurrency,
-          transactions: expectedTransactions,
-        },
-        swapTransaction: 'swapTransaction',
-      })
-      expect(prepareTransactions).toHaveBeenCalledWith({
-        baseTransactions: expectedTransactions,
-        feeCurrencies: [mockFeeCurrency],
-        spendToken: mockToken,
-        spendTokenAmount: new BigNumber(5000000),
-        isGasSubsidized: false,
-        origin: 'earn-swap-deposit',
-      })
-      expect(isGasSubsidizedForNetwork).toHaveBeenCalledWith(mockToken.networkId)
-      expect(triggerShortcutRequest).toHaveBeenCalledWith('https://hooks.api', {
-        address: '0x1234',
-        appId: mockEarnPositions[0].appId,
-        networkId: mockEarnPositions[0].networkId,
-        shortcutId: 'swap-deposit',
-        swapFromToken: {
-          tokenId: mockToken.tokenId,
+        const result = await prepareDepositTransactions({
           amount: '5',
-          decimals: 6,
-          address: mockToken.address,
-          isNative: mockToken.isNative,
-        },
-      })
-    })
+          token,
+          walletAddress: '0x1234',
+          feeCurrencies: [mockFeeCurrency],
+          pool: mockEarnPositions[0],
+          hooksApiUrl: 'https://hooks.api',
+          shortcutId: 'swap-deposit',
+        })
+
+        const expectedTransactions = [
+          {
+            from: '0x1234',
+            to: '0x5678',
+            data: '0xencodedData',
+          },
+          {
+            from: '0x1234',
+            to: '0x5678',
+            data: '0xencodedData',
+            gas: BigInt(50100),
+            _estimatedGasUse: BigInt(49800),
+          },
+        ]
+        expect(result).toEqual({
+          prepareTransactionsResult: {
+            type: 'possible',
+            feeCurrency: mockFeeCurrency,
+            transactions: expectedTransactions,
+          },
+          swapTransaction: 'swapTransaction',
+        })
+        expect(prepareTransactions).toHaveBeenCalledWith({
+          baseTransactions: expectedTransactions,
+          feeCurrencies: [mockFeeCurrency],
+          spendToken: token,
+          spendTokenAmount: new BigNumber(5).times(10 ** token.decimals),
+          isGasSubsidized: false,
+          origin: 'earn-swap-deposit',
+        })
+        expect(isGasSubsidizedForNetwork).toHaveBeenCalledWith(mockToken.networkId)
+        expect(triggerShortcutRequest).toHaveBeenCalledWith('https://hooks.api', {
+          address: '0x1234',
+          appId: mockEarnPositions[0].appId,
+          enableAppFee: true,
+          networkId: mockEarnPositions[0].networkId,
+          shortcutId: 'swap-deposit',
+          swapFromToken: {
+            tokenId: token.tokenId,
+            amount: '5',
+            decimals: token.decimals,
+            address: token.address,
+            isNative,
+          },
+        })
+      }
+    )
 
     it.each([undefined, {}])(
       'throws if swap transaction is not found in swap-deposit shortcut response',
@@ -349,6 +367,7 @@ describe('prepareTransactions', () => {
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
       })
+
       expect(isGasSubsidizedForNetwork).toHaveBeenCalledWith(mockEarnPositions[0].networkId)
 
       expect(prepareTransactions).toHaveBeenCalledWith({
@@ -371,6 +390,69 @@ describe('prepareTransactions', () => {
             useMax: true,
           },
         ],
+      })
+    })
+  })
+
+  describe('prepareWithdrawTransaction', () => {
+    it('prepares withdraw transactions using withdraw shortcut', async () => {
+      jest.mocked(triggerShortcutRequest).mockResolvedValue({
+        transactions: [
+          {
+            from: '0x1234',
+            to: '0x5678',
+            data: '0xencodedData',
+            gas: '50100',
+            estimatedGasUse: '49800',
+          },
+        ],
+      })
+
+      const result = await prepareWithdrawTransactions({
+        amount: '10',
+        token: mockToken,
+        walletAddress: '0x1234',
+        feeCurrencies: [mockFeeCurrency],
+        pool: mockEarnPositions[0],
+        hooksApiUrl: 'https://hooks.api',
+        shortcutId: 'withdraw',
+        useMax: false,
+      })
+
+      const expectedTransactions = [
+        {
+          from: '0x1234',
+          to: '0x5678',
+          data: '0xencodedData',
+          gas: BigInt(50100),
+          _estimatedGasUse: BigInt(49800),
+        },
+      ]
+
+      expect(result).toEqual({
+        prepareTransactionsResult: {
+          type: 'possible',
+          feeCurrency: mockFeeCurrency,
+          transactions: expectedTransactions,
+        },
+      })
+
+      expect(prepareTransactions).toHaveBeenCalledWith({
+        baseTransactions: expectedTransactions,
+        feeCurrencies: [mockFeeCurrency],
+        isGasSubsidized: false,
+        origin: 'earn-withdraw',
+      })
+
+      expect(triggerShortcutRequest).toHaveBeenCalledWith('https://hooks.api', {
+        address: '0x1234',
+        appId: mockEarnPositions[0].appId,
+        networkId: mockEarnPositions[0].networkId,
+        shortcutId: 'withdraw',
+        tokens: [
+          { tokenId: mockEarnPositions[0].dataProps.withdrawTokenId, amount: '10', useMax: false },
+        ],
+        tokenDecimals: 6,
       })
     })
   })

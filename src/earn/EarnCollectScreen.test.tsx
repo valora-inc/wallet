@@ -15,11 +15,11 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
-import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
 import {
   mockAaveArbUsdcAddress,
+  mockAaveArbUsdcTokenId,
   mockAccount,
   mockArbArbTokenId,
   mockArbEthTokenId,
@@ -33,10 +33,10 @@ import {
 const mockStoreTokens = {
   tokenBalances: {
     ...mockTokenBalances,
-    [networkConfig.aaveArbUsdcTokenId]: {
+    [mockAaveArbUsdcTokenId]: {
       networkId: NetworkId['arbitrum-sepolia'],
       address: mockAaveArbUsdcAddress,
-      tokenId: networkConfig.aaveArbUsdcTokenId,
+      tokenId: mockAaveArbUsdcTokenId,
       symbol: 'aArbSepUSDC',
       priceUsd: '1',
       balance: '10.75',
@@ -53,9 +53,11 @@ const store = createMockStore({
 })
 
 jest.mock('src/statsig')
-jest.mock('src/earn/utils')
+jest.mock('src/earn/utils', () => ({
+  ...(jest.requireActual('src/earn/utils') as any),
+  isGasSubsidizedForNetwork: jest.fn(),
+}))
 jest.mock('src/earn/prepareTransactions')
-jest.mock('src/earn/poolInfo')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -107,7 +109,7 @@ describe('EarnCollectScreen', () => {
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            pool: mockEarnPositions[0],
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
           }}
         />
       </Provider>
@@ -116,9 +118,9 @@ describe('EarnCollectScreen', () => {
     expect(getByText('earnFlow.collect.title')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
     expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
-      '10.75 USDC'
+      '11.83 USDC'
     )
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱14.30')
+    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱15.73')
     expect(queryByTestId('EarnCollect/ApyLoading')).toBeFalsy()
     expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
@@ -139,7 +141,7 @@ describe('EarnCollectScreen', () => {
     expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
     expect(prepareWithdrawAndClaimTransactions).toHaveBeenCalledWith({
       feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
-      pool: mockEarnPositions[0],
+      pool: { ...mockEarnPositions[0], balance: '10.75' },
       rewardsPositions: [mockRewardsPositions[1]],
       walletAddress: mockAccount.toLowerCase(),
       hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
@@ -164,7 +166,7 @@ describe('EarnCollectScreen', () => {
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            pool: mockEarnPositions[0],
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
           }}
         />
       </Provider>
@@ -173,9 +175,9 @@ describe('EarnCollectScreen', () => {
     expect(getByText('earnFlow.collect.title')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
     expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
-      '10.75 USDC'
+      '11.83 USDC'
     )
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱14.30')
+    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱15.73')
     expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
 
     expect(queryByText('earnFlow.collect.plus')).toBeFalsy()
@@ -251,7 +253,7 @@ describe('EarnCollectScreen', () => {
         <MockedNavigator
           component={EarnCollectScreen}
           params={{
-            pool: mockEarnPositions[0],
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
           }}
         />
       </Provider>
@@ -267,7 +269,7 @@ describe('EarnCollectScreen', () => {
       {
         type: withdrawStart.type,
         payload: {
-          pool: mockEarnPositions[0],
+          pool: { ...mockEarnPositions[0], balance: '10.75' },
           preparedTransactions: getSerializablePreparedTransactions(
             mockPreparedTransaction.transactions
           ),
@@ -278,7 +280,7 @@ describe('EarnCollectScreen', () => {
 
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_collect_earnings_press, {
       depositTokenId: mockArbUsdcTokenId,
-      tokenAmount: '10.75',
+      tokenAmount: '11.825',
       networkId: NetworkId['arbitrum-sepolia'],
       providerId: mockEarnPositions[0].appId,
       rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],
@@ -348,6 +350,10 @@ describe('EarnCollectScreen', () => {
     })
     expect(AppAnalytics.track).toBeCalledWith(EarnEvents.earn_withdraw_add_gas_press, {
       gasTokenId: mockArbEthTokenId,
+      networkId: NetworkId['arbitrum-sepolia'],
+      poolId: mockEarnPositions[0].positionId,
+      providerId: mockEarnPositions[0].appId,
+      depositTokenId: mockArbUsdcTokenId,
     })
   })
 
