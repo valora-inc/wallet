@@ -2280,7 +2280,27 @@
     "infiniteApprovalDescription": "Somma di {{tokenSymbol}} infiniti approvata per la transazione",
     "revokeApprovalDescription": "Revoca di {{tokenSymbol}} per la transazione",
     "descriptionLabel": "Dettagli",
-    "crossChainSwapTransactionLabel": "Cross-chain"
+    "crossChainSwapTransactionLabel": "Cross-chain",
+    "depositTitle": "Depositati",
+    "depositSubtitle": "sul pool {{txAppName}}",
+    "depositSubtitle_noTxAppName": "alla piscina sconosciuta",
+    "withdrawTitle": "Preleva",
+    "withdrawSubtitle": "dal pool {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "da un'applicazione sconosciuta"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Dettagli",
+    "depositTitle": "Depositati",
+    "depositSubtitle": "Depositati {{tokenSymbol}} sul pool {{txAppName}}",
+    "depositSubtitle_noTxAppName": "Depositato {{tokenSymbol}} su un'applicazione sconosciuta",
+    "depositDetails": "Somma depositata",
+    "withdrawTitle": "Preleva",
+    "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{txAppName}} Pool",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Amount Withdrawn",
+    "swap": "Swap",
+    "network": "Network",
+    "fees": "Fees"
   },
   "multichainBeta": {
     "beta": "BETA",
