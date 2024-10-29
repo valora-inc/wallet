@@ -15,11 +15,13 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore } from 'test/utils'
+import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
 import {
   mockAaveArbUsdcAddress,
   mockAaveArbUsdcTokenId,
+  mockAccount,
   mockArbArbTokenId,
   mockArbEthTokenId,
   mockArbUsdcTokenId,
@@ -57,6 +59,11 @@ jest.mock('src/earn/utils', () => ({
   isGasSubsidizedForNetwork: jest.fn(),
 }))
 jest.mock('src/earn/hooks')
+jest.mock('src/earn/prepareTransactions', () => ({
+  ...jest.requireActual('src/earn/prepareTransactions'),
+  prepareWithdrawAndClaimTransactions: jest.fn(),
+  prepareWithdrawTransactions: jest.fn(),
+}))
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -92,45 +99,38 @@ describe('EarnConfirmationScreen', () => {
   const refreshPreparedTransactionsSpy = jest.fn()
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(usePrepareTransactions).mockReturnValue({
-      prepareTransactionsResult: undefined,
-      refreshPreparedTransactions: refreshPreparedTransactionsSpy,
-      clearPreparedTransactions: jest.fn(),
-      prepareTransactionError: undefined,
-      isPreparingTransactions: false,
-    })
     jest
       .mocked(getFeatureGate)
       .mockImplementation(
         (gateName: StatsigFeatureGates) => gateName === StatsigFeatureGates.SHOW_POSITIONS
       )
     jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
-    store.clearActions()
-  })
-
-  it('renders total balance, rewards and gas after fetching rewards and preparing tx', async () => {
     jest.mocked(usePrepareTransactions).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
       },
-      refreshPreparedTransactions: jest.fn(),
+      refreshPreparedTransactions: refreshPreparedTransactionsSpy,
       clearPreparedTransactions: jest.fn(),
       prepareTransactionError: undefined,
       isPreparingTransactions: false,
     })
+    store.clearActions()
+  })
+
+  it('renders total balance, rewards and gas after fetching rewards and preparing tx', async () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
           component={EarnConfirmationScreen}
           params={{
             pool: { ...mockEarnPositions[0], balance: '10.75' },
-            mode: 'withdraw',
+            mode: 'Exit',
           }}
         />
       </Provider>
     )
 
-    expect(getByText('earnFlow.collect.titleWithdraw')).toBeTruthy()
+    expect(getByText('earnFlow.collect.titleCollect')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
     expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
       '11.83 USDC'
@@ -150,25 +150,35 @@ describe('EarnConfirmationScreen', () => {
     await waitFor(() => {
       expect(queryByTestId('EarnConfirmation/GasLoading')).toBeFalsy()
     })
+
     expect(getByTestId('EarnConfirmation/GasFeeCryptoAmount')).toHaveTextContent('0.06 ETH')
     expect(getByTestId('EarnConfirmation/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
     expect(queryByTestId('EarnConfirmation/GasSubsidized')).toBeFalsy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
+    expect(usePrepareTransactions).toHaveBeenCalledWith('Exit', {
+      rewardsPositions: [mockRewardsPositions[1]],
+    })
+    await waitFor(() => expect(refreshPreparedTransactionsSpy).toHaveBeenCalledTimes(1))
+    expect(refreshPreparedTransactionsSpy).toHaveBeenCalledWith({
+      shortcutId: 'Exit',
+      token: {
+        ...mockStoreTokens?.tokenBalances[mockAaveArbUsdcTokenId],
+        priceUsd: new BigNumber(mockStoreTokens.tokenBalances[mockAaveArbUsdcTokenId].priceUsd!),
+        balance: new BigNumber(mockStoreTokens.tokenBalances[mockAaveArbUsdcTokenId].balance!),
+        lastKnownPriceUsd: new BigNumber('1'),
+      },
+      amount: '11.825',
+      feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
+      pool: { ...mockEarnPositions[0], balance: '10.75' },
+      hooksApiUrl: networkConfig.hooksApiUrl,
+      walletAddress: mockAccount.toLowerCase(),
+      useMax: undefined,
+    })
     expect(store.getActions()).toEqual([])
   })
 
   it('renders total balance, rewards and gas after fetching rewards and preparing tx for partial withdrawal', async () => {
-    jest.mocked(usePrepareTransactions).mockReturnValue({
-      prepareTransactionsResult: {
-        prepareTransactionsResult: mockPreparedTransaction,
-      },
-      refreshPreparedTransactions: jest.fn(),
-      clearPreparedTransactions: jest.fn(),
-      prepareTransactionError: undefined,
-      isPreparingTransactions: false,
-    })
-
-    const { getByText, getByTestId, queryByTestId } = render(
+    const { getByText, getByTestId, queryByTestId, queryByText } = render(
       <Provider store={store}>
         <MockedNavigator
           component={EarnConfirmationScreen}
@@ -190,13 +200,7 @@ describe('EarnConfirmationScreen', () => {
       '₱7.86'
     )
 
-    expect(getByText('earnFlow.collect.reward')).toBeTruthy()
-    expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/CryptoAmount`)).toHaveTextContent(
-      '0.01 ARB'
-    )
-    expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/FiatAmount`)).toHaveTextContent(
-      '₱0.016'
-    )
+    expect(queryByText('earnFlow.collect.reward')).toBeFalsy()
 
     await waitFor(() => {
       expect(queryByTestId('EarnConfirmation/GasLoading')).toBeFalsy()
@@ -205,20 +209,26 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId('EarnConfirmation/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
     expect(queryByTestId('EarnConfirmation/GasSubsidized')).toBeFalsy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
+    await waitFor(() => expect(refreshPreparedTransactionsSpy).toHaveBeenCalledTimes(1))
+    expect(refreshPreparedTransactionsSpy).toHaveBeenCalledWith({
+      shortcutId: 'withdraw',
+      token: {
+        ...mockStoreTokens?.tokenBalances[mockAaveArbUsdcTokenId],
+        priceUsd: new BigNumber(mockStoreTokens.tokenBalances[mockAaveArbUsdcTokenId].priceUsd!),
+        balance: new BigNumber(mockStoreTokens.tokenBalances[mockAaveArbUsdcTokenId].balance!),
+        lastKnownPriceUsd: new BigNumber('1'),
+      },
+      amount: '5.9125000000000005',
+      feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
+      pool: { ...mockEarnPositions[0], balance: '10.75' },
+      hooksApiUrl: networkConfig.hooksApiUrl,
+      walletAddress: mockAccount.toLowerCase(),
+      useMax: undefined,
+    })
     expect(store.getActions()).toEqual([])
   })
 
   it('skips rewards section when no rewards', async () => {
-    jest.mocked(usePrepareTransactions).mockReturnValue({
-      prepareTransactionsResult: {
-        prepareTransactionsResult: mockPreparedTransaction,
-      },
-      refreshPreparedTransactions: jest.fn(),
-      clearPreparedTransactions: jest.fn(),
-      prepareTransactionError: undefined,
-      isPreparingTransactions: false,
-    })
-
     const { getByText, getByTestId, queryByTestId, queryByText } = render(
       <Provider
         store={createMockStore({
@@ -334,16 +344,6 @@ describe('EarnConfirmationScreen', () => {
   })
 
   it('pressing cta dispatches withdraw action and fires analytics event', async () => {
-    jest.mocked(usePrepareTransactions).mockReturnValue({
-      prepareTransactionsResult: {
-        prepareTransactionsResult: mockPreparedTransaction,
-      },
-      refreshPreparedTransactions: jest.fn(),
-      clearPreparedTransactions: jest.fn(),
-      prepareTransactionError: undefined,
-      isPreparingTransactions: false,
-    })
-
     const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
