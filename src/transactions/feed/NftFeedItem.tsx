@@ -28,7 +28,9 @@ function NftFeedItem({ transaction }: Props) {
 
   const openNftTransactionDetails = () => {
     navigate(Screens.NftsInfoCarousel, { nfts, networkId: transaction.networkId })
-    AppAnalytics.track(HomeEvents.transaction_feed_item_select)
+    AppAnalytics.track(HomeEvents.transaction_feed_item_select, {
+      itemType: transaction.type,
+    })
   }
 
   return (

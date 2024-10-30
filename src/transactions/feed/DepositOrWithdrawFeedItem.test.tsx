@@ -1,6 +1,8 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { HomeEvents } from 'src/analytics/Events'
 import DepositOrWithdrawFeedItem from 'src/transactions/feed/DepositOrWithdrawFeedItem'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
@@ -82,5 +84,18 @@ describe('DepositOrWithdrawFeedItem', () => {
     )
 
     expect(queryByText('transactionFeed.depositSubtitle, {"txAppName":"Some Dapp"}')).toBeNull()
+  })
+
+  it('should fire analytic event on tap', () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <DepositOrWithdrawFeedItem transaction={depositTransaction} />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId(`DepositOrWithdrawFeedItem/${depositTransaction.transactionHash}`))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.transaction_feed_item_select, {
+      itemType: depositTransaction.type,
+    })
   })
 })

@@ -179,7 +179,7 @@ interface HomeEventsProperties {
     notificationPositionInList?: number
   }
   [HomeEvents.notification_center_spotlight_dismiss]: undefined
-  [HomeEvents.transaction_feed_item_select]: undefined
+  [HomeEvents.transaction_feed_item_select]: { itemType: TokenTransactionTypeV2 }
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
   [HomeEvents.home_action_pressed]: { action: HomeActionName }
