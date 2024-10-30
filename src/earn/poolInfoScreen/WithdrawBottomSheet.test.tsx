@@ -98,7 +98,13 @@ describe('WithdrawBottomSheet', () => {
       networkId: mockEarnPositions[0].networkId,
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
-    // TODO (ACT-1389): Check that navigate called with confirmation screen for Claim
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnConfirmationScreen, {
+      pool: {
+        ...mockEarnPositions[0],
+        balance: '100',
+      },
+      mode: 'Claim',
+    })
   })
   it('tapping exit on WithdrawBottomSheet navigates to enter amount screen', () => {
     jest
@@ -122,7 +128,13 @@ describe('WithdrawBottomSheet', () => {
       networkId: mockEarnPositions[0].networkId,
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
-    // TODO (ACT-1389): Check that navigate called with confirmation screen for Claim
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnConfirmationScreen, {
+      pool: {
+        ...mockEarnPositions[0],
+        balance: '100',
+      },
+      mode: 'Exit',
+    })
   })
   it('shows correct copy when ClaimType is Earnings', () => {
     jest
