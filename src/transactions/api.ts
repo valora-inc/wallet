@@ -1,10 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type LocalCurrencyCode } from 'src/localCurrency/consts'
-import {
-  TokenTransactionTypeV2,
-  type PageInfo,
-  type TokenTransaction,
-} from 'src/transactions/types'
+import { FEED_V2_INCLUDE_TYPES, type PageInfo, type TokenTransaction } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 
 export type TransactionFeedV2Response = {
@@ -31,7 +27,7 @@ export const transactionFeedV2Api = createApi({
     >({
       query: ({ address, localCurrencyCode, endCursor }) => {
         const networkIds = Object.values(networkConfig.networkToNetworkId).join('&networkIds[]=')
-        const includeTypes = Object.values(TokenTransactionTypeV2).join('&includeTypes[]=')
+        const includeTypes = FEED_V2_INCLUDE_TYPES.join('&includeTypes[]=')
         const cursor = endCursor === undefined ? '' : `&afterCursor=${endCursor}`
         return `?networkIds[]=${networkIds}&includeTypes[]=${includeTypes}&address=${address}&localCurrencyCode=${localCurrencyCode}${cursor}`
       },
