@@ -2300,11 +2300,11 @@
     "depositDetails": "Вложенная сумма",
     "withdrawTitle": "Выведено",
     "withdrawSubtitle": "Выведено {{tokenSymbol}} из пула {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawSubtitle_noTxAppName": "Выведи {{tokenSymbol}} из неизвестного приложения",
     "withdrawDetails": "Сумма выведено",
     "swap": "Обмен",
     "network": "Сообщество",
-    "fees": "Fees"
+    "fees": "Комиссия"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2648,12 +2648,19 @@
     },
     "collect": {
       "title": "Поздравляем! Проверьте и получите свои доходы",
+      "titleClaim": "Ты будешь утверждать:",
+      "titleCollect": "Ты будешь собирать коллекцию:",
+      "titleWithdraw": "Ты собираешься отказаться от участия:",
       "total": "ВСЕГО",
       "plus": "ПЛЮС",
+      "reward": "REWARD",
       "rate": "Ставка (прибл.)",
       "apy": "Годовая ставка {{apy}}%",
       "fee": "Комиссия за газ",
       "cta": "Получить доход",
+      "ctaWithdraw": "Вывести",
+      "ctaReward": "Заявка на вознаграждение",
+      "ctaExit": "Выход из пула",
       "errorTitle": "Что-то пошло не так",
       "errorDescription": "Невозможно получить данные о депозите. Повторите попытку.",
       "noGasTitle": "Вам нужно больше {{symbol}} для продолжения",
