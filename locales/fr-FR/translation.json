@@ -2283,10 +2283,10 @@
     "crossChainSwapTransactionLabel": "Cross-chain",
     "depositTitle": "Déposé",
     "depositSubtitle": "vers le pool {{txAppName}}",
-    "depositSubtitle_noTxAppName": "vers une piscine inconnue",
+    "depositSubtitle_noTxAppName": "au pool inconnu",
     "withdrawTitle": "Retiré",
     "withdrawSubtitle": "du pool {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "à partir d'une application inconnue"
+    "withdrawSubtitle_noTxAppName": "d'une application inconnue"
   },
   "transactionDetails": {
     "descriptionLabel": "Détails",
@@ -2644,9 +2644,9 @@
     },
     "collect": {
       "title": "Bravo ! Consultez et accumulez vos gains",
-      "titleClaim": "Tu vas prétendre :",
-      "titleCollect": "Tu vas collecter des fonds :",
-      "titleWithdraw": "Tu vas te retirer :",
+      "titleClaim": "Vous allez réclamer :",
+      "titleCollect": "Vous allez collecter:",
+      "titleWithdraw": "Vous allez retirer :",
       "total": "TOTAL",
       "plus": "PLUS",
       "reward": "RÉCOMPENSE",
@@ -2655,7 +2655,7 @@
       "fee": "Frais de gaz",
       "cta": "Collecter les gains",
       "ctaWithdraw": "Retirer",
-      "ctaReward": "Réclamer une récompense",
+      "ctaReward": "Réclamer les récompenses",
       "ctaExit": "Quitter le pool",
       "errorTitle": "Une erreur s'est produite",
       "errorDescription": "Impossible de récupérer les détails du dépôt. Veuillez réessayer.",
@@ -2677,7 +2677,7 @@
       "earnClaimSubtitle": "{{tokenSymbol}} collectés du Pool {{providerName}}",
       "earnClaimDetails": "Montant perçu",
       "earnDepositTitle": "Déposé",
-      "earnDepositSubtitle": "Dépôt de {{tokenSymbol}} au Pool {{providerName}}",
+      "earnDepositSubtitle": "{{tokenSymbol}} déposés au pool {{providerName}}",
       "earnDepositDetails": "Montant déposé",
       "earnWithdrawTitle": "Retiré",
       "earnWithdrawSubtitle": "Retirer {{tokenSymbol}} du Pool {{providerName}}",
