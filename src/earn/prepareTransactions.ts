@@ -146,7 +146,7 @@ export async function prepareWithdrawAndClaimTransactions({
       feeCurrencies,
       baseTransactions: rawShortcutTransactionsToTransactionRequests([
         ...withdrawTransactions,
-        ...claimTransactions.flat(),
+        ...(dataProps.withdrawalIncludesClaim ? [] : claimTransactions.flat()),
       ]),
       isGasSubsidized: isGasSubsidizedForNetwork(networkId),
       origin: 'earn-withdraw',
