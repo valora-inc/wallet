@@ -71,19 +71,19 @@ describe('DepositOrWithdrawFeedItem', () => {
     expect(getByText('transactionFeed.depositSubtitle, {"txAppName":"Some Dapp"}')).toBeTruthy()
   })
 
-  it('does not display app name when not available', () => {
-    const transactionWithoutProvider = {
-      ...depositTransaction,
-      appName: undefined,
-    }
-
+  it('displays when app name is not available', () => {
     const { queryByText } = render(
       <Provider store={store}>
-        <DepositOrWithdrawFeedItem transaction={transactionWithoutProvider} />
+        <DepositOrWithdrawFeedItem
+          transaction={{
+            ...depositTransaction,
+            appName: undefined,
+          }}
+        />
       </Provider>
     )
 
-    expect(queryByText('transactionFeed.depositSubtitle, {"txAppName":"Some Dapp"}')).toBeNull()
+    expect(queryByText('transactionFeed.depositSubtitle, {"context":"noTxAppName"}')).toBeTruthy()
   })
 
   it('should fire analytic event on tap', () => {

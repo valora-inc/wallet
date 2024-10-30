@@ -47,15 +47,9 @@ function Description({ transaction }: DescriptionProps) {
       <Text style={styles.title} testID={'DepositOrWithdrawFeedItem/title'} numberOfLines={1}>
         {title}
       </Text>
-      {!!txAppName && (
-        <Text
-          style={styles.subtitle}
-          testID={'DepositOrWithdrawFeedItem/subtitle'}
-          numberOfLines={1}
-        >
-          {subtitle}
-        </Text>
-      )}
+      <Text style={styles.subtitle} testID={'DepositOrWithdrawFeedItem/subtitle'} numberOfLines={1}>
+        {subtitle}
+      </Text>
     </View>
   )
 }
