@@ -2283,7 +2283,7 @@
     "crossChainSwapTransactionLabel": "Cadeia cruzada",
     "depositTitle": "Depositado",
     "depositSubtitle": "para o pool da {{txAppName}}",
-    "depositSubtitle_noTxAppName": "para uma piscina desconhecida",
+    "depositSubtitle_noTxAppName": "para um aplicativo desconhecido",
     "withdrawTitle": "Sacado",
     "withdrawSubtitle": "do pool da {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "de um aplicativo desconhecido",
