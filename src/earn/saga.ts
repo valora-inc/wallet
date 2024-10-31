@@ -390,7 +390,10 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
           providerId: pool.appId,
         }
       }
-      createWithdrawStandbyTxHandlers.push(createClaimRewardStandbyTx)
+
+      if (!pool.dataProps.withdrawalIncludesClaim) {
+        createWithdrawStandbyTxHandlers.push(createClaimRewardStandbyTx)
+      }
     })
 
     AppAnalytics.track(EarnEvents.earn_withdraw_submit_start, commonAnalyticsProps)
