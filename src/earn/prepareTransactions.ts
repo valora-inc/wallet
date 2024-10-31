@@ -170,9 +170,8 @@ export async function prepareWithdrawTransactions({
   useMax: boolean
 }) {
   const { appId, balance, dataProps, networkId, shortcutTriggerArgs } = pool
-  const { transactions }: { transactions: RawShortcutTransaction[] } = await triggerShortcutRequest(
-    hooksApiUrl,
-    {
+  const { transactions: withdrawTransactions }: { transactions: RawShortcutTransaction[] } =
+    await triggerShortcutRequest(hooksApiUrl, {
       address: walletAddress,
       appId,
       networkId,
@@ -185,8 +184,11 @@ export async function prepareWithdrawTransactions({
         },
       ],
       ...shortcutTriggerArgs?.withdraw,
-    }
-  )
+    })
+  Logger.debug(TAG, 'prepareWithdrawTransactions', {
+    withdrawTransactions,
+    pool,
+  })
 
   return {
     prepareTransactionsResult: await prepareTransactions({
