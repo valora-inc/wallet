@@ -2286,7 +2286,10 @@
     "depositSubtitle_noTxAppName": "en pool no identificada",
     "withdrawTitle": "Fondos retirados",
     "withdrawSubtitle": "de la pool de {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "desde pool no identificada"
+    "withdrawSubtitle_noTxAppName": "desde pool no identificada",
+    "claimRewardTitle": "Ganancias recibidas",
+    "claimRewardSubtitle": "de la pool de {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "desde pool no identificada"
   },
   "transactionDetails": {
     "descriptionLabel": "Detalles",
@@ -2298,6 +2301,10 @@
     "withdrawSubtitle": "{{tokenSymbol}} retirados de la pool de {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "{{tokenSymbol}} retirados de una app no identificada",
     "withdrawDetails": "Monto retirado",
+    "claimRewardTitle": "Ganancias recibidas",
+    "claimRewardSubtitle": "{{tokenSymbol}} recibidos de la pool {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "Recogida {{tokenSymbol}} de una app desconocida",
+    "claimRewardDetails": "Monto recibido",
     "swap": "Cambio",
     "network": "Red",
     "fees": "Tarifas"
