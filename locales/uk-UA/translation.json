@@ -2290,7 +2290,10 @@
     "depositSubtitle_noTxAppName": "до невідомого басейну",
     "withdrawTitle": "Знято",
     "withdrawSubtitle": "з пулу {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "з невідомого додатку"
+    "withdrawSubtitle_noTxAppName": "з невідомого додатку",
+    "claimRewardTitle": "Стягнуто",
+    "claimRewardSubtitle": "з пулу {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "з невідомого додатку"
   },
   "transactionDetails": {
     "descriptionLabel": "Подробиці",
@@ -2302,6 +2305,10 @@
     "withdrawSubtitle": "Знято {{tokenSymbol}} з пулу {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "Вилучено {{tokenSymbol}} з невідомого додатку",
     "withdrawDetails": "Знята сума",
+    "claimRewardTitle": "Стягнуто",
+    "claimRewardSubtitle": "Стягнено {{tokenSymbol}} з пулу {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "Зібрано {{tokenSymbol}} з невідомого додатку",
+    "claimRewardDetails": "Стягнуто суму",
     "swap": "Обміняти",
     "network": "Мережа",
     "fees": "Комісії"
