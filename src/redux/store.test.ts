@@ -115,7 +115,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 235,
+          "version": 236,
         },
         "account": {
           "acceptedTerms": false,
@@ -198,6 +198,7 @@ describe('store state', () => {
           "recentDappIds": [],
         },
         "earn": {
+          "claimStatus": "idle",
           "depositStatus": "idle",
           "poolInfo": undefined,
           "poolInfoFetchStatus": "idle",
