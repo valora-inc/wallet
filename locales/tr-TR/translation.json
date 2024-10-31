@@ -2283,7 +2283,7 @@
     "crossChainSwapTransactionLabel": "Zincirler arası",
     "depositTitle": "Yatırılan",
     "depositSubtitle": "{{txAppName}} Havuzuna",
-    "depositSubtitle_noTxAppName": "bilinmeyen havuza",
+    "depositSubtitle_noTxAppName": "bilinmeyen uygulamaya",
     "withdrawTitle": "Çekilen",
     "withdrawSubtitle": "{{txAppName}} Havuzundan",
     "withdrawSubtitle_noTxAppName": "bilinmeyen uygulamadan",
