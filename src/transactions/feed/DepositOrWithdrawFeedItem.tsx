@@ -47,15 +47,9 @@ function Description({ transaction }: DescriptionProps) {
       <Text style={styles.title} testID={'DepositOrWithdrawFeedItem/title'} numberOfLines={1}>
         {title}
       </Text>
-      {!!txAppName && (
-        <Text
-          style={styles.subtitle}
-          testID={'DepositOrWithdrawFeedItem/subtitle'}
-          numberOfLines={1}
-        >
-          {subtitle}
-        </Text>
-      )}
+      <Text style={styles.subtitle} testID={'DepositOrWithdrawFeedItem/subtitle'} numberOfLines={1}>
+        {subtitle}
+      </Text>
     </View>
   )
 }
@@ -67,15 +61,18 @@ interface AmountDisplayProps {
 
 function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
   let amountValue
+  let localAmount
   let tokenId
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Deposit:
       amountValue = new BigNumber(-transaction.outAmount.value)
+      localAmount = transaction.outAmount.localAmount
       tokenId = transaction.outAmount.tokenId
       break
     case TokenTransactionTypeV2.Withdraw:
       amountValue = new BigNumber(transaction.inAmount.value)
+      localAmount = transaction.inAmount.localAmount
       tokenId = transaction.inAmount.tokenId
       break
   }
@@ -90,6 +87,7 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
   return (
     <TokenDisplay
       amount={amountValue}
+      localAmount={localAmount}
       tokenId={tokenId}
       showLocalAmount={isLocal}
       showSymbol={true}

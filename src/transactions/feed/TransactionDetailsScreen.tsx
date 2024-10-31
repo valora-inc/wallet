@@ -65,6 +65,10 @@ function useHeaderTitle(transaction: TokenTransaction) {
       return t('swapScreen.title')
     case TokenTransactionTypeV2.Approval:
       return t('transactionFeed.approvalTransactionTitle')
+    case TokenTransactionTypeV2.Deposit:
+      return t('transactionFeed.depositTitle')
+    case TokenTransactionTypeV2.Withdraw:
+      return t('transactionFeed.withdrawTitle')
     case TokenTransactionTypeV2.ClaimReward:
       return t('transactionFeed.claimRewardTitle')
     case TokenTransactionTypeV2.EarnWithdraw:
