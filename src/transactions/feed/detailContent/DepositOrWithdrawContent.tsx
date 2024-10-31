@@ -62,6 +62,7 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
           </View>
           <TokenDisplay
             amount={amount.value}
+            localAmount={amount.localAmount}
             tokenId={amount.tokenId}
             style={styles.amountSubtitle}
           />
