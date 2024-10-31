@@ -8,6 +8,7 @@ export enum StatsigDynamicConfigs {
   NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
   EARN_STABLECOIN_CONFIG = 'earn_stablecoin_config',
   APP_CONFIG = 'app_config',
+  EARN_CONFIG = 'earn_config',
 }
 
 // Separating into different enum from StatsigDynamicConfigs to allow for more strict typing
@@ -31,15 +32,15 @@ export enum StatsigFeatureGates {
   SHOW_NFT_REWARD = 'show_nft_reward',
   SHOW_JUMPSTART_SEND = 'show_jumpstart_send',
   SHOW_POINTS = 'show_points',
-  SHOW_STABLECOIN_EARN = 'show_stablecoin_earn',
   SUBSIDIZE_STABLECOIN_EARN_GAS_FEES = 'subsidize_stablecoin_earn_gas_fees',
   SHOW_CASH_IN_TOKEN_FILTERS = 'show_cash_in_token_filters',
   ALLOW_CROSS_CHAIN_SWAPS = 'allow_cross_chain_swaps',
   SHOW_ONBOARDING_PHONE_VERIFICATION = 'show_onboarding_phone_verification',
-  SHOW_MULTIPLE_EARN_POOLS = 'show_multiple_earn_pools',
   SHOW_APPLE_IN_CAB = 'show_apple_in_cab',
   SHOW_SWAP_AND_DEPOSIT = 'show_swap_and_deposit',
   SHOW_UK_COMPLIANT_VARIANT = 'show_uk_compliant_variant',
+  ALLOW_EARN_PARTIAL_WITHDRAWAL = 'allow_earn_partial_withdrawal',
+  SHOW_ZERION_TRANSACTION_FEED = 'show_zerion_transaction_feed',
 }
 
 export enum StatsigExperiments {

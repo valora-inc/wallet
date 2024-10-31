@@ -611,14 +611,14 @@ PODS:
     - Toast (~> 4)
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-video (6.6.2):
+  - react-native-video (6.6.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-    - react-native-video/Video (= 6.6.2)
-  - react-native-video/Video (6.6.2):
+    - react-native-video/Video (= 6.6.4)
+  - react-native-video/Video (6.6.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-webview (13.12.2):
+  - react-native-webview (13.12.3):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - React-NativeModulesApple (0.72.15):
@@ -779,7 +779,7 @@ PODS:
     - RNFBApp
   - RNFS (2.20.0):
     - React-Core
-  - RNGestureHandler (2.19.0):
+  - RNGestureHandler (2.20.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNKeychain (8.2.0):
@@ -812,7 +812,7 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - React-RCTImage
-  - RNSentry (5.33.1):
+  - RNSentry (5.33.2):
     - hermes-engine
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -1280,8 +1280,8 @@ SPEC CHECKSUMS:
   react-native-shake: 0c36371dd63019afa68890ccc65a442ee21b4dde
   react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-video: bee03a6bf4d8b008f51c637b79460e6e7f81bac9
-  react-native-webview: b8d475bafdb35f80fb3329fe32ac180bab4e7c58
+  react-native-video: c2fbeb7e78f70486918b0a6b88cee7b2ae0b0973
+  react-native-webview: 494c6db04116a474b677d9d29bfe7d2559c47b54
   React-NativeModulesApple: a2c783eea2b9354534d6e991669d5051435b51db
   React-perflogger: 6acc671f527e69c0cd93b8e62821d33d3ddf25ca
   React-RCTActionSheet: 569bb9db46d85565d14697e15ecf2166e035eb07
@@ -1315,7 +1315,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: 15439cf96be05b47d95334052afc306eac89c2ce
   RNFBRemoteConfig: 37959d81004ff1232f26276d02655c992b1ce715
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
-  RNGestureHandler: 68239315fb1da697e8941ab827b2b3aa7a355a73
+  RNGestureHandler: 89127fcd3f17e0667825cfa0ee3b5546ac047cb9
   RNKeychain: bfe3d12bf4620fe488771c414530bf16e88f3678
   RNLocalize: 4f22418187ecd5ca693231093ff1d912d1b3c9bc
   RNPermissions: da2a4ded375aa8292d85ed93676e102c203d4717
@@ -1323,7 +1323,7 @@ SPEC CHECKSUMS:
   RNReactNativeHapticFeedback: a15559aa2aa8b5e5d49616fd84259dfb3c415230
   RNReanimated: 739d696f5bd3bea1d675a86caec05064ab4d898f
   RNScreens: a1db0ca347cf9f44ae57b0a2d31991af6d872f7c
-  RNSentry: b66de7515ae09a4ada52aa31625ef1953c53760c
+  RNSentry: 5596dbadad9a1cccef90f9ccc18e1a309c1bde64
   RNShare: cc904a0d9305649d0fe7897fc6de938f958c3a40
   RNSVG: 4590aa95758149fa27c5c83e54a6a466349a1688
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d

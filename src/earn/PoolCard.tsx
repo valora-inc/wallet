@@ -7,7 +7,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
-import { getTotalYieldRate } from 'src/earn/poolInfo'
+import { getEarnPositionBalanceValues, getTotalYieldRate } from 'src/earn/utils'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -15,7 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
@@ -34,7 +34,6 @@ export default function PoolCard({
     appName,
     tokens,
     networkId,
-    priceUsd,
     balance,
     dataProps: { earningItems, tvl, depositTokenId },
   } = pool
@@ -48,8 +47,8 @@ export default function PoolCard({
   const depositTokenInfo = allTokens[depositTokenId]
 
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const poolBalanceInFiat =
-    useDollarsToLocalAmount(new BigNumber(balance).times(new BigNumber(priceUsd))) ?? null
+  const { poolBalanceInUsd } = useMemo(() => getEarnPositionBalanceValues({ pool }), [pool])
+  const poolBalanceInFiat = useDollarsToLocalAmount(poolBalanceInUsd) ?? null
 
   const rewardAmountInUsd = useMemo(
     () =>
@@ -75,9 +74,7 @@ export default function PoolCard({
     [localCurrencySymbol, poolBalanceInFiat, rewardAmountInFiat]
   )
 
-  const tvlInFiat = useDollarsToLocalAmount(
-    tvl ? new BigNumber(tvl).times(new BigNumber(priceUsd)) : null
-  )
+  const tvlInFiat = useDollarsToLocalAmount(tvl ?? null)
   const tvlString = useMemo(() => {
     return `${localCurrencySymbol}${tvlInFiat ? formatValueToDisplay(tvlInFiat) : '--'}`
   }, [localCurrencySymbol, tvlInFiat])

@@ -25,7 +25,7 @@ export const allowHooksPreviewSelector = () =>
 
 const positionsSelector = (state: RootState) =>
   showPositionsSelector() ? state.positions.positions : []
-const earnPositionIdsSelector = (state: RootState) => state.positions.earnPositionIds
+export const earnPositionIdsSelector = (state: RootState) => state.positions.earnPositionIds
 export const positionsStatusSelector = (state: RootState) =>
   showPositionsSelector() ? state.positions.status : 'idle'
 export const positionsFetchedAtSelector = (state: RootState) => state.positions.positionsFetchedAt

@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function CircledIcon({
-  backgroundColor = colors.primary,
+  backgroundColor = colors.accent,
   radius = 50,
   borderColor,
   style,

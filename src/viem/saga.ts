@@ -1,5 +1,5 @@
 import { tokensByIdSelector } from 'src/tokens/selectors'
-import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
+import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyToken } from 'src/viem/prepareTransactions'

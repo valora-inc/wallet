@@ -7,6 +7,7 @@ import { EarnEvents } from 'src/analytics/Events'
 import { openUrl } from 'src/app/actions'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { depositStart } from 'src/earn/slice'
+import { EarnActiveMode } from 'src/earn/types'
 import * as earnUtils from 'src/earn/utils'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
@@ -57,13 +58,13 @@ const mockDepositProps = {
   inputAmount: new BigNumber(100),
   preparedTransaction: mockPreparedTransaction,
   pool: mockEarnPositions[0],
-  mode: 'deposit' as const,
+  mode: 'deposit' as EarnActiveMode,
   inputTokenId: mockArbUsdcTokenId,
 }
 
 const mockSwapDepositProps = {
   ...mockDepositProps,
-  mode: 'swap-deposit' as const,
+  mode: 'swap-deposit' as EarnActiveMode,
   inputTokenId: mockArbEthTokenId,
   inputAmount: new BigNumber(0.041),
   swapTransaction: {
@@ -281,9 +282,59 @@ describe('EarnDepositBottomSheet', () => {
       fireEvent.press(getByTestId('EarnDeposit/TermsAndConditions'))
       expect(AppAnalytics.track).toHaveBeenCalledWith(
         EarnEvents.earn_deposit_terms_and_conditions_press,
-        expectedAnalyticsProperties
+        { type: 'providerTermsAndConditions', ...expectedAnalyticsProperties }
       )
       expect(store.getActions()).toEqual([openUrl('termsUrl', true)])
+    })
+
+    it('pressing provider docs opens the providers doc URL (when provider does not have terms and conditions)', () => {
+      const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EarnDepositBottomSheet
+            {...{
+              ...props,
+              pool: {
+                ...props.pool,
+                appId: 'beefy',
+                dataProps: { ...props.pool.dataProps, termsUrl: undefined },
+              },
+            }}
+          />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('EarnDeposit/ProviderDocuments'))
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
+        EarnEvents.earn_deposit_terms_and_conditions_press,
+        { type: 'providerDocuments', ...expectedAnalyticsProperties, providerId: 'beefy' }
+      )
+      expect(store.getActions()).toEqual([openUrl('https://docs.beefy.finance/', true)])
+    })
+
+    it('pressing app terms and conditions opens the app T&C URL (when provider does not have terms and conditions)', () => {
+      const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EarnDepositBottomSheet
+            {...{
+              ...props,
+              pool: {
+                ...props.pool,
+                appId: 'beefy',
+                dataProps: { ...props.pool.dataProps, termsUrl: undefined },
+              },
+            }}
+          />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('EarnDeposit/AppTermsAndConditions'))
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
+        EarnEvents.earn_deposit_terms_and_conditions_press,
+        { type: 'appTermsAndConditions', ...expectedAnalyticsProperties, providerId: 'beefy' }
+      )
+      expect(store.getActions()).toEqual([openUrl('https://valora.xyz/terms', true)])
     })
 
     it('shows loading state and buttons are disabled when deposit is submitted', () => {

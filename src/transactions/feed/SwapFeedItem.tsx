@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { HomeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { HomeEvents } from 'src/analytics/Events'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
@@ -27,7 +27,9 @@ function SwapFeedItem({ transaction }: Props) {
 
   const handleOpenTransactionDetails = () => {
     navigate(Screens.TransactionDetailsScreen, { transaction: transaction })
-    AppAnalytics.track(HomeEvents.transaction_feed_item_select)
+    AppAnalytics.track(HomeEvents.transaction_feed_item_select, {
+      itemType: transaction.type,
+    })
   }
 
   const isCrossChainSwap = transaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction
@@ -37,7 +39,7 @@ function SwapFeedItem({ transaction }: Props) {
       <View style={styles.container}>
         <TransactionFeedItemImage
           status={transaction.status}
-          transactionType={transaction.__typename}
+          transactionType={transaction.type}
           networkId={transaction.networkId}
           hideNetworkIcon={isCrossChainSwap}
         />
@@ -111,7 +113,7 @@ const styles = StyleSheet.create({
   },
   amount: {
     ...typeScale.labelMedium,
-    color: colors.primary,
+    color: colors.accent,
     flexWrap: 'wrap',
     textAlign: 'right',
   },

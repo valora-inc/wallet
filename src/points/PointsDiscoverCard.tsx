@@ -13,7 +13,7 @@ import { pointsDataRefreshStarted } from 'src/points/slice'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 

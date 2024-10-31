@@ -2,8 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { TransactionDetailsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { TransactionDetailsEvents } from 'src/analytics/Events'
 import RowDivider from 'src/components/RowDivider'
 import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
@@ -15,7 +15,12 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import TransactionPrimaryAction from 'src/transactions/feed/TransactionPrimaryAction'
 import TransactionStatusIndicator from 'src/transactions/feed/TransactionStatusIndicator'
-import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import {
+  NetworkId,
+  TokenTransaction,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { getDatetimeDisplayString } from 'src/utils/time'
 import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 
@@ -36,7 +41,7 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
   // been initiated. Therefore for failed cross chain swaps, we should show the
   // transaction in the default network explorer.
   const showCrossChainSwapExplorer =
-    transaction.__typename === 'CrossChainTokenExchange' &&
+    transaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction &&
     transaction.status !== TransactionStatus.Failed
 
   const openBlockExplorerHandler =

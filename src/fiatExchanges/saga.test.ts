@@ -16,7 +16,7 @@ import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, RecipientType } from 'src/recipients/recipient'
 import { sendPayment, sendPaymentFailure, sendPaymentSuccess } from 'src/send/actions'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
-import { updateTransactions } from 'src/transactions/actions'
+import { updateTransactions } from 'src/transactions/slice'
 import {
   NetworkId,
   TokenTransaction,
@@ -225,7 +225,6 @@ describe(tagTxsWithProviderInfo, () => {
   const mockProviderAccount = '0x30d5ca2a263e0c0d11e7a668ccf30b38f1482251'
 
   const mockTransactionDetails = {
-    __typename: 'TokenTransferV3' as const,
     amount: mockAmount,
     timestamp: 1578530602,
     address: mockAccount,
@@ -270,7 +269,7 @@ describe(tagTxsWithProviderInfo, () => {
 
     await expectSaga(
       tagTxsWithProviderInfo,
-      updateTransactions(NetworkId['celo-alfajores'], transactions)
+      updateTransactions({ networkId: NetworkId['celo-alfajores'], transactions })
     )
       .provide([
         [select(providerLogosSelector), mockProviderLogos],
