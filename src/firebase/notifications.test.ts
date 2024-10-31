@@ -124,7 +124,6 @@ describe(handleNotification, () => {
 
       expect(navigate).toHaveBeenCalledWith(Screens.TransactionDetailsScreen, {
         transaction: {
-          __typename: 'TokenTransferV3',
           networkId: NetworkId['celo-alfajores'],
           type: 'RECEIVED',
           transactionHash: '0xTXHASH',

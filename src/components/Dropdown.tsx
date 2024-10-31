@@ -29,10 +29,10 @@ function Dropdown<T>(props: Props<T>) {
         <View style={styles.selectedOptionContainer}>
           <Text style={styles.optionText}>{labelSelected}</Text>
           {!isOpen ? (
-            <DownArrowIcon color={Colors.primary} strokeWidth={2} />
+            <DownArrowIcon color={Colors.accent} strokeWidth={2} />
           ) : (
             <DownArrowIcon
-              color={Colors.primary}
+              color={Colors.accent}
               strokeWidth={2}
               style={{ transform: [{ rotate: '180deg' }] }}
             />

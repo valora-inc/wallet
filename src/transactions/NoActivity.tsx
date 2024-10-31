@@ -1,12 +1,14 @@
+import { type SerializedError } from '@reduxjs/toolkit'
+import { type FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import * as React from 'react'
-import { WithTranslation } from 'react-i18next'
+import { type WithTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { withTranslation } from 'src/i18n'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 interface OwnProps {
   loading: boolean
-  error: Error | undefined
+  error: Error | FetchBaseQueryError | SerializedError | undefined
 }
 
 type Props = OwnProps & WithTranslation
@@ -30,7 +32,7 @@ export class NoActivity extends React.PureComponent<Props> {
           <ActivityIndicator
             style={styles.icon}
             size="large"
-            color={colors.primary}
+            color={colors.accent}
             testID="NoActivity/loading"
           />
         )}

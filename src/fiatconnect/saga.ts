@@ -74,8 +74,8 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { BaseStandbyTransaction } from 'src/transactions/actions'
 import { isTxPossiblyPending } from 'src/transactions/send'
+import { BaseStandbyTransaction } from 'src/transactions/slice'
 import { TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -965,7 +965,6 @@ export function* _initiateSendTxToProvider({
     transactionHash: string,
     feeCurrencyId?: string
   ): BaseStandbyTransaction => ({
-    __typename: 'TokenTransferV3',
     type: TokenTransactionTypeV2.Sent,
     context,
     networkId: tokenInfo.networkId,

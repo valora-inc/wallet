@@ -8,7 +8,7 @@ interface Props {
   height?: number
 }
 
-const CloudCheck = ({ color = colors.primary, width = 20, height = 14 }: Props) => (
+const CloudCheck = ({ color = colors.accent, width = 20, height = 14 }: Props) => (
   <Svg width={width} height={height} fill="none" viewBox="0 0 20 14">
     <Path
       fill={color}

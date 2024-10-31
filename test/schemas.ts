@@ -3533,6 +3533,34 @@ export const v232Schema = {
   app: _.omit(v231Schema.app, 'numberVerified'),
 }
 
+export const v233Schema = {
+  ...v232Schema,
+  _persist: {
+    ...v232Schema._persist,
+    version: 233,
+  },
+}
+
+export const v234Schema = {
+  ...v233Schema,
+  _persist: {
+    ...v233Schema._persist,
+    version: 234,
+  },
+  transactions: {
+    ...v233Schema.transactions,
+    feedFirstPage: [],
+  },
+}
+
+export const v235Schema = {
+  ...v234Schema,
+  _persist: {
+    ...v234Schema._persist,
+    version: 235,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v232Schema as Partial<RootState>
+  return v235Schema as Partial<RootState>
 }

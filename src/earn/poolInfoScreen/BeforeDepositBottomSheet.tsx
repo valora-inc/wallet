@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
+import { EarnCommonProperties, TokenProperties } from 'src/analytics/Properties'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
-import Touchable from 'src/components/Touchable'
-import { BeforeDepositAction, BeforeDepositActionName } from 'src/earn/types'
+import { ActionCard } from 'src/earn/ActionCard'
+import { BeforeDepositAction } from 'src/earn/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
@@ -24,37 +25,19 @@ import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenAnalyticsProps } from 'src/tokens/utils'
 
-function ActionCard({ action }: { action: BeforeDepositAction }) {
-  return (
-    <Touchable
-      style={styles.touchable}
-      key={action.name}
-      borderRadius={20}
-      onPress={action.onPress}
-      testID={`Earn/BeforeDepositBottomSheet/${action.name}`}
-    >
-      <>
-        <action.iconComponent color={Colors.black} />
-        <View style={styles.cardContainer}>
-          <Text style={styles.actionTitle}>{action.title}</Text>
-          <Text style={styles.actionDetails}>{action.details}</Text>
-        </View>
-      </>
-    </Touchable>
-  )
-}
-
 function AddAction({
   token,
   forwardedRef,
+  analyticsProps,
 }: {
   token: TokenBalance
   forwardedRef: React.RefObject<BottomSheetModalRefType>
+  analyticsProps: EarnCommonProperties & TokenProperties
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.Add,
+  const action: BeforeDepositAction = {
+    name: 'Add',
     title: t('earnFlow.beforeDepositBottomSheet.action.add'),
     details: t('earnFlow.beforeDepositBottomSheet.action.addDescription', {
       tokenSymbol: token.symbol,
@@ -63,8 +46,8 @@ function AddAction({
     iconComponent: QuickActionsAdd,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.Add,
-        ...getTokenAnalyticsProps(token),
+        action: 'Add',
+        ...analyticsProps,
       })
 
       navigate(Screens.FiatExchangeAmount, {
@@ -82,15 +65,17 @@ function TransferAction({
   token,
   exchanges,
   forwardedRef,
+  analyticsProps,
 }: {
   token: TokenBalance
   exchanges: ExternalExchangeProvider[]
   forwardedRef: React.RefObject<BottomSheetModalRefType>
+  analyticsProps: EarnCommonProperties & TokenProperties
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.Transfer,
+  const action: BeforeDepositAction = {
+    name: 'Transfer',
     title: t('earnFlow.beforeDepositBottomSheet.action.transfer'),
     details: t('earnFlow.beforeDepositBottomSheet.action.transferDescription', {
       tokenSymbol: token.symbol,
@@ -99,8 +84,8 @@ function TransferAction({
     iconComponent: QuickActionsSend,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.Transfer,
-        ...getTokenAnalyticsProps(token),
+        action: 'Transfer',
+        ...analyticsProps,
       })
 
       navigate(Screens.ExchangeQR, { flow: CICOFlow.CashIn, exchanges })
@@ -113,14 +98,16 @@ function TransferAction({
 function CrossChainSwapAction({
   token,
   forwardedRef,
+  analyticsProps,
 }: {
   token: TokenBalance
   forwardedRef: React.RefObject<BottomSheetModalRefType>
+  analyticsProps: EarnCommonProperties & TokenProperties
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.CrossChainSwap,
+  const action: BeforeDepositAction = {
+    name: 'CrossChainSwap',
     title: t('earnFlow.beforeDepositBottomSheet.action.crossChainSwap'),
     details: t('earnFlow.beforeDepositBottomSheet.action.crossChainSwapDescription', {
       tokenSymbol: token.symbol,
@@ -128,8 +115,8 @@ function CrossChainSwapAction({
     iconComponent: SwapArrows,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.CrossChainSwap,
-        ...getTokenAnalyticsProps(token),
+        action: 'CrossChainSwap',
+        ...analyticsProps,
       })
 
       navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
@@ -142,14 +129,16 @@ function CrossChainSwapAction({
 function SwapAction({
   token,
   forwardedRef,
+  analyticsProps,
 }: {
   token: TokenBalance
   forwardedRef: React.RefObject<BottomSheetModalRefType>
+  analyticsProps: EarnCommonProperties & TokenProperties
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.Swap,
+  const action: BeforeDepositAction = {
+    name: 'Swap',
     title: t('earnFlow.beforeDepositBottomSheet.action.swap'),
     details: t('earnFlow.beforeDepositBottomSheet.action.swapDescription', {
       tokenSymbol: token.symbol,
@@ -158,8 +147,8 @@ function SwapAction({
     iconComponent: SwapArrows,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.Swap,
-        ...getTokenAnalyticsProps(token),
+        action: 'Swap',
+        ...analyticsProps,
       })
 
       navigate(Screens.SwapScreenWithBack, { toTokenId: token.tokenId })
@@ -173,15 +162,17 @@ function SwapAndDepositAction({
   token,
   pool,
   forwardedRef,
+  analyticsProps,
 }: {
   token: TokenBalance
   pool: EarnPosition
   forwardedRef: React.RefObject<BottomSheetModalRefType>
+  analyticsProps: EarnCommonProperties & TokenProperties
 }) {
   const { t } = useTranslation()
 
-  const action = {
-    name: BeforeDepositActionName.SwapAndDeposit,
+  const action: BeforeDepositAction = {
+    name: 'SwapAndDeposit',
     title: t('earnFlow.beforeDepositBottomSheet.action.swapAndDeposit'),
     details: t('earnFlow.beforeDepositBottomSheet.action.swapAndDepositDescription', {
       tokenSymbol: token.symbol,
@@ -190,8 +181,8 @@ function SwapAndDepositAction({
     iconComponent: SwapAndDeposit,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
-        action: BeforeDepositActionName.SwapAndDeposit,
-        ...getTokenAnalyticsProps(token),
+        action: 'SwapAndDeposit',
+        ...analyticsProps,
       })
 
       navigate(Screens.EarnEnterAmount, { pool, mode: 'swap-deposit' })
@@ -233,6 +224,13 @@ export default function BeforeDepositBottomSheet({
       })
     : t('earnFlow.beforeDepositBottomSheet.beforeYouCanDepositTitle')
 
+  const analyticsProps = {
+    ...getTokenAnalyticsProps(token),
+    poolId: pool.positionId,
+    providerId: pool.appId,
+    depositTokenId: pool.dataProps.depositTokenId,
+  }
+
   return (
     <BottomSheet
       forwardedRef={forwardedRef}
@@ -248,23 +246,39 @@ export default function BeforeDepositBottomSheet({
       <View style={styles.actionsContainer}>
         {canSwapDeposit && (
           <>
-            <SwapAndDepositAction token={token} pool={pool} forwardedRef={forwardedRef} />
+            <SwapAndDepositAction
+              token={token}
+              pool={pool}
+              forwardedRef={forwardedRef}
+              analyticsProps={analyticsProps}
+            />
             <Text style={styles.actionDetails}>
               {t('earnFlow.beforeDepositBottomSheet.crossChainAlternativeDescription', {
                 tokenNetwork: NETWORK_NAMES[token.networkId],
               })}
             </Text>
             {hasTokensOnOtherNetworks && (
-              <CrossChainSwapAction token={token} forwardedRef={forwardedRef} />
+              <CrossChainSwapAction
+                token={token}
+                forwardedRef={forwardedRef}
+                analyticsProps={analyticsProps}
+              />
             )}
           </>
         )}
         {!canSwapDeposit && (hasTokensOnSameNetwork || hasTokensOnOtherNetworks) && (
-          <SwapAction token={token} forwardedRef={forwardedRef} />
+          <SwapAction token={token} forwardedRef={forwardedRef} analyticsProps={analyticsProps} />
         )}
-        {canAdd && <AddAction token={token} forwardedRef={forwardedRef} />}
+        {canAdd && (
+          <AddAction token={token} forwardedRef={forwardedRef} analyticsProps={analyticsProps} />
+        )}
         {!canSwapDeposit && (
-          <TransferAction token={token} exchanges={exchanges} forwardedRef={forwardedRef} />
+          <TransferAction
+            token={token}
+            exchanges={exchanges}
+            forwardedRef={forwardedRef}
+            analyticsProps={analyticsProps}
+          />
         )}
       </View>
     </BottomSheet>
@@ -277,10 +291,6 @@ const styles = StyleSheet.create({
     gap: Spacing.Regular16,
     marginVertical: Spacing.Thick24,
   },
-  actionTitle: {
-    ...typeScale.labelMedium,
-    color: Colors.black,
-  },
   actionDetails: {
     ...typeScale.bodySmall,
     color: Colors.black,
@@ -288,15 +298,5 @@ const styles = StyleSheet.create({
   bottomSheetTitle: {
     ...typeScale.titleSmall,
     color: Colors.black,
-  },
-  touchable: {
-    backgroundColor: Colors.gray1,
-    padding: Spacing.Regular16,
-    flexDirection: 'row',
-    gap: Spacing.Regular16,
-    alignItems: 'center',
-  },
-  cardContainer: {
-    flex: 1,
   },
 })

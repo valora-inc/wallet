@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { EarnPosition } from 'src/positions/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { SwapTransaction } from 'src/swap/types'
@@ -36,4 +37,18 @@ export function getSwapToAmountInDecimals({
   fromAmount: BigNumber
 }) {
   return fromAmount.multipliedBy(swapTransaction.price)
+}
+
+export function getTotalYieldRate(pool: EarnPosition) {
+  return new BigNumber(
+    pool.dataProps.yieldRates.reduce((acc, yieldRate) => acc + yieldRate.percentage, 0)
+  )
+}
+
+export function getEarnPositionBalanceValues({ pool }: { pool: EarnPosition }) {
+  const poolBalanceInUsd = new BigNumber(pool.balance).multipliedBy(pool.priceUsd)
+  const poolBalanceInDepositToken = new BigNumber(pool.balance).multipliedBy(
+    pool.pricePerShare[0] ?? 1
+  )
+  return { poolBalanceInUsd, poolBalanceInDepositToken }
 }

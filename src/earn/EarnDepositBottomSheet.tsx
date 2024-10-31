@@ -9,11 +9,14 @@ import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { getTotalYieldRate } from 'src/earn/poolInfo'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
-import { EarnDepositMode } from 'src/earn/types'
-import { getSwapToAmountInDecimals, isGasSubsidizedForNetwork } from 'src/earn/utils'
+import { EarnActiveMode } from 'src/earn/types'
+import {
+  getSwapToAmountInDecimals,
+  getTotalYieldRate,
+  isGasSubsidizedForNetwork,
+} from 'src/earn/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { EarnPosition } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -27,6 +30,11 @@ import {
   getFeeCurrencyAndAmounts,
 } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+
+const APP_ID_TO_PROVIDER_DOCUMENTS_URL: Record<string, string | undefined> = {
+  beefy: 'https://docs.beefy.finance/',
+}
+const APP_TERMS_AND_CONDITIONS_URL = 'https://valora.xyz/terms'
 
 export default function EarnDepositBottomSheet({
   forwardedRef,
@@ -42,7 +50,7 @@ export default function EarnDepositBottomSheet({
   inputTokenId: string
   inputAmount: BigNumber
   pool: EarnPosition
-  mode: EarnDepositMode
+  mode: EarnActiveMode
   swapTransaction?: SwapTransaction
 }) {
   const { t } = useTranslation()
@@ -85,11 +93,28 @@ export default function EarnDepositBottomSheet({
   }
 
   const onPressTermsAndConditions = () => {
-    AppAnalytics.track(
-      EarnEvents.earn_deposit_terms_and_conditions_press,
-      commonAnalyticsProperties
-    )
+    AppAnalytics.track(EarnEvents.earn_deposit_terms_and_conditions_press, {
+      type: 'providerTermsAndConditions',
+      ...commonAnalyticsProperties,
+    })
     termsUrl && dispatch(openUrl(termsUrl, true))
+  }
+
+  const onPressProviderDocuments = () => {
+    AppAnalytics.track(EarnEvents.earn_deposit_terms_and_conditions_press, {
+      type: 'providerDocuments',
+      ...commonAnalyticsProperties,
+    })
+    const providerDocumentsUrl = APP_ID_TO_PROVIDER_DOCUMENTS_URL[pool.appId]
+    providerDocumentsUrl && dispatch(openUrl(providerDocumentsUrl, true))
+  }
+
+  const onPressAppTermsAndConditions = () => {
+    AppAnalytics.track(EarnEvents.earn_deposit_terms_and_conditions_press, {
+      type: 'appTermsAndConditions',
+      ...commonAnalyticsProperties,
+    })
+    dispatch(openUrl(APP_TERMS_AND_CONDITIONS_URL, true))
   }
 
   const onPressComplete = () => {
@@ -211,7 +236,7 @@ export default function EarnDepositBottomSheet({
             {NETWORK_NAMES[preparedTransaction.feeCurrency.networkId]}
           </Text>
         </LabelledItem>
-        {!!termsUrl && (
+        {termsUrl ? (
           <Text style={styles.footer}>
             <Trans
               i18nKey="earnFlow.depositBottomSheet.footerV1_93"
@@ -224,6 +249,26 @@ export default function EarnDepositBottomSheet({
               />
             </Trans>
           </Text>
+        ) : (
+          APP_ID_TO_PROVIDER_DOCUMENTS_URL[pool.appId] && (
+            <Text style={styles.footer}>
+              <Trans
+                i18nKey="earnFlow.depositBottomSheet.noTermsUrlFooter"
+                tOptions={{ providerName: pool.appName }}
+              >
+                <Text
+                  testID="EarnDeposit/ProviderDocuments"
+                  style={styles.termsLink}
+                  onPress={onPressProviderDocuments}
+                />
+                <Text
+                  testID="EarnDeposit/AppTermsAndConditions"
+                  style={styles.termsLink}
+                  onPress={onPressAppTermsAndConditions}
+                />
+              </Trans>
+            </Text>
+          )
         )}
         <View style={styles.ctaContainer}>
           <Button
@@ -314,6 +359,6 @@ const styles = StyleSheet.create({
   },
   gasSubsidized: {
     ...typeScale.labelXSmall,
-    color: Colors.primary,
+    color: Colors.accent,
   },
 })

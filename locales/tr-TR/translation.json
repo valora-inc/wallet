@@ -1534,6 +1534,7 @@
     "somePaymentsUnavailable": "Satın alımlar ortak sağlayıcılarımız tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır.",
     "disclaimerWithSomePaymentsUnavailable": "Ödemeler ağ ortakları tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır. <0>Daha fazla bilgi edinin.</0>",
     "disclaimer": "Ödemeler ağ ortakları tarafından desteklenmektedir. Ücretler değişebilir. <0>Daha fazla bilgi edinin.</0>",
+    "disclaimerUK": "Bu, kripto varlık satın almaya davet değildir. Yalnızca fiyat bilgileri ve web sitelerine bağlantı ile kripto varlık satan sağlayıcıların bir listesini sunuyoruz.",
     "learnMore": "Daha fazla bilgi edinin.",
     "whyMissingPayments": "Neden başka ödeme yöntemi göremiyorum?",
     "dismiss": "Yoksay",
@@ -1695,6 +1696,7 @@
       "selectCurrencyTitle": "Bakiye Ekle",
       "exchangeAmountTitle": "{{currency}} ekle",
       "selectProviderHeader": "Ödeme Yöntemi Seç",
+      "selectProviderHeader_UK": "Sağlayıcı Detayları",
       "depositExchangeTitle": "Kripto Para Yatır"
     },
     "cashOut": {
@@ -1785,11 +1787,13 @@
     "title": "Swap",
     "review": "Gözden Geçir",
     "confirmSwap": "Swap'ı Onayla",
+    "confirmSwap_UK": "Takas Yapmak İstiyorum",
     "swapFrom": "KAYNAK",
     "swapTo": "HEDEF",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
     "disclaimer": "En iyi fiyat merkezi olmayan kaynaklar tarafından belirlenir. <0>Daha fazla bilgi</0>",
+    "disclaimer_UK": "Bu, kripto varlık satın almaya davet değildir. Takas Yapmak İstiyorum seçeneğine tıkladığınızda takas işleminizi en iyi kurdan gerçekleştirmesi için üçüncü taraf bir takas yönlendiricisine talimat vermiş olursunuz. En iyi oran ağ ortakları tarafından sağlanır. <0>Daha fazla bilgi</0>",
     "swapFromTokenSelection": "ŞURADAN TAKAS",
     "swapToTokenSelection": "ŞUNA TAKAS",
     "tokenUsdValueUnknown": "-",
@@ -2276,7 +2280,34 @@
     "infiniteApprovalDescription": "{{tokenSymbol}} işlem için süresiz onaylandı",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
     "descriptionLabel": "Detaylar",
-    "crossChainSwapTransactionLabel": "Zincirler arası"
+    "crossChainSwapTransactionLabel": "Zincirler arası",
+    "depositTitle": "Yatırılan",
+    "depositSubtitle": "{{txAppName}} Havuzuna",
+    "depositSubtitle_noTxAppName": "bilinmeyen uygulamaya",
+    "withdrawTitle": "Çekilen",
+    "withdrawSubtitle": "{{txAppName}} Havuzundan",
+    "withdrawSubtitle_noTxAppName": "bilinmeyen uygulamadan",
+    "claimRewardTitle": "Toplanan",
+    "claimRewardSubtitle": "{{txAppName}} Havuzundan",
+    "claimRewardSubtitle_noTxAppName": "bilinmeyen uygulamadan"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Detaylar",
+    "depositTitle": "Yatırılan",
+    "depositSubtitle": "{{txAppName}} Havuzuna {{tokenSymbol}} Yatırıldı",
+    "depositSubtitle_noTxAppName": "Bilinmeyen uygulamaya {{tokenSymbol}} yatırıldı",
+    "depositDetails": "Yatırılan Toplam",
+    "withdrawTitle": "Çekilen",
+    "withdrawSubtitle": "{{txAppName}} Havuzundan {{tokenSymbol}} Çekildi",
+    "withdrawSubtitle_noTxAppName": "Bilinmeyen uygulamadan {{tokenSymbol}} çekildi",
+    "withdrawDetails": "Çekilen Tutar",
+    "claimRewardTitle": "Toplanan",
+    "claimRewardSubtitle": "{{txAppName}} Havuzundan {{tokenSymbol}} Toplandı",
+    "claimRewardSubtitle_noTxAppName": "Bilinmeyen uygulamadan {{tokenSymbol}} toplandı",
+    "claimRewardDetails": "Toplanan Tutar",
+    "swap": "Swap",
+    "network": "Ağ",
+    "fees": "Ücretler"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2501,12 +2532,12 @@
       }
     },
     "cta": {
-      "title": "Sabit coinlerinizden kazanın",
+      "title": "Kripto paranızdan kazanç sağlayın",
       "subtitle": "Bugün para yatırın ve getiri kazanın",
       "description": "Bir kredi havuzu sağlarken ne kadar kazanabileceğinizi görün"
     },
     "earnInfo": {
-      "title": "Sabit coinlerinizden\nkazanın",
+      "title": "Kripto paranızdan\nkazanç sağlayın",
       "details": {
         "earn": {
           "titleGasSubsidy": "Gas Ücretleri Olmadan Kazancınızı En Üst Düzeye Çıkarın*",
@@ -2542,15 +2573,18 @@
       "description": "Bir havuza {{symbol}} ekleyerek yılda yaklaşık %{{apy}} kazanın"
     },
     "entrypoint": {
-      "title": "Sabit coinlerinizden kazanın",
+      "title": "Kripto paranızdan kazanç sağlayın",
       "subtitle": "Yatırın ve kazanın",
-      "description": "Bir likidite havuzu aracılığıyla ödünç vererek sabit coinlerinizden kazanın"
+      "description": "Bir likidite havuzu aracılığıyla borç vererek kripto varlıklarınızdan kazanç sağlayın"
     },
     "enterAmount": {
       "title": "Ne kadar yatırmak istersiniz?",
+      "titleWithdraw": "Ne kadar para çekmek istersiniz?",
       "deposit": "Patra Yatırma",
       "fees": "Ücretler",
+      "available": "Kullanılabilir",
       "swap": "Swap",
+      "claimingReward": "Ödül Alma",
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yıl",
@@ -2570,6 +2604,7 @@
         "estNetworkFee": "Tahmini Ağ Ücreti",
         "maxNetworkFee": "Maks. Ağ Ücreti",
         "networkFeeDescription": "Ağ ücreti, yatırma işlemin gerçekleştirilmesi için ağ tarafından talep edilir.",
+        "networkFeeDescriptionWithdrawal": "Ağ ücreti, ağın, para çekme işlemlerini işleme koyması için gereklidir.",
         "networkSwapFeeDescription": "Ağ ücreti, para yatırma işlemlerinin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için %{{appFeePercentage}} {{appName}} ücreti tahsil edilir.",
         "appSwapFee": "{{appName}} Ücreti"
       },
@@ -2579,6 +2614,10 @@
         "swapTo": "Şuraya Giden Takas",
         "whySwap": "Neden takas yapıyorum?",
         "swapDescription": "Havuza fon yatırmak için tokeniniz bir havuz tokeni ile takas edilir."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Para Çekme ve Talep Etme",
+        "description": "{{providerName}}, para çekme işlemi yaptığınız her defasında, mevcut tüm ödülleri talep etmenizi zorunlu kılmaktadır."
       }
     },
     "activePools": {
@@ -2604,6 +2643,7 @@
       "network": "Ağ",
       "footer": "Bir Aave havuzuna kripto yatırarak, Aave kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
       "footerV1_93": "Bir {{providerName}} havuzuna kripto yatırarak {{providerName}} kullanımıyla ilişkili riskleri kabul etmiş olursunuz. <0>Şartlar ve Koşullar</0>",
+      "noTermsUrlFooter": "{{appName}} uygulamasındaki eylemlerinizden siz sorumlusunuz. {{appName}}, varlıklarınız veya {{providerName}} ile etkileşimlerinizden doğabilecek tüm sorumluluğu reddeder. {{providerName}} sağlayıcısına ait belgeleri <0>buradan</0> ve Hüküm ve Koşullarımızı ise <1>buradan</1> inceleyebilirsiniz.",
       "primaryCta": "Tamamlandı",
       "secondaryCta": "İptal",
       "yieldRate": "Verim Oranı (tahmini)",
@@ -2611,12 +2651,19 @@
     },
     "collect": {
       "title": "Tebrikler! Kazancınızı inceleyin ve toplayın",
+      "titleClaim": "İddia edeceksin:",
+      "titleCollect": "Koleksiyon yapacaksın:",
+      "titleWithdraw": "Geri çekileceksin:",
       "total": "TOPLAM",
       "plus": "ARTI",
+      "reward": "ÖDÜL",
       "rate": "Oran (tahmini)",
       "apy": "%{{apy}} Yıllık Getiri Oranı (APY)",
       "fee": "Gas Ücreti",
       "cta": "Kazançları Toplayın",
+      "ctaWithdraw": "Çek",
+      "ctaReward": "Ödül Talep Edin",
+      "ctaExit": "Havuzdan Çık",
       "errorTitle": "Bir şeyler ters gitti",
       "errorDescription": "Para yatırma detayları alınamıyor. Lütfen tekrar deneyin.",
       "noGasTitle": "Devam etmek için daha fazla {{symbol}} bakiyesine ihtiyacınız var",
@@ -2661,7 +2708,7 @@
         "chooseDescription": "Her türlü finansal karar kişisel bir seçimdir. Farklı protokollerdeki bazı havuzları bir araya getirdik, ancak her havuzun avantajları ve riskleri vardır. Her havuza ilişkin bazı yararlı bilgiler sağlamak için elimizden geleni yapıyoruz ancak emin değilseniz ek araştırma yapmak her zaman en iyisidir."
       },
       "noPoolsTitle": "Henüz hiçbir havuza katılmadınız",
-      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun bir havuz seçin ve sabit coin'lerinizden en iyi şekilde yararlanın.",
+      "noPoolsDescription": "Mevcut havuzları keşfedin, hedeflerinize uygun bir havuz seçin ve kripto paralarınızdan en iyi şekilde yararlanın.",
       "errorTitle": "Havuzlar yüklenemiyor.",
       "errorDescription": "Hay aksi, havuz bilgileri yüklenirken bir şeyler ters gitti. Lütfen tekrar deneyin.",
       "errorButton": "Tekrar deneyin"
@@ -2688,15 +2735,32 @@
       "chainName": "Zincir: <0>{{networkName}}</0>",
       "protocolName": "Protokol: <0>{{providerName}}</0>",
       "yieldRate": "Getiri Oranı",
+      "dailyYieldRate": "Günlük Oran",
       "ratePercent": "%{{rate}}",
       "rewards": "Ödüller",
       "noRewards": "Ödül yok",
+      "safetyScore": "Güvenlik Puanı",
       "tvl": "TVL",
       "ageOfPool": "Havuz Yaşı",
       "learnMoreOnProvider": "Havuzu {{providerName}} üzerinde görüntüleyin.",
       "deposit": "Patra Yatırma",
       "depositAndEarnings": "Yatırım ve Kazançlar",
       "withdraw": "Çek",
+      "withdrawBottomSheet": {
+        "title": "Para çekme türünü seçin",
+        "withdrawAndClaim": "Para Çek ve Talep Et",
+        "withdrawDescription": "Havuza yatırdığınız herhangi bir tokenin belirli bir miktarını çekin",
+        "withdrawAndClaimRewardsDescription": "Havuza yatırdığınız herhangi bir tokenin belirli bir miktarını çekin ve ödüllerinizi otomatik olarak talep edin",
+        "withdrawAndClaimEarningsDescription": "Havuza yatırdığınız herhangi bir tokenin belirli bir miktarını çekin ve kazançlarınızı otomatik olarak talep edin",
+        "claimRewards": "Ödüllerinizi Alın",
+        "claimRewardsDescription": "Ödüllerinizi talep edin. Ödülün kısmi tutarları talep edilemez",
+        "claimEarnings": "Kazançları Talep Et",
+        "claimEarningsDescription": "Yatırma işleminizde kazançları talep edin. Kısmi tutarlar talep edilemez",
+        "exit": "Çıkış",
+        "exitDescription": "Çıkış yapıldığında, havuzda sahip olduğunuz tüm öğeler çekilir",
+        "exitWithRewardsDescription": "Çıkış yapıldığında, havuzda sahip olduğunuz, ödülleri de içeren tüm öğeler çekilir",
+        "exitWithEarningsDescription": "Çıkış yapıldığında, havuzda sahip olduğunuz, kazançları da içeren tüm öğeler çekilir"
+      },
       "totalDepositAndEarnings": "Toplam Yatırım ve Kazançlar",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
@@ -2709,8 +2773,16 @@
         "ageTitle": "Havuz Yaşı",
         "ageDescription": "Likidite havuzunun eski olması, o havuzun sağlam bir geçmiş performansı olduğuna ve toplulukta güven inşa ettiğine işaret edebilir. Bu nedenle, bazıları bu havuzların daha güvenli olduğunu düşünebilir.\n\nRiski tam olarak belirleyebilecek bir yöntem yoktur; bu nedenle genel araştırmanızı desteklemek için bu bilgilerden yararlanabilirsiniz.",
         "yieldRateTitle": "Getiri Oranı",
-        "yieldRateDescription": "Çoğu havuz, kazançları likidite havuzunun tokeni şeklinde sağlarken bazı havuzlar, ödül veya ek teşvik olarak ek tokenler verebilir.\n\n{{appName}} çeşitli protokoller genelindeki havuzları bir araya toplar. Bu nedenle, kazanç potansiyelinizi kolayca değerlendirebilmeniz için tüm kazanç ve ödül oranlarını tek bir genel getiri oranı altında birleştirdik. Kazanç ve ödül değerleri sürekli dalgalandığı için bu rakam, tahmini bir değeri gösterir.\n\nKazanç dökümleri hakkında daha fazla bilgi için <0>{{providerName}}</0> sayfasını ziyaret edebilirsiniz."
-      }
+        "yieldRateDescription": "Çoğu havuz, kazançları likidite havuzunun tokeni şeklinde sağlarken bazı havuzlar, ödül veya ek teşvik olarak ek tokenler verebilir.\n\n{{appName}} çeşitli protokoller genelindeki havuzları bir araya toplar. Bu nedenle, kazanç potansiyelinizi kolayca değerlendirebilmeniz için tüm kazanç ve ödül oranlarını tek bir genel getiri oranı altında birleştirdik. Kazanç ve ödül değerleri sürekli dalgalandığı için bu rakam, tahmini bir değeri gösterir.\n\nKazanç dökümleri hakkında daha fazla bilgi için <0>{{providerName}}</0> sayfasını ziyaret edebilirsiniz.",
+        "dailyYieldRateTitle": "Günlük Oran",
+        "dailyYieldRateDescription": "Görüntülenen günlük oran, {{providerName}} tarafından sağlanan günlük oranı yansıtır.",
+        "dailyYieldRateLink": "{{providerName}} Üzerinde Daha Fazla Günlük Oran Görüntüleyin",
+        "safetyScoreTitle": "Güvenlik Puanı",
+        "safetyScoreDescription": "Güvenlik Puanı, dayanak kasa varlığının güvenliğini birkaç temel faktöre ayırır. Yatırım yapmadan önce göz önünde bulundurmanız gereken risklere dikkatinizi çekmeyi ve kendi başınıza değerlendiremeyebileceğiniz teknik ayrıntılar hakkında sizi bilgilendirmeyi amaçlamaktadır.\nTam pozisyon her zaman daha karmaşık olsa da, Güvenlik Puanı, temel risk ve güvenlik hususlarını basitleştirmek ve kendi durum tespitinizi başlatmak için sağlanır. Ekibimiz, bir kasa devreye alınmadan önce her bir faktörü dikkatlice değerlendirir ve {{providerName}} tarafından entegre edilen her bir varlığı, zinciri ve protokolü dikkatli biçimde izler.",
+        "safetyScoreRateLink": "{{providerName}} Üzerinde Daha Fazla Güvenlik Puanı Ayrıntısı görüntüleyin"
+      },
+      "viewMoreDetails": "Daha Fazla Ayrıntı Görüntüle",
+      "viewLessDetails": "Daha Az Ayrıntı Görüntüle"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Yatırma İşlemi için {{tokenNetwork}} ağında {{tokenSymbol}} tokenine sahip olmalısınız",

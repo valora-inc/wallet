@@ -4,15 +4,12 @@ import { call } from 'redux-saga-test-plan/matchers'
 import { StaticProvider, dynamic, throwError } from 'redux-saga-test-plan/providers'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import { fetchAavePoolInfo } from 'src/earn/poolInfo'
-import { depositSubmitSaga, fetchPoolInfoSaga, withdrawSubmitSaga } from 'src/earn/saga'
+import { depositSubmitSaga, withdrawSubmitSaga } from 'src/earn/saga'
 import {
   depositCancel,
   depositError,
   depositStart,
   depositSuccess,
-  fetchPoolInfoError,
-  fetchPoolInfoSuccess,
   withdrawCancel,
   withdrawError,
   withdrawStart,
@@ -22,13 +19,11 @@ import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { EarnPosition } from 'src/positions/types'
-import { getTokenInfo } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
-import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
   mockAaveArbUsdcTokenId,
@@ -152,7 +147,6 @@ describe('depositSubmitSaga', () => {
   }
 
   const expectedApproveStandbyTx = {
-    __typename: 'TokenApproval',
     context: {
       id: 'id-earn/saga-Earn/Approve',
       tag: 'earn/saga',
@@ -167,7 +161,6 @@ describe('depositSubmitSaga', () => {
   }
 
   const expectedDepositStandbyTx = {
-    __typename: 'EarnDeposit',
     context: {
       id: 'id-earn/saga-Earn/Deposit',
       tag: 'earn/saga',
@@ -176,7 +169,7 @@ describe('depositSubmitSaga', () => {
     networkId: NetworkId['arbitrum-sepolia'],
     inAmount: {
       value: '100',
-      tokenId: networkConfig.aaveArbUsdcTokenId,
+      tokenId: mockAaveArbUsdcTokenId,
     },
     outAmount: {
       value: '100',
@@ -189,7 +182,6 @@ describe('depositSubmitSaga', () => {
   }
 
   const expectedSwapDepositStandbyTx = {
-    __typename: 'EarnSwapDeposit',
     context: {
       id: 'id-earn/saga-Earn/SwapDeposit',
       tag: 'earn/saga',
@@ -209,7 +201,7 @@ describe('depositSubmitSaga', () => {
     deposit: {
       inAmount: {
         value: '100',
-        tokenId: networkConfig.aaveArbUsdcTokenId,
+        tokenId: mockAaveArbUsdcTokenId,
       },
       outAmount: {
         value: '100',
@@ -739,7 +731,6 @@ describe('withdrawSubmitSaga', () => {
   }
 
   const expectedWithdrawStandbyTx = {
-    __typename: 'EarnWithdraw',
     context: {
       id: 'id-earn/saga-Earn/Withdraw',
       tag: 'earn/saga',
@@ -762,7 +753,6 @@ describe('withdrawSubmitSaga', () => {
 
   // TODO: replace with EarnClaimReward type
   const expectedClaimRewardTx = {
-    __typename: 'EarnClaimReward',
     context: {
       id: 'id-earn/saga-Earn/ClaimReward-1',
       tag: 'earn/saga',
@@ -814,6 +804,45 @@ describe('withdrawSubmitSaga', () => {
       EarnEvents.earn_withdraw_submit_success,
       expectedAnalyticsPropsWithRewards
     )
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
+  })
+
+  it('sends withdraw and claim transactions, navigates home and dispatches the success action (amount set & gas subsidy off)', async () => {
+    await expectSaga(withdrawSubmitSaga, {
+      type: withdrawStart.type,
+      payload: {
+        pool: mockPool,
+        preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
+        rewardsTokens: mockRewardsPositions[1].tokens,
+        amount: '5',
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide(sagaProviders)
+      .put(withdrawSuccess())
+      .put(fetchTokenBalances({ showLoading: false }))
+      .call.like({ fn: sendPreparedTransactions })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
+      .run()
+
+    expect(navigateHome).toHaveBeenCalled()
+    expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, {
+      ...expectedWithdrawStandbyTx,
+      inAmount: { ...expectedWithdrawStandbyTx.inAmount, value: '5' },
+      outAmount: { ...expectedWithdrawStandbyTx.outAmount, value: '5' },
+    })
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedClaimRewardTx)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_start, {
+      ...expectedAnalyticsPropsWithRewards,
+      tokenAmount: '5',
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_success, {
+      ...expectedAnalyticsPropsWithRewards,
+      tokenAmount: '5',
+    })
     expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
     expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
   })
@@ -956,30 +985,4 @@ describe('withdrawSubmitSaga', () => {
       })
     }
   )
-})
-
-describe('fetchPoolInfoSaga', () => {
-  it('fetches pool info and dispatches success action', async () => {
-    const mockPoolInfo = {
-      apy: 0.1,
-    }
-
-    await expectSaga(fetchPoolInfoSaga)
-      .provide([
-        [matchers.call.fn(fetchAavePoolInfo), mockPoolInfo],
-        [matchers.call.fn(getTokenInfo), mockTokenBalances[mockArbUsdcTokenId]],
-      ])
-      .put(fetchPoolInfoSuccess(mockPoolInfo))
-      .run()
-  })
-
-  it('dispatches error action if pool info fetch fails', async () => {
-    await expectSaga(fetchPoolInfoSaga)
-      .provide([
-        [matchers.call.fn(fetchAavePoolInfo), throwError(new Error('Failed to fetch pool info'))],
-        [matchers.call.fn(getTokenInfo), mockTokenBalances[mockArbUsdcTokenId]],
-      ])
-      .put(fetchPoolInfoError())
-      .run()
-  })
 })

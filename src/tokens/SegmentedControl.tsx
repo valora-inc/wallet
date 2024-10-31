@@ -25,7 +25,7 @@ function SegmentedControl({ values, selectedIndex, onChange }: Props) {
           key={value}
           style={[
             styles.button,
-            { backgroundColor: index === selectedIndex ? Colors.primary : Colors.gray1 },
+            { backgroundColor: index === selectedIndex ? Colors.accent : Colors.gray1 },
             // Round the left and right sides of the first and last buttons respectively
             index === 0 && { borderBottomEndRadius: 0, borderTopEndRadius: 0 },
             index === values.length - 1 && { borderBottomStartRadius: 0, borderTopStartRadius: 0 },

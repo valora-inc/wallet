@@ -1,7 +1,9 @@
 import Ajv from 'ajv'
 import { spawn, takeEvery } from 'redux-saga/effects'
+import { apiReducersKeys, ApiReducersKeys } from 'src/redux/apiReducersList'
 import * as createMigrateModule from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
+import { RootState } from 'src/redux/reducers'
 import { rootSaga } from 'src/redux/sagas'
 import { _persistConfig, setupStore } from 'src/redux/store'
 import * as accountCheckerModule from 'src/utils/accountChecker'
@@ -24,6 +26,21 @@ const resetStateOnInvalidStoredAccount = jest.spyOn(
 )
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
+
+function getNonApiReducers<R = Omit<RootState, ApiReducersKeys>>(state: RootState): R {
+  const nonApiReducers = {} as R
+
+  for (const [key, value] of Object.entries(state)) {
+    const isApiReducer = apiReducersKeys.includes(key)
+
+    // api reducers are not persisted so skip them
+    if (isApiReducer) continue
+
+    nonApiReducers[key as keyof R] = value as unknown as any
+  }
+
+  return nonApiReducers
+}
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -81,9 +98,9 @@ describe('store state', () => {
       })
     })
 
-    const data = store.getState()
+    const data = getNonApiReducers(store.getState())
 
-    const ajv = new Ajv({ allErrors: true })
+    const ajv = new Ajv({ allErrors: true, allowUnionTypes: true })
     const schema = require('test/RootStateSchema.json')
     const validate = ajv.compile(schema)
     const isValid = validate(data)
@@ -98,7 +115,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 232,
+          "version": 235,
         },
         "account": {
           "acceptedTerms": false,
@@ -327,6 +344,7 @@ describe('store state', () => {
           "tokenBalances": {},
         },
         "transactions": {
+          "feedFirstPage": [],
           "standbyTransactions": [],
           "transactionsByNetworkId": {},
         },

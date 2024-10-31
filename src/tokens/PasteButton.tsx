@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import Touchable from 'src/components/Touchable'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { useClipboard } from 'src/utils/useClipboard'
 
@@ -29,6 +29,6 @@ export const PasteButton = ({ onPress }: Props) => {
 const styles = StyleSheet.create({
   text: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.primary,
+    color: Colors.accent,
   },
 })

@@ -4,7 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import EarnCollectScreen from 'src/earn/EarnCollectScreen'
+import EarnConfirmationScreen from 'src/earn/EarnConfirmationScreen'
 import { prepareWithdrawAndClaimTransactions } from 'src/earn/prepareTransactions'
 import { withdrawStart } from 'src/earn/slice'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
@@ -15,11 +15,11 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
-import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
 import {
   mockAaveArbUsdcAddress,
+  mockAaveArbUsdcTokenId,
   mockAccount,
   mockArbArbTokenId,
   mockArbEthTokenId,
@@ -33,10 +33,10 @@ import {
 const mockStoreTokens = {
   tokenBalances: {
     ...mockTokenBalances,
-    [networkConfig.aaveArbUsdcTokenId]: {
+    [mockAaveArbUsdcTokenId]: {
       networkId: NetworkId['arbitrum-sepolia'],
       address: mockAaveArbUsdcAddress,
-      tokenId: networkConfig.aaveArbUsdcTokenId,
+      tokenId: mockAaveArbUsdcTokenId,
       symbol: 'aArbSepUSDC',
       priceUsd: '1',
       balance: '10.75',
@@ -53,9 +53,11 @@ const store = createMockStore({
 })
 
 jest.mock('src/statsig')
-jest.mock('src/earn/utils')
+jest.mock('src/earn/utils', () => ({
+  ...(jest.requireActual('src/earn/utils') as any),
+  isGasSubsidizedForNetwork: jest.fn(),
+}))
 jest.mock('src/earn/prepareTransactions')
-jest.mock('src/earn/poolInfo')
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -87,7 +89,7 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
   },
 }
 
-describe('EarnCollectScreen', () => {
+describe('EarnConfirmationScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
@@ -101,48 +103,98 @@ describe('EarnCollectScreen', () => {
     store.clearActions()
   })
 
-  it('renders total balance, rewards, apy and gas after fetching rewards and preparing tx', async () => {
+  it('renders total balance, rewards and gas after fetching rewards and preparing tx for exit', async () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
-          component={EarnCollectScreen}
+          component={EarnConfirmationScreen}
           params={{
-            pool: mockEarnPositions[0],
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
+            mode: 'Exit',
           }}
         />
       </Provider>
     )
 
-    expect(getByText('earnFlow.collect.title')).toBeTruthy()
+    expect(getByText('earnFlow.collect.titleCollect')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
-      '10.75 USDC'
+    expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
+      '11.83 USDC'
     )
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱14.30')
-    expect(queryByTestId('EarnCollect/ApyLoading')).toBeFalsy()
-    expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
+    expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent(
+      '₱15.73'
+    )
+    expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
-    expect(getByText('earnFlow.collect.plus')).toBeTruthy()
-    expect(getByTestId(`EarnCollect/${mockArbArbTokenId}/CryptoAmount`)).toHaveTextContent(
+    expect(getByText('earnFlow.collect.reward')).toBeTruthy()
+    expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/CryptoAmount`)).toHaveTextContent(
       '0.01 ARB'
     )
-    expect(getByTestId(`EarnCollect/${mockArbArbTokenId}/FiatAmount`)).toHaveTextContent('₱0.016')
-    expect(getByText('earnFlow.collect.apy, {"apy":"1.92"}')).toBeTruthy()
+    expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/FiatAmount`)).toHaveTextContent(
+      '₱0.016'
+    )
 
     await waitFor(() => {
-      expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
+      expect(queryByTestId('EarnConfirmation/GasLoading')).toBeFalsy()
     })
-    expect(getByTestId('EarnCollect/GasFeeCryptoAmount')).toHaveTextContent('0.06 ETH')
-    expect(getByTestId('EarnCollect/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
-    expect(queryByTestId('EarnCollect/GasSubsidized')).toBeFalsy()
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
+    expect(getByTestId('EarnConfirmation/GasFeeCryptoAmount')).toHaveTextContent('0.06 ETH')
+    expect(getByTestId('EarnConfirmation/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
+    expect(queryByTestId('EarnConfirmation/GasSubsidized')).toBeFalsy()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
     expect(prepareWithdrawAndClaimTransactions).toHaveBeenCalledWith({
       feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
-      pool: mockEarnPositions[0],
+      pool: { ...mockEarnPositions[0], balance: '10.75' },
       rewardsPositions: [mockRewardsPositions[1]],
       walletAddress: mockAccount.toLowerCase(),
       hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
+      amount: '10.75',
+    })
+    expect(store.getActions()).toEqual([])
+  })
+
+  it('renders total balance and gas after fetching rewards and preparing tx for partial withdrawal', async () => {
+    const { getByText, getByTestId, queryByTestId, queryByText } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={EarnConfirmationScreen}
+          params={{
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
+            mode: 'withdraw',
+            inputAmount: (10.75 * +mockEarnPositions[0].pricePerShare) / 2, // Input amount is half of the balance
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByText('earnFlow.collect.titleWithdraw')).toBeTruthy()
+    expect(getByText('earnFlow.collect.total')).toBeTruthy()
+    expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
+      '5.91 USDC'
+    )
+    expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent(
+      '₱7.86'
+    )
+    expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
+
+    expect(queryByText('earnFlow.collect.reward')).toBeFalsy()
+
+    await waitFor(() => {
+      expect(queryByTestId('EarnConfirmation/GasLoading')).toBeFalsy()
+    })
+    expect(getByTestId('EarnConfirmation/GasFeeCryptoAmount')).toHaveTextContent('0.06 ETH')
+    expect(getByTestId('EarnConfirmation/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
+    expect(queryByTestId('EarnConfirmation/GasSubsidized')).toBeFalsy()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
+    // TODO(act-1389): update this test to make sure that reward positions are not included in partial withdrawals.
+    expect(prepareWithdrawAndClaimTransactions).toHaveBeenCalledWith({
+      feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
+      pool: { ...mockEarnPositions[0], balance: '10.75' },
+      rewardsPositions: [mockRewardsPositions[1]],
+      walletAddress: mockAccount.toLowerCase(),
+      hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
+      amount: '5.37500000000000045455',
     })
     expect(store.getActions()).toEqual([])
   })
@@ -162,30 +214,33 @@ describe('EarnCollectScreen', () => {
         })}
       >
         <MockedNavigator
-          component={EarnCollectScreen}
+          component={EarnConfirmationScreen}
           params={{
-            pool: mockEarnPositions[0],
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
+            mode: 'withdraw',
           }}
         />
       </Provider>
     )
 
-    expect(getByText('earnFlow.collect.title')).toBeTruthy()
+    expect(getByText('earnFlow.collect.titleWithdraw')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
-      '10.75 USDC'
+    expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/CryptoAmount`)).toHaveTextContent(
+      '11.83 USDC'
     )
-    expect(getByTestId(`EarnCollect/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent('₱14.30')
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
+    expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent(
+      '₱15.73'
+    )
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
-    expect(queryByText('earnFlow.collect.plus')).toBeFalsy()
-    expect(queryByTestId(`EarnCollect/${mockArbArbTokenId}/CryptoAmount`)).toBeFalsy()
-    expect(queryByTestId(`EarnCollect/${mockArbArbTokenId}/FiatAmount`)).toBeFalsy()
+    expect(queryByText('earnFlow.collect.reward')).toBeFalsy()
+    expect(queryByTestId(`EarnConfirmation/${mockArbArbTokenId}/CryptoAmount`)).toBeFalsy()
+    expect(queryByTestId(`EarnConfirmation/${mockArbArbTokenId}/FiatAmount`)).toBeFalsy()
     await waitFor(() => {
-      expect(queryByTestId('EarnCollectScreen/CTA')).toBeEnabled()
+      expect(queryByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
     })
     await waitFor(() => {
-      expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
+      expect(queryByTestId('EarnConfirmation/GasLoading')).toBeFalsy()
     })
   })
 
@@ -196,25 +251,26 @@ describe('EarnCollectScreen', () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
-          component={EarnCollectScreen}
+          component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
+            mode: 'withdraw',
           }}
         />
       </Provider>
     )
 
-    expect(getByText('earnFlow.collect.title')).toBeTruthy()
+    expect(getByText('earnFlow.collect.titleWithdraw')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
+    expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
     await waitFor(() => {
-      expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
+      expect(queryByTestId('EarnConfirmation/GasLoading')).toBeFalsy()
     })
     expect(getByText('earnFlow.collect.errorTitle')).toBeTruthy()
-    expect(getByTestId('EarnCollect/GasError')).toBeTruthy()
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
+    expect(getByTestId('EarnConfirmation/GasError')).toBeTruthy()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
   })
 
   it('disables cta if not enough balance for gas', async () => {
@@ -225,49 +281,52 @@ describe('EarnCollectScreen', () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
-          component={EarnCollectScreen}
+          component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
+            mode: 'withdraw',
           }}
         />
       </Provider>
     )
 
-    expect(getByText('earnFlow.collect.title')).toBeTruthy()
+    expect(getByText('earnFlow.collect.titleWithdraw')).toBeTruthy()
     expect(getByText('earnFlow.collect.total')).toBeTruthy()
-    expect(getByTestId('EarnCollect/GasLoading')).toBeTruthy()
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
+    expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
     await waitFor(() => {
-      expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
+      expect(queryByTestId('EarnConfirmation/GasLoading')).toBeFalsy()
     })
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
-    expect(getByTestId('EarnCollect/GasError')).toBeTruthy()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
+    expect(getByTestId('EarnConfirmation/GasError')).toBeTruthy()
   })
 
   it('pressing cta dispatches withdraw action and fires analytics event', async () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
-          component={EarnCollectScreen}
+          component={EarnConfirmationScreen}
           params={{
-            pool: mockEarnPositions[0],
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
+            mode: 'withdraw',
           }}
         />
       </Provider>
     )
 
     await waitFor(() => {
-      expect(getByTestId('EarnCollectScreen/CTA')).toBeEnabled()
+      expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
     })
 
-    fireEvent.press(getByTestId('EarnCollectScreen/CTA'))
+    fireEvent.press(getByTestId('EarnConfirmationScreen/CTA'))
 
     expect(store.getActions()).toEqual([
       {
         type: withdrawStart.type,
         payload: {
-          pool: mockEarnPositions[0],
+          amount: '11.825',
+          pool: { ...mockEarnPositions[0], balance: '10.75' },
           preparedTransactions: getSerializablePreparedTransactions(
             mockPreparedTransaction.transactions
           ),
@@ -278,7 +337,7 @@ describe('EarnCollectScreen', () => {
 
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_collect_earnings_press, {
       depositTokenId: mockArbUsdcTokenId,
-      tokenAmount: '10.75',
+      tokenAmount: '11.825',
       networkId: NetworkId['arbitrum-sepolia'],
       providerId: mockEarnPositions[0].appId,
       rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],
@@ -297,20 +356,23 @@ describe('EarnCollectScreen', () => {
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
-          component={EarnCollectScreen}
+          component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
+            mode: 'withdraw',
           }}
         />
       </Provider>
     )
 
     await waitFor(() => {
-      expect(queryByTestId('EarnCollect/GasLoading')).toBeFalsy()
+      expect(queryByTestId('EarnConfirmation/GasLoading')).toBeFalsy()
     })
 
-    expect(getByTestId('EarnCollectScreen/CTA')).toBeDisabled()
-    expect(getByTestId('EarnCollectScreen/CTA')).toContainElement(getByTestId('Button/Loading'))
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toContainElement(
+      getByTestId('Button/Loading')
+    )
   })
 
   it('navigate and fire analytics on no gas CTA press', async () => {
@@ -322,16 +384,17 @@ describe('EarnCollectScreen', () => {
     const { getByText, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
-          component={EarnCollectScreen}
+          component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
+            mode: 'withdraw',
           }}
         />
       </Provider>
     )
 
     await waitFor(() => {
-      expect(queryByTestId('EarnCollect/RewardsLoading')).toBeFalsy()
+      expect(queryByTestId('EarnConfirmation/RewardsLoading')).toBeFalsy()
     })
 
     expect(
@@ -348,6 +411,10 @@ describe('EarnCollectScreen', () => {
     })
     expect(AppAnalytics.track).toBeCalledWith(EarnEvents.earn_withdraw_add_gas_press, {
       gasTokenId: mockArbEthTokenId,
+      networkId: NetworkId['arbitrum-sepolia'],
+      poolId: mockEarnPositions[0].positionId,
+      providerId: mockEarnPositions[0].appId,
+      depositTokenId: mockArbUsdcTokenId,
     })
   })
 
@@ -357,13 +424,34 @@ describe('EarnCollectScreen', () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
-          component={EarnCollectScreen}
+          component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
+            mode: 'withdraw',
           }}
         />
       </Provider>
     )
-    expect(getByTestId('EarnCollect/GasSubsidized')).toBeTruthy()
+    expect(getByTestId('EarnConfirmation/GasSubsidized')).toBeTruthy()
+  })
+
+  it.each([
+    ['claim-rewards', 'earnFlow.collect.titleClaim'],
+    ['withdraw', 'earnFlow.collect.titleWithdraw'],
+    ['exit', 'earnFlow.collect.titleCollect'],
+  ])('shows correct header text for %s', async (mode, expectedHeader) => {
+    const { getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={EarnConfirmationScreen}
+          params={{
+            pool: mockEarnPositions[0],
+            mode,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByText(expectedHeader)).toBeTruthy()
   })
 })
