@@ -193,7 +193,7 @@ export async function prepareWithdrawTransactions({
   return {
     prepareTransactionsResult: await prepareTransactions({
       feeCurrencies,
-      baseTransactions: rawShortcutTransactionsToTransactionRequests(transactions),
+      baseTransactions: rawShortcutTransactionsToTransactionRequests(withdrawTransactions),
       isGasSubsidized: isGasSubsidizedForNetwork(networkId),
       origin: 'earn-withdraw',
     }),
