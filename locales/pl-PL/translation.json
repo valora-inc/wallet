@@ -2287,7 +2287,7 @@
     "crossChainSwapTransactionLabel": "Wymiana między łańcuchami",
     "depositTitle": "Wpłacono",
     "depositSubtitle": "do puli {{txAppName}}",
-    "depositSubtitle_noTxAppName": "do nieznanej puli",
+    "depositSubtitle_noTxAppName": "do nieznanej aplikacji",
     "withdrawTitle": "Wycofano",
     "withdrawSubtitle": "z puli {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "z nieznanej aplikacji",
