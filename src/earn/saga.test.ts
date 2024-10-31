@@ -6,6 +6,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { claimSubmitSaga, depositSubmitSaga, withdrawSubmitSaga } from 'src/earn/saga'
 import {
+  claimCancel,
   claimStart,
   claimSuccess,
   depositCancel,
@@ -1080,5 +1081,36 @@ describe('claimSubmitSaga', () => {
     )
     expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
     expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
+  })
+
+  it('dispatches cancel action if pin input is cancelled and does not navigate home', async () => {
+    await expectSaga(claimSubmitSaga, {
+      type: claimStart.type,
+      payload: {
+        pool: mockPool,
+        preparedTransactions: [serializableClaimRewardTx],
+        rewardsTokens: mockRewardsPositions[1].tokens,
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide([
+        [matchers.call.fn(sendPreparedTransactions), throwError(CANCELLED_PIN_INPUT as any)],
+        ...sagaProviders,
+      ])
+      .put(claimCancel())
+      .not.put.actionType(fetchTokenBalances.type)
+      .call.like({ fn: sendPreparedTransactions })
+      .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
+      .run()
+    expect(navigateHome).not.toHaveBeenCalled()
+    expect(mockStandbyHandler).not.toHaveBeenCalled()
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_claim_submit_start,
+      expectedAnalyticsProps
+    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_claim_submit_cancel,
+      expectedAnalyticsProps
+    )
   })
 })
