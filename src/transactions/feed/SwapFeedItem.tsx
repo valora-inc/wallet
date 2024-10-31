@@ -27,7 +27,9 @@ function SwapFeedItem({ transaction }: Props) {
 
   const handleOpenTransactionDetails = () => {
     navigate(Screens.TransactionDetailsScreen, { transaction: transaction })
-    AppAnalytics.track(HomeEvents.transaction_feed_item_select)
+    AppAnalytics.track(HomeEvents.transaction_feed_item_select, {
+      itemType: transaction.type,
+    })
   }
 
   const isCrossChainSwap = transaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction

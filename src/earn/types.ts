@@ -56,7 +56,7 @@ export interface BeforeDepositAction {
 }
 
 export interface WithdrawAction {
-  name: EarnActiveMode
+  name: Extract<EarnActiveMode, 'withdraw' | 'claim-rewards' | 'exit'>
   title: string
   details: string
   iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>

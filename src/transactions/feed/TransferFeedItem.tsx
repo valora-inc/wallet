@@ -38,7 +38,9 @@ function TransferFeedItem({ transfer }: Props) {
       navigate(Screens.TransactionDetailsScreen, { transaction: transfer })
     }
 
-    AppAnalytics.track(HomeEvents.transaction_feed_item_select)
+    AppAnalytics.track(HomeEvents.transaction_feed_item_select, {
+      itemType: transfer.type,
+    })
   }
 
   const tokenInfo = useTokenInfo(amount.tokenId)
