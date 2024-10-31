@@ -29,7 +29,7 @@ function PartialWithdrawAction({
   const claimType = pool.dataProps.claimType
 
   const action: WithdrawAction = {
-    name: 'PartialWithdraw',
+    name: 'withdraw',
     title:
       hasRewards && pool.dataProps.withdrawalIncludesClaim
         ? t('earnFlow.poolInfoScreen.withdrawBottomSheet.withdrawAndClaim')
@@ -43,7 +43,7 @@ function PartialWithdrawAction({
     iconComponent: QuickActionsWithdraw,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_select_withdraw_type, {
-        type: 'PartialWithdraw',
+        type: 'withdraw',
         providerId: pool.appId,
         poolId: pool.positionId,
         networkId: pool.networkId,
@@ -67,7 +67,7 @@ function ClaimAction({
   const claimType = pool.dataProps.claimType
 
   const action: WithdrawAction = {
-    name: 'Claim',
+    name: 'claim-rewards',
     title:
       claimType === 'rewards'
         ? t('earnFlow.poolInfoScreen.withdrawBottomSheet.claimRewards')
@@ -79,13 +79,13 @@ function ClaimAction({
     iconComponent: Trophy,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_select_withdraw_type, {
-        type: 'Claim',
+        type: 'claim-rewards',
         providerId: pool.appId,
         poolId: pool.positionId,
         networkId: pool.networkId,
         depositTokenId: pool.dataProps.depositTokenId,
       })
-      navigate(Screens.EarnConfirmationScreen, { pool, mode: action.name })
+      navigate(Screens.EarnConfirmationScreen, { pool, mode: 'claim-rewards' })
       forwardedRef.current?.close()
     },
   }
@@ -111,19 +111,19 @@ function ExitAction({
     : t('earnFlow.poolInfoScreen.withdrawBottomSheet.exitDescription')
 
   const action: WithdrawAction = {
-    name: 'Exit',
+    name: 'exit',
     title: t('earnFlow.poolInfoScreen.withdrawBottomSheet.exit'),
     details,
     iconComponent: Exit,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_select_withdraw_type, {
-        type: 'Exit',
+        type: 'exit',
         providerId: pool.appId,
         poolId: pool.positionId,
         networkId: pool.networkId,
         depositTokenId: pool.dataProps.depositTokenId,
       })
-      navigate(Screens.EarnConfirmationScreen, { pool, mode: action.name })
+      navigate(Screens.EarnConfirmationScreen, { pool, mode: 'exit' })
       forwardedRef.current?.close()
     },
   }

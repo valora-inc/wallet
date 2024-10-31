@@ -668,7 +668,7 @@ describe('EarnPoolInfoScreen', () => {
     })
     expect(navigate).toHaveBeenCalledWith(Screens.EarnConfirmationScreen, {
       pool: { ...mockEarnPositions[0], balance: '100' },
-      mode: 'Exit',
+      mode: 'exit',
     })
   })
   it('open WithdrawBottomSheet when Withdraw button pressed, check that expected options exist', () => {
@@ -694,9 +694,9 @@ describe('EarnPoolInfoScreen', () => {
     )
     fireEvent.press(getByTestId('WithdrawButton'))
     expect(getByTestId('Earn/WithdrawBottomSheet')).toBeVisible()
-    expect(getByTestId('Earn/ActionCard/PartialWithdraw')).toBeTruthy()
-    expect(getByTestId('Earn/ActionCard/Claim')).toBeTruthy()
-    expect(getByTestId('Earn/ActionCard/Exit')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/withdraw')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/claim-rewards')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/exit')).toBeTruthy()
   })
 
   it('shows the daily yield rate when it is available', () => {

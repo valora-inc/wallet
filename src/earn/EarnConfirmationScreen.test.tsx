@@ -160,7 +160,7 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: { ...mockEarnPositions[0], balance: '10.75' },
-            mode: 'PartialWithdraw',
+            mode: 'withdraw',
             inputAmount: (10.75 * +mockEarnPositions[0].pricePerShare) / 2, // Input amount is half of the balance
           }}
         />
@@ -217,7 +217,7 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: { ...mockEarnPositions[0], balance: '10.75' },
-            mode: 'PartialWithdraw',
+            mode: 'withdraw',
           }}
         />
       </Provider>
@@ -254,7 +254,7 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
-            mode: 'PartialWithdraw',
+            mode: 'withdraw',
           }}
         />
       </Provider>
@@ -284,7 +284,7 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
-            mode: 'PartialWithdraw',
+            mode: 'withdraw',
           }}
         />
       </Provider>
@@ -309,7 +309,7 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: { ...mockEarnPositions[0], balance: '10.75' },
-            mode: 'PartialWithdraw',
+            mode: 'withdraw',
           }}
         />
       </Provider>
@@ -359,7 +359,7 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
-            mode: 'PartialWithdraw',
+            mode: 'withdraw',
           }}
         />
       </Provider>
@@ -387,7 +387,7 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
-            mode: 'PartialWithdraw',
+            mode: 'withdraw',
           }}
         />
       </Provider>
@@ -427,7 +427,7 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: mockEarnPositions[0],
-            mode: 'PartialWithdraw',
+            mode: 'withdraw',
           }}
         />
       </Provider>
@@ -436,9 +436,9 @@ describe('EarnConfirmationScreen', () => {
   })
 
   it.each([
-    ['Claim', 'earnFlow.collect.titleClaim'],
-    ['PartialWithdraw', 'earnFlow.collect.titleWithdraw'],
-    ['Exit', 'earnFlow.collect.titleCollect'],
+    ['claim-rewards', 'earnFlow.collect.titleClaim'],
+    ['withdraw', 'earnFlow.collect.titleWithdraw'],
+    ['exit', 'earnFlow.collect.titleCollect'],
   ])('shows correct header text for %s', async (mode, expectedHeader) => {
     const { getByText } = render(
       <Provider store={store}>
