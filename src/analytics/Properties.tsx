@@ -1566,6 +1566,10 @@ interface EarnWithdrawProperties extends EarnCommonProperties {
   rewards: SerializableRewardsInfo[]
 }
 
+interface EarnClaimProperties extends EarnCommonProperties {
+  rewards: SerializableRewardsInfo[]
+}
+
 // Adds `deposit` prefix to all properties of TxReceiptProperties
 type DepositTxReceiptProperties = PrefixedTxReceiptProperties<'deposit'>
 
@@ -1623,6 +1627,12 @@ interface EarnEventsProperties {
   }
   [EarnEvents.earn_withdraw_submit_cancel]: EarnWithdrawProperties
   [EarnEvents.earn_withdraw_add_gas_press]: EarnCommonProperties & { gasTokenId: string }
+  [EarnEvents.earn_claim_submit_start]: EarnClaimProperties
+  [EarnEvents.earn_claim_submit_success]: EarnClaimProperties
+  [EarnEvents.earn_claim_submit_error]: EarnClaimProperties & {
+    error: string
+  }
+  [EarnEvents.earn_claim_submit_cancel]: EarnClaimProperties
   [EarnEvents.earn_info_learn_press]: undefined
   [EarnEvents.earn_info_earn_press]: undefined
   [EarnEvents.earn_active_pools_card_press]: undefined

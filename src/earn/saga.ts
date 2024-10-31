@@ -4,6 +4,10 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnDepositTxsReceiptProperties } from 'src/analytics/Properties'
 import {
+  claimCancel,
+  claimError,
+  claimStart,
+  claimSuccess,
   depositCancel,
   depositError,
   depositStart,
@@ -456,7 +460,133 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
   }
 }
 
+export function* claimSubmitSaga(action: PayloadAction<WithdrawInfo>) {
+  const {
+    pool,
+    preparedTransactions: serializablePreparedTransactions,
+    rewardsTokens,
+  } = action.payload
+  const tokenId = pool.dataProps.depositTokenId
+
+  const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
+
+  const tokenInfo = yield* call(getTokenInfo, tokenId)
+
+  if (!tokenInfo) {
+    Logger.error(`${TAG}/claimSubmitSaga`, 'Token info not found for token id', tokenId)
+    return
+  }
+
+  const networkId = tokenInfo.networkId
+  let submitted = false
+
+  const commonAnalyticsProps = {
+    depositTokenId: tokenId,
+    networkId,
+    poolId: pool.positionId,
+    providerId: pool.appId,
+    rewards: rewardsTokens.map(({ tokenId, balance }) => ({
+      tokenId,
+      amount: balance,
+    })),
+  }
+
+  try {
+    Logger.debug(
+      `${TAG}/claimSubmitSaga`,
+      `Starting claim for token ${tokenId}, total transactions: ${preparedTransactions.length}`
+    )
+
+    const createClaimRewardStandbyTxHandlers: any[] = []
+
+    rewardsTokens.forEach(({ balance, tokenId }, index) => {
+      const createClaimRewardStandbyTx = (
+        transactionHash: string,
+        feeCurrencyId?: string
+      ): BaseStandbyTransaction => {
+        return {
+          context: newTransactionContext(TAG, `Earn/ClaimReward-${index + 1}`),
+          networkId,
+          amount: {
+            value: balance,
+            tokenId,
+          },
+          type: TokenTransactionTypeV2.EarnClaimReward,
+          transactionHash,
+          feeCurrencyId,
+          providerId: pool.appId,
+        }
+      }
+
+      createClaimRewardStandbyTxHandlers.push(createClaimRewardStandbyTx)
+    })
+
+    // Add Analytics event
+    // AppAnalytics.track(EarnEvents.earn_claim_submit_start, commonAnalyticsProps)
+
+    const txHashes = yield* call(
+      sendPreparedTransactions,
+      serializablePreparedTransactions,
+      networkId,
+      createClaimRewardStandbyTxHandlers,
+      isGasSubsidizedForNetwork(networkId)
+    )
+
+    Logger.debug(`${TAG}/claim`, 'Successfully sent claim transaction(s) to the network', txHashes)
+
+    navigateHome()
+    submitted = true
+
+    // wait for the tx receipts, so that we can track them
+    Logger.debug(`${TAG}/claimSubmitSaga`, 'Waiting for transaction receipts')
+    const txReceipts = yield* all(
+      txHashes.map((txHash) => {
+        return call([publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'], {
+          hash: txHash,
+        })
+      })
+    )
+    txReceipts.forEach((receipt, index) => {
+      Logger.debug(
+        `${TAG}/claimSubmitSaga`,
+        `Received transaction receipt ${index + 1} of ${txReceipts.length}`,
+        receipt
+      )
+    })
+
+    txReceipts.forEach((receipt, index) => {
+      if (receipt.status !== 'success') {
+        throw new Error(`Transaction ${index + 1} reverted: ${receipt?.transactionHash}`)
+      }
+    })
+
+    yield* put(claimSuccess())
+    yield* put(fetchTokenBalances({ showLoading: false }))
+    AppAnalytics.track(EarnEvents.earn_claim_submit_success, commonAnalyticsProps)
+  } catch (err) {
+    if (err === CANCELLED_PIN_INPUT) {
+      Logger.info(`${TAG}/claimSubmitSaga`, 'Transaction cancelled by user')
+      yield* put(claimCancel())
+      AppAnalytics.track(EarnEvents.earn_claim_submit_cancel, commonAnalyticsProps)
+      return
+    }
+
+    const error = ensureError(err)
+    Logger.error(`${TAG}/claimSubmitSaga`, 'Error sending claim transaction', error)
+    yield* put(claimError())
+    AppAnalytics.track(EarnEvents.earn_claim_submit_error, {
+      ...commonAnalyticsProps,
+      error: error.message,
+    })
+
+    if (!submitted) {
+      vibrateError()
+    }
+  }
+}
+
 export function* earnSaga() {
   yield* takeLeading(depositStart.type, safely(depositSubmitSaga))
   yield* takeLeading(withdrawStart.type, safely(withdrawSubmitSaga))
+  yield* takeLeading(claimStart.type, safely(claimSubmitSaga))
 }
