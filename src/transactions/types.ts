@@ -41,6 +41,7 @@ export type ConfirmedStandbyTransaction = (
   | Omit<TokenApproval, 'status'>
   | Omit<NftTransfer, 'status'>
   | Omit<DepositOrWithdraw, 'status'>
+  | Omit<ClaimReward, 'status'>
   | Omit<EarnDeposit, 'status'>
   | Omit<EarnSwapDeposit, 'status'>
   | Omit<EarnWithdraw, 'status'>
@@ -57,6 +58,7 @@ export type StandbyTransaction =
   | PendingStandbyTransaction<TokenApproval>
   | PendingStandbyTransaction<NftTransfer>
   | PendingStandbyTransaction<DepositOrWithdraw>
+  | PendingStandbyTransaction<ClaimReward>
   | PendingStandbyTransaction<EarnDeposit>
   | PendingStandbyTransaction<EarnSwapDeposit>
   | PendingStandbyTransaction<EarnWithdraw>
@@ -111,6 +113,7 @@ export type TokenTransaction =
   | NftTransfer
   | TokenApproval
   | DepositOrWithdraw
+  | ClaimReward
   | EarnDeposit
   | EarnSwapDeposit
   | EarnWithdraw
@@ -129,6 +132,7 @@ export interface LocalAmount {
   exchangeRate: string
 }
 
+// Be sure to also update FEED_V2_INCLUDE_TYPES if you add a new type.
 export enum TokenTransactionTypeV2 {
   Exchange = 'EXCHANGE',
   Received = 'RECEIVED',
@@ -140,14 +144,31 @@ export enum TokenTransactionTypeV2 {
   Approval = 'APPROVAL',
   Deposit = 'DEPOSIT',
   Withdraw = 'WITHDRAW',
+  ClaimReward = 'CLAIM_REWARD',
   /** @deprecated Use Deposit instead */
   EarnDeposit = 'EARN_DEPOSIT',
   /** @deprecated Use Deposit instead */
   EarnSwapDeposit = 'EARN_SWAP_DEPOSIT',
   /** @deprecated Use Withdraw instead */
   EarnWithdraw = 'EARN_WITHDRAW',
+  /** @deprecated Use ClaimReward instead */
   EarnClaimReward = 'EARN_CLAIM_REWARD',
 }
+
+// Because the codebase supports both the old and new feed,
+// we need this list. But we can remove it once we delete the old feed.
+export const FEED_V2_INCLUDE_TYPES = [
+  TokenTransactionTypeV2.Received,
+  TokenTransactionTypeV2.Sent,
+  TokenTransactionTypeV2.NftReceived,
+  TokenTransactionTypeV2.NftSent,
+  TokenTransactionTypeV2.SwapTransaction,
+  TokenTransactionTypeV2.CrossChainSwapTransaction,
+  TokenTransactionTypeV2.Approval,
+  TokenTransactionTypeV2.Deposit,
+  TokenTransactionTypeV2.Withdraw,
+  TokenTransactionTypeV2.ClaimReward,
+]
 
 // Can we optional the fields `transactionHash` and `block`?
 export interface TokenTransfer {
@@ -293,7 +314,7 @@ export interface EarnWithdraw {
   status: TransactionStatus
 }
 
-/** @deprecated Use TokenTransfer instead */
+/** @deprecated Use ClaimReward instead */
 export interface EarnClaimReward {
   networkId: NetworkId
   amount: TokenAmount
@@ -303,6 +324,18 @@ export interface EarnClaimReward {
   block: string
   fees: Fee[]
   providerId: string
+  status: TransactionStatus
+}
+
+export interface ClaimReward {
+  networkId: NetworkId
+  amount: TokenAmount
+  type: TokenTransactionTypeV2.ClaimReward
+  transactionHash: string
+  timestamp: number
+  block: string
+  fees: Fee[]
+  appName: string | undefined
   status: TransactionStatus
 }
 

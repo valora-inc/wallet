@@ -813,6 +813,54 @@
                 }
             ]
         },
+        "ClaimReward": {
+            "additionalProperties": false,
+            "properties": {
+                "amount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "appName": {
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "CLAIM_REWARD",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "amount",
+                "appName",
+                "block",
+                "fees",
+                "networkId",
+                "status",
+                "timestamp",
+                "transactionHash",
+                "type"
+            ],
+            "type": "object"
+        },
         "CleverTapInboxMessage": {
             "additionalProperties": false,
             "properties": {
@@ -2603,6 +2651,49 @@
             ],
             "type": "object"
         },
+        "PendingStandbyTransaction<ClaimReward>": {
+            "additionalProperties": false,
+            "properties": {
+                "amount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "appName": {
+                    "type": "string"
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "feeCurrencyId": {
+                    "type": "string"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "const": "Pending",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "CLAIM_REWARD",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "amount",
+                "context",
+                "networkId",
+                "status",
+                "timestamp",
+                "type"
+            ],
+            "type": "object"
+        },
         "PendingStandbyTransaction<DepositOrWithdraw>": {
             "additionalProperties": false,
             "properties": {
@@ -3932,6 +4023,9 @@
                     "$ref": "#/definitions/PendingStandbyTransaction<DepositOrWithdraw>"
                 },
                 {
+                    "$ref": "#/definitions/PendingStandbyTransaction<ClaimReward>"
+                },
+                {
                     "additionalProperties": false,
                     "properties": {
                         "block": {
@@ -4258,6 +4352,64 @@
                         "inAmount",
                         "networkId",
                         "outAmount",
+                        "status",
+                        "timestamp",
+                        "transactionHash",
+                        "type"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "amount": {
+                            "$ref": "#/definitions/TokenAmount"
+                        },
+                        "appName": {
+                            "type": "string"
+                        },
+                        "block": {
+                            "type": "string"
+                        },
+                        "context": {
+                            "$ref": "#/definitions/TransactionContext"
+                        },
+                        "feeCurrencyId": {
+                            "type": "string"
+                        },
+                        "fees": {
+                            "items": {
+                                "$ref": "#/definitions/Fee"
+                            },
+                            "type": "array"
+                        },
+                        "networkId": {
+                            "$ref": "#/definitions/NetworkId"
+                        },
+                        "status": {
+                            "enum": [
+                                "Complete",
+                                "Failed"
+                            ],
+                            "type": "string"
+                        },
+                        "timestamp": {
+                            "type": "number"
+                        },
+                        "transactionHash": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "const": "CLAIM_REWARD",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "amount",
+                        "block",
+                        "context",
+                        "fees",
+                        "networkId",
                         "status",
                         "timestamp",
                         "transactionHash",
@@ -6281,6 +6433,9 @@
                 },
                 {
                     "$ref": "#/definitions/DepositOrWithdraw"
+                },
+                {
+                    "$ref": "#/definitions/ClaimReward"
                 }
             ]
         },

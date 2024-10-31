@@ -116,6 +116,7 @@ function TransactionFeed() {
         return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
       case TokenTransactionTypeV2.Deposit:
       case TokenTransactionTypeV2.Withdraw:
+      case TokenTransactionTypeV2.ClaimReward:
         // These are handled by the FeedV2 only
         return null
       case TokenTransactionTypeV2.EarnDeposit:

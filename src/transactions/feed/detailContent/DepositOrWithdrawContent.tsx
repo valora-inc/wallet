@@ -32,16 +32,12 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
   return (
     <>
       <Text style={styles.detailsTitle}>{t('transactionDetails.descriptionLabel')}</Text>
-      {!!txAppName && (
-        <Text style={styles.detailsSubtitle}>
-          {t(
-            isDeposit
-              ? 'transactionDetails.depositSubtitle'
-              : 'transactionDetails.withdrawSubtitle',
-            { context: !txAppName ? 'noTxAppName' : undefined, txAppName, tokenSymbol }
-          )}
-        </Text>
-      )}
+      <Text style={styles.detailsSubtitle}>
+        {t(
+          isDeposit ? 'transactionDetails.depositSubtitle' : 'transactionDetails.withdrawSubtitle',
+          { context: !txAppName ? 'noTxAppName' : undefined, txAppName, tokenSymbol }
+        )}
+      </Text>
       <RowDivider />
       <View style={styles.amountContainer}>
         <View>
@@ -66,6 +62,7 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
           </View>
           <TokenDisplay
             amount={amount.value}
+            localAmount={amount.localAmount}
             tokenId={amount.tokenId}
             style={styles.amountSubtitle}
           />
