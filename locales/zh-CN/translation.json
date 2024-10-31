@@ -2281,7 +2281,7 @@
     "crossChainSwapTransactionLabel": "跨链",
     "depositTitle": "已存入",
     "depositSubtitle": "至 {{txAppName}} 池",
-    "depositSubtitle_noTxAppName": "未知池",
+    "depositSubtitle_noTxAppName": "到未知应用程序",
     "withdrawTitle": "已取出",
     "withdrawSubtitle": "从 {{txAppName}} 池",
     "withdrawSubtitle_noTxAppName": "来自未知应用程序",
