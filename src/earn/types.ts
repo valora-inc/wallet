@@ -31,6 +31,12 @@ export interface WithdrawInfo {
   rewardsTokens: Token[]
 }
 
+export interface ClaimInfo {
+  pool: EarnPosition
+  preparedTransactions: SerializableTransactionRequest[]
+  rewardsTokens: Token[]
+}
+
 export enum EarnTabType {
   AllPools = 0,
   MyPools = 1,
