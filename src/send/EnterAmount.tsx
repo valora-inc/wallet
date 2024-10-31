@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import React, { ComponentType, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  Keyboard,
   Platform,
   TextInput as RNTextInput,
   StyleProp,
@@ -11,7 +12,7 @@ import {
 } from 'react-native'
 import { View } from 'react-native-animatable'
 import { getNumberFormatSettings } from 'react-native-localize'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
@@ -31,6 +32,7 @@ import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
+import EnterAmountOptions from 'src/send/EnterAmountOptions'
 import { AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
@@ -152,6 +154,7 @@ function EnterAmount({
   disableBalanceCheck = false,
 }: Props) {
   const { t } = useTranslation()
+  const insets = useSafeAreaInsets()
 
   const tokenAmountInputRef = useRef<RNTextInput>(null)
   const localAmountInputRef = useRef<RNTextInput>(null)
@@ -161,6 +164,9 @@ function EnterAmount({
   const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
   const [localAmountInput, setLocalAmountInput] = useState<string>('')
   const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
+  const [isTextInputFocused, setIsTextInputFocused] = useState(true)
+  const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
+
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
 
@@ -310,6 +316,8 @@ function EnterAmount({
         setEnteredIn('token')
       }
     }
+
+    setSelectedPercentage(null)
   }
 
   const onLocalAmountInputChange = (value: string) => {
@@ -335,10 +343,24 @@ function EnterAmount({
     }
   }
 
+  const handleSelectPercentageAmount = (amount: number) => {
+    setTokenAmountInput(token.balance.multipliedBy(amount).toFormat({ decimalSeparator }))
+    setEnteredIn('token')
+    setSelectedPercentage(amount)
+  }
+
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
-      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={[
+          styles.contentContainer,
+          { paddingBottom: Math.max(insets.bottom, Spacing.Thick24) },
+        ]}
+        onScrollBeginDrag={() => {
+          Keyboard.dismiss()
+        }}
+      >
         <View style={styles.inputContainer}>
           <Text style={styles.title}>{t('sendEnterAmountScreen.title')}</Text>
           <View style={styles.inputBox}>
@@ -347,6 +369,12 @@ function EnterAmount({
                 inputRef={tokenAmountInputRef}
                 inputValue={tokenAmountInput}
                 onInputChange={onTokenAmountInputChange}
+                onFocus={() => {
+                  setIsTextInputFocused(true)
+                }}
+                onBlur={() => {
+                  setIsTextInputFocused(false)
+                }}
                 inputStyle={[styles.inputText, showLowerAmountError && { color: Colors.error }]}
                 autoFocus
                 placeholder={new BigNumber(0).toFormat(2)}
@@ -403,41 +431,51 @@ function EnterAmount({
           </View>
         </View>
 
-        {showMaxAmountWarning && (
-          <InLineNotification
-            variant={NotificationVariant.Warning}
-            title={t('sendEnterAmountScreen.maxAmountWarning.title')}
-            description={t('sendEnterAmountScreen.maxAmountWarning.description', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrency.symbol,
-            })}
-            style={styles.warning}
-            testID="SendEnterAmount/MaxAmountWarning"
-          />
-        )}
-        {showNotEnoughBalanceForGasWarning && (
-          <InLineNotification
-            variant={NotificationVariant.Warning}
-            title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-            })}
-            description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-            })}
-            style={styles.warning}
-            testID="SendEnterAmount/NotEnoughForGasWarning"
-          />
-        )}
-        {prepareTransactionError && (
-          <InLineNotification
-            variant={NotificationVariant.Error}
-            title={t('sendEnterAmountScreen.prepareTransactionError.title')}
-            description={t('sendEnterAmountScreen.prepareTransactionError.description')}
-            style={styles.warning}
-            testID="SendEnterAmount/PrepareTransactionError"
-          />
-        )}
+        <View style={styles.notificationsContainer}>
+          {showMaxAmountWarning && (
+            <InLineNotification
+              variant={NotificationVariant.Warning}
+              title={t('sendEnterAmountScreen.maxAmountWarning.title')}
+              description={t('sendEnterAmountScreen.maxAmountWarning.description', {
+                feeTokenSymbol: prepareTransactionsResult.feeCurrency.symbol,
+              })}
+              style={styles.warning}
+              testID="SendEnterAmount/MaxAmountWarning"
+            />
+          )}
+          {showNotEnoughBalanceForGasWarning && (
+            <InLineNotification
+              variant={NotificationVariant.Warning}
+              title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
+                feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+              })}
+              description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
+                feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+              })}
+              style={styles.warning}
+              testID="SendEnterAmount/NotEnoughForGasWarning"
+            />
+          )}
+          {prepareTransactionError && (
+            <InLineNotification
+              variant={NotificationVariant.Error}
+              title={t('sendEnterAmountScreen.prepareTransactionError.title')}
+              description={t('sendEnterAmountScreen.prepareTransactionError.description')}
+              style={styles.warning}
+              testID="SendEnterAmount/PrepareTransactionError"
+            />
+          )}
 
-        {children}
+          {children}
+        </View>
+
+        <EnterAmountOptions
+          isTextInputFocused={isTextInputFocused}
+          onPressAmount={handleSelectPercentageAmount}
+          selectedAmount={selectedPercentage}
+        />
+
+        <KeyboardSpacer />
 
         <ProceedComponent
           tokenAmount={tokenAmount}
@@ -447,7 +485,6 @@ function EnterAmount({
           onPressProceed={onPressProceed}
           disabled={disabled}
         />
-        <KeyboardSpacer />
       </KeyboardAwareScrollView>
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
@@ -471,6 +508,8 @@ export function AmountInput({
   placeholder = '0',
   testID = 'AmountInput',
   editable = true,
+  onBlur,
+  onFocus,
 }: {
   inputValue: string
   onInputChange(value: string): void
@@ -480,6 +519,8 @@ export function AmountInput({
   placeholder?: string
   testID?: string
   editable?: boolean
+  onBlur?(): void
+  onFocus?(): void
 }) {
   // the startPosition and inputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android
@@ -514,9 +555,11 @@ export function AmountInput({
         inputStyle={[inputStyle, Platform.select({ ios: { lineHeight: undefined } })]}
         testID={testID}
         onBlur={() => {
+          onBlur?.()
           handleSetStartPosition(0)
         }}
         onFocus={() => {
+          onFocus?.()
           handleSetStartPosition(inputValue?.length ?? 0)
         }}
         onSelectionChange={() => {
@@ -537,15 +580,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    paddingHorizontal: Spacing.Thick24,
     paddingTop: Spacing.Thick24,
     flexGrow: 1,
   },
   title: {
-    ...typeScale.titleSmall,
+    ...typeScale.titleMedium,
   },
   inputContainer: {
     flex: 1,
+    paddingHorizontal: Spacing.Thick24,
+  },
+  notificationsContainer: {
+    paddingHorizontal: Spacing.Thick24,
   },
   inputBox: {
     marginTop: Spacing.Large32,
@@ -643,7 +689,8 @@ const styles = StyleSheet.create({
     paddingLeft: Spacing.Regular16,
   },
   reviewButton: {
-    paddingVertical: Spacing.Thick24,
+    paddingTop: Spacing.Thick24,
+    marginHorizontal: Spacing.Thick24,
   },
   warning: {
     marginBottom: Spacing.Regular16,
