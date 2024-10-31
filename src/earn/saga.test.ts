@@ -4,8 +4,10 @@ import { call } from 'redux-saga-test-plan/matchers'
 import { StaticProvider, dynamic, throwError } from 'redux-saga-test-plan/providers'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import { depositSubmitSaga, withdrawSubmitSaga } from 'src/earn/saga'
+import { claimSubmitSaga, depositSubmitSaga, withdrawSubmitSaga } from 'src/earn/saga'
 import {
+  claimStart,
+  claimSuccess,
   depositCancel,
   depositError,
   depositStart,
@@ -985,4 +987,98 @@ describe('withdrawSubmitSaga', () => {
       })
     }
   )
+})
+
+describe('claimSubmitSaga', () => {
+  const mockRewards = [
+    { tokenId: 'arbitrum-sepolia:0x912ce59144191c1204e64559fe8253a0e49e6548', amount: '0.01' },
+  ]
+  const mockPool = mockRewardsPositions[0] as EarnPosition
+  const serializableClaimRewardTx: SerializableTransactionRequest = {
+    from: '0xa',
+    to: '0xc',
+    value: '100',
+    data: '0x01',
+    gas: '50000',
+  }
+
+  const mockStandbyHandler = jest.fn()
+  const mockIsGasSubsidizedCheck = jest.fn() // a mock to ensure sendPreparedTransactions is called with the correct isGasSubsidized value
+
+  const sagaProviders: StaticProvider[] = [
+    [
+      matchers.call.fn(sendPreparedTransactions),
+      dynamic(({ args: [txs, _networkId, standbyHandlers, isGasSubsidized] }) => {
+        mockIsGasSubsidizedCheck(isGasSubsidized)
+        mockStandbyHandler(standbyHandlers[0]('0x1'))
+        return ['0x1']
+      }),
+    ],
+    [
+      call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' }),
+      mockTxReceipt1,
+    ],
+  ]
+
+  const expectedAnalyticsProps = {
+    depositTokenId: mockArbUsdcTokenId,
+    networkId: NetworkId['arbitrum-sepolia'],
+    providerId: 'aave',
+    rewards: mockRewards,
+    poolId: mockRewardsPositions[0].positionId,
+  }
+
+  const expectedClaimRewardTx = {
+    context: {
+      id: 'id-earn/saga-Earn/ClaimReward-1',
+      tag: 'earn/saga',
+      description: 'Earn/ClaimReward-1',
+    },
+    networkId: NetworkId['arbitrum-sepolia'],
+    amount: {
+      value: '0.01',
+      tokenId: mockArbArbTokenId,
+    },
+    transactionHash: '0x1',
+    type: TokenTransactionTypeV2.EarnClaimReward,
+    feeCurrencyId: undefined,
+    providerId: 'aave',
+  }
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
+  })
+
+  it('sends claim transaction, navigates home and dispatches the success action (gas subsidy off)', async () => {
+    await expectSaga(claimSubmitSaga, {
+      type: claimStart.type,
+      payload: {
+        pool: mockPool,
+        preparedTransactions: [serializableClaimRewardTx],
+        rewardsTokens: mockRewardsPositions[1].tokens,
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide(sagaProviders)
+      .put(claimSuccess())
+      .put(fetchTokenBalances({ showLoading: false }))
+      .call.like({ fn: sendPreparedTransactions })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
+      .run()
+
+    expect(navigateHome).toHaveBeenCalled()
+    expect(mockStandbyHandler).toHaveBeenCalledTimes(1)
+    expect(mockStandbyHandler).toHaveBeenCalledWith(expectedClaimRewardTx)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_claim_submit_start,
+      expectedAnalyticsProps
+    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_claim_submit_success,
+      expectedAnalyticsProps
+    )
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
+  })
 })
