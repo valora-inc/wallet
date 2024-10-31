@@ -2286,7 +2286,10 @@
     "depositSubtitle_noTxAppName": "zum unbekannten Pool",
     "withdrawTitle": "Abgehoben",
     "withdrawSubtitle": "aus {{txAppName}} Pool",
-    "withdrawSubtitle_noTxAppName": "von unbekannter App"
+    "withdrawSubtitle_noTxAppName": "von unbekannter App",
+    "claimRewardTitle": "Gesammelt",
+    "claimRewardSubtitle": "aus {{txAppName}} Pool",
+    "claimRewardSubtitle_noTxAppName": "von unbekannter App"
   },
   "transactionDetails": {
     "descriptionLabel": "Details",
@@ -2298,6 +2301,10 @@
     "withdrawSubtitle": "{{tokenSymbol}} aus dem {{txAppName}} Pool abgehoben",
     "withdrawSubtitle_noTxAppName": "Ziehe {{tokenSymbol}} von einer unbekannten App ab",
     "withdrawDetails": "Betrag abgehoben",
+    "claimRewardTitle": "Gesammelt",
+    "claimRewardSubtitle": "{{tokenSymbol}} aus {{txAppName}} Pool eingesammelt",
+    "claimRewardSubtitle_noTxAppName": "Gesammelt {{tokenSymbol}} von unbekannter App",
+    "claimRewardDetails": "Eingesammelter Betrag",
     "swap": "Tauschen",
     "network": "Netzwerk",
     "fees": "Gebühren"
