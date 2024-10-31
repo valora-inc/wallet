@@ -2287,10 +2287,13 @@
     "crossChainSwapTransactionLabel": "Wymiana między łańcuchami",
     "depositTitle": "Wpłacono",
     "depositSubtitle": "do puli {{txAppName}}",
-    "depositSubtitle_noTxAppName": "do nieznanej puli",
+    "depositSubtitle_noTxAppName": "do nieznanej aplikacji",
     "withdrawTitle": "Wycofano",
     "withdrawSubtitle": "z puli {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "z nieznanej aplikacji"
+    "withdrawSubtitle_noTxAppName": "z nieznanej aplikacji",
+    "claimRewardTitle": "Zebrano",
+    "claimRewardSubtitle": "z puli {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "z nieznanej aplikacji"
   },
   "transactionDetails": {
     "descriptionLabel": "Szczegóły",
@@ -2302,6 +2305,10 @@
     "withdrawSubtitle": "Wycofano {{tokenSymbol}} z puli {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "Wycofano {{tokenSymbol}} z nieznanej aplikacji",
     "withdrawDetails": "Wypłacona kwota",
+    "claimRewardTitle": "Zebrano",
+    "claimRewardSubtitle": "Zebrano {{tokenSymbol}} z puli {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "Pobrano {{tokenSymbol}} z nieznanej aplikacji",
+    "claimRewardDetails": "Zebrana kwota",
     "swap": "Zamieniaj",
     "network": "Sieć",
     "fees": "Opłaty"

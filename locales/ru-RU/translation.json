@@ -2287,10 +2287,13 @@
     "crossChainSwapTransactionLabel": "Кроссчейн",
     "depositTitle": "Депонировано",
     "depositSubtitle": "в пул {{txAppName}}",
-    "depositSubtitle_noTxAppName": "в неизвестный бассейн",
+    "depositSubtitle_noTxAppName": "в неизвестное приложение",
     "withdrawTitle": "Выведено",
     "withdrawSubtitle": "из пула {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "из неизвестного приложения"
+    "withdrawSubtitle_noTxAppName": "из неизвестного приложения",
+    "claimRewardTitle": "Получено",
+    "claimRewardSubtitle": "из пула {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "из неизвестного приложения"
   },
   "transactionDetails": {
     "descriptionLabel": "Подробности",
@@ -2302,6 +2305,10 @@
     "withdrawSubtitle": "Выведено {{tokenSymbol}} из пула {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "Выведи {{tokenSymbol}} из неизвестного приложения",
     "withdrawDetails": "Сумма выведено",
+    "claimRewardTitle": "Получено",
+    "claimRewardSubtitle": "Получено {{tokenSymbol}} из пула {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "Собрал {{tokenSymbol}} из неизвестного приложения",
+    "claimRewardDetails": "Полученная сумма",
     "swap": "Обмен",
     "network": "Сообщество",
     "fees": "Комиссия"

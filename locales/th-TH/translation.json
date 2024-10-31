@@ -2281,10 +2281,13 @@
     "crossChainSwapTransactionLabel": "Cross-chain",
     "depositTitle": "ฝากแล้ว",
     "depositSubtitle": "ไปยังพูล {{txAppName}}",
-    "depositSubtitle_noTxAppName": "to unknown pool",
+    "depositSubtitle_noTxAppName": "to unknown app",
     "withdrawTitle": "ถอนแล้ว",
     "withdrawSubtitle": "จากพูล {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "from unknown app"
+    "withdrawSubtitle_noTxAppName": "from unknown app",
+    "claimRewardTitle": "เก็บแล้ว",
+    "claimRewardSubtitle": "จากพูล {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "from unknown app"
   },
   "transactionDetails": {
     "descriptionLabel": "รายละเอียด",
@@ -2296,6 +2299,10 @@
     "withdrawSubtitle": "ถอน {{tokenSymbol}} จากพูล {{txAppName}} แล้ว",
     "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
     "withdrawDetails": "จำนวนเงินที่ถอนแล้ว",
+    "claimRewardTitle": "เก็บแล้ว",
+    "claimRewardSubtitle": "เก็บ {{tokenSymbol}} จากพูล {{txAppName}} แล้ว",
+    "claimRewardSubtitle_noTxAppName": "Collected {{tokenSymbol}} from unknown app",
+    "claimRewardDetails": "จำนวนเงินที่เก็บแล้ว",
     "swap": "สว็อป",
     "network": "เครือข่าย",
     "fees": "ค่าธรรมเนียม"
