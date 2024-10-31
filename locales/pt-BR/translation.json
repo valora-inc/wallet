@@ -2286,7 +2286,10 @@
     "depositSubtitle_noTxAppName": "para uma piscina desconhecida",
     "withdrawTitle": "Sacado",
     "withdrawSubtitle": "do pool da {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "de um aplicativo desconhecido"
+    "withdrawSubtitle_noTxAppName": "de um aplicativo desconhecido",
+    "claimRewardTitle": "Recebido",
+    "claimRewardSubtitle": "do pool da {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "de um aplicativo desconhecido"
   },
   "transactionDetails": {
     "descriptionLabel": "Detalhes",
@@ -2298,6 +2301,10 @@
     "withdrawSubtitle": "{{tokenSymbol}} sacado do pool da {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "Você retirou {{tokenSymbol}} de um aplicativo desconhecido",
     "withdrawDetails": "Quantia retirada",
+    "claimRewardTitle": "Recebido",
+    "claimRewardSubtitle": "{{tokenSymbol}} recebido do pool da {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "Coletado {{tokenSymbol}} de um aplicativo desconhecido",
+    "claimRewardDetails": "Quantia recebida",
     "swap": "Trocar",
     "network": "Rede",
     "fees": "Taxas"
