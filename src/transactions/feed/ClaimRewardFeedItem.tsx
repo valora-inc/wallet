@@ -88,8 +88,9 @@ export default function ClaimRewardFeedItem({ transaction }: Props) {
     <Touchable
       testID={`ClaimRewardFeedItem/${transaction.transactionHash}`}
       onPress={() => {
-        // TODO: we'll add the type in a subsequent PR
-        AppAnalytics.track(HomeEvents.transaction_feed_item_select)
+        AppAnalytics.track(HomeEvents.transaction_feed_item_select, {
+          itemType: transaction.type,
+        })
         navigate(Screens.TransactionDetailsScreen, { transaction })
       }}
     >

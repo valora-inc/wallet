@@ -157,6 +157,8 @@ describe('ClaimRewardFeedItem', () => {
     fireEvent.press(
       getByTestId(`ClaimRewardFeedItem/${mockClaimRewardTransaction.transactionHash}`)
     )
-    expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.transaction_feed_item_select)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.transaction_feed_item_select, {
+      itemType: mockClaimRewardTransaction.type,
+    })
   })
 })
