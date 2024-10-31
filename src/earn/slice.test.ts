@@ -1,6 +1,10 @@
 import { NetworkId } from 'src/transactions/types'
 import { mockEarnPositions } from 'test/values'
 import reducer, {
+  claimCancel,
+  claimError,
+  claimStart,
+  claimSuccess,
   depositCancel,
   depositError,
   depositStart,
@@ -78,5 +82,36 @@ describe('Earn Slice', () => {
     const updatedState = reducer(undefined, withdrawCancel())
 
     expect(updatedState).toHaveProperty('withdrawStatus', 'idle')
+  })
+
+  it('should handle claim start', () => {
+    const updatedState = reducer(
+      undefined,
+      claimStart({
+        preparedTransactions: [],
+        rewardsTokens: [],
+        pool: mockEarnPositions[0],
+      })
+    )
+
+    expect(updatedState).toHaveProperty('claimStatus', 'loading')
+  })
+
+  it('should handle claim success', () => {
+    const updatedState = reducer(undefined, claimSuccess())
+
+    expect(updatedState).toHaveProperty('claimStatus', 'success')
+  })
+
+  it('should handle claim error', () => {
+    const updatedState = reducer(undefined, claimError())
+
+    expect(updatedState).toHaveProperty('claimStatus', 'error')
+  })
+
+  it('should handle claim cancel', () => {
+    const updatedState = reducer(undefined, claimCancel())
+
+    expect(updatedState).toHaveProperty('claimStatus', 'idle')
   })
 })
