@@ -38,8 +38,7 @@ jobs:
         uses: google-github-actions/get-secretmanager-secrets@v2
         with:
           secrets: |-
-            ANDROID_RELEASE_KEYSTORE:projects/1027349420744/secrets/VALORA_RELEASE_KEYSTORE
-            RELEASE_KEY_PASSWORD:projects/1027349420744/secrets/VALORA_RELEASE_KEY_PASSWORD
+            ANDROID_RELEASE_KEYSTORE:projects/1027349420744/secrets/VALORA_RELEASE_KEYSTORE_V2
             RELEASE_STORE_PASSWORD:projects/1027349420744/secrets/VALORA_RELEASE_STORE_PASSWORD
             SLACK_WEBHOOK_URL:projects/1027349420744/secrets/SLACK_WEBHOOK_URL
             BOT_SSH_KEY:projects/1027349420744/secrets/BOT_SSH_PRIVATE_KEY
@@ -99,7 +98,6 @@ jobs:
           echo '${{ steps.google-secrets.outputs.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY_JSON }}' > fastlane/google-play-service-account.json
       - env:
           RELEASE_STORE_PASSWORD: ${{ steps.google-secrets.outputs.RELEASE_STORE_PASSWORD }}
-          RELEASE_KEY_PASSWORD: ${{ steps.google-secrets.outputs.RELEASE_KEY_PASSWORD }}
           EMERGE_API_TOKEN: ${{ steps.google-secrets.outputs.EMERGE_API_TOKEN }}
           SUPPLY_UPLOAD_MAX_RETRIES: 5
           RUBYOPT: '-rostruct' # TODO: Remove when https://github.com/fastlane/fastlane/pull/21950 gets released
