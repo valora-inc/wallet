@@ -2286,7 +2286,10 @@
     "depositSubtitle_noTxAppName": "au pool inconnu",
     "withdrawTitle": "Retiré",
     "withdrawSubtitle": "du pool {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "d'une application inconnue"
+    "withdrawSubtitle_noTxAppName": "d'une application inconnue",
+    "claimRewardTitle": "Collecté",
+    "claimRewardSubtitle": "du pool {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "d'une application inconnue"
   },
   "transactionDetails": {
     "descriptionLabel": "Détails",
@@ -2298,6 +2301,10 @@
     "withdrawSubtitle": "Retirer {{tokenSymbol}} du Pool {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "{{tokenSymbol}} retirés d'application inconnue",
     "withdrawDetails": "Montant du retrait",
+    "claimRewardTitle": "Collecté",
+    "claimRewardSubtitle": "{{tokenSymbol}} collectés du pool {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "Recueille {{tokenSymbol}} à partir d'une application inconnue",
+    "claimRewardDetails": "Montant perçu",
     "swap": "Échange",
     "network": "Réseau",
     "fees": "Frais"
