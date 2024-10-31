@@ -2281,7 +2281,7 @@
     "crossChainSwapTransactionLabel": "Chuỗi chéo",
     "depositTitle": "Đã nạp",
     "depositSubtitle": "vào Quỹ {{txAppName}}",
-    "depositSubtitle_noTxAppName": "to unknown pool",
+    "depositSubtitle_noTxAppName": "to unknown app",
     "withdrawTitle": "Rút",
     "withdrawSubtitle": "từ Quỹ {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "from unknown app",
