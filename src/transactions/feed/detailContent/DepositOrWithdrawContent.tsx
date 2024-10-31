@@ -76,16 +76,16 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
             <View style={styles.swapValueContainer}>
               <TokenDisplay
                 testID="DepositOrWithdraw/Swap/From"
-                tokenId={transaction.swap.inAmount.tokenId}
-                amount={transaction.swap.inAmount.value}
+                tokenId={transaction.swap.outAmount.tokenId}
+                amount={transaction.swap.outAmount.value}
                 showLocalAmount={false}
                 style={styles.bodyText}
               />
               <ArrowRightThick size={20} color={Colors.black} />
               <TokenDisplay
                 testID="DepositOrWithdraw/Swap/To"
-                tokenId={transaction.swap.outAmount.tokenId}
-                amount={transaction.swap.outAmount.value}
+                tokenId={transaction.swap.inAmount.tokenId}
+                amount={transaction.swap.inAmount.value}
                 showLocalAmount={false}
                 style={styles.bodyText}
               />
