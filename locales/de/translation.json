@@ -2283,7 +2283,7 @@
     "crossChainSwapTransactionLabel": "Cross-Chain",
     "depositTitle": "Eingezahlt",
     "depositSubtitle": "in {{txAppName}} Pool",
-    "depositSubtitle_noTxAppName": "zum unbekannten Pool",
+    "depositSubtitle_noTxAppName": "zu unbekannter App",
     "withdrawTitle": "Abgehoben",
     "withdrawSubtitle": "aus {{txAppName}} Pool",
     "withdrawSubtitle_noTxAppName": "von unbekannter App",
