@@ -2281,7 +2281,7 @@
     "crossChainSwapTransactionLabel": "Cross-chain",
     "depositTitle": "ฝากแล้ว",
     "depositSubtitle": "ไปยังพูล {{txAppName}}",
-    "depositSubtitle_noTxAppName": "to unknown pool",
+    "depositSubtitle_noTxAppName": "to unknown app",
     "withdrawTitle": "ถอนแล้ว",
     "withdrawSubtitle": "จากพูล {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "from unknown app",
