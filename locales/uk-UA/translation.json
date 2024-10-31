@@ -2287,7 +2287,7 @@
     "crossChainSwapTransactionLabel": "Кроссчейн-обмін",
     "depositTitle": "Внесено",
     "depositSubtitle": "до пулу {{txAppName}}",
-    "depositSubtitle_noTxAppName": "до невідомого басейну",
+    "depositSubtitle_noTxAppName": "до невідомого додатку",
     "withdrawTitle": "Знято",
     "withdrawSubtitle": "з пулу {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "з невідомого додатку",
