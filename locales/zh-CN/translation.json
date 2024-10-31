@@ -2284,7 +2284,10 @@
     "depositSubtitle_noTxAppName": "未知池",
     "withdrawTitle": "已取出",
     "withdrawSubtitle": "从 {{txAppName}} 池",
-    "withdrawSubtitle_noTxAppName": "来自未知应用程序"
+    "withdrawSubtitle_noTxAppName": "来自未知应用程序",
+    "claimRewardTitle": "已领取",
+    "claimRewardSubtitle": "从 {{txAppName}} 池",
+    "claimRewardSubtitle_noTxAppName": "来自未知应用程序"
   },
   "transactionDetails": {
     "descriptionLabel": "详细信息",
@@ -2296,6 +2299,10 @@
     "withdrawSubtitle": "已从 {{txAppName}} 池取出 {{tokenSymbol}}",
     "withdrawSubtitle_noTxAppName": "从未知应用程序提取 {{tokenSymbol}}",
     "withdrawDetails": "已提取金额",
+    "claimRewardTitle": "已领取",
+    "claimRewardSubtitle": "已从 {{txAppName}} 池领取 {{tokenSymbol}}",
+    "claimRewardSubtitle_noTxAppName": "从未知应用程序中收集 {{tokenSymbol}}",
+    "claimRewardDetails": "已领取金额",
     "swap": "交换",
     "network": "网络",
     "fees": "费用"
