@@ -474,12 +474,12 @@ export function* claimSubmitSaga(action: PayloadAction<WithdrawInfo>) {
 
   if (!tokenInfo) {
     Logger.error(`${TAG}/claimSubmitSaga`, 'Token info not found for token id', tokenId)
+    yield* put(claimError())
     return
   }
 
   const networkId = tokenInfo.networkId
   let submitted = false
-
   const commonAnalyticsProps = {
     depositTokenId: tokenId,
     networkId,
@@ -521,8 +521,7 @@ export function* claimSubmitSaga(action: PayloadAction<WithdrawInfo>) {
       createClaimRewardStandbyTxHandlers.push(createClaimRewardStandbyTx)
     })
 
-    // Add Analytics event
-    // AppAnalytics.track(EarnEvents.earn_claim_submit_start, commonAnalyticsProps)
+    AppAnalytics.track(EarnEvents.earn_claim_submit_start, commonAnalyticsProps)
 
     const txHashes = yield* call(
       sendPreparedTransactions,
