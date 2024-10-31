@@ -2286,7 +2286,10 @@
     "depositSubtitle_noTxAppName": "bilinmeyen havuza",
     "withdrawTitle": "Çekilen",
     "withdrawSubtitle": "{{txAppName}} Havuzundan",
-    "withdrawSubtitle_noTxAppName": "bilinmeyen uygulamadan"
+    "withdrawSubtitle_noTxAppName": "bilinmeyen uygulamadan",
+    "claimRewardTitle": "Toplanan",
+    "claimRewardSubtitle": "{{txAppName}} Havuzundan",
+    "claimRewardSubtitle_noTxAppName": "bilinmeyen uygulamadan"
   },
   "transactionDetails": {
     "descriptionLabel": "Detaylar",
@@ -2298,6 +2301,10 @@
     "withdrawSubtitle": "{{txAppName}} Havuzundan {{tokenSymbol}} Çekildi",
     "withdrawSubtitle_noTxAppName": "Bilinmeyen uygulamadan {{tokenSymbol}} çekildi",
     "withdrawDetails": "Çekilen Tutar",
+    "claimRewardTitle": "Toplanan",
+    "claimRewardSubtitle": "{{txAppName}} Havuzundan {{tokenSymbol}} Toplandı",
+    "claimRewardSubtitle_noTxAppName": "Bilinmeyen uygulamadan {{tokenSymbol}} toplandı",
+    "claimRewardDetails": "Toplanan Tutar",
     "swap": "Swap",
     "network": "Ağ",
     "fees": "Ücretler"
