@@ -54,6 +54,7 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
   return (
     <TokenDisplay
       amount={amountValue}
+      localAmount={transaction.amount.localAmount}
       tokenId={tokenId}
       showLocalAmount={isLocal}
       showSymbol={true}

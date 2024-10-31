@@ -45,6 +45,7 @@ export function ClaimRewardContent({ transaction }: ClaimRewardProps) {
         </View>
         <TokenDisplay
           amount={transaction.amount.value}
+          localAmount={transaction.amount.localAmount}
           tokenId={transaction.amount.tokenId}
           style={styles.amountSubtitle}
         />
