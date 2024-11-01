@@ -1,5 +1,4 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import _ from 'lodash'
 import React, { useEffect } from 'react'
 import { RefreshControl, RefreshControlProps, SectionList } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
@@ -67,7 +66,9 @@ function TabActivity(_props: Props) {
         refreshControl={refresh}
         onRefresh={onRefresh}
         refreshing={isLoading}
-        contentContainerStyle={{ paddingBottom: insets.bottom }}
+        // set height so that the list scrolls correctly when the content is
+        // smaller than the screen.
+        contentContainerStyle={{ marginBottom: insets.bottom }}
         sections={sections}
         keyExtractor={keyExtractor}
         testID="WalletHome/SectionList"
