@@ -4,9 +4,14 @@ import { SwapEvents } from 'src/analytics/Events'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import * as TokenSelectors from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { updateTransactions } from 'src/transactions/actions'
 import { QueryResponse, handlePollResponse } from 'src/transactions/feed/queryHelper'
-import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import { updateTransactions } from 'src/transactions/slice'
+import {
+  NetworkId,
+  TokenTransaction,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 
 jest.mock('src/styles/hapticFeedback')
 
@@ -24,13 +29,13 @@ describe('handlePollResponse', () => {
   } as TokenTransaction
 
   const mockPendingCrossChainTransaction = {
-    __typename: 'CrossChainTokenExchange',
+    type: TokenTransactionTypeV2.CrossChainSwapTransaction,
     transactionHash: '0xabc',
     status: TransactionStatus.Pending,
   } as TokenTransaction
 
   const mockCompletedCrossChainTransaction = {
-    __typename: 'CrossChainTokenExchange',
+    type: TokenTransactionTypeV2.CrossChainSwapTransaction,
     transactionHash: '0xabc',
     status: TransactionStatus.Complete,
     inAmount: {
@@ -98,7 +103,7 @@ describe('handlePollResponse', () => {
     expect(vibrateSuccess).toHaveBeenCalledTimes(1)
     expect(dispatchSpy).toHaveBeenCalledTimes(1)
     expect(dispatchSpy).toHaveBeenCalledWith(
-      updateTransactions(NetworkId['celo-mainnet'], mockTransactions)
+      updateTransactions({ networkId: NetworkId['celo-mainnet'], transactions: mockTransactions })
     )
   })
 
@@ -119,7 +124,7 @@ describe('handlePollResponse', () => {
     expect(vibrateSuccess).toHaveBeenCalledTimes(1)
     expect(dispatchSpy).toHaveBeenCalledTimes(1)
     expect(dispatchSpy).toHaveBeenCalledWith(
-      updateTransactions(NetworkId['celo-mainnet'], mockTransactions)
+      updateTransactions({ networkId: NetworkId['celo-mainnet'], transactions: mockTransactions })
     )
   })
 
@@ -155,7 +160,7 @@ describe('handlePollResponse', () => {
     expect(vibrateSuccess).not.toHaveBeenCalled()
     expect(dispatchSpy).toHaveBeenCalledTimes(1)
     expect(dispatchSpy).toHaveBeenCalledWith(
-      updateTransactions(NetworkId['celo-mainnet'], mockTransactions)
+      updateTransactions({ networkId: NetworkId['celo-mainnet'], transactions: mockTransactions })
     )
   })
 

@@ -147,7 +147,6 @@ describe('depositSubmitSaga', () => {
   }
 
   const expectedApproveStandbyTx = {
-    __typename: 'TokenApproval',
     context: {
       id: 'id-earn/saga-Earn/Approve',
       tag: 'earn/saga',
@@ -162,7 +161,6 @@ describe('depositSubmitSaga', () => {
   }
 
   const expectedDepositStandbyTx = {
-    __typename: 'EarnDeposit',
     context: {
       id: 'id-earn/saga-Earn/Deposit',
       tag: 'earn/saga',
@@ -184,7 +182,6 @@ describe('depositSubmitSaga', () => {
   }
 
   const expectedSwapDepositStandbyTx = {
-    __typename: 'EarnSwapDeposit',
     context: {
       id: 'id-earn/saga-Earn/SwapDeposit',
       tag: 'earn/saga',
@@ -734,7 +731,6 @@ describe('withdrawSubmitSaga', () => {
   }
 
   const expectedWithdrawStandbyTx = {
-    __typename: 'EarnWithdraw',
     context: {
       id: 'id-earn/saga-Earn/Withdraw',
       tag: 'earn/saga',
@@ -757,7 +753,6 @@ describe('withdrawSubmitSaga', () => {
 
   // TODO: replace with EarnClaimReward type
   const expectedClaimRewardTx = {
-    __typename: 'EarnClaimReward',
     context: {
       id: 'id-earn/saga-Earn/ClaimReward-1',
       tag: 'earn/saga',
@@ -809,6 +804,45 @@ describe('withdrawSubmitSaga', () => {
       EarnEvents.earn_withdraw_submit_success,
       expectedAnalyticsPropsWithRewards
     )
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
+  })
+
+  it('sends withdraw and claim transactions, navigates home and dispatches the success action (amount set & gas subsidy off)', async () => {
+    await expectSaga(withdrawSubmitSaga, {
+      type: withdrawStart.type,
+      payload: {
+        pool: mockPool,
+        preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
+        rewardsTokens: mockRewardsPositions[1].tokens,
+        amount: '5',
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide(sagaProviders)
+      .put(withdrawSuccess())
+      .put(fetchTokenBalances({ showLoading: false }))
+      .call.like({ fn: sendPreparedTransactions })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
+      .run()
+
+    expect(navigateHome).toHaveBeenCalled()
+    expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, {
+      ...expectedWithdrawStandbyTx,
+      inAmount: { ...expectedWithdrawStandbyTx.inAmount, value: '5' },
+      outAmount: { ...expectedWithdrawStandbyTx.outAmount, value: '5' },
+    })
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedClaimRewardTx)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_start, {
+      ...expectedAnalyticsPropsWithRewards,
+      tokenAmount: '5',
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_success, {
+      ...expectedAnalyticsPropsWithRewards,
+      tokenAmount: '5',
+    })
     expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
     expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
   })

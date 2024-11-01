@@ -8,7 +8,7 @@ interface Props {
   size?: number
 }
 
-function EarnCoins({ color = colors.primary, testID = 'EarnCoins', size = 24 }: Props) {
+function EarnCoins({ color = colors.accent, testID = 'EarnCoins', size = 24 }: Props) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" testID={testID}>
       <Path

@@ -15,7 +15,7 @@ import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import PointsDiscoverCard from 'src/points/PointsDiscoverCard'
 import { earnPositionsSelector } from 'src/positions/selectors'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 

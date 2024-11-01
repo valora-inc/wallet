@@ -1,35 +1,41 @@
+import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
 import Toast from 'react-native-simple-toast'
 import { showError } from 'src/alert/actions'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
+import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { store } from 'src/redux/store'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
+import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
-import NoActivity from 'src/transactions/NoActivity'
-import { removeDuplicatedStandByTransactions } from 'src/transactions/actions'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { useTransactionFeedV2Query } from 'src/transactions/api'
+import ClaimRewardFeedItem from 'src/transactions/feed/ClaimRewardFeedItem'
+import DepositOrWithdrawFeedItem from 'src/transactions/feed/DepositOrWithdrawFeedItem'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
-import { allStandbyTransactionsSelector } from 'src/transactions/reducer'
+import NoActivity from 'src/transactions/NoActivity'
+import { allStandbyTransactionsSelector, feedFirstPageSelector } from 'src/transactions/selectors'
 import {
+  FeeType,
   TokenTransactionTypeV2,
   TransactionStatus,
   type NetworkId,
-  type NftTransfer,
-  type TokenApproval,
-  type TokenEarn,
   type TokenExchange,
   type TokenTransaction,
-  type TokenTransfer,
 } from 'src/transactions/types'
 import {
   groupFeedItemsInSections,
@@ -39,16 +45,67 @@ import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type PaginatedData = {
-  [timestamp: number]: TokenTransaction[]
+  [FIRST_PAGE_CURSOR]: TokenTransaction[]
+  [endCursor: string]: TokenTransaction[]
 }
 
+const FIRST_PAGE_CURSOR = 'FIRST_PAGE'
 const MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL = 10
-const POLL_INTERVAL_MS = 10000 // 10 sec
-const FIRST_PAGE_TIMESTAMP = 0 // placeholder
+const POLL_INTERVAL_MS = 10_000 // 10 sec
 const TAG = 'transactions/feed/TransactionFeedV2'
 
 function getAllowedNetworksForTransfers() {
   return getMultichainFeatures().showTransfers
+}
+
+function trackCompletionOfCrossChainSwaps(transactions: TokenExchange[]) {
+  const tokensById = tokensByIdSelector(store.getState(), getSupportedNetworkIdsForSwap())
+
+  for (const tx of transactions) {
+    const toTokenPrice = tokensById[tx.inAmount.tokenId]?.priceUsd
+    const fromTokenPrice = tokensById[tx.outAmount.tokenId]?.priceUsd
+
+    const networkFee = tx.fees.find((fee) => fee.type === FeeType.SecurityFee)
+    const networkFeeTokenPrice = networkFee && tokensById[networkFee?.amount.tokenId]?.priceUsd
+    const appFee = tx.fees.find((fee) => fee.type === FeeType.AppFee)
+    const appFeeTokenPrice = appFee && tokensById[appFee?.amount.tokenId]?.priceUsd
+    const crossChainFee = tx.fees.find((fee) => fee.type === FeeType.CrossChainFee)
+    const crossChainFeeTokenPrice =
+      crossChainFee && tokensById[crossChainFee?.amount.tokenId]?.priceUsd
+
+    AppAnalytics.track(SwapEvents.swap_execute_success, {
+      swapType: 'cross-chain',
+      swapExecuteTxId: tx.transactionHash,
+      toTokenId: tx.inAmount.tokenId,
+      toTokenAmount: tx.inAmount.value.toString(),
+      toTokenAmountUsd: toTokenPrice
+        ? BigNumber(tx.inAmount.value).times(toTokenPrice).toNumber()
+        : undefined,
+      fromTokenId: tx.outAmount.tokenId,
+      fromTokenAmount: tx.outAmount.value.toString(),
+      fromTokenAmountUsd: fromTokenPrice
+        ? BigNumber(tx.outAmount.value).times(fromTokenPrice).toNumber()
+        : undefined,
+      networkFeeTokenId: networkFee?.amount.tokenId,
+      networkFeeAmount: networkFee?.amount.value.toString(),
+      networkFeeAmountUsd:
+        networkFeeTokenPrice && networkFee.amount.value
+          ? BigNumber(networkFee.amount.value).times(networkFeeTokenPrice).toNumber()
+          : undefined,
+      appFeeTokenId: appFee?.amount.tokenId,
+      appFeeAmount: appFee?.amount.value.toString(),
+      appFeeAmountUsd:
+        appFeeTokenPrice && appFee.amount.value
+          ? BigNumber(appFee.amount.value).times(appFeeTokenPrice).toNumber()
+          : undefined,
+      crossChainFeeTokenId: crossChainFee?.amount.tokenId,
+      crossChainFeeAmount: crossChainFee?.amount.value.toString(),
+      crossChainFeeAmountUsd:
+        crossChainFeeTokenPrice && crossChainFee.amount.value
+          ? BigNumber(crossChainFee.amount.value).times(crossChainFeeTokenPrice).toNumber()
+          : undefined,
+    })
+  }
 }
 
 /**
@@ -112,10 +169,12 @@ function mergeStandByTransactionsInRange({
   transactions,
   standByTransactions,
   currentCursor,
+  isLastPage,
 }: {
   transactions: TokenTransaction[]
   standByTransactions: TokenTransaction[]
-  currentCursor?: number
+  currentCursor: keyof PaginatedData
+  isLastPage: boolean
 }): TokenTransaction[] {
   /**
    * If the data from the first page is empty - there's no successful transactions in the wallet.
@@ -123,7 +182,7 @@ function mergeStandByTransactionsInRange({
    * In this case we need to show whatever we've got in standByTransactions, until we have some
    * paginated data to merge it with.
    */
-  const isFirstPage = currentCursor === FIRST_PAGE_TIMESTAMP
+  const isFirstPage = currentCursor === FIRST_PAGE_CURSOR
   if (isFirstPage && transactions.length === 0) {
     return standByTransactions
   }
@@ -140,7 +199,8 @@ function mergeStandByTransactionsInRange({
   const standByInRange = standByTransactions.filter((tx) => {
     const inRange = tx.timestamp >= min && tx.timestamp <= max
     const newTransaction = isFirstPage && tx.timestamp > max
-    return inRange || newTransaction
+    const veryOldTransaction = isLastPage && tx.timestamp < min
+    return inRange || newTransaction || veryOldTransaction
   })
   const deduplicatedTransactions = deduplicateTransactions([...transactions, ...standByInRange])
   const transactionsFromAllowedNetworks = deduplicatedTransactions.filter((tx) =>
@@ -187,25 +247,74 @@ function useStandByTransactions() {
   }, [standByTransactions, allowedNetworkForTransfers])
 }
 
+/**
+ * In order to properly detect if any of the existing pending transactions turned into completed
+ * we need to listen to the updates of stand by transactions. Whenever we detect that a completed
+ * transaction was in pending status on previous render - we consider it a newly completed transaction.
+ */
+function useNewlyCompletedTransactions(
+  standByTransactions: ReturnType<typeof useStandByTransactions>
+) {
+  const [{ hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps }, setPreviousStandBy] =
+    useState({
+      pending: [] as TokenTransaction[],
+      confirmed: [] as TokenTransaction[],
+      newlyCompletedCrossChainSwaps: [] as TokenExchange[],
+      hasNewlyCompletedTransactions: false,
+    })
+
+  useEffect(
+    function updatePrevStandBy() {
+      setPreviousStandBy((prev) => {
+        const confirmedHashes = standByTransactions.confirmed.map((tx) => tx.transactionHash)
+        const newlyCompleted = prev.pending.filter((tx) => {
+          return confirmedHashes.includes(tx.transactionHash)
+        })
+        const newlyCompletedCrossChainSwaps = newlyCompleted.filter(
+          (tx): tx is TokenExchange => tx.type === TokenTransactionTypeV2.CrossChainSwapTransaction
+        )
+
+        return {
+          pending: [...standByTransactions.pending],
+          confirmed: [...standByTransactions.confirmed],
+          newlyCompletedCrossChainSwaps,
+          hasNewlyCompletedTransactions: !!newlyCompleted.length,
+        }
+      })
+    },
+    [standByTransactions]
+  )
+
+  return {
+    hasNewlyCompletedTransactions,
+    newlyCompletedCrossChainSwaps,
+  }
+}
+
 function renderItem({ item: tx }: { item: TokenTransaction }) {
   switch (tx.type) {
     case TokenTransactionTypeV2.Exchange:
     case TokenTransactionTypeV2.SwapTransaction:
     case TokenTransactionTypeV2.CrossChainSwapTransaction:
-      return <SwapFeedItem key={tx.transactionHash} transaction={tx as TokenExchange} />
+      return <SwapFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.Sent:
     case TokenTransactionTypeV2.Received:
-      return <TransferFeedItem key={tx.transactionHash} transfer={tx as TokenTransfer} />
+      return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
     case TokenTransactionTypeV2.NftSent:
     case TokenTransactionTypeV2.NftReceived:
-      return <NftFeedItem key={tx.transactionHash} transaction={tx as NftTransfer} />
+      return <NftFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.Approval:
-      return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx as TokenApproval} />
+      return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
+    case TokenTransactionTypeV2.Deposit:
+    case TokenTransactionTypeV2.Withdraw:
+      return <DepositOrWithdrawFeedItem key={tx.transactionHash} transaction={tx} />
+    case TokenTransactionTypeV2.ClaimReward:
+      return <ClaimRewardFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.EarnDeposit:
     case TokenTransactionTypeV2.EarnSwapDeposit:
     case TokenTransactionTypeV2.EarnWithdraw:
     case TokenTransactionTypeV2.EarnClaimReward:
-      return <EarnFeedItem key={tx.transactionHash} transaction={tx as TokenEarn} />
+      return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
   }
 }
 
@@ -213,82 +322,68 @@ export default function TransactionFeedV2() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
+  const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const standByTransactions = useStandByTransactions()
-  const [endCursor, setEndCursor] = useState(FIRST_PAGE_TIMESTAMP)
-  const [paginatedData, setPaginatedData] = useState<PaginatedData>({ [FIRST_PAGE_TIMESTAMP]: [] })
+  const feedFirstPage = useSelector(feedFirstPageSelector)
+  const { hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps } =
+    useNewlyCompletedTransactions(standByTransactions)
+  const [endCursor, setEndCursor] = useState<string | undefined>(undefined)
+  const [paginatedData, setPaginatedData] = useState<PaginatedData>({
+    [FIRST_PAGE_CURSOR]: feedFirstPage,
+  })
 
-  /**
-   * This hook automatically fetches the pagination data when (and only when) the endCursor changes
-   * (we can safely ignore wallet address change as it's impossible to get changed on the fly).
-   * When components mounts, it fetches data for the first page using FIRST_PAGE_TIMESTAMP for endCursor
-   * (which is ignored in the request only for the first page as it's just an endCursor placeholder).
-   * Once the data is returned – we process it with "selectFromResult" for convenience and return the
-   * data. It gets further processed within the "updatePaginatedData" useEffect.
-   *
-   * Cursor for the next page is the timestamp of the last transaction of the last fetched page.
-   * This hook doesn't refetch data for none of the pages, neither does it do any polling. It's
-   * intention is to only fetch the next page whenever endCursor changes. Polling is handled by
-   * calling the same hook below.
-   */
-  const { data, originalArgs, nextCursor, isFetching, error } = useTransactionFeedV2Query(
-    { address: address!, endCursor },
-    {
-      skip: !address,
-      refetchOnMountOrArgChange: true,
-      selectFromResult: (result) => ({
-        ...result,
-        nextCursor: result.data?.transactions.at(-1)?.timestamp,
-      }),
-    }
+  const { data, isFetching, error } = useTransactionFeedV2Query(
+    { address: address!, endCursor, localCurrencyCode },
+    { skip: !address, refetchOnMountOrArgChange: true }
   )
 
   /**
-   * This is the same hook as above and it only triggers the fetch request. It's intention is to
-   * only poll the data for the first page of the feed, using the FIRST_PAGE_TIMESTAMP endCursor.
-   * Thanks to how RTK-Query stores the fetched data, we know that using "useTransactionFeedV2Query"
-   * with the same arguments in multiple places will always point to the same data. This means, that
-   * we can trigger fetch request here and once data arrives - the same hook above will re-run the
-   * "selectFromResult" function for FIRST_PAGE_TIMESTAMP endCursor and will trigger the data update
-   * flow for the first page.
+   * This is the same hook as above and it only polls the first page of the feed. Thanks to how
+   * RTK-Query stores the fetched data, we know that using "useTransactionFeedV2Query" with the
+   * same arguments in multiple places will always point to the same data. This means that we can
+   * trigger fetch request here and once data arrives - the same hook above will also get the same data.
    */
   useTransactionFeedV2Query(
-    { address: address!, endCursor: FIRST_PAGE_TIMESTAMP },
+    { address: address!, localCurrencyCode, endCursor: undefined },
     { skip: !address, pollingInterval: POLL_INTERVAL_MS }
   )
 
+  /**
+   * There are only 2 scenarios when we actually update the paginated data:
+   *
+   * 1. Always update the first page. First page will be polled every "POLL_INTERVAL"
+   *    milliseconds. Whenever new data arrives - replace the existing first page data
+   *    with the new data as it might contain some updated information about the transactions
+   *    that are already present or new transactions. The first page should not contain an
+   *    empty array, unless wallet doesn't have any transactions at all.
+   *
+   * 2. Data for every page after the first page is only set once. Considering the big enough
+   *    page size (currently 100 transactions per page) all the pending transactions are supposed
+   *    to arrive in the first page so everything after the first page can be considered confirmed
+   *    (completed/failed). For this reason, there's no point in updating the data as its very unlikely to update.
+   */
   useEffect(
     function updatePaginatedData() {
-      if (isFetching) return
+      if (isFetching || !data) return
 
-      const currentCursor = originalArgs?.endCursor // timestamp from the last transaction from the previous page.
-      const transactions = data?.transactions || []
+      const isLastPage = !data.pageInfo.hasNextPage
+      const currentCursor = data.pageInfo.hasPreviousPage
+        ? data.pageInfo.startCursor
+        : FIRST_PAGE_CURSOR
 
-      /**
-       * There are only 2 scenarios when we actually update the paginated data:
-       *
-       * 1. Always update the first page. First page will be polled every "POLL_INTERVAL"
-       *    milliseconds. Whenever new data arrives - replace the existing first page data
-       *    with the new data as it might contain some updated information about the transactions
-       *    that are already present. The first page should not contain an empty array, unless
-       *    wallet doesn't have any transactions at all.
-       *
-       * 2. Data for every page after the first page is only set once. All the pending transactions
-       *    are supposed to arrive in the first page so everything after the first page can be
-       *    considered confirmed (completed/failed). For this reason, there's no point in updating
-       *    the data as its very unlikely to update.
-       */
       setPaginatedData((prev) => {
-        const isFirstPage = currentCursor === FIRST_PAGE_TIMESTAMP
+        const isFirstPage = currentCursor === FIRST_PAGE_CURSOR
         const pageDataIsAbsent =
-          currentCursor !== FIRST_PAGE_TIMESTAMP && // not the first page
+          currentCursor !== FIRST_PAGE_CURSOR && // not the first page
           currentCursor !== undefined && // it is a page after the first
           prev[currentCursor] === undefined // data for this page wasn't stored yet
 
         if (isFirstPage || pageDataIsAbsent) {
           const mergedTransactions = mergeStandByTransactionsInRange({
-            transactions,
+            transactions: data.transactions,
             standByTransactions: standByTransactions.confirmed,
             currentCursor,
+            isLastPage,
           })
 
           return { ...prev, [currentCursor!]: mergedTransactions }
@@ -297,7 +392,7 @@ export default function TransactionFeedV2() {
         return prev
       })
     },
-    [isFetching, data?.transactions, originalArgs?.endCursor, standByTransactions.confirmed]
+    [isFetching, data, standByTransactions.confirmed]
   )
 
   useEffect(
@@ -310,20 +405,26 @@ export default function TransactionFeedV2() {
     [error]
   )
 
-  /**
-   * In order to avoid bloating stand by transactions with confirmed transactions that are already
-   * present in the feed via pagination – we need to cleanup them up. This must run for every page
-   * as standByTransaction selector might include very old transactions. We should use the chance
-   * whenever the user managed to scroll to those old transactions and remove them from persisted
-   * storage. Maybe there is a better way to keep it clean with another saga watcher?
-   */
   useEffect(
-    function cleanupStandByTransactions() {
-      if (data?.transactions.length) {
-        dispatch(removeDuplicatedStandByTransactions(data.transactions))
+    function vibrateForNewlyCompletedTransactions() {
+      const isFirstPage = data?.pageInfo.hasPreviousPage
+        ? data.pageInfo.startCursor
+        : FIRST_PAGE_CURSOR
+
+      if (isFirstPage && hasNewlyCompletedTransactions) {
+        vibrateSuccess()
       }
     },
-    [data?.transactions]
+    [hasNewlyCompletedTransactions, data?.pageInfo]
+  )
+
+  useEffect(
+    function trackCrossChainSwaps() {
+      if (newlyCompletedCrossChainSwaps.length) {
+        trackCompletionOfCrossChainSwaps(newlyCompletedCrossChainSwaps)
+      }
+    },
+    [newlyCompletedCrossChainSwaps]
   )
 
   const confirmedTransactions = useMemo(() => {
@@ -348,10 +449,9 @@ export default function TransactionFeedV2() {
     )
   }
 
-  // This logic will change once the real api is connected
   function fetchMoreTransactions() {
-    if (nextCursor) {
-      setEndCursor(nextCursor)
+    if (data?.pageInfo.hasNextPage && data?.pageInfo.endCursor) {
+      setEndCursor(data.pageInfo.endCursor)
       return
     }
 
@@ -375,7 +475,7 @@ export default function TransactionFeedV2() {
       />
       {isFetching && (
         <View style={styles.centerContainer} testID="TransactionList/loading">
-          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.primary} />
+          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
         </View>
       )}
     </>

@@ -210,7 +210,7 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
               hitSlop={variables.iconHitslop}
               testID="AssetsTokenBalance/Info"
             >
-              <InfoIcon color={Colors.primary} />
+              <InfoIcon color={Colors.accent} />
             </TouchableOpacity>
           )}
         </View>

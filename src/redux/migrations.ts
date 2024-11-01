@@ -1917,4 +1917,12 @@ export const migrations = {
     app: _.omit(state.app, 'numberVerified'),
   }),
   233: (state: any) => state,
+  234: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      feedFirstPage: [],
+    },
+  }),
+  235: (state: any) => state,
 }

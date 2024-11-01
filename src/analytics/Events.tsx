@@ -682,4 +682,6 @@ export enum EarnEvents {
   earn_pool_info_tap_info_icon = 'earn_pool_info_tap_info_icon',
   earn_pool_info_tap_withdraw = 'earn_pool_info_tap_withdraw',
   earn_pool_info_tap_deposit = 'earn_pool_info_tap_deposit',
+  earn_pool_info_tap_safety_details = 'earn_pool_info_tap_safety_details',
+  earn_select_withdraw_type = 'earn_select_withdraw_type',
 }

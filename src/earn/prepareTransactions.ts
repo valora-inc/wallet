@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { useAsyncCallback } from 'react-async-hook'
-import { EarnDepositMode, PrepareWithdrawAndClaimParams } from 'src/earn/types'
+import { EarnActiveMode, PrepareWithdrawAndClaimParams } from 'src/earn/types'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
 import { RawShortcutTransaction } from 'src/positions/slice'
@@ -34,7 +34,7 @@ export async function prepareDepositTransactions({
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
   hooksApiUrl: string
-  shortcutId: EarnDepositMode
+  shortcutId: Exclude<EarnActiveMode, 'exit'>
 }) {
   const { enableAppFee } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG])
   const args =
@@ -93,32 +93,14 @@ export async function prepareDepositTransactions({
   }
 }
 
-/**
- * Hook to prepare transactions for supplying crypto.
- */
-export function usePrepareDepositTransactions() {
-  const prepareTransactions = useAsyncCallback(prepareDepositTransactions, {
-    onError: (err) => {
-      const error = ensureError(err)
-      Logger.error(TAG, 'usePrepareDepositTransactions', error)
-    },
-  })
-
-  return {
-    prepareTransactionsResult: prepareTransactions.result,
-    refreshPreparedTransactions: prepareTransactions.execute,
-    clearPreparedTransactions: prepareTransactions.reset,
-    prepareTransactionError: prepareTransactions.error,
-    isPreparingTransactions: prepareTransactions.loading,
-  }
-}
-
 export async function prepareWithdrawAndClaimTransactions({
   pool,
   walletAddress,
   feeCurrencies,
   hooksApiUrl,
   rewardsPositions,
+  amount,
+  useMax = true,
 }: PrepareWithdrawAndClaimParams) {
   const { dataProps, balance, appId, networkId, shortcutTriggerArgs } = pool
   const { transactions: withdrawTransactions }: { transactions: RawShortcutTransaction[] } =
@@ -130,8 +112,8 @@ export async function prepareWithdrawAndClaimTransactions({
       tokens: [
         {
           tokenId: dataProps.withdrawTokenId,
-          amount: balance,
-          useMax: true,
+          amount: useMax ? balance : amount,
+          useMax,
         },
       ],
       ...shortcutTriggerArgs?.withdraw,
@@ -163,4 +145,73 @@ export async function prepareWithdrawAndClaimTransactions({
     isGasSubsidized: isGasSubsidizedForNetwork(pool.networkId),
     origin: 'earn-withdraw',
   })
+}
+
+export async function prepareWithdrawTransactions({
+  amount,
+  token,
+  walletAddress,
+  feeCurrencies,
+  pool,
+  hooksApiUrl,
+  shortcutId,
+  useMax,
+}: {
+  amount: string
+  token: TokenBalance
+  walletAddress: Address
+  feeCurrencies: TokenBalance[]
+  pool: EarnPosition
+  hooksApiUrl: string
+  shortcutId: Exclude<EarnActiveMode, 'exit'>
+  useMax: boolean
+}) {
+  const { dataProps } = pool
+  const { transactions }: { transactions: RawShortcutTransaction[] } = await triggerShortcutRequest(
+    hooksApiUrl,
+    {
+      address: walletAddress,
+      appId: pool.appId,
+      networkId: pool.networkId,
+      shortcutId,
+      tokens: [
+        {
+          tokenId: dataProps.withdrawTokenId,
+          amount,
+          useMax,
+        },
+      ],
+      ...pool.shortcutTriggerArgs?.[shortcutId],
+    }
+  )
+
+  return {
+    prepareTransactionsResult: await prepareTransactions({
+      feeCurrencies,
+      baseTransactions: rawShortcutTransactionsToTransactionRequests(transactions),
+      isGasSubsidized: isGasSubsidizedForNetwork(token.networkId),
+      origin: `earn-${shortcutId}`,
+    }),
+    swapTransaction: undefined,
+  }
+}
+
+export function usePrepareTransactions(mode: EarnActiveMode) {
+  const prepareTransactions = useAsyncCallback(
+    mode === 'withdraw' ? prepareWithdrawTransactions : prepareDepositTransactions,
+    {
+      onError: (err) => {
+        const error = ensureError(err)
+        Logger.error(TAG, 'usePrepareWithdrawTransactions', error)
+      },
+    }
+  )
+
+  return {
+    prepareTransactionsResult: prepareTransactions.result,
+    refreshPreparedTransactions: prepareTransactions.execute,
+    clearPreparedTransactions: prepareTransactions.reset,
+    prepareTransactionError: prepareTransactions.error,
+    isPreparingTransactions: prepareTransactions.loading,
+  }
 }

@@ -2280,7 +2280,34 @@
     "infiniteApprovalDescription": "Approved infinite {{tokenSymbol}} for trade",
     "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
     "descriptionLabel": "Details",
-    "crossChainSwapTransactionLabel": "Cross-chain"
+    "crossChainSwapTransactionLabel": "Cross-chain",
+    "depositTitle": "Deposited",
+    "depositSubtitle": "to {{txAppName}} Pool",
+    "depositSubtitle_noTxAppName": "to unknown app",
+    "withdrawTitle": "Withdrew",
+    "withdrawSubtitle": "from {{txAppName}} Pool",
+    "withdrawSubtitle_noTxAppName": "from unknown app",
+    "claimRewardTitle": "Collected",
+    "claimRewardSubtitle": "from {{txAppName}} Pool",
+    "claimRewardSubtitle_noTxAppName": "from unknown app"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Details",
+    "depositTitle": "Deposited",
+    "depositSubtitle": "Deposited {{tokenSymbol}} to {{txAppName}} Pool",
+    "depositSubtitle_noTxAppName": "Deposited {{tokenSymbol}} to unknown app",
+    "depositDetails": "Amount Deposited",
+    "withdrawTitle": "Withdrew",
+    "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{txAppName}} Pool",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Amount Withdrawn",
+    "claimRewardTitle": "Collected",
+    "claimRewardSubtitle": "Collected {{tokenSymbol}} from {{txAppName}} Pool",
+    "claimRewardSubtitle_noTxAppName": "Collected {{tokenSymbol}} from unknown app",
+    "claimRewardDetails": "Amount Collected",
+    "swap": "Swap",
+    "network": "Network",
+    "fees": "Fees"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2552,9 +2579,12 @@
     },
     "enterAmount": {
       "title": "How much would you like to deposit?",
+      "titleWithdraw": "How much would you like to withdraw?",
       "deposit": "Deposit",
       "fees": "Fees",
+      "available": "Available",
       "swap": "Swap",
+      "claimingReward": "Claiming Reward",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
@@ -2574,6 +2604,7 @@
         "estNetworkFee": "Est. Network Fee",
         "maxNetworkFee": "Max Network Fee",
         "networkFeeDescription": "The network fee is required by the network to process the deposit transaction.",
+        "networkFeeDescriptionWithdrawal": "The network fee is required by the network to process the withdrawal transaction.",
         "networkSwapFeeDescription": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
         "appSwapFee": "{{appName}} Fee"
       },
@@ -2583,6 +2614,10 @@
         "swapTo": "Swap To",
         "whySwap": "Why am I swapping?",
         "swapDescription": "To deposit funds into the pool, your token is being swapped into a pool token."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Withdrawing and Claiming",
+        "description": "{{providerName}} requires you to claim all available rewards anytime you withdraw."
       }
     },
     "activePools": {
@@ -2616,12 +2651,19 @@
     },
     "collect": {
       "title": "Congratulations! Review & collect your earnings",
+      "titleClaim": "You’re going to claim:",
+      "titleCollect": "You’re going to collect:",
+      "titleWithdraw": "You’re going to withdraw:",
       "total": "TOTAL",
       "plus": "PLUS",
+      "reward": "REWARD",
       "rate": "Rate (est.)",
       "apy": "{{apy}}% APY",
       "fee": "Gas Fee",
       "cta": "Collect Earnings",
+      "ctaWithdraw": "Withdraw",
+      "ctaReward": "Claim Reward",
+      "ctaExit": "Exit Pool",
       "errorTitle": "Something went wrong",
       "errorDescription": "Unable to fetch deposit details. Please try again.",
       "noGasTitle": "You need more {{symbol}} to continue",
@@ -2697,12 +2739,28 @@
       "ratePercent": "{{rate}}%",
       "rewards": "Rewards",
       "noRewards": "No rewards",
+      "safetyScore": "Safety Score",
       "tvl": "TVL",
       "ageOfPool": "Age of Pool",
       "learnMoreOnProvider": "View Pool on {{providerName}}",
       "deposit": "Deposit",
       "depositAndEarnings": "Deposit & Earnings",
       "withdraw": "Withdraw",
+      "withdrawBottomSheet": {
+        "title": "Select withdraw type",
+        "withdrawAndClaim": "Withdraw and Claim",
+        "withdrawDescription": "Withdraw a specific amount of any tokens you have deposited in the pool",
+        "withdrawAndClaimRewardsDescription": "Withdraw a specific amount of any tokens you have deposited in the pool and claim your rewards automatically",
+        "withdrawAndClaimEarningsDescription": "Withdraw a specific amount of any tokens you have deposited in the pool and claim your earnings automatically",
+        "claimRewards": "Claim Rewards",
+        "claimRewardsDescription": "Claim your rewards. Partial amounts of the reward cannot be claimed",
+        "claimEarnings": "Claim Earnings",
+        "claimEarningsDescription": "Claim the earnings on your deposit. Partial amounts cannot be claimed",
+        "exit": "Exit",
+        "exitDescription": "Exiting will withdraw everything you have in the pool",
+        "exitWithRewardsDescription": "Exiting will withdraw everything you have in the pool, including rewards",
+        "exitWithEarningsDescription": "Exiting will withdraw everything you have in the pool, including earnings"
+      },
       "totalDepositAndEarnings": "Total Deposit & Earnings",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
@@ -2718,8 +2776,13 @@
         "yieldRateDescription": "While most pools offer earnings in the form of a liquidity pool token, some give additional token(s) as a reward or added incentive.\n\nSince {{appName}} aggregates pools across multiple protocols, we have combined all the earning and reward rates into a single, overall yield rate to help easily evaluate your earning potential. This number is an estimate since the earning and reward values fluctuate constantly.\n\nFor further information about earning breakdowns you can visit <0>{{providerName}}</0>.",
         "dailyYieldRateTitle": "Daily Rate",
         "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
-        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}"
-      }
+        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}",
+        "safetyScoreTitle": "Safety Score",
+        "safetyScoreDescription": "The Safety Score breaks down the safety of the underlying vault asset into several key factors. It aims to draw your attention to the risks to consider before investing, and to inform you about technical details that you may not be able to evaluate for yourself.\nThough the full position is always more complicated, the Safety Score is provided to simplify the key risk and safety considerations and kick-start your own due diligence. Our team carefully considers each factor before a vault is deployed, and keeps a watchful eye on each asset, chain and protocol which {{providerName}} has integrated.",
+        "safetyScoreRateLink": "View More Safety Score Details On {{providerName}}"
+      },
+      "viewMoreDetails": "View More Details",
+      "viewLessDetails": "View Less Details"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",

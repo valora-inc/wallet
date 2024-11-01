@@ -109,7 +109,7 @@ describe('JumpstartTransactionDetailsScreen', () => {
     fees = [],
     status = TransactionStatus.Complete,
   }: {
-    type: TokenTransactionTypeV2
+    type: TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
     address?: string
     amount?: TokenAmount
     metadata?: TokenTransferMetadata
@@ -117,7 +117,6 @@ describe('JumpstartTransactionDetailsScreen', () => {
     status?: TransactionStatus
   }): TokenTransfer {
     return {
-      __typename: 'TokenTransferV3',
       networkId: NetworkId['celo-alfajores'],
       type,
       transactionHash: mockTransactionHash,

@@ -6,10 +6,13 @@ import { TransactionDetailsEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams } from 'src/statsig'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import {
+  ClaimReward,
+  DepositOrWithdraw,
   EarnClaimReward,
   EarnDeposit,
   EarnSwapDeposit,
@@ -42,6 +45,7 @@ import {
   mockCeloTokenId,
   mockCeurAddress,
   mockCeurTokenId,
+  mockClaimRewardTransaction,
   mockCusdAddress,
   mockCusdTokenId,
   mockDisplayNumber2,
@@ -112,7 +116,7 @@ describe('TransactionDetailsScreen', () => {
     fees = [],
     status = TransactionStatus.Complete,
   }: {
-    type: TokenTransactionTypeV2
+    type: TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
     address?: string
     amount?: TokenAmount
     metadata?: TokenTransferMetadata
@@ -120,7 +124,6 @@ describe('TransactionDetailsScreen', () => {
     status?: TransactionStatus
   }): TokenTransfer {
     return {
-      __typename: 'TokenTransferV3',
       networkId: NetworkId['celo-alfajores'],
       type,
       transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
@@ -167,7 +170,6 @@ describe('TransactionDetailsScreen', () => {
     networkId?: NetworkId
   }): TokenExchange {
     return {
-      __typename: 'TokenExchangeV3',
       networkId,
       type: TokenTransactionTypeV2.SwapTransaction,
       transactionHash: '0xf5J440sML02q2z8q92Vyt3psStjBACc3825KmFGB2Zk1zMil6wrI306097C1Rps2',
@@ -231,7 +233,6 @@ describe('TransactionDetailsScreen', () => {
       networkId: NetworkId['celo-mainnet'],
       type: TokenTransactionTypeV2.CrossChainSwapTransaction,
       timestamp: 1722345417000,
-      __typename: 'CrossChainTokenExchange',
     }
   }
 
@@ -241,6 +242,17 @@ describe('TransactionDetailsScreen', () => {
     return {
       ...mockApprovalTransaction,
       status,
+    }
+  }
+
+  function claimRewardTransaction({
+    status = TransactionStatus.Complete,
+    ...rest
+  }: Partial<ClaimReward>): ClaimReward {
+    return {
+      ...mockClaimRewardTransaction,
+      status,
+      ...rest,
     }
   }
 
@@ -377,7 +389,7 @@ describe('TransactionDetailsScreen', () => {
     expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('₱0.13')
   })
 
-  it.each([TokenTransactionTypeV2.Sent, TokenTransactionTypeV2.Received])(
+  it.each([TokenTransactionTypeV2.Sent, TokenTransactionTypeV2.Received] as const)(
     'renders details action for complete %s transaction',
     (type) => {
       const { getByText } = renderScreen({
@@ -401,7 +413,7 @@ describe('TransactionDetailsScreen', () => {
     expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
   })
 
-  it.each([TokenTransactionTypeV2.Sent, TokenTransactionTypeV2.Received])(
+  it.each([TokenTransactionTypeV2.Sent, TokenTransactionTypeV2.Received] as const)(
     'renders check status action for pending %s transaction',
     (type) => {
       const { getByText } = renderScreen({
@@ -556,6 +568,241 @@ describe('TransactionDetailsScreen', () => {
       })
 
       expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    })
+  })
+
+  describe('Deposit and Withdraw', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+    })
+
+    function depositTransaction({
+      status = TransactionStatus.Complete,
+      ...rest
+    }: Partial<DepositOrWithdraw>): DepositOrWithdraw {
+      return {
+        type: TokenTransactionTypeV2.Deposit,
+        networkId: NetworkId['celo-alfajores'],
+        timestamp: 1234567890,
+        block: '123456',
+        transactionHash: '0x123',
+        fees: [],
+        appName: 'Aave',
+        inAmount: {
+          value: '100',
+          tokenId: mockCeloTokenId,
+        },
+        outAmount: {
+          value: '100',
+          tokenId: mockCusdTokenId,
+        },
+        status,
+        ...rest,
+      }
+    }
+
+    function withdrawTransaction({
+      status = TransactionStatus.Complete,
+      ...rest
+    }: Partial<DepositOrWithdraw>): DepositOrWithdraw {
+      return {
+        ...depositTransaction({ status }),
+        type: TokenTransactionTypeV2.Withdraw,
+        ...rest,
+      }
+    }
+
+    it(`renders check status action for pending ${TokenTransactionTypeV2.Deposit} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: depositTransaction({
+          status: TransactionStatus.Pending,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+    })
+
+    it(`renders check status action for pending ${TokenTransactionTypeV2.Withdraw} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: withdrawTransaction({
+          status: TransactionStatus.Pending,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+    })
+
+    it(`renders details action for complete ${TokenTransactionTypeV2.Deposit} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: depositTransaction({
+          status: TransactionStatus.Complete,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    })
+
+    it(`renders details action for complete ${TokenTransactionTypeV2.Withdraw} transaction`, () => {
+      const { getByText } = renderScreen({
+        transaction: withdrawTransaction({
+          status: TransactionStatus.Complete,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    })
+
+    it('should display app name', () => {
+      const { getByText } = renderScreen({
+        transaction: depositTransaction({ appName: 'Aave' }),
+        storeOverrides: {
+          tokens: {
+            tokenBalances: mockTokenBalances,
+          },
+        },
+      })
+
+      expect(
+        getByText('transactionDetails.depositSubtitle, {"txAppName":"Aave","tokenSymbol":"cUSD"}')
+      ).toBeTruthy()
+    })
+
+    it('should display when app name is not available', () => {
+      const { getByText } = renderScreen({
+        transaction: depositTransaction({ appName: undefined }),
+        storeOverrides: {
+          tokens: {
+            tokenBalances: mockTokenBalances,
+          },
+        },
+      })
+
+      expect(
+        getByText(
+          'transactionDetails.depositSubtitle, {"context":"noTxAppName","tokenSymbol":"cUSD"}'
+        )
+      ).toBeTruthy()
+    })
+
+    it('renders swap details for deposit with swap', () => {
+      const transactionWithSwap = {
+        ...depositTransaction({ status: TransactionStatus.Complete }),
+        swap: {
+          inAmount: {
+            value: '50',
+            tokenId: mockCeloTokenId,
+          },
+          outAmount: {
+            value: '100',
+            tokenId: mockCusdTokenId,
+          },
+        },
+      }
+
+      const { getByText, getByTestId } = renderScreen({
+        transaction: transactionWithSwap,
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+      expect(getByTestId('DepositOrWithdraw/Swap/From')).toBeTruthy()
+      expect(getByTestId('DepositOrWithdraw/Swap/To')).toBeTruthy()
+    })
+
+    it('renders network information', () => {
+      const { getByText } = renderScreen({
+        transaction: depositTransaction({
+          status: TransactionStatus.Complete,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+      expect(getByText(NETWORK_NAMES[NetworkId['celo-alfajores']])).toBeTruthy()
+    })
+
+    it('renders fees correctly', () => {
+      const transactionWithFees = {
+        ...depositTransaction({ status: TransactionStatus.Complete }),
+        fees: [
+          {
+            type: FeeType.SecurityFee,
+            amount: {
+              value: '0.1',
+              tokenId: mockCeloTokenId,
+            },
+          },
+        ],
+      }
+
+      const { getByTestId } = renderScreen({
+        transaction: transactionWithFees,
+      })
+
+      expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('0.10 CELO')
+    })
+  })
+
+  describe('Claim Reward', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+    })
+
+    it('renders check status action for pending ClaimReward transaction', () => {
+      const { getByText } = renderScreen({
+        transaction: claimRewardTransaction({
+          status: TransactionStatus.Pending,
+        }),
+      })
+
+      expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+    })
+
+    it('renders details action for complete ClaimReward transaction', () => {
+      const { getByText } = renderScreen({
+        transaction: claimRewardTransaction({
+          status: TransactionStatus.Complete,
+        }),
+        storeOverrides: {
+          tokens: {
+            tokenBalances: mockTokenBalances,
+          },
+        },
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+    })
+
+    it('should display app name', () => {
+      const { getByText } = renderScreen({
+        transaction: claimRewardTransaction({ appName: 'Aave' }),
+        storeOverrides: {
+          tokens: {
+            tokenBalances: mockTokenBalances,
+          },
+        },
+      })
+
+      expect(
+        getByText(
+          'transactionDetails.claimRewardSubtitle, {"txAppName":"Aave","tokenSymbol":"ARB"}'
+        )
+      ).toBeTruthy()
+    })
+
+    it('should display when app name is not available', () => {
+      const { getByText } = renderScreen({
+        transaction: claimRewardTransaction({ appName: undefined }),
+        storeOverrides: {
+          tokens: {
+            tokenBalances: mockTokenBalances,
+          },
+        },
+      })
+
+      expect(
+        getByText(
+          'transactionDetails.claimRewardSubtitle, {"context":"noTxAppName","tokenSymbol":"ARB"}'
+        )
+      ).toBeTruthy()
     })
   })
 
