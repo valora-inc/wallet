@@ -74,7 +74,7 @@ function DappCard({
       <Touchable
         style={[styles.pressableCard, cardContentContainerStyle]}
         onPress={onPressDapp}
-        borderRadius={showBorder ? 8 : undefined}
+        borderRadius={8}
         testID={`Dapp/${dapp.id}`}
       >
         <>
