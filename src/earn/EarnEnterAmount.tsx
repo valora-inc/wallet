@@ -482,17 +482,11 @@ function EarnEnterAmount({ route }: Props) {
             })}
             description={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.description', {
               feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-              network:
-                NETWORK_NAMES[
-                  prepareTransactionsResult.feeCurrencies[0].networkId as keyof typeof NETWORK_NAMES
-                ],
+              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
             })}
             ctaLabel={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta', {
               feeTokenSymbol: feeCurrencies[0].symbol,
-              network:
-                NETWORK_NAMES[
-                  prepareTransactionsResult.feeCurrencies[0].networkId as keyof typeof NETWORK_NAMES
-                ],
+              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
             })}
             onPressCta={() => {
               AppAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {

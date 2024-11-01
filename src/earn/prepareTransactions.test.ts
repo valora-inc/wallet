@@ -71,7 +71,7 @@ describe('prepareTransactions', () => {
     })
   })
 
-  describe('prepareDpositTransactions', () => {
+  describe('prepareDepositTransactions', () => {
     it('prepares transactions using deposit shortcut', async () => {
       jest.mocked(triggerShortcutRequest).mockResolvedValue({
         transactions: [
@@ -300,7 +300,6 @@ describe('prepareTransactions', () => {
           data: '0xencodedData',
           gas: BigInt(50200),
           _estimatedGasUse: BigInt(49900),
-          value: undefined,
         },
         {
           from: '0x1234',
@@ -308,7 +307,6 @@ describe('prepareTransactions', () => {
           data: '0xencodedData',
           gas: BigInt(50100),
           _estimatedGasUse: BigInt(49800),
-          value: undefined,
         },
       ]
       expect(result).toEqual({
