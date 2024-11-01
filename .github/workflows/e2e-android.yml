@@ -28,11 +28,11 @@ jobs:
       - name: Store compileSdkVersion in env
         run: echo "ANDROID_COMPILE_SDK_VERSION=$(grep 'compileSdkVersion' android/build.gradle | grep -o '[0-9]\+')" >> $GITHUB_ENV
       # See https://namespace.so/docs/actions/nscloud-cache-action
-      #- name: Cache
-      #  uses: namespacelabs/nscloud-cache-action@v1
-      #  with:
-      #    cache: gradle
-      #    path: ${{ env.ANDROID_HOME}}
+      - name: Cache
+        uses: namespacelabs/nscloud-cache-action@v1
+        with:
+          cache: gradle
+          path: ${{ env.ANDROID_HOME}}
       - uses: ./.github/actions/yarn-install
       - name: Setup runner
         run: |
