@@ -10,7 +10,7 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
-import { usePrepareClaimExitAndWithdrawTransactions } from 'src/earn/hooks'
+import { usePrepareEnterConfirmationScreenTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
 import { EarnActiveMode } from 'src/earn/types'
@@ -81,7 +81,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
     result: prepareTransactionsResult,
     loading: isPreparingTransactions,
     error: prepareTransactionError,
-  } = usePrepareClaimExitAndWithdrawTransactions(mode, {
+  } = usePrepareEnterConfirmationScreenTransactions(mode, {
     amount: withdrawAmountInDepositToken.dividedBy(pool.pricePerShare[0]).toString(),
     pool,
     walletAddress,

@@ -93,7 +93,8 @@ export function useDepositEntrypointInfo({
   return { hasDepositToken, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canCashIn, exchanges }
 }
 
-export function usePrepareDepositAndWithdrawTransactions(
+// Called once on the EarnEnterAmountScreen.tsx and uses useAsyncCallback as it needs to be called multiples times
+export function usePrepareEnterAmountTransactions(
   mode: Extract<EarnActiveMode, 'deposit' | 'withdraw' | 'swap-deposit'>
 ) {
   const getTransactionFunction = () => {
@@ -115,7 +116,7 @@ export function usePrepareDepositAndWithdrawTransactions(
     {
       onError: (err) => {
         const error = ensureError(err)
-        Logger.error(TAG, 'usePrepareDepositAndWithdrawTransactions - Error:', error)
+        Logger.error(TAG, 'usePrepareEnterAmountTransactions - Error:', error)
       },
     }
   )
@@ -129,7 +130,8 @@ export function usePrepareDepositAndWithdrawTransactions(
   }
 }
 
-export function usePrepareClaimExitAndWithdrawTransactions(
+// Called once on the EarnConfirmationScreen.tsx so no need to use useAsyncCallback
+export function usePrepareEnterConfirmationScreenTransactions(
   mode: Extract<EarnActiveMode, 'claim-rewards' | 'exit' | 'withdraw'>,
   params: {
     pool: EarnPosition
@@ -152,7 +154,7 @@ export function usePrepareClaimExitAndWithdrawTransactions(
     {
       onError: (err) => {
         const error = ensureError(err)
-        Logger.error(TAG, 'usePrepareWithdrawAndClaimTransactions', error)
+        Logger.error(TAG, 'usePrepareEnterConfirmationScreenTransactions', error)
       },
     }
   )
