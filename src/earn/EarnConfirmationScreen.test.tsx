@@ -183,6 +183,7 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId('EarnConfirmation/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
     expect(queryByTestId('EarnConfirmation/GasSubsidized')).toBeFalsy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
+    expect(queryByText('earnFlow.collect.reward')).toBeFalsy()
     expect(store.getActions()).toEqual([])
   })
 
