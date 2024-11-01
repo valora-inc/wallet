@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { usePrepareEnterAmountTransactions } from 'src/earn/hooks'
+import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { RawShortcutTransaction } from 'src/positions/slice'
 import { ShortcutStatus } from 'src/positions/types'
 import { TokenBalance } from 'src/tokens/slice'
@@ -202,7 +202,7 @@ const expectedSwapDepositPrepareTransactionsResult = {
   },
 }
 
-describe('usePrepareEnterAmountTransactions', () => {
+describe('usePrepareEnterAmountTransactionsCallback', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(prepareTransactions).mockImplementation(async ({ baseTransactions }) => ({
@@ -255,7 +255,7 @@ describe('usePrepareEnterAmountTransactions', () => {
   ] as const)(
     '$title',
     async ({ mode, mockResponseBody, expectedPrepareTransactionsResult, mockRefreshArgs }) => {
-      const { result } = renderHook(() => usePrepareEnterAmountTransactions(mode), {
+      const { result } = renderHook(() => usePrepareEnterAmountTransactionsCallback(mode), {
         wrapper: (component) => (
           <Provider store={getMockStoreWithShortcutStatus('success', transactions)}>
             {component?.children ? component.children : component}
@@ -283,7 +283,7 @@ describe('usePrepareEnterAmountTransactions', () => {
   )
 
   it('errors when unable to trigger shortcut error response from hooks API', async () => {
-    const { result } = renderHook(() => usePrepareEnterAmountTransactions('withdraw'), {
+    const { result } = renderHook(() => usePrepareEnterAmountTransactionsCallback('withdraw'), {
       wrapper: (component) => (
         <Provider store={getMockStoreWithShortcutStatus('success', transactions)}>
           {component?.children ? component.children : component}
@@ -302,7 +302,7 @@ describe('usePrepareEnterAmountTransactions', () => {
 
   it('errors when invalid mode is passed', async () => {
     // @ts-expect-error intentionally passing invalid mode
-    const { result } = renderHook(() => usePrepareEnterAmountTransactions('invalid-mode'), {
+    const { result } = renderHook(() => usePrepareEnterAmountTransactionsCallback('invalid-mode'), {
       wrapper: (component) => (
         <Provider store={getMockStoreWithShortcutStatus('success', transactions)}>
           {component?.children ? component.children : component}

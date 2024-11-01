@@ -94,7 +94,7 @@ export function useDepositEntrypointInfo({
 }
 
 // Called once on the EarnEnterAmountScreen.tsx and uses useAsyncCallback as it needs to be called multiples times
-export function usePrepareEnterAmountTransactions(
+export function usePrepareEnterAmountTransactionsCallback(
   mode: Extract<EarnActiveMode, 'deposit' | 'withdraw' | 'swap-deposit'>
 ) {
   const getTransactionFunction = () => {
