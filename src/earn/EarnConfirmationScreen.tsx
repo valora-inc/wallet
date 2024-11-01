@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
@@ -10,7 +10,7 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
-import { usePrepareTransactions } from 'src/earn/hooks'
+import { usePrepareClaimExitAndWithdrawTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
 import { EarnActiveMode } from 'src/earn/types'
@@ -29,16 +29,12 @@ import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnConfirmationScreen>
-
-const TAG = 'EarnConfirmationScreen'
-const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
 export default function EarnConfirmationScreen({ route }: Props) {
   const { t } = useTranslation()
@@ -82,47 +78,18 @@ export default function EarnConfirmationScreen({ route }: Props) {
   )
 
   const {
-    prepareTransactionsResult: { prepareTransactionsResult } = {},
-    refreshPreparedTransactions,
-    clearPreparedTransactions,
-    prepareTransactionError,
-    isPreparingTransactions,
-  } = usePrepareTransactions(mode, { rewardsPositions })
-
-  const handleRefreshPreparedTransactions = (
-    amount: BigNumber,
-    token: TokenBalance,
-    feeCurrencies: TokenBalance[]
-  ) => {
-    if (!walletAddress || !isAddress(walletAddress)) {
-      Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')
-      return
-    }
-
-    return refreshPreparedTransactions({
-      amount: amount.toString(),
-      token,
-      walletAddress,
-      feeCurrencies,
-      pool,
-      hooksApiUrl,
-      shortcutId: mode,
-      useMax,
-    })
-  }
-
-  useEffect(() => {
-    clearPreparedTransactions()
-
-    const debouncedRefreshTransactions = setTimeout(() => {
-      return handleRefreshPreparedTransactions(
-        withdrawAmountInDepositToken,
-        withdrawToken,
-        feeCurrencies
-      )
-    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
-    return () => clearTimeout(debouncedRefreshTransactions)
-  }, [withdrawAmountInDepositToken, depositToken, feeCurrencies])
+    result: prepareTransactionsResult,
+    loading: isPreparingTransactions,
+    error: prepareTransactionError,
+  } = usePrepareClaimExitAndWithdrawTransactions(mode, {
+    amount: withdrawAmountInDepositToken.dividedBy(pool.pricePerShare[0]).toString(),
+    pool,
+    walletAddress,
+    feeCurrencies,
+    hooksApiUrl,
+    rewardsPositions,
+    useMax: !!useMax,
+  })
 
   const onPress = () => {
     if (prepareTransactionsResult?.type !== 'possible') {

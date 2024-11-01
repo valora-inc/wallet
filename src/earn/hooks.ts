@@ -5,6 +5,7 @@ import {
   prepareDepositTransactions,
   prepareWithdrawAndClaimTransactions,
   prepareWithdrawTransactions,
+  prepareWithdrawTransactionsWithSwap,
 } from 'src/earn/prepareTransactions'
 import { EarnActiveMode } from 'src/earn/types'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
@@ -16,9 +17,10 @@ import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { useCashInTokens, useSwappableTokens } from 'src/tokens/hooks'
-import { TokenBalances } from 'src/tokens/slice'
+import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
+import { Address } from 'viem'
 
 const TAG = 'earn/hooks'
 
@@ -91,9 +93,8 @@ export function useDepositEntrypointInfo({
   return { hasDepositToken, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canCashIn, exchanges }
 }
 
-export function usePrepareTransactions(
-  mode: EarnActiveMode,
-  additionalArgs?: { rewardsPositions: Position[] }
+export function usePrepareDepositAndWithdrawTransactions(
+  mode: Extract<EarnActiveMode, 'deposit' | 'withdraw' | 'swap-deposit'>
 ) {
   const getTransactionFunction = () => {
     switch (mode) {
@@ -101,11 +102,7 @@ export function usePrepareTransactions(
       case 'swap-deposit':
         return prepareDepositTransactions
       case 'withdraw':
-        return prepareWithdrawTransactions
-      case 'claim-rewards':
-        return prepareClaimTransactions
-      case 'exit':
-        return prepareWithdrawAndClaimTransactions
+        return prepareWithdrawTransactionsWithSwap
       default:
         throw new Error(`Invalid mode: ${mode}`)
     }
@@ -113,20 +110,12 @@ export function usePrepareTransactions(
 
   const prepareTransactions = useAsyncCallback(
     async (args) => {
-      const modifiedArgs = { ...args }
-      // Add rewardsPositions passed to usePrepareTransactions if the mode is 'exit' or 'claim-rewards'
-      if (mode === 'exit' || mode === 'claim-rewards') {
-        modifiedArgs.rewardsPositions = additionalArgs?.rewardsPositions
-      }
-      // Get the appropriate function based on the mode
-      const prepareFunction = getTransactionFunction()
-      // Ensure the function is called with the necessary arguments
-      return prepareFunction(modifiedArgs)
+      return getTransactionFunction()(args)
     },
     {
       onError: (err) => {
         const error = ensureError(err)
-        Logger.error(TAG, 'usePrepareTransactions - Error:', error)
+        Logger.error(TAG, 'usePrepareDepositAndWithdrawTransactions - Error:', error)
       },
     }
   )
@@ -138,4 +127,33 @@ export function usePrepareTransactions(
     prepareTransactionError: prepareTransactions.error,
     isPreparingTransactions: prepareTransactions.loading,
   }
+}
+
+export function usePrepareClaimExitAndWithdrawTransactions(
+  mode: Extract<EarnActiveMode, 'claim-rewards' | 'exit' | 'withdraw'>,
+  params: {
+    pool: EarnPosition
+    walletAddress: Address
+    feeCurrencies: TokenBalance[]
+    hooksApiUrl: string
+    amount: string
+    useMax: boolean
+    rewardsPositions: Position[]
+  }
+) {
+  return useAsync(
+    () =>
+      mode === 'claim-rewards'
+        ? prepareClaimTransactions(params)
+        : mode === 'exit'
+          ? prepareWithdrawAndClaimTransactions(params)
+          : prepareWithdrawTransactions(params),
+    [],
+    {
+      onError: (err) => {
+        const error = ensureError(err)
+        Logger.error(TAG, 'usePrepareWithdrawAndClaimTransactions', error)
+      },
+    }
+  )
 }
