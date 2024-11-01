@@ -9,8 +9,7 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 
-export const allStandbyTransactionsSelector = (state: RootState) =>
-  state.transactions.standbyTransactions
+const allStandbyTransactionsSelector = (state: RootState) => state.transactions.standbyTransactions
 const standbyTransactionsSelector = createSelector(
   [allStandbyTransactionsSelector, getSupportedNetworkIdsForApprovalTxsInHomefeed],
   (standbyTransactions, supportedNetworkIdsForApprovalTxs) => {
