@@ -29,7 +29,6 @@ export interface WithdrawInfo {
   pool: EarnPosition
   preparedTransactions: SerializableTransactionRequest[]
   rewardsTokens: Token[]
-  mode: Extract<EarnActiveMode, 'withdraw' | 'claim-rewards' | 'exit'>
 }
 
 export interface ClaimInfo {
