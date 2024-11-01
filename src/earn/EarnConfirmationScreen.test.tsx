@@ -115,7 +115,6 @@ describe('EarnConfirmationScreen', () => {
           params={{
             pool: { ...mockEarnPositions[0], balance: '10.75' },
             mode: 'Exit',
-            useMax: true,
           }}
         />
       </Provider>
