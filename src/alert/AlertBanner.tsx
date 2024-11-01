@@ -63,6 +63,10 @@ function AlertBanner() {
         description={toastAlert?.message || ''}
         ctaLabel={toastAlert?.buttonMessage || ''}
         onPressCta={toastAlert?.isActive ? onPressToast : noop}
+        swipeable
+        onDismiss={() => {
+          dispatch(hideAlert())
+        }}
       />
     </>
   )
