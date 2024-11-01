@@ -299,19 +299,4 @@ describe('usePrepareEnterAmountTransactionsCallback', () => {
       new Error('Unable to trigger shortcut: 500 Internal Server Error')
     )
   })
-
-  it('errors when invalid mode is passed', async () => {
-    // @ts-expect-error intentionally passing invalid mode
-    const { result } = renderHook(() => usePrepareEnterAmountTransactionsCallback('invalid-mode'), {
-      wrapper: (component) => (
-        <Provider store={getMockStoreWithShortcutStatus('success', transactions)}>
-          {component?.children ? component.children : component}
-        </Provider>
-      ),
-    })
-
-    await expect(result.current.refreshPreparedTransactions(mockRefreshArgs)).rejects.toEqual(
-      new Error('Invalid mode: invalid-mode')
-    )
-  })
 })

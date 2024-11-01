@@ -97,21 +97,11 @@ export function useDepositEntrypointInfo({
 export function usePrepareEnterAmountTransactionsCallback(
   mode: Extract<EarnActiveMode, 'deposit' | 'withdraw' | 'swap-deposit'>
 ) {
-  const getTransactionFunction = () => {
-    switch (mode) {
-      case 'deposit':
-      case 'swap-deposit':
-        return prepareDepositTransactions
-      case 'withdraw':
-        return prepareWithdrawTransactionsWithSwap
-      default:
-        throw new Error(`Invalid mode: ${mode}`)
-    }
-  }
-
   const prepareTransactions = useAsyncCallback(
     async (args) => {
-      return getTransactionFunction()(args)
+      return mode === 'withdraw'
+        ? prepareWithdrawTransactionsWithSwap(args)
+        : prepareDepositTransactions(args)
     },
     {
       onError: (err) => {
