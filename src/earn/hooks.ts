@@ -93,29 +93,20 @@ export function useDepositEntrypointInfo({
   return { hasDepositToken, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canCashIn, exchanges }
 }
 
-export function usePrepareDepositAndWithdrawTransactions(
+// Called once on the EarnEnterAmountScreen.tsx and uses useAsyncCallback as it needs to be called multiples times
+export function usePrepareEnterAmountTransactionsCallback(
   mode: Extract<EarnActiveMode, 'deposit' | 'withdraw' | 'swap-deposit'>
 ) {
-  const getTransactionFunction = () => {
-    switch (mode) {
-      case 'deposit':
-      case 'swap-deposit':
-        return prepareDepositTransactions
-      case 'withdraw':
-        return prepareWithdrawTransactionsWithSwap
-      default:
-        throw new Error(`Invalid mode: ${mode}`)
-    }
-  }
-
   const prepareTransactions = useAsyncCallback(
     async (args) => {
-      return getTransactionFunction()(args)
+      return mode === 'withdraw'
+        ? prepareWithdrawTransactionsWithSwap(args)
+        : prepareDepositTransactions(args)
     },
     {
       onError: (err) => {
         const error = ensureError(err)
-        Logger.error(TAG, 'usePrepareDepositAndWithdrawTransactions - Error:', error)
+        Logger.error(TAG, 'usePrepareEnterAmountTransactions - Error:', error)
       },
     }
   )
@@ -129,7 +120,8 @@ export function usePrepareDepositAndWithdrawTransactions(
   }
 }
 
-export function usePrepareClaimExitAndWithdrawTransactions(
+// Called once on the EarnConfirmationScreen.tsx so no need to use useAsyncCallback
+export function usePrepareEnterConfirmationScreenTransactions(
   mode: Extract<EarnActiveMode, 'claim-rewards' | 'exit' | 'withdraw'>,
   params: {
     pool: EarnPosition
@@ -152,7 +144,7 @@ export function usePrepareClaimExitAndWithdrawTransactions(
     {
       onError: (err) => {
         const error = ensureError(err)
-        Logger.error(TAG, 'usePrepareWithdrawAndClaimTransactions', error)
+        Logger.error(TAG, 'usePrepareEnterConfirmationScreenTransactions', error)
       },
     }
   )

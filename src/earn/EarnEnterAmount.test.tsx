@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
-import { usePrepareDepositAndWithdrawTransactions } from 'src/earn/hooks'
+import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -162,7 +162,7 @@ describe('EarnEnterAmount', () => {
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
     store.clearActions()
-    jest.mocked(usePrepareDepositAndWithdrawTransactions).mockReturnValue({
+    jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
       prepareTransactionsResult: undefined,
       refreshPreparedTransactions: refreshPreparedTransactionsSpy,
       clearPreparedTransactions: jest.fn(),
@@ -214,7 +214,7 @@ describe('EarnEnterAmount', () => {
     })
 
     it('should show tx details and handle navigating to the deposit bottom sheet', async () => {
-      jest.mocked(usePrepareDepositAndWithdrawTransactions).mockReturnValue({
+      jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
           swapTransaction: undefined,
@@ -343,7 +343,7 @@ describe('EarnEnterAmount', () => {
     })
 
     it('should show tx details and handle navigating to the deposit bottom sheet', async () => {
-      jest.mocked(usePrepareDepositAndWithdrawTransactions).mockReturnValue({
+      jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
           swapTransaction: mockSwapTransaction,
@@ -443,7 +443,7 @@ describe('EarnEnterAmount', () => {
     })
 
     it('should show tx details for withdrawal', async () => {
-      jest.mocked(usePrepareDepositAndWithdrawTransactions).mockReturnValue({
+      jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
           swapTransaction: undefined,
@@ -498,7 +498,7 @@ describe('EarnEnterAmount', () => {
     })
 
     it('should allow the user to set an input value over the pool balance if pricePerShare is greater than 1', async () => {
-      jest.mocked(usePrepareDepositAndWithdrawTransactions).mockReturnValue({
+      jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
           swapTransaction: undefined,
@@ -581,7 +581,7 @@ describe('EarnEnterAmount', () => {
 
   // tests independent of deposit / swap-deposit
   it('should show a warning and not allow the user to continue if they input an amount greater than balance', async () => {
-    jest.mocked(usePrepareDepositAndWithdrawTransactions).mockReturnValue({
+    jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
         swapTransaction: undefined,
@@ -604,7 +604,7 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should show loading spinner when preparing transaction', async () => {
-    jest.mocked(usePrepareDepositAndWithdrawTransactions).mockReturnValue({
+    jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
       prepareTransactionsResult: undefined,
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
@@ -677,7 +677,7 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should track analytics and navigate correctly when tapping cta to add gas', async () => {
-    jest.mocked(usePrepareDepositAndWithdrawTransactions).mockReturnValue({
+    jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransactionNotEnough,
         swapTransaction: undefined,
@@ -714,7 +714,7 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should show the FeeDetailsBottomSheet when the user taps the fee details icon', async () => {
-    jest.mocked(usePrepareDepositAndWithdrawTransactions).mockReturnValue({
+    jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
         swapTransaction: undefined,
@@ -739,7 +739,7 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should show swap fees on the FeeDetailsBottomSheet when swap transaction is present', async () => {
-    jest.mocked(usePrepareDepositAndWithdrawTransactions).mockReturnValue({
+    jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
         swapTransaction: mockSwapTransaction,
@@ -770,7 +770,7 @@ describe('EarnEnterAmount', () => {
   })
 
   it('should display swap bottom sheet when the user taps the swap details icon', async () => {
-    jest.mocked(usePrepareDepositAndWithdrawTransactions).mockReturnValue({
+    jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
         swapTransaction: mockSwapTransaction,

@@ -123,7 +123,7 @@ export async function prepareWithdrawTransactionsWithSwap({
       ],
       ...shortcutTriggerArgs?.withdraw,
     })
-  Logger.debug(TAG, 'prepareWithdrawTransactions', {
+  Logger.debug(TAG, 'prepareWithdrawTransactionsWithSwap', {
     withdrawTransactions,
     pool,
   })

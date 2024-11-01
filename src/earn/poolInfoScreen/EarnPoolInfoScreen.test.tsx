@@ -669,6 +669,7 @@ describe('EarnPoolInfoScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.EarnConfirmationScreen, {
       pool: { ...mockEarnPositions[0], balance: '100' },
       mode: 'exit',
+      useMax: true,
     })
   })
   it('open WithdrawBottomSheet when Withdraw button pressed, check that expected options exist', () => {
