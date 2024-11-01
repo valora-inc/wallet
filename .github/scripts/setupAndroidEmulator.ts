@@ -19,7 +19,7 @@ const argv = yargs(process.argv.slice(2))
 
 const { image, emulatorName } = argv
 
-$.exec(`sdkmanager "${image}" "emulator"`)
+$.exec(`sdkmanager "${image}"`)
 $.exec(`avdmanager create avd --force --name ${emulatorName} --package "${image}" --device pixel`)
 
 const iniLocation = `~/.android/avd/${emulatorName}.ini`
