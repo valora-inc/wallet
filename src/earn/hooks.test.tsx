@@ -3,9 +3,9 @@ import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { usePrepareTransactions } from 'src/earn/hooks'
+import { usePrepareDepositAndWithdrawTransactions } from 'src/earn/hooks'
 import { RawShortcutTransaction } from 'src/positions/slice'
-import { Position, ShortcutStatus } from 'src/positions/types'
+import { ShortcutStatus } from 'src/positions/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
@@ -19,7 +19,6 @@ import {
   mockArbUsdcTokenId,
   mockEarnPositions,
   mockPositions,
-  mockRewardsPositions,
   mockShortcuts,
   mockTokenBalances,
 } from 'test/values'
@@ -153,64 +152,6 @@ const expectedPrepareTransactionsResult = {
   },
 }
 
-const expectedClaimTransactionResult = {
-  prepareTransactionsResult: {
-    type: 'possible',
-    transactions: [
-      {
-        from: '0xfrom',
-        to: '0xto',
-        data: '0xdata',
-        gas,
-        maxFeePerGas,
-        _baseFeePerGas,
-      },
-      {
-        from: '0xfrom',
-        to: '0xto',
-        data: '0xdata',
-        gas,
-        maxFeePerGas,
-        _baseFeePerGas,
-      },
-    ],
-    feeCurrency: mockFeeCurrencies[0],
-  },
-}
-
-const expectedExitTransactionResult = {
-  prepareTransactionsResult: {
-    type: 'possible',
-    transactions: [
-      {
-        from: '0xfrom',
-        to: '0xto',
-        data: '0xdata',
-        gas,
-        maxFeePerGas,
-        _baseFeePerGas,
-      },
-      {
-        from: '0xfrom',
-        to: '0xto',
-        data: '0xdata',
-        gas,
-        maxFeePerGas,
-        _baseFeePerGas,
-      },
-      {
-        from: '0xfrom',
-        to: '0xto',
-        data: '0xdata',
-        gas,
-        maxFeePerGas,
-        _baseFeePerGas,
-      },
-    ],
-    feeCurrency: mockFeeCurrencies[0],
-  },
-}
-
 const expectedSwapDepositPrepareTransactionsResult = {
   prepareTransactionsResult: {
     feeCurrency: mockFeeCurrencies[0],
@@ -261,7 +202,7 @@ const expectedSwapDepositPrepareTransactionsResult = {
   },
 }
 
-describe('usePrepareTransactions', () => {
+describe('usePrepareDepositAndWithdrawTransactions', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(prepareTransactions).mockImplementation(async ({ baseTransactions }) => ({
@@ -292,28 +233,6 @@ describe('usePrepareTransactions', () => {
       mockRefreshArgs: mockRefreshArgs,
     },
     {
-      mode: 'claim-rewards',
-      extraArgs: { rewardsPositions: mockRewardsPositions },
-      title: 'calls correct transaction preparation for claim-rewards with rewardsPositions',
-      mockResponseBody: mockResponseBody,
-      expectedPrepareTransactionsResult: expectedClaimTransactionResult,
-      mockRefreshArgs: mockRefreshArgs,
-    },
-    {
-      mode: 'claim-rewards',
-      extraArgs: { rewardsPositions: [] as Position[] },
-      title: 'calls correct transaction preparation for claim-rewards with no rewardsPositions',
-      mockResponseBody: mockResponseBody,
-      expectedPrepareTransactionsResult: {
-        ...expectedClaimTransactionResult,
-        prepareTransactionsResult: {
-          ...expectedClaimTransactionResult.prepareTransactionsResult,
-          transactions: [],
-        },
-      },
-      mockRefreshArgs: mockRefreshArgs,
-    },
-    {
       mode: 'deposit',
       title: 'calls correct transaction preparation for deposit',
       mockResponseBody: mockResponseBody,
@@ -333,44 +252,10 @@ describe('usePrepareTransactions', () => {
         token: mockTokenBalances[mockArbUsdcTokenId],
       },
     },
-    {
-      mode: 'exit',
-      extraArgs: { rewardsPositions: mockRewardsPositions },
-      title: 'calls correct transaction preparation for exit',
-      mockResponseBody: mockResponseBody,
-      expectedPrepareTransactionsResult: expectedExitTransactionResult,
-      mockRefreshArgs: mockRefreshArgs,
-    },
-    {
-      mode: 'exit',
-      extraArgs: { rewardsPositions: mockRewardsPositions },
-      title: 'calls correct transaction preparation for exit when withdrawalIncludesClaim is true',
-      mockResponseBody: mockResponseBody,
-      expectedPrepareTransactionsResult: {
-        ...expectedExitTransactionResult,
-        prepareTransactionsResult: {
-          ...expectedExitTransactionResult.prepareTransactionsResult,
-          transactions: [expectedExitTransactionResult.prepareTransactionsResult.transactions[0]],
-        },
-      },
-      mockRefreshArgs: {
-        ...mockRefreshArgs,
-        pool: {
-          ...mockEarnPositions[0],
-          dataProps: { ...mockEarnPositions[0].dataProps, withdrawalIncludesClaim: true },
-        },
-      },
-    },
   ] as const)(
     '$title',
-    async ({
-      mode,
-      extraArgs,
-      mockResponseBody,
-      expectedPrepareTransactionsResult,
-      mockRefreshArgs,
-    }) => {
-      const { result } = renderHook(() => usePrepareTransactions(mode, extraArgs), {
+    async ({ mode, mockResponseBody, expectedPrepareTransactionsResult, mockRefreshArgs }) => {
+      const { result } = renderHook(() => usePrepareDepositAndWithdrawTransactions(mode), {
         wrapper: (component) => (
           <Provider store={getMockStoreWithShortcutStatus('success', transactions)}>
             {component?.children ? component.children : component}
@@ -398,7 +283,7 @@ describe('usePrepareTransactions', () => {
   )
 
   it('errors when unable to trigger shortcut error response from hooks API', async () => {
-    const { result } = renderHook(() => usePrepareTransactions('withdraw'), {
+    const { result } = renderHook(() => usePrepareDepositAndWithdrawTransactions('withdraw'), {
       wrapper: (component) => (
         <Provider store={getMockStoreWithShortcutStatus('success', transactions)}>
           {component?.children ? component.children : component}
@@ -413,14 +298,11 @@ describe('usePrepareTransactions', () => {
     await expect(result.current.refreshPreparedTransactions(mockRefreshArgs)).rejects.toEqual(
       new Error('Unable to trigger shortcut: 500 Internal Server Error')
     )
-
-    // TODO test that result.current.prepareTransactionError is set correctly
-    // expect(result.current.prepareTransactionError).toEqual(new Error('Unable to trigger shortcut: 500 Internal Server Error'))
   })
 
   it('errors when invalid mode is passed', async () => {
     // @ts-expect-error intentionally passing invalid mode
-    const { result } = renderHook(() => usePrepareTransactions('invalid-mode'), {
+    const { result } = renderHook(() => usePrepareDepositAndWithdrawTransactions('invalid-mode'), {
       wrapper: (component) => (
         <Provider store={getMockStoreWithShortcutStatus('success', transactions)}>
           {component?.children ? component.children : component}
@@ -431,8 +313,5 @@ describe('usePrepareTransactions', () => {
     await expect(result.current.refreshPreparedTransactions(mockRefreshArgs)).rejects.toEqual(
       new Error('Invalid mode: invalid-mode')
     )
-
-    // TODO test that result.current.prepareTransactionError is set correctly
-    // expect(result.current.prepareTransactionError).toEqual(new Error('Invalid mode: invalid-mode'))
   })
 })

@@ -29,6 +29,7 @@ export interface WithdrawInfo {
   pool: EarnPosition
   preparedTransactions: SerializableTransactionRequest[]
   rewardsTokens: Token[]
+  mode: Extract<EarnActiveMode, 'withdraw' | 'claim-rewards' | 'exit'>
 }
 
 export interface ClaimInfo {
@@ -62,7 +63,7 @@ export interface BeforeDepositAction {
 }
 
 export interface WithdrawAction {
-  name: EarnActiveMode
+  name: Extract<EarnActiveMode, 'withdraw' | 'claim-rewards' | 'exit'>
   title: string
   details: string
   iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>

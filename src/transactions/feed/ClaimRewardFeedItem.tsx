@@ -13,41 +13,27 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
-import { DepositOrWithdraw, TokenTransactionTypeV2 } from 'src/transactions/types'
+import { ClaimReward } from 'src/transactions/types'
 
 interface DescriptionProps {
-  transaction: DepositOrWithdraw
+  transaction: ClaimReward
 }
 
 function Description({ transaction }: DescriptionProps) {
   const { t } = useTranslation()
   const txAppName = transaction.appName
-  let title
-  let subtitle
-
-  switch (transaction.type) {
-    case TokenTransactionTypeV2.Deposit:
-      title = t('transactionFeed.depositTitle')
-      subtitle = t('transactionFeed.depositSubtitle', {
-        context: !txAppName ? 'noTxAppName' : undefined,
-        txAppName,
-      })
-      break
-    case TokenTransactionTypeV2.Withdraw:
-      title = t('transactionFeed.withdrawTitle')
-      subtitle = t('transactionFeed.withdrawSubtitle', {
-        context: !txAppName ? 'noTxAppName' : undefined,
-        txAppName,
-      })
-      break
-  }
+  const title = t('transactionFeed.claimRewardTitle')
+  const subtitle = t('transactionFeed.claimRewardSubtitle', {
+    context: !txAppName ? 'noTxAppName' : undefined,
+    txAppName,
+  })
 
   return (
     <View style={styles.contentContainer}>
-      <Text style={styles.title} testID={'DepositOrWithdrawFeedItem/title'} numberOfLines={1}>
+      <Text style={styles.title} testID={'ClaimRewardFeedItem/title'} numberOfLines={1}>
         {title}
       </Text>
-      <Text style={styles.subtitle} testID={'DepositOrWithdrawFeedItem/subtitle'} numberOfLines={1}>
+      <Text style={styles.subtitle} testID={'ClaimRewardFeedItem/subtitle'} numberOfLines={1}>
         {subtitle}
       </Text>
     </View>
@@ -55,52 +41,33 @@ function Description({ transaction }: DescriptionProps) {
 }
 
 interface AmountDisplayProps {
-  transaction: DepositOrWithdraw
+  transaction: ClaimReward
   isLocal: boolean
 }
 
 function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
-  let amountValue
-  let localAmount
-  let tokenId
+  const amountValue = new BigNumber(transaction.amount.value)
+  const tokenId = transaction.amount.tokenId
 
-  switch (transaction.type) {
-    case TokenTransactionTypeV2.Deposit:
-      amountValue = new BigNumber(-transaction.outAmount.value)
-      localAmount = transaction.outAmount.localAmount
-      tokenId = transaction.outAmount.tokenId
-      break
-    case TokenTransactionTypeV2.Withdraw:
-      amountValue = new BigNumber(transaction.inAmount.value)
-      localAmount = transaction.inAmount.localAmount
-      tokenId = transaction.inAmount.tokenId
-      break
-  }
-
-  const textStyle = isLocal
-    ? styles.amountSubtitle
-    : [
-        styles.amountTitle,
-        transaction.type === TokenTransactionTypeV2.Withdraw && { color: Colors.accent },
-      ]
+  const textStyle = isLocal ? styles.amountSubtitle : [styles.amountTitle, { color: Colors.accent }]
 
   return (
     <TokenDisplay
       amount={amountValue}
-      localAmount={localAmount}
+      localAmount={transaction.amount.localAmount}
       tokenId={tokenId}
       showLocalAmount={isLocal}
       showSymbol={true}
       showExplicitPositiveSign={!isLocal}
       hideSign={!!isLocal}
       style={textStyle}
-      testID={`DepositOrWithdrawFeedItem/${transaction.type}-amount-${isLocal ? 'local' : 'crypto'}`}
+      testID={`ClaimRewardFeedItem/amount-${isLocal ? 'local' : 'crypto'}`}
     />
   )
 }
 
 interface AmountProps {
-  transaction: DepositOrWithdraw
+  transaction: ClaimReward
 }
 
 function Amount({ transaction }: AmountProps) {
@@ -113,13 +80,13 @@ function Amount({ transaction }: AmountProps) {
 }
 
 interface Props {
-  transaction: DepositOrWithdraw
+  transaction: ClaimReward
 }
 
-export default function DepositOrWithdrawFeedItem({ transaction }: Props) {
+export default function ClaimRewardFeedItem({ transaction }: Props) {
   return (
     <Touchable
-      testID={`DepositOrWithdrawFeedItem/${transaction.transactionHash}`}
+      testID={`ClaimRewardFeedItem/${transaction.transactionHash}`}
       onPress={() => {
         AppAnalytics.track(HomeEvents.transaction_feed_item_select, {
           itemType: transaction.type,

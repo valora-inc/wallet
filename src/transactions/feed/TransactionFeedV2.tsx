@@ -20,6 +20,7 @@ import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { useTransactionFeedV2Query } from 'src/transactions/api'
+import ClaimRewardFeedItem from 'src/transactions/feed/ClaimRewardFeedItem'
 import DepositOrWithdrawFeedItem from 'src/transactions/feed/DepositOrWithdrawFeedItem'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
@@ -307,6 +308,8 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
     case TokenTransactionTypeV2.Deposit:
     case TokenTransactionTypeV2.Withdraw:
       return <DepositOrWithdrawFeedItem key={tx.transactionHash} transaction={tx} />
+    case TokenTransactionTypeV2.ClaimReward:
+      return <ClaimRewardFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.EarnDeposit:
     case TokenTransactionTypeV2.EarnSwapDeposit:
     case TokenTransactionTypeV2.EarnWithdraw:

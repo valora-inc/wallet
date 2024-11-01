@@ -300,7 +300,6 @@ describe('prepareTransactions', () => {
           data: '0xencodedData',
           gas: BigInt(50200),
           _estimatedGasUse: BigInt(49900),
-          value: undefined,
         },
         {
           from: '0x1234',
@@ -308,10 +307,9 @@ describe('prepareTransactions', () => {
           data: '0xencodedData',
           gas: BigInt(50100),
           _estimatedGasUse: BigInt(49800),
-          value: undefined,
         },
       ]
-      expect(result.prepareTransactionsResult).toEqual({
+      expect(result).toEqual({
         type: 'possible',
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
@@ -365,7 +363,7 @@ describe('prepareTransactions', () => {
           _estimatedGasUse: BigInt(49900),
         },
       ]
-      expect(result.prepareTransactionsResult).toEqual({
+      expect(result).toEqual({
         type: 'possible',
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
@@ -431,11 +429,9 @@ describe('prepareTransactions', () => {
       ]
 
       expect(result).toEqual({
-        prepareTransactionsResult: {
-          type: 'possible',
-          feeCurrency: mockFeeCurrency,
-          transactions: expectedTransactions,
-        },
+        type: 'possible',
+        feeCurrency: mockFeeCurrency,
+        transactions: expectedTransactions,
       })
 
       expect(prepareTransactions).toHaveBeenCalledWith({
@@ -491,11 +487,9 @@ describe('prepareTransactions', () => {
       ]
 
       expect(result).toEqual({
-        prepareTransactionsResult: {
-          type: 'possible',
-          feeCurrency: mockFeeCurrency,
-          transactions: expectedTransactions,
-        },
+        type: 'possible',
+        feeCurrency: mockFeeCurrency,
+        transactions: expectedTransactions,
       })
 
       expect(prepareTransactions).toHaveBeenCalledWith({
@@ -552,11 +546,9 @@ describe('prepareTransactions', () => {
       ]
 
       expect(result).toEqual({
-        prepareTransactionsResult: {
-          type: 'possible',
-          feeCurrency: mockFeeCurrency,
-          transactions: expectedTransactions,
-        },
+        type: 'possible',
+        feeCurrency: mockFeeCurrency,
+        transactions: expectedTransactions,
       })
     })
   })

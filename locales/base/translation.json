@@ -2285,10 +2285,13 @@
     "crossChainSwapTransactionLabel": "Cross-chain",
     "depositTitle": "Deposited",
     "depositSubtitle": "to {{txAppName}} Pool",
-    "depositSubtitle_noTxAppName": "to unknown pool",
+    "depositSubtitle_noTxAppName": "to unknown app",
     "withdrawTitle": "Withdrew",
     "withdrawSubtitle": "from {{txAppName}} Pool",
-    "withdrawSubtitle_noTxAppName": "from unknown app"
+    "withdrawSubtitle_noTxAppName": "from unknown app",
+    "claimRewardTitle": "Collected",
+    "claimRewardSubtitle": "from {{txAppName}} Pool",
+    "claimRewardSubtitle_noTxAppName": "from unknown app"
   },
   "transactionDetails": {
     "descriptionLabel": "Details",
@@ -2300,6 +2303,10 @@
     "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{txAppName}} Pool",
     "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
     "withdrawDetails": "Amount Withdrawn",
+    "claimRewardTitle": "Collected",
+    "claimRewardSubtitle": "Collected {{tokenSymbol}} from {{txAppName}} Pool",
+    "claimRewardSubtitle_noTxAppName": "Collected {{tokenSymbol}} from unknown app",
+    "claimRewardDetails": "Amount Collected",
     "swap": "Swap",
     "network": "Network",
     "fees": "Fees"

@@ -21,7 +21,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
-import { usePrepareTransactions } from 'src/earn/hooks'
+import { usePrepareDepositAndWithdrawTransactions } from 'src/earn/hooks'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
@@ -144,13 +144,12 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const {
-    // @ts-expect-error swapTransaction only exists on swap-deposit mode
     prepareTransactionsResult: { prepareTransactionsResult, swapTransaction } = {},
     refreshPreparedTransactions,
     clearPreparedTransactions,
     prepareTransactionError,
     isPreparingTransactions,
-  } = usePrepareTransactions(mode)
+  } = usePrepareDepositAndWithdrawTransactions(mode)
 
   const walletAddress = useSelector(walletAddressSelector)
 
@@ -483,17 +482,11 @@ function EarnEnterAmount({ route }: Props) {
             })}
             description={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.description', {
               feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-              network:
-                NETWORK_NAMES[
-                  prepareTransactionsResult.feeCurrencies[0].networkId as keyof typeof NETWORK_NAMES
-                ],
+              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
             })}
             ctaLabel={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta', {
               feeTokenSymbol: feeCurrencies[0].symbol,
-              network:
-                NETWORK_NAMES[
-                  prepareTransactionsResult.feeCurrencies[0].networkId as keyof typeof NETWORK_NAMES
-                ],
+              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
             })}
             onPressCta={() => {
               AppAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {
