@@ -71,7 +71,7 @@ describe('prepareTransactions', () => {
     })
   })
 
-  describe('prepareDepositTransactions', () => {
+  describe('prepareDpositTransactions', () => {
     it('prepares transactions using deposit shortcut', async () => {
       jest.mocked(triggerShortcutRequest).mockResolvedValue({
         transactions: [
@@ -311,7 +311,7 @@ describe('prepareTransactions', () => {
           value: undefined,
         },
       ]
-      expect(result.prepareTransactionsResult).toEqual({
+      expect(result).toEqual({
         type: 'possible',
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
@@ -365,7 +365,7 @@ describe('prepareTransactions', () => {
           _estimatedGasUse: BigInt(49900),
         },
       ]
-      expect(result.prepareTransactionsResult).toEqual({
+      expect(result).toEqual({
         type: 'possible',
         feeCurrency: mockFeeCurrency,
         transactions: expectedTransactions,
@@ -431,11 +431,9 @@ describe('prepareTransactions', () => {
       ]
 
       expect(result).toEqual({
-        prepareTransactionsResult: {
-          type: 'possible',
-          feeCurrency: mockFeeCurrency,
-          transactions: expectedTransactions,
-        },
+        type: 'possible',
+        feeCurrency: mockFeeCurrency,
+        transactions: expectedTransactions,
       })
 
       expect(prepareTransactions).toHaveBeenCalledWith({
@@ -491,11 +489,9 @@ describe('prepareTransactions', () => {
       ]
 
       expect(result).toEqual({
-        prepareTransactionsResult: {
-          type: 'possible',
-          feeCurrency: mockFeeCurrency,
-          transactions: expectedTransactions,
-        },
+        type: 'possible',
+        feeCurrency: mockFeeCurrency,
+        transactions: expectedTransactions,
       })
 
       expect(prepareTransactions).toHaveBeenCalledWith({
@@ -552,11 +548,9 @@ describe('prepareTransactions', () => {
       ]
 
       expect(result).toEqual({
-        prepareTransactionsResult: {
-          type: 'possible',
-          feeCurrency: mockFeeCurrency,
-          transactions: expectedTransactions,
-        },
+        type: 'possible',
+        feeCurrency: mockFeeCurrency,
+        transactions: expectedTransactions,
       })
     })
   })
