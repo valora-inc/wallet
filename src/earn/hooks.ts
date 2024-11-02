@@ -93,7 +93,7 @@ export function useDepositEntrypointInfo({
   return { hasDepositToken, hasTokensOnSameNetwork, hasTokensOnOtherNetworks, canCashIn, exchanges }
 }
 
-// Called once on the EarnEnterAmountScreen.tsx and uses useAsyncCallback as it needs to be called multiples times
+// Used on EarnEnterAmount.tsx with on user input with a debounced callback
 export function usePrepareEnterAmountTransactionsCallback(
   mode: Extract<EarnActiveMode, 'deposit' | 'withdraw' | 'swap-deposit'>
 ) {
@@ -120,7 +120,7 @@ export function usePrepareEnterAmountTransactionsCallback(
   }
 }
 
-// Called once on the EarnConfirmationScreen.tsx so no need to use useAsyncCallback
+// Used on the EarnConfirmationScreen.tsx called once on load
 export function usePrepareEnterConfirmationScreenTransactions(
   mode: Extract<EarnActiveMode, 'claim-rewards' | 'exit' | 'withdraw'>,
   params: {

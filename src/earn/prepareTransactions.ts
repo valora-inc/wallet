@@ -16,7 +16,7 @@ import { Address } from 'viem'
 
 const TAG = 'earn/prepareTransactions'
 
-// Used on the EarnEnterAmount.tsx Screen
+// Used on EarnEnterAmount.tsx
 export async function prepareDepositTransactions({
   amount,
   token,
@@ -92,6 +92,7 @@ export async function prepareDepositTransactions({
   }
 }
 
+// Used on EarnEnterAmount.tsx and the usePrepareEnterAmountTransactionsCallback hook expects a swapTransaction even if it's undefined
 export async function prepareWithdrawTransactionsWithSwap({
   amount,
   walletAddress,
