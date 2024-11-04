@@ -2293,7 +2293,10 @@
     "withdrawSubtitle_noTxAppName": "из неизвестного приложения",
     "claimRewardTitle": "Получено",
     "claimRewardSubtitle": "из пула {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "из неизвестного приложения"
+    "claimRewardSubtitle_noTxAppName": "из неизвестного приложения",
+    "error": {
+      "fetchError": "Упс, возникла проблема с обновлением твоей ленты. Твоя история транзакций может быть пока неполной."
+    }
   },
   "transactionDetails": {
     "descriptionLabel": "Подробности",
