@@ -2287,7 +2287,10 @@
     "withdrawSubtitle_noTxAppName": "from unknown app",
     "claimRewardTitle": "Đã nhận",
     "claimRewardSubtitle": "từ Quỹ {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "from unknown app"
+    "claimRewardSubtitle_noTxAppName": "from unknown app",
+    "error": {
+      "fetchError": "Oops, there was an issue refreshing your feed. Your transaction history may be incomplete for now."
+    }
   },
   "transactionDetails": {
     "descriptionLabel": "Chi tiết",

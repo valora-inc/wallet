@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="persona_inquiry_start_title">Valora would like to verify your identity</string>
+  <string name="persona_inquiry_start_title">This app would like to verify your identity</string>
   <string name="persona_inquiry_start_body">Please have a government issued ID ready to continue.</string>
   <string name="persona_inquiry_start_button">Begin Verification</string>
 </resources>
