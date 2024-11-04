@@ -118,4 +118,5 @@ export const pendingStandbyTxHashesByNetworkIdSelector = createSelector(
 )
 
 const feedFirstPage = (state: RootState) => state.transactions.feedFirstPage
+
 export const feedFirstPageSelector = createSelector(feedFirstPage, (feed) => feed)
