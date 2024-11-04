@@ -156,16 +156,18 @@ function sortTransactions(transactions: TokenTransaction[]): TokenTransaction[] 
 function categorizeTransactions(transactions: TokenTransaction[]) {
   const pending: TokenTransaction[] = []
   const confirmed: TokenTransaction[] = []
+  const confirmedHashes: string[] = []
 
   for (const tx of transactions) {
     if (tx.status === TransactionStatus.Pending) {
       pending.push(tx)
     } else {
       confirmed.push(tx)
+      confirmedHashes.push(tx.transactionHash)
     }
   }
 
-  return { pending, confirmed }
+  return { pending, confirmed, confirmedHashes }
 }
 
 /**
@@ -239,8 +241,7 @@ function useNewlyCompletedTransactions(standByTransactions: TokenTransaction[]) 
   useEffect(
     function updatePrevStandBy() {
       setPreviousStandBy((prev) => {
-        const { pending, confirmed } = categorizeTransactions(standByTransactions)
-        const confirmedHashes = confirmed.map((tx) => tx.transactionHash)
+        const { pending, confirmed, confirmedHashes } = categorizeTransactions(standByTransactions)
         const newlyCompleted = prev.pending.filter((tx) => {
           return confirmedHashes.includes(tx.transactionHash)
         })
