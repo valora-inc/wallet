@@ -2289,7 +2289,10 @@
     "withdrawSubtitle_noTxAppName": "bilinmeyen uygulamadan",
     "claimRewardTitle": "Toplanan",
     "claimRewardSubtitle": "{{txAppName}} Havuzundan",
-    "claimRewardSubtitle_noTxAppName": "bilinmeyen uygulamadan"
+    "claimRewardSubtitle_noTxAppName": "bilinmeyen uygulamadan",
+    "error": {
+      "fetchError": "Oops, akışınızı yenilerken bir sorun oluştu. İşlem geçmişiniz şimdilik eksik olabilir."
+    }
   },
   "transactionDetails": {
     "descriptionLabel": "Detaylar",
