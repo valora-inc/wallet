@@ -7,10 +7,8 @@ import CancelButton from 'src/components/CancelButton'
 import CloseButton from 'src/components/CloseButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
-import QrScanButton from 'src/components/QrScanButton'
 import SettingsGearButton from 'src/components/SettingsGearButton'
 import TokenDisplay from 'src/components/TokenDisplay'
-import NotificationBell from 'src/home/NotificationBell'
 import i18n from 'src/i18n'
 import Logo from 'src/images/Logo'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -228,9 +226,7 @@ export const tabHeader: NativeStackNavigationOptions = {
   headerRight: () => {
     return (
       <View style={[styles.topElementsContainer, { marginRight: Spacing.Tiny4 }]}>
-        <QrScanButton testID="WalletHome/QRScanButton" />
         <SettingsGearButton testID="WalletHome/SettingsGearButton" />
-        <NotificationBell testID="WalletHome/NotificationBell" />
       </View>
     )
   },

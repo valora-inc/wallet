@@ -1051,7 +1051,7 @@
   "inviteVerifyPayment": "Zaproś i potwierdź płatność",
   "noResultsFor": "Brak wyników dla",
   "noContacts": "Brak kontaktów",
-  "searchForSomeone": "Wyszukaj kontakt po nazwie, numerze telefonu lub adresie",
+  "searchForSomeone": "Wyszukaj osobę, korzystając z adresu jej portfela",
   "sentPayment": "Przesłana płatność",
   "sentEscrowPayment": "Przesłana płatność Escrow",
   "mobileNumber": "Nr telefonu komórkowego",
@@ -2126,7 +2126,7 @@
     "importButton": "Import"
   },
   "sendSelectRecipient": {
-    "searchText": "Szukaj według nazwy, telefonu, portfela…",
+    "searchText": "Szukaj według adresu portfela",
     "paste": "Wklej ze schowka",
     "title": "Wybierz odbiorcę",
     "contactsTitle": "Wybierz kontakt",

@@ -71,6 +71,7 @@ export default RestoreAccountOnboarding = () => {
       await waitForElementByIdAndTap('ChooseYourAdventure/Later')
 
       // verify that we land on the home screen
+      await waitForElementByIdAndTap('Tab/Wallet')
       await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 
       // verify that the correct account was restored

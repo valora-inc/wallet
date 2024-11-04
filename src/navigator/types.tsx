@@ -286,6 +286,7 @@ export type StackParamList = {
     | undefined
   [Screens.TabDiscover]: {} | undefined
   [Screens.TabHome]: {} | undefined
+  [Screens.TabActivity]: {} | undefined
   [Screens.TabWallet]: { activeAssetTab?: AssetTabType } | undefined
   [Screens.TabNavigator]: {
     initialScreen?: Screens.TabHome | Screens.TabWallet | Screens.TabDiscover

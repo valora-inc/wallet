@@ -1,4 +1,9 @@
 {
+  // Disable Renovate in this repo
+  // Deps updates will be handled from the wallet repo and synced here
+  // to avoid conflicts and duplicated PRs
+  enabled: false,
+
   extends: ['github>valora-inc/renovate-config:default.json5', ':disableDigestUpdates'],
 
   // Restrict semantic commit type to "chore"

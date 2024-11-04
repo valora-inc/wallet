@@ -1,5 +1,5 @@
 import { launchApp, reloadReactNative } from '../utils/retries'
-import { isElementVisible, waitForElementId } from '../utils/utils'
+import { isElementVisible, waitForElementId, waitForElementByIdAndTap } from '../utils/utils'
 
 export default onRamps = () => {
   beforeAll(async () => {
@@ -9,6 +9,7 @@ export default onRamps = () => {
   })
   beforeEach(async () => {
     await reloadReactNative()
+    await waitForElementByIdAndTap('Tab/Wallet')
     await waitForElementId('HomeAction-Add')
     await element(by.id('HomeAction-Add')).tap()
   })
@@ -23,8 +24,7 @@ export default onRamps = () => {
       ${'CELO'} | ${'20'}
       ${'CELO'} | ${'2'}
     `('Then should display $token provider(s) for $$amount', async ({ token, amount }) => {
-      await waitForElementId(`${token}Symbol`)
-      await element(by.id(`${token}Symbol`)).tap()
+      await waitForElementByIdAndTap(`BottomSheet${token}Symbol`)
 
       await waitForElementId('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)

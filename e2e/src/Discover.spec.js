@@ -2,7 +2,8 @@ import { quickOnboarding, waitForElementByIdAndTap, scrollIntoView } from './uti
 import { launchApp } from './utils/retries'
 import DappListDisplay from './usecases/DappListDisplay'
 
-describe('Discover tab', () => {
+// TODO(mobilestack): Re-enable if discover tab functionality is supported by default
+describe.skip('Discover tab', () => {
   beforeAll(async () => {
     await quickOnboarding()
     // Relaunch app to ensure dapp list loads
