@@ -2289,7 +2289,10 @@
     "withdrawSubtitle_noTxAppName": "d'une application inconnue",
     "claimRewardTitle": "Collecté",
     "claimRewardSubtitle": "du pool {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "d'une application inconnue"
+    "claimRewardSubtitle_noTxAppName": "d'une application inconnue",
+    "error": {
+      "fetchError": "Oups, il y a eu un problème pour actualiser ton flux. L'historique de tes transactions peut être incomplet pour le moment."
+    }
   },
   "transactionDetails": {
     "descriptionLabel": "Détails",
