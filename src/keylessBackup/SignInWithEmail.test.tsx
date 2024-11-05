@@ -68,7 +68,7 @@ describe('SignInWithEmail', () => {
     logDebugSpy = jest.spyOn(Logger, 'debug')
   })
 
-  it('spins when no address and coming from setup flow', () => {
+  it('spins when no address and coming from setup flow in onboarding', () => {
     const storeNoAddress = createMockStore({ web3: { account: undefined } })
     const { getByTestId } = renderComponent(
       KeylessBackupFlow.Setup,
@@ -76,6 +76,16 @@ describe('SignInWithEmail', () => {
       storeNoAddress
     )
     expect(getByTestId('SignInWithEmail/Spinner')).toBeTruthy()
+  })
+
+  it('does not spin when no address and coming from setup flow in settings', () => {
+    const storeNoAddress = createMockStore({ web3: { account: undefined } })
+    const { queryByTestId } = renderComponent(
+      KeylessBackupFlow.Setup,
+      KeylessBackupOrigin.Settings,
+      storeNoAddress
+    )
+    expect(queryByTestId('SignInWithEmail/Spinner')).toBeFalsy()
   })
 
   it('does not spin  when no address and coming from recovery flow', () => {

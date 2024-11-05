@@ -176,7 +176,7 @@ function SignInWithEmail({ route }: Props) {
     }
   }
 
-  if (!address && isSetup) {
+  if (!address && isSetupInOnboarding) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.activityIndicatorContainer} testID="SignInWithEmail/Spinner">
