@@ -2289,7 +2289,10 @@
     "withdrawSubtitle_noTxAppName": "von unbekannter App",
     "claimRewardTitle": "Gesammelt",
     "claimRewardSubtitle": "aus {{txAppName}} Pool",
-    "claimRewardSubtitle_noTxAppName": "von unbekannter App"
+    "claimRewardSubtitle_noTxAppName": "von unbekannter App",
+    "error": {
+      "fetchError": "Ups, es gab ein Problem beim Aktualisieren deines Feeds. Es kann sein, dass dein Transaktionsverlauf im Moment unvollständig ist."
+    }
   },
   "transactionDetails": {
     "descriptionLabel": "Details",

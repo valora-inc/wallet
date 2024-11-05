@@ -2289,7 +2289,10 @@
     "withdrawSubtitle_noTxAppName": "de um aplicativo desconhecido",
     "claimRewardTitle": "Recebido",
     "claimRewardSubtitle": "do pool da {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "de um aplicativo desconhecido"
+    "claimRewardSubtitle_noTxAppName": "de um aplicativo desconhecido",
+    "error": {
+      "fetchError": "Opa, houve um problema ao atualizar seu feed. Seu histórico de transações pode estar incompleto no momento."
+    }
   },
   "transactionDetails": {
     "descriptionLabel": "Detalhes",

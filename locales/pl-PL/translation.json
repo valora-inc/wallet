@@ -2293,7 +2293,10 @@
     "withdrawSubtitle_noTxAppName": "z nieznanej aplikacji",
     "claimRewardTitle": "Zebrano",
     "claimRewardSubtitle": "z puli {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "z nieznanej aplikacji"
+    "claimRewardSubtitle_noTxAppName": "z nieznanej aplikacji",
+    "error": {
+      "fetchError": "Ups, wystąpił problem z odświeżeniem Twojego kanału. Twoja historia transakcji może być na razie niekompletna."
+    }
   },
   "transactionDetails": {
     "descriptionLabel": "Szczegóły",

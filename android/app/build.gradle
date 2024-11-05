@@ -138,7 +138,7 @@ def secrets = loadProjectSecrets(project.env.get("DEFAULT_TESTNET"))
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    namespace "org.celo.mobile"
+    namespace "xyz.mobilestack"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
@@ -155,8 +155,8 @@ android {
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "app_name", project.env.get("APP_DISPLAY_NAME")
-        resValue "string", "build_config_package", "org.celo.mobile"
         resValue "string", "deep_link_url_scheme", project.env.get("DEEP_LINK_URL_SCHEME")
+        resValue "string", "build_config_package", "xyz.mobilestack"
         missingDimensionStrategy 'react-native-camera', 'general'
         vectorDrawables.useSupportLibrary = true
         resValue "bool", "is_profiling_build", System.getenv("IS_PROFILING_BUILD") ?: "false"
@@ -178,11 +178,11 @@ android {
                 storePassword 'android'
                 keyAlias 'androiddebugkey'
                 keyPassword 'android'
-            } else if (project.hasProperty('CELO_RELEASE_STORE_FILE')) {
-                storeFile file(CELO_RELEASE_STORE_FILE)
-                storePassword System.getenv("CELO_RELEASE_STORE_PASSWORD")
-                keyAlias CELO_RELEASE_KEY_ALIAS
-                keyPassword System.getenv("CELO_RELEASE_KEY_PASSWORD")
+            } else if (project.hasProperty('RELEASE_STORE_FILE')) {
+                storeFile file(RELEASE_STORE_FILE)
+                storePassword System.getenv("RELEASE_STORE_PASSWORD")
+                keyAlias RELEASE_KEY_ALIAS
+                keyPassword System.getenv("RELEASE_STORE_PASSWORD")
             }
         }
 

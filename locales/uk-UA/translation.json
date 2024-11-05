@@ -2293,7 +2293,10 @@
     "withdrawSubtitle_noTxAppName": "з невідомого додатку",
     "claimRewardTitle": "Стягнуто",
     "claimRewardSubtitle": "з пулу {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "з невідомого додатку"
+    "claimRewardSubtitle_noTxAppName": "з невідомого додатку",
+    "error": {
+      "fetchError": "Виникла проблема з оновленням вашої стрічки. Ваша історія транзакцій може бути неповною."
+    }
   },
   "transactionDetails": {
     "descriptionLabel": "Подробиці",
