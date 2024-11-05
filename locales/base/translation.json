@@ -2291,7 +2291,10 @@
     "withdrawSubtitle_noTxAppName": "from unknown app",
     "claimRewardTitle": "Collected",
     "claimRewardSubtitle": "from {{txAppName}} Pool",
-    "claimRewardSubtitle_noTxAppName": "from unknown app"
+    "claimRewardSubtitle_noTxAppName": "from unknown app",
+    "error": {
+      "fetchError": "Oops, there was an issue refreshing your feed. Your transaction history may be incomplete for now."
+    }
   },
   "transactionDetails": {
     "descriptionLabel": "Details",

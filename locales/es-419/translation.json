@@ -2289,7 +2289,10 @@
     "withdrawSubtitle_noTxAppName": "desde pool no identificada",
     "claimRewardTitle": "Ganancias recibidas",
     "claimRewardSubtitle": "de la pool de {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "desde pool no identificada"
+    "claimRewardSubtitle_noTxAppName": "desde pool no identificada",
+    "error": {
+      "fetchError": "Oops, ha habido un problema al actualizar tu feed. Tu historial de transacciones puede estar incompleto por ahora."
+    }
   },
   "transactionDetails": {
     "descriptionLabel": "Detalles",

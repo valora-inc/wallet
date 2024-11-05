@@ -71,6 +71,7 @@ const loggerPayloadBlocklist = [
   fetchPositionsSuccess.type,
   fetchShortcutsSuccess.type,
   AppActions.UPDATE_REMOTE_CONFIG_VALUES,
+  'transactionFeedV2Api/executeQuery/fulfilled',
 ]
 
 function* loggerSaga() {

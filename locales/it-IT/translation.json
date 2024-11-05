@@ -2289,7 +2289,10 @@
     "withdrawSubtitle_noTxAppName": "d'app sconosciuta",
     "claimRewardTitle": "Raccolti",
     "claimRewardSubtitle": "dal pool {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "d'app sconosciuta"
+    "claimRewardSubtitle_noTxAppName": "d'app sconosciuta",
+    "error": {
+      "fetchError": "Ops, c'è stato un problema nell'aggiornare il tuo feed. La cronologia delle tue transazioni potrebbe essere incompleta per il momento."
+    }
   },
   "transactionDetails": {
     "descriptionLabel": "Dettagli",

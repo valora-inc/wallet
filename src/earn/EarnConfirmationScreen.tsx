@@ -88,7 +88,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
     feeCurrencies,
     hooksApiUrl,
     rewardsPositions,
-    useMax: !!useMax,
+    useMax,
   })
 
   const onPress = () => {

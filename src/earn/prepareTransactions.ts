@@ -16,7 +16,7 @@ import { Address } from 'viem'
 
 const TAG = 'earn/prepareTransactions'
 
-// Used on the EarnEnterAmount.tsx Screen
+// Used on EarnEnterAmount.tsx
 export async function prepareDepositTransactions({
   amount,
   token,
@@ -92,6 +92,7 @@ export async function prepareDepositTransactions({
   }
 }
 
+// Used on EarnEnterAmount.tsx and the usePrepareEnterAmountTransactionsCallback hook expects a swapTransaction even if it's undefined
 export async function prepareWithdrawTransactionsWithSwap({
   amount,
   walletAddress,
@@ -100,43 +101,29 @@ export async function prepareWithdrawTransactionsWithSwap({
   hooksApiUrl,
   useMax,
 }: {
-  amount?: string
+  amount: string
   walletAddress: Address
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
   hooksApiUrl: string
-  useMax?: boolean
+  useMax: boolean
 }) {
-  const { appId, balance, dataProps, networkId, shortcutTriggerArgs } = pool
-  const { transactions: withdrawTransactions }: { transactions: RawShortcutTransaction[] } =
-    await triggerShortcutRequest(hooksApiUrl, {
-      address: walletAddress,
-      appId,
-      networkId,
-      shortcutId: 'withdraw',
-      tokens: [
-        {
-          tokenId: dataProps.withdrawTokenId,
-          amount: useMax ? balance : amount,
-          useMax,
-        },
-      ],
-      ...shortcutTriggerArgs?.withdraw,
-    })
+  const prepareTransactionsResult = await prepareWithdrawTransactions({
+    amount,
+    walletAddress,
+    feeCurrencies,
+    pool,
+    hooksApiUrl,
+    useMax,
+  })
+
   Logger.debug(TAG, 'prepareWithdrawTransactionsWithSwap', {
-    withdrawTransactions,
+    prepareTransactionsResult,
     pool,
   })
 
-  // Is there a better way to do this?
-  // Pass a param to a shared prepareTransactions function to indicate that the transaction should also return swapTransaction:
   return {
-    prepareTransactionsResult: await prepareTransactions({
-      feeCurrencies,
-      baseTransactions: rawShortcutTransactionsToTransactionRequests(withdrawTransactions),
-      isGasSubsidized: isGasSubsidizedForNetwork(networkId),
-      origin: 'earn-withdraw',
-    }),
+    prepareTransactionsResult,
     swapTransaction: undefined,
   }
 }
@@ -172,7 +159,6 @@ export async function prepareWithdrawAndClaimTransactions({
       ...shortcutTriggerArgs?.withdraw,
     })
 
-  // Prepare the claim transactions if there are rewards positions
   const claimTransactions = await Promise.all(
     rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
       const { transactions }: { transactions?: RawShortcutTransaction[] } =
@@ -262,7 +248,6 @@ export async function prepareClaimTransactions({
 }) {
   const { appId, networkId } = pool
 
-  // Prepare the claim transactions if there are rewards positions
   const claimTransactions = await Promise.all(
     rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
       const { transactions }: { transactions?: RawShortcutTransaction[] } =
