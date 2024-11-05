@@ -52,6 +52,17 @@ describe('utils/Logger', () => {
     })
   })
 
+  it('Logger.debug ignores ConditionError', () => {
+    console.debug = jest.fn()
+    Logger.debug('Test/Debug', {
+      error: {
+        name: 'ConditionError',
+        message: 'Aborted due to condition callback returning false.',
+      },
+    })
+    expect(console.debug).toBeCalledTimes(0)
+  })
+
   it('Logger overrides console.info', () => {
     console.info = jest.fn()
     Logger.info('Test/Info', 'Test message #1', 'Test message #2', { someVal: 'test' })
