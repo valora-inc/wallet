@@ -109,8 +109,6 @@ function* loggerSaga() {
       return
     }
 
-    console.log(action)
-
     try {
       Logger.debug('redux/saga@logger', action)
     } catch (err) {
