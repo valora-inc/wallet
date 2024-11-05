@@ -48,6 +48,25 @@ interface UserBalancesResponse {
 export async function fetchTokenBalancesForAddress(
   address: string
 ): Promise<FetchedTokenBalance[]> {
+  if (Boolean(true)) {
+    return fetchTokenBalancesForAddressFromBlockchainApi(address)
+  }
+
+  const networkIds = getSupportedNetworkIdsForTokenBalances().join('&networkIds[]=')
+  const apiUrl = `${networkConfig.getWalletBalancesUrl}?address=${address}&networkIds[]=${networkIds}`
+  const response = await fetch(apiUrl)
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch token balances: ${response.status} ${response.statusText}`)
+  }
+
+  const userBalances = await response.json()
+  return userBalances
+}
+
+export async function fetchTokenBalancesForAddressFromBlockchainApi(
+  address: string
+): Promise<FetchedTokenBalance[]> {
   const chainsToFetch = getSupportedNetworkIdsForTokenBalances()
   const userBalances = await Promise.all(
     chainsToFetch.map(async (networkId) => {
