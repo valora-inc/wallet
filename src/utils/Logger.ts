@@ -39,22 +39,6 @@ class Logger {
       return
     }
 
-    /**
-     * This is not an actual error but rather a way for Redux Toolkit to signal that a thunk
-     * condition (most likely caused by RTK-Query) has evaluated to false and cancelled the thunk
-     * execution OR the thunk execution was aborted. As can be seen from the Redux Toolkit code,
-     * this is not an actual Error class instance but just a way of signaling the failed condition
-     * necessary to execute the thunk.
-     *
-     * For more context, please check out the following links:
-     * https://github.com/reduxjs/redux-toolkit/blob/7af5345eaeab83ca57b439aec41819420c503b34/packages/toolkit/src/createAsyncThunk.ts#L596-L602
-     * https://stackoverflow.com/questions/69789058/what-does-this-error-mean-in-redux-toolkit
-     * https://redux-toolkit.js.org/api/createAsyncThunk#options
-     */
-    if (messages?.[0]?.error?.name === 'ConditionError') {
-      return
-    }
-
     console.debug(tag, ...messages)
   }
 
