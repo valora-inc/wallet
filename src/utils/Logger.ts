@@ -38,7 +38,6 @@ class Logger {
     if (this.level < LoggerLevel.Debug) {
       return
     }
-
     console.debug(tag, ...messages)
   }
 
