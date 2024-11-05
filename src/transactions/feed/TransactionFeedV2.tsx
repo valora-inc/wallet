@@ -28,6 +28,7 @@ import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
 import { allStandbyTransactionsSelector, feedFirstPageSelector } from 'src/transactions/selectors'
+import { updateFeedFirstPage } from 'src/transactions/slice'
 import {
   FeeType,
   TokenTransactionTypeV2,
@@ -202,7 +203,8 @@ function mergeStandByTransactionsInRange({
     return inRange || newTransaction || veryOldTransaction
   })
   const deduplicatedTransactions = deduplicateTransactions([...transactions, ...standByInRange])
-  const transactionsFromAllowedNetworks = deduplicatedTransactions.filter((tx) =>
+  const sortedTransactions = sortTransactions(deduplicatedTransactions)
+  const transactionsFromAllowedNetworks = sortedTransactions.filter((tx) =>
     allowedNetworks.includes(tx.networkId)
   )
 
@@ -424,6 +426,17 @@ export default function TransactionFeedV2() {
       }
     },
     [newlyCompletedCrossChainSwaps]
+  )
+
+  useEffect(
+    function updatePersistedFeedFirstPage() {
+      const isFirstPage = !data?.pageInfo.hasPreviousPage
+      if (isFirstPage) {
+        const firstPageData = paginatedData[FIRST_PAGE_CURSOR]
+        dispatch(updateFeedFirstPage({ transactions: firstPageData }))
+      }
+    },
+    [paginatedData, data?.pageInfo]
   )
 
   const confirmedTransactions = useMemo(() => {
