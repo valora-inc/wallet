@@ -159,7 +159,6 @@ export async function prepareWithdrawAndClaimTransactions({
       ...shortcutTriggerArgs?.withdraw,
     })
 
-  // Prepare the claim transactions if there are rewards positions
   const claimTransactions = await Promise.all(
     rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
       const { transactions }: { transactions?: RawShortcutTransaction[] } =
@@ -249,7 +248,6 @@ export async function prepareClaimTransactions({
 }) {
   const { appId, networkId } = pool
 
-  // Prepare the claim transactions if there are rewards positions
   const claimTransactions = await Promise.all(
     rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
       const { transactions }: { transactions?: RawShortcutTransaction[] } =
