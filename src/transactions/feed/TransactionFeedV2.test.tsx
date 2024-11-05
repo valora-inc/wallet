@@ -490,7 +490,9 @@ describe('TransactionFeedV2', () => {
       },
     })
 
-    expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
+    await waitFor(() =>
+      expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
+    )
 
     await act(() => {
       const newPendingTransaction = addStandbyTransaction({

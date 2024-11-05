@@ -4,12 +4,12 @@ import { getSupportedNetworkIdsForApprovalTxsInHomefeed } from 'src/tokens/utils
 import {
   type ConfirmedStandbyTransaction,
   type NetworkId,
+  TokenTransaction,
   TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
 
-export const allStandbyTransactionsSelector = (state: RootState) =>
-  state.transactions.standbyTransactions
+const allStandbyTransactionsSelector = (state: RootState) => state.transactions.standbyTransactions
 const standbyTransactionsSelector = createSelector(
   [allStandbyTransactionsSelector, getSupportedNetworkIdsForApprovalTxsInHomefeed],
   (standbyTransactions, supportedNetworkIdsForApprovalTxs) => {
@@ -18,6 +18,24 @@ const standbyTransactionsSelector = createSelector(
         return supportedNetworkIdsForApprovalTxs.includes(tx.networkId)
       }
       return true
+    })
+  }
+)
+
+export const formattedStandByTransactionsSelector = createSelector(
+  [allStandbyTransactionsSelector],
+  (transactions) => {
+    return transactions.map((tx): TokenTransaction => {
+      if (tx.status === TransactionStatus.Pending) {
+        return {
+          fees: [],
+          block: '',
+          transactionHash: '',
+          ...tx, // in case the transaction already has the above (e.g. cross chain swaps), use the real values
+        }
+      }
+
+      return tx
     })
   }
 )
