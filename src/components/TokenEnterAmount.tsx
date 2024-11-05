@@ -40,6 +40,7 @@ export function TokenEnterAmount({
   autoFocus = true,
   editable = true,
   testID,
+  switchDisabled,
 }: {
   token?: TokenBalance
   onTokenPickerSelect(): void
@@ -55,6 +56,7 @@ export function TokenEnterAmount({
   autoFocus?: boolean
   editable?: boolean
   testID?: string
+  switchDisabled?: boolean
 }) {
   const { t } = useTranslation()
   // the startPosition and inputRef variables exist to ensure TextInput
@@ -97,27 +99,30 @@ export function TokenEnterAmount({
             },
           ]}
         >
-          {token ? (
-            <View style={styles.tokenInfoContainer}>
-              <TokenIcon token={token} size={IconSize.MEDIUM} />
-              <View>
-                <Text style={styles.tokenName}>
-                  {token.symbol} on {NETWORK_NAMES[token.networkId]}
-                </Text>
-                <Text style={styles.tokenBalance}>
-                  <Trans i18nKey="tokenEnterAmount.availableBalance">
-                    <TokenDisplay
-                      tokenId={token.tokenId}
-                      amount={token.balance}
-                      showLocalAmount={false}
-                    />
-                  </Trans>
-                </Text>
-              </View>
-            </View>
-          ) : (
-            <Text style={styles.placeholderText}>{t('tokenEnterAmount.selectToken')}</Text>
-          )}
+          <View style={styles.tokenInfoContainer}>
+            {token ? (
+              <>
+                <TokenIcon token={token} size={IconSize.MEDIUM} />
+
+                <View style={styles.tokenNameAndAvailable}>
+                  <Text style={styles.tokenName}>
+                    {token.symbol} on {NETWORK_NAMES[token.networkId]}
+                  </Text>
+                  <Text style={styles.tokenBalance}>
+                    <Trans i18nKey="tokenEnterAmount.availableBalance">
+                      <TokenDisplay
+                        tokenId={token.tokenId}
+                        amount={token.balance}
+                        showLocalAmount={false}
+                      />
+                    </Trans>
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <Text style={styles.placeholderText}>{t('tokenEnterAmount.selectToken')}</Text>
+            )}
+          </View>
 
           {!tokenSelectionDisabled && <DownArrowIcon height={24} color={Colors.gray3} />}
         </View>
@@ -172,9 +177,11 @@ export function TokenEnterAmount({
 
           {token.priceUsd ? (
             <>
-              <Touchable onPress={toggleAmountType} style={styles.swapArrowContainer}>
-                <SwapArrows color={Colors.gray3} size={24} />
-              </Touchable>
+              {!switchDisabled && (
+                <Touchable onPress={toggleAmountType} style={styles.swapArrowContainer}>
+                  <SwapArrows color={Colors.gray3} size={24} />
+                </Touchable>
+              )}
 
               <Text numberOfLines={1} style={[styles.secondaryAmountText, { maxWidth: '35%' }]}>
                 {amountType === 'token'
@@ -210,6 +217,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: Spacing.Smallest8,
+    flexShrink: 1,
+  },
+  tokenNameAndAvailable: {
+    flexShrink: 1,
   },
   tokenName: {
     ...typeScale.labelMedium,
