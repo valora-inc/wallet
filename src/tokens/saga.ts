@@ -23,7 +23,6 @@ import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
-import { gql } from 'src/utils/gql'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
@@ -39,22 +38,12 @@ export interface FetchedTokenBalance {
   balance: string
 }
 
-interface UserBalancesResponse {
-  userBalances: {
-    balances: FetchedTokenBalance[]
-  }
-}
-
 export async function fetchTokenBalancesForAddress(
   address: string
 ): Promise<FetchedTokenBalance[]> {
-  if (Boolean(true)) {
-    return fetchTokenBalancesForAddressFromBlockchainApi(address)
-  }
-
   const networkIds = getSupportedNetworkIdsForTokenBalances().join('&networkIds[]=')
-  const apiUrl = `${networkConfig.getWalletBalancesUrl}?address=${address}&networkIds[]=${networkIds}`
-  const response = await fetch(apiUrl)
+  const url = `${networkConfig.getWalletBalancesUrl}?address=${address}&networkIds[]=${networkIds}`
+  const response = await fetchWithTimeout(url)
 
   if (!response.ok) {
     throw new Error(`Failed to fetch token balances: ${response.status} ${response.statusText}`)
@@ -62,52 +51,6 @@ export async function fetchTokenBalancesForAddress(
 
   const userBalances = await response.json()
   return userBalances
-}
-
-export async function fetchTokenBalancesForAddressFromBlockchainApi(
-  address: string
-): Promise<FetchedTokenBalance[]> {
-  const chainsToFetch = getSupportedNetworkIdsForTokenBalances()
-  const userBalances = await Promise.all(
-    chainsToFetch.map(async (networkId) => {
-      const response = await fetch(`${networkConfig.blockchainApiUrl}/graphql`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          query: gql`
-            query FetchUserBalances($address: Address!, $networkId: NetworkId) {
-              userBalances(address: $address, networkId: $networkId) {
-                balances {
-                  tokenId
-                  tokenAddress
-                  balance
-                }
-              }
-            }
-          `,
-          variables: {
-            address,
-            networkId: networkId.replaceAll('-', '_'), // GraphQL does not support hyphens in enum values
-          },
-        }),
-      })
-
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch token balances for ${networkId}: ${response.status} ${response.statusText}`
-        )
-      }
-
-      return (await response.json()) as { data: UserBalancesResponse }
-    })
-  )
-  return userBalances.reduce(
-    (acc, response) => acc.concat(response.data.userBalances.balances),
-    [] as FetchedTokenBalance[]
-  )
 }
 
 export async function fetchTokenBalancesForAddressByTokenId(address: string) {
