@@ -34,7 +34,7 @@ describe(watchFetchCurrentRate, () => {
     await expectSaga(watchFetchCurrentRate)
       .provide([
         [select(getLocalCurrencyCode), LocalCurrencyCode.PHP],
-        [call(fetchExchangeRate, LocalCurrencyCode.USD, LocalCurrencyCode.PHP), '1.33'],
+        [call(fetchExchangeRate, LocalCurrencyCode.PHP), '1.33'],
       ])
       .put(fetchCurrentRateSuccess(LocalCurrencyCode.PHP, '1.33', now))
       .dispatch(fetchCurrentRate())
@@ -72,13 +72,13 @@ describe(watchSelectPreferredCurrency, () => {
 
 describe(fetchExchangeRate, () => {
   it('does not fetch when the local currency code is the same as source currency code', async () => {
-    await fetchExchangeRate(LocalCurrencyCode.USD, LocalCurrencyCode.USD)
+    await fetchExchangeRate(LocalCurrencyCode.USD)
     expect(mockFetch).not.toHaveBeenCalled()
   })
 
   it('fetches the exchange rate and returns it', async () => {
-    mockFetch.mockResponseOnce(JSON.stringify({ data: { currencyConversion: { rate: 1.33 } } }))
-    await fetchExchangeRate(LocalCurrencyCode.PHP, LocalCurrencyCode.USD)
+    mockFetch.mockResponseOnce(JSON.stringify({ rate: 1.33 }))
+    await fetchExchangeRate(LocalCurrencyCode.PHP)
     expect(mockFetch).toHaveBeenCalled()
   })
 })
