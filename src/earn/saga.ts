@@ -315,7 +315,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
   const tokenInfo = yield* call(getTokenInfo, tokenId)
 
   if (!tokenInfo) {
-    Logger.error(`${TAG}/submitSaga`, 'Token info not found for token id', tokenId)
+    Logger.error(`${TAG}/withdrawSubmitSaga`, 'Token info not found for token id', tokenId)
     yield* put(withdrawError())
     return
   }
@@ -337,7 +337,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
 
   try {
     Logger.debug(
-      `${TAG}/submitSaga`,
+      `${TAG}/withdrawSubmitSaga`,
       `Starting ${mode} for token ${tokenId}, total transactions: ${preparedTransactions.length}`
     )
 
@@ -404,7 +404,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     submitted = true
 
     // Wait for transaction receipts
-    Logger.debug(`${TAG}/submitSaga`, 'Waiting for transaction receipts')
+    Logger.debug(`${TAG}/withdrawSubmitSaga`, 'Waiting for transaction receipts')
     const txReceipts = yield* all(
       txHashes.map((txHash) => {
         return call([publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'], {
@@ -415,7 +415,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
 
     txReceipts.forEach((receipt, index) => {
       Logger.debug(
-        `${TAG}/submitSaga`,
+        `${TAG}/withdrawSubmitSaga`,
         `Received transaction receipt ${index + 1} of ${txReceipts.length}`,
         receipt
       )
@@ -436,7 +436,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     AppAnalytics.track(eventSuccess, commonAnalyticsProps)
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
-      Logger.info(`${TAG}/submitSaga`, 'Transaction cancelled by user')
+      Logger.info(`${TAG}/withdrawSubmitSaga`, 'Transaction cancelled by user')
       yield* put(withdrawCancel())
       const eventCancel =
         mode === 'claim-rewards'
@@ -447,7 +447,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     }
 
     const error = ensureError(err)
-    Logger.error(`${TAG}/submitSaga`, `Error sending ${mode} transaction`, error)
+    Logger.error(`${TAG}/withdrawSubmitSaga`, `Error sending ${mode} transaction`, error)
     yield* put(withdrawError())
     const eventError =
       mode === 'claim-rewards'
