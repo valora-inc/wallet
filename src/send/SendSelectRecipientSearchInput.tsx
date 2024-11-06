@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import TextInput from 'src/components/TextInput'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -18,8 +18,9 @@ export function SendSelectRecipientSearchInput({
   const { t } = useTranslation()
   return (
     <View style={styles.textInputContainer}>
+      <Text>{t('sendSelectRecipient.searchInputLabel')}</Text>
       <TextInput
-        placeholder={t('sendSelectRecipient.searchText') ?? undefined}
+        placeholder={t('sendSelectRecipient.searchInputPlaceholder') ?? undefined}
         value={input}
         onChangeText={onChangeText}
         style={styles.search}
@@ -39,10 +40,12 @@ const styles = StyleSheet.create({
     color: colors.gray4,
     marginRight: 24,
     flex: 1,
+    flexDirection: 'row',
     paddingHorizontal: Spacing.Regular16,
     borderWidth: 1,
     borderColor: colors.gray2,
     borderRadius: 100,
+    backgroundColor: 'yellow',
   },
   search: {
     borderColor: colors.gray2,
