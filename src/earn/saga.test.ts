@@ -883,6 +883,49 @@ describe('withdrawSubmitSaga', () => {
     expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(false)
   })
 
+  it('sends only withdraw to standby handler if withdrawalIncludesClaim is true (gas subsidy off)', async () => {
+    await expectSaga(withdrawSubmitSaga, {
+      type: withdrawStart.type,
+      payload: {
+        pool: {
+          ...mockPool,
+          dataProps: {
+            ...mockPool.dataProps,
+            withdrawalIncludesClaim: true,
+          },
+        },
+        preparedTransactions: [serializableWithdrawTx],
+        rewardsTokens: mockRewardsPositions[1].tokens,
+        amount: '5',
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide(sagaProviders)
+      .put(withdrawSuccess())
+      .put(fetchTokenBalances({ showLoading: false }))
+      .call.like({ fn: sendPreparedTransactions })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
+      .run()
+
+    expect(navigateHome).toHaveBeenCalled()
+    expect(mockStandbyHandler).toHaveBeenCalledTimes(1)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, {
+      ...expectedWithdrawStandbyTx,
+      inAmount: { ...expectedWithdrawStandbyTx.inAmount, value: '5' },
+      outAmount: { ...expectedWithdrawStandbyTx.outAmount, value: '5' },
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_start, {
+      ...expectedAnalyticsPropsWithRewards,
+      tokenAmount: '5',
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_success, {
+      ...expectedAnalyticsPropsWithRewards,
+      tokenAmount: '5',
+    })
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
+  })
+
   it('dispatches cancel action if pin input is cancelled and does not navigate home', async () => {
     await expectSaga(withdrawSubmitSaga, {
       type: withdrawStart.type,
