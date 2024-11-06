@@ -20,10 +20,11 @@ import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore } from 'test/utils'
+import { createMockStore, mockStoreBalancesToTokenBalances } from 'test/utils'
 import {
   mockAaveArbUsdcAddress,
   mockAaveArbUsdcTokenId,
+  mockAccount,
   mockArbArbTokenId,
   mockArbEthTokenId,
   mockArbUsdcTokenId,
@@ -114,7 +115,8 @@ describe('EarnConfirmationScreen', () => {
           component={EarnConfirmationScreen}
           params={{
             pool: { ...mockEarnPositions[0], balance: '10.75' },
-            mode: 'Exit',
+            mode: 'exit',
+            useMax: true,
           }}
         />
       </Provider>
@@ -148,10 +150,21 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId('EarnConfirmation/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
     expect(queryByTestId('EarnConfirmation/GasSubsidized')).toBeFalsy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
+    expect(prepareWithdrawAndClaimTransactions).toHaveBeenCalledWith({
+      feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
+      pool: { ...mockEarnPositions[0], balance: '10.75' },
+      rewardsPositions: [mockRewardsPositions[1]],
+      walletAddress: mockAccount.toLowerCase(),
+      hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
+      amount: '10.75',
+      useMax: true,
+    })
     expect(store.getActions()).toEqual([])
   })
 
   it('renders total balance, rewards and gas after fetching rewards and preparing tx for partial withdrawal', async () => {
+    const inputAmount = (10.75 * +mockEarnPositions[0].pricePerShare) / 2 // Input amount is half of the balance
+    const txAmount = '5.37500000000000045455' // inputAmount * pricePerShare but with more precision
     const { getByText, getByTestId, queryByTestId, queryByText } = render(
       <Provider store={store}>
         <MockedNavigator
@@ -159,7 +172,7 @@ describe('EarnConfirmationScreen', () => {
           params={{
             pool: { ...mockEarnPositions[0], balance: '10.75' },
             mode: 'withdraw',
-            inputAmount: (10.75 * +mockEarnPositions[0].pricePerShare) / 2, // Input amount is half of the balance
+            inputAmount,
           }}
         />
       </Provider>
@@ -183,7 +196,61 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId('EarnConfirmation/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
     expect(queryByTestId('EarnConfirmation/GasSubsidized')).toBeFalsy()
     expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
+    expect(prepareWithdrawTransactions).toHaveBeenCalledWith({
+      feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
+      pool: { ...mockEarnPositions[0], balance: '10.75' },
+      rewardsPositions: [mockRewardsPositions[1]],
+      walletAddress: mockAccount.toLowerCase(),
+      hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
+      amount: txAmount,
+    })
     expect(queryByText('earnFlow.collect.reward')).toBeFalsy()
+    expect(store.getActions()).toEqual([])
+  })
+
+  it('renders rewards and gas after fetching rewards and preparing tx for claim rewards', async () => {
+    const { getByText, getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={EarnConfirmationScreen}
+          params={{
+            pool: { ...mockEarnPositions[0], balance: '10.75' },
+            mode: 'claim-rewards',
+            useMax: true,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByText('earnFlow.collect.titleClaim')).toBeTruthy()
+    expect(getByTestId('EarnConfirmation/GasLoading')).toBeTruthy()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
+
+    expect(getByText('earnFlow.collect.reward')).toBeTruthy()
+    expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/CryptoAmount`)).toHaveTextContent(
+      '0.01 ARB'
+    )
+    expect(getByTestId(`EarnConfirmation/${mockArbArbTokenId}/FiatAmount`)).toHaveTextContent(
+      '₱0.016'
+    )
+
+    await waitFor(() => {
+      expect(queryByTestId('EarnConfirmation/GasLoading')).toBeFalsy()
+    })
+
+    expect(getByTestId('EarnConfirmation/GasFeeCryptoAmount')).toHaveTextContent('0.06 ETH')
+    expect(getByTestId('EarnConfirmation/GasFeeFiatAmount')).toHaveTextContent('₱119.70')
+    expect(queryByTestId('EarnConfirmation/GasSubsidized')).toBeFalsy()
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeEnabled()
+    expect(prepareClaimTransactions).toHaveBeenCalledWith({
+      feeCurrencies: mockStoreBalancesToTokenBalances([mockTokenBalances[mockArbEthTokenId]]),
+      pool: { ...mockEarnPositions[0], balance: '10.75' },
+      walletAddress: mockAccount.toLowerCase(),
+      hooksApiUrl: 'https://api.alfajores.valora.xyz/hooks-api',
+      amount: '10.75',
+      useMax: true,
+      rewardsPositions: [mockRewardsPositions[1]],
+    })
     expect(store.getActions()).toEqual([])
   })
 
@@ -206,6 +273,7 @@ describe('EarnConfirmationScreen', () => {
           params={{
             pool: { ...mockEarnPositions[0], balance: '10.75' },
             mode: 'withdraw',
+            useMax: true,
           }}
         />
       </Provider>
@@ -219,6 +287,7 @@ describe('EarnConfirmationScreen', () => {
     expect(getByTestId(`EarnConfirmation/${mockArbUsdcTokenId}/FiatAmount`)).toHaveTextContent(
       '₱15.73'
     )
+    expect(getByTestId('EarnConfirmationScreen/CTA')).toBeDisabled()
 
     expect(queryByText('earnFlow.collect.reward')).toBeFalsy()
     expect(queryByTestId(`EarnConfirmation/${mockArbArbTokenId}/CryptoAmount`)).toBeFalsy()
@@ -240,6 +309,7 @@ describe('EarnConfirmationScreen', () => {
           params={{
             pool: mockEarnPositions[0],
             mode: 'withdraw',
+            useMax: true,
           }}
         />
       </Provider>
@@ -270,6 +340,7 @@ describe('EarnConfirmationScreen', () => {
           params={{
             pool: mockEarnPositions[0],
             mode: 'withdraw',
+            useMax: true,
           }}
         />
       </Provider>
@@ -294,6 +365,7 @@ describe('EarnConfirmationScreen', () => {
           params={{
             pool: { ...mockEarnPositions[0], balance: '10.75' },
             mode: 'withdraw',
+            useMax: true,
           }}
         />
       </Provider>
@@ -344,6 +416,7 @@ describe('EarnConfirmationScreen', () => {
           params={{
             pool: mockEarnPositions[0],
             mode: 'withdraw',
+            useMax: true,
           }}
         />
       </Provider>
@@ -371,6 +444,7 @@ describe('EarnConfirmationScreen', () => {
           params={{
             pool: mockEarnPositions[0],
             mode: 'withdraw',
+            useMax: true,
           }}
         />
       </Provider>
@@ -411,6 +485,7 @@ describe('EarnConfirmationScreen', () => {
           params={{
             pool: mockEarnPositions[0],
             mode: 'withdraw',
+            useMax: true,
           }}
         />
       </Provider>
@@ -430,6 +505,7 @@ describe('EarnConfirmationScreen', () => {
           params={{
             pool: mockEarnPositions[0],
             mode,
+            useMax: true,
           }}
         />
       </Provider>
