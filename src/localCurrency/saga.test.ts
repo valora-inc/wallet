@@ -81,4 +81,18 @@ describe(fetchExchangeRate, () => {
     await fetchExchangeRate(LocalCurrencyCode.PHP)
     expect(mockFetch).toHaveBeenCalled()
   })
+
+  it('throws when received status is other than 200', async () => {
+    mockFetch.mockResponseOnce('error', { status: 500, statusText: 'some error' })
+
+    const result = fetchExchangeRate(LocalCurrencyCode.PHP)
+    await expect(result).rejects.toThrow('Failed to fetch exchange rate: 500 some error')
+  })
+
+  it('throws when receives unxepected data', async () => {
+    mockFetch.mockResponseOnce(JSON.stringify({ message: 'Unexpected error' }))
+
+    const result = fetchExchangeRate(LocalCurrencyCode.PHP)
+    await expect(result).rejects.toThrow('Invalid response data {"message":"Unexpected error"}')
+  })
 })
