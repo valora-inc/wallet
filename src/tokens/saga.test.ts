@@ -304,7 +304,9 @@ describe(fetchTokenBalancesForAddressByTokenId, () => {
     })
     expect(mockFetch.mock.calls.length).toEqual(1)
     expect(mockFetch.mock.calls[0][0]).toEqual(
-      'https://api.alfajores.valora.xyz/getWalletBalances?address=some-address&networkIds[]=celo-alfajores'
+      encodeURI(
+        'https://api.alfajores.valora.xyz/getWalletBalances?address=some-address&networkIds[]=celo-alfajores'
+      )
     )
   })
 
@@ -341,7 +343,9 @@ describe(fetchTokenBalancesForAddressByTokenId, () => {
     })
     expect(mockFetch.mock.calls.length).toEqual(1)
     expect(mockFetch.mock.calls[0][0]).toEqual(
-      'https://api.alfajores.valora.xyz/getWalletBalances?address=some-address&networkIds[]=celo-alfajores&networkIds[]=ethereum-sepolia'
+      encodeURI(
+        'https://api.alfajores.valora.xyz/getWalletBalances?address=some-address&networkIds[]=celo-alfajores&networkIds[]=ethereum-sepolia'
+      )
     )
   })
 
