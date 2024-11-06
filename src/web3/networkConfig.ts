@@ -102,6 +102,7 @@ interface NetworkConfig {
   crossChainExplorerUrl: string
   getWalletTransactionsUrl: string
   getWalletBalancesUrl: string
+  getExchangeRateUrl: string
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -282,6 +283,9 @@ const GET_WALLET_TRANSACTIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getWalletTra
 const GET_WALLET_BALANCES_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getWalletBalances`
 const GET_WALLET_BALANCES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getWalletBalances`
 
+const GET_EXCHANGE_RATE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getExchangeRate`
+const GET_EXCHANGE_RATE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getExchangeRate`
+
 const WEB3_AUTH_VERIFIER = 'valora-cab-auth0'
 
 const BASE_SET_REGISTRATION_PROPERTIES_AUTH = {
@@ -421,6 +425,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     crossChainExplorerUrl: CROSS_CHAIN_EXPLORER_URL,
     getWalletTransactionsUrl: GET_WALLET_TRANSACTIONS_ALFAJORES,
     getWalletBalancesUrl: GET_WALLET_BALANCES_ALFAJORES,
+    getExchangeRateUrl: GET_EXCHANGE_RATE_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -522,6 +527,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     crossChainExplorerUrl: CROSS_CHAIN_EXPLORER_URL,
     getWalletTransactionsUrl: GET_WALLET_TRANSACTIONS_MAINNET,
     getWalletBalancesUrl: GET_WALLET_BALANCES_MAINNET,
+    getExchangeRateUrl: GET_EXCHANGE_RATE_MAINNET,
   },
 }
 
