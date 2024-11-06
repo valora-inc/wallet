@@ -134,12 +134,12 @@ export function usePrepareEnterConfirmationScreenTransactions(
   }
 ) {
   return useAsync(
-    () =>
+    async () =>
       mode === 'claim-rewards'
-        ? prepareClaimTransactions(params)
+        ? await prepareClaimTransactions(params)
         : mode === 'exit'
-          ? prepareWithdrawAndClaimTransactions(params)
-          : prepareWithdrawTransactions(params),
+          ? await prepareWithdrawAndClaimTransactions(params)
+          : await prepareWithdrawTransactions(params),
     [],
     {
       onError: (err) => {
