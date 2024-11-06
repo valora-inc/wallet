@@ -344,6 +344,16 @@ describe(fetchTokenBalancesForAddressByTokenId, () => {
       'https://api.alfajores.valora.xyz/getWalletBalances?address=some-address&networkIds[]=celo-alfajores&networkIds[]=ethereum-sepolia'
     )
   })
+
+  it('throws when received status is other than 200', async () => {
+    jest.mocked(getMultichainFeatures).mockReturnValueOnce({
+      showBalances: [NetworkId['celo-alfajores']],
+    })
+    mockFetch.mockResponseOnce('error', { status: 500, statusText: 'some error' })
+
+    const result = fetchTokenBalancesForAddressByTokenId('some-address')
+    await expect(result).rejects.toThrow('Failed to fetch token balances: 500 some error')
+  })
 })
 
 describe(fetchImportedTokenBalances, () => {
