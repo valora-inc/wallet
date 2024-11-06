@@ -5730,9 +5730,6 @@
         "State_25": {
             "additionalProperties": false,
             "properties": {
-                "claimStatus": {
-                    "$ref": "#/definitions/Status_1"
-                },
                 "depositStatus": {
                     "$ref": "#/definitions/Status_1"
                 },
@@ -5747,7 +5744,6 @@
                 }
             },
             "required": [
-                "claimStatus",
                 "depositStatus",
                 "poolInfoFetchStatus",
                 "withdrawStatus"

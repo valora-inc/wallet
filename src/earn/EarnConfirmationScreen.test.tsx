@@ -387,6 +387,7 @@ describe('EarnConfirmationScreen', () => {
             mockPreparedTransaction.transactions
           ),
           rewardsTokens: mockRewardsPositions[1].tokens,
+          mode: 'withdraw',
         },
       },
     ])

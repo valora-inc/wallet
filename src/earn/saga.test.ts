@@ -4,11 +4,8 @@ import { call } from 'redux-saga-test-plan/matchers'
 import { StaticProvider, dynamic, throwError } from 'redux-saga-test-plan/providers'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
-import { claimSubmitSaga, depositSubmitSaga, withdrawSubmitSaga } from 'src/earn/saga'
+import { depositSubmitSaga, withdrawSubmitSaga } from 'src/earn/saga'
 import {
-  claimCancel,
-  claimStart,
-  claimSuccess,
   depositCancel,
   depositError,
   depositStart,
@@ -728,6 +725,14 @@ describe('withdrawSubmitSaga', () => {
     poolId: mockRewardsPositions[0].positionId,
   }
 
+  const expectedAnalyticsPropsClaim = {
+    depositTokenId: mockArbUsdcTokenId,
+    networkId: NetworkId['arbitrum-sepolia'],
+    providerId: 'aave',
+    rewards: mockRewards,
+    poolId: mockRewardsPositions[0].positionId,
+  }
+
   const expectedAnalyticsPropsNoRewards = {
     ...expectedAnalyticsPropsWithRewards,
     rewards: [],
@@ -784,6 +789,7 @@ describe('withdrawSubmitSaga', () => {
         pool: mockPool,
         preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
         rewardsTokens: mockRewardsPositions[1].tokens,
+        mode: 'withdraw',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -819,6 +825,7 @@ describe('withdrawSubmitSaga', () => {
         preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
         rewardsTokens: mockRewardsPositions[1].tokens,
         amount: '5',
+        mode: 'withdraw',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -858,6 +865,7 @@ describe('withdrawSubmitSaga', () => {
         pool: mockPool,
         preparedTransactions: [serializableWithdrawTx],
         rewardsTokens: [],
+        mode: 'withdraw',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -897,6 +905,7 @@ describe('withdrawSubmitSaga', () => {
         preparedTransactions: [serializableWithdrawTx],
         rewardsTokens: mockRewardsPositions[1].tokens,
         amount: '5',
+        mode: 'withdraw',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -926,13 +935,14 @@ describe('withdrawSubmitSaga', () => {
     expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
   })
 
-  it('dispatches cancel action if pin input is cancelled and does not navigate home', async () => {
+  it('dispatches cancel action if pin input is cancelled and does not navigate home (withdraw)', async () => {
     await expectSaga(withdrawSubmitSaga, {
       type: withdrawStart.type,
       payload: {
         pool: mockPool,
         preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
         rewardsTokens: [],
+        mode: 'withdraw',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -964,6 +974,7 @@ describe('withdrawSubmitSaga', () => {
         pool: mockPool,
         preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
         rewardsTokens: mockRewardsPositions[1].tokens,
+        mode: 'withdraw',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -1001,6 +1012,7 @@ describe('withdrawSubmitSaga', () => {
           pool: mockPool,
           preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
           rewardsTokens: mockRewardsPositions[1].tokens,
+          mode: 'withdraw',
         },
       })
         .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -1031,81 +1043,20 @@ describe('withdrawSubmitSaga', () => {
       })
     }
   )
-})
-
-describe('claimSubmitSaga', () => {
-  const mockRewards = [
-    { tokenId: 'arbitrum-sepolia:0x912ce59144191c1204e64559fe8253a0e49e6548', amount: '0.01' },
-  ]
-  const mockPool = mockRewardsPositions[0] as EarnPosition
-  const serializableClaimRewardTx: SerializableTransactionRequest = {
-    from: '0xa',
-    to: '0xc',
-    value: '100',
-    data: '0x01',
-    gas: '50000',
-  }
-
-  const mockStandbyHandler = jest.fn()
-  const mockIsGasSubsidizedCheck = jest.fn() // a mock to ensure sendPreparedTransactions is called with the correct isGasSubsidized value
-
-  const sagaProviders: StaticProvider[] = [
-    [
-      matchers.call.fn(sendPreparedTransactions),
-      dynamic(({ args: [txs, _networkId, standbyHandlers, isGasSubsidized] }) => {
-        mockIsGasSubsidizedCheck(isGasSubsidized)
-        mockStandbyHandler(standbyHandlers[0]('0x1'))
-        return ['0x1']
-      }),
-    ],
-    [
-      call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' }),
-      mockTxReceipt1,
-    ],
-  ]
-
-  const expectedAnalyticsProps = {
-    depositTokenId: mockArbUsdcTokenId,
-    networkId: NetworkId['arbitrum-sepolia'],
-    providerId: 'aave',
-    rewards: mockRewards,
-    poolId: mockRewardsPositions[0].positionId,
-  }
-
-  const expectedClaimRewardTx = {
-    context: {
-      id: 'id-earn/saga-Earn/ClaimReward-1',
-      tag: 'earn/saga',
-      description: 'Earn/ClaimReward-1',
-    },
-    networkId: NetworkId['arbitrum-sepolia'],
-    amount: {
-      value: '0.01',
-      tokenId: mockArbArbTokenId,
-    },
-    transactionHash: '0x1',
-    type: TokenTransactionTypeV2.EarnClaimReward,
-    feeCurrencyId: undefined,
-    providerId: 'aave',
-  }
-
-  beforeEach(() => {
-    jest.clearAllMocks()
-    jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(false)
-  })
 
   it('sends claim transaction, navigates home and dispatches the success action (gas subsidy off)', async () => {
-    await expectSaga(claimSubmitSaga, {
-      type: claimStart.type,
+    await expectSaga(withdrawSubmitSaga, {
+      type: withdrawStart.type,
       payload: {
         pool: mockPool,
         preparedTransactions: [serializableClaimRewardTx],
         rewardsTokens: mockRewardsPositions[1].tokens,
+        mode: 'claim-rewards',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
-      .put(claimSuccess())
+      .put(withdrawSuccess())
       .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
@@ -1113,26 +1064,31 @@ describe('claimSubmitSaga', () => {
 
     expect(navigateHome).toHaveBeenCalled()
     expect(mockStandbyHandler).toHaveBeenCalledTimes(1)
-    expect(mockStandbyHandler).toHaveBeenCalledWith(expectedClaimRewardTx)
+    expect(mockStandbyHandler).toHaveBeenCalledWith({
+      ...expectedClaimRewardTx,
+      transactionHash: '0x1',
+    })
+
     expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_claim_submit_start,
-      expectedAnalyticsProps
+      expectedAnalyticsPropsClaim
     )
     expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_claim_submit_success,
-      expectedAnalyticsProps
+      expectedAnalyticsPropsClaim
     )
     expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
     expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
   })
 
-  it('dispatches cancel action if pin input is cancelled and does not navigate home', async () => {
-    await expectSaga(claimSubmitSaga, {
-      type: claimStart.type,
+  it('dispatches cancel action if pin input is cancelled and does not navigate home (claim-rewards)', async () => {
+    await expectSaga(withdrawSubmitSaga, {
+      type: withdrawStart.type,
       payload: {
         pool: mockPool,
         preparedTransactions: [serializableClaimRewardTx],
         rewardsTokens: mockRewardsPositions[1].tokens,
+        mode: 'claim-rewards',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -1140,7 +1096,7 @@ describe('claimSubmitSaga', () => {
         [matchers.call.fn(sendPreparedTransactions), throwError(CANCELLED_PIN_INPUT as any)],
         ...sagaProviders,
       ])
-      .put(claimCancel())
+      .put(withdrawCancel())
       .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
@@ -1149,11 +1105,11 @@ describe('claimSubmitSaga', () => {
     expect(mockStandbyHandler).not.toHaveBeenCalled()
     expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_claim_submit_start,
-      expectedAnalyticsProps
+      expectedAnalyticsPropsClaim
     )
     expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_claim_submit_cancel,
-      expectedAnalyticsProps
+      expectedAnalyticsPropsClaim
     )
   })
 })
