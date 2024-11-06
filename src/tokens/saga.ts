@@ -41,9 +41,11 @@ export interface FetchedTokenBalance {
 export async function fetchTokenBalancesForAddress(
   address: string
 ): Promise<FetchedTokenBalance[]> {
-  const networkIds = getSupportedNetworkIdsForTokenBalances().join('&networkIds[]=')
-  const url = `${networkConfig.getWalletBalancesUrl}?address=${address}&networkIds[]=${networkIds}`
-  const response = await fetchWithTimeout(url)
+  const networkIds = getSupportedNetworkIdsForTokenBalances();
+  const url = new URL(networkConfig.getWalletBalancesUrl); 
+  url.searchParams.set('address', address);
+  networkIds.forEach(id => url.searchParams.append('networkIds[]', id));
+  const response = await fetchWithTimeout(url.toString());
 
   if (!response.ok) {
     throw new Error(`Failed to fetch token balances: ${response.status} ${response.statusText}`)
