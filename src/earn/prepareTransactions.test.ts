@@ -269,7 +269,7 @@ describe('prepareTransactions', () => {
             },
           ],
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValue({
           transactions: [
             {
               from: '0x1234',
@@ -377,6 +377,65 @@ describe('prepareTransactions', () => {
         isGasSubsidized: false,
         origin: 'earn-withdraw',
       })
+      expect(triggerShortcutRequest).toHaveBeenCalledTimes(1)
+      expect(triggerShortcutRequest).toHaveBeenNthCalledWith(1, 'https://hooks.api', {
+        address: '0x1234',
+        appId: 'aave',
+        networkId: NetworkId['arbitrum-sepolia'],
+        shortcutId: 'withdraw',
+        tokenDecimals: 6,
+        tokens: [
+          {
+            tokenId: 'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216',
+            amount: '0',
+            useMax: true,
+          },
+        ],
+      })
+    })
+
+    it('prepares only withdraw transaction if withdrawalIncludesClaim is true', async () => {
+      const result = await prepareWithdrawAndClaimTransactions({
+        walletAddress: '0x1234',
+        feeCurrencies: [mockFeeCurrency],
+        pool: {
+          ...mockEarnPositions[0],
+          dataProps: { ...mockEarnPositions[0].dataProps, withdrawalIncludesClaim: true },
+        },
+        hooksApiUrl: 'https://hooks.api',
+        rewardsPositions: [
+          {
+            ...mockRewardsPositions[0],
+            shortcutTriggerArgs: { 'claim-rewards': { positionAddress: '0x123' } },
+          },
+        ],
+      })
+
+      const expectedTransactions = [
+        {
+          from: '0x123',
+          to: '0x567',
+          data: '0xencodedData',
+          gas: BigInt(50200),
+          _estimatedGasUse: BigInt(49900),
+        },
+      ]
+      expect(result).toEqual({
+        type: 'possible',
+        feeCurrency: mockFeeCurrency,
+        transactions: expectedTransactions,
+      })
+
+      expect(isGasSubsidizedForNetwork).toHaveBeenCalledWith(mockEarnPositions[0].networkId)
+
+      expect(prepareTransactions).toHaveBeenCalledTimes(1)
+      expect(prepareTransactions).toHaveBeenCalledWith({
+        baseTransactions: expectedTransactions,
+        feeCurrencies: [mockFeeCurrency],
+        isGasSubsidized: false,
+        origin: 'earn-withdraw',
+      })
+
       expect(triggerShortcutRequest).toHaveBeenCalledTimes(1)
       expect(triggerShortcutRequest).toHaveBeenNthCalledWith(1, 'https://hooks.api', {
         address: '0x1234',
