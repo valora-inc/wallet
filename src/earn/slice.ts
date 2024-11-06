@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
-import { ClaimInfo, DepositInfo, DepositSuccess, PoolInfo, WithdrawInfo } from 'src/earn/types'
+import { DepositInfo, DepositSuccess, PoolInfo, WithdrawInfo } from 'src/earn/types'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 
 export type Status = 'idle' | 'loading' | 'success' | 'error'
@@ -8,7 +8,6 @@ export type Status = 'idle' | 'loading' | 'success' | 'error'
 interface State {
   depositStatus: Status
   withdrawStatus: Status
-  claimStatus: Status
   poolInfoFetchStatus: Status
   poolInfo?: PoolInfo
 }
@@ -17,7 +16,6 @@ const initialState: State = {
   depositStatus: 'idle',
   withdrawStatus: 'idle',
   poolInfoFetchStatus: 'idle',
-  claimStatus: 'idle',
 }
 
 export const slice = createSlice({
@@ -48,18 +46,6 @@ export const slice = createSlice({
     withdrawCancel: (state) => {
       state.withdrawStatus = 'idle'
     },
-    claimStart: (state, action: PayloadAction<ClaimInfo>) => {
-      state.claimStatus = 'loading'
-    },
-    claimSuccess: (state) => {
-      state.claimStatus = 'success'
-    },
-    claimError: (state) => {
-      state.claimStatus = 'error'
-    },
-    claimCancel: (state) => {
-      state.claimStatus = 'idle'
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -67,7 +53,6 @@ export const slice = createSlice({
       ...getRehydratePayload(action, 'earn'),
       depositStatus: 'idle',
       withdrawStatus: 'idle',
-      claimStatus: 'idle',
       poolInfoFetchStatus: 'idle',
       poolInfo: undefined,
     }))
@@ -83,10 +68,6 @@ export const {
   withdrawSuccess,
   withdrawError,
   withdrawCancel,
-  claimStart,
-  claimSuccess,
-  claimError,
-  claimCancel,
 } = slice.actions
 
 export default slice.reducer

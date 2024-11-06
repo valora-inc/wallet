@@ -12,7 +12,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { usePrepareEnterConfirmationScreenTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
-import { claimStart, withdrawStart } from 'src/earn/slice'
+import { withdrawStart } from 'src/earn/slice'
 import { EarnActiveMode } from 'src/earn/types'
 import { getEarnPositionBalanceValues, isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -98,22 +98,15 @@ export default function EarnConfirmationScreen({ route }: Props) {
     }
 
     dispatch(
-      mode === 'claim-rewards'
-        ? claimStart({
-            preparedTransactions: getSerializablePreparedTransactions(
-              prepareTransactionsResult.transactions
-            ),
-            rewardsTokens,
-            pool,
-          })
-        : withdrawStart({
-            preparedTransactions: getSerializablePreparedTransactions(
-              prepareTransactionsResult.transactions
-            ),
-            rewardsTokens,
-            pool,
-            amount: withdrawAmountInDepositToken.toString(),
-          })
+      withdrawStart({
+        preparedTransactions: getSerializablePreparedTransactions(
+          prepareTransactionsResult.transactions
+        ),
+        rewardsTokens,
+        pool,
+        mode,
+        ...(mode !== 'claim-rewards' && { amount: withdrawAmountInDepositToken.toString() }),
+      })
     )
 
     AppAnalytics.track(EarnEvents.earn_collect_earnings_press, {

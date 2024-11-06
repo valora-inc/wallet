@@ -1925,11 +1925,4 @@ export const migrations = {
     },
   }),
   235: (state: any) => state,
-  236: (state: any) => ({
-    ...state,
-    earn: {
-      ...state.earn,
-      claimStatus: 'idle',
-    },
-  }),
 }
