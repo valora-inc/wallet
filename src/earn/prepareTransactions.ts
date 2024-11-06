@@ -159,19 +159,23 @@ export async function prepareWithdrawAndClaimTransactions({
       ...shortcutTriggerArgs?.withdraw,
     })
 
-  const claimTransactions = await Promise.all(
-    rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
-      const { transactions }: { transactions?: RawShortcutTransaction[] } =
-        await triggerShortcutRequest(hooksApiUrl, {
-          address: walletAddress,
-          appId,
-          networkId,
-          shortcutId: 'claim-rewards',
-          ...position.shortcutTriggerArgs?.['claim-rewards'],
+  // Conditionally populate claimTransactions based on withdrawalIncludesClaim
+  const claimTransactions = dataProps.withdrawalIncludesClaim
+    ? []
+    : await Promise.all(
+        rewardsPositions.map(async (position): Promise<RawShortcutTransaction[]> => {
+          const { transactions }: { transactions?: RawShortcutTransaction[] } =
+            await triggerShortcutRequest(hooksApiUrl, {
+              address: walletAddress,
+              appId,
+              networkId,
+              shortcutId: 'claim-rewards',
+              ...position.shortcutTriggerArgs?.['claim-rewards'],
+            })
+          return transactions ?? [] // Default to an empty array if rewardsPositions is undefined
         })
-      return transactions ?? [] // Default to an empty array if rewardsPositions is undefined
-    })
-  )
+      )
+
   Logger.debug(TAG, 'prepareWithdrawAndClaimTransactions', {
     withdrawTransactions,
     claimTransactions,
@@ -182,7 +186,7 @@ export async function prepareWithdrawAndClaimTransactions({
     feeCurrencies,
     baseTransactions: rawShortcutTransactionsToTransactionRequests([
       ...withdrawTransactions,
-      ...(dataProps.withdrawalIncludesClaim ? [] : claimTransactions.flat()),
+      ...claimTransactions.flat(),
     ]),
     isGasSubsidized: isGasSubsidizedForNetwork(networkId),
     origin: 'earn-withdraw',
