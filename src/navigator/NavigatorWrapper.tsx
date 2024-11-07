@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useLogger } from '@react-navigation/devtools'
 import { NavigationContainer, NavigationState } from '@react-navigation/native'
 import * as Sentry from '@sentry/react-native'
 import { SeverityLevel } from '@sentry/types'
@@ -64,6 +65,7 @@ export const NavigatorWrapper = () => {
 
   const dispatch = useDispatch()
 
+  useLogger(navigationRef)
   useDeepLinks()
 
   const updateRequired = React.useMemo(() => {

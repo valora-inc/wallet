@@ -2789,6 +2789,15 @@
     use-latest-callback "^0.2.1"
     use-sync-external-store "^1.2.2"
 
+"@react-navigation/devtools@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@react-navigation/devtools/-/devtools-7.0.0.tgz#5a6a387099cf50bd5c572a114f9b87a045435fbe"
+  integrity sha512-dGRTo9xRwUDRWV1FGNTnY4v7TefFDYlxCpiAAt1AKbkOiOOW90QG1kp/C6TICyc/QZq5R1ZPYnU67GOvIsIj7A==
+  dependencies:
+    fast-deep-equal "^3.1.3"
+    nanoid "3.3.7"
+    stacktrace-parser "^0.1.10"
+
 "@react-navigation/elements@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.0.0.tgz#ab8fa606de0812b94ea202d64b23621c75f6a4c0"
