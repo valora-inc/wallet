@@ -119,6 +119,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
         amount: token.balance.toString(),
         tokenId: token.tokenId,
       })),
+      mode,
     })
   }
 

@@ -333,6 +333,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
       tokenId,
       amount: balance,
     })),
+    mode,
   }
 
   try {
@@ -381,10 +382,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
       }
     })
 
-    const eventStart =
-      mode === 'claim-rewards'
-        ? EarnEvents.earn_claim_submit_start
-        : EarnEvents.earn_withdraw_submit_start
+    const eventStart = EarnEvents.earn_withdraw_submit_start
     AppAnalytics.track(eventStart, commonAnalyticsProps)
 
     const txHashes = yield* call(
@@ -429,31 +427,22 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
 
     yield* put(withdrawSuccess())
     yield* put(fetchTokenBalances({ showLoading: false }))
-    const eventSuccess =
-      mode === 'withdraw'
-        ? EarnEvents.earn_withdraw_submit_success
-        : EarnEvents.earn_claim_submit_success
-    AppAnalytics.track(eventSuccess, commonAnalyticsProps)
+    AppAnalytics.track(EarnEvents.earn_withdraw_submit_success, commonAnalyticsProps)
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(`${TAG}/withdrawSubmitSaga`, 'Transaction cancelled by user')
       yield* put(withdrawCancel())
-      const eventCancel =
-        mode === 'claim-rewards'
-          ? EarnEvents.earn_claim_submit_cancel
-          : EarnEvents.earn_withdraw_submit_cancel
-      AppAnalytics.track(eventCancel, commonAnalyticsProps)
+      AppAnalytics.track(EarnEvents.earn_withdraw_submit_cancel, commonAnalyticsProps)
       return
     }
 
     const error = ensureError(err)
     Logger.error(`${TAG}/withdrawSubmitSaga`, `Error sending ${mode} transaction`, error)
     yield* put(withdrawError())
-    const eventError =
-      mode === 'claim-rewards'
-        ? EarnEvents.earn_claim_submit_error
-        : EarnEvents.earn_withdraw_submit_error
-    AppAnalytics.track(eventError, { ...commonAnalyticsProps, error: error.message })
+    AppAnalytics.track(EarnEvents.earn_withdraw_submit_error, {
+      ...commonAnalyticsProps,
+      error: error.message,
+    })
 
     if (!submitted) {
       vibrateError()

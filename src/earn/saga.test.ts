@@ -723,6 +723,7 @@ describe('withdrawSubmitSaga', () => {
     providerId: 'aave',
     rewards: mockRewards,
     poolId: mockRewardsPositions[0].positionId,
+    mode: 'withdraw',
   }
 
   const expectedAnalyticsPropsClaim = {
@@ -731,6 +732,7 @@ describe('withdrawSubmitSaga', () => {
     providerId: 'aave',
     rewards: mockRewards,
     poolId: mockRewardsPositions[0].positionId,
+    mode: 'claim-rewards',
   }
 
   const expectedAnalyticsPropsNoRewards = {
@@ -1070,11 +1072,11 @@ describe('withdrawSubmitSaga', () => {
     })
 
     expect(AppAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_claim_submit_start,
+      EarnEvents.earn_withdraw_submit_start,
       expectedAnalyticsPropsClaim
     )
     expect(AppAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_claim_submit_success,
+      EarnEvents.earn_withdraw_submit_success,
       expectedAnalyticsPropsClaim
     )
     expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
@@ -1104,11 +1106,11 @@ describe('withdrawSubmitSaga', () => {
     expect(navigateHome).not.toHaveBeenCalled()
     expect(mockStandbyHandler).not.toHaveBeenCalled()
     expect(AppAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_claim_submit_start,
+      EarnEvents.earn_withdraw_submit_start,
       expectedAnalyticsPropsClaim
     )
     expect(AppAnalytics.track).toHaveBeenCalledWith(
-      EarnEvents.earn_claim_submit_cancel,
+      EarnEvents.earn_withdraw_submit_cancel,
       expectedAnalyticsPropsClaim
     )
   })
