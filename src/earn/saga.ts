@@ -396,7 +396,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     )
 
     Logger.debug(
-      `${TAG}/${mode}`,
+      `${TAG}/withdrawSubmitSaga/${mode}`,
       `Successfully sent ${mode} transaction(s) to the network`,
       txHashes
     )
