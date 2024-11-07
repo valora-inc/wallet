@@ -101,6 +101,7 @@ interface NetworkConfig {
   web3AuthVerifier: string
   crossChainExplorerUrl: string
   getWalletTransactionsUrl: string
+  getWalletBalancesUrl: string
   getExchangeRateUrl: string
 }
 
@@ -279,6 +280,9 @@ const INTERNAL_ARBITRUM_RPC_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/rpc/${Netw
 const GET_WALLET_TRANSACTIONS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getWalletTransactions`
 const GET_WALLET_TRANSACTIONS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getWalletTransactions`
 
+const GET_WALLET_BALANCES_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getWalletBalances`
+const GET_WALLET_BALANCES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getWalletBalances`
+
 const GET_EXCHANGE_RATE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getExchangeRate`
 const GET_EXCHANGE_RATE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getExchangeRate`
 
@@ -420,6 +424,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     web3AuthVerifier: WEB3_AUTH_VERIFIER,
     crossChainExplorerUrl: CROSS_CHAIN_EXPLORER_URL,
     getWalletTransactionsUrl: GET_WALLET_TRANSACTIONS_ALFAJORES,
+    getWalletBalancesUrl: GET_WALLET_BALANCES_ALFAJORES,
     getExchangeRateUrl: GET_EXCHANGE_RATE_ALFAJORES,
   },
   [Testnets.mainnet]: {
@@ -521,6 +526,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     web3AuthVerifier: WEB3_AUTH_VERIFIER,
     crossChainExplorerUrl: CROSS_CHAIN_EXPLORER_URL,
     getWalletTransactionsUrl: GET_WALLET_TRANSACTIONS_MAINNET,
+    getWalletBalancesUrl: GET_WALLET_BALANCES_MAINNET,
     getExchangeRateUrl: GET_EXCHANGE_RATE_MAINNET,
   },
 }
