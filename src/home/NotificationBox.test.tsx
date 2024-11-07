@@ -83,7 +83,7 @@ describe('NotificationBox', () => {
   beforeEach(() => {
     jest.replaceProperty(
       ONBOARDING_FEATURES_ENABLED,
-      ToggleableOnboardingFeatures.CloudBackupSetup,
+      ToggleableOnboardingFeatures.CloudBackupRestore,
       false
     )
     jest.clearAllMocks()
@@ -263,7 +263,7 @@ describe('NotificationBox', () => {
     })
     jest.replaceProperty(
       ONBOARDING_FEATURES_ENABLED,
-      ToggleableOnboardingFeatures.CloudBackupSetup,
+      ToggleableOnboardingFeatures.CloudBackupRestore,
       true
     )
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))

@@ -9,7 +9,7 @@ export default ChooseYourAdventure = () => {
       newInstance: true,
       launchArgs: {
         onboardingOverrides:
-          'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackupSetup,CloudBackupRestore',
+          'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackupSetupInOnboarding,CloudBackupRestore',
       },
     })
     await quickOnboarding({ stopOnCYA: true, cloudBackupEnabled: true })
