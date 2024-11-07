@@ -9,7 +9,7 @@ import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 jest.mock('src/statsig/index')
 jest.mock('src/config', () => ({
   ...jest.requireActual('src/config'),
-  ONBOARDING_FEATURES_ENABLED: { CloudBackupRestore: false },
+  ONBOARDING_FEATURES_ENABLED: { PhoneVerification: false, CloudBackupRestore: false },
 }))
 
 describe('initialRoute', () => {
@@ -25,8 +25,16 @@ describe('initialRoute', () => {
   }
 
   beforeEach(() => {
-    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupRestore] = false
-    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.PhoneVerification] = false
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.CloudBackupRestore,
+      false
+    )
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.PhoneVerification,
+      false
+    )
     jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
@@ -55,7 +63,11 @@ describe('initialRoute', () => {
   })
 
   it('returns import select screen if account is null and choose to restore account and CAB enabled', () => {
-    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupRestore] = true
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.CloudBackupRestore,
+      true
+    )
     expect(getInitialRoute({ ...defaultArgs, account: null, choseToRestoreAccount: true })).toEqual(
       Screens.ImportSelect
     )
@@ -70,14 +82,22 @@ describe('initialRoute', () => {
   })
 
   it('returns PN verification if not seen verification and verification is enabled', () => {
-    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.PhoneVerification] = true
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.PhoneVerification,
+      true
+    )
     expect(getInitialRoute({ ...defaultArgs, hasSeenVerificationNux: false })).toEqual(
       Screens.VerificationStartScreen
     )
   })
 
   it('returns PN verification if not seen verification and saved recovery phrase and verification is enabled', () => {
-    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.PhoneVerification] = true
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.PhoneVerification,
+      true
+    )
     expect(
       getInitialRoute({
         ...defaultArgs,

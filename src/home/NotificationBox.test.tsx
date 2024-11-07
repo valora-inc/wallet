@@ -15,7 +15,7 @@ const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
 
 jest.mock('src/config', () => ({
   ...jest.requireActual('src/config'),
-  ONBOARDING_FEATURES_ENABLED: { CloudBackupSetup: false },
+  ONBOARDING_FEATURES_ENABLED: { CloudBackupRestore: false },
 }))
 const mockedEnsurePincode = jest.mocked(ensurePincode)
 
