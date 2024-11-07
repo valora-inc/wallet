@@ -18,7 +18,7 @@ export function SendSelectRecipientSearchInput({
   const { t } = useTranslation()
   return (
     <View style={styles.textInputContainer}>
-      <Text>{t('sendSelectRecipient.searchInputLabel')}</Text>
+      <Text style={styles.label}>{t('sendSelectRecipient.searchInputLabel')}</Text>
       <TextInput
         placeholder={t('sendSelectRecipient.searchInputPlaceholder') ?? undefined}
         value={input}
@@ -36,24 +36,31 @@ export function SendSelectRecipientSearchInput({
 
 const styles = StyleSheet.create({
   textInputContainer: {
-    ...typeScale.bodySmall,
-    color: colors.gray4,
-    marginRight: 24,
-    flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: Spacing.Smallest8,
     paddingHorizontal: Spacing.Regular16,
     borderWidth: 1,
     borderColor: colors.gray2,
     borderRadius: 100,
     backgroundColor: 'yellow',
+    height: 36,
   },
   search: {
-    borderColor: colors.gray2,
-    borderRadius: 100,
+    // padding: 0,
+    // backgroundColor: 'lightblue',
   },
   input: {
     ...typeScale.bodySmall,
     // Unset lineHeight to avoid font scaling issues
     lineHeight: undefined,
+    backgroundColor: 'aquamarine',
+    // padding: 0,
+    // margin: 0,
+  },
+  label: {
+    ...typeScale.labelSemiBoldSmall,
+    lineHeight: undefined,
+    color: colors.gray3,
   },
 })

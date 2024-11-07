@@ -5,8 +5,8 @@ import { Platform, StyleSheet, Text, View } from 'react-native'
 import { getFontScaleSync } from 'react-native-device-info'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { isAddressFormat } from 'src/account/utils'
-import { SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
@@ -350,6 +350,8 @@ function SendSelectRecipient({ route }: Props) {
           eventName={SendEvents.send_cancel}
           style={styles.buttonContainer}
         />
+      </View>
+      <View style={styles.inputContainer}>
         <SendSelectRecipientSearchInput input={searchQuery} onChangeText={setSearchQuery} />
       </View>
       <KeyboardAwareScrollView keyboardDismissMode="on-drag">
@@ -436,6 +438,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     paddingVertical: 10,
+    backgroundColor: 'beige',
+  },
+  inputContainer: {
+    backgroundColor: colors.gray3,
+    // height: 120,
+    padding: Spacing.Regular16,
+    paddingTop: Spacing.Smallest8,
   },
   body: {
     flex: 1,
