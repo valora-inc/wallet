@@ -2789,15 +2789,6 @@
     use-latest-callback "^0.2.1"
     use-sync-external-store "^1.2.2"
 
-"@react-navigation/devtools@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@react-navigation/devtools/-/devtools-7.0.0.tgz#5a6a387099cf50bd5c572a114f9b87a045435fbe"
-  integrity sha512-dGRTo9xRwUDRWV1FGNTnY4v7TefFDYlxCpiAAt1AKbkOiOOW90QG1kp/C6TICyc/QZq5R1ZPYnU67GOvIsIj7A==
-  dependencies:
-    fast-deep-equal "^3.1.3"
-    nanoid "3.3.7"
-    stacktrace-parser "^0.1.10"
-
 "@react-navigation/elements@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.0.0.tgz#ab8fa606de0812b94ea202d64b23621c75f6a4c0"
@@ -12799,13 +12790,6 @@ react-native-svg@^15.7.1:
     css-tree "^1.1.3"
     warn-once "0.1.1"
 
-react-native-tab-view@^3.5.2:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.5.2.tgz#2789b8af6148b16835869566bf13dc3b0e6c1b46"
-  integrity sha512-nE5WqjbeEPsWQx4mtz81QGVvgHRhujTNIIZiMCx3Bj6CBFDafbk7XZp9ocmtzXUQaZ4bhtVS43R4FIiR4LboJw==
-  dependencies:
-    use-latest-callback "^0.1.5"
-
 react-native-tab-view@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-4.0.0.tgz#2c23e25eed8bcf49747c4485a0496ebba9db895b"
@@ -15068,11 +15052,6 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
-
-use-latest-callback@^0.1.5:
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/use-latest-callback/-/use-latest-callback-0.1.11.tgz#e073fcbba792cc95ac661d96bc13b6041956cfe1"
-  integrity sha512-8nhb73STSD/z3GTHklvNjL8F9wMOo0bj0AFnulpIYuFTm6aQlT3ZcNbXF2YurKImIY8+kpSFSDHZZyQmurGrhw==
 
 use-latest-callback@^0.2.1:
   version "0.2.1"
