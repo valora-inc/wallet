@@ -14,7 +14,7 @@ export enum ToggleableOnboardingFeatures {
   PhoneVerification = 'PhoneVerification',
   // Whether the Biometry screen is shown directly after PincodeSet screen in onboarding
   EnableBiometry = 'EnableBiometry',
-  // Shows the ProtectWallet screen in onboarding if one of CloudBackupRestore or
+  // Shows the ProtectWallet screen in onboarding if at least one of CloudBackupRestore or
   // CloudBackupSetupInOnboarding is false
   ProtectWallet = 'ProtectWallet',
 }
