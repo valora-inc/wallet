@@ -165,6 +165,7 @@ export const NavigatorWrapper = () => {
 
   return (
     <NavigationContainer
+      navigationInChildEnabled={true}
       ref={navigationRef}
       onReady={onReady}
       onStateChange={handleStateChange}
