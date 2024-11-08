@@ -31,7 +31,7 @@ export default function GradientIcon({ radius = 50, borderWidth = 1, children }:
       )}
       <LinearGradient
         colors={['#e8fbf2', '#fffaea']}
-        locations={[0, 0.8915]}
+        locations={[0.1085, 1]}
         useAngle={true}
         angle={90}
         style={[
