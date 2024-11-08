@@ -20,20 +20,22 @@ export default function GradientIcon({ radius = 50, borderWidth = 1, children }:
         },
       ]}
     >
-      <LinearGradient
-        colors={['#26d98a', '#ffd52c']}
-        locations={[0, 0.8915]}
-        useAngle={true}
-        angle={90}
-        style={[styles.gradient, { borderRadius: radius }]}
-      />
+      {borderWidth > 0 && (
+        <LinearGradient
+          colors={['#26d98a', '#ffd52c']}
+          locations={[0, 0.8915]}
+          useAngle={true}
+          angle={90}
+          style={[styles.background, { borderRadius: radius }]}
+        />
+      )}
       <LinearGradient
         colors={['#e8fbf2', '#fffaea']}
         locations={[0, 0.8915]}
         useAngle={true}
         angle={90}
         style={[
-          styles.gradient,
+          styles.background,
           {
             borderRadius: radius,
             height: radius - borderWidth * 2,
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  gradient: {
+  background: {
     position: 'absolute',
     width: '100%',
     height: '100%',
