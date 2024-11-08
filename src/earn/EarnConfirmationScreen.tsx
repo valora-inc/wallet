@@ -104,7 +104,8 @@ export default function EarnConfirmationScreen({ route }: Props) {
         ),
         rewardsTokens,
         pool,
-        amount: withdrawAmountInDepositToken.toString(),
+        mode,
+        ...(mode !== 'claim-rewards' && { amount: withdrawAmountInDepositToken.toString() }),
       })
     )
 
@@ -118,6 +119,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
         amount: token.balance.toString(),
         tokenId: token.tokenId,
       })),
+      mode,
     })
   }
 
