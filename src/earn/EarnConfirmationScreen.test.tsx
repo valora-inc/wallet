@@ -164,7 +164,7 @@ describe('EarnConfirmationScreen', () => {
 
   it('renders total balance, rewards and gas after fetching rewards and preparing tx for partial withdrawal', async () => {
     const inputAmount = (10.75 * +mockEarnPositions[0].pricePerShare) / 2 // Input amount is half of the balance
-    const txAmount = '5.37500000000000045455' // inputAmount * pricePerShare but with more precision
+    const txAmount = '5.37500000000000045455' // inputAmount divided by pricePerShare but with more precision
     const { getByText, getByTestId, queryByTestId, queryByText } = render(
       <Provider store={store}>
         <MockedNavigator
