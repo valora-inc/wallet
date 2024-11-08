@@ -28,7 +28,7 @@ function PasteAddressButton(props: Props) {
         onPress={onPressPaste}
       >
         <>
-          <CircledIcon radius={40} backgroundColor={colors.gray2}>
+          <CircledIcon radius={40} backgroundColor={colors.gray1} borderColor={colors.gray2}>
             <Clipboard />
           </CircledIcon>
           <View style={styles.textSection}>
@@ -47,8 +47,7 @@ const styles = StyleSheet.create({
   wrapper: {
     borderRadius: 10,
     backgroundColor: colors.gray1,
-    marginVertical: Spacing.Smallest8,
-    marginHorizontal: Spacing.Tiny4,
+    marginHorizontal: Spacing.Regular16,
   },
   buttonContainer: {
     display: 'flex',
