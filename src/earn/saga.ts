@@ -315,7 +315,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
   const tokenInfo = yield* call(getTokenInfo, tokenId)
 
   if (!tokenInfo) {
-    Logger.error(`${TAG}/withdrawSubmitSaga`, 'Token info not found for token id', tokenId)
+    Logger.error(`${TAG}/withdrawSubmitSaga/${mode}`, 'Token info not found for token id', tokenId)
     yield* put(withdrawError())
     return
   }
@@ -338,7 +338,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
 
   try {
     Logger.debug(
-      `${TAG}/withdrawSubmitSaga`,
+      `${TAG}/withdrawSubmitSaga/${mode}`,
       `Starting ${mode} for token ${tokenId}, total transactions: ${preparedTransactions.length}`
     )
 
@@ -402,7 +402,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     submitted = true
 
     // Wait for transaction receipts
-    Logger.debug(`${TAG}/withdrawSubmitSaga`, 'Waiting for transaction receipts')
+    Logger.debug(`${TAG}/withdrawSubmitSaga/${mode}`, 'Waiting for transaction receipts')
     const txReceipts = yield* all(
       txHashes.map((txHash) => {
         return call([publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'], {
@@ -413,7 +413,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
 
     txReceipts.forEach((receipt, index) => {
       Logger.debug(
-        `${TAG}/withdrawSubmitSaga`,
+        `${TAG}/withdrawSubmitSaga/${mode}`,
         `Received transaction receipt ${index + 1} of ${txReceipts.length}`,
         receipt
       )
@@ -430,14 +430,14 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     AppAnalytics.track(EarnEvents.earn_withdraw_submit_success, commonAnalyticsProps)
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
-      Logger.info(`${TAG}/withdrawSubmitSaga`, 'Transaction cancelled by user')
+      Logger.info(`${TAG}/withdrawSubmitSaga/${mode}`, 'Transaction(s) cancelled by user')
       yield* put(withdrawCancel())
       AppAnalytics.track(EarnEvents.earn_withdraw_submit_cancel, commonAnalyticsProps)
       return
     }
 
     const error = ensureError(err)
-    Logger.error(`${TAG}/withdrawSubmitSaga`, `Error sending ${mode} transaction`, error)
+    Logger.error(`${TAG}/withdrawSubmitSaga/${mode}`, `Error sending ${mode} transaction(s)`, error)
     yield* put(withdrawError())
     AppAnalytics.track(EarnEvents.earn_withdraw_submit_error, {
       ...commonAnalyticsProps,
