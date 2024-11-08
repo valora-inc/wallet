@@ -387,6 +387,7 @@ describe('EarnConfirmationScreen', () => {
             mockPreparedTransaction.transactions
           ),
           rewardsTokens: mockRewardsPositions[1].tokens,
+          mode: 'withdraw',
         },
       },
     ])
@@ -398,6 +399,7 @@ describe('EarnConfirmationScreen', () => {
       providerId: mockEarnPositions[0].appId,
       rewards: [{ amount: '0.01', tokenId: mockArbArbTokenId }],
       poolId: mockEarnPositions[0].positionId,
+      mode: 'withdraw',
     })
   })
 

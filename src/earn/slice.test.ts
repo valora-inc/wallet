@@ -56,7 +56,12 @@ describe('Earn Slice', () => {
   it('should handle withdraw start', () => {
     const updatedState = reducer(
       undefined,
-      withdrawStart({ preparedTransactions: [], rewardsTokens: [], pool: mockEarnPositions[0] })
+      withdrawStart({
+        preparedTransactions: [],
+        rewardsTokens: [],
+        pool: mockEarnPositions[0],
+        mode: 'withdraw',
+      })
     )
 
     expect(updatedState).toHaveProperty('withdrawStatus', 'loading')

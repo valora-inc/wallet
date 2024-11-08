@@ -1562,8 +1562,9 @@ interface EarnDepositProperties extends EarnCommonProperties {
 }
 
 interface EarnWithdrawProperties extends EarnCommonProperties {
-  tokenAmount: string
+  tokenAmount?: string
   rewards: SerializableRewardsInfo[]
+  mode: Extract<EarnActiveMode, 'withdraw' | 'claim-rewards' | 'exit'>
 }
 
 // Adds `deposit` prefix to all properties of TxReceiptProperties
