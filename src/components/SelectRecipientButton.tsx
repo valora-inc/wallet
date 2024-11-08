@@ -49,7 +49,7 @@ function SelectRecipientButton({
 const styles = StyleSheet.create({
   container: {
     paddingVertical: Spacing.Regular16,
-    paddingHorizontal: Spacing.Thick24,
+    paddingHorizontal: Spacing.Regular16,
   },
   icon: {
     borderWidth: 1,

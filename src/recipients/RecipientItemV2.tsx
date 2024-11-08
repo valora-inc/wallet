@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     paddingVertical: Spacing.Regular16,
-    paddingHorizontal: Spacing.Thick24,
+    paddingHorizontal: Spacing.Regular16,
     alignItems: 'center',
   },
   rowSelected: {

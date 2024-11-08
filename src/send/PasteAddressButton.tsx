@@ -1,13 +1,13 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import { Spacing } from 'src/styles/styles'
+import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import { PasteAwareWrappedElementProps, withPasteAware } from 'src/components/WithPasteAware'
-import Clipboard from 'src/icons/Clipboard'
 import CircledIcon from 'src/icons/CircledIcon'
+import Clipboard from 'src/icons/Clipboard'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 type Props = PasteAwareWrappedElementProps
 
@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
   wrapper: {
     borderRadius: 10,
     backgroundColor: colors.gray1,
-    marginVertical: Spacing.Small12,
-    marginHorizontal: Spacing.Thick24,
+    marginVertical: Spacing.Smallest8,
+    marginHorizontal: Spacing.Tiny4,
   },
   buttonContainer: {
     display: 'flex',

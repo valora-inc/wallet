@@ -18,14 +18,15 @@ export function SendSelectRecipientSearchInput({
   const { t } = useTranslation()
   return (
     <View style={styles.textInputContainer}>
-      <Text style={styles.label}>{t('sendSelectRecipient.searchInputLabel')}</Text>
+      <Text style={styles.label} allowFontScaling={Platform.OS === 'ios'}>
+        {t('sendSelectRecipient.searchInputLabel')}
+      </Text>
       <TextInput
         placeholder={t('sendSelectRecipient.searchInputPlaceholder') ?? undefined}
         value={input}
         onChangeText={onChangeText}
-        style={styles.search}
         inputStyle={styles.input}
-        placeholderTextColor={colors.gray4}
+        placeholderTextColor={colors.gray3}
         // Font scaling is causing issues on Android
         allowFontScaling={Platform.OS === 'ios'}
         testID="SendSelectRecipientSearchInput"
@@ -39,28 +40,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     columnGap: Spacing.Smallest8,
-    paddingHorizontal: Spacing.Regular16,
+    paddingVertical: Spacing.Smallest8,
+    paddingHorizontal: Spacing.Small12,
     borderWidth: 1,
     borderColor: colors.gray2,
     borderRadius: 100,
-    backgroundColor: 'yellow',
-    height: 36,
-  },
-  search: {
-    // padding: 0,
-    // backgroundColor: 'lightblue',
   },
   input: {
     ...typeScale.bodySmall,
     // Unset lineHeight to avoid font scaling issues
     lineHeight: undefined,
-    backgroundColor: 'aquamarine',
-    // padding: 0,
-    // margin: 0,
+    paddingVertical: 0,
+    height: 24,
   },
   label: {
     ...typeScale.labelSemiBoldSmall,
-    lineHeight: undefined,
     color: colors.gray3,
   },
 })

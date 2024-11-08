@@ -2130,6 +2130,8 @@
     "paste": "Paste from clipboard",
     "title": "Select a recipient",
     "contactsTitle": "Select a contact",
+    "header": "Send",
+    "contactsHeader": "Send to Contacts",
     "recents": "Recents",
     "results": "Results",
     "qr": {
