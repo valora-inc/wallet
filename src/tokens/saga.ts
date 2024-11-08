@@ -45,7 +45,7 @@ export async function fetchTokenBalancesForAddress(
 
   const url = new URL(networkConfig.getWalletBalancesUrl)
   url.searchParams.set('address', address)
-  networkIds.forEach((id) => url.searchParams.append('networkIds[]', id))
+  url.searchParams.set('networkIds', networkIds.join(','))
 
   const response = await fetchWithTimeout(url.toString())
 
