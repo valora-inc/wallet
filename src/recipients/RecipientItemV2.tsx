@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Keyboard, StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import Touchable from 'src/components/Touchable'
-import QuestionIcon from 'src/icons/QuestionIcon'
+import PhoneIcon from 'src/icons/Phone'
+import WalletIcon from 'src/icons/navigator/Wallet'
 import {
   addressToVerificationStatusSelector,
   e164NumberToAddressSelector,
@@ -14,6 +15,7 @@ import {
   RecipientType,
   getDisplayDetail,
   getDisplayName,
+  recipientHasNumber,
 } from 'src/recipients/recipient'
 import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
@@ -28,6 +30,14 @@ interface Props {
 }
 
 const ICON_SIZE = 10
+
+export function renderDefaultIcon(recipient: Recipient) {
+  if (recipientHasNumber(recipient)) {
+    return <PhoneIcon color={Colors.black} size={24} />
+  } else {
+    return <WalletIcon color={Colors.black} size={24} />
+  }
+}
 
 function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Props) {
   const { t } = useTranslation()
@@ -58,7 +68,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
             backgroundColor={Colors.gray1}
             foregroundColor={Colors.black}
             borderColor={Colors.gray2}
-            DefaultIcon={() => <QuestionIcon />} // no need to honor color props here since the color we need match the defaults
+            DefaultIcon={() => renderDefaultIcon(recipient)} // no need to honor color props here since the color we need match the defaults
           />
           {!!showAppIcon && (
             <Logo
