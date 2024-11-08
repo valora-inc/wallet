@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import Checkmark from 'src/icons/Checkmark'
 import CircledIcon from 'src/icons/CircledIcon'
+import GradientIcon from 'src/icons/GradientIcon'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -12,7 +13,7 @@ type Props = {
   subtitle: string
   onPress: () => void
   icon: ReactElement
-  iconBackgroundColor?: colors
+  gradientBackground?: boolean
   testID: string
   showCheckmark?: boolean
 }
@@ -22,16 +23,20 @@ function SelectRecipientButton({
   subtitle,
   onPress,
   icon,
-  iconBackgroundColor = colors.gray1,
+  gradientBackground,
   testID,
   showCheckmark,
 }: Props) {
   return (
     <Touchable testID={testID} onPress={onPress} style={styles.container}>
       <View style={styles.body}>
-        <CircledIcon radius={40} style={styles.icon} backgroundColor={iconBackgroundColor}>
-          {icon}
-        </CircledIcon>
+        {gradientBackground ? (
+          <GradientIcon radius={40}>{icon}</GradientIcon>
+        ) : (
+          <CircledIcon radius={40} style={styles.icon} backgroundColor={colors.gray1}>
+            {icon}
+          </CircledIcon>
+        )}
         {showCheckmark && (
           <View style={styles.checkmark} testID={`${testID}/checkmark`}>
             <Checkmark height={12} width={12} color={colors.black} />
