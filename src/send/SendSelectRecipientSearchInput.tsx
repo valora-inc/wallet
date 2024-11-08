@@ -18,7 +18,11 @@ export function SendSelectRecipientSearchInput({
   const { t } = useTranslation()
   return (
     <View style={styles.textInputContainer}>
-      <Text style={styles.label} allowFontScaling={Platform.OS === 'ios'}>
+      <Text
+        style={styles.label}
+        // To match the font size of the input
+        allowFontScaling={Platform.OS === 'ios'}
+      >
         {t('sendSelectRecipient.searchInputLabel')}
       </Text>
       <TextInput
