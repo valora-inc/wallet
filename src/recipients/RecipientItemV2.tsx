@@ -31,14 +31,6 @@ interface Props {
 
 const ICON_SIZE = 10
 
-export function renderDefaultIcon(recipient: Recipient) {
-  if (recipientHasNumber(recipient)) {
-    return <PhoneIcon color={Colors.black} size={24} />
-  } else {
-    return <WalletIcon color={Colors.black} size={24} />
-  }
-}
-
 function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Props) {
   const { t } = useTranslation()
 
@@ -97,6 +89,14 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
       </View>
     </Touchable>
   )
+}
+
+export function renderDefaultIcon(recipient: Recipient) {
+  if (recipientHasNumber(recipient)) {
+    return <PhoneIcon color={Colors.black} size={24} />
+  } else {
+    return <WalletIcon color={Colors.black} size={24} />
+  }
 }
 
 const styles = StyleSheet.create({
