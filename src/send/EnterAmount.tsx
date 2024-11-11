@@ -13,7 +13,7 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
-import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
+import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenEnterAmount from 'src/components/TokenEnterAmount'
@@ -22,7 +22,6 @@ import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { AmountEnteredIn } from 'src/send/types'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -43,12 +42,14 @@ type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
   onPressProceed(args: ProceedArgs): void
   disabled: boolean
   tokenAmount: BigNumber | null
+  showLoading?: boolean
 }
 
 interface Props {
   tokens: TokenBalance[]
   defaultToken?: TokenBalance
   prepareTransactionsResult?: PreparedTransactionsResult
+  prepareTransactionsLoading: boolean
   onClearPreparedTransactions(): void
   onRefreshPreparedTransactions(
     amount: BigNumber,
@@ -73,6 +74,7 @@ export const SendProceed = ({
   amountEnteredIn,
   disabled,
   onPressProceed,
+  showLoading,
 }: ProceedComponentProps) => {
   const { t } = useTranslation()
   return (
@@ -84,50 +86,16 @@ export const SendProceed = ({
       style={styles.reviewButton}
       size={BtnSizes.FULL}
       disabled={disabled}
+      showLoading={showLoading}
       testID="SendEnterAmount/ReviewButton"
     />
-  )
-}
-
-function FeeLoading() {
-  return (
-    <View testID="SendEnterAmount/FeeLoading" style={styles.feeInCryptoContainer}>
-      <Text style={styles.feeInCrypto}>{'≈ '}</Text>
-      <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
-        <View style={styles.feesLoadingInternal} />
-      </SkeletonPlaceholder>
-    </View>
-  )
-}
-
-function FeePlaceholder({ feeTokenSymbol }: { feeTokenSymbol: string }) {
-  return (
-    <Text testID="SendEnterAmount/FeePlaceholder" style={styles.feeInCrypto}>
-      ~ {feeTokenSymbol}
-    </Text>
-  )
-}
-
-function FeeAmount({ feeTokenId, feeAmount }: { feeTokenId: string; feeAmount: BigNumber }) {
-  return (
-    <>
-      <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
-        <TokenDisplay
-          tokenId={feeTokenId}
-          amount={feeAmount}
-          showLocalAmount={false}
-          showApprox={true}
-          style={styles.feeInCrypto}
-        />
-      </View>
-      <TokenDisplay tokenId={feeTokenId} amount={feeAmount} style={styles.feeInFiat} />
-    </>
   )
 }
 
 function EnterAmount({
   tokens,
   defaultToken,
+  prepareTransactionsLoading,
   prepareTransactionsResult,
   onClearPreparedTransactions,
   onRefreshPreparedTransactions,
@@ -242,8 +210,8 @@ function EnterAmount({
   }, [tokenAmountInput, localAmountInput, enteredIn, token])
 
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
-
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
+  const { tokenId: feeTokenId } = feeCurrency ?? feeCurrencies[0]
 
   useEffect(() => {
     onClearPreparedTransactions()
@@ -279,19 +247,6 @@ function EnterAmount({
 
   const disabled =
     disableProceed || (disableBalanceCheck ? !!tokenAmount?.isZero() : !transactionIsPossible)
-
-  const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
-  let feeAmountSection = <FeeLoading />
-  if (
-    tokenAmountInput === '' ||
-    !isAmountLessThanBalance ||
-    (prepareTransactionsResult && !maxFeeAmount) ||
-    prepareTransactionError
-  ) {
-    feeAmountSection = <FeePlaceholder feeTokenSymbol={feeTokenSymbol} />
-  } else if (prepareTransactionsResult && maxFeeAmount) {
-    feeAmountSection = <FeeAmount feeAmount={maxFeeAmount} feeTokenId={feeTokenId} />
-  }
 
   const handleAmountInputChange = (value: string) => {
     if (enteredIn === 'token') {
@@ -357,20 +312,46 @@ function EnterAmount({
             toggleAmountType={handleToggleAmountType}
             autoFocus
             testID="SendEnterAmount"
-            onTokenPickerSelect={onTokenPickerSelect}
-            tokenSelectionDisabled={tokenSelectionDisabled}
+            onTokenPickerSelect={tokenSelectionDisabled ? undefined : onTokenPickerSelect}
             token={token}
           />
-          <View style={styles.feeContainer}>
-            <Text style={styles.feeLabel}>
-              {t('sendEnterAmountScreen.networkFee', {
-                networkName: NETWORK_NAMES[token.networkId],
-              })}
-            </Text>
-            <View style={styles.feeAmountContainer}>{feeAmountSection}</View>
-          </View>
+
+          {!!maxFeeAmount && (
+            <View style={styles.feeContainer}>
+              <LabelWithInfo
+                label={t('sendEnterAmountScreen.networkFeeV1_97')}
+                labelStyle={{ color: Colors.gray3 }}
+              />
+              <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
+                <TokenDisplay
+                  showApprox
+                  showLocalAmount={false}
+                  style={styles.feeValue}
+                  tokenId={feeTokenId}
+                  amount={maxFeeAmount}
+                />
+                <Text style={styles.feeValue}>
+                  {'('}
+                  <TokenDisplay
+                    tokenId={feeTokenId}
+                    amount={maxFeeAmount}
+                    style={styles.feeValue}
+                  />
+                  {')'}
+                </Text>
+              </View>
+            </View>
+          )}
         </View>
 
+        {showLowerAmountError && (
+          <InLineNotification
+            variant={NotificationVariant.Warning}
+            description={t('sendEnterAmountScreen.lowerAmount')}
+            style={styles.warning}
+            testID="SendEnterAmount/LowerAmountWarning"
+          />
+        )}
         {showMaxAmountWarning && (
           <InLineNotification
             variant={NotificationVariant.Warning}
@@ -414,6 +395,7 @@ function EnterAmount({
           amountEnteredIn={enteredIn}
           onPressProceed={onPressProceed}
           disabled={disabled}
+          showLoading={prepareTransactionsLoading}
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
@@ -447,34 +429,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   feeContainer: {
-    flexDirection: 'row',
     marginVertical: Spacing.Regular16,
-  },
-  feeLabel: {
-    flex: 1,
-    ...typeScale.bodyXSmall,
-    color: Colors.gray4,
-    paddingLeft: 2,
-  },
-  feeAmountContainer: {
-    alignItems: 'flex-end',
-    paddingRight: 2,
+    padding: Spacing.Regular16,
+    borderColor: Colors.gray2,
+    borderWidth: 1,
+    borderRadius: 12,
+    gap: Spacing.Smallest8,
+    flexDirection: 'row',
   },
   feeInCryptoContainer: {
+    flexShrink: 1,
     flexDirection: 'row',
+    gap: Spacing.Tiny4,
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
   },
-  feeInCrypto: {
-    color: Colors.gray4,
-    ...typeScale.labelXSmall,
-  },
-  feeInFiat: {
-    color: Colors.gray4,
-    ...typeScale.bodyXSmall,
-  },
-  feesLoadingInternal: {
-    ...typeScale.labelXSmall,
-    width: 46,
-    borderRadius: 100,
+  feeValue: {
+    ...typeScale.bodyMedium,
+    color: Colors.gray3,
+    flexWrap: 'wrap',
+    textAlign: 'right',
   },
   reviewButton: {
     paddingVertical: Spacing.Thick24,

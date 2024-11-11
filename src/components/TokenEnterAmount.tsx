@@ -28,7 +28,6 @@ const BORDER_RADIUS = 12
 export function TokenEnterAmount({
   token,
   onTokenPickerSelect,
-  tokenSelectionDisabled,
   tokenValue,
   onInputChange,
   localAmountValue,
@@ -37,33 +36,29 @@ export function TokenEnterAmount({
   toggleAmountType,
   inputRef,
   inputStyle,
-  autoFocus = true,
+  autoFocus,
   editable = true,
   testID,
-  switchDisabled,
 }: {
   token?: TokenBalance
-  onTokenPickerSelect(): void
-  tokenSelectionDisabled?: boolean
+  onTokenPickerSelect?(): void
   tokenValue: string
   onInputChange(value: string): void
   localAmountValue: string
   localCurrencySymbol: string
   amountType: AmountEnteredIn
-  toggleAmountType(): void
+  toggleAmountType?(): void
   inputRef: React.MutableRefObject<RNTextInput | null>
   inputStyle?: StyleProp<TextStyle>
   autoFocus?: boolean
   editable?: boolean
   testID?: string
-  switchDisabled?: boolean
 }) {
   const { t } = useTranslation()
   // the startPosition and inputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android
   // https://github.com/facebook/react-native/issues/14845
   const [startPosition, setStartPosition] = useState<number | undefined>(0)
-
   const tokenValuePlaceholder = new BigNumber(0).toFormat(2)
   const localAmountPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`
   const inputValue = amountType === 'token' ? tokenValue : localAmountValue
@@ -74,21 +69,19 @@ export function TokenEnterAmount({
     }
   }
 
-  const touchableBorderStyle = token
-    ? {
-        borderTopLeftRadius: BORDER_RADIUS,
-        borderTopRightRadius: BORDER_RADIUS,
-      }
-    : BORDER_RADIUS
-
   return (
     <View testID={testID}>
       <Touchable
         borderless
-        borderRadius={touchableBorderStyle}
         onPress={onTokenPickerSelect}
-        disabled={tokenSelectionDisabled}
+        disabled={!onTokenPickerSelect}
         testID={`${testID}/TokenSelect`}
+        borderRadius={{
+          borderTopLeftRadius: BORDER_RADIUS,
+          borderTopRightRadius: BORDER_RADIUS,
+          borderBottomLeftRadius: token ? 0 : BORDER_RADIUS,
+          borderBottomRightRadius: token ? 0 : BORDER_RADIUS,
+        }}
       >
         <View
           style={[
@@ -124,7 +117,7 @@ export function TokenEnterAmount({
             )}
           </View>
 
-          {!tokenSelectionDisabled && <DownArrowIcon height={24} color={Colors.gray3} />}
+          {onTokenPickerSelect && <DownArrowIcon height={24} color={Colors.gray3} />}
         </View>
       </Touchable>
       {token && (
@@ -177,7 +170,7 @@ export function TokenEnterAmount({
 
           {token.priceUsd ? (
             <>
-              {!switchDisabled && (
+              {toggleAmountType && (
                 <Touchable onPress={toggleAmountType} style={styles.swapArrowContainer}>
                   <SwapArrows color={Colors.gray3} size={24} />
                 </Touchable>
@@ -224,6 +217,7 @@ const styles = StyleSheet.create({
   },
   tokenName: {
     ...typeScale.labelMedium,
+    color: Colors.black,
   },
   tokenBalance: {
     ...typeScale.bodySmall,
@@ -233,6 +227,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleMedium,
     paddingTop: 0,
     paddingBottom: 0,
+    color: Colors.black,
   },
   secondaryAmountText: {
     ...typeScale.bodyMedium,

@@ -408,8 +408,7 @@ function EarnEnterAmount({ route }: Props) {
           </Text>
           <TokenEnterAmount
             token={inputToken}
-            onTokenPickerSelect={onTokenPickerSelect}
-            tokenSelectionDisabled={!dropdownEnabled}
+            onTokenPickerSelect={dropdownEnabled ? onTokenPickerSelect : undefined}
             tokenValue={tokenAmountInput}
             onInputChange={handleAmountInputChange}
             localAmountValue={localAmountInput}

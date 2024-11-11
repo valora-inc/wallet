@@ -1,8 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useMemo } from 'react'
-import { SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SendEvents } from 'src/analytics/Events'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -81,6 +81,7 @@ function SendEnterAmount({ route }: Props) {
     refreshPreparedTransactions,
     clearPreparedTransactions,
     prepareTransactionError,
+    prepareTransactionLoading,
   } = usePrepareSendTransactions()
 
   const walletAddress = useSelector(walletAddressSelector)
@@ -109,6 +110,7 @@ function SendEnterAmount({ route }: Props) {
       tokens={tokens}
       defaultToken={defaultToken}
       prepareTransactionsResult={prepareTransactionsResult}
+      prepareTransactionsLoading={prepareTransactionLoading}
       onClearPreparedTransactions={clearPreparedTransactions}
       onRefreshPreparedTransactions={handleRefreshPreparedTransactions}
       prepareTransactionError={prepareTransactionError}

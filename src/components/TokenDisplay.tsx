@@ -81,7 +81,7 @@ function TokenDisplay({
         errorFallback
       ) : (
         <>
-          {showApprox && '~'}
+          {showApprox && '≈ '}
           {sign}
           {showLocalAmount && fiatSymbol}
           {amountToShow.isNaN()
