@@ -9,7 +9,7 @@ import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 jest.mock('src/statsig/index')
 jest.mock('src/config', () => ({
   ...jest.requireActual('src/config'),
-  ONBOARDING_FEATURES_ENABLED: { PhoneVerification: false, CloudBackupRestore: false },
+  ONBOARDING_FEATURES_ENABLED: { PhoneVerification: false, CloudBackup: false },
 }))
 
 describe('initialRoute', () => {
@@ -27,7 +27,7 @@ describe('initialRoute', () => {
   beforeEach(() => {
     jest.replaceProperty(
       ONBOARDING_FEATURES_ENABLED,
-      ToggleableOnboardingFeatures.CloudBackupRestore,
+      ToggleableOnboardingFeatures.CloudBackup,
       false
     )
     jest.replaceProperty(
@@ -65,7 +65,7 @@ describe('initialRoute', () => {
   it('returns import select screen if account is null and choose to restore account and CAB enabled', () => {
     jest.replaceProperty(
       ONBOARDING_FEATURES_ENABLED,
-      ToggleableOnboardingFeatures.CloudBackupRestore,
+      ToggleableOnboardingFeatures.CloudBackup,
       true
     )
     expect(getInitialRoute({ ...defaultArgs, account: null, choseToRestoreAccount: true })).toEqual(

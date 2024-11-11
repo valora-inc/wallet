@@ -20,14 +20,14 @@ const mockScreenProps = { clean: true }
 jest.mock('src/statsig')
 jest.mock('src/config', () => ({
   ...jest.requireActual('src/config'),
-  ONBOARDING_FEATURES_ENABLED: { CloudBackupRestore: false },
+  ONBOARDING_FEATURES_ENABLED: { CloudBackup: false },
 }))
 
 describe('ImportWallet', () => {
   beforeEach(() => {
     jest.replaceProperty(
       ONBOARDING_FEATURES_ENABLED,
-      ToggleableOnboardingFeatures.CloudBackupRestore,
+      ToggleableOnboardingFeatures.CloudBackup,
       false
     )
     jest.clearAllMocks()
@@ -81,7 +81,7 @@ describe('ImportWallet', () => {
   it('navigates to the import select screen on cancel when cloud backup is enabled', () => {
     jest.replaceProperty(
       ONBOARDING_FEATURES_ENABLED,
-      ToggleableOnboardingFeatures.CloudBackupRestore,
+      ToggleableOnboardingFeatures.CloudBackup,
       true
     )
     const store = createMockStore()

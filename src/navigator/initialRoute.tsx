@@ -33,7 +33,7 @@ export function getInitialRoute({
     return Screens.Welcome
   } else if (!account) {
     return choseToRestoreAccount
-      ? ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupRestore]
+      ? ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackup]
         ? Screens.ImportSelect
         : Screens.ImportWallet
       : Screens.Welcome

@@ -43,8 +43,7 @@ export default NewAccountOnboarding = () => {
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
       launchArgs: {
-        onboardingOverrides:
-          'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackupSetupInOnboarding,CloudBackupRestore',
+        onboardingOverrides: 'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackup',
       },
     })
     await sleep(5000)
