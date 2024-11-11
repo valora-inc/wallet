@@ -16,6 +16,7 @@ export function SendSelectRecipientSearchInput({
   onChangeText,
 }: SendSelectRecipientSearchInputProps) {
   const { t } = useTranslation()
+  // Font scaling is causing issues on Android
   const allowFontScaling = Platform.OS === 'ios'
   return (
     <View style={styles.textInputContainer}>
@@ -32,7 +33,6 @@ export function SendSelectRecipientSearchInput({
         onChangeText={onChangeText}
         inputStyle={styles.input}
         placeholderTextColor={colors.gray3}
-        // Font scaling is causing issues on Android
         allowFontScaling={allowFontScaling}
         testID="SendSelectRecipientSearchInput"
       />
