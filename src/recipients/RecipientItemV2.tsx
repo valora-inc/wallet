@@ -91,7 +91,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
   )
 }
 
-export function renderDefaultIcon(recipient: Recipient) {
+function renderDefaultIcon(recipient: Recipient) {
   if (recipientHasNumber(recipient)) {
     return <PhoneIcon color={Colors.black} size={24} testID="RecipientItem/PhoneIcon" />
   } else {
