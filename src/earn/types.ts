@@ -9,7 +9,7 @@ export interface DepositInfo {
   amount: string
   preparedTransactions: SerializableTransactionRequest[]
   pool: EarnPosition
-  mode: EarnEnterMode
+  mode: EarnActiveMode
   fromTokenId: string
   fromTokenAmount: string
 }
@@ -26,6 +26,7 @@ export interface SerializableRewardsInfo {
 }
 
 export interface WithdrawInfo {
+  amount?: string
   pool: EarnPosition
   preparedTransactions: SerializableTransactionRequest[]
   rewardsTokens: Token[]
@@ -46,6 +47,8 @@ export interface PrepareWithdrawAndClaimParams {
   feeCurrencies: TokenBalance[]
   hooksApiUrl: string
   rewardsPositions: Position[]
+  amount?: string
+  useMax?: boolean
 }
 
 export type BeforeDepositActionName =
@@ -54,8 +57,6 @@ export type BeforeDepositActionName =
   | 'SwapAndDeposit'
   | 'CrossChainSwap'
   | 'Swap'
-
-export type WithdrawActionName = 'PartialWithdraw' | 'Claim' | 'Exit'
 
 export interface BeforeDepositAction {
   name: BeforeDepositActionName
@@ -66,11 +67,11 @@ export interface BeforeDepositAction {
 }
 
 export interface WithdrawAction {
-  name: WithdrawActionName
+  name: Extract<EarnActiveMode, 'withdraw' | 'claim-rewards' | 'exit'>
   title: string
   details: string
   iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
   onPress: () => void
 }
 
-export type EarnEnterMode = 'deposit' | 'swap-deposit' | 'withdraw'
+export type EarnActiveMode = 'withdraw' | 'claim-rewards' | 'deposit' | 'swap-deposit' | 'exit'

@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { useAsyncCallback } from 'react-async-hook'
-import { EarnEnterMode, PrepareWithdrawAndClaimParams } from 'src/earn/types'
+import { EarnActiveMode, PrepareWithdrawAndClaimParams } from 'src/earn/types'
 import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { triggerShortcutRequest } from 'src/positions/saga'
 import { RawShortcutTransaction } from 'src/positions/slice'
@@ -34,7 +34,7 @@ export async function prepareDepositTransactions({
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
   hooksApiUrl: string
-  shortcutId: EarnEnterMode
+  shortcutId: Exclude<EarnActiveMode, 'exit'>
 }) {
   const { enableAppFee } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG])
   const args =
@@ -99,6 +99,8 @@ export async function prepareWithdrawAndClaimTransactions({
   feeCurrencies,
   hooksApiUrl,
   rewardsPositions,
+  amount,
+  useMax = true,
 }: PrepareWithdrawAndClaimParams) {
   const { dataProps, balance, appId, networkId, shortcutTriggerArgs } = pool
   const { transactions: withdrawTransactions }: { transactions: RawShortcutTransaction[] } =
@@ -110,8 +112,8 @@ export async function prepareWithdrawAndClaimTransactions({
       tokens: [
         {
           tokenId: dataProps.withdrawTokenId,
-          amount: balance,
-          useMax: true,
+          amount: useMax ? balance : amount,
+          useMax,
         },
       ],
       ...shortcutTriggerArgs?.withdraw,
@@ -161,7 +163,7 @@ export async function prepareWithdrawTransactions({
   feeCurrencies: TokenBalance[]
   pool: EarnPosition
   hooksApiUrl: string
-  shortcutId: EarnEnterMode
+  shortcutId: Exclude<EarnActiveMode, 'exit'>
   useMax: boolean
 }) {
   const { dataProps } = pool
@@ -194,7 +196,7 @@ export async function prepareWithdrawTransactions({
   }
 }
 
-export function usePrepareTransactions(mode: EarnEnterMode) {
+export function usePrepareTransactions(mode: EarnActiveMode) {
   const prepareTransactions = useAsyncCallback(
     mode === 'withdraw' ? prepareWithdrawTransactions : prepareDepositTransactions,
     {

@@ -307,6 +307,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     pool,
     preparedTransactions: serializablePreparedTransactions,
     rewardsTokens,
+    amount,
   } = action.payload
   const tokenId = pool.dataProps.depositTokenId
 
@@ -326,7 +327,7 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     depositTokenId: tokenId,
     networkId,
     poolId: pool.positionId,
-    tokenAmount: pool.balance,
+    tokenAmount: amount ?? pool.balance,
     providerId: pool.appId,
     rewards: rewardsTokens.map(({ tokenId, balance }) => ({
       tokenId,
@@ -352,11 +353,11 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
         networkId,
         type: TokenTransactionTypeV2.EarnWithdraw,
         inAmount: {
-          value: pool.balance,
+          value: amount ?? pool.balance,
           tokenId,
         },
         outAmount: {
-          value: pool.balance,
+          value: amount ?? pool.balance,
           tokenId: pool.dataProps.withdrawTokenId,
         },
         transactionHash,

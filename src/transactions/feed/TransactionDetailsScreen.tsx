@@ -9,6 +9,7 @@ import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipien
 import { useSelector } from 'src/redux/hooks'
 import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionDetails from 'src/transactions/feed/TransactionDetails'
+import { ClaimRewardContent } from 'src/transactions/feed/detailContent/ClaimRewardContent'
 import {
   EarnClaimContent,
   EarnDepositContent,
@@ -19,6 +20,7 @@ import TransferSentContent from 'src/transactions/feed/detailContent/TransferSen
 import { TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
+import { DepositOrWithdrawContent } from './detailContent/DepositOrWithdrawContent'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
 import SwapContent from './detailContent/SwapContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
@@ -63,6 +65,12 @@ function useHeaderTitle(transaction: TokenTransaction) {
       return t('swapScreen.title')
     case TokenTransactionTypeV2.Approval:
       return t('transactionFeed.approvalTransactionTitle')
+    case TokenTransactionTypeV2.Deposit:
+      return t('transactionFeed.depositTitle')
+    case TokenTransactionTypeV2.Withdraw:
+      return t('transactionFeed.withdrawTitle')
+    case TokenTransactionTypeV2.ClaimReward:
+      return t('transactionFeed.claimRewardTitle')
     case TokenTransactionTypeV2.EarnWithdraw:
       return t('earnFlow.transactionFeed.earnWithdrawTitle')
     case TokenTransactionTypeV2.EarnClaimReward:
@@ -109,6 +117,13 @@ function TransactionDetailsScreen({ route }: Props) {
     case TokenTransactionTypeV2.SwapTransaction:
       content = <SwapContent transaction={transaction} />
       retryHandler = () => navigate(Screens.SwapScreenWithBack)
+      break
+    case TokenTransactionTypeV2.Deposit:
+    case TokenTransactionTypeV2.Withdraw:
+      content = <DepositOrWithdrawContent transaction={transaction} />
+      break
+    case TokenTransactionTypeV2.ClaimReward:
+      content = <ClaimRewardContent transaction={transaction} />
       break
     case TokenTransactionTypeV2.EarnClaimReward:
       content = <EarnClaimContent transaction={transaction} />

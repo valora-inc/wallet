@@ -3,10 +3,9 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
 import Toast from 'react-native-simple-toast'
-import { showError } from 'src/alert/actions'
+import { showToast } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -20,6 +19,8 @@ import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { useTransactionFeedV2Query } from 'src/transactions/api'
+import ClaimRewardFeedItem from 'src/transactions/feed/ClaimRewardFeedItem'
+import DepositOrWithdrawFeedItem from 'src/transactions/feed/DepositOrWithdrawFeedItem'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
@@ -303,6 +304,11 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
       return <NftFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.Approval:
       return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
+    case TokenTransactionTypeV2.Deposit:
+    case TokenTransactionTypeV2.Withdraw:
+      return <DepositOrWithdrawFeedItem key={tx.transactionHash} transaction={tx} />
+    case TokenTransactionTypeV2.ClaimReward:
+      return <ClaimRewardFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.EarnDeposit:
     case TokenTransactionTypeV2.EarnSwapDeposit:
     case TokenTransactionTypeV2.EarnWithdraw:
@@ -392,8 +398,8 @@ export default function TransactionFeedV2() {
     function handleError() {
       if (error === undefined) return
 
-      Logger.error(TAG, 'Error while fetching transactions', error)
-      dispatch(showError(ErrorMessages.FETCH_FAILED))
+      Logger.warn(TAG, 'Error while fetching transactions', error)
+      dispatch(showToast(t('transactionFeed.error.fetchError'), null, null, null))
     },
     [error]
   )

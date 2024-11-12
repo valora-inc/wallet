@@ -106,6 +106,7 @@ function EarnEnterAmount({ route }: Props) {
       case 'withdraw':
         return [depositToken]
       case 'swap-deposit':
+      default:
         return eligibleSwappableTokens
     }
   }, [mode])
@@ -379,8 +380,17 @@ function EarnEnterAmount({ route }: Props) {
           ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
           : tokenAmount.toString(),
     })
-    // TODO(ACT-1389) if isWithdrawal === true navigate to EarnConfirmationScreen
-    reviewBottomSheetRef.current?.snapToIndex(0)
+
+    if (isWithdrawal) {
+      navigate(Screens.EarnConfirmationScreen, {
+        pool,
+        mode,
+        inputAmount: tokenAmount.toString(),
+        useMax: maxPressed,
+      })
+    } else {
+      reviewBottomSheetRef.current?.snapToIndex(0)
+    }
   }
 
   const dropdownEnabled = availableInputTokens.length > 1
