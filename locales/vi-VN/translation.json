@@ -2121,18 +2121,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Tìm kiếm theo tên, số điện thoại, ví...",
+    "searchInputLabel": "Đến",
+    "searchInputPlaceholder": "Wallet Address or Phone Number",
     "paste": "Dán từ bảng nhớ tạm",
     "title": "Chọn người nhận",
     "contactsTitle": "Chọn một liên hệ",
+    "header": "Gửi",
+    "contactsHeader": "Send to Contacts",
     "recents": "Gần đây",
     "results": "Kết quả",
     "qr": {
-      "title": "Quét hoặc hiển thị mã QR",
-      "subtitle": "Tìm nhanh địa chỉ trên {{appName}}"
+      "title": "Send via QR Code",
+      "subtitle": "Tap to scan or show an address"
     },
     "invite": {
-      "title": "Gửi tiền điện tử cho bạn bè",
-      "subtitle": "Gửi tiền hoặc lời mời đến danh bạ của bạn"
+      "title": "Send to a Contact",
+      "subtitle": "Send funds to your contacts"
     },
     "jumpstart": {
       "title": "Gửi bằng đường liên kết trực tiếp",
