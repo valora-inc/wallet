@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
   Platform,
@@ -10,20 +10,50 @@ import {
   TextStyle,
 } from 'react-native'
 import { View } from 'react-native-animatable'
+import { getNumberFormatSettings } from 'react-native-localize'
 import TextInput from 'src/components/TextInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import SwapArrows from 'src/icons/SwapArrows'
+import { LocalCurrencySymbol } from 'src/localCurrency/consts'
+import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import { useSelector } from 'src/redux/hooks'
 import { AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
+import { parseInputAmount } from 'src/utils/parsing'
 
 const BORDER_RADIUS = 12
+
+function roundTokenAmount(value: string, decimalSeparator: string) {
+  return parseInputAmount(value, decimalSeparator)
+    .decimalPlaces(6)
+    .toString()
+    .replaceAll('.', decimalSeparator)
+}
+
+function roundLocalAmount(
+  value: string,
+  decimalSeparator: string,
+  localCurrencySymbol: LocalCurrencySymbol
+) {
+  const bigNum = parseInputAmount(value, decimalSeparator)
+
+  if (bigNum.isLessThan(0.000001)) {
+    return `<${localCurrencySymbol}0${decimalSeparator}000001`
+  }
+
+  if (bigNum.isLessThan(0.01)) {
+    return `${localCurrencySymbol}${bigNum.toPrecision(1).toString().replaceAll('.', decimalSeparator)}`
+  }
+
+  return `${localCurrencySymbol}${bigNum.decimalPlaces(2).toString().replaceAll('.', decimalSeparator)}`
+}
 
 export function TokenEnterAmount({
   token,
@@ -31,7 +61,6 @@ export function TokenEnterAmount({
   tokenValue,
   onInputChange,
   localAmountValue,
-  localCurrencySymbol,
   amountType,
   toggleAmountType,
   inputRef,
@@ -45,7 +74,6 @@ export function TokenEnterAmount({
   tokenValue: string
   onInputChange(value: string): void
   localAmountValue: string
-  localCurrencySymbol: string
   amountType: AmountEnteredIn
   toggleAmountType?(): void
   inputRef: React.MutableRefObject<RNTextInput | null>
@@ -55,13 +83,28 @@ export function TokenEnterAmount({
   testID?: string
 }) {
   const { t } = useTranslation()
+  const { decimalSeparator } = getNumberFormatSettings()
   // the startPosition and inputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android
   // https://github.com/facebook/react-native/issues/14845
   const [startPosition, setStartPosition] = useState<number | undefined>(0)
+  // this should never be null, just adding a default to make TS happy
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const tokenValuePlaceholder = new BigNumber(0).toFormat(2)
-  const localAmountPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`
+  const localAmountPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2).replaceAll('.', decimalSeparator)}`
   const inputValue = amountType === 'token' ? tokenValue : localAmountValue
+
+  const tokenAmountRounded = roundTokenAmount(tokenValue, decimalSeparator)
+  const localAmountRounded = roundLocalAmount(
+    localAmountValue,
+    decimalSeparator,
+    localCurrencySymbol
+  )
+
+  const formattedInputValue = useMemo(() => {
+    if (amountType === 'token') return inputValue
+    return inputValue !== '' ? `${localCurrencySymbol}${inputValue}` : ''
+  }, [inputValue, amountType, localCurrencySymbol])
 
   const handleSetStartPosition = (value?: number) => {
     if (Platform.OS === 'android') {
@@ -131,9 +174,9 @@ export function TokenEnterAmount({
             forwardedRef={inputRef}
             onChangeText={(value) => {
               handleSetStartPosition(undefined)
-              onInputChange(value)
+              onInputChange(value.startsWith(localCurrencySymbol) ? value.slice(1) : value)
             }}
-            value={inputValue ?? undefined}
+            value={formattedInputValue}
             placeholderTextColor={Colors.gray3}
             placeholder={amountType === 'token' ? tokenValuePlaceholder : localAmountPlaceholder}
             keyboardType="decimal-pad"
@@ -153,7 +196,8 @@ export function TokenEnterAmount({
               handleSetStartPosition(0)
             }}
             onFocus={() => {
-              handleSetStartPosition(inputValue?.length ?? 0)
+              const withCurrency = amountType === 'local' ? 1 : 0
+              handleSetStartPosition((inputValue?.length ?? 0) + withCurrency)
             }}
             onSelectionChange={() => {
               handleSetStartPosition(undefined)
@@ -178,8 +222,8 @@ export function TokenEnterAmount({
 
               <Text numberOfLines={1} style={[styles.secondaryAmountText, { maxWidth: '35%' }]}>
                 {amountType === 'token'
-                  ? `≈ ${inputValue ? localAmountValue : localAmountPlaceholder}`
-                  : `≈ ${inputValue ? tokenValue : tokenValuePlaceholder}`}
+                  ? `≈ ${inputValue ? localAmountRounded : localAmountPlaceholder}`
+                  : `≈ ${inputValue ? tokenAmountRounded : tokenValuePlaceholder}`}
               </Text>
             </>
           ) : (

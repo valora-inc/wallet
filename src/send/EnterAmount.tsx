@@ -18,8 +18,6 @@ import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomS
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenEnterAmount from 'src/components/TokenEnterAmount'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { AmountEnteredIn } from 'src/send/types'
 import Colors from 'src/styles/colors'
@@ -116,8 +114,6 @@ function EnterAmount({
   const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
   const [localAmountInput, setLocalAmountInput] = useState<string>('')
   const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
-  // this should never be null, just adding a default to make TS happy
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
 
   const onTokenPickerSelect = () => {
     tokenBottomSheetRef.current?.snapToIndex(0)
@@ -130,6 +126,14 @@ function EnterAmount({
 
   const handleToggleAmountType = () => {
     setEnteredIn((prev) => (prev === 'token' ? 'local' : 'token'))
+    if (enteredIn === 'token' && localAmountInput) {
+      setLocalAmountInput(
+        parseInputAmount(localAmountInput, decimalSeparator)
+          .toFixed(2)
+          .replaceAll('.', decimalSeparator)
+      )
+    }
+
     tokenAmountInputRef.current?.blur()
   }
 
@@ -161,22 +165,18 @@ function EnterAmount({
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   // only allow numbers, one decimal separator, and any number of decimal places
   const localAmountRegex = new RegExp(
-    `^(\\d+([${decimalSeparator}])?\\d*|[${decimalSeparator}]\\d*|[${decimalSeparator}])$`
+    `^(\\d+([${decimalSeparator}])?\\d{0,2}|[${decimalSeparator}]\\d{0,2}|[${decimalSeparator}])$`
   )
   // only allow numbers, one decimal separator
   const tokenAmountRegex = new RegExp(
-    `^(?:\\d+[${decimalSeparator}]?\\d*|[${decimalSeparator}]\\d*|[${decimalSeparator}])$`
+    `^(?:\\d+[${decimalSeparator}]?\\d{0,${token.decimals}}|[${decimalSeparator}]\\d{0,${token.decimals}}|[${decimalSeparator}])$`
   )
   const parsedTokenAmount = useMemo(
     () => parseInputAmount(tokenAmountInput, decimalSeparator),
     [tokenAmountInput]
   )
   const parsedLocalAmount = useMemo(
-    () =>
-      parseInputAmount(
-        localAmountInput.replaceAll(groupingSeparator, '').replace(localCurrencySymbol, ''),
-        decimalSeparator
-      ),
+    () => parseInputAmount(localAmountInput.replaceAll(groupingSeparator, ''), decimalSeparator),
     [localAmountInput]
   )
 
@@ -186,9 +186,10 @@ function EnterAmount({
     if (enteredIn === 'token') {
       setLocalAmountInput(
         tokenToLocal && tokenToLocal.gt(0)
-          ? `${localCurrencySymbol}${tokenToLocal.toFormat(2)}` // automatically adds grouping separators
+          ? tokenToLocal.toString().replaceAll('.', decimalSeparator)
           : ''
       )
+
       return {
         tokenAmount: parsedTokenAmount,
         localAmount: tokenToLocal,
@@ -272,10 +273,7 @@ function EnterAmount({
   }
 
   const onLocalAmountInputChange = (value: string) => {
-    // remove leading currency symbol and grouping separators
-    if (value.startsWith(localCurrencySymbol)) {
-      value = value.slice(1)
-    }
+    // remove  grouping separators
     value = value.replaceAll(groupingSeparator, '')
     if (!value) {
       setLocalAmountInput('')
@@ -289,7 +287,7 @@ function EnterAmount({
         const [integerPart, decimalPart] = value.split(decimalSeparator)
         const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
         setLocalAmountInput(
-          `${localCurrencySymbol}${formattedInteger}${decimalPart !== undefined ? `${decimalSeparator}${decimalPart}` : ''}`
+          `${formattedInteger}${decimalPart !== undefined ? `${decimalSeparator}${decimalPart}` : ''}`
         )
         setEnteredIn('local')
       }
@@ -307,7 +305,6 @@ function EnterAmount({
             tokenValue={tokenAmountInput}
             localAmountValue={localAmountInput}
             onInputChange={handleAmountInputChange}
-            localCurrencySymbol={localCurrencySymbol}
             amountType={enteredIn}
             toggleAmountType={handleToggleAmountType}
             autoFocus
