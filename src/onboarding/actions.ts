@@ -6,11 +6,11 @@ export enum Actions {
   UPDATE_LAST_ONBOARDING_SCREEN = 'ONBOARDING/UPDATE_LAST_ONBOARDING_SCREEN',
 }
 
-export interface OnboardingCompletedAction {
+interface OnboardingCompletedAction {
   type: Actions.ONBOARDING_COMPLETED
 }
 
-export interface UpdateLastOnboardingScreenAction {
+interface UpdateLastOnboardingScreenAction {
   type: Actions.UPDATE_LAST_ONBOARDING_SCREEN
   screen: keyof StackParamList
 }
