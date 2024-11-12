@@ -17,7 +17,7 @@ import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
 import { onboardingCompleted, updateLastOnboardingScreen } from 'src/onboarding/actions'
 
-export const END_OF_ONBOARDING_SCREENS = [Screens.TabHome, Screens.ChooseYourAdventure]
+const END_OF_ONBOARDING_SCREENS = [Screens.TabHome, Screens.ChooseYourAdventure]
 
 interface NavigatorFunctions {
   navigate: typeof NavigationService.navigate
@@ -207,7 +207,7 @@ export function goToNextOnboardingScreen({
  * @param props The onboarding props aka all of the customer state that we need to determine what the next step is
  * @returns
  */
-export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStepInfoProps) {
+function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStepInfoProps) {
   const { navigate, popToScreen, finishOnboarding } = navigator
   const {
     choseToRestoreAccount,
