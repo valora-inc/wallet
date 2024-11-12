@@ -105,7 +105,7 @@ function SignInWithEmail({ route }: Props) {
   const dispatch = useDispatch()
   const showApple = getFeatureGate(StatsigFeatureGates.SHOW_APPLE_IN_CAB)
   const { authorize, getCredentials, clearCredentials } = useAuth0()
-  const { keylessBackupFlow, origin } = route.params
+  const { keylessBackupFlow, origin, showBack } = route.params
   const [loading, setLoading] = useState<null | OAuthProvider>(null)
   const onboardingProps = useSelector(onboardingPropsSelector)
   const { step, totalSteps } = getOnboardingStepValues(Screens.SignInWithEmail, onboardingProps)
@@ -196,8 +196,8 @@ function SignInWithEmail({ route }: Props) {
               origin={origin}
               eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
             />
-          ) : (
-            // This includes Onboarding and Restore
+          ) : // This includes Onboarding and Restore
+          showBack ? (
             <BackButton
               eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
               eventProperties={{
@@ -205,6 +205,8 @@ function SignInWithEmail({ route }: Props) {
                 origin,
               }}
             />
+          ) : (
+            <></>
           )
         }
         title={

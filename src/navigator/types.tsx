@@ -268,6 +268,7 @@ export type StackParamList = {
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
     origin: KeylessBackupOrigin
+    showBack: boolean
   }
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
