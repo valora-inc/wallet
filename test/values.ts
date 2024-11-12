@@ -48,6 +48,7 @@ import {
 import { TransactionDataInput } from 'src/send/types'
 import { NativeTokenBalance, StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import {
+  ClaimReward,
   EarnClaimReward,
   EarnDeposit,
   EarnSwapDeposit,
@@ -1781,6 +1782,7 @@ export const mockEarnPositions: EarnPosition[] = [
       rewardsPositionIds: [
         'arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216:supply-incentives',
       ],
+      claimType: 'earnings',
     },
     tokens: [
       {
@@ -2031,6 +2033,33 @@ export const mockApprovalTransaction: TokenApproval = {
       },
     },
   ],
+  status: TransactionStatus.Complete,
+}
+
+export const mockClaimRewardTransaction: ClaimReward = {
+  type: TokenTransactionTypeV2.ClaimReward,
+  amount: {
+    localAmount: undefined,
+    tokenAddress: mockArbArbAddress,
+    tokenId: mockArbArbTokenId,
+    value: '1.5',
+  },
+  block: '211278852',
+  fees: [
+    {
+      amount: {
+        localAmount: undefined,
+        tokenAddress: mockArbArbAddress,
+        tokenId: mockArbArbTokenId,
+        value: '0.00000146037',
+      },
+      type: 'SECURITY_FEE',
+    },
+  ],
+  networkId: NetworkId['arbitrum-sepolia'],
+  appName: 'Aave',
+  timestamp: Date.now(),
+  transactionHash: '0xHASH2',
   status: TransactionStatus.Complete,
 }
 

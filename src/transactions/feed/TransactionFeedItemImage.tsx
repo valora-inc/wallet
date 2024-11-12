@@ -22,6 +22,9 @@ type Props = { networkId: NetworkId; status: TransactionStatus; hideNetworkIcon?
         | TokenTransactionTypeV2.SwapTransaction
         | TokenTransactionTypeV2.CrossChainSwapTransaction
         | TokenTransactionTypeV2.Approval
+        | TokenTransactionTypeV2.Deposit
+        | TokenTransactionTypeV2.Withdraw
+        | TokenTransactionTypeV2.ClaimReward
         | TokenTransactionTypeV2.EarnDeposit
         | TokenTransactionTypeV2.EarnSwapDeposit
         | TokenTransactionTypeV2.EarnWithdraw
@@ -81,6 +84,9 @@ function TransactionFeedItemBaseImage(props: Props) {
   }
 
   if (
+    transactionType === TokenTransactionTypeV2.Deposit ||
+    transactionType === TokenTransactionTypeV2.Withdraw ||
+    transactionType === TokenTransactionTypeV2.ClaimReward ||
     transactionType === TokenTransactionTypeV2.EarnWithdraw ||
     transactionType === TokenTransactionTypeV2.EarnDeposit ||
     transactionType === TokenTransactionTypeV2.EarnClaimReward ||
