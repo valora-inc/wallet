@@ -3567,13 +3567,13 @@ export const v236Schema = {
   _persist: {
     ...v235Schema._persist,
     version: 236,
-    account: {
-      ...v235Schema.account,
-      onboardingCompleted: true,
-      lastOnboardingStepScreen: Screens.Welcome,
-    },
-    identity: _.omit(v235Schema.identity, 'hasSeenVerificationNux'),
   },
+  account: {
+    ...v235Schema.account,
+    onboardingCompleted: true,
+    lastOnboardingStepScreen: Screens.Welcome,
+  },
+  identity: _.omit(v235Schema.identity, 'hasSeenVerificationNux'),
 }
 
 export function getLatestSchema(): Partial<RootState> {

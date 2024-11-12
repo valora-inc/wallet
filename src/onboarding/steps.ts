@@ -245,7 +245,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
             wrapNavigate(Screens.SignInWithEmail, {
               keylessBackupFlow: KeylessBackupFlow.Setup,
               origin: KeylessBackupOrigin.Onboarding,
-              showBack: true,
+              hideBack: false,
             })
           } else {
             dispatch(initializeAccount())
@@ -270,7 +270,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
             wrapNavigate(Screens.SignInWithEmail, {
               keylessBackupFlow: KeylessBackupFlow.Setup,
               origin: KeylessBackupOrigin.Onboarding,
-              showBack: true,
+              hideBack: false,
             })
           } else {
             dispatch(initializeAccount())

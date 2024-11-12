@@ -1,40 +1,32 @@
-import { PincodeType, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
-import { MultichainBetaStatus } from 'src/app/actions'
+import { PincodeType } from 'src/account/reducer'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
-import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
-import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
-
-jest.mock('src/statsig/index')
-jest.mock('src/config', () => ({
-  ...jest.requireActual('src/config'),
-  ONBOARDING_FEATURES_ENABLED: { PhoneVerification: false, CloudBackup: false },
-}))
 
 describe('initialRoute', () => {
   const defaultArgs: Parameters<typeof getInitialRoute>[0] = {
-    choseToRestoreAccount: false,
     language: 'en',
-    acceptedTerms: true,
     pincodeType: PincodeType.CustomPin,
-    account: '0x1234',
-    hasSeenVerificationNux: true,
-    recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotStarted,
-    multichainBetaStatus: MultichainBetaStatus.OptedOut,
+    acceptedTerms: true,
+    onboardingCompleted: false,
+    lastOnboardingStepScreen: Screens.SignInWithEmail,
   }
-
-  beforeEach(() => {
-    jest.replaceProperty(
-      ONBOARDING_FEATURES_ENABLED,
-      ToggleableOnboardingFeatures.CloudBackup,
-      false
+  it('returns language if no language set', () => {
+    expect(getInitialRoute({ ...defaultArgs, language: null })).toEqual(Screens.Language)
+  })
+  it('returns welcome if terms not accepted', () => {
+    expect(getInitialRoute({ ...defaultArgs, acceptedTerms: false })).toEqual(Screens.Welcome)
+  })
+  it('returns welcome if no pincode', () => {
+    expect(getInitialRoute({ ...defaultArgs, pincodeType: PincodeType.Unset })).toEqual(
+      Screens.Welcome
     )
-    jest.replaceProperty(
-      ONBOARDING_FEATURES_ENABLED,
-      ToggleableOnboardingFeatures.PhoneVerification,
-      false
+  })
+  it('returns home if onboarding done', () => {
+    expect(getInitialRoute({ ...defaultArgs, onboardingCompleted: true })).toEqual(
+      Screens.TabNavigator
     )
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+  })
+  it('otherwise returns last onboarding screen', () => {
+    expect(getInitialRoute({ ...defaultArgs })).toEqual(Screens.SignInWithEmail)
   })
 })

@@ -477,7 +477,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
       initialParams={{
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Onboarding,
-        showBack: false,
+        hideBack: true,
       }}
     />
     <Navigator.Screen
@@ -614,7 +614,6 @@ const mapStateToProps = (state: RootState) => {
     acceptedTerms: state.account.acceptedTerms,
     pincodeType: state.account.pincodeType,
     lastOnboardingStepScreen: state.account.lastOnboardingStepScreen as keyof StackParamList,
-    lastOnboardingStepScreenProps: state.account.lastOnboardingStepScreenProps,
     onboardingCompleted: state.account.onboardingCompleted,
   }
 }
