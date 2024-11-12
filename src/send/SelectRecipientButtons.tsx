@@ -162,8 +162,8 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
           title={t('sendSelectRecipient.jumpstart.title')}
           subtitle={t('sendSelectRecipient.jumpstart.subtitle')}
           onPress={onPressJumpstart}
-          icon={<MagicWand />}
-          iconBackgroundColor={Colors.successLight}
+          icon={<MagicWand color={Colors.black} />}
+          gradientBackground
         />
       )}
       <SelectRecipientButton
