@@ -241,11 +241,7 @@ const slice = createSlice({
         return {
           ...state,
           standbyTransactions: state.standbyTransactions.filter((tx) => {
-            /**
-             * - ignore empty hashes as there's no way to compare them
-             * - ignore pending as it should only affect confirmed transactions that are already
-             *   present in the paginated data
-             */
+            // ignore empty hashes as there's no way to compare them
             if (!tx.transactionHash) return true
             return !confirmedTransactionsFromNewPage.includes(tx.transactionHash)
           }),
