@@ -216,7 +216,13 @@ function EnterAmount({
 
   useEffect(() => {
     onClearPreparedTransactions()
-
+    console.log(
+      'rerender',
+      !tokenAmount ||
+        tokenAmount.isLessThanOrEqualTo(0) ||
+        tokenAmount.isGreaterThan(token.balance),
+      tokenAmount?.toString()
+    )
     if (
       !tokenAmount ||
       tokenAmount.isLessThanOrEqualTo(0) ||
@@ -225,6 +231,7 @@ function EnterAmount({
       return
     }
     const debouncedRefreshTransactions = setTimeout(() => {
+      console.log('trigger')
       return onRefreshPreparedTransactions(tokenAmount, token, feeCurrencies)
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
@@ -232,6 +239,7 @@ function EnterAmount({
 
   const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(token.balance)
   const showLowerAmountError = !isAmountLessThanBalance && !disableBalanceCheck
+  console.log({ showLowerAmountError })
   const showMaxAmountWarning =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -314,10 +322,11 @@ function EnterAmount({
           />
 
           {!!maxFeeAmount && (
-            <View style={styles.feeContainer}>
+            <View style={styles.feeContainer} testID="SendEnterAmount/Fee">
               <LabelWithInfo
                 label={t('sendEnterAmountScreen.networkFeeV1_97')}
                 labelStyle={{ color: Colors.gray3 }}
+                testID="SendEnterAmount/FeeLabel"
               />
               <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
                 <TokenDisplay
@@ -346,7 +355,7 @@ function EnterAmount({
             variant={NotificationVariant.Warning}
             description={t('sendEnterAmountScreen.lowerAmount')}
             style={styles.warning}
-            testID="SendEnterAmount/LowerAmountWarning"
+            testID="SendEnterAmount/LowerAmountError"
           />
         )}
         {showMaxAmountWarning && (

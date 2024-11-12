@@ -28,31 +28,34 @@ import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 import { parseInputAmount } from 'src/utils/parsing'
 
+export const APPROX_SYMBOL = '≈'
+
 const BORDER_RADIUS = 12
 
-function roundTokenAmount(value: string, decimalSeparator: string) {
+function groupNumber(value: string, groupingSeparator: string) {
+  return value.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
+}
+
+function roundTokenAmount(value: string) {
+  const { decimalSeparator } = getNumberFormatSettings()
   return parseInputAmount(value, decimalSeparator)
     .decimalPlaces(6)
     .toString()
     .replaceAll('.', decimalSeparator)
 }
 
-function roundLocalAmount(
-  value: string,
-  decimalSeparator: string,
-  localCurrencySymbol: LocalCurrencySymbol
-) {
+function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbol) {
+  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   const bigNum = parseInputAmount(value, decimalSeparator)
 
   if (bigNum.isLessThan(0.000001)) {
     return `<${localCurrencySymbol}0${decimalSeparator}000001`
   }
 
-  if (bigNum.isLessThan(0.01)) {
-    return `${localCurrencySymbol}${bigNum.toPrecision(1).toString().replaceAll('.', decimalSeparator)}`
-  }
-
-  return `${localCurrencySymbol}${bigNum.decimalPlaces(2).toString().replaceAll('.', decimalSeparator)}`
+  const rounded = bigNum.isLessThan(0.01) ? bigNum.toPrecision(1) : bigNum.decimalPlaces(2)
+  const formatted = rounded.toString().replaceAll('.', decimalSeparator)
+  const grouped = groupNumber(formatted, groupingSeparator)
+  return `${localCurrencySymbol}${grouped}`
 }
 
 export function TokenEnterAmount({
@@ -94,12 +97,8 @@ export function TokenEnterAmount({
   const localAmountPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2).replaceAll('.', decimalSeparator)}`
   const inputValue = amountType === 'token' ? tokenValue : localAmountValue
 
-  const tokenAmountRounded = roundTokenAmount(tokenValue, decimalSeparator)
-  const localAmountRounded = roundLocalAmount(
-    localAmountValue,
-    decimalSeparator,
-    localCurrencySymbol
-  )
+  const tokenAmountRounded = roundTokenAmount(tokenValue)
+  const localAmountRounded = roundLocalAmount(localAmountValue, localCurrencySymbol)
 
   const formattedInputValue = useMemo(() => {
     if (amountType === 'token') return inputValue
@@ -215,15 +214,23 @@ export function TokenEnterAmount({
           {token.priceUsd ? (
             <>
               {toggleAmountType && (
-                <Touchable onPress={toggleAmountType} style={styles.swapArrowContainer}>
+                <Touchable
+                  onPress={toggleAmountType}
+                  style={styles.swapArrowContainer}
+                  testID={`${testID}/SwitchTokens`}
+                >
                   <SwapArrows color={Colors.gray3} size={24} />
                 </Touchable>
               )}
 
-              <Text numberOfLines={1} style={[styles.secondaryAmountText, { maxWidth: '35%' }]}>
+              <Text
+                numberOfLines={1}
+                style={[styles.secondaryAmountText, { maxWidth: '35%' }]}
+                testID={`${testID}/ExchangeAmount`}
+              >
                 {amountType === 'token'
-                  ? `≈ ${inputValue ? localAmountRounded : localAmountPlaceholder}`
-                  : `≈ ${inputValue ? tokenAmountRounded : tokenValuePlaceholder}`}
+                  ? `${APPROX_SYMBOL} ${inputValue ? localAmountRounded : localAmountPlaceholder}`
+                  : `${APPROX_SYMBOL} ${inputValue ? tokenAmountRounded : tokenValuePlaceholder}`}
               </Text>
             </>
           ) : (
