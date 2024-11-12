@@ -6,7 +6,6 @@ import {
   recoveringFromStoreWipeSelector,
 } from 'src/account/selectors'
 import { phoneNumberVerifiedSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
-import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -250,9 +249,6 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
           } else {
             dispatch(initializeAccount())
             if (skipProtectWallet) {
-              if (skipVerification) {
-                dispatch(setHasSeenVerificationNux(true))
-              }
               finishOnboarding(Screens.ChooseYourAdventure)
             } else {
               wrapNavigate(Screens.ProtectWallet, undefined)
@@ -275,9 +271,6 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
           } else {
             dispatch(initializeAccount())
             if (skipProtectWallet) {
-              if (skipVerification) {
-                dispatch(setHasSeenVerificationNux(true))
-              }
               finishOnboarding(Screens.ChooseYourAdventure)
             } else {
               wrapNavigate(Screens.ProtectWallet, undefined)
@@ -289,7 +282,6 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
       return {
         next: () => {
           if (skipVerification || numberAlreadyVerifiedCentrally) {
-            dispatch(setHasSeenVerificationNux(true))
             finishOnboarding(Screens.ChooseYourAdventure)
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
@@ -301,7 +293,6 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
       return {
         next: () => {
           if (skipVerification || numberAlreadyVerifiedCentrally) {
-            dispatch(setHasSeenVerificationNux(true))
             finishOnboarding(Screens.ChooseYourAdventure)
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
@@ -313,7 +304,6 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
       return {
         next: () => {
           if (skipVerification || numberAlreadyVerifiedCentrally) {
-            dispatch(setHasSeenVerificationNux(true))
             finishOnboarding(Screens.ChooseYourAdventure)
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
@@ -325,8 +315,8 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
     case Screens.VerificationStartScreen:
       return {
         next: () => {
-          // initializeAccount & setHasSeenVerificationNux are called in the middle of
-          // the verification flow, so we don't need to call them here.
+          // initializeAccount is called in the middle of
+          // the verification flow, so we don't need to call it here
           finishOnboarding(Screens.ChooseYourAdventure)
         },
       }
@@ -334,7 +324,6 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
       return {
         next: () => {
           if (skipVerification) {
-            dispatch(setHasSeenVerificationNux(true))
             finishOnboarding(Screens.ChooseYourAdventure)
           } else {
             wrapNavigate(Screens.VerificationStartScreen, undefined)
