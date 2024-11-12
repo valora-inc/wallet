@@ -246,7 +246,7 @@ const slice = createSlice({
              * - ignore pending as it should only affect confirmed transactions that are already
              *   present in the paginated data
              */
-            if (!tx.transactionHash || tx.status === TransactionStatus.Pending) return true
+            if (!tx.transactionHash) return true
             return !confirmedTransactionsFromNewPage.includes(tx.transactionHash)
           }),
         }
