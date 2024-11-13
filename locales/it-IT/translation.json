@@ -2123,18 +2123,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Cerca per nome, numero telefonico, portafoglio...",
+    "searchInputLabel": "A",
+    "searchInputPlaceholder": "Indirizzo o numero di telefono del portafoglio",
     "paste": "Incolla dagli Appunti",
     "title": "Seleziona un destinatario",
     "contactsTitle": "Seleziona un contatto",
+    "header": "Invia",
+    "contactsHeader": "Invia ai contatti",
     "recents": "Recenti",
     "results": "Risultati",
     "qr": {
-      "title": "Inquadra o visualizza il codice QR",
-      "subtitle": "Trova rapidamente gli indirizzi in {{appName}}"
+      "title": "Invia tramite codice QR",
+      "subtitle": "Tocca per scansionare o mostrare un indirizzo"
     },
     "invite": {
-      "title": "Invia criptovalute ai tuoi amici",
-      "subtitle": "Invia fondi o un invito ai tuoi contatti"
+      "title": "Invia a un contatto",
+      "subtitle": "Invia fondi ai tuoi contatti"
     },
     "jumpstart": {
       "title": "Invia con un Live Link",

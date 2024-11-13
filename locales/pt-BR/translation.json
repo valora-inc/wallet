@@ -2123,18 +2123,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Pesquise por nome, telefone, carteira...",
+    "searchInputLabel": "Para",
+    "searchInputPlaceholder": "Endereço da carteira ou número de telefone",
     "paste": "Colar da área de transferência",
     "title": "Selecione um destinatário",
     "contactsTitle": "Selecione um contato",
+    "header": "Enviar",
+    "contactsHeader": "Enviar para contatos",
     "recents": "Recentes",
     "results": "Resultados",
     "qr": {
-      "title": "Escanear ou mostrar o código QR",
-      "subtitle": "Encontre endereços rapidamente na {{appName}}"
+      "title": "Enviar via código QR",
+      "subtitle": "Toque para digitalizar ou mostrar um endereço"
     },
     "invite": {
-      "title": "Envie criptos para seus amigos",
-      "subtitle": "Envie fundos ou um convite para seus contatos"
+      "title": "Enviar para um contato",
+      "subtitle": "Enviar fundos para seus contatos"
     },
     "jumpstart": {
       "title": "Envie com um link ativo",
