@@ -78,7 +78,8 @@ function TitleSection({
   return (
     <View testID="TitleSection" onLayout={onLayout} style={styles.titleContainer}>
       <View style={styles.titleTokenContainer}>
-        <View style={styles.titleTokenIconContainer}>
+        {/* View wrapper is needed to prevent TokenIcons from taking up the whole line */}
+        <View>
           <TokenIcons tokensInfo={tokensInfo} />
         </View>
         <Text style={styles.title}>{title}</Text>
@@ -551,9 +552,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: Spacing.Smallest8,
-  },
-  titleTokenIconContainer: {
-    flexShrink: 1,
   },
   subtitleContainer: {
     flex: 1,
