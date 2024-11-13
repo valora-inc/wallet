@@ -2123,18 +2123,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "İsme, telefona, cüzdana göre arama yapın...",
+    "searchInputLabel": "Şu Token’a",
+    "searchInputPlaceholder": "Cüzdan Adresi veya Telefon Numarası",
     "paste": "Panodan yapıştır",
     "title": "Bir alıcı seçin",
     "contactsTitle": "Bir kişi seçin",
+    "header": "Gönder",
+    "contactsHeader": "Kişilere Gönder",
     "recents": "En sonuncular",
     "results": "Sonuçlar",
     "qr": {
-      "title": "QR Kodunu Tarayın veya Gösterin",
-      "subtitle": "{{appName}} uygulamasındaki adresleri hızlıca bulun"
+      "title": "QR Kodu ile Gönder",
+      "subtitle": "Bir adresi taramak veya göstermek için dokunun"
     },
     "invite": {
-      "title": "Arkadaşlarınıza kripto gönderin",
-      "subtitle": "Kişilerinize fon veya davet gönderin"
+      "title": "Bir Kişiye Gönder",
+      "subtitle": "Kişilerinize para gönderin"
     },
     "jumpstart": {
       "title": "Canlı Bağlantı ile Gönder",

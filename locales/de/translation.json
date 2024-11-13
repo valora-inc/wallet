@@ -2123,18 +2123,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Suche nach Name, Telefon, Wallet ...",
+    "searchInputLabel": "Zu",
+    "searchInputPlaceholder": "Adresse oder Telefonnummer der Brieftasche",
     "paste": "Aus Zwischenablage einfügen",
     "title": "Einen Empfänger auswählen",
     "contactsTitle": "Kontakt wählen",
+    "header": "Senden",
+    "contactsHeader": "An Kontakte senden",
     "recents": "Zuletzt",
     "results": "Ergebnisse",
     "qr": {
-      "title": "QR-Code scannen oder anzeigen",
-      "subtitle": "Finde Adressen schnell auf {{appName}}"
+      "title": "Senden über QR-Code",
+      "subtitle": "Tippe auf , um eine Adresse zu scannen oder anzuzeigen"
     },
     "invite": {
-      "title": "Sende Krypto an deine Freunde.",
-      "subtitle": "Sende Guthaben oder eine Einladung an deine Kontakte"
+      "title": "An einen Kontakt senden",
+      "subtitle": "Geld an deine Kontakte senden"
     },
     "jumpstart": {
       "title": "Mit einem Live-Link senden",
