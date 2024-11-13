@@ -1,7 +1,7 @@
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Platform, StyleSheet, Text, View } from 'react-native'
 import Animated, { Extrapolation, interpolate } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SegmentedControl from 'src/components/SegmentedControl'
@@ -13,6 +13,7 @@ import { useDispatch } from 'src/redux/hooks'
 import { shareQRCode, SVG } from 'src/send/actions'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 type Props = MaterialTopTabBarProps & {
   qrSvgRef: React.MutableRefObject<SVG>
@@ -113,6 +114,12 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     alignItems: 'center',
+    ...Platform.select({
+      android: {
+        paddingTop: Spacing.Small12,
+        paddingVertical: Spacing.Smallest8,
+      },
+    }),
   },
   leftContainer: {
     width: 50,
