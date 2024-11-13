@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { SectionList, StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { DappExplorerEvents } from 'src/analytics/Events'
-import TextButton from 'src/components/TextButton'
+import Touchable from 'src/components/Touchable'
 import { favoriteDappsSelector, mostPopularDappsSelector } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
 import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
@@ -86,45 +86,44 @@ function DiscoverDappsCard() {
   if (!sections.length) return null
 
   return (
-    <View testID="DiscoverDappsCard" style={styles.container}>
-      <SectionList
-        ref={sectionListRef}
-        scrollEnabled={false}
-        ListHeaderComponent={<Text style={styles.title}>{t('dappsScreen.exploreDapps')}</Text>}
-        ListFooterComponent={
-          <View>
-            <TextButton style={styles.footer} onPress={onPressExploreAll}>
-              {t('dappsScreen.exploreAll')}
-            </TextButton>
-          </View>
-        }
-        sections={sections}
-        renderItem={({ item: dapp, index, section }) => {
-          return (
-            <DappCard
-              dapp={dapp}
-              onPressDapp={() => onPressDapp({ ...dapp, openedFrom: section.dappSection }, index)}
-              disableFavoriting={true}
-              testID={`${section.testID}/DappCard`}
-              cardContentContainerStyle={styles.dappCardContentContainer}
-            />
-          )
-        }}
-        renderSectionHeader={({ section: { sectionName, testID } }) => {
-          return (
-            <Text testID={`${testID}/Title`} style={styles.sectionTitle}>
-              {sectionName}
-            </Text>
-          )
-        }}
-        keyExtractor={(dapp) => dapp.id}
-        stickySectionHeadersEnabled={false}
-        testID="DAppsExplorerScreen/DiscoverDappsCard"
-        ListFooterComponentStyle={styles.listFooterComponent}
-        keyboardShouldPersistTaps="always"
-        keyboardDismissMode="on-drag"
-      />
-    </View>
+    <Touchable onPress={onPressExploreAll} borderRadius={8} shouldRenderRippleAbove>
+      <View testID="DiscoverDappsCard" style={styles.container}>
+        <SectionList
+          ref={sectionListRef}
+          scrollEnabled={false}
+          ListHeaderComponent={<Text style={styles.title}>{t('dappsScreen.exploreDapps')}</Text>}
+          ListFooterComponent={
+            <View>
+              <Text style={styles.footer}>{t('dappsScreen.exploreAll')}</Text>
+            </View>
+          }
+          sections={sections}
+          renderItem={({ item: dapp, index, section }) => {
+            return (
+              <DappCard
+                dapp={dapp}
+                onPressDapp={() => onPressDapp({ ...dapp, openedFrom: section.dappSection }, index)}
+                disableFavoriting={true}
+                testID={`${section.testID}/DappCard`}
+              />
+            )
+          }}
+          renderSectionHeader={({ section: { sectionName, testID } }) => {
+            return (
+              <Text testID={`${testID}/Title`} style={styles.sectionTitle}>
+                {sectionName}
+              </Text>
+            )
+          }}
+          keyExtractor={(dapp) => dapp.id}
+          stickySectionHeadersEnabled={false}
+          testID="DAppsExplorerScreen/DiscoverDappsCard"
+          ListFooterComponentStyle={styles.listFooterComponent}
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="on-drag"
+        />
+      </View>
+    </Touchable>
   )
 }
 
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
     borderColor: Colors.gray2,
     borderWidth: 1,
-    borderRadius: Spacing.Smallest8,
+    borderRadius: 8,
   },
   sectionTitle: {
     ...typeScale.labelXSmall,
@@ -152,10 +151,6 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldMedium,
     color: Colors.black,
     marginBottom: Spacing.Smallest8,
-  },
-  dappCardContentContainer: {
-    padding: 0,
-    marginVertical: Spacing.Regular16,
   },
 })
 

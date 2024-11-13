@@ -13,7 +13,7 @@ const mockStore = createMockStore()
 
 describe('ContactCircle', () => {
   describe('when given recipient with only address', () => {
-    it('uses DefaultAvatar svg', () => {
+    it('uses User svg', () => {
       const wrapper = render(
         <Provider store={mockStore}>
           <ContactCircle

@@ -77,8 +77,13 @@ function TitleSection({
 }) {
   return (
     <View testID="TitleSection" onLayout={onLayout} style={styles.titleContainer}>
-      <TokenIcons tokensInfo={tokensInfo} />
-      <Text style={styles.title}>{title}</Text>
+      <View style={styles.titleTokenContainer}>
+        {/* View wrapper is needed to prevent TokenIcons from taking up the whole line */}
+        <View>
+          <TokenIcons tokensInfo={tokensInfo} />
+        </View>
+        <Text style={styles.title}>{title}</Text>
+      </View>
       <View style={styles.subtitleContainer}>
         <Text style={styles.subtitleLabel}>
           <Trans i18nKey="earnFlow.poolInfoScreen.chainName" values={{ networkName }}>
@@ -225,7 +230,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     if (partialWithdrawalsEnabled) {
       withdrawBottomSheetRef.current?.snapToIndex(0)
     } else {
-      navigate(Screens.EarnCollectScreen, { pool })
+      navigate(Screens.EarnConfirmationScreen, { pool, mode: 'exit', useMax: true })
     }
   }
 
@@ -265,8 +270,9 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     navigation,
     title: <HeaderTitleSection earnPosition={pool} tokensInfo={tokensInfo} />,
     scrollPosition,
-    startFadeInPosition: titleHeight - titleHeight * 0.33,
-    animationDistance: titleHeight * 0.33,
+    // Numbers selected through trial and error
+    startFadeInPosition: titleHeight * 0.1,
+    animationDistance: titleHeight * 0.66,
   })
 
   return (
@@ -521,7 +527,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    padding: Spacing.Thick24,
+    paddingHorizontal: Spacing.Thick24,
     ...(Platform.OS === 'android' && {
       minHeight: variables.height,
     }),
@@ -539,6 +545,12 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   titleContainer: {
+    gap: Spacing.Smallest8,
+  },
+  titleTokenContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
     gap: Spacing.Smallest8,
   },
   subtitleContainer: {

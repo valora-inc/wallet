@@ -20,7 +20,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenEnterAmount from 'src/components/TokenEnterAmount'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
-import { usePrepareTransactions } from 'src/earn/prepareTransactions'
+import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
@@ -101,6 +101,7 @@ function EarnEnterAmount({ route }: Props) {
       case 'withdraw':
         return [depositToken]
       case 'swap-deposit':
+      default:
         return eligibleSwappableTokens
     }
   }, [mode])
@@ -143,7 +144,7 @@ function EarnEnterAmount({ route }: Props) {
     clearPreparedTransactions,
     prepareTransactionError,
     isPreparingTransactions,
-  } = usePrepareTransactions(mode)
+  } = usePrepareEnterAmountTransactionsCallback(mode)
 
   const walletAddress = useSelector(walletAddressSelector)
 
@@ -395,8 +396,17 @@ function EarnEnterAmount({ route }: Props) {
           ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
           : tokenAmount.toString(),
     })
-    // TODO(ACT-1389) if isWithdrawal === true navigate to EarnConfirmationScreen
-    reviewBottomSheetRef.current?.snapToIndex(0)
+
+    if (isWithdrawal) {
+      navigate(Screens.EarnConfirmationScreen, {
+        pool,
+        mode,
+        inputAmount: tokenAmount.toString(),
+        useMax: maxPressed,
+      })
+    } else {
+      reviewBottomSheetRef.current?.snapToIndex(0)
+    }
   }
 
   const dropdownEnabled = availableInputTokens.length > 1

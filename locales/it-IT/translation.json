@@ -2123,18 +2123,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Cerca per nome, numero telefonico, portafoglio...",
+    "searchInputLabel": "A",
+    "searchInputPlaceholder": "Indirizzo o numero di telefono del portafoglio",
     "paste": "Incolla dagli Appunti",
     "title": "Seleziona un destinatario",
     "contactsTitle": "Seleziona un contatto",
+    "header": "Invia",
+    "contactsHeader": "Invia ai contatti",
     "recents": "Recenti",
     "results": "Risultati",
     "qr": {
-      "title": "Inquadra o visualizza il codice QR",
-      "subtitle": "Trova rapidamente gli indirizzi in {{appName}}"
+      "title": "Invia tramite codice QR",
+      "subtitle": "Tocca per scansionare o mostrare un indirizzo"
     },
     "invite": {
-      "title": "Invia criptovalute ai tuoi amici",
-      "subtitle": "Invia fondi o un invito ai tuoi contatti"
+      "title": "Invia a un contatto",
+      "subtitle": "Invia fondi ai tuoi contatti"
     },
     "jumpstart": {
       "title": "Invia con un Live Link",
@@ -2280,7 +2284,37 @@
     "infiniteApprovalDescription": "Somma di {{tokenSymbol}} infiniti approvata per la transazione",
     "revokeApprovalDescription": "Revoca di {{tokenSymbol}} per la transazione",
     "descriptionLabel": "Dettagli",
-    "crossChainSwapTransactionLabel": "Cross-chain"
+    "crossChainSwapTransactionLabel": "Cross-chain",
+    "depositTitle": "Depositati",
+    "depositSubtitle": "sul pool {{txAppName}}",
+    "depositSubtitle_noTxAppName": "all'applicazione sconosciuta",
+    "withdrawTitle": "Preleva",
+    "withdrawSubtitle": "dal pool {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "d'app sconosciuta",
+    "claimRewardTitle": "Raccolti",
+    "claimRewardSubtitle": "dal pool {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "d'app sconosciuta",
+    "error": {
+      "fetchError": "Ops, c'è stato un problema nell'aggiornare il tuo feed. La cronologia delle tue transazioni potrebbe essere incompleta per il momento."
+    }
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Dettagli",
+    "depositTitle": "Depositati",
+    "depositSubtitle": "Depositati {{tokenSymbol}} sul pool {{txAppName}}",
+    "depositSubtitle_noTxAppName": "{{tokenSymbol}} depositati sul app sconosciuta",
+    "depositDetails": "Somma depositata",
+    "withdrawTitle": "Preleva",
+    "withdrawSubtitle": "Prelevati {{tokenSymbol}} dal pool {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "{{tokenSymbol}} prelevati d'app sconosciuta",
+    "withdrawDetails": "Importo prelevato",
+    "claimRewardTitle": "Raccolti",
+    "claimRewardSubtitle": "{{tokenSymbol}} raccolti dal pool {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "Raccolta di {{tokenSymbol}} da un'applicazione sconosciuta",
+    "claimRewardDetails": "Importo raccolto",
+    "swap": "Scambio",
+    "network": "Rete",
+    "fees": "Commissioni"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2557,7 +2591,7 @@
       "fees": "Commissioni",
       "available": "Disponibile",
       "swap": "Scambio",
-      "claimingReward": "Richiedere la ricompensa",
+      "claimingReward": "Richiedi ricompensa",
       "earnUpToLabel": "Puoi guadagnare fino a:",
       "rateLabel": "Tasso (stima)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / anno",
@@ -2577,7 +2611,7 @@
         "estNetworkFee": "Commissione di rete stimata",
         "maxNetworkFee": "Commissione di rete massima",
         "networkFeeDescription": "La commissione di rete viene richiesta dalla rete per elaborare la transazione di deposito.",
-        "networkFeeDescriptionWithdrawal": "La commissione di rete è richiesta dal network per elaborare la transazione di prelievo.",
+        "networkFeeDescriptionWithdrawal": "La commissione di rete viene richiesta dalla rete per elaborare la transazione di prelievo.",
         "networkSwapFeeDescription": "La commissione di rete viene richiesta dalla rete per elaborare la transazione di deposito. La commissione di {{appName}} del {{appFeePercentage}}% viene addebitata per l'utilizzo del nostro prodotto.",
         "appSwapFee": "Commissione di {{appName}}"
       },
@@ -2589,8 +2623,8 @@
         "swapDescription": "Per depositare fondi nel pool, il tuo token viene scambiato con un token del pool."
       },
       "withdrawingAndClaimingCard": {
-        "title": "Recesso e richiesta di rimborso",
-        "description": "{{providerName}} ti obbliga a richiedere tutti i premi disponibili ogni volta che effettui un prelievo."
+        "title": "Prelievo e richiesta",
+        "description": "{{providerName}} ti obbliga a richiedere tutte le ricompense disponibili ogni volta che effettui un prelievo."
       }
     },
     "activePools": {
@@ -2624,12 +2658,19 @@
     },
     "collect": {
       "title": "Congratulazioni! Rivedi e riscuoti i tuoi guadagni",
+      "titleClaim": "Stai per richiedere:",
+      "titleCollect": "Stai per raccogliere:",
+      "titleWithdraw": "Stai per ritirare:",
       "total": "TOTALE",
       "plus": "PIÙ",
+      "reward": "BONUS",
       "rate": "Tasso (stima)",
       "apy": "{{apy}}% APY",
       "fee": "Commissione sulla transazione",
       "cta": "Raccogli guadagni",
+      "ctaWithdraw": "Preleva",
+      "ctaReward": "Richiedi ora",
+      "ctaExit": "Abbandona il pool",
       "errorTitle": "Si è verificato un errore",
       "errorDescription": "Impossibile recuperare i dettagli del deposito. Riprova.",
       "noGasTitle": "Per continuare, devi avere più {{symbol}}",
@@ -2647,13 +2688,13 @@
     "transactionDetails": {
       "descriptionLabel": "Dettagli",
       "earnClaimTitle": "Raccolti",
-      "earnClaimSubtitle": "Raccolti {{tokenSymbol}} dal pool {{providerName}}",
+      "earnClaimSubtitle": "{{tokenSymbol}} raccolti dal pool {{providerName}}",
       "earnClaimDetails": "Importo raccolto",
       "earnDepositTitle": "Depositati",
       "earnDepositSubtitle": "Depositati {{tokenSymbol}} sul pool {{providerName}}",
       "earnDepositDetails": "Somma depositata",
       "earnWithdrawTitle": "Preleva",
-      "earnWithdrawSubtitle": "Prelevati {{tokenSymbol}} dal pool {{providerName}}",
+      "earnWithdrawSubtitle": "{{tokenSymbol}} prelevati dal pool {{providerName}}",
       "earnWithdrawDetails": "Importo prelevato",
       "swap": "Scambio",
       "network": "Rete",
@@ -2701,7 +2742,7 @@
       "chainName": "Rete: <0>{{networkName}}</0>",
       "protocolName": "Protocollo: <0>{{providerName}}</0>",
       "yieldRate": "Tasso di rendimento",
-      "dailyYieldRate": "Tariffa giornaliera",
+      "dailyYieldRate": "Tasso giornaliero",
       "ratePercent": "{{rate}}%",
       "rewards": "Ricompense",
       "noRewards": "Senza ricompense",
@@ -2714,18 +2755,18 @@
       "withdraw": "Preleva",
       "withdrawBottomSheet": {
         "title": "Seleziona il tipo di prelievo",
-        "withdrawAndClaim": "Recesso e richiesta di rimborso",
+        "withdrawAndClaim": "Preleva e richiedi",
         "withdrawDescription": "Prelevare un importo specifico di tutti i token che hai depositato nel pool",
-        "withdrawAndClaimRewardsDescription": "Preleva un importo specifico dei gettoni che hai depositato nel pool e richiedi automaticamente le tue ricompense.",
-        "withdrawAndClaimEarningsDescription": "Preleva un importo specifico di tutti i gettoni che hai depositato nel pool e richiedi i tuoi guadagni automaticamente",
+        "withdrawAndClaimRewardsDescription": "Preleva un importo specifico dei token che hai depositato nel pool e richiedi automaticamente le tue ricompense",
+        "withdrawAndClaimEarningsDescription": "Preleva un importo specifico dei token che hai depositato nel pool e richiedi automaticamente i tuoi guadagni",
         "claimRewards": "Richiedi ora",
-        "claimRewardsDescription": "Richiedi i tuoi premi. Non è possibile richiedere importi parziali della ricompensa.",
-        "claimEarnings": "Richiesta di guadagno",
-        "claimEarningsDescription": "Richiedi i guadagni del tuo deposito. Gli importi parziali non possono essere richiesti",
-        "exit": "Uscita",
-        "exitDescription": "Uscendo ritirerai tutto quello che hai nella piscina.",
-        "exitWithRewardsDescription": "Uscendo ritirerai tutto ciò che hai nella piscina, comprese le ricompense.",
-        "exitWithEarningsDescription": "L'uscita ritirerà tutto ciò che hai nella piscina, compresi i guadagni."
+        "claimRewardsDescription": "Richiedi le tue ricompense. Non è possibile richiedere parte dell'importo della ricompensa",
+        "claimEarnings": "Richiedi guadagni",
+        "claimEarningsDescription": "Richiedi i guadagni del tuo deposito. Non è possibile richieste parte degli importi",
+        "exit": "Esci",
+        "exitDescription": "Uscendo ritirerai tutto quello che hai nel pool",
+        "exitWithRewardsDescription": "Uscendo ritirerai tutto ciò che hai nel pool, comprese le ricompense",
+        "exitWithEarningsDescription": "Uscendo ritirerai tutto ciò che hai nel pool, compresi i guadagni"
       },
       "totalDepositAndEarnings": "Depositi e guadagni totali",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
@@ -2740,14 +2781,14 @@
         "ageDescription": "L'anzianità di un pool di liquidità può essere indicativa di risultati consolidati nel tempo e di una certa esperienza nel costruire la fiducia della comunità. Per questo alcuni considerano più sicuri i pool meno recenti.\n\nNon esiste un modo perfetto per determinare il rischio; pertanto, usa queste informazioni nel contesto della tua indagine generale per prendere la decisione migliore per te.",
         "yieldRateTitle": "Tasso di rendimento",
         "yieldRateDescription": "Sebbene la maggior parte dei pool converta i guadagni in token di liquidità, alcuni offrono token aggiuntivi come ricompensa o ulteriore incentivo.\n\nPoiché {{appName}} aggrega pool che utilizzano più protocolli, tutti i tassi di guadagno e ricompensa sono stati riuniti in un unico tasso di rendimento complessivo, in modo che risulti più facile valutare il potenziale di guadagno. Tale numero è una stima poiché i valori di guadagno e ricompensa fluttuano costantemente.\n\nPer ulteriori informazioni sulla ripartizione del guadagno, visita <0>{{providerName}}</0>.",
-        "dailyYieldRateTitle": "Tariffa giornaliera",
-        "dailyYieldRateDescription": "La tariffa giornaliera visualizzata riflette la tariffa giornaliera fornita da {{providerName}}.",
-        "dailyYieldRateLink": "Vedi ulteriori dettagli sulle tariffe giornaliere su {{providerName}}",
+        "dailyYieldRateTitle": "Tasso giornaliero",
+        "dailyYieldRateDescription": "Il tasso giornaliero visualizzato riflette il tasso giornaliero fornito da {{providerName}}.",
+        "dailyYieldRateLink": "Vedi più dettagli sui tassi giornalieri su {{providerName}}",
         "safetyScoreTitle": "Punteggio di sicurezza",
-        "safetyScoreDescription": "Il Punteggio di Sicurezza analizza la sicurezza dell'asset sottostante in base a diversi fattori chiave. Ha lo scopo di attirare la tua attenzione sui rischi da considerare prima di investire e di informarti sui dettagli tecnici che potresti non essere in grado di valutare da solo.\nSebbene la posizione completa sia sempre più complicata, il Punteggio di sicurezza viene fornito per semplificare le principali considerazioni sui rischi e sulla sicurezza e per dare il via alla tua due diligence. Il nostro team considera attentamente ogni fattore prima che un caveau venga utilizzato e tiene sotto controllo ogni asset, catena e protocollo che {{providerName}} ha integrato.",
-        "safetyScoreRateLink": "Visualizza ulteriori dettagli sul punteggio di sicurezza su {{providerName}}"
+        "safetyScoreDescription": "Il punteggio di sicurezza analizza la sicurezza dell'asset sottostante in base a diversi fattori chiave. Ha lo scopo di richiamare la tua attenzione sui rischi da considerare prima di investire e di informarti sui dettagli tecnici che potresti non essere in grado di valutare da solo.\nSebbene la posizione completa sia sempre più complicata, il punteggio di sicurezza viene fornito per semplificare le principali considerazioni sui rischi e sulla sicurezza e per dare il via alla tua due diligence. Il nostro team considera attentamente ogni fattore prima che un vault venga utilizzato e tiene sotto controllo ogni asset, chain e protocollo che {{providerName}} ha integrato.",
+        "safetyScoreRateLink": "Visualizza più dettagli sul punteggio di sicurezza su {{providerName}}"
       },
-      "viewMoreDetails": "Vedi altri dettagli",
+      "viewMoreDetails": "Vedi più dettagli",
       "viewLessDetails": "Vedi meno dettagli"
     },
     "beforeDepositBottomSheet": {
