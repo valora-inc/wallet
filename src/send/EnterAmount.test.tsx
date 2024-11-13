@@ -600,7 +600,7 @@ describe('EnterAmount', () => {
 
     // token balance 5
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '7')
-    expect(getByTestId('SendEnterAmount/LowerAmountError')).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/NotEnoughBalanceWarning')).toBeTruthy()
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
@@ -623,7 +623,7 @@ describe('EnterAmount', () => {
 
       // token balance 5
       fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), amount)
-      expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+      expect(queryByTestId('SendEnterAmount/NotEnoughBalanceWarning')).toBeFalsy()
       expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()
     }
   )
@@ -643,7 +643,7 @@ describe('EnterAmount', () => {
 
     // token balance 5
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '0')
-    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/NotEnoughBalanceWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
   })
 
@@ -659,7 +659,7 @@ describe('EnterAmount', () => {
     // token balance 5 => local balance 0.67
     fireEvent.press(getByTestId('SendEnterAmount/SwitchTokens'))
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '.68')
-    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeTruthy()
+    expect(queryByTestId('SendEnterAmount/NotEnoughBalanceWarning')).toBeTruthy()
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
@@ -682,7 +682,7 @@ describe('EnterAmount', () => {
 
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '2')
-    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/NotEnoughBalanceWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
@@ -712,7 +712,7 @@ describe('EnterAmount', () => {
 
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '9.9999')
-    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/NotEnoughBalanceWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/MaxAmountWarning')).toBeTruthy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
@@ -737,7 +737,7 @@ describe('EnterAmount', () => {
 
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '8')
-    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/NotEnoughBalanceWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()
@@ -774,7 +774,7 @@ describe('EnterAmount', () => {
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
     fireEvent.press(getByTestId('SendEnterAmount/SwitchTokens'))
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '5')
-    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/NotEnoughBalanceWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()

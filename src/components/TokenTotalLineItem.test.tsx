@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { APPROX_SYMBOL } from 'src/components/TokenEnterAmount'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { LocalAmount, NetworkId } from 'src/transactions/types'
@@ -173,7 +174,9 @@ describe('TokenTotalLineItem', () => {
         showLocalAmountForTotal: false,
         newSendScreen: true,
       })
-      expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('~10.50 cUSD')
+      expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual(
+        `${APPROX_SYMBOL} 10.50 cUSD`
+      )
       expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual(
         'tokenExchangeRateApprox, {"symbol":"cUSD"}R$1.50'
       )
@@ -184,7 +187,9 @@ describe('TokenTotalLineItem', () => {
         showLocalAmountForTotal: false,
         newSendScreen: true,
       })
-      expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('~10.00 cUSD')
+      expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual(
+        `${APPROX_SYMBOL} 10.00 cUSD`
+      )
       expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual(
         'tokenExchangeRateApprox, {"symbol":"cUSD"}R$1.50'
       )

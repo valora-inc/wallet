@@ -345,9 +345,14 @@ function EnterAmount({
         {showLowerAmountError && (
           <InLineNotification
             variant={NotificationVariant.Warning}
-            description={t('sendEnterAmountScreen.lowerAmount')}
+            title={t('sendEnterAmountScreen.insufficientBalanceWarning.title', {
+              tokenSymbol: token.symbol,
+            })}
+            description={t('sendEnterAmountScreen.insufficientBalanceWarning.description', {
+              tokenSymbol: token.symbol,
+            })}
             style={styles.warning}
-            testID="SendEnterAmount/LowerAmountError"
+            testID="SendEnterAmount/NotEnoughBalanceWarning"
           />
         )}
         {showMaxAmountWarning && (

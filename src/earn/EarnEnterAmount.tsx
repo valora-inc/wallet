@@ -132,9 +132,26 @@ function EarnEnterAmount({ route }: Props) {
     })
   }
 
+  const handleToggleAmountType = () => {
+    setEnteredIn((prev) => (prev === 'token' ? 'local' : 'token'))
+    if (enteredIn === 'token' && localAmountInput) {
+      setLocalAmountInput(
+        parseInputAmount(localAmountInput, decimalSeparator)
+          .toFixed(2)
+          .replaceAll('.', decimalSeparator)
+      )
+    }
+
+    tokenAmountInputRef.current?.blur()
+  }
+
   const onSelectToken = (token: TokenBalance) => {
     setInputToken(token)
     tokenBottomSheetRef.current?.close()
+
+    setTokenAmountInput('')
+    setLocalAmountInput('')
+    setEnteredIn((prev) => (token.priceUsd ? prev : 'token'))
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
@@ -173,11 +190,11 @@ function EarnEnterAmount({ route }: Props) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   // only allow numbers, one decimal separator, and any number of decimal places
   const localAmountRegex = new RegExp(
-    `^(\\d+([${decimalSeparator}])?\\d*|[${decimalSeparator}]\\d*|[${decimalSeparator}])$`
+    `^(\\d+([${decimalSeparator}])?\\d{0,2}|[${decimalSeparator}]\\d{0,2}|[${decimalSeparator}])$`
   )
   // only allow numbers, one decimal separator
   const tokenAmountRegex = new RegExp(
-    `^(?:\\d+[${decimalSeparator}]?\\d*|[${decimalSeparator}]\\d*|[${decimalSeparator}])$`
+    `^(?:\\d+[${decimalSeparator}]?\\d{0,${inputToken.decimals}}|[${decimalSeparator}]\\d{0,${inputToken.decimals}}|[${decimalSeparator}])$`
   )
   const parsedTokenAmount = useMemo(
     () => parseInputAmount(tokenAmountInput, decimalSeparator),
@@ -199,7 +216,7 @@ function EarnEnterAmount({ route }: Props) {
     if (enteredIn === 'token') {
       setLocalAmountInput(
         tokenToLocal && tokenToLocal.gt(0)
-          ? `${localCurrencySymbol}${tokenToLocal.toFormat(2)}` // automatically adds grouping separators
+          ? tokenToLocal.toString().replaceAll('.', decimalSeparator)
           : ''
       )
       return {
@@ -295,19 +312,6 @@ function EarnEnterAmount({ route }: Props) {
   const disabled =
     // Should disable if the user enters 0, has enough balance but the transaction is not possible, or does not have enough balance
     !!tokenAmount?.isZero() || !transactionIsPossible
-
-  const handleToggleAmountType = () => {
-    setEnteredIn((prev) => (prev === 'token' ? 'local' : 'token'))
-    if (enteredIn === 'token' && localAmountInput) {
-      setLocalAmountInput(
-        parseInputAmount(localAmountInput, decimalSeparator)
-          .toFixed(2)
-          .replaceAll('.', decimalSeparator)
-      )
-    }
-
-    tokenAmountInputRef.current?.blur()
-  }
 
   const handleAmountInputChange = (value: string) => {
     if (enteredIn === 'token') {
