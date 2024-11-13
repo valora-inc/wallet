@@ -39,6 +39,18 @@ export const transactionFeedV2Api = createApi({
         }
       },
       keepUnusedDataFor: 60, // 1 min
+      transformErrorResponse: (error, meta) => {
+        if (meta) {
+          const params = new URL(meta.request.url).searchParams
+          return {
+            ...error,
+            // only requests for next pages have the afterCursor search param
+            hasAfterCursor: !params.get('afterCursor'),
+          }
+        }
+
+        return error
+      },
     }),
   }),
 })

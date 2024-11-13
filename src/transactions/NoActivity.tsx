@@ -7,8 +7,8 @@ import { withTranslation } from 'src/i18n'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 interface OwnProps {
-  loading: boolean
-  error: Error | FetchBaseQueryError | SerializedError | undefined
+  loading?: boolean
+  error?: Error | FetchBaseQueryError | SerializedError | undefined
 }
 
 type Props = OwnProps & WithTranslation

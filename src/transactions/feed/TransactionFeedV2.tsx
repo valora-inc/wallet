@@ -1,12 +1,12 @@
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
-import Toast from 'react-native-simple-toast'
-import { showToast } from 'src/alert/actions'
+import { ActivityIndicator, SectionList, StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
+import { NotificationVariant } from 'src/components/InLineNotification'
 import SectionHead from 'src/components/SectionHead'
+import Toast from 'src/components/Toast'
 import GetStarted from 'src/home/GetStarted'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -14,6 +14,7 @@ import { store } from 'src/redux/store'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
@@ -50,7 +51,6 @@ type PaginatedData = {
 }
 
 const FIRST_PAGE_CURSOR = 'FIRST_PAGE'
-const MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL = 10
 const POLL_INTERVAL_MS = 10_000 // 10 sec
 const TAG = 'transactions/feed/TransactionFeedV2'
 
@@ -306,8 +306,10 @@ export default function TransactionFeedV2() {
   const [paginatedData, setPaginatedData] = useState<PaginatedData>({
     [FIRST_PAGE_CURSOR]: feedFirstPage,
   })
+  const [showError, setShowError] = useState(false)
+  const [allTransactionsShown, setAllTransactionsShown] = useState(false)
 
-  const { data, isFetching, error } = useTransactionFeedV2Query(
+  const { data, isFetching, error, refetch } = useTransactionFeedV2Query(
     { address: address!, endCursor, localCurrencyCode },
     { skip: !address, refetchOnMountOrArgChange: true }
   )
@@ -371,13 +373,29 @@ export default function TransactionFeedV2() {
   )
 
   useEffect(
+    function hasLoadedAllTransactions() {
+      if (data && !data.pageInfo.hasNextPage && !data.pageInfo.endCursor) {
+        setAllTransactionsShown(true)
+      }
+    },
+    [data]
+  )
+
+  useEffect(
     function handleError() {
       if (error === undefined) return
 
       Logger.warn(TAG, 'Error while fetching transactions', error)
-      dispatch(showToast(t('transactionFeed.error.fetchError'), null, null, null))
+
+      // Suppress errors for background polling results, but show errors when
+      // data is explicitly requested by the user. Currently, this applies to
+      // scroll actions for loading additional pages and the initial wallet load
+      // if no cached transactions exist.
+      if (('hasAfterCursor' in error && error.hasAfterCursor) || feedFirstPage.length === 0) {
+        setShowError(true)
+      }
     },
-    [error]
+    [error, feedFirstPage]
   )
 
   useEffect(
@@ -427,26 +445,17 @@ export default function TransactionFeedV2() {
     return groupFeedItemsInSections(pending, confirmed)
   }, [paginatedData, allowedNetworkForTransfers])
 
-  if (!sections.length) {
-    return getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? (
-      <GetStarted />
-    ) : (
-      <NoActivity loading={isFetching} error={error} />
-    )
-  }
-
   function fetchMoreTransactions() {
     if (data?.pageInfo.hasNextPage && data?.pageInfo.endCursor) {
       setEndCursor(data.pageInfo.endCursor)
-      return
     }
+  }
 
-    const recentCount = sections[0]?.data.length ?? 0
-    const confirmedCount = sections[1]?.data.length ?? 0
-    const totalTxCount = recentCount + confirmedCount
-    if (totalTxCount > MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL) {
-      Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
-    }
+  function handleRetryFetch() {
+    // refetch the transaction feed with the last known cursor, since this
+    // toast should only be displayed on error fetching next page or initial
+    // page if no transactions have been fetched before.
+    return refetch()
   }
 
   return (
@@ -460,12 +469,27 @@ export default function TransactionFeedV2() {
         testID="TransactionList"
         onEndReached={fetchMoreTransactions}
         initialNumToRender={20}
+        ListEmptyComponent={
+          getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? <GetStarted /> : <NoActivity />
+        }
       />
-      {isFetching && (
+      {/* prevent loading indicator due to polling from showing at the bottom of the screen */}
+      {isFetching && !allTransactionsShown && (
         <View style={styles.centerContainer} testID="TransactionList/loading">
           <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
         </View>
       )}
+      {allTransactionsShown && sections.length > 0 && (
+        <Text style={styles.allTransactionsText}>{t('transactionFeed.allTransactionsShown')}</Text>
+      )}
+      <Toast
+        showToast={showError}
+        variant={NotificationVariant.Warning}
+        hideIcon
+        description={t('transactionFeed.error.fetchError')}
+        ctaLabel={t('transactionFeed.error.fetchErrorRetry')}
+        onPressCta={handleRetryFetch}
+      />
     </>
   )
 }
@@ -480,5 +504,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
+  },
+  allTransactionsText: {
+    ...typeScale.bodySmall,
+    color: colors.gray3,
+    textAlign: 'center',
+    marginHorizontal: Spacing.Regular16,
+    marginTop: Spacing.Thick24,
   },
 })
