@@ -13,7 +13,6 @@ import { useDispatch } from 'src/redux/hooks'
 import { shareQRCode, SVG } from 'src/send/actions'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 
 type Props = MaterialTopTabBarProps & {
   qrSvgRef: React.MutableRefObject<SVG>
@@ -114,8 +113,6 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
-    paddingTop: Spacing.Regular16,
   },
   leftContainer: {
     width: 50,
