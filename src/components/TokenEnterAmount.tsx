@@ -8,8 +8,8 @@ import {
   StyleSheet,
   Text,
   TextStyle,
+  View,
 } from 'react-native'
-import { View } from 'react-native-animatable'
 import { getNumberFormatSettings } from 'react-native-localize'
 import TextInput from 'src/components/TextInput'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -76,7 +76,7 @@ function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbo
   return `${localCurrencySymbol}${bigNum.isLessThan(0.1) ? formatted : grouped}`
 }
 
-export function TokenEnterAmount({
+export default function TokenEnterAmount({
   token,
   onTokenPickerSelect,
   tokenValue,
@@ -310,5 +310,3 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '90deg' }],
   },
 })
-
-export default TokenEnterAmount
