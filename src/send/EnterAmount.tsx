@@ -273,7 +273,7 @@ function EnterAmount({
   }
 
   const onLocalAmountInputChange = (value: string) => {
-    // remove  grouping separators
+    // remove grouping separators
     value = value.replaceAll(groupingSeparator, '')
     if (!value) {
       setLocalAmountInput('')
@@ -301,16 +301,16 @@ function EnterAmount({
         <View style={styles.inputContainer}>
           <Text style={styles.title}>{t('sendEnterAmountScreen.title')}</Text>
           <TokenEnterAmount
+            autoFocus
+            testID="SendEnterAmount"
+            token={token}
             inputRef={tokenAmountInputRef}
             tokenValue={tokenAmountInput}
             localAmountValue={localAmountInput}
             onInputChange={handleAmountInputChange}
             amountType={enteredIn}
             toggleAmountType={handleToggleAmountType}
-            autoFocus
-            testID="SendEnterAmount"
             onTokenPickerSelect={tokenSelectionDisabled ? undefined : onTokenPickerSelect}
-            token={token}
           />
 
           {!!maxFeeAmount && (

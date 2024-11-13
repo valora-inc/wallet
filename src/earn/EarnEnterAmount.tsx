@@ -297,6 +297,14 @@ function EarnEnterAmount({ route }: Props) {
 
   const handleToggleAmountType = () => {
     setEnteredIn((prev) => (prev === 'token' ? 'local' : 'token'))
+    if (enteredIn === 'token' && localAmountInput) {
+      setLocalAmountInput(
+        parseInputAmount(localAmountInput, decimalSeparator)
+          .toFixed(2)
+          .replaceAll('.', decimalSeparator)
+      )
+    }
+
     tokenAmountInputRef.current?.blur()
   }
 
@@ -326,10 +334,7 @@ function EarnEnterAmount({ route }: Props) {
 
   const onLocalAmountInputChange = (value: string) => {
     setMaxPressed(false)
-    // remove leading currency symbol and grouping separators
-    if (value.startsWith(localCurrencySymbol)) {
-      value = value.slice(1)
-    }
+    // remove grouping separators
     value = value.replaceAll(groupingSeparator, '')
     if (!value) {
       setLocalAmountInput('')
@@ -343,7 +348,7 @@ function EarnEnterAmount({ route }: Props) {
         const [integerPart, decimalPart] = value.split(decimalSeparator)
         const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
         setLocalAmountInput(
-          `${localCurrencySymbol}${formattedInteger}${decimalPart !== undefined ? `${decimalSeparator}${decimalPart}` : ''}`
+          `${formattedInteger}${decimalPart !== undefined ? `${decimalSeparator}${decimalPart}` : ''}`
         )
         setEnteredIn('local')
       }
@@ -407,16 +412,16 @@ function EarnEnterAmount({ route }: Props) {
               : t('earnFlow.enterAmount.title')}
           </Text>
           <TokenEnterAmount
+            autoFocus
+            testID="EarnEnterAmount"
             token={inputToken}
-            onTokenPickerSelect={dropdownEnabled ? onTokenPickerSelect : undefined}
+            inputRef={tokenAmountInputRef}
             tokenValue={tokenAmountInput}
-            onInputChange={handleAmountInputChange}
             localAmountValue={localAmountInput}
-            localCurrencySymbol={localCurrencySymbol}
+            onInputChange={handleAmountInputChange}
             amountType={enteredIn}
             toggleAmountType={handleToggleAmountType}
-            inputRef={tokenAmountInputRef}
-            testID="EarnEnterAmount"
+            onTokenPickerSelect={dropdownEnabled ? onTokenPickerSelect : undefined}
           />
           {tokenAmount && prepareTransactionsResult && !isWithdrawal && (
             <TransactionDepositDetails
