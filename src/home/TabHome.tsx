@@ -127,7 +127,7 @@ function TabHome(_props: Props) {
     },
     {
       key: 'TransactionFeed',
-      component: showZerionTransactionFeed ? <TransactionFeedV2 /> : <TransactionFeed />,
+      component: <TransactionFeed />,
     },
   ]
 
@@ -135,23 +135,27 @@ function TabHome(_props: Props) {
 
   return (
     <SafeAreaView testID="WalletHome" style={styles.container} edges={[]}>
-      <AnimatedFlatList
-        // Workaround iOS setting an incorrect automatic inset at the top
-        scrollIndicatorInsets={{ top: 0.01 }}
-        scrollEventThrottle={16}
-        refreshControl={refresh}
-        onRefresh={onRefresh}
-        refreshing={isLoading}
-        style={styles.container}
-        contentContainerStyle={{ paddingBottom: insets.bottom }}
-        data={flatListSections}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        testID="WalletHome/FlatList"
-        // To remove the sticky header entirely remove stickyHeaderIndices & stickyHeaderHiddenOnScroll
-        stickyHeaderIndices={[0]}
-        stickyHeaderHiddenOnScroll={true}
-      />
+      {showZerionTransactionFeed ? (
+        <TransactionFeedV2 />
+      ) : (
+        <AnimatedFlatList
+          // Workaround iOS setting an incorrect automatic inset at the top
+          scrollIndicatorInsets={{ top: 0.01 }}
+          scrollEventThrottle={16}
+          refreshControl={refresh}
+          onRefresh={onRefresh}
+          refreshing={isLoading}
+          style={styles.container}
+          contentContainerStyle={{ paddingBottom: insets.bottom }}
+          data={flatListSections}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          testID="WalletHome/FlatList"
+          // To remove the sticky header entirely remove stickyHeaderIndices & stickyHeaderHiddenOnScroll
+          stickyHeaderIndices={[0]}
+          stickyHeaderHiddenOnScroll={true}
+        />
+      )}
       {showNftCelebration && <NftCelebration />}
       {showNftReward && <NftReward />}
     </SafeAreaView>

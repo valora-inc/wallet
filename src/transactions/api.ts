@@ -45,7 +45,7 @@ export const transactionFeedV2Api = createApi({
           return {
             ...error,
             // only requests for next pages have the afterCursor search param
-            hasAfterCursor: !params.get('afterCursor'),
+            hasAfterCursor: params.get('afterCursor'),
           }
         }
 

@@ -1,13 +1,23 @@
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, SectionList, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  RefreshControl,
+  SectionList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { NotificationVariant } from 'src/components/InLineNotification'
 import SectionHead from 'src/components/SectionHead'
 import Toast from 'src/components/Toast'
+import { refreshAllBalances } from 'src/home/actions'
+import ActionsCarousel from 'src/home/ActionsCarousel'
 import GetStarted from 'src/home/GetStarted'
+import NotificationBox from 'src/home/NotificationBox'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { store } from 'src/redux/store'
@@ -298,6 +308,7 @@ export default function TransactionFeedV2() {
   const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
+  const isRefreshingBalances = useSelector((state) => state.home.loading)
   const standByTransactions = useSelector(formattedStandByTransactionsSelector)
   const feedFirstPage = useSelector(feedFirstPageSelector)
   const { hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps } =
@@ -455,7 +466,12 @@ export default function TransactionFeedV2() {
     // refetch the transaction feed with the last known cursor, since this
     // toast should only be displayed on error fetching next page or initial
     // page if no transactions have been fetched before.
+    setShowError(false)
     return refetch()
+  }
+
+  const onRefresh = () => {
+    dispatch(refreshAllBalances())
   }
 
   return (
@@ -467,28 +483,53 @@ export default function TransactionFeedV2() {
         keyExtractor={(item) => `${item.transactionHash}-${item.timestamp.toString()}`}
         keyboardShouldPersistTaps="always"
         testID="TransactionList"
+        scrollEventThrottle={16}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshingBalances}
+            onRefresh={onRefresh}
+            colors={[colors.accent]}
+          />
+        }
+        onRefresh={onRefresh}
+        refreshing={isRefreshingBalances}
         onEndReached={fetchMoreTransactions}
         initialNumToRender={20}
+        ListHeaderComponent={
+          <>
+            <ActionsCarousel />
+            <NotificationBox showOnlyHomeScreenNotifications={true} />
+          </>
+        }
+        stickyHeaderHiddenOnScroll
+        stickyHeaderIndices={[0]}
         ListEmptyComponent={
           getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? <GetStarted /> : <NoActivity />
         }
+        ListFooterComponent={
+          <>
+            {/* prevent loading indicator due to polling from showing at the bottom of the screen */}
+            {isFetching && !allTransactionsShown && (
+              <View style={styles.centerContainer} testID="TransactionList/loading">
+                <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
+              </View>
+            )}
+            {allTransactionsShown && sections.length > 0 && (
+              <Text style={styles.allTransactionsText}>
+                {t('transactionFeed.allTransactionsShown')}
+              </Text>
+            )}
+          </>
+        }
       />
-      {/* prevent loading indicator due to polling from showing at the bottom of the screen */}
-      {isFetching && !allTransactionsShown && (
-        <View style={styles.centerContainer} testID="TransactionList/loading">
-          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
-        </View>
-      )}
-      {allTransactionsShown && sections.length > 0 && (
-        <Text style={styles.allTransactionsText}>{t('transactionFeed.allTransactionsShown')}</Text>
-      )}
       <Toast
         showToast={showError}
-        variant={NotificationVariant.Warning}
-        hideIcon
+        variant={NotificationVariant.Error}
         description={t('transactionFeed.error.fetchError')}
-        ctaLabel={t('transactionFeed.error.fetchErrorRetry')}
+        ctaLabel={t('transactionFeed.fetchErrorRetry')}
         onPressCta={handleRetryFetch}
+        swipeable
+        onDismiss={() => setShowError(false)}
       />
     </>
   )
