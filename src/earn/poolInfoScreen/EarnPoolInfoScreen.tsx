@@ -269,7 +269,8 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
     navigation,
     title: <HeaderTitleSection earnPosition={pool} tokensInfo={tokensInfo} />,
     scrollPosition,
-    startFadeInPosition: titleHeight - titleHeight * 0.9,
+    // Numbers selected through trial and error
+    startFadeInPosition: titleHeight * 0.1,
     animationDistance: titleHeight * 0.66,
   })
 
