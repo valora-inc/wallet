@@ -501,8 +501,6 @@ export default function TransactionFeedV2() {
             <NotificationBox showOnlyHomeScreenNotifications={true} />
           </>
         }
-        stickyHeaderHiddenOnScroll
-        stickyHeaderIndices={[0]}
         ListEmptyComponent={
           getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? <GetStarted /> : <NoActivity />
         }
