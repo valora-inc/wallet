@@ -216,13 +216,7 @@ function EnterAmount({
 
   useEffect(() => {
     onClearPreparedTransactions()
-    console.log(
-      'rerender',
-      !tokenAmount ||
-        tokenAmount.isLessThanOrEqualTo(0) ||
-        tokenAmount.isGreaterThan(token.balance),
-      tokenAmount?.toString()
-    )
+
     if (
       !tokenAmount ||
       tokenAmount.isLessThanOrEqualTo(0) ||
@@ -231,7 +225,6 @@ function EnterAmount({
       return
     }
     const debouncedRefreshTransactions = setTimeout(() => {
-      console.log('trigger')
       return onRefreshPreparedTransactions(tokenAmount, token, feeCurrencies)
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
@@ -239,7 +232,6 @@ function EnterAmount({
 
   const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(token.balance)
   const showLowerAmountError = !isAmountLessThanBalance && !disableBalanceCheck
-  console.log({ showLowerAmountError })
   const showMaxAmountWarning =
     !showLowerAmountError &&
     prepareTransactionsResult &&

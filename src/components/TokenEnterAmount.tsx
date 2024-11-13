@@ -32,12 +32,25 @@ export const APPROX_SYMBOL = '≈'
 
 const BORDER_RADIUS = 12
 
+function getTokenAmountPlaceholder() {
+  return new BigNumber(0).toFormat(2)
+}
+
+function getLocalAmountPlaceholder(localCurrencySymbol: LocalCurrencySymbol) {
+  const { decimalSeparator } = getNumberFormatSettings()
+  return `${localCurrencySymbol}${new BigNumber(0).toFormat(2).replaceAll('.', decimalSeparator)}`
+}
+
 function groupNumber(value: string, groupingSeparator: string) {
   return value.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
 }
 
 function roundTokenAmount(value: string) {
   const { decimalSeparator } = getNumberFormatSettings()
+  if (value === '') {
+    return getTokenAmountPlaceholder()
+  }
+
   return parseInputAmount(value, decimalSeparator)
     .decimalPlaces(6)
     .toString()
@@ -45,6 +58,10 @@ function roundTokenAmount(value: string) {
 }
 
 function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbol) {
+  if (value === '') {
+    return getLocalAmountPlaceholder(localCurrencySymbol)
+  }
+
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   const bigNum = parseInputAmount(value, decimalSeparator)
 
@@ -52,10 +69,11 @@ function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbo
     return `<${localCurrencySymbol}0${decimalSeparator}000001`
   }
 
-  const rounded = bigNum.isLessThan(0.01) ? bigNum.toPrecision(1) : bigNum.decimalPlaces(2)
+  const rounded = bigNum.isLessThan(0.01) ? bigNum.toPrecision(1) : bigNum.toFixed(2)
   const formatted = rounded.toString().replaceAll('.', decimalSeparator)
   const grouped = groupNumber(formatted, groupingSeparator)
-  return `${localCurrencySymbol}${grouped}`
+
+  return `${localCurrencySymbol}${bigNum.isLessThan(0.1) ? formatted : grouped}`
 }
 
 export function TokenEnterAmount({
@@ -86,15 +104,14 @@ export function TokenEnterAmount({
   testID?: string
 }) {
   const { t } = useTranslation()
-  const { decimalSeparator } = getNumberFormatSettings()
   // the startPosition and inputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android
   // https://github.com/facebook/react-native/issues/14845
   const [startPosition, setStartPosition] = useState<number | undefined>(0)
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
-  const tokenValuePlaceholder = new BigNumber(0).toFormat(2)
-  const localAmountPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2).replaceAll('.', decimalSeparator)}`
+  const tokenValuePlaceholder = getTokenAmountPlaceholder()
+  const localAmountPlaceholder = getLocalAmountPlaceholder(localCurrencySymbol)
   const inputValue = amountType === 'token' ? tokenValue : localAmountValue
 
   const tokenAmountRounded = roundTokenAmount(tokenValue)
