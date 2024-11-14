@@ -295,6 +295,10 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
 export default function TransactionFeedV2() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+
+  const showGetStarted = getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED)
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+
   const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
@@ -427,14 +431,6 @@ export default function TransactionFeedV2() {
     return groupFeedItemsInSections(pending, confirmed)
   }, [paginatedData, allowedNetworkForTransfers])
 
-  if (!sections.length) {
-    return getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? (
-      <GetStarted />
-    ) : (
-      <NoActivity loading={isFetching} error={error} />
-    )
-  }
-
   function fetchMoreTransactions() {
     if (data?.pageInfo.hasNextPage && data?.pageInfo.endCursor) {
       setEndCursor(data.pageInfo.endCursor)
@@ -447,6 +443,14 @@ export default function TransactionFeedV2() {
     if (totalTxCount > MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL) {
       Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
     }
+  }
+
+  if (!sections.length) {
+    return showGetStarted && !showUKCompliantVariant ? (
+      <GetStarted />
+    ) : (
+      <NoActivity loading={isFetching} error={error} />
+    )
   }
 
   return (
