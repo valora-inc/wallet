@@ -1462,14 +1462,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Дізнатися",
-    "exploreDapps": "Переглянути додатки DApps",
-    "exploreAll": "Переглянути все",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Переглянути всі",
     "message": "Дізнайтеся, як використовувати свої активи",
     "errorMessage": "Сталася помилка під час завантаження застосунків dapps",
     "featuredDapp": "Рекомендовано",
     "allDapps": "Усі",
     "favoriteDapps": "Мої вподобання",
     "mostPopularDapps": "Популярні",
+    "mostPopularDapps_UK": "Other Dapps",
     "favoriteDappsAndAll": "Мої вподобання і загальний вміст",
     "searchPlaceHolder": "Пошук застосунків Dapp",
     "noFavorites": {
@@ -1485,7 +1486,8 @@
       "message": "Фільтр <0>{{filter}}</0> застосовано",
       "removeFilter": "Видалити фільтр",
       "searchMessage": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>"
-    }
+    },
+    "disclaimer_UK": "Це список сторонніх Dapps. Опис кожного Dapp є суто інформаційним, а не запрошенням до використання."
   },
   "dappRankings": {
     "title": "Рейтинг застосунків dapp",
@@ -2300,7 +2302,8 @@
     "claimRewardSubtitle_noTxAppName": "з невідомого додатку",
     "error": {
       "fetchError": "Виникла проблема з оновленням вашої стрічки. Ваша історія транзакцій може бути неповною."
-    }
+    },
+    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
   },
   "transactionDetails": {
     "descriptionLabel": "Подробиці",
