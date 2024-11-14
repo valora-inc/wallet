@@ -1,9 +1,6 @@
 import BigNumber from 'bignumber.js'
-import { Actions as AccountActions } from 'src/account/actions'
-import { Actions as AppActions } from 'src/app/actions'
 import {
   Actions,
-  fetchCurrentRate,
   fetchCurrentRateFailure,
   fetchCurrentRateSuccess,
 } from 'src/localCurrency/actions'
@@ -13,7 +10,7 @@ import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
-import { call, put, select, spawn, take, takeLatest } from 'typed-redux-saga'
+import { call, put, select, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'localCurrency/saga'
 
@@ -55,23 +52,6 @@ export function* fetchLocalCurrencyRateSaga() {
   }
 }
 
-export function* watchFetchCurrentRate() {
-  yield* takeLatest(Actions.FETCH_CURRENT_RATE, safely(fetchLocalCurrencyRateSaga))
-}
-
-export function* watchSelectPreferredCurrency() {
-  yield* put(fetchCurrentRate())
-  while (true) {
-    yield* take([
-      Actions.SELECT_PREFERRED_CURRENCY,
-      AccountActions.SET_PHONE_NUMBER,
-      AppActions.PHONE_NUMBER_VERIFICATION_COMPLETED,
-    ])
-    yield* put(fetchCurrentRate())
-  }
-}
-
 export function* localCurrencySaga() {
-  yield* spawn(watchFetchCurrentRate)
-  yield* spawn(watchSelectPreferredCurrency)
+  yield* takeLatest([Actions.SELECT_PREFERRED_CURRENCY], safely(fetchLocalCurrencyRateSaga))
 }

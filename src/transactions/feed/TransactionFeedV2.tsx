@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { isEqual } from 'lodash'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
@@ -411,7 +412,14 @@ export default function TransactionFeedV2() {
       const isFirstPage = !data?.pageInfo.hasPreviousPage
       if (isFirstPage) {
         const firstPageData = paginatedData[FIRST_PAGE_CURSOR]
-        dispatch(updateFeedFirstPage({ transactions: firstPageData }))
+        if (!isEqual(firstPageData, feedFirstPage)) {
+          // Prevent the action from triggering on every polling interval. Only
+          // dispatch the action when there is a data change, such as new
+          // transactions. This action initiates side effects, like refreshing
+          // the token balance, so we avoid dispatching it on every poll to
+          // reduce unnecessary work.
+          dispatch(updateFeedFirstPage({ transactions: firstPageData }))
+        }
       }
     },
     [paginatedData, data?.pageInfo]
