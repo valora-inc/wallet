@@ -1626,7 +1626,6 @@ interface EarnEventsProperties {
   [EarnEvents.earn_withdraw_add_gas_press]: EarnCommonProperties & { gasTokenId: string }
   [EarnEvents.earn_info_learn_press]: undefined
   [EarnEvents.earn_info_earn_press]: undefined
-  [EarnEvents.earn_active_pools_card_press]: undefined
   [EarnEvents.earn_home_learn_more_press]: undefined
   [EarnEvents.earn_pool_card_press]: {
     poolAmount: string
