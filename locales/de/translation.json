@@ -1466,7 +1466,7 @@
     "allDapps": "Alle",
     "favoriteDapps": "Lieblings-Dapps",
     "mostPopularDapps": "Am beliebtesten",
-    "mostPopularDapps_UK": "Other Dapps",
+    "mostPopularDapps_UK": "Andere Dapps",
     "favoriteDappsAndAll": "Meine Favoriten & Alle",
     "searchPlaceHolder": "Dapps suchen",
     "noFavorites": {
@@ -2299,7 +2299,7 @@
     "error": {
       "fetchError": "Ups, es gab ein Problem beim Aktualisieren deines Feeds. Es kann sein, dass dein Transaktionsverlauf im Moment unvollständig ist."
     },
-    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
+    "noTransactions": "Glückwunsch, du hast erfolgreich eine {{appName}} Brieftasche erstellt!"
   },
   "transactionDetails": {
     "descriptionLabel": "Details",
