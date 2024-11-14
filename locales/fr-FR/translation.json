@@ -1466,7 +1466,7 @@
     "allDapps": "Tous",
     "favoriteDapps": "Mes favorites",
     "mostPopularDapps": "Populaires",
-    "mostPopularDapps_UK": "Other Dapps",
+    "mostPopularDapps_UK": "Autres Dapps",
     "favoriteDappsAndAll": "Mes favoris et tous",
     "searchPlaceHolder": "Rechercher dans les dapps",
     "noFavorites": {
@@ -2299,7 +2299,7 @@
     "error": {
       "fetchError": "Oups, il y a eu un problème pour actualiser ton flux. L'historique de tes transactions peut être incomplet pour le moment."
     },
-    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
+    "noTransactions": "Félicitations, tu as réussi à créer un portefeuille {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Détails",
