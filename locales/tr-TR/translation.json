@@ -1466,7 +1466,7 @@
     "allDapps": "Tümü",
     "favoriteDapps": "Favorilerim",
     "mostPopularDapps": "En Popüler",
-    "mostPopularDapps_UK": "Other Dapps",
+    "mostPopularDapps_UK": "Diğer Dapps",
     "favoriteDappsAndAll": "Favorilerim & Hepsi",
     "searchPlaceHolder": "Dapp'leri ara",
     "noFavorites": {
@@ -2299,7 +2299,7 @@
     "error": {
       "fetchError": "Oops, akışınızı yenilerken bir sorun oluştu. İşlem geçmişiniz şimdilik eksik olabilir."
     },
-    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
+    "noTransactions": "Tebrikler, başarılı bir şekilde {{appName}} cüzdanı oluşturdunuz!"
   },
   "transactionDetails": {
     "descriptionLabel": "Detaylar",
