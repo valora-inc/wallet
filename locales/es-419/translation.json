@@ -2123,18 +2123,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Busca por nombre, teléfono, wallet...",
+    "searchInputLabel": "Para",
+    "searchInputPlaceholder": "Dirección o número de teléfono de la cartera",
     "paste": "Pegar desde el portapapeles",
     "title": "Selecciona un destinatario",
     "contactsTitle": "Selecciona un contacto",
+    "header": "Enviar",
+    "contactsHeader": "Enviar a contactos",
     "recents": "Recientes",
     "results": "Resultados",
     "qr": {
-      "title": "Escanear o mostrar código QR",
-      "subtitle": "Encuentra rápidamente direcciones en {{appName}}"
+      "title": "Enviar mediante código QR",
+      "subtitle": "Toca para escanear o mostrar una dirección"
     },
     "invite": {
-      "title": "Envía cripto a tus amigos",
-      "subtitle": "Envía fondos o una invitación a tus contactos"
+      "title": "Enviar a un contacto",
+      "subtitle": "Envía fondos a tus contactos"
     },
     "jumpstart": {
       "title": "Envia con un enlace directo",

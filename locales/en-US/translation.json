@@ -2123,18 +2123,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Search by name, phone, wallet...",
+    "searchInputLabel": "To",
+    "searchInputPlaceholder": "Wallet Address or Phone Number",
     "paste": "Paste from clipboard",
     "title": "Select a recipient",
     "contactsTitle": "Select a contact",
+    "header": "Send",
+    "contactsHeader": "Send to Contacts",
     "recents": "Recents",
     "results": "Results",
     "qr": {
-      "title": "Scan or Show QR Code",
-      "subtitle": "Quickly find addresses on {{appName}}"
+      "title": "Send via QR Code",
+      "subtitle": "Tap to scan or show an address"
     },
     "invite": {
-      "title": "Send crypto to your friends",
-      "subtitle": "Send funds or an invite to your contacts"
+      "title": "Send to a Contact",
+      "subtitle": "Send funds to your contacts"
     },
     "jumpstart": {
       "title": "Send with a Live Link",
