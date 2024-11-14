@@ -10,12 +10,13 @@ import {
 } from '../utils/utils'
 
 async function validateSendFlow(tokenSymbol) {
+  const displayAddress = `${DEFAULT_RECIPIENT_ADDRESS.slice(0, 6)}...${DEFAULT_RECIPIENT_ADDRESS.slice(-4)}`
   // navigate to send amount screen to ensure the expected token symbol is pre-selected
   await waitForElementByIdAndTap('SendSelectRecipientSearchInput')
   await element(by.id('SendSelectRecipientSearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
   await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
-  await expect(element(by.text('0xe5f5...8846')).atIndex(0)).toBeVisible()
-  await element(by.text('0xe5f5...8846')).atIndex(0).tap()
+  await expect(element(by.text(displayAddress)).atIndex(0)).toBeVisible()
+  await element(by.text(displayAddress)).atIndex(0).tap()
   await waitForElementByIdAndTap('SendOrInviteButton')
   await expect(
     element(by.text(tokenSymbol).withAncestor(by.id('SendEnterAmount/TokenSelect')))
