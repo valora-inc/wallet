@@ -1458,14 +1458,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Découvrir",
-    "exploreDapps": "Découvrir les dapps",
-    "exploreAll": "Découvrir toutes",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Voir tout",
     "message": "Découvrez les moyens d'utiliser vos actifs",
     "errorMessage": "Une erreur s'est produite lors du chargement des dapps",
     "featuredDapp": "Dapps à la une",
     "allDapps": "Tous",
     "favoriteDapps": "Mes favorites",
     "mostPopularDapps": "Populaires",
+    "mostPopularDapps_UK": "Other Dapps",
     "favoriteDappsAndAll": "Mes favoris et tous",
     "searchPlaceHolder": "Rechercher dans les dapps",
     "noFavorites": {
@@ -1481,7 +1482,8 @@
       "message": "Le filtre <0>{{filter}}</0> est appliqué",
       "removeFilter": "Supprimer le filtre",
       "searchMessage": "Aucun résultat correspondant à <0>\"{{searchTerm}}\"</0>"
-    }
+    },
+    "disclaimer_UK": "Il s'agit d'une liste de Dapps de tiers. La description de chaque Dapp est purement informative et ne constitue pas une invitation à les utiliser."
   },
   "dappRankings": {
     "title": "Classements Dapp",
@@ -2296,7 +2298,8 @@
     "claimRewardSubtitle_noTxAppName": "d'une application inconnue",
     "error": {
       "fetchError": "Oups, il y a eu un problème pour actualiser ton flux. L'historique de tes transactions peut être incomplet pour le moment."
-    }
+    },
+    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
   },
   "transactionDetails": {
     "descriptionLabel": "Détails",
