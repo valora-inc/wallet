@@ -1464,7 +1464,7 @@
     "allDapps": "全部",
     "favoriteDapps": "我的收藏",
     "mostPopularDapps": "最热门",
-    "mostPopularDapps_UK": "Other Dapps",
+    "mostPopularDapps_UK": "其他应用程序",
     "favoriteDappsAndAll": "我的收藏夹和所有",
     "searchPlaceHolder": "搜索应用",
     "noFavorites": {
@@ -2297,7 +2297,7 @@
     "error": {
       "fetchError": "哎呀，在刷新您的信息源时出了点问题。您的交易历史可能暂时不完整。"
     },
-    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
+    "noTransactions": "恭喜，您已成功创建 {{appName}} 钱包！"
   },
   "transactionDetails": {
     "descriptionLabel": "详细信息",
