@@ -86,7 +86,11 @@ describe('EarnEntrypoint', () => {
       .mocked(getFeatureGate)
       .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
 
-    const { toJSON } = render(<EarnEntrypoint />)
+    const { toJSON } = render(
+      <Provider store={getStore()}>
+        <EarnEntrypoint />
+      </Provider>
+    )
 
     expect(toJSON()).toBeNull()
   })

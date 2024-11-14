@@ -24,11 +24,6 @@ import { Spacing } from 'src/styles/styles'
 export default function EarnEntrypoint() {
   const { t } = useTranslation()
 
-  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
-  if (showUKCompliantVariant) {
-    return null
-  }
-
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   const pools = useSelector(earnPositionsSelector)
@@ -53,6 +48,11 @@ export default function EarnEntrypoint() {
       `${localCurrencySymbol}${totalSuppliedValue ? formatValueToDisplay(totalSuppliedValue) : '--'}`,
     [localCurrencySymbol, totalSuppliedValue]
   )
+
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+  if (showUKCompliantVariant) {
+    return null
+  }
 
   return (
     <View style={styles.container}>
