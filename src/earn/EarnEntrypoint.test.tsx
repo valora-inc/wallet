@@ -81,6 +81,16 @@ describe('EarnEntrypoint', () => {
       )
   })
 
+  it('renders nothing for UK compliant variant', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+
+    const { toJSON } = render(<EarnEntrypoint />)
+
+    expect(toJSON()).toBeNull()
+  })
+
   it('renders correctly when no pools supplied', () => {
     const { getByText } = render(
       <Provider store={getStore()}>
