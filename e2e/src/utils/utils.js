@@ -424,3 +424,7 @@ export async function navigateToPreferences() {
   await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
   await waitForElementByIdAndTap('SettingsMenu/Preferences')
 }
+
+export const getDisplayAddress = (address) => {
+  return `${address.slice(0, 6)}...${address.slice(-4)}`
+}

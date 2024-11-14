@@ -8,6 +8,7 @@ import {
 import { launchApp } from '../utils/retries'
 import {
   enterPinUiIfNecessary,
+  getDisplayAddress,
   isElementVisible,
   quickOnboarding,
   waitForElementByIdAndTap,
@@ -15,6 +16,7 @@ import {
 } from '../utils/utils'
 
 export default Send = () => {
+  const recipientAddressDisplay = getDisplayAddress(DEFAULT_RECIPIENT_ADDRESS)
   beforeAll(async () => {
     await quickOnboarding()
   })
@@ -33,11 +35,11 @@ export default Send = () => {
       await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 30_000)
       await element(by.id('SendSelectRecipientSearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
       await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
-      await expect(element(by.text('0xe5f5...8846')).atIndex(0)).toBeVisible()
+      await expect(element(by.text(recipientAddressDisplay)).atIndex(0)).toBeVisible()
     })
 
     it('Then tapping a recipient should show send button', async () => {
-      await element(by.text('0xe5f5...8846')).atIndex(0).tap()
+      await element(by.text(recipientAddressDisplay)).atIndex(0).tap()
       await waitForElementId('SendOrInviteButton', 30_000)
     })
 
@@ -67,7 +69,7 @@ export default Send = () => {
     })
 
     it('Then should display correct recipient', async () => {
-      await expect(element(by.text('0xe5f5...8846'))).toBeVisible()
+      await expect(element(by.text(recipientAddressDisplay))).toBeVisible()
     })
 
     it('Then should be able to edit amount', async () => {
@@ -97,13 +99,13 @@ export default Send = () => {
 
     it('Then should navigate to send search input from home action', async () => {
       await waitForElementByIdAndTap('HomeAction-Send', 30_000)
-      await waitFor(element(by.text('0xe5f5...8846')))
+      await waitFor(element(by.text(recipientAddressDisplay)))
         .toBeVisible()
         .withTimeout(10_000)
     })
 
     it('Then should be able to click on recent recipient', async () => {
-      await element(by.text('0xe5f5...8846')).atIndex(0).tap()
+      await element(by.text(recipientAddressDisplay)).atIndex(0).tap()
       await waitForElementId('SendEnterAmount/TokenAmountInput', 30_000)
     })
 
@@ -122,7 +124,7 @@ export default Send = () => {
     })
 
     it('Then should display correct recipient', async () => {
-      await expect(element(by.text('0xe5f5...8846'))).toBeVisible()
+      await expect(element(by.text(recipientAddressDisplay))).toBeVisible()
     })
 
     it('Then should be able to send', async () => {

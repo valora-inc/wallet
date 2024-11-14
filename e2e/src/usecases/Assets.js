@@ -1,22 +1,23 @@
+import { WALLET_MNEMONIC } from 'react-native-dotenv'
 import { english, generateMnemonic } from 'viem/accounts'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
-import { WALLET_MNEMONIC } from 'react-native-dotenv'
 import { launchApp } from '../utils/retries'
 import {
+  getDisplayAddress,
   quickOnboarding,
+  scrollIntoViewByTestId,
   waitForElementByIdAndTap,
   waitForElementId,
-  scrollIntoViewByTestId,
 } from '../utils/utils'
 
 async function validateSendFlow(tokenSymbol) {
-  const displayAddress = `${DEFAULT_RECIPIENT_ADDRESS.slice(0, 6)}...${DEFAULT_RECIPIENT_ADDRESS.slice(-4)}`
+  const recipientAddressDisplay = getDisplayAddress(DEFAULT_RECIPIENT_ADDRESS)
   // navigate to send amount screen to ensure the expected token symbol is pre-selected
   await waitForElementByIdAndTap('SendSelectRecipientSearchInput')
   await element(by.id('SendSelectRecipientSearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
   await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
-  await expect(element(by.text(displayAddress)).atIndex(0)).toBeVisible()
-  await element(by.text(displayAddress)).atIndex(0).tap()
+  await expect(element(by.text(recipientAddressDisplay)).atIndex(0)).toBeVisible()
+  await element(by.text(recipientAddressDisplay)).atIndex(0).tap()
   await waitForElementByIdAndTap('SendOrInviteButton')
   await expect(
     element(by.text(tokenSymbol).withAncestor(by.id('SendEnterAmount/TokenSelect')))
