@@ -1456,14 +1456,15 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "探索",
-    "exploreDapps": "探索 Dapp",
-    "exploreAll": "探索全部",
+    "exploreDapps": "Dapp",
+    "exploreAll": "查看全部",
     "message": "探索如何使用您的资产",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
     "allDapps": "全部",
     "favoriteDapps": "我的收藏",
     "mostPopularDapps": "最热门",
+    "mostPopularDapps_UK": "Other Dapps",
     "favoriteDappsAndAll": "我的收藏夹和所有",
     "searchPlaceHolder": "搜索应用",
     "noFavorites": {
@@ -1479,7 +1480,8 @@
       "message": "<0>{{filter}}</0>已应用筛选条件",
       "removeFilter": "移除筛选条件",
       "searchMessage": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
-    }
+    },
+    "disclaimer_UK": "这是一份第三方 Dapp 列表。每个 Dapp 的说明纯属信息，并非邀请您使用它们。"
   },
   "dappRankings": {
     "title": "Dapp 排名",
@@ -2294,7 +2296,8 @@
     "claimRewardSubtitle_noTxAppName": "来自未知应用程序",
     "error": {
       "fetchError": "哎呀，在刷新您的信息源时出了点问题。您的交易历史可能暂时不完整。"
-    }
+    },
+    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
   },
   "transactionDetails": {
     "descriptionLabel": "详细信息",
