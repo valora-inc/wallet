@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { getNumberFormatSettings } from 'react-native-localize'
 import { TokenProperties } from 'src/analytics/Properties'
 import { getDynamicConfigParams, getMultichainFeatures } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -213,4 +214,9 @@ export function isHistoricalPriceUpdated(token: TokenBalance) {
 
 export function isFeeCurrency(token: TokenBalance | undefined): token is TokenBalance {
   return token?.isNative || !!token?.isFeeCurrency || !!token?.feeCurrencyAdapterAddress
+}
+
+export function groupNumber(value: string) {
+  const { groupingSeparator } = getNumberFormatSettings()
+  return value.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
 }

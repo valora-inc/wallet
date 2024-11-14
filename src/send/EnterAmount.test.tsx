@@ -314,7 +314,7 @@ describe('EnterAmount', () => {
       switchTokens()
       changeAmount('abc')
       expect(amount.props.value).toBe(replaceSeparators('₱1.40'))
-      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} 10.526316`))
+      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} 10.5`))
     })
 
     it('entering invalid token amount with a valid local amount does not update anything', () => {
@@ -328,7 +328,7 @@ describe('EnterAmount', () => {
 
       // switch to token
       switchTokens()
-      expect(amount.props.value).toBe(replaceSeparators('1000'))
+      expect(amount.props.value).toBe(replaceSeparators('1000.00'))
       expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} ₱133.00`))
     })
 
