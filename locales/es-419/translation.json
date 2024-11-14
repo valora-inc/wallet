@@ -1466,7 +1466,7 @@
     "allDapps": "Todas",
     "favoriteDapps": "Mis favoritas",
     "mostPopularDapps": "Populares",
-    "mostPopularDapps_UK": "Other Dapps",
+    "mostPopularDapps_UK": "Otras Dapps",
     "favoriteDappsAndAll": "Mis favoritas y todas",
     "searchPlaceHolder": "Buscar dapps",
     "noFavorites": {
@@ -2299,7 +2299,7 @@
     "error": {
       "fetchError": "Oops, ha habido un problema al actualizar tu feed. Tu historial de transacciones puede estar incompleto por ahora."
     },
-    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
+    "noTransactions": "¡Enhorabuena, has creado con éxito un monedero {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Detalles",
