@@ -1470,7 +1470,7 @@
     "allDapps": "Wszystkie",
     "favoriteDapps": "Moje ulubione",
     "mostPopularDapps": "Najpopularniejsze",
-    "mostPopularDapps_UK": "Other Dapps",
+    "mostPopularDapps_UK": "Inne Dapps",
     "favoriteDappsAndAll": "Moje ulubione i wszystkie",
     "searchPlaceHolder": "Wyszukaj dapps",
     "noFavorites": {
@@ -2303,7 +2303,7 @@
     "error": {
       "fetchError": "Ups, wystąpił problem z odświeżeniem Twojego kanału. Twoja historia transakcji może być na razie niekompletna."
     },
-    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
+    "noTransactions": "Gratulacje, pomyślnie utworzyłeś portfel {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Szczegóły",
