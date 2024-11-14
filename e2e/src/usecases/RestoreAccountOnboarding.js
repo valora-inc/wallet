@@ -58,6 +58,11 @@ export default RestoreAccountOnboarding = () => {
       await scrollIntoView('Restore', 'ImportWalletKeyboardAwareScrollView')
       await element(by.id('ImportWalletButton')).tap()
 
+      try {
+        // case where account not funded yet. continue with onboarding.
+        await waitForElementByIdAndTap('ConfirmUseAccountDialog/PrimaryAction')
+      } catch {}
+
       // verification step comes after restoring wallet, skip this step
       await waitForElementId('PhoneVerificationSkipHeader')
       await element(by.id('PhoneVerificationSkipHeader')).tap()
