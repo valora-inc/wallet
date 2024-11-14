@@ -1579,7 +1579,7 @@ export type EarnDepositTxsReceiptProperties = Partial<ApproveTxReceiptProperties
   }>
 
 interface EarnEventsProperties {
-  [EarnEvents.earn_entrypoint_press]: undefined
+  [EarnEvents.earn_entrypoint_press]: { hasSuppliedPools: boolean }
   [EarnEvents.earn_before_deposit_action_press]: {
     action: BeforeDepositActionName
   } & TokenProperties &

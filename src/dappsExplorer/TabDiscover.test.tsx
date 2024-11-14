@@ -373,17 +373,16 @@ describe('TabDiscover', () => {
         },
       })
 
-      const { getByTestId, queryByTestId } = render(
+      const { getByTestId } = render(
         <Provider store={store}>
           <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
       expect(getByTestId('EarnEntrypoint')).toBeTruthy()
-      expect(queryByTestId('EarnActivePools')).toBeFalsy()
     })
 
-    it('displays earn active pool if balance is not zero', () => {
+    it('displays EarnEntrypoint if balance is not zero', () => {
       jest
         .mocked(getFeatureGate)
         .mockImplementation(
@@ -410,14 +409,13 @@ describe('TabDiscover', () => {
         },
       })
 
-      const { getByTestId, queryByTestId } = render(
+      const { getByTestId } = render(
         <Provider store={store}>
           <MockedNavigator component={TabDiscover} />
         </Provider>
       )
 
-      expect(queryByTestId('EarnEntrypoint')).toBeFalsy()
-      expect(getByTestId('EarnActivePools')).toBeTruthy()
+      expect(getByTestId('EarnEntrypoint')).toBeTruthy()
     })
   })
 })

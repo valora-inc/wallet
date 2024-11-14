@@ -2584,7 +2584,8 @@
     "entrypoint": {
       "title": "Earn on your crypto",
       "subtitle": "Deposit and earn",
-      "description": "Earn on your crypto assets when you lend through a liquidity pool"
+      "description": "Earn by lending your crypto assets in liquidity pools.",
+      "totalDepositAndEarnings": "Total Deposit & Earnings"
     },
     "enterAmount": {
       "title": "How much would you like to deposit?",
