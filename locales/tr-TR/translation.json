@@ -1458,14 +1458,15 @@
   "dappsScreen": {
     "title": "Dapp'ler",
     "titleDiscover": "Keşfedin",
-    "exploreDapps": "Dapp'leri Keşfedin",
-    "exploreAll": "Tümünü Keşfet",
+    "exploreDapps": "Dapp'ler",
+    "exploreAll": "Tümünü Göster",
     "message": "Varlıklarınızı kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
     "allDapps": "Tümü",
     "favoriteDapps": "Favorilerim",
     "mostPopularDapps": "En Popüler",
+    "mostPopularDapps_UK": "Other Dapps",
     "favoriteDappsAndAll": "Favorilerim & Hepsi",
     "searchPlaceHolder": "Dapp'leri ara",
     "noFavorites": {
@@ -1481,7 +1482,8 @@
       "message": "<0>{{filter}}</0> filtresi uygulandı",
       "removeFilter": "Filtreyi kaldır",
       "searchMessage": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
-    }
+    },
+    "disclaimer_UK": "Bu, üçüncü taraf Dapp'lerin bir listesidir. Her bir Dapp için açıklama tamamen bilgilendirme amaçlıdır ve bunları kullanmaya davet değildir."
   },
   "dappRankings": {
     "title": "Dapp sıralamaları",
@@ -2296,7 +2298,8 @@
     "claimRewardSubtitle_noTxAppName": "bilinmeyen uygulamadan",
     "error": {
       "fetchError": "Oops, akışınızı yenilerken bir sorun oluştu. İşlem geçmişiniz şimdilik eksik olabilir."
-    }
+    },
+    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
   },
   "transactionDetails": {
     "descriptionLabel": "Detaylar",
