@@ -1470,7 +1470,7 @@
     "allDapps": "Усі",
     "favoriteDapps": "Мої вподобання",
     "mostPopularDapps": "Популярні",
-    "mostPopularDapps_UK": "Other Dapps",
+    "mostPopularDapps_UK": "Інші додатки",
     "favoriteDappsAndAll": "Мої вподобання і загальний вміст",
     "searchPlaceHolder": "Пошук застосунків Dapp",
     "noFavorites": {
@@ -2303,7 +2303,7 @@
     "error": {
       "fetchError": "Виникла проблема з оновленням вашої стрічки. Ваша історія транзакцій може бути неповною."
     },
-    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
+    "noTransactions": "Вітаємо, ви успішно створили гаманець {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Подробиці",
