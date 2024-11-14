@@ -1,4 +1,4 @@
-import { SAMPLE_BACKUP_KEY } from '../utils/consts'
+import { WALLET_MNEMONIC } from 'react-native-dotenv'
 import { reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, navigateToSecurity, waitForElementId } from '../utils/utils'
 
@@ -31,7 +31,7 @@ export default ResetAccount = () => {
     // Go through the quiz.
     await element(by.id('backupKeySavedSwitch')).longPress()
     await element(by.id('backupKeyContinue')).tap()
-    const mnemonic = SAMPLE_BACKUP_KEY.split(' ')
+    const mnemonic = WALLET_MNEMONIC.split(' ')
     await waitForElementId(`backupQuiz/${mnemonic[0]}`)
     for (const word of mnemonic) {
       await element(by.id(`backupQuiz/${word}`)).tap()

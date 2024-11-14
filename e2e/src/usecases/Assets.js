@@ -1,5 +1,6 @@
 import { english, generateMnemonic } from 'viem/accounts'
-import { DEFAULT_RECIPIENT_ADDRESS, SAMPLE_BACKUP_KEY } from '../utils/consts'
+import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
+import { WALLET_MNEMONIC } from 'react-native-dotenv'
 import { launchApp } from '../utils/retries'
 import {
   quickOnboarding,
@@ -37,16 +38,16 @@ export default Assets = () => {
       balance: 'non zero',
       tokens: [
         {
-          tokenId: 'celo-alfajores:native',
+          tokenId: 'celo-mainnet:native',
           symbol: 'CELO',
           actions: ['Send', 'Add'],
           moreActions: ['Send', 'Add', 'Withdraw'],
           learnMore: true,
         },
         {
-          tokenId: 'celo-alfajores:0x048f47d358ec521a6cf384461d674750a3cb58c8',
-          symbol: 'TT',
-          actions: ['Send'],
+          tokenId: 'celo-mainnet:0x765de816845861e75a25fca122bb6898b8b1282a',
+          symbol: 'cUSD',
+          actions: ['Add'],
           moreActions: [],
           learnMore: false,
         },
@@ -56,14 +57,14 @@ export default Assets = () => {
       balance: 'zero',
       tokens: [
         {
-          tokenId: 'celo-alfajores:native',
+          tokenId: 'celo-mainnet:native',
           symbol: 'CELO',
           actions: ['Add'],
           moreActions: [],
           learnMore: true,
         },
         {
-          tokenId: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+          tokenId: 'celo-mainnet:0x765de816845861e75a25fca122bb6898b8b1282a',
           symbol: 'cUSD',
           actions: ['Add'],
           moreActions: [],
@@ -81,7 +82,7 @@ export default Assets = () => {
         newInstance: true,
         permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
       })
-      let mnemonic = SAMPLE_BACKUP_KEY
+      let mnemonic = WALLET_MNEMONIC
       if (balance === 'zero') {
         mnemonic = generateMnemonic(english)
       }

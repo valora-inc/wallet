@@ -2,7 +2,7 @@ import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
 import { KycStatus } from '@fiatconnect/fiatconnect-types'
 import fetch from 'node-fetch'
 import { MOCK_PROVIDER_API_KEY, MOCK_PROVIDER_BASE_URL } from 'react-native-dotenv'
-import { SAMPLE_PRIVATE_KEY } from '../utils/consts'
+import { DEFAULT_RECIPIENT_PRIVATE_KEY } from 'react-native-dotenv'
 import {
   enterPinUiIfNecessary,
   fundWallet,
@@ -101,7 +101,7 @@ async function onboardAndBeginTransferOut(token, fundingAmount, cashOutAmount) {
   const mnemonic = generateMnemonic(english)
   const { address: walletAddress } = mnemonicToAccount(mnemonic)
   await quickOnboarding({ mnemonic }) // ends on home screen
-  await fundWallet(SAMPLE_PRIVATE_KEY, walletAddress, token, fundingAmount)
+  await fundWallet(DEFAULT_RECIPIENT_PRIVATE_KEY, walletAddress, token, fundingAmount)
   // For now the balance only updates when the home screen is visible
   await waitFor(element(by.text(`${fundingAmount} cUSD`))) // need a balance to withdraw
     .toBeVisible()

@@ -9,22 +9,21 @@ import {
   createPublicClient,
   http,
 } from 'viem'
-import { celoAlfajores } from 'viem/chains'
+import { celo } from 'viem/chains'
 import { parseTransaction } from 'viem/celo'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
 import { enterPinUiIfNecessary, waitForElementByIdAndTap } from '../utils/utils'
 import { sleep } from '../../../src/utils/sleep'
+import WALLET_ADDRESS from '../utils/consts'
 
 import jestExpect from 'expect'
 
 const dappName = 'WalletConnectV2 E2E'
-const walletAddress = (
-  process.env.E2E_WALLET_ADDRESS || '0x6131a6d616a4be3737b38988847270a64bc10caa'
-).toLowerCase()
+const walletAddress = (WALLET_ADDRESS || '0xebf95355cc5ea643179a02337f3f943fd8dd2bcb').toLowerCase()
 
 const client = createPublicClient({
-  chain: celoAlfajores,
+  chain: celo,
   transport: http(),
 })
 
@@ -129,7 +128,7 @@ export default WalletConnect = () => {
             'personal_sign',
             'eth_signTypedData',
           ],
-          chains: ['eip155:44787'],
+          chains: ['eip155:42220'],
           events: ['chainChanged', 'accountsChanged'],
         },
       },
@@ -171,7 +170,7 @@ export default WalletConnect = () => {
       const [session] = walletConnectClient.session.map.values()
       const requestPromise = walletConnectClient.request({
         topic: session.topic,
-        chainId: 'eip155:44787',
+        chainId: 'eip155:42220',
         request: {
           method: 'eth_sendTransaction',
           params: [tx],
@@ -204,7 +203,7 @@ export default WalletConnect = () => {
     const [session] = walletConnectClient.session.map.values()
     const requestPromise = walletConnectClient.request({
       topic: session.topic,
-      chainId: 'eip155:44787',
+      chainId: 'eip155:42220',
       request: {
         method: 'eth_signTransaction',
         params: [tx],
@@ -232,7 +231,7 @@ export default WalletConnect = () => {
     const [session] = walletConnectClient.session.map.values()
     const requestPromise = walletConnectClient.request({
       topic: session.topic,
-      chainId: 'eip155:44787',
+      chainId: 'eip155:42220',
       request: {
         method: 'eth_sign',
         params,
@@ -260,7 +259,7 @@ export default WalletConnect = () => {
     const [session] = walletConnectClient.session.map.values()
     const requetPromise = walletConnectClient.request({
       topic: session.topic,
-      chainId: 'eip155:44787',
+      chainId: 'eip155:42220',
       request: {
         method: 'personal_sign',
         params,
@@ -336,7 +335,7 @@ export default WalletConnect = () => {
     const [session] = walletConnectClient.session.map.values()
     const requestPromise = walletConnectClient.request({
       topic: session.topic,
-      chainId: 'eip155:44787',
+      chainId: 'eip155:42220',
       request: {
         method: 'eth_signTypedData',
         params,

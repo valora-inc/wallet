@@ -1,10 +1,5 @@
-import { getAddressChunks } from '../../../src/utils/address'
-import {
-  SAMPLE_BACKUP_KEY,
-  SAMPLE_BACKUP_KEY_12_WORDS,
-  SAMPLE_WALLET_ADDRESS,
-  SAMPLE_WALLET_ADDRESS_12_WORDS,
-} from '../utils/consts'
+import { WALLET_12_WORDS_MNEMONIC, WALLET_MNEMONIC } from 'react-native-dotenv'
+import { WALLET_12_WORDS_ADDRESS, WALLET_ADDRESS } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
   enterPinUi,
@@ -23,9 +18,9 @@ export default RestoreAccountOnboarding = () => {
   })
 
   it.each`
-    wordCount | phrase                        | walletAddress
-    ${'12'}   | ${SAMPLE_BACKUP_KEY_12_WORDS} | ${SAMPLE_WALLET_ADDRESS_12_WORDS}
-    ${'24'}   | ${SAMPLE_BACKUP_KEY}          | ${SAMPLE_WALLET_ADDRESS}
+    wordCount | phrase                      | walletAddress
+    ${'12'}   | ${WALLET_12_WORDS_MNEMONIC} | ${WALLET_12_WORDS_ADDRESS}
+    ${'24'}   | ${WALLET_MNEMONIC}          | ${WALLET_ADDRESS}
   `(
     'restores an existing wallet using a $wordCount word recovery phrase',
     async ({ phrase, walletAddress }) => {

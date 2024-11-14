@@ -1,9 +1,9 @@
 import { createWalletClient, encodeFunctionData, erc20Abi, http, publicActions } from 'viem'
-import { celoAlfajores } from 'viem/chains'
 import { privateKeyToAccount } from 'viem/accounts'
-import jestExpect from 'expect'
-import { DEFAULT_PIN, SAMPLE_BACKUP_KEY } from '../utils/consts'
+import { celoAlfajores } from 'viem/chains'
 import { sleep } from '../../../src/utils/sleep'
+import { DEFAULT_PIN } from '../utils/consts'
+import { WALLET_MNEMONIC } from 'react-native-dotenv'
 
 const childProcess = require('child_process')
 const fs = require('fs')
@@ -149,7 +149,7 @@ export async function waitForElementByIdAndTap(elementId, timeout = 10 * 1000, i
 }
 
 export async function quickOnboarding({
-  mnemonic = SAMPLE_BACKUP_KEY,
+  mnemonic = WALLET_MNEMONIC,
   cloudBackupEnabled = false,
   stopOnCYA = false,
 } = {}) {

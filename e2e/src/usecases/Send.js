@@ -1,9 +1,9 @@
 import jestExpect from 'expect'
+import { WALLET_SINGLE_VERIFIED_MNEMONIC } from 'react-native-dotenv'
 import {
   DEFAULT_RECIPIENT_ADDRESS,
-  SAMPLE_BACKUP_KEY_VERIFIED,
-  SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER,
-  SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER_DISPLAY,
+  WALLET_SINGLE_VERIFIED_PHONE_NUMBER,
+  WALLET_SINGLE_VERIFIED_PHONE_NUMBER_DISPLAY,
 } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
@@ -138,7 +138,7 @@ export default Send = () => {
       await device.uninstallApp()
       await device.installApp()
       await launchApp({ newInstance: true })
-      await quickOnboarding({ mnemonic: SAMPLE_BACKUP_KEY_VERIFIED })
+      await quickOnboarding({ mnemonic: WALLET_SINGLE_VERIFIED_MNEMONIC })
     })
 
     it('Then should navigate to send search input from home action', async () => {
@@ -149,7 +149,7 @@ export default Send = () => {
     it('Then should be able to enter a phone number', async () => {
       await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 30_000)
       await element(by.id('SendSelectRecipientSearchInput')).typeText(
-        SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER
+        WALLET_SINGLE_VERIFIED_PHONE_NUMBER
       )
       await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
       await isElementVisible('RecipientItem', 0)
@@ -180,7 +180,7 @@ export default Send = () => {
     })
 
     it('Then should display correct recipient', async () => {
-      await expect(element(by.text(SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER_DISPLAY))).toBeVisible()
+      await expect(element(by.text(WALLET_SINGLE_VERIFIED_PHONE_NUMBER_DISPLAY))).toBeVisible()
     })
 
     it('Then should be able to send', async () => {

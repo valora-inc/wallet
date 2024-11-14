@@ -1,19 +1,13 @@
-import {
-  SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED,
-  SAMPLE_PRIVATE_KEY,
-  VERIFIED_PHONE_NUMBER,
-  SAMPLE_WALLET_ADDRESS_SINGLE_ADDRESS_VERIFIED,
-  SAMPLE_WALLET_ADDRESS_VERIFIED_2,
-} from '../utils/consts'
+import { WALLET_PRIVATE_KEY, WALLET_SINGLE_VERIFIED_MNEMONIC } from 'react-native-dotenv'
+import { WALLET_MULTIPLE_VERIFIED_ADDRESS, WALLET_SINGLE_VERIFIED_ADDRESS } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
   enterPinUiIfNecessary,
   fundWallet,
-  inputNumberKeypad,
-  scrollIntoView,
   quickOnboarding,
-  waitForElementId,
+  scrollIntoView,
   waitForElementByIdAndTap,
+  waitForElementId,
 } from '../utils/utils'
 
 const AMOUNT_TO_SEND = '0.01'
@@ -27,8 +21,8 @@ export default SecureSend = () => {
       await device.installApp()
       // fund wallet for send
       await fundWallet(
-        SAMPLE_PRIVATE_KEY,
-        SAMPLE_WALLET_ADDRESS_SINGLE_ADDRESS_VERIFIED,
+        WALLET_PRIVATE_KEY,
+        WALLET_SINGLE_VERIFIED_ADDRESS,
         'cUSD',
         `${AMOUNT_TO_SEND * WALLET_FUNDING_MULTIPLIER}`
       )
@@ -36,13 +30,15 @@ export default SecureSend = () => {
         newInstance: true,
         permissions: { notifications: 'YES', contacts: 'YES' },
       })
-      await quickOnboarding({ mnemonic: SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED })
+      await quickOnboarding({ mnemonic: WALLET_SINGLE_VERIFIED_MNEMONIC })
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {
       await waitForElementByIdAndTap('HomeAction-Send', 30_000)
       await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 3000)
-      await element(by.id('SendSelectRecipientSearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
+      await element(by.id('SendSelectRecipientSearchInput')).replaceText(
+        WALLET_MULTIPLE_VERIFIED_ADDRESS
+      )
       await element(by.id('RecipientItem')).tap()
 
       await waitForElementByIdAndTap('SendOrInviteButton', 30_000)
@@ -50,8 +46,8 @@ export default SecureSend = () => {
       // Use the last digits of the account to confirm the sender.
       await waitForElementByIdAndTap('confirmAccountButton', 30_000)
       for (let index = 0; index < 4; index++) {
-        const character = SAMPLE_WALLET_ADDRESS_VERIFIED_2.charAt(
-          SAMPLE_WALLET_ADDRESS_VERIFIED_2.length - (4 - index)
+        const character = WALLET_MULTIPLE_VERIFIED_ADDRESS.charAt(
+          WALLET_MULTIPLE_VERIFIED_ADDRESS.length - (4 - index)
         )
         await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
       }
