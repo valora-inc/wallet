@@ -1466,7 +1466,7 @@
     "allDapps": "Tutti",
     "favoriteDapps": "Le mie dapp preferite",
     "mostPopularDapps": "Popolare",
-    "mostPopularDapps_UK": "Other Dapps",
+    "mostPopularDapps_UK": "Altre Dapp",
     "favoriteDappsAndAll": "I miei Preferiti e Tutto",
     "searchPlaceHolder": "Cerca dapp",
     "noFavorites": {
@@ -2299,7 +2299,7 @@
     "error": {
       "fetchError": "Ops, c'è stato un problema nell'aggiornare il tuo feed. La cronologia delle tue transazioni potrebbe essere incompleta per il momento."
     },
-    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
+    "noTransactions": "Congratulazioni, hai creato con successo un portafoglio {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Dettagli",
