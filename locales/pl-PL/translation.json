@@ -1462,14 +1462,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Odkryj",
-    "exploreDapps": "Przeglądaj aplikacje Dapps",
-    "exploreAll": "Przeglądaj wszystko",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Zobacz wszystkie",
     "message": "Przeglądaj sposoby korzystania ze swoich aktywów",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
     "allDapps": "Wszystkie",
     "favoriteDapps": "Moje ulubione",
     "mostPopularDapps": "Najpopularniejsze",
+    "mostPopularDapps_UK": "Other Dapps",
     "favoriteDappsAndAll": "Moje ulubione i wszystkie",
     "searchPlaceHolder": "Wyszukaj dapps",
     "noFavorites": {
@@ -1485,7 +1486,8 @@
       "message": "Zastosowano filtr <0>{{filter}}</0>",
       "removeFilter": "Usuń filtr",
       "searchMessage": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>"
-    }
+    },
+    "disclaimer_UK": "To jest lista aplikacji Dapp innych firm. Opis każdej aplikacji ma charakter czysto informacyjny i nie stanowi zaproszenia do korzystania z niej."
   },
   "dappRankings": {
     "title": "Rankingi aplikacji dapp",
@@ -2300,7 +2302,8 @@
     "claimRewardSubtitle_noTxAppName": "z nieznanej aplikacji",
     "error": {
       "fetchError": "Ups, wystąpił problem z odświeżeniem Twojego kanału. Twoja historia transakcji może być na razie niekompletna."
-    }
+    },
+    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
   },
   "transactionDetails": {
     "descriptionLabel": "Szczegóły",
