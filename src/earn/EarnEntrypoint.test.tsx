@@ -124,7 +124,7 @@ describe('EarnEntrypoint', () => {
     )
 
     expect(getByText('earnFlow.entrypoint.title')).toBeTruthy()
-    expect(getByText('earnFlow.entrypoint.description')).toBeTruthy()
+    expect(getByText('earnFlow.entrypoint.totalDepositAndEarnings')).toBeTruthy()
     expect(getByTestId('EarnEntrypoint/TotalSupplied')).toContainElement(getByText('₱13.29'))
   })
 
@@ -135,7 +135,7 @@ describe('EarnEntrypoint', () => {
       </Provider>
     )
 
-    fireEvent.press(getByTestId('EarnActivePools'))
+    fireEvent.press(getByTestId('EarnEntrypoint'))
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_entrypoint_press, {
       hasSuppliedPools: true,
     })
