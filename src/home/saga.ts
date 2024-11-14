@@ -2,12 +2,7 @@ import { Actions as AccountActions } from 'src/account/actions'
 import { depositSuccess, withdrawSuccess } from 'src/earn/slice'
 import { createFiatConnectTransferCompleted } from 'src/fiatconnect/slice'
 import { notificationsChannel } from 'src/firebase/firebase'
-import {
-  Actions,
-  cleverTapInboxMessagesReceived,
-  setLoading,
-  updateNotifications,
-} from 'src/home/actions'
+import { Actions, cleverTapInboxMessagesReceived, updateNotifications } from 'src/home/actions'
 import { CleverTapInboxMessage, cleverTapInboxMessagesChannel } from 'src/home/cleverTapInbox'
 import { IdToNotification } from 'src/home/reducers'
 import { depositTransactionSucceeded } from 'src/jumpstart/slice'
@@ -25,18 +20,6 @@ import { all, call, cancelled, put, spawn, take, takeLeading } from 'typed-redux
 
 const REFRESH_TIMEOUT = 15000
 const TAG = 'home/saga'
-
-export function withLoading<Fn extends (...args: any[]) => any>(fn: Fn, ...args: Parameters<Fn>) {
-  return function* withLoadingGen() {
-    yield* put(setLoading(true))
-    try {
-      const res = yield* call(fn, ...args)
-      return res
-    } finally {
-      yield* put(setLoading(false))
-    }
-  }
-}
 
 export function* refreshAllBalances() {
   yield* all([
