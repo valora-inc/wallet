@@ -1470,7 +1470,7 @@
     "allDapps": "Все",
     "favoriteDapps": "Мое избранное",
     "mostPopularDapps": "Самые популярные",
-    "mostPopularDapps_UK": "Other Dapps",
+    "mostPopularDapps_UK": "Другие Dapps",
     "favoriteDappsAndAll": "Мое избранное и все",
     "searchPlaceHolder": "Поиск dapps",
     "noFavorites": {
@@ -2303,7 +2303,7 @@
     "error": {
       "fetchError": "Упс, возникла проблема с обновлением твоей ленты. Твоя история транзакций может быть пока неполной."
     },
-    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
+    "noTransactions": "Поздравляю, ты успешно создал кошелек {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Подробности",
