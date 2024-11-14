@@ -1458,14 +1458,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Entdecke",
-    "exploreDapps": "Dapps erkunden",
-    "exploreAll": "Alle erkunden",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Alle anzeigen",
     "message": "Finde heraus, wie du dein Vermögen nutzen kannst",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
     "allDapps": "Alle",
     "favoriteDapps": "Lieblings-Dapps",
     "mostPopularDapps": "Am beliebtesten",
+    "mostPopularDapps_UK": "Other Dapps",
     "favoriteDappsAndAll": "Meine Favoriten & Alle",
     "searchPlaceHolder": "Dapps suchen",
     "noFavorites": {
@@ -1481,7 +1482,8 @@
       "message": "<0>{{filter}}</0> Filter angewendet",
       "removeFilter": "Filter entfernen",
       "searchMessage": "Keine passenden Ergebnisse für <0>\"{{searchTerm}}\"</0> gefunden"
-    }
+    },
+    "disclaimer_UK": "Dies ist eine Liste von Drittanbieter-Dapps. Die Beschreibung der einzelnen Dapps ist rein informativ und stellt keine Aufforderung dar, sie zu nutzen."
   },
   "dappRankings": {
     "title": "Dapp-Ranglisten",
@@ -2296,7 +2298,8 @@
     "claimRewardSubtitle_noTxAppName": "von unbekannter App",
     "error": {
       "fetchError": "Ups, es gab ein Problem beim Aktualisieren deines Feeds. Es kann sein, dass dein Transaktionsverlauf im Moment unvollständig ist."
-    }
+    },
+    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
   },
   "transactionDetails": {
     "descriptionLabel": "Details",
