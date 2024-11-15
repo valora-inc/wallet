@@ -2298,6 +2298,8 @@
     "claimRewardTitle": "Collected",
     "claimRewardSubtitle": "from {{txAppName}} Pool",
     "claimRewardSubtitle_noTxAppName": "from unknown app",
+    "allTransactionsShown": "You've reached the end of your transaction history.",
+    "fetchErrorRetry": "Try again",
     "error": {
       "fetchError": "Oops, there was an issue refreshing your feed. Your transaction history may be incomplete for now."
     },
