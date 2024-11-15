@@ -122,6 +122,7 @@ export default function SettingsMenu({ route }: Props) {
   const account = useSelector(walletAddressSelector)
 
   const appVersion = deviceInfoModule.getVersion()
+  const buildNumber = deviceInfoModule.getBuildNumber()
 
   const { v2 } = useSelector(walletConnectEnabledSelector)
   const { sessions } = useSelector(selectSessions)
@@ -261,7 +262,7 @@ export default function SettingsMenu({ route }: Props) {
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <View style={styles.appVersionContainer} testID="SettingsMenu/Version">
             <Text style={styles.appVersionText}>{t('appVersion')}</Text>
-            <Text style={styles.appVersionText}>{appVersion}</Text>
+            <Text style={styles.appVersionText}>{`${appVersion} (${buildNumber})`}</Text>
           </View>
         </TouchableWithoutFeedback>
         {getDevSettingsComp()}

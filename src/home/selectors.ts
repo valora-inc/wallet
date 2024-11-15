@@ -10,6 +10,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { isVersionInRange } from 'src/utils/versionCheck'
 
 const homeNotificationsSelector = (state: RootState) => state.home.notifications
+export const balancesLoadingSelector = (state: RootState) => state.home.loading
 
 export const getExtraNotifications = createSelector(
   [homeNotificationsSelector, userLocationDataSelector],

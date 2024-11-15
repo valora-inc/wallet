@@ -14,7 +14,6 @@ import {
   StoredTokenBalance,
   StoredTokenBalances,
   TokenBalance,
-  fetchTokenBalances,
   fetchTokenBalancesFailure,
   setTokenBalances,
 } from 'src/tokens/slice'
@@ -23,11 +22,10 @@ import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
-import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
+import { call, put, select, spawn, take } from 'typed-redux-saga'
 import { Address, erc20Abi, getContract } from 'viem'
 
 const TAG = 'tokens/saga'
@@ -153,10 +151,6 @@ export function* getTokenInfo(tokenId: string) {
   return tokens[tokenId]
 }
 
-export function* watchFetchBalance() {
-  yield* takeEvery([fetchTokenBalances.type], safely(fetchTokenBalancesSaga))
-}
-
 export function* watchAccountFundedOrLiquidated() {
   let prevTokenBalance
   let prevNetworkIds: Set<NetworkId> = new Set()
@@ -255,6 +249,5 @@ export async function fetchImportedTokenBalances(
 }
 
 export function* tokensSaga() {
-  yield* spawn(watchFetchBalance)
   yield* spawn(watchAccountFundedOrLiquidated)
 }

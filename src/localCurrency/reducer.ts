@@ -33,12 +33,6 @@ export const reducer = (
         error: false,
       }
     }
-    case Actions.FETCH_CURRENT_RATE:
-      return {
-        ...state,
-        isLoading: true,
-        error: false,
-      }
     case Actions.FETCH_CURRENT_RATE_SUCCESS:
       return {
         ...state,

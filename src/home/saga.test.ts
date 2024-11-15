@@ -1,29 +1,10 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, put } from 'redux-saga/effects'
-import { refreshAllBalances, setLoading } from 'src/home/actions'
-import { refreshBalances, watchRefreshBalances, withLoading } from 'src/home/saga'
-import { getConnectedAccount } from 'src/web3/saga'
+import { setLoading } from 'src/home/actions'
+import { withLoading } from 'src/home/saga'
 
 beforeAll(() => {
   jest.useRealTimers()
-})
-
-describe('refreshBalances', () => {
-  test('ask for balance when geth and account are ready', () =>
-    expectSaga(refreshBalances)
-      .provide([[call(getConnectedAccount), true]])
-      .run())
-})
-
-describe('watchRefreshBalances', () => {
-  test('reacts on REFRESH_BALANCES', async () => {
-    await expectSaga(watchRefreshBalances)
-      .put(setLoading(true))
-      .put(setLoading(false))
-      .provide([[call(getConnectedAccount), true]])
-      .dispatch(refreshAllBalances())
-      .run()
-  })
 })
 
 describe('withLoading Saga', () => {
