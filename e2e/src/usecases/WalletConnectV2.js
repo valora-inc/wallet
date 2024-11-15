@@ -67,9 +67,9 @@ const verifySuccessfulSign = async (title = 'Verify wallet') => {
 }
 
 const verifySuccessfulTransaction = async (title = 'Confirm transaction', tx) => {
-  // Pause on android before submitting the tx
+  // Pause before submitting the tx
   // Otherwise the success banner disappears before detox can check for visibility
-  if (device.getPlatform() === 'android') await sleep(3 * 1000)
+  await sleep(3 * 1000)
   await waitFor(element(by.text(title)))
     .toBeVisible()
     .withTimeout(15 * 1000)
