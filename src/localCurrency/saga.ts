@@ -10,7 +10,7 @@ import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
-import { call, put, select, takeLatest } from 'typed-redux-saga'
+import { call, put, select, spawn, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'localCurrency/saga'
 
@@ -52,6 +52,10 @@ export function* fetchLocalCurrencyRateSaga() {
   }
 }
 
-export function* localCurrencySaga() {
+function* watchSelectLocalCurrency() {
   yield* takeLatest([Actions.SELECT_PREFERRED_CURRENCY], safely(fetchLocalCurrencyRateSaga))
+}
+
+export function* localCurrencySaga() {
+  yield* spawn(watchSelectLocalCurrency)
 }
