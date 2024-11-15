@@ -27,12 +27,9 @@ export default function EarnEntrypoint() {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   const pools = useSelector(earnPositionsSelector)
-  const poolsSupplied = useMemo(
-    () => pools.filter((pool) => new BigNumber(pool.balance).gt(0)).length,
-    [pools]
-  )
-  const totalSuppliedValueUsd = useMemo(
-    () =>
+  const [hasSuppliedPools, totalSuppliedValueUsd] = useMemo(
+    () => [
+      pools.some((pool) => new BigNumber(pool.balance).gt(0)),
       pools.reduce(
         (acc, pool) => {
           const { poolBalanceInUsd } = getEarnPositionBalanceValues({ pool })
@@ -40,6 +37,7 @@ export default function EarnEntrypoint() {
         },
         new BigNumber(0) ?? null
       ),
+    ],
     [pools]
   )
   const totalSuppliedValue = useDollarsToLocalAmount(totalSuppliedValueUsd)
@@ -61,9 +59,9 @@ export default function EarnEntrypoint() {
         style={styles.touchable}
         onPress={() => {
           AppAnalytics.track(EarnEvents.earn_entrypoint_press, {
-            hasSuppliedPools: poolsSupplied > 0,
+            hasSuppliedPools: hasSuppliedPools,
           })
-          poolsSupplied > 0
+          hasSuppliedPools
             ? navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.MyPools })
             : navigate(Screens.EarnInfoScreen)
         }}
@@ -75,11 +73,11 @@ export default function EarnEntrypoint() {
             <View style={styles.textContainer}>
               <Text style={styles.title}>{t('earnFlow.entrypoint.title')}</Text>
               <Text style={styles.description}>
-                {poolsSupplied > 0
+                {hasSuppliedPools
                   ? t('earnFlow.entrypoint.totalDepositAndEarnings')
                   : t('earnFlow.entrypoint.description')}
               </Text>
-              {poolsSupplied > 0 && (
+              {hasSuppliedPools && (
                 <Text testID={'EarnEntrypoint/TotalSupplied'} style={styles.totalSupplied}>
                   {totalSupplied}
                 </Text>

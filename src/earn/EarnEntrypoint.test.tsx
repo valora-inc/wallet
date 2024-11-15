@@ -14,9 +14,7 @@ import { createMockStore } from 'test/utils'
 
 jest.mock('src/statsig')
 
-function getStore(
-  { hasSuppliedPools }: { hasSuppliedPools: boolean } = { hasSuppliedPools: false }
-) {
+function getStore({ hasSuppliedPools = false }: { hasSuppliedPools?: boolean } = {}) {
   return createMockStore({
     positions: {
       positions: [
