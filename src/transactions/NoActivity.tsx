@@ -1,45 +1,45 @@
 import { type SerializedError } from '@reduxjs/toolkit'
 import { type FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import * as React from 'react'
-import { type WithTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
-import { withTranslation } from 'src/i18n'
+import Celebration from 'src/images/Celebration'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-interface OwnProps {
+import { Spacing } from 'src/styles/styles'
+interface Props {
   loading?: boolean
   error?: Error | FetchBaseQueryError | SerializedError | undefined
 }
 
-type Props = OwnProps & WithTranslation
+function NoActivity({ loading, error }: Props) {
+  const { t } = useTranslation()
 
-export class NoActivity extends React.PureComponent<Props> {
-  render() {
-    const { loading, error, t } = this.props
-
-    if (error) {
-      return (
-        <View style={styles.container} testID="NoActivity/error">
-          <Text style={styles.text}>{t('errorLoadingActivity.0')}</Text>
-          <Text style={styles.text}>{t('errorLoadingActivity.1')}</Text>
-        </View>
-      )
-    }
-
+  if (error) {
     return (
-      <View style={styles.container}>
-        {loading && (
-          <ActivityIndicator
-            style={styles.icon}
-            size="large"
-            color={colors.accent}
-            testID="NoActivity/loading"
-          />
-        )}
-        <Text style={styles.text}>{t('noTransactionActivity')} </Text>
+      <View style={styles.container} testID="NoActivity/error">
+        <Text style={styles.text}>{t('errorLoadingActivity.0')}</Text>
+        <Text style={styles.text}>{t('errorLoadingActivity.1')}</Text>
       </View>
     )
   }
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.noTransactionsContainer}>
+        <Celebration testID="NoActivity/CelebrationImage" />
+        <Text style={styles.noTransactionsText}>{t('transactionFeed.noTransactions')}</Text>
+      </View>
+      {loading && (
+        <ActivityIndicator
+          style={styles.icon}
+          size="large"
+          color={colors.accent}
+          testID="NoActivity/loading"
+        />
+      )}
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -59,6 +59,15 @@ const styles = StyleSheet.create({
     ...typeScale.bodyLarge,
     color: colors.gray3,
   },
+  noTransactionsContainer: {
+    padding: Spacing.Regular16,
+    gap: Spacing.Regular16,
+    alignItems: 'center',
+  },
+  noTransactionsText: {
+    ...typeScale.labelSemiBoldMedium,
+    textAlign: 'center',
+  },
 })
 
-export default withTranslation<Props>()(NoActivity)
+export default NoActivity

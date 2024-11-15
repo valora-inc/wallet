@@ -1460,14 +1460,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Discover",
-    "exploreDapps": "Explore Dapps",
-    "exploreAll": "Explore All",
+    "exploreDapps": "Dapps",
+    "exploreAll": "View All",
     "message": "Explore ways to use your assets",
     "errorMessage": "There was an error loading dapps",
     "featuredDapp": "Featured",
     "allDapps": "All",
     "favoriteDapps": "My Favorites",
     "mostPopularDapps": "Most Popular",
+    "mostPopularDapps_UK": "Other Dapps",
     "favoriteDappsAndAll": "My Favorites & All",
     "searchPlaceHolder": "Search dapps",
     "noFavorites": {
@@ -1483,7 +1484,8 @@
       "message": "<0>{{filter}}</0> filter applied",
       "removeFilter": "Remove filter",
       "searchMessage": "No matching results found for <0>\"{{searchTerm}}\"</0>"
-    }
+    },
+    "disclaimer_UK": "This is a list of third-party Dapps. The description for each Dapp is purely informational, and not an invitation to use them."
   },
   "dappRankings": {
     "title": "Dapp rankings",
@@ -2300,7 +2302,8 @@
     "fetchErrorRetry": "Try again",
     "error": {
       "fetchError": "Oops, there was an issue refreshing your feed. Your transaction history may be incomplete for now."
-    }
+    },
+    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
   },
   "transactionDetails": {
     "descriptionLabel": "Details",

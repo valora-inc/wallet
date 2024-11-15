@@ -10,6 +10,7 @@ import { type ApiReducersKeys } from 'src/redux/apiReducersList'
 import { type RootState } from 'src/redux/reducers'
 import { reducersList } from 'src/redux/reducersList'
 import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import * as TokenSelectors from 'src/tokens/selectors'
 import { type TokenBalance } from 'src/tokens/slice'
@@ -157,7 +158,7 @@ describe('TransactionFeedV2', () => {
 
     await waitFor(() => expect(tree.getByText('transactionFeed.error.fetchError')).toBeTruthy())
     expect(tree.queryByTestId('TransactionList/loading')).toBeNull()
-    expect(tree.getByText('noTransactionActivity')).toBeTruthy()
+    expect(tree.getByText('transactionFeed.noTransactions')).toBeTruthy()
     expect(tree.getByTestId('TransactionList').props.data).toHaveLength(0)
   })
 
@@ -242,7 +243,16 @@ describe('TransactionFeedV2', () => {
         pageInfo: { hasNextPage: false, endCursor: '', hasPreviousPage: false, startCursor: '' },
       })
     )
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
+        return true
+      }
+      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
+        return false
+      }
+      throw new Error('Unexpected gate')
+    })
+
     const tree = renderScreen()
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
@@ -250,9 +260,35 @@ describe('TransactionFeedV2', () => {
     expect(tree.queryByText('transactionFeed.allTransactionsShown')).toBeFalsy()
   })
 
+  it('renders NoActivity for UK compliance', () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [] }))
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
+        return true
+      }
+      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
+        return true
+      }
+      throw new Error('Unexpected gate')
+    })
+
+    const { getByTestId, getByText } = renderScreen({})
+
+    expect(getByTestId('TransactionList/loading')).toBeTruthy()
+    expect(getByText('transactionFeed.noTransactions')).toBeTruthy()
+  })
+
   it('renders GetStarted with an error if the initial fetch fails', async () => {
     mockFetch.mockReject(new Error('test error'))
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
+        return true
+      }
+      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
+        return false
+      }
+      throw new Error('Unexpected gate')
+    })
 
     const tree = renderScreen()
     expect(tree.getByTestId('GetStarted')).toBeTruthy()

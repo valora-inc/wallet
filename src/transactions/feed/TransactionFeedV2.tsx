@@ -306,6 +306,10 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
 export default function TransactionFeedV2() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+
+  const showGetStarted = getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED)
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+
   const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
@@ -503,7 +507,7 @@ export default function TransactionFeedV2() {
           </>
         }
         ListEmptyComponent={
-          getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? <GetStarted /> : <NoActivity />
+          showGetStarted && !showUKCompliantVariant ? <GetStarted /> : <NoActivity />
         }
         ListFooterComponent={
           <>

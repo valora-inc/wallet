@@ -33,6 +33,9 @@ function TransactionFeed() {
   const allConfirmedStandbyTransactions = useSelector(confirmedStandbyTransactionsSelector)
   const allowedNetworks = useAllowedNetworkIdsForTransfers()
 
+  const showGetStarted = getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED)
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+
   const confirmedFeedTransactions = useMemo(() => {
     // Filter out received pending transactions that are also in the pending
     // standby array because those will be displayed with the pending
@@ -92,14 +95,6 @@ function TransactionFeed() {
     )
   }, [pendingTransactions, confirmedFeedTransactions])
 
-  if (!sections.length) {
-    return getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? (
-      <GetStarted />
-    ) : (
-      <NoActivity loading={loading} error={error} />
-    )
-  }
-
   function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
     switch (tx.type) {
       case TokenTransactionTypeV2.Exchange:
@@ -125,6 +120,14 @@ function TransactionFeed() {
       case TokenTransactionTypeV2.EarnClaimReward:
         return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
     }
+  }
+
+  if (!sections.length) {
+    return showGetStarted && !showUKCompliantVariant ? (
+      <GetStarted />
+    ) : (
+      <NoActivity loading={loading} error={error} />
+    )
   }
 
   return (
