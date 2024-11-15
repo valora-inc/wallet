@@ -21,6 +21,7 @@ import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
 import { SessionRequestProps } from 'src/walletConnect/screens/SessionRequest'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { Address } from 'viem'
+import { SwapTransaction } from 'src/swap/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -88,6 +89,15 @@ export type StackParamList = {
     mode: Extract<EarnActiveMode, 'claim-rewards' | 'exit' | 'withdraw'>
     inputAmount?: string
     useMax: boolean
+  }
+  [Screens.EarnDepositBottomSheet]: {
+    serializedPreparedTransactions: SerializableTransactionRequest[]
+    feeCurrencyTokenId: string
+    inputAmount: string
+    inputTokenId: string
+    pool: EarnPosition
+    mode: EarnActiveMode
+    swapTransaction?: SwapTransaction
   }
   [Screens.EarnHome]: { activeEarnTab?: EarnTabType } | undefined
   [Screens.EarnPoolInfoScreen]: { pool: EarnPosition }
