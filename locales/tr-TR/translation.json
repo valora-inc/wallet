@@ -2296,6 +2296,8 @@
     "claimRewardTitle": "Toplanan",
     "claimRewardSubtitle": "{{txAppName}} Havuzundan",
     "claimRewardSubtitle_noTxAppName": "bilinmeyen uygulamadan",
+    "allTransactionsShown": "İşlem geçmişinizin sonuna ulaştınız.",
+    "fetchErrorRetry": "Tekrar deneyin",
     "error": {
       "fetchError": "Oops, akışınızı yenilerken bir sorun oluştu. İşlem geçmişiniz şimdilik eksik olabilir."
     },
