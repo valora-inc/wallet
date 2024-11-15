@@ -2296,6 +2296,8 @@
     "claimRewardTitle": "Collecté",
     "claimRewardSubtitle": "du pool {{txAppName}}",
     "claimRewardSubtitle_noTxAppName": "d'une application inconnue",
+    "allTransactionsShown": "Tu as atteint la fin de l'historique de tes transactions.",
+    "fetchErrorRetry": "Veuillez réessayer",
     "error": {
       "fetchError": "Oups, il y a eu un problème pour actualiser ton flux. L'historique de tes transactions peut être incomplet pour le moment."
     },
