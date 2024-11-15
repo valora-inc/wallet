@@ -1,11 +1,7 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 
-export interface Props {
-  size?: number
-}
-
-const Reward = ({ size }: Props) => (
+const Reward = ({ size = 32 }: { size?: number } = {}) => (
   <Svg width={size} height={size} fill="none">
     <Path fill="#FD56B5" d="M7.067 14.684 1 33l17.492-6.488" />
     <Path
@@ -29,9 +25,5 @@ const Reward = ({ size }: Props) => (
     />
   </Svg>
 )
-
-Reward.defaultProps = {
-  size: 32,
-}
 
 export default Reward
