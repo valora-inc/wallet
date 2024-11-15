@@ -19,7 +19,11 @@ import NotificationBox from 'src/home/NotificationBox'
 import { refreshAllBalances, visitHome } from 'src/home/actions'
 import NftCelebration from 'src/home/celebration/NftCelebration'
 import NftReward from 'src/home/celebration/NftReward'
-import { showNftCelebrationSelector, showNftRewardSelector } from 'src/home/selectors'
+import {
+  balancesLoadingSelector,
+  showNftCelebrationSelector,
+  showNftRewardSelector,
+} from 'src/home/selectors'
 import { importContacts } from 'src/identity/actions'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -41,7 +45,7 @@ function TabHome(_props: Props) {
   const { t } = useTranslation()
 
   const appState = useSelector(appStateSelector)
-  const isLoading = useSelector((state) => state.home.loading)
+  const isLoading = useSelector(balancesLoadingSelector)
   const recipientCache = useSelector(phoneRecipientCacheSelector)
   const isNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const showNotificationSpotlight = useSelector(showNotificationSpotlightSelector)

@@ -18,6 +18,7 @@ import { refreshAllBalances } from 'src/home/actions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import GetStarted from 'src/home/GetStarted'
 import NotificationBox from 'src/home/NotificationBox'
+import { balancesLoadingSelector } from 'src/home/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { store } from 'src/redux/store'
@@ -308,7 +309,7 @@ export default function TransactionFeedV2() {
   const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const isRefreshingBalances = useSelector((state) => state.home.loading)
+  const isRefreshingBalances = useSelector(balancesLoadingSelector)
   const standByTransactions = useSelector(formattedStandByTransactionsSelector)
   const feedFirstPage = useSelector(feedFirstPageSelector)
   const { hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps } =
