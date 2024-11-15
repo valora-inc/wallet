@@ -1,9 +1,9 @@
+import { WALLET_MNEMONIC } from 'react-native-dotenv'
 import { createWalletClient, encodeFunctionData, erc20Abi, http, publicActions } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { celoAlfajores } from 'viem/chains'
+import { celo } from 'viem/chains'
 import { sleep } from '../../../src/utils/sleep'
 import { DEFAULT_PIN } from '../utils/consts'
-import { WALLET_MNEMONIC } from 'react-native-dotenv'
 
 const childProcess = require('child_process')
 const fs = require('fs')
@@ -378,20 +378,19 @@ export async function completeProtectWalletScreen() {
  */
 export async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amountEther) {
   const stableTokenSymbolToAddress = {
-    cUSD: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+    cUSD: '0x765de816845861e75a25fca122bb6898b8b1282a',
   }
   const tokenAddress = stableTokenSymbolToAddress[stableToken]
   if (!tokenAddress) {
     throw new Error(`Unsupported token symbol passed to fundWallet: ${stableToken}`)
   }
 
-  console.log(`Sending ${amountEther} ${stableToken} from ${senderAddress} to ${recipientAddress}`)
-
   const account = privateKeyToAccount(senderPrivateKey)
   const senderAddress = account.address
+  console.log(`Sending ${amountEther} ${stableToken} from ${senderAddress} to ${recipientAddress}`)
   const client = createWalletClient({
     account,
-    chain: celoAlfajores,
+    chain: celo,
     transport: http(),
   }).extend(publicActions)
 

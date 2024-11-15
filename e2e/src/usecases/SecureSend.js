@@ -1,5 +1,9 @@
 import { WALLET_PRIVATE_KEY, WALLET_SINGLE_VERIFIED_MNEMONIC } from 'react-native-dotenv'
-import { WALLET_MULTIPLE_VERIFIED_ADDRESS, WALLET_SINGLE_VERIFIED_ADDRESS } from '../utils/consts'
+import {
+  WALLET_MULTIPLE_VERIFIED_ADDRESS,
+  WALLET_MULTIPLE_VERIFIED_PHONE_NUMBER,
+  WALLET_SINGLE_VERIFIED_ADDRESS,
+} from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
   enterPinUiIfNecessary,
