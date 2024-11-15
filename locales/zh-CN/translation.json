@@ -2121,18 +2121,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "按姓名、电话、钱包等搜索",
+    "searchInputLabel": "至",
+    "searchInputPlaceholder": "钱包地址或电话号码",
     "paste": "从剪贴板粘贴",
     "title": "选择接收人",
     "contactsTitle": "选择联系人",
+    "header": "发送",
+    "contactsHeader": "发送至联系人",
     "recents": "最近",
     "results": "结果",
     "qr": {
-      "title": "扫描或显示二维码",
-      "subtitle": "快速查找 {{appName}} 上的地址"
+      "title": "通过 QR 码发送",
+      "subtitle": "轻点扫描或显示地址"
     },
     "invite": {
-      "title": "向朋友发送加密货币",
-      "subtitle": "向联系人发送资金或邀请"
+      "title": "发送至联系人",
+      "subtitle": "向联系人发送资金"
     },
     "jumpstart": {
       "title": "通过实时链接发送",

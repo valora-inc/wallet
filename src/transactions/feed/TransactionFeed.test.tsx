@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { RootState } from 'src/redux/reducers'
 import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { QueryResponse } from 'src/transactions/feed/queryHelper'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import {
@@ -433,15 +434,41 @@ describe('TransactionFeed', () => {
   })
 
   it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
+        return true
+      }
+      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
+        return false
+      }
+      throw new Error('Unexpected gate')
+    })
+
     const { getByTestId } = renderScreen({})
     expect(getByTestId('GetStarted')).toBeDefined()
+  })
+
+  it('renders NoActivity for UK compliance', () => {
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
+        return true
+      }
+      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
+        return true
+      }
+      throw new Error('Unexpected gate')
+    })
+
+    const { getByTestId, getByText } = renderScreen({})
+
+    expect(getByTestId('NoActivity/loading')).toBeTruthy()
+    expect(getByText('transactionFeed.noTransactions')).toBeTruthy()
   })
 
   it('renders NoActivity by default if transaction feed is empty', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(false)
     const { getByTestId, getByText } = renderScreen({})
     expect(getByTestId('NoActivity/loading')).toBeDefined()
-    expect(getByText('noTransactionActivity')).toBeTruthy()
+    expect(getByText('transactionFeed.noTransactions')).toBeTruthy()
   })
 })

@@ -2127,18 +2127,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Szukaj według nazwy, telefonu, portfela…",
+    "searchInputLabel": "Do",
+    "searchInputPlaceholder": "Adres portfela lub numer telefonu",
     "paste": "Wklej ze schowka",
     "title": "Wybierz odbiorcę",
     "contactsTitle": "Wybierz kontakt",
+    "header": "Wysyłaj",
+    "contactsHeader": "Wyślij do kontaktów",
     "recents": "Najnowsze",
     "results": "Wyniki",
     "qr": {
-      "title": "Zeskanuj lub pokaż kod QR",
-      "subtitle": "Szybko znajdź adresy w {{appName}}"
+      "title": "Wyślij za pomocą kodu QR",
+      "subtitle": "Stuknij, aby zeskanować lub wyświetlić adres"
     },
     "invite": {
-      "title": "Wyślij kryptowalutę do znajomego",
-      "subtitle": "Wyślij środki lub zaproszenie do swoich kontaktów"
+      "title": "Wyślij do kontaktu",
+      "subtitle": "Wysyłaj środki do swoich kontaktów"
     },
     "jumpstart": {
       "title": "Wyślij za pomocą aktywnego linku",

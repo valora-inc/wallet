@@ -2121,18 +2121,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "ค้นหาด้วยชื่อ โทรศัพท์ กระเป๋าเงิน...",
+    "searchInputLabel": "เป็น",
+    "searchInputPlaceholder": "Wallet Address or Phone Number",
     "paste": "วางจากคลิปบอร์ด",
     "title": "เลือกผู้รับ",
     "contactsTitle": "เลือกผู้ติดต่อ",
+    "header": "ส่ง",
+    "contactsHeader": "Send to Contacts",
     "recents": "ล่าสุด",
     "results": "ผลลัพธ์",
     "qr": {
-      "title": "สแกนหรือแสดง QR Code",
-      "subtitle": "ค้นหาที่อยู่ได้รวดเร็วบน {{appName}}"
+      "title": "Send via QR Code",
+      "subtitle": "Tap to scan or show an address"
     },
     "invite": {
-      "title": "ส่งคริปโตให้เพื่อนของคุณ",
-      "subtitle": "ส่งเงินทุนหรือคำเชิญให้กับผู้ติดต่อของคุณ"
+      "title": "Send to a Contact",
+      "subtitle": "Send funds to your contacts"
     },
     "jumpstart": {
       "title": "ส่งพร้อมลิงก์สด",
