@@ -49,8 +49,6 @@ jobs:
       - name: Create iOS E2E .env File
         working-directory: e2e
         run: |
-          echo MOCK_PROVIDER_BASE_URL=${{ secrets.MOCK_PROVIDER_BASE_URL }} >> .env
-          echo MOCK_PROVIDER_API_KEY=${{ secrets.MOCK_PROVIDER_API_KEY }} >> .env
           echo WALLET_CONNECT_PROJECT_ID_E2E=${{ secrets.WALLET_CONNECT_PROJECT_ID_E2E }} >> .env
           echo DEFAULT_RECIPIENT_MNEMONIC=${{ secrets.DEFAULT_RECIPIENT_MNEMONIC }} >> .env
           echo DEFAULT_RECIPIENT_PRIVATE_KEY=${{ secrets.DEFAULT_RECIPIENT_PRIVATE_KEY }} >> .env
