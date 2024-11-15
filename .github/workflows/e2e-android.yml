@@ -81,6 +81,7 @@ jobs:
           echo DEFAULT_RECIPIENT_MNEMONIC=${{ secrets.DEFAULT_RECIPIENT_MNEMONIC }} >> .env
           echo DEFAULT_RECIPIENT_PRIVATE_KEY=${{ secrets.DEFAULT_RECIPIENT_PRIVATE_KEY }} >> .env
           echo WALLET_MNEMONIC=${{ secrets.WALLET_MNEMONIC }} >> .env
+          echo WALLET_PRIVATE_KEY=${{ secrets.WALLET_PRIVATE_KEY }} >> .env
           echo WALLET_SINGLE_VERIFIED_MNEMONIC=${{ secrets.WALLET_SINGLE_VERIFIED_MNEMONIC }} >> .env
           echo WALLET_MULTIPLE_VERIFIED_MNEMONIC=${{ secrets.WALLET_MULTIPLE_VERIFIED_MNEMONIC }} >> .env
           echo WALLET_12_WORDS_MNEMONIC=${{ secrets.WALLET_12_WORDS_MNEMONIC }} >> .env
