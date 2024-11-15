@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
   totalSupplied: {
     ...typeScale.labelSemiBoldMedium,
-    color: '#6168DC',
+    color: Colors.black,
   },
   image: {
     width: 80,
