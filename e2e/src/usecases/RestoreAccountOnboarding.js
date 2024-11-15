@@ -63,9 +63,10 @@ export default RestoreAccountOnboarding = () => {
         await waitForElementByIdAndTap('ConfirmUseAccountDialog/PrimaryAction')
       } catch {}
 
-      // verification step comes after restoring wallet, skip this step
-      await waitForElementId('PhoneVerificationSkipHeader')
-      await element(by.id('PhoneVerificationSkipHeader')).tap()
+      try {
+        // case where phone verification is required. skip it.
+        await waitForElementByIdAndTap('PhoneVerificationSkipHeader')
+      } catch {}
 
       // Choose your own adventure (CYA screen)
       await waitForElementByIdAndTap('ChooseYourAdventure/Later')
