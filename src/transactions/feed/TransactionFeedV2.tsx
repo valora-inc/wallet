@@ -554,6 +554,6 @@ const styles = StyleSheet.create({
     color: colors.gray3,
     textAlign: 'center',
     marginHorizontal: Spacing.Regular16,
-    marginTop: Spacing.Thick24,
+    marginVertical: Spacing.Thick24,
   },
 })
