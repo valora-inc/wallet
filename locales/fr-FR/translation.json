@@ -2123,18 +2123,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Recherchez par nom, téléphone, portefeuille...",
+    "searchInputLabel": "À",
+    "searchInputPlaceholder": "Adresse ou numéro de téléphone du portefeuille",
     "paste": "Coller depuis le presse-papiers",
     "title": "Sélectionnez un destinataire",
     "contactsTitle": "Sélectionnez un contact",
+    "header": "Envoyer",
+    "contactsHeader": "Envoyer aux contacts",
     "recents": "Récents",
     "results": "Résultats",
     "qr": {
-      "title": "Scanner ou afficher le code QR",
-      "subtitle": "Trouvez rapidement des adresses sur {{appName}}"
+      "title": "Envoyer par code QR",
+      "subtitle": "Touche pour numériser ou afficher une adresse"
     },
     "invite": {
-      "title": "Envoyez des crypto à vos amis",
-      "subtitle": "Envoyez des fonds ou une invitation à vos contacts"
+      "title": "Envoyer à un contact",
+      "subtitle": "Envoie des fonds à tes contacts"
     },
     "jumpstart": {
       "title": "Envoyer avec un lien direct",
