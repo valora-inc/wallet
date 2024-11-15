@@ -8,6 +8,11 @@ on:
 
 jobs:
   android:
+    env:
+      # `if` conditions can't directly access secrets, so we use a workaround
+      # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
+      SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
+      BASH_ENV: ~/.profile
     name: Android (SDK ${{ inputs.android-api-level }})
     runs-on:
       - nscloud-ubuntu-22.04-amd64-16x64-with-cache
@@ -17,6 +22,25 @@ jobs:
     # If it takes longer it usually fails, so no need to pay for more
     timeout-minutes: 25
     steps:
+      - uses: google-github-actions/auth@v2
+        if: ${{ env.SECRETS_AVAILABLE }}
+        with:
+          project_id: celo-mobile-mainnet
+          credentials_json: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
+      - name: Google Secrets
+        if: ${{ env.SECRETS_AVAILABLE }}
+        id: google-secrets
+        uses: google-github-actions/get-secretmanager-secrets@v2.1.4
+        with:
+          secrets: |-
+            WALLET_CONNECT_PROJECT_ID_E2E:projects/1027349420744/secrets/WALLET_CONNECT_PROJECT_ID_E2E
+            DEFAULT_RECIPIENT_MNEMONIC:projects/1027349420744/secrets/DEFAULT_RECIPIENT_MNEMONIC
+            DEFAULT_RECIPIENT_PRIVATE_KEY:projects/1027349420744/secrets/DEFAULT_RECIPIENT_PRIVATE_KEY
+            WALLET_MNEMONIC:projects/1027349420744/secrets/WALLET_MNEMONIC
+            WALLET_PRIVATE_KEY:projects/1027349420744/secrets/WALLET_PRIVATE_KEY
+            WALLET_SINGLE_VERIFIED_MNEMONIC:projects/1027349420744/secrets/WALLET_SINGLE_VERIFIED_MNEMONIC
+            WALLET_MULTIPLE_VERIFIED_MNEMONIC:projects/1027349420744/secrets/WALLET_MULTIPLE_VERIFIED_MNEMONIC
+            WALLET_12_WORDS_MNEMONIC:projects/1027349420744/secrets/WALLET_12_WORDS_MNEMONIC
       - uses: actions/checkout@v4
       - name: Set env
         run: |
@@ -74,17 +98,6 @@ jobs:
         run: yarn build:ts
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
-      - name: Create Android E2E .env File
-        working-directory: e2e
-        run: |
-          echo WALLET_CONNECT_PROJECT_ID_E2E=${{ secrets.WALLET_CONNECT_PROJECT_ID_E2E }} >> .env
-          echo DEFAULT_RECIPIENT_MNEMONIC=${{ secrets.DEFAULT_RECIPIENT_MNEMONIC }} >> .env
-          echo DEFAULT_RECIPIENT_PRIVATE_KEY=${{ secrets.DEFAULT_RECIPIENT_PRIVATE_KEY }} >> .env
-          echo WALLET_MNEMONIC=${{ secrets.WALLET_MNEMONIC }} >> .env
-          echo WALLET_PRIVATE_KEY=${{ secrets.WALLET_PRIVATE_KEY }} >> .env
-          echo WALLET_SINGLE_VERIFIED_MNEMONIC=${{ secrets.WALLET_SINGLE_VERIFIED_MNEMONIC }} >> .env
-          echo WALLET_MULTIPLE_VERIFIED_MNEMONIC=${{ secrets.WALLET_MULTIPLE_VERIFIED_MNEMONIC }} >> .env
-          echo WALLET_12_WORDS_MNEMONIC=${{ secrets.WALLET_12_WORDS_MNEMONIC }} >> .env
       - name: Create Detox Build
         run: CELO_TEST_CONFIG=e2e yarn detox build -c android.release
       - name: Run Detox
@@ -102,6 +115,15 @@ jobs:
           --headless
           --retries 3
           --device-boot-args="-snapshot ci_boot"
+        env:
+          WALLET_CONNECT_PROJECT_ID_E2E: ${{ steps.google-secrets.outputs.WALLET_CONNECT_PROJECT_ID_E2E }}
+          DEFAULT_RECIPIENT_MNEMONIC: ${{ steps.google-secrets.outputs.DEFAULT_RECIPIENT_MNEMONIC }}
+          DEFAULT_RECIPIENT_PRIVATE_KEY: ${{ steps.google-secrets.outputs.DEFAULT_RECIPIENT_PRIVATE_KEY }}
+          WALLET_MNEMONIC: ${{ steps.google-secrets.outputs.WALLET_MNEMONIC }}
+          WALLET_PRIVATE_KEY: ${{ steps.google-secrets.outputs.WALLET_PRIVATE_KEY }}
+          WALLET_SINGLE_VERIFIED_MNEMONIC: ${{ steps.google-secrets.outputs.WALLET_SINGLE_VERIFIED_MNEMONIC }}
+          WALLET_MULTIPLE_VERIFIED_MNEMONIC: ${{ steps.google-secrets.outputs.WALLET_MULTIPLE_VERIFIED_MNEMONIC }}
+          WALLET_12_WORDS_MNEMONIC: ${{ steps.google-secrets.outputs.WALLET_12_WORDS_MNEMONIC }}
       - name: Publish Android JUnit Report
         if: always()
         uses: mikepenz/action-junit-report@v4
