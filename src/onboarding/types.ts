@@ -6,8 +6,8 @@ export enum AdventureCardName {
 }
 
 export enum ToggleableOnboardingFeatures {
-  // Shows Cloud Backup as a restore option in onboarding AND in the settings screen
-  // This is the main flag for enabling cloud backup in the app.
+  // Enabled Cloud Backup feature in the app, shows setup option in settings
+  // and restore option in onboarding.
   CloudBackup = 'CloudBackup',
   // Shows Cloud Backup as a setup option in onboarding ONLY if CloudBackup is true
   CloudBackupSetupInOnboarding = 'CloudBackupSetupInOnboarding',
