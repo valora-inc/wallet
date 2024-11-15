@@ -2296,6 +2296,8 @@
     "claimRewardTitle": "Raccolti",
     "claimRewardSubtitle": "dal pool {{txAppName}}",
     "claimRewardSubtitle_noTxAppName": "d'app sconosciuta",
+    "allTransactionsShown": "Hai raggiunto la fine della cronologia delle transazioni.",
+    "fetchErrorRetry": "Riprova",
     "error": {
       "fetchError": "Ops, c'è stato un problema nell'aggiornare il tuo feed. La cronologia delle tue transazioni potrebbe essere incompleta per il momento."
     },
