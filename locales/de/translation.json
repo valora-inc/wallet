@@ -2296,6 +2296,8 @@
     "claimRewardTitle": "Gesammelt",
     "claimRewardSubtitle": "aus {{txAppName}} Pool",
     "claimRewardSubtitle_noTxAppName": "von unbekannter App",
+    "allTransactionsShown": "Du hast das Ende deines Transaktionsverlaufs erreicht.",
+    "fetchErrorRetry": "Erneut versuchen",
     "error": {
       "fetchError": "Ups, es gab ein Problem beim Aktualisieren deines Feeds. Es kann sein, dass dein Transaktionsverlauf im Moment unvollständig ist."
     },
