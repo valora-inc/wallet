@@ -1,12 +1,13 @@
 import { fireEvent, render, within } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { DappExplorerEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { DappExplorerEvents } from 'src/analytics/Events'
+import DappsScreen from 'src/dapps/DappsScreen'
 import { dappSelected, favoriteDapp, fetchDappsList, unfavoriteDapp } from 'src/dapps/slice'
 import { DappCategory, DappSection } from 'src/dapps/types'
-import DappsScreen from 'src/dapps/DappsScreen'
 import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mockDappListWithCategoryNames } from 'test/values'
@@ -45,7 +46,6 @@ describe('DappsScreen', () => {
   beforeEach(() => {
     defaultStore.clearActions()
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
   it('renders correctly and fires the correct actions on press dapp', () => {
@@ -59,6 +59,7 @@ describe('DappsScreen', () => {
     expect(queryByText('featuredDapp')).toBeFalsy()
     expect(getByText('Dapp 1')).toBeTruthy()
     expect(getByText('Dapp 2')).toBeTruthy()
+    expect(queryByText('dappsScreen.disclaimer_UK')).toBeFalsy()
 
     fireEvent.press(getByText('Dapp 1'))
 
@@ -66,6 +67,20 @@ describe('DappsScreen', () => {
       fetchDappsList(),
       dappSelected({ dapp: { ...dappsList[0], openedFrom: DappSection.All } }),
     ])
+  })
+
+  it('renders the disclaimer for UK compliance', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+
+    const { getByText } = render(
+      <Provider store={defaultStore}>
+        <MockedNavigator component={DappsScreen} />
+      </Provider>
+    )
+
+    expect(getByText('dappsScreen.disclaimer_UK')).toBeTruthy()
   })
 
   it('renders correctly and fires the correct actions on press deep linked dapp', () => {
@@ -88,7 +103,7 @@ describe('DappsScreen', () => {
     ])
   })
 
-  it('pens dapps directly', () => {
+  it('opens dapps directly', () => {
     const store = createMockStore({
       dapps: {
         dappListApiUrl: 'http://url.com',
