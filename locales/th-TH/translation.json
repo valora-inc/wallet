@@ -2294,6 +2294,8 @@
     "claimRewardTitle": "เก็บแล้ว",
     "claimRewardSubtitle": "จากพูล {{txAppName}}",
     "claimRewardSubtitle_noTxAppName": "from unknown app",
+    "allTransactionsShown": "You've reached the end of your transaction history.",
+    "fetchErrorRetry": "ลองอีกครั้ง",
     "error": {
       "fetchError": "Oops, there was an issue refreshing your feed. Your transaction history may be incomplete for now."
     },
