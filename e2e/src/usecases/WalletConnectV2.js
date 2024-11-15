@@ -213,6 +213,10 @@ export default WalletConnect = () => {
     await waitFor(element(by.text(new RegExp(`^${dappName} would like to sign a transaction.*`))))
       .toBeVisible()
       .withTimeout(15 * 1000)
+
+    // Pause on android before submitting the tx
+    // Otherwise the success banner disappears before detox can check for visibility
+    if (device.getPlatform() === 'android') await sleep(3 * 1000)
     await verifySuccessfulTransaction('Sign transaction', tx)
 
     const signedTx = await requestPromise
