@@ -2296,6 +2296,8 @@
     "claimRewardTitle": "Ganancias recibidas",
     "claimRewardSubtitle": "de la pool de {{txAppName}}",
     "claimRewardSubtitle_noTxAppName": "desde pool no identificada",
+    "allTransactionsShown": "Has llegado al final de tu historial de transacciones.",
+    "fetchErrorRetry": "Inténtalo de nuevo",
     "error": {
       "fetchError": "Oops, ha habido un problema al actualizar tu feed. Tu historial de transacciones puede estar incompleto por ahora."
     },
