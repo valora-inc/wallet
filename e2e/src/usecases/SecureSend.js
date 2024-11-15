@@ -37,7 +37,7 @@ export default SecureSend = () => {
       await waitForElementByIdAndTap('HomeAction-Send', 30_000)
       await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 3000)
       await element(by.id('SendSelectRecipientSearchInput')).replaceText(
-        WALLET_MULTIPLE_VERIFIED_ADDRESS
+        WALLET_MULTIPLE_VERIFIED_PHONE_NUMBER
       )
       await element(by.id('RecipientItem')).tap()
 
