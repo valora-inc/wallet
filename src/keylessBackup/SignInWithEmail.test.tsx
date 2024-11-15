@@ -271,7 +271,7 @@ describe('SignInWithEmail', () => {
     expect(getByTestId('KeylessBackupSignInWithEmail/BottomSheet')).toBeTruthy()
 
     fireEvent.press(getByText('signInWithEmail.bottomSheet.skip'))
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, undefined)
+    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
     expect(AppAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_sign_in_with_email_screen_skip,
       {

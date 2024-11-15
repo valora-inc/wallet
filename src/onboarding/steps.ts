@@ -217,16 +217,19 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
     skipProtectWallet,
   } = props
 
-  function wrapNavigate<T extends keyof StackParamList>(screen: T, props: StackParamList[T]) {
-    navigate(screen, props)
+  function wrapNavigate<RouteName extends keyof StackParamList>(
+    ...args: NavigationService.NavigateParams<RouteName>
+  ) {
+    const [screen] = args
+    navigate(...args)
     dispatch(updateLastOnboardingScreen(screen))
   }
 
   const navigateImportOrImportSelect = () => {
     if (props.showCloudAccountBackupRestore) {
-      wrapNavigate(Screens.ImportSelect, undefined)
+      wrapNavigate(Screens.ImportSelect)
     } else {
-      wrapNavigate(Screens.ImportWallet, undefined)
+      wrapNavigate(Screens.ImportWallet)
     }
   }
 
@@ -235,7 +238,7 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
       return {
         next: () => {
           if (supportedBiometryType !== null) {
-            wrapNavigate(Screens.EnableBiometry, undefined)
+            wrapNavigate(Screens.EnableBiometry)
           } else if (choseToRestoreAccount) {
             popToScreen(Screens.Welcome)
             navigateImportOrImportSelect()
@@ -244,14 +247,13 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
             wrapNavigate(Screens.SignInWithEmail, {
               keylessBackupFlow: KeylessBackupFlow.Setup,
               origin: KeylessBackupOrigin.Onboarding,
-              hideBack: false,
             })
           } else {
             dispatch(initializeAccount())
             if (skipProtectWallet) {
               finishOnboarding(Screens.ChooseYourAdventure)
             } else {
-              wrapNavigate(Screens.ProtectWallet, undefined)
+              wrapNavigate(Screens.ProtectWallet)
             }
           }
         },
@@ -266,14 +268,13 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
             wrapNavigate(Screens.SignInWithEmail, {
               keylessBackupFlow: KeylessBackupFlow.Setup,
               origin: KeylessBackupOrigin.Onboarding,
-              hideBack: false,
             })
           } else {
             dispatch(initializeAccount())
             if (skipProtectWallet) {
               finishOnboarding(Screens.ChooseYourAdventure)
             } else {
-              wrapNavigate(Screens.ProtectWallet, undefined)
+              wrapNavigate(Screens.ProtectWallet)
             }
           }
         },
@@ -285,7 +286,7 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
             finishOnboarding(Screens.ChooseYourAdventure)
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
-            wrapNavigate(Screens.LinkPhoneNumber, undefined)
+            wrapNavigate(Screens.LinkPhoneNumber)
           }
         },
       }
@@ -296,7 +297,7 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
             finishOnboarding(Screens.ChooseYourAdventure)
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
-            wrapNavigate(Screens.VerificationStartScreen, undefined)
+            wrapNavigate(Screens.VerificationStartScreen)
           }
         },
       }
@@ -307,7 +308,7 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
             finishOnboarding(Screens.ChooseYourAdventure)
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
-            wrapNavigate(Screens.VerificationStartScreen, undefined)
+            wrapNavigate(Screens.VerificationStartScreen)
           }
         },
       }
@@ -326,7 +327,7 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
           if (skipVerification) {
             finishOnboarding(Screens.ChooseYourAdventure)
           } else {
-            wrapNavigate(Screens.VerificationStartScreen, undefined)
+            wrapNavigate(Screens.VerificationStartScreen)
           }
         },
       }

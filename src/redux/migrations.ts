@@ -1931,7 +1931,11 @@ export const migrations = {
     },
   }),
   235: (state: any) => state,
-  236: (state: any) => {
+  236: (state: any) => ({
+    ...state,
+    tokens: _.omit(state.tokens, 'loading'),
+  }),
+  237: (state: any) => {
     // This migration is taken directly from the old initial route logic. The
     // only difference is that the multi-chain beta screen has been removed, since
     // it required fetching a feature gate.
@@ -1939,8 +1943,6 @@ export const migrations = {
       if (!state.i18n.language) {
         return Screens.Language
       } else if (!state.account.acceptedTerms || state.account.pincodeType === PincodeType.Unset) {
-        // allow empty username
-        // User didn't go far enough in onboarding, start again from education
         return Screens.Welcome
       } else if (!state.web3.account) {
         return state.account.choseToRestoreAccount

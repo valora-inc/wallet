@@ -1462,14 +1462,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Узнать",
-    "exploreDapps": "Изучить Dapps",
-    "exploreAll": "Изучить все",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Просмотреть все",
     "message": "Изучите способы использования своих активов",
     "errorMessage": "Произошла ошибка при загрузке dapps",
     "featuredDapp": "Подборка",
     "allDapps": "Все",
     "favoriteDapps": "Мое избранное",
     "mostPopularDapps": "Самые популярные",
+    "mostPopularDapps_UK": "Другие Dapps",
     "favoriteDappsAndAll": "Мое избранное и все",
     "searchPlaceHolder": "Поиск dapps",
     "noFavorites": {
@@ -1485,7 +1486,8 @@
       "message": "Применен фильтр <0>{{filter}}</0>",
       "removeFilter": "Удалить фильтр",
       "searchMessage": "Для <0>\"{{searchTerm}}\"</0> подходящих результатов не найдено"
-    }
+    },
+    "disclaimer_UK": "Это список сторонних Dapp'ов. Описание каждого Dapp носит чисто информационный характер и не является приглашением к их использованию."
   },
   "dappRankings": {
     "title": "Рейтинги Dapp",
@@ -2298,9 +2300,12 @@
     "claimRewardTitle": "Получено",
     "claimRewardSubtitle": "из пула {{txAppName}}",
     "claimRewardSubtitle_noTxAppName": "из неизвестного приложения",
+    "allTransactionsShown": "Ты дошел до конца своей истории транзакций.",
+    "fetchErrorRetry": "Повторить попытку",
     "error": {
       "fetchError": "Упс, возникла проблема с обновлением твоей ленты. Твоя история транзакций может быть пока неполной."
-    }
+    },
+    "noTransactions": "Поздравляю, ты успешно создал кошелек {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Подробности",

@@ -46,7 +46,7 @@ import {
   useTokensWithUsdValue,
   useTotalTokenBalance,
 } from 'src/tokens/hooks'
-import { tokenFetchErrorSelector, tokenFetchLoadingSelector } from 'src/tokens/selectors'
+import { tokenFetchErrorSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 
 function TokenBalance({
@@ -62,7 +62,6 @@ function TokenBalance({
   const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalTokenBalanceLocal = useTotalTokenBalance()
-  const tokenFetchLoading = useSelector(tokenFetchLoadingSelector)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
   const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
   // TODO(ACT-1095): Update these to filter out unsupported networks once positions support non-Celo chains
@@ -90,7 +89,7 @@ function TokenBalance({
     )
   }
 
-  if (tokenFetchError || tokenFetchLoading || tokensAreStale) {
+  if (tokenFetchError || tokensAreStale) {
     // Show '-' if we haven't fetched the tokens yet or prices are stale
     return <TotalTokenBalance balanceDisplay={'-'} />
   } else if (

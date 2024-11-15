@@ -1733,8 +1733,8 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  // N.B. The 235 -> 236 migration tests are adapted from the old initial route handler tests
-  it('works from 235 to 236: returns language', () => {
+  // N.B. The 236 -> 237 migration tests are adapted from the old initial route handler tests
+  it('works from 236 to 237: returns language', () => {
     const oldSchema = {
       ...v235Schema,
       i18n: {
@@ -1742,7 +1742,7 @@ describe('Redux persist migrations', () => {
         language: undefined,
       },
     }
-    const migratedSchema = migrations[236](oldSchema)
+    const migratedSchema = migrations[237](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.account.onboardingCompleted = false
     expectedSchema.account.lastOnboardingStepScreen = Screens.Language
@@ -1750,7 +1750,7 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from 235 to 236: returns welcome if not accepted terms', () => {
+  it('works from 236 to 237: returns welcome if not accepted terms', () => {
     const oldSchema = {
       ...v235Schema,
       account: {
@@ -1758,7 +1758,7 @@ describe('Redux persist migrations', () => {
         acceptedTerms: false,
       },
     }
-    const migratedSchema = migrations[236](oldSchema)
+    const migratedSchema = migrations[237](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.account.onboardingCompleted = false
     expectedSchema.account.lastOnboardingStepScreen = Screens.Welcome
@@ -1766,7 +1766,7 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from 235 to 236: returns welcome if no pincode', () => {
+  it('works from 236 to 237: returns welcome if no pincode', () => {
     const oldSchema = {
       ...v235Schema,
       account: {
@@ -1774,7 +1774,7 @@ describe('Redux persist migrations', () => {
         pincodeType: PincodeType.Unset,
       },
     }
-    const migratedSchema = migrations[236](oldSchema)
+    const migratedSchema = migrations[237](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.account.onboardingCompleted = false
     expectedSchema.account.lastOnboardingStepScreen = Screens.Welcome
@@ -1782,7 +1782,7 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from 235 to 236: returns welcome if no account', () => {
+  it('works from 236 to 237: returns welcome if no account', () => {
     const oldSchema = {
       ...v235Schema,
       web3: {
@@ -1790,7 +1790,7 @@ describe('Redux persist migrations', () => {
         account: undefined,
       },
     }
-    const migratedSchema = migrations[236](oldSchema)
+    const migratedSchema = migrations[237](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.account.onboardingCompleted = false
     expectedSchema.account.lastOnboardingStepScreen = Screens.Welcome
@@ -1798,7 +1798,7 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from 235 to 236: returns import wallet if no account and restoring', () => {
+  it('works from 236 to 237: returns import wallet if no account and restoring', () => {
     const oldSchema = {
       ...v235Schema,
       account: {
@@ -1812,7 +1812,7 @@ describe('Redux persist migrations', () => {
         account: undefined,
       },
     }
-    const migratedSchema = migrations[236](oldSchema)
+    const migratedSchema = migrations[237](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.account.onboardingCompleted = false
     expectedSchema.account.lastOnboardingStepScreen = Screens.ImportWallet
@@ -1820,7 +1820,7 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from 235 to 236: returns import select if no account and restoring and CAB enabled', () => {
+  it('works from 236 to 237: returns import select if no account and restoring and CAB enabled', () => {
     jest.replaceProperty(
       ONBOARDING_FEATURES_ENABLED,
       ToggleableOnboardingFeatures.CloudBackup,
@@ -1839,7 +1839,7 @@ describe('Redux persist migrations', () => {
         account: undefined,
       },
     }
-    const migratedSchema = migrations[236](oldSchema)
+    const migratedSchema = migrations[237](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.account.onboardingCompleted = false
     expectedSchema.account.lastOnboardingStepScreen = Screens.ImportSelect
@@ -1847,7 +1847,7 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from 235 to 236: returns protect wallet if recovery phrase seen but not saved', () => {
+  it('works from 236 to 237: returns protect wallet if recovery phrase seen but not saved', () => {
     const oldSchema = {
       ...v235Schema,
       account: {
@@ -1857,7 +1857,7 @@ describe('Redux persist migrations', () => {
         recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.InProgress,
       },
     }
-    const migratedSchema = migrations[236](oldSchema)
+    const migratedSchema = migrations[237](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.account.onboardingCompleted = false
     expectedSchema.account.lastOnboardingStepScreen = Screens.ProtectWallet
@@ -1865,7 +1865,7 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from 235 to 236: returns PN verification if not seen and enabled', () => {
+  it('works from 236 to 237: returns PN verification if not seen and enabled', () => {
     jest.replaceProperty(
       ONBOARDING_FEATURES_ENABLED,
       ToggleableOnboardingFeatures.PhoneVerification,
@@ -1883,7 +1883,7 @@ describe('Redux persist migrations', () => {
         hasSeenVerificationNux: false,
       },
     }
-    const migratedSchema = migrations[236](oldSchema)
+    const migratedSchema = migrations[237](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.account.onboardingCompleted = false
     expectedSchema.account.lastOnboardingStepScreen = Screens.VerificationStartScreen
@@ -1891,7 +1891,7 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from 235 to 236: returns home if not seen verification but disabled', () => {
+  it('works from 236 to 237: returns home if not seen verification but disabled', () => {
     const oldSchema = {
       ...v235Schema,
       account: {
@@ -1904,7 +1904,7 @@ describe('Redux persist migrations', () => {
         hasSeenVerificationNux: false,
       },
     }
-    const migratedSchema = migrations[236](oldSchema)
+    const migratedSchema = migrations[237](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.account.onboardingCompleted = true
     expectedSchema.account.lastOnboardingStepScreen = Screens.TabNavigator

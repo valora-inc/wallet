@@ -100,12 +100,12 @@ function SignInWithEmailBottomSheet({
 type OAuthProvider = 'google-oauth2' | 'apple'
 type Props = NativeStackScreenProps<StackParamList, Screens.SignInWithEmail>
 
-function SignInWithEmail({ route }: Props) {
+function SignInWithEmail({ route, navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const showApple = getFeatureGate(StatsigFeatureGates.SHOW_APPLE_IN_CAB)
   const { authorize, getCredentials, clearCredentials } = useAuth0()
-  const { keylessBackupFlow, origin, hideBack } = route.params
+  const { keylessBackupFlow, origin } = route.params
   const [loading, setLoading] = useState<null | OAuthProvider>(null)
   const onboardingProps = useSelector(onboardingPropsSelector)
   const { step, totalSteps } = getOnboardingStepValues(Screens.SignInWithEmail, onboardingProps)
@@ -114,6 +114,14 @@ function SignInWithEmail({ route }: Props) {
     paddingBottom: Math.max(0, 40 - bottom),
   }
   const address = useSelector(walletAddressSelector)
+
+  // We check whether or not there is anything to go back to
+  // in case that this screen is the app's initial route, which can occur
+  // when restarting the app during onboarding.
+  // N.B. that a change in this value will /not/ trigger a re-render, but
+  // this should be fine since if this is true on the initial render, it should
+  // never change.
+  const canGoBack = navigation.canGoBack()
 
   const isSetup = keylessBackupFlow === KeylessBackupFlow.Setup
   const isSetupInOnboarding =
@@ -197,17 +205,16 @@ function SignInWithEmail({ route }: Props) {
               eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
             />
           ) : // This includes Onboarding and Restore
-          !hideBack ? (
+          canGoBack ? (
             <BackButton
+              testID="SignInWithEmail/BackButton"
               eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
               eventProperties={{
                 keylessBackupFlow,
                 origin,
               }}
             />
-          ) : (
-            <></>
-          )
+          ) : undefined
         }
         title={
           isSetupInOnboarding ? (

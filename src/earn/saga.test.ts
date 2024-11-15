@@ -19,7 +19,6 @@ import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { EarnPosition } from 'src/positions/types'
-import { fetchTokenBalances } from 'src/tokens/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -285,7 +284,6 @@ describe('depositSubmitSaga', () => {
           transactionHash: '0x2',
         })
       )
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -331,7 +329,6 @@ describe('depositSubmitSaga', () => {
           transactionHash: '0x2',
         })
       )
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
       .run()
@@ -382,7 +379,6 @@ describe('depositSubmitSaga', () => {
           transactionHash: '0x2',
         })
       )
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -438,7 +434,6 @@ describe('depositSubmitSaga', () => {
           transactionHash: '0x2',
         })
       )
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
       .run()
@@ -491,7 +486,6 @@ describe('depositSubmitSaga', () => {
           transactionHash: '0x3',
         })
       )
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -533,7 +527,6 @@ describe('depositSubmitSaga', () => {
           transactionHash: '0x2',
         })
       )
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -567,7 +560,6 @@ describe('depositSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(depositCancel())
-      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
@@ -602,7 +594,6 @@ describe('depositSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(depositError())
-      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
@@ -643,7 +634,6 @@ describe('depositSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(depositError())
-      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -797,7 +787,6 @@ describe('withdrawSubmitSaga', () => {
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(withdrawSuccess())
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -833,7 +822,6 @@ describe('withdrawSubmitSaga', () => {
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(withdrawSuccess())
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -873,7 +861,6 @@ describe('withdrawSubmitSaga', () => {
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(withdrawSuccess())
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .run()
@@ -913,7 +900,6 @@ describe('withdrawSubmitSaga', () => {
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(withdrawSuccess())
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .run()
@@ -953,7 +939,6 @@ describe('withdrawSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(withdrawCancel())
-      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
@@ -985,7 +970,6 @@ describe('withdrawSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(withdrawError())
-      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
@@ -1026,7 +1010,6 @@ describe('withdrawSubmitSaga', () => {
           ...sagaProviders,
         ])
         .put(withdrawError())
-        .not.put.actionType(fetchTokenBalances.type)
         .call.like({ fn: sendPreparedTransactions })
         .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
         .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -1059,7 +1042,6 @@ describe('withdrawSubmitSaga', () => {
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(withdrawSuccess())
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .run()
@@ -1099,7 +1081,6 @@ describe('withdrawSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(withdrawCancel())
-      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()

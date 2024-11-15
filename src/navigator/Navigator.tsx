@@ -477,7 +477,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
       initialParams={{
         keylessBackupFlow: KeylessBackupFlow.Setup,
         origin: KeylessBackupOrigin.Onboarding,
-        hideBack: true,
       }}
     />
     <Navigator.Screen

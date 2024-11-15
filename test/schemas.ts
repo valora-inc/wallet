@@ -3568,14 +3568,23 @@ export const v236Schema = {
     ...v235Schema._persist,
     version: 236,
   },
+  tokens: _.omit(v235Schema.tokens, 'loading'),
+}
+
+export const v237Schema = {
+  ...v236Schema,
+  _persist: {
+    ...v236Schema._persist,
+    version: 237,
+  },
   account: {
-    ...v235Schema.account,
+    ...v236Schema.account,
     onboardingCompleted: true,
     lastOnboardingStepScreen: Screens.Welcome,
   },
-  identity: _.omit(v235Schema.identity, 'hasSeenVerificationNux'),
+  identity: _.omit(v236Schema.identity, 'hasSeenVerificationNux'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v236Schema as Partial<RootState>
+  return v237Schema as Partial<RootState>
 }
