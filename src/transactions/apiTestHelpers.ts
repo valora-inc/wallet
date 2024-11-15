@@ -21,9 +21,12 @@ export function setupApiStore<
   Preloaded extends RecursivePartial<Omit<RootState, ApiReducersKeys>>,
   R extends Record<string, Reducer<any, any>> = Record<never, never>,
 >(api: A, preloadedState: Preloaded, extraReducers?: R) {
+  // destructure _persist from the preloaded state as it is an unexpected key in
+  // the mocked store and logs an error during test execution
+  const { _persist, ...mockStoreData } = getMockStoreData(preloadedState)
   const getStore = () =>
     configureStore({
-      preloadedState: getMockStoreData(preloadedState),
+      preloadedState: mockStoreData,
       reducer: combineReducers({
         [api.reducerPath]: api.reducer,
         ...extraReducers,

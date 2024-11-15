@@ -12,6 +12,8 @@ import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -36,6 +38,8 @@ function DiscoverDappsCard() {
 
   const { onSelectDapp } = useOpenDapp()
 
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+
   useEffect(() => {
     dispatch(fetchDappsList())
     AppAnalytics.track(DappExplorerEvents.dapp_screen_open)
@@ -57,7 +61,9 @@ function DiscoverDappsCard() {
           data: mostPopularDapps
             .filter((dapp) => !favoriteDappIds.includes(dapp.id))
             .slice(0, MAX_DAPPS - favoriteDapps.length),
-          sectionName: t('dappsScreen.mostPopularDapps'),
+          sectionName: t('dappsScreen.mostPopularDapps', {
+            context: showUKCompliantVariant ? 'UK' : '',
+          }),
           dappSection: DappSection.MostPopular,
           testID: 'DiscoverDappsCard/MostPopularSection',
         },
@@ -91,7 +97,14 @@ function DiscoverDappsCard() {
         <SectionList
           ref={sectionListRef}
           scrollEnabled={false}
-          ListHeaderComponent={<Text style={styles.title}>{t('dappsScreen.exploreDapps')}</Text>}
+          ListHeaderComponent={
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{t('dappsScreen.exploreDapps')}</Text>
+              {showUKCompliantVariant && (
+                <Text style={styles.disclaimer}>{t('dappsScreen.disclaimer_UK')}</Text>
+              )}
+            </View>
+          }
           ListFooterComponent={
             <View>
               <Text style={styles.footer}>{t('dappsScreen.exploreAll')}</Text>
@@ -150,7 +163,14 @@ const styles = StyleSheet.create({
   title: {
     ...typeScale.labelSemiBoldMedium,
     color: Colors.black,
+  },
+  titleContainer: {
     marginBottom: Spacing.Smallest8,
+    gap: Spacing.Tiny4,
+  },
+  disclaimer: {
+    ...typeScale.bodyXSmall,
+    color: Colors.gray3,
   },
 })
 

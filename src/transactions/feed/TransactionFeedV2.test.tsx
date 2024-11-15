@@ -11,6 +11,7 @@ import { type ApiReducersKeys } from 'src/redux/apiReducersList'
 import { type RootState } from 'src/redux/reducers'
 import { reducersList } from 'src/redux/reducersList'
 import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import * as TokenSelectors from 'src/tokens/selectors'
 import { type TokenBalance } from 'src/tokens/slice'
@@ -237,9 +238,36 @@ describe('TransactionFeedV2', () => {
 
   it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [] }))
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
+        return true
+      }
+      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
+        return false
+      }
+      throw new Error('Unexpected gate')
+    })
+
     const tree = renderScreen()
     expect(tree.getByTestId('GetStarted')).toBeDefined()
+  })
+
+  it('renders NoActivity for UK compliance', () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [] }))
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
+        return true
+      }
+      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
+        return true
+      }
+      throw new Error('Unexpected gate')
+    })
+
+    const { getByTestId, getByText } = renderScreen({})
+
+    expect(getByTestId('NoActivity/loading')).toBeTruthy()
+    expect(getByText('transactionFeed.noTransactions')).toBeTruthy()
   })
 
   it('renders NoActivity by default if transaction feed is empty', async () => {
@@ -247,7 +275,7 @@ describe('TransactionFeedV2', () => {
     jest.mocked(getFeatureGate).mockReturnValue(false)
     const tree = renderScreen()
     expect(tree.getByTestId('NoActivity/loading')).toBeDefined()
-    expect(tree.getByText('noTransactionActivity')).toBeTruthy()
+    expect(tree.getByText('transactionFeed.noTransactions')).toBeTruthy()
   })
 
   it('useStandByTransactions properly splits pending/confirmed transactions', async () => {
