@@ -2300,6 +2300,8 @@
     "claimRewardTitle": "Стягнуто",
     "claimRewardSubtitle": "з пулу {{txAppName}}",
     "claimRewardSubtitle_noTxAppName": "з невідомого додатку",
+    "allTransactionsShown": "Ви досягли кінця історії транзакцій.",
+    "fetchErrorRetry": "Спробувати ще раз",
     "error": {
       "fetchError": "Виникла проблема з оновленням вашої стрічки. Ваша історія транзакцій може бути неповною."
     },
