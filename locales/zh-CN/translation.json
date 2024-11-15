@@ -2294,6 +2294,8 @@
     "claimRewardTitle": "已领取",
     "claimRewardSubtitle": "从 {{txAppName}} 池",
     "claimRewardSubtitle_noTxAppName": "来自未知应用程序",
+    "allTransactionsShown": "您的交易历史已结束。",
+    "fetchErrorRetry": "再试一次",
     "error": {
       "fetchError": "哎呀，在刷新您的信息源时出了点问题。您的交易历史可能暂时不完整。"
     },
