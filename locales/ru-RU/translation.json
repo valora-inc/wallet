@@ -2300,6 +2300,8 @@
     "claimRewardTitle": "Получено",
     "claimRewardSubtitle": "из пула {{txAppName}}",
     "claimRewardSubtitle_noTxAppName": "из неизвестного приложения",
+    "allTransactionsShown": "Ты дошел до конца своей истории транзакций.",
+    "fetchErrorRetry": "Повторить попытку",
     "error": {
       "fetchError": "Упс, возникла проблема с обновлением твоей ленты. Твоя история транзакций может быть пока неполной."
     },
