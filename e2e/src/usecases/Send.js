@@ -140,7 +140,7 @@ export default Send = () => {
       await device.uninstallApp()
       await device.installApp()
       await launchApp({ newInstance: true })
-      await quickOnboarding({ mnemonic: WALLET_SINGLE_VERIFIED_MNEMONIC })
+      await quickOnboarding()
     })
 
     it('Then should navigate to send search input from home action', async () => {
