@@ -83,10 +83,6 @@ export interface StoredTokenBalancesWithAddress {
   [tokenId: string]: StoredTokenBalance | undefined
 }
 
-export interface TokenLoadingAction {
-  showLoading: boolean
-}
-
 export interface TokenBalances {
   [tokenId: string]: TokenBalance | undefined
 }
@@ -102,7 +98,6 @@ export interface TokenBalancesWithAddress {
 
 interface State {
   tokenBalances: StoredTokenBalances
-  loading: boolean
   error: boolean
 }
 
@@ -118,7 +113,6 @@ export function isNativeTokenBalance(tokenInfo: TokenBalance): tokenInfo is Nati
 
 const initialState: State = {
   tokenBalances: {},
-  loading: false,
   error: false,
 }
 
@@ -129,22 +123,14 @@ const slice = createSlice({
     setTokenBalances: (state, action: PayloadAction<StoredTokenBalances>) => ({
       ...state,
       tokenBalances: action.payload,
-      loading: false,
-      error: false,
-    }),
-    fetchTokenBalances: (state, action: PayloadAction<TokenLoadingAction>) => ({
-      ...state,
-      loading: action.payload.showLoading,
       error: false,
     }),
     fetchTokenBalancesSuccess: (state) => ({
       ...state,
-      loading: false,
       error: false,
     }),
     fetchTokenBalancesFailure: (state) => ({
       ...state,
-      loading: false,
       error: true,
     }),
     importToken: (state, action: PayloadAction<StoredTokenBalance>) => {
@@ -174,7 +160,6 @@ const slice = createSlice({
 
 export const {
   setTokenBalances,
-  fetchTokenBalances,
   fetchTokenBalancesSuccess,
   fetchTokenBalancesFailure,
   importToken,
