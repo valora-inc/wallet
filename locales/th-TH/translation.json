@@ -1456,14 +1456,15 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "สำรวจ",
-    "exploreDapps": "สำรวจ Dapp",
-    "exploreAll": "สำรวจทั้งหมด",
+    "exploreDapps": "Dapp",
+    "exploreAll": "ดูทั้งหมด",
     "message": "สำรวจวิธีใช้สินทรัพย์ของคุณ",
     "errorMessage": "มีข้อผิดพลาดขณะโหลด Dapp",
     "featuredDapp": "โดดเด่น",
     "allDapps": "ทั้งหมด",
     "favoriteDapps": "สิ่งที่ฉันชอบ",
     "mostPopularDapps": "ยอดนิยม",
+    "mostPopularDapps_UK": "Other Dapps",
     "favoriteDappsAndAll": "รายการโปรดของฉันและทั้งหมด",
     "searchPlaceHolder": "ค้นหา Dapp",
     "noFavorites": {
@@ -1479,7 +1480,8 @@
       "message": "ใช้ตัวกรอง <0>{{filter}}</0> แล้ว",
       "removeFilter": "ลบตัวกรอง",
       "searchMessage": "ไม่พบผลลัพธ์ที่ตรงกันสำหรับ <0>\"{{searchTerm}}\"</0>"
-    }
+    },
+    "disclaimer_UK": "This is a list of third-party Dapps. The description for each Dapp is purely informational, and not an invitation to use them."
   },
   "dappRankings": {
     "title": "อันดับ Dapp",
@@ -2292,9 +2294,12 @@
     "claimRewardTitle": "เก็บแล้ว",
     "claimRewardSubtitle": "จากพูล {{txAppName}}",
     "claimRewardSubtitle_noTxAppName": "from unknown app",
+    "allTransactionsShown": "You've reached the end of your transaction history.",
+    "fetchErrorRetry": "ลองอีกครั้ง",
     "error": {
       "fetchError": "Oops, there was an issue refreshing your feed. Your transaction history may be incomplete for now."
-    }
+    },
+    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
   },
   "transactionDetails": {
     "descriptionLabel": "รายละเอียด",

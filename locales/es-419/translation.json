@@ -1458,14 +1458,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Descubre",
-    "exploreDapps": "Explorar dapps",
-    "exploreAll": "Explorar todas",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Ver todo",
     "message": "Explora las distintas formas de usar tus activos",
     "errorMessage": "Hubo un error al cargar las dapps",
     "featuredDapp": "Destacadas",
     "allDapps": "Todas",
     "favoriteDapps": "Mis favoritas",
     "mostPopularDapps": "Populares",
+    "mostPopularDapps_UK": "Otras Dapps",
     "favoriteDappsAndAll": "Mis favoritas y todas",
     "searchPlaceHolder": "Buscar dapps",
     "noFavorites": {
@@ -1481,7 +1482,8 @@
       "message": "Filtro <0>{{filter}}</0> aplicado",
       "removeFilter": "Quitar filtro",
       "searchMessage": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
-    }
+    },
+    "disclaimer_UK": "Esta es una lista de Dapps de terceros. La descripción de cada Dapp es puramente informativa, y no una invitación a utilizarlas."
   },
   "dappRankings": {
     "title": "Ranking de dapps",
@@ -2294,9 +2296,12 @@
     "claimRewardTitle": "Ganancias recibidas",
     "claimRewardSubtitle": "de la pool de {{txAppName}}",
     "claimRewardSubtitle_noTxAppName": "desde pool no identificada",
+    "allTransactionsShown": "Has llegado al final de tu historial de transacciones.",
+    "fetchErrorRetry": "Inténtalo de nuevo",
     "error": {
       "fetchError": "Oops, ha habido un problema al actualizar tu feed. Tu historial de transacciones puede estar incompleto por ahora."
-    }
+    },
+    "noTransactions": "¡Enhorabuena, has creado con éxito un monedero {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Detalles",
