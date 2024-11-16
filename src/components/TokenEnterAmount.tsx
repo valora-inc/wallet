@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
   Platform,
@@ -36,7 +36,7 @@ import { parseInputAmount } from 'src/utils/parsing'
 export const APPROX_SYMBOL = '≈'
 
 const BORDER_RADIUS = 12
-const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS = 250
+export const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS = 250
 
 function roundTokenAmount(value: string) {
   const { decimalSeparator } = getNumberFormatSettings()
@@ -75,12 +75,6 @@ export function useEnterAmount(props: {
   token: TokenBalance
   feeCurrencies: TokenBalance[]
   onSelectToken?: (token: TokenBalance) => void
-  onClearPreparedTransactions: () => void
-  onRefreshPreparedTransactions: (
-    amount: BigNumber,
-    token: TokenBalance,
-    feeCurrencies: TokenBalance[]
-  ) => void
 }) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   const inputRef = useRef<RNTextInput>(null)
@@ -121,7 +115,6 @@ export function useEnterAmount(props: {
           bignum: parsedLocalAmount,
           readable: roundLocalAmount(convertedTokenToLocal, localCurrencySymbol),
         },
-        valueToRefreshWith: parsedTokenAmount,
       }
     }
 
@@ -156,29 +149,8 @@ export function useEnterAmount(props: {
         bignum: parsedLocalAmount,
         readable: roundLocalAmount(amount, localCurrencySymbol),
       },
-      valueToRefreshWith: localToToken,
     }
   }, [amount, amountType, localCurrencySymbol])
-
-  useEffect(() => {
-    props.onClearPreparedTransactions()
-
-    if (
-      !derived.valueToRefreshWith ||
-      derived.valueToRefreshWith.isLessThanOrEqualTo(0) ||
-      derived.valueToRefreshWith.isGreaterThan(props.token.balance)
-    ) {
-      return
-    }
-    const debouncedRefreshTransactions = setTimeout(() => {
-      return props.onRefreshPreparedTransactions(
-        derived.valueToRefreshWith!,
-        props.token,
-        props.feeCurrencies
-      )
-    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
-    return () => clearTimeout(debouncedRefreshTransactions)
-  }, [derived.valueToRefreshWith, props.token])
 
   function onOpenTokenPicker() {
     bottomSheetRef.current?.snapToIndex(0)

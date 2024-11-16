@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React, { ComponentType, useState } from 'react'
+import React, { ComponentType, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
@@ -13,7 +13,10 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
-import TokenEnterAmount, { useEnterAmount } from 'src/components/TokenEnterAmount'
+import TokenEnterAmount, {
+  FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS,
+  useEnterAmount,
+} from 'src/components/TokenEnterAmount'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { useSelector } from 'src/redux/hooks'
@@ -94,8 +97,6 @@ interface Props {
   disableBalanceCheck?: boolean
 }
 
-const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
-
 export const SendProceed = ({
   tokenAmount,
   localAmount,
@@ -155,11 +156,7 @@ function EnterAmount({
   } = useEnterAmount({
     token,
     feeCurrencies,
-    onClearPreparedTransactions,
-    onRefreshPreparedTransactions,
-    onSelectToken: (token) => {
-      setToken(token)
-    },
+    onSelectToken: (token) => setToken(token),
   })
 
   // @ts-ignore - the max button will be restored in the next PR
@@ -197,7 +194,23 @@ function EnterAmount({
 
   const disabled =
     disableProceed ||
-    (disableBalanceCheck ? !!derived.valueToRefreshWith?.isZero() : !transactionIsPossible)
+    (disableBalanceCheck ? !!derived.token.bignum?.isZero() : !transactionIsPossible)
+
+  useEffect(() => {
+    onClearPreparedTransactions()
+
+    if (
+      !derived.token.bignum ||
+      derived.token.bignum.isLessThanOrEqualTo(0) ||
+      derived.token.bignum.isGreaterThan(token.balance)
+    ) {
+      return
+    }
+    const debouncedRefreshTransactions = setTimeout(() => {
+      return onRefreshPreparedTransactions(derived.token.bignum!, token, feeCurrencies)
+    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
+    return () => clearTimeout(debouncedRefreshTransactions)
+  }, [derived.token.bignum, props.token])
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>

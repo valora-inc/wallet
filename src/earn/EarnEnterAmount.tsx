@@ -2,11 +2,10 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TextInput as RNTextInput, StyleSheet, Text, View } from 'react-native'
-import { getNumberFormatSettings } from 'react-native-localize'
+import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import { EarnEvents, SendEvents } from 'src/analytics/Events'
+import { EarnEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -17,32 +16,28 @@ import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import RowDivider from 'src/components/RowDivider'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
-import TokenEnterAmount from 'src/components/TokenEnterAmount'
+import TokenEnterAmount, { useEnterAmount } from 'src/components/TokenEnterAmount'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
-import { LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions/selectors'
 import { EarnPosition, Position } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
-import { AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { SwapTransaction } from 'src/swap/types'
-import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector, swappableFromTokensByNetworkIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import { parseInputAmount } from 'src/utils/parsing'
 import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
@@ -111,49 +106,13 @@ function EarnEnterAmount({ route }: Props) {
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const swapDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const tokenAmountInputRef = useRef<RNTextInput>(null)
-  const localAmountInputRef = useRef<RNTextInput>(null)
 
-  const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
-  const [localAmountInput, setLocalAmountInput] = useState<string>('')
   const [maxPressed, setMaxPressed] = useState(false)
-  const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
-  // this should never be null, just adding a default to make TS happy
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
-
-  const onTokenPickerSelect = () => {
-    tokenBottomSheetRef.current?.snapToIndex(0)
-    AppAnalytics.track(SendEvents.token_dropdown_opened, {
-      currentTokenId: inputToken.tokenId,
-      currentTokenAddress: inputToken.address,
-      currentNetworkId: inputToken.networkId,
-    })
-  }
-
-  const handleToggleAmountType = () => {
-    setEnteredIn((prev) => (prev === 'token' ? 'local' : 'token'))
-    if (enteredIn === 'token' && localAmountInput) {
-      setLocalAmountInput(
-        parseInputAmount(localAmountInput, decimalSeparator)
-          .toFixed(2)
-          .replaceAll('.', decimalSeparator)
-      )
-    }
-
-    tokenAmountInputRef.current?.blur()
-  }
-
-  const onSelectToken = (token: TokenBalance) => {
-    setInputToken(token)
-    tokenBottomSheetRef.current?.close()
-
-    setTokenAmountInput('')
-    setLocalAmountInput('')
-    setEnteredIn((prev) => (token.priceUsd ? prev : 'token'))
-    // NOTE: analytics is already fired by the bottom sheet, don't need one here
-  }
+  const walletAddress = useSelector(walletAddressSelector)
+  const feeCurrencies = useSelector((state) =>
+    feeCurrenciesSelector(state, transactionToken.networkId)
+  )
 
   const {
     prepareTransactionsResult: { prepareTransactionsResult, swapTransaction } = {},
@@ -163,7 +122,42 @@ function EarnEnterAmount({ route }: Props) {
     isPreparingTransactions,
   } = usePrepareEnterAmountTransactionsCallback(mode)
 
-  const walletAddress = useSelector(walletAddressSelector)
+  const {
+    amount,
+    amountType,
+    derived,
+    inputRef,
+    bottomSheetRef,
+    handleAmountInputChange,
+    handleToggleAmountType,
+    onOpenTokenPicker,
+    onSelectToken,
+  } = useEnterAmount({
+    token: inputToken,
+    feeCurrencies,
+    onSelectToken: (token) => setInputToken(token),
+  })
+
+  // This is for withdrawals as we want the user to be able to input the amounts in the deposit token
+  const { transactionToken, transactionTokenAmount } = useMemo(() => {
+    const transactionToken = isWithdrawal ? withdrawToken : inputToken
+    const transactionTokenAmount = isWithdrawal
+      ? derived.token.bignum && derived.token.bignum.dividedBy(pool.pricePerShare[0])
+      : derived.token.bignum
+
+    return {
+      transactionToken,
+      transactionTokenAmount,
+    }
+  }, [inputToken, withdrawToken, derived.token.bignum, isWithdrawal, pool])
+
+  const balanceInInputToken = useMemo(
+    () =>
+      isWithdrawal
+        ? transactionToken.balance.multipliedBy(pool.pricePerShare[0])
+        : transactionToken.balance,
+    [transactionToken, isWithdrawal, pool]
+  )
 
   const handleRefreshPreparedTransactions = (
     amount: BigNumber,
@@ -177,7 +171,7 @@ function EarnEnterAmount({ route }: Props) {
 
     return refreshPreparedTransactions({
       amount: amount.toString(),
-      token,
+      token: inputToken,
       walletAddress,
       feeCurrencies,
       pool,
@@ -187,91 +181,14 @@ function EarnEnterAmount({ route }: Props) {
     })
   }
 
-  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
-  // only allow numbers, one decimal separator, and any number of decimal places
-  const localAmountRegex = new RegExp(
-    `^(\\d+([${decimalSeparator}])?\\d{0,2}|[${decimalSeparator}]\\d{0,2}|[${decimalSeparator}])$`
-  )
-  // only allow numbers, one decimal separator
-  const tokenAmountRegex = new RegExp(
-    `^(?:\\d+[${decimalSeparator}]?\\d{0,${inputToken.decimals}}|[${decimalSeparator}]\\d{0,${inputToken.decimals}}|[${decimalSeparator}])$`
-  )
-  const parsedTokenAmount = useMemo(
-    () => parseInputAmount(tokenAmountInput, decimalSeparator),
-    [tokenAmountInput]
-  )
-  const parsedLocalAmount = useMemo(
-    () =>
-      parseInputAmount(
-        localAmountInput.replaceAll(groupingSeparator, '').replace(localCurrencySymbol, ''),
-        decimalSeparator
-      ),
-    [localAmountInput]
-  )
-
-  const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, inputToken.tokenId)
-  const localToToken = useLocalToTokenAmount(parsedLocalAmount, inputToken.tokenId)
-
-  const { tokenAmount } = useMemo(() => {
-    if (enteredIn === 'token') {
-      setLocalAmountInput(
-        tokenToLocal && tokenToLocal.gt(0)
-          ? tokenToLocal.toString().replaceAll('.', decimalSeparator)
-          : ''
-      )
-      return {
-        tokenAmount: parsedTokenAmount,
-        localAmount: tokenToLocal,
-      }
-    } else {
-      setTokenAmountInput(
-        localToToken && localToToken.gt(0)
-          ? // no group separator for token amount, round to token.decimals and strip trailing zeros
-            localToToken
-              .toFormat(inputToken.decimals, { decimalSeparator })
-              .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
-          : ''
-      )
-      return {
-        tokenAmount: localToToken,
-        localAmount: parsedLocalAmount,
-      }
-    }
-  }, [tokenAmountInput, localAmountInput, enteredIn, inputToken])
-
-  // This is for withdrawals as we want the user to be able to input the amounts in the deposit token
-  const { transactionToken, transactionTokenAmount } = useMemo(() => {
-    const transactionToken = isWithdrawal ? withdrawToken : inputToken
-    const transactionTokenAmount = isWithdrawal
-      ? tokenAmount && tokenAmount.dividedBy(pool.pricePerShare[0])
-      : tokenAmount
-
-    return {
-      transactionToken,
-      transactionTokenAmount,
-    }
-  }, [inputToken, withdrawToken, tokenAmount, isWithdrawal, pool])
-
-  const balanceInInputToken = useMemo(
-    () =>
-      isWithdrawal
-        ? transactionToken.balance.multipliedBy(pool.pricePerShare[0])
-        : transactionToken.balance,
-    [transactionToken, isWithdrawal, pool]
-  )
-
-  const feeCurrencies = useSelector((state) =>
-    feeCurrenciesSelector(state, transactionToken.networkId)
-  )
-
   useEffect(() => {
     clearPreparedTransactions()
 
     if (
-      !tokenAmount ||
+      !derived.token.bignum ||
       !transactionTokenAmount ||
-      tokenAmount.isLessThanOrEqualTo(0) ||
-      tokenAmount.isGreaterThan(balanceInInputToken)
+      derived.token.bignum.isLessThanOrEqualTo(0) ||
+      derived.token.bignum.isGreaterThan(balanceInInputToken)
     ) {
       return
     }
@@ -283,12 +200,13 @@ function EarnEnterAmount({ route }: Props) {
       )
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [tokenAmount, mode, transactionToken, feeCurrencies])
+  }, [derived.token.bignum, mode, transactionToken, feeCurrencies])
 
   const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
-  const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(balanceInInputToken)
+  const isAmountLessThanBalance =
+    derived.token.bignum && derived.token.bignum.lte(balanceInInputToken)
   const showNotEnoughBalanceForGasWarning =
     isAmountLessThanBalance &&
     prepareTransactionsResult &&
@@ -311,101 +229,57 @@ function EarnEnterAmount({ route }: Props) {
 
   const disabled =
     // Should disable if the user enters 0, has enough balance but the transaction is not possible, or does not have enough balance
-    !!tokenAmount?.isZero() || !transactionIsPossible
-
-  const handleAmountInputChange = (value: string) => {
-    if (enteredIn === 'token') {
-      onTokenAmountInputChange(value)
-    } else {
-      onLocalAmountInputChange(value)
-    }
-  }
-
-  const onTokenAmountInputChange = (value: string) => {
-    setMaxPressed(false)
-    if (!value) {
-      setTokenAmountInput('')
-      setEnteredIn('token')
-    } else {
-      if (value.startsWith(decimalSeparator)) {
-        value = `0${value}`
-      }
-      if (value.match(tokenAmountRegex)) {
-        setTokenAmountInput(value)
-        setEnteredIn('token')
-      }
-    }
-  }
-
-  const onLocalAmountInputChange = (value: string) => {
-    setMaxPressed(false)
-    // remove grouping separators
-    value = value.replaceAll(groupingSeparator, '')
-    if (!value) {
-      setLocalAmountInput('')
-      setEnteredIn('local')
-    } else {
-      if (value.startsWith(decimalSeparator)) {
-        value = `0${value}`
-      }
-      if (value.match(localAmountRegex)) {
-        // add back currency symbol and grouping separators
-        const [integerPart, decimalPart] = value.split(decimalSeparator)
-        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
-        setLocalAmountInput(
-          `${formattedInteger}${decimalPart !== undefined ? `${decimalSeparator}${decimalPart}` : ''}`
-        )
-        setEnteredIn('local')
-      }
-    }
-  }
+    !!derived.token.bignum?.isZero() || !transactionIsPossible
 
   // @ts-ignore - the max button will be restored in the next PR
-  const onMaxAmountPress = async () => {
-    // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
-    // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
-    // if there is not enough for gas
-    setTokenAmountInput(balanceInInputToken.toFormat({ decimalSeparator }))
-    setEnteredIn('token')
-    setMaxPressed(true)
-    tokenAmountInputRef.current?.blur()
-    localAmountInputRef.current?.blur()
-    AppAnalytics.track(SendEvents.max_pressed, {
-      tokenId: inputToken.tokenId,
-      tokenAddress: inputToken.address,
-      networkId: inputToken.networkId,
-      mode,
-    })
-  }
+  // const onMaxAmountPress = async () => {
+  //   // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
+  //   // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
+  //   // if there is not enough for gas
+  //   setTokenAmountInput(balanceInInputToken.toFormat({ decimalSeparator }))
+  //   setEnteredIn('token')
+  //   setMaxPressed(true)
+  //   tokenAmountInputRef.current?.blur()
+  //   localAmountInputRef.current?.blur()
+  //   AppAnalytics.track(SendEvents.max_pressed, {
+  //     tokenId: inputToken.tokenId,
+  //     tokenAddress: inputToken.address,
+  //     networkId: inputToken.networkId,
+  //     mode,
+  //   })
+  // }
 
   const onPressContinue = () => {
-    if (!tokenAmount || !transactionToken) {
+    if (!derived.token.bignum || !transactionToken) {
       // should never happen
       return
     }
     AppAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
       // TokenAmount is always deposit token
-      amountInUsd: tokenAmount.multipliedBy(inputToken.priceUsd ?? 0).toFixed(2),
-      amountEnteredIn: enteredIn,
+      amountInUsd: derived.token.bignum.multipliedBy(inputToken.priceUsd ?? 0).toFixed(2),
+      amountEnteredIn: amountType,
       depositTokenId: pool.dataProps.depositTokenId,
       networkId: inputToken.networkId,
       providerId: pool.appId,
       poolId: pool.positionId,
       fromTokenId: inputToken.tokenId,
-      fromTokenAmount: tokenAmount.toString(),
+      fromTokenAmount: derived.token.bignum.toString(),
       mode,
       depositTokenAmount: isWithdrawal
         ? undefined
         : swapTransaction
-          ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: tokenAmount }).toString()
-          : tokenAmount.toString(),
+          ? getSwapToAmountInDecimals({
+              swapTransaction,
+              fromAmount: derived.token.bignum,
+            }).toString()
+          : derived.token.bignum.toString(),
     })
 
     if (isWithdrawal) {
       navigate(Screens.EarnConfirmationScreen, {
         pool,
         mode,
-        inputAmount: tokenAmount.toString(),
+        inputAmount: derived.token.bignum.toString(),
         useMax: maxPressed,
       })
     } else {
@@ -429,26 +303,27 @@ function EarnEnterAmount({ route }: Props) {
             autoFocus
             testID="EarnEnterAmount"
             token={inputToken}
-            inputRef={tokenAmountInputRef}
-            tokenValue={tokenAmountInput}
-            localAmountValue={localAmountInput}
+            inputValue={amount}
+            inputRef={inputRef}
+            tokenAmount={derived.token.readable}
+            localAmount={derived.local.readable}
             onInputChange={handleAmountInputChange}
-            amountType={enteredIn}
+            amountType={amountType}
             toggleAmountType={handleToggleAmountType}
-            onTokenPickerSelect={dropdownEnabled ? onTokenPickerSelect : undefined}
+            onOpenTokenPicker={dropdownEnabled ? onOpenTokenPicker : undefined}
           />
-          {tokenAmount && prepareTransactionsResult && !isWithdrawal && (
+          {derived.token.bignum && prepareTransactionsResult && !isWithdrawal && (
             <TransactionDepositDetails
               pool={pool}
               token={inputToken}
-              tokenAmount={tokenAmount}
+              tokenAmount={derived.token.bignum}
               prepareTransactionsResult={prepareTransactionsResult}
               feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
               swapDetailsBottomSheetRef={swapDetailsBottomSheetRef}
               swapTransaction={swapTransaction}
             />
           )}
-          {tokenAmount && isWithdrawal && (
+          {derived.token.bignum && isWithdrawal && (
             <TransactionWithdrawDetails
               pool={pool}
               token={transactionToken}
@@ -535,7 +410,7 @@ function EarnEnterAmount({ route }: Props) {
         />
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
-      {tokenAmount && (
+      {derived.token.bignum && (
         <FeeDetailsBottomSheet
           forwardedRef={feeDetailsBottomSheetRef}
           testID="FeeDetailsBottomSheet"
@@ -545,26 +420,26 @@ function EarnEnterAmount({ route }: Props) {
           swapTransaction={swapTransaction}
           pool={pool}
           token={inputToken}
-          tokenAmount={tokenAmount}
+          tokenAmount={derived.token.bignum}
           isWithdrawal={isWithdrawal}
         />
       )}
-      {swapTransaction && tokenAmount && (
+      {swapTransaction && derived.token.bignum && (
         <SwapDetailsBottomSheet
           forwardedRef={swapDetailsBottomSheetRef}
           testID="SwapDetailsBottomSheet"
           swapTransaction={swapTransaction}
           token={inputToken}
           pool={pool}
-          tokenAmount={tokenAmount}
-          parsedTokenAmount={parsedTokenAmount}
+          tokenAmount={derived.token.bignum}
+          parsedTokenAmount={derived.token.bignum}
         />
       )}
-      {tokenAmount && prepareTransactionsResult?.type === 'possible' && (
+      {derived.token.bignum && prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
-          inputAmount={tokenAmount}
+          inputAmount={derived.token.bignum}
           pool={pool}
           mode={mode}
           swapTransaction={swapTransaction}
@@ -572,7 +447,7 @@ function EarnEnterAmount({ route }: Props) {
         />
       )}
       <TokenBottomSheet
-        forwardedRef={tokenBottomSheetRef}
+        forwardedRef={bottomSheetRef}
         origin={TokenPickerOrigin.Earn}
         onTokenSelected={onSelectToken}
         tokens={availableInputTokens}
