@@ -1,14 +1,11 @@
 import BigNumber from 'bignumber.js'
-import React, { ComponentType, useEffect, useMemo, useRef, useState } from 'react'
+import React, { ComponentType, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
@@ -16,46 +13,51 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
-import TokenEnterAmount from 'src/components/TokenEnterAmount'
+import TokenEnterAmount, { useEnterAmount } from 'src/components/TokenEnterAmount'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { AmountEnteredIn } from 'src/send/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { convertLocalToTokenAmount, convertTokenToLocalAmount, groupNumber } from 'src/tokens/utils'
+import { groupNumber } from 'src/tokens/utils'
 import { parseInputAmount } from 'src/utils/parsing'
 import { PreparedTransactionsResult, getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 
-function roundTokenAmount(value: BigNumber) {
+function roundTokenAmount(value: string) {
   const { decimalSeparator } = getNumberFormatSettings()
-  if (value.valueOf() === '') {
-    return new BigNumber(0).toFormat(2)
+  if (value === '') {
+    return ''
   }
 
-  return value.decimalPlaces(6).toString().replaceAll('.', decimalSeparator)
+  const bigNum = parseInputAmount(value, decimalSeparator)
+
+  if (bigNum.isLessThan(0.000001)) {
+    return `<0${decimalSeparator}000001`
+  }
+
+  const grouped = groupNumber(bigNum.decimalPlaces(6).toString()).replaceAll('.', decimalSeparator)
+  return grouped
 }
 
-function roundLocalAmount(bigNum: BigNumber, localCurrencySymbol: LocalCurrencySymbol) {
+function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbol) {
   const { decimalSeparator } = getNumberFormatSettings()
-  if (bigNum.valueOf() === '') {
-    return `${localCurrencySymbol}${new BigNumber(0).toFormat(2).replaceAll('.', decimalSeparator)}`
+  if (value === '') {
+    return ''
   }
+
+  const bigNum = parseInputAmount(value, decimalSeparator)
 
   if (bigNum.isLessThan(0.000001)) {
     return `<${localCurrencySymbol}0${decimalSeparator}000001`
   }
 
   const rounded = bigNum.isLessThan(0.01) ? bigNum.toPrecision(1) : bigNum.toFixed(2)
-  const formatted = rounded.toString().replaceAll('.', decimalSeparator)
-  const grouped = groupNumber(formatted)
-
-  return `${localCurrencySymbol}${bigNum.isLessThan(0.1) ? formatted : grouped}`
+  const grouped = groupNumber(rounded.toString()).replaceAll('.', decimalSeparator)
+  return `${localCurrencySymbol}${grouped}`
 }
 
 export interface ProceedArgs {
@@ -135,145 +137,46 @@ function EnterAmount({
   disableBalanceCheck = false,
 }: Props) {
   const { t } = useTranslation()
-  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
-  const tokenAmountInputRef = useRef<RNTextInput>(null)
-  const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-
-  const [amount, setAmount] = useState('')
-  const [amountType, setAmountType] = useState<AmountEnteredIn>('token')
-
   const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
-
-  // this should never be null, just adding a default to make TS happy
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
-  const tokenInfo = useTokenInfo(token.tokenId)
-  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
-
-  const derived = useMemo(() => {
-    if (amountType === 'token') {
-      const parsedTokenAmount = parseInputAmount(amount, decimalSeparator)
-      const tokenToLocal = convertTokenToLocalAmount({
-        tokenAmount: parsedTokenAmount,
-        tokenInfo,
-        usdToLocalRate,
-      })
-      const convertedTokenToLocal =
-        tokenToLocal && tokenToLocal.gt(0)
-          ? tokenToLocal.toString().replaceAll('.', decimalSeparator)
-          : ''
-      const parsedLocalAmount = parseInputAmount(
-        convertedTokenToLocal.replaceAll(groupingSeparator, ''),
-        decimalSeparator
-      )
-
-      return {
-        token: {
-          amount: amount,
-          bignum: parsedTokenAmount,
-          readable: roundTokenAmount(parsedTokenAmount),
-        },
-        local: {
-          amount: convertedTokenToLocal,
-          bignum: parsedLocalAmount,
-          readable: roundLocalAmount(parsedLocalAmount, localCurrencySymbol),
-        },
-        valueToRefreshWith: parsedTokenAmount,
-      }
-    }
-
-    const parsedLocalAmount = parseInputAmount(
-      amount.replaceAll(groupingSeparator, ''),
-      decimalSeparator
-    )
-
-    const localToToken = convertLocalToTokenAmount({
-      localAmount: parsedLocalAmount,
-      tokenInfo,
-      usdToLocalRate,
-    })
-    const convertedLocalToToken =
-      localToToken && localToToken.gt(0)
-        ? // no group separator for token amount, round to token.decimals and strip trailing zeros
-          localToToken
-            .toFormat(token.decimals, { decimalSeparator })
-            .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
-        : ''
-
-    const parsedTokenAmount = parseInputAmount(convertedLocalToToken, decimalSeparator)
-
-    return {
-      token: {
-        amount: convertedLocalToToken,
-        bignum: parsedTokenAmount,
-        readable: roundTokenAmount(parsedTokenAmount),
-      },
-      local: {
-        amount: amount,
-        bignum: parsedLocalAmount,
-        readable: roundLocalAmount(parsedLocalAmount, localCurrencySymbol),
-      },
-      valueToRefreshWith: localToToken,
-    }
-  }, [amount, amountType, localCurrencySymbol])
-
-  const onTokenPickerSelect = () => {
-    tokenBottomSheetRef.current?.snapToIndex(0)
-    AppAnalytics.track(SendEvents.token_dropdown_opened, {
-      currentTokenId: token.tokenId,
-      currentTokenAddress: token.address,
-      currentNetworkId: token.networkId,
-    })
-  }
-
-  const handleToggleAmountType = () => {
-    setAmountType((prev) => (prev === 'local' ? 'token' : 'local'))
-
-    tokenAmountInputRef.current?.blur()
-  }
-
-  const onSelectToken = (token: TokenBalance) => {
-    setToken(token)
-    tokenBottomSheetRef.current?.close()
-
-    handleAmountInputChange('')
-    // NOTE: analytics is already fired by the bottom sheet, don't need one here
-  }
-
-  // @ts-ignore - the max button will be restored in the next PR
-  const onMaxAmountPress = async () => {
-    // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
-    // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
-    // if there is not enough for gas
-    setAmount(token.balance.toFormat({ decimalSeparator }))
-    setAmountType('token')
-
-    tokenAmountInputRef.current?.blur()
-    AppAnalytics.track(SendEvents.max_pressed, {
-      tokenId: token.tokenId,
-      tokenAddress: token.address,
-      networkId: token.networkId,
-    })
-  }
-
-  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
+  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
   const { tokenId: feeTokenId } = feeCurrency ?? feeCurrencies[0]
 
-  useEffect(() => {
-    onClearPreparedTransactions()
+  const {
+    amount,
+    amountType,
+    derived,
+    inputRef,
+    bottomSheetRef,
+    handleAmountInputChange,
+    handleToggleAmountType,
+    onOpenTokenPicker,
+    onSelectToken,
+  } = useEnterAmount({
+    token,
+    feeCurrencies,
+    onClearPreparedTransactions,
+    onRefreshPreparedTransactions,
+    onSelectToken: (token) => {
+      setToken(token)
+    },
+  })
 
-    if (
-      !derived.valueToRefreshWith ||
-      derived.valueToRefreshWith.isLessThanOrEqualTo(0) ||
-      derived.valueToRefreshWith.isGreaterThan(token.balance)
-    ) {
-      return
-    }
-    const debouncedRefreshTransactions = setTimeout(() => {
-      return onRefreshPreparedTransactions(derived.valueToRefreshWith!, token, feeCurrencies)
-    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
-    return () => clearTimeout(debouncedRefreshTransactions)
-  }, [derived.valueToRefreshWith, token])
+  // @ts-ignore - the max button will be restored in the next PR
+  // const onMaxAmountPress = async () => {
+  //   // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
+  //   // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
+  //   // if there is not enough for gas
+  //   setAmount(token.balance.toFormat({ decimalSeparator }))
+  //   setAmountType('token')
+
+  //   tokenAmountInputRef.current?.blur()
+  //   AppAnalytics.track(SendEvents.max_pressed, {
+  //     tokenId: token.tokenId,
+  //     tokenAddress: token.address,
+  //     networkId: token.networkId,
+  //   })
+  // }
 
   const isAmountLessThanBalance =
     derived.valueToRefreshWith && derived.valueToRefreshWith.lte(token.balance)
@@ -296,37 +199,6 @@ function EnterAmount({
     disableProceed ||
     (disableBalanceCheck ? !!derived.valueToRefreshWith?.isZero() : !transactionIsPossible)
 
-  const handleAmountInputChange = (val: string) => {
-    let value = val.replaceAll(groupingSeparator, '')
-
-    if (!value) {
-      setAmount('')
-      return
-    }
-
-    if (value.startsWith(decimalSeparator)) {
-      value = `0${value}`
-    }
-
-    // only allow numbers, one decimal separator and amount of decimals equal to token.decimals
-    const tokenAmountRegex = new RegExp(
-      `^(?:\\d+[${decimalSeparator}]?\\d{0,${token.decimals}}|[${decimalSeparator}]\\d{0,${token.decimals}}|[${decimalSeparator}])$`
-    )
-
-    // only allow numbers, one decimal separator and 2 decimals
-    const localAmountRegex = new RegExp(
-      `^(\\d+([${decimalSeparator}])?\\d{0,2}|[${decimalSeparator}]\\d{0,2}|[${decimalSeparator}])$`
-    )
-
-    if (
-      (amountType === 'token' && value.match(tokenAmountRegex)) ||
-      (amountType === 'local' && value.match(localAmountRegex))
-    ) {
-      setAmount(value)
-      return
-    }
-  }
-
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
@@ -337,13 +209,14 @@ function EnterAmount({
             autoFocus
             testID="SendEnterAmount"
             token={token}
-            inputRef={tokenAmountInputRef}
-            tokenAmount={derived.token.amount}
-            localAmount={derived.local.amount}
+            inputValue={amount}
+            inputRef={inputRef}
+            tokenAmount={derived.token.readable}
+            localAmount={derived.local.readable}
             onInputChange={handleAmountInputChange}
             amountType={amountType}
             toggleAmountType={handleToggleAmountType}
-            onTokenPickerSelect={tokenSelectionDisabled ? undefined : onTokenPickerSelect}
+            onOpenTokenPicker={tokenSelectionDisabled ? undefined : onOpenTokenPicker}
           />
 
           {!!maxFeeAmount && (
@@ -436,7 +309,7 @@ function EnterAmount({
         <KeyboardSpacer />
       </KeyboardAwareScrollView>
       <TokenBottomSheet
-        forwardedRef={tokenBottomSheetRef}
+        forwardedRef={bottomSheetRef}
         snapPoints={['90%']}
         origin={TokenPickerOrigin.Send}
         onTokenSelected={onSelectToken}

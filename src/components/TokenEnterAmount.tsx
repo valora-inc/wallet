@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react'
+import BigNumber from 'bignumber.js'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
   Platform,
@@ -9,6 +10,10 @@ import {
   TextStyle,
   View,
 } from 'react-native'
+import { getNumberFormatSettings } from 'react-native-localize'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SendEvents } from 'src/analytics/Events'
+import { type BottomSheetModalRefType } from 'src/components/BottomSheet'
 import TextInput from 'src/components/TextInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -16,21 +21,241 @@ import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import SwapArrows from 'src/icons/SwapArrows'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
-import { AmountEnteredIn } from 'src/send/types'
+import { type AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/slice'
+import { useTokenInfo } from 'src/tokens/hooks'
+import { type TokenBalance } from 'src/tokens/slice'
+import { convertLocalToTokenAmount, convertTokenToLocalAmount, groupNumber } from 'src/tokens/utils'
+import { parseInputAmount } from 'src/utils/parsing'
 
 export const APPROX_SYMBOL = '≈'
 
 const BORDER_RADIUS = 12
+const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS = 250
+
+function roundTokenAmount(value: string) {
+  const { decimalSeparator } = getNumberFormatSettings()
+  if (value === '') {
+    return ''
+  }
+
+  const bigNum = parseInputAmount(value, decimalSeparator)
+
+  if (bigNum.isLessThan(0.000001)) {
+    return `<0${decimalSeparator}000001`
+  }
+
+  const grouped = groupNumber(bigNum.decimalPlaces(6).toString()).replaceAll('.', decimalSeparator)
+  return grouped
+}
+
+function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbol) {
+  const { decimalSeparator } = getNumberFormatSettings()
+  if (value === '') {
+    return ''
+  }
+
+  const bigNum = parseInputAmount(value, decimalSeparator)
+
+  if (bigNum.isLessThan(0.000001)) {
+    return `<${localCurrencySymbol}0${decimalSeparator}000001`
+  }
+
+  const rounded = bigNum.isLessThan(0.01) ? bigNum.toPrecision(1) : bigNum.toFixed(2)
+  const grouped = groupNumber(rounded.toString()).replaceAll('.', decimalSeparator)
+  return `${localCurrencySymbol}${grouped}`
+}
+
+export function useEnterAmount(props: {
+  token: TokenBalance
+  feeCurrencies: TokenBalance[]
+  onSelectToken?: (token: TokenBalance) => void
+  onClearPreparedTransactions: () => void
+  onRefreshPreparedTransactions: (
+    amount: BigNumber,
+    token: TokenBalance,
+    feeCurrencies: TokenBalance[]
+  ) => void
+}) {
+  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+  const inputRef = useRef<RNTextInput>(null)
+  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const [amount, setAmount] = useState('')
+  const [amountType, setAmountType] = useState<AmountEnteredIn>('token')
+
+  // this should never be null, just adding a default to make TS happy
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
+  const tokenInfo = useTokenInfo(props.token.tokenId)
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
+
+  const derived = useMemo(() => {
+    if (amountType === 'token') {
+      const parsedTokenAmount = parseInputAmount(amount, decimalSeparator)
+      const tokenToLocal = convertTokenToLocalAmount({
+        tokenAmount: parsedTokenAmount,
+        tokenInfo,
+        usdToLocalRate,
+      })
+      const convertedTokenToLocal =
+        tokenToLocal && tokenToLocal.gt(0)
+          ? tokenToLocal.toString().replaceAll('.', decimalSeparator)
+          : ''
+      const parsedLocalAmount = parseInputAmount(
+        convertedTokenToLocal.replaceAll(groupingSeparator, ''),
+        decimalSeparator
+      )
+
+      return {
+        token: {
+          amount: amount,
+          bignum: parsedTokenAmount,
+          readable: roundTokenAmount(amount),
+        },
+        local: {
+          amount: convertedTokenToLocal,
+          bignum: parsedLocalAmount,
+          readable: roundLocalAmount(convertedTokenToLocal, localCurrencySymbol),
+        },
+        valueToRefreshWith: parsedTokenAmount,
+      }
+    }
+
+    const parsedLocalAmount = parseInputAmount(
+      amount.replaceAll(groupingSeparator, ''),
+      decimalSeparator
+    )
+
+    const localToToken = convertLocalToTokenAmount({
+      localAmount: parsedLocalAmount,
+      tokenInfo,
+      usdToLocalRate,
+    })
+    const convertedLocalToToken =
+      localToToken && localToToken.gt(0)
+        ? // no group separator for token amount, round to token.decimals and strip trailing zeros
+          localToToken
+            .toFormat(props.token.decimals, { decimalSeparator })
+            .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
+        : ''
+
+    const parsedTokenAmount = parseInputAmount(convertedLocalToToken, decimalSeparator)
+
+    return {
+      token: {
+        amount: convertedLocalToToken,
+        bignum: parsedTokenAmount,
+        readable: roundTokenAmount(convertedLocalToToken),
+      },
+      local: {
+        amount: amount,
+        bignum: parsedLocalAmount,
+        readable: roundLocalAmount(amount, localCurrencySymbol),
+      },
+      valueToRefreshWith: localToToken,
+    }
+  }, [amount, amountType, localCurrencySymbol])
+
+  useEffect(() => {
+    props.onClearPreparedTransactions()
+
+    if (
+      !derived.valueToRefreshWith ||
+      derived.valueToRefreshWith.isLessThanOrEqualTo(0) ||
+      derived.valueToRefreshWith.isGreaterThan(props.token.balance)
+    ) {
+      return
+    }
+    const debouncedRefreshTransactions = setTimeout(() => {
+      return props.onRefreshPreparedTransactions(
+        derived.valueToRefreshWith!,
+        props.token,
+        props.feeCurrencies
+      )
+    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
+    return () => clearTimeout(debouncedRefreshTransactions)
+  }, [derived.valueToRefreshWith, props.token])
+
+  function onOpenTokenPicker() {
+    bottomSheetRef.current?.snapToIndex(0)
+    AppAnalytics.track(SendEvents.token_dropdown_opened, {
+      currentTokenId: props.token.tokenId,
+      currentTokenAddress: props.token.address,
+      currentNetworkId: props.token.networkId,
+    })
+  }
+
+  function handleToggleAmountType() {
+    setAmountType((prev) => (prev === 'local' ? 'token' : 'local'))
+
+    setAmount(
+      amountType === 'token'
+        ? derived.local.amount
+          ? derived.local.bignum.toFixed(2).replaceAll('.', decimalSeparator)
+          : ''
+        : derived.token.amount
+    )
+    inputRef.current?.blur()
+  }
+
+  function onSelectToken(token: TokenBalance) {
+    props.onSelectToken?.(token)
+    bottomSheetRef.current?.close()
+    handleAmountInputChange('')
+  }
+
+  function handleAmountInputChange(val: string) {
+    let value = val.replaceAll(groupingSeparator, '')
+
+    if (!value) {
+      setAmount('')
+      return
+    }
+
+    if (value.startsWith(decimalSeparator)) {
+      value = `0${value}`
+    }
+
+    // only allow numbers, one decimal separator and amount of decimals equal to token.decimals
+    const tokenAmountRegex = new RegExp(
+      `^(?:\\d+[${decimalSeparator}]?\\d{0,${props.token.decimals}}|[${decimalSeparator}]\\d{0,${props.token.decimals}}|[${decimalSeparator}])$`
+    )
+
+    // only allow numbers, one decimal separator and 2 decimals
+    const localAmountRegex = new RegExp(
+      `^(\\d+([${decimalSeparator}])?\\d{0,2}|[${decimalSeparator}]\\d{0,2}|[${decimalSeparator}])$`
+    )
+
+    if (
+      (amountType === 'token' && value.match(tokenAmountRegex)) ||
+      (amountType === 'local' && value.match(localAmountRegex))
+    ) {
+      setAmount(value)
+      return
+    }
+  }
+
+  return {
+    amount,
+    amountType,
+    derived,
+    inputRef,
+    bottomSheetRef,
+
+    onOpenTokenPicker,
+    handleToggleAmountType,
+    onSelectToken,
+    handleAmountInputChange,
+  }
+}
 
 export default function TokenEnterAmount({
   token,
+  inputValue,
   tokenAmount,
   localAmount,
   amountType,
@@ -41,9 +266,10 @@ export default function TokenEnterAmount({
   testID,
   onInputChange,
   toggleAmountType,
-  onTokenPickerSelect,
+  onOpenTokenPicker,
 }: {
   token?: TokenBalance
+  inputValue: string
   tokenAmount: string
   localAmount: string
   amountType: AmountEnteredIn
@@ -54,7 +280,7 @@ export default function TokenEnterAmount({
   testID?: string
   onInputChange(value: string): void
   toggleAmountType?(): void
-  onTokenPickerSelect?(): void
+  onOpenTokenPicker?(): void
 }) {
   const { t } = useTranslation()
   // the startPosition and inputRef variables exist to ensure TextInput
@@ -63,11 +289,13 @@ export default function TokenEnterAmount({
   const [startPosition, setStartPosition] = useState<number | undefined>(0)
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
-  const inputValue = amountType === 'token' ? tokenAmount : localAmount
+  const { decimalSeparator } = getNumberFormatSettings()
+  const tokenPlaceholder = new BigNumber(0).toFormat(2)
+  const localPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2).replaceAll('.', decimalSeparator)}`
 
   const formattedInputValue = useMemo(() => {
-    if (amountType === 'token') return inputValue
-    return inputValue !== '' ? `${localCurrencySymbol}${inputValue}` : ''
+    if (amountType === 'token') return groupNumber(inputValue)
+    return inputValue !== '' ? `${localCurrencySymbol}${groupNumber(inputValue)}` : ''
   }, [inputValue, amountType, localCurrencySymbol])
 
   const handleSetStartPosition = (value?: number) => {
@@ -80,8 +308,8 @@ export default function TokenEnterAmount({
     <View testID={testID}>
       <Touchable
         borderless
-        onPress={onTokenPickerSelect}
-        disabled={!onTokenPickerSelect}
+        onPress={onOpenTokenPicker}
+        disabled={!onOpenTokenPicker}
         testID={`${testID}/TokenSelect`}
         borderRadius={{
           borderTopLeftRadius: BORDER_RADIUS,
@@ -124,7 +352,7 @@ export default function TokenEnterAmount({
             )}
           </View>
 
-          {onTokenPickerSelect && <DownArrowIcon height={24} color={Colors.gray3} />}
+          {onOpenTokenPicker && <DownArrowIcon height={24} color={Colors.gray3} />}
         </View>
       </Touchable>
       {token && (
@@ -142,7 +370,7 @@ export default function TokenEnterAmount({
             }}
             value={formattedInputValue}
             placeholderTextColor={Colors.gray3}
-            placeholder={amountType === 'token' ? tokenAmount : localAmount}
+            placeholder={amountType === 'token' ? tokenPlaceholder : localPlaceholder}
             keyboardType="decimal-pad"
             // Work around for RN issue with Samsung keyboards
             // https://github.com/facebook/react-native/issues/22005
@@ -193,7 +421,9 @@ export default function TokenEnterAmount({
                 style={[styles.secondaryAmountText, { maxWidth: '35%' }]}
                 testID={`${testID}/ExchangeAmount`}
               >
-                {APPROX_SYMBOL} {amountType === 'token' ? localAmount : tokenAmount}
+                {amountType === 'token'
+                  ? `${APPROX_SYMBOL} ${localAmount ? localAmount : localPlaceholder}`
+                  : `${APPROX_SYMBOL} ${tokenAmount ? tokenAmount : tokenPlaceholder}`}
               </Text>
             </>
           ) : (

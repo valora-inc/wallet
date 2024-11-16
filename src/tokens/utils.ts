@@ -218,5 +218,5 @@ export function isFeeCurrency(token: TokenBalance | undefined): token is TokenBa
 
 export function groupNumber(value: string) {
   const { groupingSeparator } = getNumberFormatSettings()
-  return value.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
+  return value.replace(/\B(?=(\d{3})+(?!\d))(?<!\.\d*)/g, groupingSeparator)
 }
