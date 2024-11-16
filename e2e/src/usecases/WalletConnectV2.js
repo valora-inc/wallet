@@ -67,9 +67,6 @@ const verifySuccessfulSign = async (title = 'Verify wallet') => {
 }
 
 const verifySuccessfulTransaction = async (title = 'Confirm transaction', tx) => {
-  // Pause before submitting the tx
-  // Otherwise the success banner disappears before detox can check for visibility
-  await sleep(3 * 1000)
   await waitFor(element(by.text(title)))
     .toBeVisible()
     .withTimeout(15 * 1000)
@@ -142,7 +139,7 @@ export default WalletConnect = () => {
 
   beforeEach(async () => {
     // wait for any banners to disappear
-    await sleep(5000)
+    await sleep(10 * 1000)
   })
 
   afterAll(async () => {
