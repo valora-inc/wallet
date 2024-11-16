@@ -28,7 +28,7 @@ function compareKnipResults(
   let shouldFail = false
   const rows: Array<Record<string, string | number>> = []
   const categories = Array.from(
-    new Set([...Object.keys(baseKnipResults), ...Object.keys(branchKnipResults)])
+    new Set([...Object.keys(branchKnipResults), ...Object.keys(baseKnipResults)])
   )
   for (const category of categories) {
     const baseProblems = baseKnipResults[category] ?? 0

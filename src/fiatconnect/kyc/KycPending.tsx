@@ -8,6 +8,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
+import BankIcon from 'src/icons/BankIcon'
 import CircledIcon from 'src/icons/CircledIcon'
 import ClockIcon from 'src/icons/ClockIcon'
 import { navigateHome } from 'src/navigator/NavigationService'
@@ -41,7 +42,7 @@ function KycPending({ route, navigation }: Props) {
     <SafeAreaView style={styles.container}>
       <View style={styles.iconContainer}>
         <CircledIcon radius={80} backgroundColor={colors.ivory} style={styles.bankIcon}>
-          {/* <BankIcon color={colors.black} height={24} width={24} /> */}
+          <BankIcon color={colors.black} height={24} width={24} />
         </CircledIcon>
         <CircledIcon radius={85} backgroundColor={colors.white} style={styles.clockIcon}>
           <CircledIcon radius={80}>
