@@ -1456,14 +1456,15 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "Khám phá",
-    "exploreDapps": "Khám phá các ứng dụng dapp",
-    "exploreAll": "Khám phá tất cả",
+    "exploreDapps": "Dapp",
+    "exploreAll": "Xem tất cả",
     "message": "Khám phá những phương thức sử dụng tài sản",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
     "allDapps": "Tất cả",
     "favoriteDapps": "Dapps yêu thích của tôi",
     "mostPopularDapps": "Phổ biến nhất",
+    "mostPopularDapps_UK": "Other Dapps",
     "favoriteDappsAndAll": "Mục yêu thích của tôi và Tất cả",
     "searchPlaceHolder": "Tìm kiếm Dapp",
     "noFavorites": {
@@ -1479,7 +1480,8 @@
       "message": "Đã áp dụng bộ lọc <0>{{filter}}</0>",
       "removeFilter": "Xóa bộ lọc",
       "searchMessage": "Không tìm thấy kết quả phù hợp cho cụm từ tìm kiếm <0>“{{searchTerm}}”</0>"
-    }
+    },
+    "disclaimer_UK": "This is a list of third-party Dapps. The description for each Dapp is purely informational, and not an invitation to use them."
   },
   "dappRankings": {
     "title": "Xếp hạng Dapp",
@@ -2121,18 +2123,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Tìm kiếm theo địa chỉ ví",
+    "searchInputLabel": "Đến",
+    "searchInputPlaceholder": "Địa chỉ ví",
     "paste": "Dán từ bảng nhớ tạm",
     "title": "Chọn người nhận",
     "contactsTitle": "Chọn một liên hệ",
+    "header": "Gửi",
+    "contactsHeader": "Send to Contacts",
     "recents": "Gần đây",
     "results": "Kết quả",
     "qr": {
-      "title": "Quét hoặc hiển thị mã QR",
-      "subtitle": "Tìm nhanh địa chỉ trên {{appName}}"
+      "title": "Send via QR Code",
+      "subtitle": "Tap to scan or show an address"
     },
     "invite": {
-      "title": "Gửi tiền điện tử cho bạn bè",
-      "subtitle": "Gửi tiền hoặc lời mời đến danh bạ của bạn"
+      "title": "Send to a Contact",
+      "subtitle": "Send funds to your contacts"
     },
     "jumpstart": {
       "title": "Gửi bằng đường liên kết trực tiếp",
@@ -2287,7 +2293,13 @@
     "withdrawSubtitle_noTxAppName": "from unknown app",
     "claimRewardTitle": "Đã nhận",
     "claimRewardSubtitle": "từ Quỹ {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "from unknown app"
+    "claimRewardSubtitle_noTxAppName": "from unknown app",
+    "allTransactionsShown": "You've reached the end of your transaction history.",
+    "fetchErrorRetry": "Thử lại",
+    "error": {
+      "fetchError": "Oops, there was an issue refreshing your feed. Your transaction history may be incomplete for now."
+    },
+    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
   },
   "transactionDetails": {
     "descriptionLabel": "Chi tiết",

@@ -20,7 +20,7 @@ async function validateSendFlow(tokenSymbol) {
     element(by.text(tokenSymbol).withAncestor(by.id('SendEnterAmount/TokenSelect')))
   ).toBeVisible()
   await element(by.id('BackChevron')).tap()
-  await element(by.id('Times')).tap()
+  await element(by.id('BackChevron')).tap()
 }
 
 async function validateAddFlow(tokenSymbol) {

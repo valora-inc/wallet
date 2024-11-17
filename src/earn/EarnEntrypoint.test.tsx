@@ -1,14 +1,31 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
-import { EarnEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents } from 'src/analytics/Events'
 import EarnEntrypoint from 'src/earn/EarnEntrypoint'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
+
+jest.mock('src/statsig')
 
 describe('EarnEntrypoint', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate !== StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+  })
+
+  it('renders nothing for UK compliant variant', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+
+    const { toJSON } = render(<EarnEntrypoint />)
+
+    expect(toJSON()).toBeNull()
   })
 
   it('renders correctly', () => {

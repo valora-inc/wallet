@@ -1458,14 +1458,15 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "Scopri",
-    "exploreDapps": "Esplora le dapp",
-    "exploreAll": "Esplora tutte",
+    "exploreDapps": "Dapp",
+    "exploreAll": "Visualizza tutto",
     "message": "Scopri i modi per utilizzare i tuoi asset",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
     "allDapps": "Tutti",
     "favoriteDapps": "Le mie dapp preferite",
     "mostPopularDapps": "Popolare",
+    "mostPopularDapps_UK": "Altre Dapp",
     "favoriteDappsAndAll": "I miei Preferiti e Tutto",
     "searchPlaceHolder": "Cerca dapp",
     "noFavorites": {
@@ -1481,7 +1482,8 @@
       "message": "Filtro <0>{{filter}}</0> applicato",
       "removeFilter": "Rimuovi filtro",
       "searchMessage": "Non sono stati trovati risultati corrispondenti per <0>\"{{searchTerm}}\"</0>."
-    }
+    },
+    "disclaimer_UK": "Questo è un elenco di Dapp di terze parti. La descrizione di ogni Dapp è puramente informativa e non è un invito a utilizzarla."
   },
   "dappRankings": {
     "title": "Classifiche delle Dapp",
@@ -2123,18 +2125,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Cerca per indirizzo del portafoglio",
+    "searchInputLabel": "A",
+    "searchInputPlaceholder": "Indirizzo del wallet",
     "paste": "Incolla dagli Appunti",
     "title": "Seleziona un destinatario",
     "contactsTitle": "Seleziona un contatto",
+    "header": "Invia",
+    "contactsHeader": "Invia ai contatti",
     "recents": "Recenti",
     "results": "Risultati",
     "qr": {
-      "title": "Inquadra o visualizza il codice QR",
-      "subtitle": "Trova rapidamente gli indirizzi in {{appName}}"
+      "title": "Invia tramite codice QR",
+      "subtitle": "Tocca per scansionare o mostrare un indirizzo"
     },
     "invite": {
-      "title": "Invia criptovalute ai tuoi amici",
-      "subtitle": "Invia fondi o un invito ai tuoi contatti"
+      "title": "Invia a un contatto",
+      "subtitle": "Invia fondi ai tuoi contatti"
     },
     "jumpstart": {
       "title": "Invia con un Live Link",
@@ -2289,7 +2295,13 @@
     "withdrawSubtitle_noTxAppName": "d'app sconosciuta",
     "claimRewardTitle": "Raccolti",
     "claimRewardSubtitle": "dal pool {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "d'app sconosciuta"
+    "claimRewardSubtitle_noTxAppName": "d'app sconosciuta",
+    "allTransactionsShown": "Hai raggiunto la fine della cronologia delle transazioni.",
+    "fetchErrorRetry": "Riprova",
+    "error": {
+      "fetchError": "Ops, c'è stato un problema nell'aggiornare il tuo feed. La cronologia delle tue transazioni potrebbe essere incompleta per il momento."
+    },
+    "noTransactions": "Congratulazioni, hai creato con successo un portafoglio {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Dettagli",

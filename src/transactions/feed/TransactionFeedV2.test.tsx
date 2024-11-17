@@ -2,7 +2,6 @@ import { act, fireEvent, render, waitFor, within } from '@testing-library/react-
 import BigNumber from 'bignumber.js'
 import { type FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
-import Toast from 'react-native-simple-toast'
 import { Provider } from 'react-redux'
 import { type ReactTestInstance } from 'react-test-renderer'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -11,6 +10,7 @@ import { type ApiReducersKeys } from 'src/redux/apiReducersList'
 import { type RootState } from 'src/redux/reducers'
 import { reducersList } from 'src/redux/reducersList'
 import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import * as TokenSelectors from 'src/tokens/selectors'
 import { type TokenBalance } from 'src/tokens/slice'
@@ -108,6 +108,7 @@ beforeEach(() => {
       ['celo-alfajores']: { contractAddress: '0x7bf3fefe9881127553d23a8cd225a2c2442c438c' },
     },
   })
+  jest.mocked(getFeatureGate).mockReturnValue(false)
 })
 
 describe('TransactionFeedV2', () => {
@@ -139,30 +140,26 @@ describe('TransactionFeedV2', () => {
     await waitFor(() => expect(tree.getAllByTestId('TransferFeedItem').length).toBe(2))
   })
 
-  it("doesn't render transfers for tokens that we don't know about", async () => {
-    mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
-    const { store, ...tree } = renderScreen()
-
-    await waitFor(() => tree.getByTestId('TransactionList'))
-    const items = tree.getAllByTestId('TransferFeedItem/title')
-    expect(items.length).toBe(1)
-  })
-
   it('renders the loading indicator while it loads', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [] }))
     const tree = renderScreen()
-    expect(tree.getByTestId('NoActivity/loading')).toBeDefined()
-    expect(tree.queryByTestId('NoActivity/error')).toBeNull()
-    expect(tree.queryByTestId('TransactionList')).toBeNull()
+
+    expect(tree.getByTestId('TransactionList/loading')).toBeTruthy()
+    expect(tree.queryByText('transactionFeed.error.fetchError')).toBeFalsy()
+    expect(tree.getByTestId('TransactionList').props.data).toHaveLength(0)
   })
 
-  it("renders an error screen if there's no cache and the query fails", async () => {
+  it("renders no transactions and an error message if there's no cache and the query fails", async () => {
     mockFetch.mockReject(new Error('Test error'))
     const tree = renderScreen()
 
-    await waitFor(() => tree.getByTestId('NoActivity/error'))
-    expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
-    expect(tree.queryByTestId('TransactionList')).toBeNull()
+    expect(tree.queryByText('transactionFeed.error.fetchError')).toBeFalsy()
+    expect(tree.getByTestId('TransactionList/loading')).toBeTruthy()
+
+    await waitFor(() => expect(tree.getByText('transactionFeed.error.fetchError')).toBeTruthy())
+    expect(tree.queryByTestId('TransactionList/loading')).toBeNull()
+    expect(tree.getByText('transactionFeed.noTransactions')).toBeTruthy()
+    expect(tree.getByTestId('TransactionList').props.data).toHaveLength(0)
   })
 
   it('renders correctly when there are confirmed transactions and stand by transactions', async () => {
@@ -176,12 +173,12 @@ describe('TransactionFeedV2', () => {
       },
     })
 
-    await waitFor(() => tree.getByTestId('TransactionList'))
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
 
-    expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
-    expect(tree.queryByTestId('NoActivity/error')).toBeNull()
+    expect(tree.queryByTestId('TransactionList/loading')).toBeNull()
+    expect(tree.queryByTestId('transactionFeed.error.fetchError')).toBeNull()
 
-    const subtitles = tree.queryAllByTestId('TransferFeedItem/subtitle')
+    const subtitles = tree.getAllByTestId('TransferFeedItem/subtitle')
 
     const pendingSubtitles = subtitles.filter((node) =>
       node.children.some((ch) => ch === STAND_BY_TRANSACTION_SUBTITLE_KEY)
@@ -193,8 +190,9 @@ describe('TransactionFeedV2', () => {
     mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
     const tree = renderScreen()
 
-    await waitFor(() => tree.getByTestId('TransactionList'))
-    expect(tree.getByText('feedItemReceivedInfo, {"context":"noComment"}')).toBeTruthy()
+    await waitFor(() =>
+      expect(tree.getByText('feedItemReceivedInfo, {"context":"noComment"}')).toBeTruthy()
+    )
   })
 
   it('renders correct status for a failed transaction', async () => {
@@ -204,8 +202,7 @@ describe('TransactionFeedV2', () => {
 
     const tree = renderScreen()
 
-    await waitFor(() => tree.getByTestId('TransactionList'))
-    expect(tree.getByText('feedItemFailedTransaction')).toBeTruthy()
+    await waitFor(() => expect(tree.getByText('feedItemFailedTransaction')).toBeTruthy())
   })
 
   it('tries to fetch pages until the end is reached', async () => {
@@ -225,29 +222,77 @@ describe('TransactionFeedV2', () => {
 
     const { store, ...tree } = renderScreen()
 
-    await waitFor(() => tree.getByTestId('TransactionList'))
+    await waitFor(() => expect(mockFetch).toBeCalledTimes(1))
+    expect(tree.queryByText('transactionFeed.allTransactionsShown')).toBeFalsy()
+    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(1)
+
     fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
-    await waitFor(() => expect(mockFetch).toBeCalled())
+
     await waitFor(() => expect(tree.getByTestId('TransactionList/loading')).toBeVisible())
     await waitFor(() => expect(tree.queryByTestId('TransactionList/loading')).toBeFalsy())
 
     expect(mockFetch).toHaveBeenCalledTimes(2)
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(2)
+    expect(tree.getByText('transactionFeed.allTransactionsShown')).toBeTruthy()
   })
 
   it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
-    mockFetch.mockResponse(typedResponse({ transactions: [] }))
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    mockFetch.mockResponse(
+      typedResponse({
+        transactions: [],
+        pageInfo: { hasNextPage: false, endCursor: '', hasPreviousPage: false, startCursor: '' },
+      })
+    )
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
+        return true
+      }
+      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
+        return false
+      }
+      throw new Error('Unexpected gate')
+    })
+
     const tree = renderScreen()
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
     expect(tree.getByTestId('GetStarted')).toBeDefined()
+    expect(tree.queryByText('transactionFeed.allTransactionsShown')).toBeFalsy()
   })
 
-  it('renders NoActivity by default if transaction feed is empty', async () => {
+  it('renders NoActivity for UK compliance', () => {
     mockFetch.mockResponse(typedResponse({ transactions: [] }))
-    jest.mocked(getFeatureGate).mockReturnValue(false)
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
+        return true
+      }
+      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
+        return true
+      }
+      throw new Error('Unexpected gate')
+    })
+
+    const { getByTestId, getByText } = renderScreen({})
+
+    expect(getByTestId('TransactionList/loading')).toBeTruthy()
+    expect(getByText('transactionFeed.noTransactions')).toBeTruthy()
+  })
+
+  it('renders GetStarted with an error if the initial fetch fails', async () => {
+    mockFetch.mockReject(new Error('test error'))
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
+        return true
+      }
+      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
+        return false
+      }
+      throw new Error('Unexpected gate')
+    })
+
     const tree = renderScreen()
-    expect(tree.getByTestId('NoActivity/loading')).toBeDefined()
-    expect(tree.getByText('noTransactionActivity')).toBeTruthy()
+    expect(tree.getByTestId('GetStarted')).toBeTruthy()
+    await waitFor(() => expect(tree.getByText('transactionFeed.error.fetchError')).toBeTruthy())
   })
 
   it('useStandByTransactions properly splits pending/confirmed transactions', async () => {
@@ -314,8 +359,7 @@ describe('TransactionFeedV2', () => {
       },
     })
 
-    await waitFor(() => tree.getByTestId('TransactionList'))
-    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(7)
+    await waitFor(() => expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(7))
   })
 
   it('cleanup is triggered for confirmed stand by transactions', async () => {
@@ -345,9 +389,10 @@ describe('TransactionFeedV2', () => {
     await waitFor(() => expect(tree.getByTestId('TransactionList').props.data.length).toBe(2))
     expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
     expect(tree.getByTestId('TransactionList').props.data[1].data.length).toBe(1)
+    expect(tree.queryByText('transactionFeed.allTransactionsShown')).toBeFalsy()
   })
 
-  it('should show "no transactions" toast if there is more than MIN_NUM_TRANSACTIONS transactions', async () => {
+  it('should show a message when all transactions have been loaded', async () => {
     mockFetch
       .mockResponseOnce(
         typedResponse({
@@ -364,6 +409,7 @@ describe('TransactionFeedV2', () => {
             mockTransaction({ transactionHash: '0x10' }),
             mockTransaction({ transactionHash: '0x11' }),
           ],
+          pageInfo: { hasNextPage: true, hasPreviousPage: true, startCursor: '1', endCursor: '2' },
         })
       )
       .mockResponseOnce(
@@ -375,41 +421,15 @@ describe('TransactionFeedV2', () => {
 
     const tree = renderScreen()
 
-    await waitFor(() => tree.getByTestId('TransactionList'))
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
+    expect(tree.queryByText('transactionFeed.allTransactionsShown')).toBeFalsy()
+
     fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
-    await waitFor(() => expect(mockFetch).toBeCalled())
+
     await waitFor(() => expect(tree.getByTestId('TransactionList/loading')).toBeVisible())
     await waitFor(() => expect(tree.queryByTestId('TransactionList/loading')).toBeFalsy())
-
-    fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
-    await waitFor(() => expect(Toast.showWithGravity).toBeCalledTimes(1))
-  })
-
-  it('should not show "no transactions" toast if there is not enough transactions to trigger the toast', async () => {
-    mockFetch.mockResponse(
-      typedResponse({
-        transactions: [
-          mockTransaction({ transactionHash: '0x01', timestamp: 50 }),
-          mockTransaction({ transactionHash: '0x02', timestamp: 49 }),
-          mockTransaction({ transactionHash: '0x03', timestamp: 48 }),
-          mockTransaction({ transactionHash: '0x04', timestamp: 47 }),
-          mockTransaction({ transactionHash: '0x05', timestamp: 46 }),
-          mockTransaction({ transactionHash: '0x06', timestamp: 45 }),
-          mockTransaction({ transactionHash: '0x07', timestamp: 44 }),
-          mockTransaction({ transactionHash: '0x08', timestamp: 43 }),
-          mockTransaction({ transactionHash: '0x09', timestamp: 42 }),
-        ],
-      })
-    )
-
-    const tree = renderScreen()
-
-    await waitFor(() => tree.getByTestId('TransactionList'))
-    fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
-    await waitFor(() => expect(mockFetch).toBeCalled())
-    await waitFor(() => expect(tree.getByTestId('TransactionList/loading')).toBeVisible())
-    await waitFor(() => expect(tree.queryByTestId('TransactionList/loading')).toBeFalsy())
-    await waitFor(() => expect(Toast.showWithGravity).not.toBeCalled())
+    expect(mockFetch).toHaveBeenCalledTimes(2)
+    expect(tree.getByText('transactionFeed.allTransactionsShown')).toBeTruthy()
   })
 
   // eslint-disable-next-line jest/no-disabled-tests
@@ -490,7 +510,9 @@ describe('TransactionFeedV2', () => {
       },
     })
 
-    expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
+    await waitFor(() =>
+      expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(1)
+    )
 
     await act(() => {
       const newPendingTransaction = addStandbyTransaction({
@@ -619,7 +641,7 @@ describe('TransactionFeedV2', () => {
       },
     })
 
-    await waitFor(() => expect(tree.getByTestId('TransactionList')).toBeVisible())
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
 
     const hashes = tree
       .getByTestId('TransactionList')

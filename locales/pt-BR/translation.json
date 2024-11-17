@@ -1458,14 +1458,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Descobrir",
-    "exploreDapps": "Explorar dapps",
-    "exploreAll": "Explorar todos",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Ver todos",
     "message": "Explore formas de usar seus ativos",
     "errorMessage": "Ocorreu um erro ao carregar os dapps",
     "featuredDapp": "Em destaque",
     "allDapps": "Todos",
     "favoriteDapps": "Meus favoritos",
     "mostPopularDapps": "Mais populares",
+    "mostPopularDapps_UK": "Outros Dapps",
     "favoriteDappsAndAll": "Meus favoritos e todos",
     "searchPlaceHolder": "Pesquisar dapps",
     "noFavorites": {
@@ -1481,7 +1482,8 @@
       "message": "Filtro <0>{{filter}}</0> aplicado",
       "removeFilter": "Remover filtro",
       "searchMessage": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>"
-    }
+    },
+    "disclaimer_UK": "Esta é uma lista de Dapps de terceiros. A descrição de cada Dapp é puramente informativa e não é um convite para que você os use."
   },
   "dappRankings": {
     "title": "Ranking de dapps",
@@ -2123,18 +2125,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Pesquise por endereço de carteira",
+    "searchInputLabel": "Para",
+    "searchInputPlaceholder": "Endereço da conta",
     "paste": "Colar da área de transferência",
     "title": "Selecione um destinatário",
     "contactsTitle": "Selecione um contato",
+    "header": "Enviar",
+    "contactsHeader": "Enviar para contatos",
     "recents": "Recentes",
     "results": "Resultados",
     "qr": {
-      "title": "Escanear ou mostrar o código QR",
-      "subtitle": "Encontre endereços rapidamente na {{appName}}"
+      "title": "Enviar via código QR",
+      "subtitle": "Toque para digitalizar ou mostrar um endereço"
     },
     "invite": {
-      "title": "Envie criptos para seus amigos",
-      "subtitle": "Envie fundos ou um convite para seus contatos"
+      "title": "Enviar para um contato",
+      "subtitle": "Enviar fundos para seus contatos"
     },
     "jumpstart": {
       "title": "Envie com um link ativo",
@@ -2289,7 +2295,13 @@
     "withdrawSubtitle_noTxAppName": "de um aplicativo desconhecido",
     "claimRewardTitle": "Recebido",
     "claimRewardSubtitle": "do pool da {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "de um aplicativo desconhecido"
+    "claimRewardSubtitle_noTxAppName": "de um aplicativo desconhecido",
+    "allTransactionsShown": "Você chegou ao final do seu histórico de transações.",
+    "fetchErrorRetry": "Tentar novamente",
+    "error": {
+      "fetchError": "Opa, houve um problema ao atualizar seu feed. Seu histórico de transações pode estar incompleto no momento."
+    },
+    "noTransactions": "Parabéns, você criou com sucesso uma carteira {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Detalhes",

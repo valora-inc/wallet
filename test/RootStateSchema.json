@@ -5188,16 +5188,12 @@
                 "error": {
                     "type": "boolean"
                 },
-                "loading": {
-                    "type": "boolean"
-                },
                 "tokenBalances": {
                     "$ref": "#/definitions/StoredTokenBalances"
                 }
             },
             "required": [
                 "error",
-                "loading",
                 "tokenBalances"
             ],
             "type": "object"

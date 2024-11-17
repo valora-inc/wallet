@@ -1462,14 +1462,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Дізнатися",
-    "exploreDapps": "Переглянути додатки DApps",
-    "exploreAll": "Переглянути все",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Переглянути всі",
     "message": "Дізнайтеся, як використовувати свої активи",
     "errorMessage": "Сталася помилка під час завантаження застосунків dapps",
     "featuredDapp": "Рекомендовано",
     "allDapps": "Усі",
     "favoriteDapps": "Мої вподобання",
     "mostPopularDapps": "Популярні",
+    "mostPopularDapps_UK": "Інші додатки",
     "favoriteDappsAndAll": "Мої вподобання і загальний вміст",
     "searchPlaceHolder": "Пошук застосунків Dapp",
     "noFavorites": {
@@ -1485,7 +1486,8 @@
       "message": "Фільтр <0>{{filter}}</0> застосовано",
       "removeFilter": "Видалити фільтр",
       "searchMessage": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>"
-    }
+    },
+    "disclaimer_UK": "Це список сторонніх Dapps. Опис кожного Dapp є суто інформаційним, а не запрошенням до використання."
   },
   "dappRankings": {
     "title": "Рейтинг застосунків dapp",
@@ -2127,18 +2129,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Пошук за адресою гаманця",
+    "searchInputLabel": "До",
+    "searchInputPlaceholder": "Адреса гаманця",
     "paste": "Копіювати з буфера обміну",
     "title": "Вибрати отримувача",
     "contactsTitle": "Вибрати контакт",
+    "header": "Надіслати",
+    "contactsHeader": "Надіслати в контакти",
     "recents": "Нещодавні",
     "results": "Результати",
     "qr": {
-      "title": "Сканувати або показати QR-код",
-      "subtitle": "Швидко знайти адреси в {{appName}}"
+      "title": "Надіслати за допомогою QR-коду",
+      "subtitle": "Натисніть, щоб відсканувати або показати адресу"
     },
     "invite": {
-      "title": "Надіслати криптовалюту друзям",
-      "subtitle": "Надіслати кошти або запрошення своїм контактам"
+      "title": "Надіслати контактній особі",
+      "subtitle": "Надсилайте кошти на ваші контакти"
     },
     "jumpstart": {
       "title": "Надіслати за прямим посиланням",
@@ -2293,7 +2299,13 @@
     "withdrawSubtitle_noTxAppName": "з невідомого додатку",
     "claimRewardTitle": "Стягнуто",
     "claimRewardSubtitle": "з пулу {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "з невідомого додатку"
+    "claimRewardSubtitle_noTxAppName": "з невідомого додатку",
+    "allTransactionsShown": "Ви досягли кінця історії транзакцій.",
+    "fetchErrorRetry": "Спробувати ще раз",
+    "error": {
+      "fetchError": "Виникла проблема з оновленням вашої стрічки. Ваша історія транзакцій може бути неповною."
+    },
+    "noTransactions": "Вітаємо, ви успішно створили гаманець {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Подробиці",

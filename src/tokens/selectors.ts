@@ -42,7 +42,6 @@ function isNetworkIdList(networkIds: any): networkIds is NetworkId[] {
     networkIds.every((networkId) => Object.values(NetworkId).includes(networkId))
   )
 }
-export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
 export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
 
 // Note: not importing from 'src/positions/selectors' to avoid circular dependency
@@ -306,18 +305,10 @@ export const totalTokenBalanceSelector = createSelector(
     (state: RootState, networkIds: NetworkId[]) => tokensWithUsdValueSelector(state, networkIds),
     usdToLocalCurrencyRateSelector,
     tokenFetchErrorSelector,
-    tokenFetchLoadingSelector,
     (_state: RootState, networkIds: NetworkId[]) => networkIds,
   ],
-  (
-    tokensList,
-    tokensWithUsdValue,
-    usdToLocalRate,
-    tokenFetchError,
-    tokenFetchLoading,
-    networkIds
-  ) => {
-    if (tokenFetchError || tokenFetchLoading) {
+  (tokensList, tokensWithUsdValue, usdToLocalRate, tokenFetchError, networkIds) => {
+    if (tokenFetchError) {
       return null
     }
 

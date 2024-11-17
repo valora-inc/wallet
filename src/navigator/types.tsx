@@ -87,7 +87,7 @@ export type StackParamList = {
     pool: EarnPosition
     mode: Extract<EarnActiveMode, 'claim-rewards' | 'exit' | 'withdraw'>
     inputAmount?: string
-    useMax?: boolean
+    useMax: boolean
   }
   [Screens.EarnHome]: { activeEarnTab?: EarnTabType } | undefined
   [Screens.EarnPoolInfoScreen]: { pool: EarnPosition }

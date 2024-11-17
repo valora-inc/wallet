@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
-import DefaultAvatar from 'src/icons/DefaultAvatar'
+import User from 'src/icons/User'
 import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -12,7 +12,7 @@ interface Props {
   backgroundColor?: Colors
   foregroundColor?: Colors
   borderColor?: Colors
-  DefaultIcon?: React.ComponentType<{ foregroundColor: Colors; backgroundColor: Colors }>
+  DefaultIcon?: React.ComponentType<{ foregroundColor?: Colors; backgroundColor?: Colors }>
 }
 
 const DEFAULT_ICON_SIZE = 40
@@ -30,7 +30,7 @@ function ContactCircle({
   backgroundColor,
   foregroundColor,
   borderColor,
-  DefaultIcon = DefaultAvatar,
+  DefaultIcon = ({ foregroundColor }) => <User color={foregroundColor} />,
 }: Props) {
   const address = recipient.address
   const iconBackgroundColor = backgroundColor ?? getAddressBackgroundColor(address || '0x0')
