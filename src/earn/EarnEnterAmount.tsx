@@ -2,9 +2,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TextInput as RNTextInput, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, TextInput as RNTextInput, StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
@@ -12,7 +12,6 @@ import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
-import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import RowDivider from 'src/components/RowDivider'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
@@ -35,6 +34,7 @@ import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions
 import { EarnPosition, Position } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import { AmountInput } from 'src/send/EnterAmount'
+import EnterAmountOptions from 'src/send/EnterAmountOptions'
 import { AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
@@ -55,7 +55,6 @@ type Props = NativeStackScreenProps<StackParamList, Screens.EarnEnterAmount>
 const TAG = 'EarnEnterAmount'
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
-const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
 function useTokens({ pool }: { pool: EarnPosition }) {
@@ -95,6 +94,7 @@ function useTokens({ pool }: { pool: EarnPosition }) {
 
 function EarnEnterAmount({ route }: Props) {
   const { t } = useTranslation()
+  const insets = useSafeAreaInsets()
 
   const { pool, mode = 'deposit' } = route.params
   const isWithdrawal = mode === 'withdraw'
@@ -122,8 +122,9 @@ function EarnEnterAmount({ route }: Props) {
 
   const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
   const [localAmountInput, setLocalAmountInput] = useState<string>('')
-  const [maxPressed, setMaxPressed] = useState(false)
   const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
+  const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
+
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
@@ -171,7 +172,7 @@ function EarnEnterAmount({ route }: Props) {
       pool,
       hooksApiUrl,
       shortcutId: mode,
-      useMax: maxPressed,
+      useMax: selectedPercentage === 1,
     })
   }
 
@@ -302,7 +303,7 @@ function EarnEnterAmount({ route }: Props) {
     !!tokenAmount?.isZero() || !transactionIsPossible
 
   const onTokenAmountInputChange = (value: string) => {
-    setMaxPressed(false)
+    setSelectedPercentage(null)
     if (!value) {
       setTokenAmountInput('')
       setEnteredIn('token')
@@ -318,7 +319,7 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const onLocalAmountInputChange = (value: string) => {
-    setMaxPressed(false)
+    setSelectedPercentage(null)
     // remove leading currency symbol and grouping separators
     if (value.startsWith(localCurrencySymbol)) {
       value = value.slice(1)
@@ -341,20 +342,16 @@ function EarnEnterAmount({ route }: Props) {
     }
   }
 
-  const onMaxAmountPress = async () => {
-    // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
-    // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
-    // if there is not enough for gas
-    setTokenAmountInput(balanceInInputToken.toFormat({ decimalSeparator }))
+  const handleSelectPercentageAmount = (percentage: number) => {
+    setTokenAmountInput(inputToken.balance.multipliedBy(percentage).toFormat({ decimalSeparator }))
     setEnteredIn('token')
-    setMaxPressed(true)
-    tokenAmountInputRef.current?.blur()
-    localAmountInputRef.current?.blur()
-    AppAnalytics.track(SendEvents.max_pressed, {
+    setSelectedPercentage(percentage)
+
+    AppAnalytics.track(SendEvents.amount_percentage_selected, {
       tokenId: inputToken.tokenId,
       tokenAddress: inputToken.address,
       networkId: inputToken.networkId,
-      mode,
+      percentage: percentage * 100,
     })
   }
 
@@ -386,7 +383,7 @@ function EarnEnterAmount({ route }: Props) {
         pool,
         mode,
         inputAmount: tokenAmount.toString(),
-        useMax: maxPressed,
+        useMax: selectedPercentage === 1,
       })
     } else {
       reviewBottomSheetRef.current?.snapToIndex(0)
@@ -396,84 +393,88 @@ function EarnEnterAmount({ route }: Props) {
   const dropdownEnabled = availableInputTokens.length > 1
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
-      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
-        <View style={styles.inputContainer}>
-          <Text style={styles.title}>
-            {isWithdrawal
-              ? t('earnFlow.enterAmount.titleWithdraw')
-              : t('earnFlow.enterAmount.title')}
-          </Text>
-          <View style={styles.inputBox}>
-            <View style={styles.inputRow}>
-              <AmountInput
-                inputRef={tokenAmountInputRef}
-                inputValue={tokenAmountInput}
-                onInputChange={onTokenAmountInputChange}
-                inputStyle={styles.inputText}
-                autoFocus
-                placeholder={new BigNumber(0).toFormat(2)}
-                testID="EarnEnterAmount/TokenAmountInput"
-              />
-              <Touchable
-                borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
-                onPress={onTokenPickerSelect}
-                style={styles.tokenSelectButton}
-                disabled={!dropdownEnabled}
-                testID="EarnEnterAmount/TokenSelect"
-              >
-                <>
-                  <TokenIcon token={inputToken} size={IconSize.SMALL} />
-                  <Text style={styles.tokenName}>{inputToken.symbol}</Text>
-                  {dropdownEnabled && <DownArrowIcon color={Colors.gray5} />}
-                </>
-              </Touchable>
-            </View>
-            <View style={styles.localAmountRow}>
-              <AmountInput
-                inputValue={transactionToken.priceUsd ? localAmountInput : '-'}
-                onInputChange={onLocalAmountInputChange}
-                inputRef={localAmountInputRef}
-                inputStyle={styles.localAmount}
-                placeholder={`${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`}
-                testID="EarnEnterAmount/LocalAmountInput"
-                editable={!!transactionToken.priceUsd}
-              />
-              {!transactionToken.balance.isZero() && (
-                <Touchable
-                  borderRadius={MAX_BORDER_RADIUS}
-                  onPress={onMaxAmountPress}
-                  style={styles.maxTouchable}
-                  testID="EarnEnterAmount/Max"
-                >
-                  <Text style={styles.maxText}>{t('max')}</Text>
-                </Touchable>
-              )}
-            </View>
+      <KeyboardAwareScrollView
+        contentContainerStyle={[
+          styles.contentContainer,
+          {
+            paddingBottom: Math.max(insets.bottom, Spacing.Thick24),
+          },
+        ]}
+        onScrollBeginDrag={() => {
+          Keyboard.dismiss()
+        }}
+      >
+        <Text style={styles.title}>
+          {isWithdrawal ? t('earnFlow.enterAmount.titleWithdraw') : t('earnFlow.enterAmount.title')}
+        </Text>
+
+        <View style={styles.inputBox}>
+          <View style={styles.inputRow}>
+            <AmountInput
+              inputRef={tokenAmountInputRef}
+              inputValue={tokenAmountInput}
+              onInputChange={onTokenAmountInputChange}
+              inputStyle={styles.inputText}
+              autoFocus
+              placeholder={new BigNumber(0).toFormat(2)}
+              testID="EarnEnterAmount/TokenAmountInput"
+            />
+            <Touchable
+              borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
+              onPress={onTokenPickerSelect}
+              style={styles.tokenSelectButton}
+              disabled={!dropdownEnabled}
+              testID="EarnEnterAmount/TokenSelect"
+            >
+              <>
+                <TokenIcon token={inputToken} size={IconSize.SMALL} />
+                <Text style={styles.tokenName}>{inputToken.symbol}</Text>
+                {dropdownEnabled && <DownArrowIcon color={Colors.gray5} />}
+              </>
+            </Touchable>
           </View>
-          {tokenAmount && prepareTransactionsResult && !isWithdrawal && (
-            <TransactionDepositDetails
-              pool={pool}
-              token={inputToken}
-              tokenAmount={tokenAmount}
-              prepareTransactionsResult={prepareTransactionsResult}
-              feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
-              swapDetailsBottomSheetRef={swapDetailsBottomSheetRef}
-              swapTransaction={swapTransaction}
+          <View style={styles.localAmountRow}>
+            <AmountInput
+              inputValue={transactionToken.priceUsd ? localAmountInput : '-'}
+              onInputChange={onLocalAmountInputChange}
+              inputRef={localAmountInputRef}
+              inputStyle={styles.localAmount}
+              placeholder={`${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`}
+              testID="EarnEnterAmount/LocalAmountInput"
+              editable={!!transactionToken.priceUsd}
             />
-          )}
-          {tokenAmount && isWithdrawal && (
-            <TransactionWithdrawDetails
-              pool={pool}
-              token={transactionToken}
-              prepareTransactionsResult={prepareTransactionsResult}
-              feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
-              balanceInInputToken={balanceInInputToken}
-              rewardsPositions={rewardsPositions}
-            />
-          )}
+          </View>
         </View>
+
+        {tokenAmount && prepareTransactionsResult && !isWithdrawal && (
+          <TransactionDepositDetails
+            pool={pool}
+            token={inputToken}
+            tokenAmount={tokenAmount}
+            prepareTransactionsResult={prepareTransactionsResult}
+            feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
+            swapDetailsBottomSheetRef={swapDetailsBottomSheetRef}
+            swapTransaction={swapTransaction}
+          />
+        )}
+        {tokenAmount && isWithdrawal && (
+          <TransactionWithdrawDetails
+            pool={pool}
+            token={transactionToken}
+            prepareTransactionsResult={prepareTransactionsResult}
+            feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
+            balanceInInputToken={balanceInInputToken}
+            rewardsPositions={rewardsPositions}
+          />
+        )}
+
+        <EnterAmountOptions
+          onPressAmount={handleSelectPercentageAmount}
+          selectedAmount={selectedPercentage}
+        />
+
         {showNotEnoughBalanceForGasWarning && (
           <InLineNotification
             variant={NotificationVariant.Warning}
@@ -539,6 +540,7 @@ function EarnEnterAmount({ route }: Props) {
             testID="EarnEnterAmount/WithdrawingAndClaimingCard"
           />
         )}
+
         <Button
           onPress={onPressContinue}
           text={t('earnFlow.enterAmount.continue')}
@@ -548,7 +550,6 @@ function EarnEnterAmount({ route }: Props) {
           showLoading={isPreparingTransactions}
           testID="EarnEnterAmount/Continue"
         />
-        <KeyboardSpacer />
       </KeyboardAwareScrollView>
       {tokenAmount && (
         <FeeDetailsBottomSheet
@@ -1044,11 +1045,9 @@ const styles = StyleSheet.create({
     ...typeScale.titleSmall,
     color: Colors.black,
   },
-  inputContainer: {
-    flex: 1,
-  },
   continueButton: {
-    paddingVertical: Spacing.Thick24,
+    paddingTop: Spacing.Thick24,
+    marginTop: 'auto',
   },
   inputBox: {
     marginTop: Spacing.Large32,
@@ -1096,18 +1095,6 @@ const styles = StyleSheet.create({
   },
   localAmount: {
     ...typeScale.labelMedium,
-  },
-  maxTouchable: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    backgroundColor: Colors.gray2,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    borderRadius: MAX_BORDER_RADIUS,
-  },
-  maxText: {
-    ...typeScale.labelSmall,
-    color: Colors.black,
   },
   warning: {
     marginTop: Spacing.Regular16,

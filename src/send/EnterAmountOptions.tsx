@@ -1,10 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, Platform, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, KeyboardEvent, Platform, StyleSheet, Text, View } from 'react-native'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import Touchable from 'src/components/Touchable'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 
 export default function EnterAmountOptions({
   onPressAmount,
@@ -14,7 +16,7 @@ export default function EnterAmountOptions({
   selectedAmount: number | null
 }) {
   const { t } = useTranslation()
-  const [visible, setVisible] = useState(false)
+  const translateY = useSharedValue(0)
 
   const amountOptions = useMemo(() => {
     return [
@@ -44,11 +46,13 @@ export default function EnterAmountOptions({
     const keyboardShowEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow'
     const keyboardHideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide'
 
-    const showSubscription = Keyboard.addListener(keyboardShowEvent, () => {
-      setVisible(true)
+    const showSubscription = Keyboard.addListener(keyboardShowEvent, (event: KeyboardEvent) => {
+      translateY.value = withTiming(-event.endCoordinates.height, {
+        duration: event.duration || 300,
+      })
     })
-    const hideSubscription = Keyboard.addListener(keyboardHideEvent, () => {
-      setVisible(false)
+    const hideSubscription = Keyboard.addListener(keyboardHideEvent, (event: KeyboardEvent) => {
+      translateY.value = withTiming(0, { duration: event.duration || 300 })
     })
 
     return () => {
@@ -57,16 +61,28 @@ export default function EnterAmountOptions({
     }
   }, [])
 
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: translateY.value }],
+      height: translateY.value < 0 ? 'auto' : 0,
+    }
+  })
+
   return (
-    <View style={[styles.container, { opacity: visible ? 1 : 0 }]}>
+    <Animated.View
+      style={[
+        styles.container,
+        {
+          position: 'absolute',
+          bottom: 0,
+          width: variables.width,
+        },
+        animatedStyle,
+      ]}
+    >
       <View style={styles.contentContainer}>
         {amountOptions.map(({ amount, label }) => (
-          <Touchable
-            borderRadius={100}
-            key={label}
-            onPress={() => onPressAmount(amount)}
-            disabled={!visible}
-          >
+          <Touchable borderRadius={100} key={label} onPress={() => onPressAmount(amount)}>
             <View
               style={[
                 styles.chip,
@@ -89,14 +105,13 @@ export default function EnterAmountOptions({
           onPress={() => {
             Keyboard.dismiss()
           }}
-          disabled={!visible}
         >
           <View style={[styles.chip, { borderWidth: 0 }]}>
             <Text style={styles.chipText}>{t('done')}</Text>
           </View>
         </Touchable>
       </View>
-    </View>
+    </Animated.View>
   )
 }
 

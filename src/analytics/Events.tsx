@@ -295,7 +295,7 @@ export enum SendEvents {
   send_tx_error = 'send_tx_error',
 
   token_dropdown_opened = 'token_dropdown_opened',
-  max_pressed = 'max_pressed',
+  amount_percentage_selected = 'amount_percentage_selected',
   swap_input_pressed = 'swap_input_pressed',
 
   // related to the alert that is shown when sending to an unknown address

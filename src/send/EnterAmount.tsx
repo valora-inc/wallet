@@ -20,7 +20,6 @@ import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
-import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TextInput from 'src/components/TextInput'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
@@ -77,7 +76,6 @@ interface Props {
 }
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
-const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
 export const SendProceed = ({
@@ -182,21 +180,6 @@ function EnterAmount({
     setToken(token)
     tokenBottomSheetRef.current?.close()
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
-  }
-
-  const onMaxAmountPress = async () => {
-    // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
-    // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
-    // if there is not enough for gas
-    setTokenAmountInput(token.balance.toFormat({ decimalSeparator }))
-    setEnteredIn('token')
-    tokenAmountInputRef.current?.blur()
-    localAmountInputRef.current?.blur()
-    AppAnalytics.track(SendEvents.max_pressed, {
-      tokenId: token.tokenId,
-      tokenAddress: token.address,
-      networkId: token.networkId,
-    })
   }
 
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
@@ -342,10 +325,17 @@ function EnterAmount({
     }
   }
 
-  const handleSelectPercentageAmount = (amount: number) => {
-    setTokenAmountInput(token.balance.multipliedBy(amount).toFormat({ decimalSeparator }))
+  const handleSelectPercentageAmount = (percentage: number) => {
+    setTokenAmountInput(token.balance.multipliedBy(percentage).toFormat({ decimalSeparator }))
     setEnteredIn('token')
-    setSelectedPercentage(amount)
+    setSelectedPercentage(percentage)
+
+    AppAnalytics.track(SendEvents.amount_percentage_selected, {
+      tokenId: token.tokenId,
+      tokenAddress: token.address,
+      networkId: token.networkId,
+      percentage: percentage * 100,
+    })
   }
 
   return (
@@ -354,7 +344,9 @@ function EnterAmount({
       <KeyboardAwareScrollView
         contentContainerStyle={[
           styles.contentContainer,
-          { paddingBottom: Math.max(insets.bottom, Spacing.Thick24) },
+          {
+            paddingBottom: Math.max(insets.bottom, Spacing.Thick24),
+          },
         ]}
         onScrollBeginDrag={() => {
           Keyboard.dismiss()
@@ -402,16 +394,6 @@ function EnterAmount({
                 testID="SendEnterAmount/LocalAmountInput"
                 editable={!!token.priceUsd}
               />
-              {!token.balance.isZero() && (
-                <Touchable
-                  borderRadius={MAX_BORDER_RADIUS}
-                  onPress={onMaxAmountPress}
-                  style={styles.maxTouchable}
-                  testID="SendEnterAmount/Max"
-                >
-                  <Text style={styles.maxText}>{t('max')}</Text>
-                </Touchable>
-              )}
             </View>
           </View>
           <View style={styles.feeContainer}>
@@ -466,8 +448,6 @@ function EnterAmount({
           onPressAmount={handleSelectPercentageAmount}
           selectedAmount={selectedPercentage}
         />
-
-        <KeyboardSpacer />
 
         <ProceedComponent
           tokenAmount={tokenAmount}
@@ -627,17 +607,6 @@ const styles = StyleSheet.create({
   },
   localAmount: {
     ...typeScale.labelMedium,
-  },
-  maxTouchable: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    backgroundColor: Colors.gray2,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    borderRadius: MAX_BORDER_RADIUS,
-  },
-  maxText: {
-    ...typeScale.labelSmall,
   },
   feeContainer: {
     flexDirection: 'row',
