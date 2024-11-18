@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     ...Platform.select({
       android: {
-        paddingTop: Spacing.Smallest8,
+        paddingTop: 10,
         paddingVertical: Spacing.Smallest8,
       },
     }),
