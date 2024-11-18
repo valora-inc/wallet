@@ -4,7 +4,7 @@ import { REFILL_TOKENS } from './consts'
 
 export async function checkBalance(
   address: Address,
-  minBalance = 1,
+  minBalance = 10,
   tokenSymbols: string[] = REFILL_TOKENS
 ) {
   const balance = (await getCeloTokensBalance(address)) ?? {}
