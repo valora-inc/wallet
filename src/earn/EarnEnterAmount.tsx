@@ -107,7 +107,7 @@ function EarnEnterAmount({ route }: Props) {
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const swapDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
-  const [maxPressed, setMaxPressed] = useState(false)
+  const [maxPressed] = useState(false)
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
   const walletAddress = useSelector(walletAddressSelector)
 
