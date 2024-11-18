@@ -342,7 +342,7 @@ function EarnEnterAmount({ route }: Props) {
     }
   }
 
-  const handleSelectPercentageAmount = (percentage: number) => {
+  const onSelectPercentageAmount = (percentage: number) => {
     setTokenAmountInput(inputToken.balance.multipliedBy(percentage).toFormat({ decimalSeparator }))
     setEnteredIn('token')
     setSelectedPercentage(percentage)
@@ -406,72 +406,76 @@ function EarnEnterAmount({ route }: Props) {
           Keyboard.dismiss()
         }}
       >
-        <Text style={styles.title}>
-          {isWithdrawal ? t('earnFlow.enterAmount.titleWithdraw') : t('earnFlow.enterAmount.title')}
-        </Text>
+        <View style={styles.inputContainer}>
+          <Text style={styles.title}>
+            {isWithdrawal
+              ? t('earnFlow.enterAmount.titleWithdraw')
+              : t('earnFlow.enterAmount.title')}
+          </Text>
 
-        <View style={styles.inputBox}>
-          <View style={styles.inputRow}>
-            <AmountInput
-              inputRef={tokenAmountInputRef}
-              inputValue={tokenAmountInput}
-              onInputChange={onTokenAmountInputChange}
-              inputStyle={styles.inputText}
-              autoFocus
-              placeholder={new BigNumber(0).toFormat(2)}
-              testID="EarnEnterAmount/TokenAmountInput"
-            />
-            <Touchable
-              borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
-              onPress={onTokenPickerSelect}
-              style={styles.tokenSelectButton}
-              disabled={!dropdownEnabled}
-              testID="EarnEnterAmount/TokenSelect"
-            >
-              <>
-                <TokenIcon token={inputToken} size={IconSize.SMALL} />
-                <Text style={styles.tokenName}>{inputToken.symbol}</Text>
-                {dropdownEnabled && <DownArrowIcon color={Colors.gray5} />}
-              </>
-            </Touchable>
+          <View style={styles.inputBox}>
+            <View style={styles.inputRow}>
+              <AmountInput
+                inputRef={tokenAmountInputRef}
+                inputValue={tokenAmountInput}
+                onInputChange={onTokenAmountInputChange}
+                inputStyle={styles.inputText}
+                autoFocus
+                placeholder={new BigNumber(0).toFormat(2)}
+                testID="EarnEnterAmount/TokenAmountInput"
+              />
+              <Touchable
+                borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
+                onPress={onTokenPickerSelect}
+                style={styles.tokenSelectButton}
+                disabled={!dropdownEnabled}
+                testID="EarnEnterAmount/TokenSelect"
+              >
+                <>
+                  <TokenIcon token={inputToken} size={IconSize.SMALL} />
+                  <Text style={styles.tokenName}>{inputToken.symbol}</Text>
+                  {dropdownEnabled && <DownArrowIcon color={Colors.gray5} />}
+                </>
+              </Touchable>
+            </View>
+            <View style={styles.localAmountRow}>
+              <AmountInput
+                inputValue={transactionToken.priceUsd ? localAmountInput : '-'}
+                onInputChange={onLocalAmountInputChange}
+                inputRef={localAmountInputRef}
+                inputStyle={styles.localAmount}
+                placeholder={`${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`}
+                testID="EarnEnterAmount/LocalAmountInput"
+                editable={!!transactionToken.priceUsd}
+              />
+            </View>
           </View>
-          <View style={styles.localAmountRow}>
-            <AmountInput
-              inputValue={transactionToken.priceUsd ? localAmountInput : '-'}
-              onInputChange={onLocalAmountInputChange}
-              inputRef={localAmountInputRef}
-              inputStyle={styles.localAmount}
-              placeholder={`${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`}
-              testID="EarnEnterAmount/LocalAmountInput"
-              editable={!!transactionToken.priceUsd}
+
+          {tokenAmount && prepareTransactionsResult && !isWithdrawal && (
+            <TransactionDepositDetails
+              pool={pool}
+              token={inputToken}
+              tokenAmount={tokenAmount}
+              prepareTransactionsResult={prepareTransactionsResult}
+              feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
+              swapDetailsBottomSheetRef={swapDetailsBottomSheetRef}
+              swapTransaction={swapTransaction}
             />
-          </View>
+          )}
+          {tokenAmount && isWithdrawal && (
+            <TransactionWithdrawDetails
+              pool={pool}
+              token={transactionToken}
+              prepareTransactionsResult={prepareTransactionsResult}
+              feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
+              balanceInInputToken={balanceInInputToken}
+              rewardsPositions={rewardsPositions}
+            />
+          )}
         </View>
 
-        {tokenAmount && prepareTransactionsResult && !isWithdrawal && (
-          <TransactionDepositDetails
-            pool={pool}
-            token={inputToken}
-            tokenAmount={tokenAmount}
-            prepareTransactionsResult={prepareTransactionsResult}
-            feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
-            swapDetailsBottomSheetRef={swapDetailsBottomSheetRef}
-            swapTransaction={swapTransaction}
-          />
-        )}
-        {tokenAmount && isWithdrawal && (
-          <TransactionWithdrawDetails
-            pool={pool}
-            token={transactionToken}
-            prepareTransactionsResult={prepareTransactionsResult}
-            feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
-            balanceInInputToken={balanceInInputToken}
-            rewardsPositions={rewardsPositions}
-          />
-        )}
-
         <EnterAmountOptions
-          onPressAmount={handleSelectPercentageAmount}
+          onPressAmount={onSelectPercentageAmount}
           selectedAmount={selectedPercentage}
         />
 
@@ -1044,6 +1048,9 @@ const styles = StyleSheet.create({
   title: {
     ...typeScale.titleSmall,
     color: Colors.black,
+  },
+  inputContainer: {
+    flex: 1,
   },
   continueButton: {
     paddingTop: Spacing.Thick24,

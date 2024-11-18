@@ -182,6 +182,19 @@ function EnterAmount({
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
+  const onSelectPercentageAmount = (percentage: number) => {
+    setTokenAmountInput(token.balance.multipliedBy(percentage).toFormat({ decimalSeparator }))
+    setEnteredIn('token')
+    setSelectedPercentage(percentage)
+
+    AppAnalytics.track(SendEvents.amount_percentage_selected, {
+      tokenId: token.tokenId,
+      tokenAddress: token.address,
+      networkId: token.networkId,
+      percentage: percentage * 100,
+    })
+  }
+
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   // only allow numbers, one decimal separator, and two decimal places
   const localAmountRegex = new RegExp(
@@ -325,19 +338,6 @@ function EnterAmount({
     }
   }
 
-  const handleSelectPercentageAmount = (percentage: number) => {
-    setTokenAmountInput(token.balance.multipliedBy(percentage).toFormat({ decimalSeparator }))
-    setEnteredIn('token')
-    setSelectedPercentage(percentage)
-
-    AppAnalytics.track(SendEvents.amount_percentage_selected, {
-      tokenId: token.tokenId,
-      tokenAddress: token.address,
-      networkId: token.networkId,
-      percentage: percentage * 100,
-    })
-  }
-
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
@@ -443,7 +443,7 @@ function EnterAmount({
         {children}
 
         <EnterAmountOptions
-          onPressAmount={handleSelectPercentageAmount}
+          onPressAmount={onSelectPercentageAmount}
           selectedAmount={selectedPercentage}
         />
 
