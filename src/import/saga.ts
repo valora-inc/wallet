@@ -7,7 +7,6 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { countMnemonicWords, generateKeysFromMnemonic, storeMnemonic } from 'src/backup/utils'
-import { refreshAllBalances } from 'src/home/actions'
 import {
   Actions,
   ImportBackupPhraseAction,
@@ -147,7 +146,6 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     yield* call(storeMnemonic, mnemonic, account)
     // Set backup complete so user isn't prompted to do backup flow
     yield* put(setBackupCompleted())
-    yield* put(refreshAllBalances())
 
     const recoveringFromStoreWipe = yield* select(recoveringFromStoreWipeSelector)
     if (recoveringFromStoreWipe) {

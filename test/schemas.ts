@@ -3561,6 +3561,15 @@ export const v235Schema = {
   },
 }
 
+export const v236Schema = {
+  ...v235Schema,
+  _persist: {
+    ...v235Schema._persist,
+    version: 236,
+  },
+  tokens: _.omit(v235Schema.tokens, 'loading'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v235Schema as Partial<RootState>
+  return v236Schema as Partial<RootState>
 }
