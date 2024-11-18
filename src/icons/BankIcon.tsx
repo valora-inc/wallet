@@ -12,7 +12,7 @@ export default class BankIcon extends React.PureComponent<Props> {
   static defaultProps = {
     height: 32,
     width: 32,
-    color: colors.primary,
+    color: colors.accent,
   }
 
   render() {

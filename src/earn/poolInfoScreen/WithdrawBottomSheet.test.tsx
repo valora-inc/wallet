@@ -55,10 +55,10 @@ describe('WithdrawBottomSheet', () => {
         />
       </Provider>
     )
-    expect(getByTestId('Earn/ActionCard/PartialWithdraw')).toBeTruthy()
-    fireEvent.press(getByTestId('Earn/ActionCard/PartialWithdraw'))
+    expect(getByTestId('Earn/ActionCard/withdraw')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/ActionCard/withdraw'))
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_select_withdraw_type, {
-      type: 'PartialWithdraw',
+      type: 'withdraw',
       providerId: mockEarnPositions[0].appId,
       poolId: mockEarnPositions[0].positionId,
       networkId: mockEarnPositions[0].networkId,
@@ -89,16 +89,23 @@ describe('WithdrawBottomSheet', () => {
         />
       </Provider>
     )
-    expect(getByTestId('Earn/ActionCard/Claim')).toBeTruthy()
-    fireEvent.press(getByTestId('Earn/ActionCard/Claim'))
+    expect(getByTestId('Earn/ActionCard/claim-rewards')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/ActionCard/claim-rewards'))
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_select_withdraw_type, {
-      type: 'Claim',
+      type: 'claim-rewards',
       providerId: mockEarnPositions[0].appId,
       poolId: mockEarnPositions[0].positionId,
       networkId: mockEarnPositions[0].networkId,
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
-    // TODO (ACT-1389): Check that navigate called with confirmation screen for Claim
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnConfirmationScreen, {
+      pool: {
+        ...mockEarnPositions[0],
+        balance: '100',
+      },
+      mode: 'claim-rewards',
+      useMax: true,
+    })
   })
   it('tapping exit on WithdrawBottomSheet navigates to enter amount screen', () => {
     jest
@@ -113,16 +120,23 @@ describe('WithdrawBottomSheet', () => {
         />
       </Provider>
     )
-    expect(getByTestId('Earn/ActionCard/Exit')).toBeTruthy()
-    fireEvent.press(getByTestId('Earn/ActionCard/Exit'))
+    expect(getByTestId('Earn/ActionCard/exit')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/ActionCard/exit'))
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_select_withdraw_type, {
-      type: 'Exit',
+      type: 'exit',
       providerId: mockEarnPositions[0].appId,
       poolId: mockEarnPositions[0].positionId,
       networkId: mockEarnPositions[0].networkId,
       depositTokenId: mockEarnPositions[0].dataProps.depositTokenId,
     })
-    // TODO (ACT-1389): Check that navigate called with confirmation screen for Claim
+    expect(navigate).toHaveBeenCalledWith(Screens.EarnConfirmationScreen, {
+      pool: {
+        ...mockEarnPositions[0],
+        balance: '100',
+      },
+      mode: 'exit',
+      useMax: true,
+    })
   })
   it('shows correct copy when ClaimType is Earnings', () => {
     jest

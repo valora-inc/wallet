@@ -22,7 +22,7 @@ import {
   confirmedStandbyTransactionsSelector,
   pendingStandbyTransactionsSelector,
 } from 'src/transactions/selectors'
-import { TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import { TokenTransaction, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 
 function TransactionFeed() {
@@ -32,6 +32,9 @@ function TransactionFeed() {
   const allPendingStandbyTransactions = useSelector(pendingStandbyTransactionsSelector)
   const allConfirmedStandbyTransactions = useSelector(confirmedStandbyTransactionsSelector)
   const allowedNetworks = useAllowedNetworkIdsForTransfers()
+
+  const showGetStarted = getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED)
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
 
   const confirmedFeedTransactions = useMemo(() => {
     // Filter out received pending transactions that are also in the pending
@@ -55,7 +58,11 @@ function TransactionFeed() {
       if (diff === 0) {
         // if the timestamps are the same, most likely one of the transactions
         // is an approval. on the feed we want to show the approval first.
-        return a.__typename === 'TokenApproval' ? 1 : b.__typename === 'TokenApproval' ? -1 : 0
+        return a.type === TokenTransactionTypeV2.Approval
+          ? 1
+          : b.type === TokenTransactionTypeV2.Approval
+            ? -1
+            : 0
       }
       return diff
     })
@@ -88,31 +95,39 @@ function TransactionFeed() {
     )
   }, [pendingTransactions, confirmedFeedTransactions])
 
+  function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
+    switch (tx.type) {
+      case TokenTransactionTypeV2.Exchange:
+      case TokenTransactionTypeV2.SwapTransaction:
+      case TokenTransactionTypeV2.CrossChainSwapTransaction:
+        return <SwapFeedItem key={tx.transactionHash} transaction={tx} />
+      case TokenTransactionTypeV2.Sent:
+      case TokenTransactionTypeV2.Received:
+        return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
+      case TokenTransactionTypeV2.NftSent:
+      case TokenTransactionTypeV2.NftReceived:
+        return <NftFeedItem key={tx.transactionHash} transaction={tx} />
+      case TokenTransactionTypeV2.Approval:
+        return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
+      case TokenTransactionTypeV2.Deposit:
+      case TokenTransactionTypeV2.Withdraw:
+      case TokenTransactionTypeV2.ClaimReward:
+        // These are handled by the FeedV2 only
+        return null
+      case TokenTransactionTypeV2.EarnDeposit:
+      case TokenTransactionTypeV2.EarnSwapDeposit:
+      case TokenTransactionTypeV2.EarnWithdraw:
+      case TokenTransactionTypeV2.EarnClaimReward:
+        return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
+    }
+  }
+
   if (!sections.length) {
-    return getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? (
+    return showGetStarted && !showUKCompliantVariant ? (
       <GetStarted />
     ) : (
       <NoActivity loading={loading} error={error} />
     )
-  }
-
-  function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
-    switch (tx.__typename) {
-      case 'TokenExchangeV3':
-      case 'CrossChainTokenExchange':
-        return <SwapFeedItem key={tx.transactionHash} transaction={tx} />
-      case 'TokenTransferV3':
-        return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
-      case 'NftTransferV3':
-        return <NftFeedItem key={tx.transactionHash} transaction={tx} />
-      case 'TokenApproval':
-        return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
-      case 'EarnDeposit':
-      case 'EarnSwapDeposit':
-      case 'EarnWithdraw':
-      case 'EarnClaimReward':
-        return <EarnFeedItem key={tx.transactionHash} transaction={tx} />
-    }
   }
 
   return (
@@ -128,7 +143,7 @@ function TransactionFeed() {
       />
       {fetchingMoreTransactions && (
         <View style={styles.centerContainer}>
-          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.primary} />
+          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
         </View>
       )}
     </>

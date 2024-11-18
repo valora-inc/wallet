@@ -1,10 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type LocalCurrencyCode } from 'src/localCurrency/consts'
-import {
-  TokenTransactionTypeV2,
-  type PageInfo,
-  type TokenTransaction,
-} from 'src/transactions/types'
+import { getMultichainFeatures } from 'src/statsig'
+import { FEED_V2_INCLUDE_TYPES, type PageInfo, type TokenTransaction } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 
 export type TransactionFeedV2Response = {
@@ -29,13 +26,31 @@ export const transactionFeedV2Api = createApi({
         endCursor: PageInfo['endCursor'] | undefined
       }
     >({
-      query: ({ address, localCurrencyCode, endCursor }) => {
-        const networkIds = Object.values(networkConfig.networkToNetworkId).join('&networkIds[]=')
-        const includeTypes = Object.values(TokenTransactionTypeV2).join('&includeTypes[]=')
-        const cursor = endCursor === undefined ? '' : `&afterCursor=${endCursor}`
-        return `?networkIds[]=${networkIds}&includeTypes[]=${includeTypes}&address=${address}&localCurrencyCode=${localCurrencyCode}${cursor}`
+      query: ({ address, localCurrencyCode, endCursor: afterCursor }) => {
+        return {
+          url: '',
+          params: {
+            address,
+            networkIds: getMultichainFeatures().showTransfers.join(','),
+            includeTypes: FEED_V2_INCLUDE_TYPES.join(','),
+            localCurrencyCode,
+            ...(afterCursor && { afterCursor }),
+          },
+        }
       },
       keepUnusedDataFor: 60, // 1 min
+      transformErrorResponse: (error, meta) => {
+        if (meta) {
+          const params = new URL(meta.request.url).searchParams
+          return {
+            ...error,
+            // only requests for next pages have the afterCursor search param
+            hasAfterCursor: params.get('afterCursor'),
+          }
+        }
+
+        return error
+      },
     }),
   }),
 })

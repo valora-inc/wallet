@@ -18,7 +18,11 @@ import { AddressRecipient, RecipientType, getDisplayName } from 'src/recipients/
 import { Actions as SendActions } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/types'
 import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
-import { UpdateTransactionsPayload, updateTransactions } from 'src/transactions/slice'
+import {
+  UpdateTransactionsPayload,
+  updateFeedFirstPage,
+  updateTransactions,
+} from 'src/transactions/slice'
 import { Network, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { resolveCurrency } from 'src/utils/currencies'
@@ -142,7 +146,7 @@ export function* tagTxsWithProviderInfo(action: UpdateTransactionsPayload) {
     const txHashesToProvider = yield* call(fetchTxHashesToProviderMapping)
 
     for (const tx of transactions) {
-      if (tx.__typename !== 'TokenTransferV3' || tx.type !== TokenTransactionTypeV2.Received) {
+      if (tx.type !== TokenTransactionTypeV2.Received) {
         continue
       }
 
@@ -172,7 +176,10 @@ export function* watchBidaliPaymentRequests() {
 }
 
 function* watchNewFeedTransactions() {
-  yield* takeEvery(updateTransactions.type, safely(tagTxsWithProviderInfo))
+  yield* takeEvery(
+    [updateTransactions.type, updateFeedFirstPage.type],
+    safely(tagTxsWithProviderInfo)
+  )
 }
 
 export function* fiatExchangesSaga() {

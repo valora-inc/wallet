@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Keyboard, StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import Touchable from 'src/components/Touchable'
-import QuestionIcon from 'src/icons/QuestionIcon'
+import PhoneIcon from 'src/icons/Phone'
+import WalletIcon from 'src/icons/navigator/Wallet'
 import {
   addressToVerificationStatusSelector,
   e164NumberToAddressSelector,
@@ -14,9 +15,10 @@ import {
   RecipientType,
   getDisplayDetail,
   getDisplayName,
+  recipientHasNumber,
 } from 'src/recipients/recipient'
 import { useSelector } from 'src/redux/hooks'
-import colors, { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -58,11 +60,11 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
             backgroundColor={Colors.gray1}
             foregroundColor={Colors.black}
             borderColor={Colors.gray2}
-            DefaultIcon={() => <QuestionIcon />} // no need to honor color props here since the color we need match the defaults
+            DefaultIcon={() => renderDefaultIcon(recipient)} // no need to honor color props here since the color we need match the defaults
           />
           {!!showAppIcon && (
             <Logo
-              color={colors.white}
+              color={Colors.white}
               style={styles.appIcon}
               size={ICON_SIZE}
               testID="RecipientItem/AppIcon"
@@ -79,7 +81,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           <View style={styles.rightIconContainer}>
             <ActivityIndicator
               size="small"
-              color={colors.primary}
+              color={Colors.accent}
               testID="RecipientItem/ActivityIndicator"
             />
           </View>
@@ -89,15 +91,23 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
   )
 }
 
+function renderDefaultIcon(recipient: Recipient) {
+  if (recipientHasNumber(recipient)) {
+    return <PhoneIcon color={Colors.black} size={24} testID="RecipientItem/PhoneIcon" />
+  } else {
+    return <WalletIcon color={Colors.black} size={24} testID="RecipientItem/WalletIcon" />
+  }
+}
+
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     paddingVertical: Spacing.Regular16,
-    paddingHorizontal: Spacing.Thick24,
+    paddingHorizontal: Spacing.Regular16,
     alignItems: 'center',
   },
   rowSelected: {
-    backgroundColor: colors.gray1,
+    backgroundColor: Colors.gray1,
   },
   avatar: {
     marginRight: Spacing.Small12,
@@ -105,10 +115,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
   },
-  name: { ...typeScale.labelMedium, color: colors.black },
+  name: { ...typeScale.labelMedium, color: Colors.black },
   phone: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: Colors.gray4,
   },
   rightIconContainer: {
     justifyContent: 'center',
@@ -118,7 +128,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 22,
     left: 22,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.accent,
     padding: 4,
     borderRadius: 100,
     // To override the default shadow props on the logo

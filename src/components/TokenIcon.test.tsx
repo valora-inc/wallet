@@ -24,7 +24,6 @@ const NO_IMAGE_TOKEN = {
 const store = createMockStore({
   tokens: {
     error: false,
-    loading: false,
     tokenBalances: mockTokenBalances,
   },
 })

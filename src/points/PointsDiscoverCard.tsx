@@ -13,12 +13,13 @@ import { pointsDataRefreshStarted } from 'src/points/slice'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 export default function PointsDiscoverCard() {
   const showPoints = getFeatureGate(StatsigFeatureGates.SHOW_POINTS)
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -38,7 +39,7 @@ export default function PointsDiscoverCard() {
     dispatch(pointsDataRefreshStarted())
   }, [])
 
-  if (!showPoints) {
+  if (!showPoints || showUKCompliantVariant) {
     return null
   }
 

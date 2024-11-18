@@ -7,7 +7,7 @@ export interface Props {
   color?: string
 }
 
-function Share({ color = colors.primary, size = 32 }: Props) {
+function Share({ color = colors.accent, size = 32 }: Props) {
   return (
     <Svg width={size} height={size} viewBox="0 0 32 32" fill="none">
       <Path

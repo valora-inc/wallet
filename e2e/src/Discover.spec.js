@@ -13,8 +13,8 @@ describe('Discover tab', () => {
     })
     await waitForElementByIdAndTap('Tab/Discover')
 
-    await scrollIntoView('Explore All', 'DiscoverScrollView')
-    await element(by.text('Explore All')).tap()
+    await scrollIntoView('View All', 'DiscoverScrollView')
+    await element(by.text('View All')).tap()
 
     await waitFor(element(by.id(`DappsScreen/DappsList`)))
   })

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
-import { AnalyticsEventType, AnalyticsPropertiesList } from 'src/analytics/Properties'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AnalyticsEventType, AnalyticsPropertiesList } from 'src/analytics/Properties'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -81,6 +81,6 @@ export function TopBarTextButton(props: TopBarTextButtonProps) {
 const styles = StyleSheet.create({
   text: {
     ...typeScale.bodyMedium,
-    color: colors.primary,
+    color: colors.accent,
   },
 })

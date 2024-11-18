@@ -14,7 +14,6 @@ import {
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getTokenInfo } from 'src/tokens/saga'
-import { fetchTokenBalances } from 'src/tokens/slice'
 import { BaseStandbyTransaction } from 'src/transactions/slice'
 import { TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -67,7 +66,6 @@ export function* sendPaymentSaga({
       transactionHash: string,
       feeCurrencyId?: string
     ): BaseStandbyTransaction => ({
-      __typename: 'TokenTransferV3',
       type: TokenTransactionTypeV2.Sent,
       context,
       networkId: tokenInfo.networkId,
@@ -107,8 +105,6 @@ export function* sendPaymentSaga({
     if (receipt.status === 'reverted') {
       throw new Error(`Send transaction reverted: ${hash}`)
     }
-
-    yield* put(fetchTokenBalances({ showLoading: true }))
 
     AppAnalytics.track(SendEvents.send_tx_complete, {
       txId: context.id,

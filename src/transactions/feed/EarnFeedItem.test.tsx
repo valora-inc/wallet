@@ -8,7 +8,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import EarnFeedItem from 'src/transactions/feed/EarnFeedItem'
-import { NetworkId } from 'src/transactions/types'
+import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import {
   mockAaveArbUsdcAddress,
@@ -107,7 +107,7 @@ const store = createMockStore({
 
 describe.each([
   {
-    type: 'EarnWithdraw',
+    type: TokenTransactionTypeV2.EarnWithdraw,
     transaction: mockEarnWithdrawTransaction,
     expectedTitle: 'earnFlow.transactionFeed.earnWithdrawTitle',
     expectedSubTitle: 'earnFlow.transactionFeed.earnWithdrawSubtitle, {"providerName":"Aave"}',
@@ -115,7 +115,7 @@ describe.each([
     expectedTotalLocal: '₱1.33',
   },
   {
-    type: 'EarnDeposit',
+    type: TokenTransactionTypeV2.EarnDeposit,
     transaction: mockEarnDepositTransaction,
     expectedTitle: 'earnFlow.transactionFeed.earnDepositTitle',
     expectedSubTitle: 'earnFlow.transactionFeed.earnDepositSubtitle, {"providerName":"Aave"}',
@@ -123,7 +123,7 @@ describe.each([
     expectedTotalLocal: '₱13.30',
   },
   {
-    type: 'EarnSwapDeposit',
+    type: TokenTransactionTypeV2.EarnSwapDeposit,
     transaction: mockEarnSwapDeposit,
     expectedTitle: 'earnFlow.transactionFeed.earnDepositTitle',
     expectedSubTitle: 'earnFlow.transactionFeed.earnDepositSubtitle, {"providerName":"Aave"}',
@@ -131,7 +131,7 @@ describe.each([
     expectedTotalLocal: '₱13.30',
   },
   {
-    type: 'EarnClaimReward',
+    type: TokenTransactionTypeV2.EarnClaimReward,
     transaction: mockEarnClaimRewardTransaction,
     expectedTitle: 'earnFlow.transactionFeed.earnClaimTitle',
     expectedSubTitle: 'earnFlow.transactionFeed.earnClaimSubtitle, {"providerName":"Aave"}',

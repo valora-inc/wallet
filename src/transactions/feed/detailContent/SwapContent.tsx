@@ -10,7 +10,12 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokensList } from 'src/tokens/hooks'
 import FeeRowItem from 'src/transactions/feed/detailContent/FeeRowItem'
-import { FeeType, TokenExchange, TransactionStatus } from 'src/transactions/types'
+import {
+  FeeType,
+  TokenExchange,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 export interface Props {
   transaction: TokenExchange
 }
@@ -22,7 +27,7 @@ export default function SwapContent({ transaction }: Props) {
 
   const fromToken = tokensList.find((token) => token.tokenId === transaction.outAmount.tokenId)
   const toToken = tokensList.find((token) => token.tokenId === transaction.inAmount.tokenId)
-  const isCrossChainSwap = transaction.__typename === 'CrossChainTokenExchange'
+  const isCrossChainSwap = transaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction
 
   const showExchangeRate =
     transaction.status === TransactionStatus.Complete &&

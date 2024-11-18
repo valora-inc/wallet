@@ -54,12 +54,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
-import {
-  BeforeDepositActionName,
-  EarnEnterMode,
-  SerializableRewardsInfo,
-  WithdrawActionName,
-} from 'src/earn/types'
+import { BeforeDepositActionName, EarnActiveMode, SerializableRewardsInfo } from 'src/earn/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
@@ -179,7 +174,7 @@ interface HomeEventsProperties {
     notificationPositionInList?: number
   }
   [HomeEvents.notification_center_spotlight_dismiss]: undefined
-  [HomeEvents.transaction_feed_item_select]: undefined
+  [HomeEvents.transaction_feed_item_select]: { itemType: TokenTransactionTypeV2 }
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
   [HomeEvents.home_action_pressed]: { action: HomeActionName }
@@ -595,7 +590,7 @@ interface SendEventsProperties {
     tokenId: string
     tokenAddress: string | null
     networkId: NetworkId | null
-    mode?: EarnEnterMode
+    mode?: EarnActiveMode
   }
   [SendEvents.swap_input_pressed]: {
     swapToLocalAmount: boolean
@@ -1559,7 +1554,7 @@ export interface EarnCommonProperties {
 
 interface EarnDepositProperties extends EarnCommonProperties {
   depositTokenAmount: string
-  mode: EarnEnterMode
+  mode: EarnActiveMode
   // the below are mainly for swap-deposit. For deposit, this would just be
   // same as the depositTokenAmount and depositTokenId
   fromTokenAmount: string
@@ -1567,8 +1562,9 @@ interface EarnDepositProperties extends EarnCommonProperties {
 }
 
 interface EarnWithdrawProperties extends EarnCommonProperties {
-  tokenAmount: string
+  tokenAmount?: string
   rewards: SerializableRewardsInfo[]
+  mode: Extract<EarnActiveMode, 'withdraw' | 'claim-rewards' | 'exit'>
 }
 
 // Adds `deposit` prefix to all properties of TxReceiptProperties
@@ -1604,7 +1600,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_enter_amount_continue_press]: {
     amountInUsd: string
     amountEnteredIn: AmountEnteredIn
-    mode: EarnEnterMode
+    mode: EarnActiveMode
     // For deposits these will be the same as the depositTokenId and depositTokenAmount
     // For swaps these will be the swapFromTokenId and swapFromTokenAmount
     // For withdrawals this will be in units of the depositToken
@@ -1614,7 +1610,11 @@ interface EarnEventsProperties {
   } & EarnCommonProperties
   [EarnEvents.earn_deposit_add_gas_press]: EarnCommonProperties & { gasTokenId: string }
   [EarnEvents.earn_feed_item_select]: {
-    origin: 'EarnDeposit' | 'EarnWithdraw' | 'EarnClaimReward' | 'EarnSwapDeposit'
+    origin:
+      | TokenTransactionTypeV2.EarnDeposit
+      | TokenTransactionTypeV2.EarnWithdraw
+      | TokenTransactionTypeV2.EarnClaimReward
+      | TokenTransactionTypeV2.EarnSwapDeposit
   }
   [EarnEvents.earn_collect_earnings_press]: EarnWithdrawProperties
   [EarnEvents.earn_withdraw_submit_start]: EarnWithdrawProperties
@@ -1647,7 +1647,7 @@ interface EarnEventsProperties {
   [EarnEvents.earn_pool_info_tap_safety_details]: EarnCommonProperties & {
     action: 'expand' | 'collapse'
   }
-  [EarnEvents.earn_select_withdraw_type]: EarnCommonProperties & { type: WithdrawActionName }
+  [EarnEvents.earn_select_withdraw_type]: EarnCommonProperties & { type: EarnActiveMode }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

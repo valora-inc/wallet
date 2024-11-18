@@ -14,19 +14,10 @@ const circle = {
 export default StyleSheet.create({
   circlePassive: {
     ...circle,
-    backgroundColor: colors.gray4,
+    backgroundColor: colors.gray2,
   },
   circleActive: {
     ...circle,
-    backgroundColor: colors.black,
-  },
-  circlePassiveOnboarding: {
-    ...circle,
-    backgroundColor: colors.onboardingBrownLight,
-    opacity: 0.5,
-  },
-  circleActiveOnboarding: {
-    ...circle,
-    backgroundColor: colors.infoDark,
+    backgroundColor: colors.accent,
   },
 })

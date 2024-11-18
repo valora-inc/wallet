@@ -10,6 +10,7 @@ import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
+import TextButton from 'src/components/TextButton'
 import AppleIcon from 'src/icons/Apple'
 import GoogleIcon from 'src/icons/Google'
 import { email } from 'src/images/Images'
@@ -28,13 +29,12 @@ import {
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import Colors from 'src/styles/colors'
+import { default as Colors, default as colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
-import colors from 'src/styles/colors'
 
 const TAG = 'keylessBackup/SignInWithEmail'
 
@@ -176,11 +176,11 @@ function SignInWithEmail({ route }: Props) {
     }
   }
 
-  if (!address) {
+  if (!address && isSetupInOnboarding) {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.activityIndicatorContainer}>
-          <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.primary} />
+        <View style={styles.activityIndicatorContainer} testID="SignInWithEmail/Spinner">
+          <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.accent} />
         </View>
       </SafeAreaView>
     )
@@ -256,13 +256,13 @@ function SignInWithEmail({ route }: Props) {
           />
         )}
         {isSetupInOnboarding && (
-          <Button
+          <TextButton
+            style={styles.signInAnotherWay}
             testID="SignInWithEmail/SignInAnotherWay"
             onPress={onPressSignInAnotherWay}
-            size={BtnSizes.FULL}
-            type={BtnTypes.SECONDARY}
-            text={t('signInWithEmail.signInAnotherWay')}
-          />
+          >
+            {t('signInWithEmail.signInAnotherWay')}
+          </TextButton>
         )}
       </View>
       {isSetupInOnboarding && (
@@ -328,5 +328,9 @@ const styles = StyleSheet.create({
   },
   bottomSheetButtonContainer: {
     gap: Spacing.Smallest8,
+  },
+  signInAnotherWay: {
+    alignSelf: 'center',
+    marginTop: Spacing.Smallest8,
   },
 })

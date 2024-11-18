@@ -27,7 +27,7 @@ function Risk({ risk }: { risk: SafetyRisk }) {
     <View style={styles.riskContainer} testID="SafetyCard/Risk">
       <View style={styles.icon}>
         {risk.isPositive ? (
-          <DataUp color={Colors.primary} testID="SafetyCard/RiskPositive" />
+          <DataUp color={Colors.accent} testID="SafetyCard/RiskPositive" />
         ) : (
           <DataDown color={Colors.error} testID="SafetyCard/RiskNegative" />
         )}
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.gray2,
   },
   barHighlighted: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.accent,
   },
   viewDetailsText: {
     ...typeScale.labelSemiBoldSmall,

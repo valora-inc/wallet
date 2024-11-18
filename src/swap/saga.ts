@@ -207,7 +207,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         ): BaseStandbyTransaction => {
           return {
             context: swapApproveContext,
-            __typename: 'TokenApproval',
             networkId,
             type: TokenTransactionTypeV2.Approval,
             transactionHash,
@@ -225,7 +224,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       feeCurrencyId?: string
     ): BaseStandbyTransaction => ({
       context: swapExecuteContext,
-      __typename: swapType === 'same-chain' ? 'TokenExchangeV3' : 'CrossChainTokenExchange',
       networkId,
       type:
         swapType === 'same-chain'
