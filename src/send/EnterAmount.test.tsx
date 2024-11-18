@@ -234,6 +234,7 @@ describe('EnterAmount', () => {
       })
     })
 
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('entering one amount updates the other amount', () => {
       const { amount, exchangedAmount, changeAmount, switchTokens } = renderComponent()
 
@@ -319,6 +320,7 @@ describe('EnterAmount', () => {
       expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} 10.526316`))
     })
 
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('entering invalid token amount with a valid local amount does not update anything', () => {
       const { amount, exchangedAmount, switchTokens, changeAmount } = renderComponent()
 
