@@ -18,7 +18,6 @@ import { inviterAddressSelector } from 'src/app/selectors'
 import { clearStoredMnemonic } from 'src/backup/utils'
 import { FIREBASE_ENABLED } from 'src/config'
 import { firebaseSignOut } from 'src/firebase/firebase'
-import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -79,7 +78,6 @@ export function* initializeAccountSaga() {
     AppAnalytics.track(OnboardingEvents.initialize_account_start)
     yield* call(getOrCreateAccount)
     yield* call(generateSignedMessage)
-    yield* put(refreshAllBalances())
 
     const choseToRestoreAccount = yield* select(choseToRestoreAccountSelector)
     if (choseToRestoreAccount) {

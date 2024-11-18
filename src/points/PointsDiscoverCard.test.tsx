@@ -9,6 +9,7 @@ import PointsDiscoverCard from 'src/points/PointsDiscoverCard'
 import { pointsDataRefreshStarted } from 'src/points/slice'
 import { RootState } from 'src/redux/store'
 import { getFeatureGate } from 'src/statsig/index'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { RecursivePartial, createMockStore } from 'test/utils'
 
 jest.mock('src/analytics/AppAnalytics')
@@ -32,8 +33,31 @@ const renderPointsDiscoverCard = (storeOverrides?: RecursivePartial<RootState>) 
 describe('PointsDiscoverCard', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      if (gate === StatsigFeatureGates.SHOW_POINTS) {
+        return true
+      }
+      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
+        return false
+      }
+      throw new Error('Unexpected gate')
+    })
+  })
 
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+  it('renders nothing for UK compliant variant', () => {
+    jest.mocked(getFeatureGate).mockImplementation((gate) => {
+      if (gate === StatsigFeatureGates.SHOW_POINTS) {
+        return true
+      }
+      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
+        return true
+      }
+      throw new Error('Unexpected gate')
+    })
+
+    const { toJSON } = renderPointsDiscoverCard()
+
+    expect(toJSON()).toBeNull()
   })
 
   it('renders when feature gate is enabled', () => {
