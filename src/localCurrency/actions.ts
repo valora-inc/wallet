@@ -1,15 +1,10 @@
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 
 export enum Actions {
-  FETCH_CURRENT_RATE = 'LOCAL_CURRENCY/FETCH_CURRENT_RATE',
   FETCH_CURRENT_RATE_SUCCESS = 'LOCAL_CURRENCY/FETCH_CURRENT_RATE_SUCCESS',
   FETCH_CURRENT_RATE_FAILURE = 'LOCAL_CURRENCY/FETCH_CURRENT_RATE_FAILURE',
   SELECT_PREFERRED_CURRENCY = 'LOCAL_CURRENCY/SELECT_PREFERRED_CURRENCY',
 }
-export interface FetchCurrentRateAction {
-  type: Actions.FETCH_CURRENT_RATE
-}
-
 export interface FetchCurrentRateSuccessAction {
   type: Actions.FETCH_CURRENT_RATE_SUCCESS
   currencyCode: LocalCurrencyCode
@@ -27,14 +22,9 @@ export interface SelectPreferredCurrencyAction {
 }
 
 export type ActionTypes =
-  | FetchCurrentRateAction
   | FetchCurrentRateSuccessAction
   | FetchCurrentRateFailureAction
   | SelectPreferredCurrencyAction
-
-export const fetchCurrentRate = (): FetchCurrentRateAction => ({
-  type: Actions.FETCH_CURRENT_RATE,
-})
 
 export const fetchCurrentRateSuccess = (
   currencyCode: LocalCurrencyCode,
