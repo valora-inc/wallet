@@ -187,11 +187,12 @@ function EnterAmount({
     setEnteredIn('token')
     setSelectedPercentage(percentage)
 
-    AppAnalytics.track(SendEvents.amount_percentage_selected, {
+    AppAnalytics.track(SendEvents.send_percentage_selected, {
       tokenId: token.tokenId,
       tokenAddress: token.address,
       networkId: token.networkId,
       percentage: percentage * 100,
+      flow: 'send',
     })
   }
 

@@ -281,7 +281,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.send_tx_complete]: `when a send transaction has successfully completed`,
   [SendEvents.send_tx_error]: `when there is an error sending a transaction`,
   [SendEvents.token_dropdown_opened]: ``,
-  [SendEvents.max_pressed]: ``,
+  [SendEvents.send_percentage_selected]: `When the user selects a pre-defined percentage of their balance to transact with`,
   [SendEvents.swap_input_pressed]: ``,
 
   // related to the alert that is shown when sending to an unknown address

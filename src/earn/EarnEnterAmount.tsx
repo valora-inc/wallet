@@ -347,11 +347,12 @@ function EarnEnterAmount({ route }: Props) {
     setEnteredIn('token')
     setSelectedPercentage(percentage)
 
-    AppAnalytics.track(SendEvents.amount_percentage_selected, {
+    AppAnalytics.track(SendEvents.send_percentage_selected, {
       tokenId: inputToken.tokenId,
       tokenAddress: inputToken.address,
       networkId: inputToken.networkId,
       percentage: percentage * 100,
+      flow: 'earn',
     })
   }
 

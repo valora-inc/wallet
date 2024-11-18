@@ -586,11 +586,12 @@ interface SendEventsProperties {
     currentTokenAddress: string | null
     currentNetworkId: NetworkId | null
   }
-  [SendEvents.amount_percentage_selected]: {
+  [SendEvents.send_percentage_selected]: {
     tokenId: string
     tokenAddress: string | null
     networkId: NetworkId | null
     percentage: number
+    flow: 'send' | 'earn' | 'swap'
     mode?: EarnActiveMode
   }
   [SendEvents.swap_input_pressed]: {
