@@ -446,6 +446,7 @@ function EnterAmount({
         <EnterAmountOptions
           onPressAmount={onSelectPercentageAmount}
           selectedAmount={selectedPercentage}
+          testID="SendEnterAmount/AmountOptions"
         />
 
         <ProceedComponent

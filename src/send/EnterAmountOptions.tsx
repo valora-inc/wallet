@@ -1,7 +1,12 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, KeyboardEvent, Platform, StyleSheet, Text, View } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated'
 import Touchable from 'src/components/Touchable'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -11,12 +16,15 @@ import variables from 'src/styles/variables'
 export default function EnterAmountOptions({
   onPressAmount,
   selectedAmount,
+  testID,
 }: {
   onPressAmount(amount: number): void
   selectedAmount: number | null
+  testID: string
 }) {
   const { t } = useTranslation()
   const translateY = useSharedValue(0)
+  const [isVisible, setIsVisible] = useState(false)
 
   const amountOptions = useMemo(() => {
     return [
@@ -47,12 +55,17 @@ export default function EnterAmountOptions({
     const keyboardHideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide'
 
     const showSubscription = Keyboard.addListener(keyboardShowEvent, (event: KeyboardEvent) => {
+      setIsVisible(true)
       translateY.value = withTiming(-event.endCoordinates.height, {
         duration: event.duration || 300,
       })
     })
     const hideSubscription = Keyboard.addListener(keyboardHideEvent, (event: KeyboardEvent) => {
-      translateY.value = withTiming(0, { duration: event.duration || 300 })
+      translateY.value = withTiming(0, { duration: event.duration || 300 }, (isFinished) => {
+        if (isFinished) {
+          runOnJS(setIsVisible)(false)
+        }
+      })
     })
 
     return () => {
@@ -64,9 +77,12 @@ export default function EnterAmountOptions({
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateY: translateY.value }],
-      height: translateY.value < 0 ? 'auto' : 0,
     }
   })
+
+  if (!isVisible) {
+    return null
+  }
 
   return (
     <Animated.View
@@ -80,7 +96,7 @@ export default function EnterAmountOptions({
         animatedStyle,
       ]}
     >
-      <View style={styles.contentContainer}>
+      <View style={styles.contentContainer} testID={testID}>
         {amountOptions.map(({ amount, label }) => (
           <Touchable borderRadius={100} key={label} onPress={() => onPressAmount(amount)}>
             <View

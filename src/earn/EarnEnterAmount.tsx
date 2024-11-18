@@ -413,7 +413,6 @@ function EarnEnterAmount({ route }: Props) {
               ? t('earnFlow.enterAmount.titleWithdraw')
               : t('earnFlow.enterAmount.title')}
           </Text>
-
           <View style={styles.inputBox}>
             <View style={styles.inputRow}>
               <AmountInput
@@ -451,7 +450,6 @@ function EarnEnterAmount({ route }: Props) {
               />
             </View>
           </View>
-
           {tokenAmount && prepareTransactionsResult && !isWithdrawal && (
             <TransactionDepositDetails
               pool={pool}
@@ -474,11 +472,6 @@ function EarnEnterAmount({ route }: Props) {
             />
           )}
         </View>
-
-        <EnterAmountOptions
-          onPressAmount={onSelectPercentageAmount}
-          selectedAmount={selectedPercentage}
-        />
 
         {showNotEnoughBalanceForGasWarning && (
           <InLineNotification
@@ -545,7 +538,11 @@ function EarnEnterAmount({ route }: Props) {
             testID="EarnEnterAmount/WithdrawingAndClaimingCard"
           />
         )}
-
+        <EnterAmountOptions
+          onPressAmount={onSelectPercentageAmount}
+          selectedAmount={selectedPercentage}
+          testID="EarnEnterAmount/AmountOptions"
+        />
         <Button
           onPress={onPressContinue}
           text={t('earnFlow.enterAmount.continue')}
