@@ -110,9 +110,6 @@ function EarnEnterAmount({ route }: Props) {
   const [maxPressed, setMaxPressed] = useState(false)
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
   const walletAddress = useSelector(walletAddressSelector)
-  const feeCurrencies = useSelector((state) =>
-    feeCurrenciesSelector(state, transactionToken.networkId)
-  )
 
   const {
     prepareTransactionsResult: { prepareTransactionsResult, swapTransaction } = {},
@@ -134,7 +131,6 @@ function EarnEnterAmount({ route }: Props) {
     onSelectToken,
   } = useEnterAmount({
     token: inputToken,
-    feeCurrencies,
     onSelectToken: (token) => setInputToken(token),
   })
 
@@ -150,6 +146,10 @@ function EarnEnterAmount({ route }: Props) {
       transactionTokenAmount,
     }
   }, [inputToken, withdrawToken, derived.token.bignum, isWithdrawal, pool])
+
+  const feeCurrencies = useSelector((state) =>
+    feeCurrenciesSelector(state, transactionToken.networkId)
+  )
 
   const balanceInInputToken = useMemo(
     () =>
@@ -171,7 +171,7 @@ function EarnEnterAmount({ route }: Props) {
 
     return refreshPreparedTransactions({
       amount: amount.toString(),
-      token: inputToken,
+      token,
       walletAddress,
       feeCurrencies,
       pool,

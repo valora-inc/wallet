@@ -73,7 +73,6 @@ function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbo
 
 export function useEnterAmount(props: {
   token: TokenBalance
-  feeCurrencies: TokenBalance[]
   onSelectToken?: (token: TokenBalance) => void
 }) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()

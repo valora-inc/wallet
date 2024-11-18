@@ -3,7 +3,6 @@ import React, { ComponentType, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
-import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
@@ -18,7 +17,6 @@ import TokenEnterAmount, {
   useEnterAmount,
 } from 'src/components/TokenEnterAmount'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { useSelector } from 'src/redux/hooks'
 import { AmountEnteredIn } from 'src/send/types'
 import Colors from 'src/styles/colors'
@@ -26,42 +24,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { groupNumber } from 'src/tokens/utils'
-import { parseInputAmount } from 'src/utils/parsing'
 import { PreparedTransactionsResult, getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
-
-function roundTokenAmount(value: string) {
-  const { decimalSeparator } = getNumberFormatSettings()
-  if (value === '') {
-    return ''
-  }
-
-  const bigNum = parseInputAmount(value, decimalSeparator)
-
-  if (bigNum.isLessThan(0.000001)) {
-    return `<0${decimalSeparator}000001`
-  }
-
-  const grouped = groupNumber(bigNum.decimalPlaces(6).toString()).replaceAll('.', decimalSeparator)
-  return grouped
-}
-
-function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbol) {
-  const { decimalSeparator } = getNumberFormatSettings()
-  if (value === '') {
-    return ''
-  }
-
-  const bigNum = parseInputAmount(value, decimalSeparator)
-
-  if (bigNum.isLessThan(0.000001)) {
-    return `<${localCurrencySymbol}0${decimalSeparator}000001`
-  }
-
-  const rounded = bigNum.isLessThan(0.01) ? bigNum.toPrecision(1) : bigNum.toFixed(2)
-  const grouped = groupNumber(rounded.toString()).replaceAll('.', decimalSeparator)
-  return `${localCurrencySymbol}${grouped}`
-}
 
 export interface ProceedArgs {
   tokenAmount: BigNumber
@@ -122,7 +85,7 @@ export const SendProceed = ({
   )
 }
 
-function EnterAmount({
+export default function EnterAmount({
   tokens,
   defaultToken,
   prepareTransactionsLoading,
@@ -155,7 +118,6 @@ function EnterAmount({
     onSelectToken,
   } = useEnterAmount({
     token,
-    feeCurrencies,
     onSelectToken: (token) => setToken(token),
   })
 
@@ -175,8 +137,7 @@ function EnterAmount({
   //   })
   // }
 
-  const isAmountLessThanBalance =
-    derived.valueToRefreshWith && derived.valueToRefreshWith.lte(token.balance)
+  const isAmountLessThanBalance = derived.token.bignum && derived.token.bignum.lte(token.balance)
   const showLowerAmountError = !isAmountLessThanBalance && !disableBalanceCheck
   const showMaxAmountWarning =
     !showLowerAmountError &&
@@ -210,7 +171,7 @@ function EnterAmount({
       return onRefreshPreparedTransactions(derived.token.bignum!, token, feeCurrencies)
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [derived.token.bignum, props.token])
+  }, [derived.token.bignum, token])
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
@@ -382,5 +343,3 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
 })
-
-export default EnterAmount
