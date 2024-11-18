@@ -1,21 +1,20 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, Platform, StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 export default function EnterAmountOptions({
-  isTextInputFocused,
   onPressAmount,
   selectedAmount,
 }: {
-  isTextInputFocused: boolean
   onPressAmount(amount: number): void
   selectedAmount: number | null
 }) {
   const { t } = useTranslation()
+  const [visible, setVisible] = useState(false)
 
   const amountOptions = useMemo(() => {
     return [
@@ -38,11 +37,36 @@ export default function EnterAmountOptions({
     ]
   }, [])
 
+  useEffect(() => {
+    // This component should ideally follow the keyboard animation, so it should
+    // be visible before the keyboard is shown and dismissed. Sadly Android does
+    // not support the keyboardWillShow or keyboardWillHide events.
+    const keyboardShowEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow'
+    const keyboardHideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide'
+
+    const showSubscription = Keyboard.addListener(keyboardShowEvent, () => {
+      setVisible(true)
+    })
+    const hideSubscription = Keyboard.addListener(keyboardHideEvent, () => {
+      setVisible(false)
+    })
+
+    return () => {
+      showSubscription.remove()
+      hideSubscription.remove()
+    }
+  }, [])
+
   return (
-    <View style={[styles.container, { opacity: isTextInputFocused ? 1 : 0 }]}>
+    <View style={[styles.container, { opacity: visible ? 1 : 0 }]}>
       <View style={styles.contentContainer}>
         {amountOptions.map(({ amount, label }) => (
-          <Touchable borderRadius={100} key={label} onPress={() => onPressAmount(amount)}>
+          <Touchable
+            borderRadius={100}
+            key={label}
+            onPress={() => onPressAmount(amount)}
+            disabled={!visible}
+          >
             <View
               style={[
                 styles.chip,
@@ -65,6 +89,7 @@ export default function EnterAmountOptions({
           onPress={() => {
             Keyboard.dismiss()
           }}
+          disabled={!visible}
         >
           <View style={[styles.chip, { borderWidth: 0 }]}>
             <Text style={styles.chipText}>{t('done')}</Text>

@@ -164,7 +164,6 @@ function EnterAmount({
   const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
   const [localAmountInput, setLocalAmountInput] = useState<string>('')
   const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
-  const [isTextInputFocused, setIsTextInputFocused] = useState(true)
   const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
 
   // this should never be null, just adding a default to make TS happy
@@ -369,12 +368,6 @@ function EnterAmount({
                 inputRef={tokenAmountInputRef}
                 inputValue={tokenAmountInput}
                 onInputChange={onTokenAmountInputChange}
-                onFocus={() => {
-                  setIsTextInputFocused(true)
-                }}
-                onBlur={() => {
-                  setIsTextInputFocused(false)
-                }}
                 inputStyle={[styles.inputText, showLowerAmountError && { color: Colors.error }]}
                 autoFocus
                 placeholder={new BigNumber(0).toFormat(2)}
@@ -470,7 +463,6 @@ function EnterAmount({
         </View>
 
         <EnterAmountOptions
-          isTextInputFocused={isTextInputFocused}
           onPressAmount={handleSelectPercentageAmount}
           selectedAmount={selectedPercentage}
         />
@@ -508,8 +500,6 @@ export function AmountInput({
   placeholder = '0',
   testID = 'AmountInput',
   editable = true,
-  onBlur,
-  onFocus,
 }: {
   inputValue: string
   onInputChange(value: string): void
@@ -519,8 +509,6 @@ export function AmountInput({
   placeholder?: string
   testID?: string
   editable?: boolean
-  onBlur?(): void
-  onFocus?(): void
 }) {
   // the startPosition and inputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android
@@ -555,11 +543,9 @@ export function AmountInput({
         inputStyle={[inputStyle, Platform.select({ ios: { lineHeight: undefined } })]}
         testID={testID}
         onBlur={() => {
-          onBlur?.()
           handleSetStartPosition(0)
         }}
         onFocus={() => {
-          onFocus?.()
           handleSetStartPosition(inputValue?.length ?? 0)
         }}
         onSelectionChange={() => {
