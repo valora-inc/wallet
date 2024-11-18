@@ -317,7 +317,9 @@ describe('EnterAmount', () => {
       switchTokens()
       changeAmount('abc')
       expect(amount.props.value).toBe(replaceSeparators('₱1.40'))
-      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} 10.526316`))
+      expect(exchangedAmount.props.children).toBe(
+        replaceSeparators(`${APPROX_SYMBOL} 10.526316 POOF`)
+      )
     })
 
     // eslint-disable-next-line jest/no-disabled-tests
@@ -385,7 +387,9 @@ describe('EnterAmount', () => {
     fireEvent.press(getByTestId('SendEnterAmount/SwitchTokens'))
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1.33')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('₱1.33')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(`${APPROX_SYMBOL} 10`)
+    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+      `${APPROX_SYMBOL} 10 POOF`
+    )
 
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), text)
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(expectedLocalValue)
@@ -471,7 +475,7 @@ describe('EnterAmount', () => {
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('₱1')
     expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
-      `${APPROX_SYMBOL} 7.518797`
+      `${APPROX_SYMBOL} 7.518797 POOF`
     )
 
     fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
@@ -482,7 +486,7 @@ describe('EnterAmount', () => {
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('ETH')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('₱1')
     expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
-      `${APPROX_SYMBOL} 0.000501`
+      `${APPROX_SYMBOL} 0.000501 ETH`
     )
   })
 
@@ -548,12 +552,14 @@ describe('EnterAmount', () => {
     fireEvent.press(getByTestId('SendEnterAmount/SwitchTokens'))
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
     expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
-      `${APPROX_SYMBOL} 0.75188`
+      `${APPROX_SYMBOL} 0.75188 USDC`
     )
 
     // should truncate trailing zeroes and decimal separator when there are no decimals
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1.33')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(`${APPROX_SYMBOL} 1`)
+    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+      `${APPROX_SYMBOL} 1 USDC`
+    )
 
     fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
     await waitFor(() => expect(getByText('Ether')).toBeTruthy())
@@ -562,13 +568,13 @@ describe('EnterAmount', () => {
     // should include 18 decimals for ETH
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '10000')
     expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
-      `${APPROX_SYMBOL} 5.012531`
+      `${APPROX_SYMBOL} 5.012531 ETH`
     )
 
     // should truncate trailing zeroes with decimal separator
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '199.5')
     expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
-      `${APPROX_SYMBOL} 0.1`
+      `${APPROX_SYMBOL} 0.1 ETH`
     )
   })
 
