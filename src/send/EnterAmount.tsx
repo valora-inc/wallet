@@ -406,43 +406,41 @@ function EnterAmount({
           </View>
         </View>
 
-        <View style={styles.notificationsContainer}>
-          {showMaxAmountWarning && (
-            <InLineNotification
-              variant={NotificationVariant.Warning}
-              title={t('sendEnterAmountScreen.maxAmountWarning.title')}
-              description={t('sendEnterAmountScreen.maxAmountWarning.description', {
-                feeTokenSymbol: prepareTransactionsResult.feeCurrency.symbol,
-              })}
-              style={styles.warning}
-              testID="SendEnterAmount/MaxAmountWarning"
-            />
-          )}
-          {showNotEnoughBalanceForGasWarning && (
-            <InLineNotification
-              variant={NotificationVariant.Warning}
-              title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
-                feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-              })}
-              description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
-                feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-              })}
-              style={styles.warning}
-              testID="SendEnterAmount/NotEnoughForGasWarning"
-            />
-          )}
-          {prepareTransactionError && (
-            <InLineNotification
-              variant={NotificationVariant.Error}
-              title={t('sendEnterAmountScreen.prepareTransactionError.title')}
-              description={t('sendEnterAmountScreen.prepareTransactionError.description')}
-              style={styles.warning}
-              testID="SendEnterAmount/PrepareTransactionError"
-            />
-          )}
+        {showMaxAmountWarning && (
+          <InLineNotification
+            variant={NotificationVariant.Warning}
+            title={t('sendEnterAmountScreen.maxAmountWarning.title')}
+            description={t('sendEnterAmountScreen.maxAmountWarning.description', {
+              feeTokenSymbol: prepareTransactionsResult.feeCurrency.symbol,
+            })}
+            style={styles.warning}
+            testID="SendEnterAmount/MaxAmountWarning"
+          />
+        )}
+        {showNotEnoughBalanceForGasWarning && (
+          <InLineNotification
+            variant={NotificationVariant.Warning}
+            title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
+              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+            })}
+            description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
+              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+            })}
+            style={styles.warning}
+            testID="SendEnterAmount/NotEnoughForGasWarning"
+          />
+        )}
+        {prepareTransactionError && (
+          <InLineNotification
+            variant={NotificationVariant.Error}
+            title={t('sendEnterAmountScreen.prepareTransactionError.title')}
+            description={t('sendEnterAmountScreen.prepareTransactionError.description')}
+            style={styles.warning}
+            testID="SendEnterAmount/PrepareTransactionError"
+          />
+        )}
 
-          {children}
-        </View>
+        {children}
 
         <EnterAmountOptions
           onPressAmount={handleSelectPercentageAmount}
@@ -546,6 +544,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
+    paddingHorizontal: Spacing.Thick24,
     paddingTop: Spacing.Thick24,
     flexGrow: 1,
   },
@@ -554,10 +553,6 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
-    paddingHorizontal: Spacing.Thick24,
-  },
-  notificationsContainer: {
-    paddingHorizontal: Spacing.Thick24,
   },
   inputBox: {
     marginTop: Spacing.Large32,
@@ -645,7 +640,6 @@ const styles = StyleSheet.create({
   },
   reviewButton: {
     paddingTop: Spacing.Thick24,
-    marginHorizontal: Spacing.Thick24,
   },
   warning: {
     marginBottom: Spacing.Regular16,
