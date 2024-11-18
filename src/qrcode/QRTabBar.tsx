@@ -9,6 +9,7 @@ import BackChevron from 'src/icons/BackChevron'
 import Share from 'src/icons/Share'
 import Times from 'src/icons/Times'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { TopBarIconButtonV2 } from 'src/navigator/TopBarIconButtonV2'
 import { useDispatch } from 'src/redux/hooks'
 import { shareQRCode, SVG } from 'src/send/actions'
 import colors from 'src/styles/colors'
@@ -74,7 +75,7 @@ export default function QRTabBar({
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.leftContainer}>
-        <TopBarIconButton
+        <TopBarIconButtonV2
           icon={leftIcon === 'times' ? <Times color={color} /> : <BackChevron color={color} />}
           onPress={onPressClose}
         />
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     ...Platform.select({
       android: {
-        paddingTop: Spacing.Small12,
+        paddingTop: Spacing.Smallest8,
         paddingVertical: Spacing.Smallest8,
       },
     }),
