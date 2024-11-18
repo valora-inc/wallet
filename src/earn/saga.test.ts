@@ -19,7 +19,6 @@ import { isGasSubsidizedForNetwork } from 'src/earn/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { EarnPosition } from 'src/positions/types'
-import { fetchTokenBalances } from 'src/tokens/slice'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -285,7 +284,6 @@ describe('depositSubmitSaga', () => {
           transactionHash: '0x2',
         })
       )
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -331,7 +329,6 @@ describe('depositSubmitSaga', () => {
           transactionHash: '0x2',
         })
       )
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
       .run()
@@ -382,7 +379,6 @@ describe('depositSubmitSaga', () => {
           transactionHash: '0x2',
         })
       )
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -438,7 +434,6 @@ describe('depositSubmitSaga', () => {
           transactionHash: '0x2',
         })
       )
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
       .run()
@@ -491,7 +486,6 @@ describe('depositSubmitSaga', () => {
           transactionHash: '0x3',
         })
       )
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -533,7 +527,6 @@ describe('depositSubmitSaga', () => {
           transactionHash: '0x2',
         })
       )
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -567,7 +560,6 @@ describe('depositSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(depositCancel())
-      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
@@ -602,7 +594,6 @@ describe('depositSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(depositError())
-      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
@@ -643,7 +634,6 @@ describe('depositSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(depositError())
-      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -723,6 +713,16 @@ describe('withdrawSubmitSaga', () => {
     providerId: 'aave',
     rewards: mockRewards,
     poolId: mockRewardsPositions[0].positionId,
+    mode: 'withdraw',
+  }
+
+  const expectedAnalyticsPropsClaim = {
+    depositTokenId: mockArbUsdcTokenId,
+    networkId: NetworkId['arbitrum-sepolia'],
+    providerId: 'aave',
+    rewards: mockRewards,
+    poolId: mockRewardsPositions[0].positionId,
+    mode: 'claim-rewards',
   }
 
   const expectedAnalyticsPropsNoRewards = {
@@ -781,12 +781,12 @@ describe('withdrawSubmitSaga', () => {
         pool: mockPool,
         preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
         rewardsTokens: mockRewardsPositions[1].tokens,
+        mode: 'withdraw',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(withdrawSuccess())
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -816,12 +816,12 @@ describe('withdrawSubmitSaga', () => {
         preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
         rewardsTokens: mockRewardsPositions[1].tokens,
         amount: '5',
+        mode: 'withdraw',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(withdrawSuccess())
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -855,12 +855,12 @@ describe('withdrawSubmitSaga', () => {
         pool: mockPool,
         preparedTransactions: [serializableWithdrawTx],
         rewardsTokens: [],
+        mode: 'withdraw',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
       .provide(sagaProviders)
       .put(withdrawSuccess())
-      .put(fetchTokenBalances({ showLoading: false }))
       .call.like({ fn: sendPreparedTransactions })
       .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
       .run()
@@ -880,13 +880,57 @@ describe('withdrawSubmitSaga', () => {
     expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(false)
   })
 
-  it('dispatches cancel action if pin input is cancelled and does not navigate home', async () => {
+  it('sends only withdraw to standby handler if withdrawalIncludesClaim is true (gas subsidy off)', async () => {
+    await expectSaga(withdrawSubmitSaga, {
+      type: withdrawStart.type,
+      payload: {
+        pool: {
+          ...mockPool,
+          dataProps: {
+            ...mockPool.dataProps,
+            withdrawalIncludesClaim: true,
+          },
+        },
+        preparedTransactions: [serializableWithdrawTx],
+        rewardsTokens: mockRewardsPositions[1].tokens,
+        amount: '5',
+        mode: 'withdraw',
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide(sagaProviders)
+      .put(withdrawSuccess())
+      .call.like({ fn: sendPreparedTransactions })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
+      .run()
+
+    expect(navigateHome).toHaveBeenCalled()
+    expect(mockStandbyHandler).toHaveBeenCalledTimes(1)
+    expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, {
+      ...expectedWithdrawStandbyTx,
+      inAmount: { ...expectedWithdrawStandbyTx.inAmount, value: '5' },
+      outAmount: { ...expectedWithdrawStandbyTx.outAmount, value: '5' },
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_start, {
+      ...expectedAnalyticsPropsWithRewards,
+      tokenAmount: '5',
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_withdraw_submit_success, {
+      ...expectedAnalyticsPropsWithRewards,
+      tokenAmount: '5',
+    })
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
+  })
+
+  it('dispatches cancel action if pin input is cancelled and does not navigate home (withdraw)', async () => {
     await expectSaga(withdrawSubmitSaga, {
       type: withdrawStart.type,
       payload: {
         pool: mockPool,
         preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
         rewardsTokens: [],
+        mode: 'withdraw',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -895,7 +939,6 @@ describe('withdrawSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(withdrawCancel())
-      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
@@ -918,6 +961,7 @@ describe('withdrawSubmitSaga', () => {
         pool: mockPool,
         preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
         rewardsTokens: mockRewardsPositions[1].tokens,
+        mode: 'withdraw',
       },
     })
       .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -926,7 +970,6 @@ describe('withdrawSubmitSaga', () => {
         ...sagaProviders,
       ])
       .put(withdrawError())
-      .not.put.actionType(fetchTokenBalances.type)
       .call.like({ fn: sendPreparedTransactions })
       .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
       .run()
@@ -955,6 +998,7 @@ describe('withdrawSubmitSaga', () => {
           pool: mockPool,
           preparedTransactions: [serializableWithdrawTx, serializableClaimRewardTx],
           rewardsTokens: mockRewardsPositions[1].tokens,
+          mode: 'withdraw',
         },
       })
         .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
@@ -966,7 +1010,6 @@ describe('withdrawSubmitSaga', () => {
           ...sagaProviders,
         ])
         .put(withdrawError())
-        .not.put.actionType(fetchTokenBalances.type)
         .call.like({ fn: sendPreparedTransactions })
         .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
         .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
@@ -985,4 +1028,71 @@ describe('withdrawSubmitSaga', () => {
       })
     }
   )
+
+  it('sends claim transaction, navigates home and dispatches the success action (gas subsidy off)', async () => {
+    await expectSaga(withdrawSubmitSaga, {
+      type: withdrawStart.type,
+      payload: {
+        pool: mockPool,
+        preparedTransactions: [serializableClaimRewardTx],
+        rewardsTokens: mockRewardsPositions[1].tokens,
+        mode: 'claim-rewards',
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide(sagaProviders)
+      .put(withdrawSuccess())
+      .call.like({ fn: sendPreparedTransactions })
+      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
+      .run()
+
+    expect(navigateHome).toHaveBeenCalled()
+    expect(mockStandbyHandler).toHaveBeenCalledTimes(1)
+    expect(mockStandbyHandler).toHaveBeenCalledWith({
+      ...expectedClaimRewardTx,
+      transactionHash: '0x1',
+    })
+
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_withdraw_submit_start,
+      expectedAnalyticsPropsClaim
+    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_withdraw_submit_success,
+      expectedAnalyticsPropsClaim
+    )
+    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
+    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
+  })
+
+  it('dispatches cancel action if pin input is cancelled and does not navigate home (claim-rewards)', async () => {
+    await expectSaga(withdrawSubmitSaga, {
+      type: withdrawStart.type,
+      payload: {
+        pool: mockPool,
+        preparedTransactions: [serializableClaimRewardTx],
+        rewardsTokens: mockRewardsPositions[1].tokens,
+        mode: 'claim-rewards',
+      },
+    })
+      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+      .provide([
+        [matchers.call.fn(sendPreparedTransactions), throwError(CANCELLED_PIN_INPUT as any)],
+        ...sagaProviders,
+      ])
+      .put(withdrawCancel())
+      .call.like({ fn: sendPreparedTransactions })
+      .not.call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'])
+      .run()
+    expect(navigateHome).not.toHaveBeenCalled()
+    expect(mockStandbyHandler).not.toHaveBeenCalled()
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_withdraw_submit_start,
+      expectedAnalyticsPropsClaim
+    )
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_withdraw_submit_cancel,
+      expectedAnalyticsPropsClaim
+    )
+  })
 })

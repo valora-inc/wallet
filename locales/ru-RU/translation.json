@@ -1462,14 +1462,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Узнать",
-    "exploreDapps": "Изучить Dapps",
-    "exploreAll": "Изучить все",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Просмотреть все",
     "message": "Изучите способы использования своих активов",
     "errorMessage": "Произошла ошибка при загрузке dapps",
     "featuredDapp": "Подборка",
     "allDapps": "Все",
     "favoriteDapps": "Мое избранное",
     "mostPopularDapps": "Самые популярные",
+    "mostPopularDapps_UK": "Другие Dapps",
     "favoriteDappsAndAll": "Мое избранное и все",
     "searchPlaceHolder": "Поиск dapps",
     "noFavorites": {
@@ -1485,7 +1486,8 @@
       "message": "Применен фильтр <0>{{filter}}</0>",
       "removeFilter": "Удалить фильтр",
       "searchMessage": "Для <0>\"{{searchTerm}}\"</0> подходящих результатов не найдено"
-    }
+    },
+    "disclaimer_UK": "Это список сторонних Dapp'ов. Описание каждого Dapp носит чисто информационный характер и не является приглашением к их использованию."
   },
   "dappRankings": {
     "title": "Рейтинги Dapp",
@@ -2127,18 +2129,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Поиск по адресу кошелька",
+    "searchInputLabel": "К",
+    "searchInputPlaceholder": "Адрес кошелька",
     "paste": "Вставить из буфера обмена",
     "title": "Выберите получателя",
     "contactsTitle": "Выберите контакт",
+    "header": "Отправить",
+    "contactsHeader": "Отправить в контакты",
     "recents": "Последние",
     "results": "Результаты",
     "qr": {
-      "title": "Сканировать или показать QR-код",
-      "subtitle": "Быстрый поиск адресов в {{appName}}"
+      "title": "Отправь через QR-код",
+      "subtitle": "Нажмите, чтобы отсканировать или показать адрес"
     },
     "invite": {
-      "title": "Отправляйте криптовалюту друзьям",
-      "subtitle": "Отправить средства или приглашение вашим контактам"
+      "title": "Отправить контакту",
+      "subtitle": "Отправляй средства своим контактам"
     },
     "jumpstart": {
       "title": "Отправить по прямой ссылке",
@@ -2293,7 +2299,13 @@
     "withdrawSubtitle_noTxAppName": "из неизвестного приложения",
     "claimRewardTitle": "Получено",
     "claimRewardSubtitle": "из пула {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "из неизвестного приложения"
+    "claimRewardSubtitle_noTxAppName": "из неизвестного приложения",
+    "allTransactionsShown": "Ты дошел до конца своей истории транзакций.",
+    "fetchErrorRetry": "Повторить попытку",
+    "error": {
+      "fetchError": "Упс, возникла проблема с обновлением твоей ленты. Твоя история транзакций может быть пока неполной."
+    },
+    "noTransactions": "Поздравляю, ты успешно создал кошелек {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Подробности",

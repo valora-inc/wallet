@@ -1458,14 +1458,15 @@
   "dappsScreen": {
     "title": "Dapp'ler",
     "titleDiscover": "Keşfedin",
-    "exploreDapps": "Dapp'leri Keşfedin",
-    "exploreAll": "Tümünü Keşfet",
+    "exploreDapps": "Dapp'ler",
+    "exploreAll": "Tümünü Göster",
     "message": "Varlıklarınızı kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
     "allDapps": "Tümü",
     "favoriteDapps": "Favorilerim",
     "mostPopularDapps": "En Popüler",
+    "mostPopularDapps_UK": "Diğer Dapps",
     "favoriteDappsAndAll": "Favorilerim & Hepsi",
     "searchPlaceHolder": "Dapp'leri ara",
     "noFavorites": {
@@ -1481,7 +1482,8 @@
       "message": "<0>{{filter}}</0> filtresi uygulandı",
       "removeFilter": "Filtreyi kaldır",
       "searchMessage": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
-    }
+    },
+    "disclaimer_UK": "Bu, üçüncü taraf Dapp'lerin bir listesidir. Her bir Dapp için açıklama tamamen bilgilendirme amaçlıdır ve bunları kullanmaya davet değildir."
   },
   "dappRankings": {
     "title": "Dapp sıralamaları",
@@ -2123,18 +2125,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Cüzdan adresine göre ara",
+    "searchInputLabel": "Şu Token’a",
+    "searchInputPlaceholder": "Cüzdan Adresi",
     "paste": "Panodan yapıştır",
     "title": "Bir alıcı seçin",
     "contactsTitle": "Bir kişi seçin",
+    "header": "Gönder",
+    "contactsHeader": "Kişilere Gönder",
     "recents": "En sonuncular",
     "results": "Sonuçlar",
     "qr": {
-      "title": "QR Kodunu Tarayın veya Gösterin",
-      "subtitle": "{{appName}} uygulamasındaki adresleri hızlıca bulun"
+      "title": "QR Kodu ile Gönder",
+      "subtitle": "Bir adresi taramak veya göstermek için dokunun"
     },
     "invite": {
-      "title": "Arkadaşlarınıza kripto gönderin",
-      "subtitle": "Kişilerinize fon veya davet gönderin"
+      "title": "Bir Kişiye Gönder",
+      "subtitle": "Kişilerinize para gönderin"
     },
     "jumpstart": {
       "title": "Canlı Bağlantı ile Gönder",
@@ -2289,7 +2295,13 @@
     "withdrawSubtitle_noTxAppName": "bilinmeyen uygulamadan",
     "claimRewardTitle": "Toplanan",
     "claimRewardSubtitle": "{{txAppName}} Havuzundan",
-    "claimRewardSubtitle_noTxAppName": "bilinmeyen uygulamadan"
+    "claimRewardSubtitle_noTxAppName": "bilinmeyen uygulamadan",
+    "allTransactionsShown": "İşlem geçmişinizin sonuna ulaştınız.",
+    "fetchErrorRetry": "Tekrar deneyin",
+    "error": {
+      "fetchError": "Oops, akışınızı yenilerken bir sorun oluştu. İşlem geçmişiniz şimdilik eksik olabilir."
+    },
+    "noTransactions": "Tebrikler, başarılı bir şekilde {{appName}} cüzdanı oluşturdunuz!"
   },
   "transactionDetails": {
     "descriptionLabel": "Detaylar",

@@ -1458,14 +1458,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Entdecke",
-    "exploreDapps": "Dapps erkunden",
-    "exploreAll": "Alle erkunden",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Alle anzeigen",
     "message": "Finde heraus, wie du dein Vermögen nutzen kannst",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
     "allDapps": "Alle",
     "favoriteDapps": "Lieblings-Dapps",
     "mostPopularDapps": "Am beliebtesten",
+    "mostPopularDapps_UK": "Andere Dapps",
     "favoriteDappsAndAll": "Meine Favoriten & Alle",
     "searchPlaceHolder": "Dapps suchen",
     "noFavorites": {
@@ -1481,7 +1482,8 @@
       "message": "<0>{{filter}}</0> Filter angewendet",
       "removeFilter": "Filter entfernen",
       "searchMessage": "Keine passenden Ergebnisse für <0>\"{{searchTerm}}\"</0> gefunden"
-    }
+    },
+    "disclaimer_UK": "Dies ist eine Liste von Drittanbieter-Dapps. Die Beschreibung der einzelnen Dapps ist rein informativ und stellt keine Aufforderung dar, sie zu nutzen."
   },
   "dappRankings": {
     "title": "Dapp-Ranglisten",
@@ -2123,18 +2125,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Suche nach Wallet-Adresse",
+    "searchInputLabel": "Zu",
+    "searchInputPlaceholder": "Wallet-Adresse",
     "paste": "Aus Zwischenablage einfügen",
     "title": "Einen Empfänger auswählen",
     "contactsTitle": "Kontakt wählen",
+    "header": "Senden",
+    "contactsHeader": "An Kontakte senden",
     "recents": "Zuletzt",
     "results": "Ergebnisse",
     "qr": {
-      "title": "QR-Code scannen oder anzeigen",
-      "subtitle": "Finde Adressen schnell auf {{appName}}"
+      "title": "Senden über QR-Code",
+      "subtitle": "Tippe auf , um eine Adresse zu scannen oder anzuzeigen"
     },
     "invite": {
-      "title": "Sende Krypto an deine Freunde.",
-      "subtitle": "Sende Guthaben oder eine Einladung an deine Kontakte"
+      "title": "An einen Kontakt senden",
+      "subtitle": "Geld an deine Kontakte senden"
     },
     "jumpstart": {
       "title": "Mit einem Live-Link senden",
@@ -2289,7 +2295,13 @@
     "withdrawSubtitle_noTxAppName": "von unbekannter App",
     "claimRewardTitle": "Gesammelt",
     "claimRewardSubtitle": "aus {{txAppName}} Pool",
-    "claimRewardSubtitle_noTxAppName": "von unbekannter App"
+    "claimRewardSubtitle_noTxAppName": "von unbekannter App",
+    "allTransactionsShown": "Du hast das Ende deines Transaktionsverlaufs erreicht.",
+    "fetchErrorRetry": "Erneut versuchen",
+    "error": {
+      "fetchError": "Ups, es gab ein Problem beim Aktualisieren deines Feeds. Es kann sein, dass dein Transaktionsverlauf im Moment unvollständig ist."
+    },
+    "noTransactions": "Glückwunsch, du hast erfolgreich eine {{appName}} Brieftasche erstellt!"
   },
   "transactionDetails": {
     "descriptionLabel": "Details",

@@ -1456,14 +1456,15 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "探索",
-    "exploreDapps": "探索 Dapp",
-    "exploreAll": "探索全部",
+    "exploreDapps": "Dapp",
+    "exploreAll": "查看全部",
     "message": "探索如何使用您的资产",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
     "allDapps": "全部",
     "favoriteDapps": "我的收藏",
     "mostPopularDapps": "最热门",
+    "mostPopularDapps_UK": "其他应用程序",
     "favoriteDappsAndAll": "我的收藏夹和所有",
     "searchPlaceHolder": "搜索应用",
     "noFavorites": {
@@ -1479,7 +1480,8 @@
       "message": "<0>{{filter}}</0>已应用筛选条件",
       "removeFilter": "移除筛选条件",
       "searchMessage": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
-    }
+    },
+    "disclaimer_UK": "这是一份第三方 Dapp 列表。每个 Dapp 的说明纯属信息，并非邀请您使用它们。"
   },
   "dappRankings": {
     "title": "Dapp 排名",
@@ -2121,18 +2123,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "按钱包地址搜索",
+    "searchInputLabel": "至",
+    "searchInputPlaceholder": "钱包地址",
     "paste": "从剪贴板粘贴",
     "title": "选择接收人",
     "contactsTitle": "选择联系人",
+    "header": "发送",
+    "contactsHeader": "发送至联系人",
     "recents": "最近",
     "results": "结果",
     "qr": {
-      "title": "扫描或显示二维码",
-      "subtitle": "快速查找 {{appName}} 上的地址"
+      "title": "通过 QR 码发送",
+      "subtitle": "轻点扫描或显示地址"
     },
     "invite": {
-      "title": "向朋友发送加密货币",
-      "subtitle": "向联系人发送资金或邀请"
+      "title": "发送至联系人",
+      "subtitle": "向联系人发送资金"
     },
     "jumpstart": {
       "title": "通过实时链接发送",
@@ -2287,7 +2293,13 @@
     "withdrawSubtitle_noTxAppName": "来自未知应用程序",
     "claimRewardTitle": "已领取",
     "claimRewardSubtitle": "从 {{txAppName}} 池",
-    "claimRewardSubtitle_noTxAppName": "来自未知应用程序"
+    "claimRewardSubtitle_noTxAppName": "来自未知应用程序",
+    "allTransactionsShown": "您的交易历史已结束。",
+    "fetchErrorRetry": "再试一次",
+    "error": {
+      "fetchError": "哎呀，在刷新您的信息源时出了点问题。您的交易历史可能暂时不完整。"
+    },
+    "noTransactions": "恭喜，您已成功创建 {{appName}} 钱包！"
   },
   "transactionDetails": {
     "descriptionLabel": "详细信息",

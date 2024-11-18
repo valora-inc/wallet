@@ -1462,14 +1462,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Odkryj",
-    "exploreDapps": "Przeglądaj aplikacje Dapps",
-    "exploreAll": "Przeglądaj wszystko",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Zobacz wszystkie",
     "message": "Przeglądaj sposoby korzystania ze swoich aktywów",
     "errorMessage": "Wystąpił błąd podczas ładowania Dapps",
     "featuredDapp": "Polecane",
     "allDapps": "Wszystkie",
     "favoriteDapps": "Moje ulubione",
     "mostPopularDapps": "Najpopularniejsze",
+    "mostPopularDapps_UK": "Inne Dapps",
     "favoriteDappsAndAll": "Moje ulubione i wszystkie",
     "searchPlaceHolder": "Wyszukaj dapps",
     "noFavorites": {
@@ -1485,7 +1486,8 @@
       "message": "Zastosowano filtr <0>{{filter}}</0>",
       "removeFilter": "Usuń filtr",
       "searchMessage": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>"
-    }
+    },
+    "disclaimer_UK": "To jest lista aplikacji Dapp innych firm. Opis każdej aplikacji ma charakter czysto informacyjny i nie stanowi zaproszenia do korzystania z niej."
   },
   "dappRankings": {
     "title": "Rankingi aplikacji dapp",
@@ -2127,18 +2129,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Szukaj według adresu portfela",
+    "searchInputLabel": "Do",
+    "searchInputPlaceholder": "Adres portfela",
     "paste": "Wklej ze schowka",
     "title": "Wybierz odbiorcę",
     "contactsTitle": "Wybierz kontakt",
+    "header": "Wysyłaj",
+    "contactsHeader": "Wyślij do kontaktów",
     "recents": "Najnowsze",
     "results": "Wyniki",
     "qr": {
-      "title": "Zeskanuj lub pokaż kod QR",
-      "subtitle": "Szybko znajdź adresy w {{appName}}"
+      "title": "Wyślij za pomocą kodu QR",
+      "subtitle": "Stuknij, aby zeskanować lub wyświetlić adres"
     },
     "invite": {
-      "title": "Wyślij kryptowalutę do znajomego",
-      "subtitle": "Wyślij środki lub zaproszenie do swoich kontaktów"
+      "title": "Wyślij do kontaktu",
+      "subtitle": "Wysyłaj środki do swoich kontaktów"
     },
     "jumpstart": {
       "title": "Wyślij za pomocą aktywnego linku",
@@ -2293,7 +2299,13 @@
     "withdrawSubtitle_noTxAppName": "z nieznanej aplikacji",
     "claimRewardTitle": "Zebrano",
     "claimRewardSubtitle": "z puli {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "z nieznanej aplikacji"
+    "claimRewardSubtitle_noTxAppName": "z nieznanej aplikacji",
+    "allTransactionsShown": "Dotarłeś do końca historii transakcji.",
+    "fetchErrorRetry": "Spróbuj ponownie",
+    "error": {
+      "fetchError": "Ups, wystąpił problem z odświeżeniem Twojego kanału. Twoja historia transakcji może być na razie niekompletna."
+    },
+    "noTransactions": "Gratulacje, pomyślnie utworzyłeś portfel {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Szczegóły",

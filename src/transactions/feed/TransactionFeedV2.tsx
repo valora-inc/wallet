@@ -1,19 +1,32 @@
 import BigNumber from 'bignumber.js'
+import { isEqual } from 'lodash'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
-import Toast from 'react-native-simple-toast'
-import { showToast } from 'src/alert/actions'
+import {
+  ActivityIndicator,
+  RefreshControl,
+  SectionList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
+import { NotificationVariant } from 'src/components/InLineNotification'
 import SectionHead from 'src/components/SectionHead'
+import Toast from 'src/components/Toast'
+import { refreshAllBalances } from 'src/home/actions'
+import ActionsCarousel from 'src/home/ActionsCarousel'
 import GetStarted from 'src/home/GetStarted'
+import NotificationBox from 'src/home/NotificationBox'
+import { balancesLoadingSelector } from 'src/home/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { store } from 'src/redux/store'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import { tokensByIdSelector } from 'src/tokens/selectors'
@@ -27,7 +40,11 @@ import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
-import { allStandbyTransactionsSelector, feedFirstPageSelector } from 'src/transactions/selectors'
+import {
+  feedFirstPageSelector,
+  formattedStandByTransactionsSelector,
+} from 'src/transactions/selectors'
+import { updateFeedFirstPage } from 'src/transactions/slice'
 import {
   FeeType,
   TokenTransactionTypeV2,
@@ -36,10 +53,7 @@ import {
   type TokenExchange,
   type TokenTransaction,
 } from 'src/transactions/types'
-import {
-  groupFeedItemsInSections,
-  standByTransactionToTokenTransaction,
-} from 'src/transactions/utils'
+import { groupFeedItemsInSections } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -49,7 +63,6 @@ type PaginatedData = {
 }
 
 const FIRST_PAGE_CURSOR = 'FIRST_PAGE'
-const MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL = 10
 const POLL_INTERVAL_MS = 10_000 // 10 sec
 const TAG = 'transactions/feed/TransactionFeedV2'
 
@@ -151,6 +164,23 @@ function sortTransactions(transactions: TokenTransaction[]): TokenTransaction[] 
   })
 }
 
+function categorizeTransactions(transactions: TokenTransaction[]) {
+  const pending: TokenTransaction[] = []
+  const confirmed: TokenTransaction[] = []
+  const confirmedHashes: string[] = []
+
+  for (const tx of transactions) {
+    if (tx.status === TransactionStatus.Pending) {
+      pending.push(tx)
+    } else {
+      confirmed.push(tx)
+      confirmedHashes.push(tx.transactionHash)
+    }
+  }
+
+  return { pending, confirmed, confirmedHashes }
+}
+
 /**
  * Every page of paginated data includes a limited amount of transactions within a certain period.
  * In standByTransactions we might have transactions from months ago. Whenever we load a new page
@@ -191,7 +221,6 @@ function mergeStandByTransactionsInRange({
     return []
   }
 
-  const allowedNetworks = getAllowedNetworksForTransfers()
   const max = transactions[0].timestamp
   const min = transactions.at(-1)!.timestamp
 
@@ -202,48 +231,8 @@ function mergeStandByTransactionsInRange({
     return inRange || newTransaction || veryOldTransaction
   })
   const deduplicatedTransactions = deduplicateTransactions([...transactions, ...standByInRange])
-  const transactionsFromAllowedNetworks = deduplicatedTransactions.filter((tx) =>
-    allowedNetworks.includes(tx.networkId)
-  )
-
-  return transactionsFromAllowedNetworks
-}
-
-/**
- * Current implementation of standbyTransactionsSelector contains function
- * getSupportedNetworkIdsForApprovalTxsInHomefeed in its selectors which triggers a lot of
- * unnecessary re-renders. This can be avoided if we join it's result in a string and memoize it,
- * similar to how it was done with useAllowedNetworkIdsForTransfers hook from queryHelpers.ts
- *
- * Not using existing selectors for pending/confirmed stand by transaction only cause they are
- * dependant on the un-memoized standbyTransactionsSelector selector which will break the new
- * pagination flow.
- *
- * Implementation of pending is identical to pendingStandbyTransactionsSelector.
- * Implementation of confirmed is identical to confirmedStandbyTransactionsSelector.
- */
-function useStandByTransactions() {
-  const standByTransactions = useSelector(allStandbyTransactionsSelector)
-  const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
-
-  return useMemo(() => {
-    const transactionsFromAllowedNetworks = standByTransactions.filter((tx) =>
-      allowedNetworkForTransfers.includes(tx.networkId)
-    )
-
-    const pending: TokenTransaction[] = []
-    const confirmed: TokenTransaction[] = []
-
-    for (const tx of transactionsFromAllowedNetworks) {
-      if (tx.status === TransactionStatus.Pending) {
-        pending.push(standByTransactionToTokenTransaction(tx))
-      } else {
-        confirmed.push(tx)
-      }
-    }
-
-    return { pending, confirmed }
-  }, [standByTransactions, allowedNetworkForTransfers])
+  const sortedTransactions = sortTransactions(deduplicatedTransactions)
+  return sortedTransactions
 }
 
 /**
@@ -251,9 +240,7 @@ function useStandByTransactions() {
  * we need to listen to the updates of stand by transactions. Whenever we detect that a completed
  * transaction was in pending status on previous render - we consider it a newly completed transaction.
  */
-function useNewlyCompletedTransactions(
-  standByTransactions: ReturnType<typeof useStandByTransactions>
-) {
+function useNewlyCompletedTransactions(standByTransactions: TokenTransaction[]) {
   const [{ hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps }, setPreviousStandBy] =
     useState({
       pending: [] as TokenTransaction[],
@@ -265,7 +252,7 @@ function useNewlyCompletedTransactions(
   useEffect(
     function updatePrevStandBy() {
       setPreviousStandBy((prev) => {
-        const confirmedHashes = standByTransactions.confirmed.map((tx) => tx.transactionHash)
+        const { pending, confirmed, confirmedHashes } = categorizeTransactions(standByTransactions)
         const newlyCompleted = prev.pending.filter((tx) => {
           return confirmedHashes.includes(tx.transactionHash)
         })
@@ -274,8 +261,8 @@ function useNewlyCompletedTransactions(
         )
 
         return {
-          pending: [...standByTransactions.pending],
-          confirmed: [...standByTransactions.confirmed],
+          pending,
+          confirmed,
           newlyCompletedCrossChainSwaps,
           hasNewlyCompletedTransactions: !!newlyCompleted.length,
         }
@@ -320,9 +307,15 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
 export default function TransactionFeedV2() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+
+  const showGetStarted = getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED)
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+
+  const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const standByTransactions = useStandByTransactions()
+  const isRefreshingBalances = useSelector(balancesLoadingSelector)
+  const standByTransactions = useSelector(formattedStandByTransactionsSelector)
   const feedFirstPage = useSelector(feedFirstPageSelector)
   const { hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps } =
     useNewlyCompletedTransactions(standByTransactions)
@@ -330,8 +323,10 @@ export default function TransactionFeedV2() {
   const [paginatedData, setPaginatedData] = useState<PaginatedData>({
     [FIRST_PAGE_CURSOR]: feedFirstPage,
   })
+  const [showError, setShowError] = useState(false)
+  const [allTransactionsShown, setAllTransactionsShown] = useState(false)
 
-  const { data, isFetching, error } = useTransactionFeedV2Query(
+  const { data, isFetching, error, refetch } = useTransactionFeedV2Query(
     { address: address!, endCursor, localCurrencyCode },
     { skip: !address, refetchOnMountOrArgChange: true }
   )
@@ -380,7 +375,7 @@ export default function TransactionFeedV2() {
         if (isFirstPage || pageDataIsAbsent) {
           const mergedTransactions = mergeStandByTransactionsInRange({
             transactions: data.transactions,
-            standByTransactions: standByTransactions.confirmed,
+            standByTransactions,
             currentCursor,
             isLastPage,
           })
@@ -391,7 +386,16 @@ export default function TransactionFeedV2() {
         return prev
       })
     },
-    [isFetching, data, standByTransactions.confirmed]
+    [isFetching, data, standByTransactions]
+  )
+
+  useEffect(
+    function hasLoadedAllTransactions() {
+      if (data && !data.pageInfo.hasNextPage && !data.pageInfo.endCursor) {
+        setAllTransactionsShown(true)
+      }
+    },
+    [data]
   )
 
   useEffect(
@@ -399,9 +403,16 @@ export default function TransactionFeedV2() {
       if (error === undefined) return
 
       Logger.warn(TAG, 'Error while fetching transactions', error)
-      dispatch(showToast(t('transactionFeed.error.fetchError'), null, null, null))
+
+      // Suppress errors for background polling results, but show errors when
+      // data is explicitly requested by the user. Currently, this applies to
+      // scroll actions for loading additional pages and the initial wallet load
+      // if no cached transactions exist.
+      if (('hasAfterCursor' in error && error.hasAfterCursor) || feedFirstPage.length === 0) {
+        setShowError(true)
+      }
     },
-    [error]
+    [error, feedFirstPage]
   )
 
   useEffect(
@@ -426,38 +437,54 @@ export default function TransactionFeedV2() {
     [newlyCompletedCrossChainSwaps]
   )
 
-  const confirmedTransactions = useMemo(() => {
+  useEffect(
+    function updatePersistedFeedFirstPage() {
+      const isFirstPage = !data?.pageInfo.hasPreviousPage
+      if (isFirstPage) {
+        const firstPageData = paginatedData[FIRST_PAGE_CURSOR]
+        if (!isEqual(firstPageData, feedFirstPage)) {
+          // Prevent the action from triggering on every polling interval. Only
+          // dispatch the action when there is a data change, such as new
+          // transactions. This action initiates side effects, like refreshing
+          // the token balance, so we avoid dispatching it on every poll to
+          // reduce unnecessary work.
+          dispatch(updateFeedFirstPage({ transactions: firstPageData }))
+        }
+      }
+    },
+    [paginatedData, data?.pageInfo]
+  )
+
+  const sections = useMemo(() => {
     const flattenedPages = Object.values(paginatedData).flat()
     const deduplicatedTransactions = deduplicateTransactions(flattenedPages)
     const sortedTransactions = sortTransactions(deduplicatedTransactions)
-    return sortedTransactions
-  }, [paginatedData])
-
-  const sections = useMemo(() => {
-    const noPendingTransactions = standByTransactions.pending.length === 0
-    const noConfirmedTransactions = confirmedTransactions.length === 0
-    if (noPendingTransactions && noConfirmedTransactions) return []
-    return groupFeedItemsInSections(standByTransactions.pending, confirmedTransactions)
-  }, [standByTransactions.pending, confirmedTransactions])
-
-  if (!sections.length) {
-    return getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? (
-      <GetStarted />
-    ) : (
-      <NoActivity loading={isFetching} error={error} />
+    const allowedTransactions = sortedTransactions.filter((tx) =>
+      allowedNetworkForTransfers.includes(tx.networkId)
     )
-  }
+
+    if (allowedTransactions.length === 0) return []
+
+    const { pending, confirmed } = categorizeTransactions(allowedTransactions)
+    return groupFeedItemsInSections(pending, confirmed)
+  }, [paginatedData, allowedNetworkForTransfers])
 
   function fetchMoreTransactions() {
     if (data?.pageInfo.hasNextPage && data?.pageInfo.endCursor) {
       setEndCursor(data.pageInfo.endCursor)
-      return
     }
+  }
 
-    const totalTxCount = standByTransactions.pending.length + confirmedTransactions.length
-    if (totalTxCount > MIN_NUM_TRANSACTIONS_NECESSARY_FOR_SCROLL) {
-      Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
-    }
+  function handleRetryFetch() {
+    // refetch the transaction feed with the last known cursor, since this
+    // toast should only be displayed on error fetching next page or initial
+    // page if no transactions have been fetched before.
+    setShowError(false)
+    return refetch()
+  }
+
+  const onRefresh = () => {
+    dispatch(refreshAllBalances())
   }
 
   return (
@@ -469,14 +496,52 @@ export default function TransactionFeedV2() {
         keyExtractor={(item) => `${item.transactionHash}-${item.timestamp.toString()}`}
         keyboardShouldPersistTaps="always"
         testID="TransactionList"
+        scrollEventThrottle={16}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshingBalances}
+            onRefresh={onRefresh}
+            colors={[colors.accent]}
+          />
+        }
+        onRefresh={onRefresh}
+        refreshing={isRefreshingBalances}
         onEndReached={fetchMoreTransactions}
         initialNumToRender={20}
+        ListHeaderComponent={
+          <>
+            <ActionsCarousel />
+            <NotificationBox showOnlyHomeScreenNotifications={true} />
+          </>
+        }
+        ListEmptyComponent={
+          showGetStarted && !showUKCompliantVariant ? <GetStarted /> : <NoActivity />
+        }
+        ListFooterComponent={
+          <>
+            {/* prevent loading indicator due to polling from showing at the bottom of the screen */}
+            {isFetching && !allTransactionsShown && (
+              <View style={styles.centerContainer} testID="TransactionList/loading">
+                <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
+              </View>
+            )}
+            {allTransactionsShown && sections.length > 0 && (
+              <Text style={styles.allTransactionsText}>
+                {t('transactionFeed.allTransactionsShown')}
+              </Text>
+            )}
+          </>
+        }
       />
-      {isFetching && (
-        <View style={styles.centerContainer} testID="TransactionList/loading">
-          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
-        </View>
-      )}
+      <Toast
+        showToast={showError}
+        variant={NotificationVariant.Error}
+        description={t('transactionFeed.error.fetchError')}
+        ctaLabel={t('transactionFeed.fetchErrorRetry')}
+        onPressCta={handleRetryFetch}
+        swipeable
+        onDismiss={() => setShowError(false)}
+      />
     </>
   )
 }
@@ -491,5 +556,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
+  },
+  allTransactionsText: {
+    ...typeScale.bodySmall,
+    color: colors.gray3,
+    textAlign: 'center',
+    marginHorizontal: Spacing.Regular16,
+    marginVertical: Spacing.Thick24,
   },
 })
