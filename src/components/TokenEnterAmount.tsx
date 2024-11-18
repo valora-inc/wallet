@@ -30,7 +30,6 @@ import { type TokenBalance } from 'src/tokens/slice'
 export const APPROX_SYMBOL = '≈'
 
 const BORDER_RADIUS = 12
-export const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS = 250
 
 function groupNumber(value: string) {
   return value.replace(/\B(?=(\d{3})+(?!\d))(?<!\.\d*)/g, 'group')
