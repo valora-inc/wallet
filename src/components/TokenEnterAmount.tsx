@@ -117,15 +117,11 @@ export function useEnterAmount(props: {
       return {
         token: {
           amount: amount,
-          amountRaw: amount.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.'),
           bignum: parsedTokenAmount,
           readable: roundTokenAmount(amount, props.token),
         },
         local: {
           amount: convertedTokenToLocal,
-          amountRaw: convertedTokenToLocal
-            .replaceAll(groupingSeparator, '')
-            .replaceAll(decimalSeparator, '.'),
           bignum: parsedLocalAmount,
           readable: roundLocalAmount(convertedTokenToLocal, localCurrencySymbol),
         },
@@ -155,15 +151,11 @@ export function useEnterAmount(props: {
     return {
       token: {
         amount: convertedLocalToToken,
-        amountRaw: convertedLocalToToken
-          .replaceAll(groupingSeparator, '')
-          .replaceAll(decimalSeparator, '.'),
         bignum: parsedTokenAmount,
         readable: roundTokenAmount(convertedLocalToToken, props.token),
       },
       local: {
         amount: amount,
-        amountRaw: amount.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.'),
         bignum: parsedLocalAmount,
         readable: roundLocalAmount(amount, localCurrencySymbol),
       },
