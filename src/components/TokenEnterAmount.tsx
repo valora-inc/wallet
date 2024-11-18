@@ -38,7 +38,7 @@ export const APPROX_SYMBOL = '≈'
 const BORDER_RADIUS = 12
 export const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS = 250
 
-function roundTokenAmount(value: string) {
+function roundTokenAmount(value: string, token: TokenBalance) {
   const { decimalSeparator } = getNumberFormatSettings()
   if (value === '') {
     return ''
@@ -47,11 +47,11 @@ function roundTokenAmount(value: string) {
   const bigNum = parseInputAmount(value, decimalSeparator)
 
   if (bigNum.isLessThan(0.000001)) {
-    return `<0${decimalSeparator}000001`
+    return `<0${decimalSeparator}000001 ${token.symbol}`
   }
 
   const grouped = groupNumber(bigNum.decimalPlaces(6).toString()).replaceAll('.', decimalSeparator)
-  return grouped
+  return `${grouped} ${token.symbol}`
 }
 
 function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbol) {
@@ -107,7 +107,7 @@ export function useEnterAmount(props: {
         token: {
           amount: amount,
           bignum: parsedTokenAmount,
-          readable: roundTokenAmount(amount),
+          readable: roundTokenAmount(amount, props.token),
         },
         local: {
           amount: convertedTokenToLocal,
@@ -141,7 +141,7 @@ export function useEnterAmount(props: {
       token: {
         amount: convertedLocalToToken,
         bignum: parsedTokenAmount,
-        readable: roundTokenAmount(convertedLocalToToken),
+        readable: roundTokenAmount(convertedLocalToToken, props.token),
       },
       local: {
         amount: amount,
@@ -260,13 +260,17 @@ export default function TokenEnterAmount({
   const [startPosition, setStartPosition] = useState<number | undefined>(0)
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
-  const { decimalSeparator } = getNumberFormatSettings()
+  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   const tokenPlaceholder = new BigNumber(0).toFormat(2)
   const localPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2).replaceAll('.', decimalSeparator)}`
 
   const formattedInputValue = useMemo(() => {
-    if (amountType === 'token') return groupNumber(inputValue)
-    return inputValue !== '' ? `${localCurrencySymbol}${groupNumber(inputValue)}` : ''
+    const number = groupNumber(inputValue.replaceAll(decimalSeparator, '.')).replaceAll(
+      '.',
+      decimalSeparator
+    )
+    if (amountType === 'token') return number
+    return number !== '' ? `${localCurrencySymbol}${number}` : ''
   }, [inputValue, amountType, localCurrencySymbol])
 
   const handleSetStartPosition = (value?: number) => {
