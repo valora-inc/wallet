@@ -53,7 +53,7 @@ const TOKENS_BY_SYMBOL: Record<string, Token> = {
   }
 
   const faucetTokenBalances = (await getCeloTokensBalance(E2E_TEST_FAUCET)) ?? {}
-  console.log(`Initial balance for ${E2E_TEST_FAUCET}:`)
+  console.log(`Initial balance for faucet at: ${E2E_TEST_FAUCET}:`)
   console.table(faucetTokenBalances)
 
   // Connect Valora E2E Test Faucet - Private Key Stored in GitHub Secrets
