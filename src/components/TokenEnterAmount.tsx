@@ -38,7 +38,7 @@ export const APPROX_SYMBOL = '≈'
 const BORDER_RADIUS = 12
 export const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS = 250
 
-export function groupNumber(value: string) {
+function groupNumber(value: string) {
   return value.replace(/\B(?=(\d{3})+(?!\d))(?<!\.\d*)/g, 'group')
 }
 
