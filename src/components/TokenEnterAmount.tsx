@@ -285,11 +285,9 @@ export default function TokenEnterAmount({
   const localPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2).replaceAll('.', decimalSeparator)}`
 
   const formattedInputValue = useMemo(() => {
-    console.log({ groupingSeparator, decimalSeparator, inputValue })
     const number = groupNumber(inputValue)
       .replaceAll('.', decimalSeparator)
       .replaceAll('group', groupingSeparator)
-    console.log(number)
     if (amountType === 'token') return number
     return number !== '' ? `${localCurrencySymbol}${number}` : ''
   }, [inputValue, amountType, localCurrencySymbol])
