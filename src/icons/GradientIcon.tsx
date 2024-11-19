@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
+import Colors from 'src/styles/colors'
 
 interface Props {
   radius?: number

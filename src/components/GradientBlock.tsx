@@ -1,5 +1,6 @@
 import * as React from 'react'
 import LinearGradient from 'react-native-linear-gradient'
+import Colors from 'src/styles/colors'
 
 type Props = Omit<LinearGradient['props'], 'colors'> & {
   colors?: LinearGradient['props']['colors']
