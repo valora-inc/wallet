@@ -234,8 +234,7 @@ describe('EnterAmount', () => {
       })
     })
 
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('entering one amount updates the other amount', () => {
+    it('entering one amount updates the other amount', () => {
       const { amount, exchangedAmount, changeAmount, switchTokens } = renderComponent()
 
       changeAmount('10000.5')
@@ -247,7 +246,7 @@ describe('EnterAmount', () => {
       changeAmount('1000.5')
       expect(amount.props.value).toBe(replaceSeparators(`₱1,000.5`))
       expect(exchangedAmount.props.children).toBe(
-        replaceSeparators(`${APPROX_SYMBOL} 7,522.556391`)
+        replaceSeparators(`${APPROX_SYMBOL} 7,522.556391 POOF`)
       )
     })
 
@@ -323,14 +322,14 @@ describe('EnterAmount', () => {
     })
 
     // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('entering invalid token amount with a valid local amount does not update anything', () => {
+    it('entering invalid token amount with a valid local amount does not update anything', () => {
       const { amount, exchangedAmount, switchTokens, changeAmount } = renderComponent()
 
       // switch to fiat
       switchTokens()
       changeAmount('133')
       expect(amount.props.value).toBe(replaceSeparators('₱133'))
-      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} 1,000`))
+      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} 1,000 POOF`))
 
       // switch to token
       switchTokens()
