@@ -2587,7 +2587,8 @@
     "entrypoint": {
       "title": "Développez vos cryptos",
       "subtitle": "Déposez et gagnez",
-      "description": "Gagnez sur vos crypto-actifs via un pool de liquidité."
+      "description": "Gagne en prêtant tes crypto-actifs dans des pools de liquidité.",
+      "totalDepositAndEarnings": "Total des dépôts et des gains"
     },
     "enterAmount": {
       "title": "Combien souhaitez-vous déposer ?",
