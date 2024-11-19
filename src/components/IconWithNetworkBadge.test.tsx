@@ -20,7 +20,6 @@ describe('IconWithNetworkBadge', () => {
     const store = createMockStore({
       tokens: {
         error: false,
-        loading: false,
         tokenBalances: MOCK_TOKEN_BALANCES,
       },
     })

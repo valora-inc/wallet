@@ -8,8 +8,8 @@ import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 interface Props {
-  loading: boolean
-  error: Error | FetchBaseQueryError | SerializedError | undefined
+  loading?: boolean
+  error?: Error | FetchBaseQueryError | SerializedError | undefined
 }
 
 function NoActivity({ loading, error }: Props) {

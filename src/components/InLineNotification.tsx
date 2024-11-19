@@ -1,5 +1,6 @@
 import React from 'react'
 import { GestureResponderEvent, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import Touchable from 'src/components/Touchable'
 import AttentionIcon from 'src/icons/Attention'
 import Warning from 'src/icons/Warning'
 import Colors from 'src/styles/colors'
@@ -55,9 +56,11 @@ export function InLineNotification({
   ) =>
     label &&
     onPress && (
-      <Text testID={`${testID}/${label}`} style={[styles.ctaLabel, { color }]} onPress={onPress}>
-        {label}
-      </Text>
+      <Touchable style={styles.cta} onPress={onPress}>
+        <Text testID={`${testID}/${label}`} style={[styles.ctaLabel, { color }]}>
+          {label}
+        </Text>
+      </Touchable>
     )
   const Icon = variantIcons[variant]
 
@@ -122,7 +125,8 @@ const styles = StyleSheet.create({
   },
   ctaLabel: {
     ...typeScale.labelSmall,
-    fontWeight: '600',
+  },
+  cta: {
     paddingVertical: Spacing.Tiny4,
     paddingHorizontal: Spacing.Smallest8,
   },

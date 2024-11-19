@@ -14,7 +14,6 @@ import {
   StoredTokenBalance,
   StoredTokenBalances,
   TokenBalance,
-  fetchTokenBalances,
   fetchTokenBalancesFailure,
   setTokenBalances,
 } from 'src/tokens/slice'
@@ -23,11 +22,10 @@ import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
-import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
+import { call, put, select, spawn, take } from 'typed-redux-saga'
 import { Address, erc20Abi, getContract } from 'viem'
 
 const TAG = 'tokens/saga'
@@ -66,8 +64,10 @@ export async function fetchTokenBalancesForAddressByTokenId(address: string) {
   return fetchedBalancesByTokenId
 }
 
-export async function getTokensInfo(): Promise<StoredTokenBalances> {
-  const response = await fetchWithTimeout(networkConfig.getTokensInfoUrl)
+export async function getTokensInfo(supportedNetworks: NetworkId[]): Promise<StoredTokenBalances> {
+  const response = await fetchWithTimeout(
+    `${networkConfig.getTokensInfoUrl}?networkIds=${supportedNetworks.join(',')}`
+  )
   if (!response.ok) {
     Logger.error(TAG, `Failure response fetching token info: ${response}`)
     throw new Error(
@@ -90,7 +90,7 @@ export function* fetchTokenBalancesSaga() {
     const importedTokens = yield* select(importedTokensSelector, supportedNetworks)
     const networkIconByNetworkId = yield* select(networksIconSelector)
 
-    const supportedTokens = yield* call(getTokensInfo)
+    const supportedTokens = yield* call(getTokensInfo, supportedNetworks)
     const fetchedBalancesByTokenId = yield* call(fetchTokenBalancesForAddressByTokenId, address)
 
     for (const token of Object.values(supportedTokens) as StoredTokenBalance[]) {
@@ -151,10 +151,6 @@ export function* getTokenInfo(tokenId: string) {
     tokensByIdSelector(state, { networkIds, includePositionTokens: true })
   )
   return tokens[tokenId]
-}
-
-export function* watchFetchBalance() {
-  yield* takeEvery([fetchTokenBalances.type], safely(fetchTokenBalancesSaga))
 }
 
 export function* watchAccountFundedOrLiquidated() {
@@ -255,6 +251,5 @@ export async function fetchImportedTokenBalances(
 }
 
 export function* tokensSaga() {
-  yield* spawn(watchFetchBalance)
   yield* spawn(watchAccountFundedOrLiquidated)
 }

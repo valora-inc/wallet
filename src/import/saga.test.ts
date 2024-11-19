@@ -8,7 +8,6 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { storeMnemonic } from 'src/backup/utils'
-import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import {
   importBackupPhrase,
@@ -73,7 +72,6 @@ describe('Import wallet saga', () => {
         ],
       ])
       .put(setBackupCompleted())
-      .put(refreshAllBalances())
       .put(importBackupPhraseSuccess())
       .run()
   }
@@ -129,7 +127,6 @@ describe('Import wallet saga', () => {
           [select(phoneNumberVerifiedSelector), false],
         ])
         .put(setBackupCompleted())
-        .put(refreshAllBalances())
         .put(importBackupPhraseSuccess())
         .run()
     }

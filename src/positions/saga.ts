@@ -39,7 +39,6 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
-import { fetchTokenBalances } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -354,20 +353,15 @@ export function* executeShortcutSaga({
   }
 }
 
-export function* watchFetchBalances() {
+export function* watchPreviewMode() {
   // Refresh positions/shortcuts when fetching token balances
   // or when preview mode is enabled/disabled
   yield* takeLeading(
-    [
-      Actions.REFRESH_POSITIONS,
-      fetchTokenBalances.type,
-      previewModeEnabled.type,
-      previewModeDisabled.type,
-    ],
+    [Actions.REFRESH_POSITIONS, previewModeEnabled.type, previewModeDisabled.type],
     safely(fetchPositionsSaga)
   )
   yield* takeLeading(
-    [fetchTokenBalances.type, previewModeEnabled.type, previewModeDisabled.type],
+    [previewModeEnabled.type, previewModeDisabled.type],
     safely(fetchShortcutsSaga)
   )
 }
@@ -378,6 +372,6 @@ export function* watchShortcuts() {
 }
 
 export function* positionsSaga() {
-  yield* spawn(watchFetchBalances)
+  yield* spawn(watchPreviewMode)
   yield* spawn(watchShortcuts)
 }
