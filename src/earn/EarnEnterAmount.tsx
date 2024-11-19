@@ -1192,7 +1192,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export function AmountInput({
+function AmountInput({
   inputValue,
   onInputChange,
   inputRef,
