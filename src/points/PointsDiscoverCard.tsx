@@ -58,7 +58,7 @@ export default function PointsDiscoverCard() {
           <Text style={styles.title}>{t('points.discoverCard.title')}</Text>
           <Text style={styles.description}>{t('points.discoverCard.description')}</Text>
           <LinearGradient
-            colors={['#26d98a', '#ffd52c']}
+            colors={[Colors.gradientBorderLeft, Colors.gradientBorderRight]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.linearGradient}
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   linearGradient: {
-    height: 32,
+    height: 40,
     borderRadius: 50,
     alignSelf: 'flex-start',
     marginTop: Spacing.Regular16,

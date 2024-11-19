@@ -22,7 +22,7 @@ export default function GradientIcon({ radius = 50, borderWidth = 1, children }:
     >
       {borderWidth > 0 && (
         <LinearGradient
-          colors={['#26d98a', '#ffd52c']}
+          colors={[Colors.gradientBorderLeft, Colors.gradientBorderRight]}
           locations={[0, 0.8915]}
           useAngle={true}
           angle={90}

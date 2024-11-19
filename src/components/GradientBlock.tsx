@@ -8,7 +8,7 @@ type Props = Omit<LinearGradient['props'], 'colors'> & {
 export default function GradientBlock({ style, ...props }: Props) {
   return (
     <LinearGradient
-      colors={['#26D98A', '#FFD52C']}
+      colors={[Colors.gradientBorderLeft, Colors.gradientBorderRight]}
       locations={[0, 0.8915]}
       useAngle={true}
       angle={90}
