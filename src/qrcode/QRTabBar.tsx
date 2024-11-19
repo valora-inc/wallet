@@ -117,18 +117,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     ...Platform.select({
       android: {
-        paddingTop: 10,
+        paddingTop: Spacing.Smallest8,
         paddingVertical: Spacing.Smallest8,
+      },
+      ios: {
+        paddingTop: -3,
+        paddingHorizontal: Spacing.Tiny4,
       },
     }),
   },
   leftContainer: {
     width: 50,
     alignItems: 'center',
+    marginLeft: -1,
   },
   rightContainer: {
     width: 50,
     alignItems: 'center',
+    marginRight: -1,
   },
   headerTitleContainer: {
     alignItems: 'center',
