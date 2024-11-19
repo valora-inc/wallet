@@ -59,7 +59,7 @@ export default function EarnEntrypoint() {
         style={styles.touchable}
         onPress={() => {
           AppAnalytics.track(EarnEvents.earn_entrypoint_press, {
-            hasSuppliedPools: hasSuppliedPools,
+            hasSuppliedPools,
           })
           hasSuppliedPools
             ? navigate(Screens.EarnHome, { activeEarnTab: EarnTabType.MyPools })
