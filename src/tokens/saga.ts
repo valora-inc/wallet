@@ -64,8 +64,10 @@ export async function fetchTokenBalancesForAddressByTokenId(address: string) {
   return fetchedBalancesByTokenId
 }
 
-export async function getTokensInfo(): Promise<StoredTokenBalances> {
-  const response = await fetchWithTimeout(networkConfig.getTokensInfoUrl)
+export async function getTokensInfo(supportedNetworks: NetworkId[]): Promise<StoredTokenBalances> {
+  const response = await fetchWithTimeout(
+    `${networkConfig.getTokensInfoUrl}?networkIds=${supportedNetworks.join(',')}`
+  )
   if (!response.ok) {
     Logger.error(TAG, `Failure response fetching token info: ${response}`)
     throw new Error(
@@ -88,7 +90,7 @@ export function* fetchTokenBalancesSaga() {
     const importedTokens = yield* select(importedTokensSelector, supportedNetworks)
     const networkIconByNetworkId = yield* select(networksIconSelector)
 
-    const supportedTokens = yield* call(getTokensInfo)
+    const supportedTokens = yield* call(getTokensInfo, supportedNetworks)
     const fetchedBalancesByTokenId = yield* call(fetchTokenBalancesForAddressByTokenId, address)
 
     for (const token of Object.values(supportedTokens) as StoredTokenBalance[]) {
