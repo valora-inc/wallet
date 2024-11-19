@@ -4,7 +4,6 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
-import { APPROX_SYMBOL } from 'src/components/TokenEnterAmount'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { NetworkId } from 'src/transactions/types'
@@ -254,7 +253,7 @@ describe('TokenDisplay', () => {
           />
         </Provider>
       )
-      expect(getElementText(getByTestId('test'))).toEqual(`${APPROX_SYMBOL} 10.00 cUSD`)
+      expect(getElementText(getByTestId('test'))).toEqual(`~10.00 cUSD`)
     })
   })
 })
