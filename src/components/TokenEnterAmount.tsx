@@ -404,7 +404,7 @@ export default function TokenEnterAmount({
 
               <Text
                 numberOfLines={1}
-                style={[styles.secondaryAmountText, { maxWidth: '35%' }]}
+                style={[styles.secondaryAmountText, { flexShrink: 0, maxWidth: '45%' }]}
                 testID={`${testID}/ExchangeAmount`}
               >
                 {amountType === 'token'
