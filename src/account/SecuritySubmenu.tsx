@@ -62,8 +62,7 @@ const SecuritySubmenu = ({ route, navigation }: Props) => {
 
   const account = useSelector(walletAddressSelector)
 
-  const showKeylessBackup =
-    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
+  const showKeylessBackup = ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackup]
 
   const deleteKeylessBackupStatus = useSelector(deleteKeylessBackupStatusSelector)
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
