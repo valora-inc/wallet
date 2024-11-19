@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
@@ -114,7 +116,6 @@ export default function EnterAmount({
     bottomSheetRef,
     handleAmountInputChange,
     handleToggleAmountType,
-    onOpenTokenPicker,
     onSelectToken,
   } = useEnterAmount({
     token,
@@ -172,6 +173,15 @@ export default function EnterAmount({
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [derived.token.bignum, token])
+
+  function onOpenTokenPicker() {
+    bottomSheetRef.current?.snapToIndex(0)
+    AppAnalytics.track(SendEvents.token_dropdown_opened, {
+      currentTokenId: token.tokenId,
+      currentTokenAddress: token.address,
+      currentNetworkId: token.networkId,
+    })
+  }
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>

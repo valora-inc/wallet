@@ -11,8 +11,6 @@ import {
   View,
 } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { SendEvents } from 'src/analytics/Events'
 import { type BottomSheetModalRefType } from 'src/components/BottomSheet'
 import TextInput from 'src/components/TextInput'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -44,7 +42,7 @@ function groupNumber(value: string) {
 
 function roundTokenAmount(value: string, token: TokenBalance) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
-  if (value === '') {
+  if (value === '' || !token) {
     return ''
   }
 
@@ -80,8 +78,9 @@ function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbo
 }
 
 export function useEnterAmount(props: {
-  token: TokenBalance
-  onSelectToken?: (token: TokenBalance) => void
+  token: TokenBalance | undefined
+  onAmountChange?: (amount: string) => void
+  onSelectToken?: (token: TokenBalance, tokenPositionInList?: number) => void
 }) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   const inputRef = useRef<RNTextInput>(null)
@@ -91,7 +90,7 @@ export function useEnterAmount(props: {
 
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
-  const tokenInfo = useTokenInfo(props.token.tokenId)
+  const tokenInfo = useTokenInfo(props.token?.tokenId)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
 
   const amountRaw = useMemo(() => {
@@ -99,6 +98,13 @@ export function useEnterAmount(props: {
   }, [amount])
 
   const derived = useMemo(() => {
+    if (!props.token) {
+      return {
+        token: { amount: '', bignum: new BigNumber(0), readable: '' },
+        local: { amount: '', bignum: new BigNumber(0), readable: '' },
+      }
+    }
+
     if (amountType === 'token') {
       const parsedTokenAmount = parseInputAmount(amount, decimalSeparator)
       const tokenToLocal = convertTokenToLocalAmount({
@@ -163,15 +169,6 @@ export function useEnterAmount(props: {
     }
   }, [amount, amountType, localCurrencySymbol])
 
-  function onOpenTokenPicker() {
-    bottomSheetRef.current?.snapToIndex(0)
-    AppAnalytics.track(SendEvents.token_dropdown_opened, {
-      currentTokenId: props.token.tokenId,
-      currentTokenAddress: props.token.address,
-      currentNetworkId: props.token.networkId,
-    })
-  }
-
   function handleToggleAmountType() {
     setAmountType((prev) => (prev === 'local' ? 'token' : 'local'))
 
@@ -194,8 +191,9 @@ export function useEnterAmount(props: {
   function handleAmountInputChange(val: string) {
     let value = val.replaceAll(groupingSeparator, '')
 
-    if (!value) {
+    if (!value || !props.token) {
       setAmount('')
+      props.onAmountChange?.('')
       return
     }
 
@@ -218,6 +216,7 @@ export function useEnterAmount(props: {
       (amountType === 'local' && value.match(localAmountRegex))
     ) {
       setAmount(value)
+      props.onAmountChange?.(value)
       return
     }
   }
@@ -228,11 +227,10 @@ export function useEnterAmount(props: {
     derived,
     inputRef,
     bottomSheetRef,
-
-    onOpenTokenPicker,
     handleToggleAmountType,
     onSelectToken,
     handleAmountInputChange,
+    onChangeAmount: setAmount,
   }
 }
 
@@ -245,7 +243,6 @@ export default function TokenEnterAmount({
   inputRef,
   inputStyle,
   autoFocus,
-  editable = true,
   testID,
   onInputChange,
   toggleAmountType,
@@ -261,7 +258,7 @@ export default function TokenEnterAmount({
   autoFocus?: boolean
   editable?: boolean
   testID?: string
-  onInputChange(value: string): void
+  onInputChange?(value: string): void
   toggleAmountType?(): void
   onOpenTokenPicker?(): void
 }) {
@@ -349,10 +346,13 @@ export default function TokenEnterAmount({
           ]}
         >
           <TextInput
+            showClearButton={false}
+            testID={`${testID}/TokenAmountInput`}
+            editable={!!onInputChange}
             forwardedRef={inputRef}
             onChangeText={(value) => {
               handleSetStartPosition(undefined)
-              onInputChange(value.startsWith(localCurrencySymbol) ? value.slice(1) : value)
+              onInputChange?.(value.startsWith(localCurrencySymbol) ? value.slice(1) : value)
             }}
             value={formattedInputValue}
             placeholderTextColor={Colors.gray3}
@@ -385,9 +385,6 @@ export default function TokenEnterAmount({
                 ? { start: startPosition }
                 : undefined
             }
-            showClearButton={false}
-            editable={editable}
-            testID={`${testID}/TokenAmountInput`}
           />
 
           {token.priceUsd ? (

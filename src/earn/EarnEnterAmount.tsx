@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import { EarnEvents } from 'src/analytics/Events'
+import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -127,7 +127,6 @@ export default function EarnEnterAmount({ route }: Props) {
     bottomSheetRef,
     handleAmountInputChange,
     handleToggleAmountType,
-    onOpenTokenPicker,
     onSelectToken,
   } = useEnterAmount({
     token: inputToken,
@@ -284,6 +283,15 @@ export default function EarnEnterAmount({ route }: Props) {
     } else {
       reviewBottomSheetRef.current?.snapToIndex(0)
     }
+  }
+
+  const onOpenTokenPicker = () => {
+    bottomSheetRef.current?.snapToIndex(0)
+    AppAnalytics.track(SendEvents.token_dropdown_opened, {
+      currentTokenId: inputToken.tokenId,
+      currentTokenAddress: inputToken.address,
+      currentNetworkId: inputToken.networkId,
+    })
   }
 
   const dropdownEnabled = availableInputTokens.length > 1
