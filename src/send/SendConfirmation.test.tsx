@@ -84,6 +84,7 @@ describe('SendConfirmation', () => {
     jest.useFakeTimers()
     mockUsePrepareSendTransactionsOutput = {
       prepareTransactionsResult: mockPrepareTransactionsResultPossible,
+      prepareTransactionLoading: false,
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
       prepareTransactionError: undefined,

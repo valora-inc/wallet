@@ -3,6 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
+import { APPROX_SYMBOL } from 'src/components/TokenEnterAmount'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
@@ -923,16 +924,16 @@ describe('TransactionDetailsScreen', () => {
     })
 
     expect(getByText('transactionStatus.transactionIsPending')).toBeTruthy()
-    expect(getByTestId('SwapContent/swapTo')).toHaveTextContent('~0.00003 ETH')
+    expect(getByTestId('SwapContent/swapTo')).toHaveTextContent(`${APPROX_SYMBOL} 0.00003 ETH`)
     expect(queryByText('swapTransactionDetailPage.rate')).toBeFalsy()
 
     const [networkFee, appFee, crossChainFee] = getAllByTestId('TransactionDetails/FeeRowItem')
-    expect(networkFee).toHaveTextContent('~0.0033 CELO')
-    expect(networkFee).toHaveTextContent('~₱0.059')
+    expect(networkFee).toHaveTextContent(`${APPROX_SYMBOL} 0.0033 CELO`)
+    expect(networkFee).toHaveTextContent(`${APPROX_SYMBOL} ₱0.059`)
     expect(appFee).toHaveTextContent('0.0006 cUSD') // app fee is always known
     expect(appFee).toHaveTextContent('₱0.0008')
-    expect(crossChainFee).toHaveTextContent('~0.38 CELO')
-    expect(crossChainFee).toHaveTextContent('~₱6.74')
+    expect(crossChainFee).toHaveTextContent(`${APPROX_SYMBOL} 0.38 CELO`)
+    expect(crossChainFee).toHaveTextContent(`${APPROX_SYMBOL} ₱6.74`)
   })
 
   it(`renders a fallback swap to amount for a pending ${TokenTransactionTypeV2.CrossChainSwapTransaction} transacton`, () => {
