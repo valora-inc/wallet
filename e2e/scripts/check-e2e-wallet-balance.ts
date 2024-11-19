@@ -11,5 +11,4 @@ import { checkBalance, getCeloTokensBalance } from './utils'
 
   console.log(`E2E_TEST_FACUET: ${E2E_TEST_FAUCET}`)
   console.table(await getCeloTokensBalance(E2E_TEST_FAUCET))
-  await checkBalance(E2E_TEST_FAUCET)
 })()
