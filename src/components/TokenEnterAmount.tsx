@@ -151,7 +151,6 @@ export default function TokenEnterAmount({
             forwardedRef={inputRef}
             onChangeText={(value) => {
               handleSetStartPosition(undefined)
-              console.log(value)
               onInputChange(value.startsWith(localCurrencySymbol) ? value.slice(1) : value)
             }}
             value={formattedInputValue}
