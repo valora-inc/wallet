@@ -118,10 +118,10 @@ export default function TokenEnterAmount({
                 <TokenIcon token={token} size={IconSize.MEDIUM} />
 
                 <View style={styles.tokenNameAndAvailable}>
-                  <Text style={styles.tokenName}>
+                  <Text style={styles.tokenName} testID={`${testID}/TokenName`}>
                     {token.symbol} on {NETWORK_NAMES[token.networkId]}
                   </Text>
-                  <Text style={styles.tokenBalance}>
+                  <Text style={styles.tokenBalance} testID={`${testID}/TokenBalance`}>
                     <Trans i18nKey="tokenEnterAmount.availableBalance">
                       <TokenDisplay
                         tokenId={token.tokenId}
@@ -151,6 +151,7 @@ export default function TokenEnterAmount({
             forwardedRef={inputRef}
             onChangeText={(value) => {
               handleSetStartPosition(undefined)
+              console.log(value)
               onInputChange(value.startsWith(localCurrencySymbol) ? value.slice(1) : value)
             }}
             value={formattedInputValue}
