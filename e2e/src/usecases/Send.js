@@ -61,7 +61,7 @@ export default Send = () => {
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
       await waitForElementByIdAndTap('SendEnterAmount/TokenAmountInput', 30_000)
-      await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('0.01')
+      await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('0.02')
       await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
       await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30_000)
       await isElementVisible('ConfirmButton')
