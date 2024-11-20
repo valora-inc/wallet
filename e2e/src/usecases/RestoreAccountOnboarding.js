@@ -1,12 +1,7 @@
 import { E2E_WALLET_12_WORDS_MNEMONIC, E2E_WALLET_MNEMONIC } from 'react-native-dotenv'
 import { WALLET_12_WORDS_ADDRESS, WALLET_ADDRESS } from '../utils/consts'
 import { launchApp } from '../utils/retries'
-import {
-  enterPinUi,
-  scrollIntoView,
-  waitForElementByIdAndTap,
-  waitForElementId,
-} from '../utils/utils'
+import { enterPinUi, scrollIntoView, waitForElementByIdAndTap } from '../utils/utils'
 
 export default RestoreAccountOnboarding = () => {
   beforeEach(async () => {

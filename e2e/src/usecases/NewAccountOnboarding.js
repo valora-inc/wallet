@@ -1,15 +1,13 @@
-import { getAddressChunks } from '../../../src/utils/address'
+import { sleep } from '../../../src/utils/sleep'
 import { launchApp } from '../utils/retries'
 import {
   completeProtectWalletScreen,
   enterPinUi,
-  quickOnboarding,
-  scrollIntoView,
-  waitForElementId,
-  waitForElementByIdAndTap,
   navigateToSecurity,
+  quickOnboarding,
+  waitForElementByIdAndTap,
+  waitForElementId,
 } from '../utils/utils'
-import { sleep } from '../../../src/utils/sleep'
 
 import jestExpect from 'expect'
 

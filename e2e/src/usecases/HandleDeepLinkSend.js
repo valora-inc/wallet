@@ -1,11 +1,6 @@
 import { E2E_TEST_FAUCET } from '../../scripts/consts'
 import { launchApp, reloadReactNative } from '../utils/retries'
-import {
-  enterPinUiIfNecessary,
-  quote,
-  waitForElementByIdAndTap,
-  waitForElementId,
-} from '../utils/utils'
+import { enterPinUiIfNecessary, waitForElementByIdAndTap, waitForElementId } from '../utils/utils'
 
 const deepLinks = {
   withoutAddress:

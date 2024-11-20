@@ -1,6 +1,6 @@
-import { quickOnboarding, waitForElementByIdAndTap, scrollIntoView } from './utils/utils'
-import { launchApp } from './utils/retries'
 import DappListDisplay from './usecases/DappListDisplay'
+import { launchApp } from './utils/retries'
+import { quickOnboarding, scrollIntoView, waitForElementByIdAndTap } from './utils/utils'
 
 describe('Discover tab', () => {
   beforeAll(async () => {

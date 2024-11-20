@@ -1,6 +1,6 @@
-import { quickOnboarding, waitForElementId } from './utils/utils'
-import { sleep } from '../../src/utils/sleep'
 import jestExpect from 'expect'
+import { sleep } from '../../src/utils/sleep'
+import { quickOnboarding, waitForElementId } from './utils/utils'
 
 beforeAll(async () => {
   await quickOnboarding()

@@ -2,20 +2,20 @@ import { Core } from '@walletconnect/core'
 import Client from '@walletconnect/sign-client'
 import { E2E_WALLET_CONNECT_PROJECT_ID } from 'react-native-dotenv'
 import {
+  createPublicClient,
   hashMessage,
   hexToNumber,
+  http,
   verifyMessage,
   verifyTypedData,
-  createPublicClient,
-  http,
 } from 'viem'
-import { celo } from 'viem/chains'
 import { parseTransaction } from 'viem/celo'
+import { celo } from 'viem/chains'
+import { sleep } from '../../../src/utils/sleep'
+import WALLET_ADDRESS from '../utils/consts'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
 import { enterPinUiIfNecessary, waitForElementByIdAndTap } from '../utils/utils'
-import { sleep } from '../../../src/utils/sleep'
-import WALLET_ADDRESS from '../utils/consts'
 
 import jestExpect from 'expect'
 

@@ -1,5 +1,4 @@
 import jestExpect from 'expect'
-import { WALLET_SINGLE_VERIFIED_MNEMONIC } from 'react-native-dotenv'
 import {
   DEFAULT_RECIPIENT_ADDRESS,
   WALLET_SINGLE_VERIFIED_PHONE_NUMBER,
