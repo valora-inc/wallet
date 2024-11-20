@@ -47,8 +47,8 @@ export default Assets = () => {
           learnMore: true,
         },
         {
-          tokenId: 'celo-mainnet:0x765de816845861e75a25fca122bb6898b8b1282a',
-          symbol: 'cUSD',
+          tokenId: 'celo-mainnet:0x32a9fe697a32135bfd313a6ac28792dae4d9979d',
+          symbol: 'cMCO2',
           actions: ['Send'],
           moreActions: [],
           learnMore: false,
