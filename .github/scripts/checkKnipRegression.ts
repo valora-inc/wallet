@@ -27,7 +27,11 @@ function compareKnipResults(
 ): boolean {
   let shouldFail = false
   const rows: Array<Record<string, string | number>> = []
-  for (const [category, baseProblems] of Object.entries(baseKnipResults)) {
+  const categories = Array.from(
+    new Set([...Object.keys(branchKnipResults), ...Object.keys(baseKnipResults)])
+  )
+  for (const category of categories) {
+    const baseProblems = baseKnipResults[category] ?? 0
     const branchProblems = branchKnipResults[category] ?? 0
     const hasRegression = branchProblems > baseProblems
     rows.push({

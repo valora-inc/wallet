@@ -2585,7 +2585,8 @@
     "entrypoint": {
       "title": "Kiếm tiền từ tiền điện tử của bạn",
       "subtitle": "Nạp tiền và kiếm tiền",
-      "description": "Kiếm tiền từ tài sản tiền điện tử của bạn bằng cách cho vay thông qua bể thanh khoản"
+      "description": "Earn by lending your crypto assets in liquidity pools.",
+      "totalDepositAndEarnings": "Tổng tiền nạp và thu nhập"
     },
     "enterAmount": {
       "title": "Bạn muốn nạp bao nhiêu tiền?",
