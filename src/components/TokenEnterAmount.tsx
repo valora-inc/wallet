@@ -37,11 +37,11 @@ export const APPROX_SYMBOL = '≈'
 
 const BORDER_RADIUS = 12
 
-function groupNumber(value: string) {
+export function groupNumber(value: string) {
   return value.replace(/\B(?=(\d{3})+(?!\d))(?<!\.\d*)/g, 'group')
 }
 
-function roundTokenAmount(value: string, token: TokenBalance) {
+export function roundTokenAmount(value: string, token: TokenBalance) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   if (value === '') {
     return ''
@@ -59,7 +59,7 @@ function roundTokenAmount(value: string, token: TokenBalance) {
   return `${grouped} ${token.symbol}`
 }
 
-function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbol) {
+export function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbol) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   if (value === '') {
     return ''

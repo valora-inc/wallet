@@ -10,7 +10,7 @@ export type TransactionFeedV2Response = {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: networkConfig.getWalletTransactionsUrl,
+  baseUrl: 'http://localhost:8080' || networkConfig.getWalletTransactionsUrl,
   headers: { Accept: 'application/json' },
 })
 

@@ -2,6 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
+import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { AmountEnteredIn } from 'src/send/types'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
@@ -13,7 +14,12 @@ import {
   mockTestTokenTokenId,
   mockTokenBalances,
 } from 'test/values'
-import TokenEnterAmount, { APPROX_SYMBOL } from './TokenEnterAmount'
+import TokenEnterAmount, {
+  APPROX_SYMBOL,
+  groupNumber,
+  roundLocalAmount,
+  roundTokenAmount,
+} from './TokenEnterAmount'
 
 jest.mock('react-native-localize')
 
@@ -78,6 +84,46 @@ describe('TokenEnterAmount', () => {
     editable: true,
     testID: 'tokenEnterAmount',
   }
+
+  describe('groupNumber', () => {
+    it('properly groups numbers', () => {
+      expect(groupNumber('')).toBe('')
+      expect(groupNumber('123')).toBe('123')
+      expect(groupNumber('1234')).toBe('1group234')
+      expect(groupNumber('1234567')).toBe('1group234group567')
+      expect(groupNumber('1234567.12345')).toBe('1group234group567.12345')
+      expect(groupNumber('123456789012345')).toBe('123group456group789group012group345')
+      expect(groupNumber('12.34567')).toBe('12.34567')
+      expect(groupNumber('-1234567.89')).toBe('-1group234group567.89')
+      expect(groupNumber('1234abc')).toBe('1group234abc')
+      expect(groupNumber('1234.56xyz')).toBe('1group234.56xyz')
+    })
+  })
+
+  describe.each([
+    { decimal: '.', group: ',' },
+    { decimal: ',', group: '.' },
+  ])('with decimal separator "$decimal" and group separator "$group"', ({ decimal, group }) => {
+    it('properly rounds token amounts', () => {
+      expect(roundTokenAmount('', defaultProps.token)).toBe('')
+      expect(roundTokenAmount('0.0000001', defaultProps.token)).toBe('<0.000001 CELO')
+      expect(roundTokenAmount('1234.567891234', defaultProps.token)).toBe('1,234.567891 CELO')
+      expect(roundTokenAmount('1234567.123456', defaultProps.token)).toBe(
+        '1group234group567.123456 CELO'
+      )
+    })
+
+    it('proprly rounds local amount', () => {
+      expect(roundLocalAmount('', LocalCurrencySymbol['USD'])).toBe('')
+      expect(roundLocalAmount('0.0000001', LocalCurrencySymbol['USD'])).toBe('<$0.000001')
+      expect(roundLocalAmount('1234.5678', LocalCurrencySymbol['USD'])).toBe('$1group234.57')
+      expect(roundLocalAmount('0.00789', LocalCurrencySymbol['USD'])).toBe('$0.0079')
+    })
+  })
+
+  describe('roundTokenAmount', () => {})
+
+  describe('roundLocalAmount', () => {})
 
   it('renders without crashing', () => {
     const store = createMockStore(mockStore)
