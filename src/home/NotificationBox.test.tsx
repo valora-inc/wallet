@@ -15,7 +15,7 @@ const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
 
 jest.mock('src/config', () => ({
   ...jest.requireActual('src/config'),
-  ONBOARDING_FEATURES_ENABLED: { CloudBackupSetup: false },
+  ONBOARDING_FEATURES_ENABLED: { CloudBackup: false },
 }))
 const mockedEnsurePincode = jest.mocked(ensurePincode)
 
@@ -83,7 +83,7 @@ describe('NotificationBox', () => {
   beforeEach(() => {
     jest.replaceProperty(
       ONBOARDING_FEATURES_ENABLED,
-      ToggleableOnboardingFeatures.CloudBackupSetup,
+      ToggleableOnboardingFeatures.CloudBackup,
       false
     )
     jest.clearAllMocks()
@@ -263,7 +263,7 @@ describe('NotificationBox', () => {
     })
     jest.replaceProperty(
       ONBOARDING_FEATURES_ENABLED,
-      ToggleableOnboardingFeatures.CloudBackupSetup,
+      ToggleableOnboardingFeatures.CloudBackup,
       true
     )
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))

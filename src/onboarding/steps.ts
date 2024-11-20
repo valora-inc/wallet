@@ -52,7 +52,7 @@ export function firstOnboardingScreen({
   recoveringFromStoreWipe: boolean
 }): Screens.ImportSelect | Screens.ImportWallet | Screens.PincodeSet {
   if (recoveringFromStoreWipe) {
-    return ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
+    return ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackup]
       ? Screens.ImportSelect
       : Screens.ImportWallet
   } else {
@@ -81,13 +81,14 @@ export const onboardingPropsSelector = createSelector(
     numberAlreadyVerifiedCentrally
   ) => {
     const showCloudAccountBackupRestore =
-      ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupRestore]
+      ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackup]
 
     const skipVerification =
       !ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.PhoneVerification]
 
     const showCloudAccountBackupSetup =
-      ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupInOnboarding]
+      ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackup] &&
+      ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetupInOnboarding]
 
     const skipProtectWallet =
       !ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.ProtectWallet]
