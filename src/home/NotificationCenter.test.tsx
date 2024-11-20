@@ -43,7 +43,7 @@ jest.mock('clevertap-react-native', () => ({
 }))
 jest.mock('src/config', () => ({
   ...jest.requireActual('src/config'),
-  ONBOARDING_FEATURES_ENABLED: { CloudBackupSetup: false },
+  ONBOARDING_FEATURES_ENABLED: { CloudBackup: false },
 }))
 
 const DEVICE_HEIGHT = 850

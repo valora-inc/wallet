@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
 import { useDispatch } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { PointsEvents } from 'src/analytics/Events'
@@ -56,11 +57,18 @@ export default function PointsDiscoverCard() {
         <View style={styles.content}>
           <Text style={styles.title}>{t('points.discoverCard.title')}</Text>
           <Text style={styles.description}>{t('points.discoverCard.description')}</Text>
-          <View style={styles.pill}>
-            <Text style={styles.balance}>
-              {t('points.discoverCard.balance', { pointsBalance })}
-            </Text>
-          </View>
+          <LinearGradient
+            colors={[Colors.gradientBorderLeft, Colors.gradientBorderRight]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.linearGradient}
+          >
+            <View style={styles.innerContainer}>
+              <Text style={styles.balance}>
+                {t('points.discoverCard.balance', { pointsBalance })}
+              </Text>
+            </View>
+          </LinearGradient>
         </View>
       </>
     </Touchable>
@@ -93,19 +101,24 @@ const styles = StyleSheet.create({
     ...typeScale.bodyXSmall,
     color: Colors.gray4,
   },
-  pill: {
-    alignSelf: 'flex-start',
-    marginTop: Spacing.Regular16,
-    paddingHorizontal: Spacing.Small12,
-    paddingVertical: Spacing.Smallest8,
-    backgroundColor: Colors.gray1,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    borderRadius: 100,
-    pointerEvents: 'none',
-  },
   balance: {
     ...typeScale.labelSemiBoldSmall,
     color: Colors.black,
+  },
+  linearGradient: {
+    height: 40,
+    borderRadius: 50,
+    alignSelf: 'flex-start',
+    marginTop: Spacing.Regular16,
+    pointerEvents: 'none',
+  },
+  innerContainer: {
+    borderRadius: 50,
+    flex: 1,
+    margin: 1,
+    backgroundColor: Colors.white,
+    justifyContent: 'center',
+    paddingHorizontal: Spacing.Small12,
+    paddingVertical: 6,
   },
 })
