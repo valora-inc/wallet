@@ -1,4 +1,4 @@
-import { WALLET_MNEMONIC } from 'react-native-dotenv'
+import { E2E_WALLET_MNEMONIC } from 'react-native-dotenv'
 import { createWalletClient, encodeFunctionData, erc20Abi, http, publicActions } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { celo } from 'viem/chains'
@@ -149,7 +149,7 @@ export async function waitForElementByIdAndTap(elementId, timeout = 10 * 1000, i
 }
 
 export async function quickOnboarding({
-  mnemonic = WALLET_MNEMONIC,
+  mnemonic = E2E_WALLET_MNEMONIC,
   cloudBackupEnabled = false,
   stopOnCYA = false,
 } = {}) {

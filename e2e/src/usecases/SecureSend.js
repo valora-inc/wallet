@@ -1,4 +1,4 @@
-import { WALLET_PRIVATE_KEY, WALLET_SINGLE_VERIFIED_MNEMONIC } from 'react-native-dotenv'
+import { E2E_WALLET_PRIVATE_KEY, E2E_WALLET_SINGLE_VERIFIED_MNEMONIC } from 'react-native-dotenv'
 import {
   WALLET_MULTIPLE_VERIFIED_ADDRESS,
   WALLET_MULTIPLE_VERIFIED_PHONE_NUMBER,
@@ -25,7 +25,7 @@ export default SecureSend = () => {
       await device.installApp()
       // fund wallet for send
       await fundWallet(
-        WALLET_PRIVATE_KEY,
+        E2E_WALLET_PRIVATE_KEY,
         WALLET_SINGLE_VERIFIED_ADDRESS,
         'cUSD',
         `${AMOUNT_TO_SEND * WALLET_FUNDING_MULTIPLIER}`
@@ -34,7 +34,7 @@ export default SecureSend = () => {
         newInstance: true,
         permissions: { notifications: 'YES', contacts: 'YES' },
       })
-      await quickOnboarding({ mnemonic: WALLET_SINGLE_VERIFIED_MNEMONIC })
+      await quickOnboarding({ mnemonic: E2E_WALLET_SINGLE_VERIFIED_MNEMONIC })
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {

@@ -33,14 +33,14 @@ jobs:
         uses: google-github-actions/get-secretmanager-secrets@v2.1.4
         with:
           secrets: |-
-            WALLET_CONNECT_PROJECT_ID_E2E:projects/1027349420744/secrets/WALLET_CONNECT_PROJECT_ID_E2E
-            DEFAULT_RECIPIENT_MNEMONIC:projects/1027349420744/secrets/DEFAULT_RECIPIENT_MNEMONIC
-            DEFAULT_RECIPIENT_PRIVATE_KEY:projects/1027349420744/secrets/DEFAULT_RECIPIENT_PRIVATE_KEY
-            WALLET_MNEMONIC:projects/1027349420744/secrets/WALLET_MNEMONIC
-            WALLET_PRIVATE_KEY:projects/1027349420744/secrets/WALLET_PRIVATE_KEY
-            WALLET_SINGLE_VERIFIED_MNEMONIC:projects/1027349420744/secrets/WALLET_SINGLE_VERIFIED_MNEMONIC
-            WALLET_MULTIPLE_VERIFIED_MNEMONIC:projects/1027349420744/secrets/WALLET_MULTIPLE_VERIFIED_MNEMONIC
-            WALLET_12_WORDS_MNEMONIC:projects/1027349420744/secrets/WALLET_12_WORDS_MNEMONIC
+            E2E_WALLET_CONNECT_PROJECT_ID:projects/1027349420744/secrets/E2E_WALLET_CONNECT_PROJECT_ID
+            E2E_DEFAULT_RECIPIENT_MNEMONIC:projects/1027349420744/secrets/E2E_DEFAULT_RECIPIENT_MNEMONIC
+            E2E_DEFAULT_RECIPIENT_PRIVATE_KEY:projects/1027349420744/secrets/E2E_DEFAULT_RECIPIENT_PRIVATE_KEY
+            E2E_WALLET_MNEMONIC:projects/1027349420744/secrets/E2E_WALLET_MNEMONIC
+            E2E_WALLET_PRIVATE_KEY:projects/1027349420744/secrets/E2E_WALLET_PRIVATE_KEY
+            E2E_WALLET_SINGLE_VERIFIED_MNEMONIC:projects/1027349420744/secrets/E2E_WALLET_SINGLE_VERIFIED_MNEMONIC
+            E2E_WALLET_MULTIPLE_VERIFIED_MNEMONIC:projects/1027349420744/secrets/E2E_WALLET_MULTIPLE_VERIFIED_MNEMONIC
+            E2E_WALLET_12_WORDS_MNEMONIC:projects/1027349420744/secrets/E2E_WALLET_12_WORDS_MNEMONIC
       - uses: actions/checkout@v4
       - name: Set env
         run: |
@@ -116,14 +116,14 @@ jobs:
           --retries 3
           --device-boot-args="-snapshot ci_boot"
         env:
-          WALLET_CONNECT_PROJECT_ID_E2E: ${{ steps.google-secrets.outputs.WALLET_CONNECT_PROJECT_ID_E2E }}
-          DEFAULT_RECIPIENT_MNEMONIC: ${{ steps.google-secrets.outputs.DEFAULT_RECIPIENT_MNEMONIC }}
-          DEFAULT_RECIPIENT_PRIVATE_KEY: ${{ steps.google-secrets.outputs.DEFAULT_RECIPIENT_PRIVATE_KEY }}
-          WALLET_MNEMONIC: ${{ steps.google-secrets.outputs.WALLET_MNEMONIC }}
-          WALLET_PRIVATE_KEY: ${{ steps.google-secrets.outputs.WALLET_PRIVATE_KEY }}
-          WALLET_SINGLE_VERIFIED_MNEMONIC: ${{ steps.google-secrets.outputs.WALLET_SINGLE_VERIFIED_MNEMONIC }}
-          WALLET_MULTIPLE_VERIFIED_MNEMONIC: ${{ steps.google-secrets.outputs.WALLET_MULTIPLE_VERIFIED_MNEMONIC }}
-          WALLET_12_WORDS_MNEMONIC: ${{ steps.google-secrets.outputs.WALLET_12_WORDS_MNEMONIC }}
+          E2E_WALLET_CONNECT_PROJECT_ID: ${{ steps.google-secrets.outputs.E2E_WALLET_CONNECT_PROJECT_ID }}
+          E2E_DEFAULT_RECIPIENT_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_DEFAULT_RECIPIENT_MNEMONIC }}
+          E2E_DEFAULT_RECIPIENT_PRIVATE_KEY: ${{ steps.google-secrets.outputs.E2E_DEFAULT_RECIPIENT_PRIVATE_KEY }}
+          E2E_WALLET_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_WALLET_MNEMONIC }}
+          E2E_WALLET_PRIVATE_KEY: ${{ steps.google-secrets.outputs.E2E_WALLET_PRIVATE_KEY }}
+          E2E_WALLET_SINGLE_VERIFIED_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_WALLET_SINGLE_VERIFIED_MNEMONIC }}
+          E2E_WALLET_MULTIPLE_VERIFIED_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_WALLET_MULTIPLE_VERIFIED_MNEMONIC }}
+          E2E_WALLET_12_WORDS_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_WALLET_12_WORDS_MNEMONIC }}
       - name: Publish Android JUnit Report
         if: always()
         uses: mikepenz/action-junit-report@v4

@@ -1,6 +1,6 @@
 import { Core } from '@walletconnect/core'
 import Client from '@walletconnect/sign-client'
-import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
+import { E2E_WALLET_CONNECT_PROJECT_ID } from 'react-native-dotenv'
 import {
   hashMessage,
   hexToNumber,
@@ -100,7 +100,7 @@ export default WalletConnect = () => {
     }))
 
     core = await Core.init({
-      projectId: WALLET_CONNECT_PROJECT_ID_E2E,
+      projectId: E2E_WALLET_CONNECT_PROJECT_ID,
       relayUrl: 'wss://relay.walletconnect.org',
     })
 
