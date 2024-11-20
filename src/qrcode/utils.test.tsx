@@ -145,7 +145,7 @@ describe('handleQRCodeDefault', () => {
       .put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
       .run()
   })
-  it('navigates to the send amount screen with a qr code with an empty display name', async () => {
+  it('navigates to the send amount screen with a qr code with an empty display name and token override', async () => {
     const qrCode: QrCode = {
       type: QRCodeTypes.QR_CODE,
       data: urlFromUriData({
@@ -154,7 +154,7 @@ describe('handleQRCodeDefault', () => {
       }),
     }
 
-    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
+    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode, 'some-token-id'))
       .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
@@ -171,6 +171,7 @@ describe('handleQRCodeDefault', () => {
         thumbnailPath: undefined,
         recipientType: RecipientType.Address,
       },
+      defaultTokenIdOverride: 'some-token-id',
       forceTokenId: false,
     })
     expect(AppAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, qrCode)

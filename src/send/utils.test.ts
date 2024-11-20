@@ -93,6 +93,21 @@ describe('send/utils', () => {
       )
     })
 
+    it('should navigate to SendEnterAmount with defaultTokenIdOverride', async () => {
+      await expectSaga(handleSendPaymentData, mockData, false, undefined, 'some-token-id')
+        .withState(createMockStore({}).getState())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(
+        Screens.SendEnterAmount,
+        expect.objectContaining({
+          origin: SendOrigin.AppSendFlow,
+          recipient: { address: mockData.address, recipientType: RecipientType.Address },
+          defaultTokenIdOverride: 'some-token-id',
+          forceTokenId: false,
+        })
+      )
+    })
+
     it('should navigate to SendConfirmation screen when amount and token are sent', async () => {
       const mockState = createMockStore({}).getState()
       // 1 PHP in cEUR: 1 (input) / 1.33 (PHP price) / 1.2 (cEUR price)

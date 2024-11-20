@@ -25,7 +25,8 @@ const TAG = 'send/utils'
 export function* handleSendPaymentData(
   data: UriData,
   isFromScan: boolean,
-  cachedRecipient?: Recipient
+  cachedRecipient?: Recipient,
+  defaultTokenIdOverride?: string
 ) {
   const recipient: AddressRecipient = {
     address: data.address.toLowerCase(),
@@ -96,7 +97,8 @@ export function* handleSendPaymentData(
       recipient,
       isFromScan,
       origin: SendOrigin.AppSendFlow,
-      defaultTokenIdOverride: data.token ? tokenInfo?.tokenId : undefined,
+      defaultTokenIdOverride:
+        defaultTokenIdOverride ?? (data.token ? tokenInfo?.tokenId : undefined),
       forceTokenId: !!(data.token && tokenInfo?.tokenId),
     })
   }

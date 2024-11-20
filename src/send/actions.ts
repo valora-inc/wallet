@@ -20,6 +20,7 @@ export enum Actions {
 export interface HandleQRCodeDetectedAction {
   type: Actions.BARCODE_DETECTED
   qrCode: QrCode
+  defaultTokenIdOverride?: string
 }
 
 export interface HandleQRCodeDetectedSecureSendAction {
@@ -70,9 +71,13 @@ export type ActionTypes =
   | SendPaymentFailureAction
   | UpdateLastUsedCurrencyAction
 
-export const handleQRCodeDetected = (qrCode: QrCode): HandleQRCodeDetectedAction => ({
+export const handleQRCodeDetected = (
+  qrCode: QrCode,
+  defaultTokenIdOverride?: string
+): HandleQRCodeDetectedAction => ({
   type: Actions.BARCODE_DETECTED,
   qrCode,
+  defaultTokenIdOverride,
 })
 
 export const handleQRCodeDetectedSecureSend = (
