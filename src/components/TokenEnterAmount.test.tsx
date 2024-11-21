@@ -1,4 +1,5 @@
 import { act, fireEvent, render, renderHook } from '@testing-library/react-native'
+import BigNumber from 'bignumber.js'
 import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
@@ -6,21 +7,28 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { AmountEnteredIn } from 'src/send/types'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
+import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
-import { mockCeloTokenBalance } from 'test/values'
+import { mockCeloTokenBalance, mockCusdTokenBalance, mockUSDCTokenId } from 'test/values'
 import TokenEnterAmount, {
   APPROX_SYMBOL,
   formatNumber,
-  roundLocalAmount,
-  roundTokenAmount,
+  getReadableLocalAmount,
+  getReadableTokenAmount,
   useEnterAmount,
 } from './TokenEnterAmount'
 
 jest.mock('react-native-localize')
 jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/redux/hooks', () => ({ useSelector: jest.fn() }))
+jest.mock('src/tokens/hooks', () => ({ useTokenInfo: jest.fn() }))
+jest.mock('src/tokens/utils', () => ({
+  convertLocalToTokenAmount: jest.fn(),
+  convertTokenToLocalAmount: jest.fn(),
+}))
 
 const mockStore = {}
 
@@ -80,55 +88,62 @@ describe('TokenEnterAmount', () => {
     })
 
     it('properly rounds token amounts', () => {
-      expect(roundTokenAmount('', defaultProps.token)).toBe(replaceSeparators(''))
-      expect(roundTokenAmount('0.0000001', defaultProps.token)).toBe(
+      expect(getReadableTokenAmount(null, defaultProps.token)).toBe(replaceSeparators(''))
+      expect(getReadableTokenAmount(new BigNumber('0.0000001'), defaultProps.token)).toBe(
         replaceSeparators('<0.000001 CELO')
       )
-      expect(roundTokenAmount('0.0001', defaultProps.token)).toBe(replaceSeparators('0.0001 CELO'))
-      expect(roundTokenAmount('12.01', defaultProps.token)).toBe(replaceSeparators('12.01 CELO'))
-      expect(roundTokenAmount('12.00000001', defaultProps.token)).toBe(replaceSeparators('12 CELO'))
-      expect(roundTokenAmount('123.5678915', defaultProps.token)).toBe(
+      expect(getReadableTokenAmount(new BigNumber('0.0001'), defaultProps.token)).toBe(
+        replaceSeparators('0.0001 CELO')
+      )
+      expect(getReadableTokenAmount(new BigNumber('12.01'), defaultProps.token)).toBe(
+        replaceSeparators('12.01 CELO')
+      )
+      expect(getReadableTokenAmount(new BigNumber('12.00000001'), defaultProps.token)).toBe(
+        replaceSeparators('12 CELO')
+      )
+      expect(getReadableTokenAmount(new BigNumber('123.5678915'), defaultProps.token)).toBe(
         replaceSeparators('123.567892 CELO')
       )
-      expect(roundTokenAmount('1234.567891234', defaultProps.token)).toBe(
+      expect(getReadableTokenAmount(new BigNumber('1234.567891234'), defaultProps.token)).toBe(
         replaceSeparators('1,234.567891 CELO')
       )
-      expect(roundTokenAmount('1234567.123456', defaultProps.token)).toBe(
+      expect(getReadableTokenAmount(new BigNumber('1234567.123456'), defaultProps.token)).toBe(
         replaceSeparators('1,234,567.123456 CELO')
       )
     })
 
     it('proprly rounds local amount', () => {
-      expect(roundLocalAmount('', LocalCurrencySymbol['USD'])).toBe(replaceSeparators(''))
-      expect(roundLocalAmount('0.0000001', LocalCurrencySymbol['USD'])).toBe(
+      expect(getReadableLocalAmount(null, LocalCurrencySymbol['USD'])).toBe(replaceSeparators(''))
+      expect(getReadableLocalAmount(new BigNumber('0.0000001'), LocalCurrencySymbol['USD'])).toBe(
         replaceSeparators('<$0.000001')
       )
-      expect(roundLocalAmount('0.0001', LocalCurrencySymbol['USD'])).toBe(
+      expect(getReadableLocalAmount(new BigNumber('0.0001'), LocalCurrencySymbol['USD'])).toBe(
         replaceSeparators('$0.0001')
       )
-      expect(roundLocalAmount('0.00789', LocalCurrencySymbol['USD'])).toBe(
+      expect(getReadableLocalAmount(new BigNumber('0.00789'), LocalCurrencySymbol['USD'])).toBe(
         replaceSeparators('$0.008')
       )
-      expect(roundLocalAmount('12.001', LocalCurrencySymbol['USD'])).toBe(
+      expect(getReadableLocalAmount(new BigNumber('12.001'), LocalCurrencySymbol['USD'])).toBe(
         replaceSeparators('$12.00')
       )
-      expect(roundLocalAmount('12.01', LocalCurrencySymbol['USD'])).toBe(
+      expect(getReadableLocalAmount(new BigNumber('12.01'), LocalCurrencySymbol['USD'])).toBe(
         replaceSeparators('$12.01')
       )
-      expect(roundLocalAmount('123.5678', LocalCurrencySymbol['USD'])).toBe(
+      expect(getReadableLocalAmount(new BigNumber('123.5678'), LocalCurrencySymbol['USD'])).toBe(
         replaceSeparators('$123.57')
       )
-      expect(roundLocalAmount('1234.5678', LocalCurrencySymbol['USD'])).toBe(
+      expect(getReadableLocalAmount(new BigNumber('1234.5678'), LocalCurrencySymbol['USD'])).toBe(
         replaceSeparators('$1,234.57')
       )
-      expect(roundLocalAmount('1234567.5678', LocalCurrencySymbol['USD'])).toBe(
-        replaceSeparators('$1,234,567.57')
-      )
+      expect(
+        getReadableLocalAmount(new BigNumber('1234567.5678'), LocalCurrencySymbol['USD'])
+      ).toBe(replaceSeparators('$1,234,567.57'))
     })
   })
 
   describe('useEnterAmount', () => {
     it('initializes with default state', () => {
+      jest.mocked(convertTokenToLocalAmount).mockReturnValue(new BigNumber(0))
       const { result } = renderHook(() =>
         useEnterAmount({
           token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
@@ -137,6 +152,70 @@ describe('TokenEnterAmount', () => {
 
       expect(result.current.amount).toBe('')
       expect(result.current.amountType).toBe('token')
+    })
+
+    it('properly formats derived state when entering token amount', async () => {
+      jest.mocked(useTokenInfo).mockReturnValue(mockCusdTokenBalance)
+      jest
+        .mocked(convertTokenToLocalAmount)
+        .mockReturnValue(
+          new BigNumber(1234.123456).multipliedBy(mockCusdTokenBalance.priceUsd!).multipliedBy(1)
+        )
+      const { result } = renderHook(() =>
+        useEnterAmount({
+          token: { symbol: 'USDC', decimals: 6, tokenId: mockUSDCTokenId } as TokenBalance,
+        })
+      )
+
+      await act(() => {
+        result.current.handleAmountInputChange('1234.123456')
+      })
+
+      expect(result.current.derived).toStrictEqual({
+        token: {
+          amount: '1234.123456',
+          bignum: new BigNumber('1234.123456'),
+          readable: '1,234.123456 USDC',
+        },
+        local: {
+          amount: '1235.36',
+          bignum: new BigNumber('1235.357579456'),
+          readable: '$1,235.36',
+        },
+      })
+    })
+
+    it('properly formats derived state when entering local amount', async () => {
+      jest.mocked(useTokenInfo).mockReturnValue(mockCusdTokenBalance)
+      jest.mocked(convertTokenToLocalAmount).mockReturnValue(new BigNumber(0))
+      jest
+        .mocked(convertLocalToTokenAmount)
+        .mockReturnValue(
+          new BigNumber(1234.123456).dividedBy(1).dividedBy(mockCusdTokenBalance.priceUsd!)
+        )
+      const { result } = renderHook(() =>
+        useEnterAmount({
+          token: { symbol: 'USDC', decimals: 6, tokenId: mockUSDCTokenId } as TokenBalance,
+        })
+      )
+
+      await act(async () => {
+        result.current.handleToggleAmountType()
+        result.current.handleAmountInputChange('1234.678')
+      })
+
+      expect(result.current.derived).toStrictEqual({
+        local: {
+          amount: '1234.68',
+          bignum: new BigNumber('1234.678'),
+          readable: '$1,234.68',
+        },
+        token: {
+          amount: '1232.890565',
+          bignum: new BigNumber('1232.890565'),
+          readable: '1,232.890565 USDC',
+        },
+      })
     })
 
     it('handles token input change correctly', async () => {
@@ -190,7 +269,7 @@ describe('TokenEnterAmount', () => {
     })
   })
 
-  describe('TokenEnterAmount component', () => {
+  describe('component', () => {
     it('renders without crashing', () => {
       const store = createMockStore(mockStore)
       const { getByTestId } = render(

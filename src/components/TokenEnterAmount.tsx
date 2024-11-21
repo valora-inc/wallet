@@ -45,35 +45,34 @@ export function formatNumber(value: string) {
     .replaceAll('_', groupingSeparator)
 }
 
-export function roundTokenAmount(value: string, token: TokenBalance) {
+export function getReadableTokenAmount(bignum: BigNumber | null, token: TokenBalance) {
   const { decimalSeparator } = getNumberFormatSettings()
-  if (value === '') {
+  if (bignum === null) {
     return ''
   }
 
-  const bigNum = parseInputAmount(value, decimalSeparator)
-
-  if (bigNum.isLessThan(0.000001)) {
+  if (bignum.isLessThan(0.000001)) {
     return `<0${decimalSeparator}000001 ${token.symbol}`
   }
 
-  const grouped = formatNumber(bigNum.decimalPlaces(6).toString())
+  const grouped = formatNumber(bignum.decimalPlaces(6).toString())
   return `${grouped} ${token.symbol}`
 }
 
-export function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbol) {
+export function getReadableLocalAmount(
+  bignum: BigNumber | null,
+  localCurrencySymbol: LocalCurrencySymbol
+) {
   const { decimalSeparator } = getNumberFormatSettings()
-  if (value === '') {
+  if (bignum === null) {
     return ''
   }
 
-  const bigNum = parseInputAmount(value, decimalSeparator)
-
-  if (bigNum.isLessThan(0.000001)) {
+  if (bignum.isLessThan(0.000001)) {
     return `<${localCurrencySymbol}0${decimalSeparator}000001`
   }
 
-  const rounded = bigNum.isLessThan(0.01) ? bigNum.toPrecision(1) : bigNum.toFixed(2)
+  const rounded = bignum.isLessThan(0.01) ? bignum.toPrecision(1) : bignum.toFixed(2)
   const grouped = formatNumber(rounded.toString())
   return `${localCurrencySymbol}${grouped}`
 }
@@ -99,45 +98,41 @@ export function useEnterAmount(props: {
 
   const derived = useMemo(() => {
     if (amountType === 'token') {
-      const parsedTokenAmount = parseInputAmount(amount, decimalSeparator)
+      const parsedTokenAmount = amountRaw === '' ? null : parseInputAmount(amountRaw)
+
       const tokenToLocal = convertTokenToLocalAmount({
         tokenAmount: parsedTokenAmount,
         tokenInfo,
         usdToLocalRate,
       })
+
       const convertedTokenToLocal =
-        tokenToLocal && tokenToLocal.gt(0)
-          ? tokenToLocal.toString().replaceAll('.', decimalSeparator)
-          : ''
-      const parsedLocalAmount = parseInputAmount(
-        convertedTokenToLocal.replaceAll(groupingSeparator, ''),
-        decimalSeparator
-      )
+        tokenToLocal && tokenToLocal.gt(0) ? tokenToLocal.toFixed(2) : ''
 
       return {
         token: {
-          amount: amount,
+          amount: amountRaw,
           bignum: parsedTokenAmount,
-          readable: roundTokenAmount(amount, props.token),
+          readable: getReadableTokenAmount(parsedTokenAmount, props.token),
         },
         local: {
           amount: convertedTokenToLocal,
-          bignum: parsedLocalAmount,
-          readable: roundLocalAmount(convertedTokenToLocal, localCurrencySymbol),
+          bignum: tokenToLocal,
+          readable: getReadableLocalAmount(tokenToLocal, localCurrencySymbol),
         },
       }
     }
 
-    const parsedLocalAmount = parseInputAmount(
-      amount.replaceAll(groupingSeparator, ''),
-      decimalSeparator
-    )
+    // Othersiwe, this is "local" amount type
+
+    const parsedLocalAmount = amountRaw === '' ? null : parseInputAmount(amountRaw)
 
     const localToToken = convertLocalToTokenAmount({
       localAmount: parsedLocalAmount,
       tokenInfo,
       usdToLocalRate,
     })
+
     const convertedLocalToToken =
       localToToken && localToToken.gt(0)
         ? // no group separator for token amount, round to token.decimals and strip trailing zeros
@@ -152,15 +147,15 @@ export function useEnterAmount(props: {
       token: {
         amount: convertedLocalToToken,
         bignum: parsedTokenAmount,
-        readable: roundTokenAmount(convertedLocalToToken, props.token),
+        readable: getReadableTokenAmount(parsedTokenAmount, props.token),
       },
       local: {
-        amount: amount,
+        amount: parsedLocalAmount?.toFixed(2) ?? '',
         bignum: parsedLocalAmount,
-        readable: roundLocalAmount(amount, localCurrencySymbol),
+        readable: getReadableLocalAmount(parsedLocalAmount, localCurrencySymbol),
       },
     }
-  }, [amount, amountType, localCurrencySymbol])
+  }, [amountRaw, amountType, localCurrencySymbol])
 
   function onOpenTokenPicker() {
     bottomSheetRef.current?.snapToIndex(0)
@@ -173,14 +168,7 @@ export function useEnterAmount(props: {
 
   function handleToggleAmountType() {
     setAmountType((prev) => (prev === 'local' ? 'token' : 'local'))
-
-    setAmount(
-      amountType === 'token'
-        ? derived.local.amount
-          ? derived.local.bignum.toFixed(2).replaceAll('.', decimalSeparator)
-          : ''
-        : derived.token.amount
-    )
+    setAmount(amountType === 'token' ? derived.local.amount || '' : derived.token.amount)
     inputRef.current?.blur()
   }
 
@@ -276,9 +264,8 @@ export default function TokenEnterAmount({
   const localPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2).replaceAll('.', decimalSeparator)}`
 
   const formattedInputValue = useMemo(() => {
-    const number = formatNumber(inputValue)
-    if (amountType === 'token') return number
-    return number !== '' ? `${localCurrencySymbol}${number}` : ''
+    if (amountType === 'token') return inputValue
+    return inputValue !== '' ? `${localCurrencySymbol}${inputValue}` : ''
   }, [inputValue, amountType, localCurrencySymbol])
 
   const handleSetStartPosition = (value?: number) => {
