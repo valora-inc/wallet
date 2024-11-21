@@ -66,6 +66,7 @@ export default function EarnEntrypoint() {
             : navigate(Screens.EarnInfoScreen)
         }}
         testID="EarnEntrypoint"
+        shouldRenderRippleAbove
       >
         <>
           <View style={styles.row}>
