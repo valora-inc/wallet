@@ -37,12 +37,16 @@ export const APPROX_SYMBOL = '≈'
 
 const BORDER_RADIUS = 12
 
-export function groupNumber(value: string) {
-  return value.replace(/\B(?=(\d{3})+(?!\d))(?<!\.\d*)/g, 'group')
+export function formatNumber(value: string) {
+  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+  return value
+    .replace(/\B(?=(\d{3})+(?!\d))(?<!\.\d*)/g, '_')
+    .replaceAll('.', decimalSeparator)
+    .replaceAll('_', groupingSeparator)
 }
 
 export function roundTokenAmount(value: string, token: TokenBalance) {
-  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+  const { decimalSeparator } = getNumberFormatSettings()
   if (value === '') {
     return ''
   }
@@ -53,14 +57,12 @@ export function roundTokenAmount(value: string, token: TokenBalance) {
     return `<0${decimalSeparator}000001 ${token.symbol}`
   }
 
-  const grouped = groupNumber(bigNum.decimalPlaces(6).toString())
-    .replaceAll('.', decimalSeparator)
-    .replaceAll('group', groupingSeparator)
+  const grouped = formatNumber(bigNum.decimalPlaces(6).toString())
   return `${grouped} ${token.symbol}`
 }
 
 export function roundLocalAmount(value: string, localCurrencySymbol: LocalCurrencySymbol) {
-  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+  const { decimalSeparator } = getNumberFormatSettings()
   if (value === '') {
     return ''
   }
@@ -72,9 +74,7 @@ export function roundLocalAmount(value: string, localCurrencySymbol: LocalCurren
   }
 
   const rounded = bigNum.isLessThan(0.01) ? bigNum.toPrecision(1) : bigNum.toFixed(2)
-  const grouped = groupNumber(rounded.toString())
-    .replaceAll('.', decimalSeparator)
-    .replaceAll('group', groupingSeparator)
+  const grouped = formatNumber(rounded.toString())
   return `${localCurrencySymbol}${grouped}`
 }
 
@@ -271,14 +271,12 @@ export default function TokenEnterAmount({
   const [startPosition, setStartPosition] = useState<number | undefined>(0)
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
-  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+  const { decimalSeparator } = getNumberFormatSettings()
   const tokenPlaceholder = new BigNumber(0).toFormat(2)
   const localPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2).replaceAll('.', decimalSeparator)}`
 
   const formattedInputValue = useMemo(() => {
-    const number = groupNumber(inputValue)
-      .replaceAll('.', decimalSeparator)
-      .replaceAll('group', groupingSeparator)
+    const number = formatNumber(inputValue)
     if (amountType === 'token') return number
     return number !== '' ? `${localCurrencySymbol}${number}` : ''
   }, [inputValue, amountType, localCurrencySymbol])

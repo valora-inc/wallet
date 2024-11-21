@@ -16,7 +16,7 @@ import {
 } from 'test/values'
 import TokenEnterAmount, {
   APPROX_SYMBOL,
-  groupNumber,
+  formatNumber,
   roundLocalAmount,
   roundTokenAmount,
 } from './TokenEnterAmount'
@@ -85,45 +85,80 @@ describe('TokenEnterAmount', () => {
     testID: 'tokenEnterAmount',
   }
 
-  describe('groupNumber', () => {
-    it('properly groups numbers', () => {
-      expect(groupNumber('')).toBe('')
-      expect(groupNumber('123')).toBe('123')
-      expect(groupNumber('1234')).toBe('1group234')
-      expect(groupNumber('1234567')).toBe('1group234group567')
-      expect(groupNumber('1234567.12345')).toBe('1group234group567.12345')
-      expect(groupNumber('123456789012345')).toBe('123group456group789group012group345')
-      expect(groupNumber('12.34567')).toBe('12.34567')
-      expect(groupNumber('-1234567.89')).toBe('-1group234group567.89')
-      expect(groupNumber('1234abc')).toBe('1group234abc')
-      expect(groupNumber('1234.56xyz')).toBe('1group234.56xyz')
-    })
-  })
-
   describe.each([
     { decimal: '.', group: ',' },
     { decimal: ',', group: '.' },
   ])('with decimal separator "$decimal" and group separator "$group"', ({ decimal, group }) => {
+    beforeEach(() => {
+      jest.mocked(getNumberFormatSettings).mockReturnValue({
+        decimalSeparator: decimal,
+        groupingSeparator: group,
+      })
+    })
+
+    const replaceSeparators = (value: string) =>
+      value.replace(/\./g, '|').replace(/,/g, group).replace(/\|/g, decimal)
+
+    it('properly groups numbers', () => {
+      expect(formatNumber('')).toBe('')
+      expect(formatNumber('123')).toBe(replaceSeparators('123'))
+      expect(formatNumber('1234')).toBe(replaceSeparators('1,234'))
+      expect(formatNumber('1234567')).toBe(replaceSeparators('1,234,567'))
+      expect(formatNumber('1234567.12345')).toBe(replaceSeparators('1,234,567.12345'))
+      expect(formatNumber('123456789012345')).toBe(replaceSeparators('123,456,789,012,345'))
+      expect(formatNumber('12.34567')).toBe(replaceSeparators('12.34567'))
+      expect(formatNumber('-1234567.89')).toBe(replaceSeparators('-1,234,567.89'))
+      expect(formatNumber('1234abc')).toBe(replaceSeparators('1,234abc'))
+      expect(formatNumber('1234.56xyz')).toBe(replaceSeparators('1,234.56xyz'))
+    })
+
     it('properly rounds token amounts', () => {
-      expect(roundTokenAmount('', defaultProps.token)).toBe('')
-      expect(roundTokenAmount('0.0000001', defaultProps.token)).toBe('<0.000001 CELO')
-      expect(roundTokenAmount('1234.567891234', defaultProps.token)).toBe('1,234.567891 CELO')
+      expect(roundTokenAmount('', defaultProps.token)).toBe(replaceSeparators(''))
+      expect(roundTokenAmount('0.0000001', defaultProps.token)).toBe(
+        replaceSeparators('<0.000001 CELO')
+      )
+      expect(roundTokenAmount('0.0001', defaultProps.token)).toBe(replaceSeparators('0.0001 CELO'))
+      expect(roundTokenAmount('12.01', defaultProps.token)).toBe(replaceSeparators('12.01 CELO'))
+      expect(roundTokenAmount('12.00000001', defaultProps.token)).toBe(replaceSeparators('12 CELO'))
+      expect(roundTokenAmount('123.5678915', defaultProps.token)).toBe(
+        replaceSeparators('123.567892 CELO')
+      )
+      expect(roundTokenAmount('1234.567891234', defaultProps.token)).toBe(
+        replaceSeparators('1,234.567891 CELO')
+      )
       expect(roundTokenAmount('1234567.123456', defaultProps.token)).toBe(
-        '1group234group567.123456 CELO'
+        replaceSeparators('1,234,567.123456 CELO')
       )
     })
 
     it('proprly rounds local amount', () => {
-      expect(roundLocalAmount('', LocalCurrencySymbol['USD'])).toBe('')
-      expect(roundLocalAmount('0.0000001', LocalCurrencySymbol['USD'])).toBe('<$0.000001')
-      expect(roundLocalAmount('1234.5678', LocalCurrencySymbol['USD'])).toBe('$1group234.57')
-      expect(roundLocalAmount('0.00789', LocalCurrencySymbol['USD'])).toBe('$0.0079')
+      expect(roundLocalAmount('', LocalCurrencySymbol['USD'])).toBe(replaceSeparators(''))
+      expect(roundLocalAmount('0.0000001', LocalCurrencySymbol['USD'])).toBe(
+        replaceSeparators('<$0.000001')
+      )
+      expect(roundLocalAmount('0.0001', LocalCurrencySymbol['USD'])).toBe(
+        replaceSeparators('$0.0001')
+      )
+      expect(roundLocalAmount('0.00789', LocalCurrencySymbol['USD'])).toBe(
+        replaceSeparators('$0.008')
+      )
+      expect(roundLocalAmount('12.001', LocalCurrencySymbol['USD'])).toBe(
+        replaceSeparators('$12.00')
+      )
+      expect(roundLocalAmount('12.01', LocalCurrencySymbol['USD'])).toBe(
+        replaceSeparators('$12.01')
+      )
+      expect(roundLocalAmount('123.5678', LocalCurrencySymbol['USD'])).toBe(
+        replaceSeparators('$123.57')
+      )
+      expect(roundLocalAmount('1234.5678', LocalCurrencySymbol['USD'])).toBe(
+        replaceSeparators('$1,234.57')
+      )
+      expect(roundLocalAmount('1234567.5678', LocalCurrencySymbol['USD'])).toBe(
+        replaceSeparators('$1,234,567.57')
+      )
     })
   })
-
-  describe('roundTokenAmount', () => {})
-
-  describe('roundLocalAmount', () => {})
 
   it('renders without crashing', () => {
     const store = createMockStore(mockStore)
