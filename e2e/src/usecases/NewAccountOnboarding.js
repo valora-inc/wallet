@@ -43,8 +43,7 @@ export default NewAccountOnboarding = () => {
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
       launchArgs: {
-        onboardingOverrides:
-          'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackupRestore,CloudBackupSetup',
+        onboardingOverrides: 'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackup',
       },
     })
     await sleep(5000)
@@ -160,8 +159,7 @@ export default NewAccountOnboarding = () => {
     await launchApp({
       newInstance: true,
       launchArgs: {
-        onboardingOverrides:
-          'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackupSetup,CloudBackupRestore',
+        onboardingOverrides: 'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackup',
       },
     })
     await quickOnboarding({ mnemonic: testRecoveryPhrase, cloudBackupEnabled: true })

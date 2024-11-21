@@ -2587,7 +2587,8 @@
     "entrypoint": {
       "title": "Ganhe com suas criptos",
       "subtitle": "Deposite e ganhe",
-      "description": "Ganhe em suas criptos por um pool de liquidez."
+      "description": "Ganhe emprestando seus ativos de criptografia em pools de liquidez.",
+      "totalDepositAndEarnings": "Total de depósitos e ganhos"
     },
     "enterAmount": {
       "title": "Quanto gostaria de depositar?",
