@@ -1,61 +1,28 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render, renderHook } from '@testing-library/react-native'
 import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SendEvents } from 'src/analytics/Events'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { AmountEnteredIn } from 'src/send/types'
-import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
+import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
-import {
-  mockCeloTokenBalance,
-  mockCeloTokenId,
-  mockEthTokenId,
-  mockTestTokenTokenId,
-  mockTokenBalances,
-} from 'test/values'
+import { mockCeloTokenBalance } from 'test/values'
 import TokenEnterAmount, {
   APPROX_SYMBOL,
   formatNumber,
   roundLocalAmount,
   roundTokenAmount,
+  useEnterAmount,
 } from './TokenEnterAmount'
 
 jest.mock('react-native-localize')
+jest.mock('src/analytics/AppAnalytics')
+jest.mock('src/redux/hooks', () => ({ useSelector: jest.fn() }))
 
-const getMockStoreTokenBalances = (): Record<string, StoredTokenBalance> => ({
-  ...mockTokenBalances,
-  [mockCeloTokenId]: {
-    ...mockTokenBalances[mockCeloTokenId],
-    priceUsd: '0.5',
-    balance: '10',
-  },
-  [mockEthTokenId]: {
-    ...mockTokenBalances[mockEthTokenId],
-    tokenId: mockEthTokenId,
-    balance: '10',
-    networkId: NetworkId['ethereum-sepolia'],
-    showZeroBalance: true,
-    isNative: true,
-    symbol: 'ETH',
-    priceFetchedAt: Date.now(),
-    name: 'Ether',
-  },
-  [mockTestTokenTokenId]: {
-    // token with no price
-    balance: '10',
-    tokenId: mockTestTokenTokenId,
-    networkId: NetworkId['celo-alfajores'],
-    showZeroBalance: false,
-    isNative: false,
-    symbol: 'TST',
-    name: 'Test Token',
-    decimals: 18,
-    address: '0xtest',
-  },
-})
-const mockStoreTokenBalances = getMockStoreTokenBalances()
-const mockStore = { tokens: { tokenBalances: mockStoreTokenBalances } }
+const mockStore = {}
 
 describe('TokenEnterAmount', () => {
   beforeEach(() => {
@@ -160,141 +127,206 @@ describe('TokenEnterAmount', () => {
     })
   })
 
-  it('renders without crashing', () => {
-    const store = createMockStore(mockStore)
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <TokenEnterAmount {...defaultProps} />
-      </Provider>
-    )
-    expect(getByTestId('tokenEnterAmount')).toBeTruthy()
+  describe('useEnterAmount', () => {
+    it('initializes with default state', () => {
+      const { result } = renderHook(() =>
+        useEnterAmount({
+          token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
+        })
+      )
+
+      expect(result.current.amount).toBe('')
+      expect(result.current.amountType).toBe('token')
+    })
+
+    it('handles token input change correctly', async () => {
+      const { result } = renderHook(() =>
+        useEnterAmount({
+          token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
+        })
+      )
+
+      await act(() => {
+        result.current.handleAmountInputChange('1234.5678')
+      })
+
+      expect(result.current.amount).toBe('1234.5678')
+    })
+
+    it('toggles amount type correctly', async () => {
+      const { result } = renderHook(() =>
+        useEnterAmount({
+          token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
+        })
+      )
+
+      await act(() => {
+        result.current.handleToggleAmountType()
+      })
+
+      expect(result.current.amountType).toBe('local')
+    })
+
+    it('opens token picker and executes analytics track call', async () => {
+      const { result } = renderHook(() =>
+        useEnterAmount({
+          token: {
+            tokenId: '1',
+            address: '0x00',
+            networkId: NetworkId['celo-mainnet'],
+          } as TokenBalance,
+        })
+      )
+
+      await act(() => {
+        result.current.onOpenTokenPicker()
+      })
+
+      expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.token_dropdown_opened, {
+        currentTokenId: '1',
+        currentTokenAddress: '0x00',
+        currentNetworkId: NetworkId['celo-mainnet'],
+      })
+    })
   })
 
-  it('displays the correct token information', () => {
-    const store = createMockStore(mockStore)
-    const { getByText, getByTestId } = render(
-      <Provider store={store}>
-        <TokenEnterAmount {...defaultProps} />
-      </Provider>
-    )
-    expect(getByTestId('tokenEnterAmount/TokenName')).toBeTruthy()
-    expect(getByText('CELO on Celo Alfajores')).toBeTruthy()
-    expect(getByTestId('tokenEnterAmount/SwitchTokens')).toBeTruthy()
-    expect(getByTestId('tokenEnterAmount/TokenSelect')).toBeTruthy()
-    expect(getByTestId('tokenEnterAmount/TokenBalance')).toBeTruthy()
-    expect(getByTestId('tokenEnterAmount/TokenBalance').props.children.props.i18nKey).toBe(
-      'tokenEnterAmount.availableBalance'
-    )
-  })
+  describe('TokenEnterAmount component', () => {
+    it('renders without crashing', () => {
+      const store = createMockStore(mockStore)
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <TokenEnterAmount {...defaultProps} />
+        </Provider>
+      )
+      expect(getByTestId('tokenEnterAmount')).toBeTruthy()
+    })
 
-  it('formats the input value correctly', () => {
-    const store = createMockStore(mockStore)
-    const { getByTestId, rerender } = render(
-      <Provider store={store}>
-        <TokenEnterAmount {...defaultProps} />
-      </Provider>
-    )
-    const input = getByTestId('tokenEnterAmount/TokenAmountInput')
-    const converted = getByTestId('tokenEnterAmount/ExchangeAmount')
-    expect(input.props.value).toBe('1')
-    expect(converted.props.children).toBe(`${APPROX_SYMBOL} $0.1`)
-    fireEvent.press(getByTestId('tokenEnterAmount/SwitchTokens'))
+    it('displays the correct token information', () => {
+      const store = createMockStore(mockStore)
+      const { getByText, getByTestId } = render(
+        <Provider store={store}>
+          <TokenEnterAmount {...defaultProps} />
+        </Provider>
+      )
+      expect(getByTestId('tokenEnterAmount/TokenName')).toBeTruthy()
+      expect(getByText('CELO on Celo Alfajores')).toBeTruthy()
+      expect(getByTestId('tokenEnterAmount/SwitchTokens')).toBeTruthy()
+      expect(getByTestId('tokenEnterAmount/TokenSelect')).toBeTruthy()
+      expect(getByTestId('tokenEnterAmount/TokenBalance')).toBeTruthy()
+      expect(getByTestId('tokenEnterAmount/TokenBalance').props.children.props.i18nKey).toBe(
+        'tokenEnterAmount.availableBalance'
+      )
+    })
 
-    // simulate call of toggleAmountType
-    rerender(
-      <Provider store={store}>
-        <TokenEnterAmount
-          {...defaultProps}
-          amountType="local"
-          inputValue="0.1"
-          tokenAmount="1 CELO"
-        />
-      </Provider>
-    )
+    it('formats the input value correctly', () => {
+      const store = createMockStore(mockStore)
+      const { getByTestId, rerender } = render(
+        <Provider store={store}>
+          <TokenEnterAmount {...defaultProps} />
+        </Provider>
+      )
+      const input = getByTestId('tokenEnterAmount/TokenAmountInput')
+      const converted = getByTestId('tokenEnterAmount/ExchangeAmount')
+      expect(input.props.value).toBe('1')
+      expect(converted.props.children).toBe(`${APPROX_SYMBOL} $0.1`)
+      fireEvent.press(getByTestId('tokenEnterAmount/SwitchTokens'))
 
-    expect(input.props.value).toBe('₱0.1')
-    expect(converted.props.children).toBe(`${APPROX_SYMBOL} 1 CELO`)
-  })
+      // simulate call of toggleAmountType
+      rerender(
+        <Provider store={store}>
+          <TokenEnterAmount
+            {...defaultProps}
+            amountType="local"
+            inputValue="0.1"
+            tokenAmount="1 CELO"
+          />
+        </Provider>
+      )
 
-  it('handles input changes correctly', () => {
-    const store = createMockStore(mockStore)
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <TokenEnterAmount {...defaultProps} inputValue="20" />
-      </Provider>
-    )
+      expect(input.props.value).toBe('$0.1')
+      expect(converted.props.children).toBe(`${APPROX_SYMBOL} 1 CELO`)
+    })
 
-    const input = getByTestId('tokenEnterAmount/TokenAmountInput')
-    fireEvent.changeText(input, '15')
-    expect(mockOnInputChange).toHaveBeenCalledWith('15')
-  })
+    it('handles input changes correctly', () => {
+      const store = createMockStore(mockStore)
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <TokenEnterAmount {...defaultProps} inputValue="20" />
+        </Provider>
+      )
 
-  it('calls toggleAmountType on swap icon press', () => {
-    const store = createMockStore(mockStore)
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <TokenEnterAmount {...defaultProps} toggleAmountType={mockToggleAmountType} />
-      </Provider>
-    )
-    const toggleButton = getByTestId('tokenEnterAmount/SwitchTokens')
+      const input = getByTestId('tokenEnterAmount/TokenAmountInput')
+      fireEvent.changeText(input, '15')
+      expect(mockOnInputChange).toHaveBeenCalledWith('15')
+    })
 
-    fireEvent.press(toggleButton)
-    expect(mockToggleAmountType).toHaveBeenCalledTimes(1)
-  })
+    it('calls toggleAmountType on swap icon press', () => {
+      const store = createMockStore(mockStore)
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <TokenEnterAmount {...defaultProps} toggleAmountType={mockToggleAmountType} />
+        </Provider>
+      )
+      const toggleButton = getByTestId('tokenEnterAmount/SwitchTokens')
 
-  it('calls onOpenTokenPicker on token selection', () => {
-    const store = createMockStore(mockStore)
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <TokenEnterAmount {...defaultProps} onOpenTokenPicker={mockOnOpenTokenPicker} />
-      </Provider>
-    )
-    const tokenPicker = getByTestId('tokenEnterAmount/TokenSelect')
+      fireEvent.press(toggleButton)
+      expect(mockToggleAmountType).toHaveBeenCalledTimes(1)
+    })
 
-    fireEvent.press(tokenPicker)
-    expect(mockOnOpenTokenPicker).toHaveBeenCalledTimes(1)
-  })
+    it('calls onOpenTokenPicker on token selection', () => {
+      const store = createMockStore(mockStore)
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <TokenEnterAmount {...defaultProps} onOpenTokenPicker={mockOnOpenTokenPicker} />
+        </Provider>
+      )
+      const tokenPicker = getByTestId('tokenEnterAmount/TokenSelect')
 
-  it('shows placeholder values correctly when no input is provided', () => {
-    const store = createMockStore(mockStore)
-    const { getByPlaceholderText } = render(
-      <Provider store={store}>
-        <TokenEnterAmount {...defaultProps} inputValue="" tokenAmount="" localAmount="" />
-      </Provider>
-    )
-    expect(getByPlaceholderText('0.00')).toBeTruthy()
-  })
+      fireEvent.press(tokenPicker)
+      expect(mockOnOpenTokenPicker).toHaveBeenCalledTimes(1)
+    })
 
-  it('disables input when editable is false', () => {
-    const store = createMockStore(mockStore)
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <TokenEnterAmount {...defaultProps} editable={false} />
-      </Provider>
-    )
-    const input = getByTestId('tokenEnterAmount/TokenAmountInput')
+    it('shows placeholder values correctly when no input is provided', () => {
+      const store = createMockStore(mockStore)
+      const { getByPlaceholderText } = render(
+        <Provider store={store}>
+          <TokenEnterAmount {...defaultProps} inputValue="" tokenAmount="" localAmount="" />
+        </Provider>
+      )
+      expect(getByPlaceholderText('0.00')).toBeTruthy()
+    })
 
-    expect(input.props.editable).toBe(false)
-  })
+    it('disables input when editable is false', () => {
+      const store = createMockStore(mockStore)
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <TokenEnterAmount {...defaultProps} editable={false} />
+        </Provider>
+      )
+      const input = getByTestId('tokenEnterAmount/TokenAmountInput')
 
-  it('shows unavailable fiat price message when priceUsd is undefined', () => {
-    const store = createMockStore(mockStore)
-    const { getByText } = render(
-      <Provider store={store}>
-        <TokenEnterAmount {...defaultProps} token={{ ...defaultProps.token, priceUsd: null }} />
-      </Provider>
-    )
-    expect(getByText('tokenEnterAmount.fiatPriceUnavailable')).toBeTruthy()
-  })
+      expect(input.props.editable).toBe(false)
+    })
 
-  it('displays the correct local and token amount approximations', () => {
-    const store = createMockStore(mockStore)
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <TokenEnterAmount {...defaultProps} />
-      </Provider>
-    )
-    const exchangeAmount = getByTestId('tokenEnterAmount/ExchangeAmount')
-    expect(exchangeAmount.props.children).toBe(`${APPROX_SYMBOL} $0.1`)
+    it('shows unavailable fiat price message when priceUsd is undefined', () => {
+      const store = createMockStore(mockStore)
+      const { getByText } = render(
+        <Provider store={store}>
+          <TokenEnterAmount {...defaultProps} token={{ ...defaultProps.token, priceUsd: null }} />
+        </Provider>
+      )
+      expect(getByText('tokenEnterAmount.fiatPriceUnavailable')).toBeTruthy()
+    })
+
+    it('displays the correct local and token amount approximations', () => {
+      const store = createMockStore(mockStore)
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <TokenEnterAmount {...defaultProps} />
+        </Provider>
+      )
+      const exchangeAmount = getByTestId('tokenEnterAmount/ExchangeAmount')
+      expect(exchangeAmount.props.children).toBe(`${APPROX_SYMBOL} $0.1`)
+    })
   })
 })
