@@ -8,8 +8,7 @@ export default ChooseYourAdventure = () => {
     await launchApp({
       newInstance: true,
       launchArgs: {
-        onboardingOverrides:
-          'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackupSetup,CloudBackupRestore',
+        onboardingOverrides: 'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackup',
       },
     })
     await quickOnboarding({ stopOnCYA: true, cloudBackupEnabled: true })
