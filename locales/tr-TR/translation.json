@@ -1466,7 +1466,7 @@
     "allDapps": "Tümü",
     "favoriteDapps": "Favorilerim",
     "mostPopularDapps": "En Popüler",
-    "mostPopularDapps_UK": "Diğer Dapps",
+    "mostPopularDapps_UK": "Diğer Dapp'ler",
     "favoriteDappsAndAll": "Favorilerim & Hepsi",
     "searchPlaceHolder": "Dapp'leri ara",
     "noFavorites": {
@@ -1483,7 +1483,7 @@
       "removeFilter": "Filtreyi kaldır",
       "searchMessage": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
     },
-    "disclaimer_UK": "Bu, üçüncü taraf Dapp'lerin bir listesidir. Her bir Dapp için açıklama tamamen bilgilendirme amaçlıdır ve bunları kullanmaya davet değildir."
+    "disclaimer_UK": "Bu, üçüncü taraf Dapp'lerin bir listesidir. Her bir Dapp için sunulan açıklama tamamen bilgilendirme amaçlı olup bunların kullanımına yönelik bir davet niteliğinde değildir."
   },
   "dappRankings": {
     "title": "Dapp sıralamaları",
@@ -2136,11 +2136,11 @@
     "results": "Sonuçlar",
     "qr": {
       "title": "QR Kodu ile Gönder",
-      "subtitle": "Bir adresi taramak veya göstermek için dokunun"
+      "subtitle": "Bir adresi taramak veya görüntülemek için dokunun"
     },
     "invite": {
       "title": "Bir Kişiye Gönder",
-      "subtitle": "Kişilerinize para gönderin"
+      "subtitle": "Kişilerinize fon gönderin"
     },
     "jumpstart": {
       "title": "Canlı Bağlantı ile Gönder",
@@ -2299,9 +2299,9 @@
     "allTransactionsShown": "İşlem geçmişinizin sonuna ulaştınız.",
     "fetchErrorRetry": "Tekrar deneyin",
     "error": {
-      "fetchError": "Oops, akışınızı yenilerken bir sorun oluştu. İşlem geçmişiniz şimdilik eksik olabilir."
+      "fetchError": "Hay aksi, akışınızı yenilerken bir sorun oluştu. İşlem geçmişiniz şimdilik eksik görünebilir."
     },
-    "noTransactions": "Tebrikler, başarılı bir şekilde {{appName}} cüzdanı oluşturdunuz!"
+    "noTransactions": "Tebrikler, {{appName}} cüzdanınız başarıyla oluşturuldu!"
   },
   "transactionDetails": {
     "descriptionLabel": "Detaylar",
@@ -2587,7 +2587,7 @@
     "entrypoint": {
       "title": "Kripto paranızdan kazanç sağlayın",
       "subtitle": "Yatırın ve kazanın",
-      "description": "Kripto varlıklarınızı likidite havuzlarında ödünç vererek kazanın.",
+      "description": "Likidite havuzlarında kripto varlıklarınızı ödünç vererek kazanın.",
       "totalDepositAndEarnings": "Toplam Yatırım ve Kazançlar"
     },
     "enterAmount": {
@@ -2664,9 +2664,9 @@
     },
     "collect": {
       "title": "Tebrikler! Kazancınızı inceleyin ve toplayın",
-      "titleClaim": "İddia edeceksin:",
-      "titleCollect": "Koleksiyon yapacaksın:",
-      "titleWithdraw": "Geri çekileceksin:",
+      "titleClaim": "Talep edilecek:",
+      "titleCollect": "Toplanacak:",
+      "titleWithdraw": "Çekilecek:",
       "total": "TOPLAM",
       "plus": "ARTI",
       "reward": "ÖDÜL",
@@ -2675,7 +2675,7 @@
       "fee": "Gas Ücreti",
       "cta": "Kazançları Toplayın",
       "ctaWithdraw": "Çek",
-      "ctaReward": "Ödül Talep Edin",
+      "ctaReward": "Ödülü Talep Et",
       "ctaExit": "Havuzdan Çık",
       "errorTitle": "Bir şeyler ters gitti",
       "errorDescription": "Para yatırma detayları alınamıyor. Lütfen tekrar deneyin.",
