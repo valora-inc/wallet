@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 
 const Reward = ({ size = 34 }: { size?: number } = {}) => (
-  <Svg width={size} height={size} fill="none">
+  <Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
     <Path fill="#FD56B5" d="M7.067 14.684 1 33l17.492-6.488" />
     <Path
       stroke="#000"
