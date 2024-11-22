@@ -94,6 +94,8 @@ This is off by default and you'd need to enable `Allow merge commits` in the rep
 
 ![allow-merge-commit](./assets/allow-merge-commit.png)
 
+If merge queue is on, you will also need to disable it since merge queue uses squash and merge by default. Merge queue can be turned off in Settings => Rules => Rulesets => main => Require Merge Queue.
+
 You'll get a red error message saying the repository requires linear history and
 doesn't allow merge commits. You can ignore this message and continue with the
 merge.
@@ -103,7 +105,7 @@ message that says `This branch is X commits ahead of <base-repo>`. You should
 not see `Y commits behind`.
 
 Once you've merged, you can disable `Allow merge commits` option in the settings
-so other PRs are only merged using the `Squash and merge` option.
+so other PRs are only merged using the `Squash and merge` option. Turn back on merge queue using `Squash and merge` as the default setting.
 
 ## Fixing bad merges
 
