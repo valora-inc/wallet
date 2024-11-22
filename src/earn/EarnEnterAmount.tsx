@@ -288,6 +288,8 @@ export default function EarnEnterAmount({ route }: Props) {
 
   const dropdownEnabled = availableInputTokens.length > 1
 
+  console.log(derived.token.bignum, prepareTransactionsResult, !isWithdrawal)
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
@@ -580,6 +582,7 @@ function TransactionDepositDetails({
     [tokenAmount, swapTransaction]
   )
 
+  console.log({ swapTransaction })
   return (
     feeCurrency &&
     maxFeeAmount && (
