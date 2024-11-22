@@ -6,7 +6,6 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { AmountEnteredIn } from 'src/send/types'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
@@ -48,10 +47,6 @@ describe('TokenEnterAmount', () => {
     token: {
       ...mockCeloTokenBalance,
     } satisfies TokenBalance,
-    inputValue: '1',
-    tokenAmount: '1',
-    localAmount: '$0.1',
-    amountType: 'token' as AmountEnteredIn,
     inputRef: { current: null },
     onInputChange: mockOnInputChange,
     toggleAmountType: mockToggleAmountType,
@@ -89,6 +84,9 @@ describe('TokenEnterAmount', () => {
 
     it('properly rounds token amounts', () => {
       expect(getReadableTokenAmount(null, defaultProps.token)).toBe(replaceSeparators(''))
+      expect(getReadableTokenAmount(new BigNumber(0), defaultProps.token)).toBe(
+        replaceSeparators('')
+      )
       expect(getReadableTokenAmount(new BigNumber('0.0000001'), defaultProps.token)).toBe(
         replaceSeparators('<0.000001 CELO')
       )
@@ -114,6 +112,9 @@ describe('TokenEnterAmount', () => {
 
     it('proprly rounds local amount', () => {
       expect(getReadableLocalAmount(null, LocalCurrencySymbol['USD'])).toBe(replaceSeparators(''))
+      expect(getReadableLocalAmount(new BigNumber(0), LocalCurrencySymbol['USD'])).toBe(
+        replaceSeparators('')
+      )
       expect(getReadableLocalAmount(new BigNumber('0.0000001'), LocalCurrencySymbol['USD'])).toBe(
         replaceSeparators('<$0.000001')
       )
@@ -274,7 +275,13 @@ describe('TokenEnterAmount', () => {
       const store = createMockStore(mockStore)
       const { getByTestId } = render(
         <Provider store={store}>
-          <TokenEnterAmount {...defaultProps} />
+          <TokenEnterAmount
+            {...defaultProps}
+            inputValue="1234.5678"
+            tokenAmount="1,234.5678"
+            localAmount="$123.57"
+            amountType="token"
+          />
         </Provider>
       )
       expect(getByTestId('tokenEnterAmount')).toBeTruthy()
@@ -284,7 +291,13 @@ describe('TokenEnterAmount', () => {
       const store = createMockStore(mockStore)
       const { getByText, getByTestId } = render(
         <Provider store={store}>
-          <TokenEnterAmount {...defaultProps} />
+          <TokenEnterAmount
+            {...defaultProps}
+            inputValue="1234.5678"
+            tokenAmount="1,234.5678"
+            localAmount="$123.57"
+            amountType="token"
+          />
         </Provider>
       )
       expect(getByTestId('tokenEnterAmount/TokenName')).toBeTruthy()
@@ -301,13 +314,19 @@ describe('TokenEnterAmount', () => {
       const store = createMockStore(mockStore)
       const { getByTestId, rerender } = render(
         <Provider store={store}>
-          <TokenEnterAmount {...defaultProps} />
+          <TokenEnterAmount
+            {...defaultProps}
+            inputValue="1234.5678"
+            tokenAmount="1,234.5678"
+            localAmount="$123.57"
+            amountType="token"
+          />
         </Provider>
       )
       const input = getByTestId('tokenEnterAmount/TokenAmountInput')
       const converted = getByTestId('tokenEnterAmount/ExchangeAmount')
-      expect(input.props.value).toBe('1')
-      expect(converted.props.children).toBe(`${APPROX_SYMBOL} $0.1`)
+      expect(input.props.value).toBe('1,234.5678')
+      expect(converted.props.children).toBe(`${APPROX_SYMBOL} $123.57`)
       fireEvent.press(getByTestId('tokenEnterAmount/SwitchTokens'))
 
       // simulate call of toggleAmountType
@@ -318,6 +337,7 @@ describe('TokenEnterAmount', () => {
             amountType="local"
             inputValue="0.1"
             tokenAmount="1 CELO"
+            localAmount="$0.1"
           />
         </Provider>
       )
@@ -330,7 +350,13 @@ describe('TokenEnterAmount', () => {
       const store = createMockStore(mockStore)
       const { getByTestId } = render(
         <Provider store={store}>
-          <TokenEnterAmount {...defaultProps} inputValue="20" />
+          <TokenEnterAmount
+            {...defaultProps}
+            inputValue="20"
+            tokenAmount="1,234.5678"
+            localAmount="$123.57"
+            amountType="token"
+          />
         </Provider>
       )
 
@@ -343,7 +369,13 @@ describe('TokenEnterAmount', () => {
       const store = createMockStore(mockStore)
       const { getByTestId } = render(
         <Provider store={store}>
-          <TokenEnterAmount {...defaultProps} toggleAmountType={mockToggleAmountType} />
+          <TokenEnterAmount
+            {...defaultProps}
+            inputValue="1234.5678"
+            tokenAmount="1,234.5678"
+            localAmount="$123.57"
+            amountType="token"
+          />
         </Provider>
       )
       const toggleButton = getByTestId('tokenEnterAmount/SwitchTokens')
@@ -356,7 +388,13 @@ describe('TokenEnterAmount', () => {
       const store = createMockStore(mockStore)
       const { getByTestId } = render(
         <Provider store={store}>
-          <TokenEnterAmount {...defaultProps} onOpenTokenPicker={mockOnOpenTokenPicker} />
+          <TokenEnterAmount
+            {...defaultProps}
+            inputValue="1234.5678"
+            tokenAmount="1,234.5678"
+            localAmount="$123.57"
+            amountType="token"
+          />
         </Provider>
       )
       const tokenPicker = getByTestId('tokenEnterAmount/TokenSelect')
@@ -369,7 +407,13 @@ describe('TokenEnterAmount', () => {
       const store = createMockStore(mockStore)
       const { getByPlaceholderText } = render(
         <Provider store={store}>
-          <TokenEnterAmount {...defaultProps} inputValue="" tokenAmount="" localAmount="" />
+          <TokenEnterAmount
+            {...defaultProps}
+            inputValue=""
+            tokenAmount=""
+            localAmount=""
+            amountType="token"
+          />
         </Provider>
       )
       expect(getByPlaceholderText('0.00')).toBeTruthy()
@@ -379,7 +423,14 @@ describe('TokenEnterAmount', () => {
       const store = createMockStore(mockStore)
       const { getByTestId } = render(
         <Provider store={store}>
-          <TokenEnterAmount {...defaultProps} editable={false} />
+          <TokenEnterAmount
+            {...defaultProps}
+            editable={false}
+            inputValue="1234.5678"
+            tokenAmount="1,234.5678"
+            localAmount="$123.57"
+            amountType="token"
+          />
         </Provider>
       )
       const input = getByTestId('tokenEnterAmount/TokenAmountInput')
@@ -391,7 +442,14 @@ describe('TokenEnterAmount', () => {
       const store = createMockStore(mockStore)
       const { getByText } = render(
         <Provider store={store}>
-          <TokenEnterAmount {...defaultProps} token={{ ...defaultProps.token, priceUsd: null }} />
+          <TokenEnterAmount
+            {...defaultProps}
+            token={{ ...defaultProps.token, priceUsd: null }}
+            inputValue="1234.5678"
+            tokenAmount="1,234.5678"
+            localAmount="$123.57"
+            amountType="token"
+          />
         </Provider>
       )
       expect(getByText('tokenEnterAmount.fiatPriceUnavailable')).toBeTruthy()
@@ -401,11 +459,17 @@ describe('TokenEnterAmount', () => {
       const store = createMockStore(mockStore)
       const { getByTestId } = render(
         <Provider store={store}>
-          <TokenEnterAmount {...defaultProps} />
+          <TokenEnterAmount
+            {...defaultProps}
+            inputValue="1234.5678"
+            tokenAmount="1,234.5678"
+            localAmount="$123.57"
+            amountType="token"
+          />
         </Provider>
       )
       const exchangeAmount = getByTestId('tokenEnterAmount/ExchangeAmount')
-      expect(exchangeAmount.props.children).toBe(`${APPROX_SYMBOL} $0.1`)
+      expect(exchangeAmount.props.children).toBe(`${APPROX_SYMBOL} $123.57`)
     })
   })
 })
