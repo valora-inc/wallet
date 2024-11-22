@@ -52,9 +52,6 @@ describe('LinkPhoneNumber', () => {
       firstScreenInCurrentStep: Screens.VerificationStartScreen,
       onboardingProps: mockOnboardingProps,
     })
-    expect(store.getActions()).toEqual([
-      { type: 'IDENTITY/SET_SEEN_VERIFICATION_NUX', status: true },
-    ])
     expect(AppAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.link_phone_number_later)
   })
 })

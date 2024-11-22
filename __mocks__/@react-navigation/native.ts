@@ -18,5 +18,6 @@ module.exports = {
     navigate: jest.fn(),
     reset: jest.fn(),
     setParams: jest.fn(),
+    canGoBack: jest.fn(),
   },
 }
