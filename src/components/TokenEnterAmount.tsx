@@ -275,9 +275,9 @@ interface Props {
   autoFocus?: boolean
   editable?: boolean
   testID?: string
-  onInputChange(value: string): void
-  toggleAmountType?(): void
-  onOpenTokenPicker?(): void
+  onInputChange?: (value: string) => void
+  toggleAmountType?: () => void
+  onOpenTokenPicker?: () => void
 
   /** Used in order to show available balance.
    * @default token.balance  */

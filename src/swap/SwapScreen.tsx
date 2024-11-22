@@ -347,12 +347,17 @@ export function SwapScreen({ route }: Props) {
     feeCurrenciesWithPositiveBalances.length === 1 &&
     fromToken?.tokenId === feeCurrenciesWithPositiveBalances[0].tokenId &&
     fromTokenBalance.gt(0) &&
+    parsedSwapAmount[Field.FROM] &&
     parsedSwapAmount[Field.FROM].gte(fromTokenBalance)
 
-  const fromSwapAmountError = confirmingSwap && parsedSwapAmount[Field.FROM].gt(fromTokenBalance)
+  const fromSwapAmountError =
+    confirmingSwap &&
+    parsedSwapAmount[Field.FROM] &&
+    parsedSwapAmount[Field.FROM].gt(fromTokenBalance)
 
   const quoteUpdatePending =
-    (quote &&
+    (parsedSwapAmount[Field.FROM] &&
+      quote &&
       (quote.fromTokenId !== fromToken?.tokenId ||
         quote.toTokenId !== toToken?.tokenId ||
         !quote.swapAmount.eq(parsedSwapAmount[Field.FROM]))) ||
@@ -380,13 +385,20 @@ export function SwapScreen({ route }: Props) {
     const quoteKnown =
       fromToken &&
       toToken &&
+      parsedSwapAmount[Field.FROM] &&
       quote &&
       quote.toTokenId === toToken.tokenId &&
       quote.fromTokenId === fromToken.tokenId &&
       quote.swapAmount.eq(parsedSwapAmount[Field.FROM])
 
     const debouncedRefreshQuote = setTimeout(() => {
-      if (fromToken && toToken && parsedSwapAmount[Field.FROM].gt(0) && !quoteKnown) {
+      if (
+        fromToken &&
+        toToken &&
+        parsedSwapAmount[Field.FROM] &&
+        parsedSwapAmount[Field.FROM].gt(0) &&
+        !quoteKnown
+      ) {
         void refreshQuote(fromToken, toToken, parsedSwapAmount, Field.FROM)
       }
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
@@ -431,8 +443,8 @@ export function SwapScreen({ route }: Props) {
       toTokenId: toToken.tokenId,
       fromTokenId: fromToken.tokenId,
       swapAmount: {
-        [Field.FROM]: parsedSwapAmount[Field.FROM].toString(),
-        [Field.TO]: parsedSwapAmount[Field.TO].toString(),
+        [Field.FROM]: parsedSwapAmount[Field.FROM] ? parsedSwapAmount[Field.FROM].toString() : '',
+        [Field.TO]: parsedSwapAmount[Field.TO] ? parsedSwapAmount[Field.TO].toString() : '',
       },
       updatedField: Field.FROM,
     }
@@ -639,7 +651,8 @@ export function SwapScreen({ route }: Props) {
       showSwitchedToNetworkWarning: !!switchedToNetworkId,
       showUnsupportedTokensWarning:
         !quoteUpdatePending && fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
-      showInsufficientBalanceWarning: parsedSwapAmount[Field.FROM].gt(fromTokenBalance),
+      showInsufficientBalanceWarning:
+        parsedSwapAmount[Field.FROM] && parsedSwapAmount[Field.FROM].gt(fromTokenBalance),
       showCrossChainFeeWarning:
         !quoteUpdatePending && crossChainFee?.nativeTokenBalanceDeficit.lt(0),
       showDecreaseSpendForGasWarning:
@@ -692,7 +705,7 @@ export function SwapScreen({ route }: Props) {
       !showCrossChainFeeWarning &&
       !confirmSwapIsLoading &&
       !quoteUpdatePending &&
-      Object.values(parsedSwapAmount).every((amount) => amount.gt(0)),
+      Object.values(parsedSwapAmount).every((amount) => amount && amount.gt(0)),
     [
       parsedSwapAmount,
       quoteUpdatePending,
@@ -710,7 +723,7 @@ export function SwapScreen({ route }: Props) {
   const feeToken = networkFee?.token ? tokensById[networkFee.token.tokenId] : undefined
 
   const appFee: AppFeeAmount | undefined = useMemo(() => {
-    if (!quote || !fromToken) {
+    if (!quote || !fromToken || !parsedSwapAmount[Field.FROM]) {
       return undefined
     }
 
@@ -746,7 +759,7 @@ export function SwapScreen({ route }: Props) {
         fromTokenId: fromToken.tokenId,
         fromTokenNetworkId: fromToken?.networkId,
         fromTokenIsImported: !!fromToken.isManuallyImported,
-        amount: parsedSwapAmount[Field.FROM].toString(),
+        amount: parsedSwapAmount[Field.FROM] ? parsedSwapAmount[Field.FROM].toString() : '',
         amountType: 'sellAmount',
         priceImpact: quote.estimatedPriceImpact,
         provider: quote.provider,
@@ -827,7 +840,7 @@ export function SwapScreen({ route }: Props) {
             toToken={toToken}
             exchangeRatePrice={quote?.price}
             exchangeRateInfoBottomSheetRef={exchangeRateInfoBottomSheetRef}
-            swapAmount={parsedSwapAmount[Field.FROM]}
+            swapAmount={parsedSwapAmount[Field.FROM] ?? undefined}
             fetchingSwapQuote={quoteUpdatePending}
             appFee={appFee}
             estimatedDurationInSeconds={
@@ -1102,12 +1115,6 @@ const styles = StyleSheet.create({
   swapAmountsContainer: {
     paddingBottom: Spacing.Thick24,
     flex: 1,
-  },
-  fromSwapAmountInput: {
-    marginBottom: Spacing.Smallest8,
-  },
-  toSwapAmountInput: {
-    marginBottom: Spacing.Small12,
   },
   disclaimerText: {
     ...typeScale.labelXXSmall,
