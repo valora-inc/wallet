@@ -1,6 +1,5 @@
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { initializeAccount } from 'src/account/actions'
-import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { navigate, navigateClearingStack, popToScreen } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -12,6 +11,7 @@ import {
 } from 'src/onboarding/steps'
 import { store } from 'src/redux/store'
 import { mockOnboardingProps } from 'test/values'
+import { onboardingCompleted, updateLastOnboardingScreen } from 'src/onboarding/actions'
 
 jest.mock('src/redux/store', () => ({ store: { dispatch: jest.fn() } }))
 jest.mock('src/config', () => ({
@@ -104,13 +104,23 @@ describe('onboarding steps', () => {
           expect(mockStore.dispatch).toHaveBeenCalledWith(
             updateStatsigAndNavigate(finalScreen as keyof StackParamList)
           )
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(mockStore.dispatch).toHaveBeenCalledWith(onboardingCompleted())
         } else {
           try {
             // eslint-disable-next-line jest/no-conditional-expect
             expect(navigate).toHaveBeenCalledWith(screens[index + 1])
+            // eslint-disable-next-line jest/no-conditional-expect
+            expect(mockStore.dispatch).toHaveBeenCalledWith(
+              updateLastOnboardingScreen(screens[index + 1] as keyof StackParamList)
+            )
           } catch {
             // eslint-disable-next-line jest/no-conditional-expect
             expect(navigateClearingStack).toHaveBeenCalledWith(screens[index + 1])
+            // eslint-disable-next-line jest/no-conditional-expect
+            expect(mockStore.dispatch).toHaveBeenCalledWith(
+              updateLastOnboardingScreen(screens[index + 1] as keyof StackParamList)
+            )
           }
         }
       })
@@ -146,7 +156,9 @@ describe('onboarding steps', () => {
             choseToRestoreAccount: true,
           },
         })
-        expect(mockStore.dispatch).not.toHaveBeenCalled()
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.ImportWallet)
+        )
         expect(navigate).toHaveBeenCalledWith(Screens.ImportWallet)
       })
       it('should navigate to ProtectWallet screen if choseToRestoreAccount is false', () => {
@@ -158,6 +170,9 @@ describe('onboarding steps', () => {
           },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.ProtectWallet)
+        )
         expect(navigate).toHaveBeenCalledWith(Screens.ProtectWallet)
       })
       it('should navigate to the CYA screen', () => {
@@ -169,6 +184,9 @@ describe('onboarding steps', () => {
           },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.ChooseYourAdventure)
+        )
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.ChooseYourAdventure)
         )
@@ -184,7 +202,9 @@ describe('onboarding steps', () => {
             supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
           },
         })
-        expect(mockStore.dispatch).not.toHaveBeenCalled()
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.EnableBiometry)
+        )
         expect(navigate).toHaveBeenCalledWith(Screens.EnableBiometry)
       })
       it('should navigate to ImportWallet and popToScreen if choseToRestoreAccount is true', () => {
@@ -195,8 +215,11 @@ describe('onboarding steps', () => {
             choseToRestoreAccount: true,
           },
         })
-        expect(mockStore.dispatch).not.toHaveBeenCalled()
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.ImportWallet)
+        )
         expect(popToScreen).toHaveBeenCalledWith(Screens.Welcome)
+
         expect(navigate).toHaveBeenCalledWith(Screens.ImportWallet)
       })
       it('should navigate to ProtectWallet', () => {
@@ -205,6 +228,9 @@ describe('onboarding steps', () => {
           onboardingProps,
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(initializeAccount())
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.ProtectWallet)
+        )
         expect(navigate).toHaveBeenCalledWith(Screens.ProtectWallet)
       })
       it('should navigate to the CYA screen', () => {
@@ -219,6 +245,9 @@ describe('onboarding steps', () => {
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.ChooseYourAdventure)
         )
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.ChooseYourAdventure)
+        )
       })
     })
     describe('Screens.ImportWallet', () => {
@@ -230,9 +259,11 @@ describe('onboarding steps', () => {
             skipVerification: true,
           },
         })
-        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.ChooseYourAdventure)
         )
       })
       it('should also navigate to the CYA screen if numberAlreadyVerifiedCentrally is true', () => {
@@ -243,9 +274,11 @@ describe('onboarding steps', () => {
             numberAlreadyVerifiedCentrally: true,
           },
         })
-        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.ChooseYourAdventure)
         )
       })
       it('should otherwise navigate to VerificationStartScreen', () => {
@@ -255,8 +288,10 @@ describe('onboarding steps', () => {
             ...onboardingProps,
           },
         })
-        expect(mockStore.dispatch).not.toHaveBeenCalled()
         expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.VerificationStartScreen)
+        )
       })
     })
     describe('Screens.ImportSelect', () => {
@@ -268,9 +303,11 @@ describe('onboarding steps', () => {
             skipVerification: true,
           },
         })
-        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.ChooseYourAdventure)
         )
       })
       it('should also navigate to the CYA screen if numberAlreadyVerifiedCentrally is true', () => {
@@ -281,9 +318,11 @@ describe('onboarding steps', () => {
             numberAlreadyVerifiedCentrally: true,
           },
         })
-        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.ChooseYourAdventure)
         )
       })
       it('should otherwise navigate to LinkPhoneNumber', () => {
@@ -293,7 +332,9 @@ describe('onboarding steps', () => {
             ...onboardingProps,
           },
         })
-        expect(mockStore.dispatch).not.toHaveBeenCalled()
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.LinkPhoneNumber)
+        )
         expect(navigate).toHaveBeenCalledWith(Screens.LinkPhoneNumber)
       })
     })
@@ -308,6 +349,9 @@ describe('onboarding steps', () => {
           expect(mockStore.dispatch).toHaveBeenCalledWith(
             updateStatsigAndNavigate(Screens.ChooseYourAdventure)
           )
+          expect(mockStore.dispatch).toHaveBeenCalledWith(
+            updateLastOnboardingScreen(Screens.ChooseYourAdventure)
+          )
         }
       )
     })
@@ -320,9 +364,11 @@ describe('onboarding steps', () => {
             skipVerification: true,
           },
         })
-        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+        )
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.ChooseYourAdventure)
         )
       })
       it('should navigate to VerficationStartScreen if skipVerification is false and choseToRestoreAccount is false', () => {
@@ -333,7 +379,9 @@ describe('onboarding steps', () => {
             choseToRestoreAccount: false,
           },
         })
-        expect(mockStore.dispatch).not.toHaveBeenCalled()
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateLastOnboardingScreen(Screens.VerificationStartScreen)
+        )
         expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
       })
     })
