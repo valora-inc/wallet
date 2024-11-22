@@ -90,7 +90,9 @@ commit` option:
 
 ![create-a-merge-commit](./assets/create-a-merge-commit.png)
 
-This is off by default and you'd need to enable `Allow merge commits` in the repo settings:
+This is off by default and you'd need to enable `Allow merge commits` in the
+repo settings (make sure to select "Pull request title and description" as the
+default commit message so it follows conventional commit format when merging):
 
 ![allow-merge-commit](./assets/allow-merge-commit.png)
 
