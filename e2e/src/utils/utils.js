@@ -177,8 +177,7 @@ export async function quickOnboarding({
       .withTimeout(20000)
 
     // Input Wallet Backup Key
-    await sleep(3000)
-    await element(by.id('ImportWalletBackupKeyInputField')).tap()
+    await waitForElementByIdAndTap('ImportWalletBackupKeyInputField')
     await element(by.id('ImportWalletBackupKeyInputField')).replaceText(mnemonic)
     if (device.getPlatform() === 'ios') {
       // On iOS, type one more space to workaround onChangeText not being triggered with replaceText above
