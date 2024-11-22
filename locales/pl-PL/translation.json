@@ -2591,7 +2591,8 @@
     "entrypoint": {
       "title": "Zarabiaj na swoich kryptowalutach",
       "subtitle": "Wpłacaj i zarabiaj",
-      "description": "Zarabiaj na swoich kryptowalutach, pożyczając za pośrednictwem puli płynności"
+      "description": "Zarabiaj, pożyczając swoje aktywa kryptograficzne w pulach płynności.",
+      "totalDepositAndEarnings": "Suma wpłat i zarobków"
     },
     "enterAmount": {
       "title": "Ile chcesz wpłacić?",

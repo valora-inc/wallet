@@ -2587,7 +2587,8 @@
     "entrypoint": {
       "title": "Kripto paranızdan kazanç sağlayın",
       "subtitle": "Yatırın ve kazanın",
-      "description": "Bir likidite havuzu aracılığıyla borç vererek kripto varlıklarınızdan kazanç sağlayın"
+      "description": "Kripto varlıklarınızı likidite havuzlarında ödünç vererek kazanın.",
+      "totalDepositAndEarnings": "Toplam Yatırım ve Kazançlar"
     },
     "enterAmount": {
       "title": "Ne kadar yatırmak istersiniz?",

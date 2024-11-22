@@ -1470,7 +1470,7 @@
     "allDapps": "Усі",
     "favoriteDapps": "Мої вподобання",
     "mostPopularDapps": "Популярні",
-    "mostPopularDapps_UK": "Інші додатки",
+    "mostPopularDapps_UK": "Інші застосунки Dapps",
     "favoriteDappsAndAll": "Мої вподобання і загальний вміст",
     "searchPlaceHolder": "Пошук застосунків Dapp",
     "noFavorites": {
@@ -1487,7 +1487,7 @@
       "removeFilter": "Видалити фільтр",
       "searchMessage": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>"
     },
-    "disclaimer_UK": "Це список сторонніх Dapps. Опис кожного Dapp є суто інформаційним, а не запрошенням до використання."
+    "disclaimer_UK": "Тут наведено перелік сторонніх застосунків Dapps. Інформація про кожен із них має виключно ознайомлювальний характер і не є запрошенням до використання."
   },
   "dappRankings": {
     "title": "Рейтинг застосунків dapp",
@@ -2135,16 +2135,16 @@
     "title": "Вибрати отримувача",
     "contactsTitle": "Вибрати контакт",
     "header": "Надіслати",
-    "contactsHeader": "Надіслати в контакти",
+    "contactsHeader": "Надіслати контактам",
     "recents": "Нещодавні",
     "results": "Результати",
     "qr": {
       "title": "Надіслати за допомогою QR-коду",
-      "subtitle": "Натисніть, щоб відсканувати або показати адресу"
+      "subtitle": "Натисніть, щоб сканувати або показати адресу"
     },
     "invite": {
-      "title": "Надіслати контактній особі",
-      "subtitle": "Надсилайте кошти на ваші контакти"
+      "title": "Надіслати вибраному контакту",
+      "subtitle": "Надіслати кошти своїм контактам"
     },
     "jumpstart": {
       "title": "Надіслати за прямим посиланням",
@@ -2293,33 +2293,33 @@
     "crossChainSwapTransactionLabel": "Кроссчейн-обмін",
     "depositTitle": "Внесено",
     "depositSubtitle": "до пулу {{txAppName}}",
-    "depositSubtitle_noTxAppName": "до невідомого додатку",
+    "depositSubtitle_noTxAppName": "у невідомий застосунок",
     "withdrawTitle": "Знято",
     "withdrawSubtitle": "з пулу {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "з невідомого додатку",
+    "withdrawSubtitle_noTxAppName": "з невідомого застосунку",
     "claimRewardTitle": "Стягнуто",
     "claimRewardSubtitle": "з пулу {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "з невідомого додатку",
-    "allTransactionsShown": "Ви досягли кінця історії транзакцій.",
+    "claimRewardSubtitle_noTxAppName": "з невідомого застосунку",
+    "allTransactionsShown": "Ви переглянули всю історію транзакцій.",
     "fetchErrorRetry": "Спробувати ще раз",
     "error": {
-      "fetchError": "Виникла проблема з оновленням вашої стрічки. Ваша історія транзакцій може бути неповною."
+      "fetchError": "На жаль, виникла проблема при оновленні вашої стрічки. Історія транзакцій може бути тимчасово неповною."
     },
-    "noTransactions": "Вітаємо, ви успішно створили гаманець {{appName}} !"
+    "noTransactions": "Вітаємо, ви успішно створили гаманець {{appName}}!"
   },
   "transactionDetails": {
     "descriptionLabel": "Подробиці",
     "depositTitle": "Внесено",
     "depositSubtitle": "Внесено {{tokenSymbol}} до пулу {{txAppName}}",
-    "depositSubtitle_noTxAppName": "Поповнив рахунок {{tokenSymbol}} у невідомому додатку",
+    "depositSubtitle_noTxAppName": "Внесено {{tokenSymbol}} у невідомий застосунок",
     "depositDetails": "Суму внесено",
     "withdrawTitle": "Знято",
     "withdrawSubtitle": "Знято {{tokenSymbol}} з пулу {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Вилучено {{tokenSymbol}} з невідомого додатку",
+    "withdrawSubtitle_noTxAppName": "Виведено {{tokenSymbol}} з невідомого застосунку",
     "withdrawDetails": "Знята сума",
     "claimRewardTitle": "Стягнуто",
     "claimRewardSubtitle": "Стягнено {{tokenSymbol}} з пулу {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Зібрано {{tokenSymbol}} з невідомого додатку",
+    "claimRewardSubtitle_noTxAppName": "Зібрано {{tokenSymbol}} з невідомого застосунку",
     "claimRewardDetails": "Стягнуто суму",
     "swap": "Обміняти",
     "network": "Мережа",
@@ -2591,7 +2591,8 @@
     "entrypoint": {
       "title": "Заробляйте на своїй криптовалюті",
       "subtitle": "Внесіть кошти та отримуйте прибуток",
-      "description": "Заробляйте на своїх криптоактивах, надаючи позики через пул ліквідності"
+      "description": "Заробляйте, позичаючи свої криптоактиви в пулах ліквідності.",
+      "totalDepositAndEarnings": "Загальний обсяг вкладів та прибутків"
     },
     "enterAmount": {
       "title": "Яку суму ви бажаєте внести?",
@@ -2667,9 +2668,9 @@
     },
     "collect": {
       "title": "Вітаємо! Перегляньте та зберіть свої заробітки",
-      "titleClaim": "Ти збираєшся заявити:",
-      "titleCollect": "Ти будеш збирати:",
-      "titleWithdraw": "Ти збираєшся вийти з гри:",
+      "titleClaim": "Ви збираєтесь отримати:",
+      "titleCollect": "Ви збираєтесь зібрати:",
+      "titleWithdraw": "Ви збираєтесь вивести:",
       "total": "УСЬОГО",
       "plus": "ПЛЮС",
       "reward": "ВИНАГОРОДА",
@@ -2678,7 +2679,7 @@
       "fee": "Комісія за газ",
       "cta": "Зібрати заробітки",
       "ctaWithdraw": "Зняти",
-      "ctaReward": "Вимагайте винагороду",
+      "ctaReward": "Отримати винагороду",
       "ctaExit": "Вийти з пулу",
       "errorTitle": "Щось пішло не так",
       "errorDescription": "Не вдається отримати реквізити для депозиту. Спробуйте ще раз.",
