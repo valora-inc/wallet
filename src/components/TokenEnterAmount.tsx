@@ -264,8 +264,9 @@ export default function TokenEnterAmount({
   const localPlaceholder = `${localCurrencySymbol}${new BigNumber(0).toFormat(2).replaceAll('.', decimalSeparator)}`
 
   const formattedInputValue = useMemo(() => {
-    if (amountType === 'token') return inputValue
-    return inputValue !== '' ? `${localCurrencySymbol}${inputValue}` : ''
+    const formattedNumber = formatNumber(inputValue)
+    if (amountType === 'token') return formattedNumber
+    return formattedNumber !== '' ? `${localCurrencySymbol}${formattedNumber}` : ''
   }, [inputValue, amountType, localCurrencySymbol])
 
   const handleSetStartPosition = (value?: number) => {
