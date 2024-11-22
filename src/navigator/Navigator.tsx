@@ -159,7 +159,7 @@ const commonScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.QRNavigator}
         component={QRNavigator}
-        options={QRNavigator.navigationOptions as NativeStackNavigationOptions}
+        options={QRNavigator.navigationOptions}
       />
     </>
   )

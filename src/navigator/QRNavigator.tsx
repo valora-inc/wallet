@@ -132,9 +132,6 @@ export default function QRNavigator({ route }: Props) {
 
 QRNavigator.navigationOptions = {
   ...noHeader,
-  ...Platform.select({
-    ios: { animation: 'slide_from_bottom' },
-  }),
 }
 
 const styles = StyleSheet.create({
