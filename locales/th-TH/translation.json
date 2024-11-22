@@ -2585,7 +2585,8 @@
     "entrypoint": {
       "title": "สร้างรายได้จากคริปโต",
       "subtitle": "ฝากเงินและสร้างรายได้",
-      "description": "สร้างรายได้จากสินทรัพย์คริปโตเมื่อให้ยืมผ่าน Liquidity Pool"
+      "description": "Earn by lending your crypto assets in liquidity pools.",
+      "totalDepositAndEarnings": "เงินฝากและรายได้รวม"
     },
     "enterAmount": {
       "title": "คุณต้องการฝากจำนวนเท่าไร",

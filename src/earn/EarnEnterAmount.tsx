@@ -318,6 +318,7 @@ export default function EarnEnterAmount({ route }: Props) {
             amountType={amountType}
             toggleAmountType={handleToggleAmountType}
             onOpenTokenPicker={dropdownEnabled ? onOpenTokenPicker : undefined}
+            tokenBalance={isWithdrawal ? balanceInInputToken : inputToken.balance}
           />
           {derived.token.bignum && prepareTransactionsResult && !isWithdrawal && (
             <TransactionDepositDetails
