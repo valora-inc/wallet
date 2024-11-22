@@ -76,18 +76,8 @@ describe('TokenEnterAmount', () => {
     toggleAmountType: mockToggleAmountType,
     onOpenTokenPicker: mockOnOpenTokenPicker,
     editable: true,
-    testID: 'tokenEnterAmount',
+    testID: 'TokenEnterAmount',
   }
-
-  it('renders without crashing', () => {
-    const store = createMockStore(mockStore)
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <TokenEnterAmount {...defaultProps} />
-      </Provider>
-    )
-    expect(getByTestId('tokenEnterAmount')).toBeTruthy()
-  })
 
   it('displays the correct token information', () => {
     const store = createMockStore(mockStore)
@@ -96,12 +86,12 @@ describe('TokenEnterAmount', () => {
         <TokenEnterAmount {...defaultProps} />
       </Provider>
     )
-    expect(getByTestId('tokenEnterAmount/TokenName')).toBeTruthy()
+    expect(getByTestId('TokenEnterAmount/TokenName')).toHaveTextContent('CELO on Celo Alfajores')
     expect(getByText('CELO on Celo Alfajores')).toBeTruthy()
-    expect(getByTestId('tokenEnterAmount/SwitchTokens')).toBeTruthy()
-    expect(getByTestId('tokenEnterAmount/TokenSelect')).toBeTruthy()
-    expect(getByTestId('tokenEnterAmount/TokenBalance')).toBeTruthy()
-    expect(getByTestId('tokenEnterAmount/TokenBalance').props.children.props.i18nKey).toBe(
+    expect(getByTestId('TokenEnterAmount/SwitchTokens')).toBeTruthy()
+    expect(getByTestId('TokenEnterAmount/TokenSelect')).toBeTruthy()
+    expect(getByTestId('TokenEnterAmount/TokenBalance')).toBeTruthy()
+    expect(getByTestId('TokenEnterAmount/TokenBalance')).toHaveTextContent(
       'tokenEnterAmount.availableBalance'
     )
   })
@@ -113,11 +103,11 @@ describe('TokenEnterAmount', () => {
         <TokenEnterAmount {...defaultProps} />
       </Provider>
     )
-    const input = getByTestId('tokenEnterAmount/TokenAmountInput')
-    const converted = getByTestId('tokenEnterAmount/ExchangeAmount')
+    const input = getByTestId('TokenEnterAmount/TokenAmountInput')
+    const converted = getByTestId('TokenEnterAmount/ExchangeAmount')
     expect(input.props.value).toBe('1')
-    expect(converted.props.children).toBe(`${APPROX_SYMBOL} $0.1`)
-    fireEvent.press(getByTestId('tokenEnterAmount/SwitchTokens'))
+    expect(converted).toHaveTextContent(`${APPROX_SYMBOL} $0.1`)
+    fireEvent.press(getByTestId('TokenEnterAmount/SwitchTokens'))
 
     // simulate call of toggleAmountType
     rerender(
@@ -132,7 +122,7 @@ describe('TokenEnterAmount', () => {
     )
 
     expect(input.props.value).toBe('₱0.1')
-    expect(converted.props.children).toBe(`${APPROX_SYMBOL} 1 CELO`)
+    expect(converted).toHaveTextContent(`${APPROX_SYMBOL} 1 CELO`)
   })
 
   it('handles input changes correctly', () => {
@@ -143,7 +133,7 @@ describe('TokenEnterAmount', () => {
       </Provider>
     )
 
-    const input = getByTestId('tokenEnterAmount/TokenAmountInput')
+    const input = getByTestId('TokenEnterAmount/TokenAmountInput')
     fireEvent.changeText(input, '15')
     expect(mockOnInputChange).toHaveBeenCalledWith('15')
   })
@@ -155,7 +145,7 @@ describe('TokenEnterAmount', () => {
         <TokenEnterAmount {...defaultProps} toggleAmountType={mockToggleAmountType} />
       </Provider>
     )
-    const toggleButton = getByTestId('tokenEnterAmount/SwitchTokens')
+    const toggleButton = getByTestId('TokenEnterAmount/SwitchTokens')
 
     fireEvent.press(toggleButton)
     expect(mockToggleAmountType).toHaveBeenCalledTimes(1)
@@ -168,7 +158,7 @@ describe('TokenEnterAmount', () => {
         <TokenEnterAmount {...defaultProps} onOpenTokenPicker={mockOnOpenTokenPicker} />
       </Provider>
     )
-    const tokenPicker = getByTestId('tokenEnterAmount/TokenSelect')
+    const tokenPicker = getByTestId('TokenEnterAmount/TokenSelect')
 
     fireEvent.press(tokenPicker)
     expect(mockOnOpenTokenPicker).toHaveBeenCalledTimes(1)
@@ -191,12 +181,12 @@ describe('TokenEnterAmount', () => {
         <TokenEnterAmount {...defaultProps} editable={false} />
       </Provider>
     )
-    const input = getByTestId('tokenEnterAmount/TokenAmountInput')
+    const input = getByTestId('TokenEnterAmount/TokenAmountInput')
 
-    expect(input.props.editable).toBe(false)
+    expect(input).toBeDisabled()
   })
 
-  it('shows unavailable fiat price message when priceUsd is undefined', () => {
+  it('shows unavailable fiat price message when priceUsd is undefined', async () => {
     const store = createMockStore(mockStore)
     const { getByText } = render(
       <Provider store={store}>
@@ -213,7 +203,7 @@ describe('TokenEnterAmount', () => {
         <TokenEnterAmount {...defaultProps} />
       </Provider>
     )
-    const exchangeAmount = getByTestId('tokenEnterAmount/ExchangeAmount')
-    expect(exchangeAmount.props.children).toBe(`${APPROX_SYMBOL} $0.1`)
+    const exchangeAmount = getByTestId('TokenEnterAmount/ExchangeAmount')
+    expect(exchangeAmount).toHaveTextContent(`${APPROX_SYMBOL} $0.1`)
   })
 })
