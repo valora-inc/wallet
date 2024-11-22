@@ -3,11 +3,13 @@ import { MultichainBetaStatus } from 'src/app/actions'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
+import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
 jest.mock('src/statsig/index')
 jest.mock('src/config', () => ({
   ...jest.requireActual('src/config'),
-  ONBOARDING_FEATURES_ENABLED: { CloudBackupSetup: false },
+  ONBOARDING_FEATURES_ENABLED: { PhoneVerification: false, CloudBackup: false },
 }))
 
 describe('initialRoute', () => {
@@ -23,6 +25,16 @@ describe('initialRoute', () => {
   }
 
   beforeEach(() => {
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.CloudBackup,
+      false
+    )
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.PhoneVerification,
+      false
+    )
     jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
@@ -50,6 +62,16 @@ describe('initialRoute', () => {
     )
   })
 
+  it('returns import select screen if account is null and choose to restore account and CAB enabled', () => {
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.CloudBackup,
+      true
+    )
+    expect(getInitialRoute({ ...defaultArgs, account: null, choseToRestoreAccount: true })).toEqual(
+      Screens.ImportSelect
+    )
+  })
   it('returns protect wallet if recovery phrase in onboarding seen but not saved', () => {
     expect(
       getInitialRoute({
@@ -59,13 +81,23 @@ describe('initialRoute', () => {
     ).toEqual(Screens.ProtectWallet)
   })
 
-  it('returns PN verification if not seen verification', () => {
+  it('returns PN verification if not seen verification and verification is enabled', () => {
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.PhoneVerification,
+      true
+    )
     expect(getInitialRoute({ ...defaultArgs, hasSeenVerificationNux: false })).toEqual(
       Screens.VerificationStartScreen
     )
   })
 
-  it('returns PN verification if not seen verification and saved recovery phrase', () => {
+  it('returns PN verification if not seen verification and saved recovery phrase and verification is enabled', () => {
+    jest.replaceProperty(
+      ONBOARDING_FEATURES_ENABLED,
+      ToggleableOnboardingFeatures.PhoneVerification,
+      true
+    )
     expect(
       getInitialRoute({
         ...defaultArgs,
@@ -73,6 +105,22 @@ describe('initialRoute', () => {
         recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Completed,
       })
     ).toEqual(Screens.VerificationStartScreen)
+  })
+
+  it('returns home if not seen verification and verification is disabled', () => {
+    expect(getInitialRoute({ ...defaultArgs, hasSeenVerificationNux: false })).toEqual(
+      Screens.TabNavigator
+    )
+  })
+
+  it('returns home if not seen verification and saved recovery phrase and verification is disabled', () => {
+    expect(
+      getInitialRoute({
+        ...defaultArgs,
+        hasSeenVerificationNux: false,
+        recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Completed,
+      })
+    ).toEqual(Screens.TabNavigator)
   })
 
   it('returns tab navigator if all onboarding complete', () => {

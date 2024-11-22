@@ -33,13 +33,16 @@ export function getInitialRoute({
     return Screens.Welcome
   } else if (!account) {
     return choseToRestoreAccount
-      ? ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
+      ? ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackup]
         ? Screens.ImportSelect
         : Screens.ImportWallet
       : Screens.Welcome
   } else if (recoveryPhraseInOnboardingStatus === RecoveryPhraseInOnboardingStatus.InProgress) {
     return Screens.ProtectWallet
-  } else if (!hasSeenVerificationNux) {
+  } else if (
+    !hasSeenVerificationNux &&
+    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.PhoneVerification]
+  ) {
     return Screens.VerificationStartScreen
   } else if (
     getFeatureGate(StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN) &&

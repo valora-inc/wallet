@@ -49,7 +49,7 @@ export default function TabNavigator({ route }: Props) {
         options={{
           tabBarLabel: t('bottomTabsNavigator.wallet.tabName') as string,
           tabBarIcon: Wallet,
-          tabBarTestID: 'Tab/Wallet',
+          tabBarButtonTestID: 'Tab/Wallet',
         }}
       />
       <Tab.Screen
@@ -60,7 +60,7 @@ export default function TabNavigator({ route }: Props) {
           lazy: false,
           tabBarLabel: t('bottomTabsNavigator.home.tabName') as string,
           tabBarIcon: Home,
-          tabBarTestID: 'Tab/Home',
+          tabBarButtonTestID: 'Tab/Home',
         }}
       />
       <Tab.Screen
@@ -69,12 +69,12 @@ export default function TabNavigator({ route }: Props) {
         options={{
           tabBarLabel: t('bottomTabsNavigator.discover.tabName') as string,
           tabBarIcon: Discover,
-          tabBarTestID: 'Tab/Discover',
+          tabBarButtonTestID: 'Tab/Discover',
           // Special case for the Dapps explorer,
           // so it reloads the list when the user comes back to it
           // Note: we generally want to avoid this as it resets the scroll position (and all other component state)
           // but here it's the right expectation
-          unmountOnBlur: true,
+          popToTopOnBlur: true,
         }}
       />
     </Tab.Navigator>
