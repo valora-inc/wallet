@@ -383,6 +383,7 @@ describe('EnterAmount', () => {
       `${APPROX_SYMBOL} ₱0.00`
     )
 
+    // switch to fiat
     fireEvent.press(getByTestId('SendEnterAmount/SwitchTokens'))
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1.33')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('₱1.33')
