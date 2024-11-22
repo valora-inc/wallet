@@ -84,6 +84,9 @@ describe('TokenEnterAmount', () => {
 
     it('properly rounds token amounts', () => {
       expect(getReadableTokenAmount(null, defaultProps.token)).toBe(replaceSeparators(''))
+      expect(getReadableTokenAmount(new BigNumber(0), defaultProps.token)).toBe(
+        replaceSeparators('')
+      )
       expect(getReadableTokenAmount(new BigNumber('0.0000001'), defaultProps.token)).toBe(
         replaceSeparators('<0.000001 CELO')
       )
@@ -109,6 +112,9 @@ describe('TokenEnterAmount', () => {
 
     it('proprly rounds local amount', () => {
       expect(getReadableLocalAmount(null, LocalCurrencySymbol['USD'])).toBe(replaceSeparators(''))
+      expect(getReadableLocalAmount(new BigNumber(0), LocalCurrencySymbol['USD'])).toBe(
+        replaceSeparators('')
+      )
       expect(getReadableLocalAmount(new BigNumber('0.0000001'), LocalCurrencySymbol['USD'])).toBe(
         replaceSeparators('<$0.000001')
       )

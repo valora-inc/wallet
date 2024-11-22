@@ -47,7 +47,7 @@ export function formatNumber(value: string) {
 
 export function getReadableTokenAmount(bignum: BigNumber | null, token: TokenBalance) {
   const { decimalSeparator } = getNumberFormatSettings()
-  if (bignum === null) {
+  if (bignum === null || bignum.isZero()) {
     return ''
   }
 
@@ -64,7 +64,7 @@ export function getReadableLocalAmount(
   localCurrencySymbol: LocalCurrencySymbol
 ) {
   const { decimalSeparator } = getNumberFormatSettings()
-  if (bignum === null) {
+  if (bignum === null || bignum.isZero()) {
     return ''
   }
 
