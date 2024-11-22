@@ -490,8 +490,7 @@ describe('EnterAmount', () => {
     )
   })
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('using token with no price disables local amount input', async () => {
+  it('using token with no price disables local amount input', async () => {
     const store = createMockStore(mockStore)
 
     const tokenBalances = mockStoreBalancesToTokenBalances([
@@ -505,33 +504,33 @@ describe('EnterAmount', () => {
           {...defaultParams}
           tokenSelectionDisabled
           tokens={tokenBalances}
-          defaultToken={tokenBalances[0]}
+          defaultToken={{ ...tokenBalances[0], priceUsd: null }}
         />
       </Provider>
     )
 
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('TST')
-    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.editable).toBeFalsy()
-    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('-')
+    expect(getByText('tokenEnterAmount.fiatPriceUnavailable')).toBeTruthy()
 
-    // changing token amount should not update local amount
+    // changing token amount should still show fiat price unavailable
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('1')
-    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('-')
+    expect(getByText('tokenEnterAmount.fiatPriceUnavailable')).toBeTruthy()
 
     // changing to another token with price should enable local amount input
     fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
     await waitFor(() => expect(getByText('Ether')).toBeTruthy())
     fireEvent.press(getByText('Ether'))
-    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.editable).toBeTruthy()
-    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱1,995.00')
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+      `${APPROX_SYMBOL} ₱0.00`
+    )
 
     // changing back to token with no price should disable local amount input
     fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
     await waitFor(() => expect(getByText('Test Token')).toBeTruthy())
     fireEvent.press(getByText('Test Token'))
-    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.editable).toBeFalsy()
-    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('-')
+    expect(getByText('tokenEnterAmount.fiatPriceUnavailable')).toBeTruthy()
   })
 
   it('entering local amount includes correct decimals for token amount', async () => {
