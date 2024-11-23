@@ -189,7 +189,9 @@ export async function quickOnboarding({
     }
 
     await scrollIntoView('Restore', 'ImportWalletKeyboardAwareScrollView')
-    await element(by.id('ImportWalletButton')).tap()
+    await waitForElementByIdAndTap('ImportWalletButton')
+    // Wait for the wallet to restored
+    await sleep(5 * 1000)
 
     try {
       // case where account not funded yet. continue with onboarding.
