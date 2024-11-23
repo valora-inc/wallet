@@ -55,7 +55,6 @@ export interface AddressToVerificationStatus {
 }
 
 interface State {
-  hasSeenVerificationNux: boolean
   addressToE164Number: AddressToE164NumberType
   // Note: Do not access values in this directly, use the `getAddressFromPhoneNumber` helper in contactMapping
   e164NumberToAddress: E164NumberToAddressType
@@ -73,7 +72,6 @@ interface State {
 }
 
 const initialState: State = {
-  hasSeenVerificationNux: false,
   addressToE164Number: {},
   e164NumberToAddress: {},
   addressToDisplayName: {},
@@ -108,11 +106,6 @@ export const reducer = (
         },
       }
     }
-    case Actions.SET_SEEN_VERIFICATION_NUX:
-      return {
-        ...state,
-        hasSeenVerificationNux: action.status,
-      }
     case Actions.UPDATE_E164_PHONE_NUMBER_ADDRESSES:
       return {
         ...state,
