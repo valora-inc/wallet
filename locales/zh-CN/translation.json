@@ -386,6 +386,7 @@
   "accountAddressLabel": "账户地址",
   "celoAmountLabel": "金额 (CELO)",
   "maxSymbol": "最大值",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "查看",
   "withdrawCeloTo": "提取到",
   "withdrawCeloAmount": "金额 (CELO)",
