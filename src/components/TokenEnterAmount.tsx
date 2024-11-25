@@ -63,8 +63,8 @@ export function getDisplayTokenAmount(bignum: BigNumber | null, token: TokenBala
     return `<0${decimalSeparator}000001 ${token.symbol}`
   }
 
-  const grouped = formatNumber(bignum.decimalPlaces(6).toString())
-  return `${grouped} ${token.symbol}`
+  const formattedAmount = formatNumber(bignum.decimalPlaces(6).toString())
+  return `${formattedAmount} ${token.symbol}`
 }
 
 /**
@@ -84,14 +84,14 @@ export function getDisplayLocalAmount(
     return `<${localCurrencySymbol}0${decimalSeparator}000001`
   }
 
-  const rounded = bignum.isLessThan(0.01) ? bignum.toPrecision(1) : bignum.toFixed(2)
-  const grouped = formatNumber(rounded.toString())
-  return `${localCurrencySymbol}${grouped}`
+  const roundedAmount = bignum.isLessThan(0.01) ? bignum.toPrecision(1) : bignum.toFixed(2)
+  const formattedAmount = formatNumber(roundedAmount.toString())
+  return `${localCurrencySymbol}${formattedAmount}`
 }
 
 /**
  * This hook is only used in tandem with `TokenEnterAmount` component. It provides all the necessary
- * variables and handlers manage "enter amount" functionality, including rate calculations.
+ * variables and handlers that manage "enter amount" functionality, including rate calculations.
  */
 export function useEnterAmount(props: {
   token: TokenBalance
