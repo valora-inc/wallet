@@ -11,6 +11,9 @@ describe('Home Feed', () => {
     // Load Wallet Home
     await waitForElementId('WalletHome')
     await waitForExpectNotVisible('TransactionList/loading')
+    await waitFor(element(by.id('TransferFeedItem')).atIndex(0))
+      .toBeVisible()
+      .withTimeout(10_000)
     const items = await element(by.id('TransferFeedItem')).getAttributes()
 
     // Tap top TransferFeedItem
@@ -32,6 +35,9 @@ describe('Home Feed', () => {
     // Load Wallet Home
     await waitForElementId('WalletHome')
     await waitForExpectNotVisible('TransactionList/loading')
+    await waitFor(element(by.id('TransferFeedItem')).atIndex(0))
+      .toBeVisible()
+      .withTimeout(10_000)
     const startingItems = await element(by.id('TransferFeedItem')).getAttributes()
 
     // Scroll to bottom - Android will scroll forever so we set a static value
