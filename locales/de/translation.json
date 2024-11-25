@@ -386,6 +386,7 @@
   "accountAddressLabel": "Konto-Adresse",
   "celoAmountLabel": "Betrag (CELO)",
   "maxSymbol": "Max",
+  "percentage": "{{percentage}} %",
   "withdrawCeloReview": "Überprüfen",
   "withdrawCeloTo": "Abheben nach",
   "withdrawCeloAmount": "Betrag (CELO)",
