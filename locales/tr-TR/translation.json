@@ -386,6 +386,7 @@
   "accountAddressLabel": "Hesap Adresi",
   "celoAmountLabel": "Miktar (CELO)",
   "maxSymbol": "Maks.",
+  "percentage": "%{{percentage}}",
   "withdrawCeloReview": "Gözden Geçir",
   "withdrawCeloTo": "Şuraya çekim yap",
   "withdrawCeloAmount": "Miktar (CELO)",
