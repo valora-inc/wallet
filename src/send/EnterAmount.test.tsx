@@ -540,19 +540,19 @@ describe('EnterAmount', () => {
 
   it.each([
     {
-      amountLabel: '25%',
+      amountLabel: 'percentage, {"percentage":25}',
       percentage: 25,
       expectedTokenAmount: '1.25',
       expectedLocalAmount: '₱0.17',
     },
     {
-      amountLabel: '50%',
+      amountLabel: 'percentage, {"percentage":50}',
       percentage: 50,
       expectedTokenAmount: '2.5',
       expectedLocalAmount: '₱0.33',
     },
     {
-      amountLabel: '75%',
+      amountLabel: 'percentage, {"percentage":75}',
       percentage: 75,
       expectedTokenAmount: '3.75',
       expectedLocalAmount: '₱0.50',

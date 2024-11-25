@@ -30,15 +30,15 @@ export default function EnterAmountOptions({
     return [
       {
         amount: 0.25,
-        label: '25%',
+        label: t('percentage', { percentage: 25 }),
       },
       {
         amount: 0.5,
-        label: '50%',
+        label: t('percentage', { percentage: 50 }),
       },
       {
         amount: 0.75,
-        label: '75%',
+        label: t('percentage', { percentage: 75 }),
       },
       {
         amount: 1,
