@@ -90,7 +90,6 @@ describe('TokenEnterAmount', () => {
     expect(getByText('CELO on Celo Alfajores')).toBeTruthy()
     expect(getByTestId('TokenEnterAmount/SwitchTokens')).toBeTruthy()
     expect(getByTestId('TokenEnterAmount/TokenSelect')).toBeTruthy()
-    expect(getByTestId('TokenEnterAmount/TokenBalance')).toBeTruthy()
     expect(getByTestId('TokenEnterAmount/TokenBalance')).toHaveTextContent(
       'tokenEnterAmount.availableBalance'
     )
