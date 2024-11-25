@@ -3,10 +3,8 @@ import { quickOnboarding, waitForElementByText, waitForElementId } from './utils
 
 describe('Choose Your Adventure', () => {
   beforeEach(async () => {
-    await device.uninstallApp()
-    await device.installApp()
     await launchApp({
-      newInstance: true,
+      delete: true,
       launchArgs: {
         onboardingOverrides: 'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackup',
       },
@@ -50,8 +48,8 @@ describe('Choose Your Adventure', () => {
   it('explore earning opportunities navigates to stablecoins info page', async () => {
     await waitForElementByText({ text: 'Explore earning opportunities', tap: true })
 
-    await waitForElementId('EarnInfoScreen/Title')
     // Check that we are on the Earn On Your Stablecoins page
-    await expect(element(by.text('Earn on your\ncrypto')).atIndex(0)).toBeVisible()
+    await waitForElementId('EarnInfoScreen/Title')
+    await waitForElementByText({ text: 'Earn on your\ncrypto' })
   })
 })
