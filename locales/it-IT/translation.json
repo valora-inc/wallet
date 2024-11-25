@@ -386,6 +386,7 @@
   "accountAddressLabel": "Indirizzo del conto",
   "celoAmountLabel": "Importo (CELO)",
   "maxSymbol": "Max",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Rivedi",
   "withdrawCeloTo": "Preleva verso",
   "withdrawCeloAmount": "Importo (CELO)",
