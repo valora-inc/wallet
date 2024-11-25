@@ -6,6 +6,8 @@ export const launchApp = async (
     permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
     launchArgs: {
       detoxPrintBusyIdleResources: 'YES',
+      // Use new tx feed from Zerion by default
+      onboardingOverrides: 'show_zerion_transaction_feed',
     },
   }
 ) => {

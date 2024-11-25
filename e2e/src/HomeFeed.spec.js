@@ -1,6 +1,6 @@
 import jestExpect from 'expect'
 import { sleep } from '../../src/utils/sleep'
-import { quickOnboarding, waitForElementId } from './utils/utils'
+import { quickOnboarding, waitForElementId, waitForExpectNotVisible } from './utils/utils'
 
 beforeAll(async () => {
   await quickOnboarding()
@@ -10,6 +10,7 @@ describe('Home Feed', () => {
   it('should show correct information on tap of feed item', async () => {
     // Load Wallet Home
     await waitForElementId('WalletHome')
+    await waitForExpectNotVisible('TransactionList/loading')
     const items = await element(by.id('TransferFeedItem')).getAttributes()
 
     // Tap top TransferFeedItem
@@ -30,6 +31,7 @@ describe('Home Feed', () => {
 
     // Load Wallet Home
     await waitForElementId('WalletHome')
+    await waitForExpectNotVisible('TransactionList/loading')
     const startingItems = await element(by.id('TransferFeedItem')).getAttributes()
 
     // Scroll to bottom - Android will scroll forever so we set a static value
