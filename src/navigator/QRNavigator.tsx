@@ -46,7 +46,12 @@ function ScannerScene({ route }: ScannerSceneProps) {
   const lastScannedQR = useRef('')
   const dispatch = useDispatch()
   const defaultOnQRCodeDetected = (qrCode: QrCode) =>
-    dispatch(handleQRCodeDetected(qrCode, route?.params?.defaultTokenIdOverride))
+    dispatch(
+      handleQRCodeDetected({
+        qrCode,
+        defaultTokenIdOverride: route?.params?.defaultTokenIdOverride,
+      })
+    )
   const { onQRCodeDetected: onQRCodeDetectedParam = defaultOnQRCodeDetected } = route.params || {}
   const isFocused = useIsFocused()
   const [wasFocused, setWasFocused] = useState(isFocused)

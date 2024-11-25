@@ -176,7 +176,12 @@ export function* handleQRCodeDefault({
   const recipientInfo: RecipientInfo = yield* select(recipientInfoSelector)
   const cachedRecipient = getRecipientFromAddress(qrData.address, recipientInfo)
 
-  yield* call(handleSendPaymentData, qrData, true, cachedRecipient, defaultTokenIdOverride)
+  yield* call(handleSendPaymentData, {
+    data: qrData,
+    isFromScan: true,
+    cachedRecipient,
+    defaultTokenIdOverride,
+  })
 }
 
 export function* handleQRCodeSecureSend({

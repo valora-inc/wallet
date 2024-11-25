@@ -22,12 +22,17 @@ import { call, put, select } from 'typed-redux-saga'
 
 const TAG = 'send/utils'
 
-export function* handleSendPaymentData(
-  data: UriData,
-  isFromScan: boolean,
-  cachedRecipient?: Recipient,
+export function* handleSendPaymentData({
+  data,
+  isFromScan,
+  cachedRecipient,
+  defaultTokenIdOverride,
+}: {
+  data: UriData
+  isFromScan: boolean
+  cachedRecipient?: Recipient
   defaultTokenIdOverride?: string
-) {
+}) {
   const recipient: AddressRecipient = {
     address: data.address.toLowerCase(),
     name: data.displayName || cachedRecipient?.name,
@@ -107,7 +112,7 @@ export function* handleSendPaymentData(
 export function* handlePaymentDeeplink(deeplink: string) {
   try {
     const paymentData = uriDataFromUrl(deeplink)
-    yield* call(handleSendPaymentData, paymentData, true)
+    yield* call(handleSendPaymentData, { data: paymentData, isFromScan: true })
   } catch (e) {
     Logger.warn('handlePaymentDeepLink', `deeplink ${deeplink} failed with ${e}`)
   }

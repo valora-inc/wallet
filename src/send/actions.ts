@@ -71,10 +71,13 @@ export type ActionTypes =
   | SendPaymentFailureAction
   | UpdateLastUsedCurrencyAction
 
-export const handleQRCodeDetected = (
-  qrCode: QrCode,
+export const handleQRCodeDetected = ({
+  qrCode,
+  defaultTokenIdOverride,
+}: {
+  qrCode: QrCode
   defaultTokenIdOverride?: string
-): HandleQRCodeDetectedAction => ({
+}): HandleQRCodeDetectedAction => ({
   type: Actions.BARCODE_DETECTED,
   qrCode,
   defaultTokenIdOverride,

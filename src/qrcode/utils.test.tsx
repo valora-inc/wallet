@@ -79,7 +79,7 @@ describe('handleQRCodeDefault', () => {
     const link = `${DEEP_LINK_URL_SCHEME}://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000`
     const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: link }
 
-    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
+    await expectSaga(handleQRCodeDefault, handleQRCodeDetected({ qrCode }))
       .provide([[select(allowHooksPreviewSelector), true]])
       .run()
 
@@ -92,7 +92,7 @@ describe('handleQRCodeDefault', () => {
   it('navigates to the send amount screen with a valid QR code', async () => {
     const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: urlFromUriData(mockQrCodeData) }
 
-    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
+    await expectSaga(handleQRCodeDefault, handleQRCodeDetected({ qrCode }))
       .withState(createMockStore({}).getState())
       .provide([[select(recipientInfoSelector), mockRecipientInfo]])
       .run()
@@ -117,7 +117,7 @@ describe('handleQRCodeDefault', () => {
     async (data) => {
       const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data }
 
-      await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
+      await expectSaga(handleQRCodeDefault, handleQRCodeDetected({ qrCode }))
         .withState(createMockStore({}).getState())
         .provide([[select(recipientInfoSelector), mockRecipientInfo]])
         .run()
@@ -140,7 +140,7 @@ describe('handleQRCodeDefault', () => {
   it('throws an error when the QR code data is invalid', async () => {
     const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount.replace('0x', '') }
 
-    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
+    await expectSaga(handleQRCodeDefault, handleQRCodeDetected({ qrCode }))
       .withState(createMockStore({}).getState())
       .put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
       .run()
@@ -154,7 +154,10 @@ describe('handleQRCodeDefault', () => {
       }),
     }
 
-    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode, 'some-token-id'))
+    await expectSaga(
+      handleQRCodeDefault,
+      handleQRCodeDetected({ qrCode, defaultTokenIdOverride: 'some-token-id' })
+    )
       .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
@@ -185,7 +188,7 @@ describe('handleQRCodeDefault', () => {
       }),
     }
 
-    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
+    await expectSaga(handleQRCodeDefault, handleQRCodeDetected({ qrCode }))
       .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
