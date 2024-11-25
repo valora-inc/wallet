@@ -386,6 +386,7 @@
   "accountAddressLabel": "Dirección de cuenta",
   "celoAmountLabel": "Monto (CELO)",
   "maxSymbol": "Max",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Revisar",
   "withdrawCeloTo": "Para",
   "withdrawCeloAmount": "Monto (CELO)",
