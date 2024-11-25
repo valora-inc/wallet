@@ -53,7 +53,7 @@ export function formatNumber(value: string) {
  * This function returns complete formatted value for a token (crypto) amount when it is being a
  * converted value (in "ExchangeAmount" element).
  */
-export function getReadableTokenAmount(bignum: BigNumber | null, token: TokenBalance) {
+export function getDisplayTokenAmount(bignum: BigNumber | null, token: TokenBalance) {
   const { decimalSeparator } = getNumberFormatSettings()
   if (bignum === null || bignum.isZero()) {
     return ''
@@ -71,7 +71,7 @@ export function getReadableTokenAmount(bignum: BigNumber | null, token: TokenBal
  * This function returns complete formatted value for a local (fiat) amount when it is being a
  * converted value (in "ExchangeAmount" element).
  */
-export function getReadableLocalAmount(
+export function getDisplayLocalAmount(
   bignum: BigNumber | null,
   localCurrencySymbol: LocalCurrencySymbol
 ) {
@@ -150,12 +150,12 @@ export function useEnterAmount(props: {
         token: {
           amount: amountRaw,
           bignum: parsedTokenAmount,
-          readable: getReadableTokenAmount(parsedTokenAmount, props.token),
+          readable: getDisplayTokenAmount(parsedTokenAmount, props.token),
         },
         local: {
           amount: convertedTokenToLocal,
           bignum: tokenToLocal,
-          readable: getReadableLocalAmount(tokenToLocal, localCurrencySymbol),
+          readable: getDisplayLocalAmount(tokenToLocal, localCurrencySymbol),
         },
       }
     }
@@ -185,12 +185,12 @@ export function useEnterAmount(props: {
       token: {
         amount: convertedLocalToToken,
         bignum: parsedTokenAmount,
-        readable: getReadableTokenAmount(parsedTokenAmount, props.token),
+        readable: getDisplayTokenAmount(parsedTokenAmount, props.token),
       },
       local: {
         amount: parsedLocalAmount?.toFixed(2) ?? '',
         bignum: parsedLocalAmount,
-        readable: getReadableLocalAmount(parsedLocalAmount, localCurrencySymbol),
+        readable: getDisplayLocalAmount(parsedLocalAmount, localCurrencySymbol),
       },
     }
   }, [amountRaw, amountType, localCurrencySymbol])

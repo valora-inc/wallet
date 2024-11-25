@@ -12,8 +12,8 @@ import { mockCeloTokenBalance, mockCusdTokenBalance, mockUSDCTokenId } from 'tes
 import TokenEnterAmount, {
   APPROX_SYMBOL,
   formatNumber,
-  getReadableLocalAmount,
-  getReadableTokenAmount,
+  getDisplayLocalAmount,
+  getDisplayTokenAmount,
   useEnterAmount,
 } from './TokenEnterAmount'
 
@@ -69,29 +69,29 @@ describe('TokenEnterAmount', () => {
     expect(formatNumber('1234.56abc')).toBe('1,234.56abc')
 
     const { token } = defaultProps
-    expect(getReadableTokenAmount(null, token)).toBe('')
-    expect(getReadableTokenAmount(new BigNumber(0), token)).toBe('')
-    expect(getReadableTokenAmount(new BigNumber('0.0000001'), token)).toBe('<0.000001 CELO')
-    expect(getReadableTokenAmount(new BigNumber('0.0001'), token)).toBe('0.0001 CELO')
-    expect(getReadableTokenAmount(new BigNumber('12.01'), token)).toBe('12.01 CELO')
-    expect(getReadableTokenAmount(new BigNumber('12.00000001'), token)).toBe('12 CELO')
-    expect(getReadableTokenAmount(new BigNumber('123.5678915'), token)).toBe('123.567892 CELO')
-    expect(getReadableTokenAmount(new BigNumber('1234.567891234'), token)).toBe('1,234.567891 CELO')
-    expect(getReadableTokenAmount(new BigNumber('1234567.123456'), token)).toBe(
+    expect(getDisplayTokenAmount(null, token)).toBe('')
+    expect(getDisplayTokenAmount(new BigNumber(0), token)).toBe('')
+    expect(getDisplayTokenAmount(new BigNumber('0.0000001'), token)).toBe('<0.000001 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('0.0001'), token)).toBe('0.0001 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('12.01'), token)).toBe('12.01 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('12.00000001'), token)).toBe('12 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('123.5678915'), token)).toBe('123.567892 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('1234.567891234'), token)).toBe('1,234.567891 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('1234567.123456'), token)).toBe(
       '1,234,567.123456 CELO'
     )
 
     const USD = LocalCurrencySymbol['USD']
-    expect(getReadableLocalAmount(null, USD)).toBe('')
-    expect(getReadableLocalAmount(new BigNumber(0), USD)).toBe('')
-    expect(getReadableLocalAmount(new BigNumber('0.0000001'), USD)).toBe('<$0.000001')
-    expect(getReadableLocalAmount(new BigNumber('0.0001'), USD)).toBe('$0.0001')
-    expect(getReadableLocalAmount(new BigNumber('0.00789'), USD)).toBe('$0.008')
-    expect(getReadableLocalAmount(new BigNumber('12.001'), USD)).toBe('$12.00')
-    expect(getReadableLocalAmount(new BigNumber('12.01'), USD)).toBe('$12.01')
-    expect(getReadableLocalAmount(new BigNumber('123.5678'), USD)).toBe('$123.57')
-    expect(getReadableLocalAmount(new BigNumber('1234.5678'), USD)).toBe('$1,234.57')
-    expect(getReadableLocalAmount(new BigNumber('1234567.5678'), USD)).toBe('$1,234,567.57')
+    expect(getDisplayLocalAmount(null, USD)).toBe('')
+    expect(getDisplayLocalAmount(new BigNumber(0), USD)).toBe('')
+    expect(getDisplayLocalAmount(new BigNumber('0.0000001'), USD)).toBe('<$0.000001')
+    expect(getDisplayLocalAmount(new BigNumber('0.0001'), USD)).toBe('$0.0001')
+    expect(getDisplayLocalAmount(new BigNumber('0.00789'), USD)).toBe('$0.008')
+    expect(getDisplayLocalAmount(new BigNumber('12.001'), USD)).toBe('$12.00')
+    expect(getDisplayLocalAmount(new BigNumber('12.01'), USD)).toBe('$12.01')
+    expect(getDisplayLocalAmount(new BigNumber('123.5678'), USD)).toBe('$123.57')
+    expect(getDisplayLocalAmount(new BigNumber('1234.5678'), USD)).toBe('$1,234.57')
+    expect(getDisplayLocalAmount(new BigNumber('1234567.5678'), USD)).toBe('$1,234,567.57')
   })
 
   it('properly formats amounts with decimal separator "," and group separator "."', () => {
@@ -111,29 +111,29 @@ describe('TokenEnterAmount', () => {
     expect(formatNumber('1234.56abc')).toBe('1.234,56abc')
 
     const { token } = defaultProps
-    expect(getReadableTokenAmount(null, token)).toBe('')
-    expect(getReadableTokenAmount(new BigNumber(0), token)).toBe('')
-    expect(getReadableTokenAmount(new BigNumber('0.0000001'), token)).toBe('<0,000001 CELO')
-    expect(getReadableTokenAmount(new BigNumber('0.0001'), token)).toBe('0,0001 CELO')
-    expect(getReadableTokenAmount(new BigNumber('12.01'), token)).toBe('12,01 CELO')
-    expect(getReadableTokenAmount(new BigNumber('12.00000001'), token)).toBe('12 CELO')
-    expect(getReadableTokenAmount(new BigNumber('123.5678915'), token)).toBe('123,567892 CELO')
-    expect(getReadableTokenAmount(new BigNumber('1234.567891234'), token)).toBe('1.234,567891 CELO')
-    expect(getReadableTokenAmount(new BigNumber('1234567.123456'), token)).toBe(
+    expect(getDisplayTokenAmount(null, token)).toBe('')
+    expect(getDisplayTokenAmount(new BigNumber(0), token)).toBe('')
+    expect(getDisplayTokenAmount(new BigNumber('0.0000001'), token)).toBe('<0,000001 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('0.0001'), token)).toBe('0,0001 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('12.01'), token)).toBe('12,01 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('12.00000001'), token)).toBe('12 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('123.5678915'), token)).toBe('123,567892 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('1234.567891234'), token)).toBe('1.234,567891 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('1234567.123456'), token)).toBe(
       '1.234.567,123456 CELO'
     )
 
     const USD = LocalCurrencySymbol['USD']
-    expect(getReadableLocalAmount(null, USD)).toBe('')
-    expect(getReadableLocalAmount(new BigNumber(0), USD)).toBe('')
-    expect(getReadableLocalAmount(new BigNumber('0.0000001'), USD)).toBe('<$0,000001')
-    expect(getReadableLocalAmount(new BigNumber('0.0001'), USD)).toBe('$0,0001')
-    expect(getReadableLocalAmount(new BigNumber('0.00789'), USD)).toBe('$0,008')
-    expect(getReadableLocalAmount(new BigNumber('12.001'), USD)).toBe('$12,00')
-    expect(getReadableLocalAmount(new BigNumber('12.01'), USD)).toBe('$12,01')
-    expect(getReadableLocalAmount(new BigNumber('123.5678'), USD)).toBe('$123,57')
-    expect(getReadableLocalAmount(new BigNumber('1234.5678'), USD)).toBe('$1.234,57')
-    expect(getReadableLocalAmount(new BigNumber('1234567.5678'), USD)).toBe('$1.234.567,57')
+    expect(getDisplayLocalAmount(null, USD)).toBe('')
+    expect(getDisplayLocalAmount(new BigNumber(0), USD)).toBe('')
+    expect(getDisplayLocalAmount(new BigNumber('0.0000001'), USD)).toBe('<$0,000001')
+    expect(getDisplayLocalAmount(new BigNumber('0.0001'), USD)).toBe('$0,0001')
+    expect(getDisplayLocalAmount(new BigNumber('0.00789'), USD)).toBe('$0,008')
+    expect(getDisplayLocalAmount(new BigNumber('12.001'), USD)).toBe('$12,00')
+    expect(getDisplayLocalAmount(new BigNumber('12.01'), USD)).toBe('$12,01')
+    expect(getDisplayLocalAmount(new BigNumber('123.5678'), USD)).toBe('$123,57')
+    expect(getDisplayLocalAmount(new BigNumber('1234.5678'), USD)).toBe('$1.234,57')
+    expect(getDisplayLocalAmount(new BigNumber('1234567.5678'), USD)).toBe('$1.234.567,57')
   })
 
   describe('useEnterAmount', () => {
