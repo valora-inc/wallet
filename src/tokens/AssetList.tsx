@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
+  RefreshControl,
   SectionList,
   SectionListData,
   SectionListProps,
@@ -11,10 +12,12 @@ import {
   View,
 } from 'react-native'
 import Animated from 'react-native-reanimated'
-import { AssetsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AssetsEvents } from 'src/analytics/Events'
 import { hideWalletBalancesSelector } from 'src/app/selectors'
 import Touchable from 'src/components/Touchable'
+import { refreshAllBalances } from 'src/home/actions'
+import { balancesLoadingSelector } from 'src/home/selectors'
 import CircledIcon from 'src/icons/CircledIcon'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import Add from 'src/icons/quick-actions/Add'
@@ -96,6 +99,7 @@ export default function AssetList({
   )
 
   const hideWalletBalances = useSelector(hideWalletBalancesSelector)
+  const isRefreshingBalances = useSelector(balancesLoadingSelector)
 
   const positions = useSelector(positionsWithBalanceSelector)
   const positionSections = useMemo(() => {
@@ -129,6 +133,10 @@ export default function AssetList({
   useEffect(() => {
     dispatch(fetchNfts())
   }, [])
+
+  const onRefresh = () => {
+    dispatch(refreshAllBalances())
+  }
 
   const sections =
     activeTab === AssetTabType.Tokens
@@ -275,6 +283,13 @@ export default function AssetList({
           nfts.length > 0 &&
           styles.nftsContentContainer,
       ]}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshingBalances}
+          onRefresh={onRefresh}
+          colors={[Colors.accent]}
+        />
+      }
       // ensure header is above the scrollbar on ios overscroll
       scrollIndicatorInsets={{ top: listHeaderHeight }}
       // @ts-ignore can't get the SectionList to accept a union type :(
