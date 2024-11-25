@@ -315,13 +315,14 @@ export function padTrailingZeros(num, size = 5) {
   return s
 }
 
-export async function waitForElementByText(text, timeout = 30_000, index = 0) {
+export async function waitForElementByText({ text, index, tap = false, timeout = 30_000 }) {
   try {
-    index === 0
-      ? await waitFor(element(by.text(text)))
-      : await waitFor(element(by.text(text)).atIndex(index))
-          .toBeVisible()
-          .withTimeout(timeout)
+    const elementMatcher =
+      index !== undefined ? element(by.text(text)).atIndex(index) : element(by.text(text))
+
+    await waitFor(elementMatcher).toBeVisible().withTimeout(timeout)
+
+    if (tap) await elementMatcher.tap()
   } catch {
     throw new Error(`Element with text '${text}' not found`)
   }
