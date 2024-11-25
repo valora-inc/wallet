@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
   Platform,
@@ -11,9 +11,6 @@ import {
   View,
 } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { SendEvents } from 'src/analytics/Events'
-import { type BottomSheetModalRefType } from 'src/components/BottomSheet'
 import TextInput from 'src/components/TextInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -98,11 +95,10 @@ export function getReadableLocalAmount(
  */
 export function useEnterAmount(props: {
   token: TokenBalance
+  inputRef: React.RefObject<RNTextInput>
   onSelectToken?: (token: TokenBalance) => void
 }) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
-  const inputRef = useRef<RNTextInput>(null)
-  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const [amount, setAmount] = useState('')
   const [amountType, setAmountType] = useState<AmountEnteredIn>('token')
 
@@ -199,25 +195,10 @@ export function useEnterAmount(props: {
     }
   }, [amountRaw, amountType, localCurrencySymbol])
 
-  function onOpenTokenPicker() {
-    bottomSheetRef.current?.snapToIndex(0)
-    AppAnalytics.track(SendEvents.token_dropdown_opened, {
-      currentTokenId: props.token.tokenId,
-      currentTokenAddress: props.token.address,
-      currentNetworkId: props.token.networkId,
-    })
-  }
-
   function handleToggleAmountType() {
     setAmountType((prev) => (prev === 'local' ? 'token' : 'local'))
     setAmount(amountType === 'token' ? derived.local.amount || '' : derived.token.amount)
-    inputRef.current?.blur()
-  }
-
-  function onSelectToken(token: TokenBalance) {
-    props.onSelectToken?.(token)
-    setAmount('')
-    bottomSheetRef.current?.close()
+    props.inputRef.current?.blur()
   }
 
   function handleAmountInputChange(val: string) {
@@ -255,12 +236,7 @@ export function useEnterAmount(props: {
     amount: amountRaw,
     amountType,
     derived,
-    inputRef,
-    bottomSheetRef,
-
-    onOpenTokenPicker,
     handleToggleAmountType,
-    onSelectToken,
     handleAmountInputChange,
   }
 }

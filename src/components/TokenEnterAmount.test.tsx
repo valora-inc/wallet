@@ -3,13 +3,10 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { SendEvents } from 'src/analytics/Events'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
-import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import { mockCeloTokenBalance, mockCusdTokenBalance, mockUSDCTokenId } from 'test/values'
 import TokenEnterAmount, {
@@ -147,6 +144,7 @@ describe('TokenEnterAmount', () => {
       jest.mocked(convertTokenToLocalAmount).mockReturnValue(new BigNumber(0))
       const { result } = renderHook(() =>
         useEnterAmount({
+          inputRef: { current: null },
           token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
         })
       )
@@ -164,6 +162,7 @@ describe('TokenEnterAmount', () => {
         )
       const { result } = renderHook(() =>
         useEnterAmount({
+          inputRef: { current: null },
           token: { symbol: 'USDC', decimals: 6, tokenId: mockUSDCTokenId } as TokenBalance,
         })
       )
@@ -196,6 +195,7 @@ describe('TokenEnterAmount', () => {
         )
       const { result } = renderHook(() =>
         useEnterAmount({
+          inputRef: { current: null },
           token: { symbol: 'USDC', decimals: 6, tokenId: mockUSDCTokenId } as TokenBalance,
         })
       )
@@ -222,6 +222,7 @@ describe('TokenEnterAmount', () => {
     it('handles token input change correctly', async () => {
       const { result } = renderHook(() =>
         useEnterAmount({
+          inputRef: { current: null },
           token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
         })
       )
@@ -236,6 +237,7 @@ describe('TokenEnterAmount', () => {
     it('toggles amount type correctly', async () => {
       const { result } = renderHook(() =>
         useEnterAmount({
+          inputRef: { current: null },
           token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
         })
       )
@@ -245,28 +247,6 @@ describe('TokenEnterAmount', () => {
       })
 
       expect(result.current.amountType).toBe('local')
-    })
-
-    it('opens token picker and executes analytics track call', async () => {
-      const { result } = renderHook(() =>
-        useEnterAmount({
-          token: {
-            tokenId: '1',
-            address: '0x00',
-            networkId: NetworkId['celo-mainnet'],
-          } as TokenBalance,
-        })
-      )
-
-      await act(() => {
-        result.current.onOpenTokenPicker()
-      })
-
-      expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.token_dropdown_opened, {
-        currentTokenId: '1',
-        currentTokenAddress: '0x00',
-        currentNetworkId: NetworkId['celo-mainnet'],
-      })
     })
   })
 
