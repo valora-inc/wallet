@@ -112,8 +112,29 @@ describe('SendSelectRecipient', () => {
     expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
     expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
       screen: Screens.QRScanner,
+      params: {
+        defaultTokenIdOverride: undefined,
+      },
     })
   })
+  it('navigates to QR screen with an override when QR button is pressed', async () => {
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({ defaultTokenIdOverride: 'some-token-id' })} />
+      </Provider>
+    )
+    fireEvent.press(getByTestId('SelectRecipient/QR'))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
+    expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
+      screen: Screens.QRScanner,
+      params: {
+        defaultTokenIdOverride: 'some-token-id',
+      },
+    })
+  })
+
   it('shows QR, sync contacts and get started section when no prior recipients', async () => {
     const store = createMockStore({})
 
