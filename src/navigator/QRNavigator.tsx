@@ -108,7 +108,7 @@ export default function QRNavigator({ route }: Props) {
       // Trick to position the tabs floating on top
       tabBarPosition="bottom"
       style={styles.container}
-      sceneContainerStyle={styles.sceneContainerStyle}
+      screenOptions={{ sceneStyle: styles.sceneContainerStyle }}
       initialLayout={initialLayout}
     >
       <Tab.Screen name={Screens.QRCode} options={{ title: t('myCode') ?? undefined }}>
@@ -132,9 +132,6 @@ export default function QRNavigator({ route }: Props) {
 
 QRNavigator.navigationOptions = {
   ...noHeader,
-  ...Platform.select({
-    ios: { animation: 'slide_from_bottom' },
-  }),
 }
 
 const styles = StyleSheet.create({

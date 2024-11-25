@@ -1,7 +1,8 @@
 import BigNumber from 'bignumber.js'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { useSelector } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
@@ -66,10 +67,11 @@ export default function EarnEntrypoint() {
             : navigate(Screens.EarnInfoScreen)
         }}
         testID="EarnEntrypoint"
+        shouldRenderRippleAbove
       >
         <>
           <View style={styles.row}>
-            <Image style={styles.image} source={earnCardBackground} />
+            <FastImage style={styles.image} source={earnCardBackground} />
             <View style={styles.textContainer}>
               <Text style={styles.title}>{t('earnFlow.entrypoint.title')}</Text>
               <Text style={styles.description}>

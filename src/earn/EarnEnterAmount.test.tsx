@@ -1,6 +1,7 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
+import { DeviceEventEmitter } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -659,14 +660,18 @@ describe('EarnEnterAmount', () => {
       },
     })
 
-    it('entering MAX token applies correct decimal separator', async () => {
+    it('selecting max token amount applies correct decimal separator', async () => {
       const { getByTestId } = render(
         <Provider store={mockStore}>
           <MockedNavigator component={EarnEnterAmount} params={params} />
         </Provider>
       )
 
-      fireEvent.press(getByTestId('EarnEnterAmount/Max'))
+      await act(() => {
+        DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+      })
+
+      fireEvent.press(within(getByTestId('EarnEnterAmount/AmountOptions')).getByText('maxSymbol'))
       expect(getByTestId('EarnEnterAmount/TokenAmountInput').props.value).toBe(
         replaceSeparators('100000.42')
       )

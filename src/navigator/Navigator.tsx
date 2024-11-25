@@ -126,6 +126,7 @@ import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 
 const TAG = 'Navigator'
 
@@ -160,7 +161,7 @@ const commonScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.QRNavigator}
         component={QRNavigator}
-        options={QRNavigator.navigationOptions as NativeStackNavigationOptions}
+        options={QRNavigator.navigationOptions}
       />
     </>
   )
@@ -474,6 +475,10 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.SignInWithEmail}
       options={noHeader}
       component={SignInWithEmail}
+      initialParams={{
+        keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Onboarding,
+      }}
     />
     <Navigator.Screen
       name={Screens.KeylessBackupPhoneInput}
@@ -605,15 +610,11 @@ const pointsScreens = (Navigator: typeof Stack) => (
 )
 const mapStateToProps = (state: RootState) => {
   return {
-    choseToRestoreAccount: state.account.choseToRestoreAccount,
     language: currentLanguageSelector(state),
     acceptedTerms: state.account.acceptedTerms,
     pincodeType: state.account.pincodeType,
-    account: state.web3.account,
-    hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
-    askedContactsPermission: state.identity.askedContactsPermission,
-    recoveryPhraseInOnboardingStatus: state.account.recoveryPhraseInOnboardingStatus,
-    multichainBetaStatus: state.app.multichainBetaStatus,
+    lastOnboardingStepScreen: state.account.lastOnboardingStepScreen as keyof StackParamList,
+    onboardingCompleted: state.account.onboardingCompleted,
   }
 }
 
@@ -623,26 +624,15 @@ function MainStackScreen() {
   const [initialRouteName, setInitialRoute] = React.useState<InitialRouteName>(undefined)
 
   React.useEffect(() => {
-    const {
-      choseToRestoreAccount,
-      language,
-      acceptedTerms,
-      pincodeType,
-      account,
-      hasSeenVerificationNux,
-      recoveryPhraseInOnboardingStatus,
-      multichainBetaStatus,
-    } = mapStateToProps(store.getState())
+    const { language, acceptedTerms, pincodeType, onboardingCompleted, lastOnboardingStepScreen } =
+      mapStateToProps(store.getState())
 
     const initialRoute: InitialRouteName = getInitialRoute({
-      choseToRestoreAccount,
       language,
       acceptedTerms,
       pincodeType,
-      account,
-      hasSeenVerificationNux,
-      recoveryPhraseInOnboardingStatus,
-      multichainBetaStatus,
+      onboardingCompleted,
+      lastOnboardingStepScreen,
     })
 
     setInitialRoute(initialRoute)
