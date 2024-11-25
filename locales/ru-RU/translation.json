@@ -386,6 +386,7 @@
   "accountAddressLabel": "Адрес аккаунта",
   "celoAmountLabel": "Сумма (CELO)",
   "maxSymbol": "Макс.",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Проверить",
   "withdrawCeloTo": "Вывести на",
   "withdrawCeloAmount": "Сумма (CELO)",
@@ -1487,7 +1488,7 @@
       "removeFilter": "Удалить фильтр",
       "searchMessage": "Для <0>\"{{searchTerm}}\"</0> подходящих результатов не найдено"
     },
-    "disclaimer_UK": "Это список сторонних Dapp'ов. Описание каждого Dapp носит чисто информационный характер и не является приглашением к их использованию."
+    "disclaimer_UK": "Это список сторонних Dapps. Описание каждого Dapp носит чисто информационный характер и не является приглашением к их использованию."
   },
   "dappRankings": {
     "title": "Рейтинги Dapp",
@@ -2139,12 +2140,12 @@
     "recents": "Последние",
     "results": "Результаты",
     "qr": {
-      "title": "Отправь через QR-код",
+      "title": "Отправить с помощью QR-кода",
       "subtitle": "Нажмите, чтобы отсканировать или показать адрес"
     },
     "invite": {
       "title": "Отправить контакту",
-      "subtitle": "Отправляй средства своим контактам"
+      "subtitle": "Отправить средства своим контактам"
     },
     "jumpstart": {
       "title": "Отправить по прямой ссылке",
@@ -2300,26 +2301,26 @@
     "claimRewardTitle": "Получено",
     "claimRewardSubtitle": "из пула {{txAppName}}",
     "claimRewardSubtitle_noTxAppName": "из неизвестного приложения",
-    "allTransactionsShown": "Ты дошел до конца своей истории транзакций.",
+    "allTransactionsShown": "Вы достигли конца истории транзакций.",
     "fetchErrorRetry": "Повторить попытку",
     "error": {
-      "fetchError": "Упс, возникла проблема с обновлением твоей ленты. Твоя история транзакций может быть пока неполной."
+      "fetchError": "К сожалению, произошла ошибка при обновлении ленты. Ваша история транзакций может быть не полной."
     },
-    "noTransactions": "Поздравляю, ты успешно создал кошелек {{appName}} !"
+    "noTransactions": "Поздравляем, вы успешно создали кошелек {{appName}}!"
   },
   "transactionDetails": {
     "descriptionLabel": "Подробности",
     "depositTitle": "Депонировано",
     "depositSubtitle": "Депонировано {{tokenSymbol}} в пул {{txAppName}}",
-    "depositSubtitle_noTxAppName": "Поместил {{tokenSymbol}} на неизвестное приложение",
+    "depositSubtitle_noTxAppName": "{{tokenSymbol}} внесен в неизвестное приложение",
     "depositDetails": "Вложенная сумма",
     "withdrawTitle": "Выведено",
     "withdrawSubtitle": "Выведено {{tokenSymbol}} из пула {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Выведи {{tokenSymbol}} из неизвестного приложения",
+    "withdrawSubtitle_noTxAppName": "{{tokenSymbol}} выведен из неизвестного приложения",
     "withdrawDetails": "Сумма выведено",
     "claimRewardTitle": "Получено",
     "claimRewardSubtitle": "Получено {{tokenSymbol}} из пула {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Собрал {{tokenSymbol}} из неизвестного приложения",
+    "claimRewardSubtitle_noTxAppName": "{{tokenSymbol}} получен из неизвестного приложения",
     "claimRewardDetails": "Полученная сумма",
     "swap": "Обмен",
     "network": "Сообщество",
@@ -2668,12 +2669,12 @@
     },
     "collect": {
       "title": "Поздравляем! Проверьте и получите свои доходы",
-      "titleClaim": "Ты будешь утверждать:",
-      "titleCollect": "Ты будешь собирать коллекцию:",
-      "titleWithdraw": "Ты собираешься отказаться от участия:",
+      "titleClaim": "Вы собираетесь запросить:",
+      "titleCollect": "Вы собираетесь получить:",
+      "titleWithdraw": "Вы собираетесь вывести:",
       "total": "ВСЕГО",
       "plus": "ПЛЮС",
-      "reward": "REWARD",
+      "reward": "ВОЗНАГРАЖДЕНИЕ",
       "rate": "Ставка (прибл.)",
       "apy": "Годовая ставка {{apy}}%",
       "fee": "Комиссия за газ",
