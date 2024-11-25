@@ -386,6 +386,7 @@
   "accountAddressLabel": "ที่อยู่บัญชี",
   "celoAmountLabel": "จำนวนเงิน (CELO)",
   "maxSymbol": "สูงสุด",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "ตรวจสอบ",
   "withdrawCeloTo": "ถอนไปยัง",
   "withdrawCeloAmount": "จำนวนเงิน (CELO)",
