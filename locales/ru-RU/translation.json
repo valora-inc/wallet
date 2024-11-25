@@ -386,6 +386,7 @@
   "accountAddressLabel": "Адрес аккаунта",
   "celoAmountLabel": "Сумма (CELO)",
   "maxSymbol": "Макс.",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Проверить",
   "withdrawCeloTo": "Вывести на",
   "withdrawCeloAmount": "Сумма (CELO)",
