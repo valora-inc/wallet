@@ -386,6 +386,7 @@
   "accountAddressLabel": "Địa chỉ tài khoản",
   "celoAmountLabel": "Số tiền (CELO)",
   "maxSymbol": "Tối đa",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Xem lại",
   "withdrawCeloTo": "Rút vào",
   "withdrawCeloAmount": "Số tiền (CELO)",
