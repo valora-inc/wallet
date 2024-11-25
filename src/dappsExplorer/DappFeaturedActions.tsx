@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Touchable from 'src/components/Touchable'
-import Wallet from 'src/icons/Wallet'
+import Reward from 'src/icons/Reward'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
@@ -73,7 +73,7 @@ export function DappFeaturedActions() {
         <FeaturedAction
           title={t('dappShortcuts.rewards.title')}
           description={t('dappShortcuts.rewards.description')}
-          Image={<Wallet />}
+          Image={<Reward />}
           onPress={handleShowRewardsShortcuts}
           style={scrollEnabled ? styles.reducedWidthCard : undefined}
         />

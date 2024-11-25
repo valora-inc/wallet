@@ -23,7 +23,6 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import TextButton from 'src/components/TextButton'
 import i18n from 'src/i18n'
-import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -83,7 +82,6 @@ function VerificationStartScreen({
       countryCallingCode: country?.countryCallingCode || '',
     })
 
-    dispatch(setHasSeenVerificationNux(true))
     navigate(Screens.VerificationCodeInputScreen, {
       registrationStep: showSteps ? { step, totalSteps } : undefined,
       e164Number: phoneNumberInfo.e164Number,
@@ -92,7 +90,6 @@ function VerificationStartScreen({
   }
 
   const onPressSkip = () => {
-    dispatch(setHasSeenVerificationNux(true))
     AppAnalytics.track(PhoneVerificationEvents.phone_verification_skip_confirm)
     goToNextOnboardingScreen({
       firstScreenInCurrentStep: Screens.VerificationStartScreen,
