@@ -386,6 +386,7 @@
   "accountAddressLabel": "Endereço de Conta",
   "celoAmountLabel": "Quantia (CELO)",
   "maxSymbol": "Máx.",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Revisar",
   "withdrawCeloTo": "Para",
   "withdrawCeloAmount": "Quantia (CELO)",
