@@ -3,20 +3,17 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { SendEvents } from 'src/analytics/Events'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
-import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import { mockCeloTokenBalance, mockCusdTokenBalance, mockUSDCTokenId } from 'test/values'
 import TokenEnterAmount, {
   APPROX_SYMBOL,
   formatNumber,
-  getReadableLocalAmount,
-  getReadableTokenAmount,
+  getDisplayLocalAmount,
+  getDisplayTokenAmount,
   useEnterAmount,
 } from './TokenEnterAmount'
 
@@ -52,94 +49,91 @@ describe('TokenEnterAmount', () => {
     toggleAmountType: mockToggleAmountType,
     onOpenTokenPicker: mockOnOpenTokenPicker,
     editable: true,
-    testID: 'tokenEnterAmount',
+    testID: 'TokenEnterAmount',
   }
 
-  describe.each([
-    { decimal: '.', group: ',' },
-    { decimal: ',', group: '.' },
-  ])('with decimal separator "$decimal" and group separator "$group"', ({ decimal, group }) => {
-    beforeEach(() => {
-      jest.mocked(getNumberFormatSettings).mockReturnValue({
-        decimalSeparator: decimal,
-        groupingSeparator: group,
-      })
-    })
+  it('properly formats amounts with decimal separator "." and group separator ","', () => {
+    jest
+      .mocked(getNumberFormatSettings)
+      .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
 
-    const replaceSeparators = (value: string) =>
-      value.replace(/\./g, '|').replace(/,/g, group).replace(/\|/g, decimal)
+    expect(formatNumber('')).toBe('')
+    expect(formatNumber('123')).toBe('123')
+    expect(formatNumber('1234')).toBe('1,234')
+    expect(formatNumber('1234567')).toBe('1,234,567')
+    expect(formatNumber('1234567.12345')).toBe('1,234,567.12345')
+    expect(formatNumber('123456789012345')).toBe('123,456,789,012,345')
+    expect(formatNumber('12.34567')).toBe('12.34567')
+    expect(formatNumber('-1234567.89')).toBe('-1,234,567.89')
+    expect(formatNumber('1234abc')).toBe('1,234abc')
+    expect(formatNumber('1234.56abc')).toBe('1,234.56abc')
 
-    it('properly groups numbers', () => {
-      expect(formatNumber('')).toBe('')
-      expect(formatNumber('123')).toBe(replaceSeparators('123'))
-      expect(formatNumber('1234')).toBe(replaceSeparators('1,234'))
-      expect(formatNumber('1234567')).toBe(replaceSeparators('1,234,567'))
-      expect(formatNumber('1234567.12345')).toBe(replaceSeparators('1,234,567.12345'))
-      expect(formatNumber('123456789012345')).toBe(replaceSeparators('123,456,789,012,345'))
-      expect(formatNumber('12.34567')).toBe(replaceSeparators('12.34567'))
-      expect(formatNumber('-1234567.89')).toBe(replaceSeparators('-1,234,567.89'))
-      expect(formatNumber('1234abc')).toBe(replaceSeparators('1,234abc'))
-      expect(formatNumber('1234.56xyz')).toBe(replaceSeparators('1,234.56xyz'))
-    })
+    const { token } = defaultProps
+    expect(getDisplayTokenAmount(null, token)).toBe('')
+    expect(getDisplayTokenAmount(new BigNumber(0), token)).toBe('')
+    expect(getDisplayTokenAmount(new BigNumber('0.0000001'), token)).toBe('<0.000001 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('0.0001'), token)).toBe('0.0001 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('12.01'), token)).toBe('12.01 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('12.00000001'), token)).toBe('12 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('123.5678915'), token)).toBe('123.567892 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('1234.567891234'), token)).toBe('1,234.567891 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('1234567.123456'), token)).toBe(
+      '1,234,567.123456 CELO'
+    )
 
-    it('properly rounds token amounts', () => {
-      expect(getReadableTokenAmount(null, defaultProps.token)).toBe(replaceSeparators(''))
-      expect(getReadableTokenAmount(new BigNumber(0), defaultProps.token)).toBe(
-        replaceSeparators('')
-      )
-      expect(getReadableTokenAmount(new BigNumber('0.0000001'), defaultProps.token)).toBe(
-        replaceSeparators('<0.000001 CELO')
-      )
-      expect(getReadableTokenAmount(new BigNumber('0.0001'), defaultProps.token)).toBe(
-        replaceSeparators('0.0001 CELO')
-      )
-      expect(getReadableTokenAmount(new BigNumber('12.01'), defaultProps.token)).toBe(
-        replaceSeparators('12.01 CELO')
-      )
-      expect(getReadableTokenAmount(new BigNumber('12.00000001'), defaultProps.token)).toBe(
-        replaceSeparators('12 CELO')
-      )
-      expect(getReadableTokenAmount(new BigNumber('123.5678915'), defaultProps.token)).toBe(
-        replaceSeparators('123.567892 CELO')
-      )
-      expect(getReadableTokenAmount(new BigNumber('1234.567891234'), defaultProps.token)).toBe(
-        replaceSeparators('1,234.567891 CELO')
-      )
-      expect(getReadableTokenAmount(new BigNumber('1234567.123456'), defaultProps.token)).toBe(
-        replaceSeparators('1,234,567.123456 CELO')
-      )
-    })
+    const USD = LocalCurrencySymbol['USD']
+    expect(getDisplayLocalAmount(null, USD)).toBe('')
+    expect(getDisplayLocalAmount(new BigNumber(0), USD)).toBe('')
+    expect(getDisplayLocalAmount(new BigNumber('0.0000001'), USD)).toBe('<$0.000001')
+    expect(getDisplayLocalAmount(new BigNumber('0.0001'), USD)).toBe('$0.0001')
+    expect(getDisplayLocalAmount(new BigNumber('0.00789'), USD)).toBe('$0.008')
+    expect(getDisplayLocalAmount(new BigNumber('12.001'), USD)).toBe('$12.00')
+    expect(getDisplayLocalAmount(new BigNumber('12.01'), USD)).toBe('$12.01')
+    expect(getDisplayLocalAmount(new BigNumber('123.5678'), USD)).toBe('$123.57')
+    expect(getDisplayLocalAmount(new BigNumber('1234.5678'), USD)).toBe('$1,234.57')
+    expect(getDisplayLocalAmount(new BigNumber('1234567.5678'), USD)).toBe('$1,234,567.57')
+  })
 
-    it('proprly rounds local amount', () => {
-      expect(getReadableLocalAmount(null, LocalCurrencySymbol['USD'])).toBe(replaceSeparators(''))
-      expect(getReadableLocalAmount(new BigNumber(0), LocalCurrencySymbol['USD'])).toBe(
-        replaceSeparators('')
-      )
-      expect(getReadableLocalAmount(new BigNumber('0.0000001'), LocalCurrencySymbol['USD'])).toBe(
-        replaceSeparators('<$0.000001')
-      )
-      expect(getReadableLocalAmount(new BigNumber('0.0001'), LocalCurrencySymbol['USD'])).toBe(
-        replaceSeparators('$0.0001')
-      )
-      expect(getReadableLocalAmount(new BigNumber('0.00789'), LocalCurrencySymbol['USD'])).toBe(
-        replaceSeparators('$0.008')
-      )
-      expect(getReadableLocalAmount(new BigNumber('12.001'), LocalCurrencySymbol['USD'])).toBe(
-        replaceSeparators('$12.00')
-      )
-      expect(getReadableLocalAmount(new BigNumber('12.01'), LocalCurrencySymbol['USD'])).toBe(
-        replaceSeparators('$12.01')
-      )
-      expect(getReadableLocalAmount(new BigNumber('123.5678'), LocalCurrencySymbol['USD'])).toBe(
-        replaceSeparators('$123.57')
-      )
-      expect(getReadableLocalAmount(new BigNumber('1234.5678'), LocalCurrencySymbol['USD'])).toBe(
-        replaceSeparators('$1,234.57')
-      )
-      expect(
-        getReadableLocalAmount(new BigNumber('1234567.5678'), LocalCurrencySymbol['USD'])
-      ).toBe(replaceSeparators('$1,234,567.57'))
-    })
+  it('properly formats amounts with decimal separator "," and group separator "."', () => {
+    jest
+      .mocked(getNumberFormatSettings)
+      .mockReturnValue({ decimalSeparator: ',', groupingSeparator: '.' })
+
+    expect(formatNumber('')).toBe('')
+    expect(formatNumber('123')).toBe('123')
+    expect(formatNumber('1234')).toBe('1.234')
+    expect(formatNumber('1234567')).toBe('1.234.567')
+    expect(formatNumber('1234567.12345')).toBe('1.234.567,12345')
+    expect(formatNumber('123456789012345')).toBe('123.456.789.012.345')
+    expect(formatNumber('12.34567')).toBe('12,34567')
+    expect(formatNumber('-1234567.89')).toBe('-1.234.567,89')
+    expect(formatNumber('1234abc')).toBe('1.234abc')
+    expect(formatNumber('1234.56abc')).toBe('1.234,56abc')
+
+    const { token } = defaultProps
+    expect(getDisplayTokenAmount(null, token)).toBe('')
+    expect(getDisplayTokenAmount(new BigNumber(0), token)).toBe('')
+    expect(getDisplayTokenAmount(new BigNumber('0.0000001'), token)).toBe('<0,000001 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('0.0001'), token)).toBe('0,0001 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('12.01'), token)).toBe('12,01 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('12.00000001'), token)).toBe('12 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('123.5678915'), token)).toBe('123,567892 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('1234.567891234'), token)).toBe('1.234,567891 CELO')
+    expect(getDisplayTokenAmount(new BigNumber('1234567.123456'), token)).toBe(
+      '1.234.567,123456 CELO'
+    )
+
+    const USD = LocalCurrencySymbol['USD']
+    expect(getDisplayLocalAmount(null, USD)).toBe('')
+    expect(getDisplayLocalAmount(new BigNumber(0), USD)).toBe('')
+    expect(getDisplayLocalAmount(new BigNumber('0.0000001'), USD)).toBe('<$0,000001')
+    expect(getDisplayLocalAmount(new BigNumber('0.0001'), USD)).toBe('$0,0001')
+    expect(getDisplayLocalAmount(new BigNumber('0.00789'), USD)).toBe('$0,008')
+    expect(getDisplayLocalAmount(new BigNumber('12.001'), USD)).toBe('$12,00')
+    expect(getDisplayLocalAmount(new BigNumber('12.01'), USD)).toBe('$12,01')
+    expect(getDisplayLocalAmount(new BigNumber('123.5678'), USD)).toBe('$123,57')
+    expect(getDisplayLocalAmount(new BigNumber('1234.5678'), USD)).toBe('$1.234,57')
+    expect(getDisplayLocalAmount(new BigNumber('1234567.5678'), USD)).toBe('$1.234.567,57')
   })
 
   describe('useEnterAmount', () => {
@@ -147,6 +141,7 @@ describe('TokenEnterAmount', () => {
       jest.mocked(convertTokenToLocalAmount).mockReturnValue(new BigNumber(0))
       const { result } = renderHook(() =>
         useEnterAmount({
+          inputRef: { current: null },
           token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
         })
       )
@@ -164,6 +159,7 @@ describe('TokenEnterAmount', () => {
         )
       const { result } = renderHook(() =>
         useEnterAmount({
+          inputRef: { current: null },
           token: { symbol: 'USDC', decimals: 6, tokenId: mockUSDCTokenId } as TokenBalance,
         })
       )
@@ -196,6 +192,7 @@ describe('TokenEnterAmount', () => {
         )
       const { result } = renderHook(() =>
         useEnterAmount({
+          inputRef: { current: null },
           token: { symbol: 'USDC', decimals: 6, tokenId: mockUSDCTokenId } as TokenBalance,
         })
       )
@@ -222,6 +219,7 @@ describe('TokenEnterAmount', () => {
     it('handles token input change correctly', async () => {
       const { result } = renderHook(() =>
         useEnterAmount({
+          inputRef: { current: null },
           token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
         })
       )
@@ -236,6 +234,7 @@ describe('TokenEnterAmount', () => {
     it('toggles amount type correctly', async () => {
       const { result } = renderHook(() =>
         useEnterAmount({
+          inputRef: { current: null },
           token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
         })
       )
@@ -246,47 +245,9 @@ describe('TokenEnterAmount', () => {
 
       expect(result.current.amountType).toBe('local')
     })
-
-    it('opens token picker and executes analytics track call', async () => {
-      const { result } = renderHook(() =>
-        useEnterAmount({
-          token: {
-            tokenId: '1',
-            address: '0x00',
-            networkId: NetworkId['celo-mainnet'],
-          } as TokenBalance,
-        })
-      )
-
-      await act(() => {
-        result.current.onOpenTokenPicker()
-      })
-
-      expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.token_dropdown_opened, {
-        currentTokenId: '1',
-        currentTokenAddress: '0x00',
-        currentNetworkId: NetworkId['celo-mainnet'],
-      })
-    })
   })
 
   describe('component', () => {
-    it('renders without crashing', () => {
-      const store = createMockStore(mockStore)
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <TokenEnterAmount
-            {...defaultProps}
-            inputValue="1234.5678"
-            tokenAmount="1,234.5678"
-            localAmount="$123.57"
-            amountType="token"
-          />
-        </Provider>
-      )
-      expect(getByTestId('tokenEnterAmount')).toBeTruthy()
-    })
-
     it('displays the correct token information', () => {
       const store = createMockStore(mockStore)
       const { getByText, getByTestId } = render(
@@ -300,12 +261,11 @@ describe('TokenEnterAmount', () => {
           />
         </Provider>
       )
-      expect(getByTestId('tokenEnterAmount/TokenName')).toBeTruthy()
+      expect(getByTestId('TokenEnterAmount/TokenName')).toHaveTextContent('CELO on Celo Alfajores')
       expect(getByText('CELO on Celo Alfajores')).toBeTruthy()
-      expect(getByTestId('tokenEnterAmount/SwitchTokens')).toBeTruthy()
-      expect(getByTestId('tokenEnterAmount/TokenSelect')).toBeTruthy()
-      expect(getByTestId('tokenEnterAmount/TokenBalance')).toBeTruthy()
-      expect(getByTestId('tokenEnterAmount/TokenBalance').props.children.props.i18nKey).toBe(
+      expect(getByTestId('TokenEnterAmount/SwitchTokens')).toBeTruthy()
+      expect(getByTestId('TokenEnterAmount/TokenSelect')).toBeTruthy()
+      expect(getByTestId('TokenEnterAmount/TokenBalance')).toHaveTextContent(
         'tokenEnterAmount.availableBalance'
       )
     })
@@ -323,11 +283,11 @@ describe('TokenEnterAmount', () => {
           />
         </Provider>
       )
-      const input = getByTestId('tokenEnterAmount/TokenAmountInput')
-      const converted = getByTestId('tokenEnterAmount/ExchangeAmount')
+      const input = getByTestId('TokenEnterAmount/TokenAmountInput')
+      const converted = getByTestId('TokenEnterAmount/ExchangeAmount')
       expect(input.props.value).toBe('1,234.5678')
       expect(converted.props.children).toBe(`${APPROX_SYMBOL} $123.57`)
-      fireEvent.press(getByTestId('tokenEnterAmount/SwitchTokens'))
+      fireEvent.press(getByTestId('TokenEnterAmount/SwitchTokens'))
 
       // simulate call of toggleAmountType
       rerender(
@@ -360,7 +320,7 @@ describe('TokenEnterAmount', () => {
         </Provider>
       )
 
-      const input = getByTestId('tokenEnterAmount/TokenAmountInput')
+      const input = getByTestId('TokenEnterAmount/TokenAmountInput')
       fireEvent.changeText(input, '15')
       expect(mockOnInputChange).toHaveBeenCalledWith('15')
     })
@@ -378,8 +338,8 @@ describe('TokenEnterAmount', () => {
           />
         </Provider>
       )
-      const toggleButton = getByTestId('tokenEnterAmount/SwitchTokens')
 
+      const toggleButton = getByTestId('TokenEnterAmount/SwitchTokens')
       fireEvent.press(toggleButton)
       expect(mockToggleAmountType).toHaveBeenCalledTimes(1)
     })
@@ -397,7 +357,7 @@ describe('TokenEnterAmount', () => {
           />
         </Provider>
       )
-      const tokenPicker = getByTestId('tokenEnterAmount/TokenSelect')
+      const tokenPicker = getByTestId('TokenEnterAmount/TokenSelect')
 
       fireEvent.press(tokenPicker)
       expect(mockOnOpenTokenPicker).toHaveBeenCalledTimes(1)
@@ -433,7 +393,7 @@ describe('TokenEnterAmount', () => {
           />
         </Provider>
       )
-      const input = getByTestId('tokenEnterAmount/TokenAmountInput')
+      const input = getByTestId('TokenEnterAmount/TokenAmountInput')
 
       expect(input.props.editable).toBe(false)
     })
@@ -468,7 +428,7 @@ describe('TokenEnterAmount', () => {
           />
         </Provider>
       )
-      const exchangeAmount = getByTestId('tokenEnterAmount/ExchangeAmount')
+      const exchangeAmount = getByTestId('TokenEnterAmount/ExchangeAmount')
       expect(exchangeAmount.props.children).toBe(`${APPROX_SYMBOL} $123.57`)
     })
   })

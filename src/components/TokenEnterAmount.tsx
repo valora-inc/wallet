@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
   Platform,
@@ -11,9 +11,6 @@ import {
   View,
 } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { SendEvents } from 'src/analytics/Events'
-import { type BottomSheetModalRefType } from 'src/components/BottomSheet'
 import TextInput from 'src/components/TextInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -57,7 +54,7 @@ export function formatNumber(value: string) {
  * This function returns complete formatted value for a token (crypto) amount when it is being a
  * converted value (in "ExchangeAmount" element).
  */
-export function getReadableTokenAmount(bignum: BigNumber | null, token: TokenBalance) {
+export function getDisplayTokenAmount(bignum: BigNumber | null, token: TokenBalance) {
   const { decimalSeparator } = getNumberFormatSettings()
   if (bignum === null || bignum.isZero()) {
     return ''
@@ -67,15 +64,15 @@ export function getReadableTokenAmount(bignum: BigNumber | null, token: TokenBal
     return `<0${decimalSeparator}000001 ${token.symbol}`
   }
 
-  const grouped = formatNumber(bignum.decimalPlaces(6).toString())
-  return `${grouped} ${token.symbol}`
+  const formattedAmount = formatNumber(bignum.decimalPlaces(6).toString())
+  return `${formattedAmount} ${token.symbol}`
 }
 
 /**
  * This function returns complete formatted value for a local (fiat) amount when it is being a
  * converted value (in "ExchangeAmount" element).
  */
-export function getReadableLocalAmount(
+export function getDisplayLocalAmount(
   bignum: BigNumber | null,
   localCurrencySymbol: LocalCurrencySymbol
 ) {
@@ -88,22 +85,21 @@ export function getReadableLocalAmount(
     return `<${localCurrencySymbol}0${decimalSeparator}000001`
   }
 
-  const rounded = bignum.isLessThan(0.01) ? bignum.toPrecision(1) : bignum.toFixed(2)
-  const grouped = formatNumber(rounded.toString())
-  return `${localCurrencySymbol}${grouped}`
+  const roundedAmount = bignum.isLessThan(0.01) ? bignum.toPrecision(1) : bignum.toFixed(2)
+  const formattedAmount = formatNumber(roundedAmount.toString())
+  return `${localCurrencySymbol}${formattedAmount}`
 }
 
 /**
  * This hook is only used in tandem with `TokenEnterAmount` component. It provides all the necessary
- * variables and handlers manage "enter amount" functionality, including rate calculations.
+ * variables and handlers that manage "enter amount" functionality, including rate calculations.
  */
 export function useEnterAmount(props: {
   token: TokenBalance
+  inputRef: React.RefObject<RNTextInput>
   onSelectToken?: (token: TokenBalance) => void
 }) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
-  const inputRef = useRef<RNTextInput>(null)
-  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const [amount, setAmount] = useState('')
   const [amountType, setAmountType] = useState<AmountEnteredIn>('token')
 
@@ -155,12 +151,12 @@ export function useEnterAmount(props: {
         token: {
           amount: amountRaw,
           bignum: parsedTokenAmount,
-          readable: getReadableTokenAmount(parsedTokenAmount, props.token),
+          readable: getDisplayTokenAmount(parsedTokenAmount, props.token),
         },
         local: {
           amount: convertedTokenToLocal,
           bignum: tokenToLocal,
-          readable: getReadableLocalAmount(tokenToLocal, localCurrencySymbol),
+          readable: getDisplayLocalAmount(tokenToLocal, localCurrencySymbol),
         },
       }
     }
@@ -190,35 +186,20 @@ export function useEnterAmount(props: {
       token: {
         amount: convertedLocalToToken,
         bignum: parsedTokenAmount,
-        readable: getReadableTokenAmount(parsedTokenAmount, props.token),
+        readable: getDisplayTokenAmount(parsedTokenAmount, props.token),
       },
       local: {
         amount: parsedLocalAmount?.toFixed(2) ?? '',
         bignum: parsedLocalAmount,
-        readable: getReadableLocalAmount(parsedLocalAmount, localCurrencySymbol),
+        readable: getDisplayLocalAmount(parsedLocalAmount, localCurrencySymbol),
       },
     }
   }, [amountRaw, amountType, localCurrencySymbol])
 
-  function onOpenTokenPicker() {
-    bottomSheetRef.current?.snapToIndex(0)
-    AppAnalytics.track(SendEvents.token_dropdown_opened, {
-      currentTokenId: props.token.tokenId,
-      currentTokenAddress: props.token.address,
-      currentNetworkId: props.token.networkId,
-    })
-  }
-
   function handleToggleAmountType() {
     setAmountType((prev) => (prev === 'local' ? 'token' : 'local'))
     setAmount(amountType === 'token' ? derived.local.amount || '' : derived.token.amount)
-    inputRef.current?.blur()
-  }
-
-  function onSelectToken(token: TokenBalance) {
-    props.onSelectToken?.(token)
-    setAmount('')
-    bottomSheetRef.current?.close()
+    props.inputRef.current?.blur()
   }
 
   function handleAmountInputChange(val: string) {
@@ -256,12 +237,7 @@ export function useEnterAmount(props: {
     amount: amountRaw,
     amountType,
     derived,
-    inputRef,
-    bottomSheetRef,
-
-    onOpenTokenPicker,
     handleToggleAmountType,
-    onSelectToken,
     handleAmountInputChange,
   }
 }
