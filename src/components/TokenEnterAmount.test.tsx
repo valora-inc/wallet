@@ -163,6 +163,7 @@ describe('TokenEnterAmount', () => {
           decimals: 6,
           tokenId: mockUSDCTokenId,
           priceUsd: new BigNumber(1.001),
+          balance: new BigNumber(1500.76),
         } as TokenBalance,
       })
 
@@ -181,6 +182,7 @@ describe('TokenEnterAmount', () => {
           amount: '1235.91',
           bignum: new BigNumber('1235.912678'),
           displayAmount: '$1,235.91',
+          balance: new BigNumber('1502.26076'),
         },
       })
     })
@@ -193,6 +195,7 @@ describe('TokenEnterAmount', () => {
           decimals: 6,
           tokenId: mockUSDCTokenId,
           priceUsd: new BigNumber(1.001),
+          balance: new BigNumber(1500.76),
         } as TokenBalance,
       })
 
@@ -206,6 +209,7 @@ describe('TokenEnterAmount', () => {
           amount: '1234.67',
           bignum: new BigNumber('1234.67'),
           displayAmount: '$1,234.67',
+          balance: new BigNumber('1502.26076'),
         },
         token: {
           amount: '1233.436563',

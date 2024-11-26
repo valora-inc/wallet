@@ -121,7 +121,7 @@ export default function EnterAmount({
     amount,
     setAmount,
     amountType,
-    derived,
+    processedAmounts,
     handleAmountInputChange,
     handleToggleAmountType,
   } = useEnterAmount({
@@ -149,8 +149,14 @@ export default function EnterAmount({
   }
 
   const onSelectPercentageAmount = (percentage: number) => {
-    handleToggleAmountType('token')
-    setAmount(token.balance.multipliedBy(percentage).toString())
+    const balance =
+      amountType === 'token' ? token.balance : processedAmounts.local.balance?.decimalPlaces(2)
+    if (!balance) {
+      return
+    }
+
+    const percentageAmount = balance.multipliedBy(percentage).toString()
+    setAmount(percentageAmount)
     setSelectedPercentage(percentage)
 
     AppAnalytics.track(SendEvents.send_percentage_selected, {
@@ -162,18 +168,10 @@ export default function EnterAmount({
     })
   }
 
-  //   tokenAmountInputRef.current?.blur()
-  //   AppAnalytics.track(SendEvents.max_pressed, {
-  //     tokenId: token.tokenId,
-  //     tokenAddress: token.address,
-  //     networkId: token.networkId,
-  //   })
-  // }
-
-  console.log(derived.token.bignum)
-  const isAmountLessThanBalance = derived.token.bignum && derived.token.bignum.lte(token.balance)
+  const isAmountLessThanBalance =
+    processedAmounts.token.bignum && processedAmounts.token.bignum.lte(token.balance)
   const showLowerAmountError =
-    derived.token.bignum && !isAmountLessThanBalance && !disableBalanceCheck
+    processedAmounts.token.bignum && !isAmountLessThanBalance && !disableBalanceCheck
   const showMaxAmountWarning =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -190,25 +188,25 @@ export default function EnterAmount({
 
   const disabled =
     disableProceed ||
-    (disableBalanceCheck ? !!derived.token.bignum?.isZero() : !transactionIsPossible)
+    (disableBalanceCheck ? !!processedAmounts.token.bignum?.isZero() : !transactionIsPossible)
 
   useEffect(
     function refreshPreparedTransactions() {
       onClearPreparedTransactions()
 
       if (
-        !derived.token.bignum ||
-        derived.token.bignum.isLessThanOrEqualTo(0) ||
-        derived.token.bignum.isGreaterThan(token.balance)
+        !processedAmounts.token.bignum ||
+        processedAmounts.token.bignum.isLessThanOrEqualTo(0) ||
+        processedAmounts.token.bignum.isGreaterThan(token.balance)
       ) {
         return
       }
       const debouncedRefreshTransactions = setTimeout(() => {
-        return onRefreshPreparedTransactions(derived.token.bignum!, token, feeCurrencies)
+        return onRefreshPreparedTransactions(processedAmounts.token.bignum!, token, feeCurrencies)
       }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
       return () => clearTimeout(debouncedRefreshTransactions)
     },
-    [derived.token.bignum, token]
+    [processedAmounts.token.bignum, token]
   )
 
   return (
@@ -233,8 +231,8 @@ export default function EnterAmount({
             token={token}
             inputValue={amount}
             inputRef={inputRef}
-            tokenAmount={derived.token.readable}
-            localAmount={derived.local.readable}
+            tokenAmount={processedAmounts.token.displayAmount}
+            localAmount={processedAmounts.local.displayAmount}
             onInputChange={handleAmountInputChange}
             amountType={amountType}
             toggleAmountType={handleToggleAmountType}
@@ -326,8 +324,16 @@ export default function EnterAmount({
         />
 
         <ProceedComponent
-          tokenAmount={derived.token.bignum}
-          localAmount={derived.local.bignum}
+          tokenAmount={
+            amountType === 'local' && selectedPercentage === 1
+              ? token.balance
+              : processedAmounts.token.bignum
+          }
+          localAmount={
+            amountType === 'local' && selectedPercentage === 1
+              ? processedAmounts.local.balance
+              : processedAmounts.local.bignum
+          }
           token={token}
           amountEnteredIn={amountType}
           onPressProceed={onPressProceed}

@@ -96,6 +96,7 @@ export function getDisplayLocalAmount(
 export function useEnterAmount(props: {
   token: TokenBalance
   inputRef: React.RefObject<RNTextInput>
+  onAmountChange?(value: string): void
 }) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   const [amount, setAmount] = useState('')
@@ -121,17 +122,28 @@ export function useEnterAmount(props: {
    * This field consists of two values: token and local. Both values represent calculated values for the
    * corresponding amount type. Whenever we change token amount - we  need to recalculate both token and
    * local amounts. Each object consists of:
-   *   - "amount" - this is the actual value, formatted to the unified format without any groupings
+   *   - `amount` - this is the actual value, formatted to the unified format without any groupings
    *     and with a point as a decimal separator, format example: "1234.5678" (as per "amountRaw" value above)
-   *   - "bignum" - this is a BigNumber representation of the "amount" field. Necessary for easier
+   *   - `bignum` - this is a BigNumber representation of the "amount" field. Necessary for easier
    *     condition checks and various processing things.
-   *   - "displayAmount" - this is a read-only component-friendly value that contains all of the necessary
+   *   - `displayAmount` - this is a read-only component-friendly value that contains all of the necessary
    *     formatting, including: grouping, decimals, token symbol/fiat sign, small amounts format. This
    *     value is only necessary to be passed to TokenEnterAmount component fields as:
-   *       - token.displayAmount -> tokenAmount
-   *       - local.displayAmount -> localAmount
+   *       - `token.displayAmount` -> `tokenDisplayAmount`
+   *       - `local.displayAmount` -> `localDisplayAmount`
+   *
+   *  `local` also includes the following fields:
+   *   - `balance` - this is a field representing fiat balance of the token. We don't duplicate the same
+   *     field to `token` as we can already get it from `props.token` and don't want to have multiple
+   *     sources of truth for the token balance. This field is  used whenever `max` option is used.
    */
   const processedAmounts = useMemo(() => {
+    const localBalance = convertTokenToLocalAmount({
+      tokenAmount: props.token.balance,
+      tokenInfo: props.token,
+      usdToLocalRate,
+    })
+
     if (amountType === 'token') {
       const parsedTokenAmount = amountRaw === '' ? null : parseInputAmount(amountRaw)
 
@@ -154,6 +166,7 @@ export function useEnterAmount(props: {
           amount: convertedTokenToLocal,
           bignum: tokenToLocal,
           displayAmount: getDisplayLocalAmount(tokenToLocal, localCurrencySymbol),
+          balance: localBalance,
         },
       }
     }
@@ -189,6 +202,7 @@ export function useEnterAmount(props: {
         amount: parsedLocalAmount?.toFixed(2) ?? '',
         bignum: parsedLocalAmount,
         displayAmount: getDisplayLocalAmount(parsedLocalAmount, localCurrencySymbol),
+        balance: localBalance,
       },
     }
   }, [amountRaw, amountType, localCurrencySymbol])
@@ -206,6 +220,7 @@ export function useEnterAmount(props: {
 
     if (!value) {
       setAmount('')
+      props.onAmountChange?.('')
       return
     }
 
@@ -228,6 +243,7 @@ export function useEnterAmount(props: {
       (amountType === 'local' && value.match(localAmountRegex))
     ) {
       setAmount(value)
+      props.onAmountChange?.(value)
       return
     }
   }

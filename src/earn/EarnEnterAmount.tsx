@@ -2,7 +2,16 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, Platform, TextInput as RNTextInput, StyleSheet, Text, View } from 'react-native'
+import {
+  Keyboard,
+  Platform,
+  TextInput as RNTextInput,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+} from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
