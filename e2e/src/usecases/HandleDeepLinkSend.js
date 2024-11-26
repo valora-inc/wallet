@@ -1,3 +1,4 @@
+import jestExpect from 'expect'
 import { E2E_TEST_FAUCET } from '../../scripts/consts'
 import { launchApp, reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, waitForElementByIdAndTap, waitForElementId } from '../utils/utils'
@@ -16,6 +17,12 @@ const launchDeepLink = async ({ url, newInstance = true }) => {
   })
 }
 
+const getFiatValue = async () => {
+  const sentAmountFiatElement = await element(by.id('SendAmountFiat')).getAttributes()
+  const sentAmountFiatValue = +sentAmountFiatElement.label.match(/(\d+\.\d+)/)[1]
+  return sentAmountFiatValue
+}
+
 const openDeepLink = async (payUrl) => {
   await reloadReactNative()
   await device.openURL({ url: payUrl })
@@ -30,9 +37,10 @@ export default HandleDeepLinkSend = () => {
       await waitFor(element(by.id('SendAmount')))
         .toHaveText('0.01 cUSD')
         .withTimeout(10 * 1000)
-      await waitFor(element(by.id('SendAmountFiat')))
-        .toHaveText('$0.01')
-        .withTimeout(10 * 1000)
+
+      // Use jestExpect as 0.01 cUSD does not always equal 0.01 USD.
+      jestExpect(await getFiatValue()).toBeCloseTo(0.01)
+
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
@@ -88,9 +96,10 @@ export default HandleDeepLinkSend = () => {
       await waitFor(element(by.id('SendAmount')))
         .toHaveText('0.01 cUSD')
         .withTimeout(10 * 1000)
-      await waitFor(element(by.id('SendAmountFiat')))
-        .toHaveText('$0.01')
-        .withTimeout(10 * 1000)
+
+      // Use jestExpect as 0.01 cUSD does not always equal 0.01 USD.
+      jestExpect(await getFiatValue()).toBeCloseTo(0.01)
+
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
@@ -118,9 +127,10 @@ export default HandleDeepLinkSend = () => {
       await waitFor(element(by.id('SendAmount')))
         .toHaveText('0.01 cUSD')
         .withTimeout(10 * 1000)
-      await waitFor(element(by.id('SendAmountFiat')))
-        .toHaveText('$0.01')
-        .withTimeout(10 * 1000)
+
+      // Use jestExpect as 0.01 cUSD does not always equal 0.01 USD.
+      jestExpect(await getFiatValue()).toBeCloseTo(0.01)
+
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
