@@ -252,13 +252,13 @@ describe('EnterAmount', () => {
 
       changeAmount('10000.5')
       expect(amount.props.value).toBe(replaceSeparators('10,000.5'))
-      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} ₱1,330.07`))
+      expect(exchangedAmount).toHaveTextContent(replaceSeparators(`${APPROX_SYMBOL} ₱1,330.07`))
 
       // switch to fiat
       switchTokens()
       changeAmount('1000.5')
       expect(amount.props.value).toBe(replaceSeparators(`₱1,000.5`))
-      expect(exchangedAmount.props.children).toBe(
+      expect(exchangedAmount).toHaveTextContent(
         replaceSeparators(`${APPROX_SYMBOL} 7,522.556391 POOF`)
       )
     })
@@ -323,13 +323,13 @@ describe('EnterAmount', () => {
 
       changeAmount('10.5')
       expect(amount.props.value).toBe(replaceSeparators('10.5'))
-      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} ₱1.40`))
+      expect(exchangedAmount).toHaveTextContent(replaceSeparators(`${APPROX_SYMBOL} ₱1.40`))
 
       // switch to fiat
       switchTokens()
       changeAmount('abc')
       expect(amount.props.value).toBe(replaceSeparators('₱1.40'))
-      expect(exchangedAmount.props.children).toBe(
+      expect(exchangedAmount).toHaveTextContent(
         replaceSeparators(`${APPROX_SYMBOL} 10.526316 POOF`)
       )
     })
@@ -341,12 +341,12 @@ describe('EnterAmount', () => {
       switchTokens()
       changeAmount('133')
       expect(amount.props.value).toBe(replaceSeparators('₱133'))
-      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} 1,000 POOF`))
+      expect(exchangedAmount).toHaveTextContent(replaceSeparators(`${APPROX_SYMBOL} 1,000 POOF`))
 
       // switch to token
       switchTokens()
       expect(amount.props.value).toBe(replaceSeparators('1,000'))
-      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} ₱133.00`))
+      expect(exchangedAmount).toHaveTextContent(replaceSeparators(`${APPROX_SYMBOL} ₱133.00`))
     })
 
     it('selecting max token amount applies correct decimal separator', async () => {
@@ -388,13 +388,13 @@ describe('EnterAmount', () => {
 
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '2')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('2')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} ₱0.27`
     )
 
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), text)
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(expectedTokenValue)
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} ₱0.00`
     )
 
@@ -402,15 +402,13 @@ describe('EnterAmount', () => {
     fireEvent.press(getByTestId('SendEnterAmount/SwitchTokens'))
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1.33')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('₱1.33')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 10 POOF`
     )
 
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), text)
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(expectedLocalValue)
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
-      `${APPROX_SYMBOL} 0.00`
-    )
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(`${APPROX_SYMBOL} 0.00`)
   })
 
   it('selecting new token updates token and network info', async () => {
@@ -459,7 +457,7 @@ describe('EnterAmount', () => {
 
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('1')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} ₱0.13`
     )
 
@@ -470,7 +468,7 @@ describe('EnterAmount', () => {
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('ETH')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('1')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} ₱1,995.00`
     )
   })
@@ -489,7 +487,7 @@ describe('EnterAmount', () => {
     fireEvent.press(getByTestId('SendEnterAmount/SwitchTokens'))
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('₱1')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 7.518797 POOF`
     )
 
@@ -500,7 +498,7 @@ describe('EnterAmount', () => {
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('ETH')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('₱1')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 0.000501 ETH`
     )
   })
@@ -537,7 +535,7 @@ describe('EnterAmount', () => {
     await waitFor(() => expect(getByText('Ether')).toBeTruthy())
     fireEvent.press(getByText('Ether'))
     expect(getByTestId('SendEnterAmount/ExchangeAmount')).toBeTruthy()
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} ₱0.00`
     )
 
@@ -565,13 +563,13 @@ describe('EnterAmount', () => {
     // should include 6 decimals for USDC
     fireEvent.press(getByTestId('SendEnterAmount/SwitchTokens'))
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 0.75188 USDC`
     )
 
     // should truncate trailing zeroes and decimal separator when there are no decimals
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1.33')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 1 USDC`
     )
 
@@ -581,13 +579,13 @@ describe('EnterAmount', () => {
 
     // should include 18 decimals for ETH
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '10000')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 5.012531 ETH`
     )
 
     // should truncate trailing zeroes with decimal separator
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '199.5')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 0.1 ETH`
     )
   })
