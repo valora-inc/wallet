@@ -16,6 +16,11 @@ jobs:
   balance-and-fund:
     name: balance-and-fund
     runs-on: ubuntu-latest
+    env:
+      # `if` conditions can't directly access secrets, so we use a workaround
+      # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
+      SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
+      BASH_ENV: ~/.profile
     steps:
       - uses: google-github-actions/auth@v2
         if: ${{ env.SECRETS_AVAILABLE }}
