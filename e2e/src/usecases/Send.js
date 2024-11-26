@@ -22,7 +22,7 @@ export default Send = () => {
 
   describe('When multi-token send flow to address', () => {
     beforeAll(async () => {
-      await launchApp({ newInstance: true })
+      await launchApp()
     })
 
     it('Then should navigate to send search input from home action', async () => {
@@ -93,7 +93,7 @@ export default Send = () => {
 
   describe('When multi-token send flow to recent recipient', () => {
     beforeAll(async () => {
-      await launchApp({ newInstance: true })
+      await launchApp()
     })
 
     it('Then should navigate to send search input from home action', async () => {

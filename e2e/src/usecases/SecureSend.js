@@ -27,11 +27,7 @@ export default SecureSend = () => {
         'cUSD',
         `${AMOUNT_TO_SEND * WALLET_FUNDING_MULTIPLIER}`
       )
-      // Use newly installed app to remove secure send mapping
-      await launchApp({
-        delete: true,
-        permissions: { notifications: 'YES', contacts: 'YES' },
-      })
+      await launchApp({ delete: true })
       await quickOnboarding({ mnemonic: E2E_WALLET_SINGLE_VERIFIED_MNEMONIC })
     })
 

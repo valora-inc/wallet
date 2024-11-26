@@ -7,7 +7,6 @@ export default ChooseYourAdventure = () => {
       delete: true,
       launchArgs: {
         onboardingOverrides: 'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackup',
-        statsigGateOverrides: 'show_zerion_transaction_feed=true',
       },
     })
     await quickOnboarding({ stopOnCYA: true, cloudBackupEnabled: true })

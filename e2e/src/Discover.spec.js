@@ -7,10 +7,7 @@ describe('Discover tab', () => {
     await quickOnboarding()
     // Relaunch app to ensure dapp list loads
     // Needed for e2e tests otherwise dapp list is not loaded on first pass
-    await launchApp({
-      newInstance: true,
-      permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
-    })
+    await launchApp()
     await waitForElementByIdAndTap('Tab/Discover')
 
     await scrollIntoView('View All', 'DiscoverScrollView')

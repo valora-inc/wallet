@@ -5,10 +5,7 @@ import { enterPinUi, scrollIntoView, waitForElementByIdAndTap } from '../utils/u
 
 export default RestoreAccountOnboarding = () => {
   beforeEach(async () => {
-    await launchApp({
-      delete: true,
-      permissions: { notifications: 'YES', contacts: 'YES' },
-    })
+    await launchApp({ delete: true })
   })
 
   it.each`

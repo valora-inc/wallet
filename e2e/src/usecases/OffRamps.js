@@ -3,9 +3,7 @@ import { waitForElementId } from '../utils/utils'
 
 export default offRamps = () => {
   beforeAll(async () => {
-    await launchApp({
-      newInstance: true,
-    })
+    await launchApp()
   })
   beforeEach(async () => {
     await reloadReactNative()

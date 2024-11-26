@@ -39,10 +39,8 @@ export default NewAccountOnboarding = () => {
     await sleep(5000)
     await launchApp({
       delete: true,
-      permissions: { notifications: 'YES', contacts: 'YES' },
       launchArgs: {
         onboardingOverrides: 'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackup',
-        statsigGateOverrides: 'show_zerion_transaction_feed=true',
       },
     })
     await sleep(5000)
@@ -157,7 +155,6 @@ export default NewAccountOnboarding = () => {
       delete: true,
       launchArgs: {
         onboardingOverrides: 'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackup',
-        statsigGateOverrides: 'show_zerion_transaction_feed=true',
       },
     })
     await quickOnboarding({ mnemonic: testRecoveryPhrase, cloudBackupEnabled: true })
