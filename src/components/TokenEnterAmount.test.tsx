@@ -3,12 +3,11 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
-import { LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { useTokenInfo } from 'src/tokens/hooks'
+import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
+import { RootState } from 'src/redux/reducers'
 import { TokenBalance } from 'src/tokens/slice'
-import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { createMockStore } from 'test/utils'
-import { mockCeloTokenBalance, mockCusdTokenBalance, mockUSDCTokenId } from 'test/values'
+import { mockCeloTokenBalance, mockUSDCTokenId } from 'test/values'
 import TokenEnterAmount, {
   APPROX_SYMBOL,
   formatNumber,
@@ -19,15 +18,24 @@ import TokenEnterAmount, {
 
 jest.mock('react-native-localize')
 jest.mock('src/analytics/AppAnalytics')
-jest.mock('src/redux/hooks', () => ({ useSelector: jest.fn() }))
-jest.mock('src/tokens/hooks', () => ({ useTokenInfo: jest.fn() }))
-jest.mock('src/tokens/utils', () => ({
-  convertLocalToTokenAmount: jest.fn(),
-  convertTokenToLocalAmount: jest.fn(),
-}))
 
-const mockStore = {}
+const mockStore = {
+  localCurrency: {
+    isLoading: false,
+    preferredCurrencyCode: LocalCurrencyCode['USD'],
+    fetchedCurrencyCode: LocalCurrencyCode['USD'],
+    usdToLocalRate: '1',
+  } satisfies RootState['localCurrency'],
+}
 
+const renderHookWithProvider = (props: Parameters<typeof useEnterAmount>[0]) => {
+  const store = createMockStore(mockStore)
+  return renderHook(() => useEnterAmount(props), {
+    wrapper: (component) => (
+      <Provider store={store}>{component?.children ? component.children : component}</Provider>
+    ),
+  })
+}
 describe('TokenEnterAmount', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -138,111 +146,102 @@ describe('TokenEnterAmount', () => {
 
   describe('useEnterAmount', () => {
     it('initializes with default state', () => {
-      jest.mocked(convertTokenToLocalAmount).mockReturnValue(new BigNumber(0))
-      const { result } = renderHook(() =>
-        useEnterAmount({
-          inputRef: { current: null },
-          token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
-        })
-      )
+      const { result } = renderHookWithProvider({
+        inputRef: { current: null },
+        token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
+      })
 
       expect(result.current.amount).toBe('')
       expect(result.current.amountType).toBe('token')
     })
 
     it('properly formats derived state when entering token amount', async () => {
-      jest.mocked(useTokenInfo).mockReturnValue(mockCusdTokenBalance)
-      jest
-        .mocked(convertTokenToLocalAmount)
-        .mockReturnValue(
-          new BigNumber(1234.123456).multipliedBy(mockCusdTokenBalance.priceUsd!).multipliedBy(1)
-        )
-      const { result } = renderHook(() =>
-        useEnterAmount({
-          inputRef: { current: null },
-          token: { symbol: 'USDC', decimals: 6, tokenId: mockUSDCTokenId } as TokenBalance,
-        })
-      )
-
-      await act(() => {
-        result.current.handleAmountInputChange('1234.123456')
+      const { result } = renderHookWithProvider({
+        inputRef: { current: null },
+        token: {
+          symbol: 'USDC',
+          decimals: 6,
+          tokenId: mockUSDCTokenId,
+          priceUsd: new BigNumber(1.001),
+        } as TokenBalance,
       })
 
-      expect(result.current.derived).toStrictEqual({
+      await act(() => {
+        result.current.handleAmountInputChange('1234.678')
+      })
+
+      expect(result.current.amount).toBe('1234.678')
+      expect(result.current.processedAmounts).toStrictEqual({
         token: {
-          amount: '1234.123456',
-          bignum: new BigNumber('1234.123456'),
-          readable: '1,234.123456 USDC',
+          amount: '1234.678',
+          bignum: new BigNumber('1234.678'),
+          displayAmount: '1,234.678 USDC',
         },
         local: {
-          amount: '1235.36',
-          bignum: new BigNumber('1235.357579456'),
-          readable: '$1,235.36',
+          amount: '1235.91',
+          bignum: new BigNumber('1235.912678'),
+          displayAmount: '$1,235.91',
         },
       })
     })
 
     it('properly formats derived state when entering local amount', async () => {
-      jest.mocked(useTokenInfo).mockReturnValue(mockCusdTokenBalance)
-      jest.mocked(convertTokenToLocalAmount).mockReturnValue(new BigNumber(0))
-      jest
-        .mocked(convertLocalToTokenAmount)
-        .mockReturnValue(
-          new BigNumber(1234.123456).dividedBy(1).dividedBy(mockCusdTokenBalance.priceUsd!)
-        )
-      const { result } = renderHook(() =>
-        useEnterAmount({
-          inputRef: { current: null },
-          token: { symbol: 'USDC', decimals: 6, tokenId: mockUSDCTokenId } as TokenBalance,
-        })
-      )
-
-      await act(async () => {
-        result.current.handleToggleAmountType()
-        result.current.handleAmountInputChange('1234.678')
+      const { result } = renderHookWithProvider({
+        inputRef: { current: null },
+        token: {
+          symbol: 'USDC',
+          decimals: 6,
+          tokenId: mockUSDCTokenId,
+          priceUsd: new BigNumber(1.001),
+        } as TokenBalance,
       })
 
-      expect(result.current.derived).toStrictEqual({
+      await act(async () => result.current.handleToggleAmountType())
+      await act(async () => result.current.handleAmountInputChange('1234.67'))
+      await act(async () => result.current.handleAmountInputChange('1234.678'))
+
+      expect(result.current.amount).toBe('1234.67')
+      expect(result.current.processedAmounts).toStrictEqual({
         local: {
-          amount: '1234.68',
-          bignum: new BigNumber('1234.678'),
-          readable: '$1,234.68',
+          amount: '1234.67',
+          bignum: new BigNumber('1234.67'),
+          displayAmount: '$1,234.67',
         },
         token: {
-          amount: '1232.890565',
-          bignum: new BigNumber('1232.890565'),
-          readable: '1,232.890565 USDC',
+          amount: '1233.436563',
+          bignum: new BigNumber('1233.436563'),
+          displayAmount: '1,233.436563 USDC',
         },
       })
     })
 
     it('handles token input change correctly', async () => {
-      const { result } = renderHook(() =>
-        useEnterAmount({
-          inputRef: { current: null },
-          token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
-        })
-      )
-
-      await act(() => {
-        result.current.handleAmountInputChange('1234.5678')
+      const { result } = renderHookWithProvider({
+        inputRef: { current: null },
+        token: {
+          symbol: 'ETH',
+          decimals: 18,
+          tokenId: '1',
+          priceUsd: new BigNumber(1.001),
+        } as TokenBalance,
       })
 
+      await act(() => result.current.handleAmountInputChange('1234.5678'))
       expect(result.current.amount).toBe('1234.5678')
     })
 
     it('toggles amount type correctly', async () => {
-      const { result } = renderHook(() =>
-        useEnterAmount({
-          inputRef: { current: null },
-          token: { symbol: 'ETH', decimals: 18, tokenId: '1' } as TokenBalance,
-        })
-      )
-
-      await act(() => {
-        result.current.handleToggleAmountType()
+      const { result } = renderHookWithProvider({
+        inputRef: { current: null },
+        token: {
+          symbol: 'ETH',
+          decimals: 18,
+          tokenId: '1',
+          priceUsd: new BigNumber(1.001),
+        } as TokenBalance,
       })
 
+      await act(() => result.current.handleToggleAmountType())
       expect(result.current.amountType).toBe('local')
     })
   })
@@ -250,7 +249,7 @@ describe('TokenEnterAmount', () => {
   describe('component', () => {
     it('displays the correct token information', () => {
       const store = createMockStore(mockStore)
-      const { getByText, getByTestId } = render(
+      const { getByTestId } = render(
         <Provider store={store}>
           <TokenEnterAmount
             {...defaultProps}
@@ -261,8 +260,8 @@ describe('TokenEnterAmount', () => {
           />
         </Provider>
       )
+
       expect(getByTestId('TokenEnterAmount/TokenName')).toHaveTextContent('CELO on Celo Alfajores')
-      expect(getByText('CELO on Celo Alfajores')).toBeTruthy()
       expect(getByTestId('TokenEnterAmount/SwitchTokens')).toBeTruthy()
       expect(getByTestId('TokenEnterAmount/TokenSelect')).toBeTruthy()
       expect(getByTestId('TokenEnterAmount/TokenBalance')).toHaveTextContent(

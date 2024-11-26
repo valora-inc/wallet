@@ -25,7 +25,6 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo } from 'src/tokens/hooks'
 import { type TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { parseInputAmount } from 'src/utils/parsing'
@@ -97,7 +96,6 @@ export function getDisplayLocalAmount(
 export function useEnterAmount(props: {
   token: TokenBalance
   inputRef: React.RefObject<RNTextInput>
-  onSelectToken?: (token: TokenBalance) => void
 }) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   const [amount, setAmount] = useState('')
@@ -105,7 +103,6 @@ export function useEnterAmount(props: {
 
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
-  const tokenInfo = useTokenInfo(props.token.tokenId)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
 
   /**
@@ -128,19 +125,19 @@ export function useEnterAmount(props: {
    *     and with a point as a decimal separator, format example: "1234.5678" (as per "amountRaw" value above)
    *   - "bignum" - this is a BigNumber representation of the "amount" field. Necessary for easier
    *     condition checks and various processing things.
-   *   - "readable" - this is a read-only component-friendly value that contains all of the necessary
+   *   - "displayAmount" - this is a read-only component-friendly value that contains all of the necessary
    *     formatting, including: grouping, decimals, token symbol/fiat sign, small amounts format. This
    *     value is only necessary to be passed to TokenEnterAmount component fields as:
-   *       - token.readable -> tokenAmount
-   *       - local.readable -> localAmount
+   *       - token.displayAmount -> tokenAmount
+   *       - local.displayAmount -> localAmount
    */
-  const derived = useMemo(() => {
+  const processedAmounts = useMemo(() => {
     if (amountType === 'token') {
       const parsedTokenAmount = amountRaw === '' ? null : parseInputAmount(amountRaw)
 
       const tokenToLocal = convertTokenToLocalAmount({
         tokenAmount: parsedTokenAmount,
-        tokenInfo,
+        tokenInfo: props.token,
         usdToLocalRate,
       })
 
@@ -151,12 +148,12 @@ export function useEnterAmount(props: {
         token: {
           amount: amountRaw,
           bignum: parsedTokenAmount,
-          readable: getDisplayTokenAmount(parsedTokenAmount, props.token),
+          displayAmount: getDisplayTokenAmount(parsedTokenAmount, props.token),
         },
         local: {
           amount: convertedTokenToLocal,
           bignum: tokenToLocal,
-          readable: getDisplayLocalAmount(tokenToLocal, localCurrencySymbol),
+          displayAmount: getDisplayLocalAmount(tokenToLocal, localCurrencySymbol),
         },
       }
     }
@@ -168,7 +165,7 @@ export function useEnterAmount(props: {
 
     const localToToken = convertLocalToTokenAmount({
       localAmount: parsedLocalAmount,
-      tokenInfo,
+      tokenInfo: props.token,
       usdToLocalRate,
     })
 
@@ -186,19 +183,21 @@ export function useEnterAmount(props: {
       token: {
         amount: convertedLocalToToken,
         bignum: parsedTokenAmount,
-        readable: getDisplayTokenAmount(parsedTokenAmount, props.token),
+        displayAmount: getDisplayTokenAmount(parsedTokenAmount, props.token),
       },
       local: {
         amount: parsedLocalAmount?.toFixed(2) ?? '',
         bignum: parsedLocalAmount,
-        readable: getDisplayLocalAmount(parsedLocalAmount, localCurrencySymbol),
+        displayAmount: getDisplayLocalAmount(parsedLocalAmount, localCurrencySymbol),
       },
     }
   }, [amountRaw, amountType, localCurrencySymbol])
 
   function handleToggleAmountType() {
     setAmountType((prev) => (prev === 'local' ? 'token' : 'local'))
-    setAmount(amountType === 'token' ? derived.local.amount || '' : derived.token.amount)
+    setAmount(
+      amountType === 'token' ? processedAmounts.local.amount || '' : processedAmounts.token.amount
+    )
     props.inputRef.current?.blur()
   }
 
@@ -236,7 +235,7 @@ export function useEnterAmount(props: {
   return {
     amount: amountRaw,
     amountType,
-    derived,
+    processedAmounts,
     setAmount,
     handleToggleAmountType,
     handleAmountInputChange,
