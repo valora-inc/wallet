@@ -7,7 +7,7 @@ export const launchApp = async (
     launchArgs: {
       detoxPrintBusyIdleResources: 'YES',
       // Use new tx feed from Zerion by default
-      onboardingOverrides: 'show_zerion_transaction_feed',
+      statsigGateOverrides: 'show_zerion_transaction_feed=true',
     },
   }
 ) => {

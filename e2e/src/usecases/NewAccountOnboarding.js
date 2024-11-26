@@ -42,6 +42,7 @@ export default NewAccountOnboarding = () => {
       permissions: { notifications: 'YES', contacts: 'YES' },
       launchArgs: {
         onboardingOverrides: 'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackup',
+        statsigGateOverrides: 'show_zerion_transaction_feed=true',
       },
     })
     await sleep(5000)
