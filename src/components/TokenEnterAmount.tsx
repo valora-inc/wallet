@@ -132,7 +132,7 @@ export function useEnterAmount(props: {
    *       - token.readable -> tokenAmount
    *       - local.readable -> localAmount
    */
-  const derived = useMemo(() => {
+  const processedAmounts = useMemo(() => {
     if (amountType === 'token') {
       const parsedTokenAmount = amountRaw === '' ? null : parseInputAmount(amountRaw)
 
@@ -196,7 +196,9 @@ export function useEnterAmount(props: {
 
   function handleToggleAmountType() {
     setAmountType((prev) => (prev === 'local' ? 'token' : 'local'))
-    setAmount(amountType === 'token' ? derived.local.amount || '' : derived.token.amount)
+    setAmount(
+      amountType === 'token' ? processedAmounts.local.amount || '' : processedAmounts.token.amount
+    )
     props.inputRef.current?.blur()
   }
 
@@ -234,7 +236,7 @@ export function useEnterAmount(props: {
   return {
     amount: amountRaw,
     amountType,
-    derived,
+    processedAmounts,
     handleToggleAmountType,
     handleAmountInputChange,
   }
