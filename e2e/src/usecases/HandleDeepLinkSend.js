@@ -16,11 +16,14 @@ const launchDeepLink = async ({ url, newInstance = true }) => {
     newInstance,
   })
 }
-
-const getFiatValue = async () => {
-  const sentAmountFiatElement = await element(by.id('SendAmountFiat')).getAttributes()
-  const sentAmountFiatValue = +sentAmountFiatElement.label.match(/(\d+\.\d+)/)[1]
-  return sentAmountFiatValue
+/**
+ * Returns the crypto symbol from the SendAmount element
+ * @returns {Promise<string>}
+ */
+const getCryptoSymbol = async () => {
+  const sendAmountCryptoElement = await element(by.id('SendAmount')).getAttributes()
+  const cryptoSymbol = sendAmountCryptoElement.label.split(' ').at(-1)
+  return cryptoSymbol
 }
 
 const openDeepLink = async (payUrl) => {
@@ -34,12 +37,14 @@ export default HandleDeepLinkSend = () => {
       await launchDeepLink({
         url: `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.01&currencyCode=USD&token=cUSD&displayName=TestFaucet`,
       })
-      await waitFor(element(by.id('SendAmount')))
-        .toHaveText('0.01 cUSD')
-        .withTimeout(10 * 1000)
 
-      // Use jestExpect as 0.01 cUSD does not always equal 0.01 USD.
-      jestExpect(await getFiatValue()).toBeCloseTo(0.01)
+      const cryptoSymbol = await getCryptoSymbol()
+      jestExpect(cryptoSymbol).toBe('cUSD')
+
+      // Fiat amount should match value passed in deeplink
+      await waitFor(element(by.id('SendAmountFiat')))
+        .toHaveText('$0.01')
+        .withTimeout(10 * 1000)
 
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
@@ -93,12 +98,14 @@ export default HandleDeepLinkSend = () => {
     it('Then should handle deeplink with all attributes', async () => {
       const deepLinksWithAll = `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.01&currencyCode=USD&token=cUSD&displayName=TestFaucet`
       await launchDeepLink({ url: deepLinksWithAll, newInstance: false })
-      await waitFor(element(by.id('SendAmount')))
-        .toHaveText('0.01 cUSD')
-        .withTimeout(10 * 1000)
 
-      // Use jestExpect as 0.01 cUSD does not always equal 0.01 USD.
-      jestExpect(await getFiatValue()).toBeCloseTo(0.01)
+      const cryptoSymbol = await getCryptoSymbol()
+      jestExpect(cryptoSymbol).toBe('cUSD')
+
+      // Fiat amount should match value passed in deeplink
+      await waitFor(element(by.id('SendAmountFiat')))
+        .toHaveText('$0.01')
+        .withTimeout(10 * 1000)
 
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
@@ -124,12 +131,14 @@ export default HandleDeepLinkSend = () => {
     it('Then should handle deeplink with all attributes', async () => {
       const deepLinksWithAll = `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.01&currencyCode=USD&token=cUSD&displayName=TestFaucet`
       await openDeepLink(deepLinksWithAll)
-      await waitFor(element(by.id('SendAmount')))
-        .toHaveText('0.01 cUSD')
-        .withTimeout(10 * 1000)
 
-      // Use jestExpect as 0.01 cUSD does not always equal 0.01 USD.
-      jestExpect(await getFiatValue()).toBeCloseTo(0.01)
+      const cryptoSymbol = await getCryptoSymbol()
+      jestExpect(cryptoSymbol).toBe('cUSD')
+
+      // Fiat amount should match value passed in deeplink
+      await waitFor(element(by.id('SendAmountFiat')))
+        .toHaveText('$0.01')
+        .withTimeout(10 * 1000)
 
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
