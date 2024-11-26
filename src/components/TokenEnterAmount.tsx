@@ -96,7 +96,6 @@ export function getDisplayLocalAmount(
 export function useEnterAmount(props: {
   token: TokenBalance
   inputRef: React.RefObject<RNTextInput>
-  onSelectToken?: (token: TokenBalance) => void
 }) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
   const [amount, setAmount] = useState('')
