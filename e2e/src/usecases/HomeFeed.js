@@ -37,7 +37,7 @@ export default HomeFeed = () => {
 
     // Fiat should be within ~0.01
     jestExpect(feedAmountFiat).toBeCloseTo(detailAmountFiat)
-    // Crypto within 18 - token is likely CELO or a cStable which have 18 decimals
+    // Crypto should match with a precision of 18 decimals as the token is likely CELO or a cStable which have 18 decimals
     jestExpect(feedAmountCrypto).toBeCloseTo(detailAmountCrypto, 18)
     // Crypto symbol should match
     jestExpect(feedCryptoSymbol).toEqual(detailsCryptoSymbol)
