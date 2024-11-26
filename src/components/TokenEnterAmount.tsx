@@ -126,11 +126,11 @@ export function useEnterAmount(props: {
    *     and with a point as a decimal separator, format example: "1234.5678" (as per "amountRaw" value above)
    *   - "bignum" - this is a BigNumber representation of the "amount" field. Necessary for easier
    *     condition checks and various processing things.
-   *   - "readable" - this is a read-only component-friendly value that contains all of the necessary
+   *   - "displayAmount" - this is a read-only component-friendly value that contains all of the necessary
    *     formatting, including: grouping, decimals, token symbol/fiat sign, small amounts format. This
    *     value is only necessary to be passed to TokenEnterAmount component fields as:
-   *       - token.readable -> tokenAmount
-   *       - local.readable -> localAmount
+   *       - token.displayAmount -> tokenAmount
+   *       - local.displayAmount -> localAmount
    */
   const processedAmounts = useMemo(() => {
     if (amountType === 'token') {
@@ -149,12 +149,12 @@ export function useEnterAmount(props: {
         token: {
           amount: amountRaw,
           bignum: parsedTokenAmount,
-          readable: getDisplayTokenAmount(parsedTokenAmount, props.token),
+          displayAmount: getDisplayTokenAmount(parsedTokenAmount, props.token),
         },
         local: {
           amount: convertedTokenToLocal,
           bignum: tokenToLocal,
-          readable: getDisplayLocalAmount(tokenToLocal, localCurrencySymbol),
+          displayAmount: getDisplayLocalAmount(tokenToLocal, localCurrencySymbol),
         },
       }
     }
