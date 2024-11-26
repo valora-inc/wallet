@@ -191,8 +191,7 @@ describe('EnterAmount', () => {
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
   })
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('hides the max button if the user has no balance for the given token', () => {
+  it('hides the max button if the user has no balance for the given token', () => {
     const store = createMockStore(mockStore)
 
     const { queryByTestId } = render(
@@ -335,7 +334,6 @@ describe('EnterAmount', () => {
       )
     })
 
-    // eslint-disable-next-line jest/no-disabled-tests
     it('entering invalid token amount with a valid local amount does not update anything', () => {
       const { amount, exchangedAmount, switchTokens, changeAmount } = renderComponent()
 
@@ -351,8 +349,7 @@ describe('EnterAmount', () => {
       expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} ₱133.00`))
     })
 
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('selecting max token amount applies correct decimal separator', async () => {
+    it('selecting max token amount applies correct decimal separator', async () => {
       const store = createMockStore(mockStore)
       const tokenBalances = mockStoreBalancesToTokenBalances([
         { ...mockStoreTokenBalances[mockCeloTokenId], balance: '100000.42' },
@@ -369,9 +366,9 @@ describe('EnterAmount', () => {
 
       fireEvent.press(within(getByTestId('SendEnterAmount/AmountOptions')).getByText('maxSymbol'))
       expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(
-        replaceSeparators('100000.42')
+        replaceSeparators('100,000.42')
       )
-      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(
+      expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
         replaceSeparators('₱66,500.28')
       )
     })
@@ -595,8 +592,7 @@ describe('EnterAmount', () => {
     )
   })
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip.each([
+  it.each([
     {
       amountLabel: 'percentage, {"percentage":25}',
       percentage: 25,
@@ -638,7 +634,7 @@ describe('EnterAmount', () => {
 
       fireEvent.press(within(getByTestId('SendEnterAmount/AmountOptions')).getByText(amountLabel))
       expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(expectedTokenAmount)
-      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(expectedLocalAmount)
+      expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(expectedLocalAmount)
       expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
       expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_percentage_selected, {
         networkId: NetworkId['celo-alfajores'],
