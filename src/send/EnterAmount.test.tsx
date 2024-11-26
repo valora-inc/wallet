@@ -1,6 +1,7 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
+import { DeviceEventEmitter } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -144,7 +145,7 @@ describe('EnterAmount', () => {
     })
   })
 
-  it('renders the correct components, and pre-selects the first token in the list', () => {
+  it('renders the correct components, and pre-selects the first token in the list', async () => {
     const store = createMockStore(mockStore)
 
     const { getByTestId, queryByTestId } = render(
@@ -153,16 +154,29 @@ describe('EnterAmount', () => {
       </Provider>
     )
 
+    // simulate that the keyboard is opened, since autoFocus is enabled for the token text input
+    await act(() => {
+      DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+    })
+
     expect(getByTestId('SendEnterAmount/TokenAmountInput')).toBeTruthy()
     // expect(getByTestId('SendEnterAmount/Max')).toBeTruthy()
     expect(queryByTestId('SendEnterAmount/SwitchTokens')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/ExchangeAmount')).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/AmountOptions')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
     expect(queryByTestId('SendEnterAmount/FeeLabel')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+
+    // simulate that the keyboard is dismissed
+    await act(() => {
+      DeviceEventEmitter.emit('keyboardDidHide', { endCoordinates: { height: 0 } })
+    })
+
+    await waitFor(() => expect(queryByTestId('SendEnterAmount/AmountOptions')).toBeFalsy())
   })
 
-  it('renders components with picker if a default token is provided', () => {
+  it('renders components with picker if a default token is provided', async () => {
     const store = createMockStore({ ...mockStore, send: { lastUsedTokenId: mockEthTokenId } })
 
     const { getByTestId, getByText } = render(
@@ -338,7 +352,7 @@ describe('EnterAmount', () => {
     })
 
     // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('entering MAX token applies correct decimal separator', async () => {
+    it.skip('selecting max token amount applies correct decimal separator', async () => {
       const store = createMockStore(mockStore)
       const tokenBalances = mockStoreBalancesToTokenBalances([
         { ...mockStoreTokenBalances[mockCeloTokenId], balance: '100000.42' },
@@ -349,7 +363,11 @@ describe('EnterAmount', () => {
         </Provider>
       )
 
-      fireEvent.press(getByTestId('SendEnterAmount/Max'))
+      await act(() => {
+        DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+      })
+
+      fireEvent.press(within(getByTestId('SendEnterAmount/AmountOptions')).getByText('maxSymbol'))
       expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(
         replaceSeparators('100000.42')
       )
@@ -578,25 +596,59 @@ describe('EnterAmount', () => {
   })
 
   // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('pressing max fills in max available amount', () => {
-    const store = createMockStore(mockStore)
+  it.skip.each([
+    {
+      amountLabel: 'percentage, {"percentage":25}',
+      percentage: 25,
+      expectedTokenAmount: '1.25',
+      expectedLocalAmount: '₱0.17',
+    },
+    {
+      amountLabel: 'percentage, {"percentage":50}',
+      percentage: 50,
+      expectedTokenAmount: '2.5',
+      expectedLocalAmount: '₱0.33',
+    },
+    {
+      amountLabel: 'percentage, {"percentage":75}',
+      percentage: 75,
+      expectedTokenAmount: '3.75',
+      expectedLocalAmount: '₱0.50',
+    },
+    {
+      amountLabel: 'maxSymbol',
+      percentage: 100,
+      expectedTokenAmount: '5',
+      expectedLocalAmount: '₱0.67',
+    },
+  ])(
+    'pressing the $amountLabel chip prefills the expected amount',
+    async ({ amountLabel, percentage, expectedLocalAmount, expectedTokenAmount }) => {
+      const store = createMockStore(mockStore)
 
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <EnterAmount {...defaultParams} />
-      </Provider>
-    )
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EnterAmount {...defaultParams} />
+        </Provider>
+      )
 
-    fireEvent.press(getByTestId('SendEnterAmount/Max'))
-    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('5')
-    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱0.67')
-    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.max_pressed, {
-      networkId: NetworkId['celo-alfajores'],
-      tokenAddress: mockPoofAddress,
-      tokenId: mockPoofTokenId,
-    })
-  })
+      await act(() => {
+        DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+      })
+
+      fireEvent.press(within(getByTestId('SendEnterAmount/AmountOptions')).getByText(amountLabel))
+      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(expectedTokenAmount)
+      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(expectedLocalAmount)
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_percentage_selected, {
+        networkId: NetworkId['celo-alfajores'],
+        tokenAddress: mockPoofAddress,
+        tokenId: mockPoofTokenId,
+        percentage,
+        flow: 'send',
+      })
+    }
+  )
 
   it('entering token amount above balance displays error message', () => {
     const store = createMockStore(mockStore)

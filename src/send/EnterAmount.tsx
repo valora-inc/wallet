@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js'
 import React, { ComponentType, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
+import { Keyboard, TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
@@ -11,7 +11,6 @@ import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
-import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import TokenBottomSheet, {
   TokenBottomSheetProps,
@@ -24,6 +23,7 @@ import TokenEnterAmount, {
 } from 'src/components/TokenEnterAmount'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { useSelector } from 'src/redux/hooks'
+import EnterAmountOptions from 'src/send/EnterAmountOptions'
 import { AmountEnteredIn } from 'src/send/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -107,7 +107,9 @@ export default function EnterAmount({
   disableBalanceCheck = false,
 }: Props) {
   const { t } = useTranslation()
+  const insets = useSafeAreaInsets()
   const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
+  const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
   const { tokenId: feeTokenId } = feeCurrency ?? feeCurrencies[0]
@@ -122,7 +124,13 @@ export default function EnterAmount({
     derived,
     handleAmountInputChange,
     handleToggleAmountType,
-  } = useEnterAmount({ token, inputRef })
+  } = useEnterAmount({
+    token,
+    inputRef,
+    onAmountChange: () => {
+      setSelectedPercentage(null)
+    },
+  })
 
   const onOpenTokenPicker = () => {
     bottomSheetRef.current?.snapToIndex(0)
@@ -140,13 +148,19 @@ export default function EnterAmount({
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
-  // @ts-ignore - the max button will be restored in the next PR
-  // const onMaxAmountPress = async () => {
-  //   // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
-  //   // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
-  //   // if there is not enough for gas
-  //   setAmount(token.balance.toFormat({ decimalSeparator }))
-  //   setAmountType('token')
+  const onSelectPercentageAmount = (percentage: number) => {
+    handleToggleAmountType('token')
+    setAmount(token.balance.multipliedBy(percentage).toString())
+    setSelectedPercentage(percentage)
+
+    AppAnalytics.track(SendEvents.send_percentage_selected, {
+      tokenId: token.tokenId,
+      tokenAddress: token.address,
+      networkId: token.networkId,
+      percentage: percentage * 100,
+      flow: 'send',
+    })
+  }
 
   //   tokenAmountInputRef.current?.blur()
   //   AppAnalytics.track(SendEvents.max_pressed, {
@@ -198,9 +212,19 @@ export default function EnterAmount({
   )
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
-      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={[
+          styles.contentContainer,
+          {
+            paddingBottom: Math.max(insets.bottom, Spacing.Thick24),
+          },
+        ]}
+        onScrollBeginDrag={() => {
+          Keyboard.dismiss()
+        }}
+      >
         <View style={styles.inputContainer}>
           <Text style={styles.title}>{t('sendEnterAmountScreen.title')}</Text>
           <TokenEnterAmount
@@ -295,6 +319,12 @@ export default function EnterAmount({
 
         {children}
 
+        <EnterAmountOptions
+          onPressAmount={onSelectPercentageAmount}
+          selectedAmount={selectedPercentage}
+          testID="SendEnterAmount/AmountOptions"
+        />
+
         <ProceedComponent
           tokenAmount={derived.token.bignum}
           localAmount={derived.local.bignum}
@@ -304,7 +334,6 @@ export default function EnterAmount({
           disabled={disabled}
           showLoading={prepareTransactionsLoading}
         />
-        <KeyboardSpacer />
       </KeyboardAwareScrollView>
       <TokenBottomSheet
         forwardedRef={bottomSheetRef}
@@ -329,8 +358,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   title: {
-    ...typeScale.titleSmall,
-    marginBottom: Spacing.Thick24,
+    ...typeScale.titleMedium,
   },
   inputContainer: {
     flex: 1,
@@ -359,7 +387,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   reviewButton: {
-    paddingVertical: Spacing.Thick24,
+    paddingTop: Spacing.Thick24,
   },
   warning: {
     marginBottom: Spacing.Regular16,

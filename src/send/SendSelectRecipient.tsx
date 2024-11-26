@@ -376,7 +376,10 @@ function SendSelectRecipient({ route }: Props) {
         ) : (
           <>
             {inviteRewardsActive && <InviteRewardsCard />}
-            <SelectRecipientButtons onContactsPermissionGranted={onContactsPermissionGranted} />
+            <SelectRecipientButtons
+              defaultTokenIdOverride={defaultTokenIdOverride}
+              onContactsPermissionGranted={onContactsPermissionGranted}
+            />
             {activeView === SelectRecipientView.Recent && recentRecipients.length ? (
               <RecipientPicker
                 testID={'SelectRecipient/RecentRecipientPicker'}

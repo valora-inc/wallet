@@ -386,6 +386,7 @@
   "accountAddressLabel": "Adresse du compte",
   "celoAmountLabel": "Montant (CELO)",
   "maxSymbol": "Max.",
+  "percentage": "{{percentage}} %",
   "withdrawCeloReview": "Vérifier",
   "withdrawCeloTo": "Retiré vers",
   "withdrawCeloAmount": "Montant (CELO)",
@@ -1483,7 +1484,7 @@
       "removeFilter": "Supprimer le filtre",
       "searchMessage": "Aucun résultat correspondant à <0>\"{{searchTerm}}\"</0>"
     },
-    "disclaimer_UK": "Il s'agit d'une liste de Dapps de tiers. La description de chaque Dapp est purement informative et ne constitue pas une invitation à les utiliser."
+    "disclaimer_UK": "Ceci est une liste de Dapps tierces. La description de chaque Dapp est purement informative, et non pas une invitation à les utiliser."
   },
   "dappRankings": {
     "title": "Classements Dapp",
@@ -2126,7 +2127,7 @@
   "sendSelectRecipient": {
     "searchText": "Recherchez par nom, téléphone, portefeuille...",
     "searchInputLabel": "À",
-    "searchInputPlaceholder": "Adresse ou numéro de téléphone du portefeuille",
+    "searchInputPlaceholder": "Adresse du portefeuille ou numéro de téléphone",
     "paste": "Coller depuis le presse-papiers",
     "title": "Sélectionnez un destinataire",
     "contactsTitle": "Sélectionnez un contact",
@@ -2135,12 +2136,12 @@
     "recents": "Récents",
     "results": "Résultats",
     "qr": {
-      "title": "Envoyer par code QR",
-      "subtitle": "Touche pour numériser ou afficher une adresse"
+      "title": "Envoyer par QR Code",
+      "subtitle": "Appuyez pour scanner ou afficher une adresse"
     },
     "invite": {
       "title": "Envoyer à un contact",
-      "subtitle": "Envoie des fonds à tes contacts"
+      "subtitle": "Envoyer des fonds à vos contacts"
     },
     "jumpstart": {
       "title": "Envoyer avec un lien direct",
@@ -2296,12 +2297,12 @@
     "claimRewardTitle": "Collecté",
     "claimRewardSubtitle": "du pool {{txAppName}}",
     "claimRewardSubtitle_noTxAppName": "d'une application inconnue",
-    "allTransactionsShown": "Tu as atteint la fin de l'historique de tes transactions.",
+    "allTransactionsShown": "Vous avez atteint la fin de l'historique de vos transactions.",
     "fetchErrorRetry": "Veuillez réessayer",
     "error": {
-      "fetchError": "Oups, il y a eu un problème pour actualiser ton flux. L'historique de tes transactions peut être incomplet pour le moment."
+      "fetchError": "Oups, un problème est survenu lors de l'actualisation de votre flux. L'historique de vos transactions est peut-être incomplet."
     },
-    "noTransactions": "Félicitations, tu as réussi à créer un portefeuille {{appName}} !"
+    "noTransactions": "Félicitations, vous avez créé un portefeuille {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Détails",
@@ -2315,7 +2316,7 @@
     "withdrawDetails": "Montant du retrait",
     "claimRewardTitle": "Collecté",
     "claimRewardSubtitle": "{{tokenSymbol}} collectés du pool {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Recueille {{tokenSymbol}} à partir d'une application inconnue",
+    "claimRewardSubtitle_noTxAppName": "{{tokenSymbol}} retirés d'une application inconnue",
     "claimRewardDetails": "Montant perçu",
     "swap": "Échange",
     "network": "Réseau",
