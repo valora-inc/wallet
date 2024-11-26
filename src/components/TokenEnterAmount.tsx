@@ -25,7 +25,6 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo } from 'src/tokens/hooks'
 import { type TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { parseInputAmount } from 'src/utils/parsing'
@@ -103,7 +102,6 @@ export function useEnterAmount(props: {
 
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
-  const tokenInfo = useTokenInfo(props.token.tokenId)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
 
   /**
@@ -138,7 +136,7 @@ export function useEnterAmount(props: {
 
       const tokenToLocal = convertTokenToLocalAmount({
         tokenAmount: parsedTokenAmount,
-        tokenInfo,
+        tokenInfo: props.token,
         usdToLocalRate,
       })
 
@@ -166,7 +164,7 @@ export function useEnterAmount(props: {
 
     const localToToken = convertLocalToTokenAmount({
       localAmount: parsedLocalAmount,
-      tokenInfo,
+      tokenInfo: props.token,
       usdToLocalRate,
     })
 

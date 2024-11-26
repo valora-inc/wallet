@@ -19,12 +19,6 @@ import TokenEnterAmount, {
 
 jest.mock('react-native-localize')
 jest.mock('src/analytics/AppAnalytics')
-jest.mock('src/redux/hooks', () => ({ useSelector: jest.fn() }))
-jest.mock('src/tokens/hooks', () => ({ useTokenInfo: jest.fn() }))
-jest.mock('src/tokens/utils', () => ({
-  convertLocalToTokenAmount: jest.fn(),
-  convertTokenToLocalAmount: jest.fn(),
-}))
 
 const mockStore = {}
 
