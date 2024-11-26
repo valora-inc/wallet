@@ -170,6 +170,7 @@ describe('TokenEnterAmount', () => {
         result.current.handleAmountInputChange('1234.678')
       })
 
+      expect(result.current.amount).toBe('1234.678')
       expect(result.current.processedAmounts).toStrictEqual({
         token: {
           amount: '1234.678',
@@ -195,21 +196,21 @@ describe('TokenEnterAmount', () => {
         } as TokenBalance,
       })
 
-      await act(async () => {
-        result.current.handleToggleAmountType()
-        result.current.handleAmountInputChange('1234.678')
-      })
+      await act(async () => result.current.handleToggleAmountType())
+      await act(async () => result.current.handleAmountInputChange('1234.67'))
+      await act(async () => result.current.handleAmountInputChange('1234.678'))
 
+      expect(result.current.amount).toBe('1234.67')
       expect(result.current.processedAmounts).toStrictEqual({
         local: {
-          amount: '1234.68',
-          bignum: new BigNumber('1234.678'),
-          displayAmount: '$1,234.68',
+          amount: '1234.67',
+          bignum: new BigNumber('1234.67'),
+          displayAmount: '$1,234.67',
         },
         token: {
-          amount: '1233.444555',
-          bignum: new BigNumber('1233.444555'),
-          displayAmount: '1,233.444555 USDC',
+          amount: '1233.436563',
+          bignum: new BigNumber('1233.436563'),
+          displayAmount: '1,233.436563 USDC',
         },
       })
     })
