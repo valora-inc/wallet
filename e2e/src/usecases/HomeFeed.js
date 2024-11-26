@@ -11,12 +11,18 @@ export default HomeFeed = () => {
       .toBeVisible()
       .withTimeout(10_000)
     const feedItems = await element(by.id('TransferFeedItem')).getAttributes()
-
-    // Get address and amount from first item
     const feedElement = feedItems.elements[0]
+
+    // Extracts `0xebf9...2bcb` from `0xebf9...2bcb Payment Sent +$0.00 0.000000000000000001 CELO`
     const feedAddress = feedElement.label.split(' ')[0]
+
+    // Extracts `CELO` from `0xebf9...2bcb Payment Sent +$0.00 0.000000000000000001 CELO`
     const feedCryptoSymbol = feedElement.label.split(' ').at(-1)
+
+    // Extracts `0.0` from `0xebf9...2bcb Payment Sent +$0.0 0.000000000000000001 CELO` and converts to number
     const feedAmountFiat = +feedElement.label.match(/(\d+\.\d+)/)[1]
+
+    // Extracts `0.000000000000000001` from `0xebf9...2bcb Payment Sent +$0.00 0.000000000000000001 CELO` and converts to number
     const feedAmountCrypto = +feedElement.label.split(' ').at(-2)
 
     // Tap top TransferFeedItem
@@ -30,9 +36,13 @@ export default HomeFeed = () => {
       by.id('LineItemRow/SentAmountValue')
     ).getAttributes()
 
-    // extract the amounts and symbol
-    const detailsCryptoSymbol = detailAmountCryptoElement.label.split(' ').at(-1)
+    // Extracts 0.01 from $0.01 and converts to number
     const detailAmountFiat = +detailAmountElement.label.match(/(\d+\.\d+)/)[1]
+
+    // Extract `0.000000000000000001` from `0.000000000000000001 CELO`
+    const detailsCryptoSymbol = detailAmountCryptoElement.label.split(' ').at(-1)
+
+    // Extracts `CELO` from `0.000000000000000001 CELO` and converts to number
     const detailAmountCrypto = +detailAmountCryptoElement.label.split(' ').at(-2)
 
     // Fiat should be within ~0.01
