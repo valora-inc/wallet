@@ -182,12 +182,12 @@ export function useEnterAmount(props: {
       token: {
         amount: convertedLocalToToken,
         bignum: parsedTokenAmount,
-        readable: getDisplayTokenAmount(parsedTokenAmount, props.token),
+        displayAmount: getDisplayTokenAmount(parsedTokenAmount, props.token),
       },
       local: {
         amount: parsedLocalAmount?.toFixed(2) ?? '',
         bignum: parsedLocalAmount,
-        readable: getDisplayLocalAmount(parsedLocalAmount, localCurrencySymbol),
+        displayAmount: getDisplayLocalAmount(parsedLocalAmount, localCurrencySymbol),
       },
     }
   }, [amountRaw, amountType, localCurrencySymbol])
