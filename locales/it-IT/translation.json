@@ -386,6 +386,7 @@
   "accountAddressLabel": "Indirizzo del conto",
   "celoAmountLabel": "Importo (CELO)",
   "maxSymbol": "Max",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Rivedi",
   "withdrawCeloTo": "Preleva verso",
   "withdrawCeloAmount": "Importo (CELO)",
@@ -1483,7 +1484,7 @@
       "removeFilter": "Rimuovi filtro",
       "searchMessage": "Non sono stati trovati risultati corrispondenti per <0>\"{{searchTerm}}\"</0>."
     },
-    "disclaimer_UK": "Questo è un elenco di Dapp di terze parti. La descrizione di ogni Dapp è puramente informativa e non è un invito a utilizzarla."
+    "disclaimer_UK": "Questo è un elenco di dapp di terze parti. La descrizione di ogni dapp è puramente informativa e non è un invito a utilizzarla."
   },
   "dappRankings": {
     "title": "Classifiche delle Dapp",
@@ -2126,7 +2127,7 @@
   "sendSelectRecipient": {
     "searchText": "Cerca per nome, numero telefonico, portafoglio...",
     "searchInputLabel": "A",
-    "searchInputPlaceholder": "Indirizzo o numero di telefono del portafoglio",
+    "searchInputPlaceholder": "Indirizzo o numero di telefono del wallet",
     "paste": "Incolla dagli Appunti",
     "title": "Seleziona un destinatario",
     "contactsTitle": "Seleziona un contatto",
@@ -2135,7 +2136,7 @@
     "recents": "Recenti",
     "results": "Risultati",
     "qr": {
-      "title": "Invia tramite codice QR",
+      "title": "Invia tramite QR Code",
       "subtitle": "Tocca per scansionare o mostrare un indirizzo"
     },
     "invite": {
@@ -2289,7 +2290,7 @@
     "crossChainSwapTransactionLabel": "Cross-chain",
     "depositTitle": "Depositati",
     "depositSubtitle": "sul pool {{txAppName}}",
-    "depositSubtitle_noTxAppName": "all'applicazione sconosciuta",
+    "depositSubtitle_noTxAppName": "ad app sconosciuta",
     "withdrawTitle": "Preleva",
     "withdrawSubtitle": "dal pool {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "d'app sconosciuta",
@@ -2299,9 +2300,9 @@
     "allTransactionsShown": "Hai raggiunto la fine della cronologia delle transazioni.",
     "fetchErrorRetry": "Riprova",
     "error": {
-      "fetchError": "Ops, c'è stato un problema nell'aggiornare il tuo feed. La cronologia delle tue transazioni potrebbe essere incompleta per il momento."
+      "fetchError": "Ops, c'è stato un problema nell'aggiornare il tuo feed. La cronologia delle tue transazioni potrebbe essere temporaneamente incompleta."
     },
-    "noTransactions": "Congratulazioni, hai creato con successo un portafoglio {{appName}} !"
+    "noTransactions": "Congratulazioni, hai creato con successo un wallet {{appName}}!"
   },
   "transactionDetails": {
     "descriptionLabel": "Dettagli",
@@ -2315,7 +2316,7 @@
     "withdrawDetails": "Importo prelevato",
     "claimRewardTitle": "Raccolti",
     "claimRewardSubtitle": "{{tokenSymbol}} raccolti dal pool {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Raccolta di {{tokenSymbol}} da un'applicazione sconosciuta",
+    "claimRewardSubtitle_noTxAppName": "{{tokenSymbol}} prelevati da app sconosciuta",
     "claimRewardDetails": "Importo raccolto",
     "swap": "Scambio",
     "network": "Rete",

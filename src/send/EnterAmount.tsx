@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import React, { ComponentType, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  Keyboard,
   Platform,
   TextInput as RNTextInput,
   StyleProp,
@@ -11,7 +12,7 @@ import {
 } from 'react-native'
 import { View } from 'react-native-animatable'
 import { getNumberFormatSettings } from 'react-native-localize'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
@@ -19,7 +20,6 @@ import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
-import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TextInput from 'src/components/TextInput'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
@@ -31,6 +31,7 @@ import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
+import EnterAmountOptions from 'src/send/EnterAmountOptions'
 import { AmountEnteredIn } from 'src/send/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
@@ -75,7 +76,6 @@ interface Props {
 }
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
-const MAX_BORDER_RADIUS = 96
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
 export const SendProceed = ({
@@ -152,6 +152,7 @@ function EnterAmount({
   disableBalanceCheck = false,
 }: Props) {
   const { t } = useTranslation()
+  const insets = useSafeAreaInsets()
 
   const tokenAmountInputRef = useRef<RNTextInput>(null)
   const localAmountInputRef = useRef<RNTextInput>(null)
@@ -161,6 +162,8 @@ function EnterAmount({
   const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
   const [localAmountInput, setLocalAmountInput] = useState<string>('')
   const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
+  const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
+
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
 
@@ -179,18 +182,17 @@ function EnterAmount({
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
-  const onMaxAmountPress = async () => {
-    // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
-    // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
-    // if there is not enough for gas
-    setTokenAmountInput(token.balance.toFormat({ decimalSeparator }))
+  const onSelectPercentageAmount = (percentage: number) => {
+    setTokenAmountInput(token.balance.multipliedBy(percentage).toFormat({ decimalSeparator }))
     setEnteredIn('token')
-    tokenAmountInputRef.current?.blur()
-    localAmountInputRef.current?.blur()
-    AppAnalytics.track(SendEvents.max_pressed, {
+    setSelectedPercentage(percentage)
+
+    AppAnalytics.track(SendEvents.send_percentage_selected, {
       tokenId: token.tokenId,
       tokenAddress: token.address,
       networkId: token.networkId,
+      percentage: percentage * 100,
+      flow: 'send',
     })
   }
 
@@ -310,6 +312,8 @@ function EnterAmount({
         setEnteredIn('token')
       }
     }
+
+    setSelectedPercentage(null)
   }
 
   const onLocalAmountInputChange = (value: string) => {
@@ -336,9 +340,19 @@ function EnterAmount({
   }
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
-      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={[
+          styles.contentContainer,
+          {
+            paddingBottom: Math.max(insets.bottom, Spacing.Thick24),
+          },
+        ]}
+        onScrollBeginDrag={() => {
+          Keyboard.dismiss()
+        }}
+      >
         <View style={styles.inputContainer}>
           <Text style={styles.title}>{t('sendEnterAmountScreen.title')}</Text>
           <View style={styles.inputBox}>
@@ -381,16 +395,6 @@ function EnterAmount({
                 testID="SendEnterAmount/LocalAmountInput"
                 editable={!!token.priceUsd}
               />
-              {!token.balance.isZero() && (
-                <Touchable
-                  borderRadius={MAX_BORDER_RADIUS}
-                  onPress={onMaxAmountPress}
-                  style={styles.maxTouchable}
-                  testID="SendEnterAmount/Max"
-                >
-                  <Text style={styles.maxText}>{t('max')}</Text>
-                </Touchable>
-              )}
             </View>
           </View>
           <View style={styles.feeContainer}>
@@ -439,6 +443,12 @@ function EnterAmount({
 
         {children}
 
+        <EnterAmountOptions
+          onPressAmount={onSelectPercentageAmount}
+          selectedAmount={selectedPercentage}
+          testID="SendEnterAmount/AmountOptions"
+        />
+
         <ProceedComponent
           tokenAmount={tokenAmount}
           localAmount={localAmount}
@@ -447,7 +457,6 @@ function EnterAmount({
           onPressProceed={onPressProceed}
           disabled={disabled}
         />
-        <KeyboardSpacer />
       </KeyboardAwareScrollView>
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
@@ -542,7 +551,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   title: {
-    ...typeScale.titleSmall,
+    ...typeScale.titleMedium,
   },
   inputContainer: {
     flex: 1,
@@ -596,17 +605,6 @@ const styles = StyleSheet.create({
   localAmount: {
     ...typeScale.labelMedium,
   },
-  maxTouchable: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    backgroundColor: Colors.gray2,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    borderRadius: MAX_BORDER_RADIUS,
-  },
-  maxText: {
-    ...typeScale.labelSmall,
-  },
   feeContainer: {
     flexDirection: 'row',
     marginVertical: Spacing.Regular16,
@@ -643,7 +641,7 @@ const styles = StyleSheet.create({
     paddingLeft: Spacing.Regular16,
   },
   reviewButton: {
-    paddingVertical: Spacing.Thick24,
+    paddingTop: Spacing.Thick24,
   },
   warning: {
     marginBottom: Spacing.Regular16,
