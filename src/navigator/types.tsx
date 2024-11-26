@@ -336,6 +336,7 @@ export type QRTabParamList = {
     | {
         showSecureSendStyling?: true
         onQRCodeDetected?: (qrCode: QrCode) => void
+        defaultTokenIdOverride?: string
       }
     | undefined
 }
