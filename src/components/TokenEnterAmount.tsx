@@ -237,6 +237,7 @@ export function useEnterAmount(props: {
     amount: amountRaw,
     amountType,
     derived,
+    setAmount,
     handleToggleAmountType,
     handleAmountInputChange,
   }

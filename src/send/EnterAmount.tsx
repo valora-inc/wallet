@@ -1,16 +1,22 @@
 import BigNumber from 'bignumber.js'
-import React, { ComponentType, useEffect, useState } from 'react'
+import React, { ComponentType, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
+import { TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, {
+  TokenBottomSheetProps,
+  TokenPickerOrigin,
+} from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenEnterAmount, {
   FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS,
@@ -106,20 +112,33 @@ export default function EnterAmount({
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
   const { tokenId: feeTokenId } = feeCurrency ?? feeCurrencies[0]
 
+  const inputRef = useRef<RNTextInput>(null)
+  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
+
   const {
     amount,
+    setAmount,
     amountType,
     derived,
-    inputRef,
-    bottomSheetRef,
     handleAmountInputChange,
     handleToggleAmountType,
-    onOpenTokenPicker,
-    onSelectToken,
-  } = useEnterAmount({
-    token,
-    onSelectToken: (token) => setToken(token),
-  })
+  } = useEnterAmount({ token, inputRef })
+
+  const onOpenTokenPicker = () => {
+    bottomSheetRef.current?.snapToIndex(0)
+    AppAnalytics.track(SendEvents.token_dropdown_opened, {
+      currentTokenId: token.tokenId,
+      currentTokenAddress: token.address,
+      currentNetworkId: token.networkId,
+    })
+  }
+
+  const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
+    setToken(selectedToken)
+    setAmount('')
+    bottomSheetRef.current?.close()
+    // NOTE: analytics is already fired by the bottom sheet, don't need one here
+  }
 
   // @ts-ignore - the max button will be restored in the next PR
   // const onMaxAmountPress = async () => {
@@ -137,8 +156,10 @@ export default function EnterAmount({
   //   })
   // }
 
+  console.log(derived.token.bignum)
   const isAmountLessThanBalance = derived.token.bignum && derived.token.bignum.lte(token.balance)
-  const showLowerAmountError = !isAmountLessThanBalance && !disableBalanceCheck
+  const showLowerAmountError =
+    derived.token.bignum && !isAmountLessThanBalance && !disableBalanceCheck
   const showMaxAmountWarning =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -157,21 +178,24 @@ export default function EnterAmount({
     disableProceed ||
     (disableBalanceCheck ? !!derived.token.bignum?.isZero() : !transactionIsPossible)
 
-  useEffect(() => {
-    onClearPreparedTransactions()
+  useEffect(
+    function refreshPreparedTransactions() {
+      onClearPreparedTransactions()
 
-    if (
-      !derived.token.bignum ||
-      derived.token.bignum.isLessThanOrEqualTo(0) ||
-      derived.token.bignum.isGreaterThan(token.balance)
-    ) {
-      return
-    }
-    const debouncedRefreshTransactions = setTimeout(() => {
-      return onRefreshPreparedTransactions(derived.token.bignum!, token, feeCurrencies)
-    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
-    return () => clearTimeout(debouncedRefreshTransactions)
-  }, [derived.token.bignum, token])
+      if (
+        !derived.token.bignum ||
+        derived.token.bignum.isLessThanOrEqualTo(0) ||
+        derived.token.bignum.isGreaterThan(token.balance)
+      ) {
+        return
+      }
+      const debouncedRefreshTransactions = setTimeout(() => {
+        return onRefreshPreparedTransactions(derived.token.bignum!, token, feeCurrencies)
+      }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
+      return () => clearTimeout(debouncedRefreshTransactions)
+    },
+    [derived.token.bignum, token]
+  )
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
