@@ -249,7 +249,7 @@ describe('TokenEnterAmount', () => {
   describe('component', () => {
     it('displays the correct token information', () => {
       const store = createMockStore(mockStore)
-      const { getByText, getByTestId } = render(
+      const { getByTestId } = render(
         <Provider store={store}>
           <TokenEnterAmount
             {...defaultProps}
