@@ -152,10 +152,8 @@ export default NewAccountOnboarding = () => {
   })
 
   it('Should be able to restore newly created account', async () => {
-    await device.uninstallApp()
-    await device.installApp()
     await launchApp({
-      newInstance: true,
+      delete: true,
       launchArgs: {
         onboardingOverrides: 'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackup',
       },

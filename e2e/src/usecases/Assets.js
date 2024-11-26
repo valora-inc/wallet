@@ -76,12 +76,9 @@ export default Assets = () => {
     },
   ])('For wallet with $balance balance', ({ balance, tokens }) => {
     beforeAll(async () => {
-      // uninstall and reinstall to start with either a new account or the usual
-      // e2e account
-      await device.uninstallApp()
-      await device.installApp()
+      // Start with either a new account or the usual e2e account
       await launchApp({
-        newInstance: true,
+        delete: true,
         permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
       })
       let mnemonic = E2E_WALLET_MNEMONIC

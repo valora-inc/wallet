@@ -136,9 +136,7 @@ export default Send = () => {
 
   describe('When multi-token send flow to phone number with one address', () => {
     beforeAll(async () => {
-      await device.uninstallApp()
-      await device.installApp()
-      await launchApp({ newInstance: true })
+      await launchApp({ delete: true })
       await quickOnboarding()
     })
 
