@@ -10,16 +10,39 @@ export default HomeFeed = () => {
     await waitFor(element(by.id('TransferFeedItem')).atIndex(0))
       .toBeVisible()
       .withTimeout(10_000)
-    const items = await element(by.id('TransferFeedItem')).getAttributes()
+    const feedItems = await element(by.id('TransferFeedItem')).getAttributes()
+
+    // Get address and amount from first item
+    const feedElement = feedItems.elements[0]
+    const feedAddress = feedElement.label.split(' ')[0]
+    const feedCryptoSymbol = feedElement.label.split(' ').at(-1)
+    const feedAmountFiat = +feedElement.label.match(/(\d+\.\d+)/)[1]
+    const feedAmountCrypto = +feedElement.label.split(' ').at(-2)
 
     // Tap top TransferFeedItem
     await element(by.id('TransferFeedItem')).atIndex(0).tap()
 
-    // Assert on text based on elements returned earlier
-    const address = items.elements[0].label.split(' ')[0]
-    const amount = items.elements[0].label.match(/(\d+\.\d+)/)[1]
-    await expect(element(by.text(address)).atIndex(0)).toBeVisible()
-    await expect(element(by.text(`$${amount}`)).atIndex(0)).toBeVisible()
+    // Get the amount elements
+    const detailAmountElement = await element(
+      by.id('LineItemRow/SentAmountValueFiat')
+    ).getAttributes()
+    const detailAmountCryptoElement = await element(
+      by.id('LineItemRow/SentAmountValue')
+    ).getAttributes()
+
+    // extract the amounts and symbol
+    const detailsCryptoSymbol = detailAmountCryptoElement.label.split(' ').at(-1)
+    const detailAmountFiat = +detailAmountElement.label.match(/(\d+\.\d+)/)[1]
+    const detailAmountCrypto = +detailAmountCryptoElement.label.split(' ').at(-2)
+
+    // Fiat should be within ~0.01
+    jestExpect(feedAmountFiat).toBeCloseTo(detailAmountFiat)
+    // Crypto within 8 significant digits
+    jestExpect(feedAmountCrypto).toBeCloseTo(detailAmountCrypto, 8)
+    // Crypto symbol should match
+    jestExpect(feedCryptoSymbol).toEqual(detailsCryptoSymbol)
+    // Address should match
+    await expect(element(by.text(feedAddress)).atIndex(0)).toBeVisible()
   })
 
   it('should load more items on scroll', async () => {
