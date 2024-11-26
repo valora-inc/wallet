@@ -253,7 +253,7 @@ describe('TokenDisplay', () => {
           />
         </Provider>
       )
-      expect(getElementText(getByTestId('test'))).toEqual('~10.00 cUSD')
+      expect(getElementText(getByTestId('test'))).toEqual(`~10.00 cUSD`)
     })
   })
 })
