@@ -15,7 +15,7 @@ const provider = new providers.JsonRpcProvider('https://forno.celo.org/')
 
 dotenv.config({ path: `${__dirname}/../.env` })
 
-const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
+const valoraTestFaucetSecret = process.env['E2E_TEST_FAUCET_SECRET']!
 
 interface Token {
   symbol: string
