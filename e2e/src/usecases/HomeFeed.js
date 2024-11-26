@@ -64,6 +64,7 @@ export default HomeFeed = () => {
       ? await element(by.id('TransactionList')).scrollTo('bottom')
       : await element(by.id('TransactionList')).scroll(2000, 'down')
     await sleep(5000)
+    await waitForExpectNotVisible('TransactionList/loading')
 
     // Compare initial number of items to new number of items after scroll
     const endingItems = await element(by.id('TransferFeedItem')).getAttributes()
