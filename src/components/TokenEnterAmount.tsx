@@ -265,7 +265,7 @@ interface Props {
   tokenAmount: string
   localAmount: string
   amountType: AmountEnteredIn
-  inputRef: React.MutableRefObject<RNTextInput | null>
+
   inputStyle?: StyleProp<TextStyle>
   autoFocus?: boolean
   editable?: boolean
@@ -273,6 +273,12 @@ interface Props {
   onInputChange?: (value: string) => void
   toggleAmountType?: () => void
   onOpenTokenPicker?: () => void
+
+  /**
+   * inputRef variable exist to ensure TextInput displays the start of the value for long values
+   * on Android: https://github.com/facebook/react-native/issues/14845
+   */
+  inputRef: React.MutableRefObject<RNTextInput | null>
 
   /** Used in order to show available balance.
    * @default token.balance  */
@@ -295,9 +301,10 @@ export default function TokenEnterAmount({
   tokenBalance,
 }: Props) {
   const { t } = useTranslation()
-  // the startPosition and inputRef variables exist to ensure TextInput
-  // displays the start of the value for long values on Android
-  // https://github.com/facebook/react-native/issues/14845
+  /**
+   * startPosition variable exist to ensure TextInput displays the start of the value for long
+   * values on Android: https://github.com/facebook/react-native/issues/14845
+   */
   const [startPosition, setStartPosition] = useState<number | undefined>(0)
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
