@@ -132,7 +132,7 @@ export function SwapScreen({ route }: Props) {
     onChangeAmount,
   } = useEnterAmount({
     inputRef: inputFromRef,
-    token: fromToken!,
+    token: fromToken,
     onAmountChange: (amount) => {
       setConfirmingSwap(false)
       setStartedSwapId(undefined)
@@ -145,11 +145,8 @@ export function SwapScreen({ route }: Props) {
   const {
     amount: amountTo,
     processedAmounts: derivedTo,
-    handleAmountInputChange: handleAmountInputChangeTo,
-  } = useEnterAmount({
-    token: toToken!,
-    inputRef: inputToRef,
-  })
+    replaceAmount: replaceAmountTo,
+  } = useEnterAmount({ token: toToken, inputRef: inputToRef })
 
   const initialToTokenNetworkId = route.params?.toTokenNetworkId
   const filterChipsFrom = useFilterChips(Field.FROM)
@@ -184,76 +181,90 @@ export function SwapScreen({ route }: Props) {
   const fromSwapAmountError =
     confirmingSwap && derivedFrom.token.bignum && derivedFrom.token.bignum.gt(fromTokenBalance)
 
-  const quoteUpdatePending =
-    (derivedFrom.token.bignum &&
+  const quoteIsPending = useMemo(() => {
+    if (fetchingSwapQuote) return true
+
+    return (
+      derivedFrom.token.bignum &&
       quote &&
       (quote.fromTokenId !== fromToken?.tokenId ||
         quote.toTokenId !== toToken?.tokenId ||
-        !quote.swapAmount.eq(derivedFrom.token.bignum))) ||
-    fetchingSwapQuote
+        !quote.swapAmount.eq(derivedFrom.token.bignum))
+    )
+  }, [])
 
   const confirmSwapIsLoading = swapStatus === 'started'
   const confirmSwapFailed = swapStatus === 'error'
 
-  useEffect(() => {
+  useEffect(function trackSwapScreenOpen() {
     AppAnalytics.track(SwapEvents.swap_screen_open)
   }, [])
 
-  useEffect(() => {
-    if (fetchSwapQuoteError) {
-      if (!fetchSwapQuoteError.message.includes(NO_QUOTE_ERROR_MESSAGE)) {
-        dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
+  useEffect(
+    function showErrorForFailedQuote() {
+      if (fetchSwapQuoteError) {
+        if (!fetchSwapQuoteError.message.includes(NO_QUOTE_ERROR_MESSAGE)) {
+          dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
+        }
       }
-    }
-  }, [fetchSwapQuoteError])
+    },
+    [fetchSwapQuoteError]
+  )
 
-  useEffect(() => {
-    // since we use the quote to update the parsedSwapAmount,
-    // this hook will be triggered after the quote is first updated. this
-    // variable prevents the quote from needlessly being fetched again.
-    const quoteKnown =
-      fromToken &&
-      toToken &&
-      derivedFrom.token.bignum &&
-      quote &&
-      quote.toTokenId === toToken.tokenId &&
-      quote.fromTokenId === fromToken.tokenId &&
-      quote.swapAmount.eq(derivedFrom.token.bignum)
+  useEffect(
+    function triggerDebouncedQuoteRefresh() {
+      const bothTokensPresent = !!(fromToken && toToken)
+      const amountIsTooSmall = !derivedFrom.token.bignum || derivedFrom.token.bignum.lte(0)
+      const amountIsTooBig =
+        fromToken && (!derivedFrom.token.bignum || derivedFrom.token.bignum.gt(fromToken.balance))
 
-    const debouncedRefreshQuote = setTimeout(() => {
-      if (
-        fromToken &&
-        toToken &&
-        derivedFrom.token.bignum &&
-        derivedFrom.token.bignum.gt(0) &&
-        !quoteKnown
-      ) {
-        void refreshQuote(
-          fromToken,
-          toToken,
-          { FROM: derivedFrom.token.bignum, TO: derivedTo.token.bignum! },
-          Field.FROM
-        )
+      if (!bothTokensPresent || amountIsTooSmall || amountIsTooBig) {
+        return
       }
-    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
 
-    return () => {
-      clearTimeout(debouncedRefreshQuote)
-    }
-  }, [fromToken, toToken, derivedFrom.token.bignum, derivedTo.token.bignum, quote])
+      /**
+       * Since we use the quote to update the parsedSwapAmount, this hook will be triggered after
+       * the quote is first updated. This variable prevents the quote from needlessly being fetched again.
+       */
+      const quoteKnown =
+        quote &&
+        quote.toTokenId === toToken.tokenId &&
+        quote.fromTokenId === fromToken.tokenId &&
+        quote.swapAmount.eq(derivedFrom.token.bignum!)
 
-  useEffect(() => {
-    setConfirmingSwap(false)
+      const debouncedRefreshQuote = setTimeout(() => {
+        if (!quoteKnown) {
+          void refreshQuote(
+            fromToken,
+            toToken,
+            { FROM: derivedFrom.token.bignum!, TO: derivedTo.token.bignum! },
+            Field.FROM
+          )
+        }
+      }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
 
-    if (!quote) {
-      handleAmountInputChangeTo('')
-      return
-    }
+      return () => {
+        clearTimeout(debouncedRefreshQuote)
+      }
+    },
+    [fromToken, toToken, derivedFrom.token.bignum, derivedTo.token.bignum, quote]
+  )
 
-    if (!derivedFrom.token.bignum) return
-    const newAmount = derivedFrom.token.bignum.multipliedBy(new BigNumber(quote.price))
-    handleAmountInputChangeTo(newAmount.toString())
-  }, [quote])
+  useEffect(
+    function updateToAmountWhenQuoteIsUpdated() {
+      setConfirmingSwap(false)
+
+      if (!quote) {
+        replaceAmountTo('')
+        return
+      }
+
+      if (!derivedFrom.token.bignum) return
+      const newAmount = derivedFrom.token.bignum.multipliedBy(new BigNumber(quote.price)).toString()
+      replaceAmountTo(newAmount)
+    },
+    [quote]
+  )
 
   const onOpenTokenPickerFrom = () => {
     setConfirmingSwap(false)
@@ -392,7 +403,7 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleConfirmSelectTokenNoUsdPrice = () => {
-    if (toToken?.tokenPositionInList !== undefined) {
+    if (!!toToken && toToken.tokenPositionInList !== undefined) {
       confirmSelectTokenTo(toToken, toToken.tokenPositionInList)
     }
   }
@@ -467,10 +478,10 @@ export function SwapScreen({ route }: Props) {
       setSwitchedToNetworkId(null)
 
       /**
-       * use requestAnimationFrame so that the bottom sheet and keyboard dismiss
+       * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
        * animation can be synchronised and starts after the state changes above.
-       * without this, the keyboard animation lags behind the state updates while
-       * the bottom sheet does not
+       * Without this, the keyboard animation lags behind the state updates while
+       * the bottom sheet does not.
        */
       requestAnimationFrame(() => tokenBottomSheetFromRef.current?.close())
 
@@ -509,10 +520,10 @@ export function SwapScreen({ route }: Props) {
     }
 
     /**
-     * use requestAnimationFrame so that the bottom sheet and keyboard dismiss
+     * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
      * animation can be synchronised and starts after the state changes above.
-     * without this, the keyboard animation lags behind the state updates while
-     * the bottom sheet does not
+     * Without this, the keyboard animation lags behind the state updates while
+     * the bottom sheet does not.
      */
     requestAnimationFrame(() => tokenBottomSheetFromRef.current?.close())
   }
@@ -536,10 +547,10 @@ export function SwapScreen({ route }: Props) {
       setSwitchedToNetworkId(null)
 
       /**
-       * use requestAnimationFrame so that the bottom sheet and keyboard dismiss
+       * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
        * animation can be synchronised and starts after the state changes above.
-       * without this, the keyboard animation lags behind the state updates while
-       * the bottom sheet does not
+       * Without this, the keyboard animation lags behind the state updates while
+       * the bottom sheet does not.
        */
       requestAnimationFrame(() => tokenBottomSheetToRef.current?.close())
 
@@ -574,10 +585,10 @@ export function SwapScreen({ route }: Props) {
       }
 
       /**
-       * use requestAnimationFrame so that the bottom sheet and keyboard dismiss
+       * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
        * animation can be synchronised and starts after the state changes above.
-       * without this, the keyboard animation lags behind the state updates while
-       * the bottom sheet does not
+       * Without this, the keyboard animation lags behind the state updates while
+       * the bottom sheet does not.
        */
       requestAnimationFrame(() => tokenBottomSheetToRef.current?.close())
     }
@@ -609,26 +620,26 @@ export function SwapScreen({ route }: Props) {
     const checks = {
       showSwitchedToNetworkWarning: !!switchedToNetworkId,
       showUnsupportedTokensWarning:
-        !quoteUpdatePending && fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
+        !fetchingSwapQuote && fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
       showInsufficientBalanceWarning:
         derivedFrom.token.bignum && derivedFrom.token.bignum.gt(fromTokenBalance),
       showCrossChainFeeWarning:
-        !quoteUpdatePending && crossChainFee?.nativeTokenBalanceDeficit.lt(0),
+        !fetchingSwapQuote && crossChainFee?.nativeTokenBalanceDeficit.lt(0),
       showDecreaseSpendForGasWarning:
-        !quoteUpdatePending &&
+        !fetchingSwapQuote &&
         quote?.preparedTransactions.type === 'need-decrease-spend-amount-for-gas',
       showNotEnoughBalanceForGasWarning:
-        !quoteUpdatePending && quote?.preparedTransactions.type === 'not-enough-balance-for-gas',
+        !fetchingSwapQuote && quote?.preparedTransactions.type === 'not-enough-balance-for-gas',
       showMaxSwapAmountWarning: shouldShowMaxSwapAmountWarning && !confirmSwapFailed,
       showNoUsdPriceWarning:
-        !confirmSwapFailed && !quoteUpdatePending && toToken && !toToken.priceUsd,
+        !confirmSwapFailed && !fetchingSwapQuote && toToken && !toToken.priceUsd,
       showPriceImpactWarning:
         !confirmSwapFailed &&
-        !quoteUpdatePending &&
+        !fetchingSwapQuote &&
         (quote?.estimatedPriceImpact
           ? new BigNumber(quote.estimatedPriceImpact).gte(priceImpactWarningThreshold)
           : false),
-      showMissingPriceImpactWarning: !quoteUpdatePending && quote && !quote.estimatedPriceImpact,
+      showMissingPriceImpactWarning: !fetchingSwapQuote && quote && !quote.estimatedPriceImpact,
     }
 
     // Only ever show a single warning, according to precedence as above.
@@ -663,13 +674,13 @@ export function SwapScreen({ route }: Props) {
       !showInsufficientBalanceWarning &&
       !showCrossChainFeeWarning &&
       !confirmSwapIsLoading &&
-      !quoteUpdatePending &&
+      !fetchingSwapQuote &&
       derivedFrom.token.bignum?.gt(0) &&
       derivedTo.token.bignum?.gt(0),
     [
       derivedFrom.token.bignum,
       derivedTo.token.bignum,
-      quoteUpdatePending,
+      fetchingSwapQuote,
       confirmSwapIsLoading,
       showInsufficientBalanceWarning,
       showDecreaseSpendForGasWarning,
@@ -744,221 +755,235 @@ export function SwapScreen({ route }: Props) {
         contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={[styles.swapAmountsContainer, { gap: 4 }]}>
-          <TokenEnterAmount
-            autoFocus
-            token={fromToken}
-            inputValue={amountFrom}
-            inputRef={inputFromRef}
-            tokenAmount={derivedFrom.token.displayAmount}
-            localAmount={derivedFrom.local.displayAmount}
-            onInputChange={handleAmountInputChange}
-            amountType={amountType}
-            toggleAmountType={handleToggleAmountType}
-            onOpenTokenPicker={onOpenTokenPickerFrom}
-          />
-          <View style={styles.switchTokensContainer}>
-            <Touchable
-              borderless
-              borderRadius={Spacing.Regular16}
-              shouldRenderRippleAbove
-              style={styles.switchTokens}
-              onPress={handleSwitchTokens}
-              testID="SwapScreen/SwitchTokens"
-            >
-              <CircledIcon radius={Spacing.Large32} backgroundColor={colors.black}>
-                <ArrowDown color={colors.white} />
-              </CircledIcon>
-            </Touchable>
+        <View style={{ display: 'flex', justifyContent: 'space-between', flexGrow: 1 }}>
+          <View style={{ flexShrink: 0 }}>
+            <View style={[styles.warningsContainer, { gap: 4 }]}>
+              <TokenEnterAmount
+                autoFocus
+                token={fromToken}
+                inputValue={amountFrom}
+                inputRef={inputFromRef}
+                tokenAmount={derivedFrom.token.displayAmount}
+                localAmount={derivedFrom.local.displayAmount}
+                onInputChange={handleAmountInputChange}
+                amountType={amountType}
+                toggleAmountType={handleToggleAmountType}
+                onOpenTokenPicker={onOpenTokenPickerFrom}
+              />
+              <View style={styles.switchTokensContainer}>
+                <Touchable
+                  borderless
+                  borderRadius={Spacing.Regular16}
+                  shouldRenderRippleAbove
+                  style={styles.switchTokens}
+                  onPress={handleSwitchTokens}
+                  testID="SwapScreen/SwitchTokens"
+                >
+                  <CircledIcon radius={Spacing.Large32} backgroundColor={colors.black}>
+                    <ArrowDown color={colors.white} />
+                  </CircledIcon>
+                </Touchable>
+              </View>
+              <TokenEnterAmount
+                token={toToken}
+                inputValue={amountTo}
+                inputRef={inputToRef}
+                tokenAmount={derivedTo.token.displayAmount}
+                localAmount={derivedTo.local.displayAmount}
+                amountType={amountType}
+                onOpenTokenPicker={onOpenTokenPickerTo}
+                loading={fetchingSwapQuote}
+              />
+            </View>
+
+            <View>
+              {showCrossChainSwapNotification && (
+                <View style={styles.crossChainNotificationWrapper}>
+                  <CrossChainIndicator />
+                  <Text style={styles.crossChainNotification}>
+                    {t('swapScreen.crossChainNotification')}
+                  </Text>
+                </View>
+              )}
+              <SwapTransactionDetails
+                feeInfoBottomSheetRef={feeInfoBottomSheetRef}
+                slippageInfoBottomSheetRef={slippageInfoBottomSheetRef}
+                estimatedDurationBottomSheetRef={estimatedDurationBottomSheetRef}
+                slippagePercentage={parsedSlippagePercentage}
+                fromToken={fromToken}
+                toToken={toToken}
+                exchangeRatePrice={quote?.price}
+                exchangeRateInfoBottomSheetRef={exchangeRateInfoBottomSheetRef}
+                swapAmount={derivedFrom.token.bignum ?? undefined}
+                fetchingSwapQuote={fetchingSwapQuote}
+                appFee={appFee}
+                estimatedDurationInSeconds={
+                  quote?.swapType === 'cross-chain' ? quote.estimatedDurationInSeconds : undefined
+                }
+                crossChainFee={crossChainFee}
+                networkFee={networkFee}
+              />
+            </View>
           </View>
-          <TokenEnterAmount
-            editable={false}
-            token={toToken}
-            inputValue={amountTo}
-            inputRef={inputToRef}
-            tokenAmount={derivedTo.token.displayAmount}
-            localAmount={derivedTo.local.displayAmount}
-            amountType={amountType}
-            onOpenTokenPicker={onOpenTokenPickerTo}
-          />
+
+          <View style={[styles.warningsContainer, { display: 'flex', justifyContent: 'flex-end' }]}>
+            {showCrossChainFeeWarning && (
+              <InLineNotification
+                variant={NotificationVariant.Warning}
+                title={t('swapScreen.crossChainFeeWarning.title', {
+                  tokenSymbol: crossChainFeeCurrency?.symbol,
+                })}
+                description={t('swapScreen.crossChainFeeWarning.body', {
+                  networkName:
+                    NETWORK_NAMES[
+                      crossChainFeeCurrency?.networkId || networkConfig.defaultNetworkId
+                    ],
+                  tokenSymbol: crossChainFeeCurrency?.symbol,
+                  tokenAmount: crossChainFee?.nativeTokenBalanceDeficit.abs().toFormat(),
+                })}
+                style={styles.warning}
+              />
+            )}
+            {showDecreaseSpendForGasWarning && (
+              <InLineNotification
+                variant={NotificationVariant.Warning}
+                title={t('swapScreen.decreaseSwapAmountForGasWarning.title', {
+                  feeTokenSymbol: feeToken?.symbol,
+                })}
+                description={t('swapScreen.decreaseSwapAmountForGasWarning.body', {
+                  feeTokenSymbol: feeToken?.symbol,
+                })}
+                onPressCta={() => {
+                  if (
+                    !quote ||
+                    quote.preparedTransactions.type !== 'need-decrease-spend-amount-for-gas'
+                  )
+                    return
+                  onChangeAmount(quote.preparedTransactions.decreasedSpendAmount.toString())
+                }}
+                ctaLabel={t('swapScreen.decreaseSwapAmountForGasWarning.cta')}
+                style={styles.warning}
+              />
+            )}
+            {showNotEnoughBalanceForGasWarning && (
+              <InLineNotification
+                variant={NotificationVariant.Warning}
+                title={t('swapScreen.notEnoughBalanceForGas.title')}
+                description={t('swapScreen.notEnoughBalanceForGas.description', {
+                  feeCurrencies,
+                })}
+                style={styles.warning}
+                onPressCta={onPressLearnMoreFees}
+              />
+            )}
+            {showInsufficientBalanceWarning && (
+              <InLineNotification
+                variant={NotificationVariant.Warning}
+                title={t('swapScreen.insufficientBalanceWarning.title', {
+                  tokenSymbol: fromToken?.symbol,
+                })}
+                description={t('swapScreen.insufficientBalanceWarning.body', {
+                  tokenSymbol: fromToken?.symbol,
+                })}
+                style={styles.warning}
+              />
+            )}
+            {showUnsupportedTokensWarning && (
+              <InLineNotification
+                variant={NotificationVariant.Info}
+                title={t('swapScreen.unsupportedTokensWarning.title')}
+                description={t('swapScreen.unsupportedTokensWarning.body')}
+                style={styles.warning}
+              />
+            )}
+            {showSwitchedToNetworkWarning && (
+              <InLineNotification
+                variant={NotificationVariant.Info}
+                title={t('swapScreen.switchedToNetworkWarning.title', {
+                  networkName: switchedToNetworkName,
+                })}
+                description={t('swapScreen.switchedToNetworkWarning.body', {
+                  networkName: switchedToNetworkName,
+                  // TODO
+                  // context: selectingField === Field.FROM ? 'swapTo' : 'swapFrom',
+                })}
+                style={styles.warning}
+                testID="SwitchedToNetworkWarning"
+              />
+            )}
+            {showMaxSwapAmountWarning && (
+              <InLineNotification
+                variant={NotificationVariant.Warning}
+                title={t('swapScreen.maxSwapAmountWarning.titleV1_74', {
+                  tokenSymbol: fromToken?.symbol,
+                })}
+                description={t('swapScreen.maxSwapAmountWarning.bodyV1_74', {
+                  tokenSymbol: fromToken?.symbol,
+                })}
+                ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}
+                style={styles.warning}
+                onPressCta={onPressLearnMoreFees}
+                testID="MaxSwapAmountWarning"
+              />
+            )}
+            {showPriceImpactWarning && (
+              <InLineNotification
+                variant={NotificationVariant.Warning}
+                title={t('swapScreen.priceImpactWarning.title')}
+                description={t('swapScreen.priceImpactWarning.body')}
+                style={styles.warning}
+              />
+            )}
+            {showNoUsdPriceWarning && (
+              <InLineNotification
+                variant={NotificationVariant.Warning}
+                title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
+                description={t('swapScreen.noUsdPriceWarning.description', {
+                  localCurrency,
+                  tokenSymbol: toToken?.symbol,
+                })}
+                style={styles.warning}
+              />
+            )}
+            {showMissingPriceImpactWarning && (
+              <InLineNotification
+                variant={NotificationVariant.Warning}
+                title={t('swapScreen.missingSwapImpactWarning.title')}
+                description={t('swapScreen.missingSwapImpactWarning.body')}
+                style={styles.warning}
+              />
+            )}
+            {confirmSwapFailed && (
+              <InLineNotification
+                variant={NotificationVariant.Warning}
+                title={t('swapScreen.confirmSwapFailedWarning.title')}
+                description={t('swapScreen.confirmSwapFailedWarning.body')}
+                style={styles.warning}
+              />
+            )}
+          </View>
         </View>
 
-        <View style={styles.swapAmountsContainer}>
-          {showCrossChainSwapNotification && (
-            <View style={styles.crossChainNotificationWrapper}>
-              <CrossChainIndicator />
-              <Text style={styles.crossChainNotification}>
-                {t('swapScreen.crossChainNotification')}
-              </Text>
-            </View>
-          )}
-          <SwapTransactionDetails
-            feeInfoBottomSheetRef={feeInfoBottomSheetRef}
-            slippageInfoBottomSheetRef={slippageInfoBottomSheetRef}
-            estimatedDurationBottomSheetRef={estimatedDurationBottomSheetRef}
-            slippagePercentage={parsedSlippagePercentage}
-            fromToken={fromToken}
-            toToken={toToken}
-            exchangeRatePrice={quote?.price}
-            exchangeRateInfoBottomSheetRef={exchangeRateInfoBottomSheetRef}
-            swapAmount={derivedFrom.token.bignum ?? undefined}
-            fetchingSwapQuote={quoteUpdatePending}
-            appFee={appFee}
-            estimatedDurationInSeconds={
-              quote?.swapType === 'cross-chain' ? quote.estimatedDurationInSeconds : undefined
-            }
-            crossChainFee={crossChainFee}
-            networkFee={networkFee}
+        <View>
+          <Text style={styles.disclaimerText}>
+            <Trans
+              i18nKey="swapScreen.disclaimer"
+              context={showUKCompliantVariant ? 'UK' : undefined}
+            >
+              <Text style={styles.disclaimerLink} onPress={onPressLearnMore}></Text>
+            </Trans>
+          </Text>
+          <Button
+            testID="ConfirmSwapButton"
+            onPress={handleConfirmSwap}
+            text={t('swapScreen.confirmSwap', {
+              context: showUKCompliantVariant ? 'UK' : undefined,
+            })}
+            size={BtnSizes.FULL}
+            disabled={!allowSwap}
+            showLoading={confirmSwapIsLoading}
           />
-          {showCrossChainFeeWarning && (
-            <InLineNotification
-              variant={NotificationVariant.Warning}
-              title={t('swapScreen.crossChainFeeWarning.title', {
-                tokenSymbol: crossChainFeeCurrency?.symbol,
-              })}
-              description={t('swapScreen.crossChainFeeWarning.body', {
-                networkName:
-                  NETWORK_NAMES[crossChainFeeCurrency?.networkId || networkConfig.defaultNetworkId],
-                tokenSymbol: crossChainFeeCurrency?.symbol,
-                tokenAmount: crossChainFee?.nativeTokenBalanceDeficit.abs().toFormat(),
-              })}
-              style={styles.warning}
-            />
-          )}
-          {showDecreaseSpendForGasWarning && (
-            <InLineNotification
-              variant={NotificationVariant.Warning}
-              title={t('swapScreen.decreaseSwapAmountForGasWarning.title', {
-                feeTokenSymbol: feeToken?.symbol,
-              })}
-              description={t('swapScreen.decreaseSwapAmountForGasWarning.body', {
-                feeTokenSymbol: feeToken?.symbol,
-              })}
-              onPressCta={() => {
-                if (
-                  !quote ||
-                  quote.preparedTransactions.type !== 'need-decrease-spend-amount-for-gas'
-                )
-                  return
-                onChangeAmount(quote.preparedTransactions.decreasedSpendAmount.toString())
-              }}
-              ctaLabel={t('swapScreen.decreaseSwapAmountForGasWarning.cta')}
-              style={styles.warning}
-            />
-          )}
-          {showNotEnoughBalanceForGasWarning && (
-            <InLineNotification
-              variant={NotificationVariant.Warning}
-              title={t('swapScreen.notEnoughBalanceForGas.title')}
-              description={t('swapScreen.notEnoughBalanceForGas.description', {
-                feeCurrencies,
-              })}
-              style={styles.warning}
-              onPressCta={onPressLearnMoreFees}
-            />
-          )}
-          {showInsufficientBalanceWarning && (
-            <InLineNotification
-              variant={NotificationVariant.Warning}
-              title={t('swapScreen.insufficientBalanceWarning.title', {
-                tokenSymbol: fromToken?.symbol,
-              })}
-              description={t('swapScreen.insufficientBalanceWarning.body', {
-                tokenSymbol: fromToken?.symbol,
-              })}
-              style={styles.warning}
-            />
-          )}
-          {showUnsupportedTokensWarning && (
-            <InLineNotification
-              variant={NotificationVariant.Info}
-              title={t('swapScreen.unsupportedTokensWarning.title')}
-              description={t('swapScreen.unsupportedTokensWarning.body')}
-              style={styles.warning}
-            />
-          )}
-          {showSwitchedToNetworkWarning && (
-            <InLineNotification
-              variant={NotificationVariant.Info}
-              title={t('swapScreen.switchedToNetworkWarning.title', {
-                networkName: switchedToNetworkName,
-              })}
-              description={t('swapScreen.switchedToNetworkWarning.body', {
-                networkName: switchedToNetworkName,
-                // TODO
-                // context: selectingField === Field.FROM ? 'swapTo' : 'swapFrom',
-              })}
-              style={styles.warning}
-              testID="SwitchedToNetworkWarning"
-            />
-          )}
-          {showMaxSwapAmountWarning && (
-            <InLineNotification
-              variant={NotificationVariant.Warning}
-              title={t('swapScreen.maxSwapAmountWarning.titleV1_74', {
-                tokenSymbol: fromToken?.symbol,
-              })}
-              description={t('swapScreen.maxSwapAmountWarning.bodyV1_74', {
-                tokenSymbol: fromToken?.symbol,
-              })}
-              ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}
-              style={styles.warning}
-              onPressCta={onPressLearnMoreFees}
-              testID="MaxSwapAmountWarning"
-            />
-          )}
-          {showPriceImpactWarning && (
-            <InLineNotification
-              variant={NotificationVariant.Warning}
-              title={t('swapScreen.priceImpactWarning.title')}
-              description={t('swapScreen.priceImpactWarning.body')}
-              style={styles.warning}
-            />
-          )}
-          {showNoUsdPriceWarning && (
-            <InLineNotification
-              variant={NotificationVariant.Warning}
-              title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
-              description={t('swapScreen.noUsdPriceWarning.description', {
-                localCurrency,
-                tokenSymbol: toToken?.symbol,
-              })}
-              style={styles.warning}
-            />
-          )}
-          {showMissingPriceImpactWarning && (
-            <InLineNotification
-              variant={NotificationVariant.Warning}
-              title={t('swapScreen.missingSwapImpactWarning.title')}
-              description={t('swapScreen.missingSwapImpactWarning.body')}
-              style={styles.warning}
-            />
-          )}
-          {confirmSwapFailed && (
-            <InLineNotification
-              variant={NotificationVariant.Warning}
-              title={t('swapScreen.confirmSwapFailedWarning.title')}
-              description={t('swapScreen.confirmSwapFailedWarning.body')}
-              style={styles.warning}
-            />
-          )}
         </View>
-        <Text style={styles.disclaimerText}>
-          <Trans
-            i18nKey="swapScreen.disclaimer"
-            context={showUKCompliantVariant ? 'UK' : undefined}
-          >
-            <Text style={styles.disclaimerLink} onPress={onPressLearnMore}></Text>
-          </Trans>
-        </Text>
-        <Button
-          testID="ConfirmSwapButton"
-          onPress={handleConfirmSwap}
-          text={t('swapScreen.confirmSwap', { context: showUKCompliantVariant ? 'UK' : undefined })}
-          size={BtnSizes.FULL}
-          disabled={!allowSwap}
-          showLoading={confirmSwapIsLoading}
-        />
       </ScrollView>
 
       <TokenBottomSheet
@@ -1049,7 +1074,7 @@ export function SwapScreen({ route }: Props) {
       />
       <Toast
         withBackdrop
-        showToast={!!toToken?.tokenPositionInList !== undefined}
+        showToast={!!toToken && toToken.tokenPositionInList !== undefined}
         variant={NotificationVariant.Warning}
         title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
         description={t('swapScreen.noUsdPriceWarning.description', {
@@ -1073,8 +1098,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: Spacing.Regular16,
     flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'space-between',
   },
-  swapAmountsContainer: {
+  warningsContainer: {
     paddingBottom: Spacing.Thick24,
     flex: 1,
   },
