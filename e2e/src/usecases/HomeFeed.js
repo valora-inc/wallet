@@ -70,9 +70,7 @@ export default HomeFeed = () => {
     const startingItems = await element(by.id('TransferFeedItem')).getAttributes()
 
     // Scroll to bottom - Android will scroll forever so we set a static value
-    device.getPlatform() === 'ios'
-      ? await element(by.id('TransactionList')).scrollTo('bottom')
-      : await element(by.id('TransactionList')).scroll(5000, 'down')
+    await element(by.id('TransactionList')).scroll(5000, 'down')
     await sleep(5000)
     await waitForExpectNotVisible('TransactionList/loading')
 
