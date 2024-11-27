@@ -1,18 +1,21 @@
 import BigNumber from 'bignumber.js'
-import React, { ComponentType, useEffect, useState } from 'react'
+import React, { ComponentType, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
+import { Keyboard, TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
-import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, {
+  TokenBottomSheetProps,
+  TokenPickerOrigin,
+} from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenEnterAmount, {
   FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS,
@@ -20,6 +23,7 @@ import TokenEnterAmount, {
 } from 'src/components/TokenEnterAmount'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { useSelector } from 'src/redux/hooks'
+import EnterAmountOptions from 'src/send/EnterAmountOptions'
 import { AmountEnteredIn } from 'src/send/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -103,43 +107,71 @@ export default function EnterAmount({
   disableBalanceCheck = false,
 }: Props) {
   const { t } = useTranslation()
+  const insets = useSafeAreaInsets()
   const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
+  const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
   const { tokenId: feeTokenId } = feeCurrency ?? feeCurrencies[0]
 
+  const inputRef = useRef<RNTextInput>(null)
+  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
+
   const {
     amount,
+    setAmount,
     amountType,
-    derived,
-    inputRef,
-    bottomSheetRef,
+    processedAmounts,
     handleAmountInputChange,
     handleToggleAmountType,
-    onSelectToken,
   } = useEnterAmount({
     token,
-    onSelectToken: (token) => setToken(token),
+    inputRef,
+    onAmountChange: () => {
+      setSelectedPercentage(null)
+    },
   })
 
-  // @ts-ignore - the max button will be restored in the next PR
-  // const onMaxAmountPress = async () => {
-  //   // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
-  //   // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
-  //   // if there is not enough for gas
-  //   setAmount(token.balance.toFormat({ decimalSeparator }))
-  //   setAmountType('token')
+  const onOpenTokenPicker = () => {
+    bottomSheetRef.current?.snapToIndex(0)
+    AppAnalytics.track(SendEvents.token_dropdown_opened, {
+      currentTokenId: token.tokenId,
+      currentTokenAddress: token.address,
+      currentNetworkId: token.networkId,
+    })
+  }
 
-  //   tokenAmountInputRef.current?.blur()
-  //   AppAnalytics.track(SendEvents.max_pressed, {
-  //     tokenId: token.tokenId,
-  //     tokenAddress: token.address,
-  //     networkId: token.networkId,
-  //   })
-  // }
+  const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
+    setToken(selectedToken)
+    setAmount('')
+    bottomSheetRef.current?.close()
+    // NOTE: analytics is already fired by the bottom sheet, don't need one here
+  }
 
-  const isAmountLessThanBalance = derived.token.bignum && derived.token.bignum.lte(token.balance)
-  const showLowerAmountError = !isAmountLessThanBalance && !disableBalanceCheck
+  const onSelectPercentageAmount = (percentage: number) => {
+    const balance =
+      amountType === 'token' ? token.balance : processedAmounts.local.balance?.decimalPlaces(2)
+    if (!balance) {
+      return
+    }
+
+    const percentageAmount = balance.multipliedBy(percentage).toString()
+    setAmount(percentageAmount)
+    setSelectedPercentage(percentage)
+
+    AppAnalytics.track(SendEvents.send_percentage_selected, {
+      tokenId: token.tokenId,
+      tokenAddress: token.address,
+      networkId: token.networkId,
+      percentage: percentage * 100,
+      flow: 'send',
+    })
+  }
+
+  const isAmountLessThanBalance =
+    processedAmounts.token.bignum && processedAmounts.token.bignum.lte(token.balance)
+  const showLowerAmountError =
+    processedAmounts.token.bignum && !isAmountLessThanBalance && !disableBalanceCheck
   const showMaxAmountWarning =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -156,37 +188,41 @@ export default function EnterAmount({
 
   const disabled =
     disableProceed ||
-    (disableBalanceCheck ? !!derived.token.bignum?.isZero() : !transactionIsPossible)
+    (disableBalanceCheck ? !!processedAmounts.token.bignum?.isZero() : !transactionIsPossible)
 
-  useEffect(() => {
-    onClearPreparedTransactions()
+  useEffect(
+    function refreshPreparedTransactions() {
+      onClearPreparedTransactions()
 
-    if (
-      !derived.token.bignum ||
-      derived.token.bignum.isLessThanOrEqualTo(0) ||
-      derived.token.bignum.isGreaterThan(token.balance)
-    ) {
-      return
-    }
-    const debouncedRefreshTransactions = setTimeout(() => {
-      return onRefreshPreparedTransactions(derived.token.bignum!, token, feeCurrencies)
-    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
-    return () => clearTimeout(debouncedRefreshTransactions)
-  }, [derived.token.bignum, token])
-
-  function onOpenTokenPicker() {
-    bottomSheetRef.current?.snapToIndex(0)
-    AppAnalytics.track(SendEvents.token_dropdown_opened, {
-      currentTokenId: token.tokenId,
-      currentTokenAddress: token.address,
-      currentNetworkId: token.networkId,
-    })
-  }
+      if (
+        !processedAmounts.token.bignum ||
+        processedAmounts.token.bignum.isLessThanOrEqualTo(0) ||
+        processedAmounts.token.bignum.isGreaterThan(token.balance)
+      ) {
+        return
+      }
+      const debouncedRefreshTransactions = setTimeout(() => {
+        return onRefreshPreparedTransactions(processedAmounts.token.bignum!, token, feeCurrencies)
+      }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
+      return () => clearTimeout(debouncedRefreshTransactions)
+    },
+    [processedAmounts.token.bignum, token]
+  )
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
-      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={[
+          styles.contentContainer,
+          {
+            paddingBottom: Math.max(insets.bottom, Spacing.Thick24),
+          },
+        ]}
+        onScrollBeginDrag={() => {
+          Keyboard.dismiss()
+        }}
+      >
         <View style={styles.inputContainer}>
           <Text style={styles.title}>{t('sendEnterAmountScreen.title')}</Text>
           <TokenEnterAmount
@@ -195,8 +231,8 @@ export default function EnterAmount({
             token={token}
             inputValue={amount}
             inputRef={inputRef}
-            tokenAmount={derived.token.readable}
-            localAmount={derived.local.readable}
+            tokenAmount={processedAmounts.token.displayAmount}
+            localAmount={processedAmounts.local.displayAmount}
             onInputChange={handleAmountInputChange}
             amountType={amountType}
             toggleAmountType={handleToggleAmountType}
@@ -281,16 +317,29 @@ export default function EnterAmount({
 
         {children}
 
+        <EnterAmountOptions
+          onPressAmount={onSelectPercentageAmount}
+          selectedAmount={selectedPercentage}
+          testID="SendEnterAmount/AmountOptions"
+        />
+
         <ProceedComponent
-          tokenAmount={derived.token.bignum}
-          localAmount={derived.local.bignum}
+          tokenAmount={
+            amountType === 'local' && selectedPercentage === 1
+              ? token.balance
+              : processedAmounts.token.bignum
+          }
+          localAmount={
+            amountType === 'local' && selectedPercentage === 1
+              ? processedAmounts.local.balance
+              : processedAmounts.local.bignum
+          }
           token={token}
           amountEnteredIn={amountType}
           onPressProceed={onPressProceed}
           disabled={disabled}
           showLoading={prepareTransactionsLoading}
         />
-        <KeyboardSpacer />
       </KeyboardAwareScrollView>
       <TokenBottomSheet
         forwardedRef={bottomSheetRef}
@@ -315,8 +364,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   title: {
-    ...typeScale.titleSmall,
-    marginBottom: Spacing.Thick24,
+    ...typeScale.titleMedium,
   },
   inputContainer: {
     flex: 1,
@@ -345,7 +393,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   reviewButton: {
-    paddingVertical: Spacing.Thick24,
+    paddingTop: Spacing.Thick24,
   },
   warning: {
     marginBottom: Spacing.Regular16,

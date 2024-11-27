@@ -386,6 +386,7 @@
   "accountAddressLabel": "Account Address",
   "celoAmountLabel": "Amount (CELO)",
   "maxSymbol": "Max",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Review",
   "withdrawCeloTo": "Withdraw to",
   "withdrawCeloAmount": "Amount (CELO)",
@@ -2207,6 +2208,7 @@
     "title": "Enter Amount",
     "selectToken": "Select a Token",
     "networkFee": "{{networkName}} Network Fee",
+    "networkFeeV1_97": "Network Fee",
     "lowerAmount": "Enter a lower amount",
     "maxAmountWarning": {
       "title": "Sending the maximum amount",
