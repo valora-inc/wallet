@@ -15,8 +15,8 @@ export interface SwapAmount {
 }
 
 export interface ParsedSwapAmount {
-  [Field.FROM]: BigNumber
-  [Field.TO]: BigNumber
+  [Field.FROM]: BigNumber | null
+  [Field.TO]: BigNumber | null
 }
 
 interface SwapUserInput {
