@@ -183,7 +183,9 @@ function useSwapQuote({
         return null
       }
 
-      if (!swapAmount[updatedField].gt(0)) {
+      console.log(swapAmount[updatedField])
+
+      if (!swapAmount[updatedField] || !swapAmount[updatedField].gt(0)) {
         return null
       }
 
@@ -265,6 +267,7 @@ function useSwapQuote({
       // Keep last result when refreshing
       setLoading: (state) => ({ ...state, loading: true }),
       onError: (error: Error) => {
+        console.log(error)
         Logger.warn('SwapScreen@useSwapQuote', 'error from approve swap url', error)
       },
     }

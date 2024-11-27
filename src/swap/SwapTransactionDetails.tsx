@@ -162,7 +162,7 @@ export function SwapTransactionDetails({
 
   const placeholder = '-'
 
-  if (!toToken || !fromToken || !exchangeRatePrice) {
+  if (!toToken || !fromToken || !exchangeRatePrice || fetchingSwapQuote) {
     return null
   }
 

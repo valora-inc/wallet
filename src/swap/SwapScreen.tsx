@@ -49,7 +49,7 @@ import { swapStart } from 'src/swap/slice'
 import { AppFeeAmount, Field, SwapFeeAmount } from 'src/swap/types'
 import useFilterChips from 'src/swap/useFilterChips'
 import useSwapQuote, { NO_QUOTE_ERROR_MESSAGE, QuoteResult } from 'src/swap/useSwapQuote'
-import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
+import { useSwappableTokens } from 'src/tokens/hooks'
 import {
   feeCurrenciesSelector,
   feeCurrenciesWithPositiveBalancesSelector,
@@ -67,7 +67,7 @@ import { v4 as uuidv4 } from 'uuid'
 const TAG = 'SwapScreen'
 type ToToken = TokenBalance & { tokenPositionInList?: number }
 
-function getNetworkFee(quote: QuoteResult | null) {
+function getNetworkFee(quote: QuoteResult | null): SwapFeeAmount | undefined {
   const { feeCurrency, maxFeeAmount, estimatedFeeAmount } = getFeeCurrencyAndAmounts(
     quote?.preparedTransactions
   )
@@ -92,12 +92,24 @@ export function SwapScreen({ route }: Props) {
   const { maxSlippagePercentage, enableAppFee } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   )
-  const parsedSlippagePercentage = new BigNumber(maxSlippagePercentage).toFormat()
+
+  const currentSwap = useSelector(currentSwapSelector)
+  const localCurrency = useSelector(getLocalCurrencyCode)
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
   const tokensById = useSelector((state) =>
     tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
   )
+  const crossChainFeeCurrency = useSelector((state) =>
+    feeCurrenciesSelector(state, fromToken?.networkId || networkConfig.defaultNetworkId)
+  ).find((token) => token.isNative)
+  const feeCurrenciesWithPositiveBalances = useSelector((state) =>
+    feeCurrenciesWithPositiveBalancesSelector(
+      state,
+      fromToken?.networkId || networkConfig.defaultNetworkId
+    )
+  )
 
+  const debounceTimerRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const inputFromRef = useRef<RNTextInput>(null)
   const inputToRef = useRef<RNTextInput>(null)
   const tokenBottomSheetFromRef = useRef<BottomSheetModalRefType>(null)
@@ -108,19 +120,22 @@ export function SwapScreen({ route }: Props) {
   const estimatedDurationBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const [startedSwapId, setStartedSwapId] = useState<string | undefined>(undefined)
-  const [confirmingSwap, setConfirmingSwap] = useState(false)
   const [switchedToNetworkId, setSwitchedToNetworkId] = useState<NetworkId | null>(null)
-
   const [fromToken, setFromToken] = useState(() => {
     if (!route.params?.fromTokenId) return undefined
     return swappableFromTokens.find((token) => token.tokenId === route.params!.fromTokenId)
   })
-
   const [toToken, setToToken] = useState<ToToken | undefined>(() => {
     if (!route.params?.toTokenId) return undefined
     const token = swappableToTokens.find((token) => token.tokenId === route.params!.toTokenId)
     if (!token) return undefined
     return { ...token, tokenPositionInList: undefined }
+  })
+
+  const { quote, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } = useSwapQuote({
+    networkId: fromToken?.networkId || networkConfig.defaultNetworkId,
+    slippagePercentage: maxSlippagePercentage,
+    enableAppFee: enableAppFee,
   })
 
   const {
@@ -134,13 +149,45 @@ export function SwapScreen({ route }: Props) {
     inputRef: inputFromRef,
     token: fromToken,
     onAmountChange: (amount) => {
-      setConfirmingSwap(false)
+      console.log('onAmountChange', amount)
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current)
+      }
+
       setStartedSwapId(undefined)
       if (!amount) {
         clearQuote()
+        replaceAmountTo('')
+        return
       }
+
+      debounceTimerRef.current = setTimeout(() => {
+        const parsedAmount = new BigNumber(amount)
+        const bothTokensPresent = !!(fromToken && toToken)
+        const amountIsTooSmall = !parsedAmount || parsedAmount.lte(0)
+
+        if (!bothTokensPresent || amountIsTooSmall) {
+          return
+        }
+
+        // This variable prevents the quote from needlessly being fetched again.
+        const quoteIsTheSameAsTheLastOne =
+          quote &&
+          quote.toTokenId === toToken.tokenId &&
+          quote.fromTokenId === fromToken.tokenId &&
+          quote.swapAmount.eq(parsedAmount)
+
+        if (!quoteIsTheSameAsTheLastOne) {
+          console.log('Updating quote', parsedAmount)
+          void refreshQuote(fromToken, toToken, { FROM: parsedAmount, TO: null }, Field.FROM)
+        }
+      }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
     },
   })
+
+  useEffect(() => {
+    console.log({ fetchingSwapQuote })
+  }, [fetchingSwapQuote])
 
   const {
     amount: amountTo,
@@ -148,53 +195,135 @@ export function SwapScreen({ route }: Props) {
     replaceAmount: replaceAmountTo,
   } = useEnterAmount({ token: toToken, inputRef: inputToRef })
 
-  const initialToTokenNetworkId = route.params?.toTokenNetworkId
   const filterChipsFrom = useFilterChips(Field.FROM)
-  const filterChipsTo = useFilterChips(Field.TO, initialToTokenNetworkId)
-
-  const fromTokenBalance = useTokenInfo(fromToken?.tokenId)?.balance ?? new BigNumber(0)
-
-  const currentSwap = useSelector(currentSwapSelector)
+  const filterChipsTo = useFilterChips(Field.TO, route.params?.toTokenNetworkId)
+  const parsedSlippagePercentage = new BigNumber(maxSlippagePercentage).toFormat()
+  const crossChainFee = getCrossChainFee(quote, crossChainFeeCurrency)
   const swapStatus = startedSwapId === currentSwap?.id ? currentSwap?.status : null
-
-  const feeCurrenciesWithPositiveBalances = useSelector((state) =>
-    feeCurrenciesWithPositiveBalancesSelector(
-      state,
-      fromToken?.networkId || networkConfig.defaultNetworkId
-    )
-  )
-  const localCurrency = useSelector(getLocalCurrencyCode)
-
-  const { quote, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } = useSwapQuote({
-    networkId: fromToken?.networkId || networkConfig.defaultNetworkId,
-    slippagePercentage: maxSlippagePercentage,
-    enableAppFee: enableAppFee,
-  })
-
-  const shouldShowMaxSwapAmountWarning =
-    feeCurrenciesWithPositiveBalances.length === 1 &&
-    fromToken?.tokenId === feeCurrenciesWithPositiveBalances[0].tokenId &&
-    fromTokenBalance.gt(0) &&
-    derivedFrom.token.bignum &&
-    derivedFrom.token.bignum.gte(fromTokenBalance)
-
-  const fromSwapAmountError =
-    confirmingSwap && derivedFrom.token.bignum && derivedFrom.token.bignum.gt(fromTokenBalance)
-
-  const quoteIsPending = useMemo(() => {
-    if (fetchingSwapQuote) return true
-
-    return (
-      derivedFrom.token.bignum &&
-      quote &&
-      (quote.fromTokenId !== fromToken?.tokenId ||
-        quote.toTokenId !== toToken?.tokenId ||
-        !quote.swapAmount.eq(derivedFrom.token.bignum))
-    )
-  }, [])
-
   const confirmSwapIsLoading = swapStatus === 'started'
   const confirmSwapFailed = swapStatus === 'error'
+  const switchedToNetworkName = switchedToNetworkId && NETWORK_NAMES[switchedToNetworkId]
+  const showCrossChainSwapNotification =
+    toToken && fromToken && toToken.networkId !== fromToken.networkId && allowCrossChainSwaps
+  const feeCurrencies =
+    quote && quote.preparedTransactions.type === 'not-enough-balance-for-gas'
+      ? quote.preparedTransactions.feeCurrencies.map((feeCurrency) => feeCurrency.symbol).join(', ')
+      : ''
+
+  const networkFee = useMemo(() => getNetworkFee(quote), [fromToken, quote])
+  const feeToken = networkFee?.token ? tokensById[networkFee.token.tokenId] : undefined
+
+  const appFee: AppFeeAmount | undefined = useMemo(() => {
+    if (!quote || !fromToken || !derivedFrom.token.bignum) {
+      return undefined
+    }
+
+    const percentage = new BigNumber(quote.appFeePercentageIncludedInPrice || 0)
+
+    return {
+      amount: derivedFrom.token.bignum.multipliedBy(percentage).dividedBy(100),
+      token: fromToken,
+      percentage,
+    }
+  }, [quote, derivedFrom.token.bignum, fromToken])
+
+  const shouldShowSkeletons = useMemo(() => {
+    if (fetchingSwapQuote) return true
+
+    if (
+      quote &&
+      (quote.fromTokenId !== fromToken?.tokenId || quote.toTokenId !== toToken?.tokenId)
+    ) {
+      return true
+    }
+
+    if (quote && derivedFrom.token.bignum && !quote.swapAmount.eq(derivedFrom.token.bignum)) {
+      return true
+    }
+
+    return false
+  }, [fetchingSwapQuote, quote, fromToken, toToken, derivedFrom])
+
+  const warnings = useMemo(() => {
+    const shouldShowMaxSwapAmountWarning =
+      feeCurrenciesWithPositiveBalances.length === 1 &&
+      fromToken?.tokenId === feeCurrenciesWithPositiveBalances[0].tokenId &&
+      fromToken?.balance.gt(0) &&
+      derivedFrom.token.bignum &&
+      derivedFrom.token.bignum.gte(fromToken?.balance)
+
+    // NOTE: If a new condition is added here, make sure to update `allowSwap` below if
+    // the condition should prevent the user from swapping.
+    const checks = {
+      showSwitchedToNetworkWarning: !!switchedToNetworkId,
+      showUnsupportedTokensWarning:
+        !shouldShowSkeletons && fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
+      showInsufficientBalanceWarning:
+        fromToken && derivedFrom.token.bignum && derivedFrom.token.bignum.gt(fromToken.balance),
+      showCrossChainFeeWarning:
+        !shouldShowSkeletons && crossChainFee?.nativeTokenBalanceDeficit.lt(0),
+      showDecreaseSpendForGasWarning:
+        !shouldShowSkeletons &&
+        quote?.preparedTransactions.type === 'need-decrease-spend-amount-for-gas',
+      showNotEnoughBalanceForGasWarning:
+        !shouldShowSkeletons && quote?.preparedTransactions.type === 'not-enough-balance-for-gas',
+      showMaxSwapAmountWarning: shouldShowMaxSwapAmountWarning && !confirmSwapFailed,
+      showNoUsdPriceWarning:
+        !confirmSwapFailed && !shouldShowSkeletons && toToken && !toToken.priceUsd,
+      showPriceImpactWarning:
+        !confirmSwapFailed &&
+        !shouldShowSkeletons &&
+        (quote?.estimatedPriceImpact
+          ? new BigNumber(quote.estimatedPriceImpact).gte(priceImpactWarningThreshold)
+          : false),
+      showMissingPriceImpactWarning: !shouldShowSkeletons && quote && !quote.estimatedPriceImpact,
+    }
+
+    // Only ever show a single warning, according to precedence as above.
+    // Warnings that prevent the user from confirming the swap should
+    // take higher priority over others.
+    return Object.entries(checks).reduce(
+      (acc, [name, status]) => {
+        acc[name] = Object.values(acc).some(Boolean) ? false : !!status
+        return acc
+      },
+      {} as Record<string, boolean>
+    )
+  }, [
+    feeCurrenciesWithPositiveBalances,
+    fromToken,
+    toToken,
+    derivedFrom,
+    switchedToNetworkId,
+    shouldShowSkeletons,
+    fetchSwapQuoteError,
+    crossChainFee,
+    quote,
+    confirmSwapFailed,
+    priceImpactWarningThreshold,
+  ])
+
+  const allowSwap = useMemo(
+    () =>
+      !warnings.showDecreaseSpendForGasWarning &&
+      !warnings.showNotEnoughBalanceForGasWarning &&
+      !warnings.showInsufficientBalanceWarning &&
+      !warnings.showCrossChainFeeWarning &&
+      !confirmSwapIsLoading &&
+      !shouldShowSkeletons &&
+      derivedFrom.token.bignum?.gt(0) &&
+      derivedTo.token.bignum?.gt(0),
+    [
+      derivedFrom.token.bignum,
+      derivedTo.token.bignum,
+      shouldShowSkeletons,
+      confirmSwapIsLoading,
+      warnings.showInsufficientBalanceWarning,
+      warnings.showDecreaseSpendForGasWarning,
+      warnings.showNotEnoughBalanceForGasWarning,
+      warnings.showCrossChainFeeWarning,
+    ]
+  )
 
   useEffect(function trackSwapScreenOpen() {
     AppAnalytics.track(SwapEvents.swap_screen_open)
@@ -212,48 +341,7 @@ export function SwapScreen({ route }: Props) {
   )
 
   useEffect(
-    function triggerDebouncedQuoteRefresh() {
-      const bothTokensPresent = !!(fromToken && toToken)
-      const amountIsTooSmall = !derivedFrom.token.bignum || derivedFrom.token.bignum.lte(0)
-      const amountIsTooBig =
-        fromToken && (!derivedFrom.token.bignum || derivedFrom.token.bignum.gt(fromToken.balance))
-
-      if (!bothTokensPresent || amountIsTooSmall || amountIsTooBig) {
-        return
-      }
-
-      /**
-       * Since we use the quote to update the parsedSwapAmount, this hook will be triggered after
-       * the quote is first updated. This variable prevents the quote from needlessly being fetched again.
-       */
-      const quoteKnown =
-        quote &&
-        quote.toTokenId === toToken.tokenId &&
-        quote.fromTokenId === fromToken.tokenId &&
-        quote.swapAmount.eq(derivedFrom.token.bignum!)
-
-      const debouncedRefreshQuote = setTimeout(() => {
-        if (!quoteKnown) {
-          void refreshQuote(
-            fromToken,
-            toToken,
-            { FROM: derivedFrom.token.bignum!, TO: derivedTo.token.bignum! },
-            Field.FROM
-          )
-        }
-      }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
-
-      return () => {
-        clearTimeout(debouncedRefreshQuote)
-      }
-    },
-    [fromToken, toToken, derivedFrom.token.bignum, derivedTo.token.bignum, quote]
-  )
-
-  useEffect(
     function updateToAmountWhenQuoteIsUpdated() {
-      setConfirmingSwap(false)
-
       if (!quote) {
         replaceAmountTo('')
         return
@@ -266,8 +354,41 @@ export function SwapScreen({ route }: Props) {
     [quote]
   )
 
+  useEffect(
+    function trackImpactWarningDisplayed() {
+      if (warnings.showPriceImpactWarning || warnings.showMissingPriceImpactWarning) {
+        if (!quote) {
+          return
+        }
+        const fromToken = tokensById[quote.fromTokenId]
+        const toToken = tokensById[quote.toTokenId]
+
+        if (!fromToken || !toToken) {
+          // Should never happen
+          Logger.error(TAG, 'fromToken or toToken not found')
+          return
+        }
+
+        AppAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
+          toToken: toToken.address,
+          toTokenId: toToken.tokenId,
+          toTokenNetworkId: toToken.networkId,
+          toTokenIsImported: !!toToken.isManuallyImported,
+          fromToken: fromToken.address,
+          fromTokenId: fromToken.tokenId,
+          fromTokenNetworkId: fromToken?.networkId,
+          fromTokenIsImported: !!fromToken.isManuallyImported,
+          amount: derivedFrom.token.bignum ? derivedFrom.token.bignum.toString() : '',
+          amountType: 'sellAmount',
+          priceImpact: quote.estimatedPriceImpact,
+          provider: quote.provider,
+        })
+      }
+    },
+    [warnings.showPriceImpactWarning || warnings.showMissingPriceImpactWarning]
+  )
+
   const onOpenTokenPickerFrom = () => {
-    setConfirmingSwap(false)
     AppAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType: Field.FROM })
     // use requestAnimationFrame so that the bottom sheet open animation is done
     // after the selectingField value is updated, so that the title of the
@@ -277,7 +398,6 @@ export function SwapScreen({ route }: Props) {
   }
 
   const onOpenTokenPickerTo = () => {
-    setConfirmingSwap(false)
     AppAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType: Field.TO })
     // use requestAnimationFrame so that the bottom sheet open animation is done
     // after the selectingField value is updated, so that the title of the
@@ -290,7 +410,6 @@ export function SwapScreen({ route }: Props) {
     token,
     tokenPositionInList
   ) => {
-    setConfirmingSwap(false)
     setFromToken(token)
     confirmSelectTokenFrom(token, tokenPositionInList)
   }
@@ -299,7 +418,6 @@ export function SwapScreen({ route }: Props) {
     token,
     tokenPositionInList
   ) => {
-    setConfirmingSwap(false)
     setToToken({ ...token, tokenPositionInList })
     confirmSelectTokenTo(token, tokenPositionInList)
   }
@@ -316,8 +434,6 @@ export function SwapScreen({ route }: Props) {
       // Should never happen
       return
     }
-
-    setConfirmingSwap(true)
 
     const userInput = {
       toTokenId: toToken.tokenId,
@@ -398,8 +514,19 @@ export function SwapScreen({ route }: Props) {
       fromTokenId: fromToken?.tokenId,
       toTokenId: toToken?.tokenId,
     })
+
     setFromToken(toToken)
     setToToken(fromToken)
+    replaceAmountTo('')
+
+    if (fromToken && toToken) {
+      void refreshQuote(
+        toToken,
+        fromToken,
+        { FROM: derivedFrom.token.bignum, TO: null },
+        Field.FROM
+      )
+    }
   }
 
   const handleConfirmSelectTokenNoUsdPrice = () => {
@@ -474,7 +601,6 @@ export function SwapScreen({ route }: Props) {
       })
 
       setStartedSwapId(undefined)
-      setConfirmingSwap(false)
       setSwitchedToNetworkId(null)
 
       /**
@@ -510,8 +636,6 @@ export function SwapScreen({ route }: Props) {
       setStartedSwapId(undefined)
     }
 
-    setConfirmingSwap(false)
-
     if (newSwitchedToNetworkId) {
       // reset the toToken if the user is switching networks
       setToToken(undefined)
@@ -543,7 +667,6 @@ export function SwapScreen({ route }: Props) {
       })
 
       setStartedSwapId(undefined)
-      setConfirmingSwap(false)
       setSwitchedToNetworkId(null)
 
       /**
@@ -575,8 +698,6 @@ export function SwapScreen({ route }: Props) {
         setStartedSwapId(undefined)
       }
 
-      setConfirmingSwap(false)
-
       if (newSwitchedToNetworkId) {
         // reset the fromToken if the user is switching networks
         setFromToken(undefined)
@@ -603,146 +724,6 @@ export function SwapScreen({ route }: Props) {
     AppAnalytics.track(SwapEvents.swap_gas_fees_learn_more)
     navigate(Screens.WebViewScreen, { uri: links.transactionFeesLearnMore })
   }
-
-  const switchedToNetworkName = switchedToNetworkId && NETWORK_NAMES[switchedToNetworkId]
-
-  const showCrossChainSwapNotification =
-    toToken && fromToken && toToken.networkId !== fromToken.networkId && allowCrossChainSwaps
-
-  const crossChainFeeCurrency = useSelector((state) =>
-    feeCurrenciesSelector(state, fromToken?.networkId || networkConfig.defaultNetworkId)
-  ).find((token) => token.isNative)
-  const crossChainFee = getCrossChainFee(quote, crossChainFeeCurrency)
-
-  const getWarningStatuses = () => {
-    // NOTE: If a new condition is added here, make sure to update `allowSwap` below if
-    // the condition should prevent the user from swapping.
-    const checks = {
-      showSwitchedToNetworkWarning: !!switchedToNetworkId,
-      showUnsupportedTokensWarning:
-        !fetchingSwapQuote && fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
-      showInsufficientBalanceWarning:
-        derivedFrom.token.bignum && derivedFrom.token.bignum.gt(fromTokenBalance),
-      showCrossChainFeeWarning:
-        !fetchingSwapQuote && crossChainFee?.nativeTokenBalanceDeficit.lt(0),
-      showDecreaseSpendForGasWarning:
-        !fetchingSwapQuote &&
-        quote?.preparedTransactions.type === 'need-decrease-spend-amount-for-gas',
-      showNotEnoughBalanceForGasWarning:
-        !fetchingSwapQuote && quote?.preparedTransactions.type === 'not-enough-balance-for-gas',
-      showMaxSwapAmountWarning: shouldShowMaxSwapAmountWarning && !confirmSwapFailed,
-      showNoUsdPriceWarning:
-        !confirmSwapFailed && !fetchingSwapQuote && toToken && !toToken.priceUsd,
-      showPriceImpactWarning:
-        !confirmSwapFailed &&
-        !fetchingSwapQuote &&
-        (quote?.estimatedPriceImpact
-          ? new BigNumber(quote.estimatedPriceImpact).gte(priceImpactWarningThreshold)
-          : false),
-      showMissingPriceImpactWarning: !fetchingSwapQuote && quote && !quote.estimatedPriceImpact,
-    }
-
-    // Only ever show a single warning, according to precedence as above.
-    // Warnings that prevent the user from confirming the swap should
-    // take higher priority over others.
-    return Object.entries(checks).reduce(
-      (acc, [name, status]) => {
-        acc[name] = Object.values(acc).some(Boolean) ? false : !!status
-        return acc
-      },
-      {} as Record<string, boolean>
-    )
-  }
-
-  const {
-    showCrossChainFeeWarning,
-    showDecreaseSpendForGasWarning,
-    showNotEnoughBalanceForGasWarning,
-    showInsufficientBalanceWarning,
-    showSwitchedToNetworkWarning,
-    showMaxSwapAmountWarning,
-    showNoUsdPriceWarning,
-    showPriceImpactWarning,
-    showUnsupportedTokensWarning,
-    showMissingPriceImpactWarning,
-  } = getWarningStatuses()
-
-  const allowSwap = useMemo(
-    () =>
-      !showDecreaseSpendForGasWarning &&
-      !showNotEnoughBalanceForGasWarning &&
-      !showInsufficientBalanceWarning &&
-      !showCrossChainFeeWarning &&
-      !confirmSwapIsLoading &&
-      !fetchingSwapQuote &&
-      derivedFrom.token.bignum?.gt(0) &&
-      derivedTo.token.bignum?.gt(0),
-    [
-      derivedFrom.token.bignum,
-      derivedTo.token.bignum,
-      fetchingSwapQuote,
-      confirmSwapIsLoading,
-      showInsufficientBalanceWarning,
-      showDecreaseSpendForGasWarning,
-      showNotEnoughBalanceForGasWarning,
-      showCrossChainFeeWarning,
-    ]
-  )
-  const networkFee: SwapFeeAmount | undefined = useMemo(() => {
-    return getNetworkFee(quote)
-  }, [fromToken, quote])
-
-  const feeToken = networkFee?.token ? tokensById[networkFee.token.tokenId] : undefined
-
-  const appFee: AppFeeAmount | undefined = useMemo(() => {
-    if (!quote || !fromToken || !derivedFrom.token.bignum) {
-      return undefined
-    }
-
-    const percentage = new BigNumber(quote.appFeePercentageIncludedInPrice || 0)
-
-    return {
-      amount: derivedFrom.token.bignum.multipliedBy(percentage).dividedBy(100),
-      token: fromToken,
-      percentage,
-    }
-  }, [quote, derivedFrom.token.bignum, fromToken])
-
-  useEffect(() => {
-    if (showPriceImpactWarning || showMissingPriceImpactWarning) {
-      if (!quote) {
-        return
-      }
-      const fromToken = tokensById[quote.fromTokenId]
-      const toToken = tokensById[quote.toTokenId]
-
-      if (!fromToken || !toToken) {
-        // Should never happen
-        Logger.error(TAG, 'fromToken or toToken not found')
-        return
-      }
-
-      AppAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
-        toToken: toToken.address,
-        toTokenId: toToken.tokenId,
-        toTokenNetworkId: toToken.networkId,
-        toTokenIsImported: !!toToken.isManuallyImported,
-        fromToken: fromToken.address,
-        fromTokenId: fromToken.tokenId,
-        fromTokenNetworkId: fromToken?.networkId,
-        fromTokenIsImported: !!fromToken.isManuallyImported,
-        amount: derivedFrom.token.bignum ? derivedFrom.token.bignum.toString() : '',
-        amountType: 'sellAmount',
-        priceImpact: quote.estimatedPriceImpact,
-        provider: quote.provider,
-      })
-    }
-  }, [showPriceImpactWarning || showMissingPriceImpactWarning])
-
-  const feeCurrencies =
-    quote && quote.preparedTransactions.type === 'not-enough-balance-for-gas'
-      ? quote.preparedTransactions.feeCurrencies.map((feeCurrency) => feeCurrency.symbol).join(', ')
-      : ''
 
   return (
     <SafeAreaView style={styles.safeAreaContainer} testID="SwapScreen">
@@ -792,7 +773,7 @@ export function SwapScreen({ route }: Props) {
                 localAmount={derivedTo.local.displayAmount}
                 amountType={amountType}
                 onOpenTokenPicker={onOpenTokenPickerTo}
-                loading={fetchingSwapQuote}
+                loading={shouldShowSkeletons}
               />
             </View>
 
@@ -815,7 +796,7 @@ export function SwapScreen({ route }: Props) {
                 exchangeRatePrice={quote?.price}
                 exchangeRateInfoBottomSheetRef={exchangeRateInfoBottomSheetRef}
                 swapAmount={derivedFrom.token.bignum ?? undefined}
-                fetchingSwapQuote={fetchingSwapQuote}
+                fetchingSwapQuote={shouldShowSkeletons}
                 appFee={appFee}
                 estimatedDurationInSeconds={
                   quote?.swapType === 'cross-chain' ? quote.estimatedDurationInSeconds : undefined
@@ -827,7 +808,7 @@ export function SwapScreen({ route }: Props) {
           </View>
 
           <View style={[styles.warningsContainer, { display: 'flex', justifyContent: 'flex-end' }]}>
-            {showCrossChainFeeWarning && (
+            {warnings.showCrossChainFeeWarning && (
               <InLineNotification
                 variant={NotificationVariant.Warning}
                 title={t('swapScreen.crossChainFeeWarning.title', {
@@ -844,7 +825,7 @@ export function SwapScreen({ route }: Props) {
                 style={styles.warning}
               />
             )}
-            {showDecreaseSpendForGasWarning && (
+            {warnings.showDecreaseSpendForGasWarning && (
               <InLineNotification
                 variant={NotificationVariant.Warning}
                 title={t('swapScreen.decreaseSwapAmountForGasWarning.title', {
@@ -865,7 +846,7 @@ export function SwapScreen({ route }: Props) {
                 style={styles.warning}
               />
             )}
-            {showNotEnoughBalanceForGasWarning && (
+            {warnings.showNotEnoughBalanceForGasWarning && (
               <InLineNotification
                 variant={NotificationVariant.Warning}
                 title={t('swapScreen.notEnoughBalanceForGas.title')}
@@ -876,7 +857,7 @@ export function SwapScreen({ route }: Props) {
                 onPressCta={onPressLearnMoreFees}
               />
             )}
-            {showInsufficientBalanceWarning && (
+            {warnings.showInsufficientBalanceWarning && (
               <InLineNotification
                 variant={NotificationVariant.Warning}
                 title={t('swapScreen.insufficientBalanceWarning.title', {
@@ -888,7 +869,7 @@ export function SwapScreen({ route }: Props) {
                 style={styles.warning}
               />
             )}
-            {showUnsupportedTokensWarning && (
+            {warnings.showUnsupportedTokensWarning && (
               <InLineNotification
                 variant={NotificationVariant.Info}
                 title={t('swapScreen.unsupportedTokensWarning.title')}
@@ -896,7 +877,7 @@ export function SwapScreen({ route }: Props) {
                 style={styles.warning}
               />
             )}
-            {showSwitchedToNetworkWarning && (
+            {warnings.showSwitchedToNetworkWarning && (
               <InLineNotification
                 variant={NotificationVariant.Info}
                 title={t('swapScreen.switchedToNetworkWarning.title', {
@@ -911,7 +892,7 @@ export function SwapScreen({ route }: Props) {
                 testID="SwitchedToNetworkWarning"
               />
             )}
-            {showMaxSwapAmountWarning && (
+            {warnings.showMaxSwapAmountWarning && (
               <InLineNotification
                 variant={NotificationVariant.Warning}
                 title={t('swapScreen.maxSwapAmountWarning.titleV1_74', {
@@ -926,7 +907,7 @@ export function SwapScreen({ route }: Props) {
                 testID="MaxSwapAmountWarning"
               />
             )}
-            {showPriceImpactWarning && (
+            {warnings.showPriceImpactWarning && (
               <InLineNotification
                 variant={NotificationVariant.Warning}
                 title={t('swapScreen.priceImpactWarning.title')}
@@ -934,7 +915,7 @@ export function SwapScreen({ route }: Props) {
                 style={styles.warning}
               />
             )}
-            {showNoUsdPriceWarning && (
+            {warnings.showNoUsdPriceWarning && (
               <InLineNotification
                 variant={NotificationVariant.Warning}
                 title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
@@ -945,7 +926,7 @@ export function SwapScreen({ route }: Props) {
                 style={styles.warning}
               />
             )}
-            {showMissingPriceImpactWarning && (
+            {warnings.showMissingPriceImpactWarning && (
               <InLineNotification
                 variant={NotificationVariant.Warning}
                 title={t('swapScreen.missingSwapImpactWarning.title')}
