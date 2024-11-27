@@ -20,7 +20,7 @@ jobs:
       - nscloud-cache-tag-wallet-e2e-android
     # We pay by the minute.
     # If it takes longer it usually fails, so no need to pay for more
-    timeout-minutes: 30
+    timeout-minutes: 25
     steps:
       - uses: google-github-actions/auth@v2
         if: ${{ env.SECRETS_AVAILABLE }}

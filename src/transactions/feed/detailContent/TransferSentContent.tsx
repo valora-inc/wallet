@@ -47,7 +47,6 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
         transactionStatus={transfer.status}
       />
       <LineItemRow
-        testID="SentAmountValue"
         title={t('amountSent')}
         textStyle={typeScale.labelSemiBoldMedium}
         style={styles.amountSentContainer}
@@ -62,7 +61,6 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
         }
       />
       <LineItemRow
-        testID="SentAmountValueFiat"
         title={
           <Trans
             i18nKey={'tokenExchangeRateApprox'}

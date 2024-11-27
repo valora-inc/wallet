@@ -22,8 +22,7 @@ const launchDeepLink = async ({ url, newInstance = true }) => {
  */
 const getCryptoSymbol = async () => {
   const sendAmountCryptoElement = await element(by.id('SendAmount')).getAttributes()
-  const cryptoSymbol = sendAmountCryptoElement.label.split(' ').at(-1)
-  return cryptoSymbol
+  return sendAmountCryptoElement.label.split(' ').at(-1)
 }
 
 const openDeepLink = async (payUrl) => {
