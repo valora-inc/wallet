@@ -377,7 +377,7 @@ export function SwapScreen({ route }: Props) {
     [warnings.showPriceImpactWarning || warnings.showMissingPriceImpactWarning]
   )
 
-  const onOpenTokenPickerFrom = () => {
+  function onOpenTokenPickerFrom() {
     AppAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType: Field.FROM })
     // use requestAnimationFrame so that the bottom sheet open animation is done
     // after the selectingField value is updated, so that the title of the
@@ -386,7 +386,7 @@ export function SwapScreen({ route }: Props) {
     requestAnimationFrame(() => tokenBottomSheetFromRef.current?.snapToIndex(0))
   }
 
-  const onOpenTokenPickerTo = () => {
+  function onOpenTokenPickerTo() {
     AppAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType: Field.TO })
     // use requestAnimationFrame so that the bottom sheet open animation is done
     // after the selectingField value is updated, so that the title of the
@@ -395,7 +395,7 @@ export function SwapScreen({ route }: Props) {
     requestAnimationFrame(() => tokenBottomSheetToRef.current?.snapToIndex(0))
   }
 
-  const handleConfirmSwap = () => {
+  function handleConfirmSwap() {
     if (!quote) {
       return // this should never happen, because the button must be disabled in that cases
     }
@@ -482,7 +482,7 @@ export function SwapScreen({ route }: Props) {
     }
   }
 
-  const handleSwitchTokens = () => {
+  function handleSwitchTokens() {
     AppAnalytics.track(SwapEvents.swap_switch_tokens, {
       fromTokenId: fromToken?.tokenId,
       toTokenId: toToken?.tokenId,
@@ -502,13 +502,13 @@ export function SwapScreen({ route }: Props) {
     }
   }
 
-  const handleConfirmSelectTokenNoUsdPrice = () => {
+  function handleConfirmSelectTokenNoUsdPrice() {
     if (!!toToken && toToken.tokenPositionInList !== undefined) {
       onSelectTokenTo(toToken, toToken.tokenPositionInList)
     }
   }
 
-  const handleDismissSelectTokenNoUsdPrice = () => {
+  function handleDismissSelectTokenNoUsdPrice() {
     setToToken((prev) => (prev ? { ...prev, tokenPositionInList: undefined } : undefined))
   }
 
@@ -526,7 +526,7 @@ export function SwapScreen({ route }: Props) {
   //   })
   // }
 
-  const trackConfirmToken = ({
+  function trackConfirmToken({
     selectedToken,
     field,
     newFromToken,
@@ -540,7 +540,7 @@ export function SwapScreen({ route }: Props) {
     newToToken: TokenBalance | undefined
     newSwitchedToNetworkId: NetworkId | null
     tokenPositionInList: number
-  }) => {
+  }) {
     AppAnalytics.track(SwapEvents.swap_screen_confirm_token, {
       fieldType: field,
       tokenSymbol: selectedToken.symbol,
@@ -558,7 +558,7 @@ export function SwapScreen({ route }: Props) {
     })
   }
 
-  const onSelectTokenFrom = (selectedToken: TokenBalance, tokenPositionInList: number) => {
+  function onSelectTokenFrom(selectedToken: TokenBalance, tokenPositionInList: number) {
     // if in "from" we select the same token as in "to" then just swap
     if (toToken?.tokenId === selectedToken.tokenId) {
       setFromToken(toToken)
@@ -592,7 +592,6 @@ export function SwapScreen({ route }: Props) {
        * the bottom sheet does not.
        */
       requestAnimationFrame(() => tokenBottomSheetFromRef.current?.close())
-
       return
     }
 
@@ -641,7 +640,7 @@ export function SwapScreen({ route }: Props) {
     requestAnimationFrame(() => tokenBottomSheetFromRef.current?.close())
   }
 
-  const onSelectTokenTo = (selectedToken: TokenBalance, tokenPositionInList: number) => {
+  function onSelectTokenTo(selectedToken: TokenBalance, tokenPositionInList: number) {
     if (fromToken?.tokenId === selectedToken.tokenId) {
       setFromToken(toToken)
       setToToken(fromToken)
@@ -723,12 +722,12 @@ export function SwapScreen({ route }: Props) {
     }
   }
 
-  const onPressLearnMore = () => {
+  function onPressLearnMore() {
     AppAnalytics.track(SwapEvents.swap_learn_more)
     navigate(Screens.WebViewScreen, { uri: links.swapLearnMore })
   }
 
-  const onPressLearnMoreFees = () => {
+  function onPressLearnMoreFees() {
     AppAnalytics.track(SwapEvents.swap_gas_fees_learn_more)
     navigate(Screens.WebViewScreen, { uri: links.transactionFeesLearnMore })
   }
