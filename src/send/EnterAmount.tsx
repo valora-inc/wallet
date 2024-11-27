@@ -365,6 +365,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
+    marginBottom: Spacing.Thick24,
   },
   inputContainer: {
     flex: 1,
