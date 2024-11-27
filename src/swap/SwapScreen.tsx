@@ -14,10 +14,7 @@ import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import Toast from 'src/components/Toast'
-import TokenBottomSheet, {
-  TokenBottomSheetProps,
-  TokenPickerOrigin,
-} from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TokenEnterAmount, {
   FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS,
   useEnterAmount,
@@ -406,22 +403,6 @@ export function SwapScreen({ route }: Props) {
     requestAnimationFrame(() => tokenBottomSheetToRef.current?.snapToIndex(0))
   }
 
-  const onSelectTokenFrom: TokenBottomSheetProps['onTokenSelected'] = (
-    token,
-    tokenPositionInList
-  ) => {
-    setFromToken(token)
-    confirmSelectTokenFrom(token, tokenPositionInList)
-  }
-
-  const onSelectTokenTo: TokenBottomSheetProps['onTokenSelected'] = (
-    token,
-    tokenPositionInList
-  ) => {
-    setToToken({ ...token, tokenPositionInList })
-    confirmSelectTokenTo(token, tokenPositionInList)
-  }
-
   const handleConfirmSwap = () => {
     if (!quote) {
       return // this should never happen, because the button must be disabled in that cases
@@ -531,7 +512,7 @@ export function SwapScreen({ route }: Props) {
 
   const handleConfirmSelectTokenNoUsdPrice = () => {
     if (!!toToken && toToken.tokenPositionInList !== undefined) {
-      confirmSelectTokenTo(toToken, toToken.tokenPositionInList)
+      onSelectTokenTo(toToken, toToken.tokenPositionInList)
     }
   }
 
@@ -585,11 +566,13 @@ export function SwapScreen({ route }: Props) {
     })
   }
 
-  const confirmSelectTokenFrom = (selectedToken: TokenBalance, tokenPositionInList: number) => {
+  const onSelectTokenFrom = (selectedToken: TokenBalance, tokenPositionInList: number) => {
     // if in "from" we select the same token as in "to" then just swap
     if (toToken?.tokenId === selectedToken.tokenId) {
       setFromToken(toToken)
       setToToken(fromToken)
+      setStartedSwapId(undefined)
+      setSwitchedToNetworkId(null)
 
       trackConfirmToken({
         field: Field.FROM,
@@ -599,9 +582,6 @@ export function SwapScreen({ route }: Props) {
         newSwitchedToNetworkId: null,
         tokenPositionInList,
       })
-
-      setStartedSwapId(undefined)
-      setSwitchedToNetworkId(null)
 
       /**
        * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
@@ -613,8 +593,6 @@ export function SwapScreen({ route }: Props) {
 
       return
     }
-
-    // Otherwise, proceed with the regular flow
 
     setFromToken(selectedToken)
 
@@ -652,10 +630,12 @@ export function SwapScreen({ route }: Props) {
     requestAnimationFrame(() => tokenBottomSheetFromRef.current?.close())
   }
 
-  const confirmSelectTokenTo = (selectedToken: TokenBalance, tokenPositionInList: number) => {
+  const onSelectTokenTo = (selectedToken: TokenBalance, tokenPositionInList: number) => {
     if (fromToken?.tokenId === selectedToken.tokenId) {
       setFromToken(toToken)
       setToToken(fromToken)
+      setStartedSwapId(undefined)
+      setSwitchedToNetworkId(null)
 
       trackConfirmToken({
         field: Field.TO,
@@ -665,9 +645,6 @@ export function SwapScreen({ route }: Props) {
         newSwitchedToNetworkId: null,
         tokenPositionInList,
       })
-
-      setStartedSwapId(undefined)
-      setSwitchedToNetworkId(null)
 
       /**
        * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
@@ -680,6 +657,7 @@ export function SwapScreen({ route }: Props) {
       return
     } else {
       setToToken(selectedToken)
+
       const newSwitchedToNetworkId =
         fromToken && fromToken.networkId !== selectedToken.networkId && !allowCrossChainSwaps
           ? selectedToken.networkId
