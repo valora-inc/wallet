@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform } from 'react-native'
 import Education, { EducationTopic } from 'src/account/Education'
 import { setGoldEducationCompleted } from 'src/account/actions'
 import { celoEducationCompletedSelector } from 'src/account/selectors'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import { BtnTypes } from 'src/components/Button'
 import { celoEducation1, celoEducation2, celoEducation3, celoEducation4 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
@@ -49,9 +48,6 @@ export default function GoldEducation() {
 
 GoldEducation.navigationOptions = {
   ...noHeader,
-  ...Platform.select({
-    ios: { animation: 'slide_from_bottom' },
-  }),
 }
 
 function useStep() {

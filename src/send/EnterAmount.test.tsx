@@ -1,6 +1,7 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
+import { DeviceEventEmitter } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -144,7 +145,7 @@ describe('EnterAmount', () => {
     })
   })
 
-  it('renders the correct components, and pre-selects the first token in the list', () => {
+  it('renders the correct components, and pre-selects the first token in the list', async () => {
     const store = createMockStore(mockStore)
 
     const { getByTestId, queryByTestId } = render(
@@ -153,16 +154,29 @@ describe('EnterAmount', () => {
       </Provider>
     )
 
+    // simulate that the keyboard is opened, since autoFocus is enabled for the token text input
+    await act(() => {
+      DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+    })
+
     expect(getByTestId('SendEnterAmount/TokenAmountInput')).toBeTruthy()
     // expect(getByTestId('SendEnterAmount/Max')).toBeTruthy()
     expect(queryByTestId('SendEnterAmount/SwitchTokens')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/ExchangeAmount')).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/AmountOptions')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
     expect(queryByTestId('SendEnterAmount/FeeLabel')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+
+    // simulate that the keyboard is dismissed
+    await act(() => {
+      DeviceEventEmitter.emit('keyboardDidHide', { endCoordinates: { height: 0 } })
+    })
+
+    await waitFor(() => expect(queryByTestId('SendEnterAmount/AmountOptions')).toBeFalsy())
   })
 
-  it('renders components with picker if a default token is provided', () => {
+  it('renders components with picker if a default token is provided', async () => {
     const store = createMockStore({ ...mockStore, send: { lastUsedTokenId: mockEthTokenId } })
 
     const { getByTestId, getByText } = render(
@@ -177,8 +191,7 @@ describe('EnterAmount', () => {
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
   })
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('hides the max button if the user has no balance for the given token', () => {
+  it('hides the max button if the user has no balance for the given token', () => {
     const store = createMockStore(mockStore)
 
     const { queryByTestId } = render(
@@ -239,13 +252,13 @@ describe('EnterAmount', () => {
 
       changeAmount('10000.5')
       expect(amount.props.value).toBe(replaceSeparators('10,000.5'))
-      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} ₱1,330.07`))
+      expect(exchangedAmount).toHaveTextContent(replaceSeparators(`${APPROX_SYMBOL} ₱1,330.07`))
 
       // switch to fiat
       switchTokens()
       changeAmount('1000.5')
       expect(amount.props.value).toBe(replaceSeparators(`₱1,000.5`))
-      expect(exchangedAmount.props.children).toBe(
+      expect(exchangedAmount).toHaveTextContent(
         replaceSeparators(`${APPROX_SYMBOL} 7,522.556391 POOF`)
       )
     })
@@ -310,18 +323,17 @@ describe('EnterAmount', () => {
 
       changeAmount('10.5')
       expect(amount.props.value).toBe(replaceSeparators('10.5'))
-      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} ₱1.40`))
+      expect(exchangedAmount).toHaveTextContent(replaceSeparators(`${APPROX_SYMBOL} ₱1.40`))
 
       // switch to fiat
       switchTokens()
       changeAmount('abc')
       expect(amount.props.value).toBe(replaceSeparators('₱1.40'))
-      expect(exchangedAmount.props.children).toBe(
+      expect(exchangedAmount).toHaveTextContent(
         replaceSeparators(`${APPROX_SYMBOL} 10.526316 POOF`)
       )
     })
 
-    // eslint-disable-next-line jest/no-disabled-tests
     it('entering invalid token amount with a valid local amount does not update anything', () => {
       const { amount, exchangedAmount, switchTokens, changeAmount } = renderComponent()
 
@@ -329,16 +341,15 @@ describe('EnterAmount', () => {
       switchTokens()
       changeAmount('133')
       expect(amount.props.value).toBe(replaceSeparators('₱133'))
-      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} 1,000 POOF`))
+      expect(exchangedAmount).toHaveTextContent(replaceSeparators(`${APPROX_SYMBOL} 1,000 POOF`))
 
       // switch to token
       switchTokens()
       expect(amount.props.value).toBe(replaceSeparators('1,000'))
-      expect(exchangedAmount.props.children).toBe(replaceSeparators(`${APPROX_SYMBOL} ₱133.00`))
+      expect(exchangedAmount).toHaveTextContent(replaceSeparators(`${APPROX_SYMBOL} ₱133.00`))
     })
 
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('entering MAX token applies correct decimal separator', async () => {
+    it('selecting max token amount applies correct decimal separator', async () => {
       const store = createMockStore(mockStore)
       const tokenBalances = mockStoreBalancesToTokenBalances([
         { ...mockStoreTokenBalances[mockCeloTokenId], balance: '100000.42' },
@@ -349,11 +360,15 @@ describe('EnterAmount', () => {
         </Provider>
       )
 
-      fireEvent.press(getByTestId('SendEnterAmount/Max'))
+      await act(() => {
+        DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+      })
+
+      fireEvent.press(within(getByTestId('SendEnterAmount/AmountOptions')).getByText('maxSymbol'))
       expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(
-        replaceSeparators('100000.42')
+        replaceSeparators('100,000.42')
       )
-      expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe(
+      expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
         replaceSeparators('₱66,500.28')
       )
     })
@@ -373,13 +388,13 @@ describe('EnterAmount', () => {
 
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '2')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('2')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} ₱0.27`
     )
 
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), text)
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(expectedTokenValue)
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} ₱0.00`
     )
 
@@ -387,15 +402,13 @@ describe('EnterAmount', () => {
     fireEvent.press(getByTestId('SendEnterAmount/SwitchTokens'))
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1.33')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('₱1.33')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 10 POOF`
     )
 
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), text)
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(expectedLocalValue)
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
-      `${APPROX_SYMBOL} 0.00`
-    )
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(`${APPROX_SYMBOL} 0.00`)
   })
 
   it('selecting new token updates token and network info', async () => {
@@ -444,7 +457,7 @@ describe('EnterAmount', () => {
 
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('1')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} ₱0.13`
     )
 
@@ -455,7 +468,7 @@ describe('EnterAmount', () => {
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('ETH')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('1')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} ₱1,995.00`
     )
   })
@@ -474,7 +487,7 @@ describe('EnterAmount', () => {
     fireEvent.press(getByTestId('SendEnterAmount/SwitchTokens'))
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('₱1')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 7.518797 POOF`
     )
 
@@ -485,7 +498,7 @@ describe('EnterAmount', () => {
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('ETH')
     expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('₱1')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 0.000501 ETH`
     )
   })
@@ -522,7 +535,7 @@ describe('EnterAmount', () => {
     await waitFor(() => expect(getByText('Ether')).toBeTruthy())
     fireEvent.press(getByText('Ether'))
     expect(getByTestId('SendEnterAmount/ExchangeAmount')).toBeTruthy()
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} ₱0.00`
     )
 
@@ -550,13 +563,13 @@ describe('EnterAmount', () => {
     // should include 6 decimals for USDC
     fireEvent.press(getByTestId('SendEnterAmount/SwitchTokens'))
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 0.75188 USDC`
     )
 
     // should truncate trailing zeroes and decimal separator when there are no decimals
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '1.33')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 1 USDC`
     )
 
@@ -566,37 +579,70 @@ describe('EnterAmount', () => {
 
     // should include 18 decimals for ETH
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '10000')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 5.012531 ETH`
     )
 
     // should truncate trailing zeroes with decimal separator
     fireEvent.changeText(getByTestId('SendEnterAmount/TokenAmountInput'), '199.5')
-    expect(getByTestId('SendEnterAmount/ExchangeAmount').props.children).toBe(
+    expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} 0.1 ETH`
     )
   })
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip('pressing max fills in max available amount', () => {
-    const store = createMockStore(mockStore)
+  it.each([
+    {
+      amountLabel: 'percentage, {"percentage":25}',
+      percentage: 25,
+      expectedTokenAmount: '1.25',
+      expectedLocalAmount: '₱0.17',
+    },
+    {
+      amountLabel: 'percentage, {"percentage":50}',
+      percentage: 50,
+      expectedTokenAmount: '2.5',
+      expectedLocalAmount: '₱0.33',
+    },
+    {
+      amountLabel: 'percentage, {"percentage":75}',
+      percentage: 75,
+      expectedTokenAmount: '3.75',
+      expectedLocalAmount: '₱0.50',
+    },
+    {
+      amountLabel: 'maxSymbol',
+      percentage: 100,
+      expectedTokenAmount: '5',
+      expectedLocalAmount: '₱0.67',
+    },
+  ])(
+    'pressing the $amountLabel chip prefills the expected amount',
+    async ({ amountLabel, percentage, expectedLocalAmount, expectedTokenAmount }) => {
+      const store = createMockStore(mockStore)
 
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <EnterAmount {...defaultParams} />
-      </Provider>
-    )
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <EnterAmount {...defaultParams} />
+        </Provider>
+      )
 
-    fireEvent.press(getByTestId('SendEnterAmount/Max'))
-    expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe('5')
-    expect(getByTestId('SendEnterAmount/LocalAmountInput').props.value).toBe('₱0.67')
-    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.max_pressed, {
-      networkId: NetworkId['celo-alfajores'],
-      tokenAddress: mockPoofAddress,
-      tokenId: mockPoofTokenId,
-    })
-  })
+      await act(() => {
+        DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+      })
+
+      fireEvent.press(within(getByTestId('SendEnterAmount/AmountOptions')).getByText(amountLabel))
+      expect(getByTestId('SendEnterAmount/TokenAmountInput').props.value).toBe(expectedTokenAmount)
+      expect(getByTestId('SendEnterAmount/ExchangeAmount')).toHaveTextContent(expectedLocalAmount)
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_percentage_selected, {
+        networkId: NetworkId['celo-alfajores'],
+        tokenAddress: mockPoofAddress,
+        tokenId: mockPoofTokenId,
+        percentage,
+        flow: 'send',
+      })
+    }
+  )
 
   it('entering token amount above balance displays error message', () => {
     const store = createMockStore(mockStore)

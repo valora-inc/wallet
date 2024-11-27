@@ -45,7 +45,13 @@ type ScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanne
 function ScannerScene({ route }: ScannerSceneProps) {
   const lastScannedQR = useRef('')
   const dispatch = useDispatch()
-  const defaultOnQRCodeDetected = (qrCode: QrCode) => dispatch(handleQRCodeDetected(qrCode))
+  const defaultOnQRCodeDetected = (qrCode: QrCode) =>
+    dispatch(
+      handleQRCodeDetected({
+        qrCode,
+        defaultTokenIdOverride: route?.params?.defaultTokenIdOverride,
+      })
+    )
   const { onQRCodeDetected: onQRCodeDetectedParam = defaultOnQRCodeDetected } = route.params || {}
   const isFocused = useIsFocused()
   const [wasFocused, setWasFocused] = useState(isFocused)
@@ -132,9 +138,6 @@ export default function QRNavigator({ route }: Props) {
 
 QRNavigator.navigationOptions = {
   ...noHeader,
-  ...Platform.select({
-    ios: { animation: 'slide_from_bottom' },
-  }),
 }
 
 const styles = StyleSheet.create({

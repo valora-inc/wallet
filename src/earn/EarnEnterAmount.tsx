@@ -2,19 +2,21 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Keyboard, TextInput as RNTextInput, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import { EarnEvents } from 'src/analytics/Events'
+import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
-import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import RowDivider from 'src/components/RowDivider'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, {
+  TokenBottomSheetProps,
+  TokenPickerOrigin,
+} from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenEnterAmount, {
   FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS,
@@ -32,6 +34,7 @@ import { StackParamList } from 'src/navigator/types'
 import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions/selectors'
 import { EarnPosition, Position } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
+import EnterAmountOptions from 'src/send/EnterAmountOptions'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -86,6 +89,7 @@ function useTokens({ pool }: { pool: EarnPosition }) {
 
 export default function EarnEnterAmount({ route }: Props) {
   const { t } = useTranslation()
+  const insets = useSafeAreaInsets()
 
   const { pool, mode = 'deposit' } = route.params
   const isWithdrawal = mode === 'withdraw'
@@ -102,12 +106,16 @@ export default function EarnEnterAmount({ route }: Props) {
     }
   }, [mode])
 
-  const [inputToken, setInputToken] = useState<TokenBalance>(() => availableInputTokens[0])
+  const [inputToken, setInputToken] = useState(() => availableInputTokens[0])
 
+  const inputRef = useRef<RNTextInput>(null)
+  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const swapDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+
   const [maxPressed] = useState(false)
+  const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
   const walletAddress = useSelector(walletAddressSelector)
 
@@ -121,18 +129,34 @@ export default function EarnEnterAmount({ route }: Props) {
 
   const {
     amount,
+    setAmount,
     amountType,
-    derived,
-    inputRef,
-    bottomSheetRef,
+    processedAmounts,
     handleAmountInputChange,
     handleToggleAmountType,
-    onOpenTokenPicker,
-    onSelectToken,
   } = useEnterAmount({
     token: inputToken,
-    onSelectToken: (token) => setInputToken(token),
+    inputRef,
+    onAmountChange: () => {
+      setSelectedPercentage(null)
+    },
   })
+
+  const onOpenTokenPicker = () => {
+    bottomSheetRef.current?.snapToIndex(0)
+    AppAnalytics.track(SendEvents.token_dropdown_opened, {
+      currentTokenId: inputToken.tokenId,
+      currentTokenAddress: inputToken.address,
+      currentNetworkId: inputToken.networkId,
+    })
+  }
+
+  const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
+    setInputToken(selectedToken)
+    setAmount('')
+    bottomSheetRef.current?.close()
+    // NOTE: analytics is already fired by the bottom sheet, don't need one here
+  }
 
   const handleRefreshPreparedTransactions = (
     amount: BigNumber,
@@ -152,7 +176,7 @@ export default function EarnEnterAmount({ route }: Props) {
       pool,
       hooksApiUrl,
       shortcutId: mode,
-      useMax: maxPressed,
+      useMax: selectedPercentage === 1,
     })
   }
 
@@ -160,14 +184,15 @@ export default function EarnEnterAmount({ route }: Props) {
   const { transactionToken, transactionTokenAmount } = useMemo(() => {
     const transactionToken = isWithdrawal ? withdrawToken : inputToken
     const transactionTokenAmount = isWithdrawal
-      ? derived.token.bignum && derived.token.bignum.dividedBy(pool.pricePerShare[0])
-      : derived.token.bignum
+      ? processedAmounts.token.bignum &&
+        processedAmounts.token.bignum.dividedBy(pool.pricePerShare[0])
+      : processedAmounts.token.bignum
 
     return {
       transactionToken,
       transactionTokenAmount,
     }
-  }, [inputToken, withdrawToken, derived.token.bignum, isWithdrawal, pool])
+  }, [inputToken, withdrawToken, processedAmounts.token.bignum, isWithdrawal, pool])
 
   const balanceInInputToken = useMemo(
     () =>
@@ -185,10 +210,10 @@ export default function EarnEnterAmount({ route }: Props) {
     clearPreparedTransactions()
 
     if (
-      !derived.token.bignum ||
+      !processedAmounts.token.bignum ||
       !transactionTokenAmount ||
-      derived.token.bignum.isLessThanOrEqualTo(0) ||
-      derived.token.bignum.isGreaterThan(balanceInInputToken)
+      processedAmounts.token.bignum.isLessThanOrEqualTo(0) ||
+      processedAmounts.token.bignum.isGreaterThan(balanceInInputToken)
     ) {
       return
     }
@@ -200,13 +225,13 @@ export default function EarnEnterAmount({ route }: Props) {
       )
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [derived.token.bignum, mode, transactionToken, feeCurrencies])
+  }, [processedAmounts.token.bignum, mode, transactionToken, feeCurrencies])
 
   const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const isAmountLessThanBalance =
-    derived.token.bignum && derived.token.bignum.lte(balanceInInputToken)
+    processedAmounts.token.bignum && processedAmounts.token.bignum.lte(balanceInInputToken)
   const showNotEnoughBalanceForGasWarning =
     isAmountLessThanBalance &&
     prepareTransactionsResult &&
@@ -229,56 +254,60 @@ export default function EarnEnterAmount({ route }: Props) {
 
   const disabled =
     // Should disable if the user enters 0, has enough balance but the transaction is not possible, or does not have enough balance
-    !!derived.token.bignum?.isZero() || !transactionIsPossible
+    !!processedAmounts.token.bignum?.isZero() || !transactionIsPossible
 
-  // const onMaxAmountPress = async () => {
-  //   // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
-  //   // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
-  //   // if there is not enough for gas
-  //   setTokenAmountInput(balanceInInputToken.toFormat({ decimalSeparator }))
-  //   setEnteredIn('token')
-  //   setMaxPressed(true)
-  //   tokenAmountInputRef.current?.blur()
-  //   localAmountInputRef.current?.blur()
-  //   AppAnalytics.track(SendEvents.max_pressed, {
-  //     tokenId: inputToken.tokenId,
-  //     tokenAddress: inputToken.address,
-  //     networkId: inputToken.networkId,
-  //     mode,
-  //   })
-  // }
+  const onSelectPercentageAmount = (percentage: number) => {
+    const balance =
+      amountType === 'token' ? inputToken.balance : processedAmounts.local.balance?.decimalPlaces(2)
+
+    if (!balance) {
+      return
+    }
+
+    const percentageAmount = balance.multipliedBy(percentage).toString()
+    setAmount(percentageAmount)
+    setSelectedPercentage(percentage)
+
+    AppAnalytics.track(SendEvents.send_percentage_selected, {
+      tokenId: inputToken.tokenId,
+      tokenAddress: inputToken.address,
+      networkId: inputToken.networkId,
+      percentage: percentage * 100,
+      flow: 'earn',
+    })
+  }
 
   const onPressContinue = () => {
-    if (!derived.token.bignum || !transactionToken) {
+    if (!processedAmounts.token.bignum || !transactionToken) {
       // should never happen
       return
     }
     AppAnalytics.track(EarnEvents.earn_enter_amount_continue_press, {
       // TokenAmount is always deposit token
-      amountInUsd: derived.token.bignum.multipliedBy(inputToken.priceUsd ?? 0).toFixed(2),
+      amountInUsd: processedAmounts.token.bignum.multipliedBy(inputToken.priceUsd ?? 0).toFixed(2),
       amountEnteredIn: amountType,
       depositTokenId: pool.dataProps.depositTokenId,
       networkId: inputToken.networkId,
       providerId: pool.appId,
       poolId: pool.positionId,
       fromTokenId: inputToken.tokenId,
-      fromTokenAmount: derived.token.bignum.toString(),
+      fromTokenAmount: processedAmounts.token.bignum.toString(),
       mode,
       depositTokenAmount: isWithdrawal
         ? undefined
         : swapTransaction
           ? getSwapToAmountInDecimals({
               swapTransaction,
-              fromAmount: derived.token.bignum,
+              fromAmount: processedAmounts.token.bignum,
             }).toString()
-          : derived.token.bignum.toString(),
+          : processedAmounts.token.bignum.toString(),
     })
 
     if (isWithdrawal) {
       navigate(Screens.EarnConfirmationScreen, {
         pool,
         mode,
-        inputAmount: derived.token.bignum.toString(),
+        inputAmount: processedAmounts.token.bignum.toString(),
         useMax: maxPressed,
       })
     } else {
@@ -289,9 +318,19 @@ export default function EarnEnterAmount({ route }: Props) {
   const dropdownEnabled = availableInputTokens.length > 1
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
-      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={[
+          styles.contentContainer,
+          {
+            paddingBottom: Math.max(insets.bottom, Spacing.Thick24),
+          },
+        ]}
+        onScrollBeginDrag={() => {
+          Keyboard.dismiss()
+        }}
+      >
         <View style={styles.inputContainer}>
           <Text style={styles.title}>
             {isWithdrawal
@@ -304,26 +343,26 @@ export default function EarnEnterAmount({ route }: Props) {
             token={inputToken}
             inputValue={amount}
             inputRef={inputRef}
-            tokenAmount={derived.token.readable}
-            localAmount={derived.local.readable}
+            tokenAmount={processedAmounts.token.displayAmount}
+            localAmount={processedAmounts.local.displayAmount}
             onInputChange={handleAmountInputChange}
             amountType={amountType}
             toggleAmountType={handleToggleAmountType}
             onOpenTokenPicker={dropdownEnabled ? onOpenTokenPicker : undefined}
             tokenBalance={isWithdrawal ? balanceInInputToken : inputToken.balance}
           />
-          {derived.token.bignum && prepareTransactionsResult && !isWithdrawal && (
+          {processedAmounts.token.bignum && prepareTransactionsResult && !isWithdrawal && (
             <TransactionDepositDetails
               pool={pool}
               token={inputToken}
-              tokenAmount={derived.token.bignum}
+              tokenAmount={processedAmounts.token.bignum}
               prepareTransactionsResult={prepareTransactionsResult}
               feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
               swapDetailsBottomSheetRef={swapDetailsBottomSheetRef}
               swapTransaction={swapTransaction}
             />
           )}
-          {derived.token.bignum && isWithdrawal && (
+          {processedAmounts.token.bignum && isWithdrawal && (
             <TransactionWithdrawDetails
               pool={pool}
               token={transactionToken}
@@ -334,6 +373,7 @@ export default function EarnEnterAmount({ route }: Props) {
             />
           )}
         </View>
+
         {showNotEnoughBalanceForGasWarning && (
           <InLineNotification
             variant={NotificationVariant.Warning}
@@ -399,6 +439,11 @@ export default function EarnEnterAmount({ route }: Props) {
             testID="EarnEnterAmount/WithdrawingAndClaimingCard"
           />
         )}
+        <EnterAmountOptions
+          onPressAmount={onSelectPercentageAmount}
+          selectedAmount={selectedPercentage}
+          testID="EarnEnterAmount/AmountOptions"
+        />
         <Button
           onPress={onPressContinue}
           text={t('earnFlow.enterAmount.continue')}
@@ -408,9 +453,8 @@ export default function EarnEnterAmount({ route }: Props) {
           showLoading={isPreparingTransactions}
           testID="EarnEnterAmount/Continue"
         />
-        <KeyboardSpacer />
       </KeyboardAwareScrollView>
-      {derived.token.bignum && (
+      {processedAmounts.token.bignum && (
         <FeeDetailsBottomSheet
           forwardedRef={feeDetailsBottomSheetRef}
           testID="FeeDetailsBottomSheet"
@@ -420,26 +464,26 @@ export default function EarnEnterAmount({ route }: Props) {
           swapTransaction={swapTransaction}
           pool={pool}
           token={inputToken}
-          tokenAmount={derived.token.bignum}
+          tokenAmount={processedAmounts.token.bignum}
           isWithdrawal={isWithdrawal}
         />
       )}
-      {swapTransaction && derived.token.bignum && (
+      {swapTransaction && processedAmounts.token.bignum && (
         <SwapDetailsBottomSheet
           forwardedRef={swapDetailsBottomSheetRef}
           testID="SwapDetailsBottomSheet"
           swapTransaction={swapTransaction}
           token={inputToken}
           pool={pool}
-          tokenAmount={derived.token.bignum}
-          parsedTokenAmount={derived.token.bignum}
+          tokenAmount={processedAmounts.token.bignum}
+          parsedTokenAmount={processedAmounts.token.bignum}
         />
       )}
-      {derived.token.bignum && prepareTransactionsResult?.type === 'possible' && (
+      {processedAmounts.token.bignum && prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
           preparedTransaction={prepareTransactionsResult}
-          inputAmount={derived.token.bignum}
+          inputAmount={processedAmounts.token.bignum}
           pool={pool}
           mode={mode}
           swapTransaction={swapTransaction}
@@ -908,7 +952,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   continueButton: {
-    paddingVertical: Spacing.Thick24,
+    paddingTop: Spacing.Thick24,
+    marginTop: 'auto',
   },
   warning: {
     marginTop: Spacing.Regular16,
