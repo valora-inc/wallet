@@ -231,7 +231,8 @@ export default function EarnEnterAmount({ route }: Props) {
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const isAmountLessThanBalance =
-    processedAmounts.token.bignum && processedAmounts.token.bignum.lte(balanceInInputToken)
+    processedAmounts.token.bignum !== null && processedAmounts.token.bignum.lte(balanceInInputToken)
+  const showLowerAmountError = processedAmounts.token.bignum && !isAmountLessThanBalance
   const showNotEnoughBalanceForGasWarning =
     isAmountLessThanBalance &&
     prepareTransactionsResult &&
@@ -406,7 +407,7 @@ export default function EarnEnterAmount({ route }: Props) {
             testID="EarnEnterAmount/NotEnoughForGasWarning"
           />
         )}
-        {!isAmountLessThanBalance && (
+        {showLowerAmountError && (
           <InLineNotification
             variant={NotificationVariant.Warning}
             title={t('sendEnterAmountScreen.insufficientBalanceWarning.title', {

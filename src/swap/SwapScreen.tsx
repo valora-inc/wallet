@@ -133,8 +133,28 @@ export function SwapScreen({ route }: Props) {
     networkId: fromToken?.networkId || networkConfig.defaultNetworkId,
     slippagePercentage: maxSlippagePercentage,
     enableAppFee: enableAppFee,
+    onError: (error) => {
+      if (!error.message.includes(NO_QUOTE_ERROR_MESSAGE)) {
+        dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
+      }
+    },
+    onSuccess: (newQuote) => {
+      if (!newQuote) {
+        replaceAmountTo('')
+        return
+      }
+
+      if (!derivedFrom.token.bignum) return
+      const newAmount = derivedFrom.token.bignum
+        .multipliedBy(new BigNumber(newQuote.price))
+        .toString()
+      replaceAmountTo(newAmount)
+    },
   })
 
+  useEffect(() => {
+    console.log({ fetchingSwapQuote })
+  }, [fetchingSwapQuote])
   const {
     amount: amountFrom,
     amountType,
@@ -176,15 +196,12 @@ export function SwapScreen({ route }: Props) {
 
         if (!quoteIsTheSameAsTheLastOne) {
           console.log('Updating quote', parsedAmount)
+          replaceAmountTo('')
           void refreshQuote(fromToken, toToken, { FROM: parsedAmount, TO: null }, Field.FROM)
         }
       }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
     },
   })
-
-  useEffect(() => {
-    console.log({ fetchingSwapQuote })
-  }, [fetchingSwapQuote])
 
   const {
     amount: amountTo,
@@ -325,31 +342,6 @@ export function SwapScreen({ route }: Props) {
   useEffect(function trackSwapScreenOpen() {
     AppAnalytics.track(SwapEvents.swap_screen_open)
   }, [])
-
-  useEffect(
-    function showErrorForFailedQuote() {
-      if (fetchSwapQuoteError) {
-        if (!fetchSwapQuoteError.message.includes(NO_QUOTE_ERROR_MESSAGE)) {
-          dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
-        }
-      }
-    },
-    [fetchSwapQuoteError]
-  )
-
-  useEffect(
-    function updateToAmountWhenQuoteIsUpdated() {
-      if (!quote) {
-        replaceAmountTo('')
-        return
-      }
-
-      if (!derivedFrom.token.bignum) return
-      const newAmount = derivedFrom.token.bignum.multipliedBy(new BigNumber(quote.price)).toString()
-      replaceAmountTo(newAmount)
-    },
-    [quote]
-  )
 
   useEffect(
     function trackImpactWarningDisplayed() {
@@ -573,6 +565,7 @@ export function SwapScreen({ route }: Props) {
       setToToken(fromToken)
       setStartedSwapId(undefined)
       setSwitchedToNetworkId(null)
+      replaceAmountTo('')
 
       trackConfirmToken({
         field: Field.FROM,
@@ -582,6 +575,15 @@ export function SwapScreen({ route }: Props) {
         newSwitchedToNetworkId: null,
         tokenPositionInList,
       })
+
+      if (toToken && fromToken) {
+        void refreshQuote(
+          toToken,
+          fromToken,
+          { FROM: derivedFrom.token.bignum, TO: null },
+          Field.FROM
+        )
+      }
 
       /**
        * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
@@ -621,6 +623,15 @@ export function SwapScreen({ route }: Props) {
       clearQuote()
     }
 
+    if (toToken) {
+      void refreshQuote(
+        selectedToken,
+        toToken,
+        { FROM: derivedFrom.token.bignum, TO: null },
+        Field.FROM
+      )
+    }
+
     /**
      * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
      * animation can be synchronised and starts after the state changes above.
@@ -636,6 +647,7 @@ export function SwapScreen({ route }: Props) {
       setToToken(fromToken)
       setStartedSwapId(undefined)
       setSwitchedToNetworkId(null)
+      replaceAmountTo('')
 
       trackConfirmToken({
         field: Field.TO,
@@ -645,6 +657,15 @@ export function SwapScreen({ route }: Props) {
         newSwitchedToNetworkId: null,
         tokenPositionInList,
       })
+
+      if (toToken && fromToken) {
+        void refreshQuote(
+          toToken,
+          fromToken,
+          { FROM: derivedFrom.token.bignum, TO: null },
+          Field.FROM
+        )
+      }
 
       /**
        * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
@@ -681,6 +702,15 @@ export function SwapScreen({ route }: Props) {
         setFromToken(undefined)
         setSwitchedToNetworkId(allowCrossChainSwaps ? null : newSwitchedToNetworkId)
         clearQuote()
+      }
+
+      if (fromToken) {
+        void refreshQuote(
+          fromToken,
+          selectedToken,
+          { FROM: derivedFrom.token.bignum, TO: null },
+          Field.FROM
+        )
       }
 
       /**
