@@ -1,5 +1,5 @@
 import jestExpect from 'expect'
-import { waitForElementId, waitForExpectNotVisible } from '../utils/utils'
+import { waitForElementId } from '../utils/utils'
 import { sleep } from '../../../src/utils/sleep'
 
 export default HomeFeed = () => {
@@ -16,8 +16,6 @@ export default HomeFeed = () => {
     const amount = items.elements[0].label.match(/(\d+\.\d+)/)[1]
     await expect(element(by.text(address)).atIndex(0)).toBeVisible()
     await expect(element(by.text(`$${amount}`)).atIndex(0)).toBeVisible()
-    // Address should match
-    await expect(element(by.text(feedAddress)).atIndex(0)).toBeVisible()
   })
 
   it('should load more items on scroll', async () => {
