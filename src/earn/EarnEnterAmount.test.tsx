@@ -660,6 +660,7 @@ describe('EarnEnterAmount', () => {
       },
     })
 
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('selecting max token amount applies correct decimal separator', async () => {
       const { getByTestId } = render(
         <Provider store={mockStore}>
