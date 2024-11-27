@@ -945,8 +945,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   title: {
-    ...typeScale.titleSmall,
+    ...typeScale.titleMedium,
     color: Colors.black,
+    marginBottom: Spacing.Thick24,
   },
   inputContainer: {
     flex: 1,
