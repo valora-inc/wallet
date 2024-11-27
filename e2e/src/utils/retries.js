@@ -6,6 +6,8 @@ const defaultLaunchArgs = {
   permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
   launchArgs: {
     detoxPrintBusyIdleResources: 'YES',
+    // Use new tx feed from Zerion by default
+    statsigGateOverrides: 'show_zerion_transaction_feed=true',
   },
 }
 
@@ -38,7 +40,5 @@ export const reloadReactNative = async () => {
       }
     },
     { retries: 5, delay: 10 * 1000, timeout: 30 * 10000 }
-  ).then(async () => {
-    await device.setURLBlacklist(['.*blockchain-api-dot-celo-mobile-mainnet.*'])
-  })
+  )
 }
