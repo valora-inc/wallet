@@ -31,7 +31,7 @@ export default HomeFeed = () => {
     const startingItems = await element(by.id('TransferFeedItem')).getAttributes()
 
     // Scroll to bottom - Android will scroll forever so we set a static value
-    await element(by.id('WalletHome/FlatList')).scroll(5000, 'down')
+    await element(by.id('TransactionList')).scroll(5000, 'down')
     await sleep(5000)
 
     // Compare initial number of items to new number of items after scroll
