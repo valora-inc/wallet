@@ -13,9 +13,11 @@ export default HomeFeed = () => {
 
     // Assert on text based on elements returned earlier
     const address = items.elements[0].label.split(' ')[0]
-    const amount = items.elements[0].label.match(/(\d+\.\d+)/)[1]
     await expect(element(by.text(address)).atIndex(0)).toBeVisible()
-    await expect(element(by.text(`$${amount}`)).atIndex(0)).toBeVisible()
+
+    // TODO: enable after display is standardized between feed and transaction details
+    // const amount = items.elements[0].label.match(/(\d+\.\d+)/)[1]
+    // await expect(element(by.text(`$${amount}`)).atIndex(0)).toBeVisible()
   })
 
   it('should load more items on scroll', async () => {
