@@ -25,6 +25,7 @@ import {
   showNftRewardSelector,
 } from 'src/home/selectors'
 import { importContacts } from 'src/identity/actions'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
@@ -64,6 +65,15 @@ function TabHome(_props: Props) {
 
   useEffect(() => {
     dispatch(visitHome())
+  }, [])
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigate(Screens.SwapScreenWithBack, {
+        fromTokenId: 'op-mainnet:0x0b2c639c533813f4aa9d7837caf62653d097ff85',
+        toTokenId: 'celo-mainnet:0xceba9300f2b948710d2653dd7b07f33a8b32118c',
+      })
+    }, 0)
   }, [])
 
   const showTestnetBanner = () => {

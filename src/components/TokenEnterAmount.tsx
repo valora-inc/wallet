@@ -485,7 +485,7 @@ export default function TokenEnterAmount({
 
           {loading && (
             <View
-              testID="SwapAmountInput/Loader"
+              testID={`${testID}/Loader`}
               style={{
                 paddingVertical: Spacing.Small12,
                 position: 'absolute',

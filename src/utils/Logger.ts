@@ -38,21 +38,21 @@ class Logger {
     if (this.level < LoggerLevel.Debug) {
       return
     }
-    console.debug(tag, ...messages)
+    // console.debug(tag, ...messages)
   }
 
   info = (tag: string, ...messages: any[]) => {
     if (this.level < LoggerLevel.Info) {
       return
     }
-    console.info(tag, ...messages)
+    // console.info(tag, ...messages)
   }
 
   warn = (tag: string, ...messages: any[]) => {
     if (this.level < LoggerLevel.Warn) {
       return
     }
-    console.warn(tag, ...messages)
+    // console.warn(tag, ...messages)
   }
 
   error = (
