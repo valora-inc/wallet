@@ -9,12 +9,12 @@ export default RestoreAccountOnboarding = () => {
   })
 
   it.each`
-    wordCount | phrase                          | walletAddress
-    ${'12'}   | ${E2E_WALLET_12_WORDS_MNEMONIC} | ${WALLET_12_WORDS_ADDRESS}
-    ${'24'}   | ${E2E_WALLET_MNEMONIC}          | ${WALLET_ADDRESS}
+    wordCount | phrase                          | walletAddress              | walletFunded | verifiedPhoneNumber
+    ${'12'}   | ${E2E_WALLET_12_WORDS_MNEMONIC} | ${WALLET_12_WORDS_ADDRESS} | ${false}     | ${false}
+    ${'24'}   | ${E2E_WALLET_MNEMONIC}          | ${WALLET_ADDRESS}          | ${true}      | ${true}
   `(
     'restores an existing wallet using a $wordCount word recovery phrase',
-    async ({ phrase, walletAddress }) => {
+    async ({ phrase, walletAddress, walletFunded, verifiedPhoneNumber }) => {
       // choose restore flow
       await element(by.id('RestoreAccountButton')).tap()
 
@@ -49,15 +49,15 @@ export default RestoreAccountOnboarding = () => {
       await scrollIntoView('Restore', 'ImportWalletKeyboardAwareScrollView')
       await element(by.id('ImportWalletButton')).tap()
 
-      try {
-        // case where account not funded yet. continue with onboarding.
+      if (!walletFunded) {
+        // case where account not funded yet. dismiss zero balance modal to continue with onboarding.
         await waitForElementByIdAndTap('ConfirmUseAccountDialog/PrimaryAction')
-      } catch {}
+      }
 
-      try {
+      if (!verifiedPhoneNumber) {
         // case where phone verification is required. skip it.
         await waitForElementByIdAndTap('PhoneVerificationSkipHeader')
-      } catch {}
+      }
 
       // Choose your own adventure (CYA screen)
       await waitForElementByIdAndTap('ChooseYourAdventure/Later')
