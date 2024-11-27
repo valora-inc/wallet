@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -58,7 +58,6 @@ import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { parseInputAmount } from 'src/utils/parsing'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
@@ -71,8 +70,8 @@ const DEFAULT_INPUT_SWAP_AMOUNT: SwapAmount = {
   [Field.TO]: '',
 }
 
-type SelectingNoUsdPriceToken = TokenBalance & {
-  tokenPositionInList: number
+type ToToken = TokenBalance & {
+  tokenPositionInList?: number
 }
 interface SwapState {
   fromTokenId: string | undefined
@@ -105,21 +104,6 @@ const swapSlice = createSlice({
   name: 'swapSlice',
   initialState: getInitialState,
   reducers: {
-    changeAmount: (state, action: PayloadAction<{ value: string }>) => {
-      const { value } = action.payload
-      state.confirmingSwap = false
-      state.startedSwapId = null
-      if (!value) {
-        state.inputSwapAmount = DEFAULT_INPUT_SWAP_AMOUNT
-        return
-      }
-      // Regex to match only numbers and one decimal separator
-      const sanitizedValue = value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('')
-      if (!sanitizedValue) {
-        return
-      }
-      state.inputSwapAmount[Field.FROM] = sanitizedValue
-    },
     chooseMaxFromAmount: (state, action: PayloadAction<{ fromTokenBalance: BigNumber }>) => {
       const { fromTokenBalance } = action.payload
       state.confirmingSwap = false
@@ -128,21 +112,6 @@ const swapSlice = createSlice({
       state.inputSwapAmount[Field.FROM] = fromTokenBalance.toFormat({
         decimalSeparator: getNumberFormatSettings().decimalSeparator,
       })
-    },
-    startSelectToken: (state, action: PayloadAction<{ fieldType: Field }>) => {
-      state.selectingField = action.payload.fieldType
-      state.confirmingSwap = false
-    },
-    selectNoUsdPriceToken: (
-      state,
-      action: PayloadAction<{
-        token: SelectingNoUsdPriceToken
-      }>
-    ) => {
-      state.selectingNoUsdPriceToken = action.payload.token
-    },
-    unselectNoUsdPriceToken: (state) => {
-      state.selectingNoUsdPriceToken = null
     },
     selectTokens: (
       state,
@@ -162,43 +131,10 @@ const swapSlice = createSlice({
       state.switchedToNetworkId = switchedToNetworkId
       state.selectingNoUsdPriceToken = null
     },
-    quoteUpdated: (state, action: PayloadAction<{ quote: QuoteResult | null }>) => {
-      const { quote } = action.payload
-      state.confirmingSwap = false
-      if (!quote) {
-        state.inputSwapAmount[Field.TO] = ''
-        return
-      }
-
-      const { decimalSeparator } = getNumberFormatSettings()
-      const parsedAmount = parseInputAmount(state.inputSwapAmount[Field.FROM], decimalSeparator)
-
-      const newAmount = parsedAmount.multipliedBy(new BigNumber(quote.price))
-      state.inputSwapAmount[Field.TO] = newAmount.toFormat({
-        decimalSeparator,
-      })
-    },
-    // When the user presses the confirm swap button
-    startConfirmSwap: (state) => {
-      state.confirmingSwap = true
-    },
-    // When the swap is ready to be executed
-    startSwap: (state, action: PayloadAction<{ swapId: string }>) => {
-      state.startedSwapId = action.payload.swapId
-    },
   },
 })
 
-const {
-  selectTokens,
-  quoteUpdated,
-  startConfirmSwap,
-  startSwap,
-  selectNoUsdPriceToken,
-  unselectNoUsdPriceToken,
-} = swapSlice.actions
-
-const swapStateReducer = swapSlice.reducer
+const { selectTokens } = swapSlice.actions
 
 function getNetworkFee(quote: QuoteResult | null) {
   const { feeCurrency, maxFeeAmount, estimatedFeeAmount } = getFeeCurrencyAndAmounts(
@@ -218,9 +154,22 @@ type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 export function SwapScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const { swappableFromTokens, swappableToTokens, areSwapTokensShuffled } = useSwappableTokens()
 
-  const [fromToken, setFromToken] = useState<TokenBalance | undefined>(undefined)
-  const [toToken, setToToken] = useState<TokenBalance | undefined>(undefined)
+  const [fromToken, setFromToken] = useState(() => {
+    if (!route.params?.fromTokenId) return undefined
+    return swappableFromTokens.find((token) => token.tokenId === route.params!.fromTokenId)
+  })
+
+  const [toToken, setToToken] = useState<ToToken | undefined>(() => {
+    if (!route.params?.toTokenId) return undefined
+    const token = swappableToTokens.find((token) => token.tokenId === route.params!.toTokenId)
+    if (!token) return undefined
+    return { ...token, tokenPositionInList: undefined }
+  })
+
+  const [startedSwapId, setStartedSwapId] = useState<string | undefined>(undefined)
+  const [confirmingSwap, setConfirmingSwap] = useState(false)
 
   const tokenBottomSheetFromRef = useRef<BottomSheetModalRefType>(null)
   const tokenBottomSheetToRef = useRef<BottomSheetModalRefType>(null)
@@ -236,37 +185,17 @@ export function SwapScreen({ route }: Props) {
   const allowCrossChainSwaps = getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
   const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
 
-  const { decimalSeparator } = getNumberFormatSettings()
-
   const { maxSlippagePercentage, enableAppFee } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   )
   const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
   const parsedSlippagePercentage = new BigNumber(maxSlippagePercentage).toFormat()
 
-  const { swappableFromTokens, swappableToTokens, areSwapTokensShuffled } = useSwappableTokens()
-
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
 
   const tokensById = useSelector((state) =>
     tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
   )
-
-  const initialFromTokenId = route.params?.fromTokenId
-  const initialToTokenId = route.params?.toTokenId
-  const initialToTokenNetworkId = route.params?.toTokenNetworkId
-  const [state, localDispatch] = useReducer(
-    swapStateReducer,
-    getInitialState(initialFromTokenId, initialToTokenId)
-  )
-  const {
-    inputSwapAmount,
-    selectingField,
-    selectingNoUsdPriceToken,
-    confirmingSwap,
-    switchedToNetworkId,
-    startedSwapId,
-  } = state
 
   const {
     amount: amountFrom,
@@ -281,11 +210,14 @@ export function SwapScreen({ route }: Props) {
   } = useEnterAmount({
     token: fromToken!,
     onAmountChange: (amount) => {
+      setConfirmingSwap(false)
+      setStartedSwapId(undefined)
       if (!amount) {
         clearQuote()
       }
     },
     onSelectToken: (token, tokenPositionInList) => {
+      setConfirmingSwap(false)
       setFromToken(token)
       handleConfirmSelectToken(token, tokenPositionInList!)
     },
@@ -297,28 +229,24 @@ export function SwapScreen({ route }: Props) {
     inputRef: inputRefTo,
     bottomSheetRef: bottomSheetRefTo,
     onSelectToken: onSelectTokenTo,
+    handleAmountInputChange: handleAmountInputChangeTo,
   } = useEnterAmount({
     token: toToken!,
     onSelectToken: (token, tokenPositionInList) => {
-      if (!token.priceUsd) {
-        localDispatch(
-          selectNoUsdPriceToken({ token: { ...token, tokenPositionInList: tokenPositionInList! } })
-        )
-        return
-      }
-
+      setConfirmingSwap(false)
+      setToToken({ ...token, tokenPositionInList })
       handleConfirmSelectToken(token, tokenPositionInList!)
-      setToToken(token)
     },
   })
 
+  const initialToTokenNetworkId = route.params?.toTokenNetworkId
   const filterChipsFrom = useFilterChips(Field.FROM)
   const filterChipsTo = useFilterChips(Field.TO, initialToTokenNetworkId)
 
   const fromTokenBalance = useTokenInfo(fromToken?.tokenId)?.balance ?? new BigNumber(0)
 
   const currentSwap = useSelector(currentSwapSelector)
-  const swapStatus = startedSwapId === currentSwap?.id ? currentSwap.status : null
+  const swapStatus = startedSwapId === currentSwap?.id ? currentSwap?.status : null
 
   const feeCurrenciesWithPositiveBalances = useSelector((state) =>
     feeCurrenciesWithPositiveBalancesSelector(
@@ -334,33 +262,22 @@ export function SwapScreen({ route }: Props) {
     enableAppFee: enableAppFee,
   })
 
-  // Parsed swap amounts (BigNumber)
-  const parsedSwapAmount = useMemo(
-    () => ({
-      [Field.FROM]: derivedFrom.token.bignum,
-      [Field.TO]: derivedTo.token.bignum,
-    }),
-    [inputSwapAmount]
-  )
-
   const shouldShowMaxSwapAmountWarning =
     feeCurrenciesWithPositiveBalances.length === 1 &&
     fromToken?.tokenId === feeCurrenciesWithPositiveBalances[0].tokenId &&
     fromTokenBalance.gt(0) &&
-    parsedSwapAmount[Field.FROM] &&
-    parsedSwapAmount[Field.FROM].gte(fromTokenBalance)
+    derivedFrom.token.bignum &&
+    derivedFrom.token.bignum.gte(fromTokenBalance)
 
   const fromSwapAmountError =
-    confirmingSwap &&
-    parsedSwapAmount[Field.FROM] &&
-    parsedSwapAmount[Field.FROM].gt(fromTokenBalance)
+    confirmingSwap && derivedFrom.token.bignum && derivedFrom.token.bignum.gt(fromTokenBalance)
 
   const quoteUpdatePending =
-    (parsedSwapAmount[Field.FROM] &&
+    (derivedFrom.token.bignum &&
       quote &&
       (quote.fromTokenId !== fromToken?.tokenId ||
         quote.toTokenId !== toToken?.tokenId ||
-        !quote.swapAmount.eq(parsedSwapAmount[Field.FROM]))) ||
+        !quote.swapAmount.eq(derivedFrom.token.bignum))) ||
     fetchingSwapQuote
 
   const confirmSwapIsLoading = swapStatus === 'started'
@@ -385,34 +302,49 @@ export function SwapScreen({ route }: Props) {
     const quoteKnown =
       fromToken &&
       toToken &&
-      parsedSwapAmount[Field.FROM] &&
+      derivedFrom.token.bignum &&
       quote &&
       quote.toTokenId === toToken.tokenId &&
       quote.fromTokenId === fromToken.tokenId &&
-      quote.swapAmount.eq(parsedSwapAmount[Field.FROM])
+      quote.swapAmount.eq(derivedFrom.token.bignum)
 
     const debouncedRefreshQuote = setTimeout(() => {
       if (
         fromToken &&
         toToken &&
-        parsedSwapAmount[Field.FROM] &&
-        parsedSwapAmount[Field.FROM].gt(0) &&
+        derivedFrom.token.bignum &&
+        derivedFrom.token.bignum.gt(0) &&
         !quoteKnown
       ) {
-        void refreshQuote(fromToken, toToken, parsedSwapAmount, Field.FROM)
+        void refreshQuote(
+          fromToken,
+          toToken,
+          { FROM: derivedFrom.token.bignum, TO: derivedTo.token.bignum },
+          Field.FROM
+        )
       }
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
 
     return () => {
       clearTimeout(debouncedRefreshQuote)
     }
-  }, [fromToken, toToken, parsedSwapAmount, quote])
+  }, [fromToken, toToken, derivedFrom.token.bignum, derivedTo.token.bignum, quote])
 
   useEffect(() => {
-    localDispatch(quoteUpdated({ quote }))
+    setConfirmingSwap(false)
+
+    if (!quote) {
+      handleAmountInputChangeTo('')
+      return
+    }
+
+    if (!derivedFrom.token.bignum) return
+    const newAmount = derivedFrom.token.bignum.multipliedBy(new BigNumber(quote.price))
+    handleAmountInputChangeTo(newAmount.toString())
   }, [quote])
 
   const onOpenTokenPicker = (fieldType: Field) => () => {
+    setConfirmingSwap(false)
     AppAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType: fieldType })
     // use requestAnimationFrame so that the bottom sheet open animation is done
     // after the selectingField value is updated, so that the title of the
@@ -437,14 +369,14 @@ export function SwapScreen({ route }: Props) {
       return
     }
 
-    localDispatch(startConfirmSwap())
+    setConfirmingSwap(true)
 
     const userInput = {
       toTokenId: toToken.tokenId,
       fromTokenId: fromToken.tokenId,
       swapAmount: {
-        [Field.FROM]: parsedSwapAmount[Field.FROM] ? parsedSwapAmount[Field.FROM].toString() : '',
-        [Field.TO]: parsedSwapAmount[Field.TO] ? parsedSwapAmount[Field.TO].toString() : '',
+        [Field.FROM]: derivedFrom.token.bignum ? derivedFrom.token.bignum.toString() : '',
+        [Field.TO]: derivedTo.token.bignum ? derivedTo.token.bignum.toString() : '',
       },
       updatedField: Field.FROM,
     }
@@ -468,7 +400,7 @@ export function SwapScreen({ route }: Props) {
           fromTokenId: fromToken.tokenId,
           fromTokenNetworkId: fromToken.networkId,
           fromTokenIsImported: !!fromToken.isManuallyImported,
-          amount: inputSwapAmount[Field.FROM],
+          amount: derivedFrom.token.amount,
           amountType: 'sellAmount',
           allowanceTarget,
           estimatedPriceImpact,
@@ -485,7 +417,7 @@ export function SwapScreen({ route }: Props) {
         })
 
         const swapId = uuidv4()
-        localDispatch(startSwap({ swapId }))
+        setStartedSwapId(swapId)
         dispatch(
           swapStart({
             swapId,
@@ -523,7 +455,7 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleConfirmSelectTokenNoUsdPrice = () => {
-    if (selectingNoUsdPriceToken) {
+    if (toToken?.tokenPositionInList !== undefined) {
       handleConfirmSelectToken(
         selectingNoUsdPriceToken,
         selectingNoUsdPriceToken.tokenPositionInList
@@ -532,11 +464,12 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleDismissSelectTokenNoUsdPrice = () => {
-    localDispatch(unselectNoUsdPriceToken())
+    setToToken((prev) => (prev ? { ...prev, tokenPositionInList: undefined } : undefined))
   }
 
   // const handleSetMaxFromAmount = () => {
   //   localDispatch(chooseMaxFromAmount({ fromTokenBalance }))
+  //   setStartedSwapId(undefined)
   //   if (!fromToken) {
   //     // Should never happen
   //     return
@@ -603,6 +536,11 @@ export function SwapScreen({ route }: Props) {
       tokenPositionInList,
     })
 
+    if (newFromToken?.tokenId !== fromToken?.tokenId || newToToken?.tokenId !== toToken?.tokenId) {
+      setStartedSwapId(undefined)
+    }
+
+    setConfirmingSwap(false)
     localDispatch(
       selectTokens({
         fromTokenId: newFromToken?.tokenId,
@@ -705,9 +643,11 @@ export function SwapScreen({ route }: Props) {
       !showCrossChainFeeWarning &&
       !confirmSwapIsLoading &&
       !quoteUpdatePending &&
-      Object.values(parsedSwapAmount).every((amount) => amount && amount.gt(0)),
+      derivedFrom.token.bignum?.gt(0) &&
+      derivedTo.token.bignum?.gt(0),
     [
-      parsedSwapAmount,
+      derivedFrom.token.bignum,
+      derivedTo.token.bignum,
       quoteUpdatePending,
       confirmSwapIsLoading,
       showInsufficientBalanceWarning,
@@ -1087,12 +1027,12 @@ export function SwapScreen({ route }: Props) {
       />
       <Toast
         withBackdrop
-        showToast={!!selectingNoUsdPriceToken}
+        showToast={!!toToken?.tokenPositionInList !== undefined}
         variant={NotificationVariant.Warning}
         title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
         description={t('swapScreen.noUsdPriceWarning.description', {
           localCurrency,
-          tokenSymbol: selectingNoUsdPriceToken?.symbol,
+          tokenSymbol: toToken?.symbol,
         })}
         ctaLabel2={t('swapScreen.noUsdPriceWarning.ctaConfirm')}
         onPressCta2={handleConfirmSelectTokenNoUsdPrice}
