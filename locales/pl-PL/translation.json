@@ -2836,7 +2836,7 @@
   "duration_yearMonth_one": "1 rok, 1 miesiąc",
   "duration_yearMonth_other": "Liczba lat: {{count}}, liczba miesięcy: {{count2}}",
   "tokenEnterAmount": {
-    "availableBalance": "Dostępne: <0></0>",
+    "availableBalance": "Dostępna: <0></0>",
     "selectToken": "Wybierz token",
     "fiatPriceUnavailable": "Cena niedostępna"
   },
