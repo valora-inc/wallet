@@ -1,5 +1,5 @@
 import { Address, createPublicClient, erc20Abi, http } from 'viem'
-import { celoAlfajores } from 'viem/chains'
+import { celo } from 'viem/chains'
 import { REFILL_TOKENS } from './consts'
 
 export async function checkBalance(
@@ -11,7 +11,7 @@ export async function checkBalance(
   for (const [tokenSymbol, tokenBalance] of Object.entries(balance)) {
     if (tokenSymbols.includes(tokenSymbol) && tokenBalance < minBalance) {
       throw new Error(
-        `${balance} balance of ${address} is below ${minBalance}. Please refill from the faucet https://celo.org/developers/faucet or run ./fund-e2e-accounts.ts if a Valora Dev.`
+        `${balance} balance of ${address} is below ${minBalance}. Please refill from the faucet or run ./fund-e2e-accounts.ts if a Valora Dev.`
       )
     }
   }
@@ -20,15 +20,15 @@ export async function checkBalance(
 export async function getCeloTokensBalance(walletAddress: Address) {
   try {
     const supportedTokenAddresses: Address[] = [
-      '0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
-      '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f',
-      '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9',
-      '0xe4d517785d091d3c54818832db6094bcc2744545',
+      '0x765de816845861e75a25fca122bb6898b8b1282a',
+      '0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73',
+      '0x471ece3750da237f93b8e339c536989b8978a438',
+      '0xe8537a3d056da446677b9e9d6c5db704eaab4787',
     ] // cUSD, cEUR, CELO, cREAL
     const supportedTokenSymbols: string[] = ['cUSD', 'cEUR', 'CELO', 'cREAL']
 
     const celoClient = createPublicClient({
-      chain: celoAlfajores,
+      chain: celo,
       transport: http(),
     })
 
