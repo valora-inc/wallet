@@ -174,15 +174,12 @@ describe('TokenEnterAmount', () => {
       expect(result.current.amount).toBe('1234.678')
       expect(result.current.processedAmounts).toStrictEqual({
         token: {
-          amount: '1234.678',
           bignum: new BigNumber('1234.678'),
           displayAmount: '1,234.678 USDC',
         },
         local: {
-          amount: '1235.91',
           bignum: new BigNumber('1235.912678'),
           displayAmount: '$1,235.91',
-          balance: new BigNumber('1502.26076'),
         },
       })
     })
@@ -206,13 +203,10 @@ describe('TokenEnterAmount', () => {
       expect(result.current.amount).toBe('1234.67')
       expect(result.current.processedAmounts).toStrictEqual({
         local: {
-          amount: '1234.67',
           bignum: new BigNumber('1234.67'),
           displayAmount: '$1,234.67',
-          balance: new BigNumber('1502.26076'),
         },
         token: {
-          amount: '1233.436563',
           bignum: new BigNumber('1233.436563'),
           displayAmount: '1,233.436563 USDC',
         },

@@ -119,11 +119,12 @@ export default function EnterAmount({
 
   const {
     amount,
-    setAmount,
     amountType,
     processedAmounts,
+    setAmount,
     handleAmountInputChange,
     handleToggleAmountType,
+    handlePercentage,
   } = useEnterAmount({
     token,
     inputRef,
@@ -149,14 +150,7 @@ export default function EnterAmount({
   }
 
   const onSelectPercentageAmount = (percentage: number) => {
-    const balance =
-      amountType === 'token' ? token.balance : processedAmounts.local.balance?.decimalPlaces(2)
-    if (!balance) {
-      return
-    }
-
-    const percentageAmount = balance.multipliedBy(percentage).toString()
-    setAmount(percentageAmount)
+    handlePercentage(percentage)
     setSelectedPercentage(percentage)
 
     AppAnalytics.track(SendEvents.send_percentage_selected, {
@@ -215,9 +209,7 @@ export default function EnterAmount({
       <KeyboardAwareScrollView
         contentContainerStyle={[
           styles.contentContainer,
-          {
-            paddingBottom: Math.max(insets.bottom, Spacing.Thick24),
-          },
+          { paddingBottom: Math.max(insets.bottom, Spacing.Thick24) },
         ]}
         onScrollBeginDrag={() => {
           Keyboard.dismiss()
@@ -324,16 +316,8 @@ export default function EnterAmount({
         />
 
         <ProceedComponent
-          tokenAmount={
-            amountType === 'local' && selectedPercentage === 1
-              ? token.balance
-              : processedAmounts.token.bignum
-          }
-          localAmount={
-            amountType === 'local' && selectedPercentage === 1
-              ? processedAmounts.local.balance
-              : processedAmounts.local.bignum
-          }
+          tokenAmount={processedAmounts.token.bignum}
+          localAmount={processedAmounts.local.bignum}
           token={token}
           amountEnteredIn={amountType}
           onPressProceed={onPressProceed}
