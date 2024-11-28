@@ -4,8 +4,8 @@ import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { PhoneVerificationEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { PhoneVerificationEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import InfoBottomSheet from 'src/components/InfoBottomSheet'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
@@ -21,6 +21,7 @@ function VerificationCodeInputScreen({
   route,
   navigation,
 }: NativeStackScreenProps<StackParamList, Screens.VerificationCodeInputScreen>) {
+  const nextScreen = route.params.verificationCompletionScreen
   const [showHelpDialog, setShowHelpDialog] = useState(false)
 
   const { t } = useTranslation()
@@ -82,7 +83,7 @@ function VerificationCodeInputScreen({
         setSmsCode={setSmsCode}
         onResendSms={onResendSms}
         onSuccess={() => {
-          navigate(Screens.OnboardingSuccessScreen)
+          navigate(nextScreen)
         }}
         containerStyle={{ marginTop: headerHeight }}
       />
