@@ -106,7 +106,7 @@ export function getDisplayLocalAmount(
 export function useEnterAmount(props: {
   token: TokenBalance
   inputRef: React.RefObject<RNTextInput>
-  onAmountChange?(value: string): void
+  onHandleAmountInputChange?(value: string): void
 }) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
 
@@ -218,7 +218,7 @@ export function useEnterAmount(props: {
 
     if (!value) {
       setAmount('')
-      props.onAmountChange?.('')
+      props.onHandleAmountInputChange?.('')
       return
     }
 
@@ -234,7 +234,7 @@ export function useEnterAmount(props: {
       (amountType === 'local' && value.match(localAmountRegex))
     ) {
       setAmount(value)
-      props.onAmountChange?.(value)
+      props.onHandleAmountInputChange?.(value)
       return
     }
   }

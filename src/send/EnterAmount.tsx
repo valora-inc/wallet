@@ -128,7 +128,7 @@ export default function EnterAmount({
   } = useEnterAmount({
     token,
     inputRef,
-    onAmountChange: () => {
+    onHandleAmountInputChange: () => {
       setSelectedPercentage(null)
     },
   })
