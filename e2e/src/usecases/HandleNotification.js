@@ -20,12 +20,11 @@ export default HandleNotification = () => {
       'action-identifier': 'default',
     }
 
-    await launchApp({ newInstance: true, userNotification })
+    await launchApp({ userNotification })
   })
 
   it(':ios: Launch app and deeplink to another screen', async () => {
     await launchApp({
-      newInstance: true,
       userNotification: {
         trigger: {
           type: DetoxConstants.userNotificationTriggers.push,

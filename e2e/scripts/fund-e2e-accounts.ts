@@ -11,11 +11,11 @@ import {
 } from './consts'
 import { checkBalance, getCeloTokensBalance } from './utils'
 
-const provider = new providers.JsonRpcProvider('https://alfajores-forno.celo-testnet.org')
+const provider = new providers.JsonRpcProvider('https://forno.celo.org/')
 
 dotenv.config({ path: `${__dirname}/../.env` })
 
-const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
+const valoraTestFaucetSecret = process.env['E2E_TEST_FAUCET_SECRET']!
 
 interface Token {
   symbol: string
@@ -25,17 +25,17 @@ interface Token {
 
 const CELO: Token = {
   symbol: 'CELO',
-  address: utils.getAddress('0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9'),
+  address: utils.getAddress('0x471ece3750da237f93b8e339c536989b8978a438'),
   decimals: 18,
 }
 const CUSD: Token = {
   symbol: 'cUSD',
-  address: utils.getAddress('0x874069fa1eb16d44d622f2e0ca25eea172369bc1'),
+  address: utils.getAddress('0x765de816845861e75a25fca122bb6898b8b1282a'),
   decimals: 18,
 }
 const CEUR: Token = {
   symbol: 'cEUR',
-  address: utils.getAddress('0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f'),
+  address: utils.getAddress('0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73'),
   decimals: 18,
 }
 const TOKENS_BY_SYMBOL: Record<string, Token> = {
@@ -53,7 +53,7 @@ const TOKENS_BY_SYMBOL: Record<string, Token> = {
   }
 
   const faucetTokenBalances = (await getCeloTokensBalance(E2E_TEST_FAUCET)) ?? {}
-  console.log('Initial faucet balance:')
+  console.log(`Initial balance for faucet at: ${E2E_TEST_FAUCET}:`)
   console.table(faucetTokenBalances)
 
   // Connect Valora E2E Test Faucet - Private Key Stored in GitHub Secrets
@@ -216,14 +216,14 @@ const TOKENS_BY_SYMBOL: Record<string, Token> = {
   }
 
   // Set Amount To Send
-  const amountToSend = '100'
+  const amountToSend = '10'
 
   for (let i = 0; i < walletsToBeFunded.length; i++) {
     const walletAddress = walletsToBeFunded[i]
     const walletBalance = walletBalances[i]
     for (const tokenSymbol of REFILL_TOKENS) {
       // @ts-ignore
-      if (walletBalance && walletBalance[tokenSymbol] < 200) {
+      if (walletBalance && walletBalance[tokenSymbol] < 20) {
         console.log(`Sending ${amountToSend} ${tokenSymbol} to ${walletAddress}`)
         await transferToken(TOKENS_BY_SYMBOL[tokenSymbol], amountToSend, walletAddress)
       }
