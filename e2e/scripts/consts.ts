@@ -1,4 +1,4 @@
-export const E2E_TEST_WALLET = '0x6131a6d616a4be3737b38988847270a64bc10caa'
-export const E2E_TEST_WALLET_SECURE_SEND = '0x86b8f44386cb2d457db79c3dab8cf42f9d8a3fc0'
-export const E2E_TEST_FAUCET = '0xe5F5363e31351C38ac82DBAdeaD91Fd5a7B08846'
+export const E2E_TEST_WALLET = '0xebf95355cc5ea643179a02337f3f943fd8dd2bcb'
+export const E2E_TEST_WALLET_SECURE_SEND = '0x06f4b680c6cb1aeec4a3ce12c63ea18acb136aa3'
+export const E2E_TEST_FAUCET = '0xa694b396cd6f73e4003da8f97f4b12e498b3f2ec'
 export const REFILL_TOKENS = ['CELO', 'cUSD', 'cEUR']
