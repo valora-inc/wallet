@@ -73,6 +73,14 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
               amount={new BigNumber(1)}
               tokenId={transfer.amount.tokenId}
               showLocalAmount={true}
+              localAmount={
+                transfer.amount.localAmount
+                  ? {
+                      ...transfer.amount.localAmount,
+                      value: transfer.amount.localAmount.exchangeRate, // display the historical exchange rate
+                    }
+                  : undefined
+              }
               testID="TransferSent/TransferTokenExchangeRate"
             />
           </Trans>
