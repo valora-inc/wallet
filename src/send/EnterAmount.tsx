@@ -145,6 +145,7 @@ export default function EnterAmount({
   const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
     setToken(selectedToken)
     setAmount('')
+    setSelectedPercentage(null)
     bottomSheetRef.current?.close()
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
