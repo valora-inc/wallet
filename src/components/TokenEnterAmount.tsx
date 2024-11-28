@@ -270,6 +270,26 @@ export function useEnterAmount(props: {
   }
 }
 
+interface Props {
+  token?: TokenBalance
+  inputValue: string
+  tokenAmount: string
+  localAmount: string
+  amountType: AmountEnteredIn
+  inputRef: React.MutableRefObject<RNTextInput | null>
+  inputStyle?: StyleProp<TextStyle>
+  autoFocus?: boolean
+  editable?: boolean
+  testID?: string
+  onInputChange(value: string): void
+  toggleAmountType?(): void
+  onOpenTokenPicker?(): void
+
+  /** Used in order to show available balance.
+   * @default token.balance  */
+  tokenBalance?: TokenBalance['balance']
+}
+
 export default function TokenEnterAmount({
   token,
   inputValue,
@@ -284,21 +304,8 @@ export default function TokenEnterAmount({
   onInputChange,
   toggleAmountType,
   onOpenTokenPicker,
-}: {
-  token?: TokenBalance
-  inputValue: string
-  tokenAmount: string
-  localAmount: string
-  amountType: AmountEnteredIn
-  inputRef: React.MutableRefObject<RNTextInput | null>
-  inputStyle?: StyleProp<TextStyle>
-  autoFocus?: boolean
-  editable?: boolean
-  testID?: string
-  onInputChange(value: string): void
-  toggleAmountType?(): void
-  onOpenTokenPicker?(): void
-}) {
+  tokenBalance,
+}: Props) {
   const { t } = useTranslation()
   // the startPosition and inputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android
@@ -363,7 +370,7 @@ export default function TokenEnterAmount({
                     <Trans i18nKey="tokenEnterAmount.availableBalance">
                       <TokenDisplay
                         tokenId={token.tokenId}
-                        amount={token.balance}
+                        amount={tokenBalance ?? token.balance}
                         showLocalAmount={false}
                       />
                     </Trans>
