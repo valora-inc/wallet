@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React, { ComponentType, useRef, useState } from 'react'
+import React, { ComponentType, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Keyboard,
@@ -40,10 +40,6 @@ import { Spacing } from 'src/styles/styles'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { PreparedTransactionsResult, getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
-
-function canRefresh(value: BigNumber | null, balance: BigNumber) {
-  return value && value.gt(0) && value.lte(balance)
-}
 
 export interface ProceedArgs {
   tokenAmount: BigNumber
@@ -142,21 +138,26 @@ export default function EnterAmount({
   } = useEnterAmount({
     token,
     inputRef,
-    onHandleAmountInputChange: ({ parsed }) => {
+    onHandleAmountInputChange: () => {
       setSelectedPercentage(null)
-
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current)
-      }
-
-      if (parsed && canRefresh(parsed, token.balance)) {
-        debounceRef.current = setTimeout(
-          () => onRefreshPreparedTransactions(parsed, token, feeCurrencies),
-          FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS
-        )
-      }
     },
   })
+
+  useEffect(() => {
+    onClearPreparedTransactions()
+
+    const canRefresh =
+      processedAmounts.token.bignum &&
+      processedAmounts.token.bignum.gt(0) &&
+      processedAmounts.token.bignum.lte(token.balance)
+    if (!canRefresh) return
+
+    const debouncedRefreshTransactions = setTimeout(() => {
+      return onRefreshPreparedTransactions(processedAmounts.token.bignum!, token, feeCurrencies)
+    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
+
+    return () => clearTimeout(debouncedRefreshTransactions)
+  }, [processedAmounts.token.bignum?.toString(), token])
 
   const onOpenTokenPicker = () => {
     tokenBottomSheetRef.current?.snapToIndex(0)
