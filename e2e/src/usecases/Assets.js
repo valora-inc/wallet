@@ -20,7 +20,7 @@ async function validateSendFlow(tokenSymbol) {
   await element(by.text(recipientAddressDisplay)).atIndex(0).tap()
   await waitForElementByIdAndTap('SendOrInviteButton')
   await expect(
-    element(by.text(`${tokenSymbol} on Celo`).withAncestor(by.id('SendEnterAmount/TokenName')))
+    element(by.text(`${tokenSymbol} on Celo`).withAncestor(by.id('SendEnterAmount/TokenSelect')))
   ).toBeVisible()
   await element(by.id('BackChevron')).tap()
   await element(by.id('BackChevron')).tap()
