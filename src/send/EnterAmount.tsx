@@ -123,7 +123,6 @@ export default function EnterAmount({
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
   const { tokenId: feeTokenId } = feeCurrency ?? feeCurrencies[0]
 
-  const debounceRef = useRef<NodeJS.Timeout | null>(null)
   const inputRef = useRef<RNTextInput>(null)
   const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
