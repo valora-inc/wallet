@@ -386,6 +386,7 @@
   "accountAddressLabel": "Địa chỉ tài khoản",
   "celoAmountLabel": "Số tiền (CELO)",
   "maxSymbol": "Tối đa",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Xem lại",
   "withdrawCeloTo": "Rút vào",
   "withdrawCeloAmount": "Số tiền (CELO)",
@@ -1456,14 +1457,15 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "Khám phá",
-    "exploreDapps": "Khám phá các ứng dụng dapp",
-    "exploreAll": "Khám phá tất cả",
+    "exploreDapps": "Dapp",
+    "exploreAll": "Xem tất cả",
     "message": "Khám phá những phương thức sử dụng tài sản",
     "errorMessage": "Đã xảy ra lỗi khi tải dapp",
     "featuredDapp": "Nổi bật",
     "allDapps": "Tất cả",
     "favoriteDapps": "Dapps yêu thích của tôi",
     "mostPopularDapps": "Phổ biến nhất",
+    "mostPopularDapps_UK": "Các Dapp khác",
     "favoriteDappsAndAll": "Mục yêu thích của tôi và Tất cả",
     "searchPlaceHolder": "Tìm kiếm Dapp",
     "noFavorites": {
@@ -1479,7 +1481,8 @@
       "message": "Đã áp dụng bộ lọc <0>{{filter}}</0>",
       "removeFilter": "Xóa bộ lọc",
       "searchMessage": "Không tìm thấy kết quả phù hợp cho cụm từ tìm kiếm <0>“{{searchTerm}}”</0>"
-    }
+    },
+    "disclaimer_UK": "Đây là danh sách các Dapp của bên thứ ba. Phần mô tả của mỗi Dapp chỉ nhằm cung cấp thông tin, không phải lời mời sử dụng."
   },
   "dappRankings": {
     "title": "Xếp hạng Dapp",
@@ -2121,18 +2124,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Tìm kiếm theo tên, số điện thoại, ví...",
+    "searchInputLabel": "Đến",
+    "searchInputPlaceholder": "Địa chỉ ví hoặc số điện thoại",
     "paste": "Dán từ bảng nhớ tạm",
     "title": "Chọn người nhận",
     "contactsTitle": "Chọn một liên hệ",
+    "header": "Gửi",
+    "contactsHeader": "Gửi đến người liên hệ",
     "recents": "Gần đây",
     "results": "Kết quả",
     "qr": {
-      "title": "Quét hoặc hiển thị mã QR",
-      "subtitle": "Tìm nhanh địa chỉ trên {{appName}}"
+      "title": "Gửi qua mã QR",
+      "subtitle": "Nhấn để quét hoặc hiển thị địa chỉ"
     },
     "invite": {
-      "title": "Gửi tiền điện tử cho bạn bè",
-      "subtitle": "Gửi tiền hoặc lời mời đến danh bạ của bạn"
+      "title": "Gửi đến người liên hệ",
+      "subtitle": "Gửi tiền đến người liên hệ của bạn"
     },
     "jumpstart": {
       "title": "Gửi bằng đường liên kết trực tiếp",
@@ -2281,27 +2288,33 @@
     "crossChainSwapTransactionLabel": "Chuỗi chéo",
     "depositTitle": "Đã nạp",
     "depositSubtitle": "vào Quỹ {{txAppName}}",
-    "depositSubtitle_noTxAppName": "to unknown app",
+    "depositSubtitle_noTxAppName": "đến ứng dụng chưa xác định",
     "withdrawTitle": "Rút",
     "withdrawSubtitle": "từ Quỹ {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "from unknown app",
+    "withdrawSubtitle_noTxAppName": "từ ứng dụng chưa xác định",
     "claimRewardTitle": "Đã nhận",
     "claimRewardSubtitle": "từ Quỹ {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "from unknown app"
+    "claimRewardSubtitle_noTxAppName": "từ ứng dụng chưa xác định",
+    "allTransactionsShown": "Bạn đã xem hết lịch sử giao dịch của mình.",
+    "fetchErrorRetry": "Thử lại",
+    "error": {
+      "fetchError": "Rất tiếc, hệ thống đã gặp sự cố khi làm mới bảng tin của bạn. Lịch sử giao dịch của bạn có thể tạm thời chưa hiển thị đầy đủ."
+    },
+    "noTransactions": "Xin chúc mừng! Bạn đã tạo thành công ví {{appName}}!"
   },
   "transactionDetails": {
     "descriptionLabel": "Chi tiết",
     "depositTitle": "Đã nạp",
     "depositSubtitle": "Đã nạp {{tokenSymbol}} vào Quỹ {{txAppName}}",
-    "depositSubtitle_noTxAppName": "Deposited {{tokenSymbol}} to unknown app",
+    "depositSubtitle_noTxAppName": "Đã nạp {{tokenSymbol}} vào ứng dụng chưa xác định",
     "depositDetails": "Số tiền đã nạp",
     "withdrawTitle": "Rút",
     "withdrawSubtitle": "Rút {{tokenSymbol}} từ Quỹ {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawSubtitle_noTxAppName": "Đã rút {{tokenSymbol}} từ ứng dụng chưa xác định",
     "withdrawDetails": "Số tiền đã rút",
     "claimRewardTitle": "Đã nhận",
     "claimRewardSubtitle": "Đã nhận {{tokenSymbol}} từ Quỹ {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Collected {{tokenSymbol}} from unknown app",
+    "claimRewardSubtitle_noTxAppName": "Đã thu được {{tokenSymbol}} từ ứng dụng chưa xác định",
     "claimRewardDetails": "Số tiền đã nhận",
     "swap": "Trao đổi",
     "network": "Mạng lưới",
@@ -2573,7 +2586,8 @@
     "entrypoint": {
       "title": "Kiếm tiền từ tiền điện tử của bạn",
       "subtitle": "Nạp tiền và kiếm tiền",
-      "description": "Kiếm tiền từ tài sản tiền điện tử của bạn bằng cách cho vay thông qua bể thanh khoản"
+      "description": "Kiếm tiền bằng cách cho vay tài sản tiền điện tử trong các bể thanh khoản.",
+      "totalDepositAndEarnings": "Tổng tiền nạp và thu nhập"
     },
     "enterAmount": {
       "title": "Bạn muốn nạp bao nhiêu tiền?",
@@ -2649,18 +2663,18 @@
     },
     "collect": {
       "title": "Xin chúc mừng! Hãy kiểm tra lại và nhận thu nhập của bạn",
-      "titleClaim": "You’re going to claim:",
-      "titleCollect": "You’re going to collect:",
-      "titleWithdraw": "You’re going to withdraw:",
+      "titleClaim": "Bạn sẽ nhận được:",
+      "titleCollect": "Bạn sẽ thu được:",
+      "titleWithdraw": "Bạn sẽ rút:",
       "total": "TỔNG",
       "plus": "THÊM",
-      "reward": "REWARD",
+      "reward": "TIỀN THƯỞNG",
       "rate": "Tỷ giá (ước tính)",
       "apy": "{{apy}}% APY",
       "fee": "Phí ga",
       "cta": "Nhận thu nhập",
       "ctaWithdraw": "Rút tiền",
-      "ctaReward": "Claim Reward",
+      "ctaReward": "Nhận tiền thưởng",
       "ctaExit": "Thoát quỹ",
       "errorTitle": "Đã xảy ra lỗi",
       "errorDescription": "Không thể tìm thông tin chi tiết về số tiền nạp. Vui lòng thử lại.",
@@ -2815,5 +2829,10 @@
   "duration_year_other": "{{count}} năm",
   "duration_yearMonth_one": "1 năm, 1 tháng",
   "duration_yearMonth_other": "{{count}} năm, {{count2}} tháng",
+  "tokenEnterAmount": {
+    "availableBalance": "Có sẵn: <0></0>",
+    "selectToken": "Chọn token",
+    "fiatPriceUnavailable": "Không có giá"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

@@ -1,5 +1,5 @@
-import { reloadReactNative, launchApp } from '../utils/retries'
-import { scrollIntoView, waitForElementId, waitForElementByIdAndTap } from '../utils/utils'
+import { reloadReactNative } from '../utils/retries'
+import { waitForElementByIdAndTap } from '../utils/utils'
 
 export default Support = () => {
   beforeEach(async () => {

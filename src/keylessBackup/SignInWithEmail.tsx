@@ -100,7 +100,7 @@ function SignInWithEmailBottomSheet({
 type OAuthProvider = 'google-oauth2' | 'apple'
 type Props = NativeStackScreenProps<StackParamList, Screens.SignInWithEmail>
 
-function SignInWithEmail({ route }: Props) {
+function SignInWithEmail({ route, navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const showApple = getFeatureGate(StatsigFeatureGates.SHOW_APPLE_IN_CAB)
@@ -114,6 +114,14 @@ function SignInWithEmail({ route }: Props) {
     paddingBottom: Math.max(0, 40 - bottom),
   }
   const address = useSelector(walletAddressSelector)
+
+  // We check whether or not there is anything to go back to
+  // in case that this screen is the app's initial route, which can occur
+  // when restarting the app during onboarding.
+  // N.B. that a change in this value will /not/ trigger a re-render, but
+  // this should be fine since if this is true on the initial render, it should
+  // never change.
+  const canGoBack = navigation.canGoBack()
 
   const isSetup = keylessBackupFlow === KeylessBackupFlow.Setup
   const isSetupInOnboarding =
@@ -176,10 +184,10 @@ function SignInWithEmail({ route }: Props) {
     }
   }
 
-  if (!address) {
+  if (!address && isSetupInOnboarding) {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.activityIndicatorContainer}>
+        <View style={styles.activityIndicatorContainer} testID="SignInWithEmail/Spinner">
           <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.accent} />
         </View>
       </SafeAreaView>
@@ -196,16 +204,17 @@ function SignInWithEmail({ route }: Props) {
               origin={origin}
               eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
             />
-          ) : (
-            // This includes Onboarding and Restore
+          ) : // This includes Onboarding and Restore
+          canGoBack ? (
             <BackButton
+              testID="SignInWithEmail/BackButton"
               eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
               eventProperties={{
                 keylessBackupFlow,
                 origin,
               }}
             />
-          )
+          ) : undefined
         }
         title={
           isSetupInOnboarding ? (

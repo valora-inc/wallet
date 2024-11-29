@@ -204,6 +204,11 @@ const slice = createSlice({
         standbyTransactions: updatedStandbyTransactions,
       }
     },
+
+    updateFeedFirstPage: (state, action: PayloadAction<{ transactions: TokenTransaction[] }>) => ({
+      ...state,
+      feedFirstPage: action.payload.transactions,
+    }),
   },
 
   extraReducers: (builder) => {
@@ -221,10 +226,6 @@ const slice = createSlice({
      * Whenever we get new data from the feed pagination - we need to perform updates on some portion
      * of our reducer data, as side-effects. These scenarios include:
      *
-     * - Updating "feedFirstPage" whenever we get new data for the first page. We use this to instantly
-     *   show the user something that can be interacted with while we're actually refetching the latest
-     *   state in the background.
-     *
      * - In order to avoid bloating stand by transactions with confirmed transactions that are already
      *   present in the feed via pagination – we need to clean them up. This must run for every page
      *   as standByTransaction might include very old transactions. We should use the chance whenever
@@ -233,21 +234,15 @@ const slice = createSlice({
     builder.addMatcher(
       transactionFeedV2Api.endpoints.transactionFeedV2.matchFulfilled,
       (state, { payload, meta }) => {
-        const isFirstPage = meta.arg.originalArgs.endCursor === undefined
         const confirmedTransactionsFromNewPage = payload.transactions
           .filter((tx) => tx.status !== TransactionStatus.Pending)
           .map((tx) => tx.transactionHash)
 
         return {
           ...state,
-          feedFirstPage: isFirstPage ? payload.transactions : state.feedFirstPage,
           standbyTransactions: state.standbyTransactions.filter((tx) => {
-            /**
-             * - ignore empty hashes as there's no way to compare them
-             * - ignore pending as it should only affect confirmed transactions that are already
-             *   present in the paginated data
-             */
-            if (!tx.transactionHash || tx.status === TransactionStatus.Pending) return true
+            // ignore empty hashes as there's no way to compare them
+            if (!tx.transactionHash) return true
             return !confirmedTransactionsFromNewPage.includes(tx.transactionHash)
           }),
         }
@@ -256,7 +251,12 @@ const slice = createSlice({
   },
 })
 
-export const { addStandbyTransaction, transactionConfirmed, updateTransactions } = slice.actions
+export const {
+  addStandbyTransaction,
+  transactionConfirmed,
+  updateTransactions,
+  updateFeedFirstPage,
+} = slice.actions
 
 export const { actions } = slice
 

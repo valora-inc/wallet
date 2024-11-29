@@ -115,7 +115,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 235,
+          "version": 237,
         },
         "account": {
           "acceptedTerms": false,
@@ -136,7 +136,9 @@ describe('store state', () => {
           "dismissedGoldEducation": false,
           "e164PhoneNumber": "+14155556666",
           "hasMigratedToNewBip39": false,
+          "lastOnboardingStepScreen": "Welcome",
           "name": "John Doe",
+          "onboardingCompleted": false,
           "photosNUXClicked": false,
           "pincodeType": "Unset",
           "profileUploaded": false,
@@ -243,7 +245,6 @@ describe('store state', () => {
           "addressToVerificationStatus": {},
           "askedContactsPermission": false,
           "e164NumberToAddress": {},
-          "hasSeenVerificationNux": false,
           "importContactsProgress": {
             "current": 0,
             "status": 0,
@@ -340,7 +341,6 @@ describe('store state', () => {
         },
         "tokens": {
           "error": false,
-          "loading": false,
           "tokenBalances": {},
         },
         "transactions": {

@@ -1,78 +1,41 @@
 import BigNumber from 'bignumber.js'
-import { Actions as AccountActions } from 'src/account/actions'
-import { Actions as AppActions } from 'src/app/actions'
 import {
   Actions,
-  fetchCurrentRate,
   fetchCurrentRateFailure,
   fetchCurrentRateSuccess,
 } from 'src/localCurrency/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import Logger from 'src/utils/Logger'
-import { gql } from 'src/utils/gql'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import networkConfig from 'src/web3/networkConfig'
-import { call, put, select, spawn, take, takeLatest } from 'typed-redux-saga'
+import { call, put, select, spawn, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'localCurrency/saga'
 
-interface ExchangeRateQueryVariables {
-  currencyCode: string
-  sourceCurrencyCode?: string | null
-}
-
-interface ExchangeRateQuery {
-  currencyConversion: { rate: BigNumber.Value } | null
-}
-
-export async function fetchExchangeRate(
-  sourceCurrency: string,
-  localCurrencyCode: string
-): Promise<string> {
-  if (sourceCurrency === localCurrencyCode) {
-    // If the source currency is the same as the local currency, the exchange rate is always 1
+export async function fetchExchangeRate(localCurrencyCode: string): Promise<string> {
+  if (localCurrencyCode === LocalCurrencyCode.USD) {
+    // The exchange rate is returned against USD, so for USD it is always 1
     return '1'
   }
 
-  const response = await fetch(`${networkConfig.blockchainApiUrl}/graphql`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      query: gql`
-        query ExchangeRate($currencyCode: String!, $sourceCurrencyCode: String) {
-          currencyConversion(currencyCode: $currencyCode, sourceCurrencyCode: $sourceCurrencyCode) {
-            rate
-          }
-        }
-      `,
-      variables: {
-        currencyCode: localCurrencyCode,
-        sourceCurrencyCode: sourceCurrency,
-      } satisfies ExchangeRateQueryVariables,
-    }),
-  })
+  const url = new URL(networkConfig.getExchangeRateUrl)
+  url.searchParams.set('localCurrencyCode', localCurrencyCode)
+  const response = await fetchWithTimeout(url.toString())
 
   if (!response.ok) {
     throw new Error(`Failed to fetch exchange rate: ${response.status} ${response.statusText}`)
   }
 
-  const body = (await response.json()) as { data: ExchangeRateQuery | undefined }
+  const body = (await response.json()) as { rate?: string }
 
-  const rate = body.data?.currencyConversion?.rate
-  if (typeof rate !== 'number' && typeof rate !== 'string') {
-    throw new Error(`Invalid response data ${body.data}`)
+  if (body.rate === undefined || new BigNumber(body.rate).isNaN()) {
+    throw new Error(`Invalid response data ${JSON.stringify(body)}`)
   }
 
-  const fetchedExchangeRate = new BigNumber(rate).toString()
-  Logger.info(
-    TAG,
-    `Fetched exchange rate for ${sourceCurrency} -> ${localCurrencyCode}: ${fetchedExchangeRate}`
-  )
-  return fetchedExchangeRate
+  Logger.info(TAG, `Fetched exchange rate for ${localCurrencyCode}: ${body.rate}`)
+  return body.rate
 }
 
 export function* fetchLocalCurrencyRateSaga() {
@@ -81,7 +44,7 @@ export function* fetchLocalCurrencyRateSaga() {
     if (!localCurrencyCode) {
       throw new Error("Can't fetch local currency rate without a currency code")
     }
-    const usdToLocalRate = yield* call(fetchExchangeRate, LocalCurrencyCode.USD, localCurrencyCode)
+    const usdToLocalRate = yield* call(fetchExchangeRate, localCurrencyCode)
     yield* put(fetchCurrentRateSuccess(localCurrencyCode, usdToLocalRate, Date.now()))
   } catch (error) {
     Logger.error(`${TAG}@fetchLocalCurrencyRateSaga`, 'Failed to fetch local currency rate', error)
@@ -89,23 +52,10 @@ export function* fetchLocalCurrencyRateSaga() {
   }
 }
 
-export function* watchFetchCurrentRate() {
-  yield* takeLatest(Actions.FETCH_CURRENT_RATE, safely(fetchLocalCurrencyRateSaga))
-}
-
-export function* watchSelectPreferredCurrency() {
-  yield* put(fetchCurrentRate())
-  while (true) {
-    yield* take([
-      Actions.SELECT_PREFERRED_CURRENCY,
-      AccountActions.SET_PHONE_NUMBER,
-      AppActions.PHONE_NUMBER_VERIFICATION_COMPLETED,
-    ])
-    yield* put(fetchCurrentRate())
-  }
+function* watchSelectLocalCurrency() {
+  yield* takeLatest([Actions.SELECT_PREFERRED_CURRENCY], safely(fetchLocalCurrencyRateSaga))
 }
 
 export function* localCurrencySaga() {
-  yield* spawn(watchFetchCurrentRate)
-  yield* spawn(watchSelectPreferredCurrency)
+  yield* spawn(watchSelectLocalCurrency)
 }

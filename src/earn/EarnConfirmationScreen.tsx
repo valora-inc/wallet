@@ -10,7 +10,7 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
-import { usePrepareWithdrawAndClaimTransactions } from 'src/earn/hooks'
+import { usePrepareEarnConfirmationScreenTransactions } from 'src/earn/hooks'
 import { withdrawStatusSelector } from 'src/earn/selectors'
 import { withdrawStart } from 'src/earn/slice'
 import { EarnActiveMode } from 'src/earn/types'
@@ -77,12 +77,11 @@ export default function EarnConfirmationScreen({ route }: Props) {
     [withdrawToken, pool.pricePerShare, inputAmount]
   )
 
-  // Will need this to handle preparing a claim transaction, a withdrawal transaction and a withdrawal and claim transaction
   const {
     result: prepareTransactionsResult,
     loading: isPreparingTransactions,
     error: prepareTransactionError,
-  } = usePrepareWithdrawAndClaimTransactions({
+  } = usePrepareEarnConfirmationScreenTransactions(mode, {
     amount: withdrawAmountInDepositToken.dividedBy(pool.pricePerShare[0]).toString(),
     pool,
     walletAddress,
@@ -105,7 +104,8 @@ export default function EarnConfirmationScreen({ route }: Props) {
         ),
         rewardsTokens,
         pool,
-        amount: withdrawAmountInDepositToken.toString(),
+        mode,
+        ...(mode !== 'claim-rewards' && { amount: withdrawAmountInDepositToken.toString() }),
       })
     )
 
@@ -119,6 +119,7 @@ export default function EarnConfirmationScreen({ route }: Props) {
         amount: token.balance.toString(),
         tokenId: token.tokenId,
       })),
+      mode,
     })
   }
 

@@ -15,6 +15,7 @@ import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { DappExplorerEvents, WebViewEvents } from 'src/analytics/Events'
 import { openDeepLink } from 'src/app/actions'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import Touchable from 'src/components/Touchable'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
@@ -218,6 +219,7 @@ function WebViewScreen({ route, navigation }: Props) {
           mediaPlaybackRequiresUserAction={mediaPlaybackRequiresUserAction}
           testID={activeDapp ? `WebViewScreen/${activeDapp.name}` : 'RNWebView'}
         />
+        <KeyboardSpacer />
       </KeyboardAvoidingView>
       {Platform.OS === 'android' && (
         <WebViewAndroidBottomSheet
@@ -264,7 +266,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   keyboardView: {
-    flex: 1,
+    flexGrow: 1,
   },
   loading: {
     position: 'absolute',

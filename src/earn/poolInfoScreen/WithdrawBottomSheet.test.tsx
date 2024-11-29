@@ -104,6 +104,7 @@ describe('WithdrawBottomSheet', () => {
         balance: '100',
       },
       mode: 'claim-rewards',
+      useMax: true,
     })
   })
   it('tapping exit on WithdrawBottomSheet navigates to enter amount screen', () => {
@@ -134,6 +135,7 @@ describe('WithdrawBottomSheet', () => {
         balance: '100',
       },
       mode: 'exit',
+      useMax: true,
     })
   })
   it('shows correct copy when ClaimType is Earnings', () => {

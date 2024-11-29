@@ -386,6 +386,7 @@
   "accountAddressLabel": "Adresse du compte",
   "celoAmountLabel": "Montant (CELO)",
   "maxSymbol": "Max.",
+  "percentage": "{{percentage}} %",
   "withdrawCeloReview": "Vérifier",
   "withdrawCeloTo": "Retiré vers",
   "withdrawCeloAmount": "Montant (CELO)",
@@ -1458,14 +1459,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Découvrir",
-    "exploreDapps": "Découvrir les dapps",
-    "exploreAll": "Découvrir toutes",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Voir tout",
     "message": "Découvrez les moyens d'utiliser vos actifs",
     "errorMessage": "Une erreur s'est produite lors du chargement des dapps",
     "featuredDapp": "Dapps à la une",
     "allDapps": "Tous",
     "favoriteDapps": "Mes favorites",
     "mostPopularDapps": "Populaires",
+    "mostPopularDapps_UK": "Autres Dapps",
     "favoriteDappsAndAll": "Mes favoris et tous",
     "searchPlaceHolder": "Rechercher dans les dapps",
     "noFavorites": {
@@ -1481,7 +1483,8 @@
       "message": "Le filtre <0>{{filter}}</0> est appliqué",
       "removeFilter": "Supprimer le filtre",
       "searchMessage": "Aucun résultat correspondant à <0>\"{{searchTerm}}\"</0>"
-    }
+    },
+    "disclaimer_UK": "Ceci est une liste de Dapps tierces. La description de chaque Dapp est purement informative, et non pas une invitation à les utiliser."
   },
   "dappRankings": {
     "title": "Classements Dapp",
@@ -2123,18 +2126,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Recherchez par nom, téléphone, portefeuille...",
+    "searchInputLabel": "À",
+    "searchInputPlaceholder": "Adresse du portefeuille ou numéro de téléphone",
     "paste": "Coller depuis le presse-papiers",
     "title": "Sélectionnez un destinataire",
     "contactsTitle": "Sélectionnez un contact",
+    "header": "Envoyer",
+    "contactsHeader": "Envoyer aux contacts",
     "recents": "Récents",
     "results": "Résultats",
     "qr": {
-      "title": "Scanner ou afficher le code QR",
-      "subtitle": "Trouvez rapidement des adresses sur {{appName}}"
+      "title": "Envoyer par QR Code",
+      "subtitle": "Appuyez pour scanner ou afficher une adresse"
     },
     "invite": {
-      "title": "Envoyez des crypto à vos amis",
-      "subtitle": "Envoyez des fonds ou une invitation à vos contacts"
+      "title": "Envoyer à un contact",
+      "subtitle": "Envoyer des fonds à vos contacts"
     },
     "jumpstart": {
       "title": "Envoyer avec un lien direct",
@@ -2289,7 +2296,13 @@
     "withdrawSubtitle_noTxAppName": "d'une application inconnue",
     "claimRewardTitle": "Collecté",
     "claimRewardSubtitle": "du pool {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "d'une application inconnue"
+    "claimRewardSubtitle_noTxAppName": "d'une application inconnue",
+    "allTransactionsShown": "Vous avez atteint la fin de l'historique de vos transactions.",
+    "fetchErrorRetry": "Veuillez réessayer",
+    "error": {
+      "fetchError": "Oups, un problème est survenu lors de l'actualisation de votre flux. L'historique de vos transactions est peut-être incomplet."
+    },
+    "noTransactions": "Félicitations, vous avez créé un portefeuille {{appName}} !"
   },
   "transactionDetails": {
     "descriptionLabel": "Détails",
@@ -2303,7 +2316,7 @@
     "withdrawDetails": "Montant du retrait",
     "claimRewardTitle": "Collecté",
     "claimRewardSubtitle": "{{tokenSymbol}} collectés du pool {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Recueille {{tokenSymbol}} à partir d'une application inconnue",
+    "claimRewardSubtitle_noTxAppName": "{{tokenSymbol}} retirés d'une application inconnue",
     "claimRewardDetails": "Montant perçu",
     "swap": "Échange",
     "network": "Réseau",
@@ -2575,7 +2588,8 @@
     "entrypoint": {
       "title": "Développez vos cryptos",
       "subtitle": "Déposez et gagnez",
-      "description": "Gagnez sur vos crypto-actifs via un pool de liquidité."
+      "description": "Gagnez en prêtant vos crypto-actifs dans des pools de liquidités.",
+      "totalDepositAndEarnings": "Total des dépôts et des gains"
     },
     "enterAmount": {
       "title": "Combien souhaitez-vous déposer ?",
@@ -2817,6 +2831,11 @@
   "duration_year_other": "{{count}} ans",
   "duration_yearMonth_one": "1 an, 1 mois",
   "duration_yearMonth_other": "{{count}} ans, {{count2}} mois",
+  "tokenEnterAmount": {
+    "availableBalance": "Disponible : <0></0>",
+    "selectToken": "Sélectionner un jeton",
+    "fiatPriceUnavailable": "Prix non disponible"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

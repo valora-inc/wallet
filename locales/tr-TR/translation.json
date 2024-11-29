@@ -386,6 +386,7 @@
   "accountAddressLabel": "Hesap Adresi",
   "celoAmountLabel": "Miktar (CELO)",
   "maxSymbol": "Maks.",
+  "percentage": "%{{percentage}}",
   "withdrawCeloReview": "Gözden Geçir",
   "withdrawCeloTo": "Şuraya çekim yap",
   "withdrawCeloAmount": "Miktar (CELO)",
@@ -1458,14 +1459,15 @@
   "dappsScreen": {
     "title": "Dapp'ler",
     "titleDiscover": "Keşfedin",
-    "exploreDapps": "Dapp'leri Keşfedin",
-    "exploreAll": "Tümünü Keşfet",
+    "exploreDapps": "Dapp'ler",
+    "exploreAll": "Tümünü Göster",
     "message": "Varlıklarınızı kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
     "allDapps": "Tümü",
     "favoriteDapps": "Favorilerim",
     "mostPopularDapps": "En Popüler",
+    "mostPopularDapps_UK": "Diğer Dapp'ler",
     "favoriteDappsAndAll": "Favorilerim & Hepsi",
     "searchPlaceHolder": "Dapp'leri ara",
     "noFavorites": {
@@ -1481,7 +1483,8 @@
       "message": "<0>{{filter}}</0> filtresi uygulandı",
       "removeFilter": "Filtreyi kaldır",
       "searchMessage": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
-    }
+    },
+    "disclaimer_UK": "Bu, üçüncü taraf Dapp'lerin bir listesidir. Her bir Dapp için sunulan açıklama tamamen bilgilendirme amaçlı olup bunların kullanımına yönelik bir davet niteliğinde değildir."
   },
   "dappRankings": {
     "title": "Dapp sıralamaları",
@@ -2123,18 +2126,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "İsme, telefona, cüzdana göre arama yapın...",
+    "searchInputLabel": "Şu Token’a",
+    "searchInputPlaceholder": "Cüzdan Adresi veya Telefon Numarası",
     "paste": "Panodan yapıştır",
     "title": "Bir alıcı seçin",
     "contactsTitle": "Bir kişi seçin",
+    "header": "Gönder",
+    "contactsHeader": "Kişilere Gönder",
     "recents": "En sonuncular",
     "results": "Sonuçlar",
     "qr": {
-      "title": "QR Kodunu Tarayın veya Gösterin",
-      "subtitle": "{{appName}} uygulamasındaki adresleri hızlıca bulun"
+      "title": "QR Kodu ile Gönder",
+      "subtitle": "Bir adresi taramak veya görüntülemek için dokunun"
     },
     "invite": {
-      "title": "Arkadaşlarınıza kripto gönderin",
-      "subtitle": "Kişilerinize fon veya davet gönderin"
+      "title": "Bir Kişiye Gönder",
+      "subtitle": "Kişilerinize fon gönderin"
     },
     "jumpstart": {
       "title": "Canlı Bağlantı ile Gönder",
@@ -2289,7 +2296,13 @@
     "withdrawSubtitle_noTxAppName": "bilinmeyen uygulamadan",
     "claimRewardTitle": "Toplanan",
     "claimRewardSubtitle": "{{txAppName}} Havuzundan",
-    "claimRewardSubtitle_noTxAppName": "bilinmeyen uygulamadan"
+    "claimRewardSubtitle_noTxAppName": "bilinmeyen uygulamadan",
+    "allTransactionsShown": "İşlem geçmişinizin sonuna ulaştınız.",
+    "fetchErrorRetry": "Tekrar deneyin",
+    "error": {
+      "fetchError": "Hay aksi, akışınızı yenilerken bir sorun oluştu. İşlem geçmişiniz şimdilik eksik görünebilir."
+    },
+    "noTransactions": "Tebrikler, {{appName}} cüzdanınız başarıyla oluşturuldu!"
   },
   "transactionDetails": {
     "descriptionLabel": "Detaylar",
@@ -2575,7 +2588,8 @@
     "entrypoint": {
       "title": "Kripto paranızdan kazanç sağlayın",
       "subtitle": "Yatırın ve kazanın",
-      "description": "Bir likidite havuzu aracılığıyla borç vererek kripto varlıklarınızdan kazanç sağlayın"
+      "description": "Likidite havuzlarında kripto varlıklarınızı ödünç vererek kazanın.",
+      "totalDepositAndEarnings": "Toplam Yatırım ve Kazançlar"
     },
     "enterAmount": {
       "title": "Ne kadar yatırmak istersiniz?",
@@ -2651,9 +2665,9 @@
     },
     "collect": {
       "title": "Tebrikler! Kazancınızı inceleyin ve toplayın",
-      "titleClaim": "İddia edeceksin:",
-      "titleCollect": "Koleksiyon yapacaksın:",
-      "titleWithdraw": "Geri çekileceksin:",
+      "titleClaim": "Talep edilecek:",
+      "titleCollect": "Toplanacak:",
+      "titleWithdraw": "Çekilecek:",
       "total": "TOPLAM",
       "plus": "ARTI",
       "reward": "ÖDÜL",
@@ -2662,7 +2676,7 @@
       "fee": "Gas Ücreti",
       "cta": "Kazançları Toplayın",
       "ctaWithdraw": "Çek",
-      "ctaReward": "Ödül Talep Edin",
+      "ctaReward": "Ödülü Talep Et",
       "ctaExit": "Havuzdan Çık",
       "errorTitle": "Bir şeyler ters gitti",
       "errorDescription": "Para yatırma detayları alınamıyor. Lütfen tekrar deneyin.",
@@ -2817,6 +2831,11 @@
   "duration_year_other": "{{count}} yıl",
   "duration_yearMonth_one": "1 yıl, 1 ay",
   "duration_yearMonth_other": "{{count}} yıl, {{count2}} ay",
+  "tokenEnterAmount": {
+    "availableBalance": "Mevcut: <0></0>",
+    "selectToken": "Token seçin",
+    "fiatPriceUnavailable": "Fiyat mevcut değil"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

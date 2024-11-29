@@ -386,6 +386,7 @@
   "accountAddressLabel": "Адреса рахунку",
   "celoAmountLabel": "Сума (CELO)",
   "maxSymbol": "Максимум",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Перегляд",
   "withdrawCeloTo": "Вивести",
   "withdrawCeloAmount": "Сума (CELO)",
@@ -1462,14 +1463,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Дізнатися",
-    "exploreDapps": "Переглянути додатки DApps",
-    "exploreAll": "Переглянути все",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Переглянути всі",
     "message": "Дізнайтеся, як використовувати свої активи",
     "errorMessage": "Сталася помилка під час завантаження застосунків dapps",
     "featuredDapp": "Рекомендовано",
     "allDapps": "Усі",
     "favoriteDapps": "Мої вподобання",
     "mostPopularDapps": "Популярні",
+    "mostPopularDapps_UK": "Інші застосунки Dapps",
     "favoriteDappsAndAll": "Мої вподобання і загальний вміст",
     "searchPlaceHolder": "Пошук застосунків Dapp",
     "noFavorites": {
@@ -1485,7 +1487,8 @@
       "message": "Фільтр <0>{{filter}}</0> застосовано",
       "removeFilter": "Видалити фільтр",
       "searchMessage": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>"
-    }
+    },
+    "disclaimer_UK": "Тут наведено перелік сторонніх застосунків Dapps. Інформація про кожен із них має виключно ознайомлювальний характер і не є запрошенням до використання."
   },
   "dappRankings": {
     "title": "Рейтинг застосунків dapp",
@@ -2127,18 +2130,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Пошук за іменем, телефоном, гаманцем...",
+    "searchInputLabel": "До",
+    "searchInputPlaceholder": "Адреса гаманця або номер телефону",
     "paste": "Копіювати з буфера обміну",
     "title": "Вибрати отримувача",
     "contactsTitle": "Вибрати контакт",
+    "header": "Надіслати",
+    "contactsHeader": "Надіслати контактам",
     "recents": "Нещодавні",
     "results": "Результати",
     "qr": {
-      "title": "Сканувати або показати QR-код",
-      "subtitle": "Швидко знайти адреси в {{appName}}"
+      "title": "Надіслати за допомогою QR-коду",
+      "subtitle": "Натисніть, щоб сканувати або показати адресу"
     },
     "invite": {
-      "title": "Надіслати криптовалюту друзям",
-      "subtitle": "Надіслати кошти або запрошення своїм контактам"
+      "title": "Надіслати вибраному контакту",
+      "subtitle": "Надіслати кошти своїм контактам"
     },
     "jumpstart": {
       "title": "Надіслати за прямим посиланням",
@@ -2287,27 +2294,33 @@
     "crossChainSwapTransactionLabel": "Кроссчейн-обмін",
     "depositTitle": "Внесено",
     "depositSubtitle": "до пулу {{txAppName}}",
-    "depositSubtitle_noTxAppName": "до невідомого додатку",
+    "depositSubtitle_noTxAppName": "у невідомий застосунок",
     "withdrawTitle": "Знято",
     "withdrawSubtitle": "з пулу {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "з невідомого додатку",
+    "withdrawSubtitle_noTxAppName": "з невідомого застосунку",
     "claimRewardTitle": "Стягнуто",
     "claimRewardSubtitle": "з пулу {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "з невідомого додатку"
+    "claimRewardSubtitle_noTxAppName": "з невідомого застосунку",
+    "allTransactionsShown": "Ви переглянули всю історію транзакцій.",
+    "fetchErrorRetry": "Спробувати ще раз",
+    "error": {
+      "fetchError": "На жаль, виникла проблема при оновленні вашої стрічки. Історія транзакцій може бути тимчасово неповною."
+    },
+    "noTransactions": "Вітаємо, ви успішно створили гаманець {{appName}}!"
   },
   "transactionDetails": {
     "descriptionLabel": "Подробиці",
     "depositTitle": "Внесено",
     "depositSubtitle": "Внесено {{tokenSymbol}} до пулу {{txAppName}}",
-    "depositSubtitle_noTxAppName": "Поповнив рахунок {{tokenSymbol}} у невідомому додатку",
+    "depositSubtitle_noTxAppName": "Внесено {{tokenSymbol}} у невідомий застосунок",
     "depositDetails": "Суму внесено",
     "withdrawTitle": "Знято",
     "withdrawSubtitle": "Знято {{tokenSymbol}} з пулу {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Вилучено {{tokenSymbol}} з невідомого додатку",
+    "withdrawSubtitle_noTxAppName": "Виведено {{tokenSymbol}} з невідомого застосунку",
     "withdrawDetails": "Знята сума",
     "claimRewardTitle": "Стягнуто",
     "claimRewardSubtitle": "Стягнено {{tokenSymbol}} з пулу {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Зібрано {{tokenSymbol}} з невідомого додатку",
+    "claimRewardSubtitle_noTxAppName": "Зібрано {{tokenSymbol}} з невідомого застосунку",
     "claimRewardDetails": "Стягнуто суму",
     "swap": "Обміняти",
     "network": "Мережа",
@@ -2579,7 +2592,8 @@
     "entrypoint": {
       "title": "Заробляйте на своїй криптовалюті",
       "subtitle": "Внесіть кошти та отримуйте прибуток",
-      "description": "Заробляйте на своїх криптоактивах, надаючи позики через пул ліквідності"
+      "description": "Отримуйте прибуток, надаючи свої криптоактиви в пули ліквідності.",
+      "totalDepositAndEarnings": "Загальний обсяг вкладів та прибутків"
     },
     "enterAmount": {
       "title": "Яку суму ви бажаєте внести?",
@@ -2655,9 +2669,9 @@
     },
     "collect": {
       "title": "Вітаємо! Перегляньте та зберіть свої заробітки",
-      "titleClaim": "Ти збираєшся заявити:",
-      "titleCollect": "Ти будеш збирати:",
-      "titleWithdraw": "Ти збираєшся вийти з гри:",
+      "titleClaim": "Ви збираєтесь отримати:",
+      "titleCollect": "Ви збираєтесь зібрати:",
+      "titleWithdraw": "Ви збираєтесь вивести:",
       "total": "УСЬОГО",
       "plus": "ПЛЮС",
       "reward": "ВИНАГОРОДА",
@@ -2666,7 +2680,7 @@
       "fee": "Комісія за газ",
       "cta": "Зібрати заробітки",
       "ctaWithdraw": "Зняти",
-      "ctaReward": "Вимагайте винагороду",
+      "ctaReward": "Отримати винагороду",
       "ctaExit": "Вийти з пулу",
       "errorTitle": "Щось пішло не так",
       "errorDescription": "Не вдається отримати реквізити для депозиту. Спробуйте ще раз.",
@@ -2821,6 +2835,11 @@
   "duration_year_other": "{{count}} р.",
   "duration_yearMonth_one": "1 рік, 1 місяць",
   "duration_yearMonth_other": "{{count}} р., {{count2}} міс.",
+  "tokenEnterAmount": {
+    "availableBalance": "Доступно: <0></0>",
+    "selectToken": "Вибрати токен",
+    "fiatPriceUnavailable": "Ціна недоступна"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",

@@ -386,6 +386,7 @@
   "accountAddressLabel": "Dirección de cuenta",
   "celoAmountLabel": "Monto (CELO)",
   "maxSymbol": "Max",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Revisar",
   "withdrawCeloTo": "Para",
   "withdrawCeloAmount": "Monto (CELO)",
@@ -1458,14 +1459,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Descubre",
-    "exploreDapps": "Explorar dapps",
-    "exploreAll": "Explorar todas",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Ver todo",
     "message": "Explora las distintas formas de usar tus activos",
     "errorMessage": "Hubo un error al cargar las dapps",
     "featuredDapp": "Destacadas",
     "allDapps": "Todas",
     "favoriteDapps": "Mis favoritas",
     "mostPopularDapps": "Populares",
+    "mostPopularDapps_UK": "Otras Dapps",
     "favoriteDappsAndAll": "Mis favoritas y todas",
     "searchPlaceHolder": "Buscar dapps",
     "noFavorites": {
@@ -1481,7 +1483,8 @@
       "message": "Filtro <0>{{filter}}</0> aplicado",
       "removeFilter": "Quitar filtro",
       "searchMessage": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
-    }
+    },
+    "disclaimer_UK": "Esta es una lista de Dapps de terceros. La descripción de cada Dapp es puramente informativa y no una invitación a utilizarlas."
   },
   "dappRankings": {
     "title": "Ranking de dapps",
@@ -2123,18 +2126,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Busca por nombre, teléfono, wallet...",
+    "searchInputLabel": "Para",
+    "searchInputPlaceholder": "Dirección o número de teléfono de la wallet",
     "paste": "Pegar desde el portapapeles",
     "title": "Selecciona un destinatario",
     "contactsTitle": "Selecciona un contacto",
+    "header": "Enviar",
+    "contactsHeader": "Enviar a contactos",
     "recents": "Recientes",
     "results": "Resultados",
     "qr": {
-      "title": "Escanear o mostrar código QR",
-      "subtitle": "Encuentra rápidamente direcciones en {{appName}}"
+      "title": "Enviar vía código QR",
+      "subtitle": "Toca para escanear o mostrar una dirección"
     },
     "invite": {
-      "title": "Envía cripto a tus amigos",
-      "subtitle": "Envía fondos o una invitación a tus contactos"
+      "title": "Enviar a un contacto",
+      "subtitle": "Envía fondos a tus contactos"
     },
     "jumpstart": {
       "title": "Envia con un enlace directo",
@@ -2283,13 +2290,19 @@
     "crossChainSwapTransactionLabel": "Cross-chain",
     "depositTitle": "Fondos depositados",
     "depositSubtitle": "en una pool de {{txAppName}}",
-    "depositSubtitle_noTxAppName": "a aplicación desconocida",
+    "depositSubtitle_noTxAppName": "a app desconocida",
     "withdrawTitle": "Fondos retirados",
     "withdrawSubtitle": "de la pool de {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "desde pool no identificada",
     "claimRewardTitle": "Ganancias recibidas",
     "claimRewardSubtitle": "de la pool de {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "desde pool no identificada"
+    "claimRewardSubtitle_noTxAppName": "desde pool no identificada",
+    "allTransactionsShown": "Has llegado al final de tu historial de transacciones.",
+    "fetchErrorRetry": "Inténtalo de nuevo",
+    "error": {
+      "fetchError": "Vaya, hubo un problema al actualizar tu feed. Tu historial de transacciones puede estar incompleto por ahora."
+    },
+    "noTransactions": "¡Felicidades, has creado con éxito un wallet {{appName}}!"
   },
   "transactionDetails": {
     "descriptionLabel": "Detalles",
@@ -2303,7 +2316,7 @@
     "withdrawDetails": "Monto retirado",
     "claimRewardTitle": "Ganancias recibidas",
     "claimRewardSubtitle": "{{tokenSymbol}} recibidos de la pool {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Recogida {{tokenSymbol}} de una app desconocida",
+    "claimRewardSubtitle_noTxAppName": "{{tokenSymbol}} recibido de una app desconocida",
     "claimRewardDetails": "Monto recibido",
     "swap": "Cambio",
     "network": "Red",
@@ -2575,7 +2588,8 @@
     "entrypoint": {
       "title": "Gana más cripto",
       "subtitle": "Deposita y gana",
-      "description": "Gana sobre tus criptoactivos en pools de liquidez."
+      "description": "Gana prestando tus activos cripto en pools de liquidez.",
+      "totalDepositAndEarnings": "Depósito y ganancias totales"
     },
     "enterAmount": {
       "title": "¿Cuánto quieres depositar?",
@@ -2817,6 +2831,11 @@
   "duration_year_other": "{{count}} años",
   "duration_yearMonth_one": "1 año, 1 mes",
   "duration_yearMonth_other": "{{count}} años, {{count2}} meses",
+  "tokenEnterAmount": {
+    "availableBalance": "Disponible: <0></0>",
+    "selectToken": "Selecciona un token",
+    "fiatPriceUnavailable": "Precio no disponible"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

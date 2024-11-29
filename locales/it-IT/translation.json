@@ -386,6 +386,7 @@
   "accountAddressLabel": "Indirizzo del conto",
   "celoAmountLabel": "Importo (CELO)",
   "maxSymbol": "Max",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Rivedi",
   "withdrawCeloTo": "Preleva verso",
   "withdrawCeloAmount": "Importo (CELO)",
@@ -1458,14 +1459,15 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "Scopri",
-    "exploreDapps": "Esplora le dapp",
-    "exploreAll": "Esplora tutte",
+    "exploreDapps": "Dapp",
+    "exploreAll": "Visualizza tutto",
     "message": "Scopri i modi per utilizzare i tuoi asset",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
     "allDapps": "Tutti",
     "favoriteDapps": "Le mie dapp preferite",
     "mostPopularDapps": "Popolare",
+    "mostPopularDapps_UK": "Altre Dapp",
     "favoriteDappsAndAll": "I miei Preferiti e Tutto",
     "searchPlaceHolder": "Cerca dapp",
     "noFavorites": {
@@ -1481,7 +1483,8 @@
       "message": "Filtro <0>{{filter}}</0> applicato",
       "removeFilter": "Rimuovi filtro",
       "searchMessage": "Non sono stati trovati risultati corrispondenti per <0>\"{{searchTerm}}\"</0>."
-    }
+    },
+    "disclaimer_UK": "Questo è un elenco di dapp di terze parti. La descrizione di ogni dapp è puramente informativa e non è un invito a utilizzarla."
   },
   "dappRankings": {
     "title": "Classifiche delle Dapp",
@@ -2123,18 +2126,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Cerca per nome, numero telefonico, portafoglio...",
+    "searchInputLabel": "A",
+    "searchInputPlaceholder": "Indirizzo o numero di telefono del wallet",
     "paste": "Incolla dagli Appunti",
     "title": "Seleziona un destinatario",
     "contactsTitle": "Seleziona un contatto",
+    "header": "Invia",
+    "contactsHeader": "Invia ai contatti",
     "recents": "Recenti",
     "results": "Risultati",
     "qr": {
-      "title": "Inquadra o visualizza il codice QR",
-      "subtitle": "Trova rapidamente gli indirizzi in {{appName}}"
+      "title": "Invia tramite QR Code",
+      "subtitle": "Tocca per scansionare o mostrare un indirizzo"
     },
     "invite": {
-      "title": "Invia criptovalute ai tuoi amici",
-      "subtitle": "Invia fondi o un invito ai tuoi contatti"
+      "title": "Invia a un contatto",
+      "subtitle": "Invia fondi ai tuoi contatti"
     },
     "jumpstart": {
       "title": "Invia con un Live Link",
@@ -2283,13 +2290,19 @@
     "crossChainSwapTransactionLabel": "Cross-chain",
     "depositTitle": "Depositati",
     "depositSubtitle": "sul pool {{txAppName}}",
-    "depositSubtitle_noTxAppName": "all'applicazione sconosciuta",
+    "depositSubtitle_noTxAppName": "ad app sconosciuta",
     "withdrawTitle": "Preleva",
     "withdrawSubtitle": "dal pool {{txAppName}}",
     "withdrawSubtitle_noTxAppName": "d'app sconosciuta",
     "claimRewardTitle": "Raccolti",
     "claimRewardSubtitle": "dal pool {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "d'app sconosciuta"
+    "claimRewardSubtitle_noTxAppName": "d'app sconosciuta",
+    "allTransactionsShown": "Hai raggiunto la fine della cronologia delle transazioni.",
+    "fetchErrorRetry": "Riprova",
+    "error": {
+      "fetchError": "Ops, c'è stato un problema nell'aggiornare il tuo feed. La cronologia delle tue transazioni potrebbe essere temporaneamente incompleta."
+    },
+    "noTransactions": "Congratulazioni, hai creato con successo un wallet {{appName}}!"
   },
   "transactionDetails": {
     "descriptionLabel": "Dettagli",
@@ -2303,7 +2316,7 @@
     "withdrawDetails": "Importo prelevato",
     "claimRewardTitle": "Raccolti",
     "claimRewardSubtitle": "{{tokenSymbol}} raccolti dal pool {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Raccolta di {{tokenSymbol}} da un'applicazione sconosciuta",
+    "claimRewardSubtitle_noTxAppName": "{{tokenSymbol}} prelevati da app sconosciuta",
     "claimRewardDetails": "Importo raccolto",
     "swap": "Scambio",
     "network": "Rete",
@@ -2575,7 +2588,8 @@
     "entrypoint": {
       "title": "Guadagna sulle tue cripto",
       "subtitle": "Deposita e guadagna",
-      "description": "Guadagna sulle tue criptovalute attraverso un pool di liquidità."
+      "description": "Guadagna prestando i tuoi asset in criptovaluta in pool di liquidità.",
+      "totalDepositAndEarnings": "Depositi e guadagni totali"
     },
     "enterAmount": {
       "title": "Quanto vuoi depositare?",
@@ -2817,6 +2831,11 @@
   "duration_year_other": "{{count}} anni",
   "duration_yearMonth_one": "1 anno, 1 mese",
   "duration_yearMonth_other": "{{count}} anni, {{count2}} mesi",
+  "tokenEnterAmount": {
+    "availableBalance": "Disponibile: <0></0>",
+    "selectToken": "Seleziona token",
+    "fiatPriceUnavailable": "Prezzo non disponibile"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
