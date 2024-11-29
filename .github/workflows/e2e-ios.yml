@@ -28,6 +28,14 @@ jobs:
         with:
           secrets: |-
             EMERGE_API_TOKEN:projects/1027349420744/secrets/EMERGE_API_TOKEN
+            E2E_WALLET_CONNECT_PROJECT_ID:projects/1027349420744/secrets/E2E_WALLET_CONNECT_PROJECT_ID
+            E2E_DEFAULT_RECIPIENT_MNEMONIC:projects/1027349420744/secrets/E2E_DEFAULT_RECIPIENT_MNEMONIC
+            E2E_DEFAULT_RECIPIENT_PRIVATE_KEY:projects/1027349420744/secrets/E2E_DEFAULT_RECIPIENT_PRIVATE_KEY
+            E2E_WALLET_MNEMONIC:projects/1027349420744/secrets/E2E_WALLET_MNEMONIC
+            E2E_WALLET_PRIVATE_KEY:projects/1027349420744/secrets/E2E_WALLET_PRIVATE_KEY
+            E2E_WALLET_SINGLE_VERIFIED_MNEMONIC:projects/1027349420744/secrets/E2E_WALLET_SINGLE_VERIFIED_MNEMONIC
+            E2E_WALLET_MULTIPLE_VERIFIED_MNEMONIC:projects/1027349420744/secrets/E2E_WALLET_MULTIPLE_VERIFIED_MNEMONIC
+            E2E_WALLET_12_WORDS_MNEMONIC:projects/1027349420744/secrets/E2E_WALLET_12_WORDS_MNEMONIC
       - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       # Since the e2e runners have access to the Valora branding,
@@ -46,9 +54,6 @@ jobs:
         run: yarn ts-node ./.github/scripts/checkPodfileAndUpdateRenovatePr.ts
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
-      - name: Create iOS E2E .env File
-        working-directory: e2e
-        run: echo MOCK_PROVIDER_BASE_URL=${{ secrets.MOCK_PROVIDER_BASE_URL }} >> .env && echo MOCK_PROVIDER_API_KEY=${{ secrets.MOCK_PROVIDER_API_KEY }} >> .env && echo WALLET_CONNECT_PROJECT_ID_E2E=${{ secrets.WALLET_CONNECT_PROJECT_ID_E2E }} >> .env
       - name: Create Detox Build
         run: |
           export CELO_TEST_CONFIG=e2e
@@ -76,6 +81,15 @@ jobs:
           --maxWorkers 6
           --retries 3
         timeout-minutes: 45
+        env:
+          E2E_WALLET_CONNECT_PROJECT_ID: ${{ steps.google-secrets.outputs.E2E_WALLET_CONNECT_PROJECT_ID }}
+          E2E_DEFAULT_RECIPIENT_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_DEFAULT_RECIPIENT_MNEMONIC }}
+          E2E_DEFAULT_RECIPIENT_PRIVATE_KEY: ${{ steps.google-secrets.outputs.E2E_DEFAULT_RECIPIENT_PRIVATE_KEY }}
+          E2E_WALLET_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_WALLET_MNEMONIC }}
+          E2E_WALLET_PRIVATE_KEY: ${{ steps.google-secrets.outputs.E2E_WALLET_PRIVATE_KEY }}
+          E2E_WALLET_SINGLE_VERIFIED_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_WALLET_SINGLE_VERIFIED_MNEMONIC }}
+          E2E_WALLET_MULTIPLE_VERIFIED_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_WALLET_MULTIPLE_VERIFIED_MNEMONIC }}
+          E2E_WALLET_12_WORDS_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_WALLET_12_WORDS_MNEMONIC }}
       - name: Publish iOS JUnit Report
         if: always()
         uses: mikepenz/action-junit-report@v4

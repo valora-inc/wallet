@@ -313,6 +313,16 @@ describe('TransactionDetailsScreen', () => {
             },
           },
         ],
+        amount: {
+          value: 10,
+          tokenAddress: mockCusdAddress,
+          tokenId: mockCusdTokenId,
+          localAmount: {
+            currencyCode: 'EUR',
+            exchangeRate: '1.08',
+            value: '9.259',
+          },
+        },
       }),
     })
 
@@ -327,8 +337,8 @@ describe('TransactionDetailsScreen', () => {
 
     expect(getByText('amountSent')).toBeTruthy()
     expect(getByTestId('TransferSent/AmountSentValue')).toHaveTextContent('10.00 cUSD')
-    expect(getByTestId('TransferSent/TransferTokenExchangeRate')).toHaveTextContent('₱1.33')
-    expect(getByTestId('TransferSent/AmountSentValueFiat')).toHaveTextContent('₱13.30')
+    expect(getByTestId('TransferSent/TransferTokenExchangeRate')).toHaveTextContent('€1.08') // the localAmount in the amount data is used
+    expect(getByTestId('TransferSent/AmountSentValueFiat')).toHaveTextContent('€9.26')
   })
 
   it('renders correctly for receives', async () => {

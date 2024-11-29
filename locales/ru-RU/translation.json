@@ -2592,7 +2592,7 @@
     "entrypoint": {
       "title": "Заработайте на своей криптовалюте",
       "subtitle": "Пополняйте и зарабатывайте",
-      "description": "Зарабатывай, предоставляя свои криптоактивы в пулы ликвидности.",
+      "description": "Зарабатывайте, предоставляя свои криптоактивы в займы в пулы ликвидности.",
       "totalDepositAndEarnings": "Общий депозит и доходы"
     },
     "enterAmount": {
@@ -2835,6 +2835,11 @@
   "duration_year_other": "{{count}} года/лет",
   "duration_yearMonth_one": "1 год, 1 месяц",
   "duration_yearMonth_other": "{{count}} года/лет, {{count2}} мес.",
+  "tokenEnterAmount": {
+    "availableBalance": "Доступно: <0></0>",
+    "selectToken": "Выберите токен",
+    "fiatPriceUnavailable": "Цена недоступна"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",

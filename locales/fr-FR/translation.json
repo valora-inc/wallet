@@ -2588,7 +2588,7 @@
     "entrypoint": {
       "title": "Développez vos cryptos",
       "subtitle": "Déposez et gagnez",
-      "description": "Gagne en prêtant tes crypto-actifs dans des pools de liquidité.",
+      "description": "Gagnez en prêtant vos crypto-actifs dans des pools de liquidités.",
       "totalDepositAndEarnings": "Total des dépôts et des gains"
     },
     "enterAmount": {
@@ -2831,6 +2831,11 @@
   "duration_year_other": "{{count}} ans",
   "duration_yearMonth_one": "1 an, 1 mois",
   "duration_yearMonth_other": "{{count}} ans, {{count2}} mois",
+  "tokenEnterAmount": {
+    "availableBalance": "Disponible : <0></0>",
+    "selectToken": "Sélectionner un jeton",
+    "fiatPriceUnavailable": "Prix non disponible"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

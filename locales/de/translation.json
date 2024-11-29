@@ -2588,7 +2588,7 @@
     "entrypoint": {
       "title": "Verdiene mit deiner Krypto",
       "subtitle": "Einzahlen und verdienen",
-      "description": "Verdiene, indem du dein Krypto-Vermögen in Liquiditätspools ausleihst.",
+      "description": "Verdiene, indem du dein Krypto-Vermögen über Liquiditätspools anderen leihst.",
       "totalDepositAndEarnings": "Gesamteinlage und -Verdienst"
     },
     "enterAmount": {
@@ -2831,6 +2831,11 @@
   "duration_year_other": "{{count}} Jahre",
   "duration_yearMonth_one": "1 Jahr, 1 Monat",
   "duration_yearMonth_other": "{{count}} Jahre, {{count2}} Monate",
+  "tokenEnterAmount": {
+    "availableBalance": "Verfügbar: <0></0>",
+    "selectToken": "Token auswählen",
+    "fiatPriceUnavailable": "Preis nicht verfügbar"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
