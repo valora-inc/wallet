@@ -51,9 +51,7 @@ export function formatNumber(value: string) {
 
 export function unformatNumberForProcessing(value: string) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
-  // ignore any currency symbols
-  const valueWithoutSymbols = Number.isNaN(+value.charAt(0)) ? value.slice(1) : value
-  return valueWithoutSymbols.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
+  return value.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
 }
 
 export function roundFiatValue(value: BigNumber | null) {
@@ -215,7 +213,8 @@ export function useEnterAmount(props: {
   }
 
   function handleAmountInputChange(val: string) {
-    let value = unformatNumberForProcessing(val)
+    let value = val.startsWith(localCurrencySymbol) ? val.slice(1) : val
+    value = unformatNumberForProcessing(value)
     value = value.startsWith('.') ? `0${value}` : value
 
     if (!value) {
@@ -391,7 +390,7 @@ export default function TokenEnterAmount({
             forwardedRef={inputRef}
             onChangeText={(value) => {
               handleSetStartPosition(undefined)
-              onInputChange(value.startsWith(localCurrencySymbol) ? value.slice(1) : value)
+              onInputChange(value)
             }}
             value={formattedInputValue}
             placeholderTextColor={Colors.gray3}
