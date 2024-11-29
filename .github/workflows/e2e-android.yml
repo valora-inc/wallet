@@ -109,7 +109,7 @@ jobs:
           --take-screenshots=failing
           --record-videos=failing
           --record-logs=failing
-          --loglevel verbose
+          --loglevel info
           --debug-synchronization 10000
           --maxWorkers 12
           --headless
