@@ -51,7 +51,9 @@ export function formatNumber(value: string) {
 
 export function unformatNumberForProcessing(value: string) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
-  return value.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
+  // ignore any currency symbols
+  const valueWithoutSymbols = Number.isNaN(+value.charAt(0)) ? value.slice(1) : value
+  return valueWithoutSymbols.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
 }
 
 export function roundFiatValue(value: BigNumber | null) {

@@ -13,6 +13,8 @@ import TokenEnterAmount, {
   formatNumber,
   getDisplayLocalAmount,
   getDisplayTokenAmount,
+  roundFiatValue,
+  unformatNumberForProcessing,
   useEnterAmount,
 } from './TokenEnterAmount'
 
@@ -65,6 +67,15 @@ describe('TokenEnterAmount', () => {
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
 
+    expect(unformatNumberForProcessing('')).toBe('')
+    expect(unformatNumberForProcessing('1,234.34567')).toBe('1234.34567')
+    expect(unformatNumberForProcessing('$1,234.34567')).toBe('1234.34567')
+
+    expect(roundFiatValue(null)).toBe('')
+    expect(roundFiatValue(new BigNumber('0.01'))).toBe('0.01')
+    expect(roundFiatValue(new BigNumber('0.000001'))).toBe('0.000001')
+    expect(roundFiatValue(new BigNumber('1234.34567'))).toBe('1234.35')
+
     expect(formatNumber('')).toBe('')
     expect(formatNumber('123')).toBe('123')
     expect(formatNumber('1234')).toBe('1,234')
@@ -106,6 +117,15 @@ describe('TokenEnterAmount', () => {
     jest
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: ',', groupingSeparator: '.' })
+
+    expect(unformatNumberForProcessing('')).toBe('')
+    expect(unformatNumberForProcessing('1.234,34567')).toBe('1234.34567')
+    expect(unformatNumberForProcessing('$1.234,34567')).toBe('1234.34567')
+
+    expect(roundFiatValue(null)).toBe('')
+    expect(roundFiatValue(new BigNumber('0.01'))).toBe('0.01')
+    expect(roundFiatValue(new BigNumber('0.000001'))).toBe('0.000001')
+    expect(roundFiatValue(new BigNumber('1234.34567'))).toBe('1234.35')
 
     expect(formatNumber('')).toBe('')
     expect(formatNumber('123')).toBe('123')
