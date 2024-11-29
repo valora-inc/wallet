@@ -103,7 +103,7 @@ jobs:
       - name: Run Detox
         run: >
           yarn detox test
-          --testPattern="^(?!.*(OnRamps|OffRamps)).*\.spec\.js$"
+          --testPattern='^(?!.*(OnRamps|OffRamps)).*\.spec\.js$'
           --device-name Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
           --configuration android.release
           --artifacts-location e2e/artifacts
