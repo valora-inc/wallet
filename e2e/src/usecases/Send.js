@@ -50,13 +50,13 @@ export default Send = () => {
     it('Then should be able to change token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
       await element(by.id('CELOSymbol')).tap()
-      await expect(element(by.text('CELO')).atIndex(0)).toBeVisible()
+      await expect(element(by.text('CELO on Celo')).atIndex(0)).toBeVisible()
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
       await element(by.id('cUSDSymbol')).tap()
-      await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
+      await expect(element(by.text('cUSD on Celo')).atIndex(0)).toBeVisible()
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
       await element(by.id('cEURSymbol')).tap()
-      await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
+      await expect(element(by.text('cEUR on Celo')).atIndex(0)).toBeVisible()
     })
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
@@ -111,7 +111,7 @@ export default Send = () => {
     it('Then should be able to choose token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
       await element(by.id('cEURSymbol')).tap()
-      await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
+      await expect(element(by.text('cEUR on Celo')).atIndex(0)).toBeVisible()
     })
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
@@ -167,7 +167,7 @@ export default Send = () => {
     it('Then should be able to select token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
       await element(by.id('cUSDSymbol')).tap()
-      await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
+      await expect(element(by.text('cUSD on Celo')).atIndex(0)).toBeVisible()
     })
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
