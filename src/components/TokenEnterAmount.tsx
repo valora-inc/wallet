@@ -54,7 +54,7 @@ export function unformatNumberForProcessing(value: string) {
   return value.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
 }
 
-export function roundLocalNumber(value: BigNumber | null) {
+export function roundFiatValue(value: BigNumber | null) {
   if (!value) return ''
   return value.isLessThan(0.01) ? value.toPrecision(1) : value.toFixed(2)
 }
@@ -94,7 +94,7 @@ export function getDisplayLocalAmount(
     return `<${localCurrencySymbol}0${decimalSeparator}000001`
   }
 
-  const roundedAmount = roundLocalNumber(bignum)
+  const roundedAmount = roundFiatValue(bignum)
   const formattedAmount = formatNumber(roundedAmount.toString())
   return `${localCurrencySymbol}${formattedAmount}`
 }
@@ -106,9 +106,9 @@ export function getDisplayLocalAmount(
 export function useEnterAmount(props: {
   token: TokenBalance
   inputRef: React.RefObject<RNTextInput>
-  onHandleAmountInputChange?(value: string): void
+  onHandleAmountInputChange?(data: { amount: string; parsed: BigNumber | null }): void
 }) {
-  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+  const { decimalSeparator } = getNumberFormatSettings()
 
   /**
    * This field is formatted for processing purpose. It is a lot easier to process a number formatted
@@ -213,12 +213,12 @@ export function useEnterAmount(props: {
   }
 
   function handleAmountInputChange(val: string) {
-    let value = val.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
+    let value = unformatNumberForProcessing(val)
     value = value.startsWith('.') ? `0${value}` : value
 
     if (!value) {
       setAmount('')
-      props.onHandleAmountInputChange?.('')
+      props.onHandleAmountInputChange?.({ amount: '', parsed: null })
       return
     }
 
@@ -234,19 +234,19 @@ export function useEnterAmount(props: {
       (amountType === 'local' && value.match(localAmountRegex))
     ) {
       setAmount(value)
-      props.onHandleAmountInputChange?.(value)
+      props.onHandleAmountInputChange?.({ amount: value, parsed: parseInputAmount(amount) })
       return
     }
   }
 
-  function handlePercentage(percentage: number) {
+  function handleSelectPercentageAmount(percentage: number) {
     if (percentage <= 0 || percentage > 1) return
 
     const percentageAmount = props.token.balance.multipliedBy(percentage)
     const newAmount =
       amountType === 'token'
         ? percentageAmount.decimalPlaces(6).toString()
-        : roundLocalNumber(
+        : roundFiatValue(
             convertTokenToLocalAmount({
               tokenAmount: percentageAmount,
               tokenInfo: props.token,
@@ -263,10 +263,10 @@ export function useEnterAmount(props: {
     amount,
     amountType,
     processedAmounts,
-    setAmount,
+    replaceAmount: setAmount,
     handleToggleAmountType,
     handleAmountInputChange,
-    handlePercentage,
+    handleSelectPercentageAmount,
   }
 }
 

@@ -1,7 +1,15 @@
 import BigNumber from 'bignumber.js'
-import React, { ComponentType, useEffect, useRef, useState } from 'react'
+import React, { ComponentType, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
+import {
+  Keyboard,
+  Platform,
+  TextInput as RNTextInput,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+} from 'react-native'
 import { View } from 'react-native-animatable'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -12,6 +20,7 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
+import TextInput from 'src/components/TextInput'
 import TokenBottomSheet, {
   TokenBottomSheetProps,
   TokenPickerOrigin,
@@ -31,6 +40,10 @@ import { Spacing } from 'src/styles/styles'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { PreparedTransactionsResult, getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
+
+function canRefresh(value: BigNumber | null, balance: BigNumber) {
+  return value && value.gt(0) && value.lte(balance)
+}
 
 export interface ProceedArgs {
   tokenAmount: BigNumber
@@ -114,27 +127,39 @@ export default function EnterAmount({
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
   const { tokenId: feeTokenId } = feeCurrency ?? feeCurrencies[0]
 
+  const debounceRef = useRef<NodeJS.Timeout | null>(null)
   const inputRef = useRef<RNTextInput>(null)
-  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const {
     amount,
     amountType,
     processedAmounts,
-    setAmount,
+    replaceAmount,
     handleAmountInputChange,
     handleToggleAmountType,
-    handlePercentage,
+    handleSelectPercentageAmount,
   } = useEnterAmount({
     token,
     inputRef,
-    onHandleAmountInputChange: () => {
+    onHandleAmountInputChange: ({ parsed }) => {
       setSelectedPercentage(null)
+
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current)
+      }
+
+      if (parsed && canRefresh(parsed, token.balance)) {
+        debounceRef.current = setTimeout(
+          () => onRefreshPreparedTransactions(parsed, token, feeCurrencies),
+          FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS
+        )
+      }
     },
   })
 
   const onOpenTokenPicker = () => {
-    bottomSheetRef.current?.snapToIndex(0)
+    tokenBottomSheetRef.current?.snapToIndex(0)
     AppAnalytics.track(SendEvents.token_dropdown_opened, {
       currentTokenId: token.tokenId,
       currentTokenAddress: token.address,
@@ -144,14 +169,15 @@ export default function EnterAmount({
 
   const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
     setToken(selectedToken)
-    setAmount('')
+    replaceAmount('')
     setSelectedPercentage(null)
-    bottomSheetRef.current?.close()
+    tokenBottomSheetRef.current?.close()
+
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
   const onSelectPercentageAmount = (percentage: number) => {
-    handlePercentage(percentage)
+    handleSelectPercentageAmount(percentage)
     setSelectedPercentage(percentage)
 
     AppAnalytics.track(SendEvents.send_percentage_selected, {
@@ -163,10 +189,10 @@ export default function EnterAmount({
     })
   }
 
-  const isAmountLessThanBalance =
-    processedAmounts.token.bignum && processedAmounts.token.bignum.lte(token.balance)
   const showLowerAmountError =
-    processedAmounts.token.bignum && !isAmountLessThanBalance && !disableBalanceCheck
+    processedAmounts.token.bignum &&
+    !processedAmounts.token.bignum.lte(token.balance) &&
+    !disableBalanceCheck
   const showMaxAmountWarning =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -184,25 +210,6 @@ export default function EnterAmount({
   const disabled =
     disableProceed ||
     (disableBalanceCheck ? !!processedAmounts.token.bignum?.isZero() : !transactionIsPossible)
-
-  useEffect(
-    function refreshPreparedTransactions() {
-      onClearPreparedTransactions()
-
-      if (
-        !processedAmounts.token.bignum ||
-        processedAmounts.token.bignum.isLessThanOrEqualTo(0) ||
-        processedAmounts.token.bignum.isGreaterThan(token.balance)
-      ) {
-        return
-      }
-      const debouncedRefreshTransactions = setTimeout(() => {
-        return onRefreshPreparedTransactions(processedAmounts.token.bignum!, token, feeCurrencies)
-      }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
-      return () => clearTimeout(debouncedRefreshTransactions)
-    },
-    [processedAmounts.token.bignum, token]
-  )
 
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
@@ -327,7 +334,7 @@ export default function EnterAmount({
         />
       </KeyboardAwareScrollView>
       <TokenBottomSheet
-        forwardedRef={bottomSheetRef}
+        forwardedRef={tokenBottomSheetRef}
         snapPoints={['90%']}
         origin={TokenPickerOrigin.Send}
         onTokenSelected={onSelectToken}
@@ -352,8 +359,13 @@ const styles = StyleSheet.create({
     ...typeScale.titleMedium,
     marginBottom: Spacing.Thick24,
   },
+
   inputContainer: {
     flex: 1,
+  },
+  input: {
+    flex: 1,
+    marginRight: Spacing.Smallest8,
   },
   feeContainer: {
     marginVertical: Spacing.Regular16,
@@ -387,3 +399,73 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
 })
+
+export function AmountInput({
+  inputValue,
+  onInputChange,
+  inputRef,
+  inputStyle,
+  autoFocus,
+  placeholder = '0',
+  testID = 'AmountInput',
+  editable = true,
+}: {
+  inputValue: string
+  onInputChange(value: string): void
+  inputRef: React.MutableRefObject<RNTextInput | null>
+  inputStyle?: StyleProp<TextStyle>
+  autoFocus?: boolean
+  placeholder?: string
+  testID?: string
+  editable?: boolean
+}) {
+  // the startPosition and inputRef variables exist to ensure TextInput
+  // displays the start of the value for long values on Android
+  // https://github.com/facebook/react-native/issues/14845
+  const [startPosition, setStartPosition] = useState<number | undefined>(0)
+
+  const handleSetStartPosition = (value?: number) => {
+    if (Platform.OS === 'android') {
+      setStartPosition(value)
+    }
+  }
+
+  return (
+    <View style={styles.input}>
+      <TextInput
+        forwardedRef={inputRef}
+        onChangeText={(value) => {
+          handleSetStartPosition(undefined)
+          onInputChange(value)
+        }}
+        editable={editable}
+        value={inputValue || undefined}
+        placeholder={placeholder}
+        keyboardType="decimal-pad"
+        // Work around for RN issue with Samsung keyboards
+        // https://github.com/facebook/react-native/issues/22005
+        autoCapitalize="words"
+        autoFocus={autoFocus}
+        // unset lineHeight to allow ellipsis on long inputs on iOS. For
+        // android, ellipses doesn't work and unsetting line height causes
+        // height changes when amount is entered
+        inputStyle={[inputStyle, Platform.select({ ios: { lineHeight: undefined } })]}
+        testID={testID}
+        onBlur={() => {
+          handleSetStartPosition(0)
+        }}
+        onFocus={() => {
+          handleSetStartPosition(inputValue?.length ?? 0)
+        }}
+        onSelectionChange={() => {
+          handleSetStartPosition(undefined)
+        }}
+        selection={
+          Platform.OS === 'android' && typeof startPosition === 'number'
+            ? { start: startPosition }
+            : undefined
+        }
+      />
+    </View>
+  )
+}

@@ -17,7 +17,6 @@ import {
   mockCeloTokenId,
   mockCeurTokenId,
   mockCrealTokenId,
-  mockCusdTokenBalance,
   mockCusdTokenId,
   mockEthTokenBalance,
   mockEthTokenId,
@@ -160,7 +159,6 @@ describe('EnterAmount', () => {
     })
 
     expect(getByTestId('SendEnterAmount/TokenAmountInput')).toBeTruthy()
-    // expect(getByTestId('SendEnterAmount/Max')).toBeTruthy()
     expect(queryByTestId('SendEnterAmount/SwitchTokens')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/ExchangeAmount')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/AmountOptions')).toBeTruthy()
@@ -189,18 +187,6 @@ describe('EnterAmount', () => {
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('ETH')
     expect(getByText('ETH on Ethereum Sepolia')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
-  })
-
-  it('hides the max button if the user has no balance for the given token', () => {
-    const store = createMockStore(mockStore)
-
-    const { queryByTestId } = render(
-      <Provider store={store}>
-        <EnterAmount {...defaultParams} defaultToken={mockCusdTokenBalance} />
-      </Provider>
-    )
-
-    expect(queryByTestId('SendEnterAmount/Max')).toBeFalsy()
   })
 
   describe.each([
