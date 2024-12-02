@@ -528,7 +528,7 @@ export enum SwapEvents {
   swap_screen_open = 'swap_screen_open',
   swap_screen_select_token = 'swap_screen_select_token',
   swap_screen_confirm_token = 'swap_screen_confirm_token',
-  swap_screen_max_swap_amount = 'swap_screen_max_swap_amount',
+  swap_screen_percentage_selected = 'swap_screen_percentage_selected',
   swap_gas_fees_learn_more = 'swap_gas_fees_learn_more',
   swap_review_submit = 'swap_review_submit',
   swap_execute_success = 'swap_execute_success',

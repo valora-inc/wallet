@@ -527,7 +527,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SwapEvents.swap_screen_open]: `When the screen is mounted`,
   [SwapEvents.swap_screen_select_token]: `When a user selects a token, prompting the token select bottom sheet`,
   [SwapEvents.swap_screen_confirm_token]: `When a user selects a token from the bottom sheet`,
-  [SwapEvents.swap_screen_max_swap_amount]: `when a user taps on the "max" button to swap their whole balance`,
+  [SwapEvents.swap_screen_percentage_selected]: `When the user selects a pre-defined percentage of their balance to transact with`,
   [SwapEvents.swap_review_submit]: `When a user click on the confirm swap button to proceed to next step`,
   [SwapEvents.swap_gas_fees_learn_more]: `When a user taps on the learn more text on the max swap amount warning`,
   [SwapEvents.swap_execute_success]: `When the swap is executed successfully`,

@@ -27,6 +27,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import EnterAmountOptions from 'src/send/EnterAmountOptions'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -84,6 +85,7 @@ interface SwapState {
   // This is because there could be multiple swaps happening at the same time
   startedSwapId: string | null
   switchedToNetworkId: NetworkId | null
+  selectedPercentage: number | null
 }
 
 function getInitialState(fromTokenId?: string, toTokenId?: string): SwapState {
@@ -96,6 +98,7 @@ function getInitialState(fromTokenId?: string, toTokenId?: string): SwapState {
     confirmingSwap: false,
     startedSwapId: null,
     switchedToNetworkId: null,
+    selectedPercentage: null,
   }
 }
 
@@ -117,13 +120,18 @@ const swapSlice = createSlice({
         return
       }
       state.inputSwapAmount[Field.FROM] = sanitizedValue
+      state.selectedPercentage = null
     },
-    chooseMaxFromAmount: (state, action: PayloadAction<{ fromTokenBalance: BigNumber }>) => {
-      const { fromTokenBalance } = action.payload
+    chooseFromAmountPercentage: (
+      state,
+      action: PayloadAction<{ fromTokenBalance: BigNumber; percentage: number }>
+    ) => {
+      const { fromTokenBalance, percentage } = action.payload
       state.confirmingSwap = false
       state.startedSwapId = null
-      // We try the current balance first, and we will prompt the user if it's too high
-      state.inputSwapAmount[Field.FROM] = fromTokenBalance.toFormat({
+      state.selectedPercentage = percentage
+      // If the max percentage is selected, try the current balance first, and we will prompt the user if it's too high
+      state.inputSwapAmount[Field.FROM] = fromTokenBalance.multipliedBy(percentage).toFormat({
         decimalSeparator: getNumberFormatSettings().decimalSeparator,
       })
     },
@@ -159,6 +167,7 @@ const swapSlice = createSlice({
       state.toTokenId = toTokenId
       state.switchedToNetworkId = switchedToNetworkId
       state.selectingNoUsdPriceToken = null
+      state.selectedPercentage = null
     },
     quoteUpdated: (state, action: PayloadAction<{ quote: QuoteResult | null }>) => {
       const { quote } = action.payload
@@ -189,7 +198,7 @@ const swapSlice = createSlice({
 
 const {
   changeAmount,
-  chooseMaxFromAmount,
+  chooseFromAmountPercentage,
   startSelectToken,
   selectTokens,
   quoteUpdated,
@@ -265,6 +274,7 @@ export function SwapScreen({ route }: Props) {
     confirmingSwap,
     switchedToNetworkId,
     startedSwapId,
+    selectedPercentage,
   } = state
 
   const filterChipsFrom = useFilterChips(Field.FROM)
@@ -579,16 +589,17 @@ export function SwapScreen({ route }: Props) {
     }
   }
 
-  const handleSetMaxFromAmount = () => {
-    localDispatch(chooseMaxFromAmount({ fromTokenBalance }))
+  const handleSelectAmountPercentage = (percentage: number) => {
+    localDispatch(chooseFromAmountPercentage({ fromTokenBalance, percentage }))
     if (!fromToken) {
       // Should never happen
       return
     }
-    AppAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
+    AppAnalytics.track(SwapEvents.swap_screen_percentage_selected, {
       tokenSymbol: fromToken.symbol,
       tokenId: fromToken.tokenId,
       tokenNetworkId: fromToken.networkId,
+      percentage,
     })
   }
 
@@ -776,7 +787,6 @@ export function SwapScreen({ route }: Props) {
             loading={false}
             autoFocus
             inputError={fromSwapAmountError}
-            onPressMax={handleSetMaxFromAmount}
             buttonPlaceholder={t('swapScreen.selectTokenLabel')}
             borderRadius={Spacing.Regular16}
           />
@@ -981,6 +991,11 @@ export function SwapScreen({ route }: Props) {
           showLoading={confirmSwapIsLoading}
         />
       </ScrollView>
+      <EnterAmountOptions
+        onPressAmount={handleSelectAmountPercentage}
+        selectedAmount={selectedPercentage}
+        testID="SwapEnterAmount/AmountOptions"
+      />
       {tokenBottomSheetsConfig.map(({ fieldType, tokens, filterChips, origin }) => (
         <TokenBottomSheet
           key={`TokenBottomSheet/${fieldType}`}

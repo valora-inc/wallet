@@ -26,7 +26,6 @@ interface Props {
   onInputChange?(value: string): void
   inputValue?: string | null
   parsedInputValue?: BigNumber | null
-  onPressMax?(): void
   onSelectToken(): void
   token?: TokenBalance
   loading: boolean
@@ -42,7 +41,6 @@ const SwapAmountInput = ({
   onInputChange,
   inputValue,
   parsedInputValue,
-  onPressMax,
   onSelectToken,
   token,
   loading,
@@ -160,21 +158,6 @@ const SwapAmountInput = ({
               />
             </Text>
           )}
-          {onPressMax && (
-            <View style={styles.maxButtonWrapper}>
-              <Touchable
-                borderRadius={Spacing.Tiny4}
-                onPress={() => {
-                  onPressMax()
-                  textInputRef.current?.blur()
-                }}
-                style={styles.maxButton}
-                testID="SwapAmountInput/MaxButton"
-              >
-                <Text style={styles.maxText}>{t('max')}</Text>
-              </Touchable>
-            </View>
-          )}
         </View>
       )}
     </View>
@@ -220,22 +203,6 @@ const styles = StyleSheet.create({
   loader: {
     height: '100%',
     width: '100%',
-  },
-  maxButtonWrapper: {
-    marginLeft: Spacing.Smallest8,
-  },
-  maxButton: {
-    backgroundColor: Colors.white,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    borderRadius: Spacing.Tiny4,
-    paddingVertical: Spacing.Tiny4,
-    paddingHorizontal: Spacing.Tiny4,
-  },
-  maxText: {
-    ...typeScale.labelXXSmall,
-    color: Colors.gray5,
-    fontSize: 10,
   },
   tokenName: {
     ...typeScale.labelSemiBoldXSmall,

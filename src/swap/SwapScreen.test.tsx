@@ -2,6 +2,7 @@ import { act, fireEvent, render, waitFor, within } from '@testing-library/react-
 import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
+import { DeviceEventEmitter } from 'react-native'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { showError } from 'src/alert/actions'
@@ -287,6 +288,15 @@ const selectSwapTokens = (
       i === 0 ? Field.FROM : Field.TO
     )
   }
+}
+
+const selectMaxFromAmount = async (swapScreen: ReactTestInstance) => {
+  await act(() => {
+    DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+  })
+
+  const amountPercentageComponent = within(swapScreen).getByTestId('SwapEnterAmount/AmountOptions')
+  fireEvent.press(within(amountPercentageComponent).getByText('maxSymbol'))
 }
 
 describe('SwapScreen', () => {
@@ -876,40 +886,72 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
 
-  it('should set max from value', async () => {
-    mockFetch.mockResponse(defaultQuoteResponse)
-    const { swapFromContainer, swapToContainer, getByText, getByTestId, swapScreen } = renderScreen(
-      {}
-    )
+  it.each([
+    // mock store has 10 CELO balance
+    // mock CELO -> cUSD exchange rate is 1.2345678
+    {
+      amountLabel: 'percentage, {"percentage":25}',
+      percentage: 25,
+      expectedFromAmount: '2.5', // 25% of 10
+      expectedToAmount: '3.0864195', // expectedFromAmount * exchange rate = 2.5 * 1.2345678
+    },
+    {
+      amountLabel: 'percentage, {"percentage":50}',
+      percentage: 50,
+      expectedFromAmount: '5',
+      expectedToAmount: '6.172839',
+    },
+    {
+      amountLabel: 'percentage, {"percentage":75}',
+      percentage: 75,
+      expectedFromAmount: '7.5',
+      expectedToAmount: '9.2592585',
+    },
+    {
+      amountLabel: 'maxSymbol',
+      percentage: 100,
+      expectedFromAmount: '10',
+      expectedToAmount: '12.345678',
+    },
+  ])(
+    'sets the expected amount when the $amountLabel chip is selected',
+    async ({ amountLabel, percentage, expectedToAmount, expectedFromAmount }) => {
+      mockFetch.mockResponse(defaultQuoteResponse)
+      const { swapFromContainer, swapToContainer, getByText, getByTestId, swapScreen } =
+        renderScreen({})
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+      selectSwapTokens('CELO', 'cUSD', swapScreen)
 
-    await act(() => {
-      jest.runOnlyPendingTimers()
-    })
+      await act(() => {
+        DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+      })
 
-    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 1.23456 cUSD'
-    )
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
-      '10' // matching the value inside the mocked store
-    )
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
-      '12.345678'
-    )
-    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
-  })
+      fireEvent.press(within(getByTestId('SwapEnterAmount/AmountOptions')).getByText(amountLabel))
+
+      await waitFor(() =>
+        expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+          '1 CELO ≈ 1.23456 cUSD'
+        )
+      )
+      expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+        expectedFromAmount
+      )
+      expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+        expectedToAmount
+      )
+      expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+    }
+  )
 
   it('should show and hide the max warning for fee currencies', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { swapFromContainer, getByText, getByTestId, queryByTestId, swapScreen } = renderScreen({
+    const { swapFromContainer, getByText, queryByTestId, swapScreen } = renderScreen({
       celoBalance: '0',
       cUSDBalance: '10',
     }) // so that cUSD is the only feeCurrency with a balance
 
     selectSingleSwapToken(swapFromContainer, 'cUSD', swapScreen, Field.FROM)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
     await waitFor(() =>
       expect(
         getByText('swapScreen.maxSwapAmountWarning.bodyV1_74, {"tokenSymbol":"cUSD"}')
@@ -927,13 +969,13 @@ describe('SwapScreen', () => {
 
   it("shouldn't show the max warning when there's balance for more than 1 fee currency", async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { swapFromContainer, getByTestId, queryByTestId, swapScreen } = renderScreen({
+    const { swapFromContainer, queryByTestId, swapScreen } = renderScreen({
       celoBalance: '10',
       cUSDBalance: '20',
     })
 
     selectSingleSwapToken(swapFromContainer, 'CELO', swapScreen, Field.FROM)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
     await waitFor(() => expect(queryByTestId('MaxSwapAmountWarning')).toBeFalsy())
   })
 
@@ -944,7 +986,7 @@ describe('SwapScreen', () => {
     )
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -960,7 +1002,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(mockFetch.mock.calls.length).toEqual(1)
 
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -980,15 +1022,13 @@ describe('SwapScreen', () => {
   })
 
   it('should set max value if it is zero', async () => {
-    const { swapFromContainer, swapToContainer, getByText, getByTestId, swapScreen } = renderScreen(
-      {
-        celoBalance: '0',
-        cUSDBalance: '0',
-      }
-    )
+    const { swapFromContainer, swapToContainer, getByText, swapScreen } = renderScreen({
+      celoBalance: '0',
+      cUSDBalance: '0',
+    })
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('0')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('')
@@ -1035,10 +1075,10 @@ describe('SwapScreen', () => {
     jest.spyOn(Date, 'now').mockReturnValue(quoteReceivedTimestamp) // quote received timestamp
 
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByText, getByTestId, store, swapScreen } = renderScreen({})
+    const { getByText, store, swapScreen } = renderScreen({})
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1181,10 +1221,10 @@ describe('SwapScreen', () => {
 
   it('should have correct analytics on swap submission', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByText, getByTestId, swapScreen } = renderScreen({})
+    const { getByText, swapScreen } = renderScreen({})
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1305,7 +1345,7 @@ describe('SwapScreen', () => {
     const { update, getByText, getByTestId, swapScreen, store } = renderScreen({})
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1346,11 +1386,12 @@ describe('SwapScreen', () => {
 
   it('should show and hide the error warning', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { update, getByText, getByTestId, queryByText, swapFromContainer, swapScreen, store } =
-      renderScreen({})
+    const { update, getByText, queryByText, swapFromContainer, swapScreen, store } = renderScreen(
+      {}
+    )
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1414,7 +1455,7 @@ describe('SwapScreen', () => {
 
     // First get a quote for a network
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1471,13 +1512,13 @@ describe('SwapScreen', () => {
   it("should warn when the balances for feeCurrencies are 0 and can't cover the fee", async () => {
     // Swap from POOF to CELO, when no feeCurrency has any balance
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByText, getByTestId, swapScreen } = renderScreen({
+    const { getByText, swapScreen } = renderScreen({
       celoBalance: '0',
       cUSDBalance: '0',
     })
 
     selectSwapTokens('POOF', 'CELO', swapScreen)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1495,13 +1536,13 @@ describe('SwapScreen', () => {
   it('should warn when the balances for feeCurrencies are too low to cover the fee', async () => {
     // Swap from POOF to CELO, when no feeCurrency has any balance
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByText, getByTestId, swapScreen } = renderScreen({
+    const { getByText, swapScreen } = renderScreen({
       celoBalance: '0.001',
       cUSDBalance: '0.001',
     })
 
     selectSwapTokens('POOF', 'CELO', swapScreen)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1519,13 +1560,13 @@ describe('SwapScreen', () => {
   it('should prompt the user to decrease the swap amount when swapping the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee', async () => {
     // Swap CELO to cUSD, when only CELO has balance
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByText, getByTestId, queryByText, swapScreen, swapFromContainer } = renderScreen({
+    const { getByText, queryByText, swapScreen, swapFromContainer } = renderScreen({
       celoBalance: '1.234',
       cUSDBalance: '0',
     })
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1651,13 +1692,13 @@ describe('SwapScreen', () => {
   it("should allow swapping the max balance of a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
     // Swap full CELO balance to cUSD
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByText, getByTestId, queryByTestId, swapScreen, swapFromContainer } = renderScreen({
+    const { getByText, queryByTestId, swapScreen, swapFromContainer } = renderScreen({
       celoBalance: '1.234',
       cUSDBalance: '10',
     })
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await selectMaxFromAmount(swapScreen)
 
     await act(() => {
       jest.runOnlyPendingTimers()
