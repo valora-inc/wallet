@@ -696,8 +696,8 @@
     "body": "Sau khi họ thiết lập ví {{appName}} và kết nối số điện thoại, mỗi bạn sẽ nhận được một NFT độc quyền."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Mời bạn bè và nhận đến 12 cUSD",
-    "body": "Khi họ kết nối số điện thoại và nạp tiền vào {{appName}}, cả hai bạn sẽ nhận được 0,50 cUSD mỗi người."
+    "title": "Giới thiệu bạn bè và nhận USDT",
+    "body": "Khi họ kết nối số điện thoại, cả hai bạn sẽ nhận được 1 USDT mỗi người."
   },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
@@ -711,8 +711,8 @@
       "body": "Mời bạn bè và gia đình tải xuống {{appName}} và mỗi người trong số các bạn sẽ nhận được một NFT độc quyền"
     },
     "rewardsActiveCUSD": {
-      "title": "ĐƯỢC NHẬN ĐẾN 12 cUSD khi giới thiệu bạn bè đến với {{appName}}!",
-      "body": "Với mỗi người mà bạn giới thiệu tới {{appName}}, bạn sẽ nhận được 0,50 cUSD. Khi họ kết nối số điện thoại, nạp tiền và giữ tiền trong vòng 7 ngày, cả hai bạn sẽ nhận được 0,50 cUSD mỗi người. Hãy nhanh tay, số tiền có hạn! (Giới hạn 25 bạn)."
+      "title": "ĐƯỢC USDT khi giới thiệu bạn bè đến với {{appName}}",
+      "body": "Giới thiệu bạn bè ngay hôm nay và bạn sẽ nhận được 1 USDT khi họ kết nối số điện thoại. Hãy nhanh tay, số tiền có hạn!"
     }
   },
   "getReward": "Nhận ${{reward}}",
@@ -1057,7 +1057,7 @@
   "inviteWithoutPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{link}}",
   "inviteWithEscrowedPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Tôi vừa gửi cho bạn {{amount}} {{token}}. Vui lòng tải xuống Ứng dụng {{appName}} và chấp nhận {{token}} của bạn bằng đường liên kết sau: {{link}}",
   "inviteWithRewards": "Xin chào! 👋 Tôi đang sử dụng ví tiền điện tử {{appName}}. Bạn có thể tải nhanh ứng dụng này xuống và kết nối số điện thoại của mình, tất cả chúng ta sẽ cùng nhận được tiền thưởng dạng NFT phiên bản đặc biệt. 💫 \n\nSử dụng đường liên kết này để tải xuống: {{link}}",
-  "inviteWithRewardsCUSD": "Chào bạn! Chúng ta có thể được nhận ngay số tiền thưởng $0,50 miễn phí nếu bạn đăng ký, kết nối số điện thoại và nạp tiền vào ví {{appName}}. Tôi sử dụng ví này để tăng khoản tiết kiệm bằng USD và tiền điện tử của mình và bạn có thể dễ dàng tạo ví trong vài giây chỉ bằng số điện thoại. Hãy đăng ký bằng đường liên kết giới thiệu của tôi tại đây nhé: \n\n{{link}} \n\n Hãy nhanh tay, chương trình khuyến mãi giới thiệu sẽ sớm kết thúc.",
+  "inviteWithRewardsCUSD": "Chào bạn! Chúng tôi có thể nhận ngay 1 USDT tiền thưởng miễn phí nếu bạn đăng ký {{appName}} và kết nối số điện thoại của mình. Tôi sử dụng ví này để tăng khoản tiết kiệm bằng USD và tiền điện tử của mình và bạn có thể dễ dàng tạo ví trong vài giây chỉ bằng số điện thoại. Hãy đăng ký bằng đường liên kết giới thiệu của tôi tại đây nhé: \n\n{{link}} \n\n Hãy nhanh tay, chương trình khuyến mãi giới thiệu sẽ sớm kết thúc.",
   "loadingContacts": "Đang tìm danh bạ của bạn",
   "myCode": "Mã của tôi",
   "scanCode": "Quét",
@@ -1984,7 +1984,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Mời {{contactName}} tham gia {{appName}} và nhận 0,50 cUSD",
-      "body": "Có vẻ như {{contactName}} chưa sử dụng {{appName}}. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải xuống {{appName}}, kết nối số điện thoại, nạp tiền và giữ tiền trong ví trong 7 ngày, thì cả hai bạn đều sẽ nhận được 0,50 cUSD trong thời gian quỹ tiền thưởng vẫn còn hiệu lực."
+      "body": "Có vẻ như {{contactName}} chưa sử dụng {{appName}}. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\nSau khi họ tải xuống {{appName}} và kết nối số điện thoại, thì cả hai bạn đều sẽ nhận được 1 USDT trong thời gian quỹ tiền thưởng vẫn còn hiệu lực."
     }
   },
   "celoNews": {
