@@ -207,9 +207,8 @@ export function useEnterAmount(props: {
     setAmount(
       newAmountType === 'local'
         ? processedAmounts.local.bignum?.toFixed(2) || ''
-        : processedAmounts.token.bignum?.decimalPlaces(6).toString() || ''
+        : processedAmounts.token.bignum?.decimalPlaces(props.token.decimals).toString() || ''
     )
-    props.inputRef.current?.blur()
   }
 
   function handleAmountInputChange(val: string) {
@@ -246,7 +245,7 @@ export function useEnterAmount(props: {
     const percentageAmount = props.token.balance.multipliedBy(percentage)
     const newAmount =
       amountType === 'token'
-        ? percentageAmount.decimalPlaces(6).toString()
+        ? percentageAmount.decimalPlaces(props.token.decimals).toString()
         : roundFiatValue(
             convertTokenToLocalAmount({
               tokenAmount: percentageAmount,
