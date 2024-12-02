@@ -2588,7 +2588,7 @@
     "entrypoint": {
       "title": "Ganhe com suas criptos",
       "subtitle": "Deposite e ganhe",
-      "description": "Ganhe emprestando seus ativos de criptografia em pools de liquidez.",
+      "description": "Ganhe emprestando seus ativos de criptomoedas em pools de liquidez.",
       "totalDepositAndEarnings": "Total de depósitos e ganhos"
     },
     "enterAmount": {
@@ -2831,6 +2831,11 @@
   "duration_year_other": "{{count}} anos",
   "duration_yearMonth_one": "1 ano, 1 mês",
   "duration_yearMonth_other": "{{count}} anos, {{count2}} meses",
+  "tokenEnterAmount": {
+    "availableBalance": "Disponível: <0></0>",
+    "selectToken": "Selecionar token",
+    "fiatPriceUnavailable": "Preço indisponível"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

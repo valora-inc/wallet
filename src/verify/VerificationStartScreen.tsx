@@ -82,10 +82,20 @@ function VerificationStartScreen({
       countryCallingCode: country?.countryCallingCode || '',
     })
 
+    const routes = navigation.getState().routes
+    const prevRoute = routes[routes.length - 2] // -2 because -1 is the current route
+    // Usually it makes sense to navigate the user back to where they launched
+    // the verification flow after they complete it, but during onboarding we
+    // want to navigate to the next step.
+    const verificationCompletionScreen = !route.params?.hasOnboarded
+      ? Screens.OnboardingSuccessScreen
+      : (prevRoute?.name ?? Screens.TabHome)
+
     navigate(Screens.VerificationCodeInputScreen, {
       registrationStep: showSteps ? { step, totalSteps } : undefined,
       e164Number: phoneNumberInfo.e164Number,
       countryCallingCode: country?.countryCallingCode || '',
+      verificationCompletionScreen,
     })
   }
 

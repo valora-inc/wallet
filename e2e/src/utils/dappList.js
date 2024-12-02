@@ -1,5 +1,5 @@
-import { waitForElementId } from './utils'
 import fetch from 'node-fetch'
+import { waitForElementId } from './utils'
 
 /**
  * From the home screen, navigate to the dapp explorer screen

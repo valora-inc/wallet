@@ -27,14 +27,7 @@ const persistConfig: PersistConfig<ReducersRootState> = {
   version: 237,
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
-  blacklist: [
-    'networkInfo',
-    'alert',
-    'imports',
-    'keylessBackup',
-    'jumpstart',
-    transactionFeedV2Api.reducerPath,
-  ],
+  blacklist: ['networkInfo', 'alert', 'imports', 'keylessBackup', transactionFeedV2Api.reducerPath],
   stateReconciler: autoMergeLevel2,
   migrate: async (...args) => {
     const migrate = createMigrate(migrations)

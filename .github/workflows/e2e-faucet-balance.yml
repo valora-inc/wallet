@@ -16,13 +16,27 @@ jobs:
   balance-and-fund:
     name: balance-and-fund
     runs-on: ubuntu-latest
+    env:
+      # `if` conditions can't directly access secrets, so we use a workaround
+      # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
+      SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
+      BASH_ENV: ~/.profile
     steps:
+      - uses: google-github-actions/auth@v2
+        if: ${{ env.SECRETS_AVAILABLE }}
+        with:
+          project_id: celo-mobile-mainnet
+          credentials_json: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
+      - name: Google Secrets
+        if: ${{ env.SECRETS_AVAILABLE }}
+        id: google-secrets
+        uses: google-github-actions/get-secretmanager-secrets@v2.1.4
+        with:
+          secrets: |-
+            E2E_TEST_FAUCET_SECRET:projects/1027349420744/secrets/E2E_TEST_FAUCET_SECRET
       - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
-      - name: Create E2E Fund .env File
-        env:
-          TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
-        working-directory: e2e
-        run: echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
       - name: Run Balance and Fund
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/fund-e2e-accounts.ts
+        env:
+          E2E_TEST_FAUCET_SECRET: ${{ steps.google-secrets.outputs.E2E_TEST_FAUCET_SECRET }}
