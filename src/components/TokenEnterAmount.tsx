@@ -25,6 +25,7 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { type TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { parseInputAmount } from 'src/utils/parsing'
@@ -434,6 +435,7 @@ export default function TokenEnterAmount({
                   onPress={toggleAmountType}
                   style={styles.swapArrowContainer}
                   testID={`${testID}/SwitchTokens`}
+                  hitSlop={variables.iconHitslop}
                 >
                   <SwapArrows color={Colors.gray3} size={24} />
                 </Touchable>
