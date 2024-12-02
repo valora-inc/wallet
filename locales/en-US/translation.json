@@ -705,7 +705,7 @@
     "button": "Share Invite",
     "error": "There was an issue creating a sharable link",
     "share": "Hey! Sign up to {{appName}} wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: {{shareUrl}}.",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number, add funds and keep them in their {{appName}} wallet for 7 days. <0>View all terms</0>",
+    "help": "To collect this reward, the invitee must download through the referral link and connect their phone number to a new {{appName}} wallet. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Invite friends and collect NFTs",
       "body": "Invite your friends and family to download {{appName}} and each of you will get an exclusive NFT"
@@ -2206,6 +2206,7 @@
     "title": "Enter Amount",
     "selectToken": "Select a Token",
     "networkFee": "{{networkName}} Network Fee",
+    "networkFeeV1_97": "Network Fee",
     "lowerAmount": "Enter a lower amount",
     "maxAmountWarning": {
       "title": "Sending the maximum amount",
