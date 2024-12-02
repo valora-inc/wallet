@@ -2210,6 +2210,7 @@
     "title": "Ввести суму",
     "selectToken": "Вибрати токен",
     "networkFee": "Комісія за мережу {{networkName}}",
+    "networkFeeV1_97": "Комісія за мережу",
     "lowerAmount": "Ввести меншу суму",
     "maxAmountWarning": {
       "title": "Як надіслати максимальну суму",
