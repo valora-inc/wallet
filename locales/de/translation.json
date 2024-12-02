@@ -386,6 +386,7 @@
   "accountAddressLabel": "Konto-Adresse",
   "celoAmountLabel": "Betrag (CELO)",
   "maxSymbol": "Max",
+  "percentage": "{{percentage}} %",
   "withdrawCeloReview": "Überprüfen",
   "withdrawCeloTo": "Abheben nach",
   "withdrawCeloAmount": "Betrag (CELO)",
@@ -2126,7 +2127,7 @@
   "sendSelectRecipient": {
     "searchText": "Suche nach Wallet-Adresse",
     "searchInputLabel": "Zu",
-    "searchInputPlaceholder": "Wallet-Adresse",
+    "searchInputPlaceholder": "Wallet-Adresse oder Telefonnummer",
     "paste": "Aus Zwischenablage einfügen",
     "title": "Einen Empfänger auswählen",
     "contactsTitle": "Kontakt wählen",
@@ -2135,12 +2136,12 @@
     "recents": "Zuletzt",
     "results": "Ergebnisse",
     "qr": {
-      "title": "Senden über QR-Code",
-      "subtitle": "Tippe auf , um eine Adresse zu scannen oder anzuzeigen"
+      "title": "Über QR-Code senden",
+      "subtitle": "Tippen, um eine Adresse zu scannen oder anzuzeigen"
     },
     "invite": {
       "title": "An einen Kontakt senden",
-      "subtitle": "Geld an deine Kontakte senden"
+      "subtitle": "Guthaben an deine Kontakte senden"
     },
     "jumpstart": {
       "title": "Mit einem Live-Link senden",
@@ -2289,7 +2290,7 @@
     "crossChainSwapTransactionLabel": "Cross-Chain",
     "depositTitle": "Eingezahlt",
     "depositSubtitle": "in {{txAppName}} Pool",
-    "depositSubtitle_noTxAppName": "zu unbekannter App",
+    "depositSubtitle_noTxAppName": "an unbekannte App",
     "withdrawTitle": "Abgehoben",
     "withdrawSubtitle": "aus {{txAppName}} Pool",
     "withdrawSubtitle_noTxAppName": "von unbekannter App",
@@ -2301,21 +2302,21 @@
     "error": {
       "fetchError": "Ups, es gab ein Problem beim Aktualisieren deines Feeds. Es kann sein, dass dein Transaktionsverlauf im Moment unvollständig ist."
     },
-    "noTransactions": "Glückwunsch, du hast erfolgreich eine {{appName}} Brieftasche erstellt!"
+    "noTransactions": "Glückwunsch, du hast erfolgreich eine {{appName}}-Wallet erstellt!"
   },
   "transactionDetails": {
     "descriptionLabel": "Details",
     "depositTitle": "Eingezahlt",
     "depositSubtitle": "{{tokenSymbol}} in {{txAppName}} Pool eingezahlt",
-    "depositSubtitle_noTxAppName": "Hinterlegt {{tokenSymbol}} bei unbekannter App",
+    "depositSubtitle_noTxAppName": "{{tokenSymbol}} an unbekannte App eingezahlt",
     "depositDetails": "Eingezahlter Betrag",
     "withdrawTitle": "Abgehoben",
     "withdrawSubtitle": "{{tokenSymbol}} aus dem {{txAppName}} Pool abgehoben",
-    "withdrawSubtitle_noTxAppName": "Ziehe {{tokenSymbol}} von einer unbekannten App ab",
+    "withdrawSubtitle_noTxAppName": "{{tokenSymbol}} von unbekannter App abgehoben",
     "withdrawDetails": "Betrag abgehoben",
     "claimRewardTitle": "Gesammelt",
     "claimRewardSubtitle": "{{tokenSymbol}} aus {{txAppName}} Pool eingesammelt",
-    "claimRewardSubtitle_noTxAppName": "Gesammelt {{tokenSymbol}} von unbekannter App",
+    "claimRewardSubtitle_noTxAppName": "{{tokenSymbol}} von unbekannter App erhalten",
     "claimRewardDetails": "Eingesammelter Betrag",
     "swap": "Tauschen",
     "network": "Netzwerk",
@@ -2587,7 +2588,8 @@
     "entrypoint": {
       "title": "Verdiene mit deiner Krypto",
       "subtitle": "Einzahlen und verdienen",
-      "description": "Verdiene an deinem Krypto-Vermögen, indem du es über einen Liquiditätspool anderen leihst"
+      "description": "Verdiene, indem du dein Krypto-Vermögen über Liquiditätspools anderen leihst.",
+      "totalDepositAndEarnings": "Gesamteinlage und -Verdienst"
     },
     "enterAmount": {
       "title": "Wie viel möchtest du einzahlen?",
@@ -2663,18 +2665,18 @@
     },
     "collect": {
       "title": "Herzlichen Glückwunsch! Überprüfe und sammle deinen Verdienst ein",
-      "titleClaim": "Du wirst behaupten:",
-      "titleCollect": "Du wirst sammeln:",
-      "titleWithdraw": "Du wirst dich zurückziehen:",
+      "titleClaim": "Du beanspruchst:",
+      "titleCollect": "Du erhältst:",
+      "titleWithdraw": "Du hebst ab:",
       "total": "GESAMT",
       "plus": "PLUS",
-      "reward": "REWARD",
+      "reward": "BELOHNUNG",
       "rate": "Rate (geschätzt)",
       "apy": "{{apy}} % jährliche prozentuale Rendite",
       "fee": "Gasgebühr",
       "cta": "Verdienste einsammeln",
       "ctaWithdraw": "Abheben",
-      "ctaReward": "Belohnung einfordern",
+      "ctaReward": "Belohnung beanspruchen",
       "ctaExit": "Pool verlassen",
       "errorTitle": "Etwas ist schief gelaufen",
       "errorDescription": "Einzahlungsdetails konnten nicht abgerufen werden. Bitte versuche es erneut.",
@@ -2829,6 +2831,11 @@
   "duration_year_other": "{{count}} Jahre",
   "duration_yearMonth_one": "1 Jahr, 1 Monat",
   "duration_yearMonth_other": "{{count}} Jahre, {{count2}} Monate",
+  "tokenEnterAmount": {
+    "availableBalance": "Verfügbar: <0></0>",
+    "selectToken": "Token auswählen",
+    "fiatPriceUnavailable": "Preis nicht verfügbar"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

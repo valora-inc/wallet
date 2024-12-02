@@ -1,52 +1,29 @@
-import { PincodeType, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
-import { MultichainBetaStatus } from 'src/app/actions'
+import { PincodeType } from 'src/account/reducer'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
-import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
-import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
+import { StackParamList } from 'src/navigator/types'
 
 export function getInitialRoute({
-  choseToRestoreAccount,
   language,
   acceptedTerms,
   pincodeType,
-  account,
-  hasSeenVerificationNux,
-  recoveryPhraseInOnboardingStatus,
-  multichainBetaStatus,
+  onboardingCompleted,
+  lastOnboardingStepScreen,
 }: {
-  choseToRestoreAccount: boolean | undefined
   language: string | null
   acceptedTerms: boolean
   pincodeType: PincodeType
-  account: string | null
-  hasSeenVerificationNux: boolean
-  recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus
-  multichainBetaStatus: MultichainBetaStatus
+  onboardingCompleted: boolean
+  lastOnboardingStepScreen: keyof StackParamList
 }) {
+  // We maintain a few fail-safes here, but these ought to be handled correctly
+  // by the onboarding steps logic.
   if (!language) {
     return Screens.Language
   } else if (!acceptedTerms || pincodeType === PincodeType.Unset) {
-    // allow empty username
-    // User didn't go far enough in onboarding, start again from education
     return Screens.Welcome
-  } else if (!account) {
-    return choseToRestoreAccount
-      ? ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
-        ? Screens.ImportSelect
-        : Screens.ImportWallet
-      : Screens.Welcome
-  } else if (recoveryPhraseInOnboardingStatus === RecoveryPhraseInOnboardingStatus.InProgress) {
-    return Screens.ProtectWallet
-  } else if (!hasSeenVerificationNux) {
-    return Screens.VerificationStartScreen
-  } else if (
-    getFeatureGate(StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN) &&
-    multichainBetaStatus === MultichainBetaStatus.NotSeen
-  ) {
-    return Screens.MultichainBeta
-  } else {
+  }
+  if (onboardingCompleted) {
     return Screens.TabNavigator
   }
+  return lastOnboardingStepScreen
 }

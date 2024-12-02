@@ -3,9 +3,7 @@ import { isElementVisible, waitForElementId, waitForElementByIdAndTap } from '..
 
 export default onRamps = () => {
   beforeAll(async () => {
-    await launchApp({
-      newInstance: true,
-    })
+    await launchApp()
   })
   beforeEach(async () => {
     await reloadReactNative()

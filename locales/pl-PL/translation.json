@@ -386,6 +386,7 @@
   "accountAddressLabel": "Adres konta",
   "celoAmountLabel": "Kwota (CELO)",
   "maxSymbol": "Maks.",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Analizuj",
   "withdrawCeloTo": "Wypłać na",
   "withdrawCeloAmount": "Kwota (CELO)",
@@ -1470,7 +1471,7 @@
     "allDapps": "Wszystkie",
     "favoriteDapps": "Moje ulubione",
     "mostPopularDapps": "Najpopularniejsze",
-    "mostPopularDapps_UK": "Inne Dapps",
+    "mostPopularDapps_UK": "Inne aplikacje Dapp",
     "favoriteDappsAndAll": "Moje ulubione i wszystkie",
     "searchPlaceHolder": "Wyszukaj dapps",
     "noFavorites": {
@@ -1487,7 +1488,7 @@
       "removeFilter": "Usuń filtr",
       "searchMessage": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>"
     },
-    "disclaimer_UK": "To jest lista aplikacji Dapp innych firm. Opis każdej aplikacji ma charakter czysto informacyjny i nie stanowi zaproszenia do korzystania z niej."
+    "disclaimer_UK": "To jest lista aplikacji Dapp innych firm. Opis każdej z nich ma jedynie charakter informacyjny i nie stanowi zaproszenia do korzystania."
   },
   "dappRankings": {
     "title": "Rankingi aplikacji dapp",
@@ -2140,7 +2141,7 @@
     "results": "Wyniki",
     "qr": {
       "title": "Wyślij za pomocą kodu QR",
-      "subtitle": "Stuknij, aby zeskanować lub wyświetlić adres"
+      "subtitle": "Dotknij, aby zeskanować lub wyświetlić adres"
     },
     "invite": {
       "title": "Wyślij do kontaktu",
@@ -2300,12 +2301,12 @@
     "claimRewardTitle": "Zebrano",
     "claimRewardSubtitle": "z puli {{txAppName}}",
     "claimRewardSubtitle_noTxAppName": "z nieznanej aplikacji",
-    "allTransactionsShown": "Dotarłeś do końca historii transakcji.",
+    "allTransactionsShown": "Osiągnięto koniec historii transakcji.",
     "fetchErrorRetry": "Spróbuj ponownie",
     "error": {
-      "fetchError": "Ups, wystąpił problem z odświeżeniem Twojego kanału. Twoja historia transakcji może być na razie niekompletna."
+      "fetchError": "Niestety wystąpił problem podczas odświeżania kanału. Historia transakcji może być niekompletna."
     },
-    "noTransactions": "Gratulacje, pomyślnie utworzyłeś portfel {{appName}} !"
+    "noTransactions": "Gratulacje, pomyślnie utworzono portfel {{appName}}."
   },
   "transactionDetails": {
     "descriptionLabel": "Szczegóły",
@@ -2315,11 +2316,11 @@
     "depositDetails": "Kwota wpłacona",
     "withdrawTitle": "Wycofano",
     "withdrawSubtitle": "Wycofano {{tokenSymbol}} z puli {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Wycofano {{tokenSymbol}} z nieznanej aplikacji",
+    "withdrawSubtitle_noTxAppName": "Wypłacono {{tokenSymbol}} z nieznanej aplikacji",
     "withdrawDetails": "Wypłacona kwota",
     "claimRewardTitle": "Zebrano",
     "claimRewardSubtitle": "Zebrano {{tokenSymbol}} z puli {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Pobrano {{tokenSymbol}} z nieznanej aplikacji",
+    "claimRewardSubtitle_noTxAppName": "Odebrano {{tokenSymbol}} z nieznanej aplikacji",
     "claimRewardDetails": "Zebrana kwota",
     "swap": "Zamieniaj",
     "network": "Sieć",
@@ -2591,7 +2592,8 @@
     "entrypoint": {
       "title": "Zarabiaj na swoich kryptowalutach",
       "subtitle": "Wpłacaj i zarabiaj",
-      "description": "Zarabiaj na swoich kryptowalutach, pożyczając za pośrednictwem puli płynności"
+      "description": "Zarabiaj, pożyczając swoje aktywa krytpowalutowe w pulach płynności.",
+      "totalDepositAndEarnings": "Suma wpłat i zarobków"
     },
     "enterAmount": {
       "title": "Ile chcesz wpłacić?",
@@ -2667,9 +2669,9 @@
     },
     "collect": {
       "title": "Gratulacje! Przejrzyj i odbierz swoje zarobki",
-      "titleClaim": "Będziesz twierdzić:",
-      "titleCollect": "Będziesz zbierać:",
-      "titleWithdraw": "Zamierzasz się wycofać:",
+      "titleClaim": "Zamierzasz odebrać:",
+      "titleCollect": "Zamierzasz zebrać:",
+      "titleWithdraw": "Zamierzasz wypłacić:",
       "total": "RAZEM",
       "plus": "PLUS",
       "reward": "NAGRODA",
@@ -2833,6 +2835,11 @@
   "duration_year_other": "Liczba lat: {{count}}",
   "duration_yearMonth_one": "1 rok, 1 miesiąc",
   "duration_yearMonth_other": "Liczba lat: {{count}}, liczba miesięcy: {{count2}}",
+  "tokenEnterAmount": {
+    "availableBalance": "Dostępna: <0></0>",
+    "selectToken": "Wybierz token",
+    "fiatPriceUnavailable": "Cena niedostępna"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",

@@ -15,11 +15,14 @@ import { createMockStore } from 'test/utils'
 
 jest.mock('src/statsig')
 
-const renderComponent = (phoneNumberVerified = false) => {
+function renderComponent(phoneNumberVerified: boolean = false, defaultTokenIdOverride?: string) {
   const onPermissionsGranted = jest.fn()
   const tree = render(
     <Provider store={createMockStore({ app: { phoneNumberVerified } })}>
-      <SelectRecipientButtons onContactsPermissionGranted={onPermissionsGranted} />
+      <SelectRecipientButtons
+        onContactsPermissionGranted={onPermissionsGranted}
+        defaultTokenIdOverride={defaultTokenIdOverride}
+      />
     </Provider>
   )
   return { ...tree, onPermissionsGranted }
@@ -76,6 +79,20 @@ describe('SelectRecipientButtons', () => {
     expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
     expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
       screen: Screens.QRScanner,
+      params: {
+        defaultTokenIdOverride: undefined,
+      },
+    })
+  })
+  it('navigates to QR screen with an override when QR button is pressed', async () => {
+    const { findByTestId } = renderComponent(false, 'some-token-id')
+    fireEvent.press(await findByTestId('SelectRecipient/QR'))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
+    expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
+      screen: Screens.QRScanner,
+      params: {
+        defaultTokenIdOverride: 'some-token-id',
+      },
     })
   })
   // eslint-disable-next-line jest/no-disabled-tests

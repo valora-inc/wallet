@@ -1,5 +1,5 @@
-import { reloadReactNative, launchApp } from './utils/retries'
-import { quickOnboarding, waitForElementId, waitForElementByIdAndTap } from './utils/utils'
+import { reloadReactNative } from './utils/retries'
+import { quickOnboarding, waitForElementId } from './utils/utils'
 
 describe('Given QR Scanner', () => {
   beforeAll(async () => {
@@ -58,7 +58,9 @@ describe('Given QR Scanner', () => {
       )
       await waitForElementId('ManualSubmit')
       await element(by.id('ManualSubmit')).tap()
-      await waitForElementId('SendEnterAmount/ReviewButton')
+
+      await waitForElementId('SendEnterAmount/AmountOptions')
+      await element(by.text('Done')).tap() // dismiss the keyboard to reveal the proceed button
       await expect(element(by.id('SendEnterAmount/ReviewButton'))).toBeVisible()
     })
 
@@ -67,7 +69,9 @@ describe('Given QR Scanner', () => {
       await element(by.id('ManualInput')).replaceText('0xe5F5363e31351C38ac82DBAdeaD91Fd5a7B08846')
       await waitForElementId('ManualSubmit')
       await element(by.id('ManualSubmit')).tap()
-      await waitForElementId('SendEnterAmount/ReviewButton')
+
+      await waitForElementId('SendEnterAmount/AmountOptions')
+      await element(by.text('Done')).tap() // dismiss the keyboard to reveal the proceed button
       await expect(element(by.id('SendEnterAmount/ReviewButton'))).toBeVisible()
     })
 

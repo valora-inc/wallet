@@ -386,6 +386,7 @@
   "accountAddressLabel": "ที่อยู่บัญชี",
   "celoAmountLabel": "จำนวนเงิน (CELO)",
   "maxSymbol": "สูงสุด",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "ตรวจสอบ",
   "withdrawCeloTo": "ถอนไปยัง",
   "withdrawCeloAmount": "จำนวนเงิน (CELO)",
@@ -1464,7 +1465,7 @@
     "allDapps": "ทั้งหมด",
     "favoriteDapps": "สิ่งที่ฉันชอบ",
     "mostPopularDapps": "ยอดนิยม",
-    "mostPopularDapps_UK": "Other Dapps",
+    "mostPopularDapps_UK": "Dapp อื่น ๆ",
     "favoriteDappsAndAll": "รายการโปรดของฉันและทั้งหมด",
     "searchPlaceHolder": "ค้นหา Dapp",
     "noFavorites": {
@@ -1481,7 +1482,7 @@
       "removeFilter": "ลบตัวกรอง",
       "searchMessage": "ไม่พบผลลัพธ์ที่ตรงกันสำหรับ <0>\"{{searchTerm}}\"</0>"
     },
-    "disclaimer_UK": "This is a list of third-party Dapps. The description for each Dapp is purely informational, and not an invitation to use them."
+    "disclaimer_UK": "นี่คือรายการ Dapp ของบุคคลที่สาม คำอธิบายสำหรับ Dapp แต่ละรายการมีขึ้นเพื่อการให้ข้อมูลอย่างแท้จริง และไม่เป็นการเชิญชวนให้ใช้"
   },
   "dappRankings": {
     "title": "อันดับ Dapp",
@@ -2124,21 +2125,21 @@
   "sendSelectRecipient": {
     "searchText": "ค้นหาตามที่อยู่กระเป๋าเงิน",
     "searchInputLabel": "เป็น",
-    "searchInputPlaceholder": "ที่อยู่กระเป๋าเงิ",
+    "searchInputPlaceholder": "ที่อยู่กระเป๋าเงินหรือหมายเลขโทรศัพท์",
     "paste": "วางจากคลิปบอร์ด",
     "title": "เลือกผู้รับ",
     "contactsTitle": "เลือกผู้ติดต่อ",
     "header": "ส่ง",
-    "contactsHeader": "Send to Contacts",
+    "contactsHeader": "ส่งถึงผู้ติดต่อ",
     "recents": "ล่าสุด",
     "results": "ผลลัพธ์",
     "qr": {
-      "title": "Send via QR Code",
-      "subtitle": "Tap to scan or show an address"
+      "title": "ส่งผ่าน QR Code",
+      "subtitle": "แตะเพื่อสแกนหรือแสดงที่อยู่"
     },
     "invite": {
-      "title": "Send to a Contact",
-      "subtitle": "Send funds to your contacts"
+      "title": "ส่งถึงผู้ติดต่อ",
+      "subtitle": "ส่งเงินให้กับผู้ติดต่อของคุณ"
     },
     "jumpstart": {
       "title": "ส่งพร้อมลิงก์สด",
@@ -2287,33 +2288,33 @@
     "crossChainSwapTransactionLabel": "Cross-chain",
     "depositTitle": "ฝากแล้ว",
     "depositSubtitle": "ไปยังพูล {{txAppName}}",
-    "depositSubtitle_noTxAppName": "to unknown app",
+    "depositSubtitle_noTxAppName": "ไปยังแอปที่ไม่รู้จัก",
     "withdrawTitle": "ถอนแล้ว",
     "withdrawSubtitle": "จากพูล {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "from unknown app",
+    "withdrawSubtitle_noTxAppName": "จากแอปที่ไม่รู้จัก",
     "claimRewardTitle": "เก็บแล้ว",
     "claimRewardSubtitle": "จากพูล {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "from unknown app",
-    "allTransactionsShown": "You've reached the end of your transaction history.",
+    "claimRewardSubtitle_noTxAppName": "จากแอปที่ไม่รู้จัก",
+    "allTransactionsShown": "คุณมาถึงท้ายสุดของประวัติธุรกรรมของคุณแล้ว",
     "fetchErrorRetry": "ลองอีกครั้ง",
     "error": {
-      "fetchError": "Oops, there was an issue refreshing your feed. Your transaction history may be incomplete for now."
+      "fetchError": "ขออภัย มีปัญหาในการรีเฟรชฟีดของคุณ ประวัติธุรกรรมของคุณอาจไม่สมบูรณ์ในเวลานี้"
     },
-    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
+    "noTransactions": "ขอแสดงความยินดี คุณสร้างกระเป๋าเงิน {{appName}} สำเร็จแล้ว!"
   },
   "transactionDetails": {
     "descriptionLabel": "รายละเอียด",
     "depositTitle": "ฝากแล้ว",
     "depositSubtitle": "ฝาก {{tokenSymbol}} ไปยังพูล {{txAppName}} แล้ว",
-    "depositSubtitle_noTxAppName": "Deposited {{tokenSymbol}} to unknown app",
+    "depositSubtitle_noTxAppName": "ฝากเงิน {{tokenSymbol}} ไปยังแอปที่ไม่รู้จักแล้ว",
     "depositDetails": "จำนวนเงินที่ฝาก",
     "withdrawTitle": "ถอนแล้ว",
     "withdrawSubtitle": "ถอน {{tokenSymbol}} จากพูล {{txAppName}} แล้ว",
-    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawSubtitle_noTxAppName": "ถอนเงิน {{tokenSymbol}} จากแอปที่ไม่รู้จักแล้ว",
     "withdrawDetails": "จำนวนเงินที่ถอนแล้ว",
     "claimRewardTitle": "เก็บแล้ว",
     "claimRewardSubtitle": "เก็บ {{tokenSymbol}} จากพูล {{txAppName}} แล้ว",
-    "claimRewardSubtitle_noTxAppName": "Collected {{tokenSymbol}} from unknown app",
+    "claimRewardSubtitle_noTxAppName": "เก็บเงิน {{tokenSymbol}} จากแอปที่ไม่รู้จักแล้ว",
     "claimRewardDetails": "จำนวนเงินที่เก็บแล้ว",
     "swap": "สว็อป",
     "network": "เครือข่าย",
@@ -2585,7 +2586,8 @@
     "entrypoint": {
       "title": "สร้างรายได้จากคริปโต",
       "subtitle": "ฝากเงินและสร้างรายได้",
-      "description": "สร้างรายได้จากสินทรัพย์คริปโตเมื่อให้ยืมผ่าน Liquidity Pool"
+      "description": "สร้างรายได้จากการให้ยืมสินทรัพย์คริปโตใน Liquidity Pool",
+      "totalDepositAndEarnings": "เงินฝากและรายได้รวม"
     },
     "enterAmount": {
       "title": "คุณต้องการฝากจำนวนเท่าไร",
@@ -2661,18 +2663,18 @@
     },
     "collect": {
       "title": "ยินดีด้วย! ตรวจสอบและเก็บรายได้ของคุณ",
-      "titleClaim": "You’re going to claim:",
-      "titleCollect": "You’re going to collect:",
-      "titleWithdraw": "You’re going to withdraw:",
+      "titleClaim": "คุณกำลังจะขอรับ:",
+      "titleCollect": "คุณกำลังจะเก็บ:",
+      "titleWithdraw": "คุณกำลังจะถอน:",
       "total": "ยอดรวม",
       "plus": "บวก",
-      "reward": "REWARD",
+      "reward": "รางวัล",
       "rate": "อัตรา (โดยประมาณ)",
       "apy": "{{apy}}% APY",
       "fee": "ค่าก๊าซ",
       "cta": "เก็บรายได้",
       "ctaWithdraw": "ถอน",
-      "ctaReward": "Claim Reward",
+      "ctaReward": "ขอรับรางวัล",
       "ctaExit": "ออกจากพูล",
       "errorTitle": "มีบางอย่างผิดปกติ",
       "errorDescription": "ไม่สามารถเรียกดูรายละเอียดการฝากได้ โปรดลองอีกครั้ง",
@@ -2827,5 +2829,10 @@
   "duration_year_other": "{{count}} ปี",
   "duration_yearMonth_one": "1 ปี, 1 เดือน",
   "duration_yearMonth_other": "{{count}} ปี, {{count2}} เดือน",
+  "tokenEnterAmount": {
+    "availableBalance": "ที่ใช้ได้: <0></0>",
+    "selectToken": "เลือกโทเค็น",
+    "fiatPriceUnavailable": "ไม่มีราคา"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

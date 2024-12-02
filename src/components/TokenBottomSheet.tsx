@@ -6,7 +6,7 @@ import {
 import { debounce } from 'lodash'
 import React, { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TextStyle, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, TextStyle, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -293,6 +293,9 @@ function TokenBottomSheet({
             return <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
           }
           return null
+        }}
+        onScrollBeginDrag={() => {
+          Keyboard.dismiss()
         }}
       />
       <View style={styles.headerContainer} onLayout={handleMeasureHeader}>

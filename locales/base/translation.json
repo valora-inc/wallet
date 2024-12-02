@@ -386,6 +386,7 @@
   "accountAddressLabel": "Account Address",
   "celoAmountLabel": "Amount (CELO)",
   "maxSymbol": "Max",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Review",
   "withdrawCeloTo": "Withdraw to",
   "withdrawCeloAmount": "Amount (CELO)",
@@ -2207,6 +2208,7 @@
     "title": "Enter Amount",
     "selectToken": "Select a Token",
     "networkFee": "{{networkName}} Network Fee",
+    "networkFeeV1_97": "Network Fee",
     "lowerAmount": "Enter a lower amount",
     "maxAmountWarning": {
       "title": "Sending the maximum amount",
@@ -2593,7 +2595,8 @@
     "entrypoint": {
       "title": "Earn on your crypto",
       "subtitle": "Deposit and earn",
-      "description": "Earn on your crypto assets when you lend through a liquidity pool"
+      "description": "Earn by lending your crypto assets in liquidity pools.",
+      "totalDepositAndEarnings": "Total Deposit & Earnings"
     },
     "enterAmount": {
       "title": "How much would you like to deposit?",
@@ -2834,5 +2837,10 @@
   "duration_year_one": "1 year",
   "duration_year_other": "{{count}} years",
   "duration_yearMonth_one": "1 year, 1 month",
-  "duration_yearMonth_other": "{{count}} years, {{count2}} months"
+  "duration_yearMonth_other": "{{count}} years, {{count2}} months",
+  "tokenEnterAmount": {
+    "availableBalance": "Available: <0></0>",
+    "selectToken": "Select token",
+    "fiatPriceUnavailable": "Price unavailable"
+  }
 }
