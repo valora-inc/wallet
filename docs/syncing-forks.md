@@ -7,6 +7,9 @@ helps maintaining commit history and makes pulling future changes easier.
 
 ## One time setup
 
+First, if you're not a member of the [mobilestack-xyz](https://github.com/mobilestack-xyz) org on GitHub,
+reach out to a member of the Valora engineering team for an invitation.
+
 ### Pull forked repo to your local machine
 
 ```console
