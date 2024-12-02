@@ -245,6 +245,7 @@ export default function EnterAmount({
                 label={t('sendEnterAmountScreen.networkFeeV1_97')}
                 labelStyle={{ color: Colors.gray3 }}
                 testID="SendEnterAmount/FeeLabel"
+                style={styles.feeLabelContainer}
               />
               <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
                 <TokenDisplay
@@ -376,8 +377,12 @@ const styles = StyleSheet.create({
     gap: Spacing.Smallest8,
     flexDirection: 'row',
   },
+  feeLabelContainer: {
+    flex: 0,
+    alignItems: 'flex-start',
+  },
   feeInCryptoContainer: {
-    flexShrink: 1,
+    flex: 1,
     flexDirection: 'row',
     gap: Spacing.Tiny4,
     alignItems: 'center',
