@@ -2586,7 +2586,7 @@
     "entrypoint": {
       "title": "Kiếm tiền từ tiền điện tử của bạn",
       "subtitle": "Nạp tiền và kiếm tiền",
-      "description": "Earn by lending your crypto assets in liquidity pools.",
+      "description": "Kiếm tiền bằng cách cho vay tài sản tiền điện tử trong các bể thanh khoản.",
       "totalDepositAndEarnings": "Tổng tiền nạp và thu nhập"
     },
     "enterAmount": {
@@ -2830,9 +2830,9 @@
   "duration_yearMonth_one": "1 năm, 1 tháng",
   "duration_yearMonth_other": "{{count}} năm, {{count2}} tháng",
   "tokenEnterAmount": {
-    "availableBalance": "Available: <0></0>",
+    "availableBalance": "Có sẵn: <0></0>",
     "selectToken": "Chọn token",
-    "fiatPriceUnavailable": "Price unavailable"
+    "fiatPriceUnavailable": "Không có giá"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
