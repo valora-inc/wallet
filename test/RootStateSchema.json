@@ -6028,6 +6028,7 @@
                         "DappsScreen",
                         "DebugImages",
                         "EarnConfirmationScreen",
+                        "EarnDepositBottomSheet",
                         "EarnEnterAmount",
                         "EarnHome",
                         "EarnInfoScreen",
