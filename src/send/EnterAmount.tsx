@@ -239,7 +239,7 @@ export default function EnterAmount({
             onOpenTokenPicker={tokenSelectionDisabled ? undefined : onOpenTokenPicker}
           />
 
-          {!!maxFeeAmount && (
+          {!!maxFeeAmount && !!amount && (
             <View style={styles.feeContainer} testID="SendEnterAmount/Fee">
               <LabelWithInfo
                 label={t('sendEnterAmountScreen.networkFeeV1_97')}
