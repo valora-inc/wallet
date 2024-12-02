@@ -705,7 +705,7 @@
     "button": "Enviar convite",
     "error": "Ocorreu um erro ao criar um link compartilhável",
     "share": "Oi! Inscreva-se na carteira {{appName}}. Com ela, eu aumento minhas economias em USD e cripto. Você só precisa de um número de celular para configurá-la em segundos. Não deixe de se inscrever com meu link de indicação aqui: {{shareUrl}}.",
-    "help": "Para receber essa recompensa, o convidado deve fazer o download por meio do link de indicação, conectar o número de celular, adicionar fundos e mantê-los em sua carteira {{appName}} por 7 dias. <0>Exibir todos os termos</0>",
+    "help": "Para receber essa recompensa, o convidado deve fazer o download por meio do link de indicação e conectar o número de celular para sua carteira {{appName}}. <0>Exibir todos os termos</0>",
     "rewardsActive": {
       "title": "Convide amigos e colete NFTs",
       "body": "Convide seus amigos e familiares para baixar o app {{appName}} e cada um de vocês ganhará um NFT exclusivo"
@@ -2206,6 +2206,7 @@
     "title": "Insira o valor",
     "selectToken": "Selecione um token",
     "networkFee": "Taxa da rede {{networkName}}",
+    "networkFeeV1_97": "Taxa de rede",
     "lowerAmount": "Insira uma quantia menor",
     "maxAmountWarning": {
       "title": "Enviando a quantia máxima",
