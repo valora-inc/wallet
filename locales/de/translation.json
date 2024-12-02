@@ -2588,7 +2588,7 @@
     "entrypoint": {
       "title": "Verdiene mit deiner Krypto",
       "subtitle": "Einzahlen und verdienen",
-      "description": "Verdiene, indem du dein Krypto-Vermögen in Liquiditätspools ausleihst.",
+      "description": "Verdiene, indem du dein Krypto-Vermögen über Liquiditätspools anderen leihst.",
       "totalDepositAndEarnings": "Gesamteinlage und -Verdienst"
     },
     "enterAmount": {

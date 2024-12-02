@@ -2588,7 +2588,7 @@
     "entrypoint": {
       "title": "Guadagna sulle tue cripto",
       "subtitle": "Deposita e guadagna",
-      "description": "Guadagna prestando i tuoi asset di criptovaluta in pool di liquidità.",
+      "description": "Guadagna prestando i tuoi asset in criptovaluta in pool di liquidità.",
       "totalDepositAndEarnings": "Depositi e guadagni totali"
     },
     "enterAmount": {
