@@ -2586,7 +2586,7 @@
     "entrypoint": {
       "title": "让您的加密货币增值",
       "subtitle": "存入并赚取收益",
-      "description": "在流动性池中借出您的加密资产，赚取收益。",
+      "description": "在资金池中借出您的加密资产，赚取收益。",
       "totalDepositAndEarnings": "存款和收益总额"
     },
     "enterAmount": {
