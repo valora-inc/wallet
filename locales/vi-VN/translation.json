@@ -705,7 +705,7 @@
     "button": "Chia sẻ lời mời",
     "error": "Đã xảy ra lỗi khi tạo đường liên kết có thể chia sẻ",
     "share": "Xin chào! Hãy đăng ký ví {{appName}}. Tôi sử dụng ví này để gia tăng tiết kiệm bằng USD và tiền điện tử. Và chỉ bằng số điện thoại, bạn có thể tạo ví trong vài giây. Nhớ đăng ký bằng đường liên kết giới thiệu này của tôi nhé: {{shareUrl}}.",
-    "help": "Để nhận thưởng, người được mời phải tải xuống qua liên kết giới thiệu, kết nối số điện thoại của họ, nạp tiền và giữ tiền trong ví {{appName}} trong 7 ngày. <0>Xem tất cả các điều khoản</0>",
+    "help": "Để nhận thưởng, người được mời phải tải xuống qua liên kết giới thiệu và kết nối số điện thoại của họ. <0>Xem tất cả các điều khoản</0>",
     "rewardsActive": {
       "title": "Mời bạn bè và nhận NFT",
       "body": "Mời bạn bè và gia đình tải xuống {{appName}} và mỗi người trong số các bạn sẽ nhận được một NFT độc quyền"
@@ -2204,6 +2204,7 @@
     "title": "Nhập số tiền",
     "selectToken": "Chọn token",
     "networkFee": "Phí mạng lưới {{networkName}}",
+    "networkFeeV1_97": "Phí mạng lưới",
     "lowerAmount": "Nhập số tiền thấp hơn",
     "maxAmountWarning": {
       "title": "Đang gửi số tiền tối đa",
