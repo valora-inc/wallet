@@ -147,7 +147,7 @@ describe('VerificationStartScreen', () => {
     )
   })
 
-  it('proceeds to the next verification step', async () => {
+  it('proceeds to the next verification step during onboarding', async () => {
     mockedKeychain.getGenericPassword.mockResolvedValue({
       password: 'some signed message',
       username: 'username',
