@@ -15,10 +15,12 @@ import { rootSaga } from 'src/redux/sagas'
 import { transactionFeedV2Api } from 'src/transactions/api'
 import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
-import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { ONE_MINUTE_IN_MILLIS } from 'src/utils/time'
 
-const timeBetweenStoreSizeEvents = ONE_DAY_IN_MILLIS
-let lastEventTime = Date.now()
+export const timeBetweenStoreSizeEvents = ONE_MINUTE_IN_MILLIS
+// Set this to the epoch so that a redix_store_size event will always be emitted the first time
+// the entire state is serialized in a session
+let lastEventTime = 0
 
 const persistConfig: PersistConfig<ReducersRootState> = {
   key: 'root',
