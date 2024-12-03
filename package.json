@@ -123,7 +123,7 @@
     "fp-ts": "2.16.9",
     "futoin-hkdf": "^1.5.3",
     "fuzzysort": "^3.0.2",
-    "google-libphonenumber": "^3.2.38",
+    "google-libphonenumber": "^3.2.39",
     "i18next": "^23.15.2",
     "ibantools": "^4.5.1",
     "intl-pluralrules": "^2.0.1",
