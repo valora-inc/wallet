@@ -13,8 +13,8 @@ import {
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { DappExplorerEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { DappExplorerEvents } from 'src/analytics/Events'
 import FilterChipsCarousel, { BooleanFilterChip } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import {
@@ -37,7 +37,9 @@ import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { Colors } from 'src/styles/colors'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -85,6 +87,8 @@ function DappsScreen({ navigation }: Props) {
 
   const { onSelectDapp } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
+
+  const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
 
   const removeFilter = (filter: BooleanFilterChip<DappWithCategoryNames>) => {
     AppAnalytics.track(DappExplorerEvents.dapp_filter, {
@@ -204,8 +208,8 @@ function DappsScreen({ navigation }: Props) {
           <AnimatedSectionList
             refreshControl={
               <RefreshControl
-                tintColor={Colors.primary}
-                colors={[Colors.primary]}
+                tintColor={Colors.accent}
+                colors={[Colors.accent]}
                 style={styles.refreshControl}
                 refreshing={loading}
                 onRefresh={() => dispatch(fetchDappsList())}
@@ -215,15 +219,21 @@ function DappsScreen({ navigation }: Props) {
             // @ts-expect-error
             ref={sectionListRef}
             ListFooterComponent={
-              <Text style={styles.disclaimer}>{t('dappsDisclaimerAllDapps')}</Text>
+              <Text style={[styles.disclaimer, { textAlign: 'center' }]}>
+                {t('dappsDisclaimerAllDapps')}
+              </Text>
             }
             ListHeaderComponent={
               <>
-                {
+                <View style={styles.titleContainer}>
                   <Text onLayout={handleMeasureTitleHeight} style={styles.title}>
                     {t('dappsScreen.exploreDapps')}
                   </Text>
-                }
+                  {showUKCompliantVariant && (
+                    <Text style={styles.disclaimer}>{t('dappsScreen.disclaimer_UK')}</Text>
+                  )}
+                </View>
+
                 <DappFeaturedActions />
                 <SearchInput
                   onChangeText={(text) => {
@@ -335,18 +345,18 @@ const styles = StyleSheet.create({
   disclaimer: {
     ...typeScale.bodyXSmall,
     color: Colors.gray4,
-    textAlign: 'center',
-    marginTop: Spacing.Large32,
-    marginBottom: Spacing.Regular16,
   },
   listFooterComponent: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    marginTop: Spacing.Large32,
+    marginBottom: Spacing.Regular16,
   },
   title: {
     ...typeScale.titleMedium,
     color: Colors.black,
+  },
+  titleContainer: {
     marginBottom: Spacing.Thick24,
+    gap: Spacing.Tiny4,
   },
   dappCard: {
     marginTop: Spacing.Regular16,

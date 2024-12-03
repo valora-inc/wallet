@@ -20,7 +20,7 @@ import QRTabBar from 'src/qrcode/QRTabBar'
 import { useDispatch } from 'src/redux/hooks'
 import { SVG, handleQRCodeDetected } from 'src/send/actions'
 import { QrCode } from 'src/send/types'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 
 const Tab = createMaterialTopTabNavigator()
@@ -45,7 +45,13 @@ type ScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanne
 function ScannerScene({ route }: ScannerSceneProps) {
   const lastScannedQR = useRef('')
   const dispatch = useDispatch()
-  const defaultOnQRCodeDetected = (qrCode: QrCode) => dispatch(handleQRCodeDetected(qrCode))
+  const defaultOnQRCodeDetected = (qrCode: QrCode) =>
+    dispatch(
+      handleQRCodeDetected({
+        qrCode,
+        defaultTokenIdOverride: route?.params?.defaultTokenIdOverride,
+      })
+    )
   const { onQRCodeDetected: onQRCodeDetectedParam = defaultOnQRCodeDetected } = route.params || {}
   const isFocused = useIsFocused()
   const [wasFocused, setWasFocused] = useState(isFocused)
@@ -108,7 +114,7 @@ export default function QRNavigator({ route }: Props) {
       // Trick to position the tabs floating on top
       tabBarPosition="bottom"
       style={styles.container}
-      sceneContainerStyle={styles.sceneContainerStyle}
+      screenOptions={{ sceneStyle: styles.sceneContainerStyle }}
       initialLayout={initialLayout}
     >
       <Tab.Screen name={Screens.QRCode} options={{ title: t('myCode') ?? undefined }}>
@@ -132,9 +138,6 @@ export default function QRNavigator({ route }: Props) {
 
 QRNavigator.navigationOptions = {
   ...noHeader,
-  ...Platform.select({
-    ios: { animation: 'slide_from_bottom' },
-  }),
 }
 
 const styles = StyleSheet.create({

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import ForwardChevron from 'src/icons/ForwardChevron'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 

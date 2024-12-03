@@ -386,6 +386,7 @@
   "accountAddressLabel": "Dirección de cuenta",
   "celoAmountLabel": "Monto (CELO)",
   "maxSymbol": "Max",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Revisar",
   "withdrawCeloTo": "Para",
   "withdrawCeloAmount": "Monto (CELO)",
@@ -1458,14 +1459,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Descubre",
-    "exploreDapps": "Explorar dapps",
-    "exploreAll": "Explorar todas",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Ver todo",
     "message": "Explora las distintas formas de usar tus activos",
     "errorMessage": "Hubo un error al cargar las dapps",
     "featuredDapp": "Destacadas",
     "allDapps": "Todas",
     "favoriteDapps": "Mis favoritas",
     "mostPopularDapps": "Populares",
+    "mostPopularDapps_UK": "Otras Dapps",
     "favoriteDappsAndAll": "Mis favoritas y todas",
     "searchPlaceHolder": "Buscar dapps",
     "noFavorites": {
@@ -1481,7 +1483,8 @@
       "message": "Filtro <0>{{filter}}</0> aplicado",
       "removeFilter": "Quitar filtro",
       "searchMessage": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
-    }
+    },
+    "disclaimer_UK": "Esta es una lista de Dapps de terceros. La descripción de cada Dapp es puramente informativa y no una invitación a utilizarlas."
   },
   "dappRankings": {
     "title": "Ranking de dapps",
@@ -2123,18 +2126,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Busca por nombre, teléfono, wallet...",
+    "searchInputLabel": "Para",
+    "searchInputPlaceholder": "Dirección o número de teléfono de la wallet",
     "paste": "Pegar desde el portapapeles",
     "title": "Selecciona un destinatario",
     "contactsTitle": "Selecciona un contacto",
+    "header": "Enviar",
+    "contactsHeader": "Enviar a contactos",
     "recents": "Recientes",
     "results": "Resultados",
     "qr": {
-      "title": "Escanear o mostrar código QR",
-      "subtitle": "Encuentra rápidamente direcciones en {{appName}}"
+      "title": "Enviar vía código QR",
+      "subtitle": "Toca para escanear o mostrar una dirección"
     },
     "invite": {
-      "title": "Envía cripto a tus amigos",
-      "subtitle": "Envía fondos o una invitación a tus contactos"
+      "title": "Enviar a un contacto",
+      "subtitle": "Envía fondos a tus contactos"
     },
     "jumpstart": {
       "title": "Envia con un enlace directo",
@@ -2280,7 +2287,40 @@
     "infiniteApprovalDescription": "{{tokenSymbol}} infinitos aprobados para operar",
     "revokeApprovalDescription": "{{tokenSymbol}} revocado para operar",
     "descriptionLabel": "Detalles",
-    "crossChainSwapTransactionLabel": "Cross-chain"
+    "crossChainSwapTransactionLabel": "Cross-chain",
+    "depositTitle": "Fondos depositados",
+    "depositSubtitle": "en una pool de {{txAppName}}",
+    "depositSubtitle_noTxAppName": "a app desconocida",
+    "withdrawTitle": "Fondos retirados",
+    "withdrawSubtitle": "de la pool de {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "desde pool no identificada",
+    "claimRewardTitle": "Ganancias recibidas",
+    "claimRewardSubtitle": "de la pool de {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "desde pool no identificada",
+    "allTransactionsShown": "Has llegado al final de tu historial de transacciones.",
+    "fetchErrorRetry": "Inténtalo de nuevo",
+    "error": {
+      "fetchError": "Vaya, hubo un problema al actualizar tu feed. Tu historial de transacciones puede estar incompleto por ahora."
+    },
+    "noTransactions": "¡Felicidades, has creado con éxito un wallet {{appName}}!"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Detalles",
+    "depositTitle": "Fondos depositados",
+    "depositSubtitle": "{{tokenSymbol}} depositados en la pool de {{txAppName}}",
+    "depositSubtitle_noTxAppName": "{{tokenSymbol}} depositados en una app no identificada",
+    "depositDetails": "Monto depositado",
+    "withdrawTitle": "Fondos retirados",
+    "withdrawSubtitle": "{{tokenSymbol}} retirados de la pool de {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "{{tokenSymbol}} retirados de una app no identificada",
+    "withdrawDetails": "Monto retirado",
+    "claimRewardTitle": "Ganancias recibidas",
+    "claimRewardSubtitle": "{{tokenSymbol}} recibidos de la pool {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "{{tokenSymbol}} recibido de una app desconocida",
+    "claimRewardDetails": "Monto recibido",
+    "swap": "Cambio",
+    "network": "Red",
+    "fees": "Tarifas"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2548,13 +2588,17 @@
     "entrypoint": {
       "title": "Gana más cripto",
       "subtitle": "Deposita y gana",
-      "description": "Gana sobre tus criptoactivos en pools de liquidez."
+      "description": "Gana prestando tus activos cripto en pools de liquidez.",
+      "totalDepositAndEarnings": "Depósito y ganancias totales"
     },
     "enterAmount": {
       "title": "¿Cuánto quieres depositar?",
+      "titleWithdraw": "¿Cuánto quieres retirar?",
       "deposit": "Depositar",
       "fees": "Tarifas",
+      "available": "Disponible",
       "swap": "Cambio",
+      "claimingReward": "Reclamar la recompensa",
       "earnUpToLabel": "Podrías ganar hasta:",
       "rateLabel": "Tasa (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/año",
@@ -2574,6 +2618,7 @@
         "estNetworkFee": "Tarifa de red est.",
         "maxNetworkFee": "Tarifa máxima de red",
         "networkFeeDescription": "La tarifa de red es requerida por la red para procesar la transacción de depósito.",
+        "networkFeeDescriptionWithdrawal": "La tarifa de red es requerida por la red para procesar la transacción de retiro.",
         "networkSwapFeeDescription": "La tarifa de red es requerida por la red para procesar las transacciones de depósito. La tarifa de {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto.",
         "appSwapFee": "Tarifa de {{appName}}"
       },
@@ -2583,6 +2628,10 @@
         "swapTo": "Cambiar a",
         "whySwap": "¿Por qué estoy intercambiando?",
         "swapDescription": "Para depositar fondos en el pool, tu token se está cambiando por un token del pool."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Retirar y reclamar",
+        "description": "{{providerName}} requiere que reclames todas las recompensas disponibles cuando hagas retiros."
       }
     },
     "activePools": {
@@ -2616,12 +2665,19 @@
     },
     "collect": {
       "title": "¡Felicidades! Revisa y recoge tus ganancias",
+      "titleClaim": "Reclamarás:",
+      "titleCollect": "Recibirás:",
+      "titleWithdraw": "Retirarás:",
       "total": "TOTAL",
       "plus": "MÁS",
+      "reward": "RECOMPENSA",
       "rate": "Tasa (est.)",
       "apy": "APY {{apy}}%",
       "fee": "Tarifa estimada",
       "cta": "Recoger ganancias",
+      "ctaWithdraw": "Retirar",
+      "ctaReward": "Reclamar recompensa",
+      "ctaExit": "Retirar todo",
       "errorTitle": "Algo salió mal",
       "errorDescription": "No fue posible obtener los datos del depósito. Vuelve a intentarlo.",
       "noGasTitle": "Necesitas más {{symbol}} para continuar",
@@ -2697,12 +2753,28 @@
       "ratePercent": "{{rate}}%",
       "rewards": "Recompensas",
       "noRewards": "Sin recompensas",
+      "safetyScore": "Puntuación de seguridad",
       "tvl": "TVL",
       "ageOfPool": "Antigüedad de pool:",
       "learnMoreOnProvider": "Ver pool en {{providerName}}",
       "deposit": "Depósito",
       "depositAndEarnings": "Depósitos y ganancias",
       "withdraw": "Retirar",
+      "withdrawBottomSheet": {
+        "title": "Selecciona el tipo de retiro",
+        "withdrawAndClaim": "Retiro y reclamación",
+        "withdrawDescription": "Retirar una cantidad específica de los tokens que hayas depositado en el pool",
+        "withdrawAndClaimRewardsDescription": "Retira una cantidad específica de los tokens que hayas depositado en el pool y reclama tus recompensas automáticamente",
+        "withdrawAndClaimEarningsDescription": "Retira una cantidad específica de los tokens que hayas depositado en el pool y reclama tus ganancias automáticamente",
+        "claimRewards": "Reclamar recompensas",
+        "claimRewardsDescription": "Reclama tus recompensas. No se pueden reclamar montos parciales de la recompensa",
+        "claimEarnings": "Reclamar ganancias",
+        "claimEarningsDescription": "Reclama las ganancias de tu depósito. No se pueden reclamar montos parciales",
+        "exit": "Salir",
+        "exitDescription": "Al salir retirarás todo lo que tengas en el pool",
+        "exitWithRewardsDescription": "Al salir retirarás todo lo que tengas en el pool, incluidas las recompensas",
+        "exitWithEarningsDescription": "Al salir retirarás todo lo que tengas en el pool, incluidas las ganancias"
+      },
       "totalDepositAndEarnings": "Depósito y ganancias totales",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
@@ -2718,8 +2790,13 @@
         "yieldRateDescription": "Aunque la mayoría de los pools ofrecen ganancias en forma de token de pool de liquidez, algunos dan token(s) adicionales como recompensa o incentivo añadido.\n\nDado que {{appName}} agrega pools a través de múltiples protocolos, hemos combinado todas las tasas de ganancia y recompensa en una única tasa de rendimiento global para ayudarte a evaluar fácilmente tu potencial de ganancia. Esta cifra es estimada, ya que los valores de ganancia y recompensa fluctúan constantemente.\n\nPara más información sobre los desgloses de ganancias puedes visitar <0>{{providerName}}</0>.",
         "dailyYieldRateTitle": "Tarifa diaria",
         "dailyYieldRateDescription": "La tarifa diaria mostrada refleja la tarifa diaria proporcionada por {{providerName}}.",
-        "dailyYieldRateLink": "Ver más detalles de la tarifa diaria en {{providerName}}"
-      }
+        "dailyYieldRateLink": "Ver más detalles de la tarifa diaria en {{providerName}}",
+        "safetyScoreTitle": "Puntuación de seguridad",
+        "safetyScoreDescription": "La Puntuación de seguridad desglosa la seguridad del activo bóveda subyacente en varios factores clave. Su objetivo es llamar tu atención sobre los riesgos a considerar antes de invertir, e informarte sobre detalles técnicos que quizá no puedas evaluar tú mismo.\nAunque la posición completa siempre es más complicada, la Puntuación de seguridad se brinda para simplificar las consideraciones clave sobre riesgos y seguridad y poner en marcha tu propia diligencia debida. Nuestro equipo considera con cuidado cada factor antes de desplegar una bóveda, y vigila cada activo, cadena y protocolo que ha integrado {{providerName}}.",
+        "safetyScoreRateLink": "Ver más detalles de la Puntuación de seguridad en {{providerName}}"
+      },
+      "viewMoreDetails": "Ver más detalles",
+      "viewLessDetails": "Ver menos detalles"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Necesitas {{tokenSymbol}} en {{tokenNetwork}} para depositar",
@@ -2754,6 +2831,11 @@
   "duration_year_other": "{{count}} años",
   "duration_yearMonth_one": "1 año, 1 mes",
   "duration_yearMonth_other": "{{count}} años, {{count2}} meses",
+  "tokenEnterAmount": {
+    "availableBalance": "Disponible: <0></0>",
+    "selectToken": "Selecciona un token",
+    "fiatPriceUnavailable": "Precio no disponible"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

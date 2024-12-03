@@ -1,26 +1,29 @@
+import { E2E_WALLET_MNEMONIC } from 'react-native-dotenv'
 import { english, generateMnemonic } from 'viem/accounts'
-import { DEFAULT_RECIPIENT_ADDRESS, SAMPLE_BACKUP_KEY } from '../utils/consts'
+import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
+  getDisplayAddress,
   quickOnboarding,
+  scrollIntoViewByTestId,
   waitForElementByIdAndTap,
   waitForElementId,
-  scrollIntoViewByTestId,
 } from '../utils/utils'
 
 async function validateSendFlow(tokenSymbol) {
+  const recipientAddressDisplay = getDisplayAddress(DEFAULT_RECIPIENT_ADDRESS)
   // navigate to send amount screen to ensure the expected token symbol is pre-selected
   await waitForElementByIdAndTap('SendSelectRecipientSearchInput')
   await element(by.id('SendSelectRecipientSearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
   await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
-  await expect(element(by.text('0xe5f5...8846')).atIndex(0)).toBeVisible()
-  await element(by.text('0xe5f5...8846')).atIndex(0).tap()
+  await expect(element(by.text(recipientAddressDisplay)).atIndex(0)).toBeVisible()
+  await element(by.text(recipientAddressDisplay)).atIndex(0).tap()
   await waitForElementByIdAndTap('SendOrInviteButton')
   await expect(
-    element(by.text(tokenSymbol).withAncestor(by.id('SendEnterAmount/TokenSelect')))
+    element(by.text(`${tokenSymbol} on Celo`).withAncestor(by.id('SendEnterAmount/TokenSelect')))
   ).toBeVisible()
   await element(by.id('BackChevron')).tap()
-  await element(by.id('Times')).tap()
+  await element(by.id('BackChevron')).tap()
 }
 
 async function validateAddFlow(tokenSymbol) {
@@ -37,15 +40,15 @@ export default Assets = () => {
       balance: 'non zero',
       tokens: [
         {
-          tokenId: 'celo-alfajores:native',
+          tokenId: 'celo-mainnet:native',
           symbol: 'CELO',
           actions: ['Send', 'Add'],
           moreActions: ['Send', 'Add', 'Withdraw'],
           learnMore: true,
         },
         {
-          tokenId: 'celo-alfajores:0x048f47d358ec521a6cf384461d674750a3cb58c8',
-          symbol: 'TT',
+          tokenId: 'celo-mainnet:0x32a9fe697a32135bfd313a6ac28792dae4d9979d',
+          symbol: 'cMCO2',
           actions: ['Send'],
           moreActions: [],
           learnMore: false,
@@ -56,14 +59,14 @@ export default Assets = () => {
       balance: 'zero',
       tokens: [
         {
-          tokenId: 'celo-alfajores:native',
+          tokenId: 'celo-mainnet:native',
           symbol: 'CELO',
           actions: ['Add'],
           moreActions: [],
           learnMore: true,
         },
         {
-          tokenId: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+          tokenId: 'celo-mainnet:0x765de816845861e75a25fca122bb6898b8b1282a',
           symbol: 'cUSD',
           actions: ['Add'],
           moreActions: [],
@@ -73,15 +76,12 @@ export default Assets = () => {
     },
   ])('For wallet with $balance balance', ({ balance, tokens }) => {
     beforeAll(async () => {
-      // uninstall and reinstall to start with either a new account or the usual
-      // e2e account
-      await device.uninstallApp()
-      await device.installApp()
+      // Start with either a new account or the usual e2e account
       await launchApp({
-        newInstance: true,
+        delete: true,
         permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
       })
-      let mnemonic = SAMPLE_BACKUP_KEY
+      let mnemonic = E2E_WALLET_MNEMONIC
       if (balance === 'zero') {
         mnemonic = generateMnemonic(english)
       }

@@ -810,7 +810,7 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNScreens (3.34.0):
+  - RNScreens (4.3.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - React-RCTImage
@@ -1326,7 +1326,7 @@ SPEC CHECKSUMS:
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
   RNReactNativeHapticFeedback: a15559aa2aa8b5e5d49616fd84259dfb3c415230
   RNReanimated: 739d696f5bd3bea1d675a86caec05064ab4d898f
-  RNScreens: a1db0ca347cf9f44ae57b0a2d31991af6d872f7c
+  RNScreens: cdb28656300719a3708d2209fad0bd6d83769d3a
   RNSentry: 5596dbadad9a1cccef90f9ccc18e1a309c1bde64
   RNShare: cc904a0d9305649d0fe7897fc6de938f958c3a40
   RNSVG: 4590aa95758149fa27c5c83e54a6a466349a1688

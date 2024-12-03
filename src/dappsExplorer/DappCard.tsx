@@ -10,7 +10,7 @@ import { Dapp, DappSection } from 'src/dapps/types'
 import StarOutline from 'src/icons/StarOutline'
 import Star from 'src/images/Star'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
@@ -74,7 +74,7 @@ function DappCard({
       <Touchable
         style={[styles.pressableCard, cardContentContainerStyle]}
         onPress={onPressDapp}
-        borderRadius={showBorder ? 8 : undefined}
+        borderRadius={8}
         testID={`Dapp/${dapp.id}`}
       >
         <>

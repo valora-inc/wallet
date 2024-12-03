@@ -386,6 +386,7 @@
   "accountAddressLabel": "Hesap Adresi",
   "celoAmountLabel": "Miktar (CELO)",
   "maxSymbol": "Maks.",
+  "percentage": "%{{percentage}}",
   "withdrawCeloReview": "Gözden Geçir",
   "withdrawCeloTo": "Şuraya çekim yap",
   "withdrawCeloAmount": "Miktar (CELO)",
@@ -1458,14 +1459,15 @@
   "dappsScreen": {
     "title": "Dapp'ler",
     "titleDiscover": "Keşfedin",
-    "exploreDapps": "Dapp'leri Keşfedin",
-    "exploreAll": "Tümünü Keşfet",
+    "exploreDapps": "Dapp'ler",
+    "exploreAll": "Tümünü Göster",
     "message": "Varlıklarınızı kullanmanın yollarını keşfedin",
     "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
     "allDapps": "Tümü",
     "favoriteDapps": "Favorilerim",
     "mostPopularDapps": "En Popüler",
+    "mostPopularDapps_UK": "Diğer Dapp'ler",
     "favoriteDappsAndAll": "Favorilerim & Hepsi",
     "searchPlaceHolder": "Dapp'leri ara",
     "noFavorites": {
@@ -1481,7 +1483,8 @@
       "message": "<0>{{filter}}</0> filtresi uygulandı",
       "removeFilter": "Filtreyi kaldır",
       "searchMessage": "\" <0>{{searchTerm}}</0> \" için eşleşen sonuç bulunamadı"
-    }
+    },
+    "disclaimer_UK": "Bu, üçüncü taraf Dapp'lerin bir listesidir. Her bir Dapp için sunulan açıklama tamamen bilgilendirme amaçlı olup bunların kullanımına yönelik bir davet niteliğinde değildir."
   },
   "dappRankings": {
     "title": "Dapp sıralamaları",
@@ -2123,18 +2126,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "İsme, telefona, cüzdana göre arama yapın...",
+    "searchInputLabel": "Şu Token’a",
+    "searchInputPlaceholder": "Cüzdan Adresi veya Telefon Numarası",
     "paste": "Panodan yapıştır",
     "title": "Bir alıcı seçin",
     "contactsTitle": "Bir kişi seçin",
+    "header": "Gönder",
+    "contactsHeader": "Kişilere Gönder",
     "recents": "En sonuncular",
     "results": "Sonuçlar",
     "qr": {
-      "title": "QR Kodunu Tarayın veya Gösterin",
-      "subtitle": "{{appName}} uygulamasındaki adresleri hızlıca bulun"
+      "title": "QR Kodu ile Gönder",
+      "subtitle": "Bir adresi taramak veya görüntülemek için dokunun"
     },
     "invite": {
-      "title": "Arkadaşlarınıza kripto gönderin",
-      "subtitle": "Kişilerinize fon veya davet gönderin"
+      "title": "Bir Kişiye Gönder",
+      "subtitle": "Kişilerinize fon gönderin"
     },
     "jumpstart": {
       "title": "Canlı Bağlantı ile Gönder",
@@ -2280,7 +2287,40 @@
     "infiniteApprovalDescription": "{{tokenSymbol}} işlem için süresiz onaylandı",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
     "descriptionLabel": "Detaylar",
-    "crossChainSwapTransactionLabel": "Zincirler arası"
+    "crossChainSwapTransactionLabel": "Zincirler arası",
+    "depositTitle": "Yatırılan",
+    "depositSubtitle": "{{txAppName}} Havuzuna",
+    "depositSubtitle_noTxAppName": "bilinmeyen uygulamaya",
+    "withdrawTitle": "Çekilen",
+    "withdrawSubtitle": "{{txAppName}} Havuzundan",
+    "withdrawSubtitle_noTxAppName": "bilinmeyen uygulamadan",
+    "claimRewardTitle": "Toplanan",
+    "claimRewardSubtitle": "{{txAppName}} Havuzundan",
+    "claimRewardSubtitle_noTxAppName": "bilinmeyen uygulamadan",
+    "allTransactionsShown": "İşlem geçmişinizin sonuna ulaştınız.",
+    "fetchErrorRetry": "Tekrar deneyin",
+    "error": {
+      "fetchError": "Hay aksi, akışınızı yenilerken bir sorun oluştu. İşlem geçmişiniz şimdilik eksik görünebilir."
+    },
+    "noTransactions": "Tebrikler, {{appName}} cüzdanınız başarıyla oluşturuldu!"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Detaylar",
+    "depositTitle": "Yatırılan",
+    "depositSubtitle": "{{txAppName}} Havuzuna {{tokenSymbol}} Yatırıldı",
+    "depositSubtitle_noTxAppName": "Bilinmeyen uygulamaya {{tokenSymbol}} yatırıldı",
+    "depositDetails": "Yatırılan Toplam",
+    "withdrawTitle": "Çekilen",
+    "withdrawSubtitle": "{{txAppName}} Havuzundan {{tokenSymbol}} Çekildi",
+    "withdrawSubtitle_noTxAppName": "Bilinmeyen uygulamadan {{tokenSymbol}} çekildi",
+    "withdrawDetails": "Çekilen Tutar",
+    "claimRewardTitle": "Toplanan",
+    "claimRewardSubtitle": "{{txAppName}} Havuzundan {{tokenSymbol}} Toplandı",
+    "claimRewardSubtitle_noTxAppName": "Bilinmeyen uygulamadan {{tokenSymbol}} toplandı",
+    "claimRewardDetails": "Toplanan Tutar",
+    "swap": "Swap",
+    "network": "Ağ",
+    "fees": "Ücretler"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2548,13 +2588,17 @@
     "entrypoint": {
       "title": "Kripto paranızdan kazanç sağlayın",
       "subtitle": "Yatırın ve kazanın",
-      "description": "Bir likidite havuzu aracılığıyla borç vererek kripto varlıklarınızdan kazanç sağlayın"
+      "description": "Likidite havuzlarında kripto varlıklarınızı ödünç vererek kazanın.",
+      "totalDepositAndEarnings": "Toplam Yatırım ve Kazançlar"
     },
     "enterAmount": {
       "title": "Ne kadar yatırmak istersiniz?",
+      "titleWithdraw": "Ne kadar para çekmek istersiniz?",
       "deposit": "Patra Yatırma",
       "fees": "Ücretler",
+      "available": "Kullanılabilir",
       "swap": "Swap",
+      "claimingReward": "Ödül Alma",
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yıl",
@@ -2574,6 +2618,7 @@
         "estNetworkFee": "Tahmini Ağ Ücreti",
         "maxNetworkFee": "Maks. Ağ Ücreti",
         "networkFeeDescription": "Ağ ücreti, yatırma işlemin gerçekleştirilmesi için ağ tarafından talep edilir.",
+        "networkFeeDescriptionWithdrawal": "Ağ ücreti, ağın, para çekme işlemlerini işleme koyması için gereklidir.",
         "networkSwapFeeDescription": "Ağ ücreti, para yatırma işlemlerinin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için %{{appFeePercentage}} {{appName}} ücreti tahsil edilir.",
         "appSwapFee": "{{appName}} Ücreti"
       },
@@ -2583,6 +2628,10 @@
         "swapTo": "Şuraya Giden Takas",
         "whySwap": "Neden takas yapıyorum?",
         "swapDescription": "Havuza fon yatırmak için tokeniniz bir havuz tokeni ile takas edilir."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Para Çekme ve Talep Etme",
+        "description": "{{providerName}}, para çekme işlemi yaptığınız her defasında, mevcut tüm ödülleri talep etmenizi zorunlu kılmaktadır."
       }
     },
     "activePools": {
@@ -2616,12 +2665,19 @@
     },
     "collect": {
       "title": "Tebrikler! Kazancınızı inceleyin ve toplayın",
+      "titleClaim": "Talep edilecek:",
+      "titleCollect": "Toplanacak:",
+      "titleWithdraw": "Çekilecek:",
       "total": "TOPLAM",
       "plus": "ARTI",
+      "reward": "ÖDÜL",
       "rate": "Oran (tahmini)",
       "apy": "%{{apy}} Yıllık Getiri Oranı (APY)",
       "fee": "Gas Ücreti",
       "cta": "Kazançları Toplayın",
+      "ctaWithdraw": "Çek",
+      "ctaReward": "Ödülü Talep Et",
+      "ctaExit": "Havuzdan Çık",
       "errorTitle": "Bir şeyler ters gitti",
       "errorDescription": "Para yatırma detayları alınamıyor. Lütfen tekrar deneyin.",
       "noGasTitle": "Devam etmek için daha fazla {{symbol}} bakiyesine ihtiyacınız var",
@@ -2693,16 +2749,32 @@
       "chainName": "Zincir: <0>{{networkName}}</0>",
       "protocolName": "Protokol: <0>{{providerName}}</0>",
       "yieldRate": "Getiri Oranı",
-      "dailyYieldRate": "Günlük Ücret",
+      "dailyYieldRate": "Günlük Oran",
       "ratePercent": "%{{rate}}",
       "rewards": "Ödüller",
       "noRewards": "Ödül yok",
+      "safetyScore": "Güvenlik Puanı",
       "tvl": "TVL",
       "ageOfPool": "Havuz Yaşı",
       "learnMoreOnProvider": "Havuzu {{providerName}} üzerinde görüntüleyin.",
       "deposit": "Patra Yatırma",
       "depositAndEarnings": "Yatırım ve Kazançlar",
       "withdraw": "Çek",
+      "withdrawBottomSheet": {
+        "title": "Para çekme türünü seçin",
+        "withdrawAndClaim": "Para Çek ve Talep Et",
+        "withdrawDescription": "Havuza yatırdığınız herhangi bir tokenin belirli bir miktarını çekin",
+        "withdrawAndClaimRewardsDescription": "Havuza yatırdığınız herhangi bir tokenin belirli bir miktarını çekin ve ödüllerinizi otomatik olarak talep edin",
+        "withdrawAndClaimEarningsDescription": "Havuza yatırdığınız herhangi bir tokenin belirli bir miktarını çekin ve kazançlarınızı otomatik olarak talep edin",
+        "claimRewards": "Ödüllerinizi Alın",
+        "claimRewardsDescription": "Ödüllerinizi talep edin. Ödülün kısmi tutarları talep edilemez",
+        "claimEarnings": "Kazançları Talep Et",
+        "claimEarningsDescription": "Yatırma işleminizde kazançları talep edin. Kısmi tutarlar talep edilemez",
+        "exit": "Çıkış",
+        "exitDescription": "Çıkış yapıldığında, havuzda sahip olduğunuz tüm öğeler çekilir",
+        "exitWithRewardsDescription": "Çıkış yapıldığında, havuzda sahip olduğunuz, ödülleri de içeren tüm öğeler çekilir",
+        "exitWithEarningsDescription": "Çıkış yapıldığında, havuzda sahip olduğunuz, kazançları da içeren tüm öğeler çekilir"
+      },
       "totalDepositAndEarnings": "Toplam Yatırım ve Kazançlar",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
@@ -2716,10 +2788,15 @@
         "ageDescription": "Likidite havuzunun eski olması, o havuzun sağlam bir geçmiş performansı olduğuna ve toplulukta güven inşa ettiğine işaret edebilir. Bu nedenle, bazıları bu havuzların daha güvenli olduğunu düşünebilir.\n\nRiski tam olarak belirleyebilecek bir yöntem yoktur; bu nedenle genel araştırmanızı desteklemek için bu bilgilerden yararlanabilirsiniz.",
         "yieldRateTitle": "Getiri Oranı",
         "yieldRateDescription": "Çoğu havuz, kazançları likidite havuzunun tokeni şeklinde sağlarken bazı havuzlar, ödül veya ek teşvik olarak ek tokenler verebilir.\n\n{{appName}} çeşitli protokoller genelindeki havuzları bir araya toplar. Bu nedenle, kazanç potansiyelinizi kolayca değerlendirebilmeniz için tüm kazanç ve ödül oranlarını tek bir genel getiri oranı altında birleştirdik. Kazanç ve ödül değerleri sürekli dalgalandığı için bu rakam, tahmini bir değeri gösterir.\n\nKazanç dökümleri hakkında daha fazla bilgi için <0>{{providerName}}</0> sayfasını ziyaret edebilirsiniz.",
-        "dailyYieldRateTitle": "Günlük Ücret",
-        "dailyYieldRateDescription": "Görüntülenen günlük ücret {{providerName}}tarafından sağlanan günlük ücreti yansıtmaktadır.",
-        "dailyYieldRateLink": "Daha Fazla Günlük Fiyat Ayrıntılarını {{providerName}}adresinde görüntüleyin"
-      }
+        "dailyYieldRateTitle": "Günlük Oran",
+        "dailyYieldRateDescription": "Görüntülenen günlük oran, {{providerName}} tarafından sağlanan günlük oranı yansıtır.",
+        "dailyYieldRateLink": "{{providerName}} Üzerinde Daha Fazla Günlük Oran Görüntüleyin",
+        "safetyScoreTitle": "Güvenlik Puanı",
+        "safetyScoreDescription": "Güvenlik Puanı, dayanak kasa varlığının güvenliğini birkaç temel faktöre ayırır. Yatırım yapmadan önce göz önünde bulundurmanız gereken risklere dikkatinizi çekmeyi ve kendi başınıza değerlendiremeyebileceğiniz teknik ayrıntılar hakkında sizi bilgilendirmeyi amaçlamaktadır.\nTam pozisyon her zaman daha karmaşık olsa da, Güvenlik Puanı, temel risk ve güvenlik hususlarını basitleştirmek ve kendi durum tespitinizi başlatmak için sağlanır. Ekibimiz, bir kasa devreye alınmadan önce her bir faktörü dikkatlice değerlendirir ve {{providerName}} tarafından entegre edilen her bir varlığı, zinciri ve protokolü dikkatli biçimde izler.",
+        "safetyScoreRateLink": "{{providerName}} Üzerinde Daha Fazla Güvenlik Puanı Ayrıntısı görüntüleyin"
+      },
+      "viewMoreDetails": "Daha Fazla Ayrıntı Görüntüle",
+      "viewLessDetails": "Daha Az Ayrıntı Görüntüle"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Yatırma İşlemi için {{tokenNetwork}} ağında {{tokenSymbol}} tokenine sahip olmalısınız",
@@ -2754,6 +2831,11 @@
   "duration_year_other": "{{count}} yıl",
   "duration_yearMonth_one": "1 yıl, 1 ay",
   "duration_yearMonth_other": "{{count}} yıl, {{count2}} ay",
+  "tokenEnterAmount": {
+    "availableBalance": "Mevcut: <0></0>",
+    "selectToken": "Token seçin",
+    "fiatPriceUnavailable": "Fiyat mevcut değil"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

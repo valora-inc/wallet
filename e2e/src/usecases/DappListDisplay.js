@@ -1,6 +1,6 @@
+import jestExpect from 'expect'
 import { fetchDappList } from '../utils/dappList'
 import { getElementTextList, scrollIntoView } from '../utils/utils'
-import jestExpect from 'expect'
 
 export default DappListDisplay = () => {
   let dappList = null

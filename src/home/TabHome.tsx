@@ -19,15 +19,22 @@ import NotificationBox from 'src/home/NotificationBox'
 import { refreshAllBalances, visitHome } from 'src/home/actions'
 import NftCelebration from 'src/home/celebration/NftCelebration'
 import NftReward from 'src/home/celebration/NftReward'
-import { showNftCelebrationSelector, showNftRewardSelector } from 'src/home/selectors'
+import {
+  balancesLoadingSelector,
+  showNftCelebrationSelector,
+  showNftRewardSelector,
+} from 'src/home/selectors'
 import { importContacts } from 'src/identity/actions'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { initializeSentryUserContext } from 'src/sentry/actions'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
+import TransactionFeedV2 from 'src/transactions/feed/TransactionFeedV2'
 import { hasGrantedContactsPermission } from 'src/utils/contacts'
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
@@ -38,7 +45,7 @@ function TabHome(_props: Props) {
   const { t } = useTranslation()
 
   const appState = useSelector(appStateSelector)
-  const isLoading = useSelector((state) => state.home.loading)
+  const isLoading = useSelector(balancesLoadingSelector)
   const recipientCache = useSelector(phoneRecipientCacheSelector)
   const isNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const showNotificationSpotlight = useSelector(showNotificationSpotlightSelector)
@@ -52,6 +59,8 @@ function TabHome(_props: Props) {
   const showNftCelebration = canShowNftCelebration && isFocused && !showNotificationSpotlight
   const canShowNftReward = useSelector(showNftRewardSelector)
   const showNftReward = canShowNftReward && isFocused && !showNotificationSpotlight
+
+  const showZerionTransactionFeed = getFeatureGate(StatsigFeatureGates.SHOW_ZERION_TRANSACTION_FEED)
 
   useEffect(() => {
     dispatch(visitHome())
@@ -108,7 +117,7 @@ function TabHome(_props: Props) {
   }
 
   const refresh: React.ReactElement<RefreshControlProps> = (
-    <RefreshControl refreshing={isLoading} onRefresh={onRefresh} colors={[colors.primary]} />
+    <RefreshControl refreshing={isLoading} onRefresh={onRefresh} colors={[colors.accent]} />
   ) as React.ReactElement<RefreshControlProps>
 
   const flatListSections = [
@@ -120,30 +129,37 @@ function TabHome(_props: Props) {
       key: 'NotificationBox',
       component: <NotificationBox showOnlyHomeScreenNotifications={true} />,
     },
-    { key: 'TransactionFeed', component: <TransactionFeed /> },
+    {
+      key: 'TransactionFeed',
+      component: <TransactionFeed />,
+    },
   ]
 
   const renderItem = ({ item }: { item: any }) => item.component
 
   return (
     <SafeAreaView testID="WalletHome" style={styles.container} edges={[]}>
-      <AnimatedFlatList
-        // Workaround iOS setting an incorrect automatic inset at the top
-        scrollIndicatorInsets={{ top: 0.01 }}
-        scrollEventThrottle={16}
-        refreshControl={refresh}
-        onRefresh={onRefresh}
-        refreshing={isLoading}
-        style={styles.container}
-        contentContainerStyle={{ paddingBottom: insets.bottom }}
-        data={flatListSections}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        testID="WalletHome/FlatList"
-        // To remove the sticky header entirely remove stickyHeaderIndices & stickyHeaderHiddenOnScroll
-        stickyHeaderIndices={[0]}
-        stickyHeaderHiddenOnScroll={true}
-      />
+      {showZerionTransactionFeed ? (
+        <TransactionFeedV2 />
+      ) : (
+        <AnimatedFlatList
+          // Workaround iOS setting an incorrect automatic inset at the top
+          scrollIndicatorInsets={{ top: 0.01 }}
+          scrollEventThrottle={16}
+          refreshControl={refresh}
+          onRefresh={onRefresh}
+          refreshing={isLoading}
+          style={styles.container}
+          contentContainerStyle={{ paddingBottom: insets.bottom }}
+          data={flatListSections}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          testID="WalletHome/FlatList"
+          // To remove the sticky header entirely remove stickyHeaderIndices & stickyHeaderHiddenOnScroll
+          stickyHeaderIndices={[0]}
+          stickyHeaderHiddenOnScroll={true}
+        />
+      )}
       {showNftCelebration && <NftCelebration />}
       {showNftReward && <NftReward />}
     </SafeAreaView>

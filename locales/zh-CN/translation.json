@@ -386,6 +386,7 @@
   "accountAddressLabel": "账户地址",
   "celoAmountLabel": "金额 (CELO)",
   "maxSymbol": "最大值",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "查看",
   "withdrawCeloTo": "提取到",
   "withdrawCeloAmount": "金额 (CELO)",
@@ -1456,14 +1457,15 @@
   "dappsScreen": {
     "title": "Dapp",
     "titleDiscover": "探索",
-    "exploreDapps": "探索 Dapp",
-    "exploreAll": "探索全部",
+    "exploreDapps": "Dapp",
+    "exploreAll": "查看全部",
     "message": "探索如何使用您的资产",
     "errorMessage": "加在 dapp 时出错",
     "featuredDapp": "精选",
     "allDapps": "全部",
     "favoriteDapps": "我的收藏",
     "mostPopularDapps": "最热门",
+    "mostPopularDapps_UK": "其他 Dapp",
     "favoriteDappsAndAll": "我的收藏夹和所有",
     "searchPlaceHolder": "搜索应用",
     "noFavorites": {
@@ -1479,7 +1481,8 @@
       "message": "<0>{{filter}}</0>已应用筛选条件",
       "removeFilter": "移除筛选条件",
       "searchMessage": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
-    }
+    },
+    "disclaimer_UK": "这是一份第三方 Dapp 列表。每个 Dapp 的描述仅作为信息提供，并非邀请您使用它们。"
   },
   "dappRankings": {
     "title": "Dapp 排名",
@@ -2121,18 +2124,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "按姓名、电话、钱包等搜索",
+    "searchInputLabel": "至",
+    "searchInputPlaceholder": "钱包地址或电话号码",
     "paste": "从剪贴板粘贴",
     "title": "选择接收人",
     "contactsTitle": "选择联系人",
+    "header": "发送",
+    "contactsHeader": "发送至联系人",
     "recents": "最近",
     "results": "结果",
     "qr": {
-      "title": "扫描或显示二维码",
-      "subtitle": "快速查找 {{appName}} 上的地址"
+      "title": "通过二维码发送",
+      "subtitle": "点按以扫描或显示地址"
     },
     "invite": {
-      "title": "向朋友发送加密货币",
-      "subtitle": "向联系人发送资金或邀请"
+      "title": "发送至联系人",
+      "subtitle": "向联系人发送资金"
     },
     "jumpstart": {
       "title": "通过实时链接发送",
@@ -2278,7 +2285,40 @@
     "infiniteApprovalDescription": "已批准无限 {{tokenSymbol}} 用于交易",
     "revokeApprovalDescription": "已撤销 {{tokenSymbol}} 用于交易",
     "descriptionLabel": "详细信息",
-    "crossChainSwapTransactionLabel": "跨链"
+    "crossChainSwapTransactionLabel": "跨链",
+    "depositTitle": "已存入",
+    "depositSubtitle": "至 {{txAppName}} 池",
+    "depositSubtitle_noTxAppName": "到未知应用",
+    "withdrawTitle": "已取出",
+    "withdrawSubtitle": "从 {{txAppName}} 池",
+    "withdrawSubtitle_noTxAppName": "来自未知应用",
+    "claimRewardTitle": "已领取",
+    "claimRewardSubtitle": "从 {{txAppName}} 池",
+    "claimRewardSubtitle_noTxAppName": "来自未知应用",
+    "allTransactionsShown": "您已到达交易历史记录的末尾。",
+    "fetchErrorRetry": "再试一次",
+    "error": {
+      "fetchError": "哎呀，在刷新您的信息源时出现问题。您目前的交易历史记录可能不完整。"
+    },
+    "noTransactions": "恭喜，您已成功创建 {{appName}} 钱包！"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "详细信息",
+    "depositTitle": "已存入",
+    "depositSubtitle": "已向 {{txAppName}} 池存入 {{tokenSymbol}}",
+    "depositSubtitle_noTxAppName": "将 {{tokenSymbol}} 存入未知应用",
+    "depositDetails": "已转入金额",
+    "withdrawTitle": "已取出",
+    "withdrawSubtitle": "已从 {{txAppName}} 池取出 {{tokenSymbol}}",
+    "withdrawSubtitle_noTxAppName": "从未知应用取出 {{tokenSymbol}}",
+    "withdrawDetails": "已提取金额",
+    "claimRewardTitle": "已领取",
+    "claimRewardSubtitle": "已从 {{txAppName}} 池领取 {{tokenSymbol}}",
+    "claimRewardSubtitle_noTxAppName": "已从未知应用中收集 {{tokenSymbol}}",
+    "claimRewardDetails": "已领取金额",
+    "swap": "交换",
+    "network": "网络",
+    "fees": "费用"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2546,13 +2586,17 @@
     "entrypoint": {
       "title": "让您的加密货币增值",
       "subtitle": "存入并赚取收益",
-      "description": "通过流动性池出借加密货币资产，赚取收益"
+      "description": "在资金池中借出您的加密资产，赚取收益。",
+      "totalDepositAndEarnings": "存款和收益总额"
     },
     "enterAmount": {
       "title": "您想存入多少钱？",
+      "titleWithdraw": "您想提取多少钱？",
       "deposit": "存款",
       "fees": "费用",
+      "available": "可用",
       "swap": "交换",
+      "claimingReward": "领取奖励",
       "earnUpToLabel": "您最多可以赚取：",
       "rateLabel": "费率（估算）",
       "earnUpTo": "~{{fiatSymbol}}{{amount}}/年",
@@ -2572,6 +2616,7 @@
         "estNetworkFee": "预估网络费用",
         "maxNetworkFee": "最高网络费用",
         "networkFeeDescription": "使用网络处理存款交易需支付网络费用。",
+        "networkFeeDescriptionWithdrawal": "使用网络处理提款交易需支付网络费用。",
         "networkSwapFeeDescription": "使用网络处理存款交易需支付网络费用。使用我们的产品时，将收取 {{appFeePercentage}}% 的 {{appName}} 费用。",
         "appSwapFee": "{{appName}} 费用"
       },
@@ -2581,6 +2626,10 @@
         "swapTo": "交换至",
         "whySwap": "我为什么要进行交换？",
         "swapDescription": "当您向某个资金池存入资金时，您的代币将会交换成资金池代币。"
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "提款和领取",
+        "description": "{{providerName}} 要求您在任何时候提款时领取所有可用奖励。"
       }
     },
     "activePools": {
@@ -2614,12 +2663,19 @@
     },
     "collect": {
       "title": "恭喜！查看并领取您的收益",
+      "titleClaim": "您将要领取：",
+      "titleCollect": "您将要收集：",
+      "titleWithdraw": "您将要取出：",
       "total": "总计",
       "plus": "PLUS",
+      "reward": "奖励",
       "rate": "费率（估算）",
       "apy": "{{apy}}% APY",
       "fee": "手续费",
       "cta": "领取收入",
+      "ctaWithdraw": "提取",
+      "ctaReward": "领取奖励",
+      "ctaExit": "退出池",
       "errorTitle": "出错了",
       "errorDescription": "无法获取存款详情。请重试。",
       "noGasTitle": "您需要更多 {{symbol}} 才能继续",
@@ -2695,12 +2751,28 @@
       "ratePercent": "{{rate}}%",
       "rewards": "奖励",
       "noRewards": "暂无奖励",
+      "safetyScore": "安全评分",
       "tvl": "TVL",
       "ageOfPool": "资金池年龄",
       "learnMoreOnProvider": "在 {{providerName}} 上查看资金池",
       "deposit": "存款",
       "depositAndEarnings": "存款和收益",
       "withdraw": "提取",
+      "withdrawBottomSheet": {
+        "title": "选择提款类型",
+        "withdrawAndClaim": "提款和领取",
+        "withdrawDescription": "提取您存入池中的特定金额的任何代币",
+        "withdrawAndClaimRewardsDescription": "提取您存入池中的特定金额的任何代币，并自动领取奖励",
+        "withdrawAndClaimEarningsDescription": "提取您存入池中的特定金额的任何代币，并自动领取收益",
+        "claimRewards": "领取奖励",
+        "claimRewardsDescription": "领取奖励。不能领取部分奖励金额",
+        "claimEarnings": "领取收益",
+        "claimEarningsDescription": "领取存款收益。不能领取部分金额",
+        "exit": "退出",
+        "exitDescription": "退出时将提取池中的所有资金",
+        "exitWithRewardsDescription": "退出时将提取池中的所有资金，包括奖励",
+        "exitWithEarningsDescription": "退出时将提取池中的所有资金，包括收益"
+      },
       "totalDepositAndEarnings": "存款和收益总额",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
@@ -2715,9 +2787,14 @@
         "yieldRateTitle": "收益率",
         "yieldRateDescription": "虽然大多数资金池以流动性池代币的形式提供收益，但也有一些资金池提供额外代币作为奖励或额外激励。\n\n{{appName}} 集合了多个协议的资金池，因此我们将所有收益率和奖励率合并为一项总体收益率，以帮助您轻松评估收益潜力。由于收益和奖励值不断波动，该数字只是估计值。\n\n有关收益明细的更多信息，请访问 <0>{{providerName}}</0>。",
         "dailyYieldRateTitle": "每日费率",
-        "dailyYieldRateDescription": "显示的每日费率反映了 {{providerName}}提供的每日费率。",
-        "dailyYieldRateLink": "查看更多每日房价详情，请访问 {{providerName}}"
-      }
+        "dailyYieldRateDescription": "显示的每日费率反映了 {{providerName}} 提供的每日费率。",
+        "dailyYieldRateLink": "在 {{providerName}} 上查看更多每日费率详情",
+        "safetyScoreTitle": "安全评分",
+        "safetyScoreDescription": "安全评分将基础金库资产的安全性划分为几个关键因素。旨在提醒您在投资前应考虑的风险，并告知您可能无法自行评估的技术细节。\n尽管全部头寸总是比较复杂，但安全评分简化了主要风险和安全考虑因素，还为您启动了尽职调查。在部署金库之前，我们的团队会仔细考虑每个因素，密切关注 {{providerName}} 集成的每个资产、链和协议。",
+        "safetyScoreRateLink": "在 {{providerName}} 上查看更多安全评分详情"
+      },
+      "viewMoreDetails": "查看更多详情",
+      "viewLessDetails": "查看更少详情"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "您需要在 {{tokenNetwork}} 上持有 {{tokenSymbol}} 才可进行存款",
@@ -2752,5 +2829,10 @@
   "duration_year_other": "{{count}} 年",
   "duration_yearMonth_one": "1 年 1 个月",
   "duration_yearMonth_other": "{{count}} 年，{{count2}} 个月",
+  "tokenEnterAmount": {
+    "availableBalance": "可用：<0></0>",
+    "selectToken": "选择代币",
+    "fiatPriceUnavailable": "价格不详"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

@@ -43,7 +43,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import colors, { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -110,7 +110,7 @@ function ProfileMenuOption() {
       <View style={styles.profileContainer}>
         <ContactCircleSelf size={48} />
         {renderContent()}
-        <ForwardChevron color={colors.gray3} height={12} />
+        <ForwardChevron color={Colors.gray3} height={12} />
       </View>
     </Touchable>
   )
@@ -122,6 +122,7 @@ export default function SettingsMenu({ route }: Props) {
   const account = useSelector(walletAddressSelector)
 
   const appVersion = deviceInfoModule.getVersion()
+  const buildNumber = deviceInfoModule.getBuildNumber()
 
   const { v2 } = useSelector(walletConnectEnabledSelector)
   const { sessions } = useSelector(selectSessions)
@@ -190,7 +191,7 @@ export default function SettingsMenu({ route }: Props) {
       <ScrollView>
         <ProfileMenuOption />
         <SettingsItemTextValue
-          icon={<Wallet size={24} color={colors.black} />}
+          icon={<Wallet size={24} color={Colors.black} />}
           title={t('address')}
           onPress={() =>
             navigate(Screens.QRNavigator, {
@@ -203,7 +204,7 @@ export default function SettingsMenu({ route }: Props) {
           borderless
         />
         <SettingsItemTextValue
-          icon={<Envelope color={colors.black} />}
+          icon={<Envelope color={Colors.black} />}
           title={t('invite')}
           onPress={() => navigate(Screens.Invite)}
           testID="SettingsMenu/Invite"
@@ -222,7 +223,7 @@ export default function SettingsMenu({ route }: Props) {
           borderless
         />
         <SettingsItemTextValue
-          icon={<Lock width={24} height={24} color={colors.black} />}
+          icon={<Lock width={24} height={24} color={Colors.black} />}
           title={t('securityPrivacy')}
           testID="SettingsMenu/Security"
           onPress={() => navigate(Screens.SecuritySubmenu)}
@@ -231,7 +232,7 @@ export default function SettingsMenu({ route }: Props) {
         />
         {walletConnectEnabled && (
           <SettingsItemTextValue
-            icon={<Stack size={24} color={colors.black} />}
+            icon={<Stack size={24} color={Colors.black} />}
             title={t('connectedApplications')}
             testID="SettingsMenu/ConnectedDapps"
             value={connectedDapps.toString()}
@@ -261,7 +262,7 @@ export default function SettingsMenu({ route }: Props) {
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <View style={styles.appVersionContainer} testID="SettingsMenu/Version">
             <Text style={styles.appVersionText}>{t('appVersion')}</Text>
-            <Text style={styles.appVersionText}>{appVersion}</Text>
+            <Text style={styles.appVersionText}>{`${appVersion} (${buildNumber})`}</Text>
           </View>
         </TouchableWithoutFeedback>
         {getDevSettingsComp()}
@@ -296,7 +297,7 @@ const styles = StyleSheet.create({
   },
   secondaryProfileLabel: {
     ...typeScale.bodyMedium,
-    color: colors.gray3,
+    color: Colors.gray3,
   },
   appVersionContainer: {
     flexDirection: 'row',
@@ -307,7 +308,7 @@ const styles = StyleSheet.create({
   },
   appVersionText: {
     ...typeScale.bodyMedium,
-    color: colors.gray3,
+    color: Colors.gray3,
   },
   devSettings: {
     alignItems: 'flex-start',

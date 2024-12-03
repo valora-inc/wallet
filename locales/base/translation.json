@@ -386,6 +386,7 @@
   "accountAddressLabel": "Account Address",
   "celoAmountLabel": "Amount (CELO)",
   "maxSymbol": "Max",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Review",
   "withdrawCeloTo": "Withdraw to",
   "withdrawCeloAmount": "Amount (CELO)",
@@ -1460,14 +1461,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Discover",
-    "exploreDapps": "Explore Dapps",
-    "exploreAll": "Explore All",
+    "exploreDapps": "Dapps",
+    "exploreAll": "View All",
     "message": "Explore ways to use your assets",
     "errorMessage": "There was an error loading dapps",
     "featuredDapp": "Featured",
     "allDapps": "All",
     "favoriteDapps": "My Favorites",
     "mostPopularDapps": "Most Popular",
+    "mostPopularDapps_UK": "Other Dapps",
     "favoriteDappsAndAll": "My Favorites & All",
     "searchPlaceHolder": "Search dapps",
     "noFavorites": {
@@ -1483,7 +1485,8 @@
       "message": "<0>{{filter}}</0> filter applied",
       "removeFilter": "Remove filter",
       "searchMessage": "No matching results found for <0>\"{{searchTerm}}\"</0>"
-    }
+    },
+    "disclaimer_UK": "This is a list of third-party Dapps. The description for each Dapp is purely informational, and not an invitation to use them."
   },
   "dappRankings": {
     "title": "Dapp rankings",
@@ -2125,18 +2128,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Search by name, phone, wallet...",
+    "searchInputLabel": "To",
+    "searchInputPlaceholder": "Wallet Address or Phone Number",
     "paste": "Paste from clipboard",
     "title": "Select a recipient",
     "contactsTitle": "Select a contact",
+    "header": "Send",
+    "contactsHeader": "Send to Contacts",
     "recents": "Recents",
     "results": "Results",
     "qr": {
-      "title": "Scan or Show QR Code",
-      "subtitle": "Quickly find addresses on {{appName}}"
+      "title": "Send via QR Code",
+      "subtitle": "Tap to scan or show an address"
     },
     "invite": {
-      "title": "Send crypto to your friends",
-      "subtitle": "Send funds or an invite to your contacts"
+      "title": "Send to a Contact",
+      "subtitle": "Send funds to your contacts"
     },
     "jumpstart": {
       "title": "Send with a Live Link",
@@ -2201,6 +2208,7 @@
     "title": "Enter Amount",
     "selectToken": "Select a Token",
     "networkFee": "{{networkName}} Network Fee",
+    "networkFeeV1_97": "Network Fee",
     "lowerAmount": "Enter a lower amount",
     "maxAmountWarning": {
       "title": "Sending the maximum amount",
@@ -2282,7 +2290,40 @@
     "infiniteApprovalDescription": "Approved infinite {{tokenSymbol}} for trade",
     "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
     "descriptionLabel": "Details",
-    "crossChainSwapTransactionLabel": "Cross-chain"
+    "crossChainSwapTransactionLabel": "Cross-chain",
+    "depositTitle": "Deposited",
+    "depositSubtitle": "to {{txAppName}} Pool",
+    "depositSubtitle_noTxAppName": "to unknown app",
+    "withdrawTitle": "Withdrew",
+    "withdrawSubtitle": "from {{txAppName}} Pool",
+    "withdrawSubtitle_noTxAppName": "from unknown app",
+    "claimRewardTitle": "Collected",
+    "claimRewardSubtitle": "from {{txAppName}} Pool",
+    "claimRewardSubtitle_noTxAppName": "from unknown app",
+    "allTransactionsShown": "You've reached the end of your transaction history.",
+    "fetchErrorRetry": "Try again",
+    "error": {
+      "fetchError": "Oops, there was an issue refreshing your feed. Your transaction history may be incomplete for now."
+    },
+    "noTransactions": "Congratulations, you've successfully created a {{appName}} wallet!"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Details",
+    "depositTitle": "Deposited",
+    "depositSubtitle": "Deposited {{tokenSymbol}} to {{txAppName}} Pool",
+    "depositSubtitle_noTxAppName": "Deposited {{tokenSymbol}} to unknown app",
+    "depositDetails": "Amount Deposited",
+    "withdrawTitle": "Withdrew",
+    "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{txAppName}} Pool",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawDetails": "Amount Withdrawn",
+    "claimRewardTitle": "Collected",
+    "claimRewardSubtitle": "Collected {{tokenSymbol}} from {{txAppName}} Pool",
+    "claimRewardSubtitle_noTxAppName": "Collected {{tokenSymbol}} from unknown app",
+    "claimRewardDetails": "Amount Collected",
+    "swap": "Swap",
+    "network": "Network",
+    "fees": "Fees"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2550,13 +2591,17 @@
     "entrypoint": {
       "title": "Earn on your crypto",
       "subtitle": "Deposit and earn",
-      "description": "Earn on your crypto assets when you lend through a liquidity pool"
+      "description": "Earn by lending your crypto assets in liquidity pools.",
+      "totalDepositAndEarnings": "Total Deposit & Earnings"
     },
     "enterAmount": {
       "title": "How much would you like to deposit?",
+      "titleWithdraw": "How much would you like to withdraw?",
       "deposit": "Deposit",
       "fees": "Fees",
+      "available": "Available",
       "swap": "Swap",
+      "claimingReward": "Claiming Reward",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
@@ -2576,6 +2621,7 @@
         "estNetworkFee": "Est. Network Fee",
         "maxNetworkFee": "Max Network Fee",
         "networkFeeDescription": "The network fee is required by the network to process the deposit transaction.",
+        "networkFeeDescriptionWithdrawal": "The network fee is required by the network to process the withdrawal transaction.",
         "networkSwapFeeDescription": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
         "appSwapFee": "{{appName}} Fee"
       },
@@ -2585,6 +2631,10 @@
         "swapTo": "Swap To",
         "whySwap": "Why am I swapping?",
         "swapDescription": "To deposit funds into the pool, your token is being swapped into a pool token."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Withdrawing and Claiming",
+        "description": "{{providerName}} requires you to claim all available rewards anytime you withdraw."
       }
     },
     "activePools": {
@@ -2618,12 +2668,19 @@
     },
     "collect": {
       "title": "Congratulations! Review & collect your earnings",
+      "titleClaim": "You’re going to claim:",
+      "titleCollect": "You’re going to collect:",
+      "titleWithdraw": "You’re going to withdraw:",
       "total": "TOTAL",
       "plus": "PLUS",
+      "reward": "REWARD",
       "rate": "Rate (est.)",
       "apy": "{{apy}}% APY",
       "fee": "Gas Fee",
       "cta": "Collect Earnings",
+      "ctaWithdraw": "Withdraw",
+      "ctaReward": "Claim Reward",
+      "ctaExit": "Exit Pool",
       "errorTitle": "Something went wrong",
       "errorDescription": "Unable to fetch deposit details. Please try again.",
       "noGasTitle": "You need more {{symbol}} to continue",
@@ -2706,6 +2763,21 @@
       "deposit": "Deposit",
       "depositAndEarnings": "Deposit & Earnings",
       "withdraw": "Withdraw",
+      "withdrawBottomSheet": {
+        "title": "Select withdraw type",
+        "withdrawAndClaim": "Withdraw and Claim",
+        "withdrawDescription": "Withdraw a specific amount of any tokens you have deposited in the pool",
+        "withdrawAndClaimRewardsDescription": "Withdraw a specific amount of any tokens you have deposited in the pool and claim your rewards automatically",
+        "withdrawAndClaimEarningsDescription": "Withdraw a specific amount of any tokens you have deposited in the pool and claim your earnings automatically",
+        "claimRewards": "Claim Rewards",
+        "claimRewardsDescription": "Claim your rewards. Partial amounts of the reward cannot be claimed",
+        "claimEarnings": "Claim Earnings",
+        "claimEarningsDescription": "Claim the earnings on your deposit. Partial amounts cannot be claimed",
+        "exit": "Exit",
+        "exitDescription": "Exiting will withdraw everything you have in the pool",
+        "exitWithRewardsDescription": "Exiting will withdraw everything you have in the pool, including rewards",
+        "exitWithEarningsDescription": "Exiting will withdraw everything you have in the pool, including earnings"
+      },
       "totalDepositAndEarnings": "Total Deposit & Earnings",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
@@ -2721,9 +2793,13 @@
         "yieldRateDescription": "While most pools offer earnings in the form of a liquidity pool token, some give additional token(s) as a reward or added incentive.\n\nSince {{appName}} aggregates pools across multiple protocols, we have combined all the earning and reward rates into a single, overall yield rate to help easily evaluate your earning potential. This number is an estimate since the earning and reward values fluctuate constantly.\n\nFor further information about earning breakdowns you can visit <0>{{providerName}}</0>.",
         "dailyYieldRateTitle": "Daily Rate",
         "dailyYieldRateDescription": "The daily rate displayed reflects the daily rate provided by {{providerName}}.",
-        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}"
+        "dailyYieldRateLink": "View More Daily Rate Details On {{providerName}}",
+        "safetyScoreTitle": "Safety Score",
+        "safetyScoreDescription": "The Safety Score breaks down the safety of the underlying vault asset into several key factors. It aims to draw your attention to the risks to consider before investing, and to inform you about technical details that you may not be able to evaluate for yourself.\nThough the full position is always more complicated, the Safety Score is provided to simplify the key risk and safety considerations and kick-start your own due diligence. Our team carefully considers each factor before a vault is deployed, and keeps a watchful eye on each asset, chain and protocol which {{providerName}} has integrated.",
+        "safetyScoreRateLink": "View More Safety Score Details On {{providerName}}"
       },
-      "viewMoreDetails": "View More Details"
+      "viewMoreDetails": "View More Details",
+      "viewLessDetails": "View Less Details"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",
@@ -2757,5 +2833,10 @@
   "duration_year_one": "1 year",
   "duration_year_other": "{{count}} years",
   "duration_yearMonth_one": "1 year, 1 month",
-  "duration_yearMonth_other": "{{count}} years, {{count2}} months"
+  "duration_yearMonth_other": "{{count}} years, {{count2}} months",
+  "tokenEnterAmount": {
+    "availableBalance": "Available: <0></0>",
+    "selectToken": "Select token",
+    "fiatPriceUnavailable": "Price unavailable"
+  }
 }

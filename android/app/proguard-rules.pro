@@ -20,7 +20,7 @@
 -keep class com.segment.analytics.** { *; }
 -keep class androidx.lifecycle.DefaultLifecycleObserver
 
--keep class org.celo.mobile.BuildConfig { *; }
+-keep class xyz.mobilestack.BuildConfig { *; }
 -keep public class com.horcrux.svg.** {*;}
 -keep class com.rt2zz.reactnativecontacts.** {*;}
 -keepclassmembers class com.rt2zz.reactnativecontacts.** {*;}

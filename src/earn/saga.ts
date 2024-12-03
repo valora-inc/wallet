@@ -20,8 +20,8 @@ import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getTokenInfo } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
-import { TokenBalances, fetchTokenBalances } from 'src/tokens/slice'
-import { BaseStandbyTransaction } from 'src/transactions/actions'
+import { TokenBalances } from 'src/tokens/slice'
+import { BaseStandbyTransaction } from 'src/transactions/slice'
 import {
   NetworkId,
   TokenTransactionTypeV2,
@@ -152,7 +152,6 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
           ): BaseStandbyTransaction => {
             return {
               context: newTransactionContext(TAG, 'Earn/Approve'),
-              __typename: 'TokenApproval',
               networkId,
               type: TokenTransactionTypeV2.Approval,
               transactionHash,
@@ -177,7 +176,6 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       ): BaseStandbyTransaction => {
         return {
           context: newTransactionContext(TAG, 'Earn/Deposit'),
-          __typename: 'EarnDeposit',
           networkId,
           type: TokenTransactionTypeV2.EarnDeposit,
           inAmount: {
@@ -199,7 +197,6 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       ): BaseStandbyTransaction => {
         return {
           context: newTransactionContext(TAG, 'Earn/SwapDeposit'),
-          __typename: 'EarnSwapDeposit',
           networkId,
           type: TokenTransactionTypeV2.EarnSwapDeposit,
           swap: {
@@ -279,7 +276,6 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
         transactionHash: txHashes[txHashes.length - 1],
       })
     )
-    yield* put(fetchTokenBalances({ showLoading: false }))
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(`${TAG}/depositSubmitSaga`, 'Transaction cancelled by user')
@@ -310,15 +306,15 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     pool,
     preparedTransactions: serializablePreparedTransactions,
     rewardsTokens,
+    amount,
+    mode,
   } = action.payload
   const tokenId = pool.dataProps.depositTokenId
-
   const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
-
   const tokenInfo = yield* call(getTokenInfo, tokenId)
 
   if (!tokenInfo) {
-    Logger.error(`${TAG}/withdrawSubmitSaga`, 'Token info not found for token id', tokenId)
+    Logger.error(`${TAG}/withdrawSubmitSaga/${mode}`, 'Token info not found for token id', tokenId)
     yield* put(withdrawError())
     return
   }
@@ -329,91 +325,83 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     depositTokenId: tokenId,
     networkId,
     poolId: pool.positionId,
-    tokenAmount: pool.balance,
+    // Exclude tokenAmount for claim-rewards mode
+    ...(mode !== 'claim-rewards' && { tokenAmount: amount ?? pool.balance }),
     providerId: pool.appId,
     rewards: rewardsTokens.map(({ tokenId, balance }) => ({
       tokenId,
       amount: balance,
     })),
+    mode,
   }
 
   try {
     Logger.debug(
-      `${TAG}/withdrawSubmitSaga`,
-      `Starting withdraw for token ${tokenId}, total transactions: ${preparedTransactions.length}`
+      `${TAG}/withdrawSubmitSaga/${mode}`,
+      `Starting ${mode} for token ${tokenId}, total transactions: ${preparedTransactions.length}`
     )
 
-    const createWithdrawStandbyTxHandlers = []
+    const transactionHandlers: Array<
+      (transactionHash: string, feeCurrencyId?: string) => BaseStandbyTransaction
+    > = []
 
-    // Assumes the first tx is withdraw and the rest are claim rewards
-    const createWithdrawStandbyTxHandler = (
-      transactionHash: string,
-      feeCurrencyId?: string
-    ): BaseStandbyTransaction => {
-      return {
+    if (mode !== 'claim-rewards') {
+      const createWithdrawStandbyTxHandler = (
+        transactionHash: string,
+        feeCurrencyId?: string
+      ): BaseStandbyTransaction => ({
         context: newTransactionContext(TAG, 'Earn/Withdraw'),
-        __typename: 'EarnWithdraw',
         networkId,
         type: TokenTransactionTypeV2.EarnWithdraw,
-        inAmount: {
-          value: pool.balance,
-          tokenId,
-        },
-        outAmount: {
-          value: pool.balance,
-          tokenId: pool.dataProps.withdrawTokenId,
-        },
+        inAmount: { value: amount ?? pool.balance, tokenId },
+        outAmount: { value: amount ?? pool.balance, tokenId: pool.dataProps.withdrawTokenId },
         transactionHash,
         feeCurrencyId,
         providerId: pool.appId,
-      }
+      })
+      transactionHandlers.push(createWithdrawStandbyTxHandler)
     }
-
-    createWithdrawStandbyTxHandlers.push(createWithdrawStandbyTxHandler)
 
     rewardsTokens.forEach(({ balance, tokenId }, index) => {
       const createClaimRewardStandbyTx = (
         transactionHash: string,
         feeCurrencyId?: string
-      ): BaseStandbyTransaction => {
-        return {
-          context: newTransactionContext(TAG, `Earn/ClaimReward-${index + 1}`),
-          __typename: 'EarnClaimReward',
-          networkId,
-          amount: {
-            value: balance,
-            tokenId,
-          },
-          type: TokenTransactionTypeV2.EarnClaimReward,
-          transactionHash,
-          feeCurrencyId,
-          providerId: pool.appId,
-        }
+      ): BaseStandbyTransaction => ({
+        context: newTransactionContext(TAG, `Earn/ClaimReward-${index + 1}`),
+        networkId,
+        amount: { value: balance, tokenId },
+        type: TokenTransactionTypeV2.EarnClaimReward,
+        transactionHash,
+        feeCurrencyId,
+        providerId: pool.appId,
+      })
+
+      if (mode === 'claim-rewards' || !pool.dataProps.withdrawalIncludesClaim) {
+        transactionHandlers.push(createClaimRewardStandbyTx)
       }
-      createWithdrawStandbyTxHandlers.push(createClaimRewardStandbyTx)
     })
 
-    AppAnalytics.track(EarnEvents.earn_withdraw_submit_start, commonAnalyticsProps)
+    const eventStart = EarnEvents.earn_withdraw_submit_start
+    AppAnalytics.track(eventStart, commonAnalyticsProps)
 
     const txHashes = yield* call(
       sendPreparedTransactions,
       serializablePreparedTransactions,
       networkId,
-      createWithdrawStandbyTxHandlers,
+      transactionHandlers,
       isGasSubsidizedForNetwork(networkId)
     )
 
     Logger.debug(
-      `${TAG}/withdraw`,
-      'Successfully sent withdraw transaction(s) to the network',
+      `${TAG}/withdrawSubmitSaga/${mode}`,
+      `Successfully sent ${mode} transaction(s) to the network`,
       txHashes
     )
-
     navigateHome()
     submitted = true
 
-    // wait for the tx receipts, so that we can track them
-    Logger.debug(`${TAG}/withdrawSubmitSaga`, 'Waiting for transaction receipts')
+    // Wait for transaction receipts
+    Logger.debug(`${TAG}/withdrawSubmitSaga/${mode}`, 'Waiting for transaction receipts')
     const txReceipts = yield* all(
       txHashes.map((txHash) => {
         return call([publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'], {
@@ -421,9 +409,10 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
         })
       })
     )
+
     txReceipts.forEach((receipt, index) => {
       Logger.debug(
-        `${TAG}/withdrawSubmitSaga`,
+        `${TAG}/withdrawSubmitSaga/${mode}`,
         `Received transaction receipt ${index + 1} of ${txReceipts.length}`,
         receipt
       )
@@ -436,18 +425,17 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     })
 
     yield* put(withdrawSuccess())
-    yield* put(fetchTokenBalances({ showLoading: false }))
     AppAnalytics.track(EarnEvents.earn_withdraw_submit_success, commonAnalyticsProps)
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
-      Logger.info(`${TAG}/withdrawSubmitSaga`, 'Transaction cancelled by user')
+      Logger.info(`${TAG}/withdrawSubmitSaga/${mode}`, 'Transaction(s) cancelled by user')
       yield* put(withdrawCancel())
       AppAnalytics.track(EarnEvents.earn_withdraw_submit_cancel, commonAnalyticsProps)
       return
     }
 
     const error = ensureError(err)
-    Logger.error(`${TAG}/withdrawSubmitSaga`, 'Error sending withdraw transaction', error)
+    Logger.error(`${TAG}/withdrawSubmitSaga/${mode}`, `Error sending ${mode} transaction(s)`, error)
     yield* put(withdrawError())
     AppAnalytics.track(EarnEvents.earn_withdraw_submit_error, {
       ...commonAnalyticsProps,

@@ -1,5 +1,9 @@
 import _ from 'lodash'
-import { FinclusiveKycStatus, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
+import {
+  FinclusiveKycStatus,
+  RecoveryPhraseInOnboardingStatus,
+  PincodeType,
+} from 'src/account/reducer'
 import { MultichainBetaStatus } from 'src/app/actions'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { Dapp } from 'src/dapps/types'
@@ -13,6 +17,8 @@ import { Recipient } from 'src/recipients/recipient'
 import { Network, NetworkId, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
+import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
 export function updateCachedQuoteParams(cachedQuoteParams: {
   [providerId: string]: {
@@ -1917,4 +1923,57 @@ export const migrations = {
     app: _.omit(state.app, 'numberVerified'),
   }),
   233: (state: any) => state,
+  234: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      feedFirstPage: [],
+    },
+  }),
+  235: (state: any) => state,
+  236: (state: any) => ({
+    ...state,
+    tokens: _.omit(state.tokens, 'loading'),
+  }),
+  237: (state: any) => {
+    // This migration is taken directly from the old initial route logic. The
+    // only difference is that the multi-chain beta screen has been removed, since
+    // it required fetching a feature gate.
+    const lastOnboardingStepScreen = (() => {
+      if (!state.i18n.language) {
+        return Screens.Language
+      } else if (!state.account.acceptedTerms || state.account.pincodeType === PincodeType.Unset) {
+        return Screens.Welcome
+      } else if (!state.web3.account) {
+        return state.account.choseToRestoreAccount
+          ? ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackup]
+            ? Screens.ImportSelect
+            : Screens.ImportWallet
+          : Screens.Welcome
+      } else if (
+        state.account.recoveryPhraseInOnboardingStatus ===
+        RecoveryPhraseInOnboardingStatus.InProgress
+      ) {
+        return Screens.ProtectWallet
+      } else if (
+        !state.identity.hasSeenVerificationNux &&
+        ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.PhoneVerification]
+      ) {
+        return Screens.VerificationStartScreen
+      } else {
+        return Screens.TabNavigator
+      }
+    })()
+    const onboardingCompleted = lastOnboardingStepScreen === Screens.TabNavigator
+
+    return {
+      ...state,
+      account: {
+        ...state.account,
+        onboardingCompleted,
+        lastOnboardingStepScreen,
+      },
+      identity: _.omit(state.identity, 'hasSeenVerificationNux'),
+    }
+  },
 }

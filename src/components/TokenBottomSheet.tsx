@@ -6,7 +6,7 @@ import {
 import { debounce } from 'lodash'
 import React, { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TextStyle, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, TextStyle, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -22,7 +22,7 @@ import SearchInput from 'src/components/SearchInput'
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
 import InfoIcon from 'src/icons/InfoIcon'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import colors, { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
@@ -293,6 +293,9 @@ function TokenBottomSheet({
           }
           return null
         }}
+        onScrollBeginDrag={() => {
+          Keyboard.dismiss()
+        }}
       />
       <View style={styles.headerContainer} onLayout={handleMeasureHeader}>
         <Text style={[styles.title, titleStyle]}>{title}</Text>
@@ -399,7 +402,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     padding: Spacing.Thick24,
-    backgroundColor: colors.white,
+    backgroundColor: Colors.white,
     width: '100%',
   },
   title: {

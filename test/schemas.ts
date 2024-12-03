@@ -24,6 +24,7 @@ import {
   mockShortcuts,
   mockTestTokenAddress,
 } from 'test/values'
+import { Screens } from 'src/navigator/Screens'
 
 export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
@@ -3541,6 +3542,49 @@ export const v233Schema = {
   },
 }
 
+export const v234Schema = {
+  ...v233Schema,
+  _persist: {
+    ...v233Schema._persist,
+    version: 234,
+  },
+  transactions: {
+    ...v233Schema.transactions,
+    feedFirstPage: [],
+  },
+}
+
+export const v235Schema = {
+  ...v234Schema,
+  _persist: {
+    ...v234Schema._persist,
+    version: 235,
+  },
+}
+
+export const v236Schema = {
+  ...v235Schema,
+  _persist: {
+    ...v235Schema._persist,
+    version: 236,
+  },
+  tokens: _.omit(v235Schema.tokens, 'loading'),
+}
+
+export const v237Schema = {
+  ...v236Schema,
+  _persist: {
+    ...v236Schema._persist,
+    version: 237,
+  },
+  account: {
+    ...v236Schema.account,
+    onboardingCompleted: true,
+    lastOnboardingStepScreen: Screens.Welcome,
+  },
+  identity: _.omit(v236Schema.identity, 'hasSeenVerificationNux'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v233Schema as Partial<RootState>
+  return v237Schema as Partial<RootState>
 }

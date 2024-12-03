@@ -3,8 +3,8 @@ import { FetchMock } from 'jest-fetch-mock'
 import { expectSaga } from 'redux-saga-test-plan'
 import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
-import { AppEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AppEvents } from 'src/analytics/Events'
 import { getMultichainFeatures } from 'src/statsig'
 import {
   fetchImportedTokenBalances,
@@ -26,7 +26,6 @@ import {
   fetchTokenBalancesFailure,
   setTokenBalances,
 } from 'src/tokens/slice'
-import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -110,14 +109,14 @@ describe('getTokensInfo', () => {
   it('returns payload if response OK', async () => {
     mockFetch.mockResponseOnce('{"some": "data"}')
 
-    const result = await getTokensInfo()
+    const result = await getTokensInfo([NetworkId['celo-alfajores']])
     expect(result).toEqual({
       some: 'data',
     })
   })
   it('throws if request does not complete within timeout', async () => {
     mockFetch.mockResponseOnce('error!', { status: 500, statusText: 'some error' })
-    await expect(getTokensInfo()).rejects.toEqual(
+    await expect(getTokensInfo([NetworkId['celo-alfajores']])).rejects.toEqual(
       new Error('Failure response fetching token info. 500  some error')
     )
     expect(Logger.error).toHaveBeenCalledTimes(1)
@@ -173,7 +172,7 @@ describe(fetchTokenBalancesSaga, () => {
       .provide([
         [select(importedTokensSelector, supportedNetworks), []],
         [select(networksIconSelector), {}],
-        [call(getTokensInfo), mockBlockchainApiTokenInfo],
+        [call(getTokensInfo, supportedNetworks), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
       ])
@@ -185,7 +184,7 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [select(walletAddressSelector), null],
-        [call(getTokensInfo), mockBlockchainApiTokenInfo],
+        [call(getTokensInfo, [NetworkId['celo-alfajores']]), mockBlockchainApiTokenInfo],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
       ])
       .not.call(getTokensInfo)
@@ -203,7 +202,7 @@ describe(fetchTokenBalancesSaga, () => {
       .provide([
         [select(importedTokensSelector, supportedNetworks), []],
         [select(networksIconSelector), {}],
-        [call(getTokensInfo), mockBlockchainApiTokenInfo],
+        [call(getTokensInfo, supportedNetworks), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [
           call(fetchTokenBalancesForAddressByTokenId, mockAccount),
@@ -242,7 +241,7 @@ describe(fetchTokenBalancesSaga, () => {
 
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [call(getTokensInfo), mockBlockchainApiTokenInfo],
+        [call(getTokensInfo, supportedNetworks), mockBlockchainApiTokenInfo],
         [select(importedTokensSelector, supportedNetworks), importedTokens],
         [
           select(networksIconSelector),
@@ -278,27 +277,23 @@ describe(fetchTokenBalancesSaga, () => {
 })
 
 describe(fetchTokenBalancesForAddressByTokenId, () => {
+  beforeEach(() => {
+    mockFetch.resetMocks()
+  })
+
   it('returns token balances for a single chain', async () => {
     jest.mocked(getMultichainFeatures).mockReturnValueOnce({
       showBalances: [NetworkId['celo-alfajores']],
     })
-    mockFetch.mockImplementation(async (_, _requestInit) => {
-      return new Response(
-        JSON.stringify({
-          data: {
-            userBalances: {
-              balances: [
-                {
-                  tokenId: mockCusdTokenId,
-                  tokenAddress: mockCusdAddress,
-                  balance: '10000000000000',
-                },
-              ],
-            },
-          },
-        })
-      )
-    })
+    mockFetch.mockResponseOnce(
+      JSON.stringify([
+        {
+          tokenId: mockCusdTokenId,
+          tokenAddress: mockCusdAddress,
+          balance: '10000000000000',
+        },
+      ])
+    )
     const result = await fetchTokenBalancesForAddressByTokenId('some-address')
     expect(result).toMatchObject({
       [mockCusdTokenId]: {
@@ -307,35 +302,30 @@ describe(fetchTokenBalancesForAddressByTokenId, () => {
         tokenId: mockCusdTokenId,
       },
     })
+    expect(mockFetch.mock.calls.length).toEqual(1)
+    expect(mockFetch.mock.calls[0][0]).toEqual(
+      'https://api.alfajores.valora.xyz/getWalletBalances?address=some-address&networkIds=celo-alfajores'
+    )
   })
 
   it('returns token balances for multiple chains', async () => {
     jest.mocked(getMultichainFeatures).mockReturnValueOnce({
       showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
     })
-    mockFetch.mockImplementation(async (_, requestInit) => {
-      const body = JSON.parse((requestInit?.body as string) ?? '{}')
-      const networkId = body.variables.networkId
-      const tokenAddress = networkId === 'celo_alfajores' ? mockCusdAddress : mockUSDCAddress
-
-      return new Response(
-        JSON.stringify({
-          data: {
-            userBalances: {
-              balances: [
-                {
-                  // Invert fix for GraphQL hyphens issue
-                  tokenId: getTokenId(networkId.replaceAll('_', '-'), tokenAddress),
-                  tokenAddress,
-                  balance: '10000000000000',
-                },
-              ],
-            },
-          },
-        })
-      )
-    })
-
+    mockFetch.mockResponseOnce(
+      JSON.stringify([
+        {
+          tokenId: mockCusdTokenId,
+          tokenAddress: mockCusdAddress,
+          balance: '10000000000000',
+        },
+        {
+          tokenId: mockUSDCTokenId,
+          tokenAddress: mockUSDCAddress,
+          balance: '20000000000000',
+        },
+      ])
+    )
     const result = await fetchTokenBalancesForAddressByTokenId('some-address')
     expect(result).toMatchObject({
       [mockCusdTokenId]: {
@@ -344,11 +334,25 @@ describe(fetchTokenBalancesForAddressByTokenId, () => {
         tokenId: mockCusdTokenId,
       },
       [mockUSDCTokenId]: {
-        balance: '10000000000000',
+        balance: '20000000000000',
         tokenAddress: mockUSDCAddress,
         tokenId: mockUSDCTokenId,
       },
     })
+    expect(mockFetch.mock.calls.length).toEqual(1)
+    expect(mockFetch.mock.calls[0][0]).toEqual(
+      'https://api.alfajores.valora.xyz/getWalletBalances?address=some-address&networkIds=celo-alfajores%2Cethereum-sepolia'
+    )
+  })
+
+  it('throws when received status is other than 200', async () => {
+    jest.mocked(getMultichainFeatures).mockReturnValueOnce({
+      showBalances: [NetworkId['celo-alfajores']],
+    })
+    mockFetch.mockResponseOnce('error', { status: 500, statusText: 'some error' })
+
+    const result = fetchTokenBalancesForAddressByTokenId('some-address')
+    await expect(result).rejects.toThrow('Failed to fetch token balances: 500 some error')
   })
 })
 

@@ -295,7 +295,7 @@ export enum SendEvents {
   send_tx_error = 'send_tx_error',
 
   token_dropdown_opened = 'token_dropdown_opened',
-  max_pressed = 'max_pressed',
+  send_percentage_selected = 'send_percentage_selected',
   swap_input_pressed = 'swap_input_pressed',
 
   // related to the alert that is shown when sending to an unknown address
@@ -674,7 +674,6 @@ export enum EarnEvents {
   earn_withdraw_add_gas_press = 'earn_withdraw_add_gas_press',
   earn_info_learn_press = 'earn_info_learn_press',
   earn_info_earn_press = 'earn_info_earn_press',
-  earn_active_pools_card_press = 'earn_active_pools_card_press',
   earn_home_learn_more_press = 'earn_home_learn_more_press',
   earn_pool_card_press = 'earn_pool_card_press',
   earn_home_error_try_again = 'earn_home_error_try_again',
@@ -682,4 +681,6 @@ export enum EarnEvents {
   earn_pool_info_tap_info_icon = 'earn_pool_info_tap_info_icon',
   earn_pool_info_tap_withdraw = 'earn_pool_info_tap_withdraw',
   earn_pool_info_tap_deposit = 'earn_pool_info_tap_deposit',
+  earn_pool_info_tap_safety_details = 'earn_pool_info_tap_safety_details',
+  earn_select_withdraw_type = 'earn_select_withdraw_type',
 }

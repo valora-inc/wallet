@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Touchable from 'src/components/Touchable'
-import Wallet from 'src/icons/Wallet'
+import Reward from 'src/icons/Reward'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { positionsWithClaimableRewardsSelector } from 'src/positions/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import { Colors } from 'src/styles/colors'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -25,7 +25,12 @@ interface Props {
 
 function FeaturedAction({ title, description, Image, style, onPress }: Props) {
   return (
-    <Touchable style={[styles.pressableCard, style]} onPress={onPress} testID="DappFeaturedAction">
+    <Touchable
+      style={[styles.pressableCard, style]}
+      onPress={onPress}
+      testID="DappFeaturedAction"
+      borderRadius={8}
+    >
       <View style={styles.cardContainer}>
         {Image}
         <View style={styles.cardContentContainer}>
@@ -68,7 +73,7 @@ export function DappFeaturedActions() {
         <FeaturedAction
           title={t('dappShortcuts.rewards.title')}
           description={t('dappShortcuts.rewards.description')}
-          Image={<Wallet />}
+          Image={<Reward />}
           onPress={handleShowRewardsShortcuts}
           style={scrollEnabled ? styles.reducedWidthCard : undefined}
         />
@@ -80,15 +85,16 @@ export function DappFeaturedActions() {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: -Spacing.Thick24,
+    paddingTop: Spacing.Smallest8,
+    paddingBottom: Spacing.Thick24,
   },
   contentContainer: {
     paddingHorizontal: Spacing.Thick24,
+    gap: Spacing.Regular16,
   },
   pressableCard: {
     padding: Spacing.Regular16,
     borderRadius: 8,
-    marginTop: Spacing.Smallest8,
-    marginBottom: Spacing.Thick24,
     borderWidth: 1,
     borderColor: Colors.gray2,
     width: variables.width - Spacing.Thick24 * 2,
@@ -103,7 +109,6 @@ const styles = StyleSheet.create({
   },
   reducedWidthCard: {
     width: variables.width - Spacing.Thick24 * 4,
-    marginRight: Spacing.Regular16,
   },
   title: {
     ...typeScale.labelSemiBoldMedium,

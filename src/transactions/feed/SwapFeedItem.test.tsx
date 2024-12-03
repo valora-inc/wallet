@@ -16,7 +16,6 @@ import { mockCeurTokenId, mockCusdTokenId, mockEthTokenId, mockTokenBalances } f
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
 
 const swapTransaction: TokenExchange = {
-  __typename: 'TokenExchangeV3',
   networkId: NetworkId['celo-alfajores'],
   type: TokenTransactionTypeV2.SwapTransaction,
   transactionHash: MOCK_TX_HASH,
@@ -36,7 +35,6 @@ const swapTransaction: TokenExchange = {
 
 const crossChainSwapTransaction: TokenExchange = {
   ...swapTransaction,
-  __typename: 'CrossChainTokenExchange',
   type: TokenTransactionTypeV2.CrossChainSwapTransaction,
   inAmount: {
     tokenId: mockEthTokenId,

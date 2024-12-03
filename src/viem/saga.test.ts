@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
-import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
+import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/slice'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { TransactionRequest } from 'src/viem/prepareTransactions'
@@ -46,14 +46,12 @@ const serializablePreparedTransactions = getSerializablePreparedTransactions(pre
 const mockStandbyTransactions: BaseStandbyTransaction[] = [
   {
     context: { id: 'mockContext1' },
-    __typename: 'TokenApproval',
     networkId: NetworkId['celo-alfajores'],
     type: TokenTransactionTypeV2.Approval,
     tokenId: mockCusdTokenId,
     approvedAmount: '1',
   },
   {
-    __typename: 'TokenTransferV3',
     context: { id: 'mockContext2' },
     type: TokenTransactionTypeV2.Sent,
     networkId: NetworkId['celo-alfajores'],

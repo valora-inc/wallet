@@ -22,11 +22,17 @@ import { call, put, select } from 'typed-redux-saga'
 
 const TAG = 'send/utils'
 
-export function* handleSendPaymentData(
-  data: UriData,
-  isFromScan: boolean,
+export function* handleSendPaymentData({
+  data,
+  isFromScan,
+  cachedRecipient,
+  defaultTokenIdOverride,
+}: {
+  data: UriData
+  isFromScan: boolean
   cachedRecipient?: Recipient
-) {
+  defaultTokenIdOverride?: string
+}) {
   const recipient: AddressRecipient = {
     address: data.address.toLowerCase(),
     name: data.displayName || cachedRecipient?.name,
@@ -63,7 +69,7 @@ export function* handleSendPaymentData(
     const currency: LocalCurrencyCode = data.currencyCode
       ? (data.currencyCode as LocalCurrencyCode)
       : yield* select(getLocalCurrencyCode)
-    const exchangeRate = yield* call(fetchExchangeRate, LocalCurrencyCode.USD, currency)
+    const exchangeRate = yield* call(fetchExchangeRate, currency)
     const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
     const usdToLocalRate = yield* select(usdToLocalCurrencyRateSelector)
     const localAmount = convertDollarsToLocalAmount(dollarAmount, usdToLocalRate)
@@ -96,7 +102,8 @@ export function* handleSendPaymentData(
       recipient,
       isFromScan,
       origin: SendOrigin.AppSendFlow,
-      defaultTokenIdOverride: data.token ? tokenInfo?.tokenId : undefined,
+      defaultTokenIdOverride:
+        defaultTokenIdOverride ?? (data.token ? tokenInfo?.tokenId : undefined),
       forceTokenId: !!(data.token && tokenInfo?.tokenId),
     })
   }
@@ -105,7 +112,7 @@ export function* handleSendPaymentData(
 export function* handlePaymentDeeplink(deeplink: string) {
   try {
     const paymentData = uriDataFromUrl(deeplink)
-    yield* call(handleSendPaymentData, paymentData, true)
+    yield* call(handleSendPaymentData, { data: paymentData, isFromScan: true })
   } catch (e) {
     Logger.warn('handlePaymentDeepLink', `deeplink ${deeplink} failed with ${e}`)
   }

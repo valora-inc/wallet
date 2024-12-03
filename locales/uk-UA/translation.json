@@ -386,6 +386,7 @@
   "accountAddressLabel": "Адреса рахунку",
   "celoAmountLabel": "Сума (CELO)",
   "maxSymbol": "Максимум",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Перегляд",
   "withdrawCeloTo": "Вивести",
   "withdrawCeloAmount": "Сума (CELO)",
@@ -1462,14 +1463,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "titleDiscover": "Дізнатися",
-    "exploreDapps": "Переглянути додатки DApps",
-    "exploreAll": "Переглянути все",
+    "exploreDapps": "Dapps",
+    "exploreAll": "Переглянути всі",
     "message": "Дізнайтеся, як використовувати свої активи",
     "errorMessage": "Сталася помилка під час завантаження застосунків dapps",
     "featuredDapp": "Рекомендовано",
     "allDapps": "Усі",
     "favoriteDapps": "Мої вподобання",
     "mostPopularDapps": "Популярні",
+    "mostPopularDapps_UK": "Інші застосунки Dapps",
     "favoriteDappsAndAll": "Мої вподобання і загальний вміст",
     "searchPlaceHolder": "Пошук застосунків Dapp",
     "noFavorites": {
@@ -1485,7 +1487,8 @@
       "message": "Фільтр <0>{{filter}}</0> застосовано",
       "removeFilter": "Видалити фільтр",
       "searchMessage": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>"
-    }
+    },
+    "disclaimer_UK": "Тут наведено перелік сторонніх застосунків Dapps. Інформація про кожен із них має виключно ознайомлювальний характер і не є запрошенням до використання."
   },
   "dappRankings": {
     "title": "Рейтинг застосунків dapp",
@@ -2127,18 +2130,22 @@
   },
   "sendSelectRecipient": {
     "searchText": "Пошук за іменем, телефоном, гаманцем...",
+    "searchInputLabel": "До",
+    "searchInputPlaceholder": "Адреса гаманця або номер телефону",
     "paste": "Копіювати з буфера обміну",
     "title": "Вибрати отримувача",
     "contactsTitle": "Вибрати контакт",
+    "header": "Надіслати",
+    "contactsHeader": "Надіслати контактам",
     "recents": "Нещодавні",
     "results": "Результати",
     "qr": {
-      "title": "Сканувати або показати QR-код",
-      "subtitle": "Швидко знайти адреси в {{appName}}"
+      "title": "Надіслати за допомогою QR-коду",
+      "subtitle": "Натисніть, щоб сканувати або показати адресу"
     },
     "invite": {
-      "title": "Надіслати криптовалюту друзям",
-      "subtitle": "Надіслати кошти або запрошення своїм контактам"
+      "title": "Надіслати вибраному контакту",
+      "subtitle": "Надіслати кошти своїм контактам"
     },
     "jumpstart": {
       "title": "Надіслати за прямим посиланням",
@@ -2284,7 +2291,40 @@
     "infiniteApprovalDescription": "За угодою затверджено неозначений {{tokenSymbol}}",
     "revokeApprovalDescription": "За угодою відкликано {{tokenSymbol}}",
     "descriptionLabel": "Подробиці",
-    "crossChainSwapTransactionLabel": "Кроссчейн-обмін"
+    "crossChainSwapTransactionLabel": "Кроссчейн-обмін",
+    "depositTitle": "Внесено",
+    "depositSubtitle": "до пулу {{txAppName}}",
+    "depositSubtitle_noTxAppName": "у невідомий застосунок",
+    "withdrawTitle": "Знято",
+    "withdrawSubtitle": "з пулу {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "з невідомого застосунку",
+    "claimRewardTitle": "Стягнуто",
+    "claimRewardSubtitle": "з пулу {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "з невідомого застосунку",
+    "allTransactionsShown": "Ви переглянули всю історію транзакцій.",
+    "fetchErrorRetry": "Спробувати ще раз",
+    "error": {
+      "fetchError": "На жаль, виникла проблема при оновленні вашої стрічки. Історія транзакцій може бути тимчасово неповною."
+    },
+    "noTransactions": "Вітаємо, ви успішно створили гаманець {{appName}}!"
+  },
+  "transactionDetails": {
+    "descriptionLabel": "Подробиці",
+    "depositTitle": "Внесено",
+    "depositSubtitle": "Внесено {{tokenSymbol}} до пулу {{txAppName}}",
+    "depositSubtitle_noTxAppName": "Внесено {{tokenSymbol}} у невідомий застосунок",
+    "depositDetails": "Суму внесено",
+    "withdrawTitle": "Знято",
+    "withdrawSubtitle": "Знято {{tokenSymbol}} з пулу {{txAppName}}",
+    "withdrawSubtitle_noTxAppName": "Виведено {{tokenSymbol}} з невідомого застосунку",
+    "withdrawDetails": "Знята сума",
+    "claimRewardTitle": "Стягнуто",
+    "claimRewardSubtitle": "Стягнено {{tokenSymbol}} з пулу {{txAppName}}",
+    "claimRewardSubtitle_noTxAppName": "Зібрано {{tokenSymbol}} з невідомого застосунку",
+    "claimRewardDetails": "Стягнуто суму",
+    "swap": "Обміняти",
+    "network": "Мережа",
+    "fees": "Комісії"
   },
   "multichainBeta": {
     "beta": "BETA",
@@ -2552,13 +2592,17 @@
     "entrypoint": {
       "title": "Заробляйте на своїй криптовалюті",
       "subtitle": "Внесіть кошти та отримуйте прибуток",
-      "description": "Заробляйте на своїх криптоактивах, надаючи позики через пул ліквідності"
+      "description": "Отримуйте прибуток, надаючи свої криптоактиви в пули ліквідності.",
+      "totalDepositAndEarnings": "Загальний обсяг вкладів та прибутків"
     },
     "enterAmount": {
       "title": "Яку суму ви бажаєте внести?",
+      "titleWithdraw": "Яку суму ви бажаєте вивести?",
       "deposit": "Депозит",
       "fees": "Комісії",
+      "available": "Доступно",
       "swap": "Обміняти",
+      "claimingReward": "Отримання винагороди",
       "earnUpToLabel": "Можна заробити до:",
       "rateLabel": "Ставка (орієнт.)",
       "earnUpTo": "~{{fiatSymbol}}{{amount}} / yr",
@@ -2578,6 +2622,7 @@
         "estNetworkFee": "Орієнтовна комісія мережі",
         "maxNetworkFee": "Максимальна комісія мережі",
         "networkFeeDescription": "Комісія мережі стягується за оброблення транзакції депозиту.",
+        "networkFeeDescriptionWithdrawal": "Комісія мережі стягується за оброблення транзакції виведення коштів.",
         "networkSwapFeeDescription": "Комісія мережі стягується за оброблення транзакції депозиту. Комісія {{appName}} в розмірі {{appFeePercentage}}% сплачується за використання нашого продукту.",
         "appSwapFee": "Комісія {{appName}}"
       },
@@ -2587,6 +2632,10 @@
         "swapTo": "Обміняти на",
         "whySwap": "Навіщо обмінювати?",
         "swapDescription": "Для внесення коштів у пул ваш токен обмінюється на токен пулу."
+      },
+      "withdrawingAndClaimingCard": {
+        "title": "Виведення коштів та отримання винагород",
+        "description": "{{providerName}} вимагає, щоб ви отримували всі доступні винагороди щоразу, коли виводите кошти."
       }
     },
     "activePools": {
@@ -2620,12 +2669,19 @@
     },
     "collect": {
       "title": "Вітаємо! Перегляньте та зберіть свої заробітки",
+      "titleClaim": "Ви збираєтесь отримати:",
+      "titleCollect": "Ви збираєтесь зібрати:",
+      "titleWithdraw": "Ви збираєтесь вивести:",
       "total": "УСЬОГО",
       "plus": "ПЛЮС",
+      "reward": "ВИНАГОРОДА",
       "rate": "Ставка (орієнт.)",
       "apy": "{{apy}}% APY",
       "fee": "Комісія за газ",
       "cta": "Зібрати заробітки",
+      "ctaWithdraw": "Зняти",
+      "ctaReward": "Отримати винагороду",
+      "ctaExit": "Вийти з пулу",
       "errorTitle": "Щось пішло не так",
       "errorDescription": "Не вдається отримати реквізити для депозиту. Спробуйте ще раз.",
       "noGasTitle": "Потрібно більше {{symbol}}, щоб продовжити",
@@ -2697,16 +2753,32 @@
       "chainName": "Мережа: <0>{{networkName}}</0>",
       "protocolName": "Протокол: <0>{{providerName}}</0>",
       "yieldRate": "Ставка прибутковості",
-      "dailyYieldRate": "Добовий тариф",
+      "dailyYieldRate": "Денна ставка",
       "ratePercent": "{{rate}}%",
       "rewards": "Винагорода",
       "noRewards": "Винагород немає",
+      "safetyScore": "Оцінка безпеки",
       "tvl": "TVL",
       "ageOfPool": "Вік пулу",
       "learnMoreOnProvider": "Переглянути пул на {{providerName}}",
       "deposit": "Депозит",
       "depositAndEarnings": "Депозит і прибуток",
       "withdraw": "Зняти",
+      "withdrawBottomSheet": {
+        "title": "Виберіть тип виведення коштів",
+        "withdrawAndClaim": "Вивести кошти та отримати винагороди",
+        "withdrawDescription": "Вивести певну кількість токенів, які ви внесли в пул",
+        "withdrawAndClaimRewardsDescription": "Вивести певну кількість токенів, які ви внесли в пул, і автоматично отримати свої винагороди",
+        "withdrawAndClaimEarningsDescription": "Вивести певну кількість токенів, які ви внесли в пул, і автоматично отримати свої прибутки",
+        "claimRewards": "Запит винагороди",
+        "claimRewardsDescription": "Отримайте свої винагороди. Часткові суми винагороди не підлягають виплаті",
+        "claimEarnings": "Отримання прибутку",
+        "claimEarningsDescription": "Отримайте прибутки з вашого депозиту. Часткові суми не підлягають виплаті",
+        "exit": "Вийти",
+        "exitDescription": "При виході буде виведено все, що у вас є в пулі",
+        "exitWithRewardsDescription": "При виході буде виведено все, що у вас є в пулі, включно з винагородами",
+        "exitWithEarningsDescription": "При виході буде виведено все, що у вас є в пулі, включно з прибутками"
+      },
       "totalDepositAndEarnings": "Загальний обсяг вкладів та прибутків",
       "titleLocalAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}}",
       "lineItemAmountDisplay": "{{localCurrencySymbol}}{{localCurrencyAmount}} ({{cryptoAmount}} {{cryptoSymbol}})",
@@ -2720,10 +2792,15 @@
         "ageDescription": "Старіші пули ліквідності можуть свідчити про надійну історію та набутий рівень довіри в спільноті. Через це деякі можуть вважати такі пули безпечнішими.\n\nНемає ідеального способу визначення ризику, тому використовуйте цю інформацію як частину свого загального дослідження, щоб ухвалити найкраще для вас рішення.",
         "yieldRateTitle": "Ставка прибутковості",
         "yieldRateDescription": "Тоді як більшість пулів пропонують заробіток у вигляді токенів пулу ліквідності, деякі з них надають додаткові токени як винагороду або додатковий стимул.\n\nОскільки {{appName}} об’єднує пули різних протоколів, ми об’єднали всі ставки заробітку та винагороди в єдину загальну ставку прибутковості, щоб допомогти вам легко оцінити ваш потенціал заробітку. Ця цифра є приблизною, оскільки величина прибутку та винагород постійно коливається.\n\nДля отримання додаткової інформації про розподіл заробітку відвідайте <0>{{providerName}}</0>.",
-        "dailyYieldRateTitle": "Добовий тариф",
-        "dailyYieldRateDescription": "Відображувана денна ставка відображає денну ставку, надану сайтом {{providerName}}.",
-        "dailyYieldRateLink": "Детальна інформація про щоденні ціни на {{providerName}}"
-      }
+        "dailyYieldRateTitle": "Денна ставка",
+        "dailyYieldRateDescription": "Відображена денна ставка відповідає денній ставці, наданій {{providerName}}.",
+        "dailyYieldRateLink": "Переглянути більше інформації про денну ставку в {{providerName}}",
+        "safetyScoreTitle": "Оцінка безпеки",
+        "safetyScoreDescription": "Оцінка безпеки розподіляє безпеку базового активу сховища на кілька ключових факторів. Вона покликана привернути вашу увагу до ризиків, які слід розглянути перед інвестуванням, а також надати інформацію про технічні деталі, які ви, можливо, не зможете оцінити самостійно.\nХоча реальна ситуація завжди є складнішою, оцінка безпеки надається для спрощення основних ризиків і аспектів безпеки та для допомоги в проведенні власної перевірки. Наша команда ретельно розглядає кожен фактор перед впровадженням сховища й уважно стежить за кожним активом, мережею і протоколом, які інтегрував {{providerName}}.",
+        "safetyScoreRateLink": "Переглянути більше інформації про оцінку безпеки в {{providerName}}"
+      },
+      "viewMoreDetails": "Переглянути більше деталей",
+      "viewLessDetails": "Переглянути менше деталей"
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Вам потрібен {{tokenSymbol}} в {{tokenNetwork}} для внесення депозиту",
@@ -2758,6 +2835,11 @@
   "duration_year_other": "{{count}} р.",
   "duration_yearMonth_one": "1 рік, 1 місяць",
   "duration_yearMonth_other": "{{count}} р., {{count2}} міс.",
+  "tokenEnterAmount": {
+    "availableBalance": "Доступно: <0></0>",
+    "selectToken": "Вибрати токен",
+    "fiatPriceUnavailable": "Ціна недоступна"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
