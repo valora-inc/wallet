@@ -15,10 +15,12 @@ import { rootSaga } from 'src/redux/sagas'
 import { transactionFeedV2Api } from 'src/transactions/api'
 import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
-import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { ONE_MINUTE_IN_MILLIS } from 'src/utils/time'
 
-const timeBetweenStoreSizeEvents = ONE_DAY_IN_MILLIS
-let lastEventTime = Date.now()
+export const timeBetweenStoreSizeEvents = ONE_MINUTE_IN_MILLIS
+// Set this to the epoch so that a redix_store_size event will always be emitted the first time
+// the entire state is serialized in a session
+let lastEventTime = 0
 
 const persistConfig: PersistConfig<ReducersRootState> = {
   key: 'root',
@@ -27,14 +29,7 @@ const persistConfig: PersistConfig<ReducersRootState> = {
   version: 237,
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
-  blacklist: [
-    'networkInfo',
-    'alert',
-    'imports',
-    'keylessBackup',
-    'jumpstart',
-    transactionFeedV2Api.reducerPath,
-  ],
+  blacklist: ['networkInfo', 'alert', 'imports', 'keylessBackup', transactionFeedV2Api.reducerPath],
   stateReconciler: autoMergeLevel2,
   migrate: async (...args) => {
     const migrate = createMigrate(migrations)

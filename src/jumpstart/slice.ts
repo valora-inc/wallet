@@ -1,4 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { REHYDRATE, RehydrateAction } from 'redux-persist'
+import { getRehydratePayload } from 'src/redux/persist-helper'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId, TokenAmount } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -118,6 +120,15 @@ const slice = createSlice({
       ...state,
       introHasBeenSeen: true,
     }),
+  },
+  extraReducers: (builder) => {
+    builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
+      ...state,
+      ...getRehydratePayload(action, 'jumpstart'),
+      claimStatus: 'idle',
+      depositStatus: 'idle',
+      reclaimStatus: 'idle',
+    }))
   },
 })
 

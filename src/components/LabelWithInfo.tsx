@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
 import Touchable from 'src/components/Touchable'
 
 import InfoIcon from 'src/icons/InfoIcon'
@@ -13,15 +13,22 @@ export function LabelWithInfo({
   labelStyle,
   iconSize = 16,
   testID,
+  style,
 }: {
   label: string
   onPress?: () => void
   labelStyle?: StyleProp<TextStyle>
   iconSize?: number
   testID?: string
+  style?: StyleProp<ViewStyle>
 }) {
   return (
-    <Touchable testID={testID} style={styles.touchable} onPress={onPress} disabled={!onPress}>
+    <Touchable
+      testID={testID}
+      style={[styles.touchable, style]}
+      onPress={onPress}
+      disabled={!onPress}
+    >
       <>
         <Text style={[styles.labelText, labelStyle]} numberOfLines={1}>
           {label}
