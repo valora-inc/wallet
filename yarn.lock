@@ -15594,27 +15594,27 @@ weak-map@^1.0.5:
   resolved "https://registry.yarnpkg.com/weak-map/-/weak-map-1.0.5.tgz#79691584d98607f5070bd3b70a40e6bb22e401eb"
   integrity sha1-eWkVhNmGB/UHC9O3CkDmuyLkAes=
 
-web3-errors@^1.2.0:
+web3-errors@^1.2.0, web3-errors@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/web3-errors/-/web3-errors-1.3.0.tgz#504e4d3218899df108856940087a8022d6688d74"
   integrity sha512-j5JkAKCtuVMbY3F5PYXBqg1vWrtF4jcyyMY1rlw8a4PV67AkqlepjGgpzWJZd56Mt+TvHy6DA1F/3Id8LatDSQ==
   dependencies:
     web3-types "^1.7.0"
 
-web3-types@^1.6.0, web3-types@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/web3-types/-/web3-types-1.7.0.tgz#9945fa644af96b20b1db18564aff9ab8db00df59"
-  integrity sha512-nhXxDJ7a5FesRw9UG5SZdP/C/3Q2EzHGnB39hkAV+YGXDMgwxBXFWebQLfEzZzuArfHnvC0sQqkIHNwSKcVjdA==
+web3-types@^1.6.0, web3-types@^1.7.0, web3-types@^1.8.1:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/web3-types/-/web3-types-1.9.0.tgz#4cfd17d5d3485797df1d72de8f2f8d03b0d1ac61"
+  integrity sha512-I520KBPoXqEaM/ybj6xHD1E3gRb8/WdudLQaRBvJNQSSfHuPW9P2sD59mbhm6dsKtnje+T90dIxSyzVVFlEdlg==
 
-web3-utils@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/web3-utils/-/web3-utils-4.3.1.tgz#3dcd75e3c683c26f0ba824bf27d7bc0a68b111de"
-  integrity sha512-kGwOk8FxOLJ9DQC68yqNQc7AzN+k9YDLaW+ZjlAXs3qORhf8zXk5SxWAAGLbLykMs3vTeB0FTb1Exut4JEYfFA==
+web3-utils@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/web3-utils/-/web3-utils-4.3.2.tgz#a952428d677b635fd0c16044ae4c534807a39639"
+  integrity sha512-bEFpYEBMf6ER78Uvj2mdsCbaLGLK9kABOsa3TtXOEEhuaMy/RK0KlRkKoZ2vmf/p3hB8e1q5erknZ6Hy7AVp7A==
   dependencies:
     ethereum-cryptography "^2.0.0"
     eventemitter3 "^5.0.1"
-    web3-errors "^1.2.0"
-    web3-types "^1.7.0"
+    web3-errors "^1.3.0"
+    web3-types "^1.8.1"
     web3-validator "^2.0.6"
 
 web3-validator@^2.0.6:
