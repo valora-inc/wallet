@@ -61,7 +61,13 @@ function getTagPrefix(tag: string): string {
 function getCommits(lastTag: string, toRef: string): Commit[] {
   log(chalk.blue(`Fetching commits between ${lastTag} and ${toRef}...`))
   const range = `${lastTag}..${toRef}`
-  const result = shell.exec(`git rev-list ${range} --oneline | tail -r`, { silent: true })
+
+  // Assume GNU toolchain, unless on darwin then assume BSD toolchain.
+  let reverseCommand = 'tac'
+  if (process.platform === 'darwin') {
+    reverseCommand = 'tail -r'
+  }
+  const result = shell.exec(`git rev-list ${range} --oneline | ${reverseCommand}`, { silent: true })
 
   if (result.code !== 0) {
     console.error(chalk.red('Error fetching git commits:', result.stderr))
