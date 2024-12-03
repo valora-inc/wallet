@@ -187,6 +187,20 @@ describe('EarnEnterAmount', () => {
       expect(queryByTestId('downArrowIcon')).toBeFalsy()
     })
 
+    it('should apply the maximum amount if the user selects the max option', async () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={depositParams} />
+        </Provider>
+      )
+      await act(() => {
+        DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+      })
+
+      fireEvent.press(within(getByTestId('EarnEnterAmount/AmountOptions')).getByText('maxSymbol'))
+      expect(getByTestId('EarnEnterAmount/TokenAmountInput').props.value).toBe('10') // balance
+    })
+
     it('should prepare transactions with the expected inputs', async () => {
       const { getByTestId } = render(
         <Provider store={store}>
@@ -411,6 +425,20 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('EarnEnterAmount/TokenSelect')).toHaveTextContent('USDC')
       expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeDisabled()
       expect(queryByTestId('downArrowIcon')).toBeFalsy()
+    })
+
+    it('should apply the maximum amount if the user selects the max option', async () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={withdrawParams} />
+        </Provider>
+      )
+      await act(() => {
+        DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+      })
+
+      fireEvent.press(within(getByTestId('EarnEnterAmount/AmountOptions')).getByText('maxSymbol'))
+      expect(getByTestId('EarnEnterAmount/TokenAmountInput').props.value).toBe('11') // balance * pool price per share
     })
 
     it('should prepare transactions with the expected inputs', async () => {
@@ -660,8 +688,7 @@ describe('EarnEnterAmount', () => {
       },
     })
 
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('selecting max token amount applies correct decimal separator', async () => {
+    it('selecting max token amount applies correct decimal separator', async () => {
       const { getByTestId } = render(
         <Provider store={mockStore}>
           <MockedNavigator component={EarnEnterAmount} params={params} />
