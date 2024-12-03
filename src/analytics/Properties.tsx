@@ -590,7 +590,7 @@ interface SendEventsProperties {
     tokenId: string
     tokenAddress: string | null
     networkId: NetworkId | null
-    percentage: number
+    percentage: number // 0 to 100
     flow: 'send' | 'earn' | 'swap'
     mode?: EarnActiveMode
   }
@@ -1214,10 +1214,11 @@ interface SwapEventsProperties {
     areSwapTokensShuffled: boolean
     tokenPositionInList: number
   }
-  [SwapEvents.swap_screen_max_swap_amount]: {
+  [SwapEvents.swap_screen_percentage_selected]: {
     tokenSymbol?: string
     tokenId: string
     tokenNetworkId: string
+    percentage: number // 0 to 100
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
   [SwapEvents.swap_review_submit]: SwapQuoteEvent & Web3LibraryProps & Partial<SwapTxsProperties>
