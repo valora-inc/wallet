@@ -2206,6 +2206,7 @@
     "title": "Inserisci l'importo",
     "selectToken": "Seleziona un token",
     "networkFee": "Commissione di rete {{networkName}}",
+    "networkFeeV1_97": "Commissione di rete",
     "lowerAmount": "Inserisci un importo inferiore",
     "maxAmountWarning": {
       "title": "Invio dell'importo massimo",

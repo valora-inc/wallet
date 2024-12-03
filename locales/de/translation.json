@@ -2206,6 +2206,7 @@
     "title": "Betrag eingeben",
     "selectToken": "Token auswählen",
     "networkFee": "Netzwerkgebühr für {{networkName}}",
+    "networkFeeV1_97": "Netzwerkgebühr",
     "lowerAmount": "Gib einen niedrigeren Betrag ein.",
     "maxAmountWarning": {
       "title": "Der Höchstbetrag wird gesendet.",

@@ -308,6 +308,7 @@ export type StackParamList = {
     registrationStep?: { step: number; totalSteps: number }
     e164Number: string
     countryCallingCode: string
+    verificationCompletionScreen: keyof StackParamList
   }
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectRequest]:

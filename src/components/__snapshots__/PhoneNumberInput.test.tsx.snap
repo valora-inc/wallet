@@ -129,15 +129,16 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
           >
             <svg
               fill="none"
-              height={32}
+              height={38}
               strokeWidth={1}
               style={{}}
               testID="downArrowIcon"
-              viewBox="0 0 16 16"
-              width={32}
+              viewBox="0 0 24 24"
+              width={38}
             >
               <path
-                d="M3 6l5 5 5-5"
+                d="m16.59 8.707.703.703L12 14.703 6.707 9.41l.703-.703 4.237 4.227.353.352.353-.352 4.237-4.227Z"
+                fill="#757575"
                 stroke="#757575"
               />
             </svg>

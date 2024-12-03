@@ -2210,6 +2210,7 @@
     "title": "Wprowadź kwotę",
     "selectToken": "Wybierz token",
     "networkFee": "Opłata sieciowa za {{networkName}}",
+    "networkFeeV1_97": "Opłata sieciowa",
     "lowerAmount": "Wprowadź niższą kwotę",
     "maxAmountWarning": {
       "title": "Wysyłanie maksymalnej kwoty",

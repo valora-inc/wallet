@@ -2,8 +2,8 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -76,6 +76,7 @@ const store = createMockStore({
 const refreshPreparedTransactionsSpy = jest.fn()
 jest.mocked(usePrepareSendTransactions).mockReturnValue({
   prepareTransactionsResult: undefined,
+  prepareTransactionLoading: false,
   refreshPreparedTransactions: refreshPreparedTransactionsSpy,
   clearPreparedTransactions: jest.fn(),
   prepareTransactionError: undefined,
@@ -135,6 +136,7 @@ describe('SendEnterAmount', () => {
   it('should handle navigating to the next step', async () => {
     jest.mocked(usePrepareSendTransactions).mockReturnValue({
       prepareTransactionsResult: mockPrepareTransactionsResultPossible,
+      prepareTransactionLoading: false,
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
       prepareTransactionError: undefined,

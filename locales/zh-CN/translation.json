@@ -2204,6 +2204,7 @@
     "title": "输入金额",
     "selectToken": "选择代币",
     "networkFee": "{{networkName}} 网络费用",
+    "networkFeeV1_97": "网络费用",
     "lowerAmount": "输入较低的金额",
     "maxAmountWarning": {
       "title": "发送最大金额",

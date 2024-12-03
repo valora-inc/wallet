@@ -486,7 +486,7 @@ exports[`SendConfirmation renders correctly 1`] = `
           <Text
             testID="TotalLineItem/Total"
           >
-            ~
+            ≈ 
             1.05
              cUSD
           </Text>

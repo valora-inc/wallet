@@ -8,6 +8,7 @@ import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { APPROX_SYMBOL } from 'src/components/TokenEnterAmount'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
@@ -494,13 +495,13 @@ describe('SwapScreen', () => {
     )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
-      '~₱21.43'
+      `${APPROX_SYMBOL} ₱21.43`
     )
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
     )
     expect(within(swapToContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
-      '~₱2.03'
+      `${APPROX_SYMBOL} ₱2.03`
     )
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
@@ -863,13 +864,13 @@ describe('SwapScreen', () => {
     )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1,234')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
-      '~₱21,43'
+      `${APPROX_SYMBOL} ₱21,43`
     )
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1,5234566652'
     )
     expect(within(swapToContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
-      '~₱2,03'
+      `${APPROX_SYMBOL} ₱2,03`
     )
     expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0,3%')
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
