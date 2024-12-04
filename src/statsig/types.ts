@@ -6,7 +6,6 @@ export enum StatsigDynamicConfigs {
   CICO_TOKEN_INFO = 'cico_token_info',
   WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
   NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
-  EARN_STABLECOIN_CONFIG = 'earn_stablecoin_config',
   APP_CONFIG = 'app_config',
   EARN_CONFIG = 'earn_config',
 }
