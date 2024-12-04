@@ -1,10 +1,11 @@
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect, useRef } from 'react'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import i18n from 'src/i18n'
 import Share from 'src/icons/Share'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -14,7 +15,6 @@ import { StackParamList } from 'src/navigator/types'
 import QRCode from 'src/qrcode/QRCode'
 import { useDispatch } from 'src/redux/hooks'
 import { SVG, shareQRCode } from 'src/send/actions'
-import { CICOFlow } from './utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.ExchangeQR>
 

@@ -3,7 +3,7 @@ import {
   normalizeFiatConnectQuotes,
   normalizeQuotes,
 } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/types'
 import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
 import { mockCusdTokenId, mockFiatConnectQuotes, mockProviders } from 'test/values'

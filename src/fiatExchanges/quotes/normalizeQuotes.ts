@@ -4,12 +4,8 @@ import { FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import ExternalQuote from 'src/fiatExchanges/quotes/ExternalQuote'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import {
-  CICOFlow,
-  FetchProvidersOutput,
-  RawProviderQuote,
-  SimplexQuote,
-} from 'src/fiatExchanges/utils'
+import { CICOFlow, SimplexQuote } from 'src/fiatExchanges/types'
+import { FetchProvidersOutput, RawProviderQuote } from 'src/fiatExchanges/utils'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NormalizeQuotes'
