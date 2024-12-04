@@ -16,9 +16,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { RootState } from 'src/redux/reducers'
-import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
-import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -168,10 +168,6 @@ export class RegulatoryTerms extends React.Component<Props> {
   render() {
     const { t } = this.props
 
-    const { variant } = getExperimentParams(
-      ExperimentConfigs[StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS]
-    )
-
     return (
       <SafeAreaView
         style={styles.container}
@@ -180,7 +176,7 @@ export class RegulatoryTerms extends React.Component<Props> {
         edges={Platform.select({ ios: ['bottom', 'left', 'right'] })}
       >
         <DevSkipButton nextScreen={Screens.PincodeSet} />
-        {variant === 'colloquial_terms' ? this.renderColloquialTerms() : this.renderTerms()}
+        {this.renderTerms()}
         <SafeAreaInsetsContext.Consumer>
           {(insets) => (
             <Button

@@ -42,9 +42,7 @@ export enum StatsigFeatureGates {
   SHOW_ZERION_TRANSACTION_FEED = 'show_zerion_transaction_feed',
 }
 
-export enum StatsigExperiments {
-  ONBOARDING_TERMS_AND_CONDITIONS = 'onboarding_terms_and_conditions',
-}
+export enum StatsigExperiments {}
 
 export type StatsigParameter =
   | string
