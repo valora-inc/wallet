@@ -2206,6 +2206,7 @@
     "title": "Tutar Girin",
     "selectToken": "Bir Token seçin",
     "networkFee": "{{networkName}} Ağ Ücreti",
+    "networkFeeV1_97": "Ağ Ücreti",
     "lowerAmount": "Daha düşük bir tutar girin",
     "maxAmountWarning": {
       "title": "Maksimum tutar gönderiliyor",

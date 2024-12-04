@@ -342,7 +342,7 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const onSelectPercentageAmount = (percentage: number) => {
-    setTokenAmountInput(inputToken.balance.multipliedBy(percentage).toFormat({ decimalSeparator }))
+    setTokenAmountInput(balanceInInputToken.multipliedBy(percentage).toFormat({ decimalSeparator }))
     setEnteredIn('token')
     setSelectedPercentage(percentage)
 

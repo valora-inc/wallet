@@ -2206,6 +2206,7 @@
     "title": "Saisissez le montant",
     "selectToken": "Sélectionnez un jeton",
     "networkFee": "Frais de réseau {{networkName}}",
+    "networkFeeV1_97": "Frais de réseau",
     "lowerAmount": "Saisissez un montant inférieur",
     "maxAmountWarning": {
       "title": "Envoyer le montant maximum",

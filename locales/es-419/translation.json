@@ -2206,6 +2206,7 @@
     "title": "Ingresa el monto",
     "selectToken": "Selecciona un token",
     "networkFee": "Tarifa de red de {{networkName}}",
+    "networkFeeV1_97": "Tarifa de red",
     "lowerAmount": "Ingresa un monto menor",
     "maxAmountWarning": {
       "title": "Envío de monto máximo",
