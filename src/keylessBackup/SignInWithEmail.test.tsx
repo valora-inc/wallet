@@ -1,8 +1,8 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { KeylessBackupEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import { auth0SignInCompleted } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
@@ -59,11 +59,7 @@ describe('SignInWithEmail', () => {
     mockGetCredentials.mockResolvedValue({ idToken: 'mock-token' })
     jest
       .mocked(getFeatureGate)
-      .mockImplementation(
-        (gate) =>
-          gate === StatsigFeatureGates.SHOW_APPLE_IN_CAB ||
-          gate === StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION
-      )
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION)
     logWarnSpy = jest.spyOn(Logger, 'warn')
     logDebugSpy = jest.spyOn(Logger, 'debug')
   })
