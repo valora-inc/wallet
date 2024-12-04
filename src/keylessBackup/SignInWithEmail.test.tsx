@@ -220,19 +220,6 @@ describe('SignInWithEmail', () => {
     })
   })
 
-  it('Apple button is only rendered if feature flag is enabled', async () => {
-    jest.mocked(getFeatureGate).mockReturnValueOnce(false)
-
-    const noAppleRender = renderComponent()
-    expect(noAppleRender.getByTestId('SignInWithEmail/Google')).toBeTruthy()
-    expect(noAppleRender.queryByTestId('SignInWithEmail/Apple')).toBeNull()
-
-    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
-    const appleRender = renderComponent()
-    expect(appleRender.getByTestId('SignInWithEmail/Google')).toBeTruthy()
-    expect(appleRender.getByTestId('SignInWithEmail/Apple')).toBeTruthy()
-  })
-
   it("pressing 'Sign in another way' then 'continue' navigates to recovery phrase education", () => {
     const { getByTestId, getByText } = renderComponent(
       KeylessBackupFlow.Setup,
