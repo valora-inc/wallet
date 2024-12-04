@@ -4,9 +4,11 @@ PODS:
     - JWTDecode (= 3.1.0)
     - React-Core
     - SimpleKeychain (= 1.1.0)
-  - Adjust (4.38.2):
-    - Adjust/Core (= 4.38.2)
-  - Adjust/Core (4.38.2)
+  - Adjust (5.0.1):
+    - Adjust/Adjust (= 5.0.1)
+  - Adjust/Adjust (5.0.1):
+    - AdjustSignature (~> 3.18)
+  - AdjustSignature (3.20.2)
   - Auth0 (2.7.2):
     - JWTDecode (~> 3.1)
     - SimpleKeychain (~> 1.1)
@@ -561,8 +563,8 @@ PODS:
   - React-jsinspector (0.72.15)
   - React-logger (0.72.15):
     - glog
-  - react-native-adjust (4.38.1):
-    - Adjust (= 4.38.2)
+  - react-native-adjust (5.0.2):
+    - Adjust (= 5.0.1)
     - React-Core
   - react-native-camera (4.2.1):
     - React-Core
@@ -594,7 +596,7 @@ PODS:
   - react-native-pager-view (6.4.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-quick-crypto (0.7.5):
+  - react-native-quick-crypto (0.7.7):
     - OpenSSL-Universal
     - RCT-Folly (= 2021.07.22.00)
     - React
@@ -618,7 +620,7 @@ PODS:
   - react-native-video/Video (6.6.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-webview (13.12.3):
+  - react-native-webview (13.12.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - React-NativeModulesApple (0.72.15):
@@ -734,11 +736,12 @@ PODS:
   - RecaptchaInterop (100.0.0)
   - RNCAsyncStorage (2.0.0):
     - React-Core
-  - RNCClipboard (1.14.2):
+  - RNCClipboard (1.15.0):
     - React-Core
-  - RNCMaskedView (0.3.1):
+  - RNCMaskedView (0.3.2):
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNCPicker (2.8.1):
+  - RNCPicker (2.10.2):
     - React-Core
   - RNDeviceInfo (13.0.0):
     - React-Core
@@ -808,7 +811,7 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNScreens (3.34.0):
+  - RNScreens (4.3.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - React-RCTImage
@@ -963,6 +966,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Adjust
+    - AdjustSignature
     - Auth0
     - CleverTap-iOS-SDK
     - CocoaAsyncSocket
@@ -1197,7 +1201,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   A0Auth0: 47cb14c87d549b95b92242675ff2198ccd9dcbc5
-  Adjust: 5a0f813fe079212bed61404d1f635cc330068b4a
+  Adjust: f27daaa40d0df5550b89dd428cd8545d812e1f6d
+  AdjustSignature: f42d8c64cda8361ff5b5a31e4536d82076be4306
   Auth0: 28cb24cb19ebd51f0b07751f16d83b59f4019532
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
@@ -1263,7 +1268,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d3eef5ddc78eeb9f0d02bed657a7f41d4910b966
   React-jsinspector: b86a8abae760c28d69366bbc1d991561e51341ed
   React-logger: ed7c9e01e58529065e7da6bf8318baf15024283e
-  react-native-adjust: 83114d391a4a7a438e2c4d8e8137bc7810e7076f
+  react-native-adjust: 6a73063a62fb0f21dd2220f15b315c1e323268b0
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-compat: 24dedfbd7faba258560048606bc0fe9e73f7d2a3
   react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
@@ -1274,14 +1279,14 @@ SPEC CHECKSUMS:
   react-native-launch-arguments: 5f41e0abf88a15e3c5309b8875d6fd5ac43df49d
   react-native-netinfo: f0a9899081c185db1de5bb2fdc1c88c202a059ac
   react-native-pager-view: c65514a81a384c3ce244b5bd87167761740308d3
-  react-native-quick-crypto: 225ad6747aeca66285b9a2bb99f3dece68de6656
+  react-native-quick-crypto: e254783f9681542c182f9439f91139137e3b9e48
   react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
   react-native-safe-area-context: 851c62c48dce80ccaa5637b6aa5991a1bc36eca9
   react-native-shake: 0c36371dd63019afa68890ccc65a442ee21b4dde
   react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-video: c2fbeb7e78f70486918b0a6b88cee7b2ae0b0973
-  react-native-webview: 494c6db04116a474b677d9d29bfe7d2559c47b54
+  react-native-webview: 524f40f1131b78b142aaccc834c6b3b7735c46bc
   React-NativeModulesApple: a2c783eea2b9354534d6e991669d5051435b51db
   React-perflogger: 6acc671f527e69c0cd93b8e62821d33d3ddf25ca
   React-RCTActionSheet: 569bb9db46d85565d14697e15ecf2166e035eb07
@@ -1301,9 +1306,9 @@ SPEC CHECKSUMS:
   ReactCommon: 69acb76221a4c9d1b5740821ee1f0df89068fd6d
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
-  RNCClipboard: 5e503962f0719ace8f7fdfe9c60282b526305c85
-  RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
-  RNCPicker: 0b6860a6b208d4046227d2f626ad0722f99a969c
+  RNCClipboard: 69ab8e51324d5b351f6ba72bbdb72478087a2c64
+  RNCMaskedView: 7fd800fe3508752504dbdc0a231cec05211ae769
+  RNCPicker: d162737e03e48797110dbb60e5ddc03012e87e0b
   RNDeviceInfo: 55264dd7cc939dad6e9c231a7621311f5277f1dc
   RNExitApp: 00036cabe7bacbb413d276d5520bf74ba39afa6a
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
@@ -1322,7 +1327,7 @@ SPEC CHECKSUMS:
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
   RNReactNativeHapticFeedback: a15559aa2aa8b5e5d49616fd84259dfb3c415230
   RNReanimated: 739d696f5bd3bea1d675a86caec05064ab4d898f
-  RNScreens: a1db0ca347cf9f44ae57b0a2d31991af6d872f7c
+  RNScreens: cdb28656300719a3708d2209fad0bd6d83769d3a
   RNSentry: 5596dbadad9a1cccef90f9ccc18e1a309c1bde64
   RNShare: cc904a0d9305649d0fe7897fc6de938f958c3a40
   RNSVG: 4590aa95758149fa27c5c83e54a6a466349a1688

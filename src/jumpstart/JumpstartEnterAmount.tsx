@@ -180,6 +180,7 @@ function JumpstartEnterAmount() {
     <EnterAmount
       tokens={tokens}
       prepareTransactionsResult={prepareJumpstartTransactions.result}
+      prepareTransactionsLoading={prepareJumpstartTransactions.loading}
       onClearPreparedTransactions={prepareJumpstartTransactions.reset}
       onRefreshPreparedTransactions={handleRefreshPreparedTransactions}
       prepareTransactionError={prepareJumpstartTransactions.error}

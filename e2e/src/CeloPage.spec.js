@@ -1,8 +1,7 @@
 import CeloEducation from './usecases/CeloEducation'
-import PriceChart from './usecases/PriceChart'
 import CeloNews from './usecases/CeloNews'
+import PriceChart from './usecases/PriceChart'
 import { quickOnboarding } from './utils/utils'
-import { launchApp } from './utils/retries'
 
 describe.skip('Celo page', () => {
   beforeAll(async () => {

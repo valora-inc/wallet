@@ -15,11 +15,9 @@ import { SwapEvents } from 'src/analytics/Events'
 import { NotificationVariant } from 'src/components/InLineNotification'
 import SectionHead from 'src/components/SectionHead'
 import Toast from 'src/components/Toast'
-import { refreshAllBalances } from 'src/home/actions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import GetStarted from 'src/home/GetStarted'
 import NotificationBox from 'src/home/NotificationBox'
-import { balancesLoadingSelector } from 'src/home/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { store } from 'src/redux/store'
@@ -314,7 +312,6 @@ export default function TransactionFeedV2() {
   const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const isRefreshingBalances = useSelector(balancesLoadingSelector)
   const standByTransactions = useSelector(formattedStandByTransactionsSelector)
   const feedFirstPage = useSelector(feedFirstPageSelector)
   const { hasNewlyCompletedTransactions, newlyCompletedCrossChainSwaps } =
@@ -323,7 +320,7 @@ export default function TransactionFeedV2() {
   const [paginatedData, setPaginatedData] = useState<PaginatedData>({
     [FIRST_PAGE_CURSOR]: feedFirstPage,
   })
-  const [showError, setShowError] = useState(false)
+  const [status, setStatus] = useState<'loading' | 'error' | 'idle'>('loading')
   const [allTransactionsShown, setAllTransactionsShown] = useState(false)
 
   const { data, isFetching, error, refetch } = useTransactionFeedV2Query(
@@ -340,6 +337,19 @@ export default function TransactionFeedV2() {
   useTransactionFeedV2Query(
     { address: address!, localCurrencyCode, endCursor: undefined },
     { skip: !address, pollingInterval: POLL_INTERVAL_MS }
+  )
+
+  useEffect(
+    // The status state variable is set to loading when a fetch is triggered on
+    // component mount and on pull to refresh, which allows us to hide the
+    // refresh spinner on background poll / fetch more pages. This effect will
+    // dismiss the loader by resetting this variable.
+    function dismissLoading() {
+      if (!isFetching) {
+        setStatus('idle')
+      }
+    },
+    [isFetching]
   )
 
   /**
@@ -409,7 +419,7 @@ export default function TransactionFeedV2() {
       // scroll actions for loading additional pages and the initial wallet load
       // if no cached transactions exist.
       if (('hasAfterCursor' in error && error.hasAfterCursor) || feedFirstPage.length === 0) {
-        setShowError(true)
+        setStatus('error')
       }
     },
     [error, feedFirstPage]
@@ -479,12 +489,8 @@ export default function TransactionFeedV2() {
     // refetch the transaction feed with the last known cursor, since this
     // toast should only be displayed on error fetching next page or initial
     // page if no transactions have been fetched before.
-    setShowError(false)
+    setStatus('loading')
     return refetch()
-  }
-
-  const onRefresh = () => {
-    dispatch(refreshAllBalances())
   }
 
   return (
@@ -499,13 +505,11 @@ export default function TransactionFeedV2() {
         scrollEventThrottle={16}
         refreshControl={
           <RefreshControl
-            refreshing={isRefreshingBalances}
-            onRefresh={onRefresh}
+            refreshing={status === 'loading'}
+            onRefresh={handleRetryFetch}
             colors={[colors.accent]}
           />
         }
-        onRefresh={onRefresh}
-        refreshing={isRefreshingBalances}
         onEndReached={fetchMoreTransactions}
         initialNumToRender={20}
         ListHeaderComponent={
@@ -534,13 +538,15 @@ export default function TransactionFeedV2() {
         }
       />
       <Toast
-        showToast={showError}
+        showToast={status === 'error'}
         variant={NotificationVariant.Error}
         description={t('transactionFeed.error.fetchError')}
         ctaLabel={t('transactionFeed.fetchErrorRetry')}
         onPressCta={handleRetryFetch}
         swipeable
-        onDismiss={() => setShowError(false)}
+        onDismiss={() => {
+          setStatus('idle')
+        }}
       />
     </>
   )

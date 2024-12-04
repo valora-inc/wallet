@@ -1,7 +1,8 @@
 import BigNumber from 'bignumber.js'
-import React, { ComponentType, useEffect, useMemo, useRef, useState } from 'react'
+import React, { ComponentType, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  Keyboard,
   Platform,
   TextInput as RNTextInput,
   StyleProp,
@@ -10,8 +11,7 @@ import {
   TextStyle,
 } from 'react-native'
 import { View } from 'react-native-animatable'
-import { getNumberFormatSettings } from 'react-native-localize'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
@@ -19,27 +19,26 @@ import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
-import KeyboardSpacer from 'src/components/KeyboardSpacer'
-import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
+import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import TextInput from 'src/components/TextInput'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, {
+  TokenBottomSheetProps,
+  TokenPickerOrigin,
+} from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
-import TokenIcon, { IconSize } from 'src/components/TokenIcon'
-import Touchable from 'src/components/Touchable'
+import TokenEnterAmount, {
+  FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS,
+  useEnterAmount,
+} from 'src/components/TokenEnterAmount'
 import CustomHeader from 'src/components/header/CustomHeader'
-import DownArrowIcon from 'src/icons/DownArrowIcon'
-import { LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
+import EnterAmountOptions from 'src/send/EnterAmountOptions'
 import { AmountEnteredIn } from 'src/send/types'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useLocalToTokenAmount, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { parseInputAmount } from 'src/utils/parsing'
 import { PreparedTransactionsResult, getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 
 export interface ProceedArgs {
@@ -53,12 +52,14 @@ type ProceedComponentProps = Omit<ProceedArgs, 'tokenAmount'> & {
   onPressProceed(args: ProceedArgs): void
   disabled: boolean
   tokenAmount: BigNumber | null
+  showLoading?: boolean
 }
 
 interface Props {
   tokens: TokenBalance[]
   defaultToken?: TokenBalance
   prepareTransactionsResult?: PreparedTransactionsResult
+  prepareTransactionsLoading: boolean
   onClearPreparedTransactions(): void
   onRefreshPreparedTransactions(
     amount: BigNumber,
@@ -74,10 +75,6 @@ interface Props {
   disableBalanceCheck?: boolean
 }
 
-const TOKEN_SELECTOR_BORDER_RADIUS = 100
-const MAX_BORDER_RADIUS = 96
-const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
-
 export const SendProceed = ({
   tokenAmount,
   localAmount,
@@ -85,6 +82,7 @@ export const SendProceed = ({
   amountEnteredIn,
   disabled,
   onPressProceed,
+  showLoading,
 }: ProceedComponentProps) => {
   const { t } = useTranslation()
   return (
@@ -96,50 +94,16 @@ export const SendProceed = ({
       style={styles.reviewButton}
       size={BtnSizes.FULL}
       disabled={disabled}
+      showLoading={showLoading}
       testID="SendEnterAmount/ReviewButton"
     />
   )
 }
 
-function FeeLoading() {
-  return (
-    <View testID="SendEnterAmount/FeeLoading" style={styles.feeInCryptoContainer}>
-      <Text style={styles.feeInCrypto}>{'≈ '}</Text>
-      <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
-        <View style={styles.feesLoadingInternal} />
-      </SkeletonPlaceholder>
-    </View>
-  )
-}
-
-function FeePlaceholder({ feeTokenSymbol }: { feeTokenSymbol: string }) {
-  return (
-    <Text testID="SendEnterAmount/FeePlaceholder" style={styles.feeInCrypto}>
-      ~ {feeTokenSymbol}
-    </Text>
-  )
-}
-
-function FeeAmount({ feeTokenId, feeAmount }: { feeTokenId: string; feeAmount: BigNumber }) {
-  return (
-    <>
-      <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
-        <TokenDisplay
-          tokenId={feeTokenId}
-          amount={feeAmount}
-          showLocalAmount={false}
-          showApprox={true}
-          style={styles.feeInCrypto}
-        />
-      </View>
-      <TokenDisplay tokenId={feeTokenId} amount={feeAmount} style={styles.feeInFiat} />
-    </>
-  )
-}
-
-function EnterAmount({
+export default function EnterAmount({
   tokens,
   defaultToken,
+  prepareTransactionsLoading,
   prepareTransactionsResult,
   onClearPreparedTransactions,
   onRefreshPreparedTransactions,
@@ -152,19 +116,49 @@ function EnterAmount({
   disableBalanceCheck = false,
 }: Props) {
   const { t } = useTranslation()
+  const insets = useSafeAreaInsets()
+  const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
+  const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
+  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
+  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
+  const { tokenId: feeTokenId } = feeCurrency ?? feeCurrencies[0]
 
-  const tokenAmountInputRef = useRef<RNTextInput>(null)
-  const localAmountInputRef = useRef<RNTextInput>(null)
+  const inputRef = useRef<RNTextInput>(null)
   const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
-  const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
-  const [tokenAmountInput, setTokenAmountInput] = useState<string>('')
-  const [localAmountInput, setLocalAmountInput] = useState<string>('')
-  const [enteredIn, setEnteredIn] = useState<AmountEnteredIn>('token')
-  // this should never be null, just adding a default to make TS happy
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
+  const {
+    amount,
+    amountType,
+    processedAmounts,
+    replaceAmount,
+    handleAmountInputChange,
+    handleToggleAmountType,
+    handleSelectPercentageAmount,
+  } = useEnterAmount({
+    token,
+    inputRef,
+    onHandleAmountInputChange: () => {
+      setSelectedPercentage(null)
+    },
+  })
 
-  const onTokenPickerSelect = () => {
+  useEffect(() => {
+    onClearPreparedTransactions()
+
+    const canRefresh =
+      processedAmounts.token.bignum &&
+      processedAmounts.token.bignum.gt(0) &&
+      processedAmounts.token.bignum.lte(token.balance)
+    if (!canRefresh) return
+
+    const debouncedRefreshTransactions = setTimeout(() => {
+      return onRefreshPreparedTransactions(processedAmounts.token.bignum!, token, feeCurrencies)
+    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
+
+    return () => clearTimeout(debouncedRefreshTransactions)
+  }, [processedAmounts.token.bignum?.toString(), token])
+
+  const onOpenTokenPicker = () => {
     tokenBottomSheetRef.current?.snapToIndex(0)
     AppAnalytics.track(SendEvents.token_dropdown_opened, {
       currentTokenId: token.tokenId,
@@ -173,100 +167,32 @@ function EnterAmount({
     })
   }
 
-  const onSelectToken = (token: TokenBalance) => {
-    setToken(token)
+  const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
+    setToken(selectedToken)
+    replaceAmount('')
+    setSelectedPercentage(null)
     tokenBottomSheetRef.current?.close()
+
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
-  const onMaxAmountPress = async () => {
-    // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
-    // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
-    // if there is not enough for gas
-    setTokenAmountInput(token.balance.toFormat({ decimalSeparator }))
-    setEnteredIn('token')
-    tokenAmountInputRef.current?.blur()
-    localAmountInputRef.current?.blur()
-    AppAnalytics.track(SendEvents.max_pressed, {
+  const onSelectPercentageAmount = (percentage: number) => {
+    handleSelectPercentageAmount(percentage)
+    setSelectedPercentage(percentage)
+
+    AppAnalytics.track(SendEvents.send_percentage_selected, {
       tokenId: token.tokenId,
       tokenAddress: token.address,
       networkId: token.networkId,
+      percentage: percentage * 100,
+      flow: 'send',
     })
   }
 
-  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
-  // only allow numbers, one decimal separator, and two decimal places
-  const localAmountRegex = new RegExp(
-    `^(\\d+([${decimalSeparator}])?\\d{0,2}|[${decimalSeparator}]\\d{0,2}|[${decimalSeparator}])$`
-  )
-  // only allow numbers, one decimal separator
-  const tokenAmountRegex = new RegExp(
-    `^(?:\\d+[${decimalSeparator}]?\\d*|[${decimalSeparator}]\\d*|[${decimalSeparator}])$`
-  )
-  const parsedTokenAmount = useMemo(
-    () => parseInputAmount(tokenAmountInput, decimalSeparator),
-    [tokenAmountInput]
-  )
-  const parsedLocalAmount = useMemo(
-    () =>
-      parseInputAmount(
-        localAmountInput.replaceAll(groupingSeparator, '').replace(localCurrencySymbol, ''),
-        decimalSeparator
-      ),
-    [localAmountInput]
-  )
-
-  const tokenToLocal = useTokenToLocalAmount(parsedTokenAmount, token.tokenId)
-  const localToToken = useLocalToTokenAmount(parsedLocalAmount, token.tokenId)
-  const { tokenAmount, localAmount } = useMemo(() => {
-    if (enteredIn === 'token') {
-      setLocalAmountInput(
-        tokenToLocal && tokenToLocal.gt(0)
-          ? `${localCurrencySymbol}${tokenToLocal.toFormat(2)}` // automatically adds grouping separators
-          : ''
-      )
-      return {
-        tokenAmount: parsedTokenAmount,
-        localAmount: tokenToLocal,
-      }
-    } else {
-      setTokenAmountInput(
-        localToToken && localToToken.gt(0)
-          ? // no group separator for token amount, round to token.decimals and strip trailing zeros
-            localToToken
-              .toFormat(token.decimals, { decimalSeparator })
-              .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
-          : ''
-      )
-      return {
-        tokenAmount: localToToken,
-        localAmount: parsedLocalAmount,
-      }
-    }
-  }, [tokenAmountInput, localAmountInput, enteredIn, token])
-
-  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
-
-  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
-
-  useEffect(() => {
-    onClearPreparedTransactions()
-
-    if (
-      !tokenAmount ||
-      tokenAmount.isLessThanOrEqualTo(0) ||
-      tokenAmount.isGreaterThan(token.balance)
-    ) {
-      return
-    }
-    const debouncedRefreshTransactions = setTimeout(() => {
-      return onRefreshPreparedTransactions(tokenAmount, token, feeCurrencies)
-    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
-    return () => clearTimeout(debouncedRefreshTransactions)
-  }, [tokenAmount, token])
-
-  const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(token.balance)
-  const showLowerAmountError = !isAmountLessThanBalance && !disableBalanceCheck
+  const showLowerAmountError =
+    processedAmounts.token.bignum &&
+    !processedAmounts.token.bignum.lte(token.balance) &&
+    !disableBalanceCheck
   const showMaxAmountWarning =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -282,127 +208,80 @@ function EnterAmount({
     prepareTransactionsResult.transactions.length > 0
 
   const disabled =
-    disableProceed || (disableBalanceCheck ? !!tokenAmount?.isZero() : !transactionIsPossible)
-
-  const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
-  let feeAmountSection = <FeeLoading />
-  if (
-    tokenAmountInput === '' ||
-    !isAmountLessThanBalance ||
-    (prepareTransactionsResult && !maxFeeAmount) ||
-    prepareTransactionError
-  ) {
-    feeAmountSection = <FeePlaceholder feeTokenSymbol={feeTokenSymbol} />
-  } else if (prepareTransactionsResult && maxFeeAmount) {
-    feeAmountSection = <FeeAmount feeAmount={maxFeeAmount} feeTokenId={feeTokenId} />
-  }
-
-  const onTokenAmountInputChange = (value: string) => {
-    if (!value) {
-      setTokenAmountInput('')
-      setEnteredIn('token')
-    } else {
-      if (value.startsWith(decimalSeparator)) {
-        value = `0${value}`
-      }
-      if (value.match(tokenAmountRegex)) {
-        setTokenAmountInput(value)
-        setEnteredIn('token')
-      }
-    }
-  }
-
-  const onLocalAmountInputChange = (value: string) => {
-    // remove leading currency symbol and grouping separators
-    if (value.startsWith(localCurrencySymbol)) {
-      value = value.slice(1)
-    }
-    value = value.replaceAll(groupingSeparator, '')
-    if (!value) {
-      setLocalAmountInput('')
-      setEnteredIn('local')
-    } else {
-      if (value.startsWith(decimalSeparator)) {
-        value = `0${value}`
-      }
-      if (value.match(localAmountRegex)) {
-        // add back currency symbol and grouping separators
-        setLocalAmountInput(
-          `${localCurrencySymbol}${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, groupingSeparator)
-        )
-        setEnteredIn('local')
-      }
-    }
-  }
+    disableProceed ||
+    (disableBalanceCheck ? !!processedAmounts.token.bignum?.isZero() : !transactionIsPossible)
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
-      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={[
+          styles.contentContainer,
+          { paddingBottom: Math.max(insets.bottom, Spacing.Thick24) },
+        ]}
+        onScrollBeginDrag={() => {
+          Keyboard.dismiss()
+        }}
+      >
         <View style={styles.inputContainer}>
           <Text style={styles.title}>{t('sendEnterAmountScreen.title')}</Text>
-          <View style={styles.inputBox}>
-            <View style={styles.inputRow}>
-              <AmountInput
-                inputRef={tokenAmountInputRef}
-                inputValue={tokenAmountInput}
-                onInputChange={onTokenAmountInputChange}
-                inputStyle={[styles.inputText, showLowerAmountError && { color: Colors.error }]}
-                autoFocus
-                placeholder={new BigNumber(0).toFormat(2)}
-                testID="SendEnterAmount/TokenAmountInput"
+          <TokenEnterAmount
+            autoFocus
+            testID="SendEnterAmount"
+            token={token}
+            inputValue={amount}
+            inputRef={inputRef}
+            tokenAmount={processedAmounts.token.displayAmount}
+            localAmount={processedAmounts.local.displayAmount}
+            onInputChange={handleAmountInputChange}
+            amountType={amountType}
+            toggleAmountType={handleToggleAmountType}
+            onOpenTokenPicker={tokenSelectionDisabled ? undefined : onOpenTokenPicker}
+          />
+
+          {!!maxFeeAmount && !!amount && (
+            <View style={styles.feeContainer} testID="SendEnterAmount/Fee">
+              <LabelWithInfo
+                label={t('sendEnterAmountScreen.networkFeeV1_97')}
+                labelStyle={{ color: Colors.gray3 }}
+                testID="SendEnterAmount/FeeLabel"
+                style={styles.feeLabelContainer}
               />
-              <Touchable
-                borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
-                onPress={onTokenPickerSelect}
-                style={styles.tokenSelectButton}
-                disabled={tokenSelectionDisabled}
-                testID="SendEnterAmount/TokenSelect"
-              >
-                <>
-                  <TokenIcon token={token} size={IconSize.SMALL} />
-                  <Text style={styles.tokenName}>{token.symbol}</Text>
-                  {!tokenSelectionDisabled && <DownArrowIcon color={Colors.gray5} />}
-                </>
-              </Touchable>
+              <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
+                <TokenDisplay
+                  showApprox
+                  showLocalAmount={false}
+                  style={styles.feeValue}
+                  tokenId={feeTokenId}
+                  amount={maxFeeAmount}
+                />
+                <Text style={styles.feeValue}>
+                  {'('}
+                  <TokenDisplay
+                    tokenId={feeTokenId}
+                    amount={maxFeeAmount}
+                    style={styles.feeValue}
+                  />
+                  {')'}
+                </Text>
+              </View>
             </View>
-            {showLowerAmountError && (
-              <Text testID="SendEnterAmount/LowerAmountError" style={styles.lowerAmountError}>
-                {t('sendEnterAmountScreen.lowerAmount')}
-              </Text>
-            )}
-            <View style={styles.localAmountRow}>
-              <AmountInput
-                inputValue={token.priceUsd ? localAmountInput : '-'}
-                onInputChange={onLocalAmountInputChange}
-                inputRef={localAmountInputRef}
-                inputStyle={styles.localAmount}
-                placeholder={`${localCurrencySymbol}${new BigNumber(0).toFormat(2)}`}
-                testID="SendEnterAmount/LocalAmountInput"
-                editable={!!token.priceUsd}
-              />
-              {!token.balance.isZero() && (
-                <Touchable
-                  borderRadius={MAX_BORDER_RADIUS}
-                  onPress={onMaxAmountPress}
-                  style={styles.maxTouchable}
-                  testID="SendEnterAmount/Max"
-                >
-                  <Text style={styles.maxText}>{t('max')}</Text>
-                </Touchable>
-              )}
-            </View>
-          </View>
-          <View style={styles.feeContainer}>
-            <Text style={styles.feeLabel}>
-              {t('sendEnterAmountScreen.networkFee', {
-                networkName: NETWORK_NAMES[token.networkId],
-              })}
-            </Text>
-            <View style={styles.feeAmountContainer}>{feeAmountSection}</View>
-          </View>
+          )}
         </View>
 
+        {showLowerAmountError && (
+          <InLineNotification
+            variant={NotificationVariant.Warning}
+            title={t('sendEnterAmountScreen.insufficientBalanceWarning.title', {
+              tokenSymbol: token.symbol,
+            })}
+            description={t('sendEnterAmountScreen.insufficientBalanceWarning.description', {
+              tokenSymbol: token.symbol,
+            })}
+            style={styles.warning}
+            testID="SendEnterAmount/NotEnoughBalanceWarning"
+          />
+        )}
         {showMaxAmountWarning && (
           <InLineNotification
             variant={NotificationVariant.Warning}
@@ -439,15 +318,21 @@ function EnterAmount({
 
         {children}
 
+        <EnterAmountOptions
+          onPressAmount={onSelectPercentageAmount}
+          selectedAmount={selectedPercentage}
+          testID="SendEnterAmount/AmountOptions"
+        />
+
         <ProceedComponent
-          tokenAmount={tokenAmount}
-          localAmount={localAmount}
+          tokenAmount={processedAmounts.token.bignum}
+          localAmount={processedAmounts.local.bignum}
           token={token}
-          amountEnteredIn={enteredIn}
+          amountEnteredIn={amountType}
           onPressProceed={onPressProceed}
           disabled={disabled}
+          showLoading={prepareTransactionsLoading}
         />
-        <KeyboardSpacer />
       </KeyboardAwareScrollView>
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
@@ -461,6 +346,64 @@ function EnterAmount({
     </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  safeAreaContainer: {
+    flex: 1,
+  },
+  contentContainer: {
+    paddingHorizontal: Spacing.Thick24,
+    paddingTop: Spacing.Thick24,
+    flexGrow: 1,
+  },
+  title: {
+    ...typeScale.titleMedium,
+    marginBottom: Spacing.Thick24,
+  },
+
+  inputContainer: {
+    flex: 1,
+  },
+  input: {
+    flex: 1,
+    marginRight: Spacing.Smallest8,
+  },
+  feeContainer: {
+    marginVertical: Spacing.Regular16,
+    padding: Spacing.Regular16,
+    borderColor: Colors.gray2,
+    borderWidth: 1,
+    borderRadius: 12,
+    gap: Spacing.Smallest8,
+    flexDirection: 'row',
+  },
+  feeLabelContainer: {
+    flex: 0,
+    alignItems: 'flex-start',
+  },
+  feeInCryptoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    gap: Spacing.Tiny4,
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+  },
+  feeValue: {
+    ...typeScale.bodyMedium,
+    color: Colors.gray3,
+    flexWrap: 'wrap',
+    textAlign: 'right',
+  },
+  reviewButton: {
+    paddingTop: Spacing.Thick24,
+  },
+  warning: {
+    marginBottom: Spacing.Regular16,
+    paddingHorizontal: Spacing.Regular16,
+    borderRadius: 16,
+  },
+})
 
 export function AmountInput({
   inputValue,
@@ -531,125 +474,3 @@ export function AmountInput({
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  safeAreaContainer: {
-    flex: 1,
-  },
-  contentContainer: {
-    paddingHorizontal: Spacing.Thick24,
-    paddingTop: Spacing.Thick24,
-    flexGrow: 1,
-  },
-  title: {
-    ...typeScale.titleSmall,
-  },
-  inputContainer: {
-    flex: 1,
-  },
-  inputBox: {
-    marginTop: Spacing.Large32,
-    backgroundColor: Colors.gray1,
-    borderWidth: 1,
-    borderRadius: 16,
-    borderColor: Colors.gray2,
-  },
-  inputRow: {
-    paddingHorizontal: Spacing.Regular16,
-    paddingTop: Spacing.Smallest8,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  localAmountRow: {
-    marginTop: Spacing.Thick24,
-    marginLeft: Spacing.Regular16,
-    paddingRight: Spacing.Regular16,
-    paddingBottom: Spacing.Regular16,
-    paddingTop: Spacing.Thick24,
-    borderTopColor: Colors.gray2,
-    borderTopWidth: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  input: {
-    flex: 1,
-    marginRight: Spacing.Smallest8,
-  },
-  inputText: {
-    ...typeScale.titleMedium,
-  },
-  tokenSelectButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.white,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    borderRadius: TOKEN_SELECTOR_BORDER_RADIUS,
-    paddingHorizontal: Spacing.Smallest8,
-    paddingVertical: Spacing.Tiny4,
-  },
-  tokenName: {
-    ...typeScale.labelSmall,
-    paddingLeft: Spacing.Tiny4,
-    paddingRight: Spacing.Smallest8,
-  },
-  localAmount: {
-    ...typeScale.labelMedium,
-  },
-  maxTouchable: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    backgroundColor: Colors.gray2,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    borderRadius: MAX_BORDER_RADIUS,
-  },
-  maxText: {
-    ...typeScale.labelSmall,
-  },
-  feeContainer: {
-    flexDirection: 'row',
-    marginVertical: Spacing.Regular16,
-  },
-  feeLabel: {
-    flex: 1,
-    ...typeScale.bodyXSmall,
-    color: Colors.gray4,
-    paddingLeft: 2,
-  },
-  feeAmountContainer: {
-    alignItems: 'flex-end',
-    paddingRight: 2,
-  },
-  feeInCryptoContainer: {
-    flexDirection: 'row',
-  },
-  feeInCrypto: {
-    color: Colors.gray4,
-    ...typeScale.labelXSmall,
-  },
-  feeInFiat: {
-    color: Colors.gray4,
-    ...typeScale.bodyXSmall,
-  },
-  feesLoadingInternal: {
-    ...typeScale.labelXSmall,
-    width: 46,
-    borderRadius: 100,
-  },
-  lowerAmountError: {
-    color: Colors.errorDark,
-    ...typeScale.labelXSmall,
-    paddingLeft: Spacing.Regular16,
-  },
-  reviewButton: {
-    paddingVertical: Spacing.Thick24,
-  },
-  warning: {
-    marginBottom: Spacing.Regular16,
-    paddingHorizontal: Spacing.Regular16,
-    borderRadius: 16,
-  },
-})
-
-export default EnterAmount

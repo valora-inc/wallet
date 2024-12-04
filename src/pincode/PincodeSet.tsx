@@ -15,7 +15,6 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
-import { setHasSeenVerificationNux } from 'src/identity/actions'
 import {
   HeaderTitleWithSubtitle,
   nuxNavigationOptions,
@@ -55,7 +54,6 @@ interface StateProps {
 interface DispatchProps {
   initializeAccount: typeof initializeAccount
   setPincodeSuccess: typeof setPincodeSuccess
-  setHasSeenVerificationNux: typeof setHasSeenVerificationNux
 }
 
 interface State {
@@ -85,7 +83,6 @@ function mapStateToProps(state: RootState): StateProps {
 const mapDispatchToProps = {
   initializeAccount,
   setPincodeSuccess,
-  setHasSeenVerificationNux,
 }
 
 export class PincodeSet extends React.Component<Props, State> {

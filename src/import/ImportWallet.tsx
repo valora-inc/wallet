@@ -60,7 +60,7 @@ function ImportWallet({ navigation, route }: Props) {
   const isRecoveringFromStoreWipe = useSelector(recoveringFromStoreWipeSelector)
   const accountToRecoverFromStoreWipe = useSelector(accountToRecoverSelector)
   const cloudAccountBackupEnabled =
-    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupRestore]
+    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackup]
 
   const dispatch = useDispatch()
   const { t } = useTranslation()

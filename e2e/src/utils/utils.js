@@ -1,9 +1,9 @@
+import { E2E_WALLET_MNEMONIC } from 'react-native-dotenv'
 import { createWalletClient, encodeFunctionData, erc20Abi, http, publicActions } from 'viem'
-import { celoAlfajores } from 'viem/chains'
 import { privateKeyToAccount } from 'viem/accounts'
-import jestExpect from 'expect'
-import { DEFAULT_PIN, SAMPLE_BACKUP_KEY } from '../utils/consts'
+import { celo } from 'viem/chains'
 import { sleep } from '../../../src/utils/sleep'
+import { DEFAULT_PIN } from '../utils/consts'
 
 const childProcess = require('child_process')
 const fs = require('fs')
@@ -149,7 +149,7 @@ export async function waitForElementByIdAndTap(elementId, timeout = 10 * 1000, i
 }
 
 export async function quickOnboarding({
-  mnemonic = SAMPLE_BACKUP_KEY,
+  mnemonic = E2E_WALLET_MNEMONIC,
   cloudBackupEnabled = false,
   stopOnCYA = false,
 } = {}) {
@@ -177,8 +177,7 @@ export async function quickOnboarding({
       .withTimeout(20000)
 
     // Input Wallet Backup Key
-    await sleep(3000)
-    await element(by.id('ImportWalletBackupKeyInputField')).tap()
+    await waitForElementByIdAndTap('ImportWalletBackupKeyInputField')
     await element(by.id('ImportWalletBackupKeyInputField')).replaceText(mnemonic)
     if (device.getPlatform() === 'ios') {
       // On iOS, type one more space to workaround onChangeText not being triggered with replaceText above
@@ -190,7 +189,9 @@ export async function quickOnboarding({
     }
 
     await scrollIntoView('Restore', 'ImportWalletKeyboardAwareScrollView')
-    await element(by.id('ImportWalletButton')).tap()
+    await waitForElementByIdAndTap('ImportWalletButton')
+    // Wait for the wallet to restored
+    await sleep(5 * 1000)
 
     try {
       // case where account not funded yet. continue with onboarding.
@@ -314,13 +315,14 @@ export function padTrailingZeros(num, size = 5) {
   return s
 }
 
-export async function waitForElementByText(text, timeout = 30_000, index = 0) {
+export async function waitForElementByText({ text, index, tap = false, timeout = 30_000 }) {
   try {
-    index === 0
-      ? await waitFor(element(by.text(text)))
-      : await waitFor(element(by.text(text)).atIndex(index))
-          .toBeVisible()
-          .withTimeout(timeout)
+    const elementMatcher =
+      index !== undefined ? element(by.text(text)).atIndex(index) : element(by.text(text))
+
+    await waitFor(elementMatcher).toBeVisible().withTimeout(timeout)
+
+    if (tap) await elementMatcher.tap()
   } catch {
     throw new Error(`Element with text '${text}' not found`)
   }
@@ -378,20 +380,19 @@ export async function completeProtectWalletScreen() {
  */
 export async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amountEther) {
   const stableTokenSymbolToAddress = {
-    cUSD: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+    cUSD: '0x765de816845861e75a25fca122bb6898b8b1282a',
   }
   const tokenAddress = stableTokenSymbolToAddress[stableToken]
   if (!tokenAddress) {
     throw new Error(`Unsupported token symbol passed to fundWallet: ${stableToken}`)
   }
 
-  console.log(`Sending ${amountEther} ${stableToken} from ${senderAddress} to ${recipientAddress}`)
-
   const account = privateKeyToAccount(senderPrivateKey)
   const senderAddress = account.address
+  console.log(`Sending ${amountEther} ${stableToken} from ${senderAddress} to ${recipientAddress}`)
   const client = createWalletClient({
     account,
-    chain: celoAlfajores,
+    chain: celo,
     transport: http(),
   }).extend(publicActions)
 
@@ -423,4 +424,8 @@ export async function navigateToProfile() {
 export async function navigateToPreferences() {
   await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
   await waitForElementByIdAndTap('SettingsMenu/Preferences')
+}
+
+export const getDisplayAddress = (address) => {
+  return `${address.slice(0, 6)}...${address.slice(-4)}`
 }

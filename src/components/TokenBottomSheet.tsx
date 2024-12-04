@@ -18,6 +18,7 @@ import FilterChipsCarousel, {
   NetworkFilterChip,
   isNetworkChip,
 } from 'src/components/FilterChipsCarousel'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SearchInput from 'src/components/SearchInput'
 import NetworkMultiSelectBottomSheet from 'src/components/multiSelect/NetworkMultiSelectBottomSheet'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -295,6 +296,7 @@ function TokenBottomSheet({
           return null
         }}
       />
+      <KeyboardSpacer />
       <View style={styles.headerContainer} onLayout={handleMeasureHeader}>
         <Text style={[styles.title, titleStyle]}>{title}</Text>
         {searchEnabled && (

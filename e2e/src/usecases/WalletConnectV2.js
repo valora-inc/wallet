@@ -1,30 +1,29 @@
 import { Core } from '@walletconnect/core'
 import Client from '@walletconnect/sign-client'
-import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
+import { E2E_WALLET_CONNECT_PROJECT_ID } from 'react-native-dotenv'
 import {
+  createPublicClient,
   hashMessage,
   hexToNumber,
+  http,
   verifyMessage,
   verifyTypedData,
-  createPublicClient,
-  http,
 } from 'viem'
-import { celoAlfajores } from 'viem/chains'
 import { parseTransaction } from 'viem/celo'
+import { celo } from 'viem/chains'
+import { sleep } from '../../../src/utils/sleep'
+import WALLET_ADDRESS from '../utils/consts'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
 import { enterPinUiIfNecessary, waitForElementByIdAndTap } from '../utils/utils'
-import { sleep } from '../../../src/utils/sleep'
 
 import jestExpect from 'expect'
 
 const dappName = 'WalletConnectV2 E2E'
-const walletAddress = (
-  process.env.E2E_WALLET_ADDRESS || '0x3f4f42aC3a5A3c54454F9d00C27bCAFA78Cc6856'
-).toLowerCase()
+const walletAddress = (WALLET_ADDRESS || '0xebf95355cc5ea643179a02337f3f943fd8dd2bcb').toLowerCase()
 
 const client = createPublicClient({
-  chain: celoAlfajores,
+  chain: celo,
   transport: http(),
 })
 
@@ -102,7 +101,7 @@ export default WalletConnect = () => {
     }))
 
     core = await Core.init({
-      projectId: WALLET_CONNECT_PROJECT_ID_E2E,
+      projectId: E2E_WALLET_CONNECT_PROJECT_ID,
       relayUrl: 'wss://relay.walletconnect.org',
     })
 
@@ -130,7 +129,7 @@ export default WalletConnect = () => {
             'personal_sign',
             'eth_signTypedData',
           ],
-          chains: ['eip155:44787'],
+          chains: ['eip155:42220'],
           events: ['chainChanged', 'accountsChanged'],
         },
       },
@@ -152,7 +151,7 @@ export default WalletConnect = () => {
 
   it('Then is able to establish a session', async () => {
     if (device.getPlatform() === 'android') {
-      await launchApp({ url: pairingUrl, newInstance: true })
+      await launchApp({ url: pairingUrl })
     } else {
       await device.openURL({ url: pairingUrl })
     }
@@ -172,7 +171,7 @@ export default WalletConnect = () => {
       const [session] = walletConnectClient.session.map.values()
       const requestPromise = walletConnectClient.request({
         topic: session.topic,
-        chainId: 'eip155:44787',
+        chainId: 'eip155:42220',
         request: {
           method: 'eth_sendTransaction',
           params: [tx],
@@ -205,7 +204,7 @@ export default WalletConnect = () => {
     const [session] = walletConnectClient.session.map.values()
     const requestPromise = walletConnectClient.request({
       topic: session.topic,
-      chainId: 'eip155:44787',
+      chainId: 'eip155:42220',
       request: {
         method: 'eth_signTransaction',
         params: [tx],
@@ -215,6 +214,7 @@ export default WalletConnect = () => {
     await waitFor(element(by.text(new RegExp(`^${dappName} would like to sign a transaction.*`))))
       .toBeVisible()
       .withTimeout(15 * 1000)
+
     await verifySuccessfulTransaction('Sign transaction', tx)
 
     const signedTx = await requestPromise
@@ -233,7 +233,7 @@ export default WalletConnect = () => {
     const [session] = walletConnectClient.session.map.values()
     const requestPromise = walletConnectClient.request({
       topic: session.topic,
-      chainId: 'eip155:44787',
+      chainId: 'eip155:42220',
       request: {
         method: 'eth_sign',
         params,
@@ -261,7 +261,7 @@ export default WalletConnect = () => {
     const [session] = walletConnectClient.session.map.values()
     const requetPromise = walletConnectClient.request({
       topic: session.topic,
-      chainId: 'eip155:44787',
+      chainId: 'eip155:42220',
       request: {
         method: 'personal_sign',
         params,
@@ -337,7 +337,7 @@ export default WalletConnect = () => {
     const [session] = walletConnectClient.session.map.values()
     const requestPromise = walletConnectClient.request({
       topic: session.topic,
-      chainId: 'eip155:44787',
+      chainId: 'eip155:42220',
       request: {
         method: 'eth_signTypedData',
         params,

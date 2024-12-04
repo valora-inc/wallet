@@ -58,8 +58,7 @@ export function useSimpleActions() {
 
   const dispatch = useDispatch()
 
-  const showKeylessBackup =
-    ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackupSetup]
+  const showKeylessBackup = ONBOARDING_FEATURES_ENABLED[ToggleableOnboardingFeatures.CloudBackup]
 
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
 

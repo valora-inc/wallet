@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useFlipper } from '@react-navigation/devtools'
+import { useLogger } from '@react-navigation/devtools'
 import { NavigationContainer, NavigationState } from '@react-navigation/native'
 import * as Sentry from '@sentry/react-native'
 import { SeverityLevel } from '@sentry/types'
@@ -65,7 +65,7 @@ export const NavigatorWrapper = () => {
 
   const dispatch = useDispatch()
 
-  useFlipper(navigationRef)
+  useLogger(navigationRef)
   useDeepLinks()
 
   const updateRequired = React.useMemo(() => {
@@ -167,6 +167,7 @@ export const NavigatorWrapper = () => {
 
   return (
     <NavigationContainer
+      navigationInChildEnabled
       ref={navigationRef}
       onReady={onReady}
       onStateChange={handleStateChange}

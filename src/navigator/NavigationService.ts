@@ -91,10 +91,13 @@ export const pushToStack: SafeNavigate = (...args) => {
     })
 }
 
-export function navigate<RouteName extends keyof StackParamList>(
-  ...args: undefined extends StackParamList[RouteName]
+export type NavigateParams<RouteName extends keyof StackParamList> =
+  undefined extends StackParamList[RouteName]
     ? [RouteName] | [RouteName, StackParamList[RouteName]]
     : [RouteName, StackParamList[RouteName]]
+
+export function navigate<RouteName extends keyof StackParamList>(
+  ...args: NavigateParams<RouteName>
 ) {
   const [routeName, params] = args
   ensureNavigator()

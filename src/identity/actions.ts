@@ -9,7 +9,6 @@ import { Recipient } from 'src/recipients/recipient'
 import { type E164Number } from 'src/utils/io'
 
 export enum Actions {
-  SET_SEEN_VERIFICATION_NUX = 'IDENTITY/SET_SEEN_VERIFICATION_NUX',
   UPDATE_E164_PHONE_NUMBER_ADDRESSES = 'IDENTITY/UPDATE_E164_PHONE_NUMBER_ADDRESSES',
   UPDATE_KNOWN_ADDRESSES = 'IDENTITY/UPDATE_KNOWN_ADDRESSES',
   FETCH_ADDRESSES_AND_VALIDATION_STATUS = 'IDENTITY/FETCH_ADDRESSES_AND_VALIDATION_STATUS',
@@ -26,11 +25,6 @@ export enum Actions {
   ADDRESS_VERIFICATION_STATUS_RECEIVED = 'IDENTITY/ADDRESS_VERIFICATION_STATUS_RECEIVED',
   CONTACTS_SAVED = 'IDENTITY/CONTACTS_SAVED',
   STORED_PASSWORD_REFRESHED = 'IDENTITY/STORED_PASSWORD_REFRESHED',
-}
-
-export interface SetHasSeenVerificationNux {
-  type: Actions.SET_SEEN_VERIFICATION_NUX
-  status: boolean
 }
 
 export interface UpdateE164PhoneNumberAddressesAction {
@@ -118,7 +112,6 @@ interface StoredPasswordRefreshedAction {
 }
 
 export type ActionTypes =
-  | SetHasSeenVerificationNux
   | UpdateE164PhoneNumberAddressesAction
   | UpdateKnownAddressesAction
   | ImportContactsAction
@@ -134,11 +127,6 @@ export type ActionTypes =
   | AddressVerificationStatusReceivedAction
   | ContactsSavedAction
   | StoredPasswordRefreshedAction
-
-export const setHasSeenVerificationNux = (status: boolean): SetHasSeenVerificationNux => ({
-  type: Actions.SET_SEEN_VERIFICATION_NUX,
-  status,
-})
 
 export const fetchAddressesAndValidate = (
   e164Number: string,

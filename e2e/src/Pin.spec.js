@@ -5,10 +5,8 @@ import { quickOnboarding } from './utils/utils'
 
 describe('Given PIN', () => {
   beforeEach(async () => {
-    await device.uninstallApp()
-    await device.installApp()
     await launchApp({
-      newInstance: true,
+      delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
     await quickOnboarding()

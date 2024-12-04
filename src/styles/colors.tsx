@@ -24,6 +24,8 @@ enum Colors {
   error = '#EA6042',
   errorDark = '#C93717',
   errorLight = '#FBF2F0',
+  gradientBorderLeft = '#26d98a',
+  gradientBorderRight = '#ffd52c',
 
   // shadows
   softShadow = 'rgba(156, 164, 169, 0.4)',

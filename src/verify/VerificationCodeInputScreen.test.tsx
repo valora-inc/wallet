@@ -45,6 +45,7 @@ const renderComponent = () =>
         params={{
           countryCode: '+31',
           e164Number,
+          verificationCompletionScreen: Screens.OnboardingSuccessScreen,
         }}
       />
     </Provider>

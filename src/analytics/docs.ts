@@ -281,7 +281,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.send_tx_complete]: `when a send transaction has successfully completed`,
   [SendEvents.send_tx_error]: `when there is an error sending a transaction`,
   [SendEvents.token_dropdown_opened]: ``,
-  [SendEvents.max_pressed]: ``,
+  [SendEvents.send_percentage_selected]: `When the user selects a pre-defined percentage of their balance to transact with`,
   [SendEvents.swap_input_pressed]: ``,
 
   // related to the alert that is shown when sending to an unknown address
@@ -527,7 +527,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SwapEvents.swap_screen_open]: `When the screen is mounted`,
   [SwapEvents.swap_screen_select_token]: `When a user selects a token, prompting the token select bottom sheet`,
   [SwapEvents.swap_screen_confirm_token]: `When a user selects a token from the bottom sheet`,
-  [SwapEvents.swap_screen_max_swap_amount]: `when a user taps on the "max" button to swap their whole balance`,
+  [SwapEvents.swap_screen_percentage_selected]: `When the user selects a pre-defined percentage of their balance to transact with`,
   [SwapEvents.swap_review_submit]: `When a user click on the confirm swap button to proceed to next step`,
   [SwapEvents.swap_gas_fees_learn_more]: `When a user taps on the learn more text on the max swap amount warning`,
   [SwapEvents.swap_execute_success]: `When the swap is executed successfully`,
@@ -601,7 +601,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_withdraw_add_gas_press]: `When the user doesn't have enough for gas and clicks on the button to add gas token`,
   [EarnEvents.earn_info_learn_press]: `When the user taps 'Learn More' on the earn info page`,
   [EarnEvents.earn_info_earn_press]: `When the user taps 'Start Earning' on the earn info page `,
-  [EarnEvents.earn_active_pools_card_press]: `When the user taps on the active pool card in discover tab.`,
   [EarnEvents.earn_home_learn_more_press]: `When the user taps 'Learn more' on the earn home screen`,
   [EarnEvents.earn_pool_card_press]: `When the user taps on a pool card`,
   [EarnEvents.earn_home_error_try_again]: `When the user taps try again on the earn home screen after an error loading pools`,
@@ -661,4 +660,5 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [EarnEvents.earn_enter_amount_info_more_pools]: `When a user taps to see other Aave pools`,
   // [EarnEvents.earn_exit_pool_press]: `When the user taps on the exit pool button from the earn card in discover tab`,
   // [EarnEvents.earn_deposit_more_press]: `When the user taps deposit more button from the earn card in discover tab`,
+  // [EarnEvents.earn_active_pools_card_press]: `When the user taps on the active pool card in discover tab.`,
 }

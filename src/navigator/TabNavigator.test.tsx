@@ -57,7 +57,10 @@ describe('TabNavigator', () => {
 
       // Check tab navigation
       await fireEvent.press(getByTestId(testId))
-      expect(CommonActions.navigate).toHaveBeenCalledWith({ merge: true, name: expectedScreen })
+      expect(CommonActions.navigate).toHaveBeenCalledWith({
+        name: expectedScreen,
+        key: expect.stringMatching(new RegExp(`${expectedScreen}-\\S+`)),
+      })
     }
   )
 

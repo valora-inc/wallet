@@ -146,7 +146,10 @@ function* extractQRAddressData(qrCode: QrCode) {
 
 // Catch all handler for QR Codes
 // includes support for WalletConnect, hooks, and send flow (non-secure send)
-export function* handleQRCodeDefault({ qrCode }: HandleQRCodeDetectedAction) {
+export function* handleQRCodeDefault({
+  qrCode,
+  defaultTokenIdOverride,
+}: HandleQRCodeDetectedAction) {
   AppAnalytics.track(QrScreenEvents.qr_scanned, qrCode)
 
   const walletConnectEnabled: boolean = yield* call(isWalletConnectEnabled, qrCode.data)
@@ -173,7 +176,12 @@ export function* handleQRCodeDefault({ qrCode }: HandleQRCodeDetectedAction) {
   const recipientInfo: RecipientInfo = yield* select(recipientInfoSelector)
   const cachedRecipient = getRecipientFromAddress(qrData.address, recipientInfo)
 
-  yield* call(handleSendPaymentData, qrData, true, cachedRecipient)
+  yield* call(handleSendPaymentData, {
+    data: qrData,
+    isFromScan: true,
+    cachedRecipient,
+    defaultTokenIdOverride,
+  })
 }
 
 export function* handleQRCodeSecureSend({

@@ -2,8 +2,8 @@ import Clipboard from '@react-native-clipboard/clipboard'
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import { fetchAddressVerification, fetchAddressesAndValidate } from 'src/identity/actions'
 import { AddressValidationType } from 'src/identity/reducer'
@@ -115,9 +115,30 @@ describe('SendSelectRecipient', () => {
     expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
     expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
       screen: Screens.QRScanner,
+      params: {
+        defaultTokenIdOverride: undefined,
+      },
     })
   })
-  it('shows QR and get started section when no prior recipients', async () => {
+  it('navigates to QR screen with an override when QR button is pressed', async () => {
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({ defaultTokenIdOverride: 'some-token-id' })} />
+      </Provider>
+    )
+    fireEvent.press(getByTestId('SelectRecipient/QR'))
+    expect(AppAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
+    expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
+      screen: Screens.QRScanner,
+      params: {
+        defaultTokenIdOverride: 'some-token-id',
+      },
+    })
+  })
+
+  it('shows QR, sync contacts and get started section when no prior recipients', async () => {
     const store = createMockStore({})
 
     const { getByTestId, queryByTestId } = render(

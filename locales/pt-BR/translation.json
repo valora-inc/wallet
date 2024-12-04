@@ -386,6 +386,7 @@
   "accountAddressLabel": "Endereço de Conta",
   "celoAmountLabel": "Quantia (CELO)",
   "maxSymbol": "Máx.",
+  "percentage": "{{percentage}}%",
   "withdrawCeloReview": "Revisar",
   "withdrawCeloTo": "Para",
   "withdrawCeloAmount": "Quantia (CELO)",
@@ -695,8 +696,8 @@
     "body": "Depois que seu amigo configurar a carteira dele e conectar o seu número de celular, vocês receberão um NFT."
   },
   "inviteRewardsBannerCUSD": {
-    "title": "Convide amigos e ganhe até 12 cUSD",
-    "body": "Depois que a pessoa conectar seu número e adicionar fundos à {{appName}}, vocês dois receberão 0,50 cUSD."
+    "title": "Indique um amigo e ganhe USDT",
+    "body": "Depois que a pessoa conectar seu número à {{appName}}, vocês dois receberão 1 USDT."
   },
   "inviteWithUrl": {
     "title": "Convide um amigo",
@@ -704,14 +705,14 @@
     "button": "Enviar convite",
     "error": "Ocorreu um erro ao criar um link compartilhável",
     "share": "Oi! Inscreva-se na carteira {{appName}}. Com ela, eu aumento minhas economias em USD e cripto. Você só precisa de um número de celular para configurá-la em segundos. Não deixe de se inscrever com meu link de indicação aqui: {{shareUrl}}.",
-    "help": "Para receber essa recompensa, o convidado deve fazer o download por meio do link de indicação, conectar o número de celular, adicionar fundos e mantê-los em sua carteira {{appName}} por 7 dias. <0>Exibir todos os termos</0>",
+    "help": "Para receber essa recompensa, o convidado deve fazer o download por meio do link de indicação e conectar o número de celular para sua carteira {{appName}}. <0>Exibir todos os termos</0>",
     "rewardsActive": {
       "title": "Convide amigos e colete NFTs",
       "body": "Convide seus amigos e familiares para baixar o app {{appName}} e cada um de vocês ganhará um NFT exclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "GANHE ATÉ 12 cUSD convidando seus amigos para a {{appName}}!",
-      "body": "Ganhe 0,50 cUSD para cada amigo que você convidar para a {{appName}}. Quando seu amigo conectar seu número, adicionar fundos e os mantiver por 7 dias, vocês dois receberão 0,50 cUSD. Corra, pois os fundos são limitados! (Limite de 25 amigos)."
+      "title": "Indique um amigo para {{appName}} e ganhe USDT",
+      "body": "A única coisa que seu amigo precisa fazer é baixar a Valora usando seu link e conectar seu número de telefone para vocês dois receber 1 USDT. Corra, pois os fundos são limitados!"
     }
   },
   "getReward": "Receba ${{reward}}",
@@ -1058,7 +1059,7 @@
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
   "inviteWithRewards": "Oi! 👋 Estou usando a {{appName}} como minha carteira cripto. É super rápido baixar o app e conectar seu número de celular — além disso, nós dois receberemos um NFT de edição especial como recompensa. 💫 \n\nUse este link para baixar: {{link}}",
-  "inviteWithRewardsCUSD": "Oi! Nós dois podemos receber uma recompensa gratuita de US$ 0,50 se você se inscrever, conectar seu número e depositar fundos na sua carteira da {{appName}}. Com ela, eu aumento minhas economias em USD e cripto. Você só precisa de um número de celular para configurá-la em segundos. Não deixe de se inscrever com meu link de indicação aqui: \n\n{{link}} \n\nCorra, pois a promoção de indicação termina em breve.",
+  "inviteWithRewardsCUSD": "Oi! Nós dois podemos receber uma recompensa gratuita de 1 USDT se você se inscrever e conectar seu número de celular para {{appName}}. Não deixe de se inscrever com meu link de indicação aqui: \n\n{{link}} \n\nCorra, pois a promoção de indicação termina em breve.",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -1483,7 +1484,7 @@
       "removeFilter": "Remover filtro",
       "searchMessage": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>"
     },
-    "disclaimer_UK": "Esta é uma lista de Dapps de terceiros. A descrição de cada Dapp é puramente informativa e não é um convite para que você os use."
+    "disclaimer_UK": "Esta é uma lista de Dapps de terceiros. A descrição de cada Dapp é puramente informativa e não é um convite para usá-los."
   },
   "dappRankings": {
     "title": "Ranking de dapps",
@@ -1984,8 +1985,8 @@
       "body": "Parece que {{contactName}} não está no app {{appName}}. Você ainda pode enviar um pagamento a essa pessoa se souber o endereço da carteira dela ou, em vez disso, enviar um convite.\n\nDepois que seu amigo baixar a carteira e conectar o número de celular, vocês dois receberão um NFT exclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "Convide {{contactName}} para a {{appName}} e receba 0,50 cUSD",
-      "body": "Parece que {{contactName}} não está na {{appName}}. Você ainda pode enviar um pagamento para essa pessoa se souber o endereço da carteira dela ou, em vez disso, enviar um convite. \n\n Após ela baixar a {{appName}}, conectar o número de celular, adicionar fundos e mantê-los na sua carteira por 7 dias, vocês dois receberão 0,50 cUSD enquanto durarem os fundos."
+      "title": "Indique {{contactName}} para a {{appName}} e ganhe USDT",
+      "body": "Parece que {{contactName}} não está na {{appName}}. Você ainda pode enviar um pagamento para essa pessoa se souber o endereço da carteira dela ou, em vez disso, enviar um convite. \n\nApós seu amigo baixar a {{appName}} e conectar o número de celular, vocês dois receberão 1 USDT enquanto durarem os fundos."
     }
   },
   "celoNews": {
@@ -2126,7 +2127,7 @@
   "sendSelectRecipient": {
     "searchText": "Pesquise por endereço de carteira",
     "searchInputLabel": "Para",
-    "searchInputPlaceholder": "Endereço da conta",
+    "searchInputPlaceholder": "Endereço da carteira ou número de celular",
     "paste": "Colar da área de transferência",
     "title": "Selecione um destinatário",
     "contactsTitle": "Selecione um contato",
@@ -2136,11 +2137,11 @@
     "results": "Resultados",
     "qr": {
       "title": "Enviar via código QR",
-      "subtitle": "Toque para digitalizar ou mostrar um endereço"
+      "subtitle": "Toque para ler ou mostrar um endereço"
     },
     "invite": {
       "title": "Enviar para um contato",
-      "subtitle": "Enviar fundos para seus contatos"
+      "subtitle": "Envie fundos para seus contatos"
     },
     "jumpstart": {
       "title": "Envie com um link ativo",
@@ -2205,6 +2206,7 @@
     "title": "Insira o valor",
     "selectToken": "Selecione um token",
     "networkFee": "Taxa da rede {{networkName}}",
+    "networkFeeV1_97": "Taxa de rede",
     "lowerAmount": "Insira uma quantia menor",
     "maxAmountWarning": {
       "title": "Enviando a quantia máxima",
@@ -2289,33 +2291,33 @@
     "crossChainSwapTransactionLabel": "Cadeia cruzada",
     "depositTitle": "Depositado",
     "depositSubtitle": "para o pool da {{txAppName}}",
-    "depositSubtitle_noTxAppName": "para um aplicativo desconhecido",
+    "depositSubtitle_noTxAppName": "para um app desconhecido",
     "withdrawTitle": "Sacado",
     "withdrawSubtitle": "do pool da {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "de um aplicativo desconhecido",
+    "withdrawSubtitle_noTxAppName": "de um app desconhecido",
     "claimRewardTitle": "Recebido",
     "claimRewardSubtitle": "do pool da {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "de um aplicativo desconhecido",
+    "claimRewardSubtitle_noTxAppName": "de um app desconhecido",
     "allTransactionsShown": "Você chegou ao final do seu histórico de transações.",
     "fetchErrorRetry": "Tentar novamente",
     "error": {
       "fetchError": "Opa, houve um problema ao atualizar seu feed. Seu histórico de transações pode estar incompleto no momento."
     },
-    "noTransactions": "Parabéns, você criou com sucesso uma carteira {{appName}} !"
+    "noTransactions": "Parabéns, você criou com sucesso uma carteira {{appName}}!"
   },
   "transactionDetails": {
     "descriptionLabel": "Detalhes",
     "depositTitle": "Depositado",
     "depositSubtitle": "{{tokenSymbol}} depositado para o pool da {{txAppName}}",
-    "depositSubtitle_noTxAppName": "Depositou {{tokenSymbol}} em um aplicativo desconhecido",
+    "depositSubtitle_noTxAppName": "{{tokenSymbol}} depositado para um app desconhecido",
     "depositDetails": "Quantia depositada",
     "withdrawTitle": "Sacado",
     "withdrawSubtitle": "{{tokenSymbol}} sacado do pool da {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Você retirou {{tokenSymbol}} de um aplicativo desconhecido",
+    "withdrawSubtitle_noTxAppName": "{{tokenSymbol}} sacado de um app desconhecido",
     "withdrawDetails": "Quantia retirada",
     "claimRewardTitle": "Recebido",
     "claimRewardSubtitle": "{{tokenSymbol}} recebido do pool da {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Coletado {{tokenSymbol}} de um aplicativo desconhecido",
+    "claimRewardSubtitle_noTxAppName": "{{tokenSymbol}} recebido de um app desconhecido",
     "claimRewardDetails": "Quantia recebida",
     "swap": "Trocar",
     "network": "Rede",
@@ -2587,7 +2589,8 @@
     "entrypoint": {
       "title": "Ganhe com suas criptos",
       "subtitle": "Deposite e ganhe",
-      "description": "Ganhe em suas criptos por um pool de liquidez."
+      "description": "Ganhe emprestando seus ativos cripto em pools de liquidez.",
+      "totalDepositAndEarnings": "Total de depósitos e ganhos"
     },
     "enterAmount": {
       "title": "Quanto gostaria de depositar?",
@@ -2663,9 +2666,9 @@
     },
     "collect": {
       "title": "Parabéns! Revise e receba seus ganhos",
-      "titleClaim": "Você vai alegar:",
+      "titleClaim": "Você vai resgatar:",
       "titleCollect": "Você vai receber:",
-      "titleWithdraw": "Você vai se retirar:",
+      "titleWithdraw": "Você vai sacar:",
       "total": "TOTAL",
       "plus": "MAIS",
       "reward": "RECOMPENSA",
@@ -2674,7 +2677,7 @@
       "fee": "Taxa de gas",
       "cta": "Receber ganhos",
       "ctaWithdraw": "Sacar",
-      "ctaReward": "Reivindicar recompensa",
+      "ctaReward": "Resgatar recompensa",
       "ctaExit": "Sair do pool",
       "errorTitle": "Algo deu errado",
       "errorDescription": "Não foi possível obter os detalhes do depósito. Tente novamente.",
@@ -2829,6 +2832,11 @@
   "duration_year_other": "{{count}} anos",
   "duration_yearMonth_one": "1 ano, 1 mês",
   "duration_yearMonth_other": "{{count}} anos, {{count2}} meses",
+  "tokenEnterAmount": {
+    "availableBalance": "Disponível: <0></0>",
+    "selectToken": "Selecionar token",
+    "fiatPriceUnavailable": "Preço indisponível"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

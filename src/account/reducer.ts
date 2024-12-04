@@ -1,11 +1,17 @@
 import { Actions, ActionTypes } from 'src/account/actions'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
+import {
+  Actions as OnboardingActions,
+  ActionTypes as OnboardingActionTypes,
+} from 'src/onboarding/actions'
 import { DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
 import { deleteKeylessBackupCompleted, keylessBackupCompleted } from 'src/keylessBackup/slice'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import Logger from 'src/utils/Logger'
 import { isE164NumberStrict } from 'src/utils/phoneNumbers'
 import { Actions as Web3Actions, ActionTypes as Web3ActionTypes } from 'src/web3/actions'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
 
 interface State {
   name: string | null
@@ -30,6 +36,8 @@ interface State {
   celoEducationCompleted: boolean
   recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus
   cloudBackupCompleted: boolean
+  onboardingCompleted: boolean
+  lastOnboardingStepScreen: keyof StackParamList
 }
 
 export enum PincodeType {
@@ -96,6 +104,8 @@ const initialState: State = {
   celoEducationCompleted: false,
   recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotStarted,
   cloudBackupCompleted: false,
+  onboardingCompleted: false,
+  lastOnboardingStepScreen: Screens.Welcome,
 }
 
 export const reducer = (
@@ -105,6 +115,7 @@ export const reducer = (
     | RehydrateAction
     | Web3ActionTypes
     | AppActionTypes
+    | OnboardingActionTypes
     | typeof keylessBackupCompleted
     | typeof deleteKeylessBackupCompleted
 ): State => {
@@ -118,6 +129,16 @@ export const reducer = (
         dismissedGetVerified: false,
       }
     }
+    case OnboardingActions.UPDATE_LAST_ONBOARDING_SCREEN:
+      return {
+        ...state,
+        lastOnboardingStepScreen: action.screen,
+      }
+    case OnboardingActions.ONBOARDING_COMPLETED:
+      return {
+        ...state,
+        onboardingCompleted: true,
+      }
     case Actions.CHOOSE_CREATE_ACCOUNT:
       return {
         ...state,
