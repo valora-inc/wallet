@@ -83,11 +83,7 @@ describe('EarnPoolInfoScreen', () => {
     })
     jest
       .mocked(getFeatureGate)
-      .mockImplementation(
-        (gate) =>
-          gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS ||
-          gate === StatsigFeatureGates.SHOW_SWAP_AND_DEPOSIT
-      )
+      .mockImplementation((gate) => gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
     jest.useFakeTimers({
       now: new Date('2024-08-15T00:00:00.000Z'),
     })
