@@ -433,11 +433,8 @@ describe('TransactionFeed', () => {
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(11)
   })
 
-  it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
+  it('renders GetStarted if transaction feed is empty', async () => {
     jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
-        return true
-      }
       if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
         return false
       }
@@ -450,9 +447,6 @@ describe('TransactionFeed', () => {
 
   it('renders NoActivity for UK compliance', () => {
     jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
-        return true
-      }
       if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
         return true
       }

@@ -236,7 +236,7 @@ describe('TransactionFeedV2', () => {
     expect(tree.getByText('transactionFeed.allTransactionsShown')).toBeTruthy()
   })
 
-  it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
+  it('renders GetStarted if transaction feed is empty', async () => {
     mockFetch.mockResponse(
       typedResponse({
         transactions: [],
@@ -244,9 +244,6 @@ describe('TransactionFeedV2', () => {
       })
     )
     jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
-        return true
-      }
       if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
         return false
       }
@@ -263,9 +260,6 @@ describe('TransactionFeedV2', () => {
   it('renders NoActivity for UK compliance', () => {
     mockFetch.mockResponse(typedResponse({ transactions: [] }))
     jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
-        return true
-      }
       if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
         return true
       }
@@ -281,9 +275,6 @@ describe('TransactionFeedV2', () => {
   it('renders GetStarted with an error if the initial fetch fails', async () => {
     mockFetch.mockReject(new Error('test error'))
     jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
-        return true
-      }
       if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
         return false
       }
