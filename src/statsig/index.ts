@@ -117,10 +117,7 @@ export function getFeatureGate(featureGateName: StatsigFeatureGates) {
     Logger.warn(TAG, `Error getting feature gate: ${featureGateName}`, error)
     // gates should always default to false, this boolean is to just remain BC
     // with two gates defaulting to true
-    return (
-      featureGateName === StatsigFeatureGates.ALLOW_HOOKS_PREVIEW ||
-      featureGateName === StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION
-    )
+    return featureGateName === StatsigFeatureGates.ALLOW_HOOKS_PREVIEW
   }
 }
 
