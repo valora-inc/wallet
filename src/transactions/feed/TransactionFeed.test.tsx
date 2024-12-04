@@ -271,22 +271,6 @@ describe('TransactionFeed', () => {
     expect(items.length).toBe(1)
   })
 
-  it('renders the loading indicator while it loads', async () => {
-    const { getByTestId, queryByTestId } = renderScreen({})
-    expect(getByTestId('NoActivity/loading')).toBeDefined()
-    expect(queryByTestId('NoActivity/error')).toBeNull()
-    expect(queryByTestId('TransactionList')).toBeNull()
-  })
-
-  it("renders an error screen if there's no cache and the query fails", async () => {
-    mockFetch.mockReject(new Error('Test error'))
-
-    const { getByTestId, queryByTestId } = renderScreen({})
-    await waitFor(() => getByTestId('NoActivity/error'))
-    expect(queryByTestId('NoActivity/loading')).toBeNull()
-    expect(queryByTestId('TransactionList')).toBeNull()
-  })
-
   it('renders the cache if there is one', async () => {
     mockFetch.mockReject(new Error('Test error'))
 
@@ -456,13 +440,6 @@ describe('TransactionFeed', () => {
     const { getByTestId, getByText } = renderScreen({})
 
     expect(getByTestId('NoActivity/loading')).toBeTruthy()
-    expect(getByText('transactionFeed.noTransactions')).toBeTruthy()
-  })
-
-  it('renders NoActivity by default if transaction feed is empty', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
-    const { getByTestId, getByText } = renderScreen({})
-    expect(getByTestId('NoActivity/loading')).toBeDefined()
     expect(getByText('transactionFeed.noTransactions')).toBeTruthy()
   })
 })

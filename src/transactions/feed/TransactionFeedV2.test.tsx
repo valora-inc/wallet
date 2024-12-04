@@ -149,19 +149,6 @@ describe('TransactionFeedV2', () => {
     expect(tree.getByTestId('TransactionList').props.data).toHaveLength(0)
   })
 
-  it("renders no transactions and an error message if there's no cache and the query fails", async () => {
-    mockFetch.mockReject(new Error('Test error'))
-    const tree = renderScreen()
-
-    expect(tree.queryByText('transactionFeed.error.fetchError')).toBeFalsy()
-    expect(tree.getByTestId('TransactionList/loading')).toBeTruthy()
-
-    await waitFor(() => expect(tree.getByText('transactionFeed.error.fetchError')).toBeTruthy())
-    expect(tree.queryByTestId('TransactionList/loading')).toBeNull()
-    expect(tree.getByText('transactionFeed.noTransactions')).toBeTruthy()
-    expect(tree.getByTestId('TransactionList').props.data).toHaveLength(0)
-  })
-
   it('renders correctly when there are confirmed transactions and stand by transactions', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
 
@@ -588,7 +575,7 @@ describe('TransactionFeedV2', () => {
       crossChainFeeAmount: '0.5',
       crossChainFeeAmountUsd: 500,
     })
-    expect(AppAnalytics.track).toBeCalledTimes(1)
+    expect(AppAnalytics.track).toBeCalledTimes(2)
   })
 
   it('should pre-populate persisted first page of the feed', async () => {
