@@ -14,8 +14,6 @@ import { Screens } from 'src/navigator/Screens'
 import LanguageButton from 'src/onboarding/LanguageButton'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { patchUpdateStatsigUser } from 'src/statsig'
-import colors from 'src/styles/colors'
-import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 export default function Welcome() {
@@ -96,21 +94,6 @@ const styles = StyleSheet.create({
   },
   createAccountButton: {
     marginBottom: Spacing.Smallest8,
-  },
-  termsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: Spacing.Regular16,
-    paddingHorizontal: Spacing.Smallest8,
-    gap: Spacing.Smallest8,
-  },
-  termsText: {
-    color: colors.black,
-    flexShrink: 1,
-    ...typeScale.bodySmall,
-  },
-  termsTextLink: {
-    textDecorationLine: 'underline',
   },
   buttonView: {
     paddingHorizontal: Spacing.Thick24,
