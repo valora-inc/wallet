@@ -48,10 +48,6 @@ jest.mock('./utils', () => ({
   getProviderSelectionAnalyticsData: jest.fn(),
 }))
 
-jest.mock('@coinbase/cbpay-js', () => {
-  return { generateOnRampURL: jest.fn() }
-})
-
 jest.mock('src/firebase/firebase', () => ({
   readOnceFromFirebase: jest.fn().mockResolvedValue(FAKE_APP_ID),
 }))
