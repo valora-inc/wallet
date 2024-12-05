@@ -734,7 +734,7 @@ PODS:
     - React-logger (= 0.72.15)
     - React-perflogger (= 0.72.15)
   - RecaptchaInterop (100.0.0)
-  - RNCAsyncStorage (2.0.0):
+  - RNCAsyncStorage (2.1.0):
     - React-Core
   - RNCClipboard (1.15.0):
     - React-Core
@@ -1305,7 +1305,7 @@ SPEC CHECKSUMS:
   React-utils: a2dfc4c77bb4f7fe4080219a82ace8929f334b1a
   ReactCommon: 69acb76221a4c9d1b5740821ee1f0df89068fd6d
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
-  RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
+  RNCAsyncStorage: cc6479c4acd84cc7004946946c8afe30b018184d
   RNCClipboard: 69ab8e51324d5b351f6ba72bbdb72478087a2c64
   RNCMaskedView: 7fd800fe3508752504dbdc0a231cec05211ae769
   RNCPicker: d162737e03e48797110dbb60e5ddc03012e87e0b
