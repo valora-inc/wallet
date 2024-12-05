@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ImageBackground, StyleSheet, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
+import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -12,6 +13,7 @@ import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import LanguageButton from 'src/onboarding/LanguageButton'
+import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { patchUpdateStatsigUser } from 'src/statsig'
 import { Spacing } from 'src/styles/styles'
@@ -22,10 +24,21 @@ export default function Welcome() {
   const acceptedTerms = useSelector((state) => state.account.acceptedTerms)
   const startOnboardingTime = useSelector((state) => state.account.startOnboardingTime)
   const insets = useSafeAreaInsets()
+  const recoveringFromStoreWipe = useSelector(recoveringFromStoreWipeSelector)
+
+  const startOnboarding = () => {
+    navigate(
+      firstOnboardingScreen({
+        recoveringFromStoreWipe,
+      })
+    )
+  }
 
   const navigateNext = () => {
     if (!acceptedTerms) {
       navigate(Screens.RegulatoryTerms)
+    } else {
+      startOnboarding()
     }
   }
 
