@@ -358,12 +358,6 @@ export const styles = StyleSheet.create({
     gap: Spacing.Tiny4,
     paddingRight: 20, // Prevents Icon from being cut off on long labels
   },
-  alignLeft: {
-    textAlign: 'left',
-  },
-  alignRight: {
-    textAlign: 'right',
-  },
   lineLabel: {
     ...typeScale.labelSemiBoldMedium,
     color: Colors.black,
