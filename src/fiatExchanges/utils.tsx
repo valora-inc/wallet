@@ -250,13 +250,6 @@ export async function fetchExchanges(
   }
 }
 
-export const filterProvidersByPaymentMethod = (
-  paymentMethod: PaymentMethod,
-  externalProviders: FetchProvidersOutput[] | undefined
-) => {
-  return externalProviders?.find((quote) => quote.paymentMethods.includes(paymentMethod))
-}
-
 export const isUserInputCrypto = (flow: CICOFlow): boolean => flow === CICOFlow.CashOut
 
 /**

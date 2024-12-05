@@ -29,7 +29,6 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
-  mockCeloTokenId,
   mockCeurTokenId,
   mockCusdTokenId,
   mockExchanges,
@@ -120,9 +119,6 @@ const MOCK_STORE_DATA = {
     quotesError: null,
     quotesLoading: false,
     quotes: [],
-  },
-  app: {
-    coinbasePayEnabled: false,
   },
 }
 
@@ -422,95 +418,6 @@ describe(SelectProviderScreen, () => {
         flow: CICOFlow.CashIn,
         exchanges: mockExchanges,
       })
-    })
-  })
-
-  describe('SelectProviderScreen CBPay Card', () => {
-    beforeEach(() => {
-      jest.useRealTimers()
-      jest.clearAllMocks()
-      jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-      jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
-    })
-    it('does not show coinbase card if coinbase is restricted and feature flag is false', async () => {
-      const mockProvidersAdjusted = mockProviders
-      mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = true
-      jest.mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
-
-      const { queryByText } = render(
-        <Provider store={mockStore}>
-          <SelectProviderScreen {...mockScreenProps()} />
-        </Provider>
-      )
-      await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
-    })
-    it('does not show coinbase card if coinbase is not restricted but feature flag is false', async () => {
-      const mockProvidersAdjusted = mockProviders
-      mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = false
-      jest.mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
-      const { queryByText } = render(
-        <Provider store={mockStore}>
-          <SelectProviderScreen {...mockScreenProps()} />
-        </Provider>
-      )
-      await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
-    })
-    it('does not show coinbase card if coinbase is restricted and feature flag is true', async () => {
-      const mockProvidersAdjusted = mockProviders
-      mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = true
-      jest.mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
-      mockStore = createMockStore({
-        ...MOCK_STORE_DATA,
-        app: {
-          coinbasePayEnabled: true,
-        },
-      })
-      const { queryByText } = render(
-        <Provider store={mockStore}>
-          <SelectProviderScreen {...mockScreenProps()} />
-        </Provider>
-      )
-      await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
-    })
-
-    it.each(restrictedCurrenciesTokenIds)(
-      'does not show coinbase card if %s is selected',
-      async (tokenId) => {
-        const mockProvidersAdjusted = mockProviders
-        mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted =
-          false
-        jest.mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
-        mockStore = createMockStore({
-          ...mockStore,
-          app: {
-            coinbasePayEnabled: true,
-          },
-        })
-        const { queryByText } = render(
-          <Provider store={mockStore}>
-            <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, tokenId)} />
-          </Provider>
-        )
-        await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
-      }
-    )
-
-    it('does not show coinbase pay card in withdraw flow', async () => {
-      const mockProvidersAdjusted = mockProviders
-      mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = false
-      jest.mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
-      mockStore = createMockStore({
-        ...mockStore,
-        app: {
-          coinbasePayEnabled: true,
-        },
-      })
-      const { queryByText } = render(
-        <Provider store={mockStore}>
-          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashOut, mockCeloTokenId)} />
-        </Provider>
-      )
-      await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
     })
   })
 })
