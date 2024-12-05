@@ -14,9 +14,9 @@ import {
 } from 'src/fiatExchanges/types'
 import {
   LegacyMobileMoneyProvider,
+  fetchCicoQuotes,
   fetchExchanges,
   fetchLegacyMobileMoneyProviders,
-  fetchProviders,
   getProviderSelectionAnalyticsData,
 } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -29,10 +29,10 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
+  mockCicoQuotes,
   mockCusdTokenId,
   mockExchanges,
   mockFiatConnectQuotes,
-  mockProviders,
 } from 'test/values'
 import mocked = jest.mocked
 
@@ -42,7 +42,7 @@ const FAKE_APP_ID = 'fake app id'
 
 jest.mock('./utils', () => ({
   ...(jest.requireActual('./utils') as any),
-  fetchProviders: jest.fn(),
+  fetchCicoQuotes: jest.fn(),
   fetchLegacyMobileMoneyProviders: jest.fn(),
   fetchExchanges: jest.fn(),
   getProviderSelectionAnalyticsData: jest.fn(),
@@ -131,26 +131,24 @@ describe(SelectProviderScreen, () => {
     jest.mocked(getFeatureGate).mockReturnValue(false)
   })
 
-  it('calls fetchProviders correctly', async () => {
+  it('calls fetchCicoQuotes correctly', async () => {
     render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
     )
     await waitFor(() =>
-      expect(fetchProviders).toHaveBeenCalledWith({
-        digitalAsset: 'CUSD',
-        digitalAssetAmount: AMOUNT_TO_CASH_IN,
-        fiatAmount: AMOUNT_TO_CASH_IN,
+      expect(fetchCicoQuotes).toHaveBeenCalledWith({
+        fiatAmount: AMOUNT_TO_CASH_IN.toString(),
         fiatCurrency: LocalCurrencyCode.USD,
-        txType: 'buy',
+        txType: 'cashIn',
         userLocation: {
           countryCodeAlpha2: 'MX',
           region: null,
           ipAddress: MOCK_IP_ADDRESS,
         },
-        walletAddress: mockAccount.toLowerCase(),
-        networkId: NetworkId['celo-alfajores'],
+        address: mockAccount.toLowerCase(),
+        tokenId: mockCusdTokenId,
       })
     )
   })
@@ -239,7 +237,7 @@ describe(SelectProviderScreen, () => {
   })
 
   it('shows the provider sections (bank, card, mobile money, airtime), legacy mobile money, and exchange section', async () => {
-    jest.mocked(fetchProviders).mockResolvedValue(mockProviders)
+    jest.mocked(fetchCicoQuotes).mockResolvedValue({ quotes: mockCicoQuotes })
     jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
     mockStore = createMockStore({
@@ -268,8 +266,8 @@ describe(SelectProviderScreen, () => {
     expect(getByText('selectProviderScreen.disclaimer')).toBeTruthy()
   })
 
-  it('shows you will pay fiat amount for cash ins if feature flag is true', async () => {
-    jest.mocked(fetchProviders).mockResolvedValue(mockProviders)
+  it('shows you will pay fiat amount for cash ins', async () => {
+    jest.mocked(fetchCicoQuotes).mockResolvedValue({ quotes: mockCicoQuotes })
     jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
     jest.mocked(getFeatureGate).mockReturnValue(true)
@@ -292,8 +290,8 @@ describe(SelectProviderScreen, () => {
     expect(getByText(/selectProviderScreen.cashIn.amountSpentInfo/)).toBeTruthy()
     expect(getByTestId('AmountSpentInfo/Fiat/value')).toBeTruthy()
   })
-  it('shows you will withdraw crypto amount for cash outs if feature flag is true', async () => {
-    jest.mocked(fetchProviders).mockResolvedValue(mockProviders)
+  it('shows you will withdraw crypto amount for cash outs', async () => {
+    jest.mocked(fetchCicoQuotes).mockResolvedValue({ quotes: mockCicoQuotes })
     jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
     jest.mocked(getFeatureGate).mockReturnValue(true)
@@ -317,7 +315,7 @@ describe(SelectProviderScreen, () => {
     expect(getByTestId('AmountSpentInfo/Crypto')).toBeTruthy()
   })
   it('shows the limit payment methods dialog when one of the provider types has no options', async () => {
-    jest.mocked(fetchProviders).mockResolvedValue([mockProviders[2]])
+    jest.mocked(fetchCicoQuotes).mockResolvedValue({ quotes: [] })
     jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
     const { getByText } = render(
@@ -330,7 +328,7 @@ describe(SelectProviderScreen, () => {
     expect(getByText('selectProviderScreen.disclaimerWithSomePaymentsUnavailable')).toBeTruthy()
   })
   it('does not show exchange section if no exchanges', async () => {
-    jest.mocked(fetchProviders).mockResolvedValue(mockProviders)
+    jest.mocked(fetchCicoQuotes).mockResolvedValue({ quotes: mockCicoQuotes })
     jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     jest.mocked(fetchExchanges).mockResolvedValue([])
     const { queryByText } = render(
@@ -344,7 +342,7 @@ describe(SelectProviderScreen, () => {
     expect(queryByText('selectProviderScreen.cryptoExchange')).toBeFalsy()
   })
   it('shows no payment screen when no providers or exchanges are available', async () => {
-    jest.mocked(fetchProviders).mockResolvedValue([])
+    jest.mocked(fetchCicoQuotes).mockResolvedValue({ quotes: [] })
     jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue([])
     jest.mocked(fetchExchanges).mockResolvedValue([])
     const { queryByText, getByTestId } = render(
@@ -364,7 +362,7 @@ describe(SelectProviderScreen, () => {
 
   describe('Exchanges section', () => {
     beforeAll(() => {
-      jest.mocked(fetchProviders).mockResolvedValue([])
+      jest.mocked(fetchCicoQuotes).mockResolvedValue({ quotes: [] })
       jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue([])
       jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
     })

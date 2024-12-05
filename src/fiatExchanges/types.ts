@@ -1,3 +1,6 @@
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { UserLocationData } from 'src/networkInfo/saga'
+
 export enum SelectProviderExchangesText {
   CryptoExchange = 'CryptoExchange',
   DepositFrom = 'DepositFrom',
@@ -55,4 +58,45 @@ export type SimplexQuote = {
   }
   valid_until: string
   supported_digital_currencies: string[]
+}
+
+export type GetCicoQuotesRequest = {
+  tokenId: string
+  fiatCurrency: LocalCurrencyCode
+  address: string
+  userLocation: UserLocationData
+} & (
+  | {
+      txType: 'cashIn'
+      fiatAmount: string
+    }
+  | {
+      txType: 'cashOut'
+      cryptoAmount: string
+    }
+)
+
+export interface CicoQuote {
+  paymentMethod: 'Bank' | 'Card' | 'Airtime' | 'MobileMoney'
+  url?: string
+  fiatCurrency: LocalCurrencyCode
+  tokenId: string
+  txType: 'cashIn' | 'cashOut'
+  fiatAmount: string
+  cryptoAmount: string
+  fiatFee?: string
+  provider: {
+    id: string
+    displayName: string
+    logoUrl: string
+    logoWideUrl: string
+  }
+  additionalInfo?: {
+    mobileCarrier?: 'Safaricom' | 'MTN' // mobile carrier used for airtime
+    simplexQuote?: SimplexQuote | undefined // raw quote from Simplex, there is a wallet dependency on this
+  }
+}
+
+export interface GetCicoQuotesResponse {
+  quotes: CicoQuote[]
 }

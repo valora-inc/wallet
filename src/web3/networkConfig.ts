@@ -103,6 +103,7 @@ interface NetworkConfig {
   getWalletTransactionsUrl: string
   getWalletBalancesUrl: string
   getExchangeRateUrl: string
+  getCicoQuotesUrl: string
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -286,6 +287,9 @@ const GET_WALLET_BALANCES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getWalletBalance
 const GET_EXCHANGE_RATE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getExchangeRate`
 const GET_EXCHANGE_RATE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getExchangeRate`
 
+const GET_CICO_QUOTES_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getCicoQuotes`
+const GET_CICO_QUOTES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getCicoQuotes`
+
 const WEB3_AUTH_VERIFIER = 'valora-cab-auth0'
 
 const BASE_SET_REGISTRATION_PROPERTIES_AUTH = {
@@ -426,6 +430,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getWalletTransactionsUrl: GET_WALLET_TRANSACTIONS_ALFAJORES,
     getWalletBalancesUrl: GET_WALLET_BALANCES_ALFAJORES,
     getExchangeRateUrl: GET_EXCHANGE_RATE_ALFAJORES,
+    getCicoQuotesUrl: GET_CICO_QUOTES_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -528,6 +533,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getWalletTransactionsUrl: GET_WALLET_TRANSACTIONS_MAINNET,
     getWalletBalancesUrl: GET_WALLET_BALANCES_MAINNET,
     getExchangeRateUrl: GET_EXCHANGE_RATE_MAINNET,
+    getCicoQuotesUrl: GET_CICO_QUOTES_MAINNET,
   },
 }
 

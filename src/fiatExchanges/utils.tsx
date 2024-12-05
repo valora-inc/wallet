@@ -6,6 +6,8 @@ import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import {
   CICOFlow,
+  GetCicoQuotesRequest,
+  GetCicoQuotesResponse,
   PaymentMethod,
   ProviderSelectionAnalyticsData,
   SimplexQuote,
@@ -317,5 +319,29 @@ export function getProviderSelectionAnalyticsData({
       (legacyMobileMoneyProviders?.length ?? 0) +
       normalizedQuotes.length,
     networkId: tokenInfo?.networkId,
+  }
+}
+
+export async function fetchCicoQuotes(
+  request: GetCicoQuotesRequest
+): Promise<GetCicoQuotesResponse> {
+  try {
+    const response = await fetchWithTimeout(
+      networkConfig.getCicoQuotesUrl,
+      composePostObject(request),
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+        .cico * 1000
+    )
+
+    if (!response.ok) {
+      throw Error(`Get cico quotes failed with status ${response?.status}`)
+    }
+
+    Logger.debug(`${TAG}:fetchCicoQuotes`, 'got cico quotes')
+
+    return response.json()
+  } catch (error) {
+    Logger.error(`${TAG}:fetchCicoQuotes`, 'Failed to fetch cico quotes', error)
+    throw error
   }
 }
