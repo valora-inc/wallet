@@ -6,8 +6,8 @@ import {
   QuoteResponseFiatAccountSchema,
   QuoteResponseKycSchema,
 } from '@fiatconnect/fiatconnect-types'
-import BigNumber from 'bignumber.js'
 import { Dispatch } from '@reduxjs/toolkit'
+import BigNumber from 'bignumber.js'
 import { FiatConnectProviderInfo, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 import {
@@ -18,7 +18,7 @@ import {
   SettlementTime,
 } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/types'
 import i18n from 'src/i18n'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'

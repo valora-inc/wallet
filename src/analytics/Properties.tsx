@@ -55,8 +55,12 @@ import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
 import { BeforeDepositActionName, EarnActiveMode, SerializableRewardsInfo } from 'src/earn/types'
-import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
-import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import {
+  CICOFlow,
+  FiatExchangeFlow,
+  PaymentMethod,
+  ProviderSelectionAnalyticsData,
+} from 'src/fiatExchanges/types'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import {
   KeylessBackupFlow,

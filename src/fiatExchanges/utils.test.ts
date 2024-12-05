@@ -1,15 +1,16 @@
 import BigNumber from 'bignumber.js'
+import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
+import { PaymentMethod } from 'src/fiatExchanges/types'
+import { fetchExchanges, getProviderSelectionAnalyticsData } from 'src/fiatExchanges/utils'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
+import networkConfig from 'src/web3/networkConfig'
 import {
   mockCusdTokenId,
   mockExchanges,
   mockLegacyMobileMoneyProvider,
   mockTokenBalances,
-} from '../../test/values'
-import { CiCoCurrency } from '../utils/currencies'
-import NormalizedQuote from './quotes/NormalizedQuote'
-import { PaymentMethod, fetchExchanges, getProviderSelectionAnalyticsData } from './utils'
-import networkConfig from 'src/web3/networkConfig'
+} from 'test/values'
 
 class MockNormalizedQuote extends NormalizedQuote {
   getCryptoType = jest.fn()
