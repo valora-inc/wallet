@@ -765,8 +765,8 @@ export const mockProviders: FetchProvidersOutput[] = [
     name: 'CoinbasePay',
     restricted: false,
     unavailable: false,
-    paymentMethods: [PaymentMethod.Coinbase],
-    url: undefined,
+    paymentMethods: [PaymentMethod.Bank],
+    url: 'https://www.coinbase.com/',
     logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
     logoWide:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
@@ -1887,12 +1887,10 @@ export const mockShortcuts: Shortcut[] = [
 
 export const mockProviderSelectionAnalyticsData: ProviderSelectionAnalyticsData = {
   centralizedExchangesAvailable: true,
-  coinbasePayAvailable: true,
   totalOptions: 3,
   paymentMethodsAvailable: {
     [PaymentMethod.Card]: false,
     [PaymentMethod.Bank]: true,
-    [PaymentMethod.Coinbase]: true,
     [PaymentMethod.MobileMoney]: true,
     [PaymentMethod.FiatConnectMobileMoney]: false,
     [PaymentMethod.Airtime]: false,

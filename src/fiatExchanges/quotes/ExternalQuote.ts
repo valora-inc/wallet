@@ -28,7 +28,6 @@ const paymentMethodToSettlementTime = {
   [PaymentMethod.Airtime]: DEFAULT_AIRTIME_SETTLEMENT_ESTIMATION,
   [PaymentMethod.MobileMoney]: DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION,
   [PaymentMethod.FiatConnectMobileMoney]: DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION,
-  [PaymentMethod.Coinbase]: DEFAULT_CARD_SETTLEMENT_ESTIMATION,
 }
 
 export const isSimplexQuote = (quote: RawProviderQuote | SimplexQuote): quote is SimplexQuote =>

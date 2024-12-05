@@ -271,7 +271,6 @@ export function getProviderSelectionAnalyticsData({
   tokenInfo,
   legacyMobileMoneyProviders,
   centralizedExchanges,
-  coinbasePayAvailable,
   transferCryptoAmount,
   cryptoType,
 }: {
@@ -280,7 +279,6 @@ export function getProviderSelectionAnalyticsData({
   tokenInfo?: TokenBalance
   legacyMobileMoneyProviders?: LegacyMobileMoneyProvider[]
   centralizedExchanges?: ExternalExchangeProvider[]
-  coinbasePayAvailable: boolean
   transferCryptoAmount: number
   cryptoType: string
 }): ProviderSelectionAnalyticsData {
@@ -293,7 +291,6 @@ export function getProviderSelectionAnalyticsData({
     [PaymentMethod.Bank]: false,
     [PaymentMethod.Card]: false,
     [PaymentMethod.FiatConnectMobileMoney]: false,
-    [PaymentMethod.Coinbase]: coinbasePayAvailable,
     [PaymentMethod.MobileMoney]:
       !!legacyMobileMoneyProviders && legacyMobileMoneyProviders.length > 0,
     [PaymentMethod.Airtime]: false,
@@ -320,12 +317,10 @@ export function getProviderSelectionAnalyticsData({
     lowestFeeProvider,
     lowestFeeKycRequired,
     centralizedExchangesAvailable,
-    coinbasePayAvailable,
     lowestFeeCryptoAmount: lowestFeeCryptoAmount?.toNumber(),
     // counts centralized exchanges as single option, since that's how they appear on the Select Providers screen
     totalOptions:
       (centralizedExchangesAvailable ? 1 : 0) +
-      (coinbasePayAvailable ? 1 : 0) +
       (legacyMobileMoneyProviders?.length ?? 0) +
       normalizedQuotes.length,
     networkId: tokenInfo?.networkId,

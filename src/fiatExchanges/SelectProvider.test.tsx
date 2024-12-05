@@ -210,13 +210,11 @@ describe(SelectProviderScreen, () => {
   it('publishes analytics event if quotes done loading', async () => {
     const mockAnalyticsData = {
       centralizedExchangesAvailable: true,
-      coinbasePayAvailable: false,
       totalOptions: 1,
       paymentMethodsAvailable: {
         [PaymentMethod.Bank]: false,
         [PaymentMethod.Card]: false,
         [PaymentMethod.MobileMoney]: false,
-        [PaymentMethod.Coinbase]: false,
         [PaymentMethod.FiatConnectMobileMoney]: false,
         [PaymentMethod.Airtime]: false,
       },
@@ -473,23 +471,6 @@ describe(SelectProviderScreen, () => {
         </Provider>
       )
       await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
-    })
-    it('shows coinbase card if coinbase is not restricted, feature flag is true, and CELO is selected', async () => {
-      const mockProvidersAdjusted = mockProviders
-      mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = false
-      jest.mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
-      mockStore = createMockStore({
-        ...mockStore,
-        app: {
-          coinbasePayEnabled: true,
-        },
-      })
-      const { queryByText } = render(
-        <Provider store={mockStore}>
-          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, mockCeloTokenId)} />
-        </Provider>
-      )
-      await waitFor(() => expect(queryByText('Coinbase Pay')).toBeTruthy())
     })
 
     it.each(restrictedCurrenciesTokenIds)(
