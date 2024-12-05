@@ -36,7 +36,7 @@ interface ProviderRequestData {
   txType: 'buy' | 'sell'
 }
 
-export interface FetchProvidersOutput {
+interface FetchProvidersOutput {
   name: string
   restricted: boolean
   unavailable?: boolean
@@ -49,7 +49,7 @@ export interface FetchProvidersOutput {
   cashOut: boolean
 }
 
-export interface RawProviderQuote {
+interface RawProviderQuote {
   paymentMethod: PaymentMethod
   digitalAsset: string
   returnedAmount?: number
