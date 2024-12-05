@@ -23,23 +23,21 @@ concurrency:
 
 jobs:
   # TODO: enable once we have at least one android-api-level below
-  # android:
-  #   name: Android
-  #   strategy:
-  #     max-parallel: 2
-  #     fail-fast: false
-  #     matrix:
-  #       # TODO if/when more CI machines: enable Android sdk 21, 23, 29 and 31
-  #       # 21 is failing 9 specs
-  #       # 23 is failing ? spec(s)
-  #       # 31 is failing ? spec(s)
-  #       # 24 is currently failing all the time, disabling it for now
-  #       # 30 is not included as it runs on the merge queue
-  #       android-api-level: []
-  #   uses: ./.github/workflows/e2e-android.yml
-  #   with:
-  #     android-api-level: ${{ matrix.android-api-level }}
-  #   secrets: inherit
+  android:
+    name: Android
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        # min supported API level is 24
+        # 24 is failing due to Let's Encrypt certificate expiration
+        # 25 is failing
+        # 26 is failing
+        android-api-level: ['27']
+    uses: ./.github/workflows/e2e-android.yml
+    with:
+      android-api-level: ${{ matrix.android-api-level }}
+    secrets: inherit
   ios:
     name: iOS
     strategy:
