@@ -29,7 +29,6 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
-  mockCeurTokenId,
   mockCusdTokenId,
   mockExchanges,
   mockFiatConnectQuotes,
@@ -40,7 +39,6 @@ import mocked = jest.mocked
 const AMOUNT_TO_CASH_IN = 100
 const MOCK_IP_ADDRESS = '1.1.1.7'
 const FAKE_APP_ID = 'fake app id'
-const restrictedCurrenciesTokenIds = [mockCeurTokenId, mockCusdTokenId]
 
 jest.mock('./utils', () => ({
   ...(jest.requireActual('./utils') as any),
