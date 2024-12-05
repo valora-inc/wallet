@@ -32,12 +32,12 @@ function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
 
   return (
     <View testID="EarningItemLineItem" style={styles.cardLineContainer}>
-      <View style={styles.cardLineLabel}>
+      <View style={styles.flexLabel}>
         <Text numberOfLines={1} style={styles.depositAndEarningsCardLabelText}>
           {earnItem.label}
         </Text>
       </View>
-      <View style={styles.flexShrink}>
+      <View style={styles.flexValue}>
         <Text style={styles.depositAndEarningsCardValueText}>
           {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
             localCurrencySymbol,
@@ -140,7 +140,7 @@ export function DepositAndEarningsCard({
 
       <View style={styles.depositAndEarningCardSubtitleContainer}>
         <View style={styles.cardLineContainer}>
-          <View style={[styles.cardLineLabel, styles.flexLabel]}>
+          <View style={styles.flexLabel}>
             {cantSeparateCompoundedInterest ? (
               <Text style={styles.depositAndEarningsCardLabelText}>
                 {t('earnFlow.poolInfoScreen.depositAndEarnings')}
@@ -187,7 +187,7 @@ export function YieldCard({
   return (
     <View style={styles.card} testID="YieldCard">
       <View style={styles.cardLineContainer}>
-        <View style={[styles.cardLineLabel, styles.flexLabel]}>
+        <View style={styles.flexLabel}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.yieldRate')}
@@ -209,7 +209,7 @@ export function YieldCard({
           const tokenInfo = tokensInfo.filter((token) => token.tokenId === rate.tokenId)
           return (
             <View style={styles.cardLineContainer} key={index}>
-              <View style={[styles.cardLineLabel, styles.flexLabel]}>
+              <View style={styles.flexLabel}>
                 <View style={styles.yieldRateLabelContainer}>
                   <Text style={styles.cardLabelText}>{rate.label}</Text>
                   <TokenIcons
@@ -243,7 +243,7 @@ export function DailyYieldRateCard({
   return (
     <View style={styles.card} testID="DailyYieldRateCard">
       <View style={styles.cardLineContainer}>
-        <View style={[styles.cardLineLabel, styles.flexLabel]}>
+        <View style={styles.flexLabel}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.dailyYieldRate')}
@@ -279,7 +279,7 @@ export function TvlCard({
   return (
     <View style={styles.card} testID="TvlCard">
       <View style={styles.cardLineContainer}>
-        <View style={styles.cardLineLabel}>
+        <View style={styles.flexLabel}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.tvl')}
@@ -311,7 +311,7 @@ export function AgeCard({
   return (
     <View style={styles.card} testID="AgeCard">
       <View style={styles.cardLineContainer}>
-        <View style={[styles.cardLineLabel, styles.flexLabel]}>
+        <View style={styles.flexLabel}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.ageOfPool')}
@@ -335,9 +335,6 @@ export const styles = StyleSheet.create({
   flexValue: {
     flex: 1,
   },
-  flexShrink: {
-    flexShrink: 1,
-  },
   card: {
     padding: Spacing.Regular16,
     borderColor: Colors.gray2,
@@ -350,13 +347,9 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  cardLineLabel: {
-    paddingRight: 20, // Prevents Icon from being cut off on long labels
-  },
   yieldRateLabelContainer: {
     flexDirection: 'row',
     gap: Spacing.Tiny4,
-    paddingRight: 20, // Prevents Icon from being cut off on long labels
   },
   lineLabel: {
     ...typeScale.labelSemiBoldMedium,
