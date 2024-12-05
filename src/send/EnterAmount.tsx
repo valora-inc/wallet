@@ -246,6 +246,7 @@ export default function EnterAmount({
                 labelStyle={{ color: Colors.gray3 }}
                 testID="SendEnterAmount/FeeLabel"
                 style={styles.feeLabelContainer}
+                numberOfLines={1}
               />
               <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
                 <TokenDisplay

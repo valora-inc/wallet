@@ -60,6 +60,7 @@ export function SafetyCard({
             label={t('earnFlow.poolInfoScreen.safetyScore')}
             labelStyle={cardStyles.cardTitleText}
             testID="SafetyCardInfoIcon"
+            numberOfLines={1}
           />
         </View>
         <View style={styles.tripleBarContainer}>

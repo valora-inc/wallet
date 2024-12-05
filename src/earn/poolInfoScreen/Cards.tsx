@@ -126,6 +126,7 @@ export function DepositAndEarningsCard({
           label={t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
           labelStyle={styles.cardTitleText}
           testID={'DepositInfoIcon'}
+          numberOfLines={1}
         />
         <View>
           <Text style={styles.depositAndEarningCardTitleText}>

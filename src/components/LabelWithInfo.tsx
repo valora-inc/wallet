@@ -14,11 +14,13 @@ export function LabelWithInfo({
   iconSize = 16,
   testID,
   style,
+  numberOfLines,
 }: {
   label: string
   onPress?: () => void
   labelStyle?: StyleProp<TextStyle>
   iconSize?: number
+  numberOfLines?: number | undefined
   testID?: string
   style?: StyleProp<ViewStyle>
 }) {
@@ -30,7 +32,7 @@ export function LabelWithInfo({
       disabled={!onPress}
     >
       <>
-        <Text style={[styles.labelText, labelStyle]} numberOfLines={1}>
+        <Text style={[styles.labelText, labelStyle]} numberOfLines={numberOfLines}>
           {label}
         </Text>
         {onPress && <InfoIcon size={iconSize} color={Colors.gray3} />}
