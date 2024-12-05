@@ -140,7 +140,7 @@ export function DepositAndEarningsCard({
 
       <View style={styles.depositAndEarningCardSubtitleContainer}>
         <View style={styles.cardLineContainer}>
-          <View style={[styles.cardLineLabel, styles.flex]}>
+          <View style={[styles.cardLineLabel, styles.flexLabel]}>
             {cantSeparateCompoundedInterest ? (
               <Text style={styles.depositAndEarningsCardLabelText}>
                 {t('earnFlow.poolInfoScreen.depositAndEarnings')}
@@ -151,7 +151,7 @@ export function DepositAndEarningsCard({
               </Text>
             )}
           </View>
-          <View style={styles.flex}>
+          <View style={styles.flexValue}>
             <Text style={styles.depositAndEarningsCardValueText}>
               {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
                 localCurrencySymbol,
@@ -187,7 +187,7 @@ export function YieldCard({
   return (
     <View style={styles.card} testID="YieldCard">
       <View style={styles.cardLineContainer}>
-        <View style={[styles.cardLineLabel, styles.flex]}>
+        <View style={[styles.cardLineLabel, styles.flexLabel]}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.yieldRate')}
@@ -195,7 +195,7 @@ export function YieldCard({
             testID="YieldRateInfoIcon"
           />
         </View>
-        <View style={styles.flex}>
+        <View style={styles.flexValue}>
           <Text style={styles.lineValue}>
             {yieldRateSum > 0.00005
               ? t('earnFlow.poolInfoScreen.ratePercent', { rate: yieldRateSum.toFixed(2) })
@@ -209,7 +209,7 @@ export function YieldCard({
           const tokenInfo = tokensInfo.filter((token) => token.tokenId === rate.tokenId)
           return (
             <View style={styles.cardLineContainer} key={index}>
-              <View style={[styles.cardLineLabel, styles.flex]}>
+              <View style={[styles.cardLineLabel, styles.flexLabel]}>
                 <View style={styles.yieldRateLabelContainer}>
                   <Text style={styles.cardLabelText}>{rate.label}</Text>
                   <TokenIcons
@@ -219,7 +219,7 @@ export function YieldCard({
                   />
                 </View>
               </View>
-              <View style={styles.flex}>
+              <View style={styles.flexValue}>
                 <Text style={styles.cardValueText}>
                   {t('earnFlow.poolInfoScreen.ratePercent', { rate: rate.percentage.toFixed(2) })}
                 </Text>
@@ -243,7 +243,7 @@ export function DailyYieldRateCard({
   return (
     <View style={styles.card} testID="DailyYieldRateCard">
       <View style={styles.cardLineContainer}>
-        <View style={[styles.cardLineLabel, styles.flex]}>
+        <View style={[styles.cardLineLabel, styles.flexLabel]}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.dailyYieldRate')}
@@ -251,7 +251,7 @@ export function DailyYieldRateCard({
             testID="DailyYieldRateInfoIcon"
           />
         </View>
-        <View style={styles.flex}>
+        <View style={styles.flexValue}>
           <Text style={styles.lineValue}>
             {t('earnFlow.poolInfoScreen.ratePercent', { rate: dailyYieldRate.toFixed(4) })}
           </Text>
@@ -287,7 +287,7 @@ export function TvlCard({
             testID="TvlInfoIcon"
           />
         </View>
-        <View style={styles.flex}>
+        <View style={styles.flexValue}>
           <Text style={styles.lineValue}>{tvlString}</Text>
         </View>
       </View>
@@ -311,7 +311,7 @@ export function AgeCard({
   return (
     <View style={styles.card} testID="AgeCard">
       <View style={styles.cardLineContainer}>
-        <View style={[styles.cardLineLabel, styles.flex]}>
+        <View style={[styles.cardLineLabel, styles.flexLabel]}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.ageOfPool')}
@@ -320,7 +320,7 @@ export function AgeCard({
             numberOfLines={undefined}
           />
         </View>
-        <View style={styles.flex}>
+        <View style={styles.flexValue}>
           <Text style={styles.lineValue}>{formattedDuration(dateInterval)}</Text>
         </View>
       </View>
@@ -329,7 +329,10 @@ export function AgeCard({
 }
 
 export const styles = StyleSheet.create({
-  flex: {
+  flexLabel: {
+    flex: 1.2,
+  },
+  flexValue: {
     flex: 1,
   },
   flexShrink: {
