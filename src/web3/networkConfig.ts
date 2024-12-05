@@ -42,7 +42,6 @@ interface NetworkConfig {
   currentMtwImplementationAddress: string
   recaptchaSiteKey: string
   bidaliUrl: string
-  providerFetchUrl: string
   getFiatConnectProvidersUrl: string
   getFiatConnectQuotesUrl: string
   simplexApiUrl: string
@@ -183,9 +182,6 @@ const GET_TOKENS_INFO_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getTokensInfoWit
 
 const FETCH_EXCHANGES_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getExchanges`
 const FETCH_EXCHANGES_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getExchanges`
-
-const PROVIDER_FETCH_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/fetchProviders`
-const PROVIDER_FETCH_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/fetchProviders`
 
 const GET_FIAT_CONNECT_PROVIDERS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getFiatConnectProviders`
 const GET_FIAT_CONNECT_PROVIDERS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getFiatConnectProviders`
@@ -353,7 +349,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
-    providerFetchUrl: PROVIDER_FETCH_URL_ALFAJORES,
     getFiatConnectProvidersUrl: GET_FIAT_CONNECT_PROVIDERS_ALFAJORES,
     getFiatConnectQuotesUrl: GET_FIAT_CONNECT_QUOTES_ALFAJORES,
     simplexApiUrl: SIMPLEX_API_URL_STAGING,
@@ -456,7 +451,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
-    providerFetchUrl: PROVIDER_FETCH_URL_MAINNET,
     getFiatConnectProvidersUrl: GET_FIAT_CONNECT_PROVIDERS_MAINNET,
     getFiatConnectQuotesUrl: GET_FIAT_CONNECT_QUOTES_MAINNET,
     simplexApiUrl: SIMPLEX_API_URL_PROD,
