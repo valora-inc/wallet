@@ -12584,10 +12584,10 @@ react-native-config@^1.5.3:
   version "5.0.0"
   resolved "https://github.com/celo-org/react-native-contacts#9940121a0512d00fa771273805e2c41996af6b23"
 
-react-native-device-info@^13.0.0:
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-13.0.0.tgz#6c272ffe805f74b2aaa22c81ae989286448c83b4"
-  integrity sha512-TKCq4XKl8lzB04RdEbADxkbzDJwOfWcxZxNcf1LweT+A+KRAUv1no7bch7RM0WLyMVKMTa2hbusESnzxB5QQRA==
+react-native-device-info@^13.2.0:
+  version "13.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-13.2.0.tgz#2b4026daf59dd08d82b6d65b63c18cb26f310ed2"
+  integrity sha512-VpTxHZsEZ7kes2alaZkB31278KuSPXfTZ4TmCCN77+bYxNnaHUDiBiQ1TSoKAOp51b7gZ/7EvM4McfgHofcTBQ==
 
 react-native-dotenv@^3.2.0:
   version "3.2.0"
