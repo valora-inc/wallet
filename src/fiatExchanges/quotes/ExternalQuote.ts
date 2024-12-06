@@ -7,13 +7,8 @@ import {
   SettlementEstimation,
 } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import {
-  CICOFlow,
-  FetchProvidersOutput,
-  PaymentMethod,
-  RawProviderQuote,
-  SimplexQuote,
-} from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod, SimplexQuote } from 'src/fiatExchanges/types'
+import { FetchProvidersOutput, RawProviderQuote } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'

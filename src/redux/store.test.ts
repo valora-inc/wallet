@@ -5,10 +5,12 @@ import * as createMigrateModule from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
 import { rootSaga } from 'src/redux/sagas'
-import { _persistConfig, setupStore } from 'src/redux/store'
+import { _persistConfig, setupStore, timeBetweenStoreSizeEvents } from 'src/redux/store'
 import * as accountCheckerModule from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
 import { getLatestSchema, vNeg1Schema } from 'test/schemas'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { PerformanceEvents } from 'src/analytics/Events'
 
 // Mock sagas because we don't want them to run in this test
 jest.mock('src/redux/sagas', () => ({
@@ -44,9 +46,14 @@ function getNonApiReducers<R = Omit<RootState, ApiReducersKeys>>(state: RootStat
 
 beforeEach(() => {
   jest.clearAllMocks()
+  jest.useFakeTimers()
   // For some reason createMigrate.mockRestore doesn't work, so instead we manually reset it to the original implementation
   createMigrate.mockImplementation(originalCreateMigrate)
   resetStateOnInvalidStoredAccount.mockImplementation((state) => Promise.resolve(state))
+})
+
+afterAll(() => {
+  jest.useRealTimers()
 })
 
 describe('persistConfig', () => {
@@ -71,6 +78,27 @@ describe('persistConfig', () => {
     expect(state).toEqual({ migrated: true })
     expect(createMigrate).toHaveBeenCalledTimes(1)
     expect(resetStateOnInvalidStoredAccount).toHaveBeenCalledTimes(1)
+  })
+
+  it('sends redux store size when available and after cooldown', () => {
+    const dateNow = Date.now()
+    jest.setSystemTime(dateNow)
+    const serialize = _persistConfig?.serialize as unknown as (data: any) => string
+    serialize({ _persist: true, foo: 'bar' })
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(PerformanceEvents.redux_store_size, {
+      size: 29,
+    })
+    // Should not track again until delay has passed
+    serialize({ _persist: true, foo: 'bar' })
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+    // Should track again after delay has passed
+    jest.setSystemTime(new Date(dateNow + 2 * timeBetweenStoreSizeEvents).getTime())
+    serialize({ _persist: true, foo: 'bar', bar: 'baz' })
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(PerformanceEvents.redux_store_size, {
+      size: 41,
+    })
   })
 })
 

@@ -22,7 +22,7 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
@@ -343,7 +343,7 @@ function EarnEnterAmount({ route }: Props) {
   }
 
   const onSelectPercentageAmount = (percentage: number) => {
-    setTokenAmountInput(inputToken.balance.multipliedBy(percentage).toFormat({ decimalSeparator }))
+    setTokenAmountInput(balanceInInputToken.multipliedBy(percentage).toFormat({ decimalSeparator }))
     setEnteredIn('token')
     setSelectedPercentage(percentage)
 
