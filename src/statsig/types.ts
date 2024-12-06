@@ -43,7 +43,7 @@ export enum StatsigFeatureGates {
 }
 
 export enum StatsigExperiments {
-  TEST = 'test', // Needed for CI, remove if there are actual experiments
+  SAMPLE = 'sample', // Needed for CI, remove if there are actual experiments
 }
 
 export type StatsigParameter =

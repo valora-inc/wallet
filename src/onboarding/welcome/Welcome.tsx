@@ -75,7 +75,6 @@ export default function Welcome() {
             type={BtnTypes.PRIMARY}
             style={styles.createAccountButton}
             testID={'CreateAccountButton'}
-            disabled={false}
           />
           <Button
             onPress={onPressRestoreAccount}
@@ -83,7 +82,6 @@ export default function Welcome() {
             size={BtnSizes.FULL}
             type={BtnTypes.SECONDARY}
             testID={'RestoreAccountButton'}
-            disabled={false}
           />
         </View>
       </ImageBackground>
