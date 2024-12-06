@@ -9,10 +9,11 @@ import networkConfig from 'src/web3/networkConfig'
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
-  [StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS]: {
-    experimentName: StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS,
+  // Needed for CI, remove if there are actual experiments
+  [StatsigExperiments.SAMPLE]: {
+    experimentName: StatsigExperiments.SAMPLE,
     defaultValues: {
-      variant: 'control' as 'control' | 'colloquial_terms' | 'checkbox',
+      testParam: 'sample-param-1',
     },
   },
 } satisfies {

@@ -42,7 +42,7 @@ export enum StatsigFeatureGates {
 }
 
 export enum StatsigExperiments {
-  ONBOARDING_TERMS_AND_CONDITIONS = 'onboarding_terms_and_conditions',
+  SAMPLE = 'sample', // Needed for CI, remove if there are actual experiments
 }
 
 export type StatsigParameter =
