@@ -25,10 +25,22 @@ import {
 import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import {
+  CICOFlow,
+  FiatExchangeFlow,
+  PaymentMethod,
   ProviderSelectionAnalyticsData,
   SelectProviderExchangesLink,
   SelectProviderExchangesText,
 } from 'src/fiatExchanges/types'
+import {
+  LegacyMobileMoneyProvider,
+  fetchExchanges,
+  fetchLegacyMobileMoneyProviders,
+  fetchProviders,
+  filterLegacyMobileMoneyProviders,
+  filterProvidersByPaymentMethod,
+  getProviderSelectionAnalyticsData,
+} from 'src/fiatExchanges/utils'
 import {
   fiatConnectQuotesErrorSelector,
   fiatConnectQuotesLoadingSelector,
@@ -61,18 +73,6 @@ import Logger from 'src/utils/Logger'
 import { navigateToURI } from 'src/utils/linking'
 import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
-import {
-  CICOFlow,
-  FiatExchangeFlow,
-  LegacyMobileMoneyProvider,
-  PaymentMethod,
-  fetchExchanges,
-  fetchLegacyMobileMoneyProviders,
-  fetchProviders,
-  filterLegacyMobileMoneyProviders,
-  filterProvidersByPaymentMethod,
-  getProviderSelectionAnalyticsData,
-} from './utils'
 
 const TAG = 'SelectProviderScreen'
 

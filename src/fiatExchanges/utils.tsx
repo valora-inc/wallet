@@ -4,7 +4,12 @@ import { default as DeviceInfo } from 'react-native-device-info'
 import { FIREBASE_ENABLED } from 'src/config'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
+import {
+  CICOFlow,
+  PaymentMethod,
+  ProviderSelectionAnalyticsData,
+  SimplexQuote,
+} from 'src/fiatExchanges/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { UserLocationData } from 'src/networkInfo/saga'
 import { getDynamicConfigParams } from 'src/statsig'
@@ -18,33 +23,6 @@ import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'fiatExchanges:utils'
 
-export enum FiatExchangeFlow {
-  CashIn = 'CashIn',
-  CashOut = 'CashOut',
-  Spend = 'Spend',
-}
-
-export enum CICOFlow {
-  CashIn = 'CashIn',
-  CashOut = 'CashOut',
-}
-
-export enum PaymentMethod {
-  Bank = 'Bank',
-  Card = 'Card',
-  Coinbase = 'Coinbase',
-  MobileMoney = 'MobileMoney', // legacy mobile money
-  FiatConnectMobileMoney = 'FiatConnectMobileMoney',
-  Airtime = 'Airtime',
-}
-
-export enum CloudFunctionDigitalAsset {
-  CELO = 'CELO',
-  CUSD = 'CUSD',
-  CEUR = 'CEUR',
-  CREAL = 'CREAL',
-  ETH = 'ETH',
-}
 interface ProviderRequestData {
   userLocation: UserLocationData
   walletAddress: string
@@ -67,12 +45,6 @@ export interface FetchProvidersOutput {
   quote?: SimplexQuote | RawProviderQuote[]
   cashIn: boolean
   cashOut: boolean
-}
-
-export interface UserAccountCreationData {
-  ipAddress: string
-  timestamp: string
-  userAgent: string
 }
 
 export interface RawProviderQuote {
@@ -104,40 +76,6 @@ interface SimplexPaymentData {
   orderId: string
   paymentId: string
   checkoutHtml: string
-}
-
-export interface ProviderInfo {
-  name: string
-  logoWide: string
-  logo: string
-}
-
-export type ProviderQuote = RawProviderQuote & {
-  cashIn: boolean
-  cashOut: boolean
-  url: string
-}
-
-export type SimplexQuote = {
-  user_id: string
-  quote_id: string
-  wallet_id: string
-  digital_money: {
-    currency: string
-    amount: number
-  }
-  fiat_money: {
-    currency: string
-    base_amount: number
-    total_amount: number
-  }
-  valid_until: string
-  supported_digital_currencies: string[]
-}
-
-export interface CicoQuote {
-  quote: ProviderQuote | SimplexQuote
-  provider: ProviderInfo
 }
 
 const composePostObject = (body: any) => ({

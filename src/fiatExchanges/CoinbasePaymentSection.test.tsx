@@ -3,13 +3,13 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
-import { CoinbasePayEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { CoinbasePayEvents } from 'src/analytics/Events'
 import {
   CoinbasePaymentSection,
   CoinbasePaymentSectionProps,
 } from 'src/fiatExchanges/CoinbasePaymentSection'
-import { PaymentMethod } from 'src/fiatExchanges/utils'
+import { PaymentMethod } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { createMockStore } from 'test/utils'
 import {

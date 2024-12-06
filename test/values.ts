@@ -15,12 +15,8 @@ import { range } from 'lodash'
 import { MinimalContact } from 'react-native-contacts'
 import { Dapp, DappWithCategoryNames } from 'src/dapps/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
-import {
-  FetchProvidersOutput,
-  LegacyMobileMoneyProvider,
-  PaymentMethod,
-} from 'src/fiatExchanges/utils'
+import { PaymentMethod, ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
+import { FetchProvidersOutput, LegacyMobileMoneyProvider } from 'src/fiatExchanges/utils'
 import {
   FiatConnectProviderInfo,
   FiatConnectQuoteError,
