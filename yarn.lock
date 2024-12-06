@@ -4329,22 +4329,22 @@
   dependencies:
     elliptic "^6.5.5"
 
-"@toruslabs/fetch-node-details@^14.0.1":
-  version "14.0.1"
-  resolved "https://registry.yarnpkg.com/@toruslabs/fetch-node-details/-/fetch-node-details-14.0.1.tgz#f7fc985946139c63b581d8111391585f91261f4f"
-  integrity sha512-cV/X8d97W9kU/ibycV/4rfkDSjl+MIgwbKhsVqvgDtoE1mdjMSeCxJTfEDgjxqzUcVlHjcbeUpzCe8qa/Gvs6A==
+"@toruslabs/fetch-node-details@^14.2.0":
+  version "14.2.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/fetch-node-details/-/fetch-node-details-14.2.0.tgz#befc2edacf59c31422ddab3954bd59a543fdcd64"
+  integrity sha512-k14RazfY4wKIUtdpfrSoUJasRNp2EMgv6ky4bGT1HYMPGU2JUNhvb6XTw5ISxfMrZuk04dLOhC4/XOtynFeFmQ==
   dependencies:
-    "@toruslabs/constants" "^14.0.0"
-    "@toruslabs/fnd-base" "^14.0.0"
+    "@toruslabs/constants" "^14.2.0"
+    "@toruslabs/fnd-base" "^14.2.0"
     "@toruslabs/http-helpers" "^7.0.0"
-    loglevel "^1.9.1"
+    loglevel "^1.9.2"
 
-"@toruslabs/fnd-base@^14.0.0":
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/fnd-base/-/fnd-base-14.0.0.tgz#209eedfa1c431778e5c50c92b5470cc8b205382c"
-  integrity sha512-zaYrm/HHHU4Evj/Et1HrVT8hmMaUpVw3Rcx2Gvp1W5pWZybbdEVoa0uqIANYxcr/NH7PUIU3DoRbk+bXx0kkYg==
+"@toruslabs/fnd-base@^14.2.0":
+  version "14.2.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/fnd-base/-/fnd-base-14.2.0.tgz#5dd00220196ce6f3f5362d5fe820403f06719d50"
+  integrity sha512-nqfcigOuz3pQJi+Q+tdCaDUVCaSUkGqqmw0bGnaKK2/PyXBlZhnEDzReM3aUbApJn3xitfrJEhnRvOJhzog/og==
   dependencies:
-    "@toruslabs/constants" "^14.0.0"
+    "@toruslabs/constants" "^14.2.0"
 
 "@toruslabs/http-helpers@^7.0.0":
   version "7.0.0"
