@@ -9,8 +9,6 @@ import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -26,8 +24,6 @@ jest.mock('react-native-auth0', () => ({
     clearCredentials: mockClearCredentials,
   })),
 }))
-
-jest.mock('src/statsig')
 
 const store = createMockStore()
 const renderComponent = (
@@ -57,8 +53,6 @@ describe('SignInWithEmail', () => {
     store.clearActions()
     mockAuthorize.mockResolvedValue(undefined)
     mockGetCredentials.mockResolvedValue({ idToken: 'mock-token' })
-    jest
-      .mocked(getFeatureGate)
     logWarnSpy = jest.spyOn(Logger, 'warn')
     logDebugSpy = jest.spyOn(Logger, 'debug')
   })
