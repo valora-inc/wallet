@@ -19,7 +19,6 @@ files=(
   "ios/GoogleService-Info.mainnetnightly.plist:celo-mobile-mainnet"
   "ios/sentry.properties:celo-mobile-alfajores"
   "secrets.json:celo-mobile-alfajores"
-  "e2e/.env:celo-mobile-alfajores"
 )
 
 if [[ -z "$1" ]]; then
