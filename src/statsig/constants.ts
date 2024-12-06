@@ -95,19 +95,6 @@ export const DynamicConfigs = {
       rewardReminderDate: new Date(0).toISOString(),
     },
   },
-  [StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]: {
-    configName: StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG,
-    defaultValues: {
-      providerName: 'Aave',
-      providerLogoUrl: '',
-      providerTermsAndConditionsUrl: '',
-      depositGasPadding: 0,
-      approveGasPadding: 0,
-      withdrawGasPadding: 0,
-      rewardsGasPadding: 0,
-      moreAavePoolsUrl: '',
-    },
-  },
   [StatsigDynamicConfigs.APP_CONFIG]: {
     configName: StatsigDynamicConfigs.APP_CONFIG,
     defaultValues: {
