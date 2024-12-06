@@ -6,7 +6,19 @@ import { MockStoreEnhanced } from 'redux-mock-store'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
-import { SelectProviderExchangesLink, SelectProviderExchangesText } from 'src/fiatExchanges/types'
+import {
+  CICOFlow,
+  PaymentMethod,
+  SelectProviderExchangesLink,
+  SelectProviderExchangesText,
+} from 'src/fiatExchanges/types'
+import {
+  LegacyMobileMoneyProvider,
+  fetchExchanges,
+  fetchLegacyMobileMoneyProviders,
+  fetchProviders,
+  getProviderSelectionAnalyticsData,
+} from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -24,15 +36,6 @@ import {
   mockFiatConnectQuotes,
   mockProviders,
 } from 'test/values'
-import {
-  CICOFlow,
-  LegacyMobileMoneyProvider,
-  PaymentMethod,
-  fetchExchanges,
-  fetchLegacyMobileMoneyProviders,
-  fetchProviders,
-  getProviderSelectionAnalyticsData,
-} from './utils'
 import mocked = jest.mocked
 
 const AMOUNT_TO_CASH_IN = 100

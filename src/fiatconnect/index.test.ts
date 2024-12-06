@@ -1,5 +1,5 @@
 import { FetchMock } from 'jest-fetch-mock'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'

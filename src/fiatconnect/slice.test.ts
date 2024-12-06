@@ -1,6 +1,6 @@
 import { FiatAccountType, FiatType, KycSchema } from '@fiatconnect/fiatconnect-types'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { mockCusdTokenId, mockFiatConnectQuotes } from 'test/values'

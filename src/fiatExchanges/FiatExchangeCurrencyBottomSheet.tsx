@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { FilterChip } from 'src/components/FilterChipsCarousel'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
+import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -17,7 +18,6 @@ import { TokenBalance } from 'src/tokens/slice'
 import { sortCicoTokens } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { resolveCurrency } from 'src/utils/currencies'
-import { CICOFlow, FiatExchangeFlow } from './utils'
 
 type Props = BottomSheetScreenProps<StackParamList, Screens.FiatExchangeCurrencyBottomSheet>
 
