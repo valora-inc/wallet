@@ -5,7 +5,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { type ReactTestInstance } from 'react-test-renderer'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import { SwapEvents } from 'src/analytics/Events'
+import { FiatExchangeEvents, SwapEvents } from 'src/analytics/Events'
 import { type ApiReducersKeys } from 'src/redux/apiReducersList'
 import { type RootState } from 'src/redux/reducers'
 import { reducersList } from 'src/redux/reducersList'
@@ -230,12 +230,6 @@ describe('TransactionFeedV2', () => {
         pageInfo: { hasNextPage: false, endCursor: '', hasPreviousPage: false, startCursor: '' },
       })
     )
-    jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
-        return false
-      }
-      throw new Error('Unexpected gate')
-    })
 
     const tree = renderScreen()
 
@@ -261,12 +255,6 @@ describe('TransactionFeedV2', () => {
 
   it('renders GetStarted with an error if the initial fetch fails', async () => {
     mockFetch.mockReject(new Error('test error'))
-    jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
-        return false
-      }
-      throw new Error('Unexpected gate')
-    })
 
     const tree = renderScreen()
     expect(tree.getByTestId('GetStarted')).toBeTruthy()
@@ -575,6 +563,7 @@ describe('TransactionFeedV2', () => {
       crossChainFeeAmount: '0.5',
       crossChainFeeAmountUsd: 500,
     })
+    expect(AppAnalytics.track).toBeCalledWith(FiatExchangeEvents.cico_add_get_started_impression)
     expect(AppAnalytics.track).toBeCalledTimes(2)
   })
 
