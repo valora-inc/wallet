@@ -4354,20 +4354,20 @@
     deepmerge "^4.3.1"
     loglevel "^1.9.1"
 
-"@toruslabs/torus.js@^15.0.5":
-  version "15.0.5"
-  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-15.0.5.tgz#d28933d43a7331165a981eb1eb0d6e0c5febb113"
-  integrity sha512-G7DUIqNsOShoVHxSDR3hGmILHM9a35diikydskQXfEdtVVObhWEZgOjz//sA0r7pxICxN+834WgYo4UWCFBUAg==
+"@toruslabs/torus.js@^15.1.1":
+  version "15.1.1"
+  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-15.1.1.tgz#a643d670658d092b944ed14a7ba0c3e84a9ba63d"
+  integrity sha512-sLaXA1/R8KTTjU4t+teL3PPaJr2+j01QLYn5IY/t5uTD+1G2nzzfVWpkMDYrk9EfQYw0u4aKJ1lT7j9uKafMlg==
   dependencies:
     "@toruslabs/bs58" "^1.0.0"
     "@toruslabs/constants" "^14.0.0"
     "@toruslabs/eccrypto" "^5.0.4"
     "@toruslabs/http-helpers" "^7.0.0"
     bn.js "^5.2.1"
-    elliptic "^6.5.6"
+    elliptic "^6.5.7"
     ethereum-cryptography "^2.2.1"
     json-stable-stringify "^1.1.1"
-    loglevel "^1.9.1"
+    loglevel "^1.9.2"
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
@@ -7199,7 +7199,7 @@ elliptic@6.5.4:
     minimalistic-assert "^1.0.1"
     minimalistic-crypto-utils "^1.0.1"
 
-elliptic@^6.5.5, elliptic@^6.5.6, elliptic@^6.5.7:
+elliptic@^6.5.5, elliptic@^6.5.7:
   version "6.5.7"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.7.tgz#8ec4da2cb2939926a1b9a73619d768207e647c8b"
   integrity sha512-ESVCtTwiA+XhY3wyh24QqRGBoP3rEdDUl3EDUUo9tft074fi19IrdpH7hLCMMP3CIj7jb3W96rn8lt/BqIlt5Q==
@@ -10605,10 +10605,10 @@ logkitty@^0.7.1:
     dayjs "^1.8.15"
     yargs "^15.1.0"
 
-loglevel@^1.9.1:
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.9.1.tgz#d63976ac9bcd03c7c873116d41c2a85bafff1be7"
-  integrity sha512-hP3I3kCrDIMuRwAwHltphhDM1r8i55H33GgqjXbrisuJhF4kRhW1dNuxsRklp4bXl8DSdLaNLuiL4A/LWRfxvg==
+loglevel@^1.9.1, loglevel@^1.9.2:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.9.2.tgz#c2e028d6c757720107df4e64508530db6621ba08"
+  integrity sha512-HgMmCqIJSAKqo68l0rS2AanEWfkxaZ5wNiEFb5ggm08lDs9Xl2KxBlX3PTcaD2chBM1gXAYf491/M2Rv8Jwayg==
 
 lokijs@^1.5.12:
   version "1.5.12"
