@@ -108,7 +108,7 @@
     "@segment/sovran-react-native": "^1.1.2",
     "@sentry/react-native": "^5.33.2",
     "@th3rdwave/react-navigation-bottom-sheet": "^0.3.2",
-    "@toruslabs/constants": "^14.0.0",
+    "@toruslabs/constants": "^14.2.0",
     "@toruslabs/fetch-node-details": "^14.0.1",
     "@toruslabs/torus.js": "^15.0.5",
     "@walletconnect/react-native-compat": "^2.16.2",
