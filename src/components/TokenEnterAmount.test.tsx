@@ -257,6 +257,11 @@ describe('TokenEnterAmount', () => {
 
       await act(() => result.current.handleToggleAmountType())
       expect(result.current.amountType).toBe('local')
+      // the processedAmounts should be unchanged when toggling amount type with no amount entered
+      expect(result.current.processedAmounts).toStrictEqual({
+        token: { bignum: null, displayAmount: '' },
+        local: { bignum: null, displayAmount: '' },
+      })
     })
   })
 
