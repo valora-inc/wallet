@@ -3206,7 +3206,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @toruslabs/bs58, @toruslabs/constants, @toruslabs/fetch-node-details, @toruslabs/fnd-base, @toruslabs/http-helpers. A copy of the source code may be downloaded from git+https://github.com/torusresearch/bs58.git (@toruslabs/bs58), git+https://github.com/torusresearch/fetch-node-details.git (@toruslabs/constants), git+https://github.com/torusresearch/fetch-node-details.git (@toruslabs/fetch-node-details), git+https://github.com/torusresearch/fetch-node-details.git (@toruslabs/fnd-base), git+https://github.com/torusresearch/http-helpers.git (@toruslabs/http-helpers). This software contains the following license and notice below:
+The following software may be included in this product: @toruslabs/bs58, @toruslabs/fetch-node-details, @toruslabs/fnd-base, @toruslabs/http-helpers. A copy of the source code may be downloaded from git+https://github.com/torusresearch/bs58.git (@toruslabs/bs58), git+https://github.com/torusresearch/fetch-node-details.git (@toruslabs/fetch-node-details), git+https://github.com/torusresearch/fetch-node-details.git (@toruslabs/fnd-base), git+https://github.com/torusresearch/http-helpers.git (@toruslabs/http-helpers). This software contains the following license and notice below:
 
 MIT License
 
@@ -3232,7 +3232,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @toruslabs/torus.js. A copy of the source code may be downloaded from git+https://github.com/torusresearch/torus.js.git. This software contains the following license and notice below:
+The following software may be included in this product: @toruslabs/constants, @toruslabs/torus.js. A copy of the source code may be downloaded from git+https://github.com/torusresearch/fetch-node-details.git (@toruslabs/constants), git+https://github.com/torusresearch/torus.js.git (@toruslabs/torus.js). This software contains the following license and notice below:
 
 MIT License
 
