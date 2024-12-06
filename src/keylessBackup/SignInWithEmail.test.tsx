@@ -59,7 +59,6 @@ describe('SignInWithEmail', () => {
     mockGetCredentials.mockResolvedValue({ idToken: 'mock-token' })
     jest
       .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION)
     logWarnSpy = jest.spyOn(Logger, 'warn')
     logDebugSpy = jest.spyOn(Logger, 'debug')
   })

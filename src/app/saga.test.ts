@@ -31,7 +31,7 @@ import {
 } from 'src/app/selectors'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
-import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { FiatExchangeFlow } from 'src/fiatExchanges/types'
 import { initI18n } from 'src/i18n'
 import {
   allowOtaTranslationsSelector,

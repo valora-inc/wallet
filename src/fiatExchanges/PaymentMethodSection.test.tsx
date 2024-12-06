@@ -1,13 +1,13 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   PaymentMethodSection,
   PaymentMethodSectionProps,
 } from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
