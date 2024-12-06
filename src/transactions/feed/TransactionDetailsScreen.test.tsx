@@ -59,7 +59,6 @@ import {
 } from 'test/values'
 
 jest.mock('src/analytics/AppAnalytics')
-jest.mock('src/statsig')
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
