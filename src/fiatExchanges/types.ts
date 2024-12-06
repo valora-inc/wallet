@@ -10,7 +10,6 @@ export enum SelectProviderExchangesLink {
 
 export interface ProviderSelectionAnalyticsData {
   centralizedExchangesAvailable: boolean
-  coinbasePayAvailable: boolean
   totalOptions: number
   paymentMethodsAvailable: Record<PaymentMethod, boolean>
   transferCryptoAmount: number
@@ -36,7 +35,6 @@ export enum CICOFlow {
 export enum PaymentMethod {
   Bank = 'Bank',
   Card = 'Card',
-  Coinbase = 'Coinbase',
   MobileMoney = 'MobileMoney', // legacy mobile money
   FiatConnectMobileMoney = 'FiatConnectMobileMoney',
   Airtime = 'Airtime',
