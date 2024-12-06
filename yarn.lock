@@ -4317,10 +4317,10 @@
   resolved "https://registry.yarnpkg.com/@toruslabs/bs58/-/bs58-1.0.0.tgz#a5a9621caba9408521d7f17949b28f9af48f4f23"
   integrity sha512-osqIgm1MzEB6+fkaQeEUg4tuZXmhhXTn+K7+nZU7xDBcy+8Yr3eGNqJcQ4jds82g+dhkk2cBkge9sffv38iDQQ==
 
-"@toruslabs/constants@^14.0.0":
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/constants/-/constants-14.0.0.tgz#c33a43f570eb9a976368eda7bc339976fb1c26ee"
-  integrity sha512-c0lrqxxiR0FL+XdtbX+77PWTeB8izFUrnPwkF2pjjfXlMJLukAWPLhALpmZmqlGmJApT8kJbMN7be2LurAGa1g==
+"@toruslabs/constants@^14.0.0", "@toruslabs/constants@^14.2.0":
+  version "14.2.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/constants/-/constants-14.2.0.tgz#63e2551c08331564330b2b8626536617261f1a9b"
+  integrity sha512-Mb5EfYNSPyvvw5s1JXnpZwritCgp4NmLni1imTqrSKGV3yikYhUn1ufyLMAHGnBBgv4AuMIXBIe3EpJJ+SpA0g==
 
 "@toruslabs/eccrypto@^5.0.4":
   version "5.0.4"
