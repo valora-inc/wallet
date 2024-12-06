@@ -553,6 +553,34 @@ describe('EarnPoolInfoScreen', () => {
     expect(getByTestId('Earn/ActionCard/Transfer')).toBeTruthy()
   })
 
+  it('navigates correctly when swap action item is tapped', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
+    const { getByText, getByTestId } = render(
+      <Provider store={getStore({ includeSameChainToken: true, includeOtherChainToken: true })}>
+        <MockedNavigator
+          component={() => {
+            return (
+              <EarnPoolInfoScreen
+                {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
+                  pool: { ...mockEarnPositions[0], availableShortcutIds: ['deposit', 'withdraw'] },
+                })}
+              />
+            )
+          }}
+        />
+      </Provider>
+    )
+    fireEvent.press(getByText('earnFlow.poolInfoScreen.deposit'))
+    expect(getByTestId('Earn/ActionCard/Swap')).toBeTruthy()
+    fireEvent.press(getByTestId('Earn/ActionCard/Swap'))
+    expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack, {
+      toTokenId: mockEarnPositions[0].dataProps.depositTokenId,
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+  })
+
   it('navigates correctly when transfer action item is tapped', () => {
     const { getByText, getByTestId } = render(
       <Provider store={getStore({ includeSameChainToken: true, includeOtherChainToken: true })}>
