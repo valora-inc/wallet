@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
-import { Platform, ScrollView, SectionList, StyleSheet, Text, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { acceptTerms } from 'src/account/actions'
@@ -16,12 +16,11 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { RootState } from 'src/redux/reducers'
-import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
-import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 import { navigateToURI } from 'src/utils/linking'
 
 const MARGIN = 24
@@ -107,70 +106,8 @@ export class RegulatoryTerms extends React.Component<Props> {
     )
   }
 
-  renderColloquialTerms() {
-    const { t } = this.props
-
-    return (
-      <SectionList
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        testID="colloquialTermsSectionList"
-        sections={[
-          {
-            title: t('termsColloquial.privacyHeading'),
-            data: [
-              { text: 'termsColloquial.privacy1', onPress: this.onPressGoToPrivacyPolicy },
-              { text: 'termsColloquial.privacy2' },
-              { text: 'termsColloquial.privacy3' },
-            ],
-          },
-          {
-            title: t('termsColloquial.walletHeading'),
-            data: [{ text: 'termsColloquial.wallet1' }, { text: 'termsColloquial.wallet2' }],
-          },
-        ]}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.itemContainer}>
-              <Text style={styles.item}>{'\u2022'}</Text>
-              {item.onPress ? (
-                <Text style={styles.item}>
-                  <Trans i18nKey={item.text}>
-                    <Text onPress={item.onPress} style={styles.link} />
-                  </Trans>
-                </Text>
-              ) : (
-                <Text style={styles.item}>
-                  <Trans i18nKey={item.text} />
-                </Text>
-              )}
-            </View>
-          )
-        }}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={styles.sectionHeader}>{title}</Text>
-        )}
-        ListHeaderComponent={
-          <Text style={styles.titleColloquial}>{t('termsColloquial.title')}</Text>
-        }
-        ListFooterComponent={
-          <Text style={styles.fullTerms}>
-            <Trans i18nKey="termsColloquial.fullTerms">
-              <Text onPress={this.onPressGoToTerms} style={styles.link} />
-            </Trans>
-          </Text>
-        }
-        stickySectionHeadersEnabled={false}
-      />
-    )
-  }
-
   render() {
     const { t } = this.props
-
-    const { variant } = getExperimentParams(
-      ExperimentConfigs[StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS]
-    )
 
     return (
       <SafeAreaView
@@ -180,7 +117,7 @@ export class RegulatoryTerms extends React.Component<Props> {
         edges={Platform.select({ ios: ['bottom', 'left', 'right'] })}
       >
         <DevSkipButton nextScreen={Screens.PincodeSet} />
-        {variant === 'colloquial_terms' ? this.renderColloquialTerms() : this.renderTerms()}
+        {this.renderTerms()}
         <SafeAreaInsetsContext.Consumer>
           {(insets) => (
             <Button
@@ -233,26 +170,5 @@ const styles = StyleSheet.create({
   button: {
     marginTop: MARGIN,
     marginHorizontal: MARGIN,
-  },
-  titleColloquial: {
-    ...typeScale.titleSmall,
-    marginBottom: Spacing.Small12,
-  },
-  sectionHeader: {
-    ...typeScale.labelSemiBoldSmall,
-    marginVertical: Spacing.Small12,
-  },
-  itemContainer: {
-    flexDirection: 'row',
-    gap: Spacing.Smallest8,
-  },
-  item: {
-    ...typeScale.bodySmall,
-    flexShrink: 1,
-  },
-  fullTerms: {
-    ...typeScale.labelSemiBoldSmall,
-    marginVertical: Spacing.Small12,
-    color: Colors.infoDark,
   },
 })
