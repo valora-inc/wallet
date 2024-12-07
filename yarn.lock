@@ -12785,10 +12785,10 @@ react-native-shake@5.5.2:
   resolved "https://registry.yarnpkg.com/react-native-shake/-/react-native-shake-5.5.2.tgz#1e73cfb3dcefc9980f604d08a87cdc6ba3f3a479"
   integrity sha512-GWQc/2h33u3ma2bBUEFG4sEQXfSmu2azEF1bUaqu+d0TeAT3vvmxpw3u6k7Z9XiZk4uRJ+NCVifx4JTHF5n67g==
 
-react-native-share@^11.0.3:
-  version "11.0.3"
-  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-11.0.3.tgz#63f1f3a53fb0eb673eece6ab53bec683258786f8"
-  integrity sha512-nE9+2KY4E/Sj79NvZk25coy+YJcvw/xwPoSZsAPKLowmzfaq2IAIVeaO/LAhkVj1dSP1IjVrrbONpKQX0MyqeA==
+react-native-share@^11.1.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-11.1.0.tgz#cd24b1f2de0bb701aa7e1a4ff81e68308f0a42b2"
+  integrity sha512-kcpBR90d5//xc8H84HnX6YFeOk4A34mtHz4UEpb7Twbu049KafJwsp4KVVr/SrJwy8W0/Rbe880En9Hq0REamw==
 
 react-native-simple-toast@^3.3.1:
   version "3.3.1"
