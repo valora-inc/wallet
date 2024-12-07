@@ -10,13 +10,11 @@ import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import { FETCH_FIATCONNECT_QUOTES } from 'src/config'
-import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import {
   PaymentMethodSection,
@@ -38,7 +36,6 @@ import {
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
   filterLegacyMobileMoneyProviders,
-  filterProvidersByPaymentMethod,
   getProviderSelectionAnalyticsData,
 } from 'src/fiatExchanges/utils'
 import {
@@ -48,7 +45,6 @@ import {
   selectFiatConnectQuoteLoadingSelector,
 } from 'src/fiatconnect/selectors'
 import { fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
 import {
   getDefaultLocalCurrencyCode,
   getLocalCurrencyCode,
@@ -111,9 +107,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   }
 
   const { t } = useTranslation()
-  const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
-  const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
-  const appId = appIdResponse.result
   const insets = useSafeAreaInsets()
 
   useEffect(() => {
@@ -208,22 +201,9 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
   const exchanges = asyncExchanges.result ?? []
   const legacyMobileMoneyProviders = asyncProviders.result?.legacyMobileMoneyProviders
-  const coinbaseProvider = filterProvidersByPaymentMethod(
-    PaymentMethod.Coinbase,
-    asyncProviders.result?.externalProviders
-  )
-  const coinbasePayVisible =
-    flow === CICOFlow.CashIn &&
-    coinbaseProvider &&
-    !coinbaseProvider.restricted &&
-    coinbasePayEnabled &&
-    appId
 
   const anyProviders =
-    normalizedQuotes.length ||
-    coinbasePayVisible ||
-    exchanges.length ||
-    legacyMobileMoneyProviders?.length
+    normalizedQuotes.length || exchanges.length || legacyMobileMoneyProviders?.length
 
   const analyticsData = getProviderSelectionAnalyticsData({
     normalizedQuotes,
@@ -231,7 +211,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     usdToLocalRate,
     tokenInfo,
     centralizedExchanges: exchanges,
-    coinbasePayAvailable: coinbasePayVisible,
     transferCryptoAmount: cryptoAmount,
     cryptoType: tokenInfo.symbol,
   })
@@ -324,15 +303,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           tokenId={tokenInfo.tokenId}
           flow={flow}
           analyticsData={analyticsData}
-        />
-      )}
-      {coinbaseProvider && coinbasePayVisible && (
-        <CoinbasePaymentSection
-          cryptoAmount={cryptoAmount}
-          coinbaseProvider={coinbaseProvider}
-          appId={appId}
-          analyticsData={analyticsData}
-          tokenId={tokenInfo.tokenId}
         />
       )}
       <ExchangesSection
