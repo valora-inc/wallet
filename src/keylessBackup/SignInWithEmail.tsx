@@ -27,8 +27,6 @@ import {
   onboardingPropsSelector,
 } from 'src/onboarding/steps'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { default as Colors, default as colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -103,7 +101,6 @@ type Props = NativeStackScreenProps<StackParamList, Screens.SignInWithEmail>
 function SignInWithEmail({ route, navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const showApple = getFeatureGate(StatsigFeatureGates.SHOW_APPLE_IN_CAB)
   const { authorize, getCredentials, clearCredentials } = useAuth0()
   const { keylessBackupFlow, origin } = route.params
   const [loading, setLoading] = useState<null | OAuthProvider>(null)
@@ -251,19 +248,17 @@ function SignInWithEmail({ route, navigation }: Props) {
           showLoading={loading === 'google-oauth2'}
           disabled={!!loading}
         />
-        {showApple && (
-          <Button
-            testID="SignInWithEmail/Apple"
-            onPress={() => onPressSignIn('apple')}
-            text={t('signInWithEmail.apple')}
-            size={BtnSizes.FULL}
-            type={BtnTypes.SECONDARY}
-            icon={<AppleIcon color={Colors.black} />}
-            iconMargin={10}
-            showLoading={loading === 'apple'}
-            disabled={!!loading}
-          />
-        )}
+        <Button
+          testID="SignInWithEmail/Apple"
+          onPress={() => onPressSignIn('apple')}
+          text={t('signInWithEmail.apple')}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+          icon={<AppleIcon color={Colors.black} />}
+          iconMargin={10}
+          showLoading={loading === 'apple'}
+          disabled={!!loading}
+        />
         {isSetupInOnboarding && (
           <TextButton
             style={styles.signInAnotherWay}

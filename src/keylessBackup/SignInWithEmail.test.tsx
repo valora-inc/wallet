@@ -1,16 +1,14 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { KeylessBackupEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import { auth0SignInCompleted } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -26,8 +24,6 @@ jest.mock('react-native-auth0', () => ({
     clearCredentials: mockClearCredentials,
   })),
 }))
-
-jest.mock('src/statsig')
 
 const store = createMockStore()
 const renderComponent = (
@@ -57,13 +53,6 @@ describe('SignInWithEmail', () => {
     store.clearActions()
     mockAuthorize.mockResolvedValue(undefined)
     mockGetCredentials.mockResolvedValue({ idToken: 'mock-token' })
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (gate) =>
-          gate === StatsigFeatureGates.SHOW_APPLE_IN_CAB ||
-          gate === StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION
-      )
     logWarnSpy = jest.spyOn(Logger, 'warn')
     logDebugSpy = jest.spyOn(Logger, 'debug')
   })
@@ -222,19 +211,6 @@ describe('SignInWithEmail', () => {
       expect(logWarnSpy).not.toHaveBeenCalled()
       expect(queryByTestId('Button/Loading')).toBeNull()
     })
-  })
-
-  it('Apple button is only rendered if feature flag is enabled', async () => {
-    jest.mocked(getFeatureGate).mockReturnValueOnce(false)
-
-    const noAppleRender = renderComponent()
-    expect(noAppleRender.getByTestId('SignInWithEmail/Google')).toBeTruthy()
-    expect(noAppleRender.queryByTestId('SignInWithEmail/Apple')).toBeNull()
-
-    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
-    const appleRender = renderComponent()
-    expect(appleRender.getByTestId('SignInWithEmail/Google')).toBeTruthy()
-    expect(appleRender.getByTestId('SignInWithEmail/Apple')).toBeTruthy()
   })
 
   it("pressing 'Sign in another way' then 'continue' navigates to recovery phrase education", () => {
