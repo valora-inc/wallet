@@ -2958,15 +2958,15 @@
     "@segment/tsub" "^2"
     clone "^2.1.2"
 
-"@segment/analytics-react-native-plugin-firebase@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.4.2.tgz#b50c4cc5bb361ddf675d52ef55cd455b6c1d9b3f"
-  integrity sha512-sgeQxCETCGYxGVoRGoDoFveN2rOTIE3vqOX2PPe33V4H5tOyYgWW7PqwMMtTVQYxWdOiFzLfSi6M1xsCU2/Otg==
+"@segment/analytics-react-native-plugin-firebase@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.4.3.tgz#a6231d41a9ea1cd4f093a2f44d9d4e5ca2cff371"
+  integrity sha512-in7aanp/oZqAY5rAlHWEmou7B0USqETz4IiYcKsAin2dgHy/ksJlWym//4aza2GSyg32ll6xy7mhi6GIPdS5ug==
 
-"@segment/analytics-react-native@^2.19.5":
-  version "2.19.5"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.19.5.tgz#d4828fd17358ae41b36c4b040dc79149ae8d1d2d"
-  integrity sha512-1Jw5tHbx82y/Q5qeBtr4RKQ9dnRfNNgG6pEbpipdwrusaYj+qd/7xuEO5Qthd4r5BESz2FTct8T68zHnh0XqAQ==
+"@segment/analytics-react-native@^2.20.3":
+  version "2.20.3"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.20.3.tgz#cc656a656257ec45d7b55ff9d321a240458c076c"
+  integrity sha512-Gb0PqZGTJJXsCIw2ZFubAS6ZTEBoff4HRADn6Mm3OdHctaOu2D/l96Iow4Qheqoq2jhV5wyhEQVvIvLPJQqg8A==
   dependencies:
     "@segment/tsub" "2.0.0"
     "@stdlib/number-float64-base-normalize" "0.0.8"
@@ -2974,10 +2974,10 @@
     js-base64 "^3.7.5"
     uuid "^9.0.1"
 
-"@segment/sovran-react-native@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.1.2.tgz#0c911506bae15b92f6add4516ccb961f5de7f908"
-  integrity sha512-p/DF4Qi0GIvltJ7j7D70Od4xfxJZgHJidNyEd2ntxnxBj415lRBV3vOQUc0qYfvG5+y5FTm8IuUZH1XWRSDTlg==
+"@segment/sovran-react-native@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.1.3.tgz#656746b4e674e4f37330870cb11fec88c52505ba"
+  integrity sha512-14ZpBJMqq//R/0Br+DgVeVHhX3hFNd71oDhh2wvn2LW6WDuO2JNvkEJwAYbMK4J6X8xRW2xhvtJ1irykTIhxEQ==
   dependencies:
     ansi-regex "5.0.1"
     deepmerge "^4.2.2"

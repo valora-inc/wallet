@@ -832,13 +832,13 @@ PODS:
   - SDWebImageWebPCoder (0.8.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.10)
-  - segment-analytics-react-native (2.19.5):
+  - segment-analytics-react-native (2.20.3):
     - React-Core
     - sovran-react-native
   - Sentry/HybridSDK (8.41.0)
   - SimpleKeychain (1.1.0)
   - SocketRocket (0.6.1)
-  - sovran-react-native (1.1.2):
+  - sovran-react-native (1.1.3):
     - React-Core
   - Toast (4.0.0)
   - Yoga (1.14.0)
@@ -1333,11 +1333,11 @@ SPEC CHECKSUMS:
   RNSVG: 4590aa95758149fa27c5c83e54a6a466349a1688
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
-  segment-analytics-react-native: 4bac3da03dd4a1eed178786b1d7025cd2c0ed6c9
+  segment-analytics-react-native: d57ed4971cbb995706babf29215ebdbf242ecdab
   Sentry: 54d0fe6c0df448497c8ed4cce66ccf7027e1823e
   SimpleKeychain: f8707c8e97b38c6a6e687b17732afc9bcef06439
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  sovran-react-native: 5f02bd2d111ffe226d00c7b0435290eae6f10934
+  sovran-react-native: eec37f82e4429f0e3661f46aaf4fcd85d1b54f60
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Yoga: 6f5ab94cd8b1ecd04b6e973d0bc583ede2a598cc
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
