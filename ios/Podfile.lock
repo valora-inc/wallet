@@ -824,7 +824,7 @@ PODS:
   - RNShare (11.1.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNSVG (15.7.1):
+  - RNSVG (15.10.1):
     - React-Core
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
@@ -1330,7 +1330,7 @@ SPEC CHECKSUMS:
   RNScreens: cdb28656300719a3708d2209fad0bd6d83769d3a
   RNSentry: b24b7150b302ce1c38cc679c548a8ef1aef831fa
   RNShare: 8006ea4fac2acbbf55705d975dc6daefb3cb8178
-  RNSVG: 4590aa95758149fa27c5c83e54a6a466349a1688
+  RNSVG: 7ff26379b2d1871b8571e6f9bc9630de6baf9bdf
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   segment-analytics-react-native: 4bac3da03dd4a1eed178786b1d7025cd2c0ed6c9
