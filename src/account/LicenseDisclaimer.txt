@@ -338,32 +338,6 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @coinbase/cbpay-js. A copy of the source code may be downloaded from https://github.com/coinbase/cbpay-js. This software contains the following license and notice below:
-
-MIT License
-
-Copyright (c) 2022 Coinbase
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
------
-
 The following software may be included in this product: @craftzdog/react-native-buffer, buffer. A copy of the source code may be downloaded from git://github.com/craftzdog/react-native-buffer.git (@craftzdog/react-native-buffer), git://github.com/feross/buffer.git (buffer). This software contains the following license and notice below:
 
 The MIT License (MIT)
@@ -3206,7 +3180,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @toruslabs/bs58, @toruslabs/fetch-node-details, @toruslabs/fnd-base, @toruslabs/http-helpers. A copy of the source code may be downloaded from git+https://github.com/torusresearch/bs58.git (@toruslabs/bs58), git+https://github.com/torusresearch/fetch-node-details.git (@toruslabs/fetch-node-details), git+https://github.com/torusresearch/fetch-node-details.git (@toruslabs/fnd-base), git+https://github.com/torusresearch/http-helpers.git (@toruslabs/http-helpers). This software contains the following license and notice below:
+The following software may be included in this product: @toruslabs/bs58, @toruslabs/http-helpers. A copy of the source code may be downloaded from git+https://github.com/torusresearch/bs58.git (@toruslabs/bs58), git+https://github.com/torusresearch/http-helpers.git (@toruslabs/http-helpers). This software contains the following license and notice below:
 
 MIT License
 
@@ -3232,7 +3206,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @toruslabs/constants, @toruslabs/torus.js. A copy of the source code may be downloaded from git+https://github.com/torusresearch/fetch-node-details.git (@toruslabs/constants), git+https://github.com/torusresearch/torus.js.git (@toruslabs/torus.js). This software contains the following license and notice below:
+The following software may be included in this product: @toruslabs/constants, @toruslabs/fetch-node-details, @toruslabs/fnd-base, @toruslabs/torus.js. A copy of the source code may be downloaded from git+https://github.com/torusresearch/fetch-node-details.git (@toruslabs/constants), git+https://github.com/torusresearch/fetch-node-details.git (@toruslabs/fetch-node-details), git+https://github.com/torusresearch/fetch-node-details.git (@toruslabs/fnd-base), git+https://github.com/torusresearch/torus.js.git (@toruslabs/torus.js). This software contains the following license and notice below:
 
 MIT License
 
