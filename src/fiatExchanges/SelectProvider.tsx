@@ -32,9 +32,9 @@ import {
 } from 'src/fiatExchanges/types'
 import {
   LegacyMobileMoneyProvider,
+  fetchCicoQuotes,
   fetchExchanges,
   fetchLegacyMobileMoneyProviders,
-  fetchProviders,
   filterLegacyMobileMoneyProviders,
   getProviderSelectionAnalyticsData,
 } from 'src/fiatExchanges/utils'
@@ -159,16 +159,15 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       return
     }
     try {
-      const [externalProviders, rawLegacyMobileMoneyProviders] = await Promise.all([
-        fetchProviders({
-          userLocation,
-          walletAddress: account,
+      const [cicoQuotesResponse, rawLegacyMobileMoneyProviders] = await Promise.all([
+        fetchCicoQuotes({
+          tokenId,
           fiatCurrency: localCurrency,
-          digitalAsset: tokenInfo.symbol.toUpperCase(),
-          fiatAmount,
-          digitalAssetAmount: cryptoAmount,
-          txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
-          networkId: tokenInfo.networkId,
+          address: account,
+          userLocation,
+          ...(flow === CICOFlow.CashIn
+            ? { txType: 'cashIn', fiatAmount: fiatAmount.toString() }
+            : { txType: 'cashOut', cryptoAmount: cryptoAmount.toString() }),
         }),
         fetchLegacyMobileMoneyProviders(),
       ])
@@ -179,7 +178,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         userLocation.countryCodeAlpha2,
         tokenInfo.tokenId
       )
-      return { externalProviders, legacyMobileMoneyProviders }
+
+      return { legacyMobileMoneyProviders, cicoQuotes: cicoQuotesResponse.quotes }
     } catch (error) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
     }
@@ -191,13 +191,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     asyncExchanges.loading ||
     selectFiatConnectQuoteLoading
 
-  const normalizedQuotes = normalizeQuotes(
+  const normalizedQuotes = normalizeQuotes({
     flow,
     fiatConnectQuotes,
-    asyncProviders.result?.externalProviders,
-    tokenInfo.tokenId,
-    tokenInfo.symbol
-  )
+    cicoQuotes: asyncProviders.result?.cicoQuotes,
+    tokenId,
+  })
 
   const exchanges = asyncExchanges.result ?? []
   const legacyMobileMoneyProviders = asyncProviders.result?.legacyMobileMoneyProviders
