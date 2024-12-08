@@ -13,6 +13,8 @@ import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { createMockStore } from 'test/utils'
+import MockedNavigator from 'test/MockedNavigator'
+import { getFeatureGate } from 'src/statsig'
 import {
   mockAccount,
   mockArbEthTokenId,
@@ -20,7 +22,22 @@ import {
   mockEarnPositions,
   mockTokenBalances,
   mockUSDCAddress,
+  mockRewardsPositions,
 } from 'test/values'
+import { StatsigFeatureGates } from 'src/statsig/types'
+
+jest.mock('src/statsig')
+
+function getStore(earnLoading: boolean = false) {
+  return createMockStore({
+    positions: {
+      positions: mockRewardsPositions,
+      earnPositionIds: mockRewardsPositions.map((position) => position.positionId),
+    },
+    tokens: { tokenBalances: mockTokenBalances },
+    earn: earnLoading ? { depositStatus: 'loading' } : {},
+  })
+}
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -54,9 +71,11 @@ const mockPreparedTransaction: PreparedTransactionsPossible = {
 }
 
 const mockDepositProps = {
-  forwardedRef: { current: null },
-  inputAmount: new BigNumber(100),
-  preparedTransaction: mockPreparedTransaction,
+  inputAmount: new BigNumber(100).toString(),
+  serializedPreparedTransactions: getSerializablePreparedTransactions(
+    mockPreparedTransaction.transactions
+  ),
+  feeCurrencyTokenId: mockArbEthTokenId,
   pool: mockEarnPositions[0],
   mode: 'deposit' as EarnActiveMode,
   inputTokenId: mockArbUsdcTokenId,
@@ -66,7 +85,7 @@ const mockSwapDepositProps = {
   ...mockDepositProps,
   mode: 'swap-deposit' as EarnActiveMode,
   inputTokenId: mockArbEthTokenId,
-  inputAmount: new BigNumber(0.041),
+  inputAmount: new BigNumber(0.041).toString(),
   swapTransaction: {
     swapType: 'same-chain' as const,
     chainId: 42161,
@@ -100,16 +119,17 @@ describe('EarnDepositBottomSheet', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.spyOn(earnUtils, 'isGasSubsidizedForNetwork').mockReturnValue(false)
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_POSITIONS
+      )
   })
 
   it('renders all elements for deposit', () => {
     const { getByTestId, queryByTestId, getByText } = render(
-      <Provider
-        store={createMockStore({
-          tokens: { tokenBalances: mockTokenBalances },
-        })}
-      >
-        <EarnDepositBottomSheet {...mockDepositProps} />
+      <Provider store={getStore()}>
+        <MockedNavigator component={EarnDepositBottomSheet} params={mockDepositProps} />
       </Provider>
     )
     expect(getByText('earnFlow.depositBottomSheet.title')).toBeTruthy()
@@ -145,12 +165,8 @@ describe('EarnDepositBottomSheet', () => {
 
   it('renders all elements for swap-deposit', () => {
     const { getByTestId, queryByTestId, getByText } = render(
-      <Provider
-        store={createMockStore({
-          tokens: { tokenBalances: mockTokenBalances },
-        })}
-      >
-        <EarnDepositBottomSheet {...mockSwapDepositProps} />
+      <Provider store={getStore()}>
+        <MockedNavigator component={EarnDepositBottomSheet} params={mockSwapDepositProps} />
       </Provider>
     )
     expect(getByText('earnFlow.depositBottomSheet.title')).toBeTruthy()
@@ -212,10 +228,10 @@ describe('EarnDepositBottomSheet', () => {
     }
 
     it('pressing complete submits action and fires analytics event', () => {
-      const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+      const mockStore = getStore()
       const { getByTestId } = render(
-        <Provider store={store}>
-          <EarnDepositBottomSheet {...props} />
+        <Provider store={mockStore}>
+          <MockedNavigator component={EarnDepositBottomSheet} params={props} />
         </Provider>
       )
 
@@ -224,7 +240,7 @@ describe('EarnDepositBottomSheet', () => {
         EarnEvents.earn_deposit_complete,
         expectedAnalyticsProperties
       )
-      expect(store.getActions()).toEqual([
+      expect(mockStore.getActions()).toEqual([
         {
           type: depositStart.type,
           payload: {
@@ -243,8 +259,8 @@ describe('EarnDepositBottomSheet', () => {
 
     it('pressing cancel fires analytics event', () => {
       const { getByTestId } = render(
-        <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
-          <EarnDepositBottomSheet {...props} />
+        <Provider store={getStore()}>
+          <MockedNavigator component={EarnDepositBottomSheet} params={props} />
         </Provider>
       )
 
@@ -256,10 +272,10 @@ describe('EarnDepositBottomSheet', () => {
     })
 
     it('pressing provider info opens the terms and conditions', () => {
-      const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+      const mockStore = getStore()
       const { getByTestId } = render(
-        <Provider store={store}>
-          <EarnDepositBottomSheet {...props} />
+        <Provider store={mockStore}>
+          <MockedNavigator component={EarnDepositBottomSheet} params={props} />
         </Provider>
       )
 
@@ -268,14 +284,14 @@ describe('EarnDepositBottomSheet', () => {
         EarnEvents.earn_deposit_provider_info_press,
         expectedAnalyticsProperties
       )
-      expect(store.getActions()).toEqual([openUrl('termsUrl', true)])
+      expect(mockStore.getActions()).toEqual([openUrl('termsUrl', true)])
     })
 
     it('pressing terms and conditions opens the terms and conditions', () => {
-      const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+      const mockStore = getStore()
       const { getByTestId } = render(
-        <Provider store={store}>
-          <EarnDepositBottomSheet {...props} />
+        <Provider store={mockStore}>
+          <MockedNavigator component={EarnDepositBottomSheet} params={props} />
         </Provider>
       )
 
@@ -284,15 +300,16 @@ describe('EarnDepositBottomSheet', () => {
         EarnEvents.earn_deposit_terms_and_conditions_press,
         { type: 'providerTermsAndConditions', ...expectedAnalyticsProperties }
       )
-      expect(store.getActions()).toEqual([openUrl('termsUrl', true)])
+      expect(mockStore.getActions()).toEqual([openUrl('termsUrl', true)])
     })
 
     it('pressing provider docs opens the providers doc URL (when provider does not have terms and conditions)', () => {
-      const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+      const mockStore = getStore()
       const { getByTestId } = render(
-        <Provider store={store}>
-          <EarnDepositBottomSheet
-            {...{
+        <Provider store={mockStore}>
+          <MockedNavigator
+            component={EarnDepositBottomSheet}
+            params={{
               ...props,
               pool: {
                 ...props.pool,
@@ -309,15 +326,16 @@ describe('EarnDepositBottomSheet', () => {
         EarnEvents.earn_deposit_terms_and_conditions_press,
         { type: 'providerDocuments', ...expectedAnalyticsProperties, providerId: 'beefy' }
       )
-      expect(store.getActions()).toEqual([openUrl('https://docs.beefy.finance/', true)])
+      expect(mockStore.getActions()).toEqual([openUrl('https://docs.beefy.finance/', true)])
     })
 
     it('pressing app terms and conditions opens the app T&C URL (when provider does not have terms and conditions)', () => {
-      const store = createMockStore({ tokens: { tokenBalances: mockTokenBalances } })
+      const mockStore = getStore()
       const { getByTestId } = render(
-        <Provider store={store}>
-          <EarnDepositBottomSheet
-            {...{
+        <Provider store={mockStore}>
+          <MockedNavigator
+            component={EarnDepositBottomSheet}
+            params={{
               ...props,
               pool: {
                 ...props.pool,
@@ -334,17 +352,13 @@ describe('EarnDepositBottomSheet', () => {
         EarnEvents.earn_deposit_terms_and_conditions_press,
         { type: 'appTermsAndConditions', ...expectedAnalyticsProperties, providerId: 'beefy' }
       )
-      expect(store.getActions()).toEqual([openUrl('https://valora.xyz/terms', true)])
+      expect(mockStore.getActions()).toEqual([openUrl('https://valora.xyz/terms', true)])
     })
 
     it('shows loading state and buttons are disabled when deposit is submitted', () => {
-      const store = createMockStore({
-        tokens: { tokenBalances: mockTokenBalances },
-        earn: { depositStatus: 'loading' },
-      })
       const { getByTestId } = render(
-        <Provider store={store}>
-          <EarnDepositBottomSheet {...props} />
+        <Provider store={getStore(true)}>
+          <MockedNavigator component={EarnDepositBottomSheet} params={props} />
         </Provider>
       )
 
@@ -356,8 +370,8 @@ describe('EarnDepositBottomSheet', () => {
     it('shows gas subsidized copy if feature gate is set', () => {
       jest.spyOn(earnUtils, 'isGasSubsidizedForNetwork').mockReturnValue(true)
       const { getByTestId } = render(
-        <Provider store={createMockStore({ tokens: { tokenBalances: mockTokenBalances } })}>
-          <EarnDepositBottomSheet {...props} />
+        <Provider store={getStore()}>
+          <MockedNavigator component={EarnDepositBottomSheet} params={props} />
         </Provider>
       )
 

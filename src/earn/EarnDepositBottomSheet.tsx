@@ -1,67 +1,70 @@
 import BigNumber from 'bignumber.js'
-import React, { RefObject, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { openUrl } from 'src/app/actions'
-import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { depositStart } from 'src/earn/slice'
-import { EarnActiveMode } from 'src/earn/types'
 import {
   getSwapToAmountInDecimals,
   getTotalYieldRate,
   isGasSubsidizedForNetwork,
 } from 'src/earn/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
-import { EarnPosition } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { SwapTransaction } from 'src/swap/types'
 import {
-  PreparedTransactionsPossible,
   getFeeCurrencyAndAmounts,
+  PreparedTransactionsPossible,
 } from 'src/viem/prepareTransactions'
-import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+import { navigateBack } from 'src/navigator/NavigationService'
+import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { earnPositionsSelector } from 'src/positions/selectors'
 
 const APP_ID_TO_PROVIDER_DOCUMENTS_URL: Record<string, string | undefined> = {
   beefy: 'https://docs.beefy.finance/',
 }
 const APP_TERMS_AND_CONDITIONS_URL = 'https://valora.xyz/terms'
 
-export default function EarnDepositBottomSheet({
-  forwardedRef,
-  preparedTransaction,
-  inputAmount,
-  inputTokenId,
-  pool,
-  mode,
-  swapTransaction,
-}: {
-  forwardedRef: RefObject<BottomSheetModalRefType>
-  preparedTransaction: PreparedTransactionsPossible
-  inputTokenId: string
-  inputAmount: BigNumber
-  pool: EarnPosition
-  mode: EarnActiveMode
-  swapTransaction?: SwapTransaction
-}) {
+type Props = BottomSheetScreenProps<StackParamList, Screens.EarnDepositBottomSheet>
+
+export default function EarnDepositBottomSheet({ route }: Props) {
+  const {
+    serializedPreparedTransactions,
+    inputAmount,
+    feeCurrencyTokenId,
+    inputTokenId,
+    pool,
+    mode,
+    swapTransaction,
+  } = route.params
+
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const depositStatus = useSelector(depositStatusSelector)
   const transactionSubmitted = depositStatus === 'loading'
 
+  const pools = useSelector(earnPositionsSelector)
+  const supportedNetworkIds = [...new Set(pools.map((pool) => pool.networkId))]
+  const allTokens = useSelector((state) => tokensByIdSelector(state, supportedNetworkIds))
+  const feeCurrency = allTokens[feeCurrencyTokenId]
   const depositAmount = useMemo(
     () =>
       mode === 'swap-deposit' && swapTransaction
-        ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: inputAmount })
+        ? getSwapToAmountInDecimals({ swapTransaction, fromAmount: BigNumber(inputAmount) })
         : inputAmount,
     [inputAmount, swapTransaction]
   )
@@ -71,16 +74,27 @@ export default function EarnDepositBottomSheet({
     depositTokenId: pool.dataProps.depositTokenId,
     depositTokenAmount: depositAmount.toString(),
     fromTokenId: inputTokenId,
-    fromTokenAmount: inputAmount.toString(),
+    fromTokenAmount: inputAmount,
     networkId: pool.networkId,
     poolId: pool.positionId,
     mode,
   }
 
-  const { estimatedFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(preparedTransaction)
+  if (!feeCurrency) {
+    // should never happen since a possible prepared tx should include fee currency
+    return null
+  }
 
-  if (!estimatedFeeAmount || !feeCurrency) {
-    // should never happen since a possible prepared tx should include fee currency and amount
+  const preparedTransaction: PreparedTransactionsPossible = {
+    type: 'possible',
+    transactions: getPreparedTransactions(serializedPreparedTransactions),
+    feeCurrency,
+  }
+
+  const { estimatedFeeAmount } = getFeeCurrencyAndAmounts(preparedTransaction)
+
+  if (!estimatedFeeAmount) {
+    // should never happen since a possible prepared tx should include fee currency
     return null
   }
 
@@ -122,10 +136,10 @@ export default function EarnDepositBottomSheet({
       depositStart({
         amount: depositAmount.toString(),
         pool,
-        preparedTransactions: getSerializablePreparedTransactions(preparedTransaction.transactions),
+        preparedTransactions: serializedPreparedTransactions,
         mode,
         fromTokenId: inputTokenId,
-        fromTokenAmount: inputAmount.toString(),
+        fromTokenAmount: inputAmount,
       })
     )
     AppAnalytics.track(EarnEvents.earn_deposit_complete, commonAnalyticsProperties)
@@ -133,11 +147,11 @@ export default function EarnDepositBottomSheet({
 
   const onPressCancel = () => {
     AppAnalytics.track(EarnEvents.earn_deposit_cancel, commonAnalyticsProperties)
-    forwardedRef.current?.close()
+    navigateBack()
   }
 
   return (
-    <BottomSheet forwardedRef={forwardedRef} testId="EarnDepositBottomSheet">
+    <BottomSheetScrollView testId="EarnDepositBottomSheet">
       <View style={styles.container}>
         <Text style={styles.title}>{t('earnFlow.depositBottomSheet.title')}</Text>
         <Text style={styles.description}>
@@ -175,7 +189,7 @@ export default function EarnDepositBottomSheet({
               <TokenDisplay
                 testID="EarnDeposit/Swap/From"
                 tokenId={inputTokenId}
-                amount={inputAmount.toString()}
+                amount={inputAmount}
                 showLocalAmount={false}
                 style={styles.valueSecondary}
               />
@@ -291,7 +305,7 @@ export default function EarnDepositBottomSheet({
           />
         </View>
       </View>
-    </BottomSheet>
+    </BottomSheetScrollView>
   )
 }
 
