@@ -143,6 +143,7 @@ export default function EarnDepositBottomSheet({ route }: Props) {
       })
     )
     AppAnalytics.track(EarnEvents.earn_deposit_complete, commonAnalyticsProperties)
+    navigateBack()
   }
 
   const onPressCancel = () => {

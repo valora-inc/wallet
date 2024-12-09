@@ -25,6 +25,7 @@ import {
   mockRewardsPositions,
 } from 'test/values'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { navigateBack } from 'src/navigator/NavigationService'
 
 jest.mock('src/statsig')
 
@@ -227,7 +228,7 @@ describe('EarnDepositBottomSheet', () => {
       depositTokenAmount,
     }
 
-    it('pressing complete submits action and fires analytics event', () => {
+    it('pressing complete submits action, fires analytics event, and navigates back', () => {
       const mockStore = getStore()
       const { getByTestId } = render(
         <Provider store={mockStore}>
@@ -255,6 +256,7 @@ describe('EarnDepositBottomSheet', () => {
           },
         },
       ])
+      expect(navigateBack).toHaveBeenCalled()
     })
 
     it('pressing cancel fires analytics event', () => {
