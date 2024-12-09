@@ -12,8 +12,6 @@ export enum AppState {
 /** @deprecated left in for backwards compatibility (used in root state migration) */
 export enum MultichainBetaStatus {
   NotSeen = 'NotSeen',
-  OptedIn = 'OptedIn',
-  OptedOut = 'OptedOut',
 }
 
 export enum Actions {
