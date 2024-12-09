@@ -32,7 +32,6 @@ export enum StatsigFeatureGates {
   SUBSIDIZE_STABLECOIN_EARN_GAS_FEES = 'subsidize_stablecoin_earn_gas_fees',
   SHOW_CASH_IN_TOKEN_FILTERS = 'show_cash_in_token_filters',
   ALLOW_CROSS_CHAIN_SWAPS = 'allow_cross_chain_swaps',
-  SHOW_SWAP_AND_DEPOSIT = 'show_swap_and_deposit',
   SHOW_UK_COMPLIANT_VARIANT = 'show_uk_compliant_variant',
   ALLOW_EARN_PARTIAL_WITHDRAWAL = 'allow_earn_partial_withdrawal',
   SHOW_ZERION_TRANSACTION_FEED = 'show_zerion_transaction_feed',
