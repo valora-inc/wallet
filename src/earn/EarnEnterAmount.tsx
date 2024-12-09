@@ -624,6 +624,7 @@ function TransactionWithdrawDetails({
         <LabelWithInfo
           label={t('earnFlow.enterAmount.available')}
           testID="LabelWithInfo/AvailableLabel"
+          numberOfLines={1}
         />
         <View style={styles.txDetailsValue}>
           <TokenDisplay
@@ -651,6 +652,7 @@ function TransactionWithdrawDetails({
             <LabelWithInfo
               label={t('earnFlow.enterAmount.claimingReward')}
               testID={`LabelWithInfo/ClaimingReward-${index}`}
+              numberOfLines={1}
             />
             <View style={{ ...styles.txDetailsValue, flex: 1 }}>
               <TokenDisplay
@@ -680,6 +682,7 @@ function TransactionWithdrawDetails({
               feeDetailsBottomSheetRef?.current?.snapToIndex(0)
             }}
             testID="LabelWithInfo/FeeLabel"
+            numberOfLines={1}
           />
           <View style={styles.txDetailsValue}>
             <TokenDisplay
@@ -735,6 +738,7 @@ function TransactionDepositDetails({
                 swapDetailsBottomSheetRef?.current?.snapToIndex(0)
               }}
               testID="LabelWithInfo/SwapLabel"
+              numberOfLines={1}
             />
             <View style={styles.txDetailsValue}>
               <TokenDisplay
@@ -756,7 +760,7 @@ function TransactionDepositDetails({
           </View>
         )}
         <View style={styles.txDetailsLineItem}>
-          <LabelWithInfo label={t('earnFlow.enterAmount.deposit')} />
+          <LabelWithInfo label={t('earnFlow.enterAmount.deposit')} numberOfLines={1} />
           <View style={styles.txDetailsValue}>
             <TokenDisplay
               tokenId={pool.dataProps.depositTokenId}
@@ -784,6 +788,7 @@ function TransactionDepositDetails({
               feeDetailsBottomSheetRef?.current?.snapToIndex(0)
             }}
             testID="LabelWithInfo/FeeLabel"
+            numberOfLines={1}
           />
           <View style={styles.txDetailsValue}>
             <TokenDisplay

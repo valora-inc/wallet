@@ -53,16 +53,17 @@ export function SafetyCard({
   const [expanded, setExpanded] = React.useState(false)
   return (
     <View style={cardStyles.card} testID="SafetyCard">
-      <View style={cardStyles.cardLineContainer}>
-        <View style={cardStyles.cardLineLabel}>
+      <View style={[cardStyles.cardLineContainer, { alignItems: 'center' }]}>
+        <View style={{ flex: 4 }}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.safetyScore')}
             labelStyle={cardStyles.cardTitleText}
             testID="SafetyCardInfoIcon"
+            numberOfLines={1}
           />
         </View>
-        <View style={styles.tripleBarContainer}>
+        <View style={[styles.tripleBarContainer, { flex: 1 }]}>
           {BAR_HEIGHTS.map((height, index) => (
             <View
               testID="SafetyCard/Bar"
