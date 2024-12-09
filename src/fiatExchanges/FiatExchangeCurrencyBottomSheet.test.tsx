@@ -160,7 +160,7 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
     }
   )
 
-  it('shows filters for cash', () => {
+  it('shows filters for cash in', () => {
     const { getByTestId, getByText } = render(
       <Provider store={mockStore}>
         <MockedNavigator
