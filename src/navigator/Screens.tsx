@@ -53,7 +53,6 @@ export enum Screens {
   JumpstartTransactionDetailsScreen = 'JumpstartTransactionDetailsScreen',
   Main = 'Main',
   MainModal = 'MainModal',
-  MultichainBeta = 'MultichainBeta',
   NotificationCenter = 'NotificationCenter',
   NftsInfoCarousel = 'NftsInfoCarousel',
   OnboardingRecoveryPhrase = 'OnboardingRecoveryPhrase',

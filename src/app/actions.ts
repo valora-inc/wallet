@@ -9,6 +9,7 @@ export enum AppState {
   Inactive = 'Inactive',
 }
 
+/** @deprecated left in for backwards compatibility (used in root state migration) */
 export enum MultichainBetaStatus {
   NotSeen = 'NotSeen',
   OptedIn = 'OptedIn',
@@ -40,7 +41,6 @@ export enum Actions {
   IN_APP_REVIEW_REQUESTED = 'APP/IN_APP_REVIEW_REQUESTED',
   NOTIFICATION_SPOTLIGHT_SEEN = 'APP/NOTIFICATION_SPOTLIGHT_SEEN',
   TOGGLE_HIDE_BALANCES = 'APP/TOGGLE_HIDE_BALANCES',
-  OPT_MULTICHAIN_BETA = 'APP/OPT_MULTICHAIN_BETA',
 }
 
 export interface SetAppState {
@@ -164,11 +164,6 @@ interface ToggleHideBalances {
   type: Actions.TOGGLE_HIDE_BALANCES
 }
 
-interface OptMultichainBeta {
-  type: Actions.OPT_MULTICHAIN_BETA
-  optedIn: boolean
-}
-
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -193,7 +188,6 @@ export type ActionTypes =
   | inAppReviewRequested
   | NotificationSpotlightSeen
   | ToggleHideBalances
-  | OptMultichainBeta
   | DeepLinkDeferred
 
 export const setAppState = (state: string): SetAppState => ({
@@ -351,12 +345,5 @@ export const notificationSpotlightSeen = (): NotificationSpotlightSeen => {
 export const toggleHideBalances = (): ToggleHideBalances => {
   return {
     type: Actions.TOGGLE_HIDE_BALANCES,
-  }
-}
-
-export const optMultichainBeta = (optedIn: boolean): OptMultichainBeta => {
-  return {
-    type: Actions.OPT_MULTICHAIN_BETA,
-    optedIn,
   }
 }

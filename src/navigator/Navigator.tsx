@@ -22,7 +22,6 @@ import SupportContact from 'src/account/SupportContact'
 import AppLoading from 'src/app/AppLoading'
 import DebugImages from 'src/app/DebugImages'
 import ErrorScreen from 'src/app/ErrorScreen'
-import MultichainBeta from 'src/app/MultichainBeta'
 import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import BackupComplete from 'src/backup/BackupComplete'
@@ -74,6 +73,7 @@ import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
 import LinkPhoneNumber from 'src/keylessBackup/LinkPhoneNumber'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
+import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import Language from 'src/language/Language'
 import SelectLocalCurrency from 'src/localCurrency/SelectLocalCurrency'
 import {
@@ -125,7 +125,6 @@ import VerificationStartScreen from 'src/verify/VerificationStartScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
-import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 
 const TAG = 'Navigator'
 
@@ -528,11 +527,6 @@ const generalScreens = (Navigator: typeof Stack) => (
       name={Screens.NotificationCenter}
       component={NotificationCenter}
       options={headerWithBackButton}
-    />
-    <Navigator.Screen
-      name={Screens.MultichainBeta}
-      component={MultichainBeta}
-      options={MultichainBeta.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.SettingsMenu}
