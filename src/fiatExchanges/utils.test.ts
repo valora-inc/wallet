@@ -79,7 +79,6 @@ describe('fiatExchanges utils', () => {
         usdToLocalRate,
         legacyMobileMoneyProviders: [mockLegacyMobileMoneyProvider],
         centralizedExchanges: mockExchanges,
-        coinbasePayAvailable: true,
         transferCryptoAmount,
         cryptoType: CiCoCurrency.cUSD,
         tokenInfo: {
@@ -93,9 +92,8 @@ describe('fiatExchanges utils', () => {
       expect(analyticsOutput).toStrictEqual({
         transferCryptoAmount,
         centralizedExchangesAvailable: true,
-        coinbasePayAvailable: true,
         cryptoType: CiCoCurrency.cUSD,
-        totalOptions: 7, // centralized exchanges counts as 1, plus 1 legacy mobile money provider, 1 coinbase pay and 4 normalized quotes
+        totalOptions: 6, // centralized exchanges counts as 1, plus 1 legacy mobile money provider, and 4 normalized quotes
         lowestFeeCryptoAmount: 1.0,
         lowestFeeKycRequired: true,
         lowestFeePaymentMethod: 'Card',
@@ -105,7 +103,6 @@ describe('fiatExchanges utils', () => {
           Bank: true,
           Card: true,
           MobileMoney: true,
-          Coinbase: true,
           FiatConnectMobileMoney: true,
         },
         networkId: 'celo-alfajores',
@@ -118,7 +115,6 @@ describe('fiatExchanges utils', () => {
         usdToLocalRate,
         legacyMobileMoneyProviders: [],
         centralizedExchanges: [],
-        coinbasePayAvailable: false,
         transferCryptoAmount,
         cryptoType: CiCoCurrency.cUSD,
         tokenInfo: {
@@ -132,7 +128,6 @@ describe('fiatExchanges utils', () => {
       expect(analyticsOutput).toStrictEqual({
         transferCryptoAmount,
         centralizedExchangesAvailable: false,
-        coinbasePayAvailable: false,
         cryptoType: CiCoCurrency.cUSD,
         totalOptions: 4, // 4 normalized quotes only
         lowestFeeCryptoAmount: 1.0,
@@ -144,7 +139,6 @@ describe('fiatExchanges utils', () => {
           Bank: true,
           Card: true,
           MobileMoney: false,
-          Coinbase: false,
           FiatConnectMobileMoney: true,
         },
         networkId: 'celo-alfajores',

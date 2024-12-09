@@ -729,17 +729,6 @@
     "goldDisclaimer": "Ao criar uma \"conta\" na {{appName}}, você está criando uma carteira digital da qual somente você possui as chaves. Nenhuma outra pessoa, física ou jurídica, incluindo a {{appName}}, pode recuperar sua chave, alterar ou desfazer transações, ou recuperar fundos perdidos. Esteja ciente de que ativos digitais fazem parte de uma nova classe de ativos e apresentam risco de perda financeira. Considere cuidadosamente suas circunstâncias financeiras e sua tolerância a riscos financeiros antes de comprar qualquer ativo digital.",
     "goldDisclaimerWithPoints": "Ao criar uma \"conta\" na {{appName}}, você está criando uma carteira digital da qual somente você possui as chaves. Nenhuma outra pessoa, física ou jurídica, incluindo a {{appName}}, pode recuperar sua chave, alterar ou desfazer transações, ou recuperar fundos perdidos. A {{appName}} concede recompensas de fidelidade tokenizadas (\"Pontos\") aos Usuários por se envolverem em determinadas atividades no aplicativo. Os Pontos são itens colecionáveis na cadeia, intransferíveis e não resgatáveis. Não há garantias sobre a disponibilidade ou o valor dos Pontos. Esteja ciente de que ativos digitais fazem parte de uma nova classe de ativos e apresentam risco de perda financeira. Considere cuidadosamente suas circunstâncias financeiras e sua tolerância a riscos financeiros antes de comprar qualquer ativo digital."
   },
-  "termsColloquial": {
-    "title": "Vamos começar criando sua carteira",
-    "privacyHeading": "Suas informações e privacidade:",
-    "privacy1": "Coletamos dados de uso que nos ajudam a aprimorar o aplicativo e a segurança. As informações que coletamos, como as utilizamos e seus direitos relacionados a elas podem ser vistos em nossa <0>Política de privacidade</0>.",
-    "privacy2": "Se decidir vincular seu número de celular, armazenaremos uma cópia criptografada dele.",
-    "privacy3": "Se decidir conectar seus contatos, usaremos seus nomes, números e fotos de perfil para ser mais fácil encontrá-los.",
-    "walletHeading": "Sua carteira digital na {{appName}}:",
-    "wallet1": "Você está prestes a criar uma carteira digital. Somente você tem a chave da sua carteira. Não podemos recuperar sua chave ou seus ativos se você perder sua chave. Também não podemos reverter ações realizadas por meio da {{appName}} em blockchains.",
-    "wallet2": "Ativos digitais, os ativos com os quais você interagirá na {{appName}}, têm riscos próprios. Ao usar a {{appName}}, você aceita esses riscos e assume a responsabilidade por eles. Considere suas finanças e sua tolerância a riscos antes de fazer escolhas.",
-    "fullTerms": "Leia nossos <0>Termos e condições</0> na íntegra"
-  },
   "fullNameOrPsuedonym": "Nome ou pseudônimo",
   "namePlaceholder": "nome",
   "nameAndPicGuideCopyTitle": "Qual é o seu nome?",
@@ -848,8 +837,7 @@
     "hasWallet": "Já tenho uma carteira",
     "hasWalletV1_88": "Eu tenho uma carteira",
     "header": "Nossas boas-vindas! Vamos criar a sua carteira cripto.",
-    "getStarted": "Começar",
-    "agreeToTerms": "Ao criar uma carteira, você concorda com nossos <0>Termos e condições</0>"
+    "getStarted": "Começar"
   },
   "accessContacts": {
     "disclosure": {
