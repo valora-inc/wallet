@@ -729,17 +729,6 @@
     "goldDisclaimer": "Quando crei un \"conto\" in {{appName}}, crei un wallet digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, neanche {{appName}}, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare fondi perduti. Considera che le criptovalute fanno parte di una nuova classe di asset e comportano un rischio di perdita finanziaria. Prima di acquistare qualsiasi asset, valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario.",
     "goldDisclaimerWithPoints": "Quando crei un \"conto\" in {{appName}}, crei un wallet digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, neanche {{appName}}, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare fondi perduti. {{appName}} concede agli utenti ricompense fedeltà (\"punti\") sotto forma di token per aver svolto determinate attività all'interno dell'app. I punti possono essere raccolti on-chain e non sono trasferibili né riscattabili. Non viene fornita alcuna garanzia sulla disponibilità o sul valore dei punti. Ricorda che le criptovalute fanno parte di una nuova classe di asset e comportano un rischio di perdita finanziaria. Prima di acquistare qualsiasi asset, valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
   },
-  "termsColloquial": {
-    "title": "Per cominciare, crea il tuo wallet",
-    "privacyHeading": "Informazioni personale e privacy:",
-    "privacy1": "Raccogliamo dati di utilizzo che ci aiutano a migliorare l'applicazione e la sicurezza. Puoi avere ulteriori informazioni sul tipo di informazioni che raccogliamo, sul modo in cui le utilizziamo e sui tuoi diritti relativi a tali informazioni leggendo la nostra <0>Informativa sulla privacy</0>.",
-    "privacy2": "Se decidi di collegare il tuo numero di telefono, lo memorizzeremo in modalità crittografata.",
-    "privacy3": "Se decidi di collegare i tuoi contatti, useremo i loro nomi, numeri e immagini del profilo per permetterti di trovarli più facilmente.",
-    "walletHeading": "Il tuo wallet digitale con {{appName}}:",
-    "wallet1": "Stai per creare un wallet digitale. Solo tu hai la chiave del tuo wallet. Se perdi la chiave, non possiamo recuperare né la chiave né i tuoi asset. Ricorda, inoltre, che tramite {{appName}} non è possibile invertire le azioni avviate sulle blockchain.",
-    "wallet2": "Gli asset digitali, ovvero gli asset tramite i quali interagisci con {{appName}}, comportano una serie di rischi. Utilizzando {{appName}}, accetti tali rischi e te ne assumi tutta la responsabilità. Prima di fare qualsiasi scelta, valuta la tua situazione finanziaria e la tua tolleranza al rischio.",
-    "fullTerms": "Leggi interamente i nostri <0>Termini e Condizioni</0>"
-  },
   "fullNameOrPsuedonym": "Nome e cognome o alias",
   "namePlaceholder": "p. es. nome",
   "nameAndPicGuideCopyTitle": "Come ti chiami?",
@@ -848,8 +837,7 @@
     "hasWallet": "Ho già un wallet",
     "hasWalletV1_88": "Ho un portafoglio",
     "header": "Ti diamo il benvenuto in {{appName}}! Creiamo il tuo wallet cripto.",
-    "getStarted": "Inizia",
-    "agreeToTerms": "Creando un wallet accetti i nostri <0>Termini e Condizioni</0>"
+    "getStarted": "Inizia"
   },
   "accessContacts": {
     "disclosure": {
