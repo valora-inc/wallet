@@ -389,7 +389,7 @@ function EarnEnterAmount({ route }: Props) {
         inputAmount: tokenAmount.toString(),
         useMax: selectedPercentage === 1,
       })
-    } else if (tokenAmount && prepareTransactionsResult?.type === 'possible') {
+    } else if (prepareTransactionsResult?.type === 'possible') {
       navigate(Screens.EarnDepositBottomSheet, {
         serializedPreparedTransactions: getSerializablePreparedTransactions(
           prepareTransactionsResult.transactions
