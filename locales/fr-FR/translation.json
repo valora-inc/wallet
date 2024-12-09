@@ -729,17 +729,6 @@
     "goldDisclaimer": "Lorsque vous créez un \"compte\" chez {{appName}}, vous créez un portefeuille numérique dont vous seul détenez la clé. Aucune autre personne ni entité, y compris {{appName}}, ne peut récupérer votre clé, modifier ou annuler des transactions, ou récupérer des fonds perdus. Sachez que les cryptomonnaies sont une nouvelle catégorie d'actifs et présentent un risque de perte financière. Réfléhissez soigneusement à votre situation financière et pesez le risque financier que vous prenez avant d'acheter un actif.",
     "goldDisclaimerWithPoints": "Lorsque vous créez un \"compte\" chez {{appName}}, vous créez un portefeuille numérique dont vous seul détenez la clé. Aucune autre personne ni entité, y compris {{appName}}, ne peut récupérer votre clé, modifier, annuler des transactions, ou encore récupérer des fonds perdus. {{appName}} accorde des récompenses de fidélité tokenisées (\"Points\") aux utilisateurs qui réalisent certaines activités au sein de l'application. Ces Points sont des objets de collection dans la blockchain, ils sont à ce titre non transférables et non échangeables. Aucune garantie n'est donnée sur la disponibilité ou la valeur des Points. Sachez que les cryptomonnaies sont une nouvelle catégorie d'actifs qui présentent un risque de perte financière. Prenez en compte votre situation financière et mesurez le risque financier que vous prenez avant d'acheter un actif."
   },
-  "termsColloquial": {
-    "title": "Commençons par créer votre portefeuille",
-    "privacyHeading": "Vos informations et section confidentialité :",
-    "privacy1": "Nous recueillons certaines données d'utilisation qui nous aident à améliorer l'application et la sécurité. Le type d'informations que nous recueillons, la façon dont nous les utilisons et vos droits relatifs à ces informations sont disponibles dans notre <0>Politique de confidentialité</0>.",
-    "privacy2": "Si vous décidez de relier votre numéro de téléphone, nous en conserverons une copie chiffrée.",
-    "privacy3": "Si vous décidez de connecter vos contacts, nous pourrons utiliser leurs noms, numéros et photos de profil pour faciliter leur recherche.",
-    "walletHeading": "Votre portefeuille numérique {{appName}} :",
-    "wallet1": "Vous êtes sur le point de créer un portefeuille numérique. Vous seul en avez la clé. Nous ne pourrons pas récupérer votre clé ou vos actifs si vous perdez votre clé. Nous ne pourrons pas non plus inverser les actions entreprises par {{appName}} sur les blockchains.",
-    "wallet2": "Les actifs numériques, les actifs avec lesquels vous allez interagir avec {{appName}} présentent certains risques. En utilisant {{appName}}, vous acceptez ces risques et en assumez la pleine responsabilité. Veuillez réfléchir à ces risques pour vos finances avant de vous engager.",
-    "fullTerms": "Lisez nos <0>Conditions Générales</0>"
-  },
   "fullNameOrPsuedonym": "Prénom et nom ou pseudonyme",
   "namePlaceholder": "p. ex. nom",
   "nameAndPicGuideCopyTitle": "Comment vous appelez-vous ?",
@@ -848,8 +837,7 @@
     "hasWallet": "J'ai déjà un wallet",
     "hasWalletV1_88": "J'ai un portefeuille",
     "header": "Bienvenue sur {{appName}} ! Créons votre wallet crypto.",
-    "getStarted": "Commencer",
-    "agreeToTerms": "En créant un portefeuille, vous acceptez nos <0>Conditions Générales</0>"
+    "getStarted": "Commencer"
   },
   "accessContacts": {
     "disclosure": {

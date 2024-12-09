@@ -271,22 +271,6 @@ describe('TransactionFeed', () => {
     expect(items.length).toBe(1)
   })
 
-  it('renders the loading indicator while it loads', async () => {
-    const { getByTestId, queryByTestId } = renderScreen({})
-    expect(getByTestId('NoActivity/loading')).toBeDefined()
-    expect(queryByTestId('NoActivity/error')).toBeNull()
-    expect(queryByTestId('TransactionList')).toBeNull()
-  })
-
-  it("renders an error screen if there's no cache and the query fails", async () => {
-    mockFetch.mockReject(new Error('Test error'))
-
-    const { getByTestId, queryByTestId } = renderScreen({})
-    await waitFor(() => getByTestId('NoActivity/error'))
-    expect(queryByTestId('NoActivity/loading')).toBeNull()
-    expect(queryByTestId('TransactionList')).toBeNull()
-  })
-
   it('renders the cache if there is one', async () => {
     mockFetch.mockReject(new Error('Test error'))
 
@@ -433,11 +417,8 @@ describe('TransactionFeed', () => {
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(11)
   })
 
-  it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
+  it('renders GetStarted if transaction feed is empty', async () => {
     jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
-        return true
-      }
       if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
         return false
       }
@@ -450,9 +431,6 @@ describe('TransactionFeed', () => {
 
   it('renders NoActivity for UK compliance', () => {
     jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
-        return true
-      }
       if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
         return true
       }
@@ -462,13 +440,6 @@ describe('TransactionFeed', () => {
     const { getByTestId, getByText } = renderScreen({})
 
     expect(getByTestId('NoActivity/loading')).toBeTruthy()
-    expect(getByText('transactionFeed.noTransactions')).toBeTruthy()
-  })
-
-  it('renders NoActivity by default if transaction feed is empty', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
-    const { getByTestId, getByText } = renderScreen({})
-    expect(getByTestId('NoActivity/loading')).toBeDefined()
     expect(getByText('transactionFeed.noTransactions')).toBeTruthy()
   })
 })

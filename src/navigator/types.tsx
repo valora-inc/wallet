@@ -69,7 +69,6 @@ export type StackParamList = {
     flow: CICOFlow
   }
   [Screens.BidaliScreen]: { currency?: Currency }
-  [Screens.CoinbasePayScreen]: { uri: string }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ChooseYourAdventure]: undefined
   [Screens.ConsumerIncentivesHomeScreen]: undefined

@@ -603,7 +603,7 @@ PODS:
     - React-Core
   - react-native-restart (0.0.27):
     - React-Core
-  - react-native-safe-area-context (4.11.0):
+  - react-native-safe-area-context (4.14.1):
     - React-Core
   - react-native-shake (5.5.2):
     - RCT-Folly (= 2021.07.22.00)
@@ -620,7 +620,7 @@ PODS:
   - react-native-video/Video (6.6.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-webview (13.12.4):
+  - react-native-webview (13.12.5):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - React-NativeModulesApple (0.72.15):
@@ -734,7 +734,7 @@ PODS:
     - React-logger (= 0.72.15)
     - React-perflogger (= 0.72.15)
   - RecaptchaInterop (100.0.0)
-  - RNCAsyncStorage (2.0.0):
+  - RNCAsyncStorage (2.1.0):
     - React-Core
   - RNCClipboard (1.15.0):
     - React-Core
@@ -743,7 +743,7 @@ PODS:
     - React-Core
   - RNCPicker (2.10.2):
     - React-Core
-  - RNDeviceInfo (13.0.0):
+  - RNDeviceInfo (13.2.0):
     - React-Core
   - RNExitApp (2.0.0):
     - React-Core
@@ -782,12 +782,12 @@ PODS:
     - RNFBApp
   - RNFS (2.20.0):
     - React-Core
-  - RNGestureHandler (2.20.0):
+  - RNGestureHandler (2.21.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNKeychain (8.2.0):
     - React-Core
-  - RNLocalize (3.2.1):
+  - RNLocalize (3.3.0):
     - React-Core
   - RNPermissions (4.1.5):
     - React-Core
@@ -815,13 +815,13 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - React-RCTImage
-  - RNSentry (5.33.2):
+  - RNSentry (5.36.0):
     - hermes-engine
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - React-hermes
-    - Sentry/HybridSDK (= 8.36.0)
-  - RNShare (11.0.3):
+    - Sentry/HybridSDK (= 8.41.0)
+  - RNShare (11.1.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNSVG (15.7.1):
@@ -832,13 +832,13 @@ PODS:
   - SDWebImageWebPCoder (0.8.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.10)
-  - segment-analytics-react-native (2.19.5):
+  - segment-analytics-react-native (2.20.3):
     - React-Core
     - sovran-react-native
-  - Sentry/HybridSDK (8.36.0)
+  - Sentry/HybridSDK (8.41.0)
   - SimpleKeychain (1.1.0)
   - SocketRocket (0.6.1)
-  - sovran-react-native (1.1.2):
+  - sovran-react-native (1.1.3):
     - React-Core
   - Toast (4.0.0)
   - Yoga (1.14.0)
@@ -1281,12 +1281,12 @@ SPEC CHECKSUMS:
   react-native-pager-view: c65514a81a384c3ce244b5bd87167761740308d3
   react-native-quick-crypto: e254783f9681542c182f9439f91139137e3b9e48
   react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
-  react-native-safe-area-context: 851c62c48dce80ccaa5637b6aa5991a1bc36eca9
+  react-native-safe-area-context: 141eca0fd4e4191288dfc8b96a7c7e1c2983447a
   react-native-shake: 0c36371dd63019afa68890ccc65a442ee21b4dde
   react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-video: c2fbeb7e78f70486918b0a6b88cee7b2ae0b0973
-  react-native-webview: 524f40f1131b78b142aaccc834c6b3b7735c46bc
+  react-native-webview: f284fcfdf162521ffe19fd6c68fd837f3e0ce174
   React-NativeModulesApple: a2c783eea2b9354534d6e991669d5051435b51db
   React-perflogger: 6acc671f527e69c0cd93b8e62821d33d3ddf25ca
   React-RCTActionSheet: 569bb9db46d85565d14697e15ecf2166e035eb07
@@ -1305,11 +1305,11 @@ SPEC CHECKSUMS:
   React-utils: a2dfc4c77bb4f7fe4080219a82ace8929f334b1a
   ReactCommon: 69acb76221a4c9d1b5740821ee1f0df89068fd6d
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
-  RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
+  RNCAsyncStorage: cc6479c4acd84cc7004946946c8afe30b018184d
   RNCClipboard: 69ab8e51324d5b351f6ba72bbdb72478087a2c64
   RNCMaskedView: 7fd800fe3508752504dbdc0a231cec05211ae769
   RNCPicker: d162737e03e48797110dbb60e5ddc03012e87e0b
-  RNDeviceInfo: 55264dd7cc939dad6e9c231a7621311f5277f1dc
+  RNDeviceInfo: 29e01d5ae94bdb5a0f6c11a4c438132545b4df80
   RNExitApp: 00036cabe7bacbb413d276d5520bf74ba39afa6a
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBAnalytics: 695dcc7123daa3cf938cf7123b8715c0b5c8c657
@@ -1320,24 +1320,24 @@ SPEC CHECKSUMS:
   RNFBMessaging: 15439cf96be05b47d95334052afc306eac89c2ce
   RNFBRemoteConfig: 37959d81004ff1232f26276d02655c992b1ce715
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
-  RNGestureHandler: 89127fcd3f17e0667825cfa0ee3b5546ac047cb9
+  RNGestureHandler: e9a9570cf592b2fa0f2dc90ae06f040d3ed4e4d3
   RNKeychain: bfe3d12bf4620fe488771c414530bf16e88f3678
-  RNLocalize: 4f22418187ecd5ca693231093ff1d912d1b3c9bc
+  RNLocalize: 298e85ce16540a11de40c1a588ead39fc5e9a072
   RNPermissions: da2a4ded375aa8292d85ed93676e102c203d4717
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
   RNReactNativeHapticFeedback: a15559aa2aa8b5e5d49616fd84259dfb3c415230
   RNReanimated: 739d696f5bd3bea1d675a86caec05064ab4d898f
   RNScreens: cdb28656300719a3708d2209fad0bd6d83769d3a
-  RNSentry: 5596dbadad9a1cccef90f9ccc18e1a309c1bde64
-  RNShare: cc904a0d9305649d0fe7897fc6de938f958c3a40
+  RNSentry: b24b7150b302ce1c38cc679c548a8ef1aef831fa
+  RNShare: 8006ea4fac2acbbf55705d975dc6daefb3cb8178
   RNSVG: 4590aa95758149fa27c5c83e54a6a466349a1688
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
-  segment-analytics-react-native: 4bac3da03dd4a1eed178786b1d7025cd2c0ed6c9
-  Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
+  segment-analytics-react-native: d57ed4971cbb995706babf29215ebdbf242ecdab
+  Sentry: 54d0fe6c0df448497c8ed4cce66ccf7027e1823e
   SimpleKeychain: f8707c8e97b38c6a6e687b17732afc9bcef06439
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  sovran-react-native: 5f02bd2d111ffe226d00c7b0435290eae6f10934
+  sovran-react-native: eec37f82e4429f0e3661f46aaf4fcd85d1b54f60
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Yoga: 6f5ab94cd8b1ecd04b6e973d0bc583ede2a598cc
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
