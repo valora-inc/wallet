@@ -2,8 +2,8 @@ import React, { useEffect, useMemo } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native'
-import { CeloNewsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { CeloNewsEvents } from 'src/analytics/Events'
 import { celoNewsConfigSelector } from 'src/app/selectors'
 import CeloNewsFeedItem from 'src/celoNews/CeloNewsFeedItem'
 import { CeloNewsArticle, CeloNewsArticles } from 'src/celoNews/types'
@@ -42,7 +42,7 @@ export function useFetchArticles() {
   return useAsync(async () => {
     Logger.info(TAG, 'Fetching articles...')
     try {
-      const response = await fetchWithTimeout(`${networkConfig.cloudFunctionsUrl}/getCeloNewsFeed`)
+      const response = await fetchWithTimeout(networkConfig.getCeloNewsFeedUrl)
       Logger.info(TAG, `Articles fetched (statusCode=${response.status})`)
       // status in the range 200-299
       if (!response.ok) {
