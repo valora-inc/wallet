@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
@@ -22,7 +23,6 @@ import {
   mockCusdTokenId,
   mockEthTokenId,
 } from 'test/values'
-import { CICOFlow } from './utils'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),

@@ -115,26 +115,45 @@ export default function EnterAmount({
   const { tokenId: feeTokenId } = feeCurrency ?? feeCurrencies[0]
 
   const inputRef = useRef<RNTextInput>(null)
-  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const {
     amount,
     amountType,
     processedAmounts,
-    setAmount,
+    replaceAmount,
     handleAmountInputChange,
     handleToggleAmountType,
-    handlePercentage,
+    handleSelectPercentageAmount,
   } = useEnterAmount({
     token,
     inputRef,
-    onAmountChange: () => {
+    onHandleAmountInputChange: () => {
       setSelectedPercentage(null)
     },
   })
 
+  useEffect(
+    function refreshPreparedTransactions() {
+      onClearPreparedTransactions()
+
+      const canRefresh =
+        processedAmounts.token.bignum &&
+        processedAmounts.token.bignum.gt(0) &&
+        processedAmounts.token.bignum.lte(token.balance)
+      if (!canRefresh) return
+
+      const debouncedRefreshTransactions = setTimeout(() => {
+        return onRefreshPreparedTransactions(processedAmounts.token.bignum!, token, feeCurrencies)
+      }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
+
+      return () => clearTimeout(debouncedRefreshTransactions)
+    },
+    [processedAmounts.token.bignum?.toString(), token]
+  )
+
   const onOpenTokenPicker = () => {
-    bottomSheetRef.current?.snapToIndex(0)
+    tokenBottomSheetRef.current?.snapToIndex(0)
     AppAnalytics.track(SendEvents.token_dropdown_opened, {
       currentTokenId: token.tokenId,
       currentTokenAddress: token.address,
@@ -144,13 +163,15 @@ export default function EnterAmount({
 
   const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
     setToken(selectedToken)
-    setAmount('')
-    bottomSheetRef.current?.close()
+    replaceAmount('')
+    setSelectedPercentage(null)
+    tokenBottomSheetRef.current?.close()
+
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
   const onSelectPercentageAmount = (percentage: number) => {
-    handlePercentage(percentage)
+    handleSelectPercentageAmount(percentage)
     setSelectedPercentage(percentage)
 
     AppAnalytics.track(SendEvents.send_percentage_selected, {
@@ -162,10 +183,10 @@ export default function EnterAmount({
     })
   }
 
-  const isAmountLessThanBalance =
-    processedAmounts.token.bignum && processedAmounts.token.bignum.lte(token.balance)
   const showLowerAmountError =
-    processedAmounts.token.bignum && !isAmountLessThanBalance && !disableBalanceCheck
+    processedAmounts.token.bignum &&
+    !processedAmounts.token.bignum.lte(token.balance) &&
+    !disableBalanceCheck
   const showMaxAmountWarning =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -183,25 +204,6 @@ export default function EnterAmount({
   const disabled =
     disableProceed ||
     (disableBalanceCheck ? !!processedAmounts.token.bignum?.isZero() : !transactionIsPossible)
-
-  useEffect(
-    function refreshPreparedTransactions() {
-      onClearPreparedTransactions()
-
-      if (
-        !processedAmounts.token.bignum ||
-        processedAmounts.token.bignum.isLessThanOrEqualTo(0) ||
-        processedAmounts.token.bignum.isGreaterThan(token.balance)
-      ) {
-        return
-      }
-      const debouncedRefreshTransactions = setTimeout(() => {
-        return onRefreshPreparedTransactions(processedAmounts.token.bignum!, token, feeCurrencies)
-      }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
-      return () => clearTimeout(debouncedRefreshTransactions)
-    },
-    [processedAmounts.token.bignum, token]
-  )
 
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
@@ -231,12 +233,13 @@ export default function EnterAmount({
             onOpenTokenPicker={tokenSelectionDisabled ? undefined : onOpenTokenPicker}
           />
 
-          {!!maxFeeAmount && (
+          {!!maxFeeAmount && !!amount && (
             <View style={styles.feeContainer} testID="SendEnterAmount/Fee">
               <LabelWithInfo
                 label={t('sendEnterAmountScreen.networkFeeV1_97')}
                 labelStyle={{ color: Colors.gray3 }}
                 testID="SendEnterAmount/FeeLabel"
+                style={styles.feeLabelContainer}
               />
               <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
                 <TokenDisplay
@@ -326,7 +329,7 @@ export default function EnterAmount({
         />
       </KeyboardAwareScrollView>
       <TokenBottomSheet
-        forwardedRef={bottomSheetRef}
+        forwardedRef={tokenBottomSheetRef}
         snapPoints={['90%']}
         origin={TokenPickerOrigin.Send}
         onTokenSelected={onSelectToken}
@@ -363,8 +366,12 @@ const styles = StyleSheet.create({
     gap: Spacing.Smallest8,
     flexDirection: 'row',
   },
+  feeLabelContainer: {
+    flex: 0,
+    alignItems: 'flex-start',
+  },
   feeInCryptoContainer: {
-    flexShrink: 1,
+    flex: 1,
     flexDirection: 'row',
     gap: Spacing.Tiny4,
     alignItems: 'center',

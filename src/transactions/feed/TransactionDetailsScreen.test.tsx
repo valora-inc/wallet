@@ -8,8 +8,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams } from 'src/statsig'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import {
   ClaimReward,
@@ -61,7 +59,6 @@ import {
 } from 'test/values'
 
 jest.mock('src/analytics/AppAnalytics')
-jest.mock('src/statsig')
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
@@ -313,6 +310,16 @@ describe('TransactionDetailsScreen', () => {
             },
           },
         ],
+        amount: {
+          value: 10,
+          tokenAddress: mockCusdAddress,
+          tokenId: mockCusdTokenId,
+          localAmount: {
+            currencyCode: 'EUR',
+            exchangeRate: '1.08',
+            value: '9.259',
+          },
+        },
       }),
     })
 
@@ -327,8 +334,8 @@ describe('TransactionDetailsScreen', () => {
 
     expect(getByText('amountSent')).toBeTruthy()
     expect(getByTestId('TransferSent/AmountSentValue')).toHaveTextContent('10.00 cUSD')
-    expect(getByTestId('TransferSent/TransferTokenExchangeRate')).toHaveTextContent('₱1.33')
-    expect(getByTestId('TransferSent/AmountSentValueFiat')).toHaveTextContent('₱13.30')
+    expect(getByTestId('TransferSent/TransferTokenExchangeRate')).toHaveTextContent('€1.08') // the localAmount in the amount data is used
+    expect(getByTestId('TransferSent/AmountSentValueFiat')).toHaveTextContent('€9.26')
   })
 
   it('renders correctly for receives', async () => {
@@ -451,18 +458,6 @@ describe('TransactionDetailsScreen', () => {
   describe('Earn', () => {
     beforeEach(() => {
       jest.clearAllMocks()
-      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
-        switch (configName) {
-          case StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG:
-            return {
-              providerName: 'Aave',
-              providerLogoUrl: 'logoUrl',
-              providerTermsAndConditionsUrl: 'termsUrl',
-            }
-          default:
-            return defaultValues
-        }
-      })
     })
 
     it(`renders check status action for pending ${TokenTransactionTypeV2.EarnClaimReward} transaction`, () => {

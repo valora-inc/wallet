@@ -21,16 +21,19 @@ import networkConfig from 'src/web3/networkConfig'
 
 // Note that this is tested from TransactionDetailsScreen.test.tsx
 function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
-  const { amount, metadata, address } = transfer
-
   const { t } = useTranslation()
   const info = useSelector(recipientInfoSelector)
 
   const celoTokenId = useTokenInfo(networkConfig.currencyToTokenId[Currency.Celo])?.tokenId
   const transferTokenInfo = useTokenInfo(transfer.amount.tokenId)
 
-  const isCeloWithdrawal = amount.tokenId === celoTokenId
-  const recipient = getRecipientFromAddress(address, info, metadata.title, metadata.image)
+  const isCeloWithdrawal = transfer.amount.tokenId === celoTokenId
+  const recipient = getRecipientFromAddress(
+    transfer.address,
+    info,
+    transfer.metadata.title,
+    transfer.metadata.image
+  )
 
   return (
     <>
@@ -70,6 +73,14 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
               amount={new BigNumber(1)}
               tokenId={transfer.amount.tokenId}
               showLocalAmount={true}
+              localAmount={
+                transfer.amount.localAmount
+                  ? {
+                      ...transfer.amount.localAmount,
+                      value: transfer.amount.localAmount.exchangeRate, // display the historical exchange rate
+                    }
+                  : undefined
+              }
               testID="TransferSent/TransferTokenExchangeRate"
             />
           </Trans>
@@ -78,6 +89,7 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
           <TokenDisplay
             amount={transfer.amount.value}
             tokenId={transfer.amount.tokenId}
+            localAmount={transfer.amount.localAmount}
             showLocalAmount={true}
             hideSign={true}
             testID="TransferSent/AmountSentValueFiat"

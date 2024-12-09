@@ -1,15 +1,13 @@
-import { getAddressChunks } from '../../../src/utils/address'
+import { sleep } from '../../../src/utils/sleep'
 import { launchApp } from '../utils/retries'
 import {
   completeProtectWalletScreen,
   enterPinUi,
-  quickOnboarding,
-  scrollIntoView,
-  waitForElementId,
-  waitForElementByIdAndTap,
   navigateToSecurity,
+  quickOnboarding,
+  waitForElementByIdAndTap,
+  waitForElementId,
 } from '../utils/utils'
-import { sleep } from '../../../src/utils/sleep'
 
 import jestExpect from 'expect'
 
@@ -41,7 +39,6 @@ export default NewAccountOnboarding = () => {
     await sleep(5000)
     await launchApp({
       delete: true,
-      permissions: { notifications: 'YES', contacts: 'YES' },
       launchArgs: {
         onboardingOverrides: 'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackup',
       },
@@ -154,10 +151,8 @@ export default NewAccountOnboarding = () => {
   })
 
   it('Should be able to restore newly created account', async () => {
-    await device.uninstallApp()
-    await device.installApp()
     await launchApp({
-      newInstance: true,
+      delete: true,
       launchArgs: {
         onboardingOverrides: 'EnableBiometry,ProtectWallet,PhoneVerification,CloudBackup',
       },

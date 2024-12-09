@@ -20,6 +20,10 @@ Ensure you have Xcode installed.
 
 Install [AppleSimulatorUtils](https://github.com/wix/AppleSimulatorUtils#installing) which is used in e2e scripts to launch the iOS simulator.
 
+### Setting up secrets for local runs
+
+An `.env` example is present at `e2e/env.example` rename this file to `.env` and populate the secrets from Google Cloud Platform. Do not commit the newly created `e2e/.env` file.
+
 ## Running the tests
 
 ```sh

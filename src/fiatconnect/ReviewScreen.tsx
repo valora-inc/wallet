@@ -17,7 +17,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import Touchable from 'src/components/Touchable'
 import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
 import {
   fiatConnectQuotesErrorSelector,

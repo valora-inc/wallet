@@ -26,7 +26,7 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -129,7 +129,7 @@ export default function EarnEnterAmount({ route }: Props) {
 
   const {
     amount,
-    setAmount,
+    replaceAmount,
     amountType,
     processedAmounts,
     handleAmountInputChange,
@@ -137,7 +137,7 @@ export default function EarnEnterAmount({ route }: Props) {
   } = useEnterAmount({
     token: inputToken,
     inputRef,
-    onAmountChange: () => {
+    onHandleAmountInputChange: () => {
       setSelectedPercentage(null)
     },
   })
@@ -153,7 +153,7 @@ export default function EarnEnterAmount({ route }: Props) {
 
   const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
     setInputToken(selectedToken)
-    setAmount('')
+    replaceAmount('')
     bottomSheetRef.current?.close()
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
@@ -257,15 +257,8 @@ export default function EarnEnterAmount({ route }: Props) {
     !!processedAmounts.token.bignum?.isZero() || !transactionIsPossible
 
   const onSelectPercentageAmount = (percentage: number) => {
-    const balance =
-      amountType === 'token' ? inputToken.balance : processedAmounts.local.balance?.decimalPlaces(2)
-
-    if (!balance) {
-      return
-    }
-
-    const percentageAmount = balance.multipliedBy(percentage).toString()
-    setAmount(percentageAmount)
+    const percentageAmount = balanceInInputToken.multipliedBy(percentage).toString()
+    replaceAmount(percentageAmount)
     setSelectedPercentage(percentage)
 
     AppAnalytics.track(SendEvents.send_percentage_selected, {

@@ -1,4 +1,4 @@
-import { reloadReactNative, launchApp } from './utils/retries'
+import { reloadReactNative } from './utils/retries'
 import { quickOnboarding, waitForElementId } from './utils/utils'
 
 describe('Given QR Scanner', () => {

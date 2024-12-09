@@ -25,6 +25,7 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { type TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { parseInputAmount } from 'src/utils/parsing'
@@ -54,7 +55,7 @@ export function unformatNumberForProcessing(value: string) {
   return value.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
 }
 
-export function roundLocalNumber(value: BigNumber | null) {
+export function roundFiatValue(value: BigNumber | null) {
   if (!value) return ''
   return value.isLessThan(0.01) ? value.toPrecision(1) : value.toFixed(2)
 }
@@ -94,7 +95,7 @@ export function getDisplayLocalAmount(
     return `<${localCurrencySymbol}0${decimalSeparator}000001`
   }
 
-  const roundedAmount = roundLocalNumber(bignum)
+  const roundedAmount = roundFiatValue(bignum)
   const formattedAmount = formatNumber(roundedAmount.toString())
   return `${localCurrencySymbol}${formattedAmount}`
 }
@@ -106,9 +107,9 @@ export function getDisplayLocalAmount(
 export function useEnterAmount(props: {
   token: TokenBalance
   inputRef: React.RefObject<RNTextInput>
-  onAmountChange?(value: string): void
+  onHandleAmountInputChange?(amount: string): void
 }) {
-  const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+  const { decimalSeparator } = getNumberFormatSettings()
 
   /**
    * This field is formatted for processing purpose. It is a lot easier to process a number formatted
@@ -178,7 +179,8 @@ export function useEnterAmount(props: {
             .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
         : ''
 
-    const parsedTokenAmount = parseInputAmount(convertedLocalToToken, decimalSeparator)
+    const parsedTokenAmount =
+      amount === '' ? null : parseInputAmount(convertedLocalToToken, decimalSeparator)
     const balanceInLocal = convertTokenToLocalAmount({
       tokenAmount: props.token.balance,
       tokenInfo: props.token,
@@ -207,18 +209,18 @@ export function useEnterAmount(props: {
     setAmount(
       newAmountType === 'local'
         ? processedAmounts.local.bignum?.toFixed(2) || ''
-        : processedAmounts.token.bignum?.decimalPlaces(6).toString() || ''
+        : processedAmounts.token.bignum?.decimalPlaces(props.token.decimals).toString() || ''
     )
-    props.inputRef.current?.blur()
   }
 
   function handleAmountInputChange(val: string) {
-    let value = val.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
+    let value = val.startsWith(localCurrencySymbol) ? val.slice(1) : val
+    value = unformatNumberForProcessing(value)
     value = value.startsWith('.') ? `0${value}` : value
 
     if (!value) {
       setAmount('')
-      props.onAmountChange?.('')
+      props.onHandleAmountInputChange?.('')
       return
     }
 
@@ -234,19 +236,19 @@ export function useEnterAmount(props: {
       (amountType === 'local' && value.match(localAmountRegex))
     ) {
       setAmount(value)
-      props.onAmountChange?.(value)
+      props.onHandleAmountInputChange?.(value)
       return
     }
   }
 
-  function handlePercentage(percentage: number) {
+  function handleSelectPercentageAmount(percentage: number) {
     if (percentage <= 0 || percentage > 1) return
 
     const percentageAmount = props.token.balance.multipliedBy(percentage)
     const newAmount =
       amountType === 'token'
-        ? percentageAmount.decimalPlaces(6).toString()
-        : roundLocalNumber(
+        ? percentageAmount.decimalPlaces(props.token.decimals).toString()
+        : roundFiatValue(
             convertTokenToLocalAmount({
               tokenAmount: percentageAmount,
               tokenInfo: props.token,
@@ -263,10 +265,10 @@ export function useEnterAmount(props: {
     amount,
     amountType,
     processedAmounts,
-    setAmount,
+    replaceAmount: setAmount,
     handleToggleAmountType,
     handleAmountInputChange,
-    handlePercentage,
+    handleSelectPercentageAmount,
   }
 }
 
@@ -396,7 +398,7 @@ export default function TokenEnterAmount({
             forwardedRef={inputRef}
             onChangeText={(value) => {
               handleSetStartPosition(undefined)
-              onInputChange(value.startsWith(localCurrencySymbol) ? value.slice(1) : value)
+              onInputChange(value)
             }}
             value={formattedInputValue}
             placeholderTextColor={Colors.gray3}
@@ -441,6 +443,7 @@ export default function TokenEnterAmount({
                   onPress={toggleAmountType}
                   style={styles.swapArrowContainer}
                   testID={`${testID}/SwitchTokens`}
+                  hitSlop={variables.iconHitslop}
                 >
                   <SwapArrows color={Colors.gray3} size={24} />
                 </Touchable>
@@ -448,7 +451,7 @@ export default function TokenEnterAmount({
 
               <Text
                 numberOfLines={1}
-                style={[styles.secondaryAmountText, { flexShrink: 0, maxWidth: '45%' }]}
+                style={[styles.secondaryAmountText, { flex: 0, textAlign: 'right' }]}
                 testID={`${testID}/ExchangeAmount`}
               >
                 {amountType === 'token'

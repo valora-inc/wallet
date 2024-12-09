@@ -9,10 +9,11 @@ import networkConfig from 'src/web3/networkConfig'
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
-  [StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS]: {
-    experimentName: StatsigExperiments.ONBOARDING_TERMS_AND_CONDITIONS,
+  // Needed for CI, remove if there are actual experiments
+  [StatsigExperiments.SAMPLE]: {
+    experimentName: StatsigExperiments.SAMPLE,
     defaultValues: {
-      variant: 'control' as 'control' | 'colloquial_terms' | 'checkbox',
+      testParam: 'sample-param-1',
     },
   },
 } satisfies {
@@ -92,19 +93,6 @@ export const DynamicConfigs = {
       deepLink: '',
       rewardExpirationDate: new Date(0).toISOString(),
       rewardReminderDate: new Date(0).toISOString(),
-    },
-  },
-  [StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG]: {
-    configName: StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG,
-    defaultValues: {
-      providerName: 'Aave',
-      providerLogoUrl: '',
-      providerTermsAndConditionsUrl: '',
-      depositGasPadding: 0,
-      approveGasPadding: 0,
-      withdrawGasPadding: 0,
-      rewardsGasPadding: 0,
-      moreAavePoolsUrl: '',
     },
   },
   [StatsigDynamicConfigs.APP_CONFIG]: {

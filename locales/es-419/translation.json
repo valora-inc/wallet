@@ -729,17 +729,6 @@
     "goldDisclaimer": "Cuando creas una \"cuenta\" en {{appName}}, estás creando una wallet digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo {{appName}}, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que los Activos digitales forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo.",
     "goldDisclaimerWithPoints": "Cuando creas una \"cuenta\" en {{appName}}, estás creando una wallet digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo {{appName}}, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. {{appName}} concede recompensas de fidelidad tokenizadas (\"Puntos\") a los Usuarios por participar en determinadas actividades dentro de la app. Los Puntos son tokens coleccionables, intransferibles y no canjeables. No se garantiza la disponibilidad ni el valor de los Puntos. Ten en cuenta que las cripto forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo."
   },
-  "termsColloquial": {
-    "title": "Empecemos por crear tu wallet",
-    "privacyHeading": "Tu información y privacidad:",
-    "privacy1": "Recopilamos datos de uso que nos ayudan a mejorar la aplicación y la seguridad. Puedes consultar el tipo de información que recopilamos, cómo la utilizamos y tus derechos relacionados con esa información en nuestra <0>Política de privacidad</0>.",
-    "privacy2": "Si decides vincular tu número de teléfono, almacenaremos una copia encriptada de este.",
-    "privacy3": "Si decides conectar tus contactos, utilizaremos sus nombres, números y fotos de perfil para que sea más fácil encontrarlos.",
-    "walletHeading": "Tu Wallet Digital con {{appName}}:",
-    "wallet1": "Estás a punto de crear una wallet digital. Sólo tú tienes la clave de tu wallet. No podemos recuperar tu clave o tus activos si pierdes tu clave. Tampoco podemos revertir las acciones tomadas a través de {{appName}} en blockchains.",
-    "wallet2": "Los activos digitales, los activos con los que interactuarás con {{appName}}, conllevan riesgos únicos. Al utilizar {{appName}}, aceptas estos riesgos y te responsabilizas de ellos. Por favor, considera tus finanzas y tu tolerancia al riesgo antes de tomar decisiones.",
-    "fullTerms": "Lee nuestros <0>Términos y condiciones</0>."
-  },
   "fullNameOrPsuedonym": "Nombre o alias",
   "namePlaceholder": "p. ej. nombre",
   "nameAndPicGuideCopyTitle": "¿Cómo te llamas?",
@@ -848,8 +837,7 @@
     "hasWallet": "Ya tengo una wallet",
     "hasWalletV1_88": "Tengo una wallet",
     "header": "¡Te damos la bienvenida a {{appName}}! Demos el primer paso, creemos tu wallet.",
-    "getStarted": "Primeros pasos",
-    "agreeToTerms": "Al crear una wallet aceptas nuestros <0>Términos y condiciones</0>."
+    "getStarted": "Primeros pasos"
   },
   "accessContacts": {
     "disclosure": {
@@ -2206,6 +2194,7 @@
     "title": "Ingresa el monto",
     "selectToken": "Selecciona un token",
     "networkFee": "Tarifa de red de {{networkName}}",
+    "networkFeeV1_97": "Tarifa de red",
     "lowerAmount": "Ingresa un monto menor",
     "maxAmountWarning": {
       "title": "Envío de monto máximo",
@@ -2290,13 +2279,13 @@
     "crossChainSwapTransactionLabel": "Cross-chain",
     "depositTitle": "Fondos depositados",
     "depositSubtitle": "en una pool de {{txAppName}}",
-    "depositSubtitle_noTxAppName": "a app desconocida",
+    "depositSubtitle_noTxAppName": "a una app",
     "withdrawTitle": "Fondos retirados",
     "withdrawSubtitle": "de la pool de {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "desde pool no identificada",
+    "withdrawSubtitle_noTxAppName": "desde una app",
     "claimRewardTitle": "Ganancias recibidas",
     "claimRewardSubtitle": "de la pool de {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "desde pool no identificada",
+    "claimRewardSubtitle_noTxAppName": "desde una app",
     "allTransactionsShown": "Has llegado al final de tu historial de transacciones.",
     "fetchErrorRetry": "Inténtalo de nuevo",
     "error": {
@@ -2308,15 +2297,15 @@
     "descriptionLabel": "Detalles",
     "depositTitle": "Fondos depositados",
     "depositSubtitle": "{{tokenSymbol}} depositados en la pool de {{txAppName}}",
-    "depositSubtitle_noTxAppName": "{{tokenSymbol}} depositados en una app no identificada",
+    "depositSubtitle_noTxAppName": "Depositado {{tokenSymbol}} en una app",
     "depositDetails": "Monto depositado",
     "withdrawTitle": "Fondos retirados",
     "withdrawSubtitle": "{{tokenSymbol}} retirados de la pool de {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "{{tokenSymbol}} retirados de una app no identificada",
+    "withdrawSubtitle_noTxAppName": "Retirar {{tokenSymbol}} de una aplicación",
     "withdrawDetails": "Monto retirado",
     "claimRewardTitle": "Ganancias recibidas",
     "claimRewardSubtitle": "{{tokenSymbol}} recibidos de la pool {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "{{tokenSymbol}} recibido de una app desconocida",
+    "claimRewardSubtitle_noTxAppName": "Recogida {{tokenSymbol}} desde una app",
     "claimRewardDetails": "Monto recibido",
     "swap": "Cambio",
     "network": "Red",
@@ -2588,7 +2577,7 @@
     "entrypoint": {
       "title": "Gana más cripto",
       "subtitle": "Deposita y gana",
-      "description": "Gana prestando tus criptoactivos en pools de liquidez.",
+      "description": "Gana prestando tus activos cripto en pools de liquidez.",
       "totalDepositAndEarnings": "Depósito y ganancias totales"
     },
     "enterAmount": {
@@ -2831,6 +2820,11 @@
   "duration_year_other": "{{count}} años",
   "duration_yearMonth_one": "1 año, 1 mes",
   "duration_yearMonth_other": "{{count}} años, {{count2}} meses",
+  "tokenEnterAmount": {
+    "availableBalance": "Disponible: <0></0>",
+    "selectToken": "Selecciona un token",
+    "fiatPriceUnavailable": "Precio no disponible"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

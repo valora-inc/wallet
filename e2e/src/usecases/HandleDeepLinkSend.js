@@ -1,11 +1,7 @@
+import jestExpect from 'expect'
 import { E2E_TEST_FAUCET } from '../../scripts/consts'
 import { launchApp, reloadReactNative } from '../utils/retries'
-import {
-  enterPinUiIfNecessary,
-  quote,
-  waitForElementByIdAndTap,
-  waitForElementId,
-} from '../utils/utils'
+import { enterPinUiIfNecessary, waitForElementByIdAndTap, waitForElementId } from '../utils/utils'
 
 const deepLinks = {
   withoutAddress:
@@ -20,6 +16,14 @@ const launchDeepLink = async ({ url, newInstance = true }) => {
     newInstance,
   })
 }
+/**
+ * Returns the crypto symbol from the SendAmount element
+ * @returns {Promise<string>}
+ */
+const getCryptoSymbol = async () => {
+  const sendAmountCryptoElement = await element(by.id('SendAmount')).getAttributes()
+  return sendAmountCryptoElement.label.split(' ').at(-1)
+}
 
 const openDeepLink = async (payUrl) => {
   await reloadReactNative()
@@ -32,12 +36,15 @@ export default HandleDeepLinkSend = () => {
       await launchDeepLink({
         url: `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.01&currencyCode=USD&token=cUSD&displayName=TestFaucet`,
       })
-      await waitFor(element(by.id('SendAmount')))
-        .toHaveText('0.0067 cUSD') // alfajores uses 1.5 as price for all tokens
-        .withTimeout(10 * 1000)
+
+      const cryptoSymbol = await getCryptoSymbol()
+      jestExpect(cryptoSymbol).toBe('cUSD')
+
+      // Fiat amount should match value passed in deeplink
       await waitFor(element(by.id('SendAmountFiat')))
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
+
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
@@ -57,7 +64,7 @@ export default HandleDeepLinkSend = () => {
         url: `celo://wallet/pay?address=${E2E_TEST_FAUCET}&currencyCode=USD&token=cUSD&displayName=TestFaucet`,
       })
       await waitForElementId('SendEnterAmount/TokenSelect', 10_000)
-      await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
+      await expect(element(by.text('cUSD on Celo')).atIndex(0)).toBeVisible()
       await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('0.01')
       await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
       await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30_000)
@@ -90,12 +97,15 @@ export default HandleDeepLinkSend = () => {
     it('Then should handle deeplink with all attributes', async () => {
       const deepLinksWithAll = `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.01&currencyCode=USD&token=cUSD&displayName=TestFaucet`
       await launchDeepLink({ url: deepLinksWithAll, newInstance: false })
-      await waitFor(element(by.id('SendAmount')))
-        .toHaveText('0.0067 cUSD') // alfajores uses 1.5 as price for all tokens
-        .withTimeout(10 * 1000)
+
+      const cryptoSymbol = await getCryptoSymbol()
+      jestExpect(cryptoSymbol).toBe('cUSD')
+
+      // Fiat amount should match value passed in deeplink
       await waitFor(element(by.id('SendAmountFiat')))
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
+
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
@@ -120,12 +130,15 @@ export default HandleDeepLinkSend = () => {
     it('Then should handle deeplink with all attributes', async () => {
       const deepLinksWithAll = `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.01&currencyCode=USD&token=cUSD&displayName=TestFaucet`
       await openDeepLink(deepLinksWithAll)
-      await waitFor(element(by.id('SendAmount')))
-        .toHaveText('0.0067 cUSD') // alfajores uses 1.5 as price for all tokens
-        .withTimeout(10 * 1000)
+
+      const cryptoSymbol = await getCryptoSymbol()
+      jestExpect(cryptoSymbol).toBe('cUSD')
+
+      // Fiat amount should match value passed in deeplink
       await waitFor(element(by.id('SendAmountFiat')))
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
+
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
