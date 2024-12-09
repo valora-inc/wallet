@@ -33,7 +33,6 @@ import DappShortcutTransactionRequest from 'src/dapps/DappShortcutTransactionReq
 import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import DappsScreen from 'src/dapps/DappsScreen'
 import EarnConfirmationScreen from 'src/earn/EarnConfirmationScreen'
-import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import EarnHome from 'src/earn/EarnHome'
 import EarnInfoScreen from 'src/earn/EarnInfoScreen'
@@ -702,10 +701,6 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
   return (
     <>
       <BottomSheet.Screen name={Screens.WalletConnectRequest} component={WalletConnectRequest} />
-      <BottomSheet.Screen
-        name={Screens.EarnDepositBottomSheet}
-        component={EarnDepositBottomSheet}
-      />
       <BottomSheet.Screen
         name={Screens.DappShortcutTransactionRequest}
         component={DappShortcutTransactionRequest}

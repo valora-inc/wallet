@@ -19,6 +19,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
+import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/types'
@@ -46,10 +47,10 @@ import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { parseInputAmount } from 'src/utils/parsing'
 import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
-import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
 import { depositStatusSelector } from 'src/earn/selectors'
+
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnEnterAmount>
 
 const TAG = 'EarnEnterAmount'
@@ -116,6 +117,7 @@ function EarnEnterAmount({ route }: Props) {
 
   const [inputToken, setInputToken] = useState<TokenBalance>(() => availableInputTokens[0])
 
+  const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const swapDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -301,8 +303,9 @@ function EarnEnterAmount({ route }: Props) {
   )
 
   const disabled =
-    // Should disable if the user enters 0, has enough balance but the transaction is not possible, does not have enough balance,
-    // or if the transaction is currently processing
+    // Should disable if the user enters 0, has enough balance but the transaction
+    // is not possible, does not have enough balance, or if transaction is already
+    // submitted
     !!tokenAmount?.isZero() || !transactionIsPossible || transactionSubmitted
 
   const onTokenAmountInputChange = (value: string) => {
@@ -389,18 +392,8 @@ function EarnEnterAmount({ route }: Props) {
         inputAmount: tokenAmount.toString(),
         useMax: selectedPercentage === 1,
       })
-    } else if (prepareTransactionsResult?.type === 'possible') {
-      navigate(Screens.EarnDepositBottomSheet, {
-        serializedPreparedTransactions: getSerializablePreparedTransactions(
-          prepareTransactionsResult.transactions
-        ),
-        feeCurrencyTokenId: prepareTransactionsResult.feeCurrency.tokenId,
-        inputAmount: tokenAmount.toString(),
-        pool,
-        mode,
-        swapTransaction,
-        inputTokenId: inputToken.tokenId,
-      })
+    } else {
+      reviewBottomSheetRef.current?.snapToIndex(0)
     }
   }
 
@@ -589,6 +582,17 @@ function EarnEnterAmount({ route }: Props) {
           pool={pool}
           tokenAmount={tokenAmount}
           parsedTokenAmount={parsedTokenAmount}
+        />
+      )}
+      {tokenAmount && prepareTransactionsResult?.type === 'possible' && (
+        <EarnDepositBottomSheet
+          forwardedRef={reviewBottomSheetRef}
+          preparedTransaction={prepareTransactionsResult}
+          inputAmount={tokenAmount}
+          pool={pool}
+          mode={mode}
+          swapTransaction={swapTransaction}
+          inputTokenId={inputToken.tokenId}
         />
       )}
       <TokenBottomSheet

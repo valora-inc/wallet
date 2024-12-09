@@ -281,7 +281,7 @@ describe('EarnEnterAmount', () => {
         depositTokenAmount: '8',
         mode: 'deposit',
       })
-      expect(navigate).toHaveBeenCalledWith(Screens.EarnDepositBottomSheet, expect.anything())
+      await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
     })
   })
 
@@ -416,7 +416,7 @@ describe('EarnEnterAmount', () => {
         depositTokenAmount: '0.99999',
         mode: 'swap-deposit',
       })
-      expect(navigate).toHaveBeenCalledWith(Screens.EarnDepositBottomSheet, expect.anything())
+      await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
     })
   })
 

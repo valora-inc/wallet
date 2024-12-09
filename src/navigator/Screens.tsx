@@ -19,7 +19,6 @@ export enum Screens {
   EarnConfirmationScreen = 'EarnConfirmationScreen',
   EarnHome = 'EarnHome',
   EarnPoolInfoScreen = 'EarnPoolInfoScreen',
-  EarnDepositBottomSheet = 'EarnDepositBottomSheet',
   EnableBiometry = 'EnableBiometry',
   ErrorScreen = 'ErrorScreen',
   ExternalExchanges = 'ExternalExchanges',
