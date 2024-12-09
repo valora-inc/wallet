@@ -42,7 +42,6 @@ interface NetworkConfig {
   currentMtwImplementationAddress: string
   recaptchaSiteKey: string
   bidaliUrl: string
-  providerFetchUrl: string
   getFiatConnectProvidersUrl: string
   getFiatConnectQuotesUrl: string
   simplexApiUrl: string
@@ -103,6 +102,7 @@ interface NetworkConfig {
   getWalletTransactionsUrl: string
   getWalletBalancesUrl: string
   getExchangeRateUrl: string
+  getCicoQuotesUrl: string
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -182,9 +182,6 @@ const GET_TOKENS_INFO_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getTokensInfoWit
 
 const FETCH_EXCHANGES_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getExchanges`
 const FETCH_EXCHANGES_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getExchanges`
-
-const PROVIDER_FETCH_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/fetchProviders`
-const PROVIDER_FETCH_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/fetchProviders`
 
 const GET_FIAT_CONNECT_PROVIDERS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getFiatConnectProviders`
 const GET_FIAT_CONNECT_PROVIDERS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getFiatConnectProviders`
@@ -286,6 +283,9 @@ const GET_WALLET_BALANCES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getWalletBalance
 const GET_EXCHANGE_RATE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getExchangeRate`
 const GET_EXCHANGE_RATE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getExchangeRate`
 
+const GET_CICO_QUOTES_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getCicoQuotes`
+const GET_CICO_QUOTES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getCicoQuotes`
+
 const WEB3_AUTH_VERIFIER = 'valora-cab-auth0'
 
 const BASE_SET_REGISTRATION_PROPERTIES_AUTH = {
@@ -349,7 +349,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
-    providerFetchUrl: PROVIDER_FETCH_URL_ALFAJORES,
     getFiatConnectProvidersUrl: GET_FIAT_CONNECT_PROVIDERS_ALFAJORES,
     getFiatConnectQuotesUrl: GET_FIAT_CONNECT_QUOTES_ALFAJORES,
     simplexApiUrl: SIMPLEX_API_URL_STAGING,
@@ -426,6 +425,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getWalletTransactionsUrl: GET_WALLET_TRANSACTIONS_ALFAJORES,
     getWalletBalancesUrl: GET_WALLET_BALANCES_ALFAJORES,
     getExchangeRateUrl: GET_EXCHANGE_RATE_ALFAJORES,
+    getCicoQuotesUrl: GET_CICO_QUOTES_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -451,7 +451,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
-    providerFetchUrl: PROVIDER_FETCH_URL_MAINNET,
     getFiatConnectProvidersUrl: GET_FIAT_CONNECT_PROVIDERS_MAINNET,
     getFiatConnectQuotesUrl: GET_FIAT_CONNECT_QUOTES_MAINNET,
     simplexApiUrl: SIMPLEX_API_URL_PROD,
@@ -528,6 +527,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getWalletTransactionsUrl: GET_WALLET_TRANSACTIONS_MAINNET,
     getWalletBalancesUrl: GET_WALLET_BALANCES_MAINNET,
     getExchangeRateUrl: GET_EXCHANGE_RATE_MAINNET,
+    getCicoQuotesUrl: GET_CICO_QUOTES_MAINNET,
   },
 }
 

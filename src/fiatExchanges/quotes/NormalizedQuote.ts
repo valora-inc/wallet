@@ -1,10 +1,9 @@
-import BigNumber from 'bignumber.js'
 import { Dispatch } from '@reduxjs/toolkit'
-import { FiatExchangeEvents } from 'src/analytics/Events'
+import BigNumber from 'bignumber.js'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import { SettlementEstimation } from 'src/fiatExchanges/quotes/constants'
-import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
-import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod, ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { TokenBalance } from 'src/tokens/slice'
 
 export default abstract class NormalizedQuote {

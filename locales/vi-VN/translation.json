@@ -729,17 +729,6 @@
     "goldDisclaimer": "Khi tạo \"tài khoản\" bằng {{appName}}, bạn sẽ tạo một ví kỹ thuật số mà chỉ bạn là người giữ mã khóa. Không cá nhân hoặc tổ chức nào khác, kể cả {{appName}}, có thể khôi phục mã khóa của bạn, thay đổi hoặc hủy giao dịch hoặc thu hồi số tiền đã mất. Xin lưu ý rằng tiền điện tử thuộc loại tài sản mới và luôn tiềm ẩn rủi ro thua lỗ về tài chính. Hãy cân nhắc kỹ tình hình tài chính của bạn cũng như khả năng chấp nhận rủi ro tài chính trước khi mua bất kỳ tài sản kỹ thuật số nào.",
     "goldDisclaimerWithPoints": "Khi tạo \"tài khoản\" với {{appName}}, bạn sẽ tạo một ví kỹ thuật số mà chỉ bạn là người nắm giữ mã khóa. Không cá nhân hoặc tổ chức nào khác, kể cả {{appName}}, có thể khôi phục mã khóa của bạn, thay đổi hoặc hoàn tác giao dịch hoặc lấy lại số tiền bị mất. {{appName}} cấp phần thưởng khách hàng thân thiết được mã hóa (\"Điểm\") cho Người dùng khi họ tham gia vào một số hoạt động nhất định trong ứng dụng. Điểm là vật phẩm sưu tầm trên chuỗi, không chuyển nhượng và không đổi được. Valora không đưa ra bất kỳ đảm bảo nào về tính sẵn có hoặc giá trị của Điểm. Cần lưu ý rằng tài sản kỹ thuật số là một phần của loại tài sản mới và luôn tiềm ẩn rủi ro thua lỗ về tài chính. Hãy cân nhắc cẩn thận tình hình tài chính và khả năng chấp nhận rủi ro tài chính của bạn trước khi mua bất kỳ tài sản kỹ thuật số nào."
   },
-  "termsColloquial": {
-    "title": "Hãy bắt đầu từ bước tạo ví",
-    "privacyHeading": "Thông tin & Quyền riêng tư:",
-    "privacy1": "Chúng tôi thu thập dữ liệu sử dụng để có thể cải thiện ứng dụng và tăng cường bảo mật. Bạn có thể xem loại thông tin chúng tôi thu thập, cách chúng tôi sử dụng thông tin đó và các quyền của bạn liên quan đến thông tin đó trong <0>Chính sách quyền riêng tư</0> của chúng tôi.",
-    "privacy2": "Nếu bạn quyết định liên kết số điện thoại, chúng tôi sẽ lưu trữ bản sao mã hóa của số đó.",
-    "privacy3": "Nếu bạn quyết định liên kết danh bạ, chúng tôi sẽ sử dụng tên, số điện thoại và ảnh đại diện của những người trong danh bạ để giúp bạn tìm họ dễ dàng hơn.",
-    "walletHeading": "Ví kỹ thuật số của bạn với {{appName}}:",
-    "wallet1": "Bạn sắp tạo ví kỹ thuật số. Chỉ bạn là người có mã khóa cho ví của mình. Chúng tôi không thể khôi phục mã khóa hoặc tài sản của bạn nếu bạn làm mất mã khóa. Chúng tôi cũng không thể hoàn tác các hành động được thực hiện thông qua {{appName}} trên chuỗi khối.",
-    "wallet2": "Tài sản kỹ thuật số, tài sản mà bạn sẽ dùng để tương tác với {{appName}}, có những rủi ro riêng. Khi sử dụng {{appName}}, bạn chấp nhận và chịu trách nhiệm về các loại rủi ro này. Hãy cân nhắc về khả năng tài chính và khả năng chấp nhận rủi ro của bạn trước khi lựa chọn.",
-    "fullTerms": "Đọc <0>Điều khoản & Điều kiện</0> đầy đủ của chúng tôi"
-  },
   "fullNameOrPsuedonym": "Họ và tên hoặc biệt danh",
   "namePlaceholder": "tên",
   "nameAndPicGuideCopyTitle": "Tên bạn là gì?",
@@ -848,8 +837,7 @@
     "hasWallet": "Tôi đã có ví",
     "hasWalletV1_88": "Tôi đã có ví",
     "header": "Chào mừng bạn đến với {{appName}}! Hãy tạo ví tiền điện tử của bạn.",
-    "getStarted": "Bắt đầu",
-    "agreeToTerms": "Khi tạo ví, bạn đồng ý với <0>Điều khoản và Điều kiện</0> của chúng tôi"
+    "getStarted": "Bắt đầu"
   },
   "accessContacts": {
     "disclosure": {
@@ -2289,13 +2277,13 @@
     "crossChainSwapTransactionLabel": "Chuỗi chéo",
     "depositTitle": "Đã nạp",
     "depositSubtitle": "vào Quỹ {{txAppName}}",
-    "depositSubtitle_noTxAppName": "đến ứng dụng chưa xác định",
+    "depositSubtitle_noTxAppName": "to an app",
     "withdrawTitle": "Rút",
     "withdrawSubtitle": "từ Quỹ {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "từ ứng dụng chưa xác định",
+    "withdrawSubtitle_noTxAppName": "from an app",
     "claimRewardTitle": "Đã nhận",
     "claimRewardSubtitle": "từ Quỹ {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "từ ứng dụng chưa xác định",
+    "claimRewardSubtitle_noTxAppName": "from an app",
     "allTransactionsShown": "Bạn đã xem hết lịch sử giao dịch của mình.",
     "fetchErrorRetry": "Thử lại",
     "error": {
@@ -2307,15 +2295,15 @@
     "descriptionLabel": "Chi tiết",
     "depositTitle": "Đã nạp",
     "depositSubtitle": "Đã nạp {{tokenSymbol}} vào Quỹ {{txAppName}}",
-    "depositSubtitle_noTxAppName": "Đã nạp {{tokenSymbol}} vào ứng dụng chưa xác định",
+    "depositSubtitle_noTxAppName": "Deposited {{tokenSymbol}} to an app",
     "depositDetails": "Số tiền đã nạp",
     "withdrawTitle": "Rút",
     "withdrawSubtitle": "Rút {{tokenSymbol}} từ Quỹ {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Đã rút {{tokenSymbol}} từ ứng dụng chưa xác định",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from an app",
     "withdrawDetails": "Số tiền đã rút",
     "claimRewardTitle": "Đã nhận",
     "claimRewardSubtitle": "Đã nhận {{tokenSymbol}} từ Quỹ {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Đã thu được {{tokenSymbol}} từ ứng dụng chưa xác định",
+    "claimRewardSubtitle_noTxAppName": "Collected {{tokenSymbol}} from an app",
     "claimRewardDetails": "Số tiền đã nhận",
     "swap": "Trao đổi",
     "network": "Mạng lưới",

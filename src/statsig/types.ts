@@ -6,7 +6,6 @@ export enum StatsigDynamicConfigs {
   CICO_TOKEN_INFO = 'cico_token_info',
   WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
   NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
-  EARN_STABLECOIN_CONFIG = 'earn_stablecoin_config',
   APP_CONFIG = 'app_config',
   EARN_CONFIG = 'earn_config',
 }
@@ -23,7 +22,6 @@ export enum StatsigFeatureGates {
   APP_REVIEW = 'app_review',
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
   SAVE_CONTACTS = 'save_contacts',
-  SHOW_GET_STARTED = 'show_get_started',
   CLEVERTAP_INBOX = 'clevertap_inbox',
   SHOW_SWAP_TOKEN_FILTERS = 'show_swap_token_filters',
   SHUFFLE_SWAP_TOKENS_ORDER = 'shuffle_swap_tokens_order',
@@ -34,15 +32,13 @@ export enum StatsigFeatureGates {
   SUBSIDIZE_STABLECOIN_EARN_GAS_FEES = 'subsidize_stablecoin_earn_gas_fees',
   SHOW_CASH_IN_TOKEN_FILTERS = 'show_cash_in_token_filters',
   ALLOW_CROSS_CHAIN_SWAPS = 'allow_cross_chain_swaps',
-  SHOW_ONBOARDING_PHONE_VERIFICATION = 'show_onboarding_phone_verification',
-  SHOW_APPLE_IN_CAB = 'show_apple_in_cab',
   SHOW_UK_COMPLIANT_VARIANT = 'show_uk_compliant_variant',
   ALLOW_EARN_PARTIAL_WITHDRAWAL = 'allow_earn_partial_withdrawal',
   SHOW_ZERION_TRANSACTION_FEED = 'show_zerion_transaction_feed',
 }
 
 export enum StatsigExperiments {
-  ONBOARDING_TERMS_AND_CONDITIONS = 'onboarding_terms_and_conditions',
+  SAMPLE = 'sample', // Needed for CI, remove if there are actual experiments
 }
 
 export type StatsigParameter =

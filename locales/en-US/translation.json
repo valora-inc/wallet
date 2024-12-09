@@ -729,17 +729,6 @@
     "goldDisclaimer": "When you create an \"account\" with {{appName}} you are creating a digital wallet to which only you hold the keys. No other person or entity, including {{appName}}, can recover your key, change or undo transactions, or recover lost funds. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset.",
     "goldDisclaimerWithPoints": "When you create an \"account\" with {{appName}} you are creating a digital wallet to which only you hold the keys. No other person or entity, including {{appName}}, can recover your key, change or undo transactions, or recover lost funds. {{appName}} grants tokenized loyalty rewards (\"Points\") to Users for engaging in certain in-app activities. Points are on-chain, non-transferable, and non-redeemable collectibles. No guarantees are made about Points availability or value. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset."
   },
-  "termsColloquial": {
-    "title": "Let’s start by creating your wallet",
-    "privacyHeading": "Your Info & Privacy:",
-    "privacy1": "We gather usage data which helps us improve the app and security. The type of information we collect, how we use it and your rights related to that information can all be seen in our <0>Privacy Policy</0>.",
-    "privacy2": "If you decide to link your phone number, we will store an encrypted copy of it.",
-    "privacy3": "If you decide to connect your contacts, we use their names, numbers, and profile pictures to make it easier to find them.",
-    "walletHeading": "Your Digital Wallet with {{appName}}:",
-    "wallet1": "You’re about to create a digital wallet. Only you have the key to your wallet. We cannot recover your key or your assets if you lose your key. We also cannot reverse actions taken through {{appName}} on blockchains.",
-    "wallet2": "Digital assets, the assets with which you will interact with {{appName}}, come with unique risks. By using {{appName}}, you accept these risks and take responsibility for them. Please consider your finances and risk tolerance before making choices.",
-    "fullTerms": "Read our full <0>Terms & Conditions</0>"
-  },
   "fullNameOrPsuedonym": "Full name or pseudonym",
   "namePlaceholder": "ex. name",
   "nameAndPicGuideCopyTitle": "What’s your name?",
@@ -848,8 +837,7 @@
     "hasWallet": "I already have a wallet",
     "hasWalletV1_88": "I have a wallet",
     "header": "Welcome to {{appName}}! Let's create your crypto wallet.",
-    "getStarted": "Get Started",
-    "agreeToTerms": "By creating a wallet you agree to our <0>Terms and Conditions</0>"
+    "getStarted": "Get Started"
   },
   "accessContacts": {
     "disclosure": {
@@ -2291,13 +2279,13 @@
     "crossChainSwapTransactionLabel": "Cross-chain",
     "depositTitle": "Deposited",
     "depositSubtitle": "to {{txAppName}} Pool",
-    "depositSubtitle_noTxAppName": "to unknown app",
+    "depositSubtitle_noTxAppName": "to an app",
     "withdrawTitle": "Withdrew",
     "withdrawSubtitle": "from {{txAppName}} Pool",
-    "withdrawSubtitle_noTxAppName": "from unknown app",
+    "withdrawSubtitle_noTxAppName": "from an app",
     "claimRewardTitle": "Collected",
     "claimRewardSubtitle": "from {{txAppName}} Pool",
-    "claimRewardSubtitle_noTxAppName": "from unknown app",
+    "claimRewardSubtitle_noTxAppName": "from an app",
     "allTransactionsShown": "You've reached the end of your transaction history.",
     "fetchErrorRetry": "Try again",
     "error": {
@@ -2309,15 +2297,15 @@
     "descriptionLabel": "Details",
     "depositTitle": "Deposited",
     "depositSubtitle": "Deposited {{tokenSymbol}} to {{txAppName}} Pool",
-    "depositSubtitle_noTxAppName": "Deposited {{tokenSymbol}} to unknown app",
+    "depositSubtitle_noTxAppName": "Deposited {{tokenSymbol}} to an app",
     "depositDetails": "Amount Deposited",
     "withdrawTitle": "Withdrew",
     "withdrawSubtitle": "Withdrew {{tokenSymbol}} from {{txAppName}} Pool",
-    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from unknown app",
+    "withdrawSubtitle_noTxAppName": "Withdrew {{tokenSymbol}} from an app",
     "withdrawDetails": "Amount Withdrawn",
     "claimRewardTitle": "Collected",
     "claimRewardSubtitle": "Collected {{tokenSymbol}} from {{txAppName}} Pool",
-    "claimRewardSubtitle_noTxAppName": "Collected {{tokenSymbol}} from unknown app",
+    "claimRewardSubtitle_noTxAppName": "Collected {{tokenSymbol}} from an app",
     "claimRewardDetails": "Amount Collected",
     "swap": "Swap",
     "network": "Network",

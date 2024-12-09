@@ -8,7 +8,7 @@ import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet
 import { ActionCard } from 'src/earn/ActionCard'
 import { BeforeDepositAction } from 'src/earn/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import SwapAndDeposit from 'src/icons/SwapAndDeposit'

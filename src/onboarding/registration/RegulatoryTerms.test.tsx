@@ -6,7 +6,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RegulatoryTerms as RegulatoryTermsClass } from 'src/onboarding/registration/RegulatoryTerms'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
-import { getDynamicConfigParams, getExperimentParams } from 'src/statsig'
+import { getDynamicConfigParams } from 'src/statsig'
 import { createMockStore, getMockI18nProps } from 'test/utils'
 
 jest.mock('src/onboarding/steps')
@@ -23,8 +23,7 @@ describe('RegulatoryTermsScreen', () => {
       },
     })
   })
-  it('renders correct components for control', () => {
-    jest.mocked(getExperimentParams).mockReturnValue({ variant: 'control' })
+  it('renders correct components', () => {
     const store = createMockStore({})
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
@@ -40,60 +39,37 @@ describe('RegulatoryTermsScreen', () => {
     expect(queryByTestId('colloquialTermsSectionList')).toBeFalsy()
   })
 
-  it('renders correct components for colloquial_terms', () => {
-    jest.mocked(getExperimentParams).mockReturnValue({ variant: 'colloquial_terms' })
-    const store = createMockStore({})
-    const { getByTestId, queryByTestId } = render(
-      <Provider store={store}>
-        <RegulatoryTermsClass
-          {...getMockI18nProps()}
-          acceptTerms={acceptTerms}
-          recoveringFromStoreWipe={false}
-        />
-      </Provider>
-    )
+  describe('when accept button is pressed', () => {
+    it('stores that info', async () => {
+      const store = createMockStore({})
+      const wrapper = render(
+        <Provider store={store}>
+          <RegulatoryTermsClass
+            {...getMockI18nProps()}
+            acceptTerms={acceptTerms}
+            recoveringFromStoreWipe={false}
+          />
+        </Provider>
+      )
+      fireEvent.press(wrapper.getByTestId('AcceptTermsButton'))
+      expect(acceptTerms).toHaveBeenCalled()
+    })
+    it('navigates to PincodeSet', () => {
+      const store = createMockStore({})
+      jest.mocked(firstOnboardingScreen).mockReturnValue(Screens.PincodeSet)
 
-    expect(getByTestId('colloquialTermsSectionList')).toBeTruthy()
-    expect(queryByTestId('scrollView')).toBeFalsy()
+      const wrapper = render(
+        <Provider store={store}>
+          <RegulatoryTermsClass
+            {...getMockI18nProps()}
+            acceptTerms={acceptTerms}
+            recoveringFromStoreWipe={false}
+          />
+        </Provider>
+      )
+      fireEvent.press(wrapper.getByTestId('AcceptTermsButton'))
+      expect(firstOnboardingScreen).toHaveBeenCalled()
+      expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet)
+    })
   })
-
-  describe.each([{ variant: 'control' }, { variant: 'colloquial_terms' }])(
-    'when accept button is pressed ($variant)',
-    ({ variant }) => {
-      beforeAll(() => {
-        jest.mocked(getExperimentParams).mockReturnValue({ variant })
-      })
-      it('stores that info', async () => {
-        const store = createMockStore({})
-        const wrapper = render(
-          <Provider store={store}>
-            <RegulatoryTermsClass
-              {...getMockI18nProps()}
-              acceptTerms={acceptTerms}
-              recoveringFromStoreWipe={false}
-            />
-          </Provider>
-        )
-        fireEvent.press(wrapper.getByTestId('AcceptTermsButton'))
-        expect(acceptTerms).toHaveBeenCalled()
-      })
-      it('navigates to PincodeSet', () => {
-        const store = createMockStore({})
-        jest.mocked(firstOnboardingScreen).mockReturnValue(Screens.PincodeSet)
-
-        const wrapper = render(
-          <Provider store={store}>
-            <RegulatoryTermsClass
-              {...getMockI18nProps()}
-              acceptTerms={acceptTerms}
-              recoveringFromStoreWipe={false}
-            />
-          </Provider>
-        )
-        fireEvent.press(wrapper.getByTestId('AcceptTermsButton'))
-        expect(firstOnboardingScreen).toHaveBeenCalled()
-        expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet)
-      })
-    }
-  )
 })

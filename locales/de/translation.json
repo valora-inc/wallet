@@ -729,17 +729,6 @@
     "goldDisclaimer": "Wenn du ein „Konto“ bei {{appName}} anlegst, erstellst du ein digitales Wallet, dessen Schlüssel nur du besitzt. Keine andere Person oder Organisation, einschließlich {{appName}}, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorenes Guthaben wiedererlangen. Sei dir bewusst, dass Digitalvermögen Teil einer neuen Vermögensklasse ist und ein Risiko für finanzielle Verluste darstellt. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du Digitalvermögen kaufst.",
     "goldDisclaimerWithPoints": "Wenn du ein „Konto“ bei {{appName}} anlegst, erstellst du ein digitales Wallet, dessen Schlüssel nur du besitzt. Keine andere Person oder Organisation, einschließlich {{appName}}, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorenes Guthaben wiedererlangen. {{appName}} vergibt auf Token basierende Treue-Rewards („Punkte“) an Benutzer für bestimmte Aktivitäten in der App. Punkte sind nicht übertragbare und nicht einlösbare On-Chain-Sammlerstücke. Es werden keine Garantien für die Verfügbarkeit oder den Wert der Punkte gegeben. Sei dir bewusst, dass Digitalvermögen Teil einer neuen Vermögensklasse ist und ein Risiko für finanzielle Verluste darstellt. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du Digitalvermögen kaufst."
   },
-  "termsColloquial": {
-    "title": "Starten wir mit der Erstellung deiner Wallet",
-    "privacyHeading": "Deine Daten und Privatsphäre:",
-    "privacy1": "Wir erfassen Nutzungsdaten, die uns dabei helfen, die App und die Sicherheit zu verbessern. Welche Art von Daten wir erfassen, wie wir diese verwenden und welche Rechte du in Bezug auf diese Daten hast, kannst du in unserer <0>Datenschutzrichtlinie</0> nachlesen.",
-    "privacy2": "Wenn du dich dazu entscheidest, deine Telefonnummer zu verknüpfen, speichern wir eine verschlüsselte Kopie davon.",
-    "privacy3": "Wenn du dich entscheidest, deine Kontakte zu verbinden, verwenden wir ihre Namen, Telefonnummern und Profilbilder, damit wir sie leichter finden können.",
-    "walletHeading": "Deine digitale Wallet bei {{appName}}:",
-    "wallet1": "Du bist dabei, ein digitales Wallet zu erstellen. Nur du hast den Schlüssel für dein Wallet. Wir können deinen Schlüssel oder dein Vermögen nicht wiederherstellen, wenn du deinen Schlüssel verlierst. Wir können auch keine Aktionen rückgängig machen, die über {{appName}} auf Blockchains durchgeführt wurden.",
-    "wallet2": "Digitalvermögen, die Vermögenswerte, mit denen du bei {{appName}} interagierst, sind mit einzigartigen Risiken verbunden. Wenn du {{appName}} benutzt, akzeptierst du diese Risiken und übernimmst die Verantwortung dafür. Bitte achte bei deinen Entscheidungen auf die dir zur Verfügung stehenden finanziellen Mittel und deine Risikobereitschaft.",
-    "fullTerms": "Lies bitte unsere <0>Allgemeinen Nutzungsbedingungen</0> vollständig durch"
-  },
   "fullNameOrPsuedonym": "Vollständiger Name oder Alias",
   "namePlaceholder": "z.B. Name",
   "nameAndPicGuideCopyTitle": "Wie heißt du?",
@@ -848,8 +837,7 @@
     "hasWallet": "Ich habe bereits eine Wallet",
     "hasWalletV1_88": "Ich habe ein Wallet",
     "header": "Willkommen bei {{appName}}! Lass uns deine Wallet erstellen.",
-    "getStarted": "Erste Schritte",
-    "agreeToTerms": "Wenn du eine Wallet erstellst, stimmst du unseren <0>Allgemeinen Nutzungsbedingungen</0> zu"
+    "getStarted": "Erste Schritte"
   },
   "accessContacts": {
     "disclosure": {
@@ -2291,13 +2279,13 @@
     "crossChainSwapTransactionLabel": "Cross-Chain",
     "depositTitle": "Eingezahlt",
     "depositSubtitle": "in {{txAppName}} Pool",
-    "depositSubtitle_noTxAppName": "an unbekannte App",
+    "depositSubtitle_noTxAppName": "zu einer App",
     "withdrawTitle": "Abgehoben",
     "withdrawSubtitle": "aus {{txAppName}} Pool",
-    "withdrawSubtitle_noTxAppName": "von unbekannter App",
+    "withdrawSubtitle_noTxAppName": "aus einer App",
     "claimRewardTitle": "Gesammelt",
     "claimRewardSubtitle": "aus {{txAppName}} Pool",
-    "claimRewardSubtitle_noTxAppName": "von unbekannter App",
+    "claimRewardSubtitle_noTxAppName": "aus einer App",
     "allTransactionsShown": "Du hast das Ende deines Transaktionsverlaufs erreicht.",
     "fetchErrorRetry": "Erneut versuchen",
     "error": {
@@ -2309,15 +2297,15 @@
     "descriptionLabel": "Details",
     "depositTitle": "Eingezahlt",
     "depositSubtitle": "{{tokenSymbol}} in {{txAppName}} Pool eingezahlt",
-    "depositSubtitle_noTxAppName": "{{tokenSymbol}} an unbekannte App eingezahlt",
+    "depositSubtitle_noTxAppName": "Hinterlegt {{tokenSymbol}} in einer App",
     "depositDetails": "Eingezahlter Betrag",
     "withdrawTitle": "Abgehoben",
     "withdrawSubtitle": "{{tokenSymbol}} aus dem {{txAppName}} Pool abgehoben",
-    "withdrawSubtitle_noTxAppName": "{{tokenSymbol}} von unbekannter App abgehoben",
+    "withdrawSubtitle_noTxAppName": "Ziehe {{tokenSymbol}} aus einer App zurück",
     "withdrawDetails": "Betrag abgehoben",
     "claimRewardTitle": "Gesammelt",
     "claimRewardSubtitle": "{{tokenSymbol}} aus {{txAppName}} Pool eingesammelt",
-    "claimRewardSubtitle_noTxAppName": "{{tokenSymbol}} von unbekannter App erhalten",
+    "claimRewardSubtitle_noTxAppName": "Gesammelt {{tokenSymbol}} von einer App",
     "claimRewardDetails": "Eingesammelter Betrag",
     "swap": "Tauschen",
     "network": "Netzwerk",

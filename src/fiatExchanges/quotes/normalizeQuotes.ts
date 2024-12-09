@@ -4,27 +4,26 @@ import { FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import ExternalQuote from 'src/fiatExchanges/quotes/ExternalQuote'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import {
-  CICOFlow,
-  FetchProvidersOutput,
-  RawProviderQuote,
-  SimplexQuote,
-} from 'src/fiatExchanges/utils'
+import { CICOFlow, CicoQuote } from 'src/fiatExchanges/types'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NormalizeQuotes'
 
-// Take FiatConnect Quotes and External Provider Quotes and return NormalizedQuote class instances
-export function normalizeQuotes(
-  flow: CICOFlow,
-  fiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = [],
-  externalProviders: FetchProvidersOutput[] = [],
-  tokenId: string,
-  tokenSymbol: string
-): NormalizedQuote[] {
+// Take FiatConnect Quotes and External Cico Quotes and return NormalizedQuote class instances
+export function normalizeQuotes({
+  flow,
+  fiatConnectQuotes = [],
+  cicoQuotes = [],
+  tokenId,
+}: {
+  flow: CICOFlow
+  fiatConnectQuotes?: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
+  cicoQuotes?: CicoQuote[]
+  tokenId: string
+}): NormalizedQuote[] {
   return [
     ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes, tokenId),
-    ...normalizeExternalProviders({ flow, input: externalProviders, tokenId, tokenSymbol }),
+    ...cicoQuotes.map((quote) => new ExternalQuote(quote)),
   ].sort(quotesByReceiveAmountComparator)
 }
 
@@ -71,56 +70,6 @@ export function normalizeFiatConnectQuotes(
           }
         }
       )
-    }
-  })
-  return normalizedQuotes
-}
-
-export function normalizeExternalProviders({
-  flow,
-  input,
-  tokenId,
-  tokenSymbol,
-}: {
-  flow: CICOFlow
-  input: FetchProvidersOutput[]
-  tokenId: string
-  tokenSymbol: string
-}): NormalizedQuote[] {
-  const normalizedQuotes: NormalizedQuote[] = []
-  input.forEach((provider) => {
-    try {
-      const quotes: (RawProviderQuote | SimplexQuote)[] = []
-      if (Array.isArray(provider.quote)) {
-        // If the quote object is an array, it may contain quotes, or be empty.
-        // If it is empty, it does not necessarily mean that the provider does not
-        // support transfers.
-        if (provider.quote.length) {
-          quotes.push(...provider.quote)
-        } else if (!provider.unavailable && !provider.restricted) {
-          // If no quotes are provided, but the provider is not marked as unavailable,
-          // this means the provider supports transfers, but does not give specific quote details.
-          // We construct a partial quote object for each payment method. N.B., this will never occur
-          // for Simplex quotes, which are a special case.
-          provider.paymentMethods.forEach((paymentMethod) =>
-            quotes.push({
-              digitalAsset: tokenSymbol,
-              paymentMethod,
-            })
-          )
-        }
-      } else if (provider.quote) {
-        // If the quote is not an array, but does exist, we assume it to be an object representing
-        // a single quote.
-        quotes.push(provider.quote)
-      }
-
-      quotes.forEach((quote: RawProviderQuote | SimplexQuote) => {
-        const normalizedQuote = new ExternalQuote({ quote, provider, flow, tokenId })
-        normalizedQuotes.push(normalizedQuote)
-      })
-    } catch (err) {
-      Logger.warn(TAG, err)
     }
   })
   return normalizedQuotes
