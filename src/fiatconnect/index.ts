@@ -1,6 +1,7 @@
 import { CreateQuoteParams } from '@fiatconnect/fiatconnect-sdk'
 import { FiatType, QuoteErrorResponse, QuoteResponse } from '@fiatconnect/fiatconnect-types'
-import { CICOFlow, isUserInputCrypto } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/types'
+import { isUserInputCrypto } from 'src/fiatExchanges/utils'
 import { WALLET_CRYPTO_TO_FIATCONNECT_CRYPTO } from 'src/fiatconnect/consts'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getDynamicConfigParams } from 'src/statsig'

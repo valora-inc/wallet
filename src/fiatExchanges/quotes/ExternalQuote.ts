@@ -7,19 +7,14 @@ import {
   SettlementEstimation,
 } from 'src/fiatExchanges/quotes/constants'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import {
-  CICOFlow,
-  FetchProvidersOutput,
-  PaymentMethod,
-  RawProviderQuote,
-  SimplexQuote,
-} from 'src/fiatExchanges/utils'
+import { CicoQuote, PaymentMethod } from 'src/fiatExchanges/types'
 import i18n from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount } from 'src/tokens/utils'
 import { navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 
 const strings = {
   oneHour: i18n.t('selectProviderScreen.oneHour'),
@@ -33,54 +28,26 @@ const paymentMethodToSettlementTime = {
   [PaymentMethod.Airtime]: DEFAULT_AIRTIME_SETTLEMENT_ESTIMATION,
   [PaymentMethod.MobileMoney]: DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION,
   [PaymentMethod.FiatConnectMobileMoney]: DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION,
-  [PaymentMethod.Coinbase]: DEFAULT_CARD_SETTLEMENT_ESTIMATION,
 }
 
-export const isSimplexQuote = (quote: RawProviderQuote | SimplexQuote): quote is SimplexQuote =>
-  !!quote && 'wallet_id' in quote
 export default class ExternalQuote extends NormalizedQuote {
-  quote: RawProviderQuote | SimplexQuote
-  provider: FetchProvidersOutput
-  flow: CICOFlow
-  tokenId: string
-  constructor({
-    quote,
-    provider,
-    flow,
-    tokenId,
-  }: {
-    quote: RawProviderQuote | SimplexQuote
-    provider: FetchProvidersOutput
-    flow: CICOFlow
-    tokenId: string
-  }) {
+  quote: CicoQuote
+  constructor(quote: CicoQuote) {
     super()
-    if (provider.restricted) {
-      throw new Error(`Error: ${provider.name}. Quote is restricted`)
-    }
-    if (provider.unavailable) {
-      throw new Error(`Error: ${provider.name}. Quote is unavailable`)
-    }
-    if (
-      (flow === CICOFlow.CashIn && !provider.cashIn) ||
-      (flow === CICOFlow.CashOut && !provider.cashOut)
-    ) {
-      throw new Error(
-        `Error: ${provider.name}. Quote not processed because it does not support the ${flow} CICO flow`
-      )
-    }
     this.quote = quote
-    this.provider = provider
-    this.flow = flow
-    this.tokenId = tokenId
   }
 
-  getPaymentMethod(): PaymentMethod {
-    return isSimplexQuote(this.quote) ? this.provider.paymentMethods[0] : this.quote.paymentMethod
+  getPaymentMethod() {
+    return {
+      Bank: PaymentMethod.Bank,
+      Card: PaymentMethod.Card,
+      Airtime: PaymentMethod.Airtime,
+      MobileMoney: PaymentMethod.FiatConnectMobileMoney,
+    }[this.quote.paymentMethod]
   }
 
   getCryptoType(): string {
-    return isSimplexQuote(this.quote) ? this.quote.digital_money.currency : this.quote.digitalAsset
+    throw new Error('Not required for this class')
   }
 
   getFeeInCrypto(usdToLocalRate: string | null, tokenInfo: TokenBalance): BigNumber | null {
@@ -93,22 +60,12 @@ export default class ExternalQuote extends NormalizedQuote {
   }
 
   getFeeInFiat(_usdToLocalRate: string | null, _tokenInfo: TokenBalance): BigNumber | null {
-    if (isSimplexQuote(this.quote)) {
-      return new BigNumber(this.quote.fiat_money.total_amount).minus(
-        new BigNumber(this.quote.fiat_money.base_amount)
-      )
-    } else if (typeof this.quote.fiatFee === 'number') {
-      // Can't just check for truthiness since `0` fails this and introduces a regression
-      return BigNumber(this.quote.fiatFee)
-    }
-    return null
+    return this.quote.fiatFee ? new BigNumber(this.quote.fiatFee) : null
   }
 
   getMobileCarrier(): string | undefined {
-    return !isSimplexQuote(this.quote) &&
-      this.getPaymentMethod() === PaymentMethod.Airtime &&
-      this.quote.extraReqs?.mobileCarrier
-      ? this.quote.extraReqs.mobileCarrier
+    return this.getPaymentMethod() === PaymentMethod.Airtime
+      ? this.quote.additionalInfo?.mobileCarrier
       : undefined
   }
 
@@ -121,27 +78,28 @@ export default class ExternalQuote extends NormalizedQuote {
   }
 
   navigate(): void {
-    if (isSimplexQuote(this.quote)) {
+    if (this.quote.additionalInfo?.simplexQuote) {
       navigate(Screens.Simplex, {
-        simplexQuote: this.quote,
-        tokenId: this.tokenId,
+        simplexQuote: this.quote.additionalInfo.simplexQuote,
+        tokenId: this.quote.tokenId,
       })
+    } else if (this.quote.url) {
+      navigateToURI(this.quote.url!)
     } else {
-      const url = this.quote.url ?? this.provider.url
-      navigateToURI(url!)
+      Logger.error('ExternalQuote', 'Missing url on non simplex quote', JSON.stringify(this.quote))
     }
   }
 
   getProviderName(): string {
-    return this.provider.name
+    return this.quote.provider.displayName
   }
 
   getProviderLogo(): string {
-    return this.provider.logoWide
+    return this.quote.provider.logoWideUrl
   }
 
   getProviderId(): string {
-    return this.provider.name
+    return this.quote.provider.id
   }
 
   isProviderNew(): boolean {
@@ -149,21 +107,15 @@ export default class ExternalQuote extends NormalizedQuote {
   }
 
   getReceiveAmount(): BigNumber | null {
-    if (isSimplexQuote(this.quote)) {
-      if (this.flow === CICOFlow.CashIn) {
-        return new BigNumber(this.quote.digital_money.amount)
-      } else {
-        // simplex is cash in only, this should never be reached
-        return null
-      }
+    // The amounts should never be undefined, but handling it just in case
+    if (this.quote.txType === 'cashIn') {
+      return this.quote.cryptoAmount ? new BigNumber(this.quote.cryptoAmount) : null
+    } else {
+      return this.quote.fiatAmount ? new BigNumber(this.quote.fiatAmount) : null
     }
-
-    return typeof this.quote.returnedAmount !== 'undefined'
-      ? new BigNumber(this.quote.returnedAmount)
-      : null
   }
 
   getTokenId(): string {
-    return this.tokenId
+    return this.quote.tokenId
   }
 }

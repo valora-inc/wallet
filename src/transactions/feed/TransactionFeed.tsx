@@ -33,7 +33,6 @@ function TransactionFeed() {
   const allConfirmedStandbyTransactions = useSelector(confirmedStandbyTransactionsSelector)
   const allowedNetworks = useAllowedNetworkIdsForTransfers()
 
-  const showGetStarted = getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED)
   const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
 
   const confirmedFeedTransactions = useMemo(() => {
@@ -123,11 +122,7 @@ function TransactionFeed() {
   }
 
   if (!sections.length) {
-    return showGetStarted && !showUKCompliantVariant ? (
-      <GetStarted />
-    ) : (
-      <NoActivity loading={loading} error={error} />
-    )
+    return !showUKCompliantVariant ? <GetStarted /> : <NoActivity loading={loading} error={error} />
   }
 
   return (

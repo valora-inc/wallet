@@ -1,5 +1,5 @@
-import { waitForElementByIdAndTap, waitForElementId } from '../utils/utils'
 import { celoEducation } from '../utils/celoEducation'
+import { waitForElementByIdAndTap, waitForElementId } from '../utils/utils'
 
 const swipeThrough = async (direction = 'left', swipes = 3) => {
   for (let i = 0; i < swipes; i++) {

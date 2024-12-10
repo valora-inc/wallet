@@ -6,15 +6,15 @@ import {
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import {
   DEFAULT_BANK_SETTLEMENT_ESTIMATION,
   DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION,
   SettlementTime,
 } from 'src/fiatExchanges/quotes/constants'
-import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/types'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 import { NetworkId } from 'src/transactions/types'

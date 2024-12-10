@@ -6,9 +6,9 @@ If you're building a Dapp we recommend [rainbowkit](https://github.com/rainbow-m
 
 ## WalletConnect details
 
-Supported actions: <https://github.com/celo-org/wallet/blob/main/src/walletConnect/constants.ts#L3>
+Supported actions: https://github.com/celo-org/wallet/blob/main/src/walletConnect/constants.ts#L3
 
-Docs for WalletConnect v2: <https://docs.walletconnect.com/2.0>
+Docs for WalletConnect v2: https://docs.walletconnect.com/2.0
 
 ## Troubleshooting tips
 

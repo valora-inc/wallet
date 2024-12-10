@@ -8,7 +8,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
@@ -185,6 +185,20 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('EarnEnterAmount/TokenSelect')).toHaveTextContent('USDC')
       expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeDisabled()
       expect(queryByTestId('downArrowIcon')).toBeFalsy()
+    })
+
+    it('should apply the maximum amount if the user selects the max option', async () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={depositParams} />
+        </Provider>
+      )
+      await act(() => {
+        DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+      })
+
+      fireEvent.press(within(getByTestId('EarnEnterAmount/AmountOptions')).getByText('maxSymbol'))
+      expect(getByTestId('EarnEnterAmount/TokenAmountInput').props.value).toBe('10') // balance
     })
 
     it('should prepare transactions with the expected inputs', async () => {
@@ -411,6 +425,20 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('EarnEnterAmount/TokenSelect')).toHaveTextContent('USDC')
       expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeDisabled()
       expect(queryByTestId('downArrowIcon')).toBeFalsy()
+    })
+
+    it('should apply the maximum amount if the user selects the max option', async () => {
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={withdrawParams} />
+        </Provider>
+      )
+      await act(() => {
+        DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
+      })
+
+      fireEvent.press(within(getByTestId('EarnEnterAmount/AmountOptions')).getByText('maxSymbol'))
+      expect(getByTestId('EarnEnterAmount/TokenAmountInput').props.value).toBe('11') // balance * pool price per share
     })
 
     it('should prepare transactions with the expected inputs', async () => {

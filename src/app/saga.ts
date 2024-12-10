@@ -32,7 +32,7 @@ import {
 } from 'src/app/selectors'
 import { CeloNewsConfig } from 'src/celoNews/types'
 import { DEFAULT_APP_LANGUAGE, FETCH_TIMEOUT_DURATION, isE2EEnv } from 'src/config'
-import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { FiatExchangeFlow } from 'src/fiatExchanges/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { initI18n } from 'src/i18n'
@@ -251,7 +251,7 @@ function convertQueryToScreenParams(query: string) {
 export function* handleDeepLink(action: OpenDeepLink) {
   const { deepLink } = action
   const { isSecureOrigin } = action
-  Logger.debug(TAG, 'Handling deep link', deepLink)
+  Logger.debug(TAG, `Handling deep link: ${deepLink}, isSecureOrigin: ${isSecureOrigin}`)
 
   const walletAddress = yield* select(walletAddressSelector)
   if (!walletAddress) {

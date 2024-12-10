@@ -26,7 +26,7 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -109,7 +109,7 @@ export default function EarnEnterAmount({ route }: Props) {
   const [inputToken, setInputToken] = useState(() => availableInputTokens[0])
 
   const inputRef = useRef<RNTextInput>(null)
-  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const swapDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -129,21 +129,22 @@ export default function EarnEnterAmount({ route }: Props) {
 
   const {
     amount,
-    setAmount,
+    replaceAmount,
     amountType,
     processedAmounts,
     handleAmountInputChange,
     handleToggleAmountType,
+    handleSelectPercentageAmount,
   } = useEnterAmount({
     token: inputToken,
     inputRef,
-    onAmountChange: () => {
+    onHandleAmountInputChange: () => {
       setSelectedPercentage(null)
     },
   })
 
   const onOpenTokenPicker = () => {
-    bottomSheetRef.current?.snapToIndex(0)
+    tokenBottomSheetRef.current?.snapToIndex(0)
     AppAnalytics.track(SendEvents.token_dropdown_opened, {
       currentTokenId: inputToken.tokenId,
       currentTokenAddress: inputToken.address,
@@ -153,8 +154,8 @@ export default function EarnEnterAmount({ route }: Props) {
 
   const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
     setInputToken(selectedToken)
-    setAmount('')
-    bottomSheetRef.current?.close()
+    replaceAmount('')
+    tokenBottomSheetRef.current?.close()
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
@@ -230,15 +231,14 @@ export default function EarnEnterAmount({ route }: Props) {
   const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
-  const isAmountLessThanBalance =
-    processedAmounts.token.bignum !== null && processedAmounts.token.bignum.lte(balanceInInputToken)
-  const showLowerAmountError = processedAmounts.token.bignum && !isAmountLessThanBalance
+  const showLowerAmountError =
+    processedAmounts.token.bignum && processedAmounts.token.bignum.gt(balanceInInputToken)
   const showNotEnoughBalanceForGasWarning =
-    isAmountLessThanBalance &&
+    !showLowerAmountError &&
     prepareTransactionsResult &&
     prepareTransactionsResult.type === 'not-enough-balance-for-gas'
   const transactionIsPossible =
-    isAmountLessThanBalance &&
+    !showLowerAmountError &&
     prepareTransactionsResult &&
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
@@ -258,15 +258,7 @@ export default function EarnEnterAmount({ route }: Props) {
     !!processedAmounts.token.bignum?.isZero() || !transactionIsPossible
 
   const onSelectPercentageAmount = (percentage: number) => {
-    const balance =
-      amountType === 'token' ? inputToken.balance : processedAmounts.local.balance?.decimalPlaces(2)
-
-    if (!balance) {
-      return
-    }
-
-    const percentageAmount = balance.multipliedBy(percentage).toString()
-    setAmount(percentageAmount)
+    handleSelectPercentageAmount(percentage, balanceInInputToken)
     setSelectedPercentage(percentage)
 
     AppAnalytics.track(SendEvents.send_percentage_selected, {
@@ -363,7 +355,7 @@ export default function EarnEnterAmount({ route }: Props) {
               swapTransaction={swapTransaction}
             />
           )}
-          {processedAmounts.token.bignum && isWithdrawal && (
+          {processedAmounts.token.bignum && !!amount && isWithdrawal && (
             <TransactionWithdrawDetails
               pool={pool}
               token={transactionToken}
@@ -492,7 +484,7 @@ export default function EarnEnterAmount({ route }: Props) {
         />
       )}
       <TokenBottomSheet
-        forwardedRef={bottomSheetRef}
+        forwardedRef={tokenBottomSheetRef}
         origin={TokenPickerOrigin.Earn}
         onTokenSelected={onSelectToken}
         tokens={availableInputTokens}

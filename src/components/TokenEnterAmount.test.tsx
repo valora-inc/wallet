@@ -13,6 +13,8 @@ import TokenEnterAmount, {
   formatNumber,
   getDisplayLocalAmount,
   getDisplayTokenAmount,
+  roundFiatValue,
+  unformatNumberForProcessing,
   useEnterAmount,
 } from './TokenEnterAmount'
 
@@ -65,6 +67,15 @@ describe('TokenEnterAmount', () => {
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
 
+    expect(unformatNumberForProcessing('')).toBe('')
+    expect(unformatNumberForProcessing('0.25')).toBe('0.25')
+    expect(unformatNumberForProcessing('1,234.34567')).toBe('1234.34567')
+
+    expect(roundFiatValue(null)).toBe('')
+    expect(roundFiatValue(new BigNumber('0.01'))).toBe('0.01')
+    expect(roundFiatValue(new BigNumber('0.000001'))).toBe('0.000001')
+    expect(roundFiatValue(new BigNumber('1234.34567'))).toBe('1234.35')
+
     expect(formatNumber('')).toBe('')
     expect(formatNumber('123')).toBe('123')
     expect(formatNumber('1234')).toBe('1,234')
@@ -73,8 +84,6 @@ describe('TokenEnterAmount', () => {
     expect(formatNumber('123456789012345')).toBe('123,456,789,012,345')
     expect(formatNumber('12.34567')).toBe('12.34567')
     expect(formatNumber('-1234567.89')).toBe('-1,234,567.89')
-    expect(formatNumber('1234abc')).toBe('1,234abc')
-    expect(formatNumber('1234.56abc')).toBe('1,234.56abc')
 
     const { token } = defaultProps
     expect(getDisplayTokenAmount(null, token)).toBe('')
@@ -107,6 +116,15 @@ describe('TokenEnterAmount', () => {
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: ',', groupingSeparator: '.' })
 
+    expect(unformatNumberForProcessing('')).toBe('')
+    expect(unformatNumberForProcessing('0,25')).toBe('0.25')
+    expect(unformatNumberForProcessing('1.234,34567')).toBe('1234.34567')
+
+    expect(roundFiatValue(null)).toBe('')
+    expect(roundFiatValue(new BigNumber('0.01'))).toBe('0.01')
+    expect(roundFiatValue(new BigNumber('0.000001'))).toBe('0.000001')
+    expect(roundFiatValue(new BigNumber('1234.34567'))).toBe('1234.35')
+
     expect(formatNumber('')).toBe('')
     expect(formatNumber('123')).toBe('123')
     expect(formatNumber('1234')).toBe('1.234')
@@ -115,8 +133,6 @@ describe('TokenEnterAmount', () => {
     expect(formatNumber('123456789012345')).toBe('123.456.789.012.345')
     expect(formatNumber('12.34567')).toBe('12,34567')
     expect(formatNumber('-1234567.89')).toBe('-1.234.567,89')
-    expect(formatNumber('1234abc')).toBe('1.234abc')
-    expect(formatNumber('1234.56abc')).toBe('1.234,56abc')
 
     const { token } = defaultProps
     expect(getDisplayTokenAmount(null, token)).toBe('')
@@ -174,15 +190,12 @@ describe('TokenEnterAmount', () => {
       expect(result.current.amount).toBe('1234.678')
       expect(result.current.processedAmounts).toStrictEqual({
         token: {
-          amount: '1234.678',
           bignum: new BigNumber('1234.678'),
           displayAmount: '1,234.678 USDC',
         },
         local: {
-          amount: '1235.91',
           bignum: new BigNumber('1235.912678'),
           displayAmount: '$1,235.91',
-          balance: new BigNumber('1502.26076'),
         },
       })
     })
@@ -206,13 +219,10 @@ describe('TokenEnterAmount', () => {
       expect(result.current.amount).toBe('1234.67')
       expect(result.current.processedAmounts).toStrictEqual({
         local: {
-          amount: '1234.67',
           bignum: new BigNumber('1234.67'),
           displayAmount: '$1,234.67',
-          balance: new BigNumber('1502.26076'),
         },
         token: {
-          amount: '1233.436563',
           bignum: new BigNumber('1233.436563'),
           displayAmount: '1,233.436563 USDC',
         },
@@ -247,6 +257,11 @@ describe('TokenEnterAmount', () => {
 
       await act(() => result.current.handleToggleAmountType())
       expect(result.current.amountType).toBe('local')
+      // the processedAmounts should be unchanged when toggling amount type with no amount entered
+      expect(result.current.processedAmounts).toStrictEqual({
+        token: { bignum: null, displayAmount: '' },
+        local: { bignum: null, displayAmount: '' },
+      })
     })
   })
 

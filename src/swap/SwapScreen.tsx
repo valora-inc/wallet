@@ -29,6 +29,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import EnterAmountOptions from 'src/send/EnterAmountOptions'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -116,6 +117,7 @@ export function SwapScreen({ route }: Props) {
   const slippageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const estimatedDurationBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
+  const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
   const [startedSwapId, setStartedSwapId] = useState<string | undefined>(undefined)
   const [switchedToNetworkId, setSwitchedToNetworkId] = useState<NetworkId | null>(null)
   const [fromToken, setFromToken] = useState(() => {
@@ -152,20 +154,17 @@ export function SwapScreen({ route }: Props) {
     },
   })
 
-  useEffect(() => {
-    console.log({ fetchingSwapQuote })
-  }, [fetchingSwapQuote])
   const {
     amount: amountFrom,
     amountType,
     processedAmounts: derivedFrom,
     handleAmountInputChange,
     handleToggleAmountType,
-    onChangeAmount,
+    handleSelectPercentageAmount,
   } = useEnterAmount({
     inputRef: inputFromRef,
     token: fromToken,
-    onAmountChange: (amount) => {
+    onHandleAmountInputChange: (amount) => {
       console.log('onAmountChange', amount)
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current)
@@ -437,7 +436,7 @@ export function SwapScreen({ route }: Props) {
           fromTokenId: fromToken.tokenId,
           fromTokenNetworkId: fromToken.networkId,
           fromTokenIsImported: !!fromToken.isManuallyImported,
-          amount: derivedFrom.token.amount,
+          amount: derivedFrom.token.bignum?.toString() || '',
           amountType: 'sellAmount',
           allowanceTarget,
           estimatedPriceImpact,
@@ -722,6 +721,20 @@ export function SwapScreen({ route }: Props) {
     }
   }
 
+  function handleSelectAmountPercentage(percentage: number) {
+    handleSelectPercentageAmount(percentage)
+    if (!fromToken) {
+      // Should never happen
+      return
+    }
+    AppAnalytics.track(SwapEvents.swap_screen_percentage_selected, {
+      tokenSymbol: fromToken.symbol,
+      tokenId: fromToken.tokenId,
+      tokenNetworkId: fromToken.networkId,
+      percentage,
+    })
+  }
+
   function onPressLearnMore() {
     AppAnalytics.track(SwapEvents.swap_learn_more)
     navigate(Screens.WebViewScreen, { uri: links.swapLearnMore })
@@ -847,7 +860,9 @@ export function SwapScreen({ route }: Props) {
                     quote.preparedTransactions.type !== 'need-decrease-spend-amount-for-gas'
                   )
                     return
-                  onChangeAmount(quote.preparedTransactions.decreasedSpendAmount.toString())
+                  handleAmountInputChange(
+                    quote.preparedTransactions.decreasedSpendAmount.toString()
+                  )
                 }}
                 ctaLabel={t('swapScreen.decreaseSwapAmountForGasWarning.cta')}
                 style={styles.warning}
@@ -973,7 +988,11 @@ export function SwapScreen({ route }: Props) {
           />
         </View>
       </ScrollView>
-
+      <EnterAmountOptions
+        onPressAmount={handleSelectAmountPercentage}
+        selectedAmount={selectedPercentage}
+        testID="SwapEnterAmount/AmountOptions"
+      />
       <TokenBottomSheet
         searchEnabled
         showPriceUsdUnavailableWarning

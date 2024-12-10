@@ -22,6 +22,8 @@ import {
   cachedFiatAccountUsesSelector,
 } from 'src/fiatconnect/selectors'
 import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
+import { CICOFlow } from 'src/fiatExchanges/types'
+import { isUserInputCrypto } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
@@ -40,7 +42,6 @@ import { tokenSymbolToAnalyticsCurrency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 import { parseInputAmount } from 'src/utils/parsing'
 import networkConfig from 'src/web3/networkConfig'
-import { CICOFlow, isUserInputCrypto } from './utils'
 
 const { decimalSeparator } = getNumberFormatSettings()
 

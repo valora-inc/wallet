@@ -306,7 +306,6 @@ export default function TransactionFeedV2() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const showGetStarted = getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED)
   const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
 
   const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
@@ -518,9 +517,7 @@ export default function TransactionFeedV2() {
             <NotificationBox showOnlyHomeScreenNotifications={true} />
           </>
         }
-        ListEmptyComponent={
-          showGetStarted && !showUKCompliantVariant ? <GetStarted /> : <NoActivity />
-        }
+        ListEmptyComponent={!showUKCompliantVariant ? <GetStarted /> : <NoActivity />}
         ListFooterComponent={
           <>
             {/* prevent loading indicator due to polling from showing at the bottom of the screen */}

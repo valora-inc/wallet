@@ -729,17 +729,6 @@
     "goldDisclaimer": "{{appName}} \"hesabı\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan oluşturmuş olursunuz. {{appName}} dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen fonları kurtaramaz. Kripto paraların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir dijital varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin.",
     "goldDisclaimerWithPoints": "{{appName}} \"hesabı\" oluşturduğunuzda, anahtarlarına yalnızca sizin sahip olduğunuz bir dijital cüzdan oluşturmuş olursunuz. {{appName}} dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı kurtaramaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen fonları kurtaramaz. {{appName}}, belirli uygulama içi etkinliklere katıldıkları için Kullanıcılara tokenleştirilmiş sadakat ödülleri (\"Puanlar\") verir. Puanlar zincir içinde, devredilemez ve geri alınamaz koleksiyonlardır. Puanların kullanılabilirliği veya değeri hakkında hiçbir garanti verilmez. Dijital varlıkların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir dijital varlık satın almadan önce finansal koşullarınızı ve finansal risk toleransınızı dikkatlice değerlendirin."
   },
-  "termsColloquial": {
-    "title": "Cüzdanınızı oluşturarak başlayalım",
-    "privacyHeading": "Bilgileriniz ve Gizliliğiniz:",
-    "privacy1": "Uygulamayı ve güvenliği geliştirmemize yardımcı olan kullanım verilerini topluyoruz. Topladığımız bilgilerin türü, bunları nasıl kullandığımız ve bu bilgilerle ilgili haklarınızın tümü <0>Gizlilik Politikamızda</0> görülebilir.",
-    "privacy2": "Telefon numaranızı bağlamaya karar verirseniz bunun şifrelenmiş bir kopyasını saklayacağız.",
-    "privacy3": "Kişilerinizi bağlamaya karar verirseniz onları bulmayı kolaylaştırmak için adlarını, numaralarını ve profil resimlerini kullanırız.",
-    "walletHeading": "{{appName}} uygulamasındaki Dijital Cüzdanınız:",
-    "wallet1": "Dijital bir cüzdan oluşturmak üzeresiniz. Cüzdanınızın anahtarı sadece sizde olacak. Anahtarınızı kaybederseniz anahtarınızı veya varlıklarınızı kurtaramayız. Ayrıca {{appName}} aracılığıyla blok zincirleri üzerinde gerçekleştirilen eylemleri de geri alamayız.",
-    "wallet2": "{{appName}} ile etkileşim kurarken kullanacağınız varlıklar olan dijital varlıklar, benzersiz riskleri de beraberinde getirir. {{appName}} uygulamasını kullanarak bu riskleri kabul eder ve bunların sorumluluğunu üstlenirsiniz. Lütfen seçim yapmadan önce mali durumunuzu ve risk toleransınızı göz önünde bulundurun.",
-    "fullTerms": "<0>Şartlar ve Koşullarımızın</0> tamamını okuyun"
-  },
   "fullNameOrPsuedonym": "Tam ad veya takma ad",
   "namePlaceholder": "örn. isim",
   "nameAndPicGuideCopyTitle": "Adınız nedir?",
@@ -848,8 +837,7 @@
     "hasWallet": "Zaten cüzdanım var",
     "hasWalletV1_88": "Bir cüzdanım var",
     "header": "{{appName}} uygulamasına hoş geldiniz! Kripto cüzdanınızı oluşturalım.",
-    "getStarted": "Başlayın",
-    "agreeToTerms": "Bir cüzdan oluşturarak <0>Şartlar ve Koşullarımızı</0> kabul etmiş olursunuz"
+    "getStarted": "Başlayın"
   },
   "accessContacts": {
     "disclosure": {
@@ -2206,6 +2194,7 @@
     "title": "Tutar Girin",
     "selectToken": "Bir Token seçin",
     "networkFee": "{{networkName}} Ağ Ücreti",
+    "networkFeeV1_97": "Ağ Ücreti",
     "lowerAmount": "Daha düşük bir tutar girin",
     "maxAmountWarning": {
       "title": "Maksimum tutar gönderiliyor",
@@ -2290,13 +2279,13 @@
     "crossChainSwapTransactionLabel": "Zincirler arası",
     "depositTitle": "Yatırılan",
     "depositSubtitle": "{{txAppName}} Havuzuna",
-    "depositSubtitle_noTxAppName": "bilinmeyen uygulamaya",
+    "depositSubtitle_noTxAppName": "bir uygulamaya",
     "withdrawTitle": "Çekilen",
     "withdrawSubtitle": "{{txAppName}} Havuzundan",
-    "withdrawSubtitle_noTxAppName": "bilinmeyen uygulamadan",
+    "withdrawSubtitle_noTxAppName": "bir uygulamadan",
     "claimRewardTitle": "Toplanan",
     "claimRewardSubtitle": "{{txAppName}} Havuzundan",
-    "claimRewardSubtitle_noTxAppName": "bilinmeyen uygulamadan",
+    "claimRewardSubtitle_noTxAppName": "bir uygulamadan",
     "allTransactionsShown": "İşlem geçmişinizin sonuna ulaştınız.",
     "fetchErrorRetry": "Tekrar deneyin",
     "error": {
@@ -2308,15 +2297,15 @@
     "descriptionLabel": "Detaylar",
     "depositTitle": "Yatırılan",
     "depositSubtitle": "{{txAppName}} Havuzuna {{tokenSymbol}} Yatırıldı",
-    "depositSubtitle_noTxAppName": "Bilinmeyen uygulamaya {{tokenSymbol}} yatırıldı",
+    "depositSubtitle_noTxAppName": "Bir uygulamaya {{tokenSymbol}} yatırıldı",
     "depositDetails": "Yatırılan Toplam",
     "withdrawTitle": "Çekilen",
     "withdrawSubtitle": "{{txAppName}} Havuzundan {{tokenSymbol}} Çekildi",
-    "withdrawSubtitle_noTxAppName": "Bilinmeyen uygulamadan {{tokenSymbol}} çekildi",
+    "withdrawSubtitle_noTxAppName": "Bir uygulamadan {{tokenSymbol}} adresini geri çekti",
     "withdrawDetails": "Çekilen Tutar",
     "claimRewardTitle": "Toplanan",
     "claimRewardSubtitle": "{{txAppName}} Havuzundan {{tokenSymbol}} Toplandı",
-    "claimRewardSubtitle_noTxAppName": "Bilinmeyen uygulamadan {{tokenSymbol}} toplandı",
+    "claimRewardSubtitle_noTxAppName": "Bir uygulamadan toplanan {{tokenSymbol}}",
     "claimRewardDetails": "Toplanan Tutar",
     "swap": "Swap",
     "network": "Ağ",
@@ -2831,6 +2820,11 @@
   "duration_year_other": "{{count}} yıl",
   "duration_yearMonth_one": "1 yıl, 1 ay",
   "duration_yearMonth_other": "{{count}} yıl, {{count2}} ay",
+  "tokenEnterAmount": {
+    "availableBalance": "Mevcut: <0></0>",
+    "selectToken": "Token seçin",
+    "fiatPriceUnavailable": "Fiyat mevcut değil"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

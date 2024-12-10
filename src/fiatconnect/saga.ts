@@ -22,7 +22,7 @@ import {
 } from 'src/app/selectors'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import {
   FiatConnectProviderInfo,
   FiatConnectQuoteError,
