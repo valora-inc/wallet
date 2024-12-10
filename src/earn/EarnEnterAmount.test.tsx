@@ -583,6 +583,7 @@ describe('EarnEnterAmount', () => {
         </Provider>
       )
 
+      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
       expect(getByTestId('LabelWithInfo/ClaimingReward-0')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Reward-0')).toHaveTextContent('₱0.016')
       expect(getByTestId('EarnEnterAmount/Reward-0-crypto')).toHaveTextContent('0.01 ARB')
@@ -701,9 +702,9 @@ describe('EarnEnterAmount', () => {
 
       fireEvent.press(within(getByTestId('EarnEnterAmount/AmountOptions')).getByText('maxSymbol'))
       expect(getByTestId('EarnEnterAmount/TokenAmountInput').props.value).toBe(
-        replaceSeparators('100000.42')
+        replaceSeparators('100,000.42')
       )
-      expect(getByTestId('EarnEnterAmount/LocalAmountInput').props.value).toBe(
+      expect(getByTestId('EarnEnterAmount/ExchangeAmount')).toHaveTextContent(
         replaceSeparators('₱133,000.56')
       )
     })
@@ -726,6 +727,7 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
     await waitFor(() => expect(getByTestId('EarnEnterAmount/NotEnoughForGasWarning')).toBeTruthy())
     fireEvent.press(
       getByText(
@@ -764,6 +766,7 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
     fireEvent.press(getByTestId('LabelWithInfo/FeeLabel'))
     expect(getByText('earnFlow.enterAmount.feeBottomSheet.feeDetails')).toBeVisible()
     expect(getByTestId('EstNetworkFee/Value')).toBeTruthy()
@@ -789,6 +792,7 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
     fireEvent.press(getByTestId('LabelWithInfo/FeeLabel'))
     expect(getByText('earnFlow.enterAmount.feeBottomSheet.feeDetails')).toBeVisible()
     expect(getByTestId('EstNetworkFee/Value')).toBeTruthy()
@@ -820,6 +824,7 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
     fireEvent.press(getByTestId('LabelWithInfo/SwapLabel'))
     expect(getByText('earnFlow.enterAmount.swapBottomSheet.swapDetails')).toBeVisible()
     expect(getByTestId('SwapTo')).toBeTruthy()
