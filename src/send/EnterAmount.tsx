@@ -133,24 +133,21 @@ export default function EnterAmount({
     },
   })
 
-  useEffect(
-    function refreshPreparedTransactions() {
-      onClearPreparedTransactions()
+  useEffect(() => {
+    onClearPreparedTransactions()
 
-      const canRefresh =
-        processedAmounts.token.bignum &&
-        processedAmounts.token.bignum.gt(0) &&
-        processedAmounts.token.bignum.lte(token.balance)
-      if (!canRefresh) return
+    const canRefresh =
+      processedAmounts.token.bignum &&
+      processedAmounts.token.bignum.gt(0) &&
+      processedAmounts.token.bignum.lte(token.balance)
+    if (!canRefresh) return
 
-      const debouncedRefreshTransactions = setTimeout(() => {
-        return onRefreshPreparedTransactions(processedAmounts.token.bignum!, token, feeCurrencies)
-      }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
+    const debouncedRefreshTransactions = setTimeout(() => {
+      return onRefreshPreparedTransactions(processedAmounts.token.bignum!, token, feeCurrencies)
+    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
 
-      return () => clearTimeout(debouncedRefreshTransactions)
-    },
-    [processedAmounts.token.bignum?.toString(), token]
-  )
+    return () => clearTimeout(debouncedRefreshTransactions)
+  }, [processedAmounts.token.bignum?.toString(), token])
 
   const onOpenTokenPicker = () => {
     tokenBottomSheetRef.current?.snapToIndex(0)

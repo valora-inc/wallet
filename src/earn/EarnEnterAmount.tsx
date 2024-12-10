@@ -109,7 +109,7 @@ export default function EarnEnterAmount({ route }: Props) {
   const [inputToken, setInputToken] = useState(() => availableInputTokens[0])
 
   const inputRef = useRef<RNTextInput>(null)
-  const bottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const swapDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -144,7 +144,7 @@ export default function EarnEnterAmount({ route }: Props) {
   })
 
   const onOpenTokenPicker = () => {
-    bottomSheetRef.current?.snapToIndex(0)
+    tokenBottomSheetRef.current?.snapToIndex(0)
     AppAnalytics.track(SendEvents.token_dropdown_opened, {
       currentTokenId: inputToken.tokenId,
       currentTokenAddress: inputToken.address,
@@ -155,7 +155,7 @@ export default function EarnEnterAmount({ route }: Props) {
   const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
     setInputToken(selectedToken)
     replaceAmount('')
-    bottomSheetRef.current?.close()
+    tokenBottomSheetRef.current?.close()
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
@@ -484,7 +484,7 @@ export default function EarnEnterAmount({ route }: Props) {
         />
       )}
       <TokenBottomSheet
-        forwardedRef={bottomSheetRef}
+        forwardedRef={tokenBottomSheetRef}
         origin={TokenPickerOrigin.Earn}
         onTokenSelected={onSelectToken}
         tokens={availableInputTokens}
