@@ -4,7 +4,7 @@ import {
   PincodeType,
   RecoveryPhraseInOnboardingStatus,
 } from 'src/account/reducer'
-import { AppState, MultichainBetaStatus } from 'src/app/actions'
+import { AppState } from 'src/app/actions'
 import { Dapp } from 'src/dapps/types'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { KeylessBackupDeleteStatus, KeylessBackupStatus } from 'src/keylessBackup/types'
@@ -2819,7 +2819,7 @@ export const v171Schema = {
   },
   app: {
     ...v170Schema.app,
-    multichainBetaStatus: MultichainBetaStatus.NotSeen,
+    multichainBetaStatus: 'NotSeen',
   },
 }
 

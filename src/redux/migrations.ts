@@ -4,7 +4,6 @@ import {
   PincodeType,
   RecoveryPhraseInOnboardingStatus,
 } from 'src/account/reducer'
-import { MultichainBetaStatus } from 'src/app/actions'
 import {
   DEFAULT_SENTRY_NETWORK_ERRORS,
   DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
@@ -1451,7 +1450,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      multichainBetaStatus: MultichainBetaStatus.NotSeen,
+      multichainBetaStatus: 'NotSeen',
     },
   }),
   172: (state: any) => ({

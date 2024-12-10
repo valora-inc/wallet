@@ -9,11 +9,6 @@ export enum AppState {
   Inactive = 'Inactive',
 }
 
-/** @deprecated left in for backwards compatibility (used in root state migration) */
-export enum MultichainBetaStatus {
-  NotSeen = 'NotSeen',
-}
-
 export enum Actions {
   SET_APP_STATE = 'APP/SET_APP_STATE',
   SET_LOGGED_IN = 'APP/SET_LOGGED_IN',
