@@ -129,6 +129,7 @@ export default function EarnDepositBottomSheet({
       })
     )
     AppAnalytics.track(EarnEvents.earn_deposit_complete, commonAnalyticsProperties)
+    forwardedRef.current?.close()
   }
 
   const onPressCancel = () => {
