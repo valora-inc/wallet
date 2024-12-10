@@ -101,7 +101,7 @@ describe('CeloNewsFeed', () => {
     expect(AppAnalytics.track).toHaveBeenCalledWith(CeloNewsEvents.celo_news_screen_open)
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
-    expect(mockFetch).toHaveBeenCalledWith(networkConfig.celoNewsFeedUrl, expect.any(Object))
+    expect(mockFetch).toHaveBeenCalledWith(networkConfig.getCeloNewsFeedUrl, expect.any(Object))
 
     // Check we can see a news item
     expect(tree.queryByText('Announcing Kuneco Changes & New Celo Block Party')).toBeTruthy()
