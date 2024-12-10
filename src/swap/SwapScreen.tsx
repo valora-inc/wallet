@@ -723,6 +723,8 @@ export function SwapScreen({ route }: Props) {
 
   function handleSelectAmountPercentage(percentage: number) {
     handleSelectPercentageAmount(percentage)
+    setSelectedPercentage(percentage)
+
     if (!fromToken) {
       // Should never happen
       return
