@@ -2,8 +2,8 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { CeloNewsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { CeloNewsEvents } from 'src/analytics/Events'
 import CeloNewsFeed from 'src/celoNews/CeloNewsFeed'
 import { CeloNewsArticles } from 'src/celoNews/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -101,10 +101,7 @@ describe('CeloNewsFeed', () => {
     expect(AppAnalytics.track).toHaveBeenCalledWith(CeloNewsEvents.celo_news_screen_open)
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
-    expect(mockFetch).toHaveBeenCalledWith(
-      `${networkConfig.cloudFunctionsUrl}/getCeloNewsFeed`,
-      expect.any(Object)
-    )
+    expect(mockFetch).toHaveBeenCalledWith(networkConfig.getCeloNewsFeedUrl, expect.any(Object))
 
     // Check we can see a news item
     expect(tree.queryByText('Announcing Kuneco Changes & New Celo Block Party')).toBeTruthy()
