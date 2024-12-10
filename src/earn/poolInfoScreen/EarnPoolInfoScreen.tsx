@@ -241,11 +241,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
       hasTokensOnSameNetwork,
       hasTokensOnOtherNetworks,
     })
-    if (hasDepositToken) {
-      navigate(Screens.EarnEnterAmount, { pool })
-    } else {
-      beforeDepositBottomSheetRef.current?.snapToIndex(0)
-    }
+    beforeDepositBottomSheetRef.current?.snapToIndex(0)
   }
 
   const beforeDepositBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -427,6 +423,7 @@ export default function EarnPoolInfoScreen({ route, navigation }: Props) {
         forwardedRef={beforeDepositBottomSheetRef}
         token={depositToken}
         pool={pool}
+        hasDepositToken={hasDepositToken}
         hasTokensOnSameNetwork={hasTokensOnSameNetwork}
         hasTokensOnOtherNetworks={hasTokensOnOtherNetworks}
         canAdd={canCashIn}

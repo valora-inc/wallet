@@ -43,10 +43,12 @@ export interface PoolInfo {
 
 export type BeforeDepositActionName =
   | 'Add'
+  | 'AddMore'
   | 'Transfer'
   | 'SwapAndDeposit'
   | 'CrossChainSwap'
   | 'Swap'
+  | 'Deposit'
 
 export interface BeforeDepositAction {
   name: BeforeDepositActionName
