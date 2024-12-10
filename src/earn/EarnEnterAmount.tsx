@@ -134,6 +134,7 @@ export default function EarnEnterAmount({ route }: Props) {
     processedAmounts,
     handleAmountInputChange,
     handleToggleAmountType,
+    handleSelectPercentageAmount,
   } = useEnterAmount({
     token: inputToken,
     inputRef,
@@ -230,14 +231,14 @@ export default function EarnEnterAmount({ route }: Props) {
   const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
-  const isAmountLessThanBalance =
-    processedAmounts.token.bignum && processedAmounts.token.bignum.lte(balanceInInputToken)
+  const showLowerAmountError =
+    processedAmounts.token.bignum && processedAmounts.token.bignum.gt(balanceInInputToken)
   const showNotEnoughBalanceForGasWarning =
-    isAmountLessThanBalance &&
+    !showLowerAmountError &&
     prepareTransactionsResult &&
     prepareTransactionsResult.type === 'not-enough-balance-for-gas'
   const transactionIsPossible =
-    isAmountLessThanBalance &&
+    !showLowerAmountError &&
     prepareTransactionsResult &&
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
@@ -257,8 +258,7 @@ export default function EarnEnterAmount({ route }: Props) {
     !!processedAmounts.token.bignum?.isZero() || !transactionIsPossible
 
   const onSelectPercentageAmount = (percentage: number) => {
-    const percentageAmount = balanceInInputToken.multipliedBy(percentage).toString()
-    replaceAmount(percentageAmount)
+    handleSelectPercentageAmount(percentage, balanceInInputToken)
     setSelectedPercentage(percentage)
 
     AppAnalytics.track(SendEvents.send_percentage_selected, {
@@ -355,7 +355,7 @@ export default function EarnEnterAmount({ route }: Props) {
               swapTransaction={swapTransaction}
             />
           )}
-          {processedAmounts.token.bignum && isWithdrawal && (
+          {processedAmounts.token.bignum && !!amount && isWithdrawal && (
             <TransactionWithdrawDetails
               pool={pool}
               token={transactionToken}
@@ -399,7 +399,7 @@ export default function EarnEnterAmount({ route }: Props) {
             testID="EarnEnterAmount/NotEnoughForGasWarning"
           />
         )}
-        {!isAmountLessThanBalance && (
+        {showLowerAmountError && (
           <InLineNotification
             variant={NotificationVariant.Warning}
             title={t('sendEnterAmountScreen.insufficientBalanceWarning.title', {

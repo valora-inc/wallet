@@ -241,10 +241,10 @@ export function useEnterAmount(props: {
     }
   }
 
-  function handleSelectPercentageAmount(percentage: number) {
+  function handleSelectPercentageAmount(percentage: number, balance?: BigNumber) {
     if (percentage <= 0 || percentage > 1) return
 
-    const percentageAmount = props.token.balance.multipliedBy(percentage)
+    const percentageAmount = (balance ?? props.token.balance).multipliedBy(percentage)
     const newAmount =
       amountType === 'token'
         ? percentageAmount.decimalPlaces(props.token.decimals).toString()
