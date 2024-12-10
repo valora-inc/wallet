@@ -87,7 +87,7 @@ function* loggerSaga() {
     ) {
       // Log only action type, but not the payload as it can have sensitive
       // information or information that is not helpful for debugging. Excluding
-      // all IDENTITY/ actions because high likelyhood they contain PII and the
+      // all IDENTITY/ actions because high likelihood they contain PII and the
       // blocklist may get out of date.
       Logger.debug('redux/saga@logger', `${action.type} (payload not logged)`)
       return
