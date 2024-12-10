@@ -101,6 +101,8 @@ function EarnEnterAmount({ route }: Props) {
   const isWithdrawal = mode === 'withdraw'
   const { depositToken, withdrawToken, eligibleSwappableTokens } = useTokens({ pool })
 
+  // We do not need to check withdrawal status/show a spinner for a pending
+  // withdrawal, since withdrawals navigate to a separate confirmation screen.
   const depositStatus = useSelector(depositStatusSelector)
   const transactionSubmitted = depositStatus === 'loading'
 
