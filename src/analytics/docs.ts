@@ -66,9 +66,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [AppEvents.account_liquidated]: `Fired when user balance (total fiat value of all supported tokens) falls below $0.01 USD and the last known value was greater than this`,
   [AppEvents.in_app_review_impression]: `User sees an in-app review request`,
   [AppEvents.in_app_review_error]: `Error while attempting to display in-app review`,
-  [AppEvents.multichain_beta_opt_in]: `When the user taps the Try it Now button on the multichain beta screen`,
-  [AppEvents.multichain_beta_opt_out]: `When the user taps the No Thanks button on the multichain beta screen`,
-  [AppEvents.multichain_beta_contact_support]: `When the user taps the Contact Support button on the multichain beta screen`,
   [AppEvents.handle_deeplink]: `When a deeplink that leads into the app is detected and handled`,
   [HomeEvents.account_circle_tapped]: `When the account circle used in the tab navigation is tapped`,
   [HomeEvents.profile_address_copy]: `When a user copies their wallet address from the profile screen`,
@@ -661,4 +658,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [EarnEvents.earn_exit_pool_press]: `When the user taps on the exit pool button from the earn card in discover tab`,
   // [EarnEvents.earn_deposit_more_press]: `When the user taps deposit more button from the earn card in discover tab`,
   // [EarnEvents.earn_active_pools_card_press]: `When the user taps on the active pool card in discover tab.`,
+  // [AppEvents.multichain_beta_opt_in]: `When the user taps the Try it Now button on the multichain beta screen`,
+  // [AppEvents.multichain_beta_opt_out]: `When the user taps the No Thanks button on the multichain beta screen`,
+  // [AppEvents.multichain_beta_contact_support]: `When the user taps the Contact Support button on the multichain beta screen`,
 }

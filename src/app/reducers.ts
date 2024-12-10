@@ -1,6 +1,6 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
-import { Actions, ActionTypes, AppState, MultichainBetaStatus } from 'src/app/actions'
+import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { CeloNewsConfig } from 'src/celoNews/types'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -47,7 +47,6 @@ interface State {
   inAppReviewLastInteractionTimestamp: number | null
   showNotificationSpotlight: boolean
   hideBalances: boolean
-  multichainBetaStatus: MultichainBetaStatus
   pendingDeepLinks: PendingDeepLink[]
 }
 
@@ -89,7 +88,6 @@ const initialState = {
   inAppReviewLastInteractionTimestamp: null,
   showNotificationSpotlight: false,
   hideBalances: false,
-  multichainBetaStatus: MultichainBetaStatus.NotSeen,
   pendingDeepLinks: [],
 }
 
@@ -243,13 +241,6 @@ export const appReducer = (
       return {
         ...state,
         hideBalances: !state.hideBalances,
-      }
-    case Actions.OPT_MULTICHAIN_BETA:
-      return {
-        ...state,
-        multichainBetaStatus: action.optedIn
-          ? MultichainBetaStatus.OptedIn
-          : MultichainBetaStatus.OptedOut,
       }
     case Actions.DEEP_LINK_DEFERRED:
       return {

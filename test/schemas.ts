@@ -9,6 +9,7 @@ import { Dapp } from 'src/dapps/types'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { KeylessBackupDeleteStatus, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { Screens } from 'src/navigator/Screens'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/store'
 import { Network, NetworkId, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
@@ -24,7 +25,6 @@ import {
   mockShortcuts,
   mockTestTokenAddress,
 } from 'test/values'
-import { Screens } from 'src/navigator/Screens'
 
 export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
@@ -3585,6 +3585,15 @@ export const v237Schema = {
   identity: _.omit(v236Schema.identity, 'hasSeenVerificationNux'),
 }
 
+export const v238Schema = {
+  ...v237Schema,
+  _persist: {
+    ...v237Schema._persist,
+    version: 238,
+  },
+  app: _.omit(v237Schema.app, 'multichainBetaStatus'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v237Schema as Partial<RootState>
+  return v238Schema as Partial<RootState>
 }
