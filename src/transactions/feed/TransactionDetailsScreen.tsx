@@ -7,7 +7,6 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipients/reducer'
 import { useSelector } from 'src/redux/hooks'
-import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionDetails from 'src/transactions/feed/TransactionDetails'
 import { ClaimRewardContent } from 'src/transactions/feed/detailContent/ClaimRewardContent'
 import {
@@ -18,7 +17,6 @@ import {
 import TokenApprovalDetails from 'src/transactions/feed/detailContent/TokenApprovalDetails'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import { TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
 import { DepositOrWithdrawContent } from './detailContent/DepositOrWithdrawContent'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
@@ -29,7 +27,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.TransactionDetailsSc
 
 function useHeaderTitle(transaction: TokenTransaction) {
   const { t } = useTranslation()
-  const celoTokenId = useTokenInfo(networkConfig.currencyToTokenId[Currency.Celo])?.tokenId
+  const celoTokenId = networkConfig.celoTokenId
   const rewardsSenders = useSelector(rewardsSendersSelector)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const coinbasePaySenders = useSelector(coinbasePaySendersSelector)

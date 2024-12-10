@@ -11,11 +11,9 @@ import { recipientInfoSelector } from 'src/recipients/reducer'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-import { useTokenInfo } from 'src/tokens/hooks'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
 import { TokenTransfer } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
 
 // Note that this is tested from TransactionDetailsScreen.test.tsx
@@ -25,7 +23,7 @@ function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
   const { t } = useTranslation()
   const info = useSelector(recipientInfoSelector)
 
-  const celoTokenId = useTokenInfo(networkConfig.currencyToTokenId[Currency.Celo])?.tokenId
+  const celoTokenId = networkConfig.celoTokenId
   const celoEducationUri = useSelector((state) => state.app.celoEducationUri)
 
   const isCeloTx = amount.tokenId === celoTokenId

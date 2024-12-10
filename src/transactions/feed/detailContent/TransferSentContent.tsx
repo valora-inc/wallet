@@ -16,7 +16,6 @@ import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
 import FeeRowItem from 'src/transactions/feed/detailContent/FeeRowItem'
 import { FeeType, TokenTransfer } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
 
 // Note that this is tested from TransactionDetailsScreen.test.tsx
@@ -24,7 +23,7 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
   const { t } = useTranslation()
   const info = useSelector(recipientInfoSelector)
 
-  const celoTokenId = useTokenInfo(networkConfig.currencyToTokenId[Currency.Celo])?.tokenId
+  const celoTokenId = networkConfig.celoTokenId
   const transferTokenInfo = useTokenInfo(transfer.amount.tokenId)
 
   const isCeloWithdrawal = transfer.amount.tokenId === celoTokenId

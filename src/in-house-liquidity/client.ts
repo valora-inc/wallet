@@ -3,6 +3,7 @@ import { getSiweSigningFunction } from 'src/fiatconnect/clients'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { Network } from 'src/transactions/types'
 import { getKeychainAccounts } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -21,7 +22,7 @@ export const getClient = async (): Promise<SiweApiClient> => {
         accountAddress: account,
         statement: SIWE_STATEMENT,
         version: SIWE_VERSION,
-        chainId: parseInt(networkConfig.networkId),
+        chainId: networkConfig.viemChain[Network.Celo].id,
         sessionDurationMs: SESSION_DURATION_MS,
         loginUrl: `${networkConfig.inHouseLiquidityURL}/auth/login`,
         clockUrl: `${networkConfig.inHouseLiquidityURL}/clock`,
