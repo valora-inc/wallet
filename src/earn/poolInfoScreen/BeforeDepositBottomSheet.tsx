@@ -302,7 +302,9 @@ export default function BeforeDepositBottomSheet({
   const showAdd = canAdd && !hasDepositToken
   const showAddMore =
     canAdd && hasDepositToken && !(hasTokensOnSameNetwork && hasTokensOnOtherNetworks)
-  const showTransfer = !hasDepositToken && !hasTokensOnSameNetwork && !hasTokensOnOtherNetworks
+  const showTransfer =
+    (!hasDepositToken && !hasTokensOnSameNetwork && !hasTokensOnOtherNetworks) ||
+    (!canAdd && !(hasDepositToken && hasTokensOnSameNetwork && hasTokensOnOtherNetworks))
 
   return (
     <BottomSheet
@@ -337,7 +339,7 @@ export default function BeforeDepositBottomSheet({
           />
         )}
         {(canSwapDeposit || hasDepositToken) &&
-          (showCrossChainSwap || showSwap || showAdd || showAddMore) && (
+          (showCrossChainSwap || showSwap || showAdd || showAddMore || showTransfer) && (
             <Text style={styles.actionDetails}>
               {t('earnFlow.beforeDepositBottomSheet.crossChainAlternativeDescription', {
                 tokenNetwork: NETWORK_NAMES[token.networkId],
