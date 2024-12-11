@@ -126,7 +126,6 @@ export default function EarnEnterAmount({ route }: Props) {
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const swapDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
-  const [maxPressed] = useState(false)
   const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
   const walletAddress = useSelector(walletAddressSelector)
@@ -321,7 +320,7 @@ export default function EarnEnterAmount({ route }: Props) {
         pool,
         mode,
         inputAmount: processedAmounts.token.bignum.toString(),
-        useMax: maxPressed,
+        useMax: selectedPercentage === 1,
       })
     } else {
       reviewBottomSheetRef.current?.snapToIndex(0)
