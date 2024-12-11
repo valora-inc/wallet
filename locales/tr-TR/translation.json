@@ -2311,14 +2311,6 @@
     "network": "Ağ",
     "fees": "Ücretler"
   },
-  "multichainBeta": {
-    "beta": "BETA",
-    "title": "Yeni! Ethereum {{appName}} uygulamasında",
-    "description1": "Bu özelliği ilk olarak seçkin bir grup kullanıcıya sunuyoruz. Siz şanslı olanlardan birisiniz!",
-    "description2": "Bu henüz yeni ve ekibimiz işleri mükemmel hale getirmek için hâlâ çok çalışıyor. Geri bildirimlerinizi duymak isteriz.",
-    "primaryCta": "Şimdi deneyin",
-    "secondaryCta": "Hayır, teşekkürler"
-  },
   "getStartedHome": {
     "title": "Kripto satın alın veya token transfer edin",
     "body": "Kripto göndermek ve web3'ü keşfetmek için uyumlu tokenları satın alın veya transfer edin!",

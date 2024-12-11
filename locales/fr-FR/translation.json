@@ -2311,14 +2311,6 @@
     "network": "Réseau",
     "fees": "Frais"
   },
-  "multichainBeta": {
-    "beta": "BETA",
-    "title": "Nouveau ! L'Ethereum est sur {{appName}}",
-    "description1": "Nous ouvrons cette fonctionnalité en avant-première à un groupe de personnes restreint. Vous êtes l'un de ces chanceux !",
-    "description2": "Tout cela est encore nouveau et notre équipe travaille pour que tout soit parfait. Nous serions ravis de recevoir vos commentaires.",
-    "primaryCta": "Essayer",
-    "secondaryCta": "Non merci"
-  },
   "getStartedHome": {
     "title": "Acheter des cryptomonnaies ou des jetons de transfert",
     "body": "Achetez ou transférez des jetons compatibles pour envoyer des cryptomonnaies et découvrir le web3 !",

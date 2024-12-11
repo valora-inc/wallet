@@ -2311,14 +2311,6 @@
     "network": "Netzwerk",
     "fees": "Gebühren"
   },
-  "multichainBeta": {
-    "beta": "BETA",
-    "title": "Neu! Ethereum ist auf {{appName}}",
-    "description1": "Wir öffnen dieses Feature zuerst für eine ausgewählte Gruppe von Menschen. Du bist einer der Glücklichen!",
-    "description2": "Das Feature ist jedoch noch neu und unser Team arbeitet noch hart daran, alles zu perfektionieren. Wir würden uns über dein Feedback freuen.",
-    "primaryCta": "Jetzt testen",
-    "secondaryCta": "Nein, danke"
-  },
   "getStartedHome": {
     "title": "Krypto kaufen oder Tokens überweisen",
     "body": "Kaufe oder überweise kompatible Token, um Krypto zu senden und web3 zu erkunden!",
