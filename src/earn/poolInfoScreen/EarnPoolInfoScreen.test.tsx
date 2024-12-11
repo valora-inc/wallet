@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnPoolInfoScreen from 'src/earn/poolInfoScreen/EarnPoolInfoScreen'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
@@ -83,11 +83,7 @@ describe('EarnPoolInfoScreen', () => {
     })
     jest
       .mocked(getFeatureGate)
-      .mockImplementation(
-        (gate) =>
-          gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS ||
-          gate === StatsigFeatureGates.SHOW_SWAP_AND_DEPOSIT
-      )
+      .mockImplementation((gate) => gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
     jest.useFakeTimers({
       now: new Date('2024-08-15T00:00:00.000Z'),
     })
@@ -560,7 +556,7 @@ describe('EarnPoolInfoScreen', () => {
   it('navigates correctly when swap action item is tapped', () => {
     jest
       .mocked(getFeatureGate)
-      .mockImplementation((gate) => gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS) // Swap and deposit feature gate turned off
+      .mockImplementation((gate) => gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
     const { getByText, getByTestId } = render(
       <Provider store={getStore({ includeSameChainToken: true, includeOtherChainToken: true })}>
         <MockedNavigator
@@ -568,7 +564,7 @@ describe('EarnPoolInfoScreen', () => {
             return (
               <EarnPoolInfoScreen
                 {...getMockStackScreenProps(Screens.EarnPoolInfoScreen, {
-                  pool: mockEarnPositions[0],
+                  pool: { ...mockEarnPositions[0], availableShortcutIds: ['deposit', 'withdraw'] },
                 })}
               />
             )

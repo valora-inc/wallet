@@ -778,7 +778,6 @@
         "CiCoCurrency": {
             "enum": [
                 "CELO",
-                "ETH",
                 "cEUR",
                 "cREAL",
                 "cUSD"
@@ -803,13 +802,13 @@
                     "$ref": "#/definitions/SwapClaimHistory"
                 },
                 {
-                    "$ref": "#/definitions/DepositEarnClaimHistory"
-                },
-                {
                     "$ref": "#/definitions/Erc20CreateLiveLinkClaimHistory"
                 },
                 {
                     "$ref": "#/definitions/Erc721CreateLiveLinkClaimHistory"
+                },
+                {
+                    "$ref": "#/definitions/DepositEarnClaimHistory"
                 }
             ]
         },
@@ -2117,14 +2116,6 @@
             ],
             "type": "object"
         },
-        "MultichainBetaStatus": {
-            "enum": [
-                "NotSeen",
-                "OptedIn",
-                "OptedOut"
-            ],
-            "type": "string"
-        },
         "NetworkId": {
             "enum": [
                 "arbitrum-one",
@@ -3196,13 +3187,13 @@
                     "$ref": "#/definitions/PointsEventSwap"
                 },
                 {
-                    "$ref": "#/definitions/PointsEventDepositEarn"
-                },
-                {
                     "$ref": "#/definitions/PointsEventErc20CreateLiveLink"
                 },
                 {
                     "$ref": "#/definitions/PointsEventErc721CreateLiveLink"
+                },
+                {
+                    "$ref": "#/definitions/PointsEventDepositEarn"
                 }
             ]
         },
@@ -3695,7 +3686,6 @@
                 "BidaliScreen",
                 "CashInSuccess",
                 "ChooseYourAdventure",
-                "CoinbasePayScreen",
                 "ConsumerIncentivesHomeScreen",
                 "DappShortcutTransactionRequest",
                 "DappShortcutsRewards",
@@ -3741,7 +3731,6 @@
                 "LinkPhoneNumber",
                 "Main",
                 "MainModal",
-                "MultichainBeta",
                 "NftsInfoCarousel",
                 "NotificationCenter",
                 "OnboardingRecoveryPhrase",
@@ -4762,9 +4751,6 @@
                 "maxSwapSlippagePercentage": {
                     "type": "number"
                 },
-                "multichainBetaStatus": {
-                    "$ref": "#/definitions/MultichainBetaStatus"
-                },
                 "networkTimeoutSeconds": {
                     "type": "number"
                 },
@@ -4850,7 +4836,6 @@
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
                 "maxSwapSlippagePercentage",
-                "multichainBetaStatus",
                 "networkTimeoutSeconds",
                 "pendingDeepLinks",
                 "phoneNumberVerified",
@@ -6020,7 +6005,6 @@
                         "BidaliScreen",
                         "CashInSuccess",
                         "ChooseYourAdventure",
-                        "CoinbasePayScreen",
                         "ConsumerIncentivesHomeScreen",
                         "DappShortcutTransactionRequest",
                         "DappShortcutsRewards",
@@ -6066,7 +6050,6 @@
                         "LinkPhoneNumber",
                         "Main",
                         "MainModal",
-                        "MultichainBeta",
                         "NftsInfoCarousel",
                         "NotificationCenter",
                         "OnboardingRecoveryPhrase",

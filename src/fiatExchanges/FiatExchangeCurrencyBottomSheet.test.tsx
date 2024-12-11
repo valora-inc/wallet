@@ -2,7 +2,7 @@ import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import FiatExchangeCurrencyBottomSheet from 'src/fiatExchanges/FiatExchangeCurrencyBottomSheet'
-import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { FiatExchangeFlow } from 'src/fiatExchanges/types'
 import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import {
@@ -148,28 +148,19 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
     })
   })
 
-  it.each([
-    { flow: FiatExchangeFlow.CashIn, gate: false },
-    { flow: FiatExchangeFlow.CashOut, gate: true },
-    { flow: FiatExchangeFlow.Spend, gate: true },
-  ])(`does not show filters for $flow when gate is $gate`, ({ flow, gate }) => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (feature) => feature === StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS && gate
+  it.each([{ flow: FiatExchangeFlow.CashOut }, { flow: FiatExchangeFlow.Spend }])(
+    `does not show filters for $flow`,
+    ({ flow }) => {
+      const { queryByTestId } = render(
+        <Provider store={mockStore}>
+          <MockedNavigator component={FiatExchangeCurrencyBottomSheet} params={{ flow }} />
+        </Provider>
       )
-    const { queryByTestId } = render(
-      <Provider store={mockStore}>
-        <MockedNavigator component={FiatExchangeCurrencyBottomSheet} params={{ flow }} />
-      </Provider>
-    )
-    expect(queryByTestId('FilterChipsCarousel')).toBeFalsy()
-  })
+      expect(queryByTestId('FilterChipsCarousel')).toBeFalsy()
+    }
+  )
 
-  it('shows filters for cash in when gate is true', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((feature) => feature === StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS)
+  it('shows filters for cash in', () => {
     const { getByTestId, getByText } = render(
       <Provider store={mockStore}>
         <MockedNavigator
@@ -188,11 +179,7 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   it('hides the popular filter for UK compliance', () => {
     jest
       .mocked(getFeatureGate)
-      .mockImplementation(
-        (feature) =>
-          feature === StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS ||
-          feature === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT
-      )
+      .mockImplementation((feature) => feature === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
     const { queryByText, getByText } = render(
       <Provider store={mockStore}>
         <MockedNavigator
@@ -209,9 +196,6 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   })
 
   it('popular filter filters correctly', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((feature) => feature === StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS)
     const { getAllByTestId, getByText } = render(
       <Provider store={mockStore}>
         <MockedNavigator
@@ -230,9 +214,6 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   })
 
   it('stablecoin filter filters correctly', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((feature) => feature === StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS)
     const { getAllByTestId, getByText } = render(
       <Provider store={mockStore}>
         <MockedNavigator
@@ -251,9 +232,6 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   })
 
   it('gas tokens filter filters correctly', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((feature) => feature === StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS)
     const { getAllByTestId, getByText } = render(
       <Provider store={mockStore}>
         <MockedNavigator
@@ -272,9 +250,6 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   })
 
   it('network filter filters correctly', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((feature) => feature === StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS)
     const { getAllByTestId, getByText } = render(
       <Provider store={mockStore}>
         <MockedNavigator
@@ -305,9 +280,6 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   })
 
   it('allows a network to be pre-selected', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((feature) => feature === StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS)
     const { getAllByTestId } = render(
       <Provider store={mockStore}>
         <MockedNavigator

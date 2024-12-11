@@ -1,7 +1,6 @@
 import * as _ from 'lodash'
 import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
-import { multichainBetaStatusSelector } from 'src/app/selectors'
 import { ExpectedLaunchArgs, isE2EEnv } from 'src/config'
 import { DynamicConfigs } from 'src/statsig/constants'
 import {
@@ -117,10 +116,7 @@ export function getFeatureGate(featureGateName: StatsigFeatureGates) {
     Logger.warn(TAG, `Error getting feature gate: ${featureGateName}`, error)
     // gates should always default to false, this boolean is to just remain BC
     // with two gates defaulting to true
-    return (
-      featureGateName === StatsigFeatureGates.ALLOW_HOOKS_PREVIEW ||
-      featureGateName === StatsigFeatureGates.SHOW_ONBOARDING_PHONE_VERIFICATION
-    )
+    return featureGateName === StatsigFeatureGates.ALLOW_HOOKS_PREVIEW
   }
 }
 
@@ -134,7 +130,6 @@ export function getDefaultStatsigUser(): StatsigUser {
     userID: walletAddressSelector(state) ?? undefined,
     custom: {
       startOnboardingTime: startOnboardingTimeSelector(state),
-      multichainBetaStatus: multichainBetaStatusSelector(state),
       loadTime: Date.now(),
     },
   }

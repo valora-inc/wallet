@@ -4,85 +4,23 @@ import { default as DeviceInfo } from 'react-native-device-info'
 import { FIREBASE_ENABLED } from 'src/config'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { UserLocationData } from 'src/networkInfo/saga'
+import {
+  CICOFlow,
+  GetCicoQuotesRequest,
+  GetCicoQuotesResponse,
+  PaymentMethod,
+  ProviderSelectionAnalyticsData,
+  SimplexQuote,
+} from 'src/fiatExchanges/types'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
-import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'fiatExchanges:utils'
-
-export enum FiatExchangeFlow {
-  CashIn = 'CashIn',
-  CashOut = 'CashOut',
-  Spend = 'Spend',
-}
-
-export enum CICOFlow {
-  CashIn = 'CashIn',
-  CashOut = 'CashOut',
-}
-
-export enum PaymentMethod {
-  Bank = 'Bank',
-  Card = 'Card',
-  Coinbase = 'Coinbase',
-  MobileMoney = 'MobileMoney', // legacy mobile money
-  FiatConnectMobileMoney = 'FiatConnectMobileMoney',
-  Airtime = 'Airtime',
-}
-
-export enum CloudFunctionDigitalAsset {
-  CELO = 'CELO',
-  CUSD = 'CUSD',
-  CEUR = 'CEUR',
-  CREAL = 'CREAL',
-  ETH = 'ETH',
-}
-interface ProviderRequestData {
-  userLocation: UserLocationData
-  walletAddress: string
-  fiatCurrency: LocalCurrencyCode
-  digitalAsset: string
-  networkId?: NetworkId
-  fiatAmount?: number
-  digitalAssetAmount?: number
-  txType: 'buy' | 'sell'
-}
-
-export interface FetchProvidersOutput {
-  name: string
-  restricted: boolean
-  unavailable?: boolean
-  paymentMethods: PaymentMethod[]
-  url?: string
-  logoWide: string
-  logo: string
-  quote?: SimplexQuote | RawProviderQuote[]
-  cashIn: boolean
-  cashOut: boolean
-}
-
-export interface UserAccountCreationData {
-  ipAddress: string
-  timestamp: string
-  userAgent: string
-}
-
-export interface RawProviderQuote {
-  paymentMethod: PaymentMethod
-  digitalAsset: string
-  returnedAmount?: number
-  fiatFee?: number
-  extraReqs?: { mobileCarrier: 'Safaricom' | 'MTN' }
-  url?: string
-}
 
 export interface LegacyMobileMoneyProvider {
   name: string
@@ -106,40 +44,6 @@ interface SimplexPaymentData {
   checkoutHtml: string
 }
 
-export interface ProviderInfo {
-  name: string
-  logoWide: string
-  logo: string
-}
-
-export type ProviderQuote = RawProviderQuote & {
-  cashIn: boolean
-  cashOut: boolean
-  url: string
-}
-
-export type SimplexQuote = {
-  user_id: string
-  quote_id: string
-  wallet_id: string
-  digital_money: {
-    currency: string
-    amount: number
-  }
-  fiat_money: {
-    currency: string
-    base_amount: number
-    total_amount: number
-  }
-  valid_until: string
-  supported_digital_currencies: string[]
-}
-
-export interface CicoQuote {
-  quote: ProviderQuote | SimplexQuote
-  provider: ProviderInfo
-}
-
 const composePostObject = (body: any) => ({
   method: 'POST',
   headers: {
@@ -148,27 +52,6 @@ const composePostObject = (body: any) => ({
   },
   body: JSON.stringify(body),
 })
-
-export const fetchProviders = async (
-  requestData: ProviderRequestData
-): Promise<FetchProvidersOutput[] | undefined> => {
-  try {
-    const response = await fetchWithTimeout(
-      networkConfig.providerFetchUrl,
-      composePostObject(requestData),
-      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
-        .cico * 1000
-    )
-
-    if (!response.ok) {
-      throw Error(`Fetch failed with status ${response?.status}`)
-    }
-    return response.json()
-  } catch (error) {
-    Logger.error(`${TAG}:fetchProviders`, 'Failed to fetch providers', error)
-    throw error
-  }
-}
 
 export const fetchSimplexPaymentData = async (
   userAddress: string,
@@ -213,9 +96,6 @@ export const fetchSimplexPaymentData = async (
     throw error
   }
 }
-
-export const isSimplexQuote = (quote: RawProviderQuote[] | SimplexQuote): quote is SimplexQuote =>
-  !!quote && 'wallet_id' in quote
 
 const typeCheckNestedProperties = (obj: any, property: string) =>
   obj[property] &&
@@ -312,13 +192,6 @@ export async function fetchExchanges(
   }
 }
 
-export const filterProvidersByPaymentMethod = (
-  paymentMethod: PaymentMethod,
-  externalProviders: FetchProvidersOutput[] | undefined
-) => {
-  return externalProviders?.find((quote) => quote.paymentMethods.includes(paymentMethod))
-}
-
 export const isUserInputCrypto = (flow: CICOFlow): boolean => flow === CICOFlow.CashOut
 
 /**
@@ -333,7 +206,6 @@ export function getProviderSelectionAnalyticsData({
   tokenInfo,
   legacyMobileMoneyProviders,
   centralizedExchanges,
-  coinbasePayAvailable,
   transferCryptoAmount,
   cryptoType,
 }: {
@@ -342,7 +214,6 @@ export function getProviderSelectionAnalyticsData({
   tokenInfo?: TokenBalance
   legacyMobileMoneyProviders?: LegacyMobileMoneyProvider[]
   centralizedExchanges?: ExternalExchangeProvider[]
-  coinbasePayAvailable: boolean
   transferCryptoAmount: number
   cryptoType: string
 }): ProviderSelectionAnalyticsData {
@@ -355,7 +226,6 @@ export function getProviderSelectionAnalyticsData({
     [PaymentMethod.Bank]: false,
     [PaymentMethod.Card]: false,
     [PaymentMethod.FiatConnectMobileMoney]: false,
-    [PaymentMethod.Coinbase]: coinbasePayAvailable,
     [PaymentMethod.MobileMoney]:
       !!legacyMobileMoneyProviders && legacyMobileMoneyProviders.length > 0,
     [PaymentMethod.Airtime]: false,
@@ -382,14 +252,36 @@ export function getProviderSelectionAnalyticsData({
     lowestFeeProvider,
     lowestFeeKycRequired,
     centralizedExchangesAvailable,
-    coinbasePayAvailable,
     lowestFeeCryptoAmount: lowestFeeCryptoAmount?.toNumber(),
     // counts centralized exchanges as single option, since that's how they appear on the Select Providers screen
     totalOptions:
       (centralizedExchangesAvailable ? 1 : 0) +
-      (coinbasePayAvailable ? 1 : 0) +
       (legacyMobileMoneyProviders?.length ?? 0) +
       normalizedQuotes.length,
     networkId: tokenInfo?.networkId,
+  }
+}
+
+export async function fetchCicoQuotes(
+  request: GetCicoQuotesRequest
+): Promise<GetCicoQuotesResponse> {
+  try {
+    const response = await fetchWithTimeout(
+      networkConfig.getCicoQuotesUrl,
+      composePostObject(request),
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+        .cico * 1000
+    )
+
+    if (!response.ok) {
+      throw Error(`Get cico quotes failed with status ${response?.status}`)
+    }
+
+    Logger.debug(`${TAG}:fetchCicoQuotes`, 'got cico quotes')
+
+    return response.json()
+  } catch (error) {
+    Logger.error(`${TAG}:fetchCicoQuotes`, 'Failed to fetch cico quotes', error)
+    throw error
   }
 }

@@ -8,8 +8,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams } from 'src/statsig'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import {
   ClaimReward,
@@ -61,7 +59,6 @@ import {
 } from 'test/values'
 
 jest.mock('src/analytics/AppAnalytics')
-jest.mock('src/statsig')
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
@@ -461,18 +458,6 @@ describe('TransactionDetailsScreen', () => {
   describe('Earn', () => {
     beforeEach(() => {
       jest.clearAllMocks()
-      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
-        switch (configName) {
-          case StatsigDynamicConfigs.EARN_STABLECOIN_CONFIG:
-            return {
-              providerName: 'Aave',
-              providerLogoUrl: 'logoUrl',
-              providerTermsAndConditionsUrl: 'termsUrl',
-            }
-          default:
-            return defaultValues
-        }
-      })
     })
 
     it(`renders check status action for pending ${TokenTransactionTypeV2.EarnClaimReward} transaction`, () => {

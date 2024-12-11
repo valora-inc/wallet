@@ -49,8 +49,6 @@ export const fiatConnectCashInEnabledSelector = (state: RootState) =>
 export const fiatConnectCashOutEnabledSelector = (state: RootState) =>
   state.app.fiatConnectCashOutEnabled
 
-export const coinbasePayEnabledSelector = (state: RootState) => state.app.coinbasePayEnabled
-
 export const maxSwapSlippagePercentageSelector = (state: RootState) =>
   state.app.maxSwapSlippagePercentage
 
@@ -77,7 +75,5 @@ export const showNotificationSpotlightSelector = (state: RootState) =>
   state.app.showNotificationSpotlight
 
 export const hideWalletBalancesSelector = (state: RootState) => state.app.hideBalances
-
-export const multichainBetaStatusSelector = (state: RootState) => state.app.multichainBetaStatus
 
 export const pendingDeepLinkSelector = (state: RootState) => state.app.pendingDeepLinks[0] ?? null

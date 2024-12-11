@@ -5,7 +5,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { type ReactTestInstance } from 'react-test-renderer'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import { SwapEvents } from 'src/analytics/Events'
+import { FiatExchangeEvents, SwapEvents } from 'src/analytics/Events'
 import { type ApiReducersKeys } from 'src/redux/apiReducersList'
 import { type RootState } from 'src/redux/reducers'
 import { reducersList } from 'src/redux/reducersList'
@@ -149,19 +149,6 @@ describe('TransactionFeedV2', () => {
     expect(tree.getByTestId('TransactionList').props.data).toHaveLength(0)
   })
 
-  it("renders no transactions and an error message if there's no cache and the query fails", async () => {
-    mockFetch.mockReject(new Error('Test error'))
-    const tree = renderScreen()
-
-    expect(tree.queryByText('transactionFeed.error.fetchError')).toBeFalsy()
-    expect(tree.getByTestId('TransactionList/loading')).toBeTruthy()
-
-    await waitFor(() => expect(tree.getByText('transactionFeed.error.fetchError')).toBeTruthy())
-    expect(tree.queryByTestId('TransactionList/loading')).toBeNull()
-    expect(tree.getByText('transactionFeed.noTransactions')).toBeTruthy()
-    expect(tree.getByTestId('TransactionList').props.data).toHaveLength(0)
-  })
-
   it('renders correctly when there are confirmed transactions and stand by transactions', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
 
@@ -236,22 +223,13 @@ describe('TransactionFeedV2', () => {
     expect(tree.getByText('transactionFeed.allTransactionsShown')).toBeTruthy()
   })
 
-  it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
+  it('renders GetStarted if transaction feed is empty', async () => {
     mockFetch.mockResponse(
       typedResponse({
         transactions: [],
         pageInfo: { hasNextPage: false, endCursor: '', hasPreviousPage: false, startCursor: '' },
       })
     )
-    jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
-        return true
-      }
-      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
-        return false
-      }
-      throw new Error('Unexpected gate')
-    })
 
     const tree = renderScreen()
 
@@ -263,9 +241,6 @@ describe('TransactionFeedV2', () => {
   it('renders NoActivity for UK compliance', () => {
     mockFetch.mockResponse(typedResponse({ transactions: [] }))
     jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
-        return true
-      }
       if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
         return true
       }
@@ -280,15 +255,6 @@ describe('TransactionFeedV2', () => {
 
   it('renders GetStarted with an error if the initial fetch fails', async () => {
     mockFetch.mockReject(new Error('test error'))
-    jest.mocked(getFeatureGate).mockImplementation((gate) => {
-      if (gate === StatsigFeatureGates.SHOW_GET_STARTED) {
-        return true
-      }
-      if (gate === StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT) {
-        return false
-      }
-      throw new Error('Unexpected gate')
-    })
 
     const tree = renderScreen()
     expect(tree.getByTestId('GetStarted')).toBeTruthy()
@@ -597,7 +563,8 @@ describe('TransactionFeedV2', () => {
       crossChainFeeAmount: '0.5',
       crossChainFeeAmountUsd: 500,
     })
-    expect(AppAnalytics.track).toBeCalledTimes(1)
+    expect(AppAnalytics.track).toBeCalledWith(FiatExchangeEvents.cico_add_get_started_impression)
+    expect(AppAnalytics.track).toBeCalledTimes(2)
   })
 
   it('should pre-populate persisted first page of the feed', async () => {

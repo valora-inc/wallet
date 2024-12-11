@@ -15,12 +15,8 @@ import { range } from 'lodash'
 import { MinimalContact } from 'react-native-contacts'
 import { Dapp, DappWithCategoryNames } from 'src/dapps/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
-import {
-  FetchProvidersOutput,
-  LegacyMobileMoneyProvider,
-  PaymentMethod,
-} from 'src/fiatExchanges/utils'
+import { CicoQuote, PaymentMethod, ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
+import { LegacyMobileMoneyProvider } from 'src/fiatExchanges/utils'
 import {
   FiatConnectProviderInfo,
   FiatConnectQuoteError,
@@ -693,123 +689,101 @@ export const mockSimplexQuote = {
   supported_digital_currencies: ['CUSD', 'CELO'],
 }
 
-export const mockProviders: FetchProvidersOutput[] = [
+export const mockCicoQuotes: CicoQuote[] = [
   {
-    name: 'Simplex',
-    restricted: false,
-    unavailable: false,
-    paymentMethods: [PaymentMethod.Card],
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    cashIn: true,
-    cashOut: false,
-    quote: mockSimplexQuote,
-  },
-  {
-    name: 'Moonpay',
-    restricted: false,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-    url: 'https://www.moonpay.com/',
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    cashIn: true,
-    cashOut: false,
-    quote: [
-      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 95, fiatFee: 5 },
-      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 90, fiatFee: 10 },
-    ],
-  },
-  {
-    name: 'Ramp',
-    restricted: false,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-    url: 'www.fakewebsite.com',
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    quote: [
-      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 100, fiatFee: 0 },
-    ],
-    cashIn: true,
-    cashOut: false,
-  },
-  {
-    name: 'Xanpool',
-    restricted: true,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-    url: 'www.fakewebsite.com',
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    cashIn: true,
-    cashOut: true,
-    quote: [
-      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 97, fiatFee: 3 },
-    ],
-  },
-  {
-    name: 'Transak',
-    restricted: false,
-    unavailable: true,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-    url: 'www.fakewebsite.com',
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    cashIn: true,
-    cashOut: false,
-    quote: [
-      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 94, fiatFee: 6 },
-      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 88, fiatFee: 12 },
-    ],
-  },
-  {
-    name: 'CoinbasePay',
-    restricted: false,
-    unavailable: false,
-    paymentMethods: [PaymentMethod.Coinbase],
+    paymentMethod: 'Card',
     url: undefined,
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
-    quote: undefined,
-    cashIn: true,
-    cashOut: false,
+    fiatCurrency: LocalCurrencyCode.USD,
+    tokenId: 'cusd',
+    txType: 'cashIn',
+    fiatAmount: '25',
+    cryptoAmount: '25',
+    fiatFee: '6',
+    provider: {
+      id: 'Simplex',
+      displayName: 'Simplex',
+      logoUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+      logoWideUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    },
+    additionalInfo: { simplexQuote: mockSimplexQuote },
   },
   {
-    name: 'Ramp',
-    restricted: false,
-    unavailable: false,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    paymentMethod: 'Bank',
+    url: 'https://www.moonpay.com/',
+    fiatCurrency: LocalCurrencyCode.USD,
+    tokenId: 'cusd',
+    txType: 'cashIn',
+    fiatAmount: '100',
+    cryptoAmount: '95',
+    fiatFee: '5',
+    provider: {
+      id: 'Moonpay',
+      displayName: 'Moonpay',
+      logoUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+      logoWideUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    },
+    additionalInfo: undefined,
+  },
+  {
+    paymentMethod: 'Card',
+    url: 'https://www.moonpay.com/',
+    fiatCurrency: LocalCurrencyCode.USD,
+    tokenId: 'cusd',
+    txType: 'cashIn',
+    fiatAmount: '100',
+    cryptoAmount: '90',
+    fiatFee: '10',
+    provider: {
+      id: 'Moonpay',
+      displayName: 'Moonpay',
+      logoUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+      logoWideUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    },
+    additionalInfo: undefined,
+  },
+  {
+    paymentMethod: 'Card',
     url: 'www.fakewebsite.com',
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    quote: [],
-    cashIn: false,
-    cashOut: true,
+    fiatCurrency: LocalCurrencyCode.USD,
+    tokenId: 'cusd',
+    txType: 'cashIn',
+    fiatAmount: '100',
+    cryptoAmount: '100',
+    fiatFee: '0',
+    provider: {
+      id: 'Ramp',
+      displayName: 'Ramp',
+      logoUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+      logoWideUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    },
+    additionalInfo: undefined,
   },
   {
-    name: 'Fonbnk',
-    restricted: false,
-    paymentMethods: [PaymentMethod.Airtime],
+    paymentMethod: 'Airtime',
     url: 'https://www.fakewebsite.com/',
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ffonbnk.png?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ffonbnk.png?alt=media',
-    cashIn: true,
-    cashOut: false,
-    quote: [
-      {
-        paymentMethod: PaymentMethod.Airtime,
-        digitalAsset: 'cusd',
-        returnedAmount: 93,
-        fiatFee: 7,
-        extraReqs: { mobileCarrier: 'MTN' },
-      },
-    ],
+    fiatCurrency: LocalCurrencyCode.USD,
+    tokenId: 'cusd',
+    txType: 'cashIn',
+    fiatAmount: '100',
+    cryptoAmount: '93',
+    fiatFee: '7',
+    provider: {
+      id: 'Fonbnk',
+      displayName: 'Fonbnk',
+      logoUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ffonbnk.png?alt=media',
+      logoWideUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ffonbnk.png?alt=media',
+    },
+    additionalInfo: { mobileCarrier: 'MTN' },
   },
 ]
 
@@ -1891,12 +1865,10 @@ export const mockShortcuts: Shortcut[] = [
 
 export const mockProviderSelectionAnalyticsData: ProviderSelectionAnalyticsData = {
   centralizedExchangesAvailable: true,
-  coinbasePayAvailable: true,
   totalOptions: 3,
   paymentMethodsAvailable: {
     [PaymentMethod.Card]: false,
     [PaymentMethod.Bank]: true,
-    [PaymentMethod.Coinbase]: true,
     [PaymentMethod.MobileMoney]: true,
     [PaymentMethod.FiatConnectMobileMoney]: false,
     [PaymentMethod.Airtime]: false,

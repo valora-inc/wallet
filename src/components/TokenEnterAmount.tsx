@@ -179,7 +179,8 @@ export function useEnterAmount(props: {
             .replace(new RegExp(`[${decimalSeparator}]?0+$`), '')
         : ''
 
-    const parsedTokenAmount = parseInputAmount(convertedLocalToToken, decimalSeparator)
+    const parsedTokenAmount =
+      amount === '' ? null : parseInputAmount(convertedLocalToToken, decimalSeparator)
     const balanceInLocal = convertTokenToLocalAmount({
       tokenAmount: props.token.balance,
       tokenInfo: props.token,

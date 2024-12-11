@@ -4,14 +4,14 @@ export enum Currency {
   Euro = 'cEUR',
 }
 
-// Important: when adding new currencies, the string must match the symbol
-// we use in address-metadata
+/**
+ * @deprecated Should use tokenIds / symbols from token list instead.
+ */
 export enum CiCoCurrency {
   CELO = 'CELO',
   cUSD = 'cUSD',
   cEUR = 'cEUR',
   cREAL = 'cREAL',
-  ETH = 'ETH',
 }
 
 export const tokenSymbolToAnalyticsCurrency = (symbol: string): string => {

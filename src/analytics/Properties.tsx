@@ -55,8 +55,12 @@ import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
 import { BeforeDepositActionName, EarnActiveMode, SerializableRewardsInfo } from 'src/earn/types'
-import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
-import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import {
+  CICOFlow,
+  FiatExchangeFlow,
+  PaymentMethod,
+  ProviderSelectionAnalyticsData,
+} from 'src/fiatExchanges/types'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import {
   KeylessBackupFlow,
@@ -143,10 +147,6 @@ interface AppEventsProperties {
   [AppEvents.in_app_review_error]: {
     error: string
   }
-  [AppEvents.multichain_beta_opt_in]: undefined
-  [AppEvents.multichain_beta_opt_out]: undefined
-  [AppEvents.multichain_beta_contact_support]: undefined
-
   [AppEvents.handle_deeplink]: {
     pathStartsWith: string
     fullPath: string | null

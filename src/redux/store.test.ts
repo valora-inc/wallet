@@ -1,5 +1,7 @@
 import Ajv from 'ajv'
 import { spawn, takeEvery } from 'redux-saga/effects'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { PerformanceEvents } from 'src/analytics/Events'
 import { apiReducersKeys, ApiReducersKeys } from 'src/redux/apiReducersList'
 import * as createMigrateModule from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
@@ -9,8 +11,6 @@ import { _persistConfig, setupStore, timeBetweenStoreSizeEvents } from 'src/redu
 import * as accountCheckerModule from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
 import { getLatestSchema, vNeg1Schema } from 'test/schemas'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { PerformanceEvents } from 'src/analytics/Events'
 
 // Mock sagas because we don't want them to run in this test
 jest.mock('src/redux/sagas', () => ({
@@ -143,7 +143,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 237,
+          "version": 238,
         },
         "account": {
           "acceptedTerms": false,
@@ -195,7 +195,6 @@ describe('store state', () => {
           "logPhoneNumberTypeEnabled": false,
           "loggedIn": false,
           "maxSwapSlippagePercentage": 2,
-          "multichainBetaStatus": "NotSeen",
           "networkTimeoutSeconds": 30,
           "pendingDeepLinks": [],
           "phoneNumberVerified": false,

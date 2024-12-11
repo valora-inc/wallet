@@ -8,7 +8,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
@@ -35,6 +35,7 @@ import {
   mockTokenBalances,
   mockUSDCAddress,
 } from 'test/values'
+import { Status as EarnStatus } from 'src/earn/slice'
 
 jest.mock('src/earn/hooks')
 jest.mock('react-native-localize')
@@ -117,33 +118,40 @@ const mockSwapTransaction: SwapTransaction = {
   estimatedPriceImpact: '0.1',
 }
 
-const store = createMockStore({
-  tokens: {
-    tokenBalances: {
-      ...mockTokenBalances,
-      mockArbUsdcTokenId: {
-        ...mockTokenBalances[mockArbUsdcTokenId],
-        balance: '10',
-      },
-      mockArbEthTokenId: {
-        ...mockTokenBalances[mockArbEthTokenId],
-        balance: '1',
-      },
-      mockArbArbTokenId: {
-        ...mockTokenBalances[mockArbArbTokenId],
-        minimumAppVersionToSwap: '1.0.0',
-        balance: '1',
-      },
-      mockAaveArbUsdcTokenId: {
-        ...mockTokenBalances[mockAaveArbUsdcTokenId],
-        balance: '10',
+function createStore(depositStatus: EarnStatus = 'idle') {
+  return createMockStore({
+    tokens: {
+      tokenBalances: {
+        ...mockTokenBalances,
+        mockArbUsdcTokenId: {
+          ...mockTokenBalances[mockArbUsdcTokenId],
+          balance: '10',
+        },
+        mockArbEthTokenId: {
+          ...mockTokenBalances[mockArbEthTokenId],
+          balance: '1',
+        },
+        mockArbArbTokenId: {
+          ...mockTokenBalances[mockArbArbTokenId],
+          minimumAppVersionToSwap: '1.0.0',
+          balance: '1',
+        },
+        mockAaveArbUsdcTokenId: {
+          ...mockTokenBalances[mockAaveArbUsdcTokenId],
+          balance: '10',
+        },
       },
     },
-  },
-  positions: {
-    positions: [...mockPositions, ...mockRewardsPositions],
-  },
-})
+    positions: {
+      positions: [...mockPositions, ...mockRewardsPositions],
+    },
+    earn: {
+      depositStatus,
+    },
+  })
+}
+
+const store = createStore()
 
 const params = {
   pool: mockEarnPositions[0],
@@ -629,6 +637,22 @@ describe('EarnEnterAmount', () => {
     fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '12')
 
     expect(getByTestId('EarnEnterAmount/NotEnoughBalanceWarning')).toBeTruthy()
+    expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
+  })
+
+  it('should show loading spinner when transaction submitted', async () => {
+    const mockStore = createStore('loading')
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    await waitFor(() =>
+      expect(getByTestId('EarnEnterAmount/Continue')).toContainElement(
+        getByTestId('Button/Loading')
+      )
+    )
     expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
   })
 
