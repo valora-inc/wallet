@@ -9,7 +9,6 @@ import {
 } from 'src/earn/prepareTransactions'
 import { EarnActiveMode } from 'src/earn/types'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
-import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { earnPositionsSelector } from 'src/positions/selectors'
 import { EarnPosition, Position } from 'src/positions/types'
@@ -44,7 +43,7 @@ export function useDepositEntrypointInfo({
 
   const { swappableFromTokens } = useSwappableTokens()
   const cashInTokens = useCashInTokens()
-  const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
+  const isSwapEnabled = true // useSelector(isAppSwapsEnabledSelector)
   const userLocation = useSelector(userLocationDataSelector)
 
   const hasDepositToken = useMemo(() => {

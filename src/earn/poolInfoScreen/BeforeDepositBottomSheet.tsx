@@ -72,7 +72,7 @@ function AddMoreAction({
 
   const action: BeforeDepositAction = {
     name: 'AddMore',
-    title: t('earnFlow.beforeDepositBottomSheet.action.addMore'),
+    title: t('earnFlow.beforeDepositBottomSheet.action.addMore', { tokenSymbol: token.symbol }),
     details: t('earnFlow.beforeDepositBottomSheet.action.addDescription', {
       tokenSymbol: token.symbol,
       tokenNetwork: NETWORK_NAMES[token.networkId],
@@ -241,7 +241,7 @@ function DepositAction({
 
   const action: BeforeDepositAction = {
     name: 'Deposit',
-    title: t('earnFlow.beforeDepositBottomSheet.action.deposit'),
+    title: t('earnFlow.beforeDepositBottomSheet.action.deposit', { tokenSymbol: token.symbol }),
     details: t('earnFlow.beforeDepositBottomSheet.action.depositDescription', {
       amount: token.balance,
       tokenSymbol: token.symbol,
@@ -335,13 +335,14 @@ export default function BeforeDepositBottomSheet({
             analyticsProps={analyticsProps}
           />
         )}
-        {(canSwapDeposit || hasDepositToken) && (
-          <Text style={styles.actionDetails}>
-            {t('earnFlow.beforeDepositBottomSheet.crossChainAlternativeDescription', {
-              tokenNetwork: NETWORK_NAMES[token.networkId],
-            })}
-          </Text>
-        )}
+        {(canSwapDeposit || hasDepositToken) &&
+          (showCrossChainSwap || showSwap || showAdd || showAddMore) && (
+            <Text style={styles.actionDetails}>
+              {t('earnFlow.beforeDepositBottomSheet.crossChainAlternativeDescription', {
+                tokenNetwork: NETWORK_NAMES[token.networkId],
+              })}
+            </Text>
+          )}
         {showCrossChainSwap && (
           <CrossChainSwapAction
             token={token}
