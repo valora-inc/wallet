@@ -1,5 +1,5 @@
 import { launchApp } from '../utils/retries'
-import { quickOnboarding, waitForElementByText, waitForElementId } from '../utils/utils'
+import { quickOnboarding, waitForElementById, waitForElementByText } from '../utils/utils'
 
 export default ChooseYourAdventure = () => {
   beforeEach(async () => {
@@ -20,36 +20,36 @@ export default ChooseYourAdventure = () => {
 
     // Back should go to the home screen
     await element(by.id('BackChevron')).tap()
-    await waitForElementId('HomeAction-Send')
+    await waitForElementById({ testID: 'HomeAction-Send' })
   })
 
   it('build your profile navigates to profile page', async () => {
     await waitForElementByText({ text: 'Build your profile', tap: true })
 
     // Check that we are on the profile page
-    await waitForElementId('ProfileEditName')
+    await waitForElementById({ testID: 'ProfileEditName' })
 
     // Back should go to the home screen
     await element(by.id('BackButton')).tap()
-    await waitForElementId('HomeAction-Send')
+    await waitForElementById({ testID: 'HomeAction-Send' })
   })
 
   it('add funds to your wallet navigates to home and opens the token bottom sheet', async () => {
     await waitForElementByText({ text: 'Add funds to your wallet', tap: true })
 
     // Check that we are on the bottom sheet
-    await waitForElementId('TokenBottomSheet')
+    await waitForElementById({ testID: 'TokenBottomSheet' })
 
     // dismissing the bottom sheet should show home screen
     await element(by.id('TokenBottomSheet')).swipe('down')
-    await waitForElementId('HomeAction-Send')
+    await waitForElementById({ testID: 'HomeAction-Send' })
   })
 
   it('explore earning opportunities navigates to stablecoins info page', async () => {
     await waitForElementByText({ text: 'Explore earning opportunities', tap: true })
 
     // Check that we are on the Earn On Your Stablecoins page
-    await waitForElementId('EarnInfoScreen/Title')
+    await waitForElementById({ testID: 'EarnInfoScreen/Title' })
     await waitForElementByText({ text: 'Earn on your\ncrypto' })
   })
 }

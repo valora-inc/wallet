@@ -10,8 +10,7 @@ import {
   getDisplayAddress,
   isElementVisible,
   quickOnboarding,
-  waitForElementByIdAndTap,
-  waitForElementId,
+  waitForElementById,
 } from '../utils/utils'
 
 export default Send = () => {
@@ -26,12 +25,16 @@ export default Send = () => {
     })
 
     it('Then should navigate to send search input from home action', async () => {
-      await waitForElementByIdAndTap('HomeAction-Send', 30_000)
-      await waitForElementId('SendSelectRecipientSearchInput', 30_000)
+      await waitForElementById({ testID: 'HomeAction-Send', timeout: 30_000, tap: true })
+      await waitForElementById({ testID: 'SendSelectRecipientSearchInput', timeout: 30_000 })
     })
 
     it('Then should be able to enter an address', async () => {
-      await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 30_000)
+      await waitForElementById({
+        testID: 'SendSelectRecipientSearchInput',
+        timeout: 30_000,
+        tap: true,
+      })
       await element(by.id('SendSelectRecipientSearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
       await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
       await expect(element(by.text(recipientAddressDisplay)).atIndex(0)).toBeVisible()
@@ -39,12 +42,12 @@ export default Send = () => {
 
     it('Then tapping a recipient should show send button', async () => {
       await element(by.text(recipientAddressDisplay)).atIndex(0).tap()
-      await waitForElementId('SendOrInviteButton', 30_000)
+      await waitForElementById({ testID: 'SendOrInviteButton', timeout: 30_000 })
     })
 
     it('Then tapping send button should navigate to Send Enter Amount screen', async () => {
       await element(by.id('SendOrInviteButton')).tap()
-      await waitForElementId('SendEnterAmount/TokenAmountInput', 30_000)
+      await waitForElementById({ testID: 'SendEnterAmount/TokenAmountInput', timeout: 30_000 })
     })
 
     it('Then should be able to change token', async () => {
@@ -60,10 +63,18 @@ export default Send = () => {
     })
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
-      await waitForElementByIdAndTap('SendEnterAmount/TokenAmountInput', 30_000)
+      await waitForElementById({
+        testID: 'SendEnterAmount/TokenAmountInput',
+        timeout: 30_000,
+        tap: true,
+      })
       await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('0.02')
       await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
-      await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30_000)
+      await waitForElementById({
+        testID: 'SendEnterAmount/ReviewButton',
+        timeout: 30_000,
+        tap: true,
+      })
       await isElementVisible('ConfirmButton')
     })
 
@@ -75,19 +86,27 @@ export default Send = () => {
       await element(by.id('BackChevron')).tap()
       await isElementVisible('SendEnterAmount/ReviewButton')
       await element(by.id('SendEnterAmount/TokenAmountInput')).tap()
-      await waitForElementByIdAndTap('SendEnterAmount/TokenAmountInput', 30_000)
+      await waitForElementById({
+        testID: 'SendEnterAmount/TokenAmountInput',
+        timeout: 30_000,
+        tap: true,
+      })
       await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('0.01')
       await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
-      await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30_000)
+      await waitForElementById({
+        testID: 'SendEnterAmount/ReviewButton',
+        timeout: 30_000,
+        tap: true,
+      })
       let amount = await element(by.id('SendAmount')).getAttributes()
       jestExpect(amount.text).toEqual('0.01 cEUR')
     })
 
     it('Then should be able to send', async () => {
-      await waitForElementByIdAndTap('ConfirmButton', 30_000)
+      await waitForElementById({ testID: 'ConfirmButton', timeout: 30_000, tap: true })
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
-      await waitForElementId('HomeAction-Send', 30_000)
+      await waitForElementById({ testID: 'HomeAction-Send', timeout: 30_000 })
     })
   })
 
@@ -97,7 +116,7 @@ export default Send = () => {
     })
 
     it('Then should navigate to send search input from home action', async () => {
-      await waitForElementByIdAndTap('HomeAction-Send', 30_000)
+      await waitForElementById({ testID: 'HomeAction-Send', timeout: 30_000, tap: true })
       await waitFor(element(by.text(recipientAddressDisplay)))
         .toBeVisible()
         .withTimeout(10_000)
@@ -105,7 +124,7 @@ export default Send = () => {
 
     it('Then should be able to click on recent recipient', async () => {
       await element(by.text(recipientAddressDisplay)).atIndex(0).tap()
-      await waitForElementId('SendEnterAmount/TokenAmountInput', 30_000)
+      await waitForElementById({ testID: 'SendEnterAmount/TokenAmountInput', timeout: 30_000 })
     })
 
     it('Then should be able to choose token', async () => {
@@ -115,10 +134,18 @@ export default Send = () => {
     })
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
-      await waitForElementByIdAndTap('SendEnterAmount/TokenAmountInput', 30_000)
+      await waitForElementById({
+        testID: 'SendEnterAmount/TokenAmountInput',
+        timeout: 30_000,
+        tap: true,
+      })
       await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('0.01')
       await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
-      await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30_000)
+      await waitForElementById({
+        testID: 'SendEnterAmount/ReviewButton',
+        timeout: 30_000,
+        tap: true,
+      })
       await isElementVisible('ConfirmButton')
     })
 
@@ -130,7 +157,7 @@ export default Send = () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
-      await waitForElementId('HomeAction-Send', 30_000)
+      await waitForElementById({ testID: 'HomeAction-Send', timeout: 30_000 })
     })
   })
 
@@ -141,12 +168,16 @@ export default Send = () => {
     })
 
     it('Then should navigate to send search input from home action', async () => {
-      await waitForElementByIdAndTap('HomeAction-Send', 30_000)
-      await waitForElementId('SendSelectRecipientSearchInput', 10_000)
+      await waitForElementById({ testID: 'HomeAction-Send', timeout: 30_000, tap: true })
+      await waitForElementById({ testID: 'SendSelectRecipientSearchInput', timeout: 30_000 })
     })
 
     it('Then should be able to enter a phone number', async () => {
-      await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 30_000)
+      await waitForElementById({
+        testID: 'SendSelectRecipientSearchInput',
+        timeout: 30_000,
+        tap: true,
+      })
       await element(by.id('SendSelectRecipientSearchInput')).typeText(
         WALLET_SINGLE_VERIFIED_PHONE_NUMBER
       )
@@ -156,12 +187,12 @@ export default Send = () => {
 
     it('Then tapping a recipient should show send button', async () => {
       await element(by.id('RecipientItem')).atIndex(0).tap()
-      await waitForElementId('SendOrInviteButton', 30_000)
+      await waitForElementById({ testID: 'SendOrInviteButton', timeout: 30_000 })
     })
 
     it('Then tapping send button should navigate to Send Enter Amount screen', async () => {
       await element(by.id('SendOrInviteButton')).tap()
-      await waitForElementId('SendEnterAmount/TokenAmountInput', 30_000)
+      await waitForElementById({ testID: 'SendEnterAmount/TokenAmountInput', timeout: 30_000 })
     })
 
     it('Then should be able to select token', async () => {
@@ -171,10 +202,18 @@ export default Send = () => {
     })
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
-      await waitForElementByIdAndTap('SendEnterAmount/TokenAmountInput', 30_000)
+      await waitForElementById({
+        testID: 'SendEnterAmount/TokenAmountInput',
+        timeout: 30_000,
+        tap: true,
+      })
       await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('0.01')
       await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
-      await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30_000)
+      await waitForElementById({
+        testID: 'SendEnterAmount/ReviewButton',
+        timeout: 30_000,
+        tap: true,
+      })
       await isElementVisible('ConfirmButton')
     })
 
@@ -186,7 +225,7 @@ export default Send = () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
-      await waitForElementId('HomeAction-Send', 30_000)
+      await waitForElementById({ testID: 'HomeAction-Send', timeout: 30_000 })
     })
   })
 }

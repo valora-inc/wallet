@@ -5,8 +5,7 @@ import {
   enterPinUi,
   navigateToSecurity,
   quickOnboarding,
-  waitForElementByIdAndTap,
-  waitForElementId,
+  waitForElementById,
 } from '../utils/utils'
 
 import jestExpect from 'expect'
@@ -15,8 +14,8 @@ const startBackupFromNotifications = async () => {
   await element(by.id('WalletHome/NotificationBell')).tap()
   await element(by.text('Back up now')).tap()
   await enterPinUi()
-  await waitForElementByIdAndTap('WalletSecurityPrimer/GetStarted')
-  await waitForElementByIdAndTap('keylessBackupIntro/RecoveryPhrase')
+  await waitForElementById({ testID: 'WalletSecurityPrimer/GetStarted', tap: true })
+  await waitForElementById({ testID: 'keylessBackupIntro/RecoveryPhrase', tap: true })
   await element(by.id('SetUpAccountKey')).tap()
 
   // Go through education
@@ -65,13 +64,13 @@ export default NewAccountOnboarding = () => {
     await element(by.id('PhoneVerificationSkipHeader')).tap()
 
     // Choose your own adventure (CYA screen)
-    await waitForElementByIdAndTap('ChooseYourAdventure/Later')
+    await waitForElementById({ testID: 'ChooseYourAdventure/Later', tap: true })
 
     // Arrived to Home screen
     await arriveAtHomeScreen()
 
     // Able to open settings
-    await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
+    await waitForElementById({ testID: 'WalletHome/SettingsGearButton', tap: true })
     await element(by.id('Times')).tap()
   })
 
@@ -117,15 +116,15 @@ export default NewAccountOnboarding = () => {
   })
 
   it('Account Address shown in profile / menu', async () => {
-    await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
-    await waitForElementByIdAndTap('SettingsMenu/Address')
+    await waitForElementById({ testID: 'WalletHome/SettingsGearButton', tap: true })
+    await waitForElementById({ testID: 'SettingsMenu/Address', tap: true })
 
     const accountAddressElement = await element(by.id('address')).getAttributes()
     const accountAddressText = accountAddressElement.text.replace(/\s/g, '')
     testAccountAddress = accountAddressText
     jestExpect(testAccountAddress).toMatch(/0x[0-9a-fA-F]{40}/)
     await element(by.id('BackChevron')).tap()
-    await waitForElementByIdAndTap('Times')
+    await waitForElementById({ testID: 'Times', tap: true })
   })
 
   // After quiz completion recovery phrase should only be shown in settings and
@@ -135,10 +134,10 @@ export default NewAccountOnboarding = () => {
     await expect(element(by.text('Back up now'))).not.toExist()
     await element(by.id('BackChevron')).tap()
     await navigateToSecurity()
-    await waitForElementId('RecoveryPhrase')
+    await waitForElementById({ testID: 'RecoveryPhrase' })
     await element(by.id('RecoveryPhrase')).tap()
     await enterPinUi()
-    await waitForElementId('AccountKeyWordsContainer')
+    await waitForElementById({ testID: 'AccountKeyWordsContainer' })
   })
 
   // Based off the flag set in src/firebase/remoteConfigValuesDefaults.e2e.ts
@@ -158,8 +157,8 @@ export default NewAccountOnboarding = () => {
       },
     })
     await quickOnboarding({ mnemonic: testRecoveryPhrase, cloudBackupEnabled: true })
-    await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
-    await waitForElementByIdAndTap('SettingsMenu/Address')
+    await waitForElementById({ testID: 'WalletHome/SettingsGearButton', tap: true })
+    await waitForElementById({ testID: 'SettingsMenu/Address', tap: true })
 
     await expect(element(by.text(testAccountAddress))).toBeVisible()
   })
