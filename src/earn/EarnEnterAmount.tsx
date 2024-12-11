@@ -112,9 +112,7 @@ export default function EarnEnterAmount({ route }: Props) {
     }
   }, [mode])
 
-  /**
-   * We have to use different balance for withdrawal flow.
-   */
+  // Use different balance for the withdrawal flow.
   const [inputToken, setInputToken] = useState(() => ({
     ...availableInputTokens[0],
     balance: isWithdrawal
@@ -167,6 +165,7 @@ export default function EarnEnterAmount({ route }: Props) {
   }
 
   const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
+    // Use different balance for the withdrawal flow.
     setInputToken({
       ...selectedToken,
       balance: isWithdrawal
