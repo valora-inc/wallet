@@ -33,7 +33,10 @@ export const useDeepLinks = () => {
       Logger.info('useDeepLinks/handleOpenURL', 'Ignoring dynamic link', event.url)
       return
     }
-
+    Logger.debug(
+      'useDeepLinks/handleOpenURL',
+      `Handling url: ${event.url}, isSecureOrigin: ${isSecureOrigin}, shouldConsumeDeepLinks: ${shouldConsumeDeepLinks}`
+    )
     // defer consuming deep links until the user has completed onboarding
     if (shouldConsumeDeepLinks) {
       dispatch(openDeepLink(event.url, isSecureOrigin))
@@ -44,6 +47,7 @@ export const useDeepLinks = () => {
 
   useEffect(() => {
     if (pendingDeepLink && shouldConsumeDeepLinks) {
+      Logger.debug('useDeepLinks/useEffect', 'Consuming pending deep link', pendingDeepLink.url)
       dispatch(openDeepLink(pendingDeepLink.url, pendingDeepLink.isSecureOrigin))
     }
   }, [pendingDeepLink, address, hasVisitedHome])
@@ -64,7 +68,7 @@ export const useDeepLinks = () => {
     CleverTap.getInitialUrl(async (err: any, url: string) => {
       if (err) {
         if (/CleverTap initialUrl is (nil|null)/gi.test(err)) {
-          Logger.warn('useDeepLinks/useAsync', 'CleverTap InitialUrl is nil|null', err)
+          Logger.debug('useDeepLinks/useAsync', 'CleverTap InitialUrl is nil|null', err)
         } else {
           Logger.error('useDeepLinks/useAsync', 'App CleverTap Deeplink on Load', err)
         }

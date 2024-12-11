@@ -2311,14 +2311,6 @@
     "network": "Red",
     "fees": "Tarifas"
   },
-  "multichainBeta": {
-    "beta": "BETA",
-    "title": "¡Nuevo! Ethereum está en {{appName}}",
-    "description1": "Estamos abriendo esta función a un grupo selecto primero. ¡Eres uno de los afortunados!",
-    "description2": "Esto todavía es nuevo, y nuestro equipo sigue trabajando duro para perfeccionar las cosas. Nos encantaría conocer tu opinión.",
-    "primaryCta": "Pruébalo ahora",
-    "secondaryCta": "No, gracias"
-  },
   "getStartedHome": {
     "title": "Comprar cripto o transferir tokens",
     "body": "Compra o transfiere tokens compatibles para enviar cripto y explora web3",

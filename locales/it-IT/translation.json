@@ -2311,14 +2311,6 @@
     "network": "Rete",
     "fees": "Commissioni"
   },
-  "multichainBeta": {
-    "beta": "BETA",
-    "title": "Novità! Ethereum è in {{appName}}",
-    "description1": "Inizialmente, stiamo rendendo disponibile questa funzionalità a un gruppo selezionato di persone. Tu sei tra i fortunati!",
-    "description2": "È ancora una novità e il nostro team si sta impegnando per rendere tutto perfetto. Saremo lieti di ricevere il tuo feedback.",
-    "primaryCta": "Provala ora",
-    "secondaryCta": "No grazie"
-  },
   "getStartedHome": {
     "title": "Acquista criptovalute o trasferisci token",
     "body": "Compra o trasferisci token compatibili per inviare criptovalute ed esplorare il Web3!",

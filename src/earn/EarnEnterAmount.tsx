@@ -25,6 +25,7 @@ import TokenEnterAmount, {
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
+import { depositStatusSelector } from 'src/earn/selectors'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/types'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
@@ -94,6 +95,11 @@ export default function EarnEnterAmount({ route }: Props) {
   const { pool, mode = 'deposit' } = route.params
   const isWithdrawal = mode === 'withdraw'
   const { depositToken, withdrawToken, eligibleSwappableTokens } = useTokens({ pool })
+
+  // We do not need to check withdrawal status/show a spinner for a pending
+  // withdrawal, since withdrawals navigate to a separate confirmation screen.
+  const depositStatus = useSelector(depositStatusSelector)
+  const transactionSubmitted = depositStatus === 'loading'
 
   const availableInputTokens = useMemo(() => {
     switch (mode) {
@@ -267,8 +273,10 @@ export default function EarnEnterAmount({ route }: Props) {
   )
 
   const disabled =
-    // Should disable if the user enters 0, has enough balance but the transaction is not possible, or does not have enough balance
-    !!processedAmounts.token.bignum?.isZero() || !transactionIsPossible
+    // Should disable if the user enters 0, has enough balance but the transaction
+    // is not possible, does not have enough balance, or if transaction is already
+    // submitted
+    !!processedAmounts.token.bignum?.isZero() || !transactionIsPossible || transactionSubmitted
 
   const onSelectPercentageAmount = (percentage: number) => {
     handleSelectPercentageAmount(percentage)
@@ -455,7 +463,7 @@ export default function EarnEnterAmount({ route }: Props) {
           size={BtnSizes.FULL}
           disabled={disabled}
           style={styles.continueButton}
-          showLoading={isPreparingTransactions}
+          showLoading={isPreparingTransactions || transactionSubmitted}
           testID="EarnEnterAmount/Continue"
         />
       </KeyboardAwareScrollView>
