@@ -29,7 +29,7 @@ jobs:
       fail-fast: false
       matrix:
         # min supported API level is 24
-        # 24 is failing due to Let's Encrypt certificate expiration
+        # 24 is failing due to Let's Encrypt root certificate expiration
         # 25 is failing (RET-1274)
         # 26 is failing (RET-1275)
         android-api-level: ['27']
