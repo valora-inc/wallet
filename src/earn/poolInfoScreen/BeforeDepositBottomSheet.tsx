@@ -9,6 +9,7 @@ import { ActionCard } from 'src/earn/ActionCard'
 import { BeforeDepositAction } from 'src/earn/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow } from 'src/fiatExchanges/types'
+import EarnCoins from 'src/icons/EarnCoins'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import SwapAndDeposit from 'src/icons/SwapAndDeposit'
@@ -246,7 +247,7 @@ function DepositAction({
       amount: token.balance,
       tokenSymbol: token.symbol,
     }),
-    iconComponent: QuickActionsAdd, // TODO: update to be coins
+    iconComponent: EarnCoins,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
         action: 'Deposit',
