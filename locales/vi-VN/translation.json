@@ -2309,14 +2309,6 @@
     "network": "Mạng lưới",
     "fees": "Phí"
   },
-  "multichainBeta": {
-    "beta": "BETA",
-    "title": "Tin nóng! Ethereum đã có trên {{appName}}",
-    "description1": "Chúng tôi mở rộng tính năng này cho một nhóm người dùng được chọn trước. Bạn là một trong những người may mắn!",
-    "description2": "Tính năng này vẫn còn mới và nhóm của chúng tôi vẫn đang nỗ lực để hoàn chỉnh mọi thứ. Chúng tôi rất mong nhận được phản hồi của bạn.",
-    "primaryCta": "Thử ngay",
-    "secondaryCta": "Không, cảm ơn"
-  },
   "getStartedHome": {
     "title": "Mua tiền kỹ thuật số hoặc chuyển token",
     "body": "Mua hoặc chuyển token tương thích để gửi tiền điện tử và khám phá web3!",
