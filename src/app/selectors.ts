@@ -76,6 +76,4 @@ export const showNotificationSpotlightSelector = (state: RootState) =>
 
 export const hideWalletBalancesSelector = (state: RootState) => state.app.hideBalances
 
-export const multichainBetaStatusSelector = (state: RootState) => state.app.multichainBetaStatus
-
 export const pendingDeepLinkSelector = (state: RootState) => state.app.pendingDeepLinks[0] ?? null

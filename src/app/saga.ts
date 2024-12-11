@@ -251,7 +251,7 @@ function convertQueryToScreenParams(query: string) {
 export function* handleDeepLink(action: OpenDeepLink) {
   const { deepLink } = action
   const { isSecureOrigin } = action
-  Logger.debug(TAG, 'Handling deep link', deepLink)
+  Logger.debug(TAG, `Handling deep link: ${deepLink}, isSecureOrigin: ${isSecureOrigin}`)
 
   const walletAddress = yield* select(walletAddressSelector)
   if (!walletAddress) {
