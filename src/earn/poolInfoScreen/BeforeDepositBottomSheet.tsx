@@ -17,8 +17,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -212,10 +210,7 @@ export default function BeforeDepositBottomSheet({
   const { t } = useTranslation()
 
   const { availableShortcutIds } = pool
-  const canSwapDeposit =
-    getFeatureGate(StatsigFeatureGates.SHOW_SWAP_AND_DEPOSIT) &&
-    availableShortcutIds.includes('swap-deposit') &&
-    hasTokensOnSameNetwork
+  const canSwapDeposit = availableShortcutIds.includes('swap-deposit') && hasTokensOnSameNetwork
 
   const title = canSwapDeposit
     ? t('earnFlow.beforeDepositBottomSheet.youNeedTitle', {

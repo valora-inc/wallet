@@ -33,7 +33,10 @@ export const useDeepLinks = () => {
       Logger.info('useDeepLinks/handleOpenURL', 'Ignoring dynamic link', event.url)
       return
     }
-
+    Logger.debug(
+      'useDeepLinks/handleOpenURL',
+      `Handling url: ${event.url}, isSecureOrigin: ${isSecureOrigin}, shouldConsumeDeepLinks: ${shouldConsumeDeepLinks}`
+    )
     // defer consuming deep links until the user has completed onboarding
     if (shouldConsumeDeepLinks) {
       dispatch(openDeepLink(event.url, isSecureOrigin))
@@ -44,6 +47,7 @@ export const useDeepLinks = () => {
 
   useEffect(() => {
     if (pendingDeepLink && shouldConsumeDeepLinks) {
+      Logger.debug('useDeepLinks/useEffect', 'Consuming pending deep link', pendingDeepLink.url)
       dispatch(openDeepLink(pendingDeepLink.url, pendingDeepLink.isSecureOrigin))
     }
   }, [pendingDeepLink, address, hasVisitedHome])
@@ -64,11 +68,12 @@ export const useDeepLinks = () => {
     CleverTap.getInitialUrl(async (err: any, url: string) => {
       if (err) {
         if (/CleverTap initialUrl is (nil|null)/gi.test(err)) {
-          Logger.warn('App/componentDidMount', 'CleverTap InitialUrl is nil|null', err)
+          Logger.debug('useDeepLinks/useAsync', 'CleverTap InitialUrl is nil|null', err)
         } else {
-          Logger.error('App/componentDidMount', 'App CleverTap Deeplink on Load', err)
+          Logger.error('useDeepLinks/useAsync', 'App CleverTap Deeplink on Load', err)
         }
       } else if (url) {
+        Logger.debug('useDeepLinks/useAsync', 'CleverTap InitialUrl', url)
         handleOpenInitialURL({ url }, true)
       }
     })
@@ -76,12 +81,14 @@ export const useDeepLinks = () => {
     if (FIREBASE_ENABLED) {
       const firebaseUrl = await dynamicLinks().getInitialLink()
       if (firebaseUrl) {
+        Logger.debug('useDeepLinks/useAsync', 'Firebase InitialLink', firebaseUrl.url)
         handleOpenURL({ url: firebaseUrl.url })
       }
     }
 
     const initialUrl = await Linking.getInitialURL()
     if (initialUrl) {
+      Logger.debug('useDeepLinks/useAsync', 'Linking InitialUrl', initialUrl)
       handleOpenInitialURL({ url: initialUrl })
     }
   }, [])
@@ -89,20 +96,26 @@ export const useDeepLinks = () => {
   useEffect(() => {
     // Handles opening Clevertap deeplinks when app is open
     CleverTap.addListener('CleverTapPushNotificationClicked', async (event: any) => {
+      Logger.debug('useDeepLinks/useEffect', 'CleverTapPushNotificationClicked', event)
       // Url location differs for iOS and Android
       const url = Platform.OS === 'ios' ? event.customExtras['wzrk_dl'] : event['wzrk_dl']
       if (url) {
+        Logger.debug('useDeepLinks/useEffect', 'CleverTapPushNotificationClicked, opening url', url)
         handleOpenURL({ url }, true)
       }
     })
 
     const linkingEventListener = Linking.addEventListener('url', (event) => {
+      Logger.debug('useDeepLinks/useEffect', 'Linking url event', event)
       handleOpenURL(event)
     })
 
     let dynamicLinksUnsubsribe: () => void | undefined
     if (FIREBASE_ENABLED) {
-      dynamicLinksUnsubsribe = dynamicLinks().onLink(({ url }) => handleOpenURL({ url }))
+      dynamicLinksUnsubsribe = dynamicLinks().onLink(({ url }) => {
+        Logger.debug('useDeepLinks/useEffect', 'Dynamic link event', url)
+        handleOpenURL({ url })
+      })
     }
 
     return () => {

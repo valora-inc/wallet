@@ -49,6 +49,7 @@ import { parseInputAmount } from 'src/utils/parsing'
 import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
+import { depositStatusSelector } from 'src/earn/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnEnterAmount>
 
@@ -99,6 +100,11 @@ function EarnEnterAmount({ route }: Props) {
   const { pool, mode = 'deposit' } = route.params
   const isWithdrawal = mode === 'withdraw'
   const { depositToken, withdrawToken, eligibleSwappableTokens } = useTokens({ pool })
+
+  // We do not need to check withdrawal status/show a spinner for a pending
+  // withdrawal, since withdrawals navigate to a separate confirmation screen.
+  const depositStatus = useSelector(depositStatusSelector)
+  const transactionSubmitted = depositStatus === 'loading'
 
   const availableInputTokens = useMemo(() => {
     switch (mode) {
@@ -299,8 +305,10 @@ function EarnEnterAmount({ route }: Props) {
   )
 
   const disabled =
-    // Should disable if the user enters 0, has enough balance but the transaction is not possible, or does not have enough balance
-    !!tokenAmount?.isZero() || !transactionIsPossible
+    // Should disable if the user enters 0, has enough balance but the transaction
+    // is not possible, does not have enough balance, or if transaction is already
+    // submitted
+    !!tokenAmount?.isZero() || !transactionIsPossible || transactionSubmitted
 
   const onTokenAmountInputChange = (value: string) => {
     setSelectedPercentage(null)
@@ -549,7 +557,7 @@ function EarnEnterAmount({ route }: Props) {
           size={BtnSizes.FULL}
           disabled={disabled}
           style={styles.continueButton}
-          showLoading={isPreparingTransactions}
+          showLoading={isPreparingTransactions || transactionSubmitted}
           testID="EarnEnterAmount/Continue"
         />
       </KeyboardAwareScrollView>
