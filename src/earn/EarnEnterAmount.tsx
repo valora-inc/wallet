@@ -106,7 +106,15 @@ export default function EarnEnterAmount({ route }: Props) {
     }
   }, [mode])
 
-  const [inputToken, setInputToken] = useState(() => availableInputTokens[0])
+  /**
+   * We have to use different balance for withdrawal flow.
+   */
+  const [inputToken, setInputToken] = useState(() => ({
+    ...availableInputTokens[0],
+    balance: isWithdrawal
+      ? withdrawToken.balance.multipliedBy(pool.pricePerShare[0])
+      : availableInputTokens[0].balance,
+  }))
 
   const inputRef = useRef<RNTextInput>(null)
   const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -153,7 +161,12 @@ export default function EarnEnterAmount({ route }: Props) {
   }
 
   const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
-    setInputToken(selectedToken)
+    setInputToken({
+      ...selectedToken,
+      balance: isWithdrawal
+        ? withdrawToken.balance.multipliedBy(pool.pricePerShare[0])
+        : selectedToken.balance,
+    })
     replaceAmount('')
     tokenBottomSheetRef.current?.close()
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
@@ -258,7 +271,7 @@ export default function EarnEnterAmount({ route }: Props) {
     !!processedAmounts.token.bignum?.isZero() || !transactionIsPossible
 
   const onSelectPercentageAmount = (percentage: number) => {
-    handleSelectPercentageAmount(percentage, balanceInInputToken)
+    handleSelectPercentageAmount(percentage)
     setSelectedPercentage(percentage)
 
     AppAnalytics.track(SendEvents.send_percentage_selected, {
@@ -342,7 +355,6 @@ export default function EarnEnterAmount({ route }: Props) {
             amountType={amountType}
             toggleAmountType={handleToggleAmountType}
             onOpenTokenPicker={dropdownEnabled ? onOpenTokenPicker : undefined}
-            tokenBalance={isWithdrawal ? balanceInInputToken : inputToken.balance}
           />
           {processedAmounts.token.bignum && prepareTransactionsResult && !isWithdrawal && (
             <TransactionDepositDetails
@@ -355,7 +367,7 @@ export default function EarnEnterAmount({ route }: Props) {
               swapTransaction={swapTransaction}
             />
           )}
-          {processedAmounts.token.bignum && !!amount && isWithdrawal && (
+          {isWithdrawal && (
             <TransactionWithdrawDetails
               pool={pool}
               token={transactionToken}
@@ -545,8 +557,9 @@ function TransactionWithdrawDetails({
             <LabelWithInfo
               label={t('earnFlow.enterAmount.claimingReward')}
               testID={`LabelWithInfo/ClaimingReward-${index}`}
+              style={{ flex: 0 }}
             />
-            <View style={{ ...styles.txDetailsValue, flex: 1 }}>
+            <View style={styles.txDetailsValue}>
               <TokenDisplay
                 testID={`EarnEnterAmount/Reward-${index}`}
                 tokenId={position.tokens[0].tokenId}

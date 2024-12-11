@@ -583,7 +583,6 @@ describe('EarnEnterAmount', () => {
         </Provider>
       )
 
-      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
       expect(getByTestId('LabelWithInfo/ClaimingReward-0')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Reward-0')).toHaveTextContent('₱0.016')
       expect(getByTestId('EarnEnterAmount/Reward-0-crypto')).toHaveTextContent('0.01 ARB')
