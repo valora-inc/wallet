@@ -300,8 +300,13 @@ export default function BeforeDepositBottomSheet({
   const showCrossChainSwap = canSwapDeposit && hasTokensOnOtherNetworks
   const showSwap = !canSwapDeposit && (hasTokensOnSameNetwork || hasTokensOnOtherNetworks)
   const showAdd = canAdd && !hasDepositToken
+  // Show AddMore if the token is available for cash-in, the user has the deposit token,
+  // and does not have both tokens on the same and different networks (in which case deposit and both swap and cross-chain swap will show instead)
   const showAddMore =
     canAdd && hasDepositToken && !(hasTokensOnSameNetwork && hasTokensOnOtherNetworks)
+  // Show Transfer if the user does not have the deposit token and does not have any tokens available for swapping
+  // OR if the token is not a cash-in token and the user does not have the deposit token and both tokens on the same and different networks
+  // (in which case deposit and both swap and cross-chain swap will show instead)
   const showTransfer =
     (!hasDepositToken && !hasTokensOnSameNetwork && !hasTokensOnOtherNetworks) ||
     (!canAdd && !(hasDepositToken && hasTokensOnSameNetwork && hasTokensOnOtherNetworks))
