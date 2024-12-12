@@ -9,6 +9,7 @@ import { ActionCard } from 'src/earn/ActionCard'
 import { BeforeDepositAction } from 'src/earn/types'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow } from 'src/fiatExchanges/types'
+import EarnCoins from 'src/icons/EarnCoins'
 import QuickActionsAdd from 'src/icons/quick-actions/Add'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import SwapAndDeposit from 'src/icons/SwapAndDeposit'
@@ -45,6 +46,42 @@ function AddAction({
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
         action: 'Add',
+        ...analyticsProps,
+      })
+
+      navigate(Screens.FiatExchangeAmount, {
+        tokenId: token.tokenId,
+        flow: CICOFlow.CashIn,
+        tokenSymbol: token.symbol,
+      })
+      forwardedRef.current?.close()
+    },
+  }
+  return <ActionCard action={action} />
+}
+
+function AddMoreAction({
+  token,
+  forwardedRef,
+  analyticsProps,
+}: {
+  token: TokenBalance
+  forwardedRef: React.RefObject<BottomSheetModalRefType>
+  analyticsProps: EarnCommonProperties & TokenProperties
+}) {
+  const { t } = useTranslation()
+
+  const action: BeforeDepositAction = {
+    name: 'AddMore',
+    title: t('earnFlow.beforeDepositBottomSheet.action.addMore', { tokenSymbol: token.symbol }),
+    details: t('earnFlow.beforeDepositBottomSheet.action.addDescription', {
+      tokenSymbol: token.symbol,
+      tokenNetwork: NETWORK_NAMES[token.networkId],
+    }),
+    iconComponent: QuickActionsAdd,
+    onPress: () => {
+      AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
+        action: 'AddMore',
         ...analyticsProps,
       })
 
@@ -190,10 +227,45 @@ function SwapAndDepositAction({
   return <ActionCard action={action} />
 }
 
+function DepositAction({
+  token,
+  pool,
+  forwardedRef,
+  analyticsProps,
+}: {
+  token: TokenBalance
+  pool: EarnPosition
+  forwardedRef: React.RefObject<BottomSheetModalRefType>
+  analyticsProps: EarnCommonProperties & TokenProperties
+}) {
+  const { t } = useTranslation()
+
+  const action: BeforeDepositAction = {
+    name: 'Deposit',
+    title: t('earnFlow.beforeDepositBottomSheet.action.deposit', { tokenSymbol: token.symbol }),
+    details: t('earnFlow.beforeDepositBottomSheet.action.depositDescription', {
+      amount: token.balance,
+      tokenSymbol: token.symbol,
+    }),
+    iconComponent: EarnCoins,
+    onPress: () => {
+      AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
+        action: 'Deposit',
+        ...analyticsProps,
+      })
+
+      navigate(Screens.EarnEnterAmount, { pool })
+      forwardedRef.current?.close()
+    },
+  }
+  return <ActionCard action={action} />
+}
+
 export default function BeforeDepositBottomSheet({
   forwardedRef,
   token,
   pool,
+  hasDepositToken,
   hasTokensOnSameNetwork,
   hasTokensOnOtherNetworks,
   canAdd,
@@ -202,6 +274,7 @@ export default function BeforeDepositBottomSheet({
   forwardedRef: RefObject<BottomSheetModalRefType>
   token: TokenBalance
   pool: EarnPosition
+  hasDepositToken: boolean
   hasTokensOnSameNetwork: boolean
   hasTokensOnOtherNetworks: boolean
   canAdd: boolean
@@ -212,12 +285,10 @@ export default function BeforeDepositBottomSheet({
   const { availableShortcutIds } = pool
   const canSwapDeposit = availableShortcutIds.includes('swap-deposit') && hasTokensOnSameNetwork
 
-  const title = canSwapDeposit
-    ? t('earnFlow.beforeDepositBottomSheet.youNeedTitle', {
-        tokenSymbol: token.symbol,
-        tokenNetwork: NETWORK_NAMES[token.networkId],
-      })
-    : t('earnFlow.beforeDepositBottomSheet.beforeYouCanDepositTitle')
+  const title =
+    canSwapDeposit || hasDepositToken
+      ? t('earnFlow.beforeDepositBottomSheet.depositTitle')
+      : t('earnFlow.beforeDepositBottomSheet.beforeYouCanDepositTitle')
 
   const analyticsProps = {
     ...getTokenAnalyticsProps(token),
@@ -226,48 +297,76 @@ export default function BeforeDepositBottomSheet({
     depositTokenId: pool.dataProps.depositTokenId,
   }
 
+  const showCrossChainSwap = canSwapDeposit && hasTokensOnOtherNetworks
+  const showSwap = !canSwapDeposit && (hasTokensOnSameNetwork || hasTokensOnOtherNetworks)
+  const showAdd = canAdd && !hasDepositToken
+  const showAddMore =
+    canAdd && hasDepositToken && !(hasTokensOnSameNetwork && hasTokensOnOtherNetworks)
+  const showTransfer =
+    (!hasDepositToken && !hasTokensOnSameNetwork && !hasTokensOnOtherNetworks) ||
+    (!canAdd && !(hasDepositToken && hasTokensOnSameNetwork && hasTokensOnOtherNetworks))
+
   return (
     <BottomSheet
       forwardedRef={forwardedRef}
       title={title}
       description={
-        !canSwapDeposit
-          ? t('earnFlow.beforeDepositBottomSheet.beforeYouCanDepositDescription')
+        !canSwapDeposit && !hasDepositToken
+          ? t('earnFlow.beforeDepositBottomSheet.beforeYouCanDepositDescriptionV1_101', {
+              tokenSymbol: token.symbol,
+              tokenNetwork: NETWORK_NAMES[token.networkId],
+            })
           : undefined
       }
       titleStyle={styles.bottomSheetTitle}
       testId={'Earn/BeforeDepositBottomSheet'}
     >
       <View style={styles.actionsContainer}>
+        {hasDepositToken && (
+          <DepositAction
+            token={token}
+            pool={pool}
+            forwardedRef={forwardedRef}
+            analyticsProps={analyticsProps}
+          />
+        )}
         {canSwapDeposit && (
-          <>
-            <SwapAndDepositAction
-              token={token}
-              pool={pool}
-              forwardedRef={forwardedRef}
-              analyticsProps={analyticsProps}
-            />
+          <SwapAndDepositAction
+            token={token}
+            pool={pool}
+            forwardedRef={forwardedRef}
+            analyticsProps={analyticsProps}
+          />
+        )}
+        {(canSwapDeposit || hasDepositToken) &&
+          (showCrossChainSwap || showSwap || showAdd || showAddMore || showTransfer) && (
             <Text style={styles.actionDetails}>
               {t('earnFlow.beforeDepositBottomSheet.crossChainAlternativeDescription', {
                 tokenNetwork: NETWORK_NAMES[token.networkId],
               })}
             </Text>
-            {hasTokensOnOtherNetworks && (
-              <CrossChainSwapAction
-                token={token}
-                forwardedRef={forwardedRef}
-                analyticsProps={analyticsProps}
-              />
-            )}
-          </>
+          )}
+        {showCrossChainSwap && (
+          <CrossChainSwapAction
+            token={token}
+            forwardedRef={forwardedRef}
+            analyticsProps={analyticsProps}
+          />
         )}
-        {!canSwapDeposit && (hasTokensOnSameNetwork || hasTokensOnOtherNetworks) && (
+        {showSwap && (
           <SwapAction token={token} forwardedRef={forwardedRef} analyticsProps={analyticsProps} />
         )}
-        {canAdd && (
+        {showAdd && (
           <AddAction token={token} forwardedRef={forwardedRef} analyticsProps={analyticsProps} />
         )}
-        {!canSwapDeposit && (
+        {showAddMore && (
+          <AddMoreAction
+            token={token}
+            forwardedRef={forwardedRef}
+            analyticsProps={analyticsProps}
+          />
+        )}
+        {showTransfer && (
           <TransferAction
             token={token}
             exchanges={exchanges}
