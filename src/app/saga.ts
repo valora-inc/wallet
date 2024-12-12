@@ -323,7 +323,11 @@ export function* handleDeepLink(action: OpenDeepLink) {
 }
 
 function* watchDeepLinks() {
-  yield* takeLatest(Actions.OPEN_DEEP_LINK, safely(handleDeepLink))
+  // using takeEvery over takeLatest because openScreen deep links could be
+  // fired by multiple handlers (one with isSecureOrigin and one without), and
+  // if takeLatest kills the call to the handler with isSecureOrigin, the deep
+  // link won't work.
+  yield* takeEvery(Actions.OPEN_DEEP_LINK, safely(handleDeepLink))
 }
 
 export function* handleOpenUrl(action: OpenUrlAction) {
