@@ -2309,14 +2309,6 @@
     "network": "网络",
     "fees": "费用"
   },
-  "multichainBeta": {
-    "beta": "BETA",
-    "title": "新消息！Ethereum 登陆 {{appName}} 了",
-    "description1": "我们将首先向特定人群开放这项功能。您是幸运儿之一！",
-    "description2": "这还是个新产品，我们的团队仍在努力使其更加完美。我们希望听到您的反馈意见。",
-    "primaryCta": "立即试试看",
-    "secondaryCta": "不，谢谢"
-  },
   "getStartedHome": {
     "title": "购买加密货币或转移代币。",
     "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！",

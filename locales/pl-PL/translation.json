@@ -2315,14 +2315,6 @@
     "network": "Sieć",
     "fees": "Opłaty"
   },
-  "multichainBeta": {
-    "beta": "BETA",
-    "title": "Nowość – Ethereum jest na {{appName}}!",
-    "description1": "Najpierw udostępniamy tę funkcję wybranej grupie osób. Jesteś jednym z tych szczęśliwców!",
-    "description2": "To wciąż nowość, a nasz zespół wciąż ciężko pracuje, aby wszystko działało idealnie. Chętnie poznamy Twoją opinię.",
-    "primaryCta": "Wypróbuj teraz",
-    "secondaryCta": "Nie, dziękuję"
-  },
   "getStartedHome": {
     "title": "Kup kryptowaluty lub prześlij tokeny",
     "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!",

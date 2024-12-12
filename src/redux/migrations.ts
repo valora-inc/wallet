@@ -1,24 +1,26 @@
 import _ from 'lodash'
 import {
   FinclusiveKycStatus,
-  RecoveryPhraseInOnboardingStatus,
   PincodeType,
+  RecoveryPhraseInOnboardingStatus,
 } from 'src/account/reducer'
-import { MultichainBetaStatus } from 'src/app/actions'
-import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
+import {
+  DEFAULT_SENTRY_NETWORK_ERRORS,
+  DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
+  ONBOARDING_FEATURES_ENABLED,
+} from 'src/config'
 import { Dapp } from 'src/dapps/types'
 import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 import { Position } from 'src/positions/types'
 import { Recipient } from 'src/recipients/recipient'
 import { Network, NetworkId, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
-import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
-import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 
 export function updateCachedQuoteParams(cachedQuoteParams: {
   [providerId: string]: {
@@ -1448,7 +1450,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      multichainBetaStatus: MultichainBetaStatus.NotSeen,
+      multichainBetaStatus: 'NotSeen',
     },
   }),
   172: (state: any) => ({
@@ -1976,4 +1978,8 @@ export const migrations = {
       identity: _.omit(state.identity, 'hasSeenVerificationNux'),
     }
   },
+  238: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'multichainBetaStatus'),
+  }),
 }

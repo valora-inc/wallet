@@ -129,6 +129,10 @@ export default function EarnDepositBottomSheet({
       })
     )
     AppAnalytics.track(EarnEvents.earn_deposit_complete, commonAnalyticsProperties)
+    // Dismiss the bottom sheet when transaction is submitted. This avoids a handful of issues,
+    // such as needing to manually dismiss the sheet for PIN entry, and the bottom sheet
+    // persisting onto the home screen.
+    forwardedRef.current?.close()
   }
 
   const onPressCancel = () => {

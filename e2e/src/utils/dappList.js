@@ -1,5 +1,5 @@
 import fetch from 'node-fetch'
-import { waitForElementId } from './utils'
+import { waitForElementById } from './utils'
 
 /**
  * From the home screen, navigate to the dapp explorer screen
@@ -8,13 +8,9 @@ import { waitForElementId } from './utils'
  */
 export async function navigateToDappList() {
   await device.disableSynchronization()
-  await waitForElementId('Hamburger')
-  await element(by.id('Hamburger')).tap()
-  await waitForElementId('dapps-explorer-icon')
-  await element(by.id('dapps-explorer-icon')).tap()
-  await waitFor(element(by.id('DAppsExplorerScreen/DappsList')))
-    .toExist()
-    .withTimeout(10 * 1000)
+  await waitForElementById('Hamburger', { tap: true })
+  await waitForElementById('dapps-explorer-icon', { tap: true })
+  await waitForElementById('DAppsExplorerScreen/DappsList')
   await device.enableSynchronization()
 }
 
@@ -22,10 +18,8 @@ export async function navigateToDappList() {
  * From the drawer navigate to home screen
  */
 export async function navigateToHome() {
-  await waitForElementId('Hamburger')
-  await element(by.id('Hamburger')).tap()
-  await waitForElementId('Home')
-  await element(by.id('Home')).tap()
+  await waitForElementById('Hamburger', { tap: true })
+  await waitForElementById('Home', { tap: true })
 }
 
 /**

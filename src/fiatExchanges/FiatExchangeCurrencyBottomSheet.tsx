@@ -34,10 +34,7 @@ function useFilterChips(
 
   const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
 
-  if (
-    flow !== FiatExchangeFlow.CashIn ||
-    !getFeatureGate(StatsigFeatureGates.SHOW_CASH_IN_TOKEN_FILTERS)
-  ) {
+  if (flow !== FiatExchangeFlow.CashIn) {
     return []
   }
   const supportedNetworkIds = getMultichainFeatures().showCico
