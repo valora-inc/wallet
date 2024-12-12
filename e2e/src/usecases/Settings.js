@@ -29,7 +29,7 @@ export default Settings = () => {
       .toBeVisible()
       .withTimeout(1000 * 10)
     await dismissBanners()
-    await waitForElementById({ testID: 'BackChevron', tap: true })
+    await waitForElementById('BackChevron', { tap: true })
     // TODO replace this with an ID selector
     await expect(element(by.text(`${randomName}`))).toBeVisible()
   })

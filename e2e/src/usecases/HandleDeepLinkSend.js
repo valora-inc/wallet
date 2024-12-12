@@ -63,12 +63,11 @@ export default HandleDeepLinkSend = () => {
       await launchDeepLink({
         url: `celo://wallet/pay?address=${E2E_TEST_FAUCET}&currencyCode=USD&token=cUSD&displayName=TestFaucet`,
       })
-      await waitForElementById({ testID: 'SendEnterAmount/TokenSelect' })
+      await waitForElementById('SendEnterAmount/TokenSelect')
       await expect(element(by.text('cUSD on Celo')).atIndex(0)).toBeVisible()
       await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('0.01')
       await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
-      await waitForElementById({
-        testID: 'SendEnterAmount/ReviewButton',
+      await waitForElementById('SendEnterAmount/ReviewButton', {
         timeout: 30_000,
         tap: true,
       })

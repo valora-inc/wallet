@@ -51,23 +51,23 @@ export default RestoreAccountOnboarding = () => {
 
       if (!walletFunded) {
         // case where account not funded yet. dismiss zero balance modal to continue with onboarding.
-        await waitForElementById({ testID: 'ConfirmUseAccountDialog/PrimaryAction', tap: true })
+        await waitForElementById('ConfirmUseAccountDialog/PrimaryAction', { tap: true })
       }
 
       if (!verifiedPhoneNumber) {
         // case where phone verification is required. skip it.
-        await waitForElementById({ testID: 'PhoneVerificationSkipHeader', tap: true })
+        await waitForElementById('PhoneVerificationSkipHeader', { tap: true })
       }
 
       // Choose your own adventure (CYA screen)
-      await waitForElementById({ testID: 'ChooseYourAdventure/Later', tap: true })
+      await waitForElementById('ChooseYourAdventure/Later', { tap: true })
 
       // verify that we land on the home screen
       await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 
       // verify that the correct account was restored
-      await waitForElementById({ testID: 'WalletHome/SettingsGearButton', tap: true })
-      await waitForElementById({ testID: 'SettingsMenu/Address', tap: true })
+      await waitForElementById('WalletHome/SettingsGearButton', { tap: true })
+      await waitForElementById('SettingsMenu/Address', { tap: true })
 
       await expect(element(by.text(walletAddress))).toBeVisible()
     }

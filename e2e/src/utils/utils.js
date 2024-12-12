@@ -121,7 +121,7 @@ export async function isElementVisible(elementId, index) {
   }
 }
 
-export async function waitForElementById({ testID, timeout = 10_000, index = 0, tap = false }) {
+export async function waitForElementById(testID, { timeout = 10000, index = 0, tap = false } = {}) {
   try {
     const elementMatcher =
       index === 0 ? element(by.id(testID)) : element(by.id(testID)).atIndex(index)
@@ -172,8 +172,7 @@ export async function quickOnboarding({
       .withTimeout(20000)
 
     // Input Wallet Backup Key
-    await waitForElementById({
-      testID: 'ImportWalletBackupKeyInputField',
+    await waitForElementById('ImportWalletBackupKeyInputField', {
       tap: true,
     })
 
@@ -188,8 +187,7 @@ export async function quickOnboarding({
     }
 
     await scrollIntoView('Restore', 'ImportWalletKeyboardAwareScrollView')
-    await waitForElementById({
-      testID: 'ImportWalletButton',
+    await waitForElementById('ImportWalletButton', {
       tap: true,
     })
     // Wait for the wallet to restored
@@ -197,8 +195,7 @@ export async function quickOnboarding({
 
     try {
       // case where account not funded yet. continue with onboarding.
-      await waitForElementById({
-        testID: 'ConfirmUseAccountDialog/PrimaryAction',
+      await waitForElementById('ConfirmUseAccountDialog/PrimaryAction', {
         tap: true,
       })
     } catch {}
@@ -206,8 +203,7 @@ export async function quickOnboarding({
     // this onboarding step is bypassed for already verified wallets
     try {
       // Skip Phone Verification
-      await waitForElementById({
-        testID: 'PhoneVerificationSkipHeader',
+      await waitForElementById('PhoneVerificationSkipHeader', {
         tap: true,
       })
     } catch {
@@ -218,11 +214,10 @@ export async function quickOnboarding({
 
     // Choose your own adventure (CYA screen)
     if (stopOnCYA) {
-      await waitForElementById({ testID: 'ChooseYourAdventure/Later' })
+      await waitForElementById('ChooseYourAdventure/Later')
       return
     }
-    await waitForElementById({
-      testID: 'ChooseYourAdventure/Later',
+    await waitForElementById('ChooseYourAdventure/Later', {
       tap: true,
     })
 
@@ -421,34 +416,28 @@ export async function fundWallet(senderPrivateKey, recipientAddress, stableToken
 }
 
 export async function navigateToSecurity() {
-  await waitForElementById({
-    testID: 'WalletHome/SettingsGearButton',
+  await waitForElementById('WalletHome/SettingsGearButton', {
     tap: true,
   })
-  await waitForElementById({
-    testID: 'SettingsMenu/Security',
+  await waitForElementById('SettingsMenu/Security', {
     tap: true,
   })
 }
 
 export async function navigateToProfile() {
-  await waitForElementById({
-    testID: 'WalletHome/SettingsGearButton',
+  await waitForElementById('WalletHome/SettingsGearButton', {
     tap: true,
   })
-  await waitForElementById({
-    testID: 'SettingsMenu/Profile',
+  await waitForElementById('SettingsMenu/Profile', {
     tap: true,
   })
 }
 
 export async function navigateToPreferences() {
-  await waitForElementById({
-    testID: 'WalletHome/SettingsGearButton',
+  await waitForElementById('WalletHome/SettingsGearButton', {
     tap: true,
   })
-  await waitForElementById({
-    testID: 'SettingsMenu/Preferences',
+  await waitForElementById('SettingsMenu/Preferences', {
     tap: true,
   })
 }

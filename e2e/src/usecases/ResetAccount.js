@@ -32,7 +32,7 @@ export default ResetAccount = () => {
     await element(by.id('backupKeySavedSwitch')).longPress()
     await element(by.id('backupKeyContinue')).tap()
     const mnemonic = E2E_WALLET_MNEMONIC.split(' ')
-    await waitForElementById({ testID: `backupQuiz/${mnemonic[0]}` })
+    await waitForElementById(`backupQuiz/${mnemonic[0]}`)
     for (const word of mnemonic) {
       await element(by.id(`backupQuiz/${word}`)).tap()
     }
@@ -42,7 +42,7 @@ export default ResetAccount = () => {
     // TODO: Figure out a way to confirm and test that the app goes to the onboarding
     // screen on next open.
     // await element(by.id('ConfirmAccountRemovalModal/PrimaryAction')).tap()
-    await waitForElementById({ testID: 'ConfirmAccountRemovalModal/PrimaryAction' })
+    await waitForElementById('ConfirmAccountRemovalModal/PrimaryAction')
     await expect(element(by.id('ConfirmAccountRemovalModal/PrimaryAction'))).toBeVisible()
   })
 }

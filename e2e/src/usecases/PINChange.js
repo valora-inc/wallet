@@ -7,7 +7,7 @@ export default ChangePIN = () => {
   it('Then should be retain changed PIN', async () => {
     await navigateToSecurity()
 
-    await waitForElementById({ testID: 'ChangePIN' })
+    await waitForElementById('ChangePIN')
     await element(by.id('ChangePIN')).tap()
     // Existing PIN is needed first
     await sleep(500)

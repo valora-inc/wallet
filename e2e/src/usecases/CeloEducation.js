@@ -10,11 +10,11 @@ const swipeThrough = async (direction = 'left', swipes = 3) => {
 const tapThrough = async (direction = 'forward', steps = 3) => {
   if (direction === 'forward') {
     for (let i = 0; i < steps; i++) {
-      await waitForElementById({ testID: 'Education/progressButton', tap: true })
+      await waitForElementById('Education/progressButton', { tap: true })
     }
   } else {
     for (let i = 0; i < steps; i++) {
-      await waitForElementById({ testID: 'Education/BackIcon', tap: true })
+      await waitForElementById('Education/BackIcon', { tap: true })
     }
   }
 }
@@ -27,8 +27,8 @@ const progressButtonCheck = async (text = 'Next', timeout = 10 * 1000) => {
 
 export default CeloEducation = () => {
   beforeAll(async () => {
-    await waitForElementById({ testID: 'WalletHome/NotificationBell', tap: true })
-    await waitForElementById({ testID: 'NotificationView/celo_asset_education' })
+    await waitForElementById('WalletHome/NotificationBell', { tap: true })
+    await waitForElementById('NotificationView/celo_asset_education')
     await element(
       by.text('Learn More').withAncestor(by.id('NotificationView/celo_asset_education'))
     ).tap()
@@ -36,10 +36,10 @@ export default CeloEducation = () => {
 
   it('should be able to navigate with swipes', async () => {
     await swipeThrough()
-    await waitForElementById({ testID: 'Education/BackIcon' })
+    await waitForElementById('Education/BackIcon')
     await progressButtonCheck('Done')
     await swipeThrough('right')
-    await waitForElementById({ testID: 'Education/CloseIcon' })
+    await waitForElementById('Education/CloseIcon')
     await progressButtonCheck('Next')
   })
 
@@ -47,13 +47,13 @@ export default CeloEducation = () => {
     await tapThrough()
     await progressButtonCheck('Done')
     await tapThrough('back')
-    await waitForElementById({ testID: 'Education/CloseIcon' })
+    await waitForElementById('Education/CloseIcon')
     await progressButtonCheck('Next')
   })
 
   it('should be able to close CELO education carousel', async () => {
-    await waitForElementById({ testID: 'Education/CloseIcon', tap: true })
-    await waitForElementById({ testID: 'NotificationView/celo_asset_education' })
+    await waitForElementById('Education/CloseIcon', { tap: true })
+    await waitForElementById('NotificationView/celo_asset_education')
   })
 
   it('should be able to complete CELO education carousel', async () => {
@@ -61,6 +61,6 @@ export default CeloEducation = () => {
       by.text('Learn More').withAncestor(by.id('NotificationView/celo_asset_education'))
     ).tap()
     await celoEducation()
-    await waitForElementById({ testID: 'Tab/Home' })
+    await waitForElementById('Tab/Home')
   })
 }

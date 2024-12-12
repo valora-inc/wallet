@@ -32,8 +32,8 @@ export default Support = () => {
   }
 
   it('Send Message to Support', async () => {
-    await waitForElementById({ testID: 'WalletHome/SettingsGearButton', tap: true })
-    await waitForElementById({ testID: 'SettingsMenu/Help', tap: true })
+    await waitForElementById('WalletHome/SettingsGearButton', { tap: true })
+    await waitForElementById('SettingsMenu/Help', { tap: true })
     await waitFor(element(by.id('SupportContactLink')))
       .toBeVisible()
       .withTimeout(10000)

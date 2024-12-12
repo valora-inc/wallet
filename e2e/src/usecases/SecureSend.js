@@ -31,9 +31,8 @@ export default SecureSend = () => {
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {
-      await waitForElementById({ testID: 'HomeAction-Send', timeout: 30_000, tap: true })
-      await waitForElementById({
-        testID: 'SendSelectRecipientSearchInput',
+      await waitForElementById('HomeAction-Send', { timeout: 30_000, tap: true })
+      await waitForElementById('SendSelectRecipientSearchInput', {
         timeout: 3000,
         tap: true,
       })
@@ -42,10 +41,10 @@ export default SecureSend = () => {
       )
       await element(by.id('RecipientItem')).tap()
 
-      await waitForElementById({ testID: 'SendOrInviteButton', timeout: 30_000, tap: true })
+      await waitForElementById('SendOrInviteButton', { timeout: 30_000, tap: true })
 
       // Use the last digits of the account to confirm the sender.
-      await waitForElementById({ testID: 'confirmAccountButton', timeout: 30_000, tap: true })
+      await waitForElementById('confirmAccountButton', { timeout: 30_000, tap: true })
       for (let index = 0; index < 4; index++) {
         const character = WALLET_MULTIPLE_VERIFIED_ADDRESS.charAt(
           WALLET_MULTIPLE_VERIFIED_ADDRESS.length - (4 - index)
@@ -58,12 +57,11 @@ export default SecureSend = () => {
       await element(by.id('ConfirmAccountButton')).tap()
 
       // Select the currency
-      await waitForElementById({
-        testID: 'SendEnterAmount/TokenSelect',
+      await waitForElementById('SendEnterAmount/TokenSelect', {
         timeout: 30_000,
         tap: true,
       })
-      await waitForElementById({ testID: 'cUSDSymbol', timeout: 30_000, tap: true })
+      await waitForElementById('cUSDSymbol', { timeout: 30_000, tap: true })
 
       // Enter the amount and review
       await element(by.id('SendEnterAmount/TokenAmountInput')).tap()
@@ -76,7 +74,7 @@ export default SecureSend = () => {
       await enterPinUiIfNecessary()
 
       // Return to home screen.
-      await waitForElementById({ testID: 'HomeAction-Send', timeout: 30_000 })
+      await waitForElementById('HomeAction-Send', { timeout: 30_000 })
     })
   })
 }

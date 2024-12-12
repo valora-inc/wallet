@@ -7,7 +7,7 @@ export default onRamps = () => {
   })
   beforeEach(async () => {
     await reloadReactNative()
-    await waitForElementById({ testID: 'HomeAction-Add' })
+    await waitForElementById('HomeAction-Add')
     await element(by.id('HomeAction-Add')).tap()
   })
 
@@ -21,10 +21,10 @@ export default onRamps = () => {
       ${'CELO'} | ${'20'}
       ${'CELO'} | ${'2'}
     `('Then should display $token provider(s) for $$amount', async ({ token, amount }) => {
-      await waitForElementById({ testID: `${token}Symbol` })
+      await waitForElementById(`${token}Symbol`)
       await element(by.id(`${token}Symbol`)).tap()
 
-      await waitForElementById({ testID: 'FiatExchangeInput' })
+      await waitForElementById('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
       await element(by.id('FiatExchangeNextButton')).tap()
       await expect(element(by.text('Select Payment Method'))).toBeVisible()

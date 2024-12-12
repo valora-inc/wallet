@@ -5,7 +5,7 @@ import { sleep } from '../../../src/utils/sleep'
 export default HomeFeed = () => {
   it('should show correct information on tap of feed item', async () => {
     // Load Wallet Home
-    await waitForElementById({ testID: 'WalletHome' })
+    await waitForElementById('WalletHome')
     const items = await element(by.id('TransferFeedItem')).getAttributes()
 
     // Tap top TransferFeedItem
@@ -27,7 +27,7 @@ export default HomeFeed = () => {
     } catch {}
 
     // Load Wallet Home
-    await waitForElementById({ testID: 'WalletHome' })
+    await waitForElementById('WalletHome')
     const startingItems = await element(by.id('TransferFeedItem')).getAttributes()
 
     // Scroll to bottom - Android will scroll forever so we set a static value
