@@ -2785,9 +2785,11 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Для пополнения счета потребуется {{tokenSymbol}} в {{tokenNetwork}}",
+      "depositTitle": "Депозит в бассейн",
       "crossChainAlternativeDescription": "Если вы не хотите использовать свои токены в {{tokenNetwork}}, выберите вариант ниже. Потребуется вернуться, чтобы завершить пополнение счета в пуле позже.",
       "beforeYouCanDepositTitle": "Для пополнения счета...",
       "beforeYouCanDepositDescription": "Вам потребуется добавить один из токенов пула. После добавления потребуется вернуться, чтобы завершить пополнение счета в пуле.",
+      "beforeYouCanDepositDescriptionV1_101": "Тебе нужно будет добавить {{tokenSymbol}} на сайте {{tokenNetwork}}. После добавления тебе нужно будет вернуться, чтобы завершить депозит за бассейн.",
       "action": {
         "swapAndDeposit": "Обмен и пополнение счета",
         "swapAndDepositDescription": "Выберите любой токен в {{tokenNetwork}}. Мы сразу выполним обмен и пополнение счета.",
@@ -2798,7 +2800,10 @@
         "add": "Купить",
         "addDescription": "Купите {{tokenSymbol}} в {{tokenNetwork}} с помощью одного из доверенных поставщиков",
         "transfer": "Перевод",
-        "transferDescription": "Используйте совместимый с {{tokenNetwork}} кошелек или криптобиржу для депонирования {{tokenSymbol}}"
+        "transferDescription": "Используйте совместимый с {{tokenNetwork}} кошелек или криптобиржу для депонирования {{tokenSymbol}}",
+        "addMore": "Покупай больше {{tokenSymbol}}",
+        "deposit": "Пополни свой счет {{tokenSymbol}}",
+        "depositDescription": "У тебя есть {{amount}} {{tokenSymbol}}."
       }
     }
   },

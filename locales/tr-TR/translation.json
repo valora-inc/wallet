@@ -2781,9 +2781,11 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Yatırma İşlemi için {{tokenNetwork}} ağında {{tokenSymbol}} tokenine sahip olmalısınız",
+      "depositTitle": "Havuz için depozito",
       "crossChainAlternativeDescription": "{{tokenNetwork}} ağındaki tokenlerinizi kullanmaz istemiyorsanız aşağıdaki seçeneklerden birini seçin. Havuza yatırma işleminizi tamamlamak için daha sonra geri dönmeniz gerekecektir.",
       "beforeYouCanDepositTitle": "Para yatırmadan önce...",
       "beforeYouCanDepositDescription": "Havuz tokenlerinden birini eklemeniz gereklidir. Token eklendikten sonra havuza para yatırma işlemini tamamlamak için geri dönmeniz gerekir.",
+      "beforeYouCanDepositDescriptionV1_101": "{{tokenSymbol}} adresini {{tokenNetwork}}adresine eklemeniz gerekmektedir. Eklendikten sonra, havuz depozitonuzu tamamlamak için geri dönmeniz gerekecektir.",
       "action": {
         "swapAndDeposit": "Swap ve Para Yatırma",
         "swapAndDepositDescription": "{{tokenNetwork}} ağındaki herhangi bir tokeni seçin. Seçtiğiniz tokeni sizin için anında swap edip yatırma işleminizi tamamlayacağız.",
@@ -2794,7 +2796,10 @@
         "add": "Satın Al",
         "addDescription": "Güvenilir sağlayıcılarımızdan birini kullanarak {{tokenNetwork}} ağında {{tokenSymbol}} satın alın",
         "transfer": "Transfer Et",
-        "transferDescription": "{{tokenSymbol}} yatırmak için {{tokenNetwork}} uyumlu cüzdan veya borsa kullanın"
+        "transferDescription": "{{tokenSymbol}} yatırmak için {{tokenNetwork}} uyumlu cüzdan veya borsa kullanın",
+        "addMore": "Daha fazla satın al {{tokenSymbol}}",
+        "deposit": "{{tokenSymbol}}adresinizi yatırın",
+        "depositDescription": "{{amount}} {{tokenSymbol}}adresiniz var."
       }
     }
   },

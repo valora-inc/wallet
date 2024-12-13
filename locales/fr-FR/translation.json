@@ -2781,9 +2781,11 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Vous avez besoin de {{tokenSymbol}} sur {{tokenNetwork}} pour faire un dépôt",
+      "depositTitle": "Dépôt à la piscine",
       "crossChainAlternativeDescription": "Si vous ne voulez pas utiliser vos jetons sur {{tokenNetwork}}, choisissez une option ci-dessous. Vous devrez revenir pour compléter votre dépôt de pool plus tard.",
       "beforeYouCanDepositTitle": "Avant de pouvoir effectuer un dépôt...",
       "beforeYouCanDepositDescription": "Vous devrez ajouter un des jetons du pool. Une fois ajouté, vous devrez revenir pour compléter votre dépôt de pool.",
+      "beforeYouCanDepositDescriptionV1_101": "Tu devras ajouter {{tokenSymbol}} sur {{tokenNetwork}}. Une fois ajouté, tu devras revenir pour compléter ton dépôt de piscine.",
       "action": {
         "swapAndDeposit": "Échange et dépôt",
         "swapAndDepositDescription": "Choisissez n'importe quel jeton sur {{tokenNetwork}}. Nous le changerons et le déposerons simultanément pour vous.",
@@ -2794,7 +2796,10 @@
         "add": "Acheter",
         "addDescription": "Achetez des {{tokenSymbol}} sur {{tokenNetwork}} en utilisant un de nos fournisseurs de confiance",
         "transfer": "Transférer",
-        "transferDescription": "Utilisez n'importe quel portefeuille compatible {{tokenNetwork}} ou échangez pour déposer des {{tokenSymbol}}"
+        "transferDescription": "Utilisez n'importe quel portefeuille compatible {{tokenNetwork}} ou échangez pour déposer des {{tokenSymbol}}",
+        "addMore": "Acheter plus de {{tokenSymbol}}",
+        "deposit": "Dépose ton {{tokenSymbol}}",
+        "depositDescription": "Tu as {{amount}} {{tokenSymbol}}"
       }
     }
   },
