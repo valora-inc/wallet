@@ -1,6 +1,13 @@
 import { reloadReactNative } from './utils/retries'
 import { quickOnboarding, waitForElementById } from './utils/utils'
 
+const verifyCamera = async () => {
+  // testID 'Camera' is one of the few that works on Android. iOS uses 'CameraScanInfo' because the camera is behind an opacity overlay
+  device.getPlatform() === 'ios'
+    ? await waitForElementById('CameraScanInfo')
+    : await waitForElementById('Camera')
+}
+
 describe('Given QR Scanner', () => {
   beforeAll(async () => {
     await quickOnboarding()
@@ -15,7 +22,7 @@ describe('Given QR Scanner', () => {
 
     it('Then should be able to toggle camera', async () => {
       await waitForElementById('Scan', { tap: true })
-      await waitForElementById('Camera')
+      await verifyCamera()
     })
 
     it('Then should be able to toggle to QR code', async () => {
@@ -34,7 +41,7 @@ describe('Given QR Scanner', () => {
       await reloadReactNative()
       await waitForElementById('HomeAction-Receive', { tap: true })
       await waitForElementById('Scan', { tap: true })
-      await waitForElementById('Camera')
+      await verifyCamera()
     })
 
     it('Then should be able to handle Celo pay QR', async () => {
