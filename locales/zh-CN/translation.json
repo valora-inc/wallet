@@ -2779,9 +2779,11 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "您需要在 {{tokenNetwork}} 上持有 {{tokenSymbol}} 才可进行存款",
+      "depositTitle": "游泳池押金",
       "crossChainAlternativeDescription": "如果您不想使用 {{tokenNetwork}} 上的代币，请选择以下选项。您需要稍后返回，继续完成资金池存款操作。",
       "beforeYouCanDepositTitle": "在您进行存款之前……",
       "beforeYouCanDepositDescription": "您需要添加某一资金池的代币。成功添加代币后，您需要返回继续完成资金池存款操作。",
+      "beforeYouCanDepositDescriptionV1_101": "您需要在 {{tokenNetwork}}上添加 {{tokenSymbol}} 。添加后，您需要返回以完成泳池押金。",
       "action": {
         "swapAndDeposit": "交换与存款",
         "swapAndDepositDescription": "请选择 {{tokenNetwork}} 上的任何代币。我们将同步为您进行交换和存款。",
@@ -2792,7 +2794,10 @@
         "add": "买入",
         "addDescription": "使用我们值得信赖的提供商之一，在 {{tokenNetwork}} 上购买 {{tokenSymbol}}",
         "transfer": "转账",
-        "transferDescription": "使用任何与 {{tokenNetwork}} 兼容的钱包或交易所，来存入 {{tokenSymbol}}"
+        "transferDescription": "使用任何与 {{tokenNetwork}} 兼容的钱包或交易所，来存入 {{tokenSymbol}}",
+        "addMore": "购买更多 {{tokenSymbol}}",
+        "deposit": "存款 {{tokenSymbol}}",
+        "depositDescription": "您有 {{amount}} {{tokenSymbol}}"
       }
     }
   },
