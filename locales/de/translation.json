@@ -2781,9 +2781,11 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Du brauchst {{tokenSymbol}} auf {{tokenNetwork}} zum Einzahlen",
+      "depositTitle": "Einzahlung in den Pool",
       "crossChainAlternativeDescription": "Wenn du deine Token nicht auf {{tokenNetwork}} verwenden möchtest, wähle eine der untenstehenden Optionen. Du musst später zurückkehren, um deine Pool-Einzahlung abzuschließen.",
       "beforeYouCanDepositTitle": "Bevor du eine Einzahlung vornehmen kannst ...",
       "beforeYouCanDepositDescription": "Du musst einen der Pool-Token hinzufügen. Sobald du es hinzugefügt hast, musst du zurückkehren, um deine Pool-Einzahlung abzuschließen.",
+      "beforeYouCanDepositDescriptionV1_101": "Du musst {{tokenSymbol}} auf {{tokenNetwork}}hinzufügen. Sobald du sie hinzugefügt hast, musst du zurückkehren, um deine Pool-Einzahlung abzuschließen.",
       "action": {
         "swapAndDeposit": "Tausch und Einzahlung",
         "swapAndDepositDescription": "Wähle einen beliebigen Token auf {{tokenNetwork}}. Wir tauschen und hinterlegen ihn gleichzeitig für dich.",
@@ -2794,7 +2796,10 @@
         "add": "Kaufen",
         "addDescription": "Kaufe {{tokenSymbol}} auf {{tokenNetwork}} über einen unserer vertrauenswürdigen Anbieter",
         "transfer": "Überweisung",
-        "transferDescription": "Verwende jede {{tokenNetwork}} kompatible Wallet oder Börse, um {{tokenSymbol}} einzuzahlen"
+        "transferDescription": "Verwende jede {{tokenNetwork}} kompatible Wallet oder Börse, um {{tokenSymbol}} einzuzahlen",
+        "addMore": "Mehr kaufen {{tokenSymbol}}",
+        "deposit": "Hinterlege deine {{tokenSymbol}}",
+        "depositDescription": "Du hast {{amount}} {{tokenSymbol}}"
       }
     }
   },
