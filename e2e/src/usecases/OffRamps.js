@@ -1,5 +1,5 @@
 import { launchApp, reloadReactNative } from '../utils/retries'
-import { waitForElementId } from '../utils/utils'
+import { waitForElementById } from '../utils/utils'
 
 export default offRamps = () => {
   beforeAll(async () => {
@@ -7,9 +7,9 @@ export default offRamps = () => {
   })
   beforeEach(async () => {
     await reloadReactNative()
-    await waitForElementId('HomeActionsCarousel')
+    await waitForElementById('HomeActionsCarousel')
     await element(by.id('HomeActionsCarousel')).scrollTo('right')
-    await waitForElementId('HomeAction-Withdraw')
+    await waitForElementById('HomeAction-Withdraw')
     await element(by.id('HomeAction-Withdraw')).tap()
   })
 
@@ -20,7 +20,7 @@ export default offRamps = () => {
     })
 
     it('Then should display total balance', async () => {
-      await waitForElementId('ViewBalances')
+      await waitForElementById('ViewBalances')
       await element(by.id('ViewBalances')).tap()
       await expect(element(by.id('AssetsTokenBalance'))).toBeVisible()
     })
@@ -28,30 +28,30 @@ export default offRamps = () => {
 
   describe('When Spend selected', () => {
     beforeEach(async () => {
-      await waitForElementId('spend')
+      await waitForElementById('spend')
       await element(by.id('spend')).tap()
     })
 
     it('Then should be able to spend cUSD', async () => {
-      await waitForElementId(`cUSDSymbol`)
+      await waitForElementById('cUSDSymbol')
       await element(by.id(`cUSDSymbol`)).tap()
 
-      await waitForElementId('RNWebView')
+      await waitForElementById('RNWebView')
       await expect(element(by.text('Bidali'))).toBeVisible()
     })
 
     it('Then should be able to spend cEUR', async () => {
-      await waitForElementId(`cEURSymbol`)
-      await element(by.id(`cEURSymbol`)).tap()
+      await waitForElementById('cEURSymbol')
+      await element(by.id('cEURSymbol')).tap()
 
-      await waitForElementId('RNWebView')
+      await waitForElementById('RNWebView')
       await expect(element(by.text('Bidali'))).toBeVisible()
     })
   })
 
   describe('When Withdraw Selected', () => {
     beforeEach(async () => {
-      await waitForElementId('cashOut')
+      await waitForElementById('cashOut')
       await element(by.id('cashOut')).tap()
     })
 
@@ -65,30 +65,30 @@ export default offRamps = () => {
     `(
       'Then should display at least $exchanges.minExpected $token exchange(s)',
       async ({ token, exchanges }) => {
-        await waitForElementId(`${token}Symbol`)
+        await waitForElementById(`${token}Symbol`)
         await element(by.id(`${token}Symbol`)).tap()
 
-        await waitForElementId('FiatExchangeInput')
+        await waitForElementById('FiatExchangeInput')
         await element(by.id('FiatExchangeInput')).replaceText('2')
         await element(by.id('FiatExchangeNextButton')).tap()
         await expect(element(by.text('Select Withdraw Method'))).toBeVisible()
-        await waitForElementId('Exchanges')
+        await waitForElementById('Exchanges')
         await element(by.id('Exchanges')).tap()
-        await waitForElementId('SendBar')
+        await waitForElementById('SendBar')
         // Exchanges start at index 0
-        await waitForElementId(`provider-${exchanges.minExpected - 1}`)
+        await waitForElementById(`provider-${exchanges.minExpected - 1}`)
       }
     )
 
     it('Then Send To Address', async () => {
       const randomAmount = `${(Math.random() * 10 ** -1).toFixed(3)}`
-      await waitForElementId(`CELOSymbol`)
+      await waitForElementById('CELOSymbol')
       await element(by.id(`CELOSymbol`)).tap()
 
-      await waitForElementId('FiatExchangeInput')
+      await waitForElementById('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${randomAmount}`)
       await element(by.id('FiatExchangeNextButton')).tap()
-      await waitForElementId('Exchanges')
+      await waitForElementById('Exchanges')
       await element(by.id('Exchanges')).tap()
       await element(by.id('SendBar')).tap()
       await waitFor(element(by.id('SendSelectRecipientSearchInput')))
