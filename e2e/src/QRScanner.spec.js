@@ -4,51 +4,42 @@ import { quickOnboarding, waitForElementById } from './utils/utils'
 describe('Given QR Scanner', () => {
   beforeAll(async () => {
     await quickOnboarding()
+    await reloadReactNative()
   })
 
   describe('When opening QR scanner', () => {
     it('Then should display QR code', async () => {
-      await reloadReactNative()
-      await waitForElementById('HomeAction-Receive')
-      await element(by.id('HomeAction-Receive')).tap()
+      await waitForElementById('HomeAction-Receive', { tap: true })
       await waitForElementById('QRCode')
-      await expect(element(by.id('QRCode'))).toBeVisible()
     })
 
     it('Then should be able to toggle camera', async () => {
-      await waitForElementById('Scan')
-      await element(by.id('Scan')).tap()
-      await waitForElementById('CameraScanInfo')
-      await expect(element(by.id('CameraScanInfo'))).toBeVisible()
+      await waitForElementById('Scan', { tap: true })
+      await waitForElementById('Camera')
     })
 
     it('Then should be able to toggle to QR code', async () => {
-      await waitForElementById('My Code')
-      await element(by.id('My Code')).tap()
+      await waitForElementById('My Code', { tap: true })
       await waitForElementById('QRCode')
-      await expect(element(by.id('QRCode'))).toBeVisible()
     })
 
     it('Then should be able to close QR code scanner', async () => {
-      await waitForElementById('Times')
-      await element(by.id('Times')).tap()
+      await waitForElementById('Times', { tap: true })
       await waitForElementById('HomeAction-Send')
-      await expect(element(by.id('HomeAction-Send'))).toBeVisible()
     })
   })
 
   describe("When 'scanning' QR", () => {
     beforeEach(async () => {
       await reloadReactNative()
-      await waitForElementById('HomeAction-Receive')
-      await element(by.id('HomeAction-Receive')).tap()
-      await waitForElementById('Scan')
-      await element(by.id('Scan')).tap()
-      await waitForElementById('CameraScanInfo')
-      await element(by.id('CameraScanInfo')).tap()
+      await waitForElementById('HomeAction-Receive', { tap: true })
+      await waitForElementById('Scan', { tap: true })
+      await waitForElementById('Camera')
     })
 
     it('Then should be able to handle Celo pay QR', async () => {
+      // Use instead of waitForElementById as the element is not visible behind opacity overlay
+      await element(by.id('CameraScanInfo')).tap()
       await waitForElementById('ManualInput')
       await element(by.id('ManualInput')).replaceText(
         'celo://wallet/pay?address=0xe5F5363e31351C38ac82DBAdeaD91Fd5a7B08846'
@@ -62,6 +53,8 @@ describe('Given QR Scanner', () => {
     })
 
     it('Then should handle address only QR', async () => {
+      // Use instead of waitForElementById as the element is not visible behind opacity overlay
+      await element(by.id('CameraScanInfo')).tap()
       await waitForElementById('ManualInput')
       await element(by.id('ManualInput')).replaceText('0xe5F5363e31351C38ac82DBAdeaD91Fd5a7B08846')
       await waitForElementById('ManualSubmit')
