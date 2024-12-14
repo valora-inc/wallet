@@ -12535,10 +12535,10 @@ react-is@^18.0.0, react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
-react-native-adjust@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-adjust/-/react-native-adjust-5.0.2.tgz#3739518b7ee3c212de63ef12195c50c313a0cc80"
-  integrity sha512-X1kx1/9DIMxxfUHiHbjm/W238OiYs5KrbJujhoXde8TU4mDVaCZCKpJ8BFJWOHIdiB/vbHrOtwDMN6KlyxZang==
+react-native-adjust@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-adjust/-/react-native-adjust-5.0.3.tgz#1f60ccb198d52d251619ec01543475b9635f5367"
+  integrity sha512-P+/Sx961Plc9AtlRWL4TbP+Gi4Hwsyw7COnehlyl4f/cktAdtydrl7Q8mBtC41JQvLoXam3YZaNXNsmcXGkwoA==
 
 react-native-android-open-settings@^1.3.0:
   version "1.3.0"
