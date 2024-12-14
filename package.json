@@ -126,7 +126,7 @@
     "i18next": "^23.16.8",
     "ibantools": "^4.5.1",
     "intl-pluralrules": "^2.0.1",
-    "io-ts": "2.2.21",
+    "io-ts": "2.2.22",
     "is-ip": "^3.1.0",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
