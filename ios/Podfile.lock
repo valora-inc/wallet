@@ -563,7 +563,7 @@ PODS:
   - React-jsinspector (0.72.15)
   - React-logger (0.72.15):
     - glog
-  - react-native-adjust (5.0.2):
+  - react-native-adjust (5.0.3):
     - Adjust (= 5.0.1)
     - React-Core
   - react-native-camera (4.2.1):
@@ -1268,7 +1268,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d3eef5ddc78eeb9f0d02bed657a7f41d4910b966
   React-jsinspector: b86a8abae760c28d69366bbc1d991561e51341ed
   React-logger: ed7c9e01e58529065e7da6bf8318baf15024283e
-  react-native-adjust: 6a73063a62fb0f21dd2220f15b315c1e323268b0
+  react-native-adjust: 59b523d8ef1dc2c0516fb7120ed04cdfc5510a90
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-compat: 24dedfbd7faba258560048606bc0fe9e73f7d2a3
   react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
