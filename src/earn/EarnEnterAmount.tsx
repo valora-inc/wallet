@@ -235,7 +235,7 @@ export default function EarnEnterAmount({ route }: Props) {
       )
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [processedAmounts.token.bignum, mode, transactionToken, feeCurrencies])
+  }, [processedAmounts.token.bignum?.toString(), mode, transactionToken, feeCurrencies])
 
   const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
