@@ -212,14 +212,6 @@ export default function EarnEnterAmount({ route }: Props) {
     }
   }, [inputToken, withdrawToken, processedAmounts.token.bignum, isWithdrawal, pool])
 
-  const balanceInInputToken = useMemo(
-    () =>
-      isWithdrawal
-        ? transactionToken.balance.multipliedBy(pool.pricePerShare[0])
-        : transactionToken.balance,
-    [transactionToken, isWithdrawal, pool]
-  )
-
   const feeCurrencies = useSelector((state) =>
     feeCurrenciesSelector(state, transactionToken.networkId)
   )
@@ -231,7 +223,7 @@ export default function EarnEnterAmount({ route }: Props) {
       !processedAmounts.token.bignum ||
       !transactionTokenAmount ||
       processedAmounts.token.bignum.isLessThanOrEqualTo(0) ||
-      processedAmounts.token.bignum.isGreaterThan(balanceInInputToken)
+      processedAmounts.token.bignum.isGreaterThan(inputToken.balance)
     ) {
       return
     }
@@ -249,7 +241,7 @@ export default function EarnEnterAmount({ route }: Props) {
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const showLowerAmountError =
-    processedAmounts.token.bignum && processedAmounts.token.bignum.gt(balanceInInputToken)
+    processedAmounts.token.bignum && processedAmounts.token.bignum.gt(inputToken.balance)
   const showNotEnoughBalanceForGasWarning =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -379,7 +371,7 @@ export default function EarnEnterAmount({ route }: Props) {
               token={transactionToken}
               prepareTransactionsResult={prepareTransactionsResult}
               feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
-              balanceInInputToken={balanceInInputToken}
+              balanceInInputToken={inputToken.balance}
               rewardsPositions={rewardsPositions}
             />
           )}
