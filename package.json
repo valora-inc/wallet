@@ -187,7 +187,7 @@
     "typed-redux-saga": "^1.5.0",
     "uuid": "^10.0.0",
     "victory-native": "^36.9.2",
-    "viem": "^2.21.53",
+    "viem": "^2.21.55",
     "web3-utils": "^4.3.3"
   },
   "devDependencies": {
