@@ -28,12 +28,17 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { type TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
+import { NetworkId } from 'src/transactions/types'
 import { parseInputAmount } from 'src/utils/parsing'
 
 export const APPROX_SYMBOL = '≈'
 
 const BORDER_RADIUS = 12
 export const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS = 250
+
+export function getDisplayTokenName<T extends { symbol: string; networkId: NetworkId }>(token: T) {
+  return `${token.symbol} on ${NETWORK_NAMES[token.networkId]}`
+}
 
 /**
  * This function formats numbers in a "1234.5678" format into the correct format according to the
@@ -258,7 +263,7 @@ export function useEnterAmount(props: {
     }
 
     const rawValue = unformatNumberForProcessing(value)
-    const roundedAmount = new BigNumber(rawValue).toFixed(props.token?.decimals).toString()
+    const roundedAmount = new BigNumber(rawValue).decimalPlaces(props.token?.decimals).toString()
     setAmount(roundedAmount)
   }
 
@@ -389,7 +394,7 @@ export default function TokenEnterAmount({
 
                 <View style={styles.tokenNameAndAvailable}>
                   <Text style={styles.tokenName} testID={`${testID}/TokenName`}>
-                    {token.symbol} on {NETWORK_NAMES[token.networkId]}
+                    {getDisplayTokenName(token)}
                   </Text>
                   <Text style={styles.tokenBalance} testID={`${testID}/TokenBalance`}>
                     <Trans i18nKey="tokenEnterAmount.availableBalance">

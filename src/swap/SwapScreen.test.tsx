@@ -9,7 +9,7 @@ import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { APPROX_SYMBOL } from 'src/components/TokenEnterAmount'
+import { APPROX_SYMBOL, getDisplayTokenName } from 'src/components/TokenEnterAmount'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
@@ -258,7 +258,7 @@ const selectSingleSwapToken = (
     fireEvent.press(within(swapScreen).getByText('swapScreen.noUsdPriceWarning.ctaConfirm'))
   }
 
-  expect(within(swapAmountContainer).getByText(tokenSymbol)).toBeTruthy()
+  expect(within(swapAmountContainer).getByText(getDisplayTokenName(token!))).toBeTruthy()
 
   if (swapFieldType === Field.TO && !token!.priceUsd) {
     expect(
@@ -342,10 +342,10 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.title')).toBeTruthy()
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
 
-    expect(within(swapFromContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('tokenEnterAmount.selectToken')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
 
-    expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
+    expect(within(swapToContainer).getByText('tokenEnterAmount.selectToken')).toBeTruthy()
     expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
   })
 
@@ -371,15 +371,15 @@ describe('SwapScreen', () => {
   it('should display the token set via fromTokenId prop', () => {
     const { swapFromContainer, swapToContainer } = renderScreen({ fromTokenId: mockCeurTokenId })
 
-    expect(within(swapFromContainer).getByText('cEUR')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('cEUR on Celo Alfajores')).toBeTruthy()
+    expect(within(swapToContainer).getByText('tokenEnterAmount.selectToken')).toBeTruthy()
   })
 
   it('should allow selecting tokens', async () => {
     const { swapFromContainer, swapToContainer, swapScreen } = renderScreen({})
 
-    expect(within(swapFromContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('tokenEnterAmount.selectToken')).toBeTruthy()
+    expect(within(swapToContainer).getByText('tokenEnterAmount.selectToken')).toBeTruthy()
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
 
@@ -427,7 +427,7 @@ describe('SwapScreen', () => {
 
     // finish the token selection
     fireEvent.press(within(fromTokenBottomSheet).getByText('Celo Dollar'))
-    expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('cUSD on Celo Alfajores')).toBeTruthy()
 
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
@@ -459,7 +459,7 @@ describe('SwapScreen', () => {
       )
     ).toBeFalsy()
     expect(tokenBottomSheet).toBeVisible()
-    expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
+    expect(within(swapToContainer).getByText('tokenEnterAmount.selectToken')).toBeTruthy()
     expect(AppAnalytics.track).not.toHaveBeenCalledWith(
       SwapEvents.swap_screen_confirm_token,
       expect.anything()
@@ -473,8 +473,8 @@ describe('SwapScreen', () => {
     selectSingleSwapToken(swapToContainer, 'cUSD', swapScreen, Field.TO)
     selectSingleSwapToken(swapFromContainer, 'cUSD', swapScreen, Field.FROM)
 
-    expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
-    expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('cUSD on Celo Alfajores')).toBeTruthy()
+    expect(within(swapToContainer).getByText('CELO on Celo Alfajores')).toBeTruthy()
   })
 
   it('should swap the to/from tokens even if the to token was not selected', async () => {
@@ -482,8 +482,8 @@ describe('SwapScreen', () => {
 
     selectSwapTokens('CELO', 'CELO', swapScreen)
 
-    expect(within(swapFromContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
-    expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('tokenEnterAmount.selectToken')).toBeTruthy()
+    expect(within(swapToContainer).getByText('CELO on Celo Alfajores')).toBeTruthy()
   })
 
   it('should keep the to amount in sync with the exchange rate', async () => {
@@ -494,7 +494,10 @@ describe('SwapScreen', () => {
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
 
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '1.234'
+    )
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -503,14 +506,16 @@ describe('SwapScreen', () => {
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
       '1 CELO ≈ 1.23456 cUSD'
     )
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
-      `${APPROX_SYMBOL} ₱21.43`
-    )
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
-      '1.5234566652'
-    )
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe('1.234')
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/ExchangeAmount')
+    ).toHaveTextContent(`${APPROX_SYMBOL} ₱21.43`)
+    expect(
+      within(swapToContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe('1.5234566652')
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} ₱2.03`
     )
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
@@ -523,7 +528,10 @@ describe('SwapScreen', () => {
     )
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '1.234'
+    )
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -543,10 +551,12 @@ describe('SwapScreen', () => {
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
       '1 CELO ≈ 1.23456 cUSD'
     )
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
-      '1.5234566652'
-    )
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe('1.234')
+    expect(
+      within(swapToContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe('1.5234566652')
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
 
@@ -586,7 +596,10 @@ describe('SwapScreen', () => {
     })
     selectSwapTokens('CELO', 'USDC', swapScreen)
 
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '10')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '10'
+    )
     await act(() => {
       jest.runOnlyPendingTimers()
     })
@@ -621,7 +634,10 @@ describe('SwapScreen', () => {
     })
     selectSwapTokens('cUSD', 'USDC', swapScreen)
 
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '10')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '10'
+    )
     await act(() => {
       jest.runOnlyPendingTimers()
     })
@@ -655,7 +671,10 @@ describe('SwapScreen', () => {
     })
     selectSwapTokens('CELO', 'USDC', swapScreen)
 
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '5')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '5'
+    )
     await act(() => {
       jest.runOnlyPendingTimers()
     })
@@ -699,7 +718,10 @@ describe('SwapScreen', () => {
 
     // select 100000 CELO to cUSD swap
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100000')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '100000'
+    )
     await act(() => {
       jest.runOnlyPendingTimers()
     })
@@ -727,7 +749,10 @@ describe('SwapScreen', () => {
     )
 
     // select 100 CELO to cUSD swap
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '100'
+    )
     await act(() => {
       jest.runOnlyPendingTimers()
     })
@@ -769,7 +794,10 @@ describe('SwapScreen', () => {
 
     // select 100000 CELO to cUSD swap
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100000')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '100000'
+    )
     await act(() => {
       jest.runOnlyPendingTimers()
     })
@@ -797,7 +825,10 @@ describe('SwapScreen', () => {
     )
 
     // select 100 CELO to cUSD swap
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '100'
+    )
     await act(() => {
       jest.runOnlyPendingTimers()
     })
@@ -824,7 +855,10 @@ describe('SwapScreen', () => {
     })
 
     selectSwapTokens('CELO', 'POOF', swapScreen) // no priceUsd
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '100'
+    )
     await act(() => {
       jest.runOnlyPendingTimers()
     })
@@ -852,7 +886,10 @@ describe('SwapScreen', () => {
     )
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,234')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '1,234'
+    )
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -872,14 +909,16 @@ describe('SwapScreen', () => {
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
       '1 CELO ≈ 1,23456 cUSD'
     )
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1,234')
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
-      `${APPROX_SYMBOL} ₱21,43`
-    )
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
-      '1,5234566652'
-    )
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe('1,234')
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/ExchangeAmount')
+    ).toHaveTextContent(`${APPROX_SYMBOL} ₱21,43`)
+    expect(
+      within(swapToContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe('1,5234566652')
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/ExchangeAmount')).toHaveTextContent(
       `${APPROX_SYMBOL} ₱2,03`
     )
     expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0,3%')
@@ -933,12 +972,12 @@ describe('SwapScreen', () => {
           '1 CELO ≈ 1.23456 cUSD'
         )
       )
-      expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
-        expectedFromAmount
-      )
-      expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
-        expectedToAmount
-      )
+      expect(
+        within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+      ).toBe(expectedFromAmount)
+      expect(
+        within(swapToContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+      ).toBe(expectedToAmount)
       expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
     }
   )
@@ -963,7 +1002,10 @@ describe('SwapScreen', () => {
       uri: mockTxFeesLearnMoreUrl,
     })
 
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '1.234'
+    )
     await waitFor(() => expect(queryByTestId('MaxSwapAmountWarning')).toBeFalsy())
   })
 
@@ -995,10 +1037,17 @@ describe('SwapScreen', () => {
     expect(mockFetch.mock.calls.length).toEqual(1)
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
 
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      ''
+    )
 
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('')
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('')
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe('')
+    expect(
+      within(swapToContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe('')
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(mockFetch.mock.calls.length).toEqual(1)
 
@@ -1011,12 +1060,14 @@ describe('SwapScreen', () => {
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
       '1 CELO ≈ 1.23456 cUSD'
     )
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe(
       '10' // matching the value inside the mocked store
     )
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
-      '12.345678'
-    )
+    expect(
+      within(swapToContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe('12.345678')
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
     expect(mockFetch.mock.calls.length).toEqual(2)
   })

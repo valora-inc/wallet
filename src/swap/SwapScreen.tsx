@@ -63,7 +63,6 @@ import networkConfig from 'src/web3/networkConfig'
 import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'SwapScreen'
-type ToToken = TokenBalance & { tokenPositionInList?: number }
 
 function getNetworkFee(quote: QuoteResult | null): SwapFeeAmount | undefined {
   const { feeCurrency, maxFeeAmount, estimatedFeeAmount } = getFeeCurrencyAndAmounts(
@@ -117,6 +116,9 @@ export function SwapScreen({ route }: Props) {
   const slippageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const estimatedDurationBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
+  const [noUsdPriceToken, setNoUsdPriceToken] = useState<
+    { token: TokenBalance; tokenPositionInList: number } | undefined
+  >(undefined)
   const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
   const [startedSwapId, setStartedSwapId] = useState<string | undefined>(undefined)
   const [switchedToNetworkId, setSwitchedToNetworkId] = useState<NetworkId | null>(null)
@@ -124,11 +126,9 @@ export function SwapScreen({ route }: Props) {
     if (!route.params?.fromTokenId) return undefined
     return swappableFromTokens.find((token) => token.tokenId === route.params!.fromTokenId)
   })
-  const [toToken, setToToken] = useState<ToToken | undefined>(() => {
+  const [toToken, setToToken] = useState(() => {
     if (!route.params?.toTokenId) return undefined
-    const token = swappableToTokens.find((token) => token.tokenId === route.params!.toTokenId)
-    if (!token) return undefined
-    return { ...token, tokenPositionInList: undefined }
+    return swappableToTokens.find((token) => token.tokenId === route.params!.toTokenId)
   })
 
   const { quote, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } = useSwapQuote({
@@ -146,10 +146,14 @@ export function SwapScreen({ route }: Props) {
         return
       }
 
-      if (!derivedFrom.token.bignum) return
+      if (!derivedFrom.token.bignum) {
+        return
+      }
+
       const newAmount = derivedFrom.token.bignum
         .multipliedBy(new BigNumber(newQuote.price))
         .toString()
+
       replaceAmountTo(newAmount)
     },
   })
@@ -502,28 +506,15 @@ export function SwapScreen({ route }: Props) {
   }
 
   function handleConfirmSelectTokenNoUsdPrice() {
-    if (!!toToken && toToken.tokenPositionInList !== undefined) {
-      onSelectTokenTo(toToken, toToken.tokenPositionInList)
+    if (noUsdPriceToken) {
+      onSelectTokenTo(noUsdPriceToken.token, noUsdPriceToken.tokenPositionInList)
+      setNoUsdPriceToken(undefined)
     }
   }
 
   function handleDismissSelectTokenNoUsdPrice() {
-    setToToken((prev) => (prev ? { ...prev, tokenPositionInList: undefined } : undefined))
+    setNoUsdPriceToken(undefined)
   }
-
-  // const handleSetMaxFromAmount = () => {
-  //   localDispatch(chooseMaxFromAmount({ fromTokenBalance }))
-  //   setStartedSwapId(undefined)
-  //   if (!fromToken) {
-  //     // Should never happen
-  //     return
-  //   }
-  //   AppAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
-  //     tokenSymbol: fromToken.symbol,
-  //     tokenId: fromToken.tokenId,
-  //     tokenNetworkId: fromToken.networkId,
-  //   })
-  // }
 
   function trackConfirmToken({
     selectedToken,
@@ -640,6 +631,12 @@ export function SwapScreen({ route }: Props) {
   }
 
   function onSelectTokenTo(selectedToken: TokenBalance, tokenPositionInList: number) {
+    if (!selectedToken.priceUsd) {
+      setNoUsdPriceToken({ token: selectedToken, tokenPositionInList })
+      return
+    }
+
+    console.log({ tokenPositionInList })
     if (fromToken?.tokenId === selectedToken.tokenId) {
       setFromToken(toToken)
       setToToken(fromToken)
@@ -674,51 +671,51 @@ export function SwapScreen({ route }: Props) {
       requestAnimationFrame(() => tokenBottomSheetToRef.current?.close())
 
       return
-    } else {
-      setToToken(selectedToken)
-
-      const newSwitchedToNetworkId =
-        fromToken && fromToken.networkId !== selectedToken.networkId && !allowCrossChainSwaps
-          ? selectedToken.networkId
-          : null
-
-      trackConfirmToken({
-        field: Field.TO,
-        selectedToken,
-        newFromToken: newSwitchedToNetworkId ? undefined : fromToken,
-        newToToken: selectedToken,
-        newSwitchedToNetworkId,
-        tokenPositionInList,
-      })
-
-      if (selectedToken?.tokenId !== toToken?.tokenId) {
-        setStartedSwapId(undefined)
-      }
-
-      if (newSwitchedToNetworkId) {
-        // reset the fromToken if the user is switching networks
-        setFromToken(undefined)
-        setSwitchedToNetworkId(allowCrossChainSwaps ? null : newSwitchedToNetworkId)
-        clearQuote()
-      }
-
-      if (fromToken) {
-        void refreshQuote(
-          fromToken,
-          selectedToken,
-          { FROM: derivedFrom.token.bignum, TO: null },
-          Field.FROM
-        )
-      }
-
-      /**
-       * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
-       * animation can be synchronised and starts after the state changes above.
-       * Without this, the keyboard animation lags behind the state updates while
-       * the bottom sheet does not.
-       */
-      requestAnimationFrame(() => tokenBottomSheetToRef.current?.close())
     }
+
+    setToToken(selectedToken)
+
+    const newSwitchedToNetworkId =
+      fromToken && fromToken.networkId !== selectedToken.networkId && !allowCrossChainSwaps
+        ? selectedToken.networkId
+        : null
+
+    trackConfirmToken({
+      field: Field.TO,
+      selectedToken,
+      newFromToken: newSwitchedToNetworkId ? undefined : fromToken,
+      newToToken: selectedToken,
+      newSwitchedToNetworkId,
+      tokenPositionInList,
+    })
+
+    if (selectedToken?.tokenId !== toToken?.tokenId) {
+      setStartedSwapId(undefined)
+    }
+
+    if (newSwitchedToNetworkId) {
+      // reset the fromToken if the user is switching networks
+      setFromToken(undefined)
+      setSwitchedToNetworkId(allowCrossChainSwaps ? null : newSwitchedToNetworkId)
+      clearQuote()
+    }
+
+    if (fromToken) {
+      void refreshQuote(
+        fromToken,
+        selectedToken,
+        { FROM: derivedFrom.token.bignum, TO: null },
+        Field.FROM
+      )
+    }
+
+    /**
+     * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
+     * animation can be synchronised and starts after the state changes above.
+     * Without this, the keyboard animation lags behind the state updates while
+     * the bottom sheet does not.
+     */
+    requestAnimationFrame(() => tokenBottomSheetToRef.current?.close())
   }
 
   function handleSelectAmountPercentage(percentage: number) {
@@ -772,6 +769,7 @@ export function SwapScreen({ route }: Props) {
                 amountType={amountType}
                 toggleAmountType={handleToggleAmountType}
                 onOpenTokenPicker={onOpenTokenPickerFrom}
+                testID="SwapAmountInput"
               />
               <View style={styles.switchTokensContainer}>
                 <Touchable
@@ -796,6 +794,7 @@ export function SwapScreen({ route }: Props) {
                 amountType={amountType}
                 onOpenTokenPicker={onOpenTokenPickerTo}
                 loading={shouldShowSkeletons}
+                testID="SwapAmountInput"
               />
             </View>
 
@@ -990,15 +989,17 @@ export function SwapScreen({ route }: Props) {
           />
         </View>
       </ScrollView>
+
       <EnterAmountOptions
         onPressAmount={handleSelectAmountPercentage}
         selectedAmount={selectedPercentage}
         testID="SwapEnterAmount/AmountOptions"
       />
+
       <TokenBottomSheet
         searchEnabled
         showPriceUsdUnavailableWarning
-        key={`TokenBottomSheet/From`}
+        key="TokenBottomSheet/From"
         snapPoints={['90%']}
         title={t('swapScreen.tokenBottomSheetTitle')}
         origin={TokenPickerOrigin.SwapFrom}
@@ -1011,7 +1012,7 @@ export function SwapScreen({ route }: Props) {
       <TokenBottomSheet
         searchEnabled
         showPriceUsdUnavailableWarning
-        key={`TokenBottomSheet/To`}
+        key="TokenBottomSheet/To"
         snapPoints={['90%']}
         title={t('swapScreen.tokenBottomSheetTitle')}
         origin={TokenPickerOrigin.SwapTo}
@@ -1083,12 +1084,12 @@ export function SwapScreen({ route }: Props) {
       />
       <Toast
         withBackdrop
-        showToast={!!toToken && toToken.tokenPositionInList !== undefined}
+        showToast={!!noUsdPriceToken}
         variant={NotificationVariant.Warning}
         title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
         description={t('swapScreen.noUsdPriceWarning.description', {
           localCurrency,
-          tokenSymbol: toToken?.symbol,
+          tokenSymbol: noUsdPriceToken?.token.symbol,
         })}
         ctaLabel2={t('swapScreen.noUsdPriceWarning.ctaConfirm')}
         onPressCta2={handleConfirmSelectTokenNoUsdPrice}
