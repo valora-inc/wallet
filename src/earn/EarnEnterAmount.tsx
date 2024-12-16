@@ -370,7 +370,7 @@ export default function EarnEnterAmount({ route }: Props) {
               swapTransaction={swapTransaction}
             />
           )}
-          {!!processedAmounts.token.bignum && isWithdrawal && (
+          {isWithdrawal && (
             <TransactionWithdrawDetails
               pool={pool}
               token={transactionToken}
