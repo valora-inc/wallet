@@ -112,7 +112,12 @@ export default function EarnEnterAmount({ route }: Props) {
     }
   }, [mode])
 
-  // Use different balance for the withdrawal flow.
+  /**
+   * Use different balance for the withdrawal flow. As described in this discussion
+   * (https://github.com/valora-inc/wallet/pull/6246#discussion_r1883426564) the intent of this
+   * is to abstract away the LP token from the user and just display the token they're depositing,
+   * so we need to convert the LP token balance to deposit and back to LP token when transacting."
+   */
   const [inputToken, setInputToken] = useState(() => ({
     ...availableInputTokens[0],
     balance: isWithdrawal
