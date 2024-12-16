@@ -8,6 +8,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
+import { Status as EarnStatus } from 'src/earn/slice'
 import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -35,7 +36,6 @@ import {
   mockTokenBalances,
   mockUSDCAddress,
 } from 'test/values'
-import { Status as EarnStatus } from 'src/earn/slice'
 
 jest.mock('src/earn/hooks')
 jest.mock('react-native-localize')
@@ -750,7 +750,6 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
     await waitFor(() => expect(getByTestId('EarnEnterAmount/NotEnoughForGasWarning')).toBeTruthy())
     fireEvent.press(
       getByText(
