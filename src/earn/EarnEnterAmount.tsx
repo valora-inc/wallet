@@ -240,7 +240,7 @@ export default function EarnEnterAmount({ route }: Props) {
       )
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [processedAmounts.token.bignum?.toString(), mode, transactionToken, feeCurrencies])
+  }, [processedAmounts.token.bignum?.toString(), mode, transactionToken, inputToken, feeCurrencies])
 
   const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
@@ -370,7 +370,7 @@ export default function EarnEnterAmount({ route }: Props) {
               swapTransaction={swapTransaction}
             />
           )}
-          {isWithdrawal && (
+          {!!processedAmounts.token.bignum && isWithdrawal && (
             <TransactionWithdrawDetails
               pool={pool}
               token={transactionToken}
@@ -526,6 +526,15 @@ function TransactionWithdrawDetails({
 }) {
   const { t } = useTranslation()
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
+
+  /**
+   * This details block renders only conditional sections. If no checks pass - the empty box will
+   * be shown (and we don't want that). In order to omit the empty box - we don't render anything
+   * if all the variables necessary for at least one successful condition is false.
+   */
+  if (!maxFeeAmount && !feeCurrency && !pool.dataProps.withdrawalIncludesClaim) {
+    return null
+  }
 
   return (
     <View style={styles.txDetailsContainer} testID="EnterAmountWithdrawInfoCard">
