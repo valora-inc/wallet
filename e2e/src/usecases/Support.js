@@ -1,5 +1,5 @@
 import { reloadReactNative } from '../utils/retries'
-import { waitForElementByIdAndTap } from '../utils/utils'
+import { waitForElementById } from '../utils/utils'
 
 export default Support = () => {
   beforeEach(async () => {
@@ -32,8 +32,8 @@ export default Support = () => {
   }
 
   it('Send Message to Support', async () => {
-    await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
-    await waitForElementByIdAndTap('SettingsMenu/Help')
+    await waitForElementById('WalletHome/SettingsGearButton', { tap: true })
+    await waitForElementById('SettingsMenu/Help', { tap: true })
     await waitFor(element(by.id('SupportContactLink')))
       .toBeVisible()
       .withTimeout(10000)

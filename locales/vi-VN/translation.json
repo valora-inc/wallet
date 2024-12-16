@@ -2779,9 +2779,11 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Bạn cần {{tokenSymbol}} trên {{tokenNetwork}} để nạp",
+      "depositTitle": "Deposit to pool",
       "crossChainAlternativeDescription": "Nếu bạn không muốn sử dụng token trên {{tokenNetwork}}, hãy chọn một lựa chọn bên dưới. Bạn sẽ phải quay lại để hoàn tất giao dịch nạp vào bể sau đó.",
       "beforeYouCanDepositTitle": "Trước khi bạn có thể nạp...",
       "beforeYouCanDepositDescription": "Bạn sẽ cần thêm một trong các token bể. Sau khi thêm, bạn phải quay lại để hoàn tất giao dịch nạp vào bể.",
+      "beforeYouCanDepositDescriptionV1_101": "You’ll need to add {{tokenSymbol}} on {{tokenNetwork}}. Once added, you’ll need to return to complete your pool deposit.",
       "action": {
         "swapAndDeposit": "Trao đổi và nạp",
         "swapAndDepositDescription": "Chọn token bất kỳ trên {{tokenNetwork}}. Chúng tôi sẽ trao đổi và nạp đồng thời token đó cho bạn.",
@@ -2792,7 +2794,10 @@
         "add": "Mua",
         "addDescription": "Mua {{tokenSymbol}} trên {{tokenNetwork}} qua một trong những nhà cung cấp uy tín của chúng tôi",
         "transfer": "Chuyển tiền",
-        "transferDescription": "Sử dụng bất kỳ ví hoặc sàn giao dịch nào tương thích với {{tokenNetwork}} để nạp {{tokenSymbol}}"
+        "transferDescription": "Sử dụng bất kỳ ví hoặc sàn giao dịch nào tương thích với {{tokenNetwork}} để nạp {{tokenSymbol}}",
+        "addMore": "Buy more {{tokenSymbol}}",
+        "deposit": "Deposit your {{tokenSymbol}}",
+        "depositDescription": "You have {{amount}} {{tokenSymbol}}"
       }
     }
   },

@@ -1,7 +1,7 @@
 import { E2E_WALLET_12_WORDS_MNEMONIC, E2E_WALLET_MNEMONIC } from 'react-native-dotenv'
 import { WALLET_12_WORDS_ADDRESS, WALLET_ADDRESS } from '../utils/consts'
 import { launchApp } from '../utils/retries'
-import { enterPinUi, scrollIntoView, waitForElementByIdAndTap } from '../utils/utils'
+import { enterPinUi, scrollIntoView, waitForElementById } from '../utils/utils'
 
 export default RestoreAccountOnboarding = () => {
   beforeEach(async () => {
@@ -51,23 +51,23 @@ export default RestoreAccountOnboarding = () => {
 
       if (!walletFunded) {
         // case where account not funded yet. dismiss zero balance modal to continue with onboarding.
-        await waitForElementByIdAndTap('ConfirmUseAccountDialog/PrimaryAction')
+        await waitForElementById('ConfirmUseAccountDialog/PrimaryAction', { tap: true })
       }
 
       if (!verifiedPhoneNumber) {
         // case where phone verification is required. skip it.
-        await waitForElementByIdAndTap('PhoneVerificationSkipHeader')
+        await waitForElementById('PhoneVerificationSkipHeader', { tap: true })
       }
 
       // Choose your own adventure (CYA screen)
-      await waitForElementByIdAndTap('ChooseYourAdventure/Later')
+      await waitForElementById('ChooseYourAdventure/Later', { tap: true })
 
       // verify that we land on the home screen
       await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 
       // verify that the correct account was restored
-      await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
-      await waitForElementByIdAndTap('SettingsMenu/Address')
+      await waitForElementById('WalletHome/SettingsGearButton', { tap: true })
+      await waitForElementById('SettingsMenu/Address', { tap: true })
 
       await expect(element(by.text(walletAddress))).toBeVisible()
     }
