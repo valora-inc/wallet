@@ -529,31 +529,6 @@ function TransactionWithdrawDetails({
 
   return (
     <View style={styles.txDetailsContainer} testID="EnterAmountWithdrawInfoCard">
-      <View style={styles.txDetailsLineItem}>
-        <LabelWithInfo
-          label={t('earnFlow.enterAmount.available')}
-          testID="LabelWithInfo/AvailableLabel"
-        />
-        <View style={styles.txDetailsValue}>
-          <TokenDisplay
-            tokenId={pool.dataProps.depositTokenId}
-            testID="EarnEnterAmount/Withdraw/Fiat"
-            amount={balanceInInputToken}
-            showLocalAmount={true}
-            style={styles.txDetailsValueText}
-          />
-          <Text style={[styles.txDetailsValueText, styles.gray4]}>
-            {'('}
-            <TokenDisplay
-              testID="EarnEnterAmount/Withdraw/Crypto"
-              tokenId={pool.dataProps.depositTokenId}
-              amount={balanceInInputToken}
-              showLocalAmount={false}
-            />
-            {')'}
-          </Text>
-        </View>
-      </View>
       {pool.dataProps.withdrawalIncludesClaim &&
         rewardsPositions.map((position, index) => (
           <View key={index} style={styles.txDetailsLineItem}>

@@ -501,13 +501,6 @@ describe('EarnEnterAmount', () => {
 
       await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
 
-      expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toBeTruthy()
-      expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toHaveTextContent('11.00 USDC')
-
-      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
-      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
-      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toHaveTextContent('₱14.63')
-
       expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
 
