@@ -2311,14 +2311,6 @@
     "network": "Red",
     "fees": "Tarifas"
   },
-  "multichainBeta": {
-    "beta": "BETA",
-    "title": "¡Nuevo! Ethereum está en {{appName}}",
-    "description1": "Estamos abriendo esta función a un grupo selecto primero. ¡Eres uno de los afortunados!",
-    "description2": "Esto todavía es nuevo, y nuestro equipo sigue trabajando duro para perfeccionar las cosas. Nos encantaría conocer tu opinión.",
-    "primaryCta": "Pruébalo ahora",
-    "secondaryCta": "No, gracias"
-  },
   "getStartedHome": {
     "title": "Comprar cripto o transferir tokens",
     "body": "Compra o transfiere tokens compatibles para enviar cripto y explora web3",
@@ -2789,9 +2781,11 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Necesitas {{tokenSymbol}} en {{tokenNetwork}} para depositar",
+      "depositTitle": "Depósito a la piscina",
       "crossChainAlternativeDescription": "Si no quieres usar tus tokens en {{tokenNetwork}}, elige una opción a continuación. Tendrás que volver para completar tu depósito en el pool más tarde.",
       "beforeYouCanDepositTitle": "Antes de que puedas depositar...",
       "beforeYouCanDepositDescription": "Tendrás que agregarr uno de los tokens del pool. Una vez agregado, tendrás que volver para completar el depósito en el pool.",
+      "beforeYouCanDepositDescriptionV1_101": "Tendrás que añadir {{tokenSymbol}} en {{tokenNetwork}}. Una vez añadido, tendrás que volver para completar el depósito de tu piscina.",
       "action": {
         "swapAndDeposit": "Intercambiar y depositar",
         "swapAndDepositDescription": "Elige cualquier token en {{tokenNetwork}}. Lo cambiaremos y lo depositaremos simultáneamente por ti.",
@@ -2802,7 +2796,10 @@
         "add": "Comprar",
         "addDescription": "Compra {{tokenSymbol}} en {{tokenNetwork}} a uno de nuestros proveedores de confianza.",
         "transfer": "Transferir",
-        "transferDescription": "Usa cualquier wallet o exchange compatible con {{tokenNetwork}} para depositar {{tokenSymbol}}."
+        "transferDescription": "Usa cualquier wallet o exchange compatible con {{tokenNetwork}} para depositar {{tokenSymbol}}.",
+        "addMore": "Compra más {{tokenSymbol}}",
+        "deposit": "Deposita tu {{tokenSymbol}}",
+        "depositDescription": "Tienes {{amount}} {{tokenSymbol}}"
       }
     }
   },

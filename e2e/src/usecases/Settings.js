@@ -5,7 +5,7 @@ import {
   navigateToPreferences,
   navigateToProfile,
   scrollIntoView,
-  waitForElementByIdAndTap,
+  waitForElementById,
 } from '../utils/utils'
 
 const faker = require('@faker-js/faker')
@@ -29,7 +29,7 @@ export default Settings = () => {
       .toBeVisible()
       .withTimeout(1000 * 10)
     await dismissBanners()
-    await waitForElementByIdAndTap('BackChevron')
+    await waitForElementById('BackChevron', { tap: true })
     // TODO replace this with an ID selector
     await expect(element(by.text(`${randomName}`))).toBeVisible()
   })

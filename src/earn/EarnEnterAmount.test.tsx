@@ -8,6 +8,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
+import { Status as EarnStatus } from 'src/earn/slice'
 import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -117,33 +118,40 @@ const mockSwapTransaction: SwapTransaction = {
   estimatedPriceImpact: '0.1',
 }
 
-const store = createMockStore({
-  tokens: {
-    tokenBalances: {
-      ...mockTokenBalances,
-      mockArbUsdcTokenId: {
-        ...mockTokenBalances[mockArbUsdcTokenId],
-        balance: '10',
-      },
-      mockArbEthTokenId: {
-        ...mockTokenBalances[mockArbEthTokenId],
-        balance: '1',
-      },
-      mockArbArbTokenId: {
-        ...mockTokenBalances[mockArbArbTokenId],
-        minimumAppVersionToSwap: '1.0.0',
-        balance: '1',
-      },
-      mockAaveArbUsdcTokenId: {
-        ...mockTokenBalances[mockAaveArbUsdcTokenId],
-        balance: '10',
+function createStore(depositStatus: EarnStatus = 'idle') {
+  return createMockStore({
+    tokens: {
+      tokenBalances: {
+        ...mockTokenBalances,
+        mockArbUsdcTokenId: {
+          ...mockTokenBalances[mockArbUsdcTokenId],
+          balance: '10',
+        },
+        mockArbEthTokenId: {
+          ...mockTokenBalances[mockArbEthTokenId],
+          balance: '1',
+        },
+        mockArbArbTokenId: {
+          ...mockTokenBalances[mockArbArbTokenId],
+          minimumAppVersionToSwap: '1.0.0',
+          balance: '1',
+        },
+        mockAaveArbUsdcTokenId: {
+          ...mockTokenBalances[mockAaveArbUsdcTokenId],
+          balance: '10',
+        },
       },
     },
-  },
-  positions: {
-    positions: [...mockPositions, ...mockRewardsPositions],
-  },
-})
+    positions: {
+      positions: [...mockPositions, ...mockRewardsPositions],
+    },
+    earn: {
+      depositStatus,
+    },
+  })
+}
+
+const store = createStore()
 
 const params = {
   pool: mockEarnPositions[0],
@@ -493,13 +501,6 @@ describe('EarnEnterAmount', () => {
 
       await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
 
-      expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toBeTruthy()
-      expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toHaveTextContent('11.00 USDC')
-
-      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
-      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
-      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toHaveTextContent('₱14.63')
-
       expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
 
@@ -583,7 +584,6 @@ describe('EarnEnterAmount', () => {
         </Provider>
       )
 
-      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
       expect(getByTestId('LabelWithInfo/ClaimingReward-0')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Reward-0')).toHaveTextContent('₱0.016')
       expect(getByTestId('EarnEnterAmount/Reward-0-crypto')).toHaveTextContent('0.01 ARB')
@@ -630,6 +630,22 @@ describe('EarnEnterAmount', () => {
     fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '12')
 
     expect(getByTestId('EarnEnterAmount/NotEnoughBalanceWarning')).toBeTruthy()
+    expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
+  })
+
+  it('should show loading spinner when transaction submitted', async () => {
+    const mockStore = createStore('loading')
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    await waitFor(() =>
+      expect(getByTestId('EarnEnterAmount/Continue')).toContainElement(
+        getByTestId('Button/Loading')
+      )
+    )
     expect(getByTestId('EarnEnterAmount/Continue')).toBeDisabled()
   })
 
@@ -727,7 +743,6 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
     await waitFor(() => expect(getByTestId('EarnEnterAmount/NotEnoughForGasWarning')).toBeTruthy())
     fireEvent.press(
       getByText(

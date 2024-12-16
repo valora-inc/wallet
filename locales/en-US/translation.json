@@ -2311,14 +2311,6 @@
     "network": "Network",
     "fees": "Fees"
   },
-  "multichainBeta": {
-    "beta": "BETA",
-    "title": "New! Ethereum is on {{appName}}",
-    "description1": "We’re opening up this feature to a select group of people first. You’re one of the lucky ones!",
-    "description2": "This is still new, and our team is still working hard to make things perfect. We’d love to hear your feedback.",
-    "primaryCta": "Try it now",
-    "secondaryCta": "No thanks"
-  },
   "getStartedHome": {
     "title": "Buy crypto or transfer tokens",
     "body": "Buy or transfer compatible tokens to send crypto and explore web3!",
@@ -2789,9 +2781,11 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",
+      "depositTitle": "Deposit to pool",
       "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
       "beforeYouCanDepositTitle": "Before you can deposit...",
       "beforeYouCanDepositDescription": "You’ll need to add one of the pool tokens. Once added, you’ll need to return to complete your pool deposit.",
+      "beforeYouCanDepositDescriptionV1_101": "You’ll need to add {{tokenSymbol}} on {{tokenNetwork}}. Once added, you’ll need to return to complete your pool deposit.",
       "action": {
         "swapAndDeposit": "Swap & Deposit",
         "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
@@ -2802,7 +2796,10 @@
         "add": "Buy",
         "addDescription": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
         "transfer": "Transfer",
-        "transferDescription": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}"
+        "transferDescription": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
+        "addMore": "Buy more {{tokenSymbol}}",
+        "deposit": "Deposit your {{tokenSymbol}}",
+        "depositDescription": "You have {{amount}} {{tokenSymbol}}"
       }
     }
   },

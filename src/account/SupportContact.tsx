@@ -6,11 +6,7 @@ import DeviceInfo from 'react-native-device-info'
 import { e164NumberSelector, nameSelector } from 'src/account/selectors'
 import { sendSupportRequest } from 'src/account/zendesk'
 import { showMessage } from 'src/alert/actions'
-import {
-  multichainBetaStatusSelector,
-  phoneNumberVerifiedSelector,
-  sessionIdSelector,
-} from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, sessionIdSelector } from 'src/app/selectors'
 import Button, { BtnTypes } from 'src/components/Button'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import Switch from 'src/components/Switch'
@@ -69,7 +65,6 @@ function SupportContact({ route }: Props) {
   const currentAccount = useSelector(currentAccountSelector)
   const sessionId = useSelector(sessionIdSelector)
   const numberVerifiedCentralized = useSelector(phoneNumberVerifiedSelector)
-  const multichainBetaStatus = useSelector(multichainBetaStatusSelector)
   const { countryCodeAlpha2: country, region } = useSelector(userLocationDataSelector)
   const hooksPreviewApiUrl = useSelector(hooksPreviewApiUrlSelector)
   const dispatch = useDispatch()
@@ -103,7 +98,6 @@ function SupportContact({ route }: Props) {
       address: currentAccount,
       sessionId,
       numberVerifiedCentralized,
-      multichainBetaStatus,
       hooksPreviewEnabled: !!hooksPreviewApiUrl,
       network: DEFAULT_TESTNET,
     }

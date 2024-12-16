@@ -4,7 +4,6 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import SupportContact, { validateEmail } from 'src/account/SupportContact'
 import { sendSupportRequest } from 'src/account/zendesk'
-import { MultichainBetaStatus } from 'src/app/actions'
 import { APP_NAME } from 'src/config'
 import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
@@ -54,9 +53,7 @@ describe('Contact', () => {
     mockedLogAttachments.mockResolvedValue(logAttachments)
 
     const { getByTestId } = render(
-      <Provider
-        store={createMockStore({ app: { multichainBetaStatus: MultichainBetaStatus.OptedOut } })}
-      >
+      <Provider store={createMockStore()}>
         <SupportContact {...mockScreenProps} />
       </Provider>
     )
@@ -81,7 +78,6 @@ describe('Contact', () => {
         deviceId: 'someDeviceId',
         deviceModel: 'someModel',
         hooksPreviewEnabled: false,
-        multichainBetaStatus: 'OptedOut',
         network: 'alfajores',
         numberVerifiedCentralized: false,
         os: 'android',

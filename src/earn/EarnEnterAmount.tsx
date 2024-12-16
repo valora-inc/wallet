@@ -25,6 +25,7 @@ import TokenEnterAmount, {
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
+import { depositStatusSelector } from 'src/earn/selectors'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/types'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
@@ -95,6 +96,11 @@ export default function EarnEnterAmount({ route }: Props) {
   const isWithdrawal = mode === 'withdraw'
   const { depositToken, withdrawToken, eligibleSwappableTokens } = useTokens({ pool })
 
+  // We do not need to check withdrawal status/show a spinner for a pending
+  // withdrawal, since withdrawals navigate to a separate confirmation screen.
+  const depositStatus = useSelector(depositStatusSelector)
+  const transactionSubmitted = depositStatus === 'loading'
+
   const availableInputTokens = useMemo(() => {
     switch (mode) {
       case 'deposit':
@@ -106,7 +112,18 @@ export default function EarnEnterAmount({ route }: Props) {
     }
   }, [mode])
 
-  const [inputToken, setInputToken] = useState(() => availableInputTokens[0])
+  /**
+   * Use different balance for the withdrawal flow. As described in this discussion
+   * (https://github.com/valora-inc/wallet/pull/6246#discussion_r1883426564) the intent of this
+   * is to abstract away the LP token from the user and just display the token they're depositing,
+   * so we need to convert the LP token balance to deposit and back to LP token when transacting."
+   */
+  const [inputToken, setInputToken] = useState(() => ({
+    ...availableInputTokens[0],
+    balance: isWithdrawal
+      ? withdrawToken.balance.multipliedBy(pool.pricePerShare[0])
+      : availableInputTokens[0].balance,
+  }))
 
   const inputRef = useRef<RNTextInput>(null)
   const tokenBottomSheetRef = useRef<BottomSheetModalRefType>(null)
@@ -114,7 +131,6 @@ export default function EarnEnterAmount({ route }: Props) {
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const swapDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
-  const [maxPressed] = useState(false)
   const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
   const walletAddress = useSelector(walletAddressSelector)
@@ -153,7 +169,13 @@ export default function EarnEnterAmount({ route }: Props) {
   }
 
   const onSelectToken: TokenBottomSheetProps['onTokenSelected'] = (selectedToken) => {
-    setInputToken(selectedToken)
+    // Use different balance for the withdrawal flow.
+    setInputToken({
+      ...selectedToken,
+      balance: isWithdrawal
+        ? withdrawToken.balance.multipliedBy(pool.pricePerShare[0])
+        : selectedToken.balance,
+    })
     replaceAmount('')
     tokenBottomSheetRef.current?.close()
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
@@ -195,14 +217,6 @@ export default function EarnEnterAmount({ route }: Props) {
     }
   }, [inputToken, withdrawToken, processedAmounts.token.bignum, isWithdrawal, pool])
 
-  const balanceInInputToken = useMemo(
-    () =>
-      isWithdrawal
-        ? transactionToken.balance.multipliedBy(pool.pricePerShare[0])
-        : transactionToken.balance,
-    [transactionToken, isWithdrawal, pool]
-  )
-
   const feeCurrencies = useSelector((state) =>
     feeCurrenciesSelector(state, transactionToken.networkId)
   )
@@ -214,7 +228,7 @@ export default function EarnEnterAmount({ route }: Props) {
       !processedAmounts.token.bignum ||
       !transactionTokenAmount ||
       processedAmounts.token.bignum.isLessThanOrEqualTo(0) ||
-      processedAmounts.token.bignum.isGreaterThan(balanceInInputToken)
+      processedAmounts.token.bignum.isGreaterThan(inputToken.balance)
     ) {
       return
     }
@@ -226,13 +240,13 @@ export default function EarnEnterAmount({ route }: Props) {
       )
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [processedAmounts.token.bignum, mode, transactionToken, feeCurrencies])
+  }, [processedAmounts.token.bignum?.toString(), mode, transactionToken, feeCurrencies])
 
   const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const showLowerAmountError =
-    processedAmounts.token.bignum && processedAmounts.token.bignum.gt(balanceInInputToken)
+    processedAmounts.token.bignum && processedAmounts.token.bignum.gt(inputToken.balance)
   const showNotEnoughBalanceForGasWarning =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -254,11 +268,13 @@ export default function EarnEnterAmount({ route }: Props) {
   )
 
   const disabled =
-    // Should disable if the user enters 0, has enough balance but the transaction is not possible, or does not have enough balance
-    !!processedAmounts.token.bignum?.isZero() || !transactionIsPossible
+    // Should disable if the user enters 0, has enough balance but the transaction
+    // is not possible, does not have enough balance, or if transaction is already
+    // submitted
+    !!processedAmounts.token.bignum?.isZero() || !transactionIsPossible || transactionSubmitted
 
   const onSelectPercentageAmount = (percentage: number) => {
-    handleSelectPercentageAmount(percentage, balanceInInputToken)
+    handleSelectPercentageAmount(percentage)
     setSelectedPercentage(percentage)
 
     AppAnalytics.track(SendEvents.send_percentage_selected, {
@@ -301,7 +317,7 @@ export default function EarnEnterAmount({ route }: Props) {
         pool,
         mode,
         inputAmount: processedAmounts.token.bignum.toString(),
-        useMax: maxPressed,
+        useMax: selectedPercentage === 1,
       })
     } else {
       reviewBottomSheetRef.current?.snapToIndex(0)
@@ -342,7 +358,6 @@ export default function EarnEnterAmount({ route }: Props) {
             amountType={amountType}
             toggleAmountType={handleToggleAmountType}
             onOpenTokenPicker={dropdownEnabled ? onOpenTokenPicker : undefined}
-            tokenBalance={isWithdrawal ? balanceInInputToken : inputToken.balance}
           />
           {processedAmounts.token.bignum && prepareTransactionsResult && !isWithdrawal && (
             <TransactionDepositDetails
@@ -355,13 +370,13 @@ export default function EarnEnterAmount({ route }: Props) {
               swapTransaction={swapTransaction}
             />
           )}
-          {processedAmounts.token.bignum && !!amount && isWithdrawal && (
+          {isWithdrawal && (
             <TransactionWithdrawDetails
               pool={pool}
               token={transactionToken}
               prepareTransactionsResult={prepareTransactionsResult}
               feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
-              balanceInInputToken={balanceInInputToken}
+              balanceInInputToken={inputToken.balance}
               rewardsPositions={rewardsPositions}
             />
           )}
@@ -443,7 +458,7 @@ export default function EarnEnterAmount({ route }: Props) {
           size={BtnSizes.FULL}
           disabled={disabled}
           style={styles.continueButton}
-          showLoading={isPreparingTransactions}
+          showLoading={isPreparingTransactions || transactionSubmitted}
           testID="EarnEnterAmount/Continue"
         />
       </KeyboardAwareScrollView>
@@ -514,39 +529,15 @@ function TransactionWithdrawDetails({
 
   return (
     <View style={styles.txDetailsContainer} testID="EnterAmountWithdrawInfoCard">
-      <View style={styles.txDetailsLineItem}>
-        <LabelWithInfo
-          label={t('earnFlow.enterAmount.available')}
-          testID="LabelWithInfo/AvailableLabel"
-        />
-        <View style={styles.txDetailsValue}>
-          <TokenDisplay
-            tokenId={pool.dataProps.depositTokenId}
-            testID="EarnEnterAmount/Withdraw/Fiat"
-            amount={balanceInInputToken}
-            showLocalAmount={true}
-            style={styles.txDetailsValueText}
-          />
-          <Text style={[styles.txDetailsValueText, styles.gray4]}>
-            {'('}
-            <TokenDisplay
-              testID="EarnEnterAmount/Withdraw/Crypto"
-              tokenId={pool.dataProps.depositTokenId}
-              amount={balanceInInputToken}
-              showLocalAmount={false}
-            />
-            {')'}
-          </Text>
-        </View>
-      </View>
       {pool.dataProps.withdrawalIncludesClaim &&
         rewardsPositions.map((position, index) => (
           <View key={index} style={styles.txDetailsLineItem}>
             <LabelWithInfo
               label={t('earnFlow.enterAmount.claimingReward')}
               testID={`LabelWithInfo/ClaimingReward-${index}`}
+              style={{ flex: 0 }}
             />
-            <View style={{ ...styles.txDetailsValue, flex: 1 }}>
+            <View style={styles.txDetailsValue}>
               <TokenDisplay
                 testID={`EarnEnterAmount/Reward-${index}`}
                 tokenId={position.tokens[0].tokenId}

@@ -262,11 +262,11 @@ export function useEnterAmount(props: {
     setAmount(roundedAmount)
   }
 
-  function handleSelectPercentageAmount(percentage: number, balance?: BigNumber) {
+  function handleSelectPercentageAmount(percentage: number) {
     if (!props.token) return
     if (percentage <= 0 || percentage > 1) return
 
-    const percentageAmount = (balance ?? props.token.balance).multipliedBy(percentage)
+    const percentageAmount = props.token.balance.multipliedBy(percentage)
     const newAmount =
       amountType === 'token'
         ? percentageAmount.decimalPlaces(props.token.decimals).toString()
@@ -313,10 +313,6 @@ interface Props {
    * on Android: https://github.com/facebook/react-native/issues/14845
    */
   inputRef: React.MutableRefObject<RNTextInput | null>
-
-  /** Used in order to show available balance.
-   * @default token.balance  */
-  tokenBalance?: TokenBalance['balance']
 }
 
 export default function TokenEnterAmount({
@@ -332,7 +328,6 @@ export default function TokenEnterAmount({
   onInputChange,
   toggleAmountType,
   onOpenTokenPicker,
-  tokenBalance,
   loading,
 }: Props) {
   const { t } = useTranslation()
@@ -400,7 +395,7 @@ export default function TokenEnterAmount({
                     <Trans i18nKey="tokenEnterAmount.availableBalance">
                       <TokenDisplay
                         tokenId={token.tokenId}
-                        amount={tokenBalance ?? token.balance}
+                        amount={token.balance}
                         showLocalAmount={false}
                       />
                     </Trans>
