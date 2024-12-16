@@ -84,6 +84,7 @@ interface NetworkConfig {
   getWalletTransactionsUrl: string
   getWalletBalancesUrl: string
   getExchangeRateUrl: string
+  getTokenPriceHistoryUrl: string
   getCicoQuotesUrl: string
   getCeloNewsFeedUrl: string
 }
@@ -244,6 +245,9 @@ const GET_WALLET_BALANCES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getWalletBalance
 const GET_EXCHANGE_RATE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getExchangeRate`
 const GET_EXCHANGE_RATE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getExchangeRate`
 
+const GET_TOKEN_PRICE_HISTORY_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getTokenPriceHistory`
+const GET_TOKEN_PRICE_HISTORY_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getTokenPriceHistory`
+
 const GET_CICO_QUOTES_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getCicoQuotes`
 const GET_CICO_QUOTES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getCicoQuotes`
 
@@ -372,6 +376,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getWalletTransactionsUrl: GET_WALLET_TRANSACTIONS_ALFAJORES,
     getWalletBalancesUrl: GET_WALLET_BALANCES_ALFAJORES,
     getExchangeRateUrl: GET_EXCHANGE_RATE_ALFAJORES,
+    getTokenPriceHistoryUrl: GET_TOKEN_PRICE_HISTORY_ALFAJORES,
     getCicoQuotesUrl: GET_CICO_QUOTES_ALFAJORES,
     getCeloNewsFeedUrl: GET_CELO_NEWS_FEED_ALFAJORES,
   },
@@ -459,6 +464,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getWalletTransactionsUrl: GET_WALLET_TRANSACTIONS_MAINNET,
     getWalletBalancesUrl: GET_WALLET_BALANCES_MAINNET,
     getExchangeRateUrl: GET_EXCHANGE_RATE_MAINNET,
+    getTokenPriceHistoryUrl: GET_TOKEN_PRICE_HISTORY_MAINNET,
     getCicoQuotesUrl: GET_CICO_QUOTES_MAINNET,
     getCeloNewsFeedUrl: GET_CELO_NEWS_FEED_MAINNET,
   },
