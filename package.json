@@ -160,7 +160,7 @@
     "react-native-platform-touchable": "^1.1.1",
     "react-native-qrcode-svg": "^6.3.12",
     "react-native-quick-crypto": "^0.7.10",
-    "react-native-reanimated": "^3.15.1",
+    "react-native-reanimated": "^3.16.5",
     "react-native-restart": "^0.0.27",
     "react-native-safe-area-context": "^4.14.1",
     "react-native-screens": "^4.3.0",
