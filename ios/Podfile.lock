@@ -1264,6 +1264,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 137efedd74aece84909335af73554e91dfe24165
   React-jsinspector: b86a8abae760c28d69366bbc1d991561e51341ed
   React-logger: 8c0f8173197ad28ac3212c18f8141690209dfe52
+  react-native-adjust: a3d3fd6edd8d4a7ef707ebc45deaecab1ffb2afc
   react-native-camera: 079d80421f0572d6b4e836908114d614d0adb553
   react-native-compat: 03e54a7e1a09f56471b0af199867b4edf13de7ca
   react-native-config: ea75335a7cca1d3326de1da384227e580a7c082e
@@ -1283,7 +1284,6 @@ SPEC CHECKSUMS:
   react-native-video: 50cf661686af98a65bd40fe17b5fac54bdcf38e9
   react-native-webview: e27ee34f9a3bd53e833d8837ae2b09e936f60f41
   React-NativeModulesApple: e29c0ef4359dbb256738a05b39cc98627cf6c698
-  react-native-adjust: a3d3fd6edd8d4a7ef707ebc45deaecab1ffb2afc
   React-perflogger: 6acc671f527e69c0cd93b8e62821d33d3ddf25ca
   React-RCTActionSheet: 569bb9db46d85565d14697e15ecf2166e035eb07
   React-RCTAnimation: fdf4c2ebb36ec54c30549c8ac271e5fbea10fe41
