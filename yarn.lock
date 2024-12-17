@@ -12725,7 +12725,7 @@ react-native-quick-base64@^2.0.5:
   dependencies:
     base64-js "^1.5.1"
 
-react-native-quick-crypto@^0.7.9:
+react-native-quick-crypto@^0.7.10:
   version "0.7.10"
   resolved "https://registry.yarnpkg.com/react-native-quick-crypto/-/react-native-quick-crypto-0.7.10.tgz#b65359348b4c1f2677c52ef54ab568f81627a4cf"
   integrity sha512-ziupKopD1o58v+ywL8aTvJMXBpGf89xLQc3JKG5CRSdEUfTUu5e4ru43KIXrG6uleCX8pcgD6e6RsMqrdEy0zw==
