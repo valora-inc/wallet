@@ -797,17 +797,22 @@ PODS:
   - RNReactNativeHapticFeedback (2.3.3):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNReanimated (3.15.1):
+  - RNReanimated (3.16.5):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 3.15.1)
-    - RNReanimated/worklets (= 3.15.1)
-  - RNReanimated/reanimated (3.15.1):
+    - RNReanimated/reanimated (= 3.16.5)
+    - RNReanimated/worklets (= 3.16.5)
+  - RNReanimated/reanimated (3.16.5):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNReanimated/worklets (3.15.1):
+    - RNReanimated/reanimated/apple (= 3.16.5)
+  - RNReanimated/reanimated/apple (3.16.5):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
+  - RNReanimated/worklets (3.16.5):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
@@ -1326,7 +1331,7 @@ SPEC CHECKSUMS:
   RNPermissions: 1d002266e43df33d7080d5355a64b7d12bdb5e75
   RNPersonaInquiry2: 4202f797d7a172af2908f271954123858abe47bf
   RNReactNativeHapticFeedback: 341b13ced53433a826af92ba83db57803c733ec0
-  RNReanimated: 87db48292c3059cf8a9a488ff6abc79c5d388692
+  RNReanimated: 0ed3441a23c5fa056c316caabee3d68e45275f9f
   RNScreens: 498375cc973b98a886c6ce7e1a76423579700429
   RNSentry: a0dd196e728aeaf54ce5cb8e793ee58128a585fd
   RNShare: 06c6b34c1a574406b1590a553ba5a80af1204d69
