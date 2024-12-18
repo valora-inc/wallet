@@ -12,7 +12,7 @@ import { Status as EarnStatus } from 'src/earn/slice'
 import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
+import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { SwapTransaction } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
@@ -30,19 +30,27 @@ import {
   mockArbArbTokenId,
   mockArbEthTokenId,
   mockArbUsdcTokenId,
+  mockCeloAddress,
+  mockCeloTokenId,
+  mockCusdTokenId,
   mockEarnPositions,
   mockPositions,
   mockRewardsPositions,
   mockTokenBalances,
   mockUSDCAddress,
+  mockUSDCTokenId,
 } from 'test/values'
 
 jest.mock('src/earn/hooks')
 jest.mock('react-native-localize')
-jest.mock('src/statsig') // statsig isn't used directly but the hooksApiSelector uses it
-jest
-  .mocked(getFeatureGate)
-  .mockImplementation((featureGateName) => featureGateName === StatsigFeatureGates.SHOW_POSITIONS)
+jest.mock('src/statsig') // for cross chain swap and indirect use in hooksApiSelector
+jest.mocked(getMultichainFeatures).mockReturnValue({
+  showSwap: [
+    NetworkId['arbitrum-sepolia'],
+    NetworkId['celo-alfajores'],
+    NetworkId['ethereum-sepolia'],
+  ],
+})
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,
@@ -88,13 +96,29 @@ const mockPreparedTransactionNotEnough: PreparedTransactionsNotEnoughBalanceForG
   ],
 }
 
-const mockFeeCurrencies: TokenBalance[] = [
+const mockArbFeeCurrencies: TokenBalance[] = [
   {
     ...mockTokenBalances[mockArbEthTokenId],
     isNative: true,
     balance: new BigNumber(1),
     priceUsd: new BigNumber(1500),
     lastKnownPriceUsd: new BigNumber(1500),
+  },
+]
+
+const mockCeloFeeCurrencies: TokenBalance[] = [
+  {
+    ...mockTokenBalances[mockCeloTokenId],
+    isNative: true,
+    balance: new BigNumber(5),
+    priceUsd: new BigNumber(mockTokenBalances[mockCeloTokenId].priceUsd!),
+    lastKnownPriceUsd: new BigNumber(mockTokenBalances[mockCeloTokenId].priceUsd!),
+  },
+  {
+    ...mockTokenBalances[mockCusdTokenId],
+    balance: new BigNumber(5),
+    priceUsd: new BigNumber(mockTokenBalances[mockCusdTokenId].priceUsd!),
+    lastKnownPriceUsd: new BigNumber(mockTokenBalances[mockCusdTokenId].priceUsd!),
   },
 ]
 
@@ -118,6 +142,17 @@ const mockSwapTransaction: SwapTransaction = {
   estimatedPriceImpact: '0.1',
 }
 
+const mockCrossChainSwapTransaction: SwapTransaction = {
+  ...mockSwapTransaction,
+  swapType: 'cross-chain',
+  estimatedDuration: 300,
+  maxCrossChainFee: '0.1',
+  estimatedCrossChainFee: '0.05',
+  sellTokenAddress: mockCeloAddress,
+  price: '4',
+  guaranteedPrice: '4',
+}
+
 function createStore(depositStatus: EarnStatus = 'idle') {
   return createMockStore({
     tokens: {
@@ -139,6 +174,18 @@ function createStore(depositStatus: EarnStatus = 'idle') {
         mockAaveArbUsdcTokenId: {
           ...mockTokenBalances[mockAaveArbUsdcTokenId],
           balance: '10',
+        },
+        mockCeloTokenId: {
+          ...mockTokenBalances[mockCeloTokenId],
+          balance: '5',
+        },
+        mockCusdTokenId: {
+          ...mockTokenBalances[mockCusdTokenId],
+          balance: '5',
+        },
+        mockUSDCTokenId: {
+          ...mockTokenBalances[mockUSDCTokenId],
+          balance: '5',
         },
       },
     },
@@ -167,6 +214,11 @@ describe('EarnEnterAmount', () => {
   const refreshPreparedTransactionsSpy = jest.fn()
   beforeEach(() => {
     jest.clearAllMocks()
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_POSITIONS
+      )
     jest
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
@@ -230,7 +282,7 @@ describe('EarnEnterAmount', () => {
         walletAddress: mockAccount.toLowerCase(),
         pool: mockEarnPositions[0],
         hooksApiUrl: networkConfig.hooksApiUrl,
-        feeCurrencies: mockFeeCurrencies,
+        feeCurrencies: mockArbFeeCurrencies,
         shortcutId: 'deposit',
         useMax: false,
       })
@@ -278,6 +330,7 @@ describe('EarnEnterAmount', () => {
         poolId: mockEarnPositions[0].positionId,
         fromTokenId: mockArbUsdcTokenId,
         fromTokenAmount: '8',
+        fromNetworkId: NetworkId['arbitrum-sepolia'],
         depositTokenAmount: '8',
         mode: 'deposit',
       })
@@ -287,7 +340,7 @@ describe('EarnEnterAmount', () => {
 
   describe('swap-deposit', () => {
     const swapDepositParams = { ...params, mode: 'swap-deposit' }
-    it('should show the token dropdown and allow the user to select a token', async () => {
+    it('should show the token dropdown and allow the user to select a token only from same chain if feature gate is off', async () => {
       const { getByTestId, getAllByTestId } = render(
         <Provider store={store}>
           <MockedNavigator component={EarnEnterAmount} params={swapDepositParams} />
@@ -300,8 +353,43 @@ describe('EarnEnterAmount', () => {
       expect(getByTestId('downArrowIcon')).toBeTruthy()
       expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
       expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('ETH')
+      expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('Arbitrum Sepolia')
       expect(getAllByTestId('TokenBalanceItem')[1]).toHaveTextContent('ARB')
+      expect(getAllByTestId('TokenBalanceItem')[1]).toHaveTextContent('Arbitrum Sepolia')
       expect(getByTestId('TokenBottomSheet')).not.toHaveTextContent('USDC')
+    })
+
+    it('should show the token dropdown and allow the user to select a token from all chains if feature gate is on', async () => {
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation(
+          (featureGateName) =>
+            featureGateName === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAP_AND_DEPOSIT ||
+            featureGateName === StatsigFeatureGates.SHOW_POSITIONS
+        )
+      const { getByTestId, getAllByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={swapDepositParams} />
+        </Provider>
+      )
+
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toHaveTextContent('ETH')
+      expect(getByTestId('EarnEnterAmount/TokenSelect')).toBeEnabled()
+      expect(getByTestId('downArrowIcon')).toBeTruthy()
+      expect(getAllByTestId('TokenBalanceItem')).toHaveLength(6)
+      expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('ETH')
+      expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('Arbitrum Sepolia')
+      expect(getAllByTestId('TokenBalanceItem')[1]).toHaveTextContent('ARB')
+      expect(getAllByTestId('TokenBalanceItem')[1]).toHaveTextContent('Arbitrum Sepolia')
+      expect(getAllByTestId('TokenBalanceItem')[2]).toHaveTextContent('CELO')
+      expect(getAllByTestId('TokenBalanceItem')[2]).toHaveTextContent('Celo Alfajores')
+      expect(getAllByTestId('TokenBalanceItem')[3]).toHaveTextContent('cUSD')
+      expect(getAllByTestId('TokenBalanceItem')[3]).toHaveTextContent('Celo Alfajores')
+      expect(getAllByTestId('TokenBalanceItem')[4]).toHaveTextContent('USDC')
+      expect(getAllByTestId('TokenBalanceItem')[4]).toHaveTextContent('Ethereum Sepolia')
+      expect(getAllByTestId('TokenBalanceItem')[5]).toHaveTextContent('POOF')
+      expect(getAllByTestId('TokenBalanceItem')[5]).toHaveTextContent('Celo Alfajores')
     })
 
     it('should default to the swappable token if only one is eligible and not show dropdown', async () => {
@@ -338,7 +426,7 @@ describe('EarnEnterAmount', () => {
       expect(queryByTestId('downArrowIcon')).toBeFalsy()
     })
 
-    it('should prepare transactions with the expected inputs', async () => {
+    it('should prepare transactions with the expected inputs for same-chain swap', async () => {
       const { getByTestId } = render(
         <Provider store={store}>
           <MockedNavigator component={EarnEnterAmount} params={swapDepositParams} />
@@ -359,17 +447,52 @@ describe('EarnEnterAmount', () => {
         walletAddress: mockAccount.toLowerCase(),
         pool: mockEarnPositions[0],
         hooksApiUrl: networkConfig.hooksApiUrl,
-        feeCurrencies: mockFeeCurrencies,
+        feeCurrencies: mockArbFeeCurrencies,
         shortcutId: 'swap-deposit',
         useMax: false,
       })
     })
 
-    it('should show tx details and handle navigating to the deposit bottom sheet', async () => {
+    it('should prepare transactions with the expected inputs for cross-chain swap', async () => {
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation(
+          (featureGateName) =>
+            featureGateName === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAP_AND_DEPOSIT ||
+            featureGateName === StatsigFeatureGates.SHOW_POSITIONS
+        )
+      const { getByTestId, getAllByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={swapDepositParams} />
+        </Provider>
+      )
+
+      fireEvent.press(getAllByTestId('TokenBalanceItem')[2]) // select celo for cross chain swap
+      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '.25')
+
+      await waitFor(() => expect(refreshPreparedTransactionsSpy).toHaveBeenCalledTimes(1))
+      expect(refreshPreparedTransactionsSpy).toHaveBeenCalledWith({
+        amount: '0.25',
+        token: {
+          ...mockTokenBalances[mockCeloTokenId],
+          priceUsd: new BigNumber(mockTokenBalances[mockCeloTokenId].priceUsd!),
+          lastKnownPriceUsd: new BigNumber(mockTokenBalances[mockCeloTokenId].priceUsd!),
+          balance: new BigNumber(5),
+        },
+        walletAddress: mockAccount.toLowerCase(),
+        pool: mockEarnPositions[0],
+        hooksApiUrl: networkConfig.hooksApiUrl,
+        feeCurrencies: expect.arrayContaining(mockCeloFeeCurrencies),
+        shortcutId: 'swap-deposit',
+        useMax: false,
+      })
+    })
+
+    it('should show tx details and handle navigating to the deposit bottom sheet for same-chain swap', async () => {
       jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
-          swapTransaction: mockSwapTransaction,
+          swapTransaction: mockCrossChainSwapTransaction,
         },
         refreshPreparedTransactions: jest.fn(),
         clearPreparedTransactions: jest.fn(),
@@ -413,8 +536,75 @@ describe('EarnEnterAmount', () => {
         providerId: mockEarnPositions[0].appId,
         poolId: mockEarnPositions[0].positionId,
         fromTokenId: mockArbEthTokenId,
+        fromNetworkId: NetworkId['arbitrum-sepolia'],
         depositTokenAmount: '0.99999',
         mode: 'swap-deposit',
+        swapType: 'cross-chain',
+      })
+      await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
+    })
+
+    it('should show tx details and handle navigating to the deposit bottom sheet for cross-chain swap', async () => {
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation(
+          (featureGateName) =>
+            featureGateName === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAP_AND_DEPOSIT ||
+            featureGateName === StatsigFeatureGates.SHOW_POSITIONS
+        )
+      jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
+        prepareTransactionsResult: {
+          prepareTransactionsResult: mockPreparedTransaction,
+          swapTransaction: mockCrossChainSwapTransaction,
+        },
+        refreshPreparedTransactions: jest.fn(),
+        clearPreparedTransactions: jest.fn(),
+        prepareTransactionError: undefined,
+        isPreparingTransactions: false,
+      })
+      const { getByTestId, getByText, getAllByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={EarnEnterAmount} params={swapDepositParams} />
+        </Provider>
+      )
+
+      fireEvent.press(getAllByTestId('TokenBalanceItem')[2]) // select celo for cross chain swap
+      fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '0.25')
+
+      await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
+
+      expect(getByTestId('EarnEnterAmount/Swap/From')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Swap/From')).toHaveTextContent('0.25 CELO')
+
+      expect(getByTestId('EarnEnterAmount/Swap/To')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Swap/To')).toHaveTextContent('1.00 USDC')
+
+      expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toHaveTextContent('1.00 USDC')
+
+      expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Deposit/Fiat')).toHaveTextContent('₱1.33')
+
+      expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
+
+      fireEvent.press(getByText('earnFlow.enterAmount.continue'))
+
+      await waitFor(() => expect(AppAnalytics.track).toHaveBeenCalledTimes(2)) // one for token selection, one for continue press
+
+      expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_enter_amount_continue_press, {
+        amountEnteredIn: 'token',
+        amountInUsd: '3.31',
+        networkId: NetworkId['arbitrum-sepolia'],
+        fromTokenAmount: '0.25',
+        depositTokenId: mockArbUsdcTokenId,
+        providerId: mockEarnPositions[0].appId,
+        poolId: mockEarnPositions[0].positionId,
+        fromTokenId: mockCeloTokenId,
+        fromNetworkId: NetworkId['celo-alfajores'],
+        depositTokenAmount: '1',
+        mode: 'swap-deposit',
+        swapType: 'cross-chain',
       })
       await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
     })
@@ -473,7 +663,7 @@ describe('EarnEnterAmount', () => {
         walletAddress: mockAccount.toLowerCase(),
         pool: mockPoolWithHighPricePerShare,
         hooksApiUrl: networkConfig.hooksApiUrl,
-        feeCurrencies: mockFeeCurrencies,
+        feeCurrencies: mockArbFeeCurrencies,
         shortcutId: 'withdraw',
         useMax: false,
       })
