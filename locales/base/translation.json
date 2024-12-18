@@ -2823,5 +2823,12 @@
     "availableBalance": "Available: <0></0>",
     "selectToken": "Select token",
     "fiatPriceUnavailable": "Price unavailable"
+  },
+  "gasFeeWarning": {
+    "title": "You need more {{tokenSymbol}} for gas fees",
+    "descriptionMaxAmount": "Add {{tokenSymbol}} for gas fees or lower the amount you're {{action}}",
+    "descriptionNotEnoughGas": "Adjust the amount you're {{action}} or add {{tokenSymbol}} to continue",
+    "titleDapp": "You have an insufficient gas token balance",
+    "descriptionDapp": "Add {{amount}} {{tokenSymbol}} to complete this transaction"
   }
 }
