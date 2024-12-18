@@ -23,12 +23,15 @@ import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/typ
 import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
   mockAaveArbUsdcTokenId,
   mockArbArbAddress,
   mockArbArbTokenId,
   mockArbUsdcTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
   mockEarnPositions,
   mockRewardsPositions,
   mockTokenBalances,
@@ -132,6 +135,14 @@ describe('depositSubmitSaga', () => {
       call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x3' }),
       mockTxReceipt2,
     ],
+    [
+      call([publicClient[Network.Celo], 'waitForTransactionReceipt'], { hash: '0x1' }),
+      mockTxReceipt1,
+    ],
+    [
+      call([publicClient[Network.Celo], 'waitForTransactionReceipt'], { hash: '0x2' }),
+      mockTxReceipt2,
+    ],
   ]
 
   const expectedAnalyticsProps = {
@@ -143,6 +154,7 @@ describe('depositSubmitSaga', () => {
     mode: 'deposit',
     fromTokenAmount: '100',
     fromTokenId: mockArbUsdcTokenId,
+    fromNetworkId: NetworkId['arbitrum-sepolia'],
   }
 
   const expectedApproveStandbyTx = {
@@ -351,68 +363,103 @@ describe('depositSubmitSaga', () => {
     expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
   })
 
-  it('sends approve and swap-deposit transactions, navigates home and dispatches the success action (gas subsidy off)', async () => {
-    jest.mocked(decodeFunctionData).mockReturnValue({
-      functionName: 'approve',
-      args: ['0xspenderAddress', BigInt(5e19)],
-    })
-    await expectSaga(depositSubmitSaga, {
-      type: depositStart.type,
-      payload: {
-        amount: '100',
-        pool: mockEarnPositions[0],
-        preparedTransactions: [
-          { ...serializableApproveTx, to: mockArbArbAddress as Address },
-          serializableDepositTx,
-        ],
-        mode: 'swap-deposit',
-        fromTokenAmount: '50',
-        fromTokenId: mockArbArbTokenId,
-      },
-    })
-      .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
-      .provide(sagaProviders)
-      .put(
-        depositSuccess({
-          tokenId: mockArbUsdcTokenId,
-          networkId: NetworkId['arbitrum-sepolia'],
-          transactionHash: '0x2',
+  it.each([
+    {
+      swapType: 'same-chain',
+      fromTokenId: mockArbArbTokenId,
+      fromNetworkId: NetworkId['arbitrum-sepolia'],
+      fromAddress: mockArbArbAddress,
+    },
+    {
+      swapType: 'cross-chain',
+      fromTokenId: mockCusdTokenId,
+      fromNetworkId: NetworkId['celo-alfajores'],
+      fromAddress: mockCusdAddress,
+    },
+  ])(
+    'sends approve and swap-deposit ($swapType) transactions, navigates home and dispatches the success action (gas subsidy off)',
+    async ({ swapType, fromTokenId, fromNetworkId, fromAddress }) => {
+      jest.mocked(decodeFunctionData).mockReturnValue({
+        functionName: 'approve',
+        args: ['0xspenderAddress', BigInt(5e19)],
+      })
+      await expectSaga(depositSubmitSaga, {
+        type: depositStart.type,
+        payload: {
+          amount: '100',
+          pool: mockEarnPositions[0],
+          preparedTransactions: [
+            { ...serializableApproveTx, to: fromAddress as Address },
+            serializableDepositTx,
+          ],
+          mode: 'swap-deposit',
+          fromTokenAmount: '50',
+          fromTokenId,
+        },
+      })
+        .withState(createMockStore({ tokens: { tokenBalances: mockTokenBalances } }).getState())
+        .provide(sagaProviders)
+        .put(
+          depositSuccess({
+            tokenId: mockArbUsdcTokenId,
+            networkId: NetworkId['arbitrum-sepolia'],
+            transactionHash: '0x2',
+          })
+        )
+        .call.like({ fn: sendPreparedTransactions })
+        .call([publicClient[networkIdToNetwork[fromNetworkId]], 'waitForTransactionReceipt'], {
+          hash: '0x1',
         })
-      )
-      .call.like({ fn: sendPreparedTransactions })
-      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x1' })
-      .call([publicClient[Network.Arbitrum], 'waitForTransactionReceipt'], { hash: '0x2' })
-      .run()
-    expect(navigateHome).toHaveBeenCalled()
-    expect(decodeFunctionData).toHaveBeenCalledWith({
-      abi: erc20Abi,
-      data: serializableApproveTx.data,
-    })
-    expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
-    expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, {
-      ...expectedApproveStandbyTx,
-      approvedAmount: '50',
-      tokenId: mockArbArbTokenId,
-    })
-    expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedSwapDepositStandbyTx)
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_start, {
-      ...expectedAnalyticsProps,
-      fromTokenAmount: '50',
-      fromTokenId: mockArbArbTokenId,
-      mode: 'swap-deposit',
-    })
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_success, {
-      ...expectedAnalyticsProps,
-      ...expectedCumulativeGasAnalyticsProperties,
-      fromTokenAmount: '50',
-      fromTokenId: mockArbArbTokenId,
-      mode: 'swap-deposit',
-    })
-    expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
-    expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
-  })
+        .call([publicClient[networkIdToNetwork[fromNetworkId]], 'waitForTransactionReceipt'], {
+          hash: '0x2',
+        })
+        .run()
+      expect(navigateHome).toHaveBeenCalled()
+      expect(decodeFunctionData).toHaveBeenCalledWith({
+        abi: erc20Abi,
+        data: serializableApproveTx.data,
+      })
+      expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
+      expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, {
+        ...expectedApproveStandbyTx,
+        approvedAmount: '50',
+        tokenId: fromTokenId,
+        networkId: fromNetworkId,
+      })
+      expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, {
+        ...expectedSwapDepositStandbyTx,
+        networkId: fromNetworkId,
+        swap: {
+          ...expectedSwapDepositStandbyTx.swap,
+          outAmount: {
+            value: '50',
+            tokenId: fromTokenId,
+          },
+        },
+      })
+      expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_start, {
+        ...expectedAnalyticsProps,
+        fromTokenAmount: '50',
+        fromTokenId,
+        fromNetworkId,
+        swapType,
+        mode: 'swap-deposit',
+      })
+      expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_success, {
+        ...expectedAnalyticsProps,
+        ...expectedCumulativeGasAnalyticsProperties,
+        fromTokenAmount: '50',
+        fromTokenId,
+        fromNetworkId,
+        swapType,
+        mode: 'swap-deposit',
+      })
+      expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
+      expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
+    }
+  )
 
-  it('sends only swap-deposit transaction, navigates home and dispatches the success action (gas subsidy on)', async () => {
+  it('sends only swap-deposit (same-chain) transaction, navigates home and dispatches the success action (gas subsidy on)', async () => {
     jest.mocked(isGasSubsidizedForNetwork).mockReturnValue(true)
     await expectSaga(depositSubmitSaga, {
       type: depositStart.type,
@@ -445,6 +492,7 @@ describe('depositSubmitSaga', () => {
       ...expectedAnalyticsProps,
       fromTokenAmount: '50',
       fromTokenId: mockArbArbTokenId,
+      swapType: 'same-chain',
       mode: 'swap-deposit',
     })
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_success, {
@@ -455,6 +503,7 @@ describe('depositSubmitSaga', () => {
       gasUsed: 371674,
       fromTokenAmount: '50',
       fromTokenId: mockArbArbTokenId,
+      swapType: 'same-chain',
       mode: 'swap-deposit',
     })
     expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(true)

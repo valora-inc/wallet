@@ -53,6 +53,7 @@ export async function prepareDepositTransactions({
             decimals: token.decimals,
             address: token.address,
             isNative: token.isNative ?? false,
+            networkId: token.networkId,
           },
           enableAppFee,
         }
