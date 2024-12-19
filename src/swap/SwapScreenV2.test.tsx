@@ -19,7 +19,7 @@ import {
   getMultichainFeatures,
 } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import SwapScreen from 'src/swap/SwapScreenV2'
+import SwapScreenV2 from 'src/swap/SwapScreenV2'
 import { swapStart } from 'src/swap/slice'
 import { FetchQuoteResponse, Field } from 'src/swap/types'
 import { NO_QUOTE_ERROR_MESSAGE } from 'src/swap/useSwapQuote'
@@ -171,7 +171,7 @@ const renderScreen = ({
 
   const tree = render(
     <Provider store={store}>
-      <MockedNavigator component={SwapScreen} params={{ fromTokenId, toTokenNetworkId }} />
+      <MockedNavigator component={SwapScreenV2} params={{ fromTokenId, toTokenNetworkId }} />
     </Provider>
   )
   const [swapFromContainer, swapToContainer] = tree.getAllByTestId('SwapAmountInput')
@@ -1450,7 +1450,7 @@ describe('SwapScreen', () => {
 
     update(
       <Provider store={updatedStore}>
-        <MockedNavigator component={SwapScreen} />
+        <MockedNavigator component={SwapScreenV2} />
       </Provider>
     )
 
@@ -1499,7 +1499,7 @@ describe('SwapScreen', () => {
 
     update(
       <Provider store={updatedStore}>
-        <MockedNavigator component={SwapScreen} />
+        <MockedNavigator component={SwapScreenV2} />
       </Provider>
     )
 

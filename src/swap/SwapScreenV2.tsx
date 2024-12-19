@@ -79,7 +79,7 @@ function getNetworkFee(quote: QuoteResult | null): SwapFeeAmount | undefined {
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 
-export function SwapScreenV2({ route }: Props) {
+export default function SwapScreenV2({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const allowCrossChainSwaps = getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
