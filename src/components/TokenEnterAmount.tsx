@@ -434,7 +434,7 @@ export default function TokenEnterAmount({
               forwardedRef={inputRef}
               onChangeText={(value) => {
                 handleSetStartPosition(undefined)
-                onInputChange?.(value.startsWith(localCurrencySymbol) ? value.slice(1) : value)
+                onInputChange?.(value)
               }}
               value={formattedInputValue}
               placeholderTextColor={Colors.gray3}

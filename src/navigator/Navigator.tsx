@@ -113,7 +113,7 @@ import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
 import variables from 'src/styles/variables'
-import SwapScreen from 'src/swap/SwapScreen'
+import SwapScreen from 'src/swap/SwapScreenV2'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import TokenImportScreen from 'src/tokens/TokenImport'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
