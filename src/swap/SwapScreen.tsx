@@ -90,6 +90,33 @@ export function SwapScreen({ route }: Props) {
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   )
 
+  const inputFromRef = useRef<RNTextInput>(null)
+  const inputToRef = useRef<RNTextInput>(null)
+  const tokenBottomSheetFromRef = useRef<BottomSheetModalRefType>(null)
+  const tokenBottomSheetToRef = useRef<BottomSheetModalRefType>(null)
+  const exchangeRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const feeInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const slippageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const estimatedDurationBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+
+  const [noUsdPriceToken, setNoUsdPriceToken] = useState<
+    { token: TokenBalance; tokenPositionInList: number } | undefined
+  >(undefined)
+  const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
+  const [startedSwapId, setStartedSwapId] = useState<string | undefined>(undefined)
+  const [switchedToNetworkId, setSwitchedToNetworkId] = useState<{
+    networkId: NetworkId
+    field: Field
+  } | null>(null)
+  const [fromToken, setFromToken] = useState(() => {
+    if (!route.params?.fromTokenId) return undefined
+    return swappableFromTokens.find((token) => token.tokenId === route.params!.fromTokenId)
+  })
+  const [toToken, setToToken] = useState(() => {
+    if (!route.params?.toTokenId) return undefined
+    return swappableToTokens.find((token) => token.tokenId === route.params!.toTokenId)
+  })
+
   const currentSwap = useSelector(currentSwapSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
@@ -106,31 +133,6 @@ export function SwapScreen({ route }: Props) {
     )
   )
 
-  const debounceTimerRef = useRef<NodeJS.Timeout | undefined>(undefined)
-  const inputFromRef = useRef<RNTextInput>(null)
-  const inputToRef = useRef<RNTextInput>(null)
-  const tokenBottomSheetFromRef = useRef<BottomSheetModalRefType>(null)
-  const tokenBottomSheetToRef = useRef<BottomSheetModalRefType>(null)
-  const exchangeRateInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const feeInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const slippageInfoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-  const estimatedDurationBottomSheetRef = useRef<BottomSheetModalRefType>(null)
-
-  const [noUsdPriceToken, setNoUsdPriceToken] = useState<
-    { token: TokenBalance; tokenPositionInList: number } | undefined
-  >(undefined)
-  const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
-  const [startedSwapId, setStartedSwapId] = useState<string | undefined>(undefined)
-  const [switchedToNetworkId, setSwitchedToNetworkId] = useState<NetworkId | null>(null)
-  const [fromToken, setFromToken] = useState(() => {
-    if (!route.params?.fromTokenId) return undefined
-    return swappableFromTokens.find((token) => token.tokenId === route.params!.fromTokenId)
-  })
-  const [toToken, setToToken] = useState(() => {
-    if (!route.params?.toTokenId) return undefined
-    return swappableToTokens.find((token) => token.tokenId === route.params!.toTokenId)
-  })
-
   const { quote, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } = useSwapQuote({
     networkId: fromToken?.networkId || networkConfig.defaultNetworkId,
     slippagePercentage: maxSlippagePercentage,
@@ -146,11 +148,11 @@ export function SwapScreen({ route }: Props) {
         return
       }
 
-      if (!derivedFrom.token.bignum) {
+      if (!processedAmountsFrom.token.bignum) {
         return
       }
 
-      const newAmount = derivedFrom.token.bignum
+      const newAmount = processedAmountsFrom.token.bignum
         .multipliedBy(new BigNumber(newQuote.price))
         .toString()
 
@@ -161,54 +163,21 @@ export function SwapScreen({ route }: Props) {
   const {
     amount: amountFrom,
     amountType,
-    processedAmounts: derivedFrom,
+    processedAmounts: processedAmountsFrom,
     handleAmountInputChange,
     handleToggleAmountType,
     handleSelectPercentageAmount,
   } = useEnterAmount({
     inputRef: inputFromRef,
     token: fromToken,
-    onHandleAmountInputChange: (amount) => {
-      console.log('onAmountChange', amount)
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current)
-      }
-
-      setStartedSwapId(undefined)
-      if (!amount) {
-        clearQuote()
-        replaceAmountTo('')
-        return
-      }
-
-      debounceTimerRef.current = setTimeout(() => {
-        const parsedAmount = new BigNumber(amount)
-        const bothTokensPresent = !!(fromToken && toToken)
-        const amountIsTooSmall = !parsedAmount || parsedAmount.lte(0)
-
-        if (!bothTokensPresent || amountIsTooSmall) {
-          return
-        }
-
-        // This variable prevents the quote from needlessly being fetched again.
-        const quoteIsTheSameAsTheLastOne =
-          quote &&
-          quote.toTokenId === toToken.tokenId &&
-          quote.fromTokenId === fromToken.tokenId &&
-          quote.swapAmount.eq(parsedAmount)
-
-        if (!quoteIsTheSameAsTheLastOne) {
-          console.log('Updating quote', parsedAmount)
-          replaceAmountTo('')
-          void refreshQuote(fromToken, toToken, { FROM: parsedAmount, TO: null }, Field.FROM)
-        }
-      }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
+    onHandleAmountInputChange: () => {
+      setSelectedPercentage(null)
     },
   })
 
   const {
     amount: amountTo,
-    processedAmounts: derivedTo,
+    processedAmounts: processedAmountsTo,
     replaceAmount: replaceAmountTo,
   } = useEnterAmount({ token: toToken, inputRef: inputToRef })
 
@@ -219,7 +188,7 @@ export function SwapScreen({ route }: Props) {
   const swapStatus = startedSwapId === currentSwap?.id ? currentSwap?.status : null
   const confirmSwapIsLoading = swapStatus === 'started'
   const confirmSwapFailed = swapStatus === 'error'
-  const switchedToNetworkName = switchedToNetworkId && NETWORK_NAMES[switchedToNetworkId]
+  const switchedToNetworkName = switchedToNetworkId && NETWORK_NAMES[switchedToNetworkId.networkId]
   const showCrossChainSwapNotification =
     toToken && fromToken && toToken.networkId !== fromToken.networkId && allowCrossChainSwaps
   const feeCurrencies =
@@ -231,18 +200,18 @@ export function SwapScreen({ route }: Props) {
   const feeToken = networkFee?.token ? tokensById[networkFee.token.tokenId] : undefined
 
   const appFee: AppFeeAmount | undefined = useMemo(() => {
-    if (!quote || !fromToken || !derivedFrom.token.bignum) {
+    if (!quote || !fromToken || !processedAmountsFrom.token.bignum) {
       return undefined
     }
 
     const percentage = new BigNumber(quote.appFeePercentageIncludedInPrice || 0)
 
     return {
-      amount: derivedFrom.token.bignum.multipliedBy(percentage).dividedBy(100),
+      amount: processedAmountsFrom.token.bignum.multipliedBy(percentage).dividedBy(100),
       token: fromToken,
       percentage,
     }
-  }, [quote, derivedFrom.token.bignum, fromToken])
+  }, [quote, processedAmountsFrom.token.bignum, fromToken])
 
   const shouldShowSkeletons = useMemo(() => {
     if (fetchingSwapQuote) return true
@@ -254,20 +223,25 @@ export function SwapScreen({ route }: Props) {
       return true
     }
 
-    if (quote && derivedFrom.token.bignum && !quote.swapAmount.eq(derivedFrom.token.bignum)) {
+    if (
+      quote &&
+      processedAmountsFrom.token.bignum &&
+      !quote.swapAmount.eq(processedAmountsFrom.token.bignum)
+    ) {
       return true
     }
 
     return false
-  }, [fetchingSwapQuote, quote, fromToken, toToken, derivedFrom])
+  }, [fetchingSwapQuote, quote, fromToken, toToken, processedAmountsFrom])
 
   const warnings = useMemo(() => {
     const shouldShowMaxSwapAmountWarning =
       feeCurrenciesWithPositiveBalances.length === 1 &&
-      fromToken?.tokenId === feeCurrenciesWithPositiveBalances[0].tokenId &&
-      fromToken?.balance.gt(0) &&
-      derivedFrom.token.bignum &&
-      derivedFrom.token.bignum.gte(fromToken?.balance)
+      fromToken &&
+      fromToken.tokenId === feeCurrenciesWithPositiveBalances[0].tokenId &&
+      fromToken.balance.gt(0) &&
+      processedAmountsFrom.token.bignum &&
+      processedAmountsFrom.token.bignum.gte(fromToken.balance)
 
     // NOTE: If a new condition is added here, make sure to update `allowSwap` below if
     // the condition should prevent the user from swapping.
@@ -276,7 +250,9 @@ export function SwapScreen({ route }: Props) {
       showUnsupportedTokensWarning:
         !shouldShowSkeletons && fetchSwapQuoteError?.message.includes(NO_QUOTE_ERROR_MESSAGE),
       showInsufficientBalanceWarning:
-        fromToken && derivedFrom.token.bignum && derivedFrom.token.bignum.gt(fromToken.balance),
+        fromToken &&
+        processedAmountsFrom.token.bignum &&
+        processedAmountsFrom.token.bignum.gt(fromToken.balance),
       showCrossChainFeeWarning:
         !shouldShowSkeletons && crossChainFee?.nativeTokenBalanceDeficit.lt(0),
       showDecreaseSpendForGasWarning:
@@ -310,7 +286,7 @@ export function SwapScreen({ route }: Props) {
     feeCurrenciesWithPositiveBalances,
     fromToken,
     toToken,
-    derivedFrom,
+    processedAmountsFrom,
     switchedToNetworkId,
     shouldShowSkeletons,
     fetchSwapQuoteError,
@@ -328,17 +304,71 @@ export function SwapScreen({ route }: Props) {
       !warnings.showCrossChainFeeWarning &&
       !confirmSwapIsLoading &&
       !shouldShowSkeletons &&
-      derivedFrom.token.bignum?.gt(0) &&
-      derivedTo.token.bignum?.gt(0),
+      processedAmountsFrom.token.bignum &&
+      processedAmountsFrom.token.bignum.gt(0) &&
+      processedAmountsTo.token.bignum &&
+      processedAmountsTo.token.bignum.gt(0),
     [
-      derivedFrom.token.bignum,
-      derivedTo.token.bignum,
+      processedAmountsFrom.token.bignum,
+      processedAmountsTo.token.bignum,
       shouldShowSkeletons,
       confirmSwapIsLoading,
       warnings.showInsufficientBalanceWarning,
       warnings.showDecreaseSpendForGasWarning,
       warnings.showNotEnoughBalanceForGasWarning,
       warnings.showCrossChainFeeWarning,
+    ]
+  )
+
+  useEffect(
+    function refreshTransactionQuote() {
+      setStartedSwapId(undefined)
+      if (!processedAmountsFrom.token.bignum) {
+        clearQuote()
+        replaceAmountTo('')
+        return
+      }
+
+      const debounceTimeout = setTimeout(() => {
+        const bothTokensPresent = !!(fromToken && toToken)
+        const amountIsTooSmall =
+          !processedAmountsFrom.token.bignum || processedAmountsFrom.token.bignum.lte(0)
+
+        if (!bothTokensPresent || amountIsTooSmall) {
+          return
+        }
+
+        // This variable prevents the quote from needlessly being fetched again.
+        const quoteIsTheSameAsTheLastOne =
+          quote &&
+          quote.toTokenId === toToken.tokenId &&
+          quote.fromTokenId === fromToken.tokenId &&
+          processedAmountsFrom.token.bignum &&
+          quote.swapAmount.eq(processedAmountsFrom.token.bignum)
+
+        if (!quoteIsTheSameAsTheLastOne) {
+          replaceAmountTo('')
+          void refreshQuote(
+            fromToken,
+            toToken,
+            { FROM: processedAmountsFrom.token.bignum, TO: null },
+            Field.FROM
+          )
+        }
+      }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS)
+
+      return () => {
+        clearTimeout(debounceTimeout)
+      }
+    },
+    [
+      processedAmountsFrom.token.bignum?.toString(),
+      fromToken,
+      toToken,
+      quote,
+      refreshQuote,
+      // clearQuote,
+      // replaceAmountTo,
     ]
   )
 
@@ -370,7 +400,9 @@ export function SwapScreen({ route }: Props) {
           fromTokenId: fromToken.tokenId,
           fromTokenNetworkId: fromToken?.networkId,
           fromTokenIsImported: !!fromToken.isManuallyImported,
-          amount: derivedFrom.token.bignum ? derivedFrom.token.bignum.toString() : '',
+          amount: processedAmountsFrom.token.bignum
+            ? processedAmountsFrom.token.bignum.toString()
+            : '',
           amountType: 'sellAmount',
           priceImpact: quote.estimatedPriceImpact,
           provider: quote.provider,
@@ -415,8 +447,12 @@ export function SwapScreen({ route }: Props) {
       toTokenId: toToken.tokenId,
       fromTokenId: fromToken.tokenId,
       swapAmount: {
-        [Field.FROM]: derivedFrom.token.bignum ? derivedFrom.token.bignum.toString() : '',
-        [Field.TO]: derivedTo.token.bignum ? derivedTo.token.bignum.toString() : '',
+        [Field.FROM]: processedAmountsFrom.token.bignum
+          ? processedAmountsFrom.token.bignum.toString()
+          : '',
+        [Field.TO]: processedAmountsTo.token.bignum
+          ? processedAmountsTo.token.bignum.toString()
+          : '',
       },
       updatedField: Field.FROM,
     }
@@ -440,7 +476,7 @@ export function SwapScreen({ route }: Props) {
           fromTokenId: fromToken.tokenId,
           fromTokenNetworkId: fromToken.networkId,
           fromTokenIsImported: !!fromToken.isManuallyImported,
-          amount: derivedFrom.token.bignum?.toString() || '',
+          amount: processedAmountsFrom.token.bignum?.toString() || '',
           amountType: 'sellAmount',
           allowanceTarget,
           estimatedPriceImpact,
@@ -494,15 +530,6 @@ export function SwapScreen({ route }: Props) {
     setFromToken(toToken)
     setToToken(fromToken)
     replaceAmountTo('')
-
-    if (fromToken && toToken) {
-      void refreshQuote(
-        toToken,
-        fromToken,
-        { FROM: derivedFrom.token.bignum, TO: null },
-        Field.FROM
-      )
-    }
   }
 
   function handleConfirmSelectTokenNoUsdPrice() {
@@ -566,15 +593,6 @@ export function SwapScreen({ route }: Props) {
         tokenPositionInList,
       })
 
-      if (toToken && fromToken) {
-        void refreshQuote(
-          toToken,
-          fromToken,
-          { FROM: derivedFrom.token.bignum, TO: null },
-          Field.FROM
-        )
-      }
-
       /**
        * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
        * animation can be synchronised and starts after the state changes above.
@@ -586,18 +604,21 @@ export function SwapScreen({ route }: Props) {
     }
 
     setFromToken(selectedToken)
+    replaceAmountTo('')
 
-    const newSwitchedToNetworkId =
+    const newSwitchedToNetwork =
       toToken && toToken.networkId !== selectedToken.networkId && !allowCrossChainSwaps
-        ? selectedToken.networkId
+        ? { networkId: selectedToken.networkId, field: Field.FROM }
         : null
+
+    setSwitchedToNetworkId(allowCrossChainSwaps ? null : newSwitchedToNetwork)
 
     trackConfirmToken({
       field: Field.FROM,
       selectedToken,
       newFromToken: selectedToken,
-      newToToken: newSwitchedToNetworkId ? undefined : toToken,
-      newSwitchedToNetworkId,
+      newToToken: newSwitchedToNetwork ? undefined : toToken,
+      newSwitchedToNetworkId: newSwitchedToNetwork?.networkId ?? null,
       tokenPositionInList,
     })
 
@@ -605,20 +626,10 @@ export function SwapScreen({ route }: Props) {
       setStartedSwapId(undefined)
     }
 
-    if (newSwitchedToNetworkId) {
+    if (newSwitchedToNetwork) {
       // reset the toToken if the user is switching networks
       setToToken(undefined)
-      setSwitchedToNetworkId(allowCrossChainSwaps ? null : newSwitchedToNetworkId)
       clearQuote()
-    }
-
-    if (toToken) {
-      void refreshQuote(
-        selectedToken,
-        toToken,
-        { FROM: derivedFrom.token.bignum, TO: null },
-        Field.FROM
-      )
     }
 
     /**
@@ -631,12 +642,11 @@ export function SwapScreen({ route }: Props) {
   }
 
   function onSelectTokenTo(selectedToken: TokenBalance, tokenPositionInList: number) {
-    if (!selectedToken.priceUsd) {
+    if (!selectedToken.priceUsd && !noUsdPriceToken) {
       setNoUsdPriceToken({ token: selectedToken, tokenPositionInList })
       return
     }
 
-    console.log({ tokenPositionInList })
     if (fromToken?.tokenId === selectedToken.tokenId) {
       setFromToken(toToken)
       setToToken(fromToken)
@@ -653,15 +663,6 @@ export function SwapScreen({ route }: Props) {
         tokenPositionInList,
       })
 
-      if (toToken && fromToken) {
-        void refreshQuote(
-          toToken,
-          fromToken,
-          { FROM: derivedFrom.token.bignum, TO: null },
-          Field.FROM
-        )
-      }
-
       /**
        * Use requestAnimationFrame so that the bottom sheet and keyboard dismiss
        * animation can be synchronised and starts after the state changes above.
@@ -674,18 +675,21 @@ export function SwapScreen({ route }: Props) {
     }
 
     setToToken(selectedToken)
+    replaceAmountTo('')
 
-    const newSwitchedToNetworkId =
+    const newSwitchedToNetwork =
       fromToken && fromToken.networkId !== selectedToken.networkId && !allowCrossChainSwaps
-        ? selectedToken.networkId
+        ? { networkId: selectedToken.networkId, field: Field.TO }
         : null
+
+    setSwitchedToNetworkId(allowCrossChainSwaps ? null : newSwitchedToNetwork)
 
     trackConfirmToken({
       field: Field.TO,
       selectedToken,
-      newFromToken: newSwitchedToNetworkId ? undefined : fromToken,
+      newFromToken: newSwitchedToNetwork ? undefined : fromToken,
       newToToken: selectedToken,
-      newSwitchedToNetworkId,
+      newSwitchedToNetworkId: newSwitchedToNetwork?.networkId ?? null,
       tokenPositionInList,
     })
 
@@ -693,20 +697,10 @@ export function SwapScreen({ route }: Props) {
       setStartedSwapId(undefined)
     }
 
-    if (newSwitchedToNetworkId) {
+    if (newSwitchedToNetwork) {
       // reset the fromToken if the user is switching networks
       setFromToken(undefined)
-      setSwitchedToNetworkId(allowCrossChainSwaps ? null : newSwitchedToNetworkId)
       clearQuote()
-    }
-
-    if (fromToken) {
-      void refreshQuote(
-        fromToken,
-        selectedToken,
-        { FROM: derivedFrom.token.bignum, TO: null },
-        Field.FROM
-      )
     }
 
     /**
@@ -763,8 +757,8 @@ export function SwapScreen({ route }: Props) {
                 token={fromToken}
                 inputValue={amountFrom}
                 inputRef={inputFromRef}
-                tokenAmount={derivedFrom.token.displayAmount}
-                localAmount={derivedFrom.local.displayAmount}
+                tokenAmount={processedAmountsFrom.token.displayAmount}
+                localAmount={processedAmountsFrom.local.displayAmount}
                 onInputChange={handleAmountInputChange}
                 amountType={amountType}
                 toggleAmountType={handleToggleAmountType}
@@ -789,8 +783,8 @@ export function SwapScreen({ route }: Props) {
                 token={toToken}
                 inputValue={amountTo}
                 inputRef={inputToRef}
-                tokenAmount={derivedTo.token.displayAmount}
-                localAmount={derivedTo.local.displayAmount}
+                tokenAmount={processedAmountsTo.token.displayAmount}
+                localAmount={processedAmountsTo.local.displayAmount}
                 amountType={amountType}
                 onOpenTokenPicker={onOpenTokenPickerTo}
                 loading={shouldShowSkeletons}
@@ -816,7 +810,7 @@ export function SwapScreen({ route }: Props) {
                 toToken={toToken}
                 exchangeRatePrice={quote?.price}
                 exchangeRateInfoBottomSheetRef={exchangeRateInfoBottomSheetRef}
-                swapAmount={derivedFrom.token.bignum ?? undefined}
+                swapAmount={processedAmountsFrom.token.bignum ?? undefined}
                 fetchingSwapQuote={shouldShowSkeletons}
                 appFee={appFee}
                 estimatedDurationInSeconds={
@@ -908,8 +902,7 @@ export function SwapScreen({ route }: Props) {
                 })}
                 description={t('swapScreen.switchedToNetworkWarning.body', {
                   networkName: switchedToNetworkName,
-                  // TODO
-                  // context: selectingField === Field.FROM ? 'swapTo' : 'swapFrom',
+                  context: switchedToNetworkId?.field === Field.FROM ? 'swapTo' : 'swapFrom',
                 })}
                 style={styles.warning}
                 testID="SwitchedToNetworkWarning"

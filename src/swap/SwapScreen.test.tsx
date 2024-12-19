@@ -1081,8 +1081,12 @@ describe('SwapScreen', () => {
     selectSwapTokens('CELO', 'cUSD', swapScreen)
     await selectMaxFromAmount(swapScreen)
 
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('0')
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('')
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe('0')
+    expect(
+      within(swapToContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe('')
     expect(mockFetch).not.toHaveBeenCalled()
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
   })
@@ -1093,7 +1097,10 @@ describe('SwapScreen', () => {
     const { swapFromContainer, getByText, store, swapScreen } = renderScreen({})
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '1.234'
+    )
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1111,7 +1118,10 @@ describe('SwapScreen', () => {
     const { swapFromContainer, getByText, swapScreen } = renderScreen({})
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '1.234'
+    )
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1183,7 +1193,10 @@ describe('SwapScreen', () => {
     const { getByText, store, swapScreen, swapFromContainer } = renderScreen({})
 
     selectSwapTokens('cUSD', 'CELO', swapScreen)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '10')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '10'
+    )
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1231,7 +1244,10 @@ describe('SwapScreen', () => {
     const { swapScreen, swapFromContainer, getByText, store } = renderScreen({})
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.5')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '1.5'
+    )
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1339,8 +1355,8 @@ describe('SwapScreen', () => {
     })
     const { swapFromContainer, swapToContainer } = renderScreen({})
 
-    expect(within(swapFromContainer).queryByTestId('SwapAmountInput/Input')).toBeFalsy()
-    expect(within(swapToContainer).queryByTestId('SwapAmountInput/Input')).toBeFalsy()
+    expect(within(swapFromContainer).queryByTestId('SwapAmountInput/TokenAmountInput')).toBeFalsy()
+    expect(within(swapToContainer).queryByTestId('SwapAmountInput/TokenAmountInput')).toBeFalsy()
   })
 
   it('should be able to switch tokens by pressing arrow button', async () => {
@@ -1351,13 +1367,13 @@ describe('SwapScreen', () => {
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
 
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput')).toBeTruthy()
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenAmountInput')).toBeTruthy()
 
     fireEvent.press(getByTestId('SwapScreen/SwitchTokens'))
 
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput')).toBeTruthy()
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenAmountInput')).toBeTruthy()
   })
 
   it('should disable editing of the buy token amount', () => {
@@ -1365,8 +1381,12 @@ describe('SwapScreen', () => {
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
 
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(true)
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(false)
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.editable
+    ).toBe(true)
+    expect(
+      within(swapToContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.editable
+    ).toBe(false)
   })
 
   it('should display the correct transaction details', async () => {
@@ -1377,7 +1397,10 @@ describe('SwapScreen', () => {
     })
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '2')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '2'
+    )
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1486,7 +1509,10 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
 
     // Now change some input, and the warning should disappear
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '2')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '2'
+    )
 
     expect(queryByText('swapScreen.confirmSwapFailedWarning.title')).toBeFalsy()
     expect(queryByText('swapScreen.confirmSwapFailedWarning.body')).toBeFalsy()
@@ -1623,7 +1649,9 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe(
       '1.234' // matching the value inside the mocked store
     )
 
@@ -1646,7 +1674,9 @@ describe('SwapScreen', () => {
     // Now, decrease the swap amount
     fireEvent.press(confirmDecrease)
 
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe(
       '1.2077776' // 1.234 minus the max fee calculated for the swap
     )
 
@@ -1674,7 +1704,10 @@ describe('SwapScreen', () => {
     })
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.233')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '1.233'
+    )
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1699,7 +1732,9 @@ describe('SwapScreen', () => {
     // Now, decrease the swap amount
     fireEvent.press(confirmDecrease)
 
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe(
       '1.2077776' // 1.234 (max balance) minus the max fee calculated for the swap
     )
 
@@ -1727,7 +1762,10 @@ describe('SwapScreen', () => {
     })
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1')
+    fireEvent.changeText(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput'),
+      '1'
+    )
 
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -1755,7 +1793,9 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
+    expect(
+      within(swapFromContainer).getByTestId('SwapAmountInput/TokenAmountInput').props.value
+    ).toBe(
       '1.234' // matching the value inside the mocked store
     )
 
