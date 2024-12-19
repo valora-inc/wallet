@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
+import walletJumpstart from 'src/abis/IWalletJumpstart'
 import { useSelector } from 'src/redux/hooks'
 import {
   FetchQuoteResponse,
@@ -193,7 +194,14 @@ function useSwapQuote({
         return null
       }
 
-      const referrer = '' // TODO: Add logic to get referrer from https://github.com/valora-labs/peer2peer-funding-layer/blob/main/contracts/WalletJumpstartHack.sol#L33 using walletAddress
+      const client = publicClient[networkIdToNetwork[networkId]]
+
+      const referrer = await client.readContract({
+        address: '' as Address, // Add the new WalletJumpstartHack address here
+        abi: walletJumpstart.abi,
+        functionName: 'referrer',
+        args: [walletAddress as Address],
+      })
 
       const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
       const params = {

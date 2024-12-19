@@ -398,6 +398,25 @@ const jumpstart = {
           name: '',
           type: 'address',
         },
+      ],
+      name: 'referrer',
+      outputs: [
+        {
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [
+        {
+          internalType: 'address',
+          name: '',
+          type: 'address',
+        },
         {
           internalType: 'uint256',
           name: '',
