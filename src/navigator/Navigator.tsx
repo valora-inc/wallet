@@ -112,8 +112,11 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import variables from 'src/styles/variables'
-import SwapScreen from 'src/swap/SwapScreenV2'
+import SwapScreen from 'src/swap/SwapScreen'
+import SwapScreenV2 from 'src/swap/SwapScreenV2'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import TokenImportScreen from 'src/tokens/TokenImport'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
@@ -557,9 +560,14 @@ const earnScreens = (Navigator: typeof Stack) => (
   </>
 )
 
+const showNewEnterAmountForSwap = getFeatureGate(StatsigFeatureGates.SHOW_NEW_ENTER_AMOUNT_FOR_SWAP)
 const swapScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen name={Screens.SwapScreenWithBack} component={SwapScreen} options={noHeader} />
+    <Navigator.Screen
+      name={Screens.SwapScreenWithBack}
+      component={showNewEnterAmountForSwap ? SwapScreenV2 : SwapScreen}
+      options={noHeader}
+    />
   </>
 )
 
