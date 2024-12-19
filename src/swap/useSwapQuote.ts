@@ -193,6 +193,8 @@ function useSwapQuote({
         return null
       }
 
+      const referrer = '' // TODO: Add logic to get referrer from https://github.com/valora-labs/peer2peer-funding-layer/blob/main/contracts/WalletJumpstartHack.sol#L33 using walletAddress
+
       const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
       const params = {
         ...(toToken.address && { buyToken: toToken.address }),
@@ -205,6 +207,7 @@ function useSwapQuote({
         userAddress: walletAddress ?? '',
         slippagePercentage,
         ...(enableAppFee === true && { enableAppFee: enableAppFee.toString() }),
+        referrer,
       }
       const queryParams = new URLSearchParams({ ...params }).toString()
       const requestUrl = `${networkConfig.getSwapQuoteUrl}?${queryParams}`
