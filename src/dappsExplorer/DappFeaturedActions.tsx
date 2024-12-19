@@ -23,7 +23,7 @@ interface Props {
   style?: StyleProp<ViewStyle>
 }
 
-function FeaturedAction({ title, description, Image, style, onPress }: Props) {
+export function FeaturedAction({ title, description, Image, style, onPress }: Props) {
   return (
     <Touchable
       style={[styles.pressableCard, style]}
