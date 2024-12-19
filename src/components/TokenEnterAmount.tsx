@@ -299,27 +299,6 @@ export function useEnterAmount(props: {
   }
 }
 
-interface Props {
-  token?: TokenBalance
-  inputValue: string
-  tokenAmount: string
-  localAmount: string
-  amountType: AmountEnteredIn
-  loading?: boolean
-  inputStyle?: StyleProp<TextStyle>
-  autoFocus?: boolean
-  testID?: string
-  onInputChange?: (value: string) => void
-  toggleAmountType?: () => void
-  onOpenTokenPicker?: () => void
-
-  /**
-   * inputRef variable exist to ensure TextInput displays the start of the value for long values
-   * on Android: https://github.com/facebook/react-native/issues/14845
-   */
-  inputRef: React.MutableRefObject<RNTextInput | null>
-}
-
 export default function TokenEnterAmount({
   token,
   inputValue,
@@ -334,11 +313,25 @@ export default function TokenEnterAmount({
   toggleAmountType,
   onOpenTokenPicker,
   loading,
-}: Props) {
+}: {
+  token?: TokenBalance
+  inputValue: string
+  tokenAmount: string
+  localAmount: string
+  amountType: AmountEnteredIn
+  inputRef: React.MutableRefObject<RNTextInput | null>
+  loading?: boolean
+  inputStyle?: StyleProp<TextStyle>
+  autoFocus?: boolean
+  testID?: string
+  onInputChange?: (value: string) => void
+  toggleAmountType?: () => void
+  onOpenTokenPicker?: () => void
+}) {
   const { t } = useTranslation()
   /**
-   * startPosition variable exist to ensure TextInput displays the start of the value for long
-   * values on Android: https://github.com/facebook/react-native/issues/14845
+   * startPosition and inputRef variables exist to ensure TextInput displays the start of the value
+   * for long values on Android: https://github.com/facebook/react-native/issues/14845
    */
   const [startPosition, setStartPosition] = useState<number | undefined>(0)
   // this should never be null, just adding a default to make TS happy
