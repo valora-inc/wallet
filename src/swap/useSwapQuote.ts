@@ -187,8 +187,6 @@ function useSwapQuote({
         return null
       }
 
-      console.log(swapAmount[updatedField])
-
       if (!swapAmount[updatedField] || !swapAmount[updatedField].gt(0)) {
         return null
       }

@@ -9,7 +9,7 @@ export enum Field {
   TO = 'TO',
 }
 
-export interface SwapAmount {
+interface SwapAmount {
   [Field.FROM]: string
   [Field.TO]: string
 }
