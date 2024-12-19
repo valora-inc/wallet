@@ -560,16 +560,21 @@ const earnScreens = (Navigator: typeof Stack) => (
   </>
 )
 
-const showNewEnterAmountForSwap = getFeatureGate(StatsigFeatureGates.SHOW_NEW_ENTER_AMOUNT_FOR_SWAP)
-const swapScreens = (Navigator: typeof Stack) => (
-  <>
-    <Navigator.Screen
-      name={Screens.SwapScreenWithBack}
-      component={showNewEnterAmountForSwap ? SwapScreenV2 : SwapScreen}
-      options={noHeader}
-    />
-  </>
-)
+const swapScreens = (Navigator: typeof Stack) => {
+  const showNewEnterAmountForSwap = getFeatureGate(
+    StatsigFeatureGates.SHOW_NEW_ENTER_AMOUNT_FOR_SWAP
+  )
+
+  return (
+    <>
+      <Navigator.Screen
+        name={Screens.SwapScreenWithBack}
+        component={showNewEnterAmountForSwap ? SwapScreenV2 : SwapScreen}
+        options={noHeader}
+      />
+    </>
+  )
+}
 
 const nftScreens = (Navigator: typeof Stack) => (
   <>

@@ -325,9 +325,9 @@ export default function TokenEnterAmount({
   inputStyle?: StyleProp<TextStyle>
   autoFocus?: boolean
   testID?: string
-  onInputChange?: (value: string) => void
-  toggleAmountType?: () => void
-  onOpenTokenPicker?: () => void
+  onInputChange?(value: string): void
+  toggleAmountType?(): void
+  onOpenTokenPicker?(): void
 }) {
   const { t } = useTranslation()
   /**
