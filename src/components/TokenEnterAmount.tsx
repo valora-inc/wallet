@@ -26,6 +26,7 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { type TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
@@ -413,17 +414,10 @@ export default function TokenEnterAmount({
           <View
             style={[
               styles.rowContainer,
-              {
-                borderTopLeftRadius: 0,
-                borderTopRightRadius: 0,
-                borderTopWidth: 0,
-              },
+              { borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTopWidth: 0 },
             ]}
           >
             <TextInput
-              showClearButton={false}
-              testID={`${testID}/TokenAmountInput`}
-              editable={!!onInputChange}
               forwardedRef={inputRef}
               onChangeText={(value) => {
                 handleSetStartPosition(undefined)
@@ -460,6 +454,9 @@ export default function TokenEnterAmount({
                   ? { start: startPosition }
                   : undefined
               }
+              showClearButton={false}
+              editable={!!onInputChange}
+              testID={`${testID}/TokenAmountInput`}
             />
 
             {token.priceUsd ? (
@@ -469,6 +466,7 @@ export default function TokenEnterAmount({
                     onPress={toggleAmountType}
                     style={styles.swapArrowContainer}
                     testID={`${testID}/SwitchTokens`}
+                    hitSlop={variables.iconHitslop}
                   >
                     <SwapArrows color={Colors.gray3} size={24} />
                   </Touchable>
@@ -476,7 +474,7 @@ export default function TokenEnterAmount({
 
                 <Text
                   numberOfLines={1}
-                  style={[styles.secondaryAmountText, { flexShrink: 0, maxWidth: '45%' }]}
+                  style={[styles.secondaryAmountText, { flex: 0, textAlign: 'right' }]}
                   testID={`${testID}/ExchangeAmount`}
                 >
                   {amountType === 'token'
@@ -492,18 +490,7 @@ export default function TokenEnterAmount({
           </View>
 
           {loading && (
-            <View
-              testID={`${testID}/Loader`}
-              style={{
-                paddingVertical: Spacing.Small12,
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                height: '100%',
-                width: '100%',
-                padding: Spacing.Regular16,
-              }}
-            >
+            <View testID={`${testID}/Loader`} style={styles.loader}>
               <SkeletonPlaceholder
                 borderRadius={100} // ensure rounded corners with font scaling
                 backgroundColor={Colors.gray2}
@@ -566,5 +553,13 @@ const styles = StyleSheet.create({
   },
   swapArrowContainer: {
     transform: [{ rotate: '90deg' }],
+  },
+  loader: {
+    padding: Spacing.Regular16,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    width: '100%',
   },
 })
