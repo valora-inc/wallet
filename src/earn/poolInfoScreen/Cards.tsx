@@ -32,21 +32,19 @@ function EarningItemLineItem({ earnItem }: { earnItem: EarningItem }) {
 
   return (
     <View testID="EarningItemLineItem" style={styles.cardLineContainer}>
-      <View style={styles.cardLineLabel}>
+      <View style={styles.flexLabel}>
         <Text numberOfLines={1} style={styles.depositAndEarningsCardLabelText}>
           {earnItem.label}
         </Text>
       </View>
-      <View style={styles.flexShrink}>
-        <Text style={styles.depositAndEarningsCardValueText}>
-          {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
-            localCurrencySymbol,
-            localCurrencyAmount: formatValueToDisplay(amountInLocalCurrency),
-            cryptoAmount: formatValueToDisplay(new BigNumber(earnItem.amount)),
-            cryptoSymbol: tokenInfo?.symbol,
-          })}
-        </Text>
-      </View>
+      <Text style={styles.depositAndEarningsCardValueText}>
+        {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
+          localCurrencySymbol,
+          localCurrencyAmount: formatValueToDisplay(amountInLocalCurrency),
+          cryptoAmount: formatValueToDisplay(new BigNumber(earnItem.amount)),
+          cryptoSymbol: tokenInfo?.symbol,
+        })}
+      </Text>
     </View>
   )
 }
@@ -126,6 +124,7 @@ export function DepositAndEarningsCard({
           label={t('earnFlow.poolInfoScreen.totalDepositAndEarnings')}
           labelStyle={styles.cardTitleText}
           testID={'DepositInfoIcon'}
+          numberOfLines={1}
         />
         <View>
           <Text style={styles.depositAndEarningCardTitleText}>
@@ -139,7 +138,7 @@ export function DepositAndEarningsCard({
 
       <View style={styles.depositAndEarningCardSubtitleContainer}>
         <View style={styles.cardLineContainer}>
-          <View style={styles.cardLineLabel}>
+          <View style={styles.flexLabel}>
             {cantSeparateCompoundedInterest ? (
               <Text style={styles.depositAndEarningsCardLabelText}>
                 {t('earnFlow.poolInfoScreen.depositAndEarnings')}
@@ -150,16 +149,14 @@ export function DepositAndEarningsCard({
               </Text>
             )}
           </View>
-          <View style={styles.flexShrink}>
-            <Text style={styles.depositAndEarningsCardValueText}>
-              {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
-                localCurrencySymbol,
-                localCurrencyAmount: formatValueToDisplay(totalDepositBalanceInLocalCurrency),
-                cryptoAmount: formatValueToDisplay(totalDepositBalanceInCrypto),
-                cryptoSymbol: depositTokenInfo?.symbol,
-              })}
-            </Text>
-          </View>
+          <Text style={styles.depositAndEarningsCardValueText}>
+            {t('earnFlow.poolInfoScreen.lineItemAmountDisplay', {
+              localCurrencySymbol,
+              localCurrencyAmount: formatValueToDisplay(totalDepositBalanceInLocalCurrency),
+              cryptoAmount: formatValueToDisplay(totalDepositBalanceInCrypto),
+              cryptoSymbol: depositTokenInfo?.symbol,
+            })}
+          </Text>
         </View>
         {earningItems.map((item, index) => (
           <EarningItemLineItem key={index} earnItem={item} />
@@ -186,15 +183,15 @@ export function YieldCard({
   return (
     <View style={styles.card} testID="YieldCard">
       <View style={styles.cardLineContainer}>
-        <View style={styles.cardLineLabel}>
+        <View style={styles.flexLabel}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.yieldRate')}
-            labelStyle={styles.cardTitleText}
+            labelStyle={styles.lineLabel}
             testID="YieldRateInfoIcon"
           />
         </View>
-        <Text style={styles.cardTitleText}>
+        <Text style={styles.lineValue}>
           {yieldRateSum > 0.00005
             ? t('earnFlow.poolInfoScreen.ratePercent', { rate: yieldRateSum.toFixed(2) })
             : '--'}
@@ -206,11 +203,9 @@ export function YieldCard({
           const tokenInfo = tokensInfo.filter((token) => token.tokenId === rate.tokenId)
           return (
             <View style={styles.cardLineContainer} key={index}>
-              <View style={styles.cardLineLabel}>
+              <View style={styles.flexLabel}>
                 <View style={styles.yieldRateLabelContainer}>
-                  <Text numberOfLines={1} style={styles.cardLabelText}>
-                    {rate.label}
-                  </Text>
+                  <Text style={styles.cardLabelText}>{rate.label}</Text>
                   <TokenIcons
                     tokensInfo={tokenInfo}
                     size={IconSize.XXSMALL}
@@ -218,7 +213,7 @@ export function YieldCard({
                   />
                 </View>
               </View>
-              <Text style={styles.cardLabelText}>
+              <Text style={styles.cardValueText}>
                 {t('earnFlow.poolInfoScreen.ratePercent', { rate: rate.percentage.toFixed(2) })}
               </Text>
             </View>
@@ -240,15 +235,15 @@ export function DailyYieldRateCard({
   return (
     <View style={styles.card} testID="DailyYieldRateCard">
       <View style={styles.cardLineContainer}>
-        <View style={styles.cardLineLabel}>
+        <View style={styles.flexLabel}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.dailyYieldRate')}
-            labelStyle={styles.cardTitleText}
+            labelStyle={styles.lineLabel}
             testID="DailyYieldRateInfoIcon"
           />
         </View>
-        <Text style={styles.cardTitleText}>
+        <Text style={styles.lineValue}>
           {t('earnFlow.poolInfoScreen.ratePercent', { rate: dailyYieldRate.toFixed(4) })}
         </Text>
       </View>
@@ -274,15 +269,15 @@ export function TvlCard({
   return (
     <View style={styles.card} testID="TvlCard">
       <View style={styles.cardLineContainer}>
-        <View style={styles.cardLineLabel}>
+        <View style={styles.flexLabel}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.tvl')}
-            labelStyle={styles.cardTitleText}
+            labelStyle={styles.lineLabel}
             testID="TvlInfoIcon"
           />
         </View>
-        <Text style={styles.cardTitleText}>{tvlString}</Text>
+        <Text style={styles.lineValue}>{tvlString}</Text>
       </View>
     </View>
   )
@@ -304,23 +299,23 @@ export function AgeCard({
   return (
     <View style={styles.card} testID="AgeCard">
       <View style={styles.cardLineContainer}>
-        <View style={styles.cardLineLabel}>
+        <View style={styles.flexLabel}>
           <LabelWithInfo
             onPress={onInfoIconPress}
             label={t('earnFlow.poolInfoScreen.ageOfPool')}
-            labelStyle={styles.cardTitleText}
+            labelStyle={styles.lineLabel}
             testID="AgeInfoIcon"
           />
         </View>
-        <Text style={styles.cardTitleText}>{formattedDuration(dateInterval)}</Text>
+        <Text style={styles.lineValue}>{formattedDuration(dateInterval)}</Text>
       </View>
     </View>
   )
 }
 
 export const styles = StyleSheet.create({
-  flexShrink: {
-    flexShrink: 1,
+  flexLabel: {
+    flex: 1.2,
   },
   card: {
     padding: Spacing.Regular16,
@@ -334,12 +329,20 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  cardLineLabel: {
-    paddingRight: 20, // Prevents Icon from being cut off on long labels
-  },
   yieldRateLabelContainer: {
     flexDirection: 'row',
     gap: Spacing.Tiny4,
+  },
+  lineLabel: {
+    ...typeScale.labelSemiBoldMedium,
+    color: Colors.black,
+    textAlign: 'left',
+  },
+  lineValue: {
+    ...typeScale.labelSemiBoldMedium,
+    color: Colors.black,
+    textAlign: 'right',
+    flex: 1,
   },
   cardTitleText: {
     ...typeScale.labelSemiBoldMedium,
@@ -348,6 +351,13 @@ export const styles = StyleSheet.create({
   cardLabelText: {
     ...typeScale.bodyMedium,
     color: Colors.gray3,
+    textAlign: 'left',
+  },
+  cardValueText: {
+    ...typeScale.bodyMedium,
+    color: Colors.black,
+    textAlign: 'right',
+    flex: 1,
   },
   depositAndEarningCard: {
     backgroundColor: Colors.gray1,
@@ -381,5 +391,6 @@ export const styles = StyleSheet.create({
     color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'right',
+    flex: 1,
   },
 })
