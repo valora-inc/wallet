@@ -1551,7 +1551,7 @@ interface PointsEventsProperties {
 export interface EarnCommonProperties {
   providerId: string
   poolId: string
-  networkId: NetworkId
+  networkId: NetworkId // this is always the pool's networkId
   depositTokenId: string
 }
 
@@ -1562,6 +1562,8 @@ interface EarnDepositProperties extends EarnCommonProperties {
   // same as the depositTokenAmount and depositTokenId
   fromTokenAmount: string
   fromTokenId: string
+  fromNetworkId: NetworkId
+  swapType?: SwapType
 }
 
 interface EarnWithdrawProperties extends EarnCommonProperties {
@@ -1609,7 +1611,9 @@ interface EarnEventsProperties {
     // For withdrawals this will be in units of the depositToken
     fromTokenAmount: string
     fromTokenId: string
+    fromNetworkId: NetworkId
     depositTokenAmount?: string
+    swapType?: SwapType // only for swap-deposit
   } & EarnCommonProperties
   [EarnEvents.earn_deposit_add_gas_press]: EarnCommonProperties & { gasTokenId: string }
   [EarnEvents.earn_feed_item_select]: {

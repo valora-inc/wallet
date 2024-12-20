@@ -12,7 +12,7 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
-import { mockEarnPositions, mockRewardsPositions } from 'test/values'
+import { mockCeloTokenBalance, mockEarnPositions, mockRewardsPositions } from 'test/values'
 import { Address, encodeFunctionData } from 'viem'
 
 const mockFeeCurrency: TokenBalance = {
@@ -143,6 +143,7 @@ describe('prepareTransactions', () => {
     it.each([
       { isNative: true, testSuffix: 'native token', token: mockFeeCurrency },
       { isNative: false, testSuffix: 'non native token', token: mockToken },
+      { isNative: true, testSuffix: 'cross chain token', token: mockCeloTokenBalance },
     ])(
       'prepares transactions using swap-deposit shortcut ($testSuffix)',
       async ({ isNative, token }) => {
@@ -206,7 +207,7 @@ describe('prepareTransactions', () => {
           isGasSubsidized: false,
           origin: 'earn-swap-deposit',
         })
-        expect(isGasSubsidizedForNetwork).toHaveBeenCalledWith(mockToken.networkId)
+        expect(isGasSubsidizedForNetwork).toHaveBeenCalledWith(token.networkId)
         expect(triggerShortcutRequest).toHaveBeenCalledWith('https://hooks.api', {
           address: '0x1234',
           appId: mockEarnPositions[0].appId,
@@ -219,6 +220,7 @@ describe('prepareTransactions', () => {
             decimals: token.decimals,
             address: token.address,
             isNative,
+            networkId: token.networkId,
           },
         })
       }
