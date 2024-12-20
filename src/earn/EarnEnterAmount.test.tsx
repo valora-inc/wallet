@@ -492,7 +492,7 @@ describe('EarnEnterAmount', () => {
       jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
         prepareTransactionsResult: {
           prepareTransactionsResult: mockPreparedTransaction,
-          swapTransaction: mockCrossChainSwapTransaction,
+          swapTransaction: mockSwapTransaction,
         },
         refreshPreparedTransactions: jest.fn(),
         clearPreparedTransactions: jest.fn(),
@@ -539,7 +539,7 @@ describe('EarnEnterAmount', () => {
         fromNetworkId: NetworkId['arbitrum-sepolia'],
         depositTokenAmount: '0.99999',
         mode: 'swap-deposit',
-        swapType: 'cross-chain',
+        swapType: 'same-chain',
       })
       await waitFor(() => expect(getByText('earnFlow.depositBottomSheet.title')).toBeVisible())
     })
@@ -706,6 +706,7 @@ describe('EarnEnterAmount', () => {
         poolId: mockEarnPositions[0].positionId,
         fromTokenId: 'arbitrum-sepolia:0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8',
         fromTokenAmount: '8',
+        fromNetworkId: NetworkId['arbitrum-sepolia'],
         mode: 'withdraw',
       })
 
