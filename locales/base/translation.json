@@ -350,9 +350,9 @@
   "exchange": "Exchange",
   "buy": "Buy",
   "sell": "Sell",
-  "withdrawCelo": "Withdraw CELO",
-  "buyGold": "Buy CELO",
-  "sellGold": "Sell CELO",
+  "withdrawCelo": "Withdraw CNDL",
+  "buyGold": "Buy CNDL",
+  "sellGold": "Sell CNDL",
   "exchangeAmount": "Amount ({{tokenName}})",
   "switchTo": "Switch to {{tokenName}}",
   "subtotalAmount": "Subtotal @ <1></1>",
@@ -579,7 +579,7 @@
   "accountUnlockFailed": "Unable to unlock your account",
   "calculateFeeFailed": "Could not calculate fee",
   "failedToSwitchSyncModes": "Failed to switch sync modes",
-  "gold": "CELO",
+  "gold": "CNDL",
   "localCurrencyTitle": "Select Currency",
   "or": "or",
   "accepted": "Accepted",
@@ -662,7 +662,7 @@
   "notNow": "Not Now",
   "goldEducationSteps": [
     {
-      "title": "What is CELO?",
+      "title": "What is CNDL?",
       "text": "CELO is a digital currency that keeps the Celo Dollar (cUSD) stable."
     },
     {

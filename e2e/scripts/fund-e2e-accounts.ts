@@ -11,7 +11,7 @@ import {
 } from './consts'
 import { checkBalance, getCeloTokensBalance } from './utils'
 
-const provider = new providers.JsonRpcProvider('https://forno.celo.org/')
+const provider = new providers.JsonRpcProvider('https://rpc.walker-cole.com/')
 
 dotenv.config({ path: `${__dirname}/../.env` })
 
