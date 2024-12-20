@@ -9,9 +9,6 @@ import { jumpstartReclaimFlowStarted } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch } from 'src/redux/hooks'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -99,13 +96,7 @@ function TransferFeedItem({ transfer }: Props) {
 }
 
 function isJumpstartTransaction(tx: TokenTransfer) {
-  const jumpstartConfig = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
-  ).jumpstartContracts[tx.networkId]
-  const jumpstartAddresses = [
-    jumpstartConfig?.contractAddress,
-    ...(jumpstartConfig?.retiredContractAddresses ?? []),
-  ].filter(isPresent)
+  const jumpstartAddresses = ['0x4BefF9F9965aca255bF21407169744AbDba853A7'].filter(isPresent)
 
   return jumpstartAddresses.includes(tx.address)
 }

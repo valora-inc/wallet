@@ -197,7 +197,7 @@ function useSwapQuote({
       const client = publicClient[networkIdToNetwork[networkId]]
 
       const referrer = await client.readContract({
-        address: '' as Address, // Add the new WalletJumpstartHack address here
+        address: '0x4BefF9F9965aca255bF21407169744AbDba853A7' as Address, // Add the new WalletJumpstartHack address here
         abi: walletJumpstart.abi,
         functionName: 'referrer',
         args: [walletAddress as Address],
