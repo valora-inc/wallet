@@ -553,7 +553,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 -----
 
-The following software may be included in this product: @jest/create-cache-key-function, @jest/environment, @jest/fake-timers, @jest/schemas, @jest/types, hermes-estree, hermes-parser, jest-environment-node, jest-get-type, jest-message-util, jest-mock, jest-util, jest-validate, pretty-format, react-native, scheduler. A copy of the source code may be downloaded from https://github.com/jestjs/jest.git (@jest/create-cache-key-function), https://github.com/jestjs/jest.git (@jest/environment), https://github.com/jestjs/jest.git (@jest/fake-timers), https://github.com/jestjs/jest.git (@jest/schemas), https://github.com/jestjs/jest.git (@jest/types), git@github.com:facebook/hermes.git (hermes-estree), git@github.com:facebook/hermes.git (hermes-parser), https://github.com/jestjs/jest.git (jest-environment-node), https://github.com/jestjs/jest.git (jest-get-type), https://github.com/jestjs/jest.git (jest-message-util), https://github.com/jestjs/jest.git (jest-mock), https://github.com/jestjs/jest.git (jest-util), https://github.com/jestjs/jest.git (jest-validate), https://github.com/jestjs/jest.git (pretty-format), https://github.com/facebook/react-native.git (react-native), https://github.com/facebook/react.git (scheduler). This software contains the following license and notice below:
+The following software may be included in this product: @jest/create-cache-key-function, @jest/environment, @jest/fake-timers, @jest/schemas, @jest/types, hermes-estree, hermes-parser, jest-environment-node, jest-get-type, jest-message-util, jest-mock, jest-util, jest-validate, pretty-format, react-native, scheduler, use-sync-external-store. A copy of the source code may be downloaded from https://github.com/jestjs/jest.git (@jest/create-cache-key-function), https://github.com/jestjs/jest.git (@jest/environment), https://github.com/jestjs/jest.git (@jest/fake-timers), https://github.com/jestjs/jest.git (@jest/schemas), https://github.com/jestjs/jest.git (@jest/types), git@github.com:facebook/hermes.git (hermes-estree), git@github.com:facebook/hermes.git (hermes-parser), https://github.com/jestjs/jest.git (jest-environment-node), https://github.com/jestjs/jest.git (jest-get-type), https://github.com/jestjs/jest.git (jest-message-util), https://github.com/jestjs/jest.git (jest-mock), https://github.com/jestjs/jest.git (jest-util), https://github.com/jestjs/jest.git (jest-validate), https://github.com/jestjs/jest.git (pretty-format), https://github.com/facebook/react-native.git (react-native), https://github.com/facebook/react.git (scheduler), https://github.com/facebook/react.git (use-sync-external-store). This software contains the following license and notice below:
 
 MIT License
 
@@ -579,7 +579,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @jest/types, babel-plugin-transform-flow-enums, flow-enums-runtime, jest-regex-util, jest-util, jest-worker, jscodeshift, pretty-format, react, react-is, react-refresh, react-shallow-renderer, use-sync-external-store. A copy of the source code may be downloaded from https://github.com/facebook/jest.git (@jest/types), git+https://github.com/facebook/flow.git (babel-plugin-transform-flow-enums), git+https://github.com/facebook/flow.git (flow-enums-runtime), https://github.com/facebook/jest.git (jest-regex-util), https://github.com/facebook/jest.git (jest-util), https://github.com/facebook/jest.git (jest-worker), https://github.com/facebook/jscodeshift.git (jscodeshift), https://github.com/facebook/jest.git (pretty-format), https://github.com/facebook/react.git (react), https://github.com/facebook/react.git (react-is), https://github.com/facebook/react.git (react-refresh), https://github.com/NMinhNguyen/react-shallow-renderer.git (react-shallow-renderer), https://github.com/facebook/react.git (use-sync-external-store). This software contains the following license and notice below:
+The following software may be included in this product: @jest/types, babel-plugin-transform-flow-enums, flow-enums-runtime, jest-regex-util, jest-util, jest-worker, jscodeshift, pretty-format, react, react-is, react-refresh, react-shallow-renderer. A copy of the source code may be downloaded from https://github.com/facebook/jest.git (@jest/types), git+https://github.com/facebook/flow.git (babel-plugin-transform-flow-enums), git+https://github.com/facebook/flow.git (flow-enums-runtime), https://github.com/facebook/jest.git (jest-regex-util), https://github.com/facebook/jest.git (jest-util), https://github.com/facebook/jest.git (jest-worker), https://github.com/facebook/jscodeshift.git (jscodeshift), https://github.com/facebook/jest.git (pretty-format), https://github.com/facebook/react.git (react), https://github.com/facebook/react.git (react-is), https://github.com/facebook/react.git (react-refresh), https://github.com/NMinhNguyen/react-shallow-renderer.git (react-shallow-renderer). This software contains the following license and notice below:
 
 MIT License
 
@@ -11794,28 +11794,27 @@ SOFTWARE.
 
 The following software may be included in this product: react-native-adjust. A copy of the source code may be downloaded from git://github.com/adjust/react_native_sdk.git. This software contains the following license and notice below:
 
-The MIT License (MIT)
+The Adjust SDK is licensed under the MIT License.
 
-Copyright (c) 2016-Present Adjust GmbH, http://www.adjust.com
+Copyright (c) 2012-Present Adjust GmbH, http://www.adjust.com
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 -----
 

@@ -8,6 +8,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
+import { Status as EarnStatus } from 'src/earn/slice'
 import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -35,7 +36,6 @@ import {
   mockTokenBalances,
   mockUSDCAddress,
 } from 'test/values'
-import { Status as EarnStatus } from 'src/earn/slice'
 
 jest.mock('src/earn/hooks')
 jest.mock('react-native-localize')
@@ -501,13 +501,6 @@ describe('EarnEnterAmount', () => {
 
       await waitFor(() => expect(getByText('earnFlow.enterAmount.continue')).not.toBeDisabled())
 
-      expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toBeTruthy()
-      expect(getByTestId('EarnEnterAmount/Withdraw/Crypto')).toHaveTextContent('11.00 USDC')
-
-      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
-      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toBeTruthy()
-      expect(getByTestId('EarnEnterAmount/Withdraw/Fiat')).toHaveTextContent('₱14.63')
-
       expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
 
@@ -725,9 +718,9 @@ describe('EarnEnterAmount', () => {
 
       fireEvent.press(within(getByTestId('EarnEnterAmount/AmountOptions')).getByText('maxSymbol'))
       expect(getByTestId('EarnEnterAmount/TokenAmountInput').props.value).toBe(
-        replaceSeparators('100000.42')
+        replaceSeparators('100,000.42')
       )
-      expect(getByTestId('EarnEnterAmount/LocalAmountInput').props.value).toBe(
+      expect(getByTestId('EarnEnterAmount/ExchangeAmount')).toHaveTextContent(
         replaceSeparators('₱133,000.56')
       )
     })
@@ -788,6 +781,7 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
     fireEvent.press(getByTestId('LabelWithInfo/FeeLabel'))
     expect(getByText('earnFlow.enterAmount.feeBottomSheet.feeDetails')).toBeVisible()
     expect(getByTestId('EstNetworkFee/Value')).toBeTruthy()
@@ -813,6 +807,7 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
     fireEvent.press(getByTestId('LabelWithInfo/FeeLabel'))
     expect(getByText('earnFlow.enterAmount.feeBottomSheet.feeDetails')).toBeVisible()
     expect(getByTestId('EstNetworkFee/Value')).toBeTruthy()
@@ -844,6 +839,7 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
     fireEvent.press(getByTestId('LabelWithInfo/SwapLabel'))
     expect(getByText('earnFlow.enterAmount.swapBottomSheet.swapDetails')).toBeVisible()
     expect(getByTestId('SwapTo')).toBeTruthy()
