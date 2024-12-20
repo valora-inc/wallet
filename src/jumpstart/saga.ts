@@ -46,9 +46,7 @@ export function* jumpstartClaim(privateKey: Hex, networkId: NetworkId, walletAdd
   try {
     yield* put(jumpstartClaimStarted())
 
-    const contractAddress = getDynamicConfigParams(
-      DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
-    ).jumpstartContracts?.[networkId]?.contractAddress
+    const contractAddress = '0x4BefF9F9965aca255bF21407169744AbDba853A7'
 
     if (!contractAddress) {
       throw new Error(`Contract address for ${networkId} is not provided in dynamic config`)
