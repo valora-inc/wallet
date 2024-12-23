@@ -67,6 +67,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [AppEvents.in_app_review_impression]: `User sees an in-app review request`,
   [AppEvents.in_app_review_error]: `Error while attempting to display in-app review`,
   [AppEvents.handle_deeplink]: `When a deeplink that leads into the app is detected and handled`,
+  [AppEvents.show_gas_fee_warning]: `When the gas fee warning is shown to the user`,
   [HomeEvents.account_circle_tapped]: `When the account circle used in the tab navigation is tapped`,
   [HomeEvents.profile_address_copy]: `When a user copies their wallet address from the profile screen`,
   [HomeEvents.notification_scroll]: ``,

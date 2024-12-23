@@ -52,6 +52,7 @@ import {
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddAssetsActionType } from 'src/components/AddAssetsBottomSheet'
+import { GasFeeWarningFlow } from 'src/components/GasFeeWarning'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DappSection } from 'src/dapps/types'
 import { BeforeDepositActionName, EarnActiveMode, SerializableRewardsInfo } from 'src/earn/types'
@@ -151,6 +152,11 @@ interface AppEventsProperties {
     pathStartsWith: string
     fullPath: string | null
     query: string | null
+  }
+  [AppEvents.show_gas_fee_warning]: {
+    flow: GasFeeWarningFlow
+    errorType: 'possible' | 'need-decrease-spend-amount-for-gas' | 'not-enough-balance-for-gas'
+    tokenNeeded: string
   }
 }
 
