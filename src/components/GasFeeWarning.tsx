@@ -44,6 +44,16 @@ function GasFeeWarning({
     [GasFeeWarningFlow.Dapp]: undefined,
   }
 
+  useEffect(() => {
+    if (prepareTransactionsResult && prepareTransactionsResult.type !== 'possible') {
+      AppAnalytics.track(AppEvents.show_gas_fee_warning, {
+        flow,
+        errorType: prepareTransactionsResult.type,
+        tokenNeeded: feeCurrencySymbol,
+      })
+    }
+  }, [prepareTransactionsResult])
+
   if (!prepareTransactionsResult || prepareTransactionsResult.type === 'possible') {
     return null
   }
