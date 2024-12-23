@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { FlatList, RefreshControl, RefreshControlProps, StyleSheet } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
 import {
@@ -14,6 +15,7 @@ import {
   showNotificationSpotlightSelector,
 } from 'src/app/selectors'
 import { ALERT_BANNER_DURATION, DEFAULT_TESTNET, SHOW_TESTNET_BANNER } from 'src/config'
+import { FeaturedAction } from 'src/dappsExplorer/DappFeaturedActions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import NotificationBox from 'src/home/NotificationBox'
 import { refreshAllBalances, visitHome } from 'src/home/actions'
@@ -24,7 +26,9 @@ import {
   showNftCelebrationSelector,
   showNftRewardSelector,
 } from 'src/home/selectors'
+import Trophy from 'src/icons/Trophy'
 import { importContacts } from 'src/identity/actions'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
@@ -128,6 +132,19 @@ function TabHome(_props: Props) {
     {
       key: 'NotificationBox',
       component: <NotificationBox showOnlyHomeScreenNotifications={true} />,
+    },
+    {
+      key: 'ReferralCTA',
+      component: (
+        <FeaturedAction
+          title={'Refer your friends to earn rewards'}
+          description={
+            'Send your friend a live link and start earning a portion of the revenue they generate.'
+          }
+          Image={<Trophy color={Colors.black} />}
+          onPress={() => navigate(Screens.JumpstartEnterAmount)}
+        />
+      ),
     },
     {
       key: 'TransactionFeed',

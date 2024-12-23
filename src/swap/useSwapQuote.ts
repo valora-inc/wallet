@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
+import walletJumpstart from 'src/abis/IWalletJumpstart'
 import { useSelector } from 'src/redux/hooks'
 import {
   FetchQuoteResponse,
@@ -193,6 +194,15 @@ function useSwapQuote({
         return null
       }
 
+      const client = publicClient[networkIdToNetwork[networkId]]
+
+      const referrer = await client.readContract({
+        address: '0x4BefF9F9965aca255bF21407169744AbDba853A7' as Address, // Add the new WalletJumpstartHack address here
+        abi: walletJumpstart.abi,
+        functionName: 'referrer',
+        args: [walletAddress as Address],
+      })
+
       const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
       const params = {
         ...(toToken.address && { buyToken: toToken.address }),
@@ -205,6 +215,7 @@ function useSwapQuote({
         userAddress: walletAddress ?? '',
         slippagePercentage,
         ...(enableAppFee === true && { enableAppFee: enableAppFee.toString() }),
+        referrer,
       }
       const queryParams = new URLSearchParams({ ...params }).toString()
       const requestUrl = `${networkConfig.getSwapQuoteUrl}?${queryParams}`

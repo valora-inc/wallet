@@ -101,7 +101,7 @@ export function usePrepareJumpstartTransactions() {
       }
 
       const baseTransactions = await createBaseJumpstartTransactions(
-        jumpstartContractConfig.contractAddress,
+        '0x4BefF9F9965aca255bF21407169744AbDba853A7',
         sendTokenAmountInSmallestUnit,
         address,
         networkId,
