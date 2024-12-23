@@ -57,7 +57,7 @@ describe('BeforeDepositBottomSheet', () => {
     ${'has all types of tokens, cross chain swap disabled, cannot buy'}                 | ${['Deposit', 'SwapAndDeposit', 'Transfer']}       | ${true}         | ${true}                | ${true}                  | ${false} | ${false}                 | ${false}
     ${'has all types of tokens, cannot buy'}                                            | ${['Deposit', 'SwapAndDeposit', 'CrossChainSwap']} | ${true}         | ${true}                | ${true}                  | ${false} | ${false}                 | ${true}
   `(
-    'shows correct title and actions when user $scenario',
+    'shows correct title and actions when cross chain swap and deposit is disabled and user $scenario',
     ({
       hasDepositToken,
       hasTokensOnSameNetwork,
@@ -80,7 +80,7 @@ describe('BeforeDepositBottomSheet', () => {
         .mockImplementation(
           (gate) => gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS && allowCrossChainSwaps
         )
-      const { getAllByTestId, getByText, queryByTestId } = render(
+      const { getAllByTestId, getByText, queryByTestId, queryByText } = render(
         <Provider store={createMockStore()}>
           <BeforeDepositBottomSheet
             forwardedRef={{ current: null }}
@@ -102,16 +102,152 @@ describe('BeforeDepositBottomSheet', () => {
       expect(getAllByTestId(/^Earn\/ActionCard/).map((element) => element.props.testID)).toEqual(
         expectedActions.map((action) => `Earn/ActionCard/${action}`)
       )
+      const canDeposit =
+        expectedActions.includes('Deposit') || expectedActions.includes('SwapAndDeposit')
       expect(
         getByText(
-          `earnFlow.beforeDepositBottomSheet.${expectedActions.includes('Deposit') || expectedActions.includes('SwapAndDeposit') ? 'depositTitle' : 'beforeYouCanDepositTitle'}`
+          `earnFlow.beforeDepositBottomSheet.${canDeposit ? 'depositTitle' : 'beforeYouCanDepositTitle'}`
         )
       ).toBeTruthy()
       expect(!!queryByTestId('Earn/BeforeDepositBottomSheet/AlternativeDescription')).toBe(
+        canDeposit
+      )
+      expect(
+        !!queryByText(
+          'earnFlow.beforeDepositBottomSheet.crossChainAlternativeDescription, {"tokenNetwork":"Arbitrum Sepolia"}'
+        )
+      ).toBe(canDeposit)
+    }
+  )
+
+  // The has other tokens case either sets hasTokensOnSameNetwork or
+  // hasTokensOnOtherNetworks to true, we don't need to test every combination individually
+  it.each`
+    scenario                                                                          | expectedActions                              | hasDepositToken | hasTokensOnSameNetwork | hasTokensOnOtherNetworks | canAdd   | poolCannotSwapAndDeposit
+    ${'does not have any tokens'}                                                     | ${['Add', 'Transfer']}                       | ${false}        | ${false}               | ${false}                 | ${true}  | ${false}
+    ${'does not have any tokens, cannot buy'}                                         | ${['Transfer']}                              | ${false}        | ${false}               | ${false}                 | ${false} | ${false}
+    ${'only has deposit token'}                                                       | ${['Deposit', 'AddMore']}                    | ${true}         | ${false}               | ${false}                 | ${true}  | ${false}
+    ${'only has deposit token, cannot buy'}                                           | ${['Deposit', 'Transfer']}                   | ${true}         | ${false}               | ${false}                 | ${false} | ${false}
+    ${'only has other tokens'}                                                        | ${['SwapAndDeposit', 'Add']}                 | ${false}        | ${true}                | ${false}                 | ${true}  | ${false}
+    ${'only has other tokens, cannot buy'}                                            | ${['SwapAndDeposit', 'Transfer']}            | ${false}        | ${false}               | ${true}                  | ${false} | ${false}
+    ${'only has other tokens, pool cannot swap and deposit'}                          | ${['Swap', 'Add']}                           | ${false}        | ${true}                | ${false}                 | ${true}  | ${true}
+    ${'only has other tokens, pool cannot swap and deposit, cannot buy'}              | ${['Swap', 'Transfer']}                      | ${false}        | ${true}                | ${true}                  | ${false} | ${true}
+    ${'has deposit token and other tokens'}                                           | ${['Deposit', 'SwapAndDeposit', 'AddMore']}  | ${true}         | ${false}               | ${true}                  | ${true}  | ${false}
+    ${'has deposit token and other tokens, cannot buy'}                               | ${['Deposit', 'SwapAndDeposit', 'Transfer']} | ${true}         | ${true}                | ${false}                 | ${false} | ${false}
+    ${'has deposit token and other tokens, pool cannot swap and deposit'}             | ${['Deposit', 'Swap', 'AddMore']}            | ${true}         | ${true}                | ${true}                  | ${true}  | ${true}
+    ${'has deposit token and other tokens, pool cannot swap and deposit, cannot buy'} | ${['Deposit', 'Swap', 'Transfer']}           | ${true}         | ${true}                | ${true}                  | ${false} | ${true}
+  `(
+    'shows correct title and actions when cross chain swap and deposit is enabled and user $scenario',
+    ({
+      hasDepositToken,
+      hasTokensOnSameNetwork,
+      hasTokensOnOtherNetworks,
+      canAdd,
+      expectedActions,
+      poolCannotSwapAndDeposit,
+    }: {
+      hasDepositToken: boolean
+      hasTokensOnSameNetwork: boolean
+      hasTokensOnOtherNetworks: boolean
+      canAdd: boolean
+      expectedActions: string[]
+      poolCannotSwapAndDeposit: boolean
+    }) => {
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation(
+          (gate) =>
+            gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAP_AND_DEPOSIT ||
+            gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS
+        )
+      const { getAllByTestId, getByText, queryByTestId, queryByText } = render(
+        <Provider store={createMockStore()}>
+          <BeforeDepositBottomSheet
+            forwardedRef={{ current: null }}
+            token={mockToken}
+            pool={{
+              ...mockEarnPositions[0],
+              availableShortcutIds: poolCannotSwapAndDeposit
+                ? ['deposit', 'withdraw']
+                : mockEarnPositions[0].availableShortcutIds,
+            }}
+            hasDepositToken={hasDepositToken}
+            hasTokensOnSameNetwork={hasTokensOnSameNetwork}
+            hasTokensOnOtherNetworks={hasTokensOnOtherNetworks}
+            canAdd={canAdd}
+            exchanges={[]}
+          />
+        </Provider>
+      )
+      expect(getAllByTestId(/^Earn\/ActionCard/).map((element) => element.props.testID)).toEqual(
+        expectedActions.map((action) => `Earn/ActionCard/${action}`)
+      )
+      const canDeposit =
         expectedActions.includes('Deposit') || expectedActions.includes('SwapAndDeposit')
+      expect(
+        getByText(
+          `earnFlow.beforeDepositBottomSheet.${canDeposit ? 'depositTitle' : 'beforeYouCanDepositTitle'}`
+        )
+      ).toBeTruthy()
+      expect(!!queryByTestId('Earn/BeforeDepositBottomSheet/AlternativeDescription')).toBe(
+        canDeposit
+      )
+      expect(!!queryByText('earnFlow.beforeDepositBottomSheet.alternativeDescription')).toBe(
+        canDeposit
       )
     }
   )
+
+  it('shows correct swap and deposit action description when cross chain swap and deposit is disabled', () => {
+    const { getByTestId, getByText } = render(
+      <Provider store={createMockStore()}>
+        <BeforeDepositBottomSheet
+          forwardedRef={{ current: null }}
+          token={mockToken}
+          pool={mockEarnPositions[0]}
+          hasDepositToken={true}
+          hasTokensOnSameNetwork={true}
+          hasTokensOnOtherNetworks={true}
+          canAdd={true}
+          exchanges={[]}
+        />
+      </Provider>
+    )
+    expect(getByTestId('Earn/ActionCard/SwapAndDeposit')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/SwapAndDeposit')).toContainElement(
+      getByText(
+        'earnFlow.beforeDepositBottomSheet.action.swapAndDepositDescription, {"tokenNetwork":"Arbitrum Sepolia"}'
+      )
+    )
+  })
+
+  it('shows correct swap and deposit action description when cross chain swap and deposit is enabled', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gate) =>
+          gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAP_AND_DEPOSIT ||
+          gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS
+      )
+    const { getByTestId, getByText } = render(
+      <Provider store={createMockStore()}>
+        <BeforeDepositBottomSheet
+          forwardedRef={{ current: null }}
+          token={mockToken}
+          pool={mockEarnPositions[0]}
+          hasDepositToken={true}
+          hasTokensOnSameNetwork={true}
+          hasTokensOnOtherNetworks={true}
+          canAdd={true}
+          exchanges={[]}
+        />
+      </Provider>
+    )
+    expect(getByTestId('Earn/ActionCard/SwapAndDeposit')).toBeTruthy()
+    expect(getByTestId('Earn/ActionCard/SwapAndDeposit')).toContainElement(
+      getByText('earnFlow.beforeDepositBottomSheet.action.swapAndDepositAllTokensDescription')
+    )
+  })
 
   it('navigates correctly when deposit action item is tapped', () => {
     const { getByTestId } = render(
