@@ -37,12 +37,14 @@ import { EarnPosition, Position } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import EnterAmountOptions from 'src/send/EnterAmountOptions'
 import { NETWORK_NAMES } from 'src/shared/conts'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { SwapTransaction } from 'src/swap/types'
-import { useTokenInfo } from 'src/tokens/hooks'
-import { feeCurrenciesSelector, swappableFromTokensByNetworkIdSelector } from 'src/tokens/selectors'
+import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
@@ -56,19 +58,39 @@ const TAG = 'EarnEnterAmount'
 function useTokens({ pool }: { pool: EarnPosition }) {
   const depositToken = useTokenInfo(pool.dataProps.depositTokenId)
   const withdrawToken = useTokenInfo(pool.dataProps.withdrawTokenId)
-  const swappableTokens = useSelector((state) =>
-    swappableFromTokensByNetworkIdSelector(state, [pool.networkId])
+  const { swappableFromTokens: swappableTokens } = useSwappableTokens()
+  const allowCrossChainSwapAndDeposit = getFeatureGate(
+    StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAP_AND_DEPOSIT
   )
 
   const eligibleSwappableTokens = useMemo(
     () =>
-      swappableTokens.filter(
-        ({ tokenId, balance }) =>
-          tokenId !== pool.dataProps.depositTokenId &&
-          tokenId !== pool.dataProps.withdrawTokenId &&
-          balance.gt(0)
-      ),
-    [swappableTokens, pool.dataProps.depositTokenId, pool.dataProps.withdrawTokenId]
+      swappableTokens
+        .filter(
+          ({ tokenId, balance, networkId }) =>
+            (allowCrossChainSwapAndDeposit || networkId === pool.networkId) &&
+            tokenId !== pool.dataProps.depositTokenId &&
+            tokenId !== pool.dataProps.withdrawTokenId &&
+            balance.gt(0)
+        )
+        .sort((token1, token2) => {
+          // Sort pool network tokens first, otherwise by USD balance (which
+          // should be the default already from the useSwappableTokens hook)
+          if (token1.networkId === pool.networkId && token2.networkId !== pool.networkId) {
+            return -1
+          }
+          if (token1.networkId !== pool.networkId && token2.networkId === pool.networkId) {
+            return 1
+          }
+          return 0
+        }),
+    [
+      swappableTokens,
+      pool.dataProps.depositTokenId,
+      pool.dataProps.withdrawTokenId,
+      pool.networkId,
+      allowCrossChainSwapAndDeposit,
+    ]
   )
 
   if (!depositToken) {
@@ -296,11 +318,13 @@ export default function EarnEnterAmount({ route }: Props) {
       amountInUsd: processedAmounts.token.bignum.multipliedBy(inputToken.priceUsd ?? 0).toFixed(2),
       amountEnteredIn: amountType,
       depositTokenId: pool.dataProps.depositTokenId,
-      networkId: inputToken.networkId,
+      networkId: pool.networkId,
       providerId: pool.appId,
       poolId: pool.positionId,
       fromTokenId: inputToken.tokenId,
       fromTokenAmount: processedAmounts.token.bignum.toString(),
+      fromNetworkId: inputToken.networkId,
+      swapType: swapTransaction?.swapType,
       mode,
       depositTokenAmount: isWithdrawal
         ? undefined

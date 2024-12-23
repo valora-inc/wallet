@@ -17,6 +17,7 @@ import {
   mockAccount,
   mockArbEthTokenId,
   mockArbUsdcTokenId,
+  mockCeloTokenId,
   mockEarnPositions,
   mockTokenBalances,
   mockUSDCAddress,
@@ -88,6 +89,28 @@ const mockSwapDepositProps = {
   },
 }
 
+const mockCrossChainProps = {
+  ...mockSwapDepositProps,
+  preparedTransaction: {
+    ...mockPreparedTransaction,
+    feeCurrency: {
+      ...mockTokenBalances[mockCeloTokenId],
+      isNative: true,
+      balance: new BigNumber(10),
+      priceUsd: new BigNumber(1),
+      lastKnownPriceUsd: new BigNumber(1),
+    },
+  },
+  inputTokenId: mockCeloTokenId,
+  swapTransaction: {
+    ...mockSwapDepositProps.swapTransaction,
+    swapType: 'cross-chain' as const,
+    estimatedDuration: 300,
+    maxCrossChainFee: '0.1',
+    estimatedCrossChainFee: '0.05',
+  },
+}
+
 describe('EarnDepositBottomSheet', () => {
   const commonAnalyticsProperties = {
     depositTokenId: mockArbUsdcTokenId,
@@ -95,6 +118,7 @@ describe('EarnDepositBottomSheet', () => {
     networkId: NetworkId['arbitrum-sepolia'],
     providerId: mockEarnPositions[0].appId,
     poolId: mockEarnPositions[0].positionId,
+    fromNetworkId: NetworkId['arbitrum-sepolia'],
   }
 
   beforeEach(() => {
@@ -143,14 +167,17 @@ describe('EarnDepositBottomSheet', () => {
     expect(getByTestId('EarnDeposit/SecondaryCta')).toBeTruthy()
   })
 
-  it('renders all elements for swap-deposit', () => {
+  it.each([
+    { swapType: 'same-chain', props: mockSwapDepositProps, fromSymbol: 'ETH', fiatFee: '0.012' },
+    { swapType: 'cross-chain', props: mockCrossChainProps, fromSymbol: 'CELO', fiatFee: '0.00011' },
+  ])('renders all elements for $swapType swap-deposit', ({ props, fromSymbol, fiatFee }) => {
     const { getByTestId, queryByTestId, getByText } = render(
       <Provider
         store={createMockStore({
           tokens: { tokenBalances: mockTokenBalances },
         })}
       >
-        <EarnDepositBottomSheet {...mockSwapDepositProps} />
+        <EarnDepositBottomSheet {...props} />
       </Provider>
     )
     expect(getByText('earnFlow.depositBottomSheet.title')).toBeTruthy()
@@ -166,11 +193,11 @@ describe('EarnDepositBottomSheet', () => {
     expect(getByText('earnFlow.depositBottomSheet.amount')).toBeTruthy()
     expect(getByTestId('EarnDeposit/Amount')).toHaveTextContent('100.00 USDC(₱133.00)')
 
-    expect(getByTestId('EarnDeposit/Swap/From')).toHaveTextContent('0.041 ETH')
+    expect(getByTestId('EarnDeposit/Swap/From')).toHaveTextContent(`0.041 ${fromSymbol}`)
     expect(getByTestId('EarnDeposit/Swap/To')).toHaveTextContent('100.00 USDC')
 
     expect(getByText('earnFlow.depositBottomSheet.fee')).toBeTruthy()
-    expect(getByTestId('EarnDeposit/Fee')).toHaveTextContent('₱0.012(0.000006 ETH)')
+    expect(getByTestId('EarnDeposit/Fee')).toHaveTextContent(`₱${fiatFee}(0.000006 ${fromSymbol})`)
 
     expect(getByText('earnFlow.depositBottomSheet.provider')).toBeTruthy()
     expect(getByText('Aave')).toBeTruthy()
@@ -189,26 +216,43 @@ describe('EarnDepositBottomSheet', () => {
 
   describe.each([
     {
+      testName: 'deposit',
       mode: 'deposit',
       props: mockDepositProps,
       fromTokenAmount: '100',
       fromTokenId: mockArbUsdcTokenId,
       depositTokenAmount: '100',
+      swapType: undefined,
     },
     {
+      testName: 'same chain swap & deposit',
       mode: 'swap-deposit',
       props: mockSwapDepositProps,
       fromTokenAmount: '0.041',
       fromTokenId: mockArbEthTokenId,
       depositTokenAmount: '99.999',
+      swapType: 'same-chain',
     },
-  ])('$mode', ({ mode, props, fromTokenAmount, fromTokenId, depositTokenAmount }) => {
+    {
+      testName: 'cross chain swap & deposit',
+      mode: 'swap-deposit',
+      props: mockCrossChainProps,
+      fromTokenAmount: '0.041',
+      fromTokenId: mockCeloTokenId,
+      depositTokenAmount: '99.999',
+      swapType: 'cross-chain',
+    },
+  ])('$testName', ({ mode, props, fromTokenAmount, fromTokenId, depositTokenAmount, swapType }) => {
+    const fromNetworkId =
+      swapType === 'cross-chain' ? NetworkId['celo-alfajores'] : NetworkId['arbitrum-sepolia']
     const expectedAnalyticsProperties = {
       ...commonAnalyticsProperties,
       mode,
       fromTokenAmount,
       fromTokenId,
       depositTokenAmount,
+      swapType,
+      fromNetworkId,
     }
 
     it('pressing complete submits action and fires analytics event', () => {
@@ -362,6 +406,7 @@ describe('EarnDepositBottomSheet', () => {
       )
 
       expect(getByTestId('EarnDeposit/GasSubsidized')).toBeTruthy()
+      expect(earnUtils.isGasSubsidizedForNetwork).toHaveBeenCalledWith(fromNetworkId)
     })
   })
 })

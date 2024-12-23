@@ -594,7 +594,7 @@ PODS:
   - react-native-pager-view (6.4.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-quick-crypto (0.7.10):
+  - react-native-quick-crypto (0.7.7):
     - OpenSSL-Universal
     - RCT-Folly (= 2021.07.22.00)
     - React
@@ -1275,7 +1275,7 @@ SPEC CHECKSUMS:
   react-native-launch-arguments: d4759f7591e2766e6c5ec746b7032429edaf7058
   react-native-netinfo: cec9c4e86083cb5b6aba0e0711f563e2fbbff187
   react-native-pager-view: 13652f56368120d8126ac3535a0d7fb0e9673c20
-  react-native-quick-crypto: 6831a30c5ea409f8a42de84183edb64cd3c1931e
+  react-native-quick-crypto: 9077632c3ade02e3c121d7badbe45f7c414de91a
   react-native-restart: 0bc732f4461709022a742bb29bcccf6bbc5b4863
   react-native-safe-area-context: 758e894ca5a9bd1868d2a9cfbca7326a2b6bf9dc
   react-native-shake: a426aa83eb1bd32b931153a2479f5fcfd909e29a
