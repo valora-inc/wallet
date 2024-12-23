@@ -63,14 +63,6 @@ function GasFeeWarning({
       ? prepareTransactionsResult.feeCurrencies[0].symbol
       : prepareTransactionsResult.feeCurrency.symbol
 
-  useEffect(() => {
-    AppAnalytics.track(AppEvents.show_gas_fee_warning, {
-      flow,
-      errorType: prepareTransactionsResult.type,
-      tokenNeeded: feeCurrencySymbol,
-    })
-  }, [])
-
   const title =
     flow === GasFeeWarningFlow.Dapp
       ? t('gasFeeWarning.titleDapp')
