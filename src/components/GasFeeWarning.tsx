@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AppEvents } from 'src/analytics/Events'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { Spacing } from 'src/styles/styles'
 import { PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 
-enum GasFeeWarningFlow {
+export enum GasFeeWarningFlow {
   Send = 'Send',
   Swap = 'Swap',
   Deposit = 'Deposit',
@@ -17,10 +19,12 @@ function GasFeeWarning({
   prepareTransactionsResult,
   flow,
   onPressCta,
+  testIdPrefix,
 }: {
-  prepareTransactionsResult: PreparedTransactionsResult
+  prepareTransactionsResult?: PreparedTransactionsResult
   flow: GasFeeWarningFlow
   onPressCta?: () => void
+  testIdPrefix?: string
 }) {
   const { t } = useTranslation()
 
@@ -40,18 +44,22 @@ function GasFeeWarning({
     [GasFeeWarningFlow.Dapp]: undefined,
   }
 
-  if (prepareTransactionsResult.type === 'possible') {
+  if (!prepareTransactionsResult || prepareTransactionsResult.type === 'possible') {
     return null
   }
-
-  // TODO: Track analytics event here
 
   const feeCurrencySymbol =
     prepareTransactionsResult.type === 'not-enough-balance-for-gas'
       ? prepareTransactionsResult.feeCurrencies[0].symbol
       : prepareTransactionsResult.feeCurrency.symbol
 
-  const amountToAdd = flow === GasFeeWarningFlow.Dapp ? 0 : undefined // TODO: Get amount here
+  useEffect(() => {
+    AppAnalytics.track(AppEvents.show_gas_fee_warning, {
+      flow,
+      errorType: prepareTransactionsResult.type,
+      tokenNeeded: feeCurrencySymbol,
+    })
+  }, [])
 
   const title =
     flow === GasFeeWarningFlow.Dapp
@@ -59,7 +67,7 @@ function GasFeeWarning({
       : t('gasFeeWarning.title', { feeTokenSymbol: feeCurrencySymbol })
   const description =
     flow === GasFeeWarningFlow.Dapp
-      ? t('gasFeeWarning.descriptionDapp', { amount: amountToAdd, tokenSymbol: feeCurrencySymbol })
+      ? t('gasFeeWarning.descriptionDapp', { tokenSymbol: feeCurrencySymbol })
       : prepareTransactionsResult.type === 'not-enough-balance-for-gas'
         ? t('gasFeeWarning.descriptionNotEnoughGas', {
             action: flowToActionString[flow],
@@ -85,7 +93,7 @@ function GasFeeWarning({
       ctaLabel={ctaLabel}
       onPressCta={onPressCta}
       style={styles.warning}
-      testID="EarnEnterAmount/NotEnoughForGasWarning"
+      testID={`${testIdPrefix}/GasFeeWarning`}
     />
   )
 }

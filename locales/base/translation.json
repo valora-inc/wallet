@@ -2829,7 +2829,7 @@
     "descriptionMaxAmount": "Add {{tokenSymbol}} for gas fees or lower the amount you're {{action}}",
     "descriptionNotEnoughGas": "Adjust the amount you're {{action}} or add {{tokenSymbol}} to continue",
     "titleDapp": "You have an insufficient gas token balance",
-    "descriptionDapp": "Add {{amount}} {{tokenSymbol}} to complete this transaction",
+    "descriptionDapp": "Add {{tokenSymbol}} to complete this transaction",
     "cta": "Buy {{tokenSymbol}}",
     "ctaGasToken": "{{verb}} smaller amount",
     "actions": {

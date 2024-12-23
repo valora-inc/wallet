@@ -8,6 +8,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
+import { Status as EarnStatus } from 'src/earn/slice'
 import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -35,7 +36,6 @@ import {
   mockTokenBalances,
   mockUSDCAddress,
 } from 'test/values'
-import { Status as EarnStatus } from 'src/earn/slice'
 
 jest.mock('src/earn/hooks')
 jest.mock('react-native-localize')
@@ -733,7 +733,7 @@ describe('EarnEnterAmount', () => {
     })
   })
 
-  it('should track analytics and navigate correctly when tapping cta to add gas', async () => {
+  it('should show gas warning error when prepareTransactionsResult is type not-enough-balance-for-gas, and tapping cta behaves as expected', async () => {
     jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransactionNotEnough,
@@ -750,12 +750,8 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
-    await waitFor(() => expect(getByTestId('EarnEnterAmount/NotEnoughForGasWarning')).toBeTruthy())
-    fireEvent.press(
-      getByText(
-        'earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta, {"feeTokenSymbol":"ETH","network":"Arbitrum Sepolia"}'
-      )
-    )
+    await waitFor(() => expect(getByTestId('EarnEnterAmount/GasFeeWarning')).toBeTruthy())
+    fireEvent.press(getByText('gasFeeWarning.cta, {"tokenSymbol":"ETH"}'))
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_add_gas_press, {
       gasTokenId: mockArbEthTokenId,
       networkId: NetworkId['arbitrum-sepolia'],

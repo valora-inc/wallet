@@ -10,6 +10,7 @@ import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import GasFeeWarning, { GasFeeWarningFlow } from 'src/components/GasFeeWarning'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
@@ -21,6 +22,7 @@ import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
+import { depositStatusSelector } from 'src/earn/selectors'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
 import { CICOFlow } from 'src/fiatExchanges/types'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
@@ -49,7 +51,6 @@ import { parseInputAmount } from 'src/utils/parsing'
 import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
-import { depositStatusSelector } from 'src/earn/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EarnEnterAmount>
 
@@ -480,6 +481,31 @@ function EarnEnterAmount({ route }: Props) {
             />
           )}
         </View>
+        <GasFeeWarning
+          prepareTransactionsResult={prepareTransactionsResult}
+          flow={GasFeeWarningFlow.Deposit}
+          onPressCta={() => {
+            AppAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {
+              gasTokenId: feeCurrencies[0].tokenId,
+              depositTokenId: pool.dataProps.depositTokenId,
+              networkId: pool.networkId,
+              providerId: pool.appId,
+              poolId: pool.positionId,
+            })
+            if (prepareTransactionsResult && prepareTransactionsResult.type !== 'possible') {
+              const token =
+                prepareTransactionsResult.type === 'not-enough-balance-for-gas'
+                  ? prepareTransactionsResult.feeCurrencies[0]
+                  : prepareTransactionsResult.feeCurrency
+              navigate(Screens.FiatExchangeAmount, {
+                tokenId: token.tokenId,
+                flow: CICOFlow.CashIn,
+                tokenSymbol: token.symbol,
+              })
+            }
+          }}
+          testIdPrefix={'EarnEnterAmount'}
+        />
 
         {showNotEnoughBalanceForGasWarning && (
           <InLineNotification
