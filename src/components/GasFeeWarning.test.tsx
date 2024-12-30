@@ -1,0 +1,161 @@
+import { fireEvent, render } from '@testing-library/react-native'
+import BigNumber from 'bignumber.js'
+import React from 'react'
+import { Provider } from 'react-redux'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AppEvents } from 'src/analytics/Events'
+import GasFeeWarning, { GasFeeWarningFlow } from 'src/components/GasFeeWarning'
+import {
+  PreparedTransactionsNeedDecreaseSpendAmountForGas,
+  PreparedTransactionsNotEnoughBalanceForGas,
+  PreparedTransactionsPossible,
+} from 'src/viem/prepareTransactions'
+import { createMockStore } from 'test/utils'
+import { mockArbEthTokenId, mockCeloTokenId, mockTokenBalances } from 'test/values'
+
+const mockPreparedTransactionPossible: PreparedTransactionsPossible = {
+  type: 'possible' as const,
+  transactions: [],
+  feeCurrency: {
+    ...mockTokenBalances[mockArbEthTokenId],
+    isNative: true,
+    balance: new BigNumber(10),
+    priceUsd: new BigNumber(1),
+    lastKnownPriceUsd: new BigNumber(1),
+  },
+}
+
+const mockPreparedTransactionNotEnoughCelo: PreparedTransactionsNotEnoughBalanceForGas = {
+  type: 'not-enough-balance-for-gas' as const,
+  feeCurrencies: [
+    {
+      ...mockTokenBalances[mockCeloTokenId],
+      isNative: true,
+      balance: new BigNumber(0),
+      priceUsd: new BigNumber(1500),
+      lastKnownPriceUsd: new BigNumber(1500),
+    },
+  ],
+}
+
+const mockPreparedTransactionNeedDecreaseCelo: PreparedTransactionsNeedDecreaseSpendAmountForGas = {
+  type: 'need-decrease-spend-amount-for-gas' as const,
+  feeCurrency: {
+    ...mockTokenBalances[mockCeloTokenId],
+    isNative: true,
+    balance: new BigNumber(0),
+    priceUsd: new BigNumber(1500),
+    lastKnownPriceUsd: new BigNumber(1500),
+  },
+  maxGasFeeInDecimal: new BigNumber(1),
+  estimatedGasFeeInDecimal: new BigNumber(1),
+  decreasedSpendAmount: new BigNumber(1),
+}
+
+const mockPreparedTransactionNotEnoughEth: PreparedTransactionsNotEnoughBalanceForGas = {
+  type: 'not-enough-balance-for-gas' as const,
+  feeCurrencies: [
+    {
+      ...mockTokenBalances[mockArbEthTokenId],
+      isNative: true,
+      balance: new BigNumber(0),
+      priceUsd: new BigNumber(1500),
+      lastKnownPriceUsd: new BigNumber(1500),
+    },
+  ],
+}
+
+const mockPreparedTransactionNeedDecreaseEth: PreparedTransactionsNeedDecreaseSpendAmountForGas = {
+  type: 'need-decrease-spend-amount-for-gas' as const,
+  feeCurrency: {
+    ...mockTokenBalances[mockArbEthTokenId],
+    isNative: true,
+    balance: new BigNumber(0),
+    priceUsd: new BigNumber(1500),
+    lastKnownPriceUsd: new BigNumber(1500),
+  },
+  maxGasFeeInDecimal: new BigNumber(1),
+  estimatedGasFeeInDecimal: new BigNumber(1),
+  decreasedSpendAmount: new BigNumber(1),
+}
+
+describe('GasFeeWarning', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+  it('should return null if prepareTransactionsResult is undefined', () => {
+    const store = createMockStore()
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <GasFeeWarning flow={GasFeeWarningFlow.Send} testIdPrefix={'test'} />
+      </Provider>
+    )
+    expect(queryByTestId('test/GasFeeWarning')).toBeNull()
+  })
+  it('should return null if prepareTransactionsResult.type is possible', () => {
+    const store = createMockStore()
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <GasFeeWarning
+          flow={GasFeeWarningFlow.Send}
+          testIdPrefix={'test'}
+          prepareTransactionsResult={mockPreparedTransactionPossible}
+        />
+      </Provider>
+    )
+    expect(queryByTestId('test/GasFeeWarning')).toBeNull()
+  })
+  it.each`
+    scenario                                      | flow                          | prepareTransactionsResult                  | feeCurrencySymbol | title                                               | description                                                                                                     | ctaLabel
+    ${'sending max amount of CELO'}               | ${GasFeeWarningFlow.Send}     | ${mockPreparedTransactionNeedDecreaseCelo} | ${'CELO'}         | ${'gasFeeWarning.title, {"feeTokenSymbol":"CELO"}'} | ${'gasFeeWarning.descriptionMaxAmount, {"action":"gasFeeWarning.actions.sending","tokenSymbol":"CELO"}'}        | ${'gasFeeWarning.ctaGasToken, {"verb":"gasFeeWarning.verb.send"}'}
+    ${'sending max amount of ETH'}                | ${GasFeeWarningFlow.Send}     | ${mockPreparedTransactionNeedDecreaseEth}  | ${'ETH'}          | ${'gasFeeWarning.title, {"feeTokenSymbol":"ETH"}'}  | ${'gasFeeWarning.descriptionMaxAmount, {"action":"gasFeeWarning.actions.sending","tokenSymbol":"ETH"}'}         | ${'gasFeeWarning.ctaGasToken, {"verb":"gasFeeWarning.verb.send"}'}
+    ${'sending with insufficient CELO'}           | ${GasFeeWarningFlow.Send}     | ${mockPreparedTransactionNotEnoughCelo}    | ${'CELO'}         | ${'gasFeeWarning.title, {"feeTokenSymbol":"CELO"}'} | ${'gasFeeWarning.descriptionNotEnoughGas, {"action":"gasFeeWarning.actions.sending","tokenSymbol":"CELO"}'}     | ${'gasFeeWarning.cta, {"tokenSymbol":"CELO"}'}
+    ${'sending with insufficient ETH'}            | ${GasFeeWarningFlow.Send}     | ${mockPreparedTransactionNotEnoughEth}     | ${'ETH'}          | ${'gasFeeWarning.title, {"feeTokenSymbol":"ETH"}'}  | ${'gasFeeWarning.descriptionNotEnoughGas, {"action":"gasFeeWarning.actions.sending","tokenSymbol":"ETH"}'}      | ${'gasFeeWarning.cta, {"tokenSymbol":"ETH"}'}
+    ${'swapping max amount of CELO'}              | ${GasFeeWarningFlow.Swap}     | ${mockPreparedTransactionNeedDecreaseCelo} | ${'CELO'}         | ${'gasFeeWarning.title, {"feeTokenSymbol":"CELO"}'} | ${'gasFeeWarning.descriptionMaxAmount, {"action":"gasFeeWarning.actions.swapping","tokenSymbol":"CELO"}'}       | ${'gasFeeWarning.ctaGasToken, {"verb":"gasFeeWarning.verb.swap"}'}
+    ${'swapping max amount of ETH'}               | ${GasFeeWarningFlow.Swap}     | ${mockPreparedTransactionNeedDecreaseEth}  | ${'ETH'}          | ${'gasFeeWarning.title, {"feeTokenSymbol":"ETH"}'}  | ${'gasFeeWarning.descriptionMaxAmount, {"action":"gasFeeWarning.actions.swapping","tokenSymbol":"ETH"}'}        | ${'gasFeeWarning.ctaGasToken, {"verb":"gasFeeWarning.verb.swap"}'}
+    ${'swapping with insufficient CELO'}          | ${GasFeeWarningFlow.Swap}     | ${mockPreparedTransactionNotEnoughCelo}    | ${'CELO'}         | ${'gasFeeWarning.title, {"feeTokenSymbol":"CELO"}'} | ${'gasFeeWarning.descriptionNotEnoughGas, {"action":"gasFeeWarning.actions.swapping","tokenSymbol":"CELO"}'}    | ${'gasFeeWarning.cta, {"tokenSymbol":"CELO"}'}
+    ${'swapping with insufficient ETH'}           | ${GasFeeWarningFlow.Swap}     | ${mockPreparedTransactionNotEnoughEth}     | ${'ETH'}          | ${'gasFeeWarning.title, {"feeTokenSymbol":"ETH"}'}  | ${'gasFeeWarning.descriptionNotEnoughGas, {"action":"gasFeeWarning.actions.swapping","tokenSymbol":"ETH"}'}     | ${'gasFeeWarning.cta, {"tokenSymbol":"ETH"}'}
+    ${'withdrawing max amount of CELO'}           | ${GasFeeWarningFlow.Withdraw} | ${mockPreparedTransactionNeedDecreaseCelo} | ${'CELO'}         | ${'gasFeeWarning.title, {"feeTokenSymbol":"CELO"}'} | ${'gasFeeWarning.descriptionMaxAmount, {"action":"gasFeeWarning.actions.withdrawing","tokenSymbol":"CELO"}'}    | ${'gasFeeWarning.ctaGasToken, {"verb":"gasFeeWarning.verb.withdraw"}'}
+    ${'withdrawing max amount of ETH'}            | ${GasFeeWarningFlow.Withdraw} | ${mockPreparedTransactionNeedDecreaseEth}  | ${'ETH'}          | ${'gasFeeWarning.title, {"feeTokenSymbol":"ETH"}'}  | ${'gasFeeWarning.descriptionMaxAmount, {"action":"gasFeeWarning.actions.withdrawing","tokenSymbol":"ETH"}'}     | ${'gasFeeWarning.ctaGasToken, {"verb":"gasFeeWarning.verb.withdraw"}'}
+    ${'withdrawing with insufficient CELO'}       | ${GasFeeWarningFlow.Withdraw} | ${mockPreparedTransactionNotEnoughCelo}    | ${'CELO'}         | ${'gasFeeWarning.title, {"feeTokenSymbol":"CELO"}'} | ${'gasFeeWarning.descriptionNotEnoughGas, {"action":"gasFeeWarning.actions.withdrawing","tokenSymbol":"CELO"}'} | ${'gasFeeWarning.cta, {"tokenSymbol":"CELO"}'}
+    ${'withdrawing with insufficient ETH'}        | ${GasFeeWarningFlow.Withdraw} | ${mockPreparedTransactionNotEnoughEth}     | ${'ETH'}          | ${'gasFeeWarning.title, {"feeTokenSymbol":"ETH"}'}  | ${'gasFeeWarning.descriptionNotEnoughGas, {"action":"gasFeeWarning.actions.withdrawing","tokenSymbol":"ETH"}'}  | ${'gasFeeWarning.cta, {"tokenSymbol":"ETH"}'}
+    ${'depositing max amount of CELO'}            | ${GasFeeWarningFlow.Deposit}  | ${mockPreparedTransactionNeedDecreaseCelo} | ${'CELO'}         | ${'gasFeeWarning.title, {"feeTokenSymbol":"CELO"}'} | ${'gasFeeWarning.descriptionMaxAmount, {"action":"gasFeeWarning.actions.depositing","tokenSymbol":"CELO"}'}     | ${'gasFeeWarning.ctaGasToken, {"verb":"gasFeeWarning.verb.deposit"}'}
+    ${'depositing max amount of ETH'}             | ${GasFeeWarningFlow.Deposit}  | ${mockPreparedTransactionNeedDecreaseEth}  | ${'ETH'}          | ${'gasFeeWarning.title, {"feeTokenSymbol":"ETH"}'}  | ${'gasFeeWarning.descriptionMaxAmount, {"action":"gasFeeWarning.actions.depositing","tokenSymbol":"ETH"}'}      | ${'gasFeeWarning.ctaGasToken, {"verb":"gasFeeWarning.verb.deposit"}'}
+    ${'depositing with insufficient CELO'}        | ${GasFeeWarningFlow.Deposit}  | ${mockPreparedTransactionNotEnoughCelo}    | ${'CELO'}         | ${'gasFeeWarning.title, {"feeTokenSymbol":"CELO"}'} | ${'gasFeeWarning.descriptionNotEnoughGas, {"action":"gasFeeWarning.actions.depositing","tokenSymbol":"CELO"}'}  | ${'gasFeeWarning.cta, {"tokenSymbol":"CELO"}'}
+    ${'depositing with insufficient ETH'}         | ${GasFeeWarningFlow.Deposit}  | ${mockPreparedTransactionNotEnoughEth}     | ${'ETH'}          | ${'gasFeeWarning.title, {"feeTokenSymbol":"ETH"}'}  | ${'gasFeeWarning.descriptionNotEnoughGas, {"action":"gasFeeWarning.actions.depositing","tokenSymbol":"ETH"}'}   | ${'gasFeeWarning.cta, {"tokenSymbol":"ETH"}'}
+    ${'dapp transaction with max amount of CELO'} | ${GasFeeWarningFlow.Dapp}     | ${mockPreparedTransactionNeedDecreaseCelo} | ${'CELO'}         | ${'gasFeeWarning.titleDapp'}                        | ${'gasFeeWarning.descriptionDapp, {"tokenSymbol":"CELO"}'}                                                      | ${undefined}
+    ${'dapp transaction with max amount of ETH'}  | ${GasFeeWarningFlow.Dapp}     | ${mockPreparedTransactionNeedDecreaseEth}  | ${'ETH'}          | ${'gasFeeWarning.titleDapp'}                        | ${'gasFeeWarning.descriptionDapp, {"tokenSymbol":"ETH"}'}                                                       | ${undefined}
+    ${'dapp transaction with insufficient CELO'}  | ${GasFeeWarningFlow.Dapp}     | ${mockPreparedTransactionNotEnoughCelo}    | ${'CELO'}         | ${'gasFeeWarning.titleDapp'}                        | ${'gasFeeWarning.descriptionDapp, {"tokenSymbol":"CELO"}'}                                                      | ${undefined}
+    ${'dapp transaction with insufficient ETH'}   | ${GasFeeWarningFlow.Dapp}     | ${mockPreparedTransactionNotEnoughEth}     | ${'ETH'}          | ${'gasFeeWarning.titleDapp'}                        | ${'gasFeeWarning.descriptionDapp, {"tokenSymbol":"ETH"}'}                                                       | ${undefined}
+  `(
+    'renders error correctly when $scenario',
+    ({ flow, prepareTransactionsResult, feeCurrencySymbol, title, description, ctaLabel }) => {
+      const store = createMockStore()
+      const onPressCta = jest.fn()
+      const { getByTestId, getByText } = render(
+        <Provider store={store}>
+          <GasFeeWarning
+            flow={flow}
+            testIdPrefix={'test'}
+            prepareTransactionsResult={prepareTransactionsResult}
+            onPressCta={ctaLabel ? onPressCta : undefined}
+          />
+        </Provider>
+      )
+      expect(getByTestId('test/GasFeeWarning')).toBeTruthy()
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.show_gas_fee_warning, {
+        flow,
+        errorType: prepareTransactionsResult.type,
+        tokenNeeded: feeCurrencySymbol,
+      })
+      expect(getByText(title)).toBeTruthy()
+      expect(getByText(description)).toBeTruthy()
+      if (ctaLabel) {
+        expect(getByText(ctaLabel)).toBeTruthy()
+        fireEvent.press(getByText(ctaLabel))
+        expect(onPressCta).toHaveBeenCalledTimes(1)
+      }
+    }
+  )
+})

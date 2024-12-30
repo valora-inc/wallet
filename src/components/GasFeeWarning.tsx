@@ -75,7 +75,7 @@ function GasFeeWarning({
             action: flowToActionString[flow],
             tokenSymbol: feeCurrencySymbol,
           })
-        : t('gasWarning.descriptionMaxAmount', {
+        : t('gasFeeWarning.descriptionMaxAmount', {
             action: flowToActionString[flow],
             tokenSymbol: feeCurrencySymbol,
           })
@@ -84,7 +84,7 @@ function GasFeeWarning({
       ? undefined
       : prepareTransactionsResult.type === 'not-enough-balance-for-gas'
         ? t('gasFeeWarning.cta', { tokenSymbol: feeCurrencySymbol })
-        : t('gasWarning.ctaGasToken', {
+        : t('gasFeeWarning.ctaGasToken', {
             verb: flowToVerbString[flow],
           })
   return (
