@@ -66,7 +66,7 @@ function GasFeeWarning({
   const title =
     flow === GasFeeWarningFlow.Dapp
       ? t('gasFeeWarning.titleDapp')
-      : t('gasFeeWarning.title', { feeTokenSymbol: feeCurrencySymbol })
+      : t('gasFeeWarning.title', { tokenSymbol: feeCurrencySymbol })
   const description =
     flow === GasFeeWarningFlow.Dapp
       ? t('gasFeeWarning.descriptionDapp', { tokenSymbol: feeCurrencySymbol })
