@@ -152,10 +152,10 @@ describe('GasFeeWarning', () => {
       expect(getByText(title)).toBeTruthy()
       expect(getByText(description)).toBeTruthy()
       if (ctaLabel) {
-        expect(getByText(ctaLabel)).toBeTruthy()
         fireEvent.press(getByText(ctaLabel))
-        expect(onPressCta).toHaveBeenCalledTimes(1)
       }
+      expect(ctaLabel ? getByText(ctaLabel) : true).toBeTruthy()
+      expect(onPressCta).toHaveBeenCalledTimes(ctaLabel ? 1 : 0)
     }
   )
 })

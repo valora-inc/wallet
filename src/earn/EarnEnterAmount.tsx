@@ -38,7 +38,6 @@ import { useSelector } from 'src/redux/hooks'
 import { AmountInput } from 'src/send/EnterAmount'
 import EnterAmountOptions from 'src/send/EnterAmountOptions'
 import { AmountEnteredIn } from 'src/send/types'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -285,10 +284,6 @@ function EarnEnterAmount({ route }: Props) {
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(balanceInInputToken)
-  const showNotEnoughBalanceForGasWarning =
-    isAmountLessThanBalance &&
-    prepareTransactionsResult &&
-    prepareTransactionsResult.type === 'not-enough-balance-for-gas'
   const transactionIsPossible =
     isAmountLessThanBalance &&
     prepareTransactionsResult &&
@@ -506,39 +501,6 @@ function EarnEnterAmount({ route }: Props) {
           }}
           testIdPrefix={'EarnEnterAmount'}
         />
-
-        {showNotEnoughBalanceForGasWarning && (
-          <InLineNotification
-            variant={NotificationVariant.Warning}
-            title={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.title', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-            })}
-            description={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.description', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
-            })}
-            ctaLabel={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta', {
-              feeTokenSymbol: feeCurrencies[0].symbol,
-              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
-            })}
-            onPressCta={() => {
-              AppAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {
-                gasTokenId: feeCurrencies[0].tokenId,
-                depositTokenId: pool.dataProps.depositTokenId,
-                networkId: pool.networkId,
-                providerId: pool.appId,
-                poolId: pool.positionId,
-              })
-              navigate(Screens.FiatExchangeAmount, {
-                tokenId: prepareTransactionsResult.feeCurrencies[0].tokenId,
-                flow: CICOFlow.CashIn,
-                tokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-              })
-            }}
-            style={styles.warning}
-            testID="EarnEnterAmount/NotEnoughForGasWarning"
-          />
-        )}
         {!isAmountLessThanBalance && (
           <InLineNotification
             variant={NotificationVariant.Warning}
