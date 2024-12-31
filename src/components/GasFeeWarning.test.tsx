@@ -107,7 +107,6 @@ describe('GasFeeWarning', () => {
   })
   it.each`
     scenario                                      | flow                          | prepareTransactionsResult                  | feeCurrencyTokenId   | title                                            | description                                                                    | ctaLabel
-    // SENDING CASES
     ${'sending max amount of CELO'}               | ${GasFeeWarningFlow.Send}     | ${mockPreparedTransactionNeedDecreaseCelo} | ${mockCeloTokenId}   | ${'gasFeeWarning.title, {"tokenSymbol":"CELO"}'} | ${'gasFeeWarning.descriptionMaxAmount.sending, {"tokenSymbol":"CELO"}'}        | ${'gasFeeWarning.ctaGasToken.send'}
     ${'sending max amount of ETH'}                | ${GasFeeWarningFlow.Send}     | ${mockPreparedTransactionNeedDecreaseEth}  | ${mockArbEthTokenId} | ${'gasFeeWarning.title, {"tokenSymbol":"ETH"}'}  | ${'gasFeeWarning.descriptionMaxAmount.sending, {"tokenSymbol":"ETH"}'}         | ${'gasFeeWarning.ctaGasToken.send}'}
     ${'sending with insufficient CELO'}           | ${GasFeeWarningFlow.Send}     | ${mockPreparedTransactionNotEnoughCelo}    | ${mockCeloTokenId}   | ${'gasFeeWarning.title, {"tokenSymbol":"CELO"}'} | ${'gasFeeWarning.descriptionNotEnoughGas.sending, {"tokenSymbol":"CELO"}'}     | ${'gasFeeWarning.cta, {"tokenSymbol":"CELO"}'}
