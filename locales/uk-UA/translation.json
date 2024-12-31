@@ -1,6 +1,6 @@
 {
   "invite": "Запросити",
-  "celoRewards": "Винагорода Celo",
+  "celoRewards": "Винагорода CNDL",
   "languageSettings": "Мова",
   "localCurrencySetting": "Валюта",
   "licenses": "Ліцензії",
@@ -299,7 +299,7 @@
   "superchargeDisclaimerDayLimit": "Ваш баланс чи попередні прибутки не зазнають змін. <0>Докладніше</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Які активи можна суперзарядити?",
-    "body": "Ви отримаєте винагороду щотижня за ваші стейблкойни Celo з найбільшою вартістю (cEUR, cUSD, cREAL).",
+    "body": "Ви отримаєте винагороду щотижня за ваші стейблкойни CNDL з найбільшою вартістю (cEUR, cUSD, cREAL).",
     "dismiss": "Відхилити"
   },
   "superchargingTitle": "Треба оновити застосунок",
@@ -343,7 +343,7 @@
   "learnMore": "Дізнатися більше",
   "equalToAmount": "Дорівнює <1></1>",
   "whatIsGold": "{{appName}} дозволяє купувати та продавати CELO",
-  "manageCelo": "Керувати Celo Dollars",
+  "manageCelo": "Керувати CNDL Dollars",
   "exchangeRate": "Валютний курс",
   "exchangeRateValue": "<0></0> : 1 {{takerTokenCode}}",
   "history": "Історія",
@@ -368,13 +368,13 @@
   "securityFee": "Комісія за мережу",
   "exchangeFee": "Комісія за обмін",
   "edit": "Редагувати",
-  "notEnoughDollars": "Не вистачає Celo Dollars, щоб обміняти",
-  "notEnoughGold": "Не вистачає валюти Celo, щоб обміняти",
+  "notEnoughDollars": "Не вистачає CNDL Dollars, щоб обміняти",
+  "notEnoughGold": "Не вистачає валюти CNDL, щоб обміняти",
   "pending": "Очікує підтвердження",
   "loadingExchangeRate": "Завантаження валютного курсу...",
   "errorRefreshingRate": "Не вдалося оновити обмінний курс",
   "exchangeRateChange": "Курс обміну змінився, спробуйте ще раз",
-  "feeExchangeEducation": "При обміні активів невелика комісія йде на утримання вартості стейблкойнів Celo, прив’язаних до активів, які вони відстежують. \n\nДив. часті запитання, щоб дізнатися більше.",
+  "feeExchangeEducation": "При обміні активів невелика комісія йде на утримання вартості стейблкойнів CNDL, прив’язаних до активів, які вони відстежують. \n\nДив. часті запитання, щоб дізнатися більше.",
   "goldPrice": "Ціна CELO",
   "yourGoldBalance": "Ваш баланс CELO",
   "goldAmount": "Сума CELO",
@@ -406,14 +406,14 @@
   "amountCelo": "Сума (CELO)",
   "onlyCeloDollars": "Лише cUSD",
   "onlyCelo": "Лише CELO",
-  "celoDollar": "Celo Dollar",
-  "celoEuro": "Celo Euro",
-  "celoReal": "Celo Real",
-  "celoDollars": "Celo Dollars",
+  "celoDollar": "CNDL Dollar",
+  "celoEuro": "CNDL Euro",
+  "celoReal": "CNDL Real",
+  "celoDollars": "CNDL Dollars",
   "ether": "Ether",
   "tapToCopyCeloDollarsAddress": "Натисніть, щоб скопіювати свою {{appName}} адресу CUSD",
   "disclaimerFiat": "Значення {{currency}} є оцінюваними.",
-  "dollarsNotYetEnabledNote": "Celo Dollars поки що не доступні ні для кого з постачальників. Щоб отримати Celo Dollars, придбайте CELO й обміняйте його на Celo Dollars у вкладці CELO.",
+  "dollarsNotYetEnabledNote": "CNDL Dollars поки що не доступні ні для кого з постачальників. Щоб отримати CNDL Dollars, придбайте CELO й обміняйте його на CNDL Dollars у вкладці CELO.",
   "selectDigitalCurrency": "Виберіть актив",
   "selectPaymentMethod": "Виберіть спосіб:",
   "payWithBank": "Банківський рахунок",
@@ -490,7 +490,7 @@
   "done": "Виконано",
   "tip": "Підказка: ",
   "warning": "Застереження ",
-  "downloadRewards": "Завантажити нагороди Celo",
+  "downloadRewards": "Завантажити нагороди CNDL",
   "wallet": "Гаманець",
   "send": "Надіслати",
   "search": "Пошук",
@@ -499,7 +499,7 @@
   "activity": "Активність",
   "earnRewards": "Заробити винагороду",
   "notEnoughStableError": "Не вистачає {{token}}, щоб обміняти",
-  "notEnoughGoldError": "Не вистачає валюти Celo, щоб обміняти",
+  "notEnoughGoldError": "Не вистачає валюти CNDL, щоб обміняти",
   "exchangeFailed": "Обмін не вдався, спробуйте ще раз",
   "transactionFailed": "Транзакція не вдалася, спробуйте ще раз",
   "paste": "Вставити",
@@ -508,8 +508,8 @@
   "receivedNft": "Отриманий NFT",
   "sentNft": "Надісланий NFT",
   "getStarted": "Почати роботу",
-  "manageCeloDollars": "Керувати Celo Dollars",
-  "sendCeloDollars": "Надіслати Celo Dollars",
+  "manageCeloDollars": "Керувати CNDL Dollars",
+  "sendCeloDollars": "Надіслати CNDL Dollars",
   "startEarning": "Почати заробляти",
   "backToWallet": "Повернутися до гаманця",
   "exchangeForGold": "Біржа для CELO",
@@ -537,13 +537,13 @@
   "reclaim": "Вимагати",
   "claimed": "Отримано",
   "celoGold": "CELO",
-  "celoEuros": "Celo Euros",
+  "celoEuros": "CNDL Euros",
   "balanceAvailable": "<0></0> доступно",
   "subtotal": "Проміжна сума",
   "total": "Усього",
-  "totalInDollars": "Celo Dollars @ <0></0>",
-  "totalInEuros": "Celo Euros @ <0></0>",
-  "totalInCelo": "Celo @ <0></0>",
+  "totalInDollars": "CNDL Dollars @ <0></0>",
+  "totalInEuros": "CNDL Euros @ <0></0>",
+  "totalInCelo": "CNDL @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "tokenExchangeRateApprox": "1 {{symbol}} ≈ <0></0>",
@@ -663,15 +663,15 @@
   "goldEducationSteps": [
     {
       "title": "Що таке CELO?",
-      "text": "CELO — це цифрова валюта, яка зберігає стабільним Celo Dollar (cUSD)."
+      "text": "CELO — це цифрова валюта, яка зберігає стабільним CNDL Dollar (cUSD)."
     },
     {
       "title": "Зміна ціни CELO",
-      "text": "Якщо все більше людей використовують Celo Dollar, вартість CELO зростає. На відміну від CELO, вартість Celo Dollar не зміниться. "
+      "text": "Якщо все більше людей використовують CNDL Dollar, вартість CELO зростає. На відміну від CELO, вартість CNDL Dollar не зміниться. "
     },
     {
-      "title": "Конфігурувати мережу Celo",
-      "text": "Тримаючи CELO, у вас є можливість голосувати за зміни та функції, які ви б хотіли побачити в мережі Celo."
+      "title": "Конфігурувати мережу CNDL",
+      "text": "Тримаючи CELO, у вас є можливість голосувати за зміни та функції, які ви б хотіли побачити в мережі CNDL."
     },
     {
       "title": "Просимо купувати й продавати відповідально",
@@ -999,7 +999,7 @@
   "verificationUnavailable": "Наразі немає можливості під’єднати номер телефону. Просимо зазначити ваш номер телефону, а ми повідомимо про нову можливість, як тільки вона знову з’явиться.\n\nТим часом, можна продовжити користуватися {{appName}} за допомогою QR-кодів або адрес облікових записів. Не турбуйтеся про платежі, надіслані на ваш номер телефону. Вони будуть у стані очікування, поки ви не під’єднаєте свій номер телефону.",
   "requests": "Запити",
   "empty": "У вас немає запитів платежу",
-  "celoDollarBalance": "Залишок у Celo Dollar",
+  "celoDollarBalance": "Залишок у CNDL Dollar",
   "requestDeclined": "Запит відхилено",
   "requestPaid": "Запит сплачено",
   "paymentRequestUpdateFailed": "Не вдалося оновити запит платежу",
@@ -1174,7 +1174,7 @@
     "sendTransactionAction": "Надіслати",
     "unsupportedChain": {
       "title": "Непідтримуваний ланцюжок",
-      "description": "{{dappName}} надсилає запит щодо цієї дії на ланцюжок, який не підтримується застосунком {{appName}}. Переконайтеся, що Celo є активним ланцюжком на боці Dapp.",
+      "description": "{{dappName}} надсилає запит щодо цієї дії на ланцюжок, який не підтримується застосунком {{appName}}. Переконайтеся, що CNDL є активним ланцюжком на боці Dapp.",
       "descriptionV1_74_one": "{{dappName}} надсилає запит щодо цієї дії на ланцюжок, який не підтримується застосунком {{appName}}. Переконайтеся, що {{supportedNetworkNames}} є активним ланцюжком на боці Dapp.",
       "descriptionV1_74_other": "{{dappName}} надсилає запит щодо цієї дії на ланцюжок, який не підтримується застосунком {{appName}}. Будь ласка, переконайтеся, що активний ланцюжок на dapp є одним з наступних: {{supportedNetworkNames}}."
     },
@@ -1189,13 +1189,13 @@
     "session": {
       "failUnsupportedNamespace": {
         "title": "Непідтримуваний ланцюжок",
-        "description": "{{dappName}} намагається під’єднатися до ланцюжка, який не підтримується {{appName}}. Переконайтеся, що з боку застосунку Dapp вибрано Celo.",
+        "description": "{{dappName}} намагається під’єднатися до ланцюжка, який не підтримується {{appName}}. Переконайтеся, що з боку застосунку Dapp вибрано CNDL.",
         "descriptionV1_74_one": "{{dappName}} намагається під’єднатися до ланцюжка, який не підтримується {{appName}}. Переконайтеся, що з боку застосунку Dapp вибрано {{supportedNetworkNames}}.",
         "descriptionV1_74_other": "{{dappName}} намагається під’єднатися до ланцюжка, який не підтримується {{appName}}. Будь ласка, переконайтеся, що активний ланцюжок на dapp є одним з наступних: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Непідтримуваний ланцюжок",
-        "description": "У {{dappName}} Celo не зазначено як підтримуваний ланцюжок. Деякі функції можуть працювати не так, як очікувалося.",
+        "description": "У {{dappName}} CNDL не зазначено як підтримуваний ланцюжок. Деякі функції можуть працювати не так, як очікувалося.",
         "descriptionV1_74_one": "У {{dappName}} {{supportedNetworkNames}} не зазначено як підтримуваний ланцюжок. Деякі функції можуть працювати не так, як очікувалося.",
         "descriptionV1_74_other": "{{dappName}} не вказали жодного з наступних ланцюжків як підтримувані: {{supportedNetworkNames}}. Деякі функції можуть працювати не так, як очікувалося."
       },
@@ -1246,7 +1246,7 @@
   "viewAll": "Переглянути всі",
   "noNotificationsPlaceholder": "Тепер ви в курсі подій!",
   "thanksForVerifying": "Дякуємо, під’єднали номер",
-  "goldIsWhereYouSave": "CELO — це місце, де ви зможете заощадити ваші Celo Dollars",
+  "goldIsWhereYouSave": "CELO — це місце, де ви зможете заощадити ваші CNDL Dollars",
   "dinner": "Обід",
   "bikeParts": "Велосипедні частини",
   "groceryRun": "Продовольчі товари",
@@ -1258,7 +1258,7 @@
   "verificationFee": "Комісія за підтвердження",
   "networkFee": "Комісія за мережу",
   "networkFeeExplanation": {
-    "0": "Щотижня дуже невелика комісія (менше ніж 0,01%) залишку кожного користувача Celo Dollars використовується для стабільного збереження вартості Celo Dollar. Щоб дізнатися більше про комісії Celo, відвідайте ",
+    "0": "Щотижня дуже невелика комісія (менше ніж 0,01%) залишку кожного користувача CNDL Dollars використовується для стабільного збереження вартості CNDL Dollar. Щоб дізнатися більше про комісії CNDL, відвідайте ",
     "1": "Часті запитання"
   },
   "confirmingTransaction": "Підтвердження…",
@@ -1298,20 +1298,20 @@
   "feedItemBoughtCeloTitle": "Куплено CELO",
   "feedItemSoldCeloTitle": "Продано CELO",
   "feedItemExchangeCeloInfo": "{{amount}} @ {{price}}",
-  "feedItemVerificationFeeTitle": "Celo",
+  "feedItemVerificationFeeTitle": "CNDL",
   "feedItemVerificationFeeInfo": "$t(verificationFee)",
-  "feedItemNetworkFeeTitle": "Celo",
+  "feedItemNetworkFeeTitle": "CNDL",
   "feedItemNetworkFeeInfo": "Комісія за мережу",
-  "feedItemVerificationRewardTitle": "Celo",
+  "feedItemVerificationRewardTitle": "CNDL",
   "feedItemVerificationRewardInfo": "Підтверджена винагорода",
   "feedItemFailedTransaction": "Невдала транзакція",
-  "feedItemFaucetTitle": "Celo",
+  "feedItemFaucetTitle": "CNDL",
   "feedItemFaucetInfo": "{{faucet}} Faucet",
   "feedItemFaucetInfo_noTestnet": "Faucet",
-  "feedItemInviteSentTitle": "Celo",
+  "feedItemInviteSentTitle": "CNDL",
   "feedItemInviteSentInfo": "Запрошено {{nameOrNumber}}",
   "feedItemInviteSentInfo_noInviteeDetails": "$t(inviteSent)",
-  "feedItemInviteReceivedTitle": "Celo",
+  "feedItemInviteReceivedTitle": "CNDL",
   "feedItemInviteReceivedInfo": "$t(inviteReceived)",
   "feedItemSentTitle": "{{displayName}}",
   "feedItemSentInfo": "{{comment}}",
@@ -1983,7 +1983,7 @@
   },
   "celoNews": {
     "headerTitle": "Оновлення",
-    "headerDescription": "Дізнайтеся про приклади використання, пілотні проєкти та технічні оновлення в блозі про Celo.",
+    "headerDescription": "Дізнайтеся про приклади використання, пілотні проєкти та технічні оновлення в блозі про CNDL.",
     "readMoreButtonText": "Детальніше читайте в блозі",
     "loadingError": "На жаль, не вдалося завантажити останні оновлення. Спробуйте ще раз пізніше.",
     "retryButtonText": "Повторити"
@@ -1997,7 +1997,7 @@
       "dapp": "Дізнайтеся способи використання криптовалюти",
       "earn": "Досліджуйте можливості заробітку",
       "profile": "Створіть свій профіль",
-      "learn": "Дізнатися про Celo",
+      "learn": "Дізнатися про CNDL",
       "learnPoints": "Дізнайтеся більше про бали {{appName}}"
     }
   },
@@ -2040,7 +2040,7 @@
     "noNfts": "Тут відобразяться ваші NFT, щойно вони надійдуть у гаманець"
   },
   "nftInfoCarousel": {
-    "viewOnCeloExplorer": "Переглянути на Celo Explorer",
+    "viewOnCeloExplorer": "Переглянути на CNDL Explorer",
     "attributes": "Атрибути",
     "description": "Опис",
     "noNftsFound": "NFT не знайдено",
@@ -2091,7 +2091,7 @@
     },
     "moreActions": "Додаткові дії",
     "actionDescriptions": {
-      "send": "Використайте будь-яку адресу, домен, номер телефону із Celo тощо.",
+      "send": "Використайте будь-яку адресу, домен, номер телефону із CNDL тощо.",
       "sendV1_74_one": "Використайте будь-яку адресу, домен, номер телефону із {{supportedNetworkNames}} тощо.",
       "sendV1_74_other": "Використовуйте будь-яку адресу, домен, номер телефону в наступних мережах: {{supportedNetworkNames}}",
       "swap": "Обміняйте свої токени, не виходячи з гаманця",
@@ -2219,18 +2219,18 @@
   },
   "jumpstartIntro": {
     "title": "Надсилайте криптовалюту як текстове повідомлення",
-    "description": "Live Links дозволяють надсилати криптовалюту в мережі Celo друзям за допомогою посилання",
-    "noFundsHint": "Щоб почати, вам знадобляться активи Celo у вашому гаманці.",
+    "description": "Live Links дозволяють надсилати криптовалюту в мережі CNDL друзям за допомогою посилання",
+    "noFundsHint": "Щоб почати, вам знадобляться активи CNDL у вашому гаманці.",
     "haveFundsButton": "Надіслати за прямим посиланням",
     "addFundsCelo": {
-      "title": "Отримайте активи на Celo",
-      "info": "Live Links дозволяють надсилати криптовалюту в мережі Celo друзям через посилання.\nЩоб почати, вам знадобляться активи CELO у вашому гаманці.",
-      "description": "Після внесення активів на Celo вам треба буде повернутися, щоб створити посилання Live Link.",
-      "cta": "Отримайте активи на Celo",
+      "title": "Отримайте активи на CNDL",
+      "info": "Live Links дозволяють надсилати криптовалюту в мережі CNDL друзям через посилання.\nЩоб почати, вам знадобляться активи CELO у вашому гаманці.",
+      "description": "Після внесення активів на CNDL вам треба буде повернутися, щоб створити посилання Live Link.",
+      "cta": "Отримайте активи на CNDL",
       "actionDescriptions": {
-        "add": "Придбайте активи на Celo через одного з наших надійних постачальників",
-        "swap": "Обміняйте один актив в мережі Celo на інший",
-        "transfer": "Скористайтеся будь-яким гаманцем, сумісним із Celo, або виконайте обмін для внесення активів на Celo"
+        "add": "Придбайте активи на CNDL через одного з наших надійних постачальників",
+        "swap": "Обміняйте один актив в мережі CNDL на інший",
+        "transfer": "Скористайтеся будь-яким гаманцем, сумісним із CNDL, або виконайте обмін для внесення активів на CNDL"
       }
     }
   },
@@ -2349,7 +2349,7 @@
   "error": "Помилка",
   "linkPhoneNumber": {
     "title": "Прив’яжіть номер телефону до адреси гаманця",
-    "description": "Досить заплутаних адрес гаманців! Надсилайте крипту іншим користувачам Celo за номером телефону",
+    "description": "Досить заплутаних адрес гаманців! Надсилайте крипту іншим користувачам CNDL за номером телефону",
     "startButtonLabel": "Прив’язати номер телефону",
     "later": "Я зроблю це пізніше"
   },
@@ -2826,8 +2826,8 @@
     "selectToken": "Вибрати токен",
     "fiatPriceUnavailable": "Ціна недоступна"
   },
-  "celoDollarAmount_0": "<0></0> Celo Dollar",
-  "celoDollarAmount_1": "<0></0> Celo Dollars",
-  "celoDollarAmount_2": "<0></0> Celo Dollars",
-  "celoDollarAmount_3": "Celo Dollars"
+  "celoDollarAmount_0": "<0></0> CNDL Dollar",
+  "celoDollarAmount_1": "<0></0> CNDL Dollars",
+  "celoDollarAmount_2": "<0></0> CNDL Dollars",
+  "celoDollarAmount_3": "CNDL Dollars"
 }

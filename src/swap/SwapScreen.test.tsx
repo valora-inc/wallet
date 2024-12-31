@@ -419,7 +419,7 @@ describe('SwapScreen', () => {
 
     fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
-    expect(within(fromTokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
+    expect(within(fromTokenBottomSheet).getByText('CNDL Dollar')).toBeTruthy()
     // should see TT even though it is marked as not swappable, because there is a balance
     expect(within(fromTokenBottomSheet).getByText('Test Token')).toBeTruthy()
     // should see not see POOF because it is marked as not swappable and there is no balance
@@ -594,7 +594,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(
       getByText(
-        'swapScreen.crossChainFeeWarning.body, {"networkName":"Celo Alfajores","tokenSymbol":"CNDL","tokenAmount":"1"}'
+        'swapScreen.crossChainFeeWarning.body, {"networkName":"CNDL Alfajores","tokenSymbol":"CNDL","tokenAmount":"1"}'
       )
     ).toBeTruthy()
   })
@@ -629,7 +629,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(
       getByText(
-        'swapScreen.crossChainFeeWarning.body, {"networkName":"Celo Alfajores","tokenSymbol":"CNDL","tokenAmount":"1"}'
+        'swapScreen.crossChainFeeWarning.body, {"networkName":"CNDL Alfajores","tokenSymbol":"CNDL","tokenAmount":"1"}'
       )
     ).toBeTruthy()
   })
@@ -1275,9 +1275,9 @@ describe('SwapScreen', () => {
       within(tokenBottomSheet).getByPlaceholderText('tokenBottomSheet.searchAssets')
     ).toBeTruthy()
 
-    expect(within(tokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
-    expect(within(tokenBottomSheet).getByText('Celo Euro')).toBeTruthy()
-    expect(within(tokenBottomSheet).getByText('Celo native asset')).toBeTruthy()
+    expect(within(tokenBottomSheet).getByText('CNDL Dollar')).toBeTruthy()
+    expect(within(tokenBottomSheet).getByText('CNDL Euro')).toBeTruthy()
+    expect(within(tokenBottomSheet).getByText('CNDL native asset')).toBeTruthy()
     expect(within(tokenBottomSheet).getByText('Poof Governance Token')).toBeTruthy()
     expect(within(tokenBottomSheet).queryByText('Test Token')).toBeFalsy()
   })
@@ -1500,11 +1500,11 @@ describe('SwapScreen', () => {
     selectSingleSwapToken(swapFromContainer, 'cUSD', swapScreen, Field.FROM)
 
     expect(
-      getByText('swapScreen.switchedToNetworkWarning.title, {"networkName":"Celo Alfajores"}')
+      getByText('swapScreen.switchedToNetworkWarning.title, {"networkName":"CNDL Alfajores"}')
     ).toBeTruthy()
     expect(
       getByText(
-        'swapScreen.switchedToNetworkWarning.body, {"networkName":"Celo Alfajores","context":"swapTo"}'
+        'swapScreen.switchedToNetworkWarning.body, {"networkName":"CNDL Alfajores","context":"swapTo"}'
       )
     ).toBeTruthy()
   })
@@ -1849,7 +1849,7 @@ describe('SwapScreen', () => {
       fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.selectNetwork'))
 
       // select celo filter
-      fireEvent.press(within(networkMultiSelect).getByTestId('Celo Alfajores-icon'))
+      fireEvent.press(within(networkMultiSelect).getByTestId('CNDL Alfajores-icon'))
 
       expectedCeloTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()

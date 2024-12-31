@@ -1,6 +1,6 @@
 {
   "invite": "เชิญ",
-  "celoRewards": "รางวัล Celo",
+  "celoRewards": "รางวัล CNDL",
   "languageSettings": "ภาษา",
   "localCurrencySetting": "สกุลเงิน",
   "licenses": "สิทธิ์การใช้งาน",
@@ -299,7 +299,7 @@
   "superchargeDisclaimerDayLimit": "การดำเนินการนี้จะไม่ส่งผลต่อยอดคงเหลือหรือรายได้ก่อนหน้าของคุณ <0>ดูข้อมูลเพิ่มเติม</0>",
   "superchargeTokenDetailsDialog": {
     "title": "สินทรัพย์ใดที่ฉันสามารถ Supercharge ได้",
-    "body": "คุณจะได้รับรางวัลทุกสัปดาห์ในรูปแบบ Celo stablecoin ด้วยมูลค่าสูงสุด (cEUR, cUSD, cREAL)",
+    "body": "คุณจะได้รับรางวัลทุกสัปดาห์ในรูปแบบ CNDL stablecoin ด้วยมูลค่าสูงสุด (cEUR, cUSD, cREAL)",
     "dismiss": "ปิด"
   },
   "superchargingTitle": "ต้องอัปเดตแอป",
@@ -343,7 +343,7 @@
   "learnMore": "ดูข้อมูลเพิ่มเติม",
   "equalToAmount": "เท่ากับ <1></1>",
   "whatIsGold": "{{appName}} อนุญาตให้คุณซื้อและขาย CELO",
-  "manageCelo": "จัดการ Celo ดอลลาร์",
+  "manageCelo": "จัดการ CNDL ดอลลาร์",
   "exchangeRate": "อัตราแลกเปลี่ยน",
   "exchangeRateValue": "<0></0> : 1 {{takerTokenCode}}",
   "history": "ประวัติ",
@@ -368,13 +368,13 @@
   "securityFee": "ค่าธรรมเนียมเครือข่าย",
   "exchangeFee": "ค่าธรรมเนียมการแลกเปลี่ยน",
   "edit": "แก้ไข",
-  "notEnoughDollars": "Celo ดอลลาร์ไม่เพียงพอที่จะทำการแลกเปลี่ยน",
+  "notEnoughDollars": "CNDL ดอลลาร์ไม่เพียงพอที่จะทำการแลกเปลี่ยน",
   "notEnoughGold": "CELO ไม่เพียงพอที่จะทำการแลกเปลี่ยน",
   "pending": "รอดำเนินการ",
   "loadingExchangeRate": "กำลังโหลดอัตราแลกเปลี่ยน...",
   "errorRefreshingRate": "ไม่สามารถรีเฟรชอัตราแลกเปลี่ยนได้",
   "exchangeRateChange": "อัตราแลกเปลี่ยนมีการเปลี่ยนแปลง โปรดลองอีกครั้ง",
-  "feeExchangeEducation": "เมื่อแลกเปลี่ยนระหว่างสินทรัพย์ จะมีค่าธรรมเนียมเล็กน้อยในการรักษามูลค่าของ Celo stablecoin ที่ผูกกับสินทรัพย์ที่ติดตาม \n\nไปที่คำถามที่พบบ่อย เพื่อดูข้อมูลเพิ่มเติม",
+  "feeExchangeEducation": "เมื่อแลกเปลี่ยนระหว่างสินทรัพย์ จะมีค่าธรรมเนียมเล็กน้อยในการรักษามูลค่าของ CNDL stablecoin ที่ผูกกับสินทรัพย์ที่ติดตาม \n\nไปที่คำถามที่พบบ่อย เพื่อดูข้อมูลเพิ่มเติม",
   "goldPrice": "ราคา CELO",
   "yourGoldBalance": "ยอดคงเหลือ CELO ของคุณ",
   "goldAmount": "จำนวนเงิน CELO",
@@ -406,14 +406,14 @@
   "amountCelo": "จำนวนเงิน (CELO)",
   "onlyCeloDollars": "cUSD เท่านั้น",
   "onlyCelo": "CELO เท่านั้น",
-  "celoDollar": "Celo ดอลลาร์",
-  "celoEuro": "Celo ยูโร",
-  "celoReal": "Celo Real",
-  "celoDollars": "Celo ดอลลาร์",
+  "celoDollar": "CNDL ดอลลาร์",
+  "celoEuro": "CNDL ยูโร",
+  "celoReal": "CNDL Real",
+  "celoDollars": "CNDL ดอลลาร์",
   "ether": "Ether",
   "tapToCopyCeloDollarsAddress": "แตะเพื่อคัดลอกที่อยู่ CUSD ของ {{appName}}",
   "disclaimerFiat": "มูลค่า {{currency}} เป็นค่าโดยประมาณ",
-  "dollarsNotYetEnabledNote": "ยังไม่มีผู้ให้บริการรายใดให้บริการ Celo ดอลลาร์ หากต้องการรับ Celo ดอลลาร์ ให้ซื้อ CELO แล้วแลกเป็น Celo ดอลลาร์ในแถบ CELO",
+  "dollarsNotYetEnabledNote": "ยังไม่มีผู้ให้บริการรายใดให้บริการ CNDL ดอลลาร์ หากต้องการรับ CNDL ดอลลาร์ ให้ซื้อ CELO แล้วแลกเป็น CNDL ดอลลาร์ในแถบ CELO",
   "selectDigitalCurrency": "เลือกสินทรัพย์",
   "selectPaymentMethod": "เลือกวิธีการ:",
   "payWithBank": "บัญชีธนาคาร",
@@ -490,7 +490,7 @@
   "done": "เสร็จสิ้น",
   "tip": "เคล็ดลับ:",
   "warning": "คำเตือน ",
-  "downloadRewards": "ดาวน์โหลดรางวัล Celo",
+  "downloadRewards": "ดาวน์โหลดรางวัล CNDL",
   "wallet": "กระเป๋าเงิน",
   "send": "ส่ง",
   "search": "ค้นหา",
@@ -508,8 +508,8 @@
   "receivedNft": "NFT ที่ได้รับ",
   "sentNft": "NFT ที่ส่ง",
   "getStarted": "เริ่มต้นใช้งาน",
-  "manageCeloDollars": "จัดการ Celo ดอลลาร์",
-  "sendCeloDollars": "ส่ง Celo ดอลลาร์",
+  "manageCeloDollars": "จัดการ CNDL ดอลลาร์",
+  "sendCeloDollars": "ส่ง CNDL ดอลลาร์",
   "startEarning": "เริ่มสร้างรายได้",
   "backToWallet": "กลับไปยังกระเป๋าเงิน",
   "exchangeForGold": "แลกเป็น CELO",
@@ -537,13 +537,13 @@
   "reclaim": "เรียกคืน",
   "claimed": "ขอรับแล้ว",
   "celoGold": "CELO",
-  "celoEuros": "Celo ยูโร",
+  "celoEuros": "CNDL ยูโร",
   "balanceAvailable": "<0></0> ใช้ได้",
   "subtotal": "ยอดรวมย่อย",
   "total": "ยอดรวม",
-  "totalInDollars": "Celo ดอลลาร์ @ <0></0>",
-  "totalInEuros": "Celo ยูโร @ <0></0>",
-  "totalInCelo": "Celo @ <0></0>",
+  "totalInDollars": "CNDL ดอลลาร์ @ <0></0>",
+  "totalInEuros": "CNDL ยูโร @ <0></0>",
+  "totalInCelo": "CNDL @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "tokenExchangeRateApprox": "1 {{symbol}} ≈ <0></0>",
@@ -663,15 +663,15 @@
   "goldEducationSteps": [
     {
       "title": "CELO คืออะไร",
-      "text": "CELO คือสกุลเงินดิจิทัลที่รักษามูลค่าของ Celo ดอลลาร์ (cUSD) ไว้ให้คงที่"
+      "text": "CELO คือสกุลเงินดิจิทัลที่รักษามูลค่าของ CNDL ดอลลาร์ (cUSD) ไว้ให้คงที่"
     },
     {
       "title": "การเปลี่ยนแปลงราคาของ CELO",
-      "text": "หากมีคนใช้ Celo ดอลลาร์มากขึ้น มูลค่าของ CELO ก็จะมากขึ้น ขณะที่มูลค่าของ Celo ดอลลาร์จะไม่เปลี่ยนแปลงเหมือน CELO"
+      "text": "หากมีคนใช้ CNDL ดอลลาร์มากขึ้น มูลค่าของ CELO ก็จะมากขึ้น ขณะที่มูลค่าของ CNDL ดอลลาร์จะไม่เปลี่ยนแปลงเหมือน CELO"
     },
     {
-      "title": "ร่วมสร้างเครือข่าย Celo",
-      "text": "การถือ CELO เท่ากับคุณสามารถโหวตสำหรับเปลี่ยนแปลงหรือคุณสมบัติที่คุณต้องการเห็นบนเครือข่าย Celo"
+      "title": "ร่วมสร้างเครือข่าย CNDL",
+      "text": "การถือ CELO เท่ากับคุณสามารถโหวตสำหรับเปลี่ยนแปลงหรือคุณสมบัติที่คุณต้องการเห็นบนเครือข่าย CNDL"
     },
     {
       "title": "โปรดซื้อขายอย่างมีความรับผิดชอบ",
@@ -993,7 +993,7 @@
   "verificationUnavailable": "การเชื่อมต่อหมายเลขโทรศัพท์ไม่สามารถใช้ได้ในขณะนี้ โปรดป้อนหมายเลขโทรศัพท์ของคุณและเราจะแจ้งให้คุณทราบเมื่อสามารถเชื่อมต่อได้อีกครั้ง\n\nระหว่างนี้ คุณสามารถใช้ {{appName}} ต่อด้วย QR Code หรือที่อยู่บัญชีได้ ไม่ต้องกังวล คุณยังคงจะได้รับการชำระเงินที่ส่งไปยังหมายเลขโทรศัพท์ของคุณเมื่อคุณเชื่อมต่อหมายเลขโทรศัพท์กับบัญชีของคุณแล้ว",
   "requests": "การส่งคำขอ",
   "empty": "คุณไม่มีการส่งคำขอการชำระเงิน",
-  "celoDollarBalance": "ยอดคงเหลือ Celo ดอลลาร์",
+  "celoDollarBalance": "ยอดคงเหลือ CNDL ดอลลาร์",
   "requestDeclined": "การส่งคำขอถูกปฏิเสธ",
   "requestPaid": "การส่งคำขอได้รับการชำระเงินแล้ว",
   "paymentRequestUpdateFailed": "ไม่สามารถอัปเดตการส่งคำขอการชำระเงิน",
@@ -1168,7 +1168,7 @@
     "sendTransactionAction": "ส่ง",
     "unsupportedChain": {
       "title": "ไม่รองรับเครือข่าย",
-      "description": "{{dappName}} กำลังขอให้ดำเนินการนี้บนเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่า Celo เป็นเครือข่ายที่ใช้งานอยู่ในฝั่ง Dapp",
+      "description": "{{dappName}} กำลังขอให้ดำเนินการนี้บนเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่า CNDL เป็นเครือข่ายที่ใช้งานอยู่ในฝั่ง Dapp",
       "descriptionV1_74_one": "{{dappName}} กำลังขอให้ดำเนินการนี้บนเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่า {{supportedNetworkNames}} เป็นเครือข่ายที่ใช้งานอยู่ในฝั่ง Dapp",
       "descriptionV1_74_other": "{{dappName}} กำลังขอให้ดำเนินการนี้บนเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่าเครือข่ายที่ใช้งานอยู่ในฝั่ง Dapp เป็นหนึ่งในเครือข่ายต่อไปนี้: {{supportedNetworkNames}}"
     },
@@ -1183,13 +1183,13 @@
     "session": {
       "failUnsupportedNamespace": {
         "title": "ไม่รองรับเครือข่าย",
-        "description": "{{dappName}} ต้องการเชื่อมต่อกับเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่าได้เลือก Celo แล้วในฝั่ง Dapp",
+        "description": "{{dappName}} ต้องการเชื่อมต่อกับเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่าได้เลือก CNDL แล้วในฝั่ง Dapp",
         "descriptionV1_74_one": "{{dappName}} ต้องการเชื่อมต่อกับเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่าได้เลือก {{supportedNetworkNames}} แล้วในฝั่ง Dapp",
         "descriptionV1_74_other": "{{dappName}} ต้องการเชื่อมต่อกับเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่าได้เลือกหนึ่งในเครือข่ายต่อไปนี้ในฝั่ง Dapp: {{supportedNetworkNames}}"
       },
       "warnUnsupportedChains": {
         "title": "ไม่รองรับเครือข่าย",
-        "description": "{{dappName}} ไม่ได้ระบุว่า Celo เป็นเครือข่ายที่รองรับ คุณสมบัติบางอย่างอาจไม่ทำงานตามที่คาดไว้",
+        "description": "{{dappName}} ไม่ได้ระบุว่า CNDL เป็นเครือข่ายที่รองรับ คุณสมบัติบางอย่างอาจไม่ทำงานตามที่คาดไว้",
         "descriptionV1_74_one": "{{dappName}} ไม่ได้ระบุว่า {{supportedNetworkNames}} เป็นเครือข่ายที่รองรับ คุณสมบัติบางอย่างอาจไม่ทำงานตามที่คาดไว้",
         "descriptionV1_74_other": "{{dappName}} ไม่ได้ระบุว่ารายการต่อไปนี้เป็นเครือข่ายที่รองรับ: {{supportedNetworkNames}} คุณสมบัติบางอย่างอาจไม่ทำงานตามที่คาดไว้"
       },
@@ -1240,7 +1240,7 @@
   "viewAll": "ดูทั้งหมด",
   "noNotificationsPlaceholder": "คุณทำเสร็จหมดแล้ว!",
   "thanksForVerifying": "ขอขอบคุณสำหรับการเชื่อมต่อ",
-  "goldIsWhereYouSave": "CELO คือที่ที่คุณสามารถเก็บเงิน Celo ดอลลาร์ที่คุณมี",
+  "goldIsWhereYouSave": "CELO คือที่ที่คุณสามารถเก็บเงิน CNDL ดอลลาร์ที่คุณมี",
   "dinner": "อาหารค่ำ",
   "bikeParts": "อะไหล่จักรยาน",
   "groceryRun": "ซื้อของใช้",
@@ -1252,7 +1252,7 @@
   "verificationFee": "ค่าธรรมเนียมการยืนยัน",
   "networkFee": "ค่าธรรมเนียมเครือข่าย",
   "networkFeeExplanation": {
-    "0": "ทุกสัปดาห์ จะมีการใช้ค่าธรรมเนียมจำนวนเล็กน้อยมากๆ (น้อยกว่า 0.01%) ของยอดคงเหลือ Celo ดอลลาร์ของผู้ใช้ทุกรายเพื่อรักษามูลค่าของ Celo ดอลลาร์ให้คงที่ ดูข้อมูลเพิ่มเติมเกี่ยวกับค่าธรรมเนียมของ Celo โดยเข้าไปที่ ",
+    "0": "ทุกสัปดาห์ จะมีการใช้ค่าธรรมเนียมจำนวนเล็กน้อยมากๆ (น้อยกว่า 0.01%) ของยอดคงเหลือ CNDL ดอลลาร์ของผู้ใช้ทุกรายเพื่อรักษามูลค่าของ CNDL ดอลลาร์ให้คงที่ ดูข้อมูลเพิ่มเติมเกี่ยวกับค่าธรรมเนียมของ CNDL โดยเข้าไปที่ ",
     "1": "คำถามที่พบบ่อย"
   },
   "confirmingTransaction": "กำลังยืนยัน...",
@@ -1292,20 +1292,20 @@
   "feedItemBoughtCeloTitle": "CELO ที่ซื้อไป",
   "feedItemSoldCeloTitle": "CELO ที่ขายไป",
   "feedItemExchangeCeloInfo": "{{amount}} @ {{price}}",
-  "feedItemVerificationFeeTitle": "Celo",
+  "feedItemVerificationFeeTitle": "CNDL",
   "feedItemVerificationFeeInfo": "$t(verificationFee)",
-  "feedItemNetworkFeeTitle": "Celo",
+  "feedItemNetworkFeeTitle": "CNDL",
   "feedItemNetworkFeeInfo": "ค่าธรรมเนียมเครือข่าย",
-  "feedItemVerificationRewardTitle": "Celo",
+  "feedItemVerificationRewardTitle": "CNDL",
   "feedItemVerificationRewardInfo": "รางวัลที่ยืนยัน",
   "feedItemFailedTransaction": "ธุรกรรมล้มเหลว",
-  "feedItemFaucetTitle": "Celo",
+  "feedItemFaucetTitle": "CNDL",
   "feedItemFaucetInfo": "{{faucet}} ฟอเซ็ต",
   "feedItemFaucetInfo_noTestnet": "ฟอเซ็ต",
-  "feedItemInviteSentTitle": "Celo",
+  "feedItemInviteSentTitle": "CNDL",
   "feedItemInviteSentInfo": "เชิญ {{nameOrNumber}} แล้ว",
   "feedItemInviteSentInfo_noInviteeDetails": "$t(inviteSent)",
-  "feedItemInviteReceivedTitle": "Celo",
+  "feedItemInviteReceivedTitle": "CNDL",
   "feedItemInviteReceivedInfo": "$t(inviteReceived)",
   "feedItemSentTitle": "{{displayName}}",
   "feedItemSentInfo": "{{comment}}",
@@ -1977,7 +1977,7 @@
   },
   "celoNews": {
     "headerTitle": "ข่าว",
-    "headerDescription": "เรียนรู้เกี่ยวกับกรณีการใช้งานนักบินและการอัปเดตทางเทคนิคในบล็อก Celo",
+    "headerDescription": "เรียนรู้เกี่ยวกับกรณีการใช้งานนักบินและการอัปเดตทางเทคนิคในบล็อก CNDL",
     "readMoreButtonText": "อ่านเพิ่มเติมเกี่ยวกับบล็อก",
     "loadingError": "ขออภัยเราไม่สามารถโหลดการอัปเดตล่าสุดได้ กรุณาลองใหม่อีกครั้งในภายหลัง.",
     "retryButtonText": "ลองอีกครั้ง"
@@ -1991,7 +1991,7 @@
       "dapp": "ค้นหาวิธีใช้คริปโต",
       "earn": "หาโอกาสในการสร้างรายได้",
       "profile": "สร้างโปรไฟล์ของคุณ",
-      "learn": "เรียนรู้เกี่ยวกับ Celo",
+      "learn": "เรียนรู้เกี่ยวกับ CNDL",
       "learnPoints": "เรียนรู้เกี่ยวกับคะแนน {{appName}}"
     }
   },
@@ -2034,7 +2034,7 @@
     "noNfts": "NFT ของคุณจะแสดงที่นี่เมื่อคุณมี NFT ในกระเป๋าเงิน"
   },
   "nftInfoCarousel": {
-    "viewOnCeloExplorer": "ดูใน Celo Explorer",
+    "viewOnCeloExplorer": "ดูใน CNDL Explorer",
     "attributes": "คุณลักษณะ",
     "description": "คำอธิบาย",
     "noNftsFound": "ไม่พบ NFT",
@@ -2085,7 +2085,7 @@
     },
     "moreActions": "ดำเนินการเพิ่มเติม",
     "actionDescriptions": {
-      "send": "ใช้ที่อยู่ Celo โดเมน หมายเลขโทรศัพท์ เป็นต้น",
+      "send": "ใช้ที่อยู่ CNDL โดเมน หมายเลขโทรศัพท์ เป็นต้น",
       "sendV1_74_one": "ใช้ที่อยู่ โดเมน หมายเลขโทรศัพท์ของ {{supportedNetworkNames}} เป็นต้น",
       "sendV1_74_other": "ใช้ที่อยู่ โดเมน หมายเลขโทรศัพท์บนเครือข่ายต่อไปนี้: {{supportedNetworkNames}}",
       "swap": "สว็อปโทเค็นโดยไม่ต้องออกจากกระเป๋าเงินของคุณ",
@@ -2213,18 +2213,18 @@
   },
   "jumpstartIntro": {
     "title": "แชร์คริปโตได้ง่ายเหมือนแชร์ข้อความ",
-    "description": "ลิงก์สดเป็นวิธีที่คุณสามารถส่งคริปโตบนเครือข่าย Celo ให้กับเพื่อนด้วยลิงก์",
-    "noFundsHint": "ในการเริ่มต้นใช้งาน คุณจำเป็นต้องมีสินทรัพย์บน Celo ในกระเป๋าเงินของคุณอยู่บ้าง",
+    "description": "ลิงก์สดเป็นวิธีที่คุณสามารถส่งคริปโตบนเครือข่าย CNDL ให้กับเพื่อนด้วยลิงก์",
+    "noFundsHint": "ในการเริ่มต้นใช้งาน คุณจำเป็นต้องมีสินทรัพย์บน CNDL ในกระเป๋าเงินของคุณอยู่บ้าง",
     "haveFundsButton": "ส่งพร้อมลิงก์สด",
     "addFundsCelo": {
-      "title": "รับสินทรัพย์บน Celo",
-      "info": "ลิงก์สด (Live Link) เป็นช่องทางในการส่งคริปโตบนเครือข่าย Celo ให้กับเพื่อนด้วยลิงก์ \nก่อนอื่นคุณจะต้องมีสินทรัพย์ CELO ในกระเป๋าเงิน",
-      "description": "เมื่อเพิ่มสินทรัพย์บน Celo แล้ว คุณจะต้องกลับมาเพื่อสร้างลิงก์สด",
-      "cta": "รับสินทรัพย์บน Celo",
+      "title": "รับสินทรัพย์บน CNDL",
+      "info": "ลิงก์สด (Live Link) เป็นช่องทางในการส่งคริปโตบนเครือข่าย CNDL ให้กับเพื่อนด้วยลิงก์ \nก่อนอื่นคุณจะต้องมีสินทรัพย์ CELO ในกระเป๋าเงิน",
+      "description": "เมื่อเพิ่มสินทรัพย์บน CNDL แล้ว คุณจะต้องกลับมาเพื่อสร้างลิงก์สด",
+      "cta": "รับสินทรัพย์บน CNDL",
       "actionDescriptions": {
-        "add": "ซื้อสินทรัพย์บน Celo ผ่านหนึ่งในผู้ให้บริการที่น่าเชื่อถือของเรา",
-        "swap": "สว็อปสินทรัพย์บน Celo จากสินทรัพย์อื่น",
-        "transfer": "ใช้กระเป๋าเงินหรือกระดานแลกเปลี่ยนที่ใช้งานร่วมกันได้กับ Celo เพื่อฝากสินทรัพย์บน Celo"
+        "add": "ซื้อสินทรัพย์บน CNDL ผ่านหนึ่งในผู้ให้บริการที่น่าเชื่อถือของเรา",
+        "swap": "สว็อปสินทรัพย์บน CNDL จากสินทรัพย์อื่น",
+        "transfer": "ใช้กระเป๋าเงินหรือกระดานแลกเปลี่ยนที่ใช้งานร่วมกันได้กับ CNDL เพื่อฝากสินทรัพย์บน CNDL"
       }
     }
   },
@@ -2343,7 +2343,7 @@
   "error": "ข้อผิดพลาด",
   "linkPhoneNumber": {
     "title": "เชื่อมโยงหมายเลขโทรศัพท์กับที่อยู่กระเป๋าเงินของคุณ",
-    "description": "ไม่ต้องใช้ที่อยู่กระเป๋าเงินที่ยุ่งยากอีกต่อไป! ส่งคริปโตให้กับผู้ใช้ Celo คนอื่นๆ โดยใช้แค่หมายเลขโทรศัพท์",
+    "description": "ไม่ต้องใช้ที่อยู่กระเป๋าเงินที่ยุ่งยากอีกต่อไป! ส่งคริปโตให้กับผู้ใช้ CNDL คนอื่นๆ โดยใช้แค่หมายเลขโทรศัพท์",
     "startButtonLabel": "เชื่อมโยงหมายเลขโทรศัพท์",
     "later": "ไว้ทีหลัง"
   },
@@ -2820,5 +2820,5 @@
     "selectToken": "เลือกโทเค็น",
     "fiatPriceUnavailable": "ไม่มีราคา"
   },
-  "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
+  "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; CNDL ดอลลาร์"
 }

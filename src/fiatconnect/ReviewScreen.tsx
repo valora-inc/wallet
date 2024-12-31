@@ -491,7 +491,7 @@ function TransactionDetails({
   let tokenDisplay: string
   switch (tokenInfo?.name) {
     case 'cUSD':
-      tokenDisplay = t('celoDollar')
+      tokenDisplay = t('cndlDollar')
       break
     case 'cEUR':
       tokenDisplay = t('celoEuro')

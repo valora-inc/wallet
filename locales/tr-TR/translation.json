@@ -1,6 +1,6 @@
 {
   "invite": "Davet Et",
-  "celoRewards": "Celo Ödülleri",
+  "celoRewards": "CNDL Ödülleri",
   "languageSettings": "Dil",
   "localCurrencySetting": "Para Birimi",
   "licenses": "Lisanslar",
@@ -299,7 +299,7 @@
   "superchargeDisclaimerDayLimit": "Bu durum bakiyenizi veya önceki kazançlarınızı etkilemeyecektir. <0>Daha fazla bilgi</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Hangi varlıklara Supercharge uygulayabilirim?",
-    "body": "Celo stablecoinlerinizden en yüksek değeri olanla (cEUR, cUSD, cREAL) haftalık olarak ödüllendirileceksiniz.",
+    "body": "CNDL stablecoinlerinizden en yüksek değeri olanla (cEUR, cUSD, cREAL) haftalık olarak ödüllendirileceksiniz.",
     "dismiss": "Yoksay"
   },
   "superchargingTitle": "Uygulama güncellemesi gerekli",
@@ -343,7 +343,7 @@
   "learnMore": "Daha Fazla Bilgi Edinin",
   "equalToAmount": "<1></1>'a eşit",
   "whatIsGold": "{{appName}}, CELO alıp satmanıza olanak tanır",
-  "manageCelo": "Celo Dollar'larınızı Yönetin",
+  "manageCelo": "CNDL Dollar'larınızı Yönetin",
   "exchangeRate": "Döviz Kuru",
   "exchangeRateValue": "<0></0> : 1 {{takerTokenCode}}",
   "history": "Geçmiş",
@@ -368,13 +368,13 @@
   "securityFee": "Ağ Ücreti",
   "exchangeFee": "Dönüşüm Ücreti ",
   "edit": "Düzenle",
-  "notEnoughDollars": "Dönüştürmek için yeterli Celo Dollar mevcut değil",
+  "notEnoughDollars": "Dönüştürmek için yeterli CNDL Dollar mevcut değil",
   "notEnoughGold": "Dönüştürmek için yeterli CELO mevcut değil",
   "pending": "Beklemede",
   "loadingExchangeRate": "Döviz Kuru Yükleniyor...",
   "errorRefreshingRate": "Döviz kuru yenilenemedi",
   "exchangeRateChange": "Döviz kuru değişti, lütfen tekrar deneyin",
-  "feeExchangeEducation": "Varlıklar arasında değiş tokuş yaparken, Celo stablecoinlerinin değerini sabit tutabilmek için bir işlem ücreti alınır.\n\nDaha fazla bilgi için SSS'a göz atın.",
+  "feeExchangeEducation": "Varlıklar arasında değiş tokuş yaparken, CNDL stablecoinlerinin değerini sabit tutabilmek için bir işlem ücreti alınır.\n\nDaha fazla bilgi için SSS'a göz atın.",
   "goldPrice": "CELO Fiyatı",
   "yourGoldBalance": "CELO Bakiyeniz",
   "goldAmount": "CELO Miktarı",
@@ -406,14 +406,14 @@
   "amountCelo": "Miktar (CELO)",
   "onlyCeloDollars": "Sadece cUSD",
   "onlyCelo": "Sadece CELO",
-  "celoDollar": "Celo Dollar",
-  "celoEuro": "Celo Eurosu",
-  "celoReal": "Celo Real",
-  "celoDollars": "Celo Dollars",
+  "celoDollar": "CNDL Dollar",
+  "celoEuro": "CNDL Eurosu",
+  "celoReal": "CNDL Real",
+  "celoDollars": "CNDL Dollars",
   "ether": "Ether",
   "tapToCopyCeloDollarsAddress": "{{appName}} cUSD adresinizi kopyalamak için dokunun",
   "disclaimerFiat": "{{currency}} değerleri tahminidir.",
-  "dollarsNotYetEnabledNote": "Celo Dollar henüz hiçbir sağlayıcıda mevcut değil. Celo Dollar almak için CELO satın alın ve CELO sekmesinde Celo Dollar'a dönüştürün.",
+  "dollarsNotYetEnabledNote": "CNDL Dollar henüz hiçbir sağlayıcıda mevcut değil. CNDL Dollar almak için CELO satın alın ve CELO sekmesinde CNDL Dollar'a dönüştürün.",
   "selectDigitalCurrency": "Bir varlık seçin",
   "selectPaymentMethod": "Yöntem seçin:",
   "payWithBank": "Banka hesabı",
@@ -490,7 +490,7 @@
   "done": "Tamamlandı",
   "tip": "İpucu: ",
   "warning": "Uyarı ",
-  "downloadRewards": "Celo Ödüllerini indir",
+  "downloadRewards": "CNDL Ödüllerini indir",
   "wallet": "Cüzdan",
   "send": "Gönder",
   "search": "Arama",
@@ -508,8 +508,8 @@
   "receivedNft": "NFT Alındı",
   "sentNft": "NFT Gönderildi",
   "getStarted": "Başlayın",
-  "manageCeloDollars": "Celo Dollar'ları Yönetin",
-  "sendCeloDollars": "Celo Dollar Gönderin",
+  "manageCeloDollars": "CNDL Dollar'ları Yönetin",
+  "sendCeloDollars": "CNDL Dollar Gönderin",
   "startEarning": "Kazanmaya Başlayın",
   "backToWallet": "Cüzdana geri dön",
   "exchangeForGold": "CELO'ya dönüştür",
@@ -537,13 +537,13 @@
   "reclaim": "İade Al",
   "claimed": "Talep Edildi",
   "celoGold": "CELO",
-  "celoEuros": "Celo Euro",
+  "celoEuros": "CNDL Euro",
   "balanceAvailable": "<0></0> mevcut",
   "subtotal": "Toplam",
   "total": "Toplam",
-  "totalInDollars": "Celo Dollars @ <0></0>",
-  "totalInEuros": "Celo Euro @ <0></0>",
-  "totalInCelo": "Celo @ <0></0>",
+  "totalInDollars": "CNDL Dollars @ <0></0>",
+  "totalInEuros": "CNDL Euro @ <0></0>",
+  "totalInCelo": "CNDL @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "tokenExchangeRateApprox": "1 {{symbol}} ≈ <0></0>",
@@ -663,15 +663,15 @@
   "goldEducationSteps": [
     {
       "title": "CELO Nedir?",
-      "text": "CELO, Celo Dollar'ın (cUSD) stabil olmasını sağlayan dijital bir para birimidir."
+      "text": "CELO, CNDL Dollar'ın (cUSD) stabil olmasını sağlayan dijital bir para birimidir."
     },
     {
       "title": "CELO'nun fiyatı değişkendir",
-      "text": "Celo Dollar'ı ne kadar fazla kişi kullanırsa CELO'nun değeri de o kadar artar. CELO'nun aksine Celo Dollar'ın değeri ise değişmez. "
+      "text": "CNDL Dollar'ı ne kadar fazla kişi kullanırsa CELO'nun değeri de o kadar artar. CELO'nun aksine CNDL Dollar'ın değeri ise değişmez. "
     },
     {
-      "title": "Celo Ağına katkıda bulunun",
-      "text": "Hesabınızda CELO tuttuğunuzda, Celo Ağı'nda görmek istediğiniz değişiklikler ve özellikler için oy kullanma olanağına da sahip olursunuz."
+      "title": "CNDL Ağına katkıda bulunun",
+      "text": "Hesabınızda CELO tuttuğunuzda, CNDL Ağı'nda görmek istediğiniz değişiklikler ve özellikler için oy kullanma olanağına da sahip olursunuz."
     },
     {
       "title": "Lütfen sorumlu bir şekilde satın alın ve satın",
@@ -995,7 +995,7 @@
   "verificationUnavailable": "Telefon numarası bağlantısı şu anda kullanılamıyor. Lütfen telefon numaranızı girin, tekrar bağlanmak mümkün olduğunda sizi bilgilendireceğiz.\n\nBu arada {{appName}} uygulamasını QR kodları veya Hesap Adresleri ile kullanmaya devam edebilirsiniz. Endişelenmeyin, telefon numaranıza gönderilen ödemeler siz numarayı hesabınıza bağlayana kadar sizi bekliyor olacak.",
   "requests": "İstekler",
   "empty": "Ödeme İsteğiniz bulunmuyor",
-  "celoDollarBalance": "Celo Dollar Bakiyesi",
+  "celoDollarBalance": "CNDL Dollar Bakiyesi",
   "requestDeclined": "İstek Reddedildi",
   "requestPaid": "İsteğe ait ödeme gerçekleşti",
   "paymentRequestUpdateFailed": "Ödeme isteği güncellenemiyor",
@@ -1170,7 +1170,7 @@
     "sendTransactionAction": "Gönder",
     "unsupportedChain": {
       "title": "Desteklenmeyen zincir",
-      "description": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun.",
+      "description": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen CNDL'nun dapp tarafında aktif zincir olduğundan emin olun.",
       "descriptionV1_74_one": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen {{supportedNetworkNames}} ağının dapp tarafında aktif zincir olduğundan emin olun.",
       "descriptionV1_74_other": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen dapp üzerindeki aktif zincirin şunlardan biri olduğundan emin olun: {{supportedNetworkNames}}."
     },
@@ -1185,13 +1185,13 @@
     "session": {
       "failUnsupportedNamespace": {
         "title": "Desteklenmeyen zincir",
-        "description": "{{dappName}}, {{appName}} tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyor. Lütfen Celo'nun dapp tarafında seçili olduğundan emin olun.",
+        "description": "{{dappName}}, {{appName}} tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyor. Lütfen CNDL'nun dapp tarafında seçili olduğundan emin olun.",
         "descriptionV1_74_one": "{{dappName}}, {{appName}} tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyor. Lütfen {{supportedNetworkNames}} ağının dapp tarafında seçili olduğundan emin olun.",
         "descriptionV1_74_other": "{{dappName}}, {{appName}} tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyor. Lütfen dapp tarafında şunlardan birinin seçili olduğundan emin olun: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Desteklenmeyen zincir",
-        "description": "{{dappName}} Celo'yu desteklenen bir zincir olarak belirtmedi. Bazı özellikler beklendiği gibi çalışmayabilir.",
+        "description": "{{dappName}} CNDL'yu desteklenen bir zincir olarak belirtmedi. Bazı özellikler beklendiği gibi çalışmayabilir.",
         "descriptionV1_74_one": "{{dappName}} {{supportedNetworkNames}}'yu desteklenen bir zincir olarak belirtmedi. Bazı özellikler beklendiği gibi çalışmayabilir.",
         "descriptionV1_74_other": "{{dappName}} aşağıdakilerden herhangi birini desteklenen bir zincir olarak belirtmemiştir: {{supportedNetworkNames}}. Bazı özellikler beklendiği gibi çalışmayabilir."
       },
@@ -1242,7 +1242,7 @@
   "viewAll": "Tümünü Göster",
   "noNotificationsPlaceholder": "Siz de katıldınız!",
   "thanksForVerifying": "Bağlandığınız için teşekkürler",
-  "goldIsWhereYouSave": "Celo, sahip olduğunuz Celo Dollar'larını biriktirebileceğiniz yerdir",
+  "goldIsWhereYouSave": "CNDL, sahip olduğunuz CNDL Dollar'larını biriktirebileceğiniz yerdir",
   "dinner": "Akşam Yemeği",
   "bikeParts": "Bisiklet Parçaları",
   "groceryRun": "Market Alışverişi",
@@ -1254,7 +1254,7 @@
   "verificationFee": "Onaylama Ücreti",
   "networkFee": "Ağ Ücreti",
   "networkFeeExplanation": {
-    "0": "Her hafta, Celo Dollar'ın değerini sabit tutmak için her kullanıcının Celo Dollar Bakiyesinden çok küçük bir ücret (%0.01'den az) kullanılır. Celo ücretleri hakkında daha fazla bilgi edinmek için şurayı ziyaret edin ",
+    "0": "Her hafta, CNDL Dollar'ın değerini sabit tutmak için her kullanıcının CNDL Dollar Bakiyesinden çok küçük bir ücret (%0.01'den az) kullanılır. CNDL ücretleri hakkında daha fazla bilgi edinmek için şurayı ziyaret edin ",
     "1": "SSS"
   },
   "confirmingTransaction": "Onaylanıyor…",
@@ -1294,20 +1294,20 @@
   "feedItemBoughtCeloTitle": "Satın Alınan CELO",
   "feedItemSoldCeloTitle": "Satılan CELO",
   "feedItemExchangeCeloInfo": "{{amount}} @ {{price}}",
-  "feedItemVerificationFeeTitle": "Celo",
+  "feedItemVerificationFeeTitle": "CNDL",
   "feedItemVerificationFeeInfo": "$t(verificationFee)",
-  "feedItemNetworkFeeTitle": "Celo",
+  "feedItemNetworkFeeTitle": "CNDL",
   "feedItemNetworkFeeInfo": "Ağ Ücreti",
-  "feedItemVerificationRewardTitle": "Celo",
+  "feedItemVerificationRewardTitle": "CNDL",
   "feedItemVerificationRewardInfo": "Onaylayıcı Ödülü",
   "feedItemFailedTransaction": "Başarısız İşlem",
-  "feedItemFaucetTitle": "Celo",
+  "feedItemFaucetTitle": "CNDL",
   "feedItemFaucetInfo": "{{faucet}} Faucet",
   "feedItemFaucetInfo_noTestnet": "Faucet",
-  "feedItemInviteSentTitle": "Celo",
+  "feedItemInviteSentTitle": "CNDL",
   "feedItemInviteSentInfo": "{{nameOrNumber}} davet edildi",
   "feedItemInviteSentInfo_noInviteeDetails": "$t(inviteSent)",
-  "feedItemInviteReceivedTitle": "Celo",
+  "feedItemInviteReceivedTitle": "CNDL",
   "feedItemInviteReceivedInfo": "$t(inviteReceived)",
   "feedItemSentTitle": "{{displayName}}",
   "feedItemSentInfo": "{{comment}}",
@@ -1979,7 +1979,7 @@
   },
   "celoNews": {
     "headerTitle": "Güncellemeler",
-    "headerDescription": "Celo blogunda kullanım örnekleri, pilot uygulamalar ve teknik güncellemeler hakkında bilgi edinin.",
+    "headerDescription": "CNDL blogunda kullanım örnekleri, pilot uygulamalar ve teknik güncellemeler hakkında bilgi edinin.",
     "readMoreButtonText": "Daha fazlasını blogda okuyun",
     "loadingError": "Üzgünüz, en son güncellemeleri yükleyemedik. Lütfen daha sonra tekrar deneyin.",
     "retryButtonText": "Yeniden Dene"
@@ -1993,7 +1993,7 @@
       "dapp": "Kriptoyu kullanmanın yollarını bulma",
       "earn": "Kazanç fırsatlarını keşfedin",
       "profile": "Profilimi oluşturma",
-      "learn": "Celo hakkında bilgi edinme",
+      "learn": "CNDL hakkında bilgi edinme",
       "learnPoints": "{{appName}} Puanları hakkında daha fazla bilgi edinin"
     }
   },
@@ -2036,7 +2036,7 @@
     "noNfts": "Cüzdanınızda bir tane olduğunda NFT'leriniz burada görüntülenecektir"
   },
   "nftInfoCarousel": {
-    "viewOnCeloExplorer": "Celo Explorer'da görüntüle",
+    "viewOnCeloExplorer": "CNDL Explorer'da görüntüle",
     "attributes": "Nitelikler",
     "description": "Açıklama",
     "noNftsFound": "NFT bulunamadı",
@@ -2087,7 +2087,7 @@
     },
     "moreActions": "Daha Fazla Eylem",
     "actionDescriptions": {
-      "send": "Herhangi bir Celo adresi, alan adı, telefon numarası vb. kullanın.",
+      "send": "Herhangi bir CNDL adresi, alan adı, telefon numarası vb. kullanın.",
       "sendV1_74_one": "Bir {{supportedNetworkNames}} adresi, alan adı, telefon numarası vb. kullanın.",
       "sendV1_74_other": "Şu ağlardaki bir adres, alan adı, telefon numarasını kullanın: {{supportedNetworkNames}}",
       "swap": "Tokenlerinizi cüzdanınızdan çıkmadan swap edin",
@@ -2215,18 +2215,18 @@
   },
   "jumpstartIntro": {
     "title": "Bir metin gibi kripto paylaşın",
-    "description": "Canlı Bağlantılar ile Celo ağındaki bir arkadaşınıza bir bağlantı ile kripto gönderebilirsiniz",
-    "noFundsHint": "Kullanmaya başlamak için cüzdanınızda Celo ağında bazı varlıklar olmalıdır.",
+    "description": "Canlı Bağlantılar ile CNDL ağındaki bir arkadaşınıza bir bağlantı ile kripto gönderebilirsiniz",
+    "noFundsHint": "Kullanmaya başlamak için cüzdanınızda CNDL ağında bazı varlıklar olmalıdır.",
     "haveFundsButton": "Canlı Bağlantı ile Gönder",
     "addFundsCelo": {
-      "title": "Celo'da Varlık Alın",
-      "info": "Canlı Bağlantılar, Celo ağındaki kriptoyu bir bağlantı ile bir arkadaşınıza göndermenin bir yoludur.\nBaşlamak için cüzdanınızda biraz CELO varlığına ihtiyacınız vardır.",
-      "description": "Celo'ya varlık ekledikten sonra Canlı Bağlantı oluşturmak için geri gelmeniz gerekir.",
-      "cta": "Celo'da Varlık Alın",
+      "title": "CNDL'da Varlık Alın",
+      "info": "Canlı Bağlantılar, CNDL ağındaki kriptoyu bir bağlantı ile bir arkadaşınıza göndermenin bir yoludur.\nBaşlamak için cüzdanınızda biraz CELO varlığına ihtiyacınız vardır.",
+      "description": "CNDL'ya varlık ekledikten sonra Canlı Bağlantı oluşturmak için geri gelmeniz gerekir.",
+      "cta": "CNDL'da Varlık Alın",
       "actionDescriptions": {
-        "add": "Güvenilir sağlayıcılarımızdan birini kullanarak Celo'da varlık satın alın",
-        "swap": "Celo'daki bir varlığı başka bir varlıkla takas edin",
-        "transfer": "Celo'ya varlık yatırmak için Celo uyumlu cüzdan veya borsa kullanın"
+        "add": "Güvenilir sağlayıcılarımızdan birini kullanarak CNDL'da varlık satın alın",
+        "swap": "CNDL'daki bir varlığı başka bir varlıkla takas edin",
+        "transfer": "CNDL'ya varlık yatırmak için CNDL uyumlu cüzdan veya borsa kullanın"
       }
     }
   },
@@ -2345,7 +2345,7 @@
   "error": "Hata",
   "linkPhoneNumber": {
     "title": "Cüzdan adresinize bir telefon numarası bağlayın",
-    "description": "Artık dağınık cüzdan adresleri yok! Sadece bir telefon numarasıyla diğer Celo kullanıcılarına kripto para gönderin",
+    "description": "Artık dağınık cüzdan adresleri yok! Sadece bir telefon numarasıyla diğer CNDL kullanıcılarına kripto para gönderin",
     "startButtonLabel": "Telefon Numarası bağla",
     "later": "Bunu daha sonra yapacağım"
   },

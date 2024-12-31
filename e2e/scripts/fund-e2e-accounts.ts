@@ -39,7 +39,7 @@ const CEUR: Token = {
   decimals: 18,
 }
 const TOKENS_BY_SYMBOL: Record<string, Token> = {
-  CELO,
+  CNDL,
   cUSD: CUSD,
   cEUR: CEUR,
 }
@@ -174,7 +174,7 @@ const TOKENS_BY_SYMBOL: Record<string, Token> = {
       const sellAmount = tokenBalance - targetFaucetTokenBalance
       await swapSell(
         TOKENS_BY_SYMBOL[tokenSymbol],
-        tokenSymbol === 'CELO' ? CUSD : CELO,
+        tokenSymbol === 'CNDL' ? CUSD : CNDL,
         sellAmount,
         1
       )
@@ -184,7 +184,7 @@ const TOKENS_BY_SYMBOL: Record<string, Token> = {
       )
       const buyAmount = targetFaucetTokenBalance - tokenBalance
       await swapBuy(
-        tokenSymbol === 'CELO' ? CUSD : CELO,
+        tokenSymbol === 'CNDL' ? CUSD : CNDL,
         TOKENS_BY_SYMBOL[tokenSymbol],
         buyAmount,
         1
