@@ -1,5 +1,5 @@
 export enum Currency {
-  Celo = 'cGLD',
+  CNDL = 'CNDL',
   Dollar = 'cUSD',
   Euro = 'cEUR',
 }
@@ -8,7 +8,7 @@ export enum Currency {
  * @deprecated Should use tokenIds / symbols from token list instead.
  */
 export enum CiCoCurrency {
-  CELO = 'CELO',
+  CNDL = 'CNDL',
   cUSD = 'cUSD',
   cEUR = 'cEUR',
   cREAL = 'cREAL',
@@ -18,8 +18,8 @@ export const tokenSymbolToAnalyticsCurrency = (symbol: string): string => {
   switch (symbol) {
     case 'cREAL':
       return 'cReal'
-    case 'CELO':
-      return 'cGLD'
+    case 'CNDL':
+      return 'CNDL'
     default:
       return symbol
   }
@@ -33,10 +33,10 @@ export interface CurrencyInfo {
 type CurrencyObject = { [key in Currency]: CurrencyInfo }
 
 export const CURRENCIES: CurrencyObject = {
-  [Currency.Celo]: {
+  [Currency.CNDL]: {
     symbol: '',
     displayDecimals: 3,
-    cashTag: 'CELO',
+    cashTag: 'CNDL',
   },
   [Currency.Dollar]: {
     symbol: '$',
@@ -52,8 +52,7 @@ export const CURRENCIES: CurrencyObject = {
 
 export function resolveCurrency(currencyCode: string): Currency | undefined {
   const mapping: Record<string, Currency | undefined> = {
-    CELO: Currency.Celo,
-    CGLD: Currency.Celo,
+    CNDL: Currency.CNDL,
     CUSD: Currency.Dollar,
     CEUR: Currency.Euro,
   }
@@ -62,11 +61,10 @@ export function resolveCurrency(currencyCode: string): Currency | undefined {
 
 export function resolveCICOCurrency(currencyCode: string): CiCoCurrency {
   const mapping: Record<string, CiCoCurrency | undefined> = {
-    CELO: CiCoCurrency.CELO,
-    CGLD: CiCoCurrency.CELO,
+    CNDL: CiCoCurrency.CNDL,
     CUSD: CiCoCurrency.cUSD,
     CEUR: CiCoCurrency.cEUR,
     CREAL: CiCoCurrency.cREAL,
   }
-  return mapping[currencyCode.toUpperCase()] || CiCoCurrency.CELO
+  return mapping[currencyCode.toUpperCase()] || CiCoCurrency.CNDL
 }

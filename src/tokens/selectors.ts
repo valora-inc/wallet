@@ -262,11 +262,11 @@ export const tokensByCurrencySelector = createSelector(
     const cUsdTokenInfo = tokens.find((token) => token?.symbol === Currency.Dollar)
     const cEurTokenInfo = tokens.find((token) => token?.symbol === Currency.Euro)
     // Currency.Celo === 'cGLD' for legacy reasons, so we just use a hard-coded string.
-    const celoTokenInfo = tokens.find((token) => token?.symbol === 'CELO')
+    const celoTokenInfo = tokens.find((token) => token?.symbol === 'CNDL')
     return {
       [Currency.Dollar]: cUsdTokenInfo,
       [Currency.Euro]: cEurTokenInfo,
-      [Currency.Celo]: celoTokenInfo,
+      [Currency.CNDL]: celoTokenInfo,
     }
   }
 )

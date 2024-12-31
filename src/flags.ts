@@ -6,7 +6,6 @@ export const countryFeatures = {
     PH: true, // Philippines
   },
   SANCTIONED_COUNTRY: {
-    IR: true, // Iran
     CU: true, // Cuba
     KP: true, // North Korea
     SD: true, // Sudan
