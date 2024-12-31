@@ -156,7 +156,7 @@ interface AppEventsProperties {
   [AppEvents.show_gas_fee_warning]: {
     flow: GasFeeWarningFlow
     errorType: 'need-decrease-spend-amount-for-gas' | 'not-enough-balance-for-gas'
-    tokenNeeded: string
+    tokenId: string
   }
 }
 
