@@ -488,15 +488,15 @@ function EarnEnterAmount({ route }: Props) {
               poolId: pool.positionId,
             })
             if (prepareTransactionsResult && prepareTransactionsResult.type !== 'possible') {
-              const token =
-                prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-                  ? prepareTransactionsResult.feeCurrencies[0]
-                  : prepareTransactionsResult.feeCurrency
-              navigate(Screens.FiatExchangeAmount, {
-                tokenId: token.tokenId,
-                flow: CICOFlow.CashIn,
-                tokenSymbol: token.symbol,
-              })
+              prepareTransactionsResult.type === 'not-enough-balance-for-gas'
+                ? navigate(Screens.FiatExchangeAmount, {
+                    tokenId: prepareTransactionsResult.feeCurrencies[0].tokenId,
+                    flow: CICOFlow.CashIn,
+                    tokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+                  })
+                : onTokenAmountInputChange(
+                    prepareTransactionsResult.decreasedSpendAmount.toString()
+                  )
             }
           }}
           testIdPrefix={'EarnEnterAmount'}
