@@ -42,7 +42,7 @@ function LegacyTokenDisplay({
 
   const tokenInfoFromAddress = useTokenInfoByAddress(tokenAddress)
   const tokenInfoFromCurrency = useTokenInfoWithAddressBySymbol(
-    currency! === Currency.Celo ? 'CELO' : currency!
+    currency! === Currency.CNDL ? 'CNDL' : currency!
   )
   const tokenInfo = tokenInfoFromAddress || tokenInfoFromCurrency
   return (

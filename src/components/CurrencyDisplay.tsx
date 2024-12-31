@@ -109,7 +109,7 @@ export function getFullCurrencyName(currency: Currency | null) {
       return i18n.t('cndlDollars')
     case Currency.Euro:
       return i18n.t('cndlEuros')
-    case Currency.Celo:
+    case Currency.CNDL:
       return i18n.t('cndlGold')
     default:
       return null
@@ -140,14 +140,14 @@ export default function CurrencyDisplay({
     currencyInfo
   )
 
-  // Show local amount only if explicitly set to true when currency is CELO
-  const shouldShowLocalAmount = showLocalAmount ?? amountCurrency !== Currency.Celo
+  // Show local amount only if explicitly set to true when currency is CNDL
+  const shouldShowLocalAmount = showLocalAmount ?? amountCurrency !== Currency.CNDL
   const displayAmount = shouldShowLocalAmount
     ? getLocalAmount(amount, localCurrencyCode, localCurrencyExchangeRate)
     : amount
   const displayCurrency = displayAmount
-    ? displayAmount.currencyCode === Currency.Celo
-      ? Currency.Celo
+    ? displayAmount.currencyCode === Currency.CNDL
+      ? Currency.CNDL
       : Currency.Dollar
     : null
   const currencySymbol = displayAmount
@@ -165,7 +165,7 @@ export default function CurrencyDisplay({
   const fullCurrencyName = getFullCurrencyName(amountCurrency)
 
   const color = useColors
-    ? amountCurrency === Currency.Celo
+    ? amountCurrency === Currency.CNDL
       ? colors.goldBrand
       : colors.accent
     : StyleSheet.flatten(style)?.color
