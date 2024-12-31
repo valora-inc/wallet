@@ -1,8 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { AssetsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AssetsEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchNfts } from 'src/nfts/slice'
@@ -96,7 +96,7 @@ describe('AssetList', () => {
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(6)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
     expect(queryAllByTestId('NftItem')).toHaveLength(0)
-    ;['POOF', 'TK3', 'TK1', 'CELO', 'ETH', 'cUSD'].map((symbol, index) => {
+    ;['POOF', 'TK3', 'TK1', 'CNDL', 'ETH', 'cUSD'].map((symbol, index) => {
       expect(getAllByTestId('TokenBalanceItem')[index]).toHaveTextContent(symbol)
     })
   })
