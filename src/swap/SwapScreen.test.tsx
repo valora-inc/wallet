@@ -381,13 +381,13 @@ describe('SwapScreen', () => {
     expect(within(swapFromContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
     expect(within(swapToContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
 
     const commonAnalyticsProps = {
       areSwapTokensShuffled: false,
       fromTokenId: 'celo-alfajores:native',
       fromTokenNetworkId: 'celo-alfajores',
-      fromTokenSymbol: 'CELO',
+      fromTokenSymbol: 'CNDL',
       switchedNetworkId: false,
       tokenNetworkId: 'celo-alfajores',
     }
@@ -396,7 +396,7 @@ describe('SwapScreen', () => {
       fieldType: 'FROM',
       tokenId: 'celo-alfajores:native',
       tokenPositionInList: 1,
-      tokenSymbol: 'CELO',
+      tokenSymbol: 'CNDL',
     })
     expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_token, {
       ...commonAnalyticsProps,
@@ -426,12 +426,12 @@ describe('SwapScreen', () => {
     expect(within(fromTokenBottomSheet).queryByText('Poof Governance Token')).toBeFalsy()
 
     // finish the token selection
-    fireEvent.press(within(fromTokenBottomSheet).getByText('Celo Dollar'))
+    fireEvent.press(within(fromTokenBottomSheet).getByText('CNDL Dollar'))
     expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
 
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
-    expect(within(toTokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
+    expect(within(toTokenBottomSheet).getByText('CNDL Dollar')).toBeTruthy()
     expect(within(toTokenBottomSheet).queryByText('Test Token')).toBeFalsy()
     expect(within(toTokenBottomSheet).queryByText('Poof Governance Token')).toBeFalsy()
   })
@@ -469,21 +469,21 @@ describe('SwapScreen', () => {
   it('should swap the to/from tokens if the same token is selected', async () => {
     const { swapFromContainer, swapToContainer, swapScreen } = renderScreen({})
 
-    selectSingleSwapToken(swapFromContainer, 'CELO', swapScreen, Field.FROM)
+    selectSingleSwapToken(swapFromContainer, 'CNDL', swapScreen, Field.FROM)
     selectSingleSwapToken(swapToContainer, 'cUSD', swapScreen, Field.TO)
     selectSingleSwapToken(swapFromContainer, 'cUSD', swapScreen, Field.FROM)
 
     expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
-    expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
+    expect(within(swapToContainer).getByText('CNDL')).toBeTruthy()
   })
 
   it('should swap the to/from tokens even if the to token was not selected', async () => {
     const { swapFromContainer, swapToContainer, swapScreen } = renderScreen({})
 
-    selectSwapTokens('CELO', 'CELO', swapScreen)
+    selectSwapTokens('CNDL', 'CNDL', swapScreen)
 
     expect(within(swapFromContainer).getByText('swapScreen.selectTokenLabel')).toBeTruthy()
-    expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
+    expect(within(swapToContainer).getByText('CNDL')).toBeTruthy()
   })
 
   it('should keep the to amount in sync with the exchange rate', async () => {
@@ -492,7 +492,7 @@ describe('SwapScreen', () => {
       {}
     )
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
 
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
 
@@ -501,7 +501,7 @@ describe('SwapScreen', () => {
     })
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 1.23456 cUSD'
+      '1 CNDL ≈ 1.23456 cUSD'
     )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
@@ -522,7 +522,7 @@ describe('SwapScreen', () => {
       {}
     )
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
 
     await act(() => {
@@ -541,7 +541,7 @@ describe('SwapScreen', () => {
     )
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 1.23456 cUSD'
+      '1 CNDL ≈ 1.23456 cUSD'
     )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
@@ -557,7 +557,7 @@ describe('SwapScreen', () => {
 
     const { getByText, queryByText, swapScreen } = renderScreen({})
 
-    selectSwapTokens('CELO', 'USDC', swapScreen)
+    selectSwapTokens('CNDL', 'USDC', swapScreen)
     expect(
       queryByText('swapScreen.switchedToNetworkWarning.title, {"networkName":"Ethereum Sepolia"}')
     ).toBeFalsy()
@@ -584,7 +584,7 @@ describe('SwapScreen', () => {
     const { getByText, swapScreen, swapFromContainer } = renderScreen({
       celoBalance: '10',
     })
-    selectSwapTokens('CELO', 'USDC', swapScreen)
+    selectSwapTokens('CNDL', 'USDC', swapScreen)
 
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '10')
     await act(() => {
@@ -594,7 +594,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(
       getByText(
-        'swapScreen.crossChainFeeWarning.body, {"networkName":"Celo Alfajores","tokenSymbol":"CELO","tokenAmount":"1"}'
+        'swapScreen.crossChainFeeWarning.body, {"networkName":"Celo Alfajores","tokenSymbol":"CNDL","tokenAmount":"1"}'
       )
     ).toBeTruthy()
   })
@@ -629,7 +629,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(
       getByText(
-        'swapScreen.crossChainFeeWarning.body, {"networkName":"Celo Alfajores","tokenSymbol":"CELO","tokenAmount":"1"}'
+        'swapScreen.crossChainFeeWarning.body, {"networkName":"Celo Alfajores","tokenSymbol":"CNDL","tokenAmount":"1"}'
       )
     ).toBeTruthy()
   })
@@ -653,7 +653,7 @@ describe('SwapScreen', () => {
     const { getByText, queryByText, swapScreen, swapFromContainer } = renderScreen({
       celoBalance: '10',
     })
-    selectSwapTokens('CELO', 'USDC', swapScreen)
+    selectSwapTokens('CNDL', 'USDC', swapScreen)
 
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '5')
     await act(() => {
@@ -665,7 +665,7 @@ describe('SwapScreen', () => {
   })
 
   it('should show and hide the price impact warning', async () => {
-    // mock priceUsd data: CELO price ~$13, cUSD price = $1
+    // mock priceUsd data: CNDL price ~$13, cUSD price = $1
     const lowPriceImpactPrice = '13.12345' // within 4% price impact
     const highPriceImpactPrice = '12.44445' // more than 4% price impact
 
@@ -697,15 +697,15 @@ describe('SwapScreen', () => {
       celoBalance: '1000000',
     })
 
-    // select 100000 CELO to cUSD swap
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    // select 100000 CNDL to cUSD swap
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100000')
     await act(() => {
       jest.runOnlyPendingTimers()
     })
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 12.44445 cUSD'
+      '1 CNDL ≈ 12.44445 cUSD'
     )
     expect(getByText('swapScreen.priceImpactWarning.title')).toBeTruthy()
     expect(AppAnalytics.track).toHaveBeenCalledWith(
@@ -726,14 +726,14 @@ describe('SwapScreen', () => {
       }
     )
 
-    // select 100 CELO to cUSD swap
+    // select 100 CNDL to cUSD swap
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100')
     await act(() => {
       jest.runOnlyPendingTimers()
     })
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 13.12345 cUSD'
+      '1 CNDL ≈ 13.12345 cUSD'
     )
     expect(queryByText('swapScreen.priceImpactWarning.title')).toBeFalsy()
   })
@@ -767,15 +767,15 @@ describe('SwapScreen', () => {
       celoBalance: '1000000',
     })
 
-    // select 100000 CELO to cUSD swap
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    // select 100000 CNDL to cUSD swap
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100000')
     await act(() => {
       jest.runOnlyPendingTimers()
     })
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 12.44445 cUSD'
+      '1 CNDL ≈ 12.44445 cUSD'
     )
     expect(getByText('swapScreen.missingSwapImpactWarning.title')).toBeTruthy()
     expect(AppAnalytics.track).toHaveBeenCalledWith(
@@ -796,14 +796,14 @@ describe('SwapScreen', () => {
       }
     )
 
-    // select 100 CELO to cUSD swap
+    // select 100 CNDL to cUSD swap
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100')
     await act(() => {
       jest.runOnlyPendingTimers()
     })
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 13.12345 cUSD'
+      '1 CNDL ≈ 13.12345 cUSD'
     )
     expect(queryByText('swapScreen.missingSwapImpactWarning.title')).toBeFalsy()
   })
@@ -823,14 +823,14 @@ describe('SwapScreen', () => {
       celoBalance: '100000',
     })
 
-    selectSwapTokens('CELO', 'POOF', swapScreen) // no priceUsd
+    selectSwapTokens('CNDL', 'POOF', swapScreen) // no priceUsd
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100')
     await act(() => {
       jest.runOnlyPendingTimers()
     })
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 1.23456 POOF'
+      '1 CNDL ≈ 1.23456 POOF'
     )
 
     expect(getByText('swapScreen.noUsdPriceWarning.title, {"localCurrency":"PHP"}')).toBeTruthy()
@@ -851,7 +851,7 @@ describe('SwapScreen', () => {
       {}
     )
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,234')
 
     await act(() => {
@@ -870,7 +870,7 @@ describe('SwapScreen', () => {
     )
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 1,23456 cUSD'
+      '1 CNDL ≈ 1,23456 cUSD'
     )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1,234')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
@@ -887,8 +887,8 @@ describe('SwapScreen', () => {
   })
 
   it.each([
-    // mock store has 10 CELO balance
-    // mock CELO -> cUSD exchange rate is 1.2345678
+    // mock store has 10 CNDL balance
+    // mock CNDL -> cUSD exchange rate is 1.2345678
     {
       amountLabel: 'percentage, {"percentage":25}',
       percentage: 25,
@@ -920,7 +920,7 @@ describe('SwapScreen', () => {
       const { swapFromContainer, swapToContainer, getByText, getByTestId, swapScreen } =
         renderScreen({})
 
-      selectSwapTokens('CELO', 'cUSD', swapScreen)
+      selectSwapTokens('CNDL', 'cUSD', swapScreen)
 
       await act(() => {
         DeviceEventEmitter.emit('keyboardDidShow', { endCoordinates: { height: 100 } })
@@ -930,7 +930,7 @@ describe('SwapScreen', () => {
 
       await waitFor(() =>
         expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-          '1 CELO ≈ 1.23456 cUSD'
+          '1 CNDL ≈ 1.23456 cUSD'
         )
       )
       expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
@@ -974,7 +974,7 @@ describe('SwapScreen', () => {
       cUSDBalance: '20',
     })
 
-    selectSingleSwapToken(swapFromContainer, 'CELO', swapScreen, Field.FROM)
+    selectSingleSwapToken(swapFromContainer, 'CNDL', swapScreen, Field.FROM)
     await selectMaxFromAmount(swapScreen)
     await waitFor(() => expect(queryByTestId('MaxSwapAmountWarning')).toBeFalsy())
   })
@@ -985,7 +985,7 @@ describe('SwapScreen', () => {
       {}
     )
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     await selectMaxFromAmount(swapScreen)
 
     await act(() => {
@@ -1009,7 +1009,7 @@ describe('SwapScreen', () => {
     })
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 1.23456 cUSD'
+      '1 CNDL ≈ 1.23456 cUSD'
     )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '10' // matching the value inside the mocked store
@@ -1027,7 +1027,7 @@ describe('SwapScreen', () => {
       cUSDBalance: '0',
     })
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     await selectMaxFromAmount(swapScreen)
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('0')
@@ -1041,7 +1041,7 @@ describe('SwapScreen', () => {
 
     const { swapFromContainer, getByText, store, swapScreen } = renderScreen({})
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
 
     await act(() => {
@@ -1059,7 +1059,7 @@ describe('SwapScreen', () => {
 
     const { swapFromContainer, getByText, swapScreen } = renderScreen({})
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
 
     await act(() => {
@@ -1077,7 +1077,7 @@ describe('SwapScreen', () => {
     mockFetch.mockResponse(defaultQuoteResponse)
     const { getByText, store, swapScreen } = renderScreen({})
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     await selectMaxFromAmount(swapScreen)
 
     await act(() => {
@@ -1131,7 +1131,7 @@ describe('SwapScreen', () => {
     )
     const { getByText, store, swapScreen, swapFromContainer } = renderScreen({})
 
-    selectSwapTokens('cUSD', 'CELO', swapScreen)
+    selectSwapTokens('cUSD', 'CNDL', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '10')
 
     await act(() => {
@@ -1179,7 +1179,7 @@ describe('SwapScreen', () => {
     mockFetch.mockResponse(defaultQuoteResponse)
     const { swapScreen, swapFromContainer, getByText, store } = renderScreen({})
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.5')
 
     await act(() => {
@@ -1223,7 +1223,7 @@ describe('SwapScreen', () => {
     mockFetch.mockResponse(defaultQuoteResponse)
     const { getByText, swapScreen } = renderScreen({})
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     await selectMaxFromAmount(swapScreen)
 
     await act(() => {
@@ -1258,7 +1258,7 @@ describe('SwapScreen', () => {
       estimatedGasFee: 0.014568,
       estimatedGasFeeUsd: 0.19019761777190283,
       feeCurrency: undefined,
-      feeCurrencySymbol: 'CELO',
+      feeCurrencySymbol: 'CNDL',
       txCount: 2,
       swapType: 'same-chain',
     })
@@ -1268,7 +1268,7 @@ describe('SwapScreen', () => {
     const { swapToContainer, swapFromContainer, swapScreen, tokenBottomSheets } = renderScreen({})
     const tokenBottomSheet = tokenBottomSheets[1] // "to" token selection
 
-    selectSingleSwapToken(swapFromContainer, 'CELO', swapScreen, Field.FROM)
+    selectSingleSwapToken(swapFromContainer, 'CNDL', swapScreen, Field.FROM)
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
     expect(
@@ -1298,7 +1298,7 @@ describe('SwapScreen', () => {
     })
     const { swapFromContainer, swapToContainer, swapScreen, getByTestId } = renderScreen({})
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input')).toBeTruthy()
@@ -1312,7 +1312,7 @@ describe('SwapScreen', () => {
   it('should disable editing of the buy token amount', () => {
     const { swapFromContainer, swapToContainer, swapScreen } = renderScreen({})
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(true)
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(false)
@@ -1325,7 +1325,7 @@ describe('SwapScreen', () => {
       cUSDBalance: '10',
     })
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '2')
 
     await act(() => {
@@ -1334,7 +1334,7 @@ describe('SwapScreen', () => {
 
     const transactionDetails = getByTestId('SwapTransactionDetails')
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.fee')
-    // matches mocked value (0.015 CELO) provided to estimateFeesPerGas, estimateGas, and gas in defaultQuoteResponse
+    // matches mocked value (0.015 CNDL) provided to estimateFeesPerGas, estimateGas, and gas in defaultQuoteResponse
     expect(getByTestId('SwapTransactionDetails/Fees')).toHaveTextContent('≈ ₱0.25')
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.slippagePercentage')
     expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0.3%')
@@ -1344,7 +1344,7 @@ describe('SwapScreen', () => {
     mockFetch.mockResponse(defaultQuoteResponse)
     const { update, getByText, getByTestId, swapScreen, store } = renderScreen({})
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     await selectMaxFromAmount(swapScreen)
 
     await act(() => {
@@ -1390,7 +1390,7 @@ describe('SwapScreen', () => {
       {}
     )
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     await selectMaxFromAmount(swapScreen)
 
     await act(() => {
@@ -1454,7 +1454,7 @@ describe('SwapScreen', () => {
     } = renderScreen({ cUSDBalance: '0' })
 
     // First get a quote for a network
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     await selectMaxFromAmount(swapScreen)
 
     await act(() => {
@@ -1462,7 +1462,7 @@ describe('SwapScreen', () => {
     })
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 1.23456 cUSD'
+      '1 CNDL ≈ 1.23456 cUSD'
     )
     expect(queryByTestId('SwitchedToNetworkWarning')).toBeFalsy()
     expect(getByTestId('MaxSwapAmountWarning')).toBeTruthy()
@@ -1492,8 +1492,8 @@ describe('SwapScreen', () => {
     selectSingleSwapToken(swapFromContainer, 'ETH', swapScreen, Field.FROM)
 
     expect(queryByTestId('SwitchedToNetworkWarning')).toBeFalsy()
-    // Max warning is shown again, because both ETH and CELO have the same balance
-    // and we previously selected the max value for CELO
+    // Max warning is shown again, because both ETH and CNDL have the same balance
+    // and we previously selected the max value for CNDL
     expect(queryByTestId('MaxSwapAmountWarning')).toBeTruthy()
 
     // Now select a "from" token from a different network again, the warning should reappear
@@ -1510,14 +1510,14 @@ describe('SwapScreen', () => {
   })
 
   it("should warn when the balances for feeCurrencies are 0 and can't cover the fee", async () => {
-    // Swap from POOF to CELO, when no feeCurrency has any balance
+    // Swap from POOF to CNDL, when no feeCurrency has any balance
     mockFetch.mockResponse(defaultQuoteResponse)
     const { getByText, swapScreen } = renderScreen({
       celoBalance: '0',
       cUSDBalance: '0',
     })
 
-    selectSwapTokens('POOF', 'CELO', swapScreen)
+    selectSwapTokens('POOF', 'CNDL', swapScreen)
     await selectMaxFromAmount(swapScreen)
 
     await act(() => {
@@ -1528,20 +1528,20 @@ describe('SwapScreen', () => {
 
     expect(
       getByText(
-        'swapScreen.notEnoughBalanceForGas.description, {"feeCurrencies":"CELO, cEUR, cUSD"}'
+        'swapScreen.notEnoughBalanceForGas.description, {"feeCurrencies":"CNDL, cEUR, cUSD"}'
       )
     ).toBeTruthy()
   })
 
   it('should warn when the balances for feeCurrencies are too low to cover the fee', async () => {
-    // Swap from POOF to CELO, when no feeCurrency has any balance
+    // Swap from POOF to CNDL, when no feeCurrency has any balance
     mockFetch.mockResponse(defaultQuoteResponse)
     const { getByText, swapScreen } = renderScreen({
       celoBalance: '0.001',
       cUSDBalance: '0.001',
     })
 
-    selectSwapTokens('POOF', 'CELO', swapScreen)
+    selectSwapTokens('POOF', 'CNDL', swapScreen)
     await selectMaxFromAmount(swapScreen)
 
     await act(() => {
@@ -1552,20 +1552,20 @@ describe('SwapScreen', () => {
 
     expect(
       getByText(
-        'swapScreen.notEnoughBalanceForGas.description, {"feeCurrencies":"CELO, cUSD, cEUR"} '
+        'swapScreen.notEnoughBalanceForGas.description, {"feeCurrencies":"CNDL, cUSD, cEUR"} '
       )
     ).toBeTruthy()
   })
 
   it('should prompt the user to decrease the swap amount when swapping the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee', async () => {
-    // Swap CELO to cUSD, when only CELO has balance
+    // Swap CNDL to cUSD, when only CNDL has balance
     mockFetch.mockResponse(defaultQuoteResponse)
     const { getByText, queryByText, swapScreen, swapFromContainer } = renderScreen({
       celoBalance: '1.234',
       cUSDBalance: '0',
     })
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     await selectMaxFromAmount(swapScreen)
 
     await act(() => {
@@ -1607,7 +1607,7 @@ describe('SwapScreen', () => {
   })
 
   it('should prompt the user to decrease the swap amount when swapping close to the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee', async () => {
-    // Swap CELO to cUSD, when only CELO has balance
+    // Swap CNDL to cUSD, when only CNDL has balance
     mockFetch.mockResponse(
       JSON.stringify({
         ...defaultQuote,
@@ -1622,7 +1622,7 @@ describe('SwapScreen', () => {
       cUSDBalance: '0',
     })
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.233')
 
     await act(() => {
@@ -1660,7 +1660,7 @@ describe('SwapScreen', () => {
   })
 
   it("should allow swapping the entered amount of a feeCurrency when there's enough balance to cover for the fee, while no other feeCurrency can pay for the fee", async () => {
-    // Swap CELO to cUSD, when only CELO has balance
+    // Swap CNDL to cUSD, when only CNDL has balance
     mockFetch.mockResponse(
       JSON.stringify({
         ...defaultQuote,
@@ -1675,7 +1675,7 @@ describe('SwapScreen', () => {
       cUSDBalance: '0',
     })
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1')
 
     await act(() => {
@@ -1690,14 +1690,14 @@ describe('SwapScreen', () => {
   })
 
   it("should allow swapping the max balance of a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
-    // Swap full CELO balance to cUSD
+    // Swap full CNDL balance to cUSD
     mockFetch.mockResponse(defaultQuoteResponse)
     const { getByText, queryByTestId, swapScreen, swapFromContainer } = renderScreen({
       celoBalance: '1.234',
       cUSDBalance: '10',
     })
 
-    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    selectSwapTokens('CNDL', 'cUSD', swapScreen)
     await selectMaxFromAmount(swapScreen)
 
     await act(() => {

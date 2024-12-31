@@ -2,8 +2,8 @@ import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import TokenBottomSheet, {
   DEBOUNCE_WAIT_TIME,
   TokenBottomSheetProps,
@@ -36,7 +36,7 @@ const tokens: TokenBalance[] = [
     canTransferWithComment: true,
     priceFetchedAt: Date.now(),
     decimals: 18,
-    name: 'Celo Dollar',
+    name: 'CNDL Dollar',
     imageUrl: '',
   },
   {
@@ -51,7 +51,7 @@ const tokens: TokenBalance[] = [
     canTransferWithComment: true,
     priceFetchedAt: Date.now(),
     decimals: 18,
-    name: 'Celo Euro',
+    name: 'CNDL Euro',
     imageUrl: '',
   },
   {
@@ -81,7 +81,7 @@ const mockStore = createMockStore({
         networkId: NetworkId['celo-alfajores'],
         isFeeCurrency: true,
         priceFetchedAt: Date.now(),
-        name: 'Celo Dollar',
+        name: 'CNDL Dollar',
       },
       [mockCeurTokenId]: {
         balance: '20',
@@ -92,7 +92,7 @@ const mockStore = createMockStore({
         networkId: NetworkId['celo-alfajores'],
         isFeeCurrency: true,
         priceFetchedAt: Date.now(),
-        name: 'Celo Euro',
+        name: 'CNDL Euro',
       },
       [mockTestTokenTokenId]: {
         balance: '10',
@@ -206,14 +206,14 @@ describe.each([
     expect(getByTestId(`TokenBalanceItemTouchable/${mockCeurTokenId}`)).toBeTruthy()
     expect(getByTestId(`TokenBalanceItemTouchable/${mockTestTokenTokenId}`)).toBeTruthy()
 
-    fireEvent.changeText(searchInput, 'Celo')
+    fireEvent.changeText(searchInput, 'CNDL')
     // Wait for the analytics debounce
     jest.advanceTimersByTime(DEBOUNCE_WAIT_TIME)
 
     expect(AppAnalytics.track).toBeCalledTimes(1)
     expect(AppAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.search_token, {
       origin: TokenPickerOrigin.Send,
-      searchInput: 'Celo',
+      searchInput: 'CNDL',
     })
 
     expect(getByTestId(`TokenBalanceItemTouchable/${mockCusdTokenId}`)).toBeTruthy()
@@ -267,7 +267,7 @@ describe.each([
     fireEvent.press(getByText('cusd filter'))
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(1)
-    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('Celo Dollar')
+    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('CNDL Dollar')
   })
 
   it('renders and applies a default filter', () => {
@@ -284,7 +284,7 @@ describe.each([
 
     // filter already applied
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(1)
-    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('Celo Dollar')
+    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('CNDL Dollar')
 
     fireEvent.press(getByText('cusd filter'))
 
@@ -308,16 +308,16 @@ describe.each([
 
     // filter already applied
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
-    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('Celo Dollar')
+    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('CNDL Dollar')
     expect(getAllByTestId('TokenBalanceItem')[1]).toHaveTextContent('Test Token')
 
-    fireEvent.changeText(getByPlaceholderText('tokenBottomSheet.searchAssets'), 'Celo')
+    fireEvent.changeText(getByPlaceholderText('tokenBottomSheet.searchAssets'), 'CNDL')
 
     // Wait for the analytics debounce
     jest.advanceTimersByTime(DEBOUNCE_WAIT_TIME)
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(1)
-    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('Celo Dollar')
+    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('CNDL Dollar')
 
     fireEvent.press(getAllByTestId('TokenBalanceItem')[0])
     expect(AppAnalytics.track).toHaveBeenLastCalledWith(TokenBottomSheetEvents.token_selected, {

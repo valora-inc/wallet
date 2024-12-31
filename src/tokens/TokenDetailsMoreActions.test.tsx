@@ -17,10 +17,10 @@ const mockStoredCeloTokenBalance: StoredTokenBalance = {
   priceUsd: '1.16',
   address: mockCeloAddress,
   isNative: true,
-  symbol: 'CELO',
+  symbol: 'CNDL',
   imageUrl:
     'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_CELO.png',
-  name: 'Celo',
+  name: 'CNDL',
   decimals: 18,
   balance: '5',
   isFeeCurrency: true,

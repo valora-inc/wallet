@@ -23,8 +23,8 @@ interface Token {
   decimals: number
 }
 
-const CELO: Token = {
-  symbol: 'CELO',
+const CNDL: Token = {
+  symbol: 'CNDL',
   address: utils.getAddress('0x471ece3750da237f93b8e339c536989b8978a438'),
   decimals: 18,
 }

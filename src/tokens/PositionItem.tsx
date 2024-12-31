@@ -85,7 +85,7 @@ export const PositionItem = ({
               <LegacyTokenDisplay
                 amount={balanceInDecimal}
                 // Hack to display the token balance without having said token in the base token list
-                currency={Currency.Celo}
+                currency={Currency.CNDL}
                 style={styles.subtext}
                 showLocalAmount={false}
                 showSymbol={false}

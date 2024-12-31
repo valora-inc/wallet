@@ -29,7 +29,7 @@ import {
 export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY = 1000
 
 function updateTestTokenInfo(tokenInfo: any): any {
-  const isNative = tokenInfo.symbol === 'CELO'
+  const isNative = tokenInfo.symbol === 'CNDL'
   return {
     ...tokenInfo,
     tokenId: `celo-alfajores:${isNative ? 'native' : tokenInfo.address}`,
@@ -571,7 +571,7 @@ export const v16Schema = {
   localCurrency: {
     ...v15Schema.localCurrency,
     exchangeRates: {
-      [Currency.Celo]: '3',
+      [Currency.CNDL]: '3',
       [Currency.Euro]: '2',
       [Currency.Dollar]: v15Schema.localCurrency.exchangeRate,
     },
@@ -676,7 +676,7 @@ export const v19Schema = {
       [mockCeloAddress]: {
         name: 'CNDL',
         address: mockCeloAddress,
-        symbol: 'CELO',
+        symbol: 'CNDL',
         decimals: 18,
         imageUrl: '',
         usdPrice: '5',
@@ -840,7 +840,7 @@ export const v25Schema = {
       [mockCeloAddress]: {
         name: 'CNDL',
         address: mockCeloAddress,
-        symbol: 'CELO',
+        symbol: 'CNDL',
         decimals: 18,
         imageUrl: '',
         usdPrice: '5',
@@ -2005,7 +2005,7 @@ export const v107Schema = {
     ...v106Schema.fiatConnect,
     cachedFiatAccountUses: v106Schema.fiatConnect.cachedFiatAccountUses.map((use: any) => ({
       ...use,
-      cryptoType: use.cryptoType === Currency.Celo ? CiCoCurrency.CELO : use.cryptoType,
+      cryptoType: use.cryptoType === Currency.CNDL ? CiCoCurrency.CNDL : use.cryptoType,
     })),
     cachedQuoteParams: updateCachedQuoteParams(v106Schema.fiatConnect.cachedQuoteParams),
   },

@@ -48,7 +48,7 @@ const storeWithTokenBalances = {
         symbol: 'cUSD',
         imageUrl:
           'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cUSD.png',
-        name: 'Celo Dollar',
+        name: 'CNDL Dollar',
         decimals: 18,
         balance: '10',
         isFeeCurrency: true,

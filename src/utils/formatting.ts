@@ -14,12 +14,12 @@ export const getMoneyDisplayValue = (
   const symbol = CURRENCIES[currency].symbol
   // For stable currencies, if the value is lower than 0.01 we show an extra decimal point.
   // If the value is lower than 0.001, we just show <$0.001.
-  const minValueToShow = Math.pow(10, -decimals - (currency === Currency.Celo ? 0 : 1))
+  const minValueToShow = Math.pow(10, -decimals - (currency === Currency.CNDL ? 0 : 1))
   if (moneyValue.isGreaterThan(0) && moneyValue.isLessThan(minValueToShow)) {
     return `<${includeSymbol ? symbol : ''}${minValueToShow}`
   }
   const decimalsToUse =
-    currency === Currency.Celo ||
+    currency === Currency.CNDL ||
     moneyValue.isLessThanOrEqualTo(0) ||
     moneyValue.isGreaterThanOrEqualTo(Math.pow(10, -decimals))
       ? decimals

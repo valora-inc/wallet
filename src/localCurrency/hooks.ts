@@ -13,7 +13,7 @@ export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: Curre
   let localCurrencyCode = useSelector(getLocalCurrencyCode)
   const amountCurrency = amount.currencyCode as Currency
   const tokenInfo = useTokenInfoWithAddressBySymbol(
-    amountCurrency === Currency.Celo ? 'CELO' : amountCurrency
+    amountCurrency === Currency.CNDL ? 'CNDL' : amountCurrency
   )
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   let localCurrencyExchangeRate =

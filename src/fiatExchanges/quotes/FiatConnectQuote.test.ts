@@ -63,7 +63,7 @@ const mockTokenInfo = {
   canTransferWithComment: true,
   priceFetchedAt: Date.now(),
   decimals: 18,
-  name: 'Celo Dollar',
+  name: 'CNDL Dollar',
   imageUrl: '',
 }
 

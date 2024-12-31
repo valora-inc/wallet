@@ -329,7 +329,7 @@ export const migrations = {
       exchangeRates: {
         [Currency.Dollar]: state.localCurrency.exchangeRate,
         [Currency.Euro]: null,
-        [Currency.Celo]: null,
+        [Currency.CNDL]: null,
       },
     },
     stableToken: {

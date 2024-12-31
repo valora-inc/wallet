@@ -25,7 +25,7 @@ export async function getCeloTokensBalance(walletAddress: Address) {
       '0x471ece3750da237f93b8e339c536989b8978a438',
       '0xe8537a3d056da446677b9e9d6c5db704eaab4787',
     ] // cUSD, cEUR, CELO, cREAL
-    const supportedTokenSymbols: string[] = ['cUSD', 'cEUR', 'CELO', 'cREAL']
+    const supportedTokenSymbols: string[] = ['cUSD', 'cEUR', 'CNDL', 'cREAL']
 
     const celoClient = createPublicClient({
       chain: celo,

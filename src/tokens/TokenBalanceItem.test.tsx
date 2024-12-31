@@ -2,8 +2,8 @@ import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { AssetsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AssetsEvents } from 'src/analytics/Events'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { createMockStore } from 'test/utils'
@@ -22,7 +22,7 @@ describe('TokenBalanceItem', () => {
       canTransferWithComment: true,
       priceFetchedAt: Date.now(),
       decimals: 18,
-      name: 'Celo Dollar',
+      name: 'CNDL Dollar',
       imageUrl: '',
       tokenId: `celo-alfajores:${mockCusdAddress}`,
       networkId: 'celo-alfajores',
@@ -36,7 +36,7 @@ describe('TokenBalanceItem', () => {
       </Provider>
     )
 
-    expect(getByText('Celo Dollar')).toBeTruthy()
+    expect(getByText('CNDL Dollar')).toBeTruthy()
     expect(getByText('10.00 cUSD')).toBeTruthy()
     expect(getByText('₱13.30')).toBeTruthy()
     expect(getByTestId('NetworkLabel')).toBeTruthy()
@@ -50,7 +50,7 @@ describe('TokenBalanceItem', () => {
       </Provider>
     )
 
-    expect(getByText('Celo Dollar')).toBeTruthy()
+    expect(getByText('CNDL Dollar')).toBeTruthy()
     expect(queryByText('10.00 cUSD')).toBeFalsy()
     expect(queryByText('₱13.30')).toBeFalsy()
     expect(getByTestId('NetworkLabel')).toBeTruthy()
@@ -65,7 +65,7 @@ describe('TokenBalanceItem', () => {
       </Provider>
     )
 
-    expect(getByText('Celo Dollar')).toBeTruthy()
+    expect(getByText('CNDL Dollar')).toBeTruthy()
     expect(getByText('10.00 cUSD')).toBeTruthy()
     expect(getByText('₱13.30')).toBeTruthy()
     expect(getByTestId('BridgeLabel')).toBeTruthy()
@@ -78,7 +78,7 @@ describe('TokenBalanceItem', () => {
       </Provider>
     )
 
-    expect(getByText('Celo Dollar')).toBeTruthy()
+    expect(getByText('CNDL Dollar')).toBeTruthy()
     expect(getByText('10.00 cUSD')).toBeTruthy()
     expect(getByText('₱13.30')).toBeTruthy()
     expect(getByTestId('NetworkLabel')).toBeTruthy()
@@ -103,7 +103,7 @@ describe('TokenBalanceItem', () => {
       </Provider>
     )
 
-    fireEvent.press(getByText('Celo Dollar'))
+    fireEvent.press(getByText('CNDL Dollar'))
 
     expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
     expect(AppAnalytics.track).toHaveBeenCalledWith(AssetsEvents.tap_asset, {
@@ -112,7 +112,7 @@ describe('TokenBalanceItem', () => {
       networkId: mockTokenInfo.networkId,
       address: mockTokenInfo.address,
       balanceUsd: 10,
-      description: 'Celo Dollar',
+      description: 'CNDL Dollar',
       title: 'cUSD',
     })
   })
