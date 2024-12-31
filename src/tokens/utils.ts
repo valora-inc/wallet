@@ -35,7 +35,7 @@ export function sortByUsdBalance(token1: TokenBalance, token2: TokenBalance) {
 export function tokenSupportsComments(token: TokenBalance | undefined) {
   return (
     token?.canTransferWithComment &&
-    token.symbol !== 'CELO' &&
+    token.symbol !== 'CNDL' &&
     token.networkId === networkConfig.networkToNetworkId[Network.Celo]
   )
 }
@@ -62,10 +62,10 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
 
   // Show stable tokens first
   if (token1.isFeeCurrency && token2.isFeeCurrency) {
-    if (token1.symbol === 'CELO' && token2.symbol !== 'CELO') {
+    if (token1.symbol === 'CNDL' && token2.symbol !== 'CNDL') {
       return 1
     }
-    if (token1.symbol !== 'CELO' && token2.symbol === 'CELO') {
+    if (token1.symbol !== 'CNDL' && token2.symbol === 'CNDL') {
       return -1
     }
   }

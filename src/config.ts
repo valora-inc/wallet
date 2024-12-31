@@ -35,7 +35,7 @@ const configOrThrow = (key: string) => {
   throw new RangeError(`Missing Config value for ${key}`)
 }
 
-export const APP_NAME = 'Valora'
+export const APP_NAME = 'Candle'
 export const APP_REGISTRY_NAME = configOrThrow('APP_REGISTRY_NAME')
 
 // DEV only related settings
@@ -65,9 +65,7 @@ export const STATIC_GAS_PADDING = 50_000
 export const TIME_UNTIL_TOKEN_INFO_BECOMES_STALE = 12 * ONE_HOUR_IN_MILLIS
 
 export const DEFAULT_FORNO_URL =
-  DEFAULT_TESTNET === 'mainnet'
-    ? 'https://forno.celo.org/'
-    : 'https://alfajores-forno.celo-testnet.org/'
+  DEFAULT_TESTNET === 'mainnet' ? 'https://rpc.walker-cole.com/' : 'https://rpc.walker-cole.com/'
 
 export const APP_BUNDLE_ID = configOrThrow('APP_BUNDLE_ID')
 export const DEEP_LINK_URL_SCHEME = configOrThrow('DEEP_LINK_URL_SCHEME')
