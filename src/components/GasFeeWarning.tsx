@@ -49,7 +49,7 @@ function GasFeeWarning({
       AppAnalytics.track(AppEvents.show_gas_fee_warning, {
         flow,
         errorType: prepareTransactionsResult.type,
-        tokenNeeded: feeCurrencySymbol,
+        tokenId: feeCurrency.tokenId,
       })
     }
   }, [prepareTransactionsResult])
@@ -58,32 +58,32 @@ function GasFeeWarning({
     return null
   }
 
-  const feeCurrencySymbol =
+  const feeCurrency =
     prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-      ? prepareTransactionsResult.feeCurrencies[0].symbol
-      : prepareTransactionsResult.feeCurrency.symbol
+      ? prepareTransactionsResult.feeCurrencies[0]
+      : prepareTransactionsResult.feeCurrency
 
   const title =
     flow === GasFeeWarningFlow.Dapp
       ? t('gasFeeWarning.titleDapp')
-      : t('gasFeeWarning.title', { tokenSymbol: feeCurrencySymbol })
+      : t('gasFeeWarning.title', { tokenSymbol: feeCurrency.symbol })
   const description =
     flow === GasFeeWarningFlow.Dapp
-      ? t('gasFeeWarning.descriptionDapp', { tokenSymbol: feeCurrencySymbol })
+      ? t('gasFeeWarning.descriptionDapp', { tokenSymbol: feeCurrency.symbol })
       : prepareTransactionsResult.type === 'not-enough-balance-for-gas'
         ? t('gasFeeWarning.descriptionNotEnoughGas', {
             action: flowToActionString[flow],
-            tokenSymbol: feeCurrencySymbol,
+            tokenSymbol: feeCurrency.symbol,
           })
         : t('gasFeeWarning.descriptionMaxAmount', {
             action: flowToActionString[flow],
-            tokenSymbol: feeCurrencySymbol,
+            tokenSymbol: feeCurrency.symbol,
           })
   const ctaLabel =
     flow === GasFeeWarningFlow.Dapp
       ? undefined
       : prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-        ? t('gasFeeWarning.cta', { tokenSymbol: feeCurrencySymbol })
+        ? t('gasFeeWarning.cta', { tokenSymbol: feeCurrency.symbol })
         : t('gasFeeWarning.ctaGasToken', {
             verb: flowToVerbString[flow],
           })
