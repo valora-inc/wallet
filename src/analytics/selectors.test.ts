@@ -46,7 +46,7 @@ const mockState = {
   tokens: {
     tokenBalances: {
       'celo-alfajores:0xcusd': {
-        name: 'Celo Dollars',
+        name: 'CNDL Dollars',
         tokenId: 'celo-alfajores:0xcusd',
         networkId: NetworkId['celo-alfajores'],
         address: '0xcusd',
@@ -59,7 +59,7 @@ const mockState = {
         isFeeCurrency: true,
       },
       'celo-alfajores:0xceur': {
-        name: 'Celo Euros',
+        name: 'CNDL Euros',
         tokenId: 'celo-alfajores:0xceur',
         networkId: NetworkId['celo-alfajores'],
         address: '0xceur',
@@ -72,11 +72,11 @@ const mockState = {
         isFeeCurrency: true,
       },
       'celo-alfajores:native': {
-        name: 'Celo',
+        name: 'CNDL',
         tokenId: 'celo-alfajores:native',
         networkId: NetworkId['celo-alfajores'],
         address: '0xcelo',
-        symbol: 'CELO',
+        symbol: 'CNDL',
         decimals: 18,
         imageUrl: '',
         priceUsd: '5',

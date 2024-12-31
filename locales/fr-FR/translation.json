@@ -1,6 +1,6 @@
 {
   "invite": "Inviter",
-  "celoRewards": "Récompenses Celo",
+  "celoRewards": "Récompenses CNDL",
   "languageSettings": "Langue",
   "localCurrencySetting": "Devise",
   "licenses": "Licences",
@@ -30,7 +30,7 @@
   "shareAnalytics_detail": "Nous collectons des données anonymisées sur la façon dont vous utilisez {{appName}} pour permettre d'améliorer cette appli pour tous les utilisateurs.",
   "dataSaver": "Économiseur de données",
   "enableDataSaver": "Activer l'Économiseur de données",
-  "dataSaverDetail": "Le mode Économiseur de données vous permet de communiquer avec le réseau Celo via un nœud fiable. Vous pouvez toujours modifier ce mode dans les paramètres de l'appli.",
+  "dataSaverDetail": "Le mode Économiseur de données vous permet de communiquer avec le réseau CNDL via un nœud fiable. Vous pouvez toujours modifier ce mode dans les paramètres de l'appli.",
   "keylessBackupSetupTitle": "Créer un login",
   "keylessBackupSettingsTitle": "Sauvegarde avec l'e-mail et téléphone",
   "keylessBackupSettingsDeleteError": "Votre sauvegarde n'a pas pu être supprimée, veuillez réessayer plus tard.",
@@ -299,7 +299,7 @@
   "superchargeDisclaimerDayLimit": "Cela n'affectera pas votre solde ou vos gains précédents. <0>En savoir plus</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Quels actifs puis-je Supercharger ?",
-    "body": "Vous serez récompensé chaque semaine sur votre stablecoin Celo avec le solde la plus élevée (cEUR, cUSD, cREAL).",
+    "body": "Vous serez récompensé chaque semaine sur votre stablecoin CNDL avec le solde la plus élevée (cEUR, cUSD, cREAL).",
     "dismiss": "Ignorer"
   },
   "superchargingTitle": "Mise à jour nécessaire",
@@ -343,7 +343,7 @@
   "learnMore": "En savoir plus",
   "equalToAmount": "Égal à <1></1>",
   "whatIsGold": "{{appName}} vous permet d'acheter et de vendre des CELO",
-  "manageCelo": "Gérer les Celo Dollars",
+  "manageCelo": "Gérer les CNDL Dollars",
   "exchangeRate": "Taux de change",
   "exchangeRateValue": "<0></0> : 1 {{takerTokenCode}}",
   "history": "Historique",
@@ -368,13 +368,13 @@
   "securityFee": "Frais de réseau",
   "exchangeFee": "Frais de change",
   "edit": "Modifier",
-  "notEnoughDollars": "Solde de Celo Dollars insuffisant pour faire un échange",
+  "notEnoughDollars": "Solde de CNDL Dollars insuffisant pour faire un échange",
   "notEnoughGold": "Solde de CELO insuffisant pour faire un échange",
   "pending": "En attente",
   "loadingExchangeRate": "Chargement du taux de change...",
   "errorRefreshingRate": "Impossible d'actualiser le taux de change",
   "exchangeRateChange": "Le taux de change a changé, veuillez réessayer",
-  "feeExchangeEducation": "Lors d'un échange entre actifs, une somme modique est retenue pour maintenir la valeur du stablecoins Celo liée à l'actif qu'ils suivent. \n\nVisitez la FAQ pour en savoir plus.",
+  "feeExchangeEducation": "Lors d'un échange entre actifs, une somme modique est retenue pour maintenir la valeur du stablecoins CNDL liée à l'actif qu'ils suivent. \n\nVisitez la FAQ pour en savoir plus.",
   "goldPrice": "Prix CELO",
   "yourGoldBalance": "Votre solde CELO",
   "goldAmount": "Montant CELO",
@@ -406,14 +406,14 @@
   "amountCelo": "Montant (CELO)",
   "onlyCeloDollars": "cUSD seulement",
   "onlyCelo": "CELO uniquement",
-  "celoDollar": "Celo Dollar",
-  "celoEuro": "Celo Euro",
-  "celoReal": "Celo Real",
-  "celoDollars": "Celo Dollars",
+  "celoDollar": "CNDL Dollar",
+  "celoEuro": "CNDL Euro",
+  "celoReal": "CNDL Real",
+  "celoDollars": "CNDL Dollars",
   "ether": "Ether",
   "tapToCopyCeloDollarsAddress": "Appuyez pour copier votre adresse cUSD {{appName}}",
   "disclaimerFiat": "Les valeurs {{currency}} sont des estimations.",
-  "dollarsNotYetEnabledNote": "Les Celo Dollars ne sont pas encore disponibles chez aucun des fournisseurs. Pour obtenir des Celo Dollars, achetez des CELO et échangez-les contre des Celo Dollars dans l'onglet CELO.",
+  "dollarsNotYetEnabledNote": "Les CNDL Dollars ne sont pas encore disponibles chez aucun des fournisseurs. Pour obtenir des CNDL Dollars, achetez des CELO et échangez-les contre des CNDL Dollars dans l'onglet CELO.",
   "selectDigitalCurrency": "Sélectionnez un actif",
   "selectPaymentMethod": "Sélectionnez la méthode :",
   "payWithBank": "Compte bancaire",
@@ -490,7 +490,7 @@
   "done": "Terminé",
   "tip": "Conseil :",
   "warning": "Avertissement",
-  "downloadRewards": "Télécharger les Récompenses Celo",
+  "downloadRewards": "Télécharger les Récompenses CNDL",
   "wallet": "Wallet",
   "send": "Envoyer",
   "search": "Rechercher",
@@ -508,8 +508,8 @@
   "receivedNft": "NFT reçu",
   "sentNft": "NFT envoyé",
   "getStarted": "Commencer",
-  "manageCeloDollars": "Gérer les Celo Dollars",
-  "sendCeloDollars": "Envoyer des Celo Dollars",
+  "manageCeloDollars": "Gérer les CNDL Dollars",
+  "sendCeloDollars": "Envoyer des CNDL Dollars",
   "startEarning": "Commencer à gagner",
   "backToWallet": "Retour au wallet",
   "exchangeForGold": "Échange contre des CELO",
@@ -537,13 +537,13 @@
   "reclaim": "Réclamer",
   "claimed": "Demandé",
   "celoGold": "CELO",
-  "celoEuros": "Celo Euro",
+  "celoEuros": "CNDL Euro",
   "balanceAvailable": "<0></0> disponibles",
   "subtotal": "Sous-total",
   "total": "Total",
-  "totalInDollars": "Celo Dollars @ <0></0>",
-  "totalInEuros": "Celo Euro @ <0></0>",
-  "totalInCelo": "Celo @ <0></0>",
+  "totalInDollars": "CNDL Dollars @ <0></0>",
+  "totalInEuros": "CNDL Euro @ <0></0>",
+  "totalInCelo": "CNDL @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "tokenExchangeRateApprox": "1 {{symbol}} ≈ <0></0>",
@@ -663,15 +663,15 @@
   "goldEducationSteps": [
     {
       "title": "Qu'est-ce que CELO ?",
-      "text": "CELO est une monnaie numérique qui maintient la stabilité du Celo Dollar (cUSD) et du Celo Euro (cEUR)."
+      "text": "CELO est une monnaie numérique qui maintient la stabilité du CNDL Dollar (cUSD) et du CNDL Euro (cEUR)."
     },
     {
       "title": "Changements de prix du CELO",
-      "text": "Si plus de gens utilisent les Celo Dollar et Celo Euro, la valeur du CELO augmente. Contrairement au CELO, le Celo Dollar et le Celo Euro ne changent pas de valeur. "
+      "text": "Si plus de gens utilisent les CNDL Dollar et CNDL Euro, la valeur du CELO augmente. Contrairement au CELO, le CNDL Dollar et le CNDL Euro ne changent pas de valeur. "
     },
     {
-      "title": "Participez au réseau Celo",
-      "text": "En possédant des CELO, vous avez la possibilité de voter pour les changements et les fonctionnalités que vous aimeriez voir sur le réseau Celo."
+      "title": "Participez au réseau CNDL",
+      "text": "En possédant des CELO, vous avez la possibilité de voter pour les changements et les fonctionnalités que vous aimeriez voir sur le réseau CNDL."
     },
     {
       "title": "Achetez et vendez de façon responsable",
@@ -995,7 +995,7 @@
   "verificationUnavailable": "La connexion du numéro de téléphone est actuellement indisponible. Veuillez saisir votre numéro de téléphone et nous vous informerons quand il sera possible de le connecter à nouveau.\n\nEn attendant, vous pouvez continuer à utiliser {{appName}} avec des QR codes et des Adresses de compte. Ne vous inquiétez pas, les paiements envoyés vers votre numéro de téléphone seront conservés jusqu'à ce que vous connectiez votre numéro de téléphone.",
   "requests": "Demandes",
   "empty": "Vous n'avez pas de demandes de paiement",
-  "celoDollarBalance": "Solde en Celo Dollars",
+  "celoDollarBalance": "Solde en CNDL Dollars",
   "requestDeclined": "Demande déclinée",
   "requestPaid": "Demande payée",
   "paymentRequestUpdateFailed": "Impossible de mettre à jour la demande de paiement",
@@ -1170,7 +1170,7 @@
     "sendTransactionAction": "Envoyer",
     "unsupportedChain": {
       "title": "Chaîne non prise en charge",
-      "description": "{{dappName}} demande cette action sur une chaîne non prise en charge par {{appName}}. Veuillez vous assurer que Celo est la chaîne active du côté de la dapp.",
+      "description": "{{dappName}} demande cette action sur une chaîne non prise en charge par {{appName}}. Veuillez vous assurer que CNDL est la chaîne active du côté de la dapp.",
       "descriptionV1_74_one": "{{dappName}} demande cette action sur une chaîne non prise en charge par {{appName}}. Veuillez vous assurer que {{supportedNetworkNames}} est la chaîne active du côté de la dapp.",
       "descriptionV1_74_other": "{{dappName}} demande cette action sur une chaîne non prise en charge par {{appName}}. Veuillez vous assurer que la chaîne active sur le dapp est l'une des suivantes : {{supportedNetworkNames}}."
     },
@@ -1185,13 +1185,13 @@
     "session": {
       "failUnsupportedNamespace": {
         "title": "Chaîne non prise en charge",
-        "description": "{{dappName}} aimerait se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assurez-vous que Celo est bien sélectionné du côté de la dapp.",
+        "description": "{{dappName}} aimerait se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assurez-vous que CNDL est bien sélectionné du côté de la dapp.",
         "descriptionV1_74_one": "{{dappName}} souhaite se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assurez-vous que {{supportedNetworkNames}} est bien sélectionné du côté de la dapp.",
         "descriptionV1_74_other": "{{dappName}} souhaite se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assurez-vous que la chaîne active sur le dapp est l'une des suivantes : {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Chaîne non prise en charge",
-        "description": "{{dappName}} n'a pas indiqué que Celo était une chaîne prise en charge. Certaines fonctionnalités peuvent ne pas fonctionner comme prévu.",
+        "description": "{{dappName}} n'a pas indiqué que CNDL était une chaîne prise en charge. Certaines fonctionnalités peuvent ne pas fonctionner comme prévu.",
         "descriptionV1_74_one": "{{dappName}} n'a pas indiqué que {{supportedNetworkNames}} était une chaîne prise en charge. Certaines fonctionnalités peuvent ne pas fonctionner comme prévu.",
         "descriptionV1_74_other": "{{dappName}} n'a pas indiqué qu'aucune des chaînes suivantes étant prises en charge : {{supportedNetworkNames}}. Certaines fonctionnalités peuvent ne pas fonctionner comme prévu."
       },
@@ -1242,7 +1242,7 @@
   "viewAll": "Voir tout",
   "noNotificationsPlaceholder": "Tout est bon pour vous !",
   "thanksForVerifying": "Merci d'avoir connecté votre numéro",
-  "goldIsWhereYouSave": "CELO vous permet de conserver les Celo Dollars et Celo Euro que vous avez",
+  "goldIsWhereYouSave": "CELO vous permet de conserver les CNDL Dollars et CNDL Euro que vous avez",
   "dinner": "Dîner",
   "bikeParts": "Pièces de vélo",
   "groceryRun": "Épicerie",
@@ -1254,7 +1254,7 @@
   "verificationFee": "Frais de confirmation",
   "networkFee": "Frais de réseau",
   "networkFeeExplanation": {
-    "0": "Chaque semaine, des sommes très modiques (moins de 0,01%) du solde en Celo Dollars de chaque utilisateur sont utilisés pour maintenir la stabilité de la valeur du Celo Dollar. Pour en savoir plus sur les frais Celo, consultez la ",
+    "0": "Chaque semaine, des sommes très modiques (moins de 0,01%) du solde en CNDL Dollars de chaque utilisateur sont utilisés pour maintenir la stabilité de la valeur du CNDL Dollar. Pour en savoir plus sur les frais CNDL, consultez la ",
     "1": "FAQ"
   },
   "confirmingTransaction": "Confirmation…",
@@ -1294,20 +1294,20 @@
   "feedItemBoughtCeloTitle": "CELO achetés",
   "feedItemSoldCeloTitle": "CELO vendus",
   "feedItemExchangeCeloInfo": "{{amount}} à {{price}}",
-  "feedItemVerificationFeeTitle": "Celo",
+  "feedItemVerificationFeeTitle": "CNDL",
   "feedItemVerificationFeeInfo": "$t(verificationFee)",
-  "feedItemNetworkFeeTitle": "Celo",
+  "feedItemNetworkFeeTitle": "CNDL",
   "feedItemNetworkFeeInfo": "Frais de réseau",
-  "feedItemVerificationRewardTitle": "Celo",
+  "feedItemVerificationRewardTitle": "CNDL",
   "feedItemVerificationRewardInfo": "Récompense de confirmation",
   "feedItemFailedTransaction": "Échec de la transaction",
-  "feedItemFaucetTitle": "Celo",
+  "feedItemFaucetTitle": "CNDL",
   "feedItemFaucetInfo": "{{faucet}} Faucet",
   "feedItemFaucetInfo_noTestnet": "Faucet",
-  "feedItemInviteSentTitle": "Celo",
+  "feedItemInviteSentTitle": "CNDL",
   "feedItemInviteSentInfo": "Invité {{nameOrNumber}}",
   "feedItemInviteSentInfo_noInviteeDetails": "$t(inviteSent)",
-  "feedItemInviteReceivedTitle": "Celo",
+  "feedItemInviteReceivedTitle": "CNDL",
   "feedItemInviteReceivedInfo": "$t(inviteReceived)",
   "feedItemSentTitle": "{{displayName}}",
   "feedItemSentInfo": "{{comment}}",
@@ -1979,7 +1979,7 @@
   },
   "celoNews": {
     "headerTitle": "Actualités",
-    "headerDescription": "Découvrez les cas d'utilisation, les projets pilotes et les mises à jour techniques sur Celo.",
+    "headerDescription": "Découvrez les cas d'utilisation, les projets pilotes et les mises à jour techniques sur CNDL.",
     "readMoreButtonText": "En savoir plus sur le blog",
     "loadingError": "Désolé, nous n'avons pas pu charger les dernières actualités. Veuillez réessayer plus tard.",
     "retryButtonText": "Réessayer"
@@ -1993,7 +1993,7 @@
       "dapp": "Explorez les moyens d'utiliser mes crypto",
       "earn": "Explorez les opportunités de gains",
       "profile": "Créez votre profil",
-      "learn": "Apprenez-en plus sur Celo",
+      "learn": "Apprenez-en plus sur CNDL",
       "learnPoints": "Apprenez-en plus sur les points {{appName}}"
     }
   },
@@ -2087,7 +2087,7 @@
     },
     "moreActions": "Plus d'actions",
     "actionDescriptions": {
-      "send": "Utilisez n'importe quelle adresse Celo, domaine, numéro de téléphone, etc.",
+      "send": "Utilisez n'importe quelle adresse CNDL, domaine, numéro de téléphone, etc.",
       "sendV1_74_one": "Utilisez n'importe quelle adresse ou domaine {{supportedNetworkNames}}, numéro de téléphone, etc.",
       "sendV1_74_other": "Utilisez n'importe quelle adresse, domaine ou numéro de téléphone sur les réseaux suivants : {{supportedNetworkNames}}",
       "swap": "Échangez vos jetons sans quitter votre portefeuille",
@@ -2215,18 +2215,18 @@
   },
   "jumpstartIntro": {
     "title": "Envoyez des crypto aussi facilement qu'un SMS",
-    "description": "Les Live Links vous permettent d'envoyer de la crypto sur le réseau Celo à un ami grâce à un lien",
-    "noFundsHint": "Pour commencer, vous aurez besoin d'actifs sur Celo dans votre portefeuille.",
+    "description": "Les Live Links vous permettent d'envoyer de la crypto sur le réseau CNDL à un ami grâce à un lien",
+    "noFundsHint": "Pour commencer, vous aurez besoin d'actifs sur CNDL dans votre portefeuille.",
     "haveFundsButton": "Envoyer avec un lien direct",
     "addFundsCelo": {
-      "title": "Obtenir des actifs sur Celo",
-      "info": "Les Live Links permettent d'envoyer des crypto sur le réseau Celo à un ami à l'aide d'un lien.\nPour commencer, vous avez besoin d'avoir des actifs CELO dans votre portefeuille.",
-      "description": "Une fois que vous aurez ajouté des actifs sur Celo, vous pourrez créer un Live Link.",
-      "cta": "Obtenir des actifs sur Celo",
+      "title": "Obtenir des actifs sur CNDL",
+      "info": "Les Live Links permettent d'envoyer des crypto sur le réseau CNDL à un ami à l'aide d'un lien.\nPour commencer, vous avez besoin d'avoir des actifs CELO dans votre portefeuille.",
+      "description": "Une fois que vous aurez ajouté des actifs sur CNDL, vous pourrez créer un Live Link.",
+      "cta": "Obtenir des actifs sur CNDL",
       "actionDescriptions": {
-        "add": "Achetez des actifs sur Celo en utilisant un de nos fournisseurs de confiance",
-        "swap": "Échangez d'un actif sur Celo vers un autre",
-        "transfer": "Utilisez n'importe quel portefeuille compatible ou échangez pour déposer des actifs sur Celo"
+        "add": "Achetez des actifs sur CNDL en utilisant un de nos fournisseurs de confiance",
+        "swap": "Échangez d'un actif sur CNDL vers un autre",
+        "transfer": "Utilisez n'importe quel portefeuille compatible ou échangez pour déposer des actifs sur CNDL"
       }
     }
   },
@@ -2345,7 +2345,7 @@
   "error": "Erreur",
   "linkPhoneNumber": {
     "title": "Associez un numéro de téléphone à votre portefeuille",
-    "description": "Plus aucune adresse de portefeuille désordonnée ! Envoyez des cryptomonnaies aux autres utilisateurs Celo avec un numéro de téléphone",
+    "description": "Plus aucune adresse de portefeuille désordonnée ! Envoyez des cryptomonnaies aux autres utilisateurs CNDL avec un numéro de téléphone",
     "startButtonLabel": "Associer un numéro de téléphone",
     "later": "Je le ferai plus tard"
   },
@@ -2822,6 +2822,6 @@
     "selectToken": "Sélectionner un jeton",
     "fiatPriceUnavailable": "Prix non disponible"
   },
-  "celoDollarAmount": "<0></0> Celo Dollar",
-  "celoDollarAmount_plural": "<0></0> Celo Dollars"
+  "celoDollarAmount": "<0></0> CNDL Dollar",
+  "celoDollarAmount_plural": "<0></0> CNDL Dollars"
 }

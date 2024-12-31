@@ -654,7 +654,7 @@ export const v19Schema = {
   tokens: {
     tokenBalances: {
       [mockCusdAddress]: {
-        name: 'Celo Dollars',
+        name: 'CNDL Dollars',
         address: mockCusdAddress,
         symbol: 'cUSD',
         decimals: 18,
@@ -664,7 +664,7 @@ export const v19Schema = {
         isCoreToken: true,
       },
       [mockCeurAddress]: {
-        name: 'Celo Euros',
+        name: 'CNDL Euros',
         address: mockCeurAddress,
         symbol: 'cEUR',
         decimals: 18,
@@ -674,7 +674,7 @@ export const v19Schema = {
         isCoreToken: true,
       },
       [mockCeloAddress]: {
-        name: 'Celo',
+        name: 'CNDL',
         address: mockCeloAddress,
         symbol: 'CELO',
         decimals: 18,
@@ -816,7 +816,7 @@ export const v25Schema = {
     ...v24Schema.tokens,
     tokenBalances: {
       [mockCusdAddress]: {
-        name: 'Celo Dollars',
+        name: 'CNDL Dollars',
         address: mockCusdAddress,
         symbol: 'cUSD',
         decimals: 18,
@@ -827,7 +827,7 @@ export const v25Schema = {
         priceFetchedAt: Date.now(),
       },
       [mockCeurAddress]: {
-        name: 'Celo Euros',
+        name: 'CNDL Euros',
         address: mockCeurAddress,
         symbol: 'cEUR',
         decimals: 18,
@@ -838,7 +838,7 @@ export const v25Schema = {
         priceFetchedAt: Date.now(),
       },
       [mockCeloAddress]: {
-        name: 'Celo',
+        name: 'CNDL',
         address: mockCeloAddress,
         symbol: 'CELO',
         decimals: 18,

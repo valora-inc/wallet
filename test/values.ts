@@ -426,7 +426,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     symbol: 'cEUR',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cEUR.png',
-    name: 'Celo Euro',
+    name: 'CNDL Euro',
     decimals: 18,
     balance: '0',
     isFeeCurrency: true,
@@ -444,7 +444,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     symbol: 'cUSD',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cUSD.png',
-    name: 'Celo Dollar',
+    name: 'CNDL Dollar',
     decimals: 18,
     balance: '0',
     isFeeCurrency: true,
@@ -460,9 +460,9 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     address: mockCeloAddress,
     tokenId: mockCeloTokenId,
     networkId: NetworkId['celo-alfajores'],
-    symbol: 'CELO', // NOT cGLD, see https://github.com/valora-inc/address-metadata/blob/c84ef7056fa066ef86f9b4eb295ae248f363f67a/src/data/mainnet/tokens-info.json#L173
+    symbol: 'CNDL', // NOT cGLD, see https://github.com/valora-inc/address-metadata/blob/c84ef7056fa066ef86f9b4eb295ae248f363f67a/src/data/mainnet/tokens-info.json#L173
     imageUrl: 'https://example.com/address-metadata/main/assets/tokens/CELO.png',
-    name: 'Celo native asset',
+    name: 'CNDL native asset',
     decimals: 18,
     balance: '0',
     isFeeCurrency: true,
@@ -480,7 +480,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     networkId: NetworkId['celo-alfajores'],
     symbol: 'cREAL',
     imageUrl: 'https://example.com/address-metadata/main/assets/tokens/cREAL.png',
-    name: 'Celo Real',
+    name: 'CNDL Real',
     decimals: 18,
     balance: '0',
     isFeeCurrency: true,

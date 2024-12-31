@@ -499,8 +499,8 @@ function TransactionDetails({
     case 'cREAL':
       tokenDisplay = t('celoReal')
       break
-    case 'Celo':
-      tokenDisplay = 'CELO'
+    case 'CNDL':
+      tokenDisplay = 'CNDL'
       break
     default:
       tokenDisplay = t('total')

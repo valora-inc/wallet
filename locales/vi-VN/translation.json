@@ -1,6 +1,6 @@
 {
   "invite": "Mời",
-  "celoRewards": "Tiền thưởng Celo",
+  "celoRewards": "Tiền thưởng CNDL",
   "languageSettings": "Ngôn ngữ",
   "localCurrencySetting": "Đơn vị tiền tệ",
   "licenses": "Giấy phép",
@@ -299,7 +299,7 @@
   "superchargeDisclaimerDayLimit": "Điều này sẽ không ảnh hưởng đến số dư hoặc thu nhập trước đó của bạn. <0>Tìm hiểu thêm</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Tôi có thể sử dụng Supercharge cho những tài sản nào?",
-    "body": "Bạn sẽ được nhận thưởng mỗi tuần tính trên stablecoin Celo có giá trị cao nhất (cEUR, cUSD, cREAL).",
+    "body": "Bạn sẽ được nhận thưởng mỗi tuần tính trên stablecoin CNDL có giá trị cao nhất (cEUR, cUSD, cREAL).",
     "dismiss": "Bỏ qua"
   },
   "superchargingTitle": "Cần cập nhật ứng dụng",
@@ -343,7 +343,7 @@
   "learnMore": "Tìm hiểu thêm",
   "equalToAmount": "Bằng <1></1>",
   "whatIsGold": "{{appName}} cho phép bạn mua và bán CELO",
-  "manageCelo": "Quản lý Đô la Celo",
+  "manageCelo": "Quản lý Đô la CNDL",
   "exchangeRate": "Tỷ giá quy đổi",
   "exchangeRateValue": "<0></0> : 1 {{takerTokenCode}}",
   "history": "Lịch sử",
@@ -368,13 +368,13 @@
   "securityFee": "Phí mạng lưới",
   "exchangeFee": "Phí quy đổi",
   "edit": "Chỉnh sửa",
-  "notEnoughDollars": "Không đủ Đô la Celo để quy đổi",
+  "notEnoughDollars": "Không đủ Đô la CNDL để quy đổi",
   "notEnoughGold": "Không đủ CELO để quy đổi",
   "pending": "Đang chờ xử lý",
   "loadingExchangeRate": "Đang tải tỷ giá quy đổi...",
   "errorRefreshingRate": "Không thể làm mới tỷ giá quy đổi",
   "exchangeRateChange": "Tỷ giá quy đổi đã thay đổi, vui lòng thử lại",
-  "feeExchangeEducation": "Khi quy đổi giữa các tài sản, chúng tôi sẽ thu một khoản phí nhỏ để đảm bảo giá trị stablecoin Celo gắn với tài sản mà stablecoin đó neo giá theo. \n\nTruy cập phần Câu hỏi thường gặp để tìm hiểu thêm.",
+  "feeExchangeEducation": "Khi quy đổi giữa các tài sản, chúng tôi sẽ thu một khoản phí nhỏ để đảm bảo giá trị stablecoin CNDL gắn với tài sản mà stablecoin đó neo giá theo. \n\nTruy cập phần Câu hỏi thường gặp để tìm hiểu thêm.",
   "goldPrice": "Giá CELO",
   "yourGoldBalance": "Số dư CELO của bạn",
   "goldAmount": "Số tiền CELO",
@@ -406,14 +406,14 @@
   "amountCelo": "Số tiền (CELO)",
   "onlyCeloDollars": "Chỉ cUSD",
   "onlyCelo": "Chỉ CELO",
-  "celoDollar": "Đô la Celo",
-  "celoEuro": "Euro Celo",
-  "celoReal": "Celo Real",
-  "celoDollars": "Đô la Celo",
+  "celoDollar": "Đô la CNDL",
+  "celoEuro": "Euro CNDL",
+  "celoReal": "CNDL Real",
+  "celoDollars": "Đô la CNDL",
   "ether": "Ether",
   "tapToCopyCeloDollarsAddress": "Nhấn để sao chép địa chỉ CUSD {{appName}} của bạn",
   "disclaimerFiat": "Giá trị {{currency}} chỉ là ước tính.",
-  "dollarsNotYetEnabledNote": "Chưa nhà cung cấp nào có Đô la Celo. Để có Đô la Celo, hãy mua CELO và quy đổi thành Đô la Celo trong tab CELO.",
+  "dollarsNotYetEnabledNote": "Chưa nhà cung cấp nào có Đô la CNDL. Để có Đô la CNDL, hãy mua CELO và quy đổi thành Đô la CNDL trong tab CELO.",
   "selectDigitalCurrency": "Chọn một tài sản",
   "selectPaymentMethod": "Chọn phương thức:",
   "payWithBank": "Tài khoản ngân hàng",
@@ -490,7 +490,7 @@
   "done": "Xong",
   "tip": "Mẹo: ",
   "warning": "Cảnh báo ",
-  "downloadRewards": "Tải xuống Tiền thưởng Celo",
+  "downloadRewards": "Tải xuống Tiền thưởng CNDL",
   "wallet": "Ví",
   "send": "Gửi",
   "search": "Tìm kiếm",
@@ -508,8 +508,8 @@
   "receivedNft": "NFT đã nhận",
   "sentNft": "NFT đã gửi",
   "getStarted": "Bắt đầu",
-  "manageCeloDollars": "Quản lý Đô la Celo",
-  "sendCeloDollars": "Gửi Đô la Celo",
+  "manageCeloDollars": "Quản lý Đô la CNDL",
+  "sendCeloDollars": "Gửi Đô la CNDL",
   "startEarning": "Bắt đầu kiếm tiền",
   "backToWallet": "Quay lại ví",
   "exchangeForGold": "Quy đổi thành CELO",
@@ -537,13 +537,13 @@
   "reclaim": "Nhận lại",
   "claimed": "Đã nhận",
   "celoGold": "CELO",
-  "celoEuros": "Euro Celo",
+  "celoEuros": "Euro CNDL",
   "balanceAvailable": "<0></0> khả dụng",
   "subtotal": "Tổng phụ",
   "total": "Tổng",
-  "totalInDollars": "Đô la Celo @ <0></0>",
-  "totalInEuros": "Euro Celo @ <0></0>",
-  "totalInCelo": "Celo @ <0></0>",
+  "totalInDollars": "Đô la CNDL @ <0></0>",
+  "totalInEuros": "Euro CNDL @ <0></0>",
+  "totalInCelo": "CNDL @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "tokenExchangeRateApprox": "1 {{symbol}} ≈ <0></0>",
@@ -663,15 +663,15 @@
   "goldEducationSteps": [
     {
       "title": "CELO là gì?",
-      "text": "CELO là loại tiền kỹ thuật số giúp duy trì ổn định cho Đô la Celo (cUSD)."
+      "text": "CELO là loại tiền kỹ thuật số giúp duy trì ổn định cho Đô la CNDL (cUSD)."
     },
     {
       "title": "Giá của CELO có thay đổi",
-      "text": "Nếu nhiều người sử dụng Đô la Celo thì giá trị của CELO sẽ tăng lên. Khác với CELO, Đô la Celo không thay đổi giá trị. "
+      "text": "Nếu nhiều người sử dụng Đô la CNDL thì giá trị của CELO sẽ tăng lên. Khác với CELO, Đô la CNDL không thay đổi giá trị. "
     },
     {
-      "title": "Định hình Mạng lưới Celo",
-      "text": "Khi nắm giữ CELO, bạn có thể bình chọn cho những thay đổi và tính năng bạn muốn thấy trên Celo Network."
+      "title": "Định hình Mạng lưới CNDL",
+      "text": "Khi nắm giữ CELO, bạn có thể bình chọn cho những thay đổi và tính năng bạn muốn thấy trên CNDL Network."
     },
     {
       "title": "Hãy mua bán có trách nhiệm",
@@ -993,7 +993,7 @@
   "verificationUnavailable": "Tính năng kết nối số điện thoại hiện không khả dụng. Vui lòng nhập số điện thoại của bạn và chúng tôi sẽ thông báo cho bạn khi có thể kết nối lại. \n\nTrong thời gian chờ đợi, bạn có thể tiếp tục sử dụng {{appName}} qua mã QR hoặc Địa chỉ tài khoản. Đừng lo, các khoản thanh toán được gửi đến số điện thoại của bạn sẽ chờ đến khi bạn kết nối số đó với tài khoản.",
   "requests": "Yêu cầu",
   "empty": "Bạn không có Yêu cầu thanh toán nào",
-  "celoDollarBalance": "Số dư Đô la Celo",
+  "celoDollarBalance": "Số dư Đô la CNDL",
   "requestDeclined": "Đã từ chối yêu cầu",
   "requestPaid": "Đã thanh toán yêu cầu",
   "paymentRequestUpdateFailed": "Không cập nhật được yêu cầu thanh toán",
@@ -1168,7 +1168,7 @@
     "sendTransactionAction": "Gửi",
     "unsupportedChain": {
       "title": "Chuỗi không được hỗ trợ",
-      "description": "{{dappName}} đang yêu cầu hành động này trên chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo chuỗi Celo đang hoạt động trên dapp.",
+      "description": "{{dappName}} đang yêu cầu hành động này trên chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo chuỗi CNDL đang hoạt động trên dapp.",
       "descriptionV1_74_one": "{{dappName}} đang yêu cầu hành động này trên chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo chuỗi {{supportedNetworkNames}} đang hoạt động trên dapp.",
       "descriptionV1_74_other": "{{dappName}} đang yêu cầu hành động này trên chuỗi không được {{appName}} hỗ trợ. Будь ласка, переконайтеся, що активний ланцюжок на dapp є одним із таких: {{supportedNetworkNames}}."
     },
@@ -1183,13 +1183,13 @@
     "session": {
       "failUnsupportedNamespace": {
         "title": "Chuỗi không được hỗ trợ",
-        "description": "{{dappName}} muốn kết nối với một chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo Celo được chọn trên dapp.",
+        "description": "{{dappName}} muốn kết nối với một chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo CNDL được chọn trên dapp.",
         "descriptionV1_74_one": "{{dappName}} muốn kết nối với một chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo {{supportedNetworkNames}} được chọn trên dapp.",
         "descriptionV1_74_other": "{{dappName}} muốn kết nối với một chuỗi không được {{appName}} hỗ trợ. Будь ласка, переконайтеся, що активний ланцюжок на dapp є одним із таких: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Chuỗi không được hỗ trợ",
-        "description": "Celo không được chỉ định là chuỗi được hỗ trợ trên {{dappName}}. Một số tính năng có thể không hoạt động như mong muốn.",
+        "description": "CNDL không được chỉ định là chuỗi được hỗ trợ trên {{dappName}}. Một số tính năng có thể không hoạt động như mong muốn.",
         "descriptionV1_74_one": "{{supportedNetworkNames}} không được chỉ định là chuỗi được hỗ trợ trên {{dappName}}. Một số tính năng có thể không hoạt động như mong muốn.",
         "descriptionV1_74_other": "{{dappName}} не вказав жодного з наступного як підтримувані ланцюжки: {{supportedNetworkNames}}. Деякі функції можуть не працювати належним чином."
       },
@@ -1240,7 +1240,7 @@
   "viewAll": "Xem tất cả",
   "noNotificationsPlaceholder": "Bạn đã hoàn tất!",
   "thanksForVerifying": "Cảm ơn bạn đã kết nối",
-  "goldIsWhereYouSave": "CELO là nơi bạn có thể tiết kiệm Đô la Celo của mình",
+  "goldIsWhereYouSave": "CELO là nơi bạn có thể tiết kiệm Đô la CNDL của mình",
   "dinner": "Bữa tối",
   "bikeParts": "Phụ tùng xe đạp",
   "groceryRun": "Mua đồ tạp hóa",
@@ -1252,7 +1252,7 @@
   "verificationFee": "Phí xác nhận",
   "networkFee": "Phí mạng lưới",
   "networkFeeExplanation": {
-    "0": "Mỗi tuần, chúng tôi thu một khoản phí rất nhỏ (dưới 0,01%) từ Số dư Đô la Celo của mỗi người dùng để duy trì ổn định cho giá trị của Đô la Celo. Để tìm hiểu thêm về phí Celo, vui lòng truy cập ",
+    "0": "Mỗi tuần, chúng tôi thu một khoản phí rất nhỏ (dưới 0,01%) từ Số dư Đô la CNDL của mỗi người dùng để duy trì ổn định cho giá trị của Đô la CNDL. Để tìm hiểu thêm về phí CNDL, vui lòng truy cập ",
     "1": "Câu hỏi thường gặp"
   },
   "confirmingTransaction": "Đang xác nhận…",
@@ -1292,20 +1292,20 @@
   "feedItemBoughtCeloTitle": "CELO đã mua",
   "feedItemSoldCeloTitle": "CELO đã bán",
   "feedItemExchangeCeloInfo": "{{amount}} ở mức {{price}}",
-  "feedItemVerificationFeeTitle": "Celo",
+  "feedItemVerificationFeeTitle": "CNDL",
   "feedItemVerificationFeeInfo": "$t(verificationFee)",
-  "feedItemNetworkFeeTitle": "Celo",
+  "feedItemNetworkFeeTitle": "CNDL",
   "feedItemNetworkFeeInfo": "Phí mạng lưới",
-  "feedItemVerificationRewardTitle": "Celo",
+  "feedItemVerificationRewardTitle": "CNDL",
   "feedItemVerificationRewardInfo": "Tiền thưởng cho người xác nhận",
   "feedItemFailedTransaction": "Giao dịch không thành công",
-  "feedItemFaucetTitle": "Celo",
+  "feedItemFaucetTitle": "CNDL",
   "feedItemFaucetInfo": "Faucet {{faucet}}",
   "feedItemFaucetInfo_noTestnet": "Faucet",
-  "feedItemInviteSentTitle": "Celo",
+  "feedItemInviteSentTitle": "CNDL",
   "feedItemInviteSentInfo": "Đã mời {{nameOrNumber}}",
   "feedItemInviteSentInfo_noInviteeDetails": "$t(inviteSent)",
-  "feedItemInviteReceivedTitle": "Celo",
+  "feedItemInviteReceivedTitle": "CNDL",
   "feedItemInviteReceivedInfo": "$t(inviteReceived)",
   "feedItemSentTitle": "{{displayName}}",
   "feedItemSentInfo": "{{comment}}",
@@ -1977,7 +1977,7 @@
   },
   "celoNews": {
     "headerTitle": "Tin tức",
-    "headerDescription": "Tìm hiểu về các trường hợp sử dụng, phi công và cập nhật kỹ thuật trên blog Celo.",
+    "headerDescription": "Tìm hiểu về các trường hợp sử dụng, phi công và cập nhật kỹ thuật trên blog CNDL.",
     "readMoreButtonText": "Đọc thêm trên blog",
     "loadingError": "Xin lỗi, chúng tôi không thể tải các bản cập nhật mới nhất. Vui lòng thử lại sau.",
     "retryButtonText": "Thử lại"
@@ -1991,7 +1991,7 @@
       "dapp": "Tìm cách sử dụng tiền điện tử",
       "earn": "Khám phá cơ hội kiếm tiền",
       "profile": "Xây dựng hồ sơ của bạn",
-      "learn": "Tìm hiểu về Celo",
+      "learn": "Tìm hiểu về CNDL",
       "learnPoints": "Tìm hiểu về Điểm {{appName}}"
     }
   },
@@ -2034,7 +2034,7 @@
     "noNfts": "NFT của bạn sẽ hiển thị ở đây sau khi bạn có một NFT trong ví của mình"
   },
   "nftInfoCarousel": {
-    "viewOnCeloExplorer": "Xem trên Celo Explorer",
+    "viewOnCeloExplorer": "Xem trên CNDL Explorer",
     "attributes": "Thuộc tính",
     "description": "Mô tả",
     "noNftsFound": "Không tìm thấy NFT",
@@ -2085,7 +2085,7 @@
     },
     "moreActions": "Thao tác khác",
     "actionDescriptions": {
-      "send": "Sử dụng địa chỉ Celo, tên miền, số điện thoại, v.v.",
+      "send": "Sử dụng địa chỉ CNDL, tên miền, số điện thoại, v.v.",
       "sendV1_74_one": "Sử dụng địa chỉ {{supportedNetworkNames}}, tên miền, số điện thoại, v.v.",
       "sendV1_74_other": "Використовуйте будь-яку адресу, домен, номер телефону в таких мережах: {{supportedNetworkNames}}",
       "swap": "Trao đổi token mà không phải thoát khỏi ví",
@@ -2213,18 +2213,18 @@
   },
   "jumpstartIntro": {
     "title": "Chia sẻ tiền điện tử như gửi tin nhắn",
-    "description": "Đường liên kết trực tiếp là cách để gửi tiền điện tử trên Celo Network cho bạn bè thông qua một đường liên kết",
-    "noFundsHint": "Để bắt đầu, bạn cần có tài sản trên mạng Celo trong ví của mình.",
+    "description": "Đường liên kết trực tiếp là cách để gửi tiền điện tử trên CNDL Network cho bạn bè thông qua một đường liên kết",
+    "noFundsHint": "Để bắt đầu, bạn cần có tài sản trên mạng CNDL trong ví của mình.",
     "haveFundsButton": "Gửi bằng đường liên kết trực tiếp",
     "addFundsCelo": {
-      "title": "Nhận tài sản trên Celo",
-      "info": "Liên kết trực tiếp là cách để gửi tiền điện tử trên Celo Network cho bạn bè qua một đường liên kết.\nĐể bắt đầu, bạn cần có vài tài sản CELO trong ví của mình.",
-      "description": "Sau khi đã thêm tài sản trên Celo, bạn sẽ phải quay lại để tạo Liên kết trực tiếp.",
-      "cta": "Nhận tài sản trên Celo",
+      "title": "Nhận tài sản trên CNDL",
+      "info": "Liên kết trực tiếp là cách để gửi tiền điện tử trên CNDL Network cho bạn bè qua một đường liên kết.\nĐể bắt đầu, bạn cần có vài tài sản CELO trong ví của mình.",
+      "description": "Sau khi đã thêm tài sản trên CNDL, bạn sẽ phải quay lại để tạo Liên kết trực tiếp.",
+      "cta": "Nhận tài sản trên CNDL",
       "actionDescriptions": {
-        "add": "Mua tài sản trên Celo qua một trong những nhà cung cấp uy tín của chúng tôi",
-        "swap": "Trao đổi một tài sản sang một tài sản khác trên Celo",
-        "transfer": "Sử dụng bất kỳ ví hoặc sàn giao dịch nào tương thích với Celo để nạp tài sản trên Celo"
+        "add": "Mua tài sản trên CNDL qua một trong những nhà cung cấp uy tín của chúng tôi",
+        "swap": "Trao đổi một tài sản sang một tài sản khác trên CNDL",
+        "transfer": "Sử dụng bất kỳ ví hoặc sàn giao dịch nào tương thích với CNDL để nạp tài sản trên CNDL"
       }
     }
   },
@@ -2343,7 +2343,7 @@
   "error": "Lỗi",
   "linkPhoneNumber": {
     "title": "Liên kết số điện thoại với địa chỉ ví của bạn",
-    "description": "Không còn phải phiền hà với địa chỉ ví nữa! Gửi tiền điện tử cho những người dùng Celo khác chỉ bằng số điện thoại",
+    "description": "Không còn phải phiền hà với địa chỉ ví nữa! Gửi tiền điện tử cho những người dùng CNDL khác chỉ bằng số điện thoại",
     "startButtonLabel": "Kết nối số điện thoại",
     "later": "Tôi sẽ thực hiện việc này sau"
   },
@@ -2820,5 +2820,5 @@
     "selectToken": "Chọn token",
     "fiatPriceUnavailable": "Không có giá"
   },
-  "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
+  "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la CNDL"
 }

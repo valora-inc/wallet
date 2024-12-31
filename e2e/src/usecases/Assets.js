@@ -19,7 +19,7 @@ async function validateSendFlow(tokenSymbol) {
   await element(by.text(recipientAddressDisplay)).atIndex(0).tap()
   await waitForElementById('SendOrInviteButton', { tap: true })
   await expect(
-    element(by.text(`${tokenSymbol} on Celo`).withAncestor(by.id('SendEnterAmount/TokenSelect')))
+    element(by.text(`${tokenSymbol} on Candle`).withAncestor(by.id('SendEnterAmount/TokenSelect')))
   ).toBeVisible()
   await element(by.id('BackChevron')).tap()
   await element(by.id('BackChevron')).tap()
@@ -40,7 +40,7 @@ export default Assets = () => {
       tokens: [
         {
           tokenId: 'celo-mainnet:native',
-          symbol: 'CELO',
+          symbol: 'CNDL',
           actions: ['Send', 'Add'],
           moreActions: ['Send', 'Add', 'Withdraw'],
           learnMore: true,
@@ -59,7 +59,7 @@ export default Assets = () => {
       tokens: [
         {
           tokenId: 'celo-mainnet:native',
-          symbol: 'CELO',
+          symbol: 'CNDL',
           actions: ['Add'],
           moreActions: [],
           learnMore: true,

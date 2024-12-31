@@ -100,11 +100,11 @@ export const DynamicConfigs = {
     defaultValues: {
       minRequiredVersion: '0.0.0',
       links: {
-        web: 'https://valora.xyz/',
-        tos: 'https://valora.xyz/terms',
-        privacy: 'https://valora.xyz/privacy',
-        faq: 'https://valora.xyz/faq',
-        funding: 'https://valora.xyz/fund-wallet',
+        web: 'https://candle-labs.com/',
+        tos: 'https://candle-labs.com/terms',
+        privacy: 'https://candle-labs.com/privacy',
+        faq: 'https://candle-labs.com/faq',
+        funding: 'https://candle-labs.com/fund-wallet',
         forum: 'https://forum.celo.org/c/valora/8',
         swapLearnMore: 'https://valora.xyz/support/swap-learn-more',
         transactionFeesLearnMore: 'https://valora.xyz/support/transaction-fees-learn-more',
