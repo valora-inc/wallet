@@ -37,8 +37,6 @@ import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions
 import { EarnPosition, Position } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import EnterAmountOptions from 'src/send/EnterAmountOptions'
-import { AmountEnteredIn } from 'src/send/types'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
@@ -269,7 +267,6 @@ export default function EarnEnterAmount({ route }: Props) {
   const { estimatedFeeAmount, feeCurrency, maxFeeAmount } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
-  const isAmountLessThanBalance = tokenAmount && tokenAmount.lte(balanceInInputToken)
   const showLowerAmountError =
     processedAmounts.token.bignum && processedAmounts.token.bignum.gt(inputToken.balance)
   const transactionIsPossible =
@@ -422,9 +419,7 @@ export default function EarnEnterAmount({ route }: Props) {
                     flow: CICOFlow.CashIn,
                     tokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
                   })
-                : onTokenAmountInputChange(
-                    prepareTransactionsResult.decreasedSpendAmount.toString()
-                  )
+                : handleAmountInputChange(prepareTransactionsResult.decreasedSpendAmount.toString())
             }
           }}
           testIdPrefix={'EarnEnterAmount'}
