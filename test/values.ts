@@ -1156,7 +1156,7 @@ export const exchangePriceHistory = {
   range: 30 * 24 * 60 * 60 * 1000, // 30 days
 }
 
-// Generate mock CELO prices
+// Generate mock CNDL prices
 const prices = range(60).map((i) => ({
   priceUsd: (i / 60).toString(),
   priceFetchedAt: endDate - i * 24 * 3600 * 1000,
