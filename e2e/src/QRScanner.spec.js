@@ -1,73 +1,73 @@
 import { reloadReactNative } from './utils/retries'
-import { quickOnboarding, waitForElementId } from './utils/utils'
+import { quickOnboarding, waitForElementById } from './utils/utils'
+
+const verifyCamera = async () => {
+  // testID 'Camera' is one of the few that works on Android. iOS uses 'CameraScanInfo' because the camera is behind an opacity overlay
+  device.getPlatform() === 'ios'
+    ? await waitForElementById('CameraScanInfo')
+    : await waitForElementById('Camera')
+}
 
 describe('Given QR Scanner', () => {
   beforeAll(async () => {
     await quickOnboarding()
+    await reloadReactNative()
   })
 
   describe('When opening QR scanner', () => {
     it('Then should display QR code', async () => {
-      await reloadReactNative()
-      await waitForElementId('HomeAction-Receive')
-      await element(by.id('HomeAction-Receive')).tap()
-      await waitForElementId('QRCode')
-      await expect(element(by.id('QRCode'))).toBeVisible()
+      await waitForElementById('HomeAction-Receive', { tap: true })
+      await waitForElementById('QRCode')
     })
 
     it('Then should be able to toggle camera', async () => {
-      await waitForElementId('Scan')
-      await element(by.id('Scan')).tap()
-      await waitForElementId('CameraScanInfo')
-      await expect(element(by.id('CameraScanInfo'))).toBeVisible()
+      await waitForElementById('Scan', { tap: true })
+      await verifyCamera()
     })
 
     it('Then should be able to toggle to QR code', async () => {
-      await waitForElementId('My Code')
-      await element(by.id('My Code')).tap()
-      await waitForElementId('QRCode')
-      await expect(element(by.id('QRCode'))).toBeVisible()
+      await waitForElementById('My Code', { tap: true })
+      await waitForElementById('QRCode')
     })
 
     it('Then should be able to close QR code scanner', async () => {
-      await waitForElementId('Times')
-      await element(by.id('Times')).tap()
-      await waitForElementId('HomeAction-Send')
-      await expect(element(by.id('HomeAction-Send'))).toBeVisible()
+      await waitForElementById('Times', { tap: true })
+      await waitForElementById('HomeAction-Send')
     })
   })
 
   describe("When 'scanning' QR", () => {
     beforeEach(async () => {
       await reloadReactNative()
-      await waitForElementId('HomeAction-Receive')
-      await element(by.id('HomeAction-Receive')).tap()
-      await waitForElementId('Scan')
-      await element(by.id('Scan')).tap()
-      await waitForElementId('CameraScanInfo')
-      await element(by.id('CameraScanInfo')).tap()
+      await waitForElementById('HomeAction-Receive', { tap: true })
+      await waitForElementById('Scan', { tap: true })
+      await verifyCamera()
     })
 
     it('Then should be able to handle Celo pay QR', async () => {
-      await waitForElementId('ManualInput')
+      // Use instead of waitForElementById as the element is not visible behind opacity overlay
+      await element(by.id('CameraScanInfo')).tap()
+      await waitForElementById('ManualInput')
       await element(by.id('ManualInput')).replaceText(
         'celo://wallet/pay?address=0xe5F5363e31351C38ac82DBAdeaD91Fd5a7B08846'
       )
-      await waitForElementId('ManualSubmit')
+      await waitForElementById('ManualSubmit')
       await element(by.id('ManualSubmit')).tap()
 
-      await waitForElementId('SendEnterAmount/AmountOptions')
+      await waitForElementById('SendEnterAmount/AmountOptions')
       await element(by.text('Done')).tap() // dismiss the keyboard to reveal the proceed button
       await expect(element(by.id('SendEnterAmount/ReviewButton'))).toBeVisible()
     })
 
     it('Then should handle address only QR', async () => {
-      await waitForElementId('ManualInput')
+      // Use instead of waitForElementById as the element is not visible behind opacity overlay
+      await element(by.id('CameraScanInfo')).tap()
+      await waitForElementById('ManualInput')
       await element(by.id('ManualInput')).replaceText('0xe5F5363e31351C38ac82DBAdeaD91Fd5a7B08846')
-      await waitForElementId('ManualSubmit')
+      await waitForElementById('ManualSubmit')
       await element(by.id('ManualSubmit')).tap()
 
-      await waitForElementId('SendEnterAmount/AmountOptions')
+      await waitForElementById('SendEnterAmount/AmountOptions')
       await element(by.text('Done')).tap() // dismiss the keyboard to reveal the proceed button
       await expect(element(by.id('SendEnterAmount/ReviewButton'))).toBeVisible()
     })

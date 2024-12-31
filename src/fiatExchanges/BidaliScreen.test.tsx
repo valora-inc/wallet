@@ -14,14 +14,14 @@ const mockScreenProps = getMockStackScreenProps(Screens.BidaliScreen, {
 
 declare global {
   interface Window {
-    walletApp: any
+    valora: any
   }
 }
 
 describe(BidaliScreen, () => {
   beforeEach(() => {
     // Reset injected JS effect
-    window.walletApp = undefined
+    window.valora = undefined
   })
 
   it('renders correctly when no phone number is provided', () => {
@@ -51,7 +51,7 @@ describe(BidaliScreen, () => {
     expect(webView).toBeDefined()
     // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
-    expect(window.walletApp).toMatchInlineSnapshot(`
+    expect(window.valora).toMatchInlineSnapshot(`
       {
         "balances": {
           "CEUR": "5",
@@ -91,7 +91,7 @@ describe(BidaliScreen, () => {
     expect(webView).toBeDefined()
     // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
-    expect(window.walletApp).toMatchInlineSnapshot(`
+    expect(window.valora).toMatchInlineSnapshot(`
       {
         "balances": {
           "CEUR": "5",
@@ -136,7 +136,7 @@ describe(BidaliScreen, () => {
     // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
     // `paymentCurrency` is CEUR here because it has the highest balance in the local currency
-    expect(window.walletApp).toMatchInlineSnapshot(`
+    expect(window.valora).toMatchInlineSnapshot(`
       {
         "balances": {
           "CEUR": "9",

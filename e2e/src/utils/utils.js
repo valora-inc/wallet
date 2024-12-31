@@ -120,32 +120,22 @@ export async function isElementVisible(elementId, index) {
     return false
   }
 }
-/**
- * Wait for an element to be visible for at least set amount of time
- * @param {string} elementId testID of the element to wait for
- * @param {number} timeout timeout in milliseconds
- */
-export async function waitForElementId(elementId, timeout = 10 * 1000) {
-  try {
-    await waitFor(element(by.id(elementId)))
-      .toBeVisible()
-      .withTimeout(timeout)
-  } catch {
-    throw new Error(`Element with testID '${elementId}' not found`)
-  }
-}
 
-/**
- * Wait for an element to be visible and then tap it
- * @param {string} elementId testID of the element to wait for
- * @param {number} timeout timeout in milliseconds
- * @param {number} index index of the element to tap
- */
-export async function waitForElementByIdAndTap(elementId, timeout = 10 * 1000, index = 0) {
-  await waitForElementId(elementId, timeout)
-  index === 0
-    ? await element(by.id(elementId)).tap()
-    : await element(by.id(elementId)).atIndex(index).tap()
+export async function waitForElementById(testID, { timeout = 10000, index = 0, tap = false } = {}) {
+  try {
+    const elementMatcher =
+      index === 0 ? element(by.id(testID)) : element(by.id(testID)).atIndex(index)
+
+    await waitFor(elementMatcher).toBeVisible().withTimeout(timeout)
+
+    if (tap) {
+      index === 0
+        ? await element(by.id(testID)).tap()
+        : await element(by.id(testID)).atIndex(index).tap()
+    }
+  } catch {
+    throw new Error(`Element with testID '${testID}' not found`)
+  }
 }
 
 export async function quickOnboarding({
@@ -169,7 +159,12 @@ export async function quickOnboarding({
     // Verify pin
     await enterPinUi()
 
-    if (cloudBackupEnabled) await waitForElementByIdAndTap('ImportSelect/Mnemonic')
+    if (cloudBackupEnabled) {
+      await waitForElementByText({
+        text: 'From recovery phrase',
+        tap: true,
+      })
+    }
 
     // Restore existing wallet
     await waitFor(element(by.id('connectingToCelo')))
@@ -177,7 +172,10 @@ export async function quickOnboarding({
       .withTimeout(20000)
 
     // Input Wallet Backup Key
-    await waitForElementByIdAndTap('ImportWalletBackupKeyInputField')
+    await waitForElementById('ImportWalletBackupKeyInputField', {
+      tap: true,
+    })
+
     await element(by.id('ImportWalletBackupKeyInputField')).replaceText(mnemonic)
     if (device.getPlatform() === 'ios') {
       // On iOS, type one more space to workaround onChangeText not being triggered with replaceText above
@@ -189,21 +187,25 @@ export async function quickOnboarding({
     }
 
     await scrollIntoView('Restore', 'ImportWalletKeyboardAwareScrollView')
-    await waitForElementByIdAndTap('ImportWalletButton')
+    await waitForElementById('ImportWalletButton', {
+      tap: true,
+    })
     // Wait for the wallet to restored
     await sleep(5 * 1000)
 
     try {
       // case where account not funded yet. continue with onboarding.
-      await waitForElementByIdAndTap('ConfirmUseAccountDialog/PrimaryAction')
+      await waitForElementById('ConfirmUseAccountDialog/PrimaryAction', {
+        tap: true,
+      })
     } catch {}
 
     // this onboarding step is bypassed for already verified wallets
     try {
-      // Verify Education
-      await waitForElementId('PhoneVerificationSkipHeader')
-      // Skip
-      await element(by.id('PhoneVerificationSkipHeader')).tap()
+      // Skip Phone Verification
+      await waitForElementById('PhoneVerificationSkipHeader', {
+        tap: true,
+      })
     } catch {
       console.log(
         'Error trying to skip phone verification step during onboarding, likely due to wallet already being verified'
@@ -212,10 +214,12 @@ export async function quickOnboarding({
 
     // Choose your own adventure (CYA screen)
     if (stopOnCYA) {
-      await waitForElementId('ChooseYourAdventure/Later')
+      await waitForElementById('ChooseYourAdventure/Later')
       return
     }
-    await waitForElementByIdAndTap('ChooseYourAdventure/Later')
+    await waitForElementById('ChooseYourAdventure/Later', {
+      tap: true,
+    })
 
     // Assert on Wallet Home Screen
     await expect(element(by.id('HomeAction-Send'))).toBeVisible()
@@ -412,18 +416,30 @@ export async function fundWallet(senderPrivateKey, recipientAddress, stableToken
 }
 
 export async function navigateToSecurity() {
-  await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
-  await waitForElementByIdAndTap('SettingsMenu/Security')
+  await waitForElementById('WalletHome/SettingsGearButton', {
+    tap: true,
+  })
+  await waitForElementById('SettingsMenu/Security', {
+    tap: true,
+  })
 }
 
 export async function navigateToProfile() {
-  await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
-  await waitForElementByIdAndTap('SettingsMenu/Profile')
+  await waitForElementById('WalletHome/SettingsGearButton', {
+    tap: true,
+  })
+  await waitForElementById('SettingsMenu/Profile', {
+    tap: true,
+  })
 }
 
 export async function navigateToPreferences() {
-  await waitForElementByIdAndTap('WalletHome/SettingsGearButton')
-  await waitForElementByIdAndTap('SettingsMenu/Preferences')
+  await waitForElementById('WalletHome/SettingsGearButton', {
+    tap: true,
+  })
+  await waitForElementById('SettingsMenu/Preferences', {
+    tap: true,
+  })
 }
 
 export const getDisplayAddress = (address) => {

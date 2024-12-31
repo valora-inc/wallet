@@ -98,16 +98,24 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
   )
 
   const trackedTxs: TrackedTx[] = []
-  const networkId = pool.networkId
+  const poolNetworkId = pool.networkId
+  const fromNetworkId = fromTokenInfo.networkId
   const commonAnalyticsProps = {
     depositTokenId,
     depositTokenAmount: amount,
-    networkId,
+    networkId: poolNetworkId,
     providerId: pool.appId,
     poolId: pool.positionId,
     fromTokenAmount,
     fromTokenId,
+    fromNetworkId,
     mode,
+    swapType:
+      mode === 'swap-deposit'
+        ? fromNetworkId === poolNetworkId
+          ? ('same-chain' as const)
+          : ('cross-chain' as const)
+        : undefined,
   }
 
   let submitted = false
@@ -152,7 +160,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
           ): BaseStandbyTransaction => {
             return {
               context: newTransactionContext(TAG, 'Earn/Approve'),
-              networkId,
+              networkId: fromNetworkId,
               type: TokenTransactionTypeV2.Approval,
               transactionHash,
               tokenId: fromTokenId,
@@ -176,7 +184,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       ): BaseStandbyTransaction => {
         return {
           context: newTransactionContext(TAG, 'Earn/Deposit'),
-          networkId,
+          networkId: fromNetworkId,
           type: TokenTransactionTypeV2.EarnDeposit,
           inAmount: {
             value: amount,
@@ -197,7 +205,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       ): BaseStandbyTransaction => {
         return {
           context: newTransactionContext(TAG, 'Earn/SwapDeposit'),
-          networkId,
+          networkId: fromNetworkId,
           type: TokenTransactionTypeV2.EarnSwapDeposit,
           swap: {
             inAmount: { value: amount, tokenId: depositTokenId },
@@ -225,9 +233,9 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     const txHashes = yield* call(
       sendPreparedTransactions,
       serializablePreparedTransactions,
-      networkId,
+      fromNetworkId,
       createDepositStandbyTxHandlers,
-      isGasSubsidizedForNetwork(networkId)
+      isGasSubsidizedForNetwork(fromNetworkId)
     )
     txHashes.forEach((txHash, i) => {
       trackedTxs[i].txHash = txHash
@@ -246,9 +254,12 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     Logger.debug(`${TAG}/depositSubmitSaga`, 'Waiting for transaction receipts')
     const txReceipts = yield* all(
       txHashes.map((txHash) => {
-        return call([publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'], {
-          hash: txHash,
-        })
+        return call(
+          [publicClient[networkIdToNetwork[fromNetworkId]], 'waitForTransactionReceipt'],
+          {
+            hash: txHash,
+          }
+        )
       })
     )
     txReceipts.forEach((receipt, index) => {
@@ -265,14 +276,17 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       throw new Error(`Deposit transaction reverted: ${depositTxReceipt?.transactionHash}`)
     }
 
+    // TODO(ACT-1514): for cross chain swaps, fire this when the tx feed
+    // confirms it, similar to swaps (or consider firing a  new event, since we
+    // have some gas properties here that can be useful for all txs)
     AppAnalytics.track(EarnEvents.earn_deposit_submit_success, {
       ...commonAnalyticsProps,
-      ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
+      ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, poolNetworkId, tokensById),
     })
     yield* put(
       depositSuccess({
         tokenId: depositTokenInfo.tokenId,
-        networkId,
+        networkId: poolNetworkId,
         transactionHash: txHashes[txHashes.length - 1],
       })
     )
@@ -290,7 +304,7 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
     AppAnalytics.track(EarnEvents.earn_deposit_submit_error, {
       ...commonAnalyticsProps,
       error: error.message,
-      ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
+      ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, poolNetworkId, tokensById),
     })
 
     // Only vibrate if we haven't already submitted the transaction

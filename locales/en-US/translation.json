@@ -2781,9 +2781,11 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",
+      "depositTitle": "Deposit to pool",
       "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
       "beforeYouCanDepositTitle": "Before you can deposit...",
       "beforeYouCanDepositDescription": "You’ll need to add one of the pool tokens. Once added, you’ll need to return to complete your pool deposit.",
+      "beforeYouCanDepositDescriptionV1_101": "You’ll need to add {{tokenSymbol}} on {{tokenNetwork}}. Once added, you’ll need to return to complete your pool deposit.",
       "action": {
         "swapAndDeposit": "Swap & Deposit",
         "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
@@ -2794,7 +2796,10 @@
         "add": "Buy",
         "addDescription": "Buy {{tokenSymbol}} on {{tokenNetwork}} using one of our trusted providers",
         "transfer": "Transfer",
-        "transferDescription": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}"
+        "transferDescription": "Use any {{tokenNetwork}} compatible wallet or exchange to deposit {{tokenSymbol}}",
+        "addMore": "Buy more {{tokenSymbol}}",
+        "deposit": "Deposit your {{tokenSymbol}}",
+        "depositDescription": "You have {{amount}} {{tokenSymbol}}"
       }
     }
   },

@@ -2785,9 +2785,11 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Aby dokonać wpłaty, potrzebny jest {{tokenSymbol}} w {{tokenNetwork}}",
+      "depositTitle": "Depozyt do puli",
       "crossChainAlternativeDescription": "Jeśli nie chcesz użyć swoich tokenów w {{tokenNetwork}}, wybierz poniższą opcję. Trzeba będzie tu wrócić, aby później sfinalizować wpłatę do puli.",
       "beforeYouCanDepositTitle": "Zanim będzie można dokonać wpłaty...",
       "beforeYouCanDepositDescription": "Musisz dodać jeden z tokenów puli. Po dodaniu musisz tu wrócić, aby sfinalizować wpłatę do puli.",
+      "beforeYouCanDepositDescriptionV1_101": "Musisz dodać stronę {{tokenSymbol}} na {{tokenNetwork}}. Po dodaniu musisz wrócić, aby uzupełnić depozyt za basen.",
       "action": {
         "swapAndDeposit": "Wymiana i wpłata",
         "swapAndDepositDescription": "Wybierz dowolny token w {{tokenNetwork}}. Wymienimy go i jednocześnie wpłacimy za Ciebie.",
@@ -2798,7 +2800,10 @@
         "add": "Kup",
         "addDescription": "Kup {{tokenSymbol}} w {{tokenNetwork}}, korzystając z usług jednego z naszych zaufanych dostawców",
         "transfer": "Transfer",
-        "transferDescription": "Użyj dowolnego portfela lub giełdy kompatybilnej z {{tokenNetwork}}, aby wpłacić {{tokenSymbol}}"
+        "transferDescription": "Użyj dowolnego portfela lub giełdy kompatybilnej z {{tokenNetwork}}, aby wpłacić {{tokenSymbol}}",
+        "addMore": "Kup więcej {{tokenSymbol}}",
+        "deposit": "Złóż depozyt na {{tokenSymbol}}",
+        "depositDescription": "Masz {{amount}} {{tokenSymbol}}"
       }
     }
   },
