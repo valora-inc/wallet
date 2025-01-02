@@ -39,7 +39,7 @@ function GasFeeWarning({
   }, [prepareTransactionsResult])
 
   if (!prepareTransactionsResult || prepareTransactionsResult.type === 'possible') {
-    return null
+    return false
   }
 
   const feeCurrency =
