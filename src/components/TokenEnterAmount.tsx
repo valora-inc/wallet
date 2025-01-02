@@ -116,8 +116,6 @@ export function useEnterAmount(props: {
   inputRef: React.RefObject<RNTextInput>
   onHandleAmountInputChange?(amount: string): void
 }) {
-  const { decimalSeparator } = getNumberFormatSettings()
-
   /**
    * This field is formatted for processing purpose. It is a lot easier to process a number formatted
    * in a single format, rather than writing different logic for various combinations of decimal
@@ -146,6 +144,8 @@ export function useEnterAmount(props: {
    *       - `local.displayAmount` -> `localDisplayAmount`
    */
   const processedAmounts = useMemo(() => {
+    const { decimalSeparator } = getNumberFormatSettings()
+
     if (!props.token) {
       return {
         token: { bignum: null, displayAmount: '' },
@@ -215,7 +215,7 @@ export function useEnterAmount(props: {
         displayAmount: getDisplayLocalAmount(parsedLocalAmount, localCurrencySymbol),
       },
     }
-  }, [amount, amountType, localCurrencySymbol, props.token])
+  }, [amount, amountType, localCurrencySymbol, usdToLocalRate, props.token])
 
   function handleToggleAmountType() {
     if (!props.token) return
