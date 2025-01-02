@@ -654,12 +654,12 @@ export default function SwapScreenV2({ route }: Props) {
     })
   }
 
-  function onPressLearnMore() {
+  function handlePressLearnMore() {
     AppAnalytics.track(SwapEvents.swap_learn_more)
     navigate(Screens.WebViewScreen, { uri: links.swapLearnMore })
   }
 
-  function onPressLearnMoreFees() {
+  function handlePressLearnMoreFees() {
     AppAnalytics.track(SwapEvents.swap_gas_fees_learn_more)
     navigate(Screens.WebViewScreen, { uri: links.transactionFeesLearnMore })
   }
@@ -842,7 +842,7 @@ export default function SwapScreenV2({ route }: Props) {
                 })}
                 ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}
                 style={styles.warning}
-                onPressCta={onPressLearnMoreFees}
+                onPressCta={handlePressLearnMoreFees}
                 testID="MaxSwapAmountWarning"
               />
             )}
@@ -890,7 +890,7 @@ export default function SwapScreenV2({ route }: Props) {
               i18nKey="swapScreen.disclaimer"
               context={showUKCompliantVariant ? 'UK' : undefined}
             >
-              <Text style={styles.disclaimerLink} onPress={onPressLearnMore}></Text>
+              <Text style={styles.disclaimerLink} onPress={handlePressLearnMore}></Text>
             </Trans>
           </Text>
           <Button
