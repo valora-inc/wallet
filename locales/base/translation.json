@@ -2823,5 +2823,6 @@
     "availableBalance": "Available: <0></0>",
     "selectToken": "Select token",
     "fiatPriceUnavailable": "Price unavailable"
-  }
+  },
+  "on": "on"
 }

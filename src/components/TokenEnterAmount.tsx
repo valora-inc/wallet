@@ -16,6 +16,7 @@ import TextInput from 'src/components/TextInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
+import i18n from 'src/i18n'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import SwapArrows from 'src/icons/SwapArrows'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
@@ -38,7 +39,7 @@ const BORDER_RADIUS = 12
 export const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS = 250
 
 export function getDisplayTokenName<T extends { symbol: string; networkId: NetworkId }>(token: T) {
-  return `${token.symbol} on ${NETWORK_NAMES[token.networkId]}`
+  return `${token.symbol} ${i18n.t('on')} ${NETWORK_NAMES[token.networkId]}`
 }
 
 /**
@@ -214,7 +215,7 @@ export function useEnterAmount(props: {
         displayAmount: getDisplayLocalAmount(parsedLocalAmount, localCurrencySymbol),
       },
     }
-  }, [amount, amountType, localCurrencySymbol])
+  }, [amount, amountType, localCurrencySymbol, props.token])
 
   function handleToggleAmountType() {
     if (!props.token) return
