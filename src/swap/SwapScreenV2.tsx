@@ -447,12 +447,8 @@ export default function SwapScreenV2({ route }: Props) {
       toTokenId: toToken.tokenId,
       fromTokenId: fromToken.tokenId,
       swapAmount: {
-        [Field.FROM]: processedAmountsFrom.token.bignum
-          ? processedAmountsFrom.token.bignum.toString()
-          : '',
-        [Field.TO]: processedAmountsTo.token.bignum
-          ? processedAmountsTo.token.bignum.toString()
-          : '',
+        [Field.FROM]: processedAmountsFrom.token.bignum?.toString ?? '',
+        [Field.TO]: processedAmountsTo.token.bignum?.toString ?? '',
       },
       updatedField: Field.FROM,
     }
@@ -567,7 +563,7 @@ export default function SwapScreenV2({ route }: Props) {
     let newSwitchedToNetwork: typeof switchedToNetworkId | null = null
 
     switch (true) {
-      // If were selecting a field that was already selected in the other input then switch inputs
+      // If we're selecting a field that was already selected in the other input then switch inputs
       case (field === Field.FROM && toToken?.tokenId === selectedToken.tokenId) ||
         (field === Field.TO && fromToken?.tokenId === selectedToken.tokenId): {
         newFromToken = toToken
