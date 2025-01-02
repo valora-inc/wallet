@@ -2792,7 +2792,7 @@
       "action": {
         "swapAndDeposit": "Swap & Deposit",
         "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
-        "swapAndDepositAllTokensDescription": "Choose any token\u2014we’ll swap and deposit it simultaneously for you.",
+        "swapAndDepositAllTokensDescription": "Choose any token—we’ll swap and deposit it simultaneously for you.",
         "crossChainSwap": "Cross-chain Swap",
         "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
         "swap": "Swap",
