@@ -162,10 +162,14 @@ function useSwapQuote({
   networkId,
   slippagePercentage,
   enableAppFee,
+  onSuccess,
+  onError,
 }: {
   networkId: NetworkId
   slippagePercentage: string
   enableAppFee: boolean
+  onSuccess?(result: QuoteResult | null): void
+  onError?(error: Error): void
 }) {
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
@@ -183,7 +187,7 @@ function useSwapQuote({
         return null
       }
 
-      if (!swapAmount[updatedField].gt(0)) {
+      if (!swapAmount[updatedField]) {
         return null
       }
 
@@ -264,7 +268,9 @@ function useSwapQuote({
     {
       // Keep last result when refreshing
       setLoading: (state) => ({ ...state, loading: true }),
+      onSuccess: (result) => onSuccess?.(result),
       onError: (error: Error) => {
+        onError?.(error)
         Logger.warn('SwapScreen@useSwapQuote', 'error from approve swap url', error)
       },
     }
