@@ -2822,7 +2822,8 @@
   "tokenEnterAmount": {
     "availableBalance": "Available: <0></0>",
     "selectToken": "Select token",
-    "fiatPriceUnavailable": "Price unavailable"
+    "fiatPriceUnavailable": "Price unavailable",
+    "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
   },
   "on": "on"
 }

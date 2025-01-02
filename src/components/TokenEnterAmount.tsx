@@ -16,7 +16,6 @@ import TextInput from 'src/components/TextInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
-import i18n from 'src/i18n'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import SwapArrows from 'src/icons/SwapArrows'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
@@ -30,17 +29,12 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { type TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
-import { NetworkId } from 'src/transactions/types'
 import { parseInputAmount } from 'src/utils/parsing'
 
 export const APPROX_SYMBOL = '≈'
 
 const BORDER_RADIUS = 12
 export const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME_MS = 250
-
-export function getDisplayTokenName<T extends { symbol: string; networkId: NetworkId }>(token: T) {
-  return `${token.symbol} ${i18n.t('on')} ${NETWORK_NAMES[token.networkId]}`
-}
 
 /**
  * This function formats numbers in a "1234.5678" format into the correct format according to the
@@ -389,7 +383,10 @@ export default function TokenEnterAmount({
 
                 <View style={styles.tokenNameAndAvailable}>
                   <Text style={styles.tokenName} testID={`${testID}/TokenName`}>
-                    {getDisplayTokenName(token)}
+                    {t('tokenEnterAmount.tokenDescription', {
+                      tokenName: token.symbol,
+                      tokenNetwork: NETWORK_NAMES[token.networkId],
+                    })}
                   </Text>
                   <Text style={styles.tokenBalance} testID={`${testID}/TokenBalance`}>
                     <Trans i18nKey="tokenEnterAmount.availableBalance">

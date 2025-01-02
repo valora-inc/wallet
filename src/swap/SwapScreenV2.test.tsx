@@ -9,9 +9,10 @@ import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { APPROX_SYMBOL, getDisplayTokenName } from 'src/components/TokenEnterAmount'
+import { APPROX_SYMBOL } from 'src/components/TokenEnterAmount'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import {
   getDynamicConfigParams,
   getExperimentParams,
@@ -258,7 +259,11 @@ const selectSingleSwapToken = (
     fireEvent.press(within(swapScreen).getByText('swapScreen.noUsdPriceWarning.ctaConfirm'))
   }
 
-  expect(within(swapAmountContainer).getByText(getDisplayTokenName(token!))).toBeTruthy()
+  expect(
+    within(swapAmountContainer).getByText(
+      `tokenEnterAmount.tokenDescription, {"tokenName":"${token!.symbol}","tokenNetwork":"${NETWORK_NAMES[token!.networkId]}"}`
+    )
+  ).toBeTruthy()
 
   if (swapFieldType === Field.TO && !token!.priceUsd) {
     expect(
@@ -371,7 +376,11 @@ describe('SwapScreen', () => {
   it('should display the token set via fromTokenId prop', () => {
     const { swapFromContainer, swapToContainer } = renderScreen({ fromTokenId: mockCeurTokenId })
 
-    expect(within(swapFromContainer).getByText('cEUR on Celo Alfajores')).toBeTruthy()
+    expect(
+      within(swapFromContainer).getByText(
+        'tokenEnterAmount.tokenDescription, {"tokenName":"cEUR","tokenNetwork":"Celo Alfajores"}'
+      )
+    ).toBeTruthy()
     expect(within(swapToContainer).getByText('tokenEnterAmount.selectToken')).toBeTruthy()
   })
 
@@ -427,7 +436,11 @@ describe('SwapScreen', () => {
 
     // finish the token selection
     fireEvent.press(within(fromTokenBottomSheet).getByText('Celo Dollar'))
-    expect(within(swapFromContainer).getByText('cUSD on Celo Alfajores')).toBeTruthy()
+    expect(
+      within(swapFromContainer).getByText(
+        'tokenEnterAmount.tokenDescription, {"tokenName":"cUSD","tokenNetwork":"Celo Alfajores"}'
+      )
+    ).toBeTruthy()
 
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
@@ -473,8 +486,16 @@ describe('SwapScreen', () => {
     selectSingleSwapToken(swapToContainer, 'cUSD', swapScreen, Field.TO)
     selectSingleSwapToken(swapFromContainer, 'cUSD', swapScreen, Field.FROM)
 
-    expect(within(swapFromContainer).getByText('cUSD on Celo Alfajores')).toBeTruthy()
-    expect(within(swapToContainer).getByText('CELO on Celo Alfajores')).toBeTruthy()
+    expect(
+      within(swapFromContainer).getByText(
+        'tokenEnterAmount.tokenDescription, {"tokenName":"cUSD","tokenNetwork":"Celo Alfajores"}'
+      )
+    ).toBeTruthy()
+    expect(
+      within(swapToContainer).getByText(
+        'tokenEnterAmount.tokenDescription, {"tokenName":"CELO","tokenNetwork":"Celo Alfajores"}'
+      )
+    ).toBeTruthy()
   })
 
   it('should swap the to/from tokens even if the to token was not selected', async () => {
@@ -483,7 +504,11 @@ describe('SwapScreen', () => {
     selectSwapTokens('CELO', 'CELO', swapScreen)
 
     expect(within(swapFromContainer).getByText('tokenEnterAmount.selectToken')).toBeTruthy()
-    expect(within(swapToContainer).getByText('CELO on Celo Alfajores')).toBeTruthy()
+    expect(
+      within(swapToContainer).getByText(
+        'tokenEnterAmount.tokenDescription, {"tokenName":"CELO","tokenNetwork":"Celo Alfajores"}'
+      )
+    ).toBeTruthy()
   })
 
   it('should keep the to amount in sync with the exchange rate', async () => {
