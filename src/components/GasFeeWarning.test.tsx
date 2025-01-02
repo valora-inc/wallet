@@ -144,7 +144,7 @@ describe('GasFeeWarning', () => {
       )
       expect(getByTestId('test/GasFeeWarning')).toBeTruthy()
       expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.show_gas_fee_warning, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_impression, {
         flow,
         errorType: prepareTransactionsResult.type,
         tokenId: feeCurrencyTokenId,

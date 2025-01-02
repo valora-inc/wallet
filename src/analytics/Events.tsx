@@ -27,7 +27,7 @@ export enum AppEvents {
 
   handle_deeplink = 'handle_deeplink',
 
-  show_gas_fee_warning = 'show_gas_fee_warning',
+  gas_fee_warning_impression = 'gas_fee_warning_impression',
 }
 
 export enum HomeEvents {

@@ -153,7 +153,7 @@ interface AppEventsProperties {
     fullPath: string | null
     query: string | null
   }
-  [AppEvents.show_gas_fee_warning]: {
+  [AppEvents.gas_fee_warning_impression]: {
     flow: GasFeeWarningFlow
     errorType: 'need-decrease-spend-amount-for-gas' | 'not-enough-balance-for-gas'
     tokenId: string

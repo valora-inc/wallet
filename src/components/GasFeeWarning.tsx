@@ -30,7 +30,7 @@ function GasFeeWarning({
 
   useEffect(() => {
     if (prepareTransactionsResult && prepareTransactionsResult.type !== 'possible') {
-      AppAnalytics.track(AppEvents.show_gas_fee_warning, {
+      AppAnalytics.track(AppEvents.gas_fee_warning_impression, {
         flow,
         errorType: prepareTransactionsResult.type,
         tokenId: feeCurrency.tokenId,
