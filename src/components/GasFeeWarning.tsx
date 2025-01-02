@@ -7,13 +7,7 @@ import InLineNotification, { NotificationVariant } from 'src/components/InLineNo
 import { Spacing } from 'src/styles/styles'
 import { PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 
-export enum GasFeeWarningFlow {
-  Send = 'Send',
-  Swap = 'Swap',
-  Deposit = 'Deposit',
-  Withdraw = 'Withdraw',
-  Dapp = 'Dapp',
-}
+export type GasFeeWarningFlow = 'Send' | 'Swap' | 'Withdraw' | 'Deposit' | 'Dapp'
 
 function GasFeeWarning({
   prepareTransactionsResult,
@@ -48,11 +42,11 @@ function GasFeeWarning({
       : prepareTransactionsResult.feeCurrency
 
   const title =
-    flow === GasFeeWarningFlow.Dapp
+    flow === 'Dapp'
       ? t('gasFeeWarning.titleDapp')
       : t('gasFeeWarning.title', { tokenSymbol: feeCurrency.symbol })
   const description =
-    flow === GasFeeWarningFlow.Dapp
+    flow === 'Dapp'
       ? t('gasFeeWarning.descriptionDapp', { tokenSymbol: feeCurrency.symbol })
       : prepareTransactionsResult.type === 'not-enough-balance-for-gas'
         ? t('gasFeeWarning.descriptionNotEnoughGas', {
@@ -64,7 +58,7 @@ function GasFeeWarning({
             tokenSymbol: feeCurrency.symbol,
           })
   const ctaLabel =
-    flow === GasFeeWarningFlow.Dapp
+    flow === 'Dapp'
       ? undefined
       : prepareTransactionsResult.type === 'not-enough-balance-for-gas'
         ? t('gasFeeWarning.cta', { tokenSymbol: feeCurrency.symbol })

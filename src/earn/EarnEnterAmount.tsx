@@ -9,7 +9,7 @@ import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import GasFeeWarning, { GasFeeWarningFlow } from 'src/components/GasFeeWarning'
+import GasFeeWarning from 'src/components/GasFeeWarning'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
@@ -403,7 +403,7 @@ export default function EarnEnterAmount({ route }: Props) {
         </View>
         <GasFeeWarning
           prepareTransactionsResult={prepareTransactionsResult}
-          flow={GasFeeWarningFlow.Deposit}
+          flow={'Deposit'}
           onPressCta={() => {
             AppAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {
               gasTokenId: feeCurrencies[0].tokenId,
