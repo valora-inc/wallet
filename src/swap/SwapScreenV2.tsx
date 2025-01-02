@@ -447,8 +447,8 @@ export default function SwapScreenV2({ route }: Props) {
       toTokenId: toToken.tokenId,
       fromTokenId: fromToken.tokenId,
       swapAmount: {
-        [Field.FROM]: processedAmountsFrom.token.bignum?.toString ?? '',
-        [Field.TO]: processedAmountsTo.token.bignum?.toString ?? '',
+        [Field.FROM]: processedAmountsFrom.token.bignum?.toString() ?? '',
+        [Field.TO]: processedAmountsTo.token.bignum?.toString() ?? '',
       },
       updatedField: Field.FROM,
     }
