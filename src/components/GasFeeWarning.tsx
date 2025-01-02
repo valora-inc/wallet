@@ -47,43 +47,6 @@ function GasFeeWarning({
       ? prepareTransactionsResult.feeCurrencies[0]
       : prepareTransactionsResult.feeCurrency
 
-  const flowToNotEnoughGasDescriptionString = {
-    [GasFeeWarningFlow.Send]: t('gasFeeWarning.descriptionNotEnoughGas.sending', {
-      tokenSymbol: feeCurrency.symbol,
-    }),
-    [GasFeeWarningFlow.Swap]: t('gasFeeWarning.descriptionNotEnoughGas.swapping', {
-      tokenSymbol: feeCurrency.symbol,
-    }),
-    [GasFeeWarningFlow.Deposit]: t('gasFeeWarning.descriptionNotEnoughGas.depositing', {
-      tokenSymbol: feeCurrency.symbol,
-    }),
-    [GasFeeWarningFlow.Withdraw]: t('gasFeeWarning.descriptionNotEnoughGas.withdrawing', {
-      tokenSymbol: feeCurrency.symbol,
-    }),
-  }
-
-  const flowToDescreasSpendDescriptionString = {
-    [GasFeeWarningFlow.Send]: t('gasFeeWarning.descriptionMaxAmount.sending', {
-      tokenSymbol: feeCurrency.symbol,
-    }),
-    [GasFeeWarningFlow.Swap]: t('gasFeeWarning.descriptionMaxAmount.swapping', {
-      tokenSymbol: feeCurrency.symbol,
-    }),
-    [GasFeeWarningFlow.Deposit]: t('gasFeeWarning.descriptionMaxAmount.depositing', {
-      tokenSymbol: feeCurrency.symbol,
-    }),
-    [GasFeeWarningFlow.Withdraw]: t('gasFeeWarning.descriptionMaxAmount.withdrawing', {
-      tokenSymbol: feeCurrency.symbol,
-    }),
-  }
-
-  const flowToCtaString = {
-    [GasFeeWarningFlow.Send]: t('gasFeeWarning.ctaGasToken.send'),
-    [GasFeeWarningFlow.Swap]: t('gasFeeWarning.ctaGasToken.swap'),
-    [GasFeeWarningFlow.Deposit]: t('gasFeeWarning.ctaGasToken.deposit'),
-    [GasFeeWarningFlow.Withdraw]: t('gasFeeWarning.ctaGasToken.withdraw'),
-  }
-
   const title =
     flow === GasFeeWarningFlow.Dapp
       ? t('gasFeeWarning.titleDapp')
@@ -92,14 +55,20 @@ function GasFeeWarning({
     flow === GasFeeWarningFlow.Dapp
       ? t('gasFeeWarning.descriptionDapp', { tokenSymbol: feeCurrency.symbol })
       : prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-        ? flowToNotEnoughGasDescriptionString[flow]
-        : flowToDescreasSpendDescriptionString[flow]
+        ? t('gasFeeWarning.descriptionNotEnoughGas', {
+            context: flow,
+            tokenSymbol: feeCurrency.symbol,
+          })
+        : t('gasFeeWarning.descriptionMaxAmount', {
+            context: flow,
+            tokenSymbol: feeCurrency.symbol,
+          })
   const ctaLabel =
     flow === GasFeeWarningFlow.Dapp
       ? undefined
       : prepareTransactionsResult.type === 'not-enough-balance-for-gas'
         ? t('gasFeeWarning.cta', { tokenSymbol: feeCurrency.symbol })
-        : flowToCtaString[flow]
+        : t('gasFeeWarning.ctaGasToken', { context: flow })
   return (
     <InLineNotification
       variant={NotificationVariant.Warning}

@@ -2832,26 +2832,16 @@
       "depositing": "Add {{tokenSymbol}} for gas fees or lower the amount you're depositing",
       "withdrawing": "Add {{tokenSymbol}} for gas fees or lower the amount you're withdrawing"
     },
-    "descriptionNotEnoughGas": {
-      "sending": "Adjust the amount you're sending or add {{tokenSymbol}} to continue",
-      "swapping": "Adjust the amount you're swapping or add {{tokenSymbol}} to continue",
-      "depositing": "Adjust the amount you're depositing or add {{tokenSymbol}} to continue",
-      "withdrawing": "Adjust the amount you're withdrawing or add {{tokenSymbol}} to continue"
-    },
+    "descriptionNotEnoughGas_Send": "Adjust the amount you're sending or add {{tokenSymbol}} to continue",
+    "descriptionNotEnoughGas_Swap": "Adjust the amount you're swapping or add {{tokenSymbol}} to continue",
+    "descriptionNotEnoughGas_Deposit": "Adjust the amount you're depositing or add {{tokenSymbol}} to continue",
+    "descriptionNotEnoughGas_Withdraw": "Adjust the amount you're withdrawing or add {{tokenSymbol}} to continue",
     "titleDapp": "You have an insufficient gas token balance",
     "descriptionDapp": "Add {{tokenSymbol}} to complete this transaction",
     "cta": "Buy {{tokenSymbol}}",
-    "ctaGasToken": {
-      "send": "Send smaller amount",
-      "swap": "Swap smaller amount",
-      "deposit": "Deposit smaller amount",
-      "withdraw": "Withdraw smaller amount"
-    },
-    "verb": {
-      "send": "Send",
-      "swap": "Swap",
-      "deposit": "Deposit",
-      "withdraw": "Withdraw"
-    }
+    "ctaGasToken_Send": "Send smaller amount",
+    "ctaGasToken_Swap": "Swap smaller amount",
+    "ctaGasToken_Deposit": "Deposit smaller amount",
+    "ctaGasToken_Withdraw": "Withdraw smaller amount"
   }
 }
