@@ -42,7 +42,8 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { SwapTransaction } from 'src/swap/types'
+import getCrossChainFee from 'src/swap/getCrossChainFee'
+import { SwapFeeAmount, SwapTransaction } from 'src/swap/types'
 import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
@@ -224,6 +225,21 @@ export default function EarnEnterAmount({ route }: Props) {
       useMax: selectedPercentage === 1,
     })
   }
+
+  const crossChainFeeCurrency = useSelector((state) =>
+    feeCurrenciesSelector(state, inputToken.networkId)
+  ).find((token) => token.isNative)
+  const crossChainFee =
+    swapTransaction?.swapType === 'cross-chain' && prepareTransactionsResult
+      ? getCrossChainFee({
+          feeCurrency: crossChainFeeCurrency,
+          preparedTransactions: prepareTransactionsResult,
+          estimatedCrossChainFee: swapTransaction.estimatedCrossChainFee,
+          maxCrossChainFee: swapTransaction.maxCrossChainFee,
+          fromTokenId: inputToken.tokenId,
+          sellAmount: swapTransaction.sellAmount,
+        })
+      : undefined
 
   // This is for withdrawals as we want the user to be able to input the amounts in the deposit token
   const { transactionToken, transactionTokenAmount } = useMemo(() => {
@@ -498,6 +514,7 @@ export default function EarnEnterAmount({ route }: Props) {
           token={inputToken}
           tokenAmount={processedAmounts.token.bignum}
           isWithdrawal={isWithdrawal}
+          crossChainFee={crossChainFee}
         />
       )}
       {swapTransaction && processedAmounts.token.bignum && (
@@ -718,7 +735,7 @@ function TransactionDepositDetails({
   )
 }
 
-// Might be sharable with src/swap/FeeInfoBottomSheet.tsx
+// TODO(ACT-1534) src/swap/FeeInfoBottomSheet.tsx
 function FeeDetailsBottomSheet({
   forwardedRef,
   testID,
@@ -730,6 +747,7 @@ function FeeDetailsBottomSheet({
   token,
   tokenAmount,
   isWithdrawal,
+  crossChainFee,
 }: {
   forwardedRef: React.RefObject<BottomSheetModalRefType>
   testID: string
@@ -741,6 +759,7 @@ function FeeDetailsBottomSheet({
   token: TokenBalance
   tokenAmount: BigNumber
   isWithdrawal: boolean
+  crossChainFee?: SwapFeeAmount
 }) {
   const { t } = useTranslation()
   const inputToken = useTokenInfo(pool.dataProps.depositTokenId)
@@ -831,23 +850,71 @@ function FeeDetailsBottomSheet({
             </Text>
           </View>
         )}
+        {crossChainFee && crossChainFee.token && (
+          <>
+            <RowDivider key="divider" />
+            <View style={styles.gap8}>
+              <View style={styles.bottomSheetLineItem} testID="EstCrossChainFee">
+                <Text style={styles.bottomSheetLineLabel}>
+                  {t('earnFlow.enterAmount.feeBottomSheet.estCrossChainFee')}
+                </Text>
+                <Text style={styles.bottomSheetLineLabelText} testID="EstCrossChainFee/Value">
+                  {'≈ '}
+                  <TokenDisplay
+                    tokenId={crossChainFee.token.tokenId}
+                    amount={crossChainFee.amount.toString()}
+                  />
+                  {' ('}
+                  <TokenDisplay
+                    tokenId={crossChainFee.token.tokenId}
+                    showLocalAmount={false}
+                    amount={crossChainFee.amount.toString()}
+                  />
+                  {')'}
+                </Text>
+              </View>
+              {crossChainFee.maxAmount && (
+                <View style={styles.bottomSheetLineItem} testID="MaxCrossChainFee">
+                  <Text style={styles.bottomSheetLineLabel}>
+                    {t('earnFlow.enterAmount.feeBottomSheet.maxCrossChainFee')}
+                  </Text>
+                  <Text style={styles.bottomSheetLineLabelText} testID="MaxCrossChainFee/Value">
+                    {'≈ '}
+                    <TokenDisplay
+                      tokenId={crossChainFee.token.tokenId}
+                      amount={crossChainFee.maxAmount.toString()}
+                    />
+                    {' ('}
+                    <TokenDisplay
+                      tokenId={crossChainFee.token.tokenId}
+                      showLocalAmount={false}
+                      amount={crossChainFee.maxAmount.toString()}
+                    />
+                    {')'}
+                  </Text>
+                </View>
+              )}
+            </View>
+          </>
+        )}
         <View style={descriptionContainerStyle}>
           <Text style={styles.bottomSheetDescriptionTitle}>
             {t('earnFlow.enterAmount.feeBottomSheet.moreInformation')}
           </Text>
-          {swapFeeAmount ? (
-            <Text style={styles.bottomSheetDescriptionText}>
-              {t('earnFlow.enterAmount.feeBottomSheet.networkSwapFeeDescription', {
-                appFeePercentage: swapTransaction?.appFeePercentageIncludedInPrice,
-              })}
-            </Text>
-          ) : (
-            <Text style={styles.bottomSheetDescriptionText}>
-              {isWithdrawal
-                ? t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescriptionWithdrawal')
-                : t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')}
-            </Text>
-          )}
+          <Text style={styles.bottomSheetDescriptionText}>
+            {t('earnFlow.enterAmount.feeBottomSheet.description', {
+              context: isWithdrawal
+                ? 'withdraw'
+                : swapFeeAmount
+                  ? crossChainFee
+                    ? 'depositCrossChainWithSwapFee'
+                    : 'depositSwapFee'
+                  : crossChainFee
+                    ? 'depositCrossChain'
+                    : 'deposit',
+              appFeePercentage: swapTransaction?.appFeePercentageIncludedInPrice,
+            })}
+          </Text>
         </View>
       </View>
       <Button

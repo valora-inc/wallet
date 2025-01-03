@@ -1,43 +1,51 @@
 import BigNumber from 'bignumber.js'
 import { SwapFeeAmount } from 'src/swap/types'
-import { QuoteResult } from 'src/swap/useSwapQuote'
 import { TokenBalance } from 'src/tokens/slice'
-import { getEstimatedGasFee } from 'src/viem/prepareTransactions'
+import { getEstimatedGasFee, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 
-function getCrossChainFee(
-  quote: QuoteResult | null,
+function getCrossChainFee({
+  feeCurrency,
+  preparedTransactions,
+  estimatedCrossChainFee,
+  maxCrossChainFee,
+  fromTokenId,
+  sellAmount,
+}: {
   feeCurrency?: TokenBalance
-):
+  preparedTransactions: PreparedTransactionsResult
+  estimatedCrossChainFee: string
+  maxCrossChainFee: string
+  fromTokenId: string
+  sellAmount: string
+}):
   | (SwapFeeAmount & {
       nativeTokenBalanceDeficit: BigNumber
     })
   | undefined {
-  if (!quote || quote?.swapType !== 'cross-chain' || !feeCurrency) return
+  if (!feeCurrency) return
 
   let networkFeeInNativeToken = new BigNumber(0)
 
   // Gas is going to eat into our budget for the cross chain fee
   if (
-    quote.preparedTransactions.type === 'possible' &&
-    quote.preparedTransactions.feeCurrency.tokenId === feeCurrency.tokenId
+    preparedTransactions.type === 'possible' &&
+    preparedTransactions.feeCurrency.tokenId === feeCurrency.tokenId
   ) {
-    networkFeeInNativeToken = getEstimatedGasFee(quote.preparedTransactions.transactions).shiftedBy(
+    networkFeeInNativeToken = getEstimatedGasFee(preparedTransactions.transactions).shiftedBy(
       -feeCurrency.decimals
     )
   } else if (
-    quote.preparedTransactions.type === 'need-decrease-spend-amount-for-gas' &&
-    quote.preparedTransactions.feeCurrency.tokenId === feeCurrency.tokenId
+    preparedTransactions.type === 'need-decrease-spend-amount-for-gas' &&
+    preparedTransactions.feeCurrency.tokenId === feeCurrency.tokenId
   ) {
-    networkFeeInNativeToken = quote.preparedTransactions.maxGasFeeInDecimal
+    networkFeeInNativeToken = preparedTransactions.maxGasFeeInDecimal
   }
 
-  const maxCrossChainFeeAmount = new BigNumber(quote.maxCrossChainFee).shiftedBy(
-    -feeCurrency.decimals
-  )
+  const maxCrossChainFeeAmount = new BigNumber(maxCrossChainFee).shiftedBy(-feeCurrency.decimals)
 
   return {
     maxAmount: maxCrossChainFeeAmount,
-    amount: new BigNumber(quote.estimatedCrossChainFee).shiftedBy(-feeCurrency.decimals),
+    amount: new BigNumber(estimatedCrossChainFee).shiftedBy(-feeCurrency.decimals),
     token: feeCurrency,
     nativeTokenBalanceDeficit: BigNumber.min(
       0,
@@ -45,8 +53,8 @@ function getCrossChainFee(
         .minus(networkFeeInNativeToken)
         .minus(maxCrossChainFeeAmount)
         .minus(
-          quote.fromTokenId === feeCurrency.tokenId
-            ? new BigNumber(quote.sellAmount).shiftedBy(-feeCurrency.decimals)
+          fromTokenId === feeCurrency.tokenId
+            ? new BigNumber(sellAmount).shiftedBy(-feeCurrency.decimals)
             : 0
         )
     ),
