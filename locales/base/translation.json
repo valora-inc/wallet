@@ -2581,6 +2581,7 @@
       "fees": "Fees",
       "available": "Available",
       "swap": "Swap",
+      "estimatedDuration": "Est. Transaction Time",
       "claimingReward": "Claiming Reward",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
