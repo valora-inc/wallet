@@ -114,11 +114,13 @@ describe('GasFeeWarning', () => {
       })
       expect(getByText(title)).toBeTruthy()
       expect(getByText(description)).toBeTruthy()
+      expect(ctaLabel ? getByText(ctaLabel) : true).toBeTruthy()
       if (ctaLabel) {
         fireEvent.press(getByText(ctaLabel))
       }
-      expect(ctaLabel ? getByText(ctaLabel) : true).toBeTruthy()
-      expect(changeInputValueFn).toHaveBeenCalledTimes(ctaLabel ? 1 : 0)
+      expect(changeInputValueFn).toHaveBeenCalledTimes(
+        ctaLabel && ctaLabel.includes('ctaGasToken') ? 1 : 0
+      )
     }
   )
 })
