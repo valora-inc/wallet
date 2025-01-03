@@ -10,15 +10,20 @@ import {
   Text,
   View,
 } from 'react-native'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { NotificationVariant } from 'src/components/InLineNotification'
 import SectionHead from 'src/components/SectionHead'
 import Toast from 'src/components/Toast'
+import { FeaturedAction } from 'src/dappsExplorer/DappFeaturedActions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import GetStarted from 'src/home/GetStarted'
 import NotificationBox from 'src/home/NotificationBox'
+import Trophy from 'src/icons/Trophy'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { store } from 'src/redux/store'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
@@ -515,6 +520,15 @@ export default function TransactionFeedV2() {
           <>
             <ActionsCarousel />
             <NotificationBox showOnlyHomeScreenNotifications={true} />
+            <FeaturedAction
+              title={'Refer your friends to earn rewards'}
+              description={
+                'Send your friend a live link and start earning a portion of the revenue they generate.'
+              }
+              Image={<Trophy color={Colors.black} />}
+              onPress={() => navigate(Screens.JumpstartEnterAmount)}
+              style={{ marginLeft: 16, marginVertical: 16 }}
+            />
           </>
         }
         ListEmptyComponent={!showUKCompliantVariant ? <GetStarted /> : <NoActivity />}
