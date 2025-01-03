@@ -1,4 +1,7 @@
 {
+  // Temporarily disable Renovate in this repo until it's ready to be the main source of development
+  // to avoid conflicts and duplicated PRs, while still syncing from the wallet repo
+  enabled: false,
   extends: ['github>valora-inc/renovate-config:default.json5', ':disableDigestUpdates'],
 
   // Restrict semantic commit type to "chore"
