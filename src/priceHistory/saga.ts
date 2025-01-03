@@ -25,11 +25,12 @@ export async function fetchTokenPriceHistory(
   endTimestamp: number
 ): Promise<Price[]> {
   const queryParams = new URLSearchParams({
+    tokenId,
     startTimestamp: `${startTimestamp}`,
     endTimestamp: `${endTimestamp}`,
   }).toString()
 
-  const url = `${networkConfig.blockchainApiUrl}/tokensInfo/${tokenId}/priceHistory?${queryParams}`
+  const url = `${networkConfig.getTokenPriceHistoryUrl}?${queryParams}`
   const response = await fetchWithTimeout(url)
   if (!response.ok) {
     throw new Error(

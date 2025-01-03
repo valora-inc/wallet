@@ -1,15 +1,7 @@
 import BigNumber from 'bignumber.js'
 import React, { ComponentType, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Keyboard,
-  Platform,
-  TextInput as RNTextInput,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-} from 'react-native'
+import { Keyboard, TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -20,7 +12,6 @@ import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
-import TextInput from 'src/components/TextInput'
 import TokenBottomSheet, {
   TokenBottomSheetProps,
   TokenPickerOrigin,
@@ -360,13 +351,8 @@ const styles = StyleSheet.create({
     ...typeScale.titleMedium,
     marginBottom: Spacing.Thick24,
   },
-
   inputContainer: {
     flex: 1,
-  },
-  input: {
-    flex: 1,
-    marginRight: Spacing.Smallest8,
   },
   feeContainer: {
     marginVertical: Spacing.Regular16,
@@ -404,73 +390,3 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
 })
-
-export function AmountInput({
-  inputValue,
-  onInputChange,
-  inputRef,
-  inputStyle,
-  autoFocus,
-  placeholder = '0',
-  testID = 'AmountInput',
-  editable = true,
-}: {
-  inputValue: string
-  onInputChange(value: string): void
-  inputRef: React.MutableRefObject<RNTextInput | null>
-  inputStyle?: StyleProp<TextStyle>
-  autoFocus?: boolean
-  placeholder?: string
-  testID?: string
-  editable?: boolean
-}) {
-  // the startPosition and inputRef variables exist to ensure TextInput
-  // displays the start of the value for long values on Android
-  // https://github.com/facebook/react-native/issues/14845
-  const [startPosition, setStartPosition] = useState<number | undefined>(0)
-
-  const handleSetStartPosition = (value?: number) => {
-    if (Platform.OS === 'android') {
-      setStartPosition(value)
-    }
-  }
-
-  return (
-    <View style={styles.input}>
-      <TextInput
-        forwardedRef={inputRef}
-        onChangeText={(value) => {
-          handleSetStartPosition(undefined)
-          onInputChange(value)
-        }}
-        editable={editable}
-        value={inputValue || undefined}
-        placeholder={placeholder}
-        keyboardType="decimal-pad"
-        // Work around for RN issue with Samsung keyboards
-        // https://github.com/facebook/react-native/issues/22005
-        autoCapitalize="words"
-        autoFocus={autoFocus}
-        // unset lineHeight to allow ellipsis on long inputs on iOS. For
-        // android, ellipses doesn't work and unsetting line height causes
-        // height changes when amount is entered
-        inputStyle={[inputStyle, Platform.select({ ios: { lineHeight: undefined } })]}
-        testID={testID}
-        onBlur={() => {
-          handleSetStartPosition(0)
-        }}
-        onFocus={() => {
-          handleSetStartPosition(inputValue?.length ?? 0)
-        }}
-        onSelectionChange={() => {
-          handleSetStartPosition(undefined)
-        }}
-        selection={
-          Platform.OS === 'android' && typeof startPosition === 'number'
-            ? { start: startPosition }
-            : undefined
-        }
-      />
-    </View>
-  )
-}

@@ -100,5 +100,7 @@
   ignoreDeps: [
     'lottie-react-native', // TODO (act-1187): handle 6.x breaking changes and upgrade
     'react-native-shake', // https://github.com/Doko-Demo-Doa/react-native-shake/issues/62
+    'react-native-adjust', // TODO: remove once this issue is resolved https://github.com/segmentio/analytics-react-native/issues/1036
+    'react-native-quick-crypto', // 0.7.10 breaks dev android builds
   ],
 }

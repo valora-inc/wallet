@@ -50,7 +50,7 @@ describe('watchFetchTokenPriceHistory', () => {
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
     expect(mockFetch).toHaveBeenCalledWith(
-      `${networkConfig.blockchainApiUrl}/tokensInfo/${mockCusdTokenId}/priceHistory?startTimestamp=1700378258000&endTimestamp=1702941458000`,
+      `${networkConfig.getTokenPriceHistoryUrl}?tokenId=${encodeURIComponent(mockCusdTokenId)}&startTimestamp=1700378258000&endTimestamp=1702941458000`,
       expect.any(Object)
     )
   })
