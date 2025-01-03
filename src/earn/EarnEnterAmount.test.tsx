@@ -917,7 +917,7 @@ describe('EarnEnterAmount', () => {
     })
   })
 
-  it('should track analytics and navigate correctly when tapping cta to add gas', async () => {
+  it('should show gas warning error when prepareTransactionsResult is type not-enough-balance-for-gas, and tapping cta behaves as expected', async () => {
     jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransactionNotEnough,
@@ -934,12 +934,8 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
-    await waitFor(() => expect(getByTestId('EarnEnterAmount/NotEnoughForGasWarning')).toBeTruthy())
-    fireEvent.press(
-      getByText(
-        'earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta, {"feeTokenSymbol":"ETH","network":"Arbitrum Sepolia"}'
-      )
-    )
+    await waitFor(() => expect(getByTestId('EarnEnterAmount/GasFeeWarning')).toBeTruthy())
+    fireEvent.press(getByText('gasFeeWarning.cta, {"tokenSymbol":"ETH"}'))
     expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_add_gas_press, {
       gasTokenId: mockArbEthTokenId,
       networkId: NetworkId['arbitrum-sepolia'],

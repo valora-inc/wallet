@@ -26,6 +26,8 @@ export enum AppEvents {
   in_app_review_error = 'in_app_review_error',
 
   handle_deeplink = 'handle_deeplink',
+
+  gas_fee_warning_impression = 'gas_fee_warning_impression',
 }
 
 export enum HomeEvents {
