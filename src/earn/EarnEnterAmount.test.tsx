@@ -871,6 +871,8 @@ describe('EarnEnterAmount', () => {
     const replaceSeparators = (value: string) =>
       value.replace(/\./g, '|').replace(/,/g, group).replace(/\|/g, decimal)
 
+    const defaultFormat = BigNumber.config().FORMAT
+
     beforeEach(() => {
       jest
         .mocked(getNumberFormatSettings)
@@ -882,6 +884,10 @@ describe('EarnEnterAmount', () => {
           groupSize: 3,
         },
       })
+    })
+
+    afterEach(() => {
+      BigNumber.config({ FORMAT: defaultFormat })
     })
 
     const mockStore = createMockStore({
