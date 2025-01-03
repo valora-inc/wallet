@@ -94,14 +94,14 @@ describe('GasFeeWarning', () => {
     'renders error correctly when $scenario',
     ({ flow, prepareTransactionsResult, feeCurrencyTokenId, title, description, ctaLabel }) => {
       const store = createMockStore()
-      const onPressCta = jest.fn()
+      const changeInputValueFn = jest.fn()
       const { getByTestId, getByText } = render(
         <Provider store={store}>
           <GasFeeWarning
             flow={flow}
             testIdPrefix={'test'}
             prepareTransactionsResult={prepareTransactionsResult}
-            onPressCta={ctaLabel ? onPressCta : undefined}
+            changeInputValueFn={changeInputValueFn}
           />
         </Provider>
       )
@@ -118,7 +118,7 @@ describe('GasFeeWarning', () => {
         fireEvent.press(getByText(ctaLabel))
       }
       expect(ctaLabel ? getByText(ctaLabel) : true).toBeTruthy()
-      expect(onPressCta).toHaveBeenCalledTimes(ctaLabel ? 1 : 0)
+      expect(changeInputValueFn).toHaveBeenCalledTimes(ctaLabel ? 1 : 0)
     }
   )
 })

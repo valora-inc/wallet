@@ -4,6 +4,9 @@ import { StyleSheet } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents } from 'src/analytics/Events'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
+import { CICOFlow } from 'src/fiatExchanges/types'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { Spacing } from 'src/styles/styles'
 import { PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 
@@ -12,12 +15,12 @@ export type GasFeeWarningFlow = 'Send' | 'Swap' | 'Withdraw' | 'Deposit' | 'Dapp
 function GasFeeWarning({
   prepareTransactionsResult,
   flow,
-  onPressCta,
+  changeInputValueFn,
   testIdPrefix,
 }: {
   prepareTransactionsResult?: PreparedTransactionsResult
   flow: GasFeeWarningFlow
-  onPressCta?: () => void
+  changeInputValueFn?: (amount: string) => void
   testIdPrefix?: string
 }) {
   const { t } = useTranslation()
@@ -63,6 +66,18 @@ function GasFeeWarning({
       : prepareTransactionsResult.type === 'not-enough-balance-for-gas'
         ? t('gasFeeWarning.cta', { tokenSymbol: feeCurrency.symbol })
         : t('gasFeeWarning.ctaGasToken', { context: flow })
+
+  const onPressCta = () => {
+    prepareTransactionsResult.type === 'not-enough-balance-for-gas'
+      ? navigate(Screens.FiatExchangeAmount, {
+          tokenId: prepareTransactionsResult.feeCurrencies[0].tokenId,
+          flow: CICOFlow.CashIn,
+          tokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+        })
+      : changeInputValueFn
+        ? changeInputValueFn(prepareTransactionsResult.decreasedSpendAmount.toString())
+        : null
+  }
   return (
     <InLineNotification
       variant={NotificationVariant.Warning}

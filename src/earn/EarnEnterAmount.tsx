@@ -28,7 +28,6 @@ import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
-import { CICOFlow } from 'src/fiatExchanges/types'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -404,24 +403,7 @@ export default function EarnEnterAmount({ route }: Props) {
         <GasFeeWarning
           prepareTransactionsResult={prepareTransactionsResult}
           flow={'Deposit'}
-          onPressCta={() => {
-            AppAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {
-              gasTokenId: feeCurrencies[0].tokenId,
-              depositTokenId: pool.dataProps.depositTokenId,
-              networkId: pool.networkId,
-              providerId: pool.appId,
-              poolId: pool.positionId,
-            })
-            if (prepareTransactionsResult && prepareTransactionsResult.type !== 'possible') {
-              prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-                ? navigate(Screens.FiatExchangeAmount, {
-                    tokenId: prepareTransactionsResult.feeCurrencies[0].tokenId,
-                    flow: CICOFlow.CashIn,
-                    tokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-                  })
-                : handleAmountInputChange(prepareTransactionsResult.decreasedSpendAmount.toString())
-            }
-          }}
+          changeInputValueFn={handleAmountInputChange}
           testIdPrefix={'EarnEnterAmount'}
         />
         {showLowerAmountError && (
