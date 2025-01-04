@@ -2579,6 +2579,7 @@
       "fees": "Taxas",
       "available": "Disponível",
       "swap": "Trocar",
+      "estimatedDuration": "Est. Tempo de transação",
       "claimingReward": "Resgatar recompensas",
       "earnUpToLabel": "Você pode ganhar até:",
       "rateLabel": "Taxa (est.)",
