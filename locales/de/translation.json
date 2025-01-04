@@ -2579,6 +2579,7 @@
       "fees": "Gebühren",
       "available": "Verfügbar",
       "swap": "Tauschen",
+      "estimatedDuration": "Est. Transaktionszeit",
       "claimingReward": "Reward wird beansprucht",
       "earnUpToLabel": "Verdienst von bis zu:",
       "rateLabel": "Rate (geschätzt)",
