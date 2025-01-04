@@ -2583,6 +2583,7 @@
       "fees": "Opłaty",
       "available": "Dostępne",
       "swap": "Zamieniaj",
+      "estimatedDuration": "Szac. Czas transakcji",
       "claimingReward": "Odbieranie nagrody",
       "earnUpToLabel": "Możesz zarobić do:",
       "rateLabel": "Stawka (szac.)",
