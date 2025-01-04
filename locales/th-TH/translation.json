@@ -2577,6 +2577,7 @@
       "fees": "ค่าธรรมเนียม",
       "available": "ใช้ได้",
       "swap": "สว็อป",
+      "estimatedDuration": "Est. Transaction Time",
       "claimingReward": "ขอรับรางวัล",
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
       "rateLabel": "อัตรา (โดยประมาณ)",
