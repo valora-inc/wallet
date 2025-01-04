@@ -2579,6 +2579,7 @@
       "fees": "Commissioni",
       "available": "Disponibile",
       "swap": "Scambio",
+      "estimatedDuration": "Est. Tempo di transazione",
       "claimingReward": "Richiedi ricompensa",
       "earnUpToLabel": "Puoi guadagnare fino a:",
       "rateLabel": "Tasso (stima)",
