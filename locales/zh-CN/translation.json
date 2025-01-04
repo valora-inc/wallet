@@ -2577,6 +2577,7 @@
       "fees": "费用",
       "available": "可用",
       "swap": "交换",
+      "estimatedDuration": "估计交易时间",
       "claimingReward": "领取奖励",
       "earnUpToLabel": "您最多可以赚取：",
       "rateLabel": "费率（估算）",
