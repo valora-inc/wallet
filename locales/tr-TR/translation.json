@@ -2579,6 +2579,7 @@
       "fees": "Ücretler",
       "available": "Kullanılabilir",
       "swap": "Swap",
+      "estimatedDuration": "Tahmini İşlem Süresi",
       "claimingReward": "Ödül Alma",
       "earnUpToLabel": "Şu kadar kazanabilirsiniz:",
       "rateLabel": "Oran (tahmini)",
