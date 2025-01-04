@@ -2583,6 +2583,7 @@
       "fees": "Комісії",
       "available": "Доступно",
       "swap": "Обміняти",
+      "estimatedDuration": "Орієнтовно. Час транзакції",
       "claimingReward": "Отримання винагороди",
       "earnUpToLabel": "Можна заробити до:",
       "rateLabel": "Ставка (орієнт.)",
