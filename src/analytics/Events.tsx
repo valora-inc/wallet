@@ -28,6 +28,7 @@ export enum AppEvents {
   handle_deeplink = 'handle_deeplink',
 
   gas_fee_warning_impression = 'gas_fee_warning_impression',
+  gas_fee_warning_cta_press = 'gas_fee_warning_cta_press',
 }
 
 export enum HomeEvents {
@@ -662,7 +663,6 @@ export enum EarnEvents {
   earn_deposit_submit_error = 'earn_deposit_submit_error',
   earn_deposit_submit_cancel = 'earn_deposit_submit_cancel',
   earn_enter_amount_continue_press = 'earn_enter_amount_continue_press',
-  earn_deposit_add_gas_press = 'earn_deposit_add_gas_press',
   earn_feed_item_select = 'earn_feed_item_select',
   earn_collect_earnings_press = 'earn_collect_earnings_press',
   earn_withdraw_submit_start = 'earn_withdraw_submit_start',

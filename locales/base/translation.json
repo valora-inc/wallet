@@ -2838,10 +2838,10 @@
     "descriptionNotEnoughGas_Withdraw": "Adjust the amount you're withdrawing or add {{tokenSymbol}} to continue",
     "titleDapp": "You have an insufficient gas token balance",
     "descriptionDapp": "Add {{tokenSymbol}} to complete this transaction",
-    "cta": "Buy {{tokenSymbol}}",
-    "ctaGasToken_Send": "Send smaller amount",
-    "ctaGasToken_Swap": "Swap smaller amount",
-    "ctaGasToken_Deposit": "Deposit smaller amount",
-    "ctaGasToken_Withdraw": "Withdraw smaller amount"
+    "ctaBuy": "Buy {{tokenSymbol}}",
+    "ctaAction_Send": "Send smaller amount",
+    "ctaAction_Swap": "Swap smaller amount",
+    "ctaAction_Deposit": "Deposit smaller amount",
+    "ctaAction_Withdraw": "Withdraw smaller amount"
   }
 }

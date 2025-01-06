@@ -158,6 +158,11 @@ interface AppEventsProperties {
     errorType: 'need-decrease-spend-amount-for-gas' | 'not-enough-balance-for-gas'
     tokenId: string
   }
+  [AppEvents.gas_fee_warning_cta_press]: {
+    flow: GasFeeWarningFlow
+    errorType: 'need-decrease-spend-amount-for-gas' | 'not-enough-balance-for-gas'
+    tokenId: string
+  }
 }
 
 interface HomeEventsProperties {
@@ -1621,7 +1626,6 @@ interface EarnEventsProperties {
     depositTokenAmount?: string
     swapType?: SwapType // only for swap-deposit
   } & EarnCommonProperties
-  [EarnEvents.earn_deposit_add_gas_press]: EarnCommonProperties & { gasTokenId: string }
   [EarnEvents.earn_feed_item_select]: {
     origin:
       | TokenTransactionTypeV2.EarnDeposit

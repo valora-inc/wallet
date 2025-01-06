@@ -64,15 +64,20 @@ function GasFeeWarning({
     flow === 'Dapp'
       ? undefined
       : prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-        ? t('gasFeeWarning.cta', { tokenSymbol: feeCurrency.symbol })
-        : t('gasFeeWarning.ctaGasToken', { context: flow })
+        ? t('gasFeeWarning.ctaBuy', { tokenSymbol: feeCurrency.symbol })
+        : t('gasFeeWarning.ctaAction', { context: flow })
 
   const onPressCta = () => {
+    AppAnalytics.track(AppEvents.gas_fee_warning_cta_press, {
+      flow,
+      tokenId: feeCurrency.tokenId,
+      errorType: prepareTransactionsResult.type,
+    })
     prepareTransactionsResult.type === 'not-enough-balance-for-gas'
       ? navigate(Screens.FiatExchangeAmount, {
-          tokenId: prepareTransactionsResult.feeCurrencies[0].tokenId,
+          tokenId: feeCurrency.tokenId,
           flow: CICOFlow.CashIn,
-          tokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+          tokenSymbol: feeCurrency.symbol,
         })
       : changeInputValueFn
         ? changeInputValueFn(prepareTransactionsResult.decreasedSpendAmount.toString())

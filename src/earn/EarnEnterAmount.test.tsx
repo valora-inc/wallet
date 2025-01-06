@@ -5,7 +5,7 @@ import { DeviceEventEmitter } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import { EarnEvents } from 'src/analytics/Events'
+import { AppEvents, EarnEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { Status as EarnStatus } from 'src/earn/slice'
@@ -935,13 +935,17 @@ describe('EarnEnterAmount', () => {
     )
 
     await waitFor(() => expect(getByTestId('EarnEnterAmount/GasFeeWarning')).toBeTruthy())
-    fireEvent.press(getByText('gasFeeWarning.cta, {"tokenSymbol":"ETH"}'))
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_add_gas_press, {
-      gasTokenId: mockArbEthTokenId,
-      networkId: NetworkId['arbitrum-sepolia'],
-      poolId: mockEarnPositions[0].positionId,
-      providerId: mockEarnPositions[0].appId,
-      depositTokenId: mockArbUsdcTokenId,
+    fireEvent.press(getByText('gasFeeWarning.ctaBuy, {"tokenSymbol":"ETH"}'))
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_impression, {
+      errorType: 'not-enough-balance-for-gas',
+      flow: 'Deposit',
+      tokenId: mockArbEthTokenId,
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_cta_press, {
+      errorType: 'not-enough-balance-for-gas',
+      flow: 'Deposit',
+      tokenId: mockArbEthTokenId,
     })
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockArbEthTokenId,
