@@ -2827,8 +2827,10 @@
   "tokenEnterAmount": {
     "availableBalance": "Доступно: <0></0>",
     "selectToken": "Вибрати токен",
-    "fiatPriceUnavailable": "Ціна недоступна"
+    "fiatPriceUnavailable": "Ціна недоступна",
+    "tokenDescription": "{{tokenName}} на {{tokenNetwork}}"
   },
+  "on": "на",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
