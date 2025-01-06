@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import TextInput from 'src/components/TextInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -105,12 +106,10 @@ export function getDisplayLocalAmount(
  * variables and handlers that manage "enter amount" functionality, including rate calculations.
  */
 export function useEnterAmount(props: {
-  token: TokenBalance
+  token: TokenBalance | undefined
   inputRef: React.RefObject<RNTextInput>
   onHandleAmountInputChange?(amount: string): void
 }) {
-  const { decimalSeparator } = getNumberFormatSettings()
-
   /**
    * This field is formatted for processing purpose. It is a lot easier to process a number formatted
    * in a single format, rather than writing different logic for various combinations of decimal
@@ -139,6 +138,15 @@ export function useEnterAmount(props: {
    *       - `local.displayAmount` -> `localDisplayAmount`
    */
   const processedAmounts = useMemo(() => {
+    const { decimalSeparator } = getNumberFormatSettings()
+
+    if (!props.token) {
+      return {
+        token: { bignum: null, displayAmount: '' },
+        local: { bignum: null, displayAmount: '' },
+      }
+    }
+
     if (amountType === 'token') {
       const parsedTokenAmount = amount === '' ? null : parseInputAmount(amount)
 
@@ -201,9 +209,11 @@ export function useEnterAmount(props: {
         displayAmount: getDisplayLocalAmount(parsedLocalAmount, localCurrencySymbol),
       },
     }
-  }, [amount, amountType, localCurrencySymbol])
+  }, [amount, amountType, localCurrencySymbol, usdToLocalRate, props.token])
 
   function handleToggleAmountType() {
+    if (!props.token) return
+
     const newAmountType = amountType === 'local' ? 'token' : 'local'
     setAmountType(newAmountType)
     setAmount(
@@ -218,7 +228,7 @@ export function useEnterAmount(props: {
     value = unformatNumberForProcessing(value)
     value = value.startsWith('.') ? `0${value}` : value
 
-    if (!value) {
+    if (!value || !props.token) {
       setAmount('')
       props.onHandleAmountInputChange?.('')
       return
@@ -231,17 +241,30 @@ export function useEnterAmount(props: {
       `^(?:\\d+[.]?\\d{0,${props.token.decimals}}|[.]\\d{0,${props.token.decimals}}|[.])$`
     )
 
-    if (
-      (amountType === 'token' && value.match(tokenAmountRegex)) ||
-      (amountType === 'local' && value.match(localAmountRegex))
-    ) {
+    const isValidTokenAmount = amountType === 'token' && value.match(tokenAmountRegex)
+    const isValidLocalAmount = amountType === 'local' && value.match(localAmountRegex)
+    if (isValidTokenAmount || isValidLocalAmount) {
       setAmount(value)
       props.onHandleAmountInputChange?.(value)
       return
     }
   }
 
+  function replaceAmount(value: string) {
+    if (!props.token) return
+
+    if (value === '') {
+      setAmount('')
+      return
+    }
+
+    const rawValue = unformatNumberForProcessing(value)
+    const roundedAmount = new BigNumber(rawValue).decimalPlaces(props.token?.decimals).toString()
+    setAmount(roundedAmount)
+  }
+
   function handleSelectPercentageAmount(percentage: number) {
+    if (!props.token) return
     if (percentage <= 0 || percentage > 1) return
 
     const percentageAmount = props.token.balance.multipliedBy(percentage)
@@ -265,7 +288,7 @@ export function useEnterAmount(props: {
     amount,
     amountType,
     processedAmounts,
-    replaceAmount: setAmount,
+    replaceAmount,
     handleToggleAmountType,
     handleAmountInputChange,
     handleSelectPercentageAmount,
@@ -281,11 +304,11 @@ export default function TokenEnterAmount({
   inputRef,
   inputStyle,
   autoFocus,
-  editable = true,
   testID,
   onInputChange,
   toggleAmountType,
   onOpenTokenPicker,
+  loading,
 }: {
   token?: TokenBalance
   inputValue: string
@@ -293,18 +316,19 @@ export default function TokenEnterAmount({
   localAmount: string
   amountType: AmountEnteredIn
   inputRef: React.MutableRefObject<RNTextInput | null>
+  loading?: boolean
   inputStyle?: StyleProp<TextStyle>
   autoFocus?: boolean
-  editable?: boolean
   testID?: string
-  onInputChange(value: string): void
+  onInputChange?(value: string): void
   toggleAmountType?(): void
   onOpenTokenPicker?(): void
 }) {
   const { t } = useTranslation()
-  // the startPosition and inputRef variables exist to ensure TextInput
-  // displays the start of the value for long values on Android
-  // https://github.com/facebook/react-native/issues/14845
+  /**
+   * startPosition and inputRef variables exist to ensure TextInput displays the start of the value
+   * for long values on Android: https://github.com/facebook/react-native/issues/14845
+   */
   const [startPosition, setStartPosition] = useState<number | undefined>(0)
   // this should never be null, just adding a default to make TS happy
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
@@ -359,7 +383,10 @@ export default function TokenEnterAmount({
 
                 <View style={styles.tokenNameAndAvailable}>
                   <Text style={styles.tokenName} testID={`${testID}/TokenName`}>
-                    {token.symbol} on {NETWORK_NAMES[token.networkId]}
+                    {t('tokenEnterAmount.tokenDescription', {
+                      tokenName: token.symbol,
+                      tokenNetwork: NETWORK_NAMES[token.networkId],
+                    })}
                   </Text>
                   <Text style={styles.tokenBalance} testID={`${testID}/TokenBalance`}>
                     <Trans i18nKey="tokenEnterAmount.availableBalance">
@@ -381,81 +408,95 @@ export default function TokenEnterAmount({
         </View>
       </Touchable>
       {token && (
-        <View
-          style={[
-            styles.rowContainer,
-            { borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTopWidth: 0 },
-          ]}
-        >
-          <TextInput
-            forwardedRef={inputRef}
-            onChangeText={(value) => {
-              handleSetStartPosition(undefined)
-              onInputChange(value)
-            }}
-            value={formattedInputValue}
-            placeholderTextColor={Colors.gray3}
-            placeholder={amountType === 'token' ? placeholder.token : placeholder.local}
-            keyboardType="decimal-pad"
-            // Work around for RN issue with Samsung keyboards
-            // https://github.com/facebook/react-native/issues/22005
-            autoCapitalize="words"
-            autoFocus={autoFocus}
-            // unset lineHeight to allow ellipsis on long inputs on iOS. For
-            // android, ellipses doesn't work and unsetting line height causes
-            // height changes when amount is entered
-            inputStyle={[
-              styles.primaryAmountText,
-              inputStyle,
-              Platform.select({ ios: { lineHeight: undefined } }),
+        <View>
+          <View
+            style={[
+              styles.rowContainer,
+              { borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTopWidth: 0 },
             ]}
-            onBlur={() => {
-              handleSetStartPosition(0)
-            }}
-            onFocus={() => {
-              const withCurrency = amountType === 'local' ? 1 : 0
-              handleSetStartPosition((inputValue?.length ?? 0) + withCurrency)
-            }}
-            onSelectionChange={() => {
-              handleSetStartPosition(undefined)
-            }}
-            selection={
-              Platform.OS === 'android' && typeof startPosition === 'number'
-                ? { start: startPosition }
-                : undefined
-            }
-            showClearButton={false}
-            editable={editable}
-            testID={`${testID}/TokenAmountInput`}
-          />
+          >
+            <TextInput
+              forwardedRef={inputRef}
+              onChangeText={(value) => {
+                handleSetStartPosition(undefined)
+                onInputChange?.(value)
+              }}
+              value={formattedInputValue}
+              placeholderTextColor={Colors.gray3}
+              placeholder={amountType === 'token' ? placeholder.token : placeholder.local}
+              keyboardType="decimal-pad"
+              // Work around for RN issue with Samsung keyboards
+              // https://github.com/facebook/react-native/issues/22005
+              autoCapitalize="words"
+              autoFocus={autoFocus}
+              // unset lineHeight to allow ellipsis on long inputs on iOS. For
+              // android, ellipses doesn't work and unsetting line height causes
+              // height changes when amount is entered
+              inputStyle={[
+                styles.primaryAmountText,
+                inputStyle,
+                Platform.select({ ios: { lineHeight: undefined } }),
+              ]}
+              onBlur={() => {
+                handleSetStartPosition(0)
+              }}
+              onFocus={() => {
+                const withCurrency = amountType === 'local' ? 1 : 0
+                handleSetStartPosition((inputValue?.length ?? 0) + withCurrency)
+              }}
+              onSelectionChange={() => {
+                handleSetStartPosition(undefined)
+              }}
+              selection={
+                Platform.OS === 'android' && typeof startPosition === 'number'
+                  ? { start: startPosition }
+                  : undefined
+              }
+              showClearButton={false}
+              editable={!!onInputChange}
+              testID={`${testID}/TokenAmountInput`}
+            />
 
-          {token.priceUsd ? (
-            <>
-              {toggleAmountType && (
-                <Touchable
-                  onPress={toggleAmountType}
-                  style={styles.swapArrowContainer}
-                  testID={`${testID}/SwitchTokens`}
-                  hitSlop={variables.iconHitslop}
+            {token.priceUsd ? (
+              <>
+                {toggleAmountType && (
+                  <Touchable
+                    onPress={toggleAmountType}
+                    style={styles.swapArrowContainer}
+                    testID={`${testID}/SwitchTokens`}
+                    hitSlop={variables.iconHitslop}
+                  >
+                    <SwapArrows color={Colors.gray3} size={24} />
+                  </Touchable>
+                )}
+
+                <Text
+                  numberOfLines={1}
+                  style={[styles.secondaryAmountText, { flex: 0, textAlign: 'right' }]}
+                  testID={`${testID}/ExchangeAmount`}
                 >
-                  <SwapArrows color={Colors.gray3} size={24} />
-                </Touchable>
-              )}
-
-              <Text
-                numberOfLines={1}
-                style={[styles.secondaryAmountText, { flex: 0, textAlign: 'right' }]}
-                testID={`${testID}/ExchangeAmount`}
-              >
-                {amountType === 'token'
-                  ? `${APPROX_SYMBOL} ${localAmount ? localAmount : placeholder.local}`
-                  : `${APPROX_SYMBOL} ${tokenAmount ? tokenAmount : placeholder.token}`}
+                  {amountType === 'token'
+                    ? `${APPROX_SYMBOL} ${localAmount ? localAmount : placeholder.local}`
+                    : `${APPROX_SYMBOL} ${tokenAmount ? tokenAmount : placeholder.token}`}
+                </Text>
+              </>
+            ) : (
+              <Text style={styles.secondaryAmountText}>
+                {t('tokenEnterAmount.fiatPriceUnavailable')}
               </Text>
-            </>
-          ) : (
-            <Text style={styles.secondaryAmountText}>
-              {t('tokenEnterAmount.fiatPriceUnavailable')}
-            </Text>
+            )}
+          </View>
+
+          {loading && (
+            <View testID={`${testID}/Loader`} style={styles.loader}>
+              <SkeletonPlaceholder
+                borderRadius={100} // ensure rounded corners with font scaling
+                backgroundColor={Colors.gray2}
+                highlightColor={Colors.white}
+              >
+                <View style={{ height: '100%', width: '100%' }} />
+              </SkeletonPlaceholder>
+            </View>
           )}
         </View>
       )}
@@ -510,5 +551,13 @@ const styles = StyleSheet.create({
   },
   swapArrowContainer: {
     transform: [{ rotate: '90deg' }],
+  },
+  loader: {
+    padding: Spacing.Regular16,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    width: '100%',
   },
 })

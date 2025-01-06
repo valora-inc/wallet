@@ -499,7 +499,7 @@ describe('EarnEnterAmount', () => {
         prepareTransactionError: undefined,
         isPreparingTransactions: false,
       })
-      const { getByTestId, getByText } = render(
+      const { getByTestId, getByText, queryByTestId } = render(
         <Provider store={store}>
           <MockedNavigator component={EarnEnterAmount} params={swapDepositParams} />
         </Provider>
@@ -523,6 +523,8 @@ describe('EarnEnterAmount', () => {
 
       expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
+
+      expect(queryByTestId('EarnEnterAmount/Duration')).toBeFalsy()
 
       fireEvent.press(getByText('earnFlow.enterAmount.continue'))
 
@@ -587,6 +589,9 @@ describe('EarnEnterAmount', () => {
 
       expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
+
+      expect(getByTestId('EarnEnterAmount/Duration')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Duration')).toHaveTextContent('{"minutes":5}')
 
       fireEvent.press(getByText('earnFlow.enterAmount.continue'))
 

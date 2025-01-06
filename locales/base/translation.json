@@ -2581,6 +2581,7 @@
       "fees": "Fees",
       "available": "Available",
       "swap": "Swap",
+      "estimatedDuration": "Est. Transaction Time",
       "claimingReward": "Claiming Reward",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
@@ -2785,12 +2786,14 @@
       "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",
       "depositTitle": "Deposit to pool",
       "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
+      "alternativeDescription": "If you don’t want to use your tokens, choose an option below. You’ll need to return to complete your pool deposit later.",
       "beforeYouCanDepositTitle": "Before you can deposit...",
       "beforeYouCanDepositDescription": "You’ll need to add one of the pool tokens. Once added, you’ll need to return to complete your pool deposit.",
       "beforeYouCanDepositDescriptionV1_101": "You’ll need to add {{tokenSymbol}} on {{tokenNetwork}}. Once added, you’ll need to return to complete your pool deposit.",
       "action": {
         "swapAndDeposit": "Swap & Deposit",
         "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "swapAndDepositAllTokensDescription": "Choose any token—we’ll swap and deposit it simultaneously for you.",
         "crossChainSwap": "Cross-chain Swap",
         "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
         "swap": "Swap",
@@ -2822,7 +2825,8 @@
   "tokenEnterAmount": {
     "availableBalance": "Available: <0></0>",
     "selectToken": "Select token",
-    "fiatPriceUnavailable": "Price unavailable"
+    "fiatPriceUnavailable": "Price unavailable",
+    "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
   },
   "gasFeeWarning": {
     "title": "You need more {{tokenSymbol}} for gas fees",
@@ -2843,5 +2847,6 @@
     "ctaAction_Swap": "Swap smaller amount",
     "ctaAction_Deposit": "Deposit smaller amount",
     "ctaAction_Withdraw": "Withdraw smaller amount"
-  }
+  },
+  "on": "on"
 }
