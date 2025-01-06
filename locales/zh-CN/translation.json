@@ -2821,7 +2821,9 @@
   "tokenEnterAmount": {
     "availableBalance": "可用：<0></0>",
     "selectToken": "选择代币",
-    "fiatPriceUnavailable": "价格不详"
+    "fiatPriceUnavailable": "价格不详",
+    "tokenDescription": "{{tokenName}} {{tokenNetwork}}"
   },
+  "on": "关于",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
