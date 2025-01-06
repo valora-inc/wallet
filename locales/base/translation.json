@@ -2830,12 +2830,10 @@
   },
   "gasFeeWarning": {
     "title": "You need more {{tokenSymbol}} for gas fees",
-    "descriptionMaxAmount": {
-      "sending": "Add {{tokenSymbol}} for gas fees or lower the amount you're sending",
-      "swapping": "Add {{tokenSymbol}} for gas fees or lower the amount you're swapping",
-      "depositing": "Add {{tokenSymbol}} for gas fees or lower the amount you're depositing",
-      "withdrawing": "Add {{tokenSymbol}} for gas fees or lower the amount you're withdrawing"
-    },
+    "descriptionMaxAmount_Send": "Add {{tokenSymbol}} for gas fees or lower the amount you're sending",
+    "descriptionMaxAmount_Swap": "Add {{tokenSymbol}} for gas fees or lower the amount you're swapping",
+    "descriptionMaxAmount_Deposit": "Add {{tokenSymbol}} for gas fees or lower the amount you're depositing",
+    "descriptionMaxAmount_Withdraw": "Add {{tokenSymbol}} for gas fees or lower the amount you're withdrawing",
     "descriptionNotEnoughGas_Send": "Adjust the amount you're sending or add {{tokenSymbol}} to continue",
     "descriptionNotEnoughGas_Swap": "Adjust the amount you're swapping or add {{tokenSymbol}} to continue",
     "descriptionNotEnoughGas_Deposit": "Adjust the amount you're depositing or add {{tokenSymbol}} to continue",
