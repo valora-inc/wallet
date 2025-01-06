@@ -153,6 +153,7 @@ export default function EarnEnterAmount({ route }: Props) {
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const swapDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const estimatedDurationBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
@@ -407,6 +408,7 @@ export default function EarnEnterAmount({ route }: Props) {
               prepareTransactionsResult={prepareTransactionsResult}
               feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
               swapDetailsBottomSheetRef={swapDetailsBottomSheetRef}
+              estimatedDurationBottomSheetRef={estimatedDurationBottomSheetRef}
               swapTransaction={swapTransaction}
             />
           )}
@@ -528,6 +530,9 @@ export default function EarnEnterAmount({ route }: Props) {
           parsedTokenAmount={processedAmounts.token.bignum}
         />
       )}
+      {swapTransaction?.swapType === 'cross-chain' && processedAmounts.token.bignum && (
+        <EstimatedDurationBottomSheet forwardedRef={estimatedDurationBottomSheetRef} />
+      )}
       {processedAmounts.token.bignum && prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
           forwardedRef={reviewBottomSheetRef}
@@ -638,6 +643,7 @@ function TransactionDepositDetails({
   swapTransaction,
   feeDetailsBottomSheetRef,
   swapDetailsBottomSheetRef,
+  estimatedDurationBottomSheetRef,
 }: {
   pool: EarnPosition
   token: TokenBalance
@@ -646,9 +652,12 @@ function TransactionDepositDetails({
   swapTransaction?: SwapTransaction
   feeDetailsBottomSheetRef: React.RefObject<BottomSheetModalRefType>
   swapDetailsBottomSheetRef: React.RefObject<BottomSheetModalRefType>
+  estimatedDurationBottomSheetRef: React.RefObject<BottomSheetModalRefType>
 }) {
   const { t } = useTranslation()
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
+  const estimatedDurationInSeconds =
+    swapTransaction?.swapType === 'cross-chain' ? swapTransaction.estimatedDuration : undefined
 
   const depositAmount = useMemo(
     () =>
@@ -730,6 +739,24 @@ function TransactionDepositDetails({
             />
           </View>
         </View>
+        {!!estimatedDurationInSeconds && (
+          <View style={styles.txDetailsLineItem}>
+            <LabelWithInfo
+              label={t('earnFlow.enterAmount.estimatedDuration')}
+              onPress={() => {
+                estimatedDurationBottomSheetRef?.current?.snapToIndex(0)
+              }}
+              testID="LabelWithInfo/DurationLabel"
+            />
+            <View style={styles.txDetailsValue}>
+              <Text style={styles.txDetailsValueText} testID="EarnEnterAmount/Duration">
+                {t('swapScreen.transactionDetails.estimatedTransactionTimeInMinutes', {
+                  minutes: Math.ceil(estimatedDurationInSeconds / 60),
+                })}
+              </Text>
+            </View>
+          </View>
+        )}
       </View>
     )
   )
@@ -1019,6 +1046,32 @@ function SwapDetailsBottomSheet({
   )
 }
 
+function EstimatedDurationBottomSheet({
+  forwardedRef,
+}: {
+  forwardedRef: React.RefObject<BottomSheetModalRefType>
+}) {
+  const { t } = useTranslation()
+  return (
+    <BottomSheet
+      forwardedRef={forwardedRef}
+      title={t('swapScreen.transactionDetails.estimatedTransactionTime')}
+      description={t('swapScreen.transactionDetails.estimatedTransactionTimeInfo')}
+      testId="EstimatedDurationBottomSheet"
+    >
+      <Button
+        type={BtnTypes.SECONDARY}
+        size={BtnSizes.FULL}
+        onPress={() => {
+          forwardedRef.current?.close()
+        }}
+        text={t('swapScreen.transactionDetails.infoDismissButton')}
+        style={styles.bottomSheetButton}
+      />
+    </BottomSheet>
+  )
+}
+
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
@@ -1108,5 +1161,8 @@ const styles = StyleSheet.create({
   bottomSheetDescriptionText: {
     ...typeScale.bodySmall,
     color: Colors.black,
+  },
+  bottomSheetButton: {
+    marginTop: Spacing.Thick24,
   },
 })

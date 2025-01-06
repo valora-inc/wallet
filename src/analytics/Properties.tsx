@@ -1127,6 +1127,7 @@ type SwapQuoteEvent = SwapEvent & {
   appFeePercentageIncludedInPrice: string | null | undefined
   provider: string
   swapType: SwapType
+  swapId: string
 }
 
 export interface SwapTimeMetrics {

@@ -406,7 +406,10 @@ export function SwapScreen({ route }: Props) {
         // to confirm the swap in this case.
         break
       case 'possible':
+        const swapId = uuidv4()
+
         AppAnalytics.track(SwapEvents.swap_review_submit, {
+          swapId,
           toToken: toToken.address,
           toTokenId: toToken.tokenId,
           toTokenNetworkId: toToken.networkId,
@@ -431,7 +434,6 @@ export function SwapScreen({ route }: Props) {
           ),
         })
 
-        const swapId = uuidv4()
         localDispatch(startSwap({ swapId }))
         dispatch(
           swapStart({

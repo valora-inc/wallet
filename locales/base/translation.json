@@ -2581,6 +2581,7 @@
       "fees": "Fees",
       "available": "Available",
       "swap": "Swap",
+      "estimatedDuration": "Est. Transaction Time",
       "claimingReward": "Claiming Reward",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
@@ -2828,6 +2829,8 @@
   "tokenEnterAmount": {
     "availableBalance": "Available: <0></0>",
     "selectToken": "Select token",
-    "fiatPriceUnavailable": "Price unavailable"
-  }
+    "fiatPriceUnavailable": "Price unavailable",
+    "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
+  },
+  "on": "on"
 }
