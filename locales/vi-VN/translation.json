@@ -2821,7 +2821,9 @@
   "tokenEnterAmount": {
     "availableBalance": "Có sẵn: <0></0>",
     "selectToken": "Chọn token",
-    "fiatPriceUnavailable": "Không có giá"
+    "fiatPriceUnavailable": "Không có giá",
+    "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
   },
+  "on": "on",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
