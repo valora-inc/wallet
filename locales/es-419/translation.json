@@ -2823,8 +2823,10 @@
   "tokenEnterAmount": {
     "availableBalance": "Disponible: <0></0>",
     "selectToken": "Selecciona un token",
-    "fiatPriceUnavailable": "Precio no disponible"
+    "fiatPriceUnavailable": "Precio no disponible",
+    "tokenDescription": "{{tokenName}} en {{tokenNetwork}}"
   },
+  "on": "en",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
