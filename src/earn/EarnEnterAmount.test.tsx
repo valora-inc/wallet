@@ -939,7 +939,7 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
-    await waitFor(() => expect(getByTestId('EarnEnterAmount/GasFeeWarning')).toBeTruthy())
+    await waitFor(() => expect(getByTestId('GasFeeWarning')).toBeTruthy())
     fireEvent.press(getByText('gasFeeWarning.ctaBuy, {"tokenSymbol":"ETH"}'))
     expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
     expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_impression, {

@@ -406,7 +406,6 @@ export default function EarnEnterAmount({ route }: Props) {
           prepareTransactionsResult={prepareTransactionsResult}
           flow={'Deposit'}
           changeInputValueFn={handleAmountInputChange}
-          testIdPrefix={'EarnEnterAmount'}
         />
         {showLowerAmountError && (
           <InLineNotification

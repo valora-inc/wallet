@@ -16,12 +16,10 @@ function GasFeeWarning({
   prepareTransactionsResult,
   flow,
   changeInputValueFn,
-  testIdPrefix,
 }: {
   prepareTransactionsResult?: PreparedTransactionsResult
   flow: GasFeeWarningFlow
   changeInputValueFn?: (amount: string) => void
-  testIdPrefix?: string
 }) {
   const { t } = useTranslation()
 
@@ -91,7 +89,7 @@ function GasFeeWarning({
       ctaLabel={ctaLabel}
       onPressCta={onPressCta}
       style={styles.warning}
-      testID={`${testIdPrefix}/GasFeeWarning`}
+      testID={'GasFeeWarning'}
     />
   )
 }

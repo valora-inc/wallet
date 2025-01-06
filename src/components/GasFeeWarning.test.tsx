@@ -60,23 +60,19 @@ describe('GasFeeWarning', () => {
     const store = createMockStore()
     const { queryByTestId } = render(
       <Provider store={store}>
-        <GasFeeWarning flow={'Send'} testIdPrefix={'test'} />
+        <GasFeeWarning flow={'Send'} />
       </Provider>
     )
-    expect(queryByTestId('test/GasFeeWarning')).toBeFalsy()
+    expect(queryByTestId('GasFeeWarning')).toBeFalsy()
   })
   it('should return null if prepareTransactionsResult.type is possible', () => {
     const store = createMockStore()
     const { queryByTestId } = render(
       <Provider store={store}>
-        <GasFeeWarning
-          flow={'Send'}
-          testIdPrefix={'test'}
-          prepareTransactionsResult={mockPreparedTransactionPossible}
-        />
+        <GasFeeWarning flow={'Send'} prepareTransactionsResult={mockPreparedTransactionPossible} />
       </Provider>
     )
-    expect(queryByTestId('test/GasFeeWarning')).toBeFalsy()
+    expect(queryByTestId('GasFeeWarning')).toBeFalsy()
   })
   it.each`
     scenario                                     | flow          | prepareTransactionsResult                 | feeCurrencyTokenId   | title                                            | description                                                                             | ctaLabel
@@ -99,13 +95,12 @@ describe('GasFeeWarning', () => {
         <Provider store={store}>
           <GasFeeWarning
             flow={flow}
-            testIdPrefix={'test'}
             prepareTransactionsResult={prepareTransactionsResult}
             changeInputValueFn={changeInputValueFn}
           />
         </Provider>
       )
-      expect(getByTestId('test/GasFeeWarning')).toBeTruthy()
+      expect(getByTestId('GasFeeWarning')).toBeTruthy()
       expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
       expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_impression, {
         flow,
