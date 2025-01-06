@@ -2823,8 +2823,10 @@
   "tokenEnterAmount": {
     "availableBalance": "Mevcut: <0></0>",
     "selectToken": "Token seçin",
-    "fiatPriceUnavailable": "Fiyat mevcut değil"
+    "fiatPriceUnavailable": "Fiyat mevcut değil",
+    "tokenDescription": "{{tokenName}} {{tokenNetwork}}adresinde"
   },
+  "on": "üzerinde",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
