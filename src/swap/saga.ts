@@ -290,6 +290,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         ...getTimeMetrics(),
         ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
         swapType,
+        swapId,
       })
     }
   } catch (err) {
@@ -315,6 +316,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       ...getTimeMetrics(),
       ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
       error: error.message,
+      swapId,
     })
   }
 }

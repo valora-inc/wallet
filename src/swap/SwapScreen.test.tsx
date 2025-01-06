@@ -42,6 +42,7 @@ import {
   mockTokenBalances,
   mockUSDCTokenId,
 } from 'test/values'
+import { v4 as uuidv4 } from 'uuid'
 
 const mockFetch = fetch as FetchMock
 const mockGetNumberFormatSettings = jest.fn()
@@ -78,6 +79,12 @@ jest.mock('src/viem/estimateFeesPerGas', () => ({
     baseFeePerGas: BigInt(6_000_000_000),
   })),
 }))
+
+jest.mock('uuid', () => ({
+  v4: jest.fn().mockReturnValue('mocked-uuid'),
+}))
+
+const mockedUuidv4 = uuidv4 as jest.Mock
 
 const mockStoreTokenBalances = {
   [mockCeurTokenId]: {
@@ -1221,6 +1228,10 @@ describe('SwapScreen', () => {
 
   it('should have correct analytics on swap submission', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
+
+    const mockSwapId = 'test-swap-id'
+    mockedUuidv4.mockReturnValue(mockSwapId)
+
     const { getByText, swapScreen } = renderScreen({})
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
@@ -1261,6 +1272,7 @@ describe('SwapScreen', () => {
       feeCurrencySymbol: 'CELO',
       txCount: 2,
       swapType: 'same-chain',
+      swapId: mockSwapId,
     })
   })
 
