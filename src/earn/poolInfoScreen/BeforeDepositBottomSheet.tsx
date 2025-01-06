@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react'
+import React, { RefObject, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -200,21 +200,24 @@ function SwapAndDepositAction({
   pool,
   forwardedRef,
   analyticsProps,
+  allowCrossChainSwapAndDeposit,
 }: {
   token: TokenBalance
   pool: EarnPosition
   forwardedRef: React.RefObject<BottomSheetModalRefType>
   analyticsProps: EarnCommonProperties & TokenProperties
+  allowCrossChainSwapAndDeposit: boolean
 }) {
   const { t } = useTranslation()
 
   const action: BeforeDepositAction = {
     name: 'SwapAndDeposit',
     title: t('earnFlow.beforeDepositBottomSheet.action.swapAndDeposit'),
-    details: t('earnFlow.beforeDepositBottomSheet.action.swapAndDepositDescription', {
-      tokenSymbol: token.symbol,
-      tokenNetwork: NETWORK_NAMES[token.networkId],
-    }),
+    details: allowCrossChainSwapAndDeposit
+      ? t('earnFlow.beforeDepositBottomSheet.action.swapAndDepositAllTokensDescription')
+      : t('earnFlow.beforeDepositBottomSheet.action.swapAndDepositDescription', {
+          tokenNetwork: NETWORK_NAMES[token.networkId],
+        }),
     iconComponent: SwapAndDeposit,
     onPress: () => {
       AppAnalytics.track(EarnEvents.earn_before_deposit_action_press, {
@@ -284,17 +287,6 @@ export default function BeforeDepositBottomSheet({
 }) {
   const { t } = useTranslation()
 
-  const { availableShortcutIds } = pool
-  const allowCrossChainSwaps = getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
-  const canCrossChainSwap = allowCrossChainSwaps && hasTokensOnOtherNetworks
-
-  const canSwapDeposit = availableShortcutIds.includes('swap-deposit') && hasTokensOnSameNetwork
-
-  const title =
-    canSwapDeposit || hasDepositToken
-      ? t('earnFlow.beforeDepositBottomSheet.depositTitle')
-      : t('earnFlow.beforeDepositBottomSheet.beforeYouCanDepositTitle')
-
   const analyticsProps = {
     ...getTokenAnalyticsProps(token),
     poolId: pool.positionId,
@@ -302,20 +294,66 @@ export default function BeforeDepositBottomSheet({
     depositTokenId: pool.dataProps.depositTokenId,
   }
 
-  const showCrossChainSwap = canSwapDeposit && canCrossChainSwap
-  // Show a generic swap option if the pool doesn't support swap and deposit.
-  const showSwap = !canSwapDeposit && (hasTokensOnSameNetwork || canCrossChainSwap)
+  const { availableShortcutIds } = pool
+  const allowCrossChainSwaps = getFeatureGate(StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)
+  const allowCrossChainSwapAndDeposit = getFeatureGate(
+    StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAP_AND_DEPOSIT
+  )
 
-  const hasAllDepositAndSwapOptions = hasDepositToken && hasTokensOnSameNetwork && canCrossChainSwap
-  const hasNoDepositOrSwapOptions =
-    !hasDepositToken && !hasTokensOnSameNetwork && !canCrossChainSwap
+  const { canSwapDeposit, showCrossChainSwap, showSwap, showAdd, showAddMore, showTransfer } =
+    useMemo(() => {
+      if (allowCrossChainSwapAndDeposit) {
+        const hasOtherTokens = hasTokensOnOtherNetworks || hasTokensOnSameNetwork
+        // should never have a case where allowCrossChainSwapAndDeposit is true
+        // and allowCrossChainSwaps is false, so just presence of any token
+        // should enable swap / swap and deposit
+        const canSwapDeposit = availableShortcutIds.includes('swap-deposit') && hasOtherTokens
+        return {
+          canSwapDeposit,
+          // no longer need to show separate cross chain swap action
+          showCrossChainSwap: false,
+          showSwap: !canSwapDeposit && hasOtherTokens,
+          showAdd: canAdd && !hasDepositToken,
+          showAddMore: canAdd && hasDepositToken,
+          // Show Transfer if add is not an option or if the user has no tokens
+          showTransfer: !canAdd || (!hasDepositToken && !hasOtherTokens),
+        }
+      } else {
+        const canCrossChainSwap = allowCrossChainSwaps && hasTokensOnOtherNetworks
+        const hasAllDepositAndSwapOptions =
+          hasDepositToken && hasTokensOnSameNetwork && canCrossChainSwap
+        const hasNoDepositOrSwapOptions =
+          !hasDepositToken && !hasTokensOnSameNetwork && !canCrossChainSwap
 
-  const showAdd = canAdd && !hasDepositToken
-  // Don't show add more if the user has all deposit and swap options are available
-  const showAddMore = canAdd && hasDepositToken && !hasAllDepositAndSwapOptions
-  // Show Transfer if the user cannot deposit or swap options or if the token
-  // does not support buy and if not all deposit and swap options are available
-  const showTransfer = hasNoDepositOrSwapOptions || (!canAdd && !hasAllDepositAndSwapOptions)
+        const canSwapDeposit =
+          availableShortcutIds.includes('swap-deposit') && hasTokensOnSameNetwork
+
+        return {
+          canSwapDeposit,
+          showCrossChainSwap: canSwapDeposit && canCrossChainSwap,
+          showSwap: !canSwapDeposit && (hasTokensOnSameNetwork || canCrossChainSwap),
+          showAdd: canAdd && !hasDepositToken,
+          // Don't show add more if the user has all deposit and swap options are available
+          showAddMore: canAdd && hasDepositToken && !hasAllDepositAndSwapOptions,
+          // Show Transfer if the user has no deposit or swap options or if the token
+          // does not support buy and if not all deposit and swap options are available
+          showTransfer: hasNoDepositOrSwapOptions || (!canAdd && !hasAllDepositAndSwapOptions),
+        }
+      }
+    }, [
+      hasDepositToken,
+      hasTokensOnSameNetwork,
+      hasTokensOnOtherNetworks,
+      canAdd,
+      availableShortcutIds,
+      allowCrossChainSwapAndDeposit,
+      allowCrossChainSwaps,
+    ])
+
+  const title =
+    canSwapDeposit || hasDepositToken
+      ? t('earnFlow.beforeDepositBottomSheet.depositTitle')
+      : t('earnFlow.beforeDepositBottomSheet.beforeYouCanDepositTitle')
 
   return (
     <BottomSheet
@@ -347,6 +385,7 @@ export default function BeforeDepositBottomSheet({
             pool={pool}
             forwardedRef={forwardedRef}
             analyticsProps={analyticsProps}
+            allowCrossChainSwapAndDeposit={allowCrossChainSwapAndDeposit}
           />
         )}
         {(canSwapDeposit || hasDepositToken) &&
@@ -355,9 +394,11 @@ export default function BeforeDepositBottomSheet({
               testID={'Earn/BeforeDepositBottomSheet/AlternativeDescription'}
               style={styles.actionDetails}
             >
-              {t('earnFlow.beforeDepositBottomSheet.crossChainAlternativeDescription', {
-                tokenNetwork: NETWORK_NAMES[token.networkId],
-              })}
+              {allowCrossChainSwapAndDeposit
+                ? t('earnFlow.beforeDepositBottomSheet.alternativeDescription')
+                : t('earnFlow.beforeDepositBottomSheet.crossChainAlternativeDescription', {
+                    tokenNetwork: NETWORK_NAMES[token.networkId],
+                  })}
             </Text>
           )}
         {showCrossChainSwap && (
