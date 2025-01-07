@@ -1,37 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WebViewAndroidBottomSheet renders correctly when not visible 1`] = `
-<Modal
-  animationType="none"
-  deviceHeight={null}
-  deviceWidth={null}
-  hardwareAccelerated={false}
-  hideModalContentWhileAnimating={false}
-  onBackdropPress={[MockFunction]}
-  onModalHide={[Function]}
-  onModalWillHide={[Function]}
-  onModalWillShow={[Function]}
-  onRequestClose={[Function]}
-  onSwipeComplete={[MockFunction]}
-  panResponderThreshold={4}
-  scrollHorizontal={false}
-  scrollOffset={0}
-  scrollOffsetMax={0}
-  scrollTo={null}
-  statusBarTranslucent={false}
-  supportedOrientations={
-    [
-      "portrait",
-      "landscape",
-    ]
-  }
-  swipeDirection="down"
-  swipeThreshold={100}
-  transparent={true}
-  useNativeDriverForBackdrop={true}
-  visible={false}
-/>
-`;
+exports[`WebViewAndroidBottomSheet renders correctly when not visible 1`] = `null`;
 
 exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
 <Modal
@@ -180,6 +149,14 @@ exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
         accessible={true}
         collapsable={false}
         focusable={true}
+        nativeBackgroundAndroid={
+          {
+            "borderless": false,
+            "color": -1644826,
+            "rippleRadius": undefined,
+            "type": "RippleAndroid",
+          }
+        }
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -232,6 +209,14 @@ exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
         accessible={true}
         collapsable={false}
         focusable={true}
+        nativeBackgroundAndroid={
+          {
+            "borderless": false,
+            "color": -1644826,
+            "rippleRadius": undefined,
+            "type": "RippleAndroid",
+          }
+        }
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}

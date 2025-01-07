@@ -5,6 +5,11 @@ const config: KnipConfig = {
     '.': {
       entry: ['.github/scripts/*.ts', './scripts/**/*.js'],
     },
+    'apps/example': {
+      ignoreDependencies: [
+        '@babel/core', // needed for react-native
+      ],
+    },
     'packages/runtime': {
       entry: [
         'index.js!',
@@ -17,9 +22,7 @@ const config: KnipConfig = {
       project: ['src/**/*.ts!', 'src/**/*.tsx!', 'src/**/*.js!'],
       ignoreDependencies: [
         '@actions/github',
-        '@babel/runtime', // enforce specific version for react-native
-        '@babel/plugin-transform-private-methods', // used in babel.config.js to build. not imported, so knip doesn't understand it is used
-        '@react-native-picker/picker', // react-native-picker-select requires
+        'babel-plugin-module-resolver', // used in babel.config.js to build. not imported, so knip doesn't understand it is used
         'babel-jest',
         'jest-circus',
         'jest-html-reporter',
@@ -32,8 +35,6 @@ const config: KnipConfig = {
         'react-native-kill-packager',
         'remote-redux-devtools', // for easy debugging with Flipper
         'typescript-json-schema', // helps manage redux state migrations
-        '@segment/sovran-react-native', // required for react-native-segment
-        'react-native-adjust', // required for @segment/analytics-react-native-plugin-adjust
         '@types/jest',
         'husky',
         // Following ignores are used by the e2e test

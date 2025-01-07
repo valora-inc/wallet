@@ -1,205 +1,147 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ExchangeFeeIcon renders correctly 1`] = `
-[
-  <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
-      }
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
     }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
     }
-    accessible={true}
-    focusable={true}
-    hitSlop={
-      {
-        "bottom": 10,
-        "left": 10,
-        "right": 10,
-        "top": 10,
-      }
+  }
+  accessible={true}
+  focusable={true}
+  hitSlop={
+    {
+      "bottom": 10,
+      "left": 10,
+      "right": 10,
+      "top": 10,
     }
-    nativeBackgroundAndroid={
-      {
-        "attribute": "selectableItemBackgroundBorderless",
-        "rippleRadius": undefined,
-        "type": "ThemeAttrAndroid",
-      }
+  }
+  nativeBackgroundAndroid={
+    {
+      "attribute": "selectableItemBackgroundBorderless",
+      "rippleRadius": undefined,
+      "type": "ThemeAttrAndroid",
     }
-    onClick={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      {
-        "alignItems": "center",
-        "justifyContent": "flex-end",
-        "paddingHorizontal": 5,
-      }
+  }
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "justifyContent": "flex-end",
+      "paddingHorizontal": 5,
     }
+  }
+>
+  <svg
+    fill="none"
+    height={24}
+    viewBox="0 0 16 16"
+    width={24}
   >
-    <svg
-      fill="none"
-      height={24}
-      viewBox="0 0 16 16"
-      width={24}
-    >
-      <circle
-        cx="8"
-        cy="8"
-        r="7"
-        stroke="#2E3338"
-        strokeWidth="1.25"
-      />
-      <path
-        d="M8 12V7M8 6V5"
-        stroke="#2E3338"
-        strokeWidth="1.25"
-      />
-    </svg>
-  </View>,
-  <Modal
-    animationType="none"
-    deviceHeight={1334}
-    deviceWidth={null}
-    hardwareAccelerated={false}
-    hideModalContentWhileAnimating={false}
-    onBackdropPress={[Function]}
-    onModalHide={[Function]}
-    onModalWillHide={[Function]}
-    onModalWillShow={[Function]}
-    onRequestClose={[Function]}
-    panResponderThreshold={4}
-    scrollHorizontal={false}
-    scrollOffset={0}
-    scrollOffsetMax={0}
-    scrollTo={null}
-    statusBarTranslucent={true}
-    supportedOrientations={
-      [
-        "portrait",
-        "landscape",
-      ]
-    }
-    swipeThreshold={100}
-    transparent={true}
-    visible={false}
-  />,
-]
+    <circle
+      cx="8"
+      cy="8"
+      r="7"
+      stroke="#2E3338"
+      strokeWidth="1.25"
+    />
+    <path
+      d="M8 12V7M8 6V5"
+      stroke="#2E3338"
+      strokeWidth="1.25"
+    />
+  </svg>
+</View>
 `;
 
 exports[`SecurityFeeIcon renders correctly 1`] = `
-[
-  <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
-      }
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
     }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
     }
-    accessible={true}
-    focusable={true}
-    hitSlop={
-      {
-        "bottom": 10,
-        "left": 10,
-        "right": 10,
-        "top": 10,
-      }
+  }
+  accessible={true}
+  focusable={true}
+  hitSlop={
+    {
+      "bottom": 10,
+      "left": 10,
+      "right": 10,
+      "top": 10,
     }
-    nativeBackgroundAndroid={
-      {
-        "attribute": "selectableItemBackgroundBorderless",
-        "rippleRadius": undefined,
-        "type": "ThemeAttrAndroid",
-      }
+  }
+  nativeBackgroundAndroid={
+    {
+      "attribute": "selectableItemBackgroundBorderless",
+      "rippleRadius": undefined,
+      "type": "ThemeAttrAndroid",
     }
-    onClick={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      {
-        "alignItems": "center",
-        "justifyContent": "flex-end",
-        "paddingHorizontal": 5,
-      }
+  }
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "justifyContent": "flex-end",
+      "paddingHorizontal": 5,
     }
+  }
+>
+  <svg
+    fill="none"
+    height={24}
+    viewBox="0 0 16 16"
+    width={24}
   >
-    <svg
-      fill="none"
-      height={24}
-      viewBox="0 0 16 16"
-      width={24}
-    >
-      <circle
-        cx="8"
-        cy="8"
-        r="7"
-        stroke="#2E3338"
-        strokeWidth="1.25"
-      />
-      <path
-        d="M8 12V7M8 6V5"
-        stroke="#2E3338"
-        strokeWidth="1.25"
-      />
-    </svg>
-  </View>,
-  <Modal
-    animationType="none"
-    deviceHeight={1334}
-    deviceWidth={null}
-    hardwareAccelerated={false}
-    hideModalContentWhileAnimating={false}
-    onBackdropPress={[Function]}
-    onModalHide={[Function]}
-    onModalWillHide={[Function]}
-    onModalWillShow={[Function]}
-    onRequestClose={[Function]}
-    panResponderThreshold={4}
-    scrollHorizontal={false}
-    scrollOffset={0}
-    scrollOffsetMax={0}
-    scrollTo={null}
-    statusBarTranslucent={true}
-    supportedOrientations={
-      [
-        "portrait",
-        "landscape",
-      ]
-    }
-    swipeThreshold={100}
-    transparent={true}
-    visible={false}
-  />,
-]
+    <circle
+      cx="8"
+      cy="8"
+      r="7"
+      stroke="#2E3338"
+      strokeWidth="1.25"
+    />
+    <path
+      d="M8 12V7M8 6V5"
+      stroke="#2E3338"
+      strokeWidth="1.25"
+    />
+  </svg>
+</View>
 `;

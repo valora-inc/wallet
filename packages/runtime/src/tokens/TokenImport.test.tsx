@@ -37,7 +37,7 @@ describe('TokenImport', () => {
   const mockSymbol = jest.fn()
 
   beforeEach(() => {
-    jest.resetAllMocks()
+    jest.clearAllMocks()
     const client = publicClient[Network.Celo]
 
     client.getBytecode = mockBytecode.mockResolvedValue('0xabc')

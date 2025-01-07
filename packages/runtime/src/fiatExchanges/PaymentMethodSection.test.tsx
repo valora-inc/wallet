@@ -115,7 +115,7 @@ describe('PaymentMethodSection', () => {
       tokenId: mockCusdTokenId,
     })
     jest.spyOn(props.normalizedQuotes[0], 'isProviderNew').mockReturnValue(true)
-    const { getByText, getByTestId } = render(
+    const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={mockStore}>
         <PaymentMethodSection {...props} />
       </Provider>
@@ -123,13 +123,12 @@ describe('PaymentMethodSection', () => {
     expect(getByText('selectProviderScreen.card')).toBeTruthy()
     expect(getByTestId('image-Ramp')).toBeTruthy()
     expect(getByTestId('newLabel-Ramp')).toBeTruthy()
-    expect(getByTestId('newDialog')).toBeTruthy()
-    expect(getByTestId('newDialog')).not.toBeVisible()
+    expect(queryByTestId('newDialog')).toBeFalsy()
 
     fireEvent.press(getByTestId('newLabel-Ramp'))
     expect(getByTestId('newDialog')).toBeVisible()
     fireEvent.press(getByTestId('newDialog/PrimaryAction'))
-    await waitFor(() => expect(getByTestId('newDialog')).not.toBeVisible())
+    await waitFor(() => expect(queryByTestId('newDialog')).not.toBeOnTheScreen())
   })
 
   it('shows new label for multiple providers in expanded view', async () => {
@@ -153,11 +152,11 @@ describe('PaymentMethodSection', () => {
     expect(queryByTestId('newLabel-Simplex')).toBeTruthy()
     expect(queryByTestId('newLabel-Moonpay')).toBeTruthy()
 
-    expect(getByTestId('newDialog')).not.toBeVisible()
+    expect(queryByTestId('newDialog')).toBeFalsy()
     fireEvent.press(getByTestId('newLabel-Simplex'))
     expect(getByTestId('newDialog')).toBeVisible()
     fireEvent.press(getByTestId('newDialog/PrimaryAction'))
-    await waitFor(() => expect(getByTestId('newDialog')).not.toBeVisible())
+    await waitFor(() => expect(queryByTestId('newDialog')).not.toBeOnTheScreen())
     fireEvent.press(getByTestId('newLabel-Moonpay'))
     expect(getByTestId('newDialog')).toBeVisible()
 
