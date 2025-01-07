@@ -8,6 +8,8 @@ on:
 
 jobs:
   android:
+    # TODO re-enable once we have an app in the repo
+    if: false
     env:
       # `if` conditions can't directly access secrets, so we use a workaround
       # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow

@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
   # Hourly on workdays
   # https://crontab.guru/#0_*_*_*_1-5
-  schedule:
-    - cron: '0 * * * 1-5'
+  # schedule:
+  #   - cron: '0 * * * 1-5'
 
 jobs:
   automerge-translation-prs:

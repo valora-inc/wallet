@@ -2,10 +2,10 @@ name: Bump App Version
 
 on:
   workflow_dispatch:
-  push:
-    # trigger on new minor release tags only
-    tags:
-      - valora-v[0-9]+.[0-9]+.0
+  # push:
+  #   # trigger on new minor release tags only
+  #   tags:
+  #     - valora-v[0-9]+.[0-9]+.0
 
 jobs:
   bump-app-version:

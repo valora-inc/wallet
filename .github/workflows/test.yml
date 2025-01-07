@@ -16,22 +16,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  mobile:
-    name: Mobile
+  packages-runtime:
+    name: packages/runtime
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       - name: Build
         run: yarn build
+        working-directory: packages/runtime
       - name: Update RootStateSchema if necessary
         run: yarn test:update-root-state-schema
+        working-directory: packages/runtime
       - name: Fail if someone forgot to commit "RootStateSchema.json"
         run: git diff --exit-code
+        working-directory: packages/runtime
       - name: Run mobile tests
         run: |
           mkdir -p test-results/jest
           yarn test:ci
+        working-directory: packages/runtime
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         with:

@@ -5,8 +5,8 @@ on:
   # At 03:00 (UTC) daily
   # https://crontab.guru/#0_3_*_*_*
   # This is a good time for nightly builds, across CET, PST and IST (QA team in India)
-  schedule:
-    - cron: '0 3 * * *'
+  # schedule:
+  #   - cron: '0 3 * * *'
 
 jobs:
   check-date:

@@ -148,7 +148,7 @@ exports[`AccountKeyEducation renders correctly 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../src/images/assets/account-key-1.png",
+                    "testUri": "../../../packages/runtime/src/images/assets/account-key-1.png",
                   }
                 }
                 style={
@@ -218,7 +218,7 @@ exports[`AccountKeyEducation renders correctly 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../src/images/assets/account-key-2.png",
+                    "testUri": "../../../packages/runtime/src/images/assets/account-key-2.png",
                   }
                 }
                 style={
@@ -288,7 +288,7 @@ exports[`AccountKeyEducation renders correctly 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../src/images/assets/account-key-3.png",
+                    "testUri": "../../../packages/runtime/src/images/assets/account-key-3.png",
                   }
                 }
                 style={
@@ -358,7 +358,7 @@ exports[`AccountKeyEducation renders correctly 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../src/images/assets/account-key-4.png",
+                    "testUri": "../../../packages/runtime/src/images/assets/account-key-4.png",
                   }
                 }
                 style={

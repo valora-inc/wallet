@@ -85,9 +85,6 @@ tsconfig.tsbuildinfo
 */.next/*
 .env.local
 
-# Packages from old monorepo structure
-packages/
-
 # Ruby gem artifacts
 .bundle
 vendor/

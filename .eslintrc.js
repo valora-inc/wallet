@@ -2,7 +2,7 @@ module.exports = {
   extends: ['@valora/eslint-config-typescript'],
   plugins: ['@jambit/typed-redux-saga', 'jsx-expressions'],
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    project: ['./packages/*/tsconfig.eslint.json'],
   },
   ignorePatterns: ['**/__mocks__/**', '**/lcov-report/**', 'vendor', '.bundle'],
   rules: {

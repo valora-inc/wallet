@@ -11,14 +11,14 @@ ios/build
 ios/MobileStack/Images.xcassets
 ios/Pods
 # Ignore Crowdin generated files (often they are written with no final newline)
-locales/*/*.json
+packages/runtime/locales/*/*.json
 # Except for the base lang which is maintained by hand
-!locales/base/*.json
-src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json
+!packages/runtime/locales/base/*.json
+packages/runtime/src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json
 vendor
 
 # Ignore generated RootState schema
-test/RootStateSchema.json
+packages/runtime/test/RootStateSchema.json
 
 e2e/test-results/*
 # Ignore generated fastlane files

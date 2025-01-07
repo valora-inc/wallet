@@ -1,8 +1,8 @@
 name: E2E - Main
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   workflow_dispatch:
     inputs:
       logLevel:
@@ -12,8 +12,8 @@ on:
       tags:
         description: 'End-to-end Tests'
   # Cron job to run e2e tests @ 8:30 pm daily on the latest commit on the default branch - main
-  schedule:
-    - cron: '30 20 * * *'
+  # schedule:
+  #   - cron: '30 20 * * *'
 
 # Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code

@@ -9,8 +9,8 @@ on:
       tags:
         description: 'E2E Wallet Fund and Faucet Balance'
   # Cron job to run faucet fund and balance every 8th hour
-  schedule:
-    - cron: '0 */8 * * *'
+  # schedule:
+  #   - cron: '0 */8 * * *'
 
 jobs:
   balance-and-fund:

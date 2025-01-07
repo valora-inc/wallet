@@ -12,7 +12,7 @@ module.exports = {
     defaultPlatform: 'android',
   },
   moduleNameMapper: {
-    'react-native-svg': '<rootDir>/node_modules/react-native-svg-mock',
+    'react-native-svg': 'react-native-svg-mock',
     // For some reason jest doesn't pick it up automatically from the __mocks__ folder
     // like the other modules, adding it here fixes it
     'secrets.json': '<rootDir>/__mocks__/secrets.json',
@@ -22,10 +22,7 @@ module.exports = {
   },
   modulePathIgnorePatterns: ['<rootDir>/node_modules/(.*)/node_modules/react-native'],
   preset: 'react-native',
-  setupFilesAfterEnv: [
-    '<rootDir>/jest_setup.ts',
-    '<rootDir>/node_modules/react-native-gesture-handler/jestSetup.js',
-  ],
+  setupFilesAfterEnv: ['<rootDir>/jest_setup.ts', 'react-native-gesture-handler/jestSetup.js'],
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/e2e'],
   transform: {
     '^.+\\.tsx?$': [
@@ -38,7 +35,7 @@ module.exports = {
         tsconfig: 'tsconfig.test.json',
       },
     ],
-    '^.+\\.(txt)$': require.resolve('./node_modules/react-native/jest/assetFileTransformer.js'),
+    '^.+\\.(txt)$': require.resolve('react-native/jest/assetFileTransformer.js'),
   },
   transformIgnorePatterns: [
     'node_modules/(?!@?react-native|@react-navigation|@react-native-community|uuid|statsig-js|@react-native-firebase|react-navigation|redux-persist|date-fns|victory-*|@walletconnect/react-native-compat|react-redux|@segment/analytics-react-native/node_modules/uuid)',
