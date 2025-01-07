@@ -223,8 +223,7 @@ describe('SelectRecipientButtons', () => {
     async ({ os, showsModal }) => {
       Platform.OS = os
       jest.mocked(request).mockResolvedValue(RESULTS.BLOCKED)
-      const { findByTestId, getByTestId, queryByTestId, onPermissionsGranted } =
-        renderComponent(true)
+      const { findByTestId, queryByTestId, onPermissionsGranted } = renderComponent(true)
       await act(async () => {
         fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
       })
