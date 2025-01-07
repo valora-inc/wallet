@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents } from 'src/analytics/Events'
 import GasFeeWarning from 'src/components/GasFeeWarning'
+import { NetworkId } from 'src/transactions/types'
 import {
   PreparedTransactionsNeedDecreaseSpendAmountForGas,
   PreparedTransactionsNotEnoughBalanceForGas,
@@ -90,13 +91,13 @@ describe('GasFeeWarning', () => {
     'renders error correctly when $scenario',
     ({ flow, prepareTransactionsResult, feeCurrencyTokenId, title, description, ctaLabel }) => {
       const store = createMockStore()
-      const changeInputValueFn = jest.fn()
+      const onPressSmallerAmount = jest.fn()
       const { getByTestId, getByText } = render(
         <Provider store={store}>
           <GasFeeWarning
             flow={flow}
             prepareTransactionsResult={prepareTransactionsResult}
-            changeInputValueFn={changeInputValueFn}
+            onPressSmallerAmount={onPressSmallerAmount}
           />
         </Provider>
       )
@@ -106,6 +107,10 @@ describe('GasFeeWarning', () => {
         flow,
         errorType: prepareTransactionsResult.type,
         tokenId: feeCurrencyTokenId,
+        networkId:
+          feeCurrencyTokenId === mockArbEthTokenId
+            ? NetworkId['arbitrum-sepolia']
+            : NetworkId['celo-alfajores'],
       })
       expect(getByText(title)).toBeTruthy()
       expect(getByText(description)).toBeTruthy()
@@ -113,7 +118,7 @@ describe('GasFeeWarning', () => {
       if (ctaLabel) {
         fireEvent.press(getByText(ctaLabel))
       }
-      expect(changeInputValueFn).toHaveBeenCalledTimes(
+      expect(onPressSmallerAmount).toHaveBeenCalledTimes(
         ctaLabel && ctaLabel.includes('ctaAction') ? 1 : 0
       )
     }

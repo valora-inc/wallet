@@ -15,11 +15,11 @@ export type GasFeeWarningFlow = 'Send' | 'Swap' | 'Withdraw' | 'Deposit' | 'Dapp
 function GasFeeWarning({
   prepareTransactionsResult,
   flow,
-  changeInputValueFn,
+  onPressSmallerAmount,
 }: {
   prepareTransactionsResult?: PreparedTransactionsResult
   flow: GasFeeWarningFlow
-  changeInputValueFn?: (amount: string) => void
+  onPressSmallerAmount?: (amount: string) => void
 }) {
   const { t } = useTranslation()
 
@@ -29,6 +29,7 @@ function GasFeeWarning({
         flow,
         errorType: prepareTransactionsResult.type,
         tokenId: feeCurrency.tokenId,
+        networkId: feeCurrency.networkId,
       })
     }
   }, [prepareTransactionsResult])
@@ -70,16 +71,19 @@ function GasFeeWarning({
       flow,
       tokenId: feeCurrency.tokenId,
       errorType: prepareTransactionsResult.type,
+      networkId: feeCurrency.networkId,
     })
-    prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-      ? navigate(Screens.FiatExchangeAmount, {
-          tokenId: feeCurrency.tokenId,
-          flow: CICOFlow.CashIn,
-          tokenSymbol: feeCurrency.symbol,
-        })
-      : changeInputValueFn
-        ? changeInputValueFn(prepareTransactionsResult.decreasedSpendAmount.toString())
+    if (prepareTransactionsResult.type === 'not-enough-balance-for-gas') {
+      navigate(Screens.FiatExchangeAmount, {
+        tokenId: feeCurrency.tokenId,
+        flow: CICOFlow.CashIn,
+        tokenSymbol: feeCurrency.symbol,
+      })
+    } else {
+      onPressSmallerAmount
+        ? onPressSmallerAmount(prepareTransactionsResult.decreasedSpendAmount.toString())
         : null
+    }
   }
   return (
     <InLineNotification

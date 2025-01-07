@@ -946,11 +946,13 @@ describe('EarnEnterAmount', () => {
       errorType: 'not-enough-balance-for-gas',
       flow: 'Deposit',
       tokenId: mockArbEthTokenId,
+      networkId: NetworkId['arbitrum-sepolia'],
     })
     expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_cta_press, {
       errorType: 'not-enough-balance-for-gas',
       flow: 'Deposit',
       tokenId: mockArbEthTokenId,
+      networkId: NetworkId['arbitrum-sepolia'],
     })
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockArbEthTokenId,

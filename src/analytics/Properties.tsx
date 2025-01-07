@@ -157,11 +157,13 @@ interface AppEventsProperties {
     flow: GasFeeWarningFlow
     errorType: 'need-decrease-spend-amount-for-gas' | 'not-enough-balance-for-gas'
     tokenId: string
+    networkId: NetworkId
   }
   [AppEvents.gas_fee_warning_cta_press]: {
     flow: GasFeeWarningFlow
     errorType: 'need-decrease-spend-amount-for-gas' | 'not-enough-balance-for-gas'
     tokenId: string
+    networkId: NetworkId
   }
 }
 
