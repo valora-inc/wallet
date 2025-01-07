@@ -2603,9 +2603,13 @@
         "moreInformation": "Więcej informacji",
         "estNetworkFee": "Szac. opłata sieciowa",
         "maxNetworkFee": "Maksymalna opłata sieciowa",
-        "networkFeeDescription": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję wpłaty.",
-        "networkFeeDescriptionWithdrawal": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję wypłaty.",
-        "networkSwapFeeDescription": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcje wpłaty. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
+        "estCrossChainFee": "Est. Opłata międzyłańcuchowa",
+        "maxCrossChainFee": "Maksymalna opłata międzyłańcuchowa",
+        "description_deposit": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję wpłaty.",
+        "description_withdraw": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję wypłaty.",
+        "description_depositSwapFee": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcje wpłaty. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
+        "description_depositCrossChain": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji wpłaty. Opłata cross-chain jest pobierana przez dostawcę cross-chain.",
+        "description_depositCrossChainWithSwapFee": "Opłata sieciowa jest wymagana przez sieć do przetwarzania transakcji depozytowych. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu. Opłata cross-chain jest pobierana przez dostawcę cross-chain.",
         "appSwapFee": "Opłata w aplikacji {{appName}}"
       },
       "swapBottomSheet": {
