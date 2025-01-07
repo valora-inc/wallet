@@ -184,7 +184,17 @@ export default function SwapScreenV2({ route }: Props) {
   const filterChipsFrom = useFilterChips(Field.FROM)
   const filterChipsTo = useFilterChips(Field.TO, route.params?.toTokenNetworkId)
   const parsedSlippagePercentage = new BigNumber(maxSlippagePercentage).toFormat()
-  const crossChainFee = getCrossChainFee(quote, crossChainFeeCurrency)
+  const crossChainFee =
+    quote?.swapType === 'cross-chain'
+      ? getCrossChainFee({
+          feeCurrency: crossChainFeeCurrency,
+          preparedTransactions: quote.preparedTransactions,
+          fromTokenId: quote.fromTokenId,
+          sellAmount: quote.sellAmount,
+          estimatedCrossChainFee: quote.estimatedCrossChainFee,
+          maxCrossChainFee: quote.maxCrossChainFee,
+        })
+      : undefined
   const swapStatus = startedSwapId === currentSwap?.id ? currentSwap?.status : null
   const confirmSwapIsLoading = swapStatus === 'started'
   const confirmSwapFailed = swapStatus === 'error'
