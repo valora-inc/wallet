@@ -35,6 +35,9 @@ function GasFeeWarning({
   }, [prepareTransactionsResult])
 
   const { title, description, ctaLabel } = useMemo(() => {
+    if (!prepareTransactionsResult || prepareTransactionsResult.type === 'possible') {
+      return { title: null, description: null, ctaLabel: null }
+    }
     const title = t('gasFeeWarning.title', {
       context: flow === 'Dapp' ? 'Dapp' : undefined,
       tokenSymbol: feeCurrency.symbol,
@@ -45,10 +48,7 @@ function GasFeeWarning({
         description: t('gasFeeWarning.descriptionDapp', { tokenSymbol: feeCurrency.symbol }),
         ctaLabel: undefined,
       }
-    } else if (
-      prepareTransactionsResult &&
-      prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-    ) {
+    } else if (prepareTransactionsResult.type === 'not-enough-balance-for-gas') {
       return {
         title,
         description: t('gasFeeWarning.descriptionNotEnoughGas', {
