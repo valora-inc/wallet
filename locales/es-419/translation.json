@@ -2599,9 +2599,13 @@
         "moreInformation": "Más información",
         "estNetworkFee": "Tarifa de red est.",
         "maxNetworkFee": "Tarifa máxima de red",
-        "networkFeeDescription": "La tarifa de red es requerida por la red para procesar la transacción de depósito.",
-        "networkFeeDescriptionWithdrawal": "La tarifa de red es requerida por la red para procesar la transacción de retiro.",
-        "networkSwapFeeDescription": "La tarifa de red es requerida por la red para procesar las transacciones de depósito. La tarifa de {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto.",
+        "estCrossChainFee": "Est. Tasa de cadena cruzada",
+        "maxCrossChainFee": "Tasa máxima por cadena cruzada",
+        "description_deposit": "La tarifa de red es requerida por la red para procesar la transacción de depósito.",
+        "description_withdraw": "La tarifa de red es requerida por la red para procesar la transacción de retiro.",
+        "description_depositSwapFee": "La tarifa de red es requerida por la red para procesar las transacciones de depósito. La tarifa de {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto.",
+        "description_depositCrossChain": "La comisión de red es exigida por la red para procesar la transacción de depósito. La comisión de la cadena cruzada la cobra el proveedor de la cadena cruzada.",
+        "description_depositCrossChainWithSwapFee": "La comisión de red es exigida por la red para procesar las transacciones de depósito. La comisión de {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto. La comisión de la cadena cruzada la cobra el proveedor de la cadena cruzada.",
         "appSwapFee": "Tarifa de {{appName}}"
       },
       "swapBottomSheet": {
