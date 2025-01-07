@@ -2830,6 +2830,7 @@
   },
   "gasFeeWarning": {
     "title": "You need more {{tokenSymbol}} for gas fees",
+    "title_Dapp": "You have an insufficient gas token balance",
     "descriptionMaxAmount_Send": "Add {{tokenSymbol}} for gas fees or lower the amount you're sending",
     "descriptionMaxAmount_Swap": "Add {{tokenSymbol}} for gas fees or lower the amount you're swapping",
     "descriptionMaxAmount_Deposit": "Add {{tokenSymbol}} for gas fees or lower the amount you're depositing",
@@ -2838,7 +2839,6 @@
     "descriptionNotEnoughGas_Swap": "Adjust the amount you're swapping or add {{tokenSymbol}} to continue",
     "descriptionNotEnoughGas_Deposit": "Adjust the amount you're depositing or add {{tokenSymbol}} to continue",
     "descriptionNotEnoughGas_Withdraw": "Adjust the amount you're withdrawing or add {{tokenSymbol}} to continue",
-    "titleDapp": "You have an insufficient gas token balance",
     "descriptionDapp": "Add {{tokenSymbol}} to complete this transaction",
     "ctaBuy": "Buy {{tokenSymbol}}",
     "ctaAction_Send": "Send smaller amount",

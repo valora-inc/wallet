@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -43,28 +43,35 @@ function GasFeeWarning({
       ? prepareTransactionsResult.feeCurrencies[0]
       : prepareTransactionsResult.feeCurrency
 
-  const title =
-    flow === 'Dapp'
-      ? t('gasFeeWarning.titleDapp')
-      : t('gasFeeWarning.title', { tokenSymbol: feeCurrency.symbol })
-  const description =
-    flow === 'Dapp'
-      ? t('gasFeeWarning.descriptionDapp', { tokenSymbol: feeCurrency.symbol })
-      : prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-        ? t('gasFeeWarning.descriptionNotEnoughGas', {
-            context: flow,
-            tokenSymbol: feeCurrency.symbol,
-          })
-        : t('gasFeeWarning.descriptionMaxAmount', {
-            context: flow,
-            tokenSymbol: feeCurrency.symbol,
-          })
-  const ctaLabel =
-    flow === 'Dapp'
-      ? undefined
-      : prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-        ? t('gasFeeWarning.ctaBuy', { tokenSymbol: feeCurrency.symbol })
-        : t('gasFeeWarning.ctaAction', { context: flow })
+  const title = t('gasFeeWarning.title', {
+    context: flow === 'Dapp' ? 'Dapp' : undefined,
+    tokenSymbol: feeCurrency.symbol,
+  })
+
+  const { description, ctaLabel } = useMemo(() => {
+    if (flow === 'Dapp') {
+      return {
+        description: t('gasFeeWarning.descriptionDapp', { tokenSymbol: feeCurrency.symbol }),
+        ctaLabel: undefined,
+      }
+    } else if (prepareTransactionsResult.type === 'not-enough-balance-for-gas') {
+      return {
+        description: t('gasFeeWarning.descriptionNotEnoughGas', {
+          context: flow,
+          tokenSymbol: feeCurrency.symbol,
+        }),
+        ctaLabel: t('gasFeeWarning.ctaBuy', { tokenSymbol: feeCurrency.symbol }),
+      }
+    } else {
+      return {
+        description: t('gasFeeWarning.descriptionMaxAmount', {
+          context: flow,
+          tokenSymbol: feeCurrency.symbol,
+        }),
+        ctaLabel: t('gasFeeWarning.ctaAction', { context: flow }),
+      }
+    }
+  }, [flow, prepareTransactionsResult])
 
   const onPressCta = () => {
     AppAnalytics.track(AppEvents.gas_fee_warning_cta_press, {
