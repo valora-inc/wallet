@@ -2831,6 +2831,5 @@
     "selectToken": "Select token",
     "fiatPriceUnavailable": "Price unavailable",
     "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
-  },
-  "on": "on"
+  }
 }
