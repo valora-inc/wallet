@@ -2599,9 +2599,13 @@
         "moreInformation": "Weitere Informationen",
         "estNetworkFee": "Geschätzte Netzwerkgebühr",
         "maxNetworkFee": "Maximale Netzwerkgebühr",
-        "networkFeeDescription": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Einzahlungstransaktion verarbeiten kann.",
-        "networkFeeDescriptionWithdrawal": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Abhebungstransaktion zu bearbeiten.",
-        "networkSwapFeeDescription": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Einzahlungstransaktionen verarbeiten kann. Die {{appName}}-Gebühr von {{appFeePercentage}} % wird für deine Nutzung unseres Produkts erhoben.",
+        "estCrossChainFee": "Est. Cross-Chain-Gebühr",
+        "maxCrossChainFee": "Max. kettenübergreifendes Entgelt",
+        "description_deposit": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Einzahlungstransaktion verarbeiten kann.",
+        "description_withdraw": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Abhebungstransaktion zu bearbeiten.",
+        "description_depositSwapFee": "Das Netzwerk verlangt eine Netzwerkgebühr, damit es die Einzahlungstransaktionen verarbeiten kann. Die {{appName}}-Gebühr von {{appFeePercentage}} % wird für deine Nutzung unseres Produkts erhoben.",
+        "description_depositCrossChain": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Einzahlungstransaktion zu verarbeiten. Die Cross-Chain-Gebühr wird von dem Cross-Chain-Anbieter erhoben.",
+        "description_depositCrossChainWithSwapFee": "Die Netzwerkgebühr wird von dem Netzwerk verlangt, um die Einzahlungstransaktionen zu verarbeiten. Die {{appName}} Gebühr von {{appFeePercentage}}wird für deine Nutzung unseres Produkts erhoben. Die Cross-Chain-Gebühr wird von dem Cross-Chain-Anbieter erhoben.",
         "appSwapFee": "{{appName}}-Gebühr"
       },
       "swapBottomSheet": {
