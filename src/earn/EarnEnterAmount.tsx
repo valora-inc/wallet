@@ -46,11 +46,7 @@ import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import {
-  getFeeCurrencyAndAmounts,
-  PreparedTransactionsNotEnoughBalanceForGas,
-  PreparedTransactionsResult,
-} from 'src/viem/prepareTransactions'
+import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { isAddress } from 'viem'
 
@@ -350,11 +346,6 @@ export default function EarnEnterAmount({ route }: Props) {
 
   const dropdownEnabled = availableInputTokens.length > 1
 
-  const fakePrepareTransactionsResult: PreparedTransactionsNotEnoughBalanceForGas = {
-    type: 'not-enough-balance-for-gas',
-    feeCurrencies: feeCurrencies,
-  }
-
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
@@ -412,7 +403,7 @@ export default function EarnEnterAmount({ route }: Props) {
           )}
         </View>
         <GasFeeWarning
-          prepareTransactionsResult={fakePrepareTransactionsResult}
+          prepareTransactionsResult={prepareTransactionsResult}
           flow={'Deposit'}
           onPressSmallerAmount={handleAmountInputChange}
         />
