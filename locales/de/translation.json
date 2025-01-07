@@ -2830,7 +2830,6 @@
     "fiatPriceUnavailable": "Preis nicht verfügbar",
     "tokenDescription": "{{tokenName}} auf {{tokenNetwork}}"
   },
-  "on": "auf",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
