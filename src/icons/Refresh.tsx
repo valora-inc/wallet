@@ -29,7 +29,7 @@ const Refresh = ({ color, height }: Props) => (
 
 Refresh.defaultProps = {
   height: 16,
-  color: colors.black,
+  color: colors.icon,
 }
 
 export default Refresh

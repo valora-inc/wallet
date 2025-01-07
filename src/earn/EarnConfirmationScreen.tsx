@@ -363,7 +363,6 @@ const styles = StyleSheet.create({
   },
   cryptoText: {
     ...typeScale.labelSemiBoldLarge,
-    color: Colors.black,
   },
   fiatText: {
     ...typeScale.bodySmall,
@@ -371,7 +370,6 @@ const styles = StyleSheet.create({
   },
   collectItemTitle: {
     ...typeScale.labelSemiBoldXSmall,
-    color: Colors.black,
     marginBottom: Spacing.Smallest8,
   },
   separator: {

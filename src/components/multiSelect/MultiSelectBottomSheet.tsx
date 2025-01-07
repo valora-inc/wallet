@@ -155,7 +155,7 @@ function OptionLineItem({ onPress, text, iconUrl, isSelected }: OptionLineItemPr
               {isSelected && (
                 <Checkmark
                   testID={`${text}-checkmark`}
-                  color={Colors.black}
+                  color={Colors.icon}
                   height={Spacing.Thick24}
                   width={Spacing.Thick24}
                 />

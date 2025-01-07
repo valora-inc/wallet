@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
   },
   amountPrimaryText: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.black,
   },
   amountSecondaryText: {
     ...typeScale.bodyXSmall,

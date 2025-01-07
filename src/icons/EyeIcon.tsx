@@ -21,7 +21,7 @@ function EyeIcon({ color, size }: Props) {
 
 EyeIcon.defaultProps = {
   size: 24,
-  color: Colors.black,
+  color: Colors.icon,
 }
 
 export default EyeIcon

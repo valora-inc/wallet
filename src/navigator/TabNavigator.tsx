@@ -32,7 +32,7 @@ export default function TabNavigator({ route }: Props) {
         headerShown: true,
         headerShadowVisible: false,
         headerTitleAllowFontScaling: false,
-        tabBarActiveTintColor: Colors.black,
+        tabBarActiveTintColor: Colors.navigation,
         tabBarInactiveTintColor: Colors.gray3,
         tabBarLabelStyle: styles.label,
         tabBarItemStyle: styles.tabBarItem,

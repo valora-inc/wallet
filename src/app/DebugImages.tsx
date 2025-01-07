@@ -21,7 +21,7 @@ const IconItem = ({ Component, fileName }: { Component: React.ElementType; fileN
   return (
     <View style={styles.itemContainer}>
       {/* Not all icons have the same props, we do our best here to set consistent size and color */}
-      <Component height={ICON_SIZE} width={ICON_SIZE} size={ICON_SIZE} color={Colors.black} />
+      <Component height={ICON_SIZE} width={ICON_SIZE} size={ICON_SIZE} color={Colors.icon} />
       <Text>{fileName.split('.tsx')[0].slice(2)}</Text>
     </View>
   )

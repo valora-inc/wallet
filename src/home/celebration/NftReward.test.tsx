@@ -2,8 +2,8 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Provider } from 'react-redux'
-import { HomeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { HomeEvents } from 'src/analytics/Events'
 import { openDeepLink } from 'src/app/actions'
 import { nftRewardDisplayed } from 'src/home/actions'
 import { getFeatureGate } from 'src/statsig/index'
@@ -65,7 +65,7 @@ describe('NftReward', () => {
     expect(pillLabel).toHaveTextContent(
       'nftCelebration.rewardBottomSheet.expirationLabel, {"expirationLabelText":"in about 100 years"}'
     )
-    expect(StyleSheet.flatten(pillLabel.props.style)).toHaveProperty('color', Colors.black)
+    expect(StyleSheet.flatten(pillLabel.props.style)).toHaveProperty('color', Colors.text)
     expect(StyleSheet.flatten(getByTestId('NftReward/Pill').props.style)).toHaveProperty(
       'backgroundColor',
       Colors.gray1

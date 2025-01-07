@@ -8,7 +8,7 @@ interface Props {
   testID?: string
 }
 
-const SwapArrows = ({ size = 24, color = Colors.black, testID }: Props) => (
+const SwapArrows = ({ size = 24, color = Colors.icon, testID }: Props) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" testID={testID}>
     <Path
       fill={color}

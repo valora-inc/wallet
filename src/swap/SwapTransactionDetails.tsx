@@ -264,7 +264,6 @@ const styles = StyleSheet.create({
   },
   value: {
     ...typeScale.bodySmall,
-    color: colors.black,
     textAlign: 'right',
   },
   label: {

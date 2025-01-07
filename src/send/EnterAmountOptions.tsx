@@ -102,13 +102,16 @@ export default function EnterAmountOptions({
             <View
               style={[
                 styles.chip,
-                { backgroundColor: selectedAmount === amount ? Colors.black : 'transparent' },
+                {
+                  backgroundColor:
+                    selectedAmount === amount ? Colors.backgroundInverse : 'transparent',
+                },
               ]}
             >
               <Text
                 style={[
                   styles.chipText,
-                  { color: selectedAmount === amount ? Colors.white : Colors.black },
+                  { color: selectedAmount === amount ? Colors.white : Colors.text },
                 ]}
               >
                 {label}

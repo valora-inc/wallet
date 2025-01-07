@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...typeScale.bodyXSmall,
-    color: Colors.black,
   },
   ctaLabel: {
     ...typeScale.labelSmall,

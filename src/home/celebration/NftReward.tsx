@@ -55,7 +55,7 @@ export default function NftRewardBottomSheet() {
       }
     : {
         pillStyle: { backgroundColor: Colors.gray1 },
-        labelStyle: { color: Colors.black },
+        labelStyle: { color: Colors.text },
       }
 
   const copyText = isReminder ? 'rewardReminderBottomSheet' : 'rewardBottomSheet'

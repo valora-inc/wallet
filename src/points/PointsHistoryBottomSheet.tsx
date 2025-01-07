@@ -122,7 +122,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     pointsHistoryStatus === 'errorFirstPage' ? (
       <View testID={'PointsHistoryBottomSheet/Error'} style={styles.emptyContainer}>
         <View style={styles.messageContainer}>
-          <Attention size={48} color={Colors.black} />
+          <Attention size={48} color={Colors.icon} />
           <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
           <Text style={styles.messageSubtitle}>{t('points.history.error.subtitle')}</Text>
         </View>

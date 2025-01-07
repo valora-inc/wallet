@@ -75,7 +75,6 @@ function NoResults({ selectedFilter, removeFilter, testID, searchTerm }: Props) 
 
 const styles = StyleSheet.create({
   searchedText: {
-    color: Colors.black,
     fontWeight: 'bold',
   },
   text: {

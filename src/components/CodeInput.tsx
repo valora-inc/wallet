@@ -41,7 +41,7 @@ export default function CodeInput({
   const showStatus = showCheckmark || showSpinner || showError
 
   const textColorForStatus = {
-    [CodeInputStatus.Inputting]: colors.black,
+    [CodeInputStatus.Inputting]: colors.text,
     [CodeInputStatus.Processing]: colors.gray3,
     [CodeInputStatus.Error]: colors.error,
     [CodeInputStatus.Accepted]: colors.successDark,

@@ -243,7 +243,7 @@ function SignInWithEmail({ route, navigation }: Props) {
           text={t('signInWithEmail.google')}
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}
-          icon={<GoogleIcon color={Colors.black} />}
+          icon={<GoogleIcon color={Colors.icon} />}
           iconMargin={10}
           showLoading={loading === 'google-oauth2'}
           disabled={!!loading}
@@ -254,7 +254,7 @@ function SignInWithEmail({ route, navigation }: Props) {
           text={t('signInWithEmail.apple')}
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}
-          icon={<AppleIcon color={Colors.black} />}
+          icon={<AppleIcon color={Colors.icon} />}
           iconMargin={10}
           showLoading={loading === 'apple'}
           disabled={!!loading}
@@ -306,13 +306,11 @@ const styles = StyleSheet.create({
   title: {
     ...typeScale.titleMedium,
     textAlign: 'center',
-    color: Colors.black,
   },
   subtitle: {
     ...typeScale.bodyMedium,
     textAlign: 'center',
     paddingVertical: Spacing.Regular16,
-    color: Colors.black,
   },
   buttonContainer: {
     gap: Spacing.Smallest8,
@@ -321,14 +319,12 @@ const styles = StyleSheet.create({
   bottomSheetTitle: {
     ...typeScale.titleSmall,
     textAlign: 'center',
-    color: Colors.black,
   },
   bottomSheetDescription: {
     ...typeScale.bodyMedium,
     paddingHorizontal: Spacing.Thick24,
     paddingVertical: Spacing.Small12,
     textAlign: 'center',
-    color: Colors.black,
   },
   bottomSheetButtonContainer: {
     gap: Spacing.Smallest8,

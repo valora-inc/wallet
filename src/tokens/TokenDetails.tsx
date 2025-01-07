@@ -97,7 +97,6 @@ export default function TokenDetailsScreen({ route }: Props) {
             containerStyle={styles.chartContainer}
             chartPadding={Spacing.Thick24}
             testID={`TokenDetails/Chart/${tokenId}`}
-            color={Colors.black}
           />
         )}
         <Actions
@@ -330,14 +329,12 @@ const styles = StyleSheet.create({
   },
   tokenName: {
     ...typeScale.labelLarge,
-    color: Colors.black,
   },
   tokenImg: {
     marginRight: Spacing.Tiny4,
   },
   assetValue: {
     ...typeScale.titleLarge,
-    color: Colors.black,
     marginHorizontal: Spacing.Thick24,
   },
   chartContainer: {
@@ -362,7 +359,6 @@ const styles = StyleSheet.create({
   },
   yourBalance: {
     ...typeScale.labelMedium,
-    color: Colors.black,
     marginTop: Spacing.Regular16,
     marginHorizontal: Spacing.Thick24,
   },

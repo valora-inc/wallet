@@ -1,17 +1,6 @@
 // Designer Created Figma Colors
 // from https://www.figma.com/design/erFfzHvSTm5g1sjK6jWyEH/Working-Design-System?node-id=2100-4881&node-type=frame&t=vKGGXrs3Torz7kFE-0
 enum Colors {
-  // black & white
-  black = '#2E3338',
-  white = '#FFFFFF',
-
-  // grays
-  gray5 = '#505050',
-  gray4 = '#666666',
-  gray3 = '#757575',
-  gray2 = '#E6E6E6',
-  gray1 = '#F8F9F9',
-
   // primary
   primary = '#2E3338',
   accent = '#1AB775',
@@ -32,6 +21,11 @@ enum Colors {
   lightShadow = 'rgba(48, 46, 37, 0.15)',
   barShadow = 'rgba(129, 134, 139, 0.5)',
 
+  text = '#2E3338',
+  navigation = '#2E3338',
+  icon = '#2E3338',
+  backgroundInverse = '#2E3338',
+
   /** @deprecated */
   infoDark = '#0768AE',
   /** @deprecated */
@@ -44,6 +38,20 @@ enum Colors {
   goldBrand = '#FBCC5C',
   /** @deprecated */
   onboardingBrownLight = '#A49B80',
+  /** @deprecated */
+  black = '#2E3338',
+  /** @deprecated */
+  white = '#FFFFFF',
+  /** @deprecated */
+  gray5 = '#505050',
+  /** @deprecated */
+  gray4 = '#666666',
+  /** @deprecated */
+  gray3 = '#757575',
+  /** @deprecated */
+  gray2 = '#E6E6E6',
+  /** @deprecated */
+  gray1 = '#F8F9F9',
 }
 
 export default Colors

@@ -124,7 +124,7 @@ export default function PointsHome({ route, navigation }: Props) {
 
         {pointsConfigStatus === 'error' && (
           <View style={styles.loadingStatusContainer}>
-            <AttentionIcon size={48} color={Colors.black} />
+            <AttentionIcon size={48} color={Colors.icon} />
             <Text style={styles.loadingStatusTitle}>{t('points.error.title')}</Text>
             <Text style={styles.loadingStatusBodyText}>{t('points.error.description')}</Text>
             <Button

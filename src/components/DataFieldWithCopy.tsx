@@ -64,12 +64,10 @@ const styles = StyleSheet.create({
   },
   transactionDataLabel: {
     ...typeScale.labelXSmall,
-    color: Colors.black,
     marginBottom: Spacing.Smallest8,
   },
   transactionData: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     flex: 1,
   },
 })

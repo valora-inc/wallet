@@ -85,7 +85,7 @@ export class RegulatoryTerms extends React.Component<Props> {
         contentContainerStyle={styles.scrollContent}
         testID="scrollView"
       >
-        <Logo color={Colors.black} size={32} />
+        <Logo color={Colors.icon} size={32} />
         <Text style={styles.title}>{t('terms.title')}</Text>
         <Text style={styles.disclaimer}>
           <Trans i18nKey={'terms.info'}>

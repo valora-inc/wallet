@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
   },
   labelText: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'left',
   },

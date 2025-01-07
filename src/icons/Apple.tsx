@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 import Colors from 'src/styles/colors'
 
-const AppleIcon = ({ color = Colors.black }) => (
+const AppleIcon = ({ color = Colors.icon }) => (
   <Svg width={32} height={32} viewBox="0 0 32 32" fill="none">
     <Path
       fill={color}

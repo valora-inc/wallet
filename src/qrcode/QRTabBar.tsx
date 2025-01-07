@@ -100,7 +100,7 @@ export default function QRTabBar({
         style={[styles.rightContainer, { opacity: shareOpacity }]}
         pointerEvents={state.index > 0 ? 'none' : undefined}
       >
-        <TopBarIconButton icon={<Share color={colors.black} />} onPress={onPressShare} />
+        <TopBarIconButton icon={<Share color={colors.icon} />} onPress={onPressShare} />
       </Animated.View>
     </SafeAreaView>
   )

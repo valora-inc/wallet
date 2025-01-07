@@ -74,17 +74,17 @@ export default function EarnInfoScreen() {
         </Text>
         <View style={styles.detailsContainer}>
           <DetailsItem
-            icon={<EarnCoins size={ICON_SIZE} color={Colors.black} />}
+            icon={<EarnCoins size={ICON_SIZE} color={Colors.icon} />}
             title={t('earnFlow.earnInfo.details.work.title')}
             subtitle={t('earnFlow.earnInfo.details.work.subtitle')}
           />
           <DetailsItem
-            icon={<Manage size={ICON_SIZE} color={Colors.black} />}
+            icon={<Manage size={ICON_SIZE} color={Colors.icon} />}
             title={t('earnFlow.earnInfo.details.manage.titleV1_94')}
             subtitle={t('earnFlow.earnInfo.details.manage.subtitleV1_94')}
           />
           <DetailsItem
-            icon={<ArrowDown size={ARROW_ICON_SIZE} color={Colors.black} />}
+            icon={<ArrowDown size={ARROW_ICON_SIZE} color={Colors.icon} />}
             title={t('earnFlow.earnInfo.details.access.title')}
             subtitle={t('earnFlow.earnInfo.details.access.subtitle')}
           />
@@ -146,7 +146,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    color: Colors.black,
     textAlign: 'center',
     marginBottom: Spacing.Thick24,
     ...typeScale.titleLarge,
@@ -159,15 +158,12 @@ const styles = StyleSheet.create({
     gap: Spacing.Regular16,
   },
   detailsItemTitle: {
-    color: Colors.black,
     ...typeScale.labelSemiBoldMedium,
   },
   detailsItemSubtitle: {
-    color: Colors.black,
     ...typeScale.bodySmall,
   },
   detailsItemFootnote: {
-    color: Colors.black,
     marginTop: Spacing.Smallest8,
     ...typeScale.bodyXSmall,
   },

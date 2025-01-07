@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: colors.black,
+    backgroundColor: colors.backgroundInverse,
   },
   maskedContainer: {
     // Transparent background because mask is based off alpha channel.

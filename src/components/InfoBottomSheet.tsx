@@ -20,7 +20,6 @@ export default function InfoBottomSheet({ isVisible, onDismiss, title, body, tes
       testID={testID}
       isVisible={isVisible}
       onBackgroundPress={onDismiss}
-      backgroundColor={colors.black}
       opacity={0.25}
     >
       <View style={styles.root}>

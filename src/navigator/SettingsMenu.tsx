@@ -191,7 +191,7 @@ export default function SettingsMenu({ route }: Props) {
       <ScrollView>
         <ProfileMenuOption />
         <SettingsItemTextValue
-          icon={<Wallet size={24} color={Colors.black} />}
+          icon={<Wallet size={24} color={Colors.icon} />}
           title={t('address')}
           onPress={() =>
             navigate(Screens.QRNavigator, {
@@ -204,7 +204,7 @@ export default function SettingsMenu({ route }: Props) {
           borderless
         />
         <SettingsItemTextValue
-          icon={<Envelope color={Colors.black} />}
+          icon={<Envelope color={Colors.icon} />}
           title={t('invite')}
           onPress={() => navigate(Screens.Invite)}
           testID="SettingsMenu/Invite"
@@ -223,7 +223,7 @@ export default function SettingsMenu({ route }: Props) {
           borderless
         />
         <SettingsItemTextValue
-          icon={<Lock width={24} height={24} color={Colors.black} />}
+          icon={<Lock width={24} height={24} color={Colors.icon} />}
           title={t('securityPrivacy')}
           testID="SettingsMenu/Security"
           onPress={() => navigate(Screens.SecuritySubmenu)}
@@ -232,7 +232,7 @@ export default function SettingsMenu({ route }: Props) {
         />
         {walletConnectEnabled && (
           <SettingsItemTextValue
-            icon={<Stack size={24} color={Colors.black} />}
+            icon={<Stack size={24} color={Colors.icon} />}
             title={t('connectedApplications')}
             testID="SettingsMenu/ConnectedDapps"
             value={connectedDapps.toString()}
@@ -242,7 +242,7 @@ export default function SettingsMenu({ route }: Props) {
           />
         )}
         <SettingsItemTextValue
-          icon={<Help size={24} color={Colors.black} />}
+          icon={<Help size={24} color={Colors.icon} />}
           title={t('help')}
           onPress={() => navigate(Screens.Support)}
           testID="SettingsMenu/Help"

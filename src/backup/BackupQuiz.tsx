@@ -349,7 +349,6 @@ const styles = StyleSheet.create({
   bodyText: {
     marginTop: 20,
     ...typeScale.bodyMedium,
-    color: colors.black,
     textAlign: 'center',
   },
   bodyTextBold: {

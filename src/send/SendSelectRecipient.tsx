@@ -128,7 +128,6 @@ const getStartedStyles = StyleSheet.create({
   },
   optionNumText: {
     ...typeScale.labelXSmall,
-    color: colors.black,
   },
   optionText: {
     paddingLeft: Spacing.Smallest8,

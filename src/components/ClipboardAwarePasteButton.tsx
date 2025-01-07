@@ -61,6 +61,5 @@ const styles = StyleSheet.create({
   },
   fontStyle: {
     ...typeScale.labelSemiBoldMedium,
-    color: colors.black,
   },
 })

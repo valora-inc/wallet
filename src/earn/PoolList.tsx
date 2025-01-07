@@ -12,7 +12,6 @@ import {
 import Animated from 'react-native-reanimated'
 import PoolCard from 'src/earn/PoolCard'
 import { EarnPosition } from 'src/positions/types'
-import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -73,7 +72,6 @@ const styles = StyleSheet.create({
   },
   learnMore: {
     ...typeScale.bodySmall,
-    color: Colors.black,
     textAlign: 'center',
   },
   learnMoreLink: {

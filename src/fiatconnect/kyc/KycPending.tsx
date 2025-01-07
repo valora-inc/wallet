@@ -42,7 +42,7 @@ function KycPending({ route, navigation }: Props) {
     <SafeAreaView style={styles.container}>
       <View style={styles.iconContainer}>
         <CircledIcon radius={80} backgroundColor={colors.ivory} style={styles.bankIcon}>
-          <BankIcon color={colors.black} height={24} width={24} />
+          <BankIcon color={colors.icon} height={24} width={24} />
         </CircledIcon>
         <CircledIcon radius={85} backgroundColor={colors.white} style={styles.clockIcon}>
           <CircledIcon radius={80}>

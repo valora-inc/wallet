@@ -162,7 +162,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
   },
   titleContainer: {
     marginBottom: Spacing.Smallest8,
