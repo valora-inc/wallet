@@ -2834,7 +2834,6 @@
     "fiatPriceUnavailable": "Cena niedostępna",
     "tokenDescription": "{{tokenName}} na {{tokenNetwork}}"
   },
-  "on": "na",
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
