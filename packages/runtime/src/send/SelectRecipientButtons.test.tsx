@@ -242,8 +242,10 @@ describe('SelectRecipientButtons', () => {
         { permissionStatus: RESULTS.BLOCKED }
       )
       if (showsModal) {
-        expect(getByTestId('SelectRecipient/ContactsModal').props.visible).toEqual(showsModal)
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(queryByTestId('SelectRecipient/ContactsModal')).toBeTruthy()
       } else {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect(queryByTestId('SelectRecipient/ContactsModal')).toBeFalsy()
       }
     }
