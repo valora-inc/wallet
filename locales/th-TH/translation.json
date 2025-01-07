@@ -2828,6 +2828,5 @@
     "fiatPriceUnavailable": "ไม่มีราคา",
     "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
   },
-  "on": "on",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
