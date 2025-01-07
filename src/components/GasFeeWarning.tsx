@@ -34,28 +34,23 @@ function GasFeeWarning({
     }
   }, [prepareTransactionsResult])
 
-  if (!prepareTransactionsResult || prepareTransactionsResult.type === 'possible') {
-    return false
-  }
-
-  const feeCurrency =
-    prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-      ? prepareTransactionsResult.feeCurrencies[0]
-      : prepareTransactionsResult.feeCurrency
-
-  const title = t('gasFeeWarning.title', {
-    context: flow === 'Dapp' ? 'Dapp' : undefined,
-    tokenSymbol: feeCurrency.symbol,
-  })
-
-  const { description, ctaLabel } = useMemo(() => {
+  const { title, description, ctaLabel } = useMemo(() => {
+    const title = t('gasFeeWarning.title', {
+      context: flow === 'Dapp' ? 'Dapp' : undefined,
+      tokenSymbol: feeCurrency.symbol,
+    })
     if (flow === 'Dapp') {
       return {
+        title,
         description: t('gasFeeWarning.descriptionDapp', { tokenSymbol: feeCurrency.symbol }),
         ctaLabel: undefined,
       }
-    } else if (prepareTransactionsResult.type === 'not-enough-balance-for-gas') {
+    } else if (
+      prepareTransactionsResult &&
+      prepareTransactionsResult.type === 'not-enough-balance-for-gas'
+    ) {
       return {
+        title,
         description: t('gasFeeWarning.descriptionNotEnoughGas', {
           context: flow,
           tokenSymbol: feeCurrency.symbol,
@@ -64,6 +59,7 @@ function GasFeeWarning({
       }
     } else {
       return {
+        title,
         description: t('gasFeeWarning.descriptionMaxAmount', {
           context: flow,
           tokenSymbol: feeCurrency.symbol,
@@ -72,6 +68,15 @@ function GasFeeWarning({
       }
     }
   }, [flow, prepareTransactionsResult])
+
+  if (!prepareTransactionsResult || prepareTransactionsResult.type === 'possible') {
+    return false
+  }
+
+  const feeCurrency =
+    prepareTransactionsResult.type === 'not-enough-balance-for-gas'
+      ? prepareTransactionsResult.feeCurrencies[0]
+      : prepareTransactionsResult.feeCurrency
 
   const onPressCta = () => {
     AppAnalytics.track(AppEvents.gas_fee_warning_cta_press, {
