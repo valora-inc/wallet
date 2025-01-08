@@ -82,7 +82,7 @@ export function InLineNotification({
         )}
         <View style={styles.contentContainer}>
           {!!title && <Text style={styles.titleText}>{title}</Text>}
-          <Text style={[styles.bodyText]}>{description}</Text>
+          {description && <Text style={[styles.bodyText]}>{description}</Text>}
         </View>
       </View>
 
