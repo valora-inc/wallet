@@ -294,12 +294,21 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       })
     }
   } catch (err) {
+    const error = ensureError(err)
+
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(TAG, 'Swap cancelled by user')
       yield* put(swapCancel(swapId))
+
+      AppAnalytics.track(SwapEvents.swap_cancel, {
+        ...defaultSwapExecuteProps,
+        ...getTimeMetrics(),
+        ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
+        swapId,
+      })
+
       return
     }
-    const error = ensureError(err)
     // dispatch the error early, in case the rest of the handling throws
     // and leaves the app in a bad state
     yield* put(swapError(swapId))

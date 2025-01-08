@@ -529,6 +529,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SwapEvents.swap_gas_fees_learn_more]: `When a user taps on the learn more text on the max swap amount warning`,
   [SwapEvents.swap_execute_success]: `When the swap is executed successfully`,
   [SwapEvents.swap_execute_error]: `When the swap returns an error`,
+  [SwapEvents.swap_cancel]: `When the swap is cancelled by the user on the pincode screen`,
   [SwapEvents.swap_learn_more]: `When a user taps on the learn more button on the swap screen`,
   [SwapEvents.swap_price_impact_warning_displayed]: `When the price impact warning is displayed`,
   [SwapEvents.swap_show_info]: `When a user taps an info icon to show more information on the swap screen`,
