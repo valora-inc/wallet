@@ -56,8 +56,6 @@ jobs:
       - uses: ./.github/actions/yarn-install
       - run: yarn knip:depcheck
   knip-regression:
-    # TODO re-enable after the base branch gets the knip setup
-    if: false
     name: Knip Regression
     runs-on: ubuntu-latest
     steps:
