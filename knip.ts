@@ -6,8 +6,15 @@ const config: KnipConfig = {
       entry: ['.github/scripts/*.ts', './scripts/**/*.js'],
     },
     'apps/example': {
+      entry: ['index.ts!', 'metro.config.js!'],
       ignoreDependencies: [
         '@babel/core', // needed for react-native
+        // TODO: these ignores should be unnecessary once we use a recent version of knip with th expo plugin
+        // See https://github.com/webpro-nl/knip/pull/879
+        'expo-build-properties', // used in app.json
+        'expo-dev-client', // used in app.json
+        'expo-splash-screen', // used in app.json
+        'expo-status-bar', // used in app.json
       ],
     },
     'packages/runtime': {
