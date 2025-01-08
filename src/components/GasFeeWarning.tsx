@@ -23,8 +23,14 @@ function GasFeeWarning({
 }) {
   const { t } = useTranslation()
 
+  const feeCurrency = prepareTransactionsResult
+    ? prepareTransactionsResult.type === 'not-enough-balance-for-gas'
+      ? prepareTransactionsResult.feeCurrencies[0]
+      : prepareTransactionsResult.feeCurrency
+    : undefined
+
   useEffect(() => {
-    if (prepareTransactionsResult && prepareTransactionsResult.type !== 'possible') {
+    if (feeCurrency && prepareTransactionsResult && prepareTransactionsResult.type !== 'possible') {
       AppAnalytics.track(AppEvents.gas_fee_warning_impression, {
         flow,
         errorType: prepareTransactionsResult.type,
@@ -32,30 +38,47 @@ function GasFeeWarning({
         networkId: feeCurrency.networkId,
       })
     }
-  }, [prepareTransactionsResult])
+  }, [flow, prepareTransactionsResult, feeCurrency])
 
-  const { title, description, ctaLabel } = useMemo(() => {
-    if (!prepareTransactionsResult || prepareTransactionsResult.type === 'possible') {
-      return { title: null, description: null, ctaLabel: null }
+  const { title, description, ctaLabel, onPressCta } = useMemo(() => {
+    if (
+      !feeCurrency ||
+      !prepareTransactionsResult ||
+      prepareTransactionsResult.type === 'possible'
+    ) {
+      return {}
     }
     const title = t('gasFeeWarning.title', {
       context: flow === 'Dapp' ? 'Dapp' : undefined,
       tokenSymbol: feeCurrency.symbol,
     })
+    const trackCtaAnalytics = () => {
+      AppAnalytics.track(AppEvents.gas_fee_warning_cta_press, {
+        flow,
+        tokenId: feeCurrency.tokenId,
+        errorType: prepareTransactionsResult.type,
+        networkId: feeCurrency.networkId,
+      })
+    }
     if (flow === 'Dapp') {
       return {
         title,
         description: t('gasFeeWarning.descriptionDapp', { tokenSymbol: feeCurrency.symbol }),
         ctaLabel: undefined,
+        onPressCta: undefined,
       }
     } else if (prepareTransactionsResult.type === 'not-enough-balance-for-gas') {
       return {
         title,
-        description: t('gasFeeWarning.descriptionNotEnoughGas', {
-          context: flow,
-          tokenSymbol: feeCurrency.symbol,
-        }),
         ctaLabel: t('gasFeeWarning.ctaBuy', { tokenSymbol: feeCurrency.symbol }),
+        onPressCta: () => {
+          trackCtaAnalytics()
+          navigate(Screens.FiatExchangeAmount, {
+            tokenId: feeCurrency.tokenId,
+            flow: CICOFlow.CashIn,
+            tokenSymbol: feeCurrency.symbol,
+          })
+        },
       }
     } else {
       return {
@@ -65,43 +88,23 @@ function GasFeeWarning({
           tokenSymbol: feeCurrency.symbol,
         }),
         ctaLabel: t('gasFeeWarning.ctaAction', { context: flow }),
+        onPressCta: () => {
+          trackCtaAnalytics()
+          onPressSmallerAmount?.(prepareTransactionsResult.decreasedSpendAmount.toString())
+        },
       }
     }
-  }, [flow, prepareTransactionsResult])
+  }, [flow, prepareTransactionsResult, feeCurrency])
 
-  if (!prepareTransactionsResult || prepareTransactionsResult.type === 'possible') {
+  if (!title) {
     return false
   }
 
-  const feeCurrency =
-    prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-      ? prepareTransactionsResult.feeCurrencies[0]
-      : prepareTransactionsResult.feeCurrency
-
-  const onPressCta = () => {
-    AppAnalytics.track(AppEvents.gas_fee_warning_cta_press, {
-      flow,
-      tokenId: feeCurrency.tokenId,
-      errorType: prepareTransactionsResult.type,
-      networkId: feeCurrency.networkId,
-    })
-    if (prepareTransactionsResult.type === 'not-enough-balance-for-gas') {
-      navigate(Screens.FiatExchangeAmount, {
-        tokenId: feeCurrency.tokenId,
-        flow: CICOFlow.CashIn,
-        tokenSymbol: feeCurrency.symbol,
-      })
-    } else {
-      onPressSmallerAmount
-        ? onPressSmallerAmount(prepareTransactionsResult.decreasedSpendAmount.toString())
-        : null
-    }
-  }
   return (
     <InLineNotification
       variant={NotificationVariant.Warning}
       title={title}
-      description={description}
+      description={description ?? null}
       ctaLabel={ctaLabel}
       onPressCta={onPressCta}
       style={styles.warning}

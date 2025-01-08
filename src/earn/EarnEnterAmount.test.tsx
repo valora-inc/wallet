@@ -18,6 +18,7 @@ import { SwapTransaction } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import {
+  PreparedTransactionsNeedDecreaseSpendAmountForGas,
   PreparedTransactionsNotEnoughBalanceForGas,
   PreparedTransactionsPossible,
 } from 'src/viem/prepareTransactions'
@@ -94,6 +95,20 @@ const mockPreparedTransactionNotEnough: PreparedTransactionsNotEnoughBalanceForG
       lastKnownPriceUsd: new BigNumber(1500),
     },
   ],
+}
+
+const mockPreparedTransactionDecreaseSpend: PreparedTransactionsNeedDecreaseSpendAmountForGas = {
+  type: 'need-decrease-spend-amount-for-gas' as const,
+  feeCurrency: {
+    ...mockTokenBalances[mockArbEthTokenId],
+    isNative: true,
+    balance: new BigNumber(0),
+    priceUsd: new BigNumber(1500),
+    lastKnownPriceUsd: new BigNumber(1500),
+  },
+  maxGasFeeInDecimal: new BigNumber(1),
+  estimatedGasFeeInDecimal: new BigNumber(1),
+  decreasedSpendAmount: new BigNumber(1),
 }
 
 const mockArbFeeCurrencies: TokenBalance[] = [
@@ -965,6 +980,42 @@ describe('EarnEnterAmount', () => {
       flow: CICOFlow.CashIn,
       tokenSymbol: 'ETH',
     })
+  })
+
+  it('should show gas warning error when prepareTransactionsResult is type need-decrease-spend-amount-for-gas, and tapping cta behaves as expected', async () => {
+    jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: mockPreparedTransactionDecreaseSpend,
+        swapTransaction: undefined,
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByTestId('GasFeeWarning')).toBeTruthy())
+    fireEvent.press(getByText('gasFeeWarning.ctaAction, {"context":"Deposit"}'))
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_impression, {
+      errorType: 'need-decrease-spend-amount-for-gas',
+      flow: 'Deposit',
+      tokenId: mockArbEthTokenId,
+      networkId: NetworkId['arbitrum-sepolia'],
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_cta_press, {
+      errorType: 'need-decrease-spend-amount-for-gas',
+      flow: 'Deposit',
+      tokenId: mockArbEthTokenId,
+      networkId: NetworkId['arbitrum-sepolia'],
+    })
+    // Deposit value should now be decreasedSpendAmount from mockPreparedTransactionDecreaseSpend, which is 1
+    expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toHaveTextContent('1.00 USDC')
   })
 
   it('should show the FeeDetailsBottomSheet when the user taps the fee details icon', async () => {
