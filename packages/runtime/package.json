@@ -1,6 +1,6 @@
 {
-  "name": "@valora/wallet",
-  "version": "1.101.0",
+  "name": "@mobilestack-xyz/runtime",
+  "version": "0.0.1",
   "author": "Valora Inc",
   "license": "Apache-2.0",
   "private": true,
@@ -53,6 +53,7 @@
     "generate-release-notes": "ts-node ./scripts/generate-release-notes.ts",
     "deploy:update-disclaimer": "yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
     "//postinstall": "patch-package && yarn keys:decrypt && ./scripts/copy_license_to_android_assets.sh",
+    "postinstall": "cp secrets.json.template secrets.json",
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
     "keys:encrypt": "bash scripts/key_placer.sh encrypt"
   },
@@ -174,7 +175,6 @@
     "react-native-platform-touchable": "^1.1.1",
     "react-native-qrcode-svg": "^6.3.12",
     "react-native-skeleton-placeholder": "^5.2.4",
-    "react-native-splash-screen": "^3.3.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-redux": "^9.2.0",
     "redux": "^5.0.1",

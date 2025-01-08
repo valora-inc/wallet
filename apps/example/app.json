@@ -6,20 +6,70 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    // disable for now as it causes an Android build error with react-native-auth0
+    // See https://github.com/auth0/react-native-auth0/issues/879
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "xyz.mobilestack.example",
+      "infoPlist": {
+        // TODO: add all reasons for all permissions
+        "NSCameraUsageDescription": "[REASON]",
+        "NSUserTrackingUsageDescription": "[REASON]"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
-    }
+      },
+      "package": "xyz.mobilestack.example",
+      "permissions": [
+        // TODO: add all reasons for all permissions
+        "android.permission.CAMERA"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          },
+          "android": {
+            // For Persona SDK
+            "extraMavenRepos": ["https://sdk.withpersona.com/android/releases"]
+          }
+        }
+      ],
+      [
+        "react-native-permissions",
+        {
+          "iosPermissions": ["Camera", "AppTrackingTransparency", "Contacts"]
+        }
+      ],
+      [
+        "react-native-auth0",
+        {
+          // TODO: add domain
+          "domain": "{DOMAIN}"
+        }
+      ],
+      "@mobilestack-xyz/runtime"
+    ]
   }
 }
