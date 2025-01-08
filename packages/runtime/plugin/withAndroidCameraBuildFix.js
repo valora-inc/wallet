@@ -1,6 +1,6 @@
-const { withAppBuildGradle } = require("@expo/config-plugins");
+const { withAppBuildGradle } = require('@expo/config-plugins')
 
-const SEARCH_STRING = "defaultConfig {";
+const SEARCH_STRING = 'defaultConfig {'
 
 // Temporary plugin to fix the camera build issue on Android
 // See https://github.com/react-native-camera/react-native-camera/issues/3480#issuecomment-1572670300
@@ -9,13 +9,13 @@ const SEARCH_STRING = "defaultConfig {";
 // See https://github.com/expo/expo/tree/main/packages/expo-module-scripts#-config-plugin
 module.exports = function withAndroidCameraBuildFix(config) {
   return withAppBuildGradle(config, (config) => {
-    const initialIndex = config.modResults.contents.indexOf(SEARCH_STRING);
+    const initialIndex = config.modResults.contents.indexOf(SEARCH_STRING)
 
     config.modResults.contents =
       config.modResults.contents.slice(0, initialIndex + SEARCH_STRING.length) +
       `\n        missingDimensionStrategy 'react-native-camera', 'general'` +
-      config.modResults.contents.slice(initialIndex + SEARCH_STRING.length);
+      config.modResults.contents.slice(initialIndex + SEARCH_STRING.length)
 
-    return config;
-  });
-};
+    return config
+  })
+}
