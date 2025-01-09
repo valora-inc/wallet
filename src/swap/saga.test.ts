@@ -817,7 +817,7 @@ describe(swapSubmitSaga, () => {
       .not.put(swapError('test-swap-id'))
       .run()
     expect(navigate).not.toHaveBeenCalled()
-    expect(AppAnalytics.track).not.toHaveBeenCalled()
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(SwapEvents.swap_cancel, expect.anything())
   })
 
   it('should track swap result for a user in the swap tokens order holdout group', async () => {

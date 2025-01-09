@@ -1274,6 +1274,19 @@ interface SwapEventsProperties {
       estimatedAppFeeUsdValue: number | undefined
       areSwapTokensShuffled: boolean
     }
+  [SwapEvents.swap_cancel]: SwapQuoteEvent &
+    SwapTimeMetrics &
+    Web3LibraryProps &
+    Partial<SwapTxsProperties> &
+    SwapTxsReceiptProperties & {
+      fromTokenBalance: string
+      swapExecuteTxId: string
+      swapApproveTxId: string
+      estimatedSellTokenUsdValue?: number
+      estimatedBuyTokenUsdValue?: number
+      estimatedAppFeeUsdValue: number | undefined
+      areSwapTokensShuffled: boolean
+    }
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
     provider: string

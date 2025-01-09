@@ -2599,9 +2599,13 @@
         "moreInformation": "Plus d'informations",
         "estNetworkFee": "Frais de réseau estimés",
         "maxNetworkFee": "Frais de réseau maximum",
-        "networkFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter la transaction.",
-        "networkFeeDescriptionWithdrawal": "Les frais de réseau sont exigés par le réseau pour traiter l'opération de retrait.",
-        "networkSwapFeeDescription": "Les frais de réseau sont exigés par le réseau pour traiter la transaction de dépôt. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit.",
+        "estCrossChainFee": "Est. Frais inter-chaînes",
+        "maxCrossChainFee": "Frais maximums pour la chaîne croisée",
+        "description_deposit": "Les frais de réseau sont exigés par le réseau pour traiter la transaction.",
+        "description_withdraw": "Les frais de réseau sont exigés par le réseau pour traiter l'opération de retrait.",
+        "description_depositSwapFee": "Les frais de réseau sont exigés par le réseau pour traiter la transaction de dépôt. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit.",
+        "description_depositCrossChain": "Les frais de réseau sont exigés par le réseau pour traiter la transaction de dépôt. Les frais de la chaîne croisée sont facturés par le fournisseur de la chaîne croisée.",
+        "description_depositCrossChainWithSwapFee": "Les frais de réseau sont exigés par le réseau pour traiter les transactions de dépôt. Les frais de {{appName}} de {{appFeePercentage}}% sont facturés pour l'utilisation de notre produit. Les frais de la chaîne croisée sont facturés par le fournisseur de la chaîne croisée.",
         "appSwapFee": "Frais de {{appName}}"
       },
       "swapBottomSheet": {
@@ -2823,7 +2827,8 @@
   "tokenEnterAmount": {
     "availableBalance": "Disponible : <0></0>",
     "selectToken": "Sélectionner un jeton",
-    "fiatPriceUnavailable": "Prix non disponible"
+    "fiatPriceUnavailable": "Prix non disponible",
+    "tokenDescription": "{{tokenName}} sur {{tokenNetwork}}"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
