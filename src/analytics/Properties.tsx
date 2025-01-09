@@ -153,18 +153,6 @@ interface AppEventsProperties {
     fullPath: string | null
     query: string | null
   }
-  [AppEvents.gas_fee_warning_impression]: {
-    flow: GasFeeWarningFlow
-    errorType: 'need-decrease-spend-amount-for-gas' | 'not-enough-balance-for-gas'
-    tokenId: string
-    networkId: NetworkId
-  }
-  [AppEvents.gas_fee_warning_cta_press]: {
-    flow: GasFeeWarningFlow
-    errorType: 'need-decrease-spend-amount-for-gas' | 'not-enough-balance-for-gas'
-    tokenId: string
-    networkId: NetworkId
-  }
 }
 
 interface HomeEventsProperties {
@@ -642,15 +630,17 @@ interface SendEventsProperties {
 }
 
 interface FeeEventsProperties {
-  [FeeEvents.estimate_fee_failed]: {
-    feeType: string
-    tokenAddress: string
-    error: string
+  [FeeEvents.gas_fee_warning_impression]: {
+    flow: GasFeeWarningFlow
+    errorType: 'need-decrease-spend-amount-for-gas' | 'not-enough-balance-for-gas'
+    tokenId: string
+    networkId: NetworkId
   }
-  [FeeEvents.estimate_fee_success]: {
-    feeType: string
-    tokenAddress: string
-    usdFee: string
+  [FeeEvents.gas_fee_warning_cta_press]: {
+    flow: GasFeeWarningFlow
+    errorType: 'need-decrease-spend-amount-for-gas' | 'not-enough-balance-for-gas'
+    tokenId: string
+    networkId: NetworkId
   }
 }
 

@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import { AppEvents } from 'src/analytics/Events'
+import { FeeEvents } from 'src/analytics/Events'
 import GasFeeWarning from 'src/components/GasFeeWarning'
 import { NetworkId } from 'src/transactions/types'
 import {
@@ -76,17 +76,17 @@ describe('GasFeeWarning', () => {
     expect(queryByTestId('GasFeeWarning')).toBeFalsy()
   })
   it.each`
-    scenario                                     | flow          | prepareTransactionsResult                 | feeCurrencyTokenId   | title                                                             | description                                                                         | ctaLabel
-    ${'sending max amount of ETH'}               | ${'Send'}     | ${mockPreparedTransactionNeedDecreaseEth} | ${mockArbEthTokenId} | ${'gasFeeWarning.title, {"tokenSymbol":"ETH"}'}                   | ${'gasFeeWarning.descriptionMaxAmount, {"context":"Send","tokenSymbol":"ETH"}'}     | ${'gasFeeWarning.ctaAction, {"context":"Send"}'}
-    ${'sending with insufficient CELO'}          | ${'Send'}     | ${mockPreparedTransactionNotEnoughCelo}   | ${mockCeloTokenId}   | ${'gasFeeWarning.title, {"tokenSymbol":"CELO"}'}                  | ${undefined}                                                                        | ${'gasFeeWarning.ctaBuy, {"tokenSymbol":"CELO"}'}
-    ${'swapping max amount of ETH'}              | ${'Swap'}     | ${mockPreparedTransactionNeedDecreaseEth} | ${mockArbEthTokenId} | ${'gasFeeWarning.title, {"tokenSymbol":"ETH"}'}                   | ${'gasFeeWarning.descriptionMaxAmount, {"context":"Swap","tokenSymbol":"ETH"}'}     | ${'gasFeeWarning.ctaAction, {"context":"Swap"}'}
-    ${'swapping with insufficient CELO'}         | ${'Swap'}     | ${mockPreparedTransactionNotEnoughCelo}   | ${mockCeloTokenId}   | ${'gasFeeWarning.title, {"tokenSymbol":"CELO"}'}                  | ${undefined}                                                                        | ${'gasFeeWarning.ctaBuy, {"tokenSymbol":"CELO"}'}
-    ${'withdrawing max amount of ETH'}           | ${'Withdraw'} | ${mockPreparedTransactionNeedDecreaseEth} | ${mockArbEthTokenId} | ${'gasFeeWarning.title, {"tokenSymbol":"ETH"}'}                   | ${'gasFeeWarning.descriptionMaxAmount, {"context":"Withdraw","tokenSymbol":"ETH"}'} | ${'gasFeeWarning.ctaAction, {"context":"Withdraw"}'}
-    ${'withdrawing with insufficient CELO'}      | ${'Withdraw'} | ${mockPreparedTransactionNotEnoughCelo}   | ${mockCeloTokenId}   | ${'gasFeeWarning.title, {"tokenSymbol":"CELO"}'}                  | ${undefined}                                                                        | ${'gasFeeWarning.ctaBuy, {"tokenSymbol":"CELO"}'}
-    ${'depositing max amount of ETH'}            | ${'Deposit'}  | ${mockPreparedTransactionNeedDecreaseEth} | ${mockArbEthTokenId} | ${'gasFeeWarning.title, {"tokenSymbol":"ETH"}'}                   | ${'gasFeeWarning.descriptionMaxAmount, {"context":"Deposit","tokenSymbol":"ETH"}'}  | ${'gasFeeWarning.ctaAction, {"context":"Deposit"}'}
-    ${'depositing with insufficient CELO'}       | ${'Deposit'}  | ${mockPreparedTransactionNotEnoughCelo}   | ${mockCeloTokenId}   | ${'gasFeeWarning.title, {"tokenSymbol":"CELO"}'}                  | ${undefined}                                                                        | ${'gasFeeWarning.ctaBuy, {"tokenSymbol":"CELO"}'}
-    ${'dapp transaction with max amount of ETH'} | ${'Dapp'}     | ${mockPreparedTransactionNeedDecreaseEth} | ${mockArbEthTokenId} | ${'gasFeeWarning.title, {"context":"Dapp","tokenSymbol":"ETH"}'}  | ${'gasFeeWarning.descriptionDapp, {"tokenSymbol":"ETH"}'}                           | ${undefined}
-    ${'dapp transaction with insufficient CELO'} | ${'Dapp'}     | ${mockPreparedTransactionNotEnoughCelo}   | ${mockCeloTokenId}   | ${'gasFeeWarning.title, {"context":"Dapp","tokenSymbol":"CELO"}'} | ${'gasFeeWarning.descriptionDapp, {"tokenSymbol":"CELO"}'}                          | ${undefined}
+    scenario                                     | flow          | prepareTransactionsResult                 | feeCurrencyTokenId   | title                                                                 | description                                                                         | ctaLabel
+    ${'sending max amount of ETH'}               | ${'Send'}     | ${mockPreparedTransactionNeedDecreaseEth} | ${mockArbEthTokenId} | ${'gasFeeWarning.title, {"context":"Send","tokenSymbol":"ETH"}'}      | ${'gasFeeWarning.descriptionMaxAmount, {"context":"Send","tokenSymbol":"ETH"}'}     | ${'gasFeeWarning.ctaAction, {"context":"Send"}'}
+    ${'sending with insufficient CELO'}          | ${'Send'}     | ${mockPreparedTransactionNotEnoughCelo}   | ${mockCeloTokenId}   | ${'gasFeeWarning.title, {"context":"Send","tokenSymbol":"CELO"}'}     | ${undefined}                                                                        | ${'gasFeeWarning.ctaBuy, {"tokenSymbol":"CELO"}'}
+    ${'swapping max amount of ETH'}              | ${'Swap'}     | ${mockPreparedTransactionNeedDecreaseEth} | ${mockArbEthTokenId} | ${'gasFeeWarning.title, {"context":"Swap","tokenSymbol":"ETH"}'}      | ${'gasFeeWarning.descriptionMaxAmount, {"context":"Swap","tokenSymbol":"ETH"}'}     | ${'gasFeeWarning.ctaAction, {"context":"Swap"}'}
+    ${'swapping with insufficient CELO'}         | ${'Swap'}     | ${mockPreparedTransactionNotEnoughCelo}   | ${mockCeloTokenId}   | ${'gasFeeWarning.title, {"context":"Swap","tokenSymbol":"CELO"}'}     | ${undefined}                                                                        | ${'gasFeeWarning.ctaBuy, {"tokenSymbol":"CELO"}'}
+    ${'withdrawing max amount of ETH'}           | ${'Withdraw'} | ${mockPreparedTransactionNeedDecreaseEth} | ${mockArbEthTokenId} | ${'gasFeeWarning.title, {"context":"Withdraw","tokenSymbol":"ETH"}'}  | ${'gasFeeWarning.descriptionMaxAmount, {"context":"Withdraw","tokenSymbol":"ETH"}'} | ${'gasFeeWarning.ctaAction, {"context":"Withdraw"}'}
+    ${'withdrawing with insufficient CELO'}      | ${'Withdraw'} | ${mockPreparedTransactionNotEnoughCelo}   | ${mockCeloTokenId}   | ${'gasFeeWarning.title, {"context":"Withdraw","tokenSymbol":"CELO"}'} | ${undefined}                                                                        | ${'gasFeeWarning.ctaBuy, {"tokenSymbol":"CELO"}'}
+    ${'depositing max amount of ETH'}            | ${'Deposit'}  | ${mockPreparedTransactionNeedDecreaseEth} | ${mockArbEthTokenId} | ${'gasFeeWarning.title, {"context":"Deposit","tokenSymbol":"ETH"}'}   | ${'gasFeeWarning.descriptionMaxAmount, {"context":"Deposit","tokenSymbol":"ETH"}'}  | ${'gasFeeWarning.ctaAction, {"context":"Deposit"}'}
+    ${'depositing with insufficient CELO'}       | ${'Deposit'}  | ${mockPreparedTransactionNotEnoughCelo}   | ${mockCeloTokenId}   | ${'gasFeeWarning.title, {"context":"Deposit","tokenSymbol":"CELO"}'}  | ${undefined}                                                                        | ${'gasFeeWarning.ctaBuy, {"tokenSymbol":"CELO"}'}
+    ${'dapp transaction with max amount of ETH'} | ${'Dapp'}     | ${mockPreparedTransactionNeedDecreaseEth} | ${mockArbEthTokenId} | ${'gasFeeWarning.title, {"context":"Dapp","tokenSymbol":"ETH"}'}      | ${'gasFeeWarning.descriptionDapp, {"tokenSymbol":"ETH"}'}                           | ${undefined}
+    ${'dapp transaction with insufficient CELO'} | ${'Dapp'}     | ${mockPreparedTransactionNotEnoughCelo}   | ${mockCeloTokenId}   | ${'gasFeeWarning.title, {"context":"Dapp","tokenSymbol":"CELO"}'}     | ${'gasFeeWarning.descriptionDapp, {"tokenSymbol":"CELO"}'}                          | ${undefined}
   `(
     'renders error correctly when $scenario',
     ({ flow, prepareTransactionsResult, feeCurrencyTokenId, title, description, ctaLabel }) => {
@@ -103,7 +103,7 @@ describe('GasFeeWarning', () => {
       )
       expect(getByTestId('GasFeeWarning')).toBeTruthy()
       expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
-      expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_impression, {
+      expect(AppAnalytics.track).toHaveBeenCalledWith(FeeEvents.gas_fee_warning_impression, {
         flow,
         errorType: prepareTransactionsResult.type,
         tokenId: feeCurrencyTokenId,

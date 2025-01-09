@@ -5,7 +5,7 @@ import { DeviceEventEmitter } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import { AppEvents, EarnEvents } from 'src/analytics/Events'
+import { EarnEvents, FeeEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { Status as EarnStatus } from 'src/earn/slice'
@@ -963,13 +963,13 @@ describe('EarnEnterAmount', () => {
     await waitFor(() => expect(getByTestId('GasFeeWarning')).toBeTruthy())
     fireEvent.press(getByText('gasFeeWarning.ctaBuy, {"tokenSymbol":"ETH"}'))
     expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
-    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_impression, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(FeeEvents.gas_fee_warning_impression, {
       errorType: 'not-enough-balance-for-gas',
       flow: 'Deposit',
       tokenId: mockArbEthTokenId,
       networkId: NetworkId['arbitrum-sepolia'],
     })
-    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_cta_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(FeeEvents.gas_fee_warning_cta_press, {
       errorType: 'not-enough-balance-for-gas',
       flow: 'Deposit',
       tokenId: mockArbEthTokenId,
@@ -1002,13 +1002,13 @@ describe('EarnEnterAmount', () => {
     await waitFor(() => expect(getByTestId('GasFeeWarning')).toBeTruthy())
     fireEvent.press(getByText('gasFeeWarning.ctaAction, {"context":"Deposit"}'))
     expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
-    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_impression, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(FeeEvents.gas_fee_warning_impression, {
       errorType: 'need-decrease-spend-amount-for-gas',
       flow: 'Deposit',
       tokenId: mockArbEthTokenId,
       networkId: NetworkId['arbitrum-sepolia'],
     })
-    expect(AppAnalytics.track).toHaveBeenCalledWith(AppEvents.gas_fee_warning_cta_press, {
+    expect(AppAnalytics.track).toHaveBeenCalledWith(FeeEvents.gas_fee_warning_cta_press, {
       errorType: 'need-decrease-spend-amount-for-gas',
       flow: 'Deposit',
       tokenId: mockArbEthTokenId,

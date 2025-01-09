@@ -26,9 +26,6 @@ export enum AppEvents {
   in_app_review_error = 'in_app_review_error',
 
   handle_deeplink = 'handle_deeplink',
-
-  gas_fee_warning_impression = 'gas_fee_warning_impression',
-  gas_fee_warning_cta_press = 'gas_fee_warning_cta_press',
 }
 
 export enum HomeEvents {
@@ -325,8 +322,8 @@ export enum QrScreenEvents {
 }
 
 export enum FeeEvents {
-  estimate_fee_failed = 'estimate_fee_failed',
-  estimate_fee_success = 'estimate_fee_success',
+  gas_fee_warning_impression = 'gas_fee_warning_impression',
+  gas_fee_warning_cta_press = 'gas_fee_warning_cta_press',
 }
 
 export enum TransactionEvents {

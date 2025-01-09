@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import { AppEvents } from 'src/analytics/Events'
+import { FeeEvents } from 'src/analytics/Events'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -31,7 +31,7 @@ function GasFeeWarning({
 
   useEffect(() => {
     if (feeCurrency && prepareTransactionsResult && prepareTransactionsResult.type !== 'possible') {
-      AppAnalytics.track(AppEvents.gas_fee_warning_impression, {
+      AppAnalytics.track(FeeEvents.gas_fee_warning_impression, {
         flow,
         errorType: prepareTransactionsResult.type,
         tokenId: feeCurrency.tokenId,
@@ -49,11 +49,11 @@ function GasFeeWarning({
       return {}
     }
     const title = t('gasFeeWarning.title', {
-      context: flow === 'Dapp' ? 'Dapp' : undefined,
+      context: flow,
       tokenSymbol: feeCurrency.symbol,
     })
     const trackCtaAnalytics = () => {
-      AppAnalytics.track(AppEvents.gas_fee_warning_cta_press, {
+      AppAnalytics.track(FeeEvents.gas_fee_warning_cta_press, {
         flow,
         tokenId: feeCurrency.tokenId,
         errorType: prepareTransactionsResult.type,
