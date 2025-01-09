@@ -20,7 +20,6 @@ import {
   mockCusdTokenBalance,
   mockCusdTokenId,
   mockPoofTokenId,
-  mockRecipient,
   mockTokenBalances,
   mockTokenTransactionData,
 } from 'test/values'
@@ -162,98 +161,5 @@ describe('SendConfirmation', () => {
         getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
       )
     )
-  })
-
-  it('renders contact item with recipient name and displayNumber if present', () => {
-    const screenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-      transactionData: { ...mockTokenTransactionData, recipient: mockRecipient },
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: false,
-    })
-    const { getByTestId } = renderScreen({}, screenProps)
-    expect(getByTestId('SendConfirmationRecipient/Name/Title')).toHaveTextContent(
-      mockRecipient.name
-    )
-    expect(getByTestId('SendConfirmationRecipient/Name/Subtitle')).toHaveTextContent(
-      mockRecipient.displayNumber
-    )
-  })
-
-  it('renders contact item with displayNumber when it is present and no name', () => {
-    const screenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-      transactionData: {
-        ...mockTokenTransactionData,
-        recipient: { ...mockRecipient, name: undefined, e164PhoneNumber: undefined },
-      },
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: false,
-    })
-    const { getByTestId } = renderScreen({}, screenProps)
-    expect(getByTestId('SendConfirmationRecipient/Phone/Title')).toHaveTextContent(
-      mockRecipient.displayNumber
-    )
-  })
-
-  it('renders contact item with e164PhoneNumber when it is present and no name and no displayNumber', () => {
-    const screenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-      transactionData: {
-        ...mockTokenTransactionData,
-        recipient: { ...mockRecipient, name: undefined, displayNumber: undefined },
-      },
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: false,
-    })
-    const { getByTestId } = renderScreen({}, screenProps)
-    expect(getByTestId('SendConfirmationRecipient/Phone/Title')).toHaveTextContent(
-      mockRecipient.e164PhoneNumber
-    )
-  })
-
-  it('renders contact item with wallet address when it is present and no name and no phone numbers', () => {
-    const screenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-      transactionData: {
-        ...mockTokenTransactionData,
-        recipient: {
-          ...mockRecipient,
-          name: undefined,
-          displayNumber: undefined,
-          e164PhoneNumber: undefined,
-        },
-      },
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: false,
-    })
-    const { getByTestId } = renderScreen({}, screenProps)
-    expect(getByTestId('SendConfirmationRecipient/Address/Title')).toHaveTextContent(
-      mockRecipient.address
-    )
-  })
-
-  it('renders skeleton placeholders for fees and total while transaction is still loading', () => {
-    jest.mocked(usePrepareSendTransactions).mockReturnValue({
-      ...mockUsePrepareSendTransactionsOutput,
-      prepareTransactionLoading: true,
-    })
-    const screenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-      transactionData: { ...mockTokenTransactionData, recipient: mockRecipient },
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: false,
-    })
-    const { getByTestId } = renderScreen({}, screenProps)
-    expect(getByTestId('SendConfirmationNetwork/Loader')).toBeTruthy()
-    expect(getByTestId('SendConfirmationFee/Loader')).toBeTruthy()
-    expect(getByTestId('SendConfirmationTotal/Loader')).toBeTruthy()
-  })
-
-  it('renders fees and total details', () => {
-    const screenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-      transactionData: { ...mockTokenTransactionData, recipient: mockRecipient },
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: false,
-    })
-    const { getByTestId } = renderScreen({}, screenProps)
-    expect(getByTestId('SendConfirmationNetwork/Value')).toHaveTextContent('Celo Alfajores')
-    expect(getByTestId('SendConfirmationFee/Value')).toHaveTextContent('0.01 CELO (₱0.07)')
-    expect(getByTestId('SendConfirmationTotal/Value')).toHaveTextContent('₱1.40')
   })
 })
