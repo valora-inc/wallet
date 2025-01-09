@@ -1,10 +1,10 @@
 name: E2E - PR
 on:
   workflow_dispatch:
-  # pull_request:
+  pull_request:
   #   branches:
   #     - main
-  # merge_group:
+  merge_group:
 
 # Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code
