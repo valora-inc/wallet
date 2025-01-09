@@ -529,6 +529,7 @@ export enum SwapEvents {
   swap_review_submit = 'swap_review_submit',
   swap_execute_success = 'swap_execute_success',
   swap_execute_error = 'swap_execute_error',
+  swap_cancel = 'swap_cancel',
   swap_learn_more = 'swap_learn_more',
   swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed',
   swap_show_info = 'swap_show_info',
