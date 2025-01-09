@@ -13,14 +13,14 @@ import {
 describe('Review', () => {
   it('uses the custom headerAction if provided', async () => {
     const tree = render(
-      <Review title="Custom HeaderAction" headerAction={<>Custom Left Action</>}>
+      <Review title="Custom HeaderAction" headerAction={<>Custom Left Action</>} testID="Review">
         <ReviewContent>
           <></>
         </ReviewContent>
       </Review>
     )
 
-    expect(tree.getByTestId('CustomHeader/Left')).toHaveTextContent('Custom Left Action')
+    expect(tree.getByTestId('Review')).toHaveTextContent('Custom Left Action')
   })
 })
 

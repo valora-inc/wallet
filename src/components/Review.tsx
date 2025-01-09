@@ -20,11 +20,16 @@ export function Review(props: {
   children: ReactNode
   headerAction?: ReactNode
   isModal?: boolean
+  testID?: string
 }) {
   const insets = useSafeAreaInsets()
 
   return (
-    <SafeAreaView style={styles.safeAreaView} edges={props.isModal ? ['top', 'bottom'] : ['top']}>
+    <SafeAreaView
+      style={styles.safeAreaView}
+      edges={props.isModal ? ['top', 'bottom'] : ['top']}
+      testID={props.testID}
+    >
       <CustomHeader
         style={styles.header}
         left={props.headerAction ?? <BackButton />}
