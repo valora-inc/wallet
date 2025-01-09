@@ -94,7 +94,7 @@ export default Send = () => {
         tap: true,
       })
       let amount = await element(by.id('SendConfirmationToken/Title')).getAttributes()
-      jestExpect(amount.text).toEqual('0,01 cEUR')
+      jestExpect(amount.text).toEqual('0.01 cEUR')
     })
 
     it('Then should be able to send', async () => {
