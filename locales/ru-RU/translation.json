@@ -2834,6 +2834,20 @@
     "fiatPriceUnavailable": "Цена недоступна",
     "tokenDescription": "{{tokenName}} на {{tokenNetwork}}"
   },
+  "gasFeeWarning": {
+    "title": "Тебе нужно больше {{tokenSymbol}} для оплаты газа.",
+    "title_Dapp": "У тебя недостаточный баланс газовых жетонов",
+    "descriptionMaxAmount_Send": "Добавь {{tokenSymbol}} для оплаты бензина или уменьши сумму, которую ты отправляешь.",
+    "descriptionMaxAmount_Swap": "Добавь {{tokenSymbol}} для оплаты газа или уменьши сумму, которую ты обмениваешь.",
+    "descriptionMaxAmount_Deposit": "Добавь {{tokenSymbol}} для оплаты бензина или уменьши сумму, которую ты вносишь на счет.",
+    "descriptionMaxAmount_Withdraw": "Добавь {{tokenSymbol}} для оплаты газа или уменьши сумму, которую ты снимаешь.",
+    "descriptionDapp": "Добавь {{tokenSymbol}} , чтобы завершить эту операцию.",
+    "ctaBuy": "Купить {{tokenSymbol}}",
+    "ctaAction_Send": "Отправь меньшую сумму",
+    "ctaAction_Swap": "Обменять меньшую сумму",
+    "ctaAction_Deposit": "Депозит на меньшую сумму",
+    "ctaAction_Withdraw": "Выводите меньшую сумму"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
