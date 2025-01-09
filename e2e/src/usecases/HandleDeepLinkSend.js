@@ -21,7 +21,9 @@ const launchDeepLink = async ({ url, newInstance = true }) => {
  * @returns {Promise<string>}
  */
 const getCryptoSymbol = async () => {
-  const sendAmountCryptoElement = await element(by.id('SendAmount')).getAttributes()
+  const sendAmountCryptoElement = await element(
+    by.id('SendConfirmationToken/Title')
+  ).getAttributes()
   return sendAmountCryptoElement.label.split(' ').at(-1)
 }
 
@@ -87,7 +89,7 @@ export default HandleDeepLinkSend = () => {
       await launchDeepLink({
         url: deepLinks.withoutAddress,
       })
-      await expect(element(by.id('SendAmount'))).not.toBeVisible()
+      await expect(element(by.id('SendConfirmationToken/Title'))).not.toBeVisible()
     })
   })
 
@@ -125,7 +127,7 @@ export default HandleDeepLinkSend = () => {
 
     it('Then should error if no address provided', async () => {
       await launchDeepLink({ url: deepLinks.withoutAddress, newInstance: false })
-      await expect(element(by.id('SendAmount'))).not.toBeVisible()
+      await expect(element(by.id('SendConfirmationToken/Title'))).not.toBeVisible()
     })
   })
 
@@ -158,7 +160,7 @@ export default HandleDeepLinkSend = () => {
 
     it('Then should error if no address provided', async () => {
       await openDeepLink(deepLinks.withoutAddress)
-      await expect(element(by.id('SendAmount'))).not.toBeVisible()
+      await expect(element(by.id('SendConfirmationToken/Title'))).not.toBeVisible()
     })
   })
 
