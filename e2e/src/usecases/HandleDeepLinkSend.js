@@ -43,11 +43,11 @@ export default HandleDeepLinkSend = () => {
       jestExpect(cryptoSymbol).toBe('cUSD')
 
       // Fiat amount should match value passed in deeplink
-      await waitFor(element(by.id('SendAmountFiat')))
+      await waitFor(element(by.id('SendConfirmationToken/Subtitle')))
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
 
-      await waitFor(element(by.id('DisplayName')))
+      await waitFor(element(by.id('SendConfirmationRecipient/Title')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
 
@@ -107,11 +107,11 @@ export default HandleDeepLinkSend = () => {
       jestExpect(cryptoSymbol).toBe('cUSD')
 
       // Fiat amount should match value passed in deeplink
-      await waitFor(element(by.id('SendAmountFiat')))
+      await waitFor(element(by.id('SendConfirmationToken/Subtitle')))
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
 
-      await waitFor(element(by.id('DisplayName')))
+      await waitFor(element(by.id('SendConfirmationRecipient/Title')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
 
@@ -140,11 +140,11 @@ export default HandleDeepLinkSend = () => {
       jestExpect(cryptoSymbol).toBe('cUSD')
 
       // Fiat amount should match value passed in deeplink
-      await waitFor(element(by.id('SendAmountFiat')))
+      await waitFor(element(by.id('SendConfirmationToken/Subtitle')))
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
 
-      await waitFor(element(by.id('DisplayName')))
+      await waitFor(element(by.id('SendConfirmationRecipient/Title')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
 
