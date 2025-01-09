@@ -176,27 +176,35 @@ export default function SendConfirmation(props: Props) {
       <ReviewContent>
         <ReviewSummary>
           <ReviewSummaryItem
+            testID="SendConfirmationToken"
             header="Sending"
             icon={<TokenIcon token={tokenInfo!} />}
             title={getDisplayTokenAmount(tokenAmount, tokenInfo!)}
             subtitle={getDisplayLocalAmount(localAmount, localCurrencySymbol)}
           />
 
-          <ReviewSummaryItemContact header="To" recipient={recipient} />
+          <ReviewSummaryItemContact
+            testID="SendConfirmationRecipient"
+            header="To"
+            recipient={recipient}
+          />
         </ReviewSummary>
 
         <ReviewDetails>
           <ReviewDetailsItem
+            testID="SendConfirmationNetwork"
             label={t('transactionDetails.network')}
             value={fees.networkName}
             isLoading={prepareTransactionLoading}
           />
           <ReviewDetailsItem
+            testID="SendConfirmationFee"
             label={t('networkFee')}
             value={fees.feeDisplayAmount}
             isLoading={prepareTransactionLoading}
           />
           <ReviewDetailsItem
+            testID="SendConfirmationTotal"
             variant="bold"
             label={t('totalPlusFees')}
             value={fees.totalPlusFees}

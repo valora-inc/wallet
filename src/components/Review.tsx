@@ -80,9 +80,11 @@ export function ReviewSummaryItem(props: {
 }
 
 export function ReviewSummaryItemContact({
+  testID,
   header,
   recipient,
 }: {
+  testID?: string
   header: string
   recipient: Recipient
 }) {
@@ -91,22 +93,23 @@ export function ReviewSummaryItemContact({
   const contact = useMemo(() => {
     const phone = recipient.displayNumber || recipient.e164PhoneNumber
     if (recipient.name) {
-      return { title: recipient.name, subtitle: phone, icon: UserIcon }
+      return { title: recipient.name, subtitle: phone, icon: UserIcon, testID: 'Name' }
     }
 
     if (phone) {
-      return { title: phone, icon: PhoneIcon }
+      return { title: phone, icon: PhoneIcon, testID: 'Phone' }
     }
 
     if (recipient.address) {
-      return { title: recipient.address, icon: WalletIcon }
+      return { title: recipient.address, icon: WalletIcon, testID: 'Address' }
     }
 
-    return { title: t('unknown'), icon: UserIcon }
+    return { title: t('unknown'), icon: UserIcon, testID: 'Unknown' }
   }, [recipient])
 
   return (
     <ReviewSummaryItem
+      testID={`${testID}/${contact.testID}`}
       header={header}
       title={contact.title}
       subtitle={contact.subtitle}
