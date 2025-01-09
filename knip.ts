@@ -15,6 +15,8 @@ const config: KnipConfig = {
         'expo-dev-client', // used in app.json
         'expo-splash-screen', // used in app.json
         'expo-status-bar', // used in app.json
+        'babel-preset-expo', // not listed in package.json so we use the version used by expo
+        'babel-plugin-module-resolver', // not listed in package.json so we use the version from the runtime for now
       ],
     },
     'packages/runtime': {
