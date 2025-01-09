@@ -123,8 +123,8 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
 }
 
 export function getFeatureGate(featureGateName: StatsigFeatureGates) {
-  // gates should always default to false, this boolean is to just remain BC
-  // with two gates defaulting to true
+  // gates should always default to false, this boolean is to just remain backwards compatible
+  // with gates defaulting to true
   const defaultGateValue = featureGateName === StatsigFeatureGates.ALLOW_HOOKS_PREVIEW
   try {
     if (featureGateName in gateOverrides) {
