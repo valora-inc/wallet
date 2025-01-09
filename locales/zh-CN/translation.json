@@ -2828,5 +2828,19 @@
     "fiatPriceUnavailable": "价格不详",
     "tokenDescription": "{{tokenName}} {{tokenNetwork}}"
   },
+  "gasFeeWarning": {
+    "title": "您需要更多 {{tokenSymbol}} 来支付燃气费",
+    "title_Dapp": "您的燃气令牌余额不足",
+    "descriptionMaxAmount_Send": "添加 {{tokenSymbol}} 以支付汽油费或降低寄送金额",
+    "descriptionMaxAmount_Swap": "添加 {{tokenSymbol}} 作为油费或降低交换金额",
+    "descriptionMaxAmount_Deposit": "添加 {{tokenSymbol}} 作为汽油费或降低存款金额",
+    "descriptionMaxAmount_Withdraw": "添加 {{tokenSymbol}} 以支付汽油费或降低提款金额",
+    "descriptionDapp": "添加 {{tokenSymbol}} 以完成此交易",
+    "ctaBuy": "购买 {{tokenSymbol}}",
+    "ctaAction_Send": "发送较少金额",
+    "ctaAction_Swap": "交换较少金额",
+    "ctaAction_Deposit": "存入较少金额",
+    "ctaAction_Withdraw": "提取较少金额"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
