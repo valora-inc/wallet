@@ -2831,5 +2831,6 @@
     "selectToken": "Select token",
     "fiatPriceUnavailable": "Price unavailable",
     "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
-  }
+  },
+  "totalPlusFees": "Total + Fees"
 }
