@@ -2603,9 +2603,13 @@
         "moreInformation": "Докладніше",
         "estNetworkFee": "Орієнтовна комісія мережі",
         "maxNetworkFee": "Максимальна комісія мережі",
-        "networkFeeDescription": "Комісія мережі стягується за оброблення транзакції депозиту.",
-        "networkFeeDescriptionWithdrawal": "Комісія мережі стягується за оброблення транзакції виведення коштів.",
-        "networkSwapFeeDescription": "Комісія мережі стягується за оброблення транзакції депозиту. Комісія {{appName}} в розмірі {{appFeePercentage}}% сплачується за використання нашого продукту.",
+        "estCrossChainFee": "Ест. Крос-ланцюгова комісія",
+        "maxCrossChainFee": "Максимальна комісія за перехресний ланцюжок",
+        "description_deposit": "Комісія мережі стягується за оброблення транзакції депозиту.",
+        "description_withdraw": "Комісія мережі стягується за оброблення транзакції виведення коштів.",
+        "description_depositSwapFee": "Комісія мережі стягується за оброблення транзакції депозиту. Комісія {{appName}} в розмірі {{appFeePercentage}}% сплачується за використання нашого продукту.",
+        "description_depositCrossChain": "Мережева комісія стягується мережею за обробку депозитної транзакції. Міжмережева комісія стягується міжмережевим провайдером.",
+        "description_depositCrossChainWithSwapFee": "Мережева комісія стягується мережею за обробку депозитних транзакцій. Комісія {{appName}} у розмірі {{appFeePercentage}}% стягується за використання вами нашого продукту. Комісія за міжмережеві перекази стягується постачальником міжмережевих переказів.",
         "appSwapFee": "Комісія {{appName}}"
       },
       "swapBottomSheet": {
@@ -2827,7 +2831,8 @@
   "tokenEnterAmount": {
     "availableBalance": "Доступно: <0></0>",
     "selectToken": "Вибрати токен",
-    "fiatPriceUnavailable": "Ціна недоступна"
+    "fiatPriceUnavailable": "Ціна недоступна",
+    "tokenDescription": "{{tokenName}} на {{tokenNetwork}}"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

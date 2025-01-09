@@ -2597,9 +2597,13 @@
         "moreInformation": "ข้อมูลเพิ่มเติม",
         "estNetworkFee": "ค่าธรรมเนียมเครือข่ายโดยประมาณ",
         "maxNetworkFee": "ค่าธรรมเนียมเครือข่ายสูงสุด",
-        "networkFeeDescription": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน",
-        "networkFeeDescriptionWithdrawal": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการถอนเงิน",
-        "networkSwapFeeDescription": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน โดยเรียกเก็บค่าธรรมเนียม {{appName}} จำนวน {{appFeePercentage}}% สำหรับการที่คุณใช้ผลิตภัณฑ์ของเรา",
+        "estCrossChainFee": "Est. Cross-chain Fee",
+        "maxCrossChainFee": "Max Cross-chain Fee",
+        "description_deposit": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน",
+        "description_withdraw": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการถอนเงิน",
+        "description_depositSwapFee": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน โดยเรียกเก็บค่าธรรมเนียม {{appName}} จำนวน {{appFeePercentage}}% สำหรับการที่คุณใช้ผลิตภัณฑ์ของเรา",
+        "description_depositCrossChain": "The network fee is required by the network to process the deposit transaction. The cross-chain fee is charged by the cross-chain provider.",
+        "description_depositCrossChainWithSwapFee": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product. The cross-chain fee is charged by the cross-chain provider.",
         "appSwapFee": "ค่าธรรมเนียม {{appName}}"
       },
       "swapBottomSheet": {
@@ -2821,7 +2825,8 @@
   "tokenEnterAmount": {
     "availableBalance": "ที่ใช้ได้: <0></0>",
     "selectToken": "เลือกโทเค็น",
-    "fiatPriceUnavailable": "ไม่มีราคา"
+    "fiatPriceUnavailable": "ไม่มีราคา",
+    "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

@@ -2597,9 +2597,13 @@
         "moreInformation": "更多信息",
         "estNetworkFee": "预估网络费用",
         "maxNetworkFee": "最高网络费用",
-        "networkFeeDescription": "使用网络处理存款交易需支付网络费用。",
-        "networkFeeDescriptionWithdrawal": "使用网络处理提款交易需支付网络费用。",
-        "networkSwapFeeDescription": "使用网络处理存款交易需支付网络费用。使用我们的产品时，将收取 {{appFeePercentage}}% 的 {{appName}} 费用。",
+        "estCrossChainFee": "Est.跨链费用",
+        "maxCrossChainFee": "最大跨链费用",
+        "description_deposit": "使用网络处理存款交易需支付网络费用。",
+        "description_withdraw": "使用网络处理提款交易需支付网络费用。",
+        "description_depositSwapFee": "使用网络处理存款交易需支付网络费用。使用我们的产品时，将收取 {{appFeePercentage}}% 的 {{appName}} 费用。",
+        "description_depositCrossChain": "网络费是网络处理存款交易所需的费用。跨链费用由跨链提供商收取。",
+        "description_depositCrossChainWithSwapFee": "网络费是网络处理存款交易所需的费用。 {{appName}} 费用为 {{appFeePercentage}}%，用于您使用我们的产品。跨链费用由跨链提供商收取。",
         "appSwapFee": "{{appName}} 费用"
       },
       "swapBottomSheet": {
@@ -2821,7 +2825,8 @@
   "tokenEnterAmount": {
     "availableBalance": "可用：<0></0>",
     "selectToken": "选择代币",
-    "fiatPriceUnavailable": "价格不详"
+    "fiatPriceUnavailable": "价格不详",
+    "tokenDescription": "{{tokenName}} {{tokenNetwork}}"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
