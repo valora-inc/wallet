@@ -2830,6 +2830,20 @@
     "fiatPriceUnavailable": "Precio no disponible",
     "tokenDescription": "{{tokenName}} en {{tokenNetwork}}"
   },
+  "gasFeeWarning": {
+    "title": "Necesitas más {{tokenSymbol}} para las tasas de gas",
+    "title_Dapp": "Tienes un saldo insuficiente de fichas de gas",
+    "descriptionMaxAmount_Send": "Añade {{tokenSymbol}} para los gastos de gasolina o reduce la cantidad que envías",
+    "descriptionMaxAmount_Swap": "Añade {{tokenSymbol}} para las tasas de gas o reduce la cantidad que intercambias",
+    "descriptionMaxAmount_Deposit": "Añade {{tokenSymbol}} para los gastos de gasolina o reduce la cantidad que depositas",
+    "descriptionMaxAmount_Withdraw": "Añade {{tokenSymbol}} para los gastos de gasolina o reduce la cantidad que retiras",
+    "descriptionDapp": "Añade {{tokenSymbol}} para completar esta transacción",
+    "ctaBuy": "Compra {{tokenSymbol}}",
+    "ctaAction_Send": "Envía una cantidad menor",
+    "ctaAction_Swap": "Intercambiar monto menor",
+    "ctaAction_Deposit": "Deposita una cantidad menor",
+    "ctaAction_Withdraw": "Retirar una cantidad menor"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
