@@ -185,7 +185,7 @@ export async function patchUpdateStatsigUser(statsigUser?: StatsigUser) {
 export function setupOverridesFromLaunchArgs() {
   try {
     Logger.debug(TAG, 'Cleaning up local overrides')
-    let newGateOverrides: typeof gateOverrides = {}
+    const newGateOverrides: typeof gateOverrides = {}
     const { statsigGateOverrides } = LaunchArguments.value<ExpectedLaunchArgs>()
     if (statsigGateOverrides) {
       Logger.debug(TAG, 'Setting up gate overrides', statsigGateOverrides)
