@@ -233,7 +233,7 @@ describe('AppAnalytics', () => {
       expect(Statsig.initialize).toHaveBeenCalledWith(
         'statsig-key',
         { userID: 'someUserId' },
-        { environment: { tier: 'development' }, overrideStableID: 'anonId', localMode: false }
+        { environment: { tier: 'development' }, overrideStableID: 'anonId' }
       )
     })
 
