@@ -1,7 +1,9 @@
 import { LaunchArguments } from 'react-native-launch-arguments'
+import * as config from 'src/config'
 import { store } from 'src/redux/store'
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
 import {
+  _getGateOverrides,
   getDynamicConfigParams,
   getExperimentParams,
   getFeatureGate,
@@ -25,6 +27,8 @@ jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('statsig-react-native')
 jest.mock('src/utils/Logger')
 
+const mockConfig = jest.mocked(config)
+
 const mockStore = jest.mocked(store)
 const MOCK_ACCOUNT = '0x000000000000000000000000000000000000000000'
 const MOCK_START_ONBOARDING_TIME = 1680563877
@@ -38,6 +42,10 @@ mockStore.getState.mockImplementation(() =>
 describe('Statsig helpers', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    mockConfig.STATSIG_ENABLED = true
+    // Reset gate overrides before each test
+    jest.mocked(LaunchArguments.value).mockReturnValue({ statsigGateOverrides: 'dummy=true' })
+    setupOverridesFromLaunchArgs()
   })
   describe('data validation', () => {
     it.each(Object.entries(ExperimentConfigs))(
@@ -110,6 +118,14 @@ describe('Statsig helpers', () => {
       expect(getMock).toHaveBeenCalledWith('param2', 'defaultValue2')
       expect(output).toEqual({ param1: 'statsigValue1', param2: 'statsigValue2' })
     })
+    it('returns default values if statsig is not enabled', () => {
+      mockConfig.STATSIG_ENABLED = false
+      const defaultValues = { param1: 'defaultValue1', param2: 'defaultValue2' }
+      const experimentName = 'mock_experiment_name' as StatsigExperiments
+      const output = getExperimentParams({ experimentName, defaultValues })
+      expect(output).toEqual(defaultValues)
+      expect(Logger.warn).not.toHaveBeenCalled()
+    })
   })
 
   describe('getFeatureGate', () => {
@@ -126,6 +142,20 @@ describe('Statsig helpers', () => {
       const output = getFeatureGate(StatsigFeatureGates.APP_REVIEW)
       expect(Logger.warn).not.toHaveBeenCalled()
       expect(output).toEqual(true)
+    })
+    it('returns gate overrides if set', () => {
+      jest.mocked(Statsig.checkGate).mockImplementation(() => true)
+      jest
+        .mocked(LaunchArguments.value)
+        .mockReturnValue({ statsigGateOverrides: 'app_review=false' })
+      setupOverridesFromLaunchArgs()
+      expect(getFeatureGate(StatsigFeatureGates.APP_REVIEW)).toEqual(false)
+    })
+    it('returns default values if statsig is not enabled', () => {
+      mockConfig.STATSIG_ENABLED = false
+      const output = getFeatureGate(StatsigFeatureGates.APP_REVIEW)
+      expect(output).toEqual(false)
+      expect(Logger.warn).not.toHaveBeenCalled()
     })
   })
 
@@ -208,6 +238,14 @@ describe('Statsig helpers', () => {
         StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES
       )
     })
+    it('returns default values if statsig is not enabled', () => {
+      mockConfig.STATSIG_ENABLED = false
+      const output = getMultichainFeatures()
+      expect(output).toEqual(
+        DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues
+      )
+      expect(Logger.warn).not.toHaveBeenCalled()
+    })
   })
 
   describe('getDynamicConfigParams', () => {
@@ -266,6 +304,14 @@ describe('Statsig helpers', () => {
       expect(getMock).toHaveBeenCalledWith('param1', 'defaultValue1')
       expect(getMock).toHaveBeenCalledWith('param2', 'defaultValue2')
       expect(output).toEqual({ param1: 'statsigValue1', param2: 'statsigValue2' })
+    })
+    it('returns default values if statsig is not enabled', () => {
+      mockConfig.STATSIG_ENABLED = false
+      const defaultValues = { param1: 'defaultValue1', param2: 'defaultValue2' }
+      const configName = 'mock_config' as StatsigDynamicConfigs
+      const output = getDynamicConfigParams({ configName, defaultValues })
+      expect(output).toEqual(defaultValues)
+      expect(Logger.warn).not.toHaveBeenCalled()
     })
   })
   describe('patchUpdateStatsigUser', () => {
@@ -349,14 +395,18 @@ describe('Statsig helpers', () => {
         },
       })
     })
+    it('does not update user if statsig is not enabled', async () => {
+      mockConfig.STATSIG_ENABLED = false
+      await patchUpdateStatsigUser()
+      expect(Statsig.updateUser).not.toHaveBeenCalled()
+    })
   })
 
   describe('setupOverridesFromLaunchArgs', () => {
     it('cleans up overrides and skips setup if no override is set', () => {
-      jest.mocked(LaunchArguments.value).mockReturnValue({})
+      jest.mocked(LaunchArguments.value).mockReturnValue({ statsigGateOverrides: '' })
       setupOverridesFromLaunchArgs()
-      expect(Statsig.removeGateOverride).toHaveBeenCalledWith()
-      expect(Statsig.overrideGate).not.toHaveBeenCalled()
+      expect(_getGateOverrides()).toEqual({})
     })
 
     it('cleans up and sets up gate overrides if set', () => {
@@ -364,10 +414,7 @@ describe('Statsig helpers', () => {
         .mocked(LaunchArguments.value)
         .mockReturnValue({ statsigGateOverrides: 'gate1=true,gate2=false' })
       setupOverridesFromLaunchArgs()
-      expect(Statsig.removeGateOverride).toHaveBeenCalledWith()
-      expect(Statsig.overrideGate).toHaveBeenCalledTimes(2)
-      expect(Statsig.overrideGate).toHaveBeenCalledWith('gate1', true)
-      expect(Statsig.overrideGate).toHaveBeenCalledWith('gate2', false)
+      expect(_getGateOverrides()).toEqual({ gate1: true, gate2: false })
     })
   })
 })

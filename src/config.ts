@@ -79,7 +79,6 @@ export const FIATCONNECT_NETWORK =
 export const STATSIG_ENV = {
   tier: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'development',
 }
-export const E2E_TEST_STATSIG_ID = 'e2e_test_statsig_id'
 
 // Keyless backup settings
 export const TORUS_NETWORK =
@@ -122,10 +121,8 @@ export const ALCHEMY_BASE_API_KEY = keyOrUndefined(
 )
 
 export const ZENDESK_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'ZENDESK_API_KEY')
-export const STATSIG_API_KEY =
-  keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'STATSIG_API_KEY') ??
-  // dummy key as fallback for e2e tests, which use local mode
-  'client-key'
+export const STATSIG_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'STATSIG_API_KEY')
+export const STATSIG_ENABLED = !isE2EEnv && !!STATSIG_API_KEY
 export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SEGMENT_API_KEY')
 export const SENTRY_CLIENT_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SENTRY_CLIENT_URL')
 export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
