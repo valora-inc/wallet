@@ -2828,5 +2828,19 @@
     "fiatPriceUnavailable": "Không có giá",
     "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
   },
+  "gasFeeWarning": {
+    "title": "You need more {{tokenSymbol}} for gas fees",
+    "title_Dapp": "You have an insufficient gas token balance",
+    "descriptionMaxAmount_Send": "Add {{tokenSymbol}} for gas fees or lower the amount you're sending",
+    "descriptionMaxAmount_Swap": "Add {{tokenSymbol}} for gas fees or lower the amount you're swapping",
+    "descriptionMaxAmount_Deposit": "Add {{tokenSymbol}} for gas fees or lower the amount you're depositing",
+    "descriptionMaxAmount_Withdraw": "Add {{tokenSymbol}} for gas fees or lower the amount you're withdrawing",
+    "descriptionDapp": "Add {{tokenSymbol}} to complete this transaction",
+    "ctaBuy": "Mua {{tokenSymbol}}",
+    "ctaAction_Send": "Send smaller amount",
+    "ctaAction_Swap": "Trao đổi số tiền nhỏ hơn",
+    "ctaAction_Deposit": "Deposit smaller amount",
+    "ctaAction_Withdraw": "Withdraw smaller amount"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

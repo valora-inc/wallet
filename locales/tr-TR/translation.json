@@ -2830,6 +2830,20 @@
     "fiatPriceUnavailable": "Fiyat mevcut değil",
     "tokenDescription": "{{tokenName}} {{tokenNetwork}}adresinde"
   },
+  "gasFeeWarning": {
+    "title": "Benzin ücretleri için daha fazla {{tokenSymbol}} adresine ihtiyacınız var",
+    "title_Dapp": "Yetersiz gaz jetonu bakiyeniz var",
+    "descriptionMaxAmount_Send": "Benzin ücretleri için {{tokenSymbol}} adresini ekleyin veya gönderdiğiniz miktarı azaltın",
+    "descriptionMaxAmount_Swap": "Benzin ücretleri için {{tokenSymbol}} adresini ekleyin veya takas ettiğiniz miktarı düşürün",
+    "descriptionMaxAmount_Deposit": "Benzin ücretleri için {{tokenSymbol}} adresini ekleyin veya yatırdığınız miktarı düşürün",
+    "descriptionMaxAmount_Withdraw": "Gaz ücretleri için {{tokenSymbol}} adresini ekleyin veya çektiğiniz miktarı düşürün",
+    "descriptionDapp": "Bu işlemi tamamlamak için {{tokenSymbol}} adresini ekleyin",
+    "ctaBuy": "{{tokenSymbol}} satın alın",
+    "ctaAction_Send": "Daha küçük miktar gönderin",
+    "ctaAction_Swap": "Daha düşük bir tutarı swap edin",
+    "ctaAction_Deposit": "Daha az miktarda para yatırın",
+    "ctaAction_Withdraw": "Daha küçük miktarda para çekme"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
