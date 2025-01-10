@@ -5,11 +5,10 @@ package.json
 **/privacy/*
 .git/
 
-android/app/build
-# Ignore Images.xcassets as Xcode reformats them anyway when saving
-ios/build
-ios/MobileStack/Images.xcassets
-ios/Pods
+# Ignore generated platform projects
+apps/*/android/
+apps/*/ios/
+
 # Ignore Crowdin generated files (often they are written with no final newline)
 packages/runtime/locales/*/*.json
 # Except for the base lang which is maintained by hand
