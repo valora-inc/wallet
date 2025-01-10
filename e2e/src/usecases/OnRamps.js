@@ -10,6 +10,7 @@ export default onRamps = () => {
     await reloadReactNative()
     await waitForElementById('HomeAction-Add')
     await element(by.id('HomeAction-Add')).tap()
+    await sleep(5000)
   })
 
   describe('When Add Funds selected', () => {
@@ -22,7 +23,6 @@ export default onRamps = () => {
       ${'CELO'} | ${'20'}
       ${'CELO'} | ${'2'}
     `('Then should display $token provider(s) for $$amount', async ({ token, amount }) => {
-      await sleep(3000)
       await waitForElementById(`${token}Symbol`)
       await element(by.id(`${token}Symbol`)).tap()
 
