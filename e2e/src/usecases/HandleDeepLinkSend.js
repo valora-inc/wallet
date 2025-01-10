@@ -47,7 +47,7 @@ export default HandleDeepLinkSend = () => {
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
 
-      await waitFor(element(by.id('SendConfirmationRecipient/Title')))
+      await waitFor(element(by.id('SendConfirmationRecipient/Name/Title')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
 
@@ -111,7 +111,7 @@ export default HandleDeepLinkSend = () => {
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
 
-      await waitFor(element(by.id('SendConfirmationRecipient/Title')))
+      await waitFor(element(by.id('SendConfirmationRecipient/Name/Title')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
 
@@ -144,7 +144,7 @@ export default HandleDeepLinkSend = () => {
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
 
-      await waitFor(element(by.id('SendConfirmationRecipient/Title')))
+      await waitFor(element(by.id('SendConfirmationRecipient/Name/Title')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
 
