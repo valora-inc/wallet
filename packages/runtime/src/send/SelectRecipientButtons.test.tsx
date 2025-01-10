@@ -111,7 +111,8 @@ describe('SelectRecipientButtons', () => {
   })
 
   it('shows connect phone number modal if phone is not verified', async () => {
-    const { findByTestId, getByTestId, onPermissionsGranted } = renderComponent(false)
+    const { findByTestId, getByTestId, queryByTestId, onPermissionsGranted } =
+      renderComponent(false)
     await act(async () => {
       fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
@@ -128,7 +129,7 @@ describe('SelectRecipientButtons', () => {
       fireEvent.press(getByTestId('SelectRecipient/PhoneNumberModal/SecondaryAction'))
     })
     await waitFor(() => {
-      expect(getByTestId('SelectRecipient/PhoneNumberModal')).not.toBeVisible()
+      expect(queryByTestId('SelectRecipient/PhoneNumberModal')).not.toBeOnTheScreen()
     })
     await act(async () => {
       fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
@@ -138,7 +139,7 @@ describe('SelectRecipientButtons', () => {
       fireEvent.press(getByTestId('SelectRecipient/PhoneNumberModal/PrimaryAction'))
     })
     await waitFor(() => {
-      expect(getByTestId('SelectRecipient/PhoneNumberModal')).not.toBeVisible()
+      expect(queryByTestId('SelectRecipient/PhoneNumberModal')).not.toBeOnTheScreen()
     })
     await waitFor(() => {
       expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, { hasOnboarded: true })
@@ -147,7 +148,7 @@ describe('SelectRecipientButtons', () => {
 
   it('shows enable contacts modal if phone verified but contacts permission is blocked', async () => {
     jest.mocked(check).mockResolvedValue(RESULTS.BLOCKED)
-    const { findByTestId, getByTestId, onPermissionsGranted } = renderComponent(true)
+    const { findByTestId, getByTestId, queryByTestId, onPermissionsGranted } = renderComponent(true)
     await act(async () => {
       fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
@@ -163,7 +164,7 @@ describe('SelectRecipientButtons', () => {
       fireEvent.press(getByTestId('SelectRecipient/ContactsModal/SecondaryAction'))
     })
     await waitFor(() => {
-      expect(getByTestId('SelectRecipient/ContactsModal')).not.toBeVisible()
+      expect(queryByTestId('SelectRecipient/ContactsModal')).not.toBeOnTheScreen()
     })
     await act(async () => {
       fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
@@ -196,7 +197,7 @@ describe('SelectRecipientButtons', () => {
 
   it('requests permission if phone is verified but contacts permission is denied and does nothing if request is denied', async () => {
     jest.mocked(request).mockResolvedValue(RESULTS.DENIED)
-    const { findByTestId, getByTestId, onPermissionsGranted } = renderComponent(true)
+    const { findByTestId, queryByTestId, onPermissionsGranted } = renderComponent(true)
     await act(async () => {
       fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
@@ -211,7 +212,7 @@ describe('SelectRecipientButtons', () => {
       SendEvents.request_contacts_permission_completed,
       { permissionStatus: RESULTS.DENIED }
     )
-    expect(getByTestId('SelectRecipient/ContactsModal')).not.toBeVisible()
+    expect(queryByTestId('SelectRecipient/ContactsModal')).toBeFalsy()
   })
 
   it.each([
@@ -222,7 +223,7 @@ describe('SelectRecipientButtons', () => {
     async ({ os, showsModal }) => {
       Platform.OS = os
       jest.mocked(request).mockResolvedValue(RESULTS.BLOCKED)
-      const { findByTestId, getByTestId, onPermissionsGranted } = renderComponent(true)
+      const { findByTestId, queryByTestId, onPermissionsGranted } = renderComponent(true)
       await act(async () => {
         fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
       })
@@ -239,7 +240,13 @@ describe('SelectRecipientButtons', () => {
         SendEvents.request_contacts_permission_completed,
         { permissionStatus: RESULTS.BLOCKED }
       )
-      expect(getByTestId('SelectRecipient/ContactsModal').props.visible).toEqual(showsModal)
+      if (showsModal) {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(queryByTestId('SelectRecipient/ContactsModal')).toBeTruthy()
+      } else {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(queryByTestId('SelectRecipient/ContactsModal')).toBeFalsy()
+      }
     }
   )
 })

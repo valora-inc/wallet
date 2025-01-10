@@ -43,33 +43,6 @@ exports[`BackupPhrase renders correctly with backup completed 1`] = `
         }
       }
     >
-      <Modal
-        animationType="none"
-        deviceHeight={1334}
-        deviceWidth={null}
-        hardwareAccelerated={false}
-        hideModalContentWhileAnimating={false}
-        onBackdropPress={[Function]}
-        onModalHide={[Function]}
-        onModalWillHide={[Function]}
-        onModalWillShow={[Function]}
-        onRequestClose={[Function]}
-        panResponderThreshold={4}
-        scrollHorizontal={false}
-        scrollOffset={0}
-        scrollOffsetMax={0}
-        scrollTo={null}
-        statusBarTranslucent={true}
-        supportedOrientations={
-          [
-            "portrait",
-            "landscape",
-          ]
-        }
-        swipeThreshold={100}
-        transparent={true}
-        visible={false}
-      />
       <View
         accessibilityState={
           {
@@ -324,33 +297,6 @@ exports[`BackupPhrase renders correctly with backup not completed 1`] = `
         }
       }
     >
-      <Modal
-        animationType="none"
-        deviceHeight={1334}
-        deviceWidth={null}
-        hardwareAccelerated={false}
-        hideModalContentWhileAnimating={false}
-        onBackdropPress={[Function]}
-        onModalHide={[Function]}
-        onModalWillHide={[Function]}
-        onModalWillShow={[Function]}
-        onRequestClose={[Function]}
-        panResponderThreshold={4}
-        scrollHorizontal={false}
-        scrollOffset={0}
-        scrollOffsetMax={0}
-        scrollTo={null}
-        statusBarTranslucent={true}
-        supportedOrientations={
-          [
-            "portrait",
-            "landscape",
-          ]
-        }
-        swipeThreshold={100}
-        transparent={true}
-        visible={false}
-      />
       <View
         accessibilityState={
           {
@@ -741,33 +687,6 @@ exports[`BackupPhrase still renders when mnemonic doesnt show up 1`] = `
         }
       }
     >
-      <Modal
-        animationType="none"
-        deviceHeight={1334}
-        deviceWidth={null}
-        hardwareAccelerated={false}
-        hideModalContentWhileAnimating={false}
-        onBackdropPress={[Function]}
-        onModalHide={[Function]}
-        onModalWillHide={[Function]}
-        onModalWillShow={[Function]}
-        onRequestClose={[Function]}
-        panResponderThreshold={4}
-        scrollHorizontal={false}
-        scrollOffset={0}
-        scrollOffsetMax={0}
-        scrollTo={null}
-        statusBarTranslucent={true}
-        supportedOrientations={
-          [
-            "portrait",
-            "landscape",
-          ]
-        }
-        swipeThreshold={100}
-        transparent={true}
-        visible={false}
-      />
       <View
         accessibilityState={
           {

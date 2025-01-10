@@ -403,16 +403,17 @@ describe('ReviewScreen', () => {
       })
       const expireMs = 100
       const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, false, expireMs)
-      const { getByTestId, findByTestId } = render(
+      const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...mockProps} />
         </Provider>
       )
 
-      expect((await findByTestId('expiredQuoteDialog')).props.visible).toEqual(false)
       await act(() => {
         jest.advanceTimersByTime(expireMs + 1)
       })
+
+      expect(queryByTestId('expiredQuoteDialog')).toBeFalsy()
 
       fireEvent.press(getByTestId('submitButton'))
 
