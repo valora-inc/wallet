@@ -1,5 +1,6 @@
 import { launchApp, reloadReactNative } from '../utils/retries'
 import { isElementVisible, waitForElementById } from '../utils/utils'
+import { sleep } from '../../../src/utils/sleep'
 
 export default onRamps = () => {
   beforeAll(async () => {
@@ -21,6 +22,7 @@ export default onRamps = () => {
       ${'CELO'} | ${'20'}
       ${'CELO'} | ${'2'}
     `('Then should display $token provider(s) for $$amount', async ({ token, amount }) => {
+      await sleep(3000)
       await waitForElementById(`${token}Symbol`)
       await element(by.id(`${token}Symbol`)).tap()
 
