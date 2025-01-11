@@ -9,9 +9,18 @@ import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import Logger from 'src/utils/Logger'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
+import { mockOnboardingProps } from 'test/values'
+
+const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
+jest.mock('src/onboarding/steps', () => ({
+  goToNextOnboardingScreen: jest.fn(),
+  getOnboardingStepValues: () => ({ step: 2, totalSteps: 3 }),
+  onboardingPropsSelector: () => mockOnboardingPropsSelector(),
+}))
 
 const mockAuthorize = jest.fn()
 const mockGetCredentials = jest.fn()
@@ -247,7 +256,10 @@ describe('SignInWithEmail', () => {
     expect(getByTestId('KeylessBackupSignInWithEmail/BottomSheet')).toBeTruthy()
 
     fireEvent.press(getByText('signInWithEmail.bottomSheet.skip'))
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
+    expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+      firstScreenInCurrentStep: Screens.SignInWithEmail,
+      onboardingProps: mockOnboardingProps,
+    })
     expect(AppAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_sign_in_with_email_screen_skip,
       {
