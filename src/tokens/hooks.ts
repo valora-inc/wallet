@@ -1,13 +1,6 @@
 import BigNumber from 'bignumber.js'
-import { useMemo } from 'react'
-import {
-  APPROX_SYMBOL,
-  getDisplayLocalAmount,
-  getDisplayTokenAmount,
-} from 'src/components/TokenEnterAmount'
 import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE } from 'src/config'
-import { LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
+import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -193,33 +186,4 @@ export function useAmountAsUsd(amount: BigNumber, tokenId: string | undefined) {
     return null
   }
   return amount.multipliedBy(tokenInfo.priceUsd)
-}
-
-export function useDisplayAmount({
-  tokenAmount,
-  token,
-  approx,
-}: {
-  tokenAmount: BigNumber | undefined
-  token: TokenBalance | undefined
-  approx?: boolean
-}) {
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
-  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
-  return useMemo(() => {
-    if (!token || !tokenAmount) return ''
-
-    const tokenToLocal = convertTokenToLocalAmount({
-      tokenAmount,
-      tokenInfo: token,
-      usdToLocalRate,
-    })
-
-    const displayTokenAmount = getDisplayTokenAmount(tokenAmount, token)
-    const displayLocalAmount = getDisplayLocalAmount(tokenToLocal, localCurrencySymbol)
-
-    const approxString = approx ? `${APPROX_SYMBOL} ` : ''
-    const localAmountString = displayLocalAmount ? ` (${displayLocalAmount})` : ''
-    return `${approxString}${displayTokenAmount}${localAmountString}`
-  }, [tokenAmount, token, localCurrencySymbol, usdToLocalRate])
 }

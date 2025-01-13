@@ -21,7 +21,11 @@ import {
 import { getDisplayLocalAmount, getDisplayTokenAmount } from 'src/components/TokenEnterAmount'
 import TokenIcon from 'src/components/TokenIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import {
+  getLocalCurrencyCode,
+  getLocalCurrencySymbol,
+  usdToLocalCurrencyRateSelector,
+} from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -30,13 +34,9 @@ import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import {
-  useAmountAsUsd,
-  useDisplayAmount,
-  useTokenInfo,
-  useTokenToLocalAmount,
-} from 'src/tokens/hooks'
+import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
+import { getDisplayAmount } from 'src/tokens/utils'
 import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -57,6 +57,7 @@ function useCalculatedFees({
   localAmount: BigNumber | null
   prepareTransactionsResult: PreparedTransactionsResult | undefined
 }) {
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const { maxFeeAmount, feeCurrency: feeTokenInfo } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
@@ -64,10 +65,12 @@ function useCalculatedFees({
   const feeAmount = maxFeeAmount ?? new BigNumber(0)
   const localMaxFeeAmount = useTokenToLocalAmount(feeAmount, feeTokenInfo?.tokenId)
 
-  const feeDisplayAmount = useDisplayAmount({
+  const feeDisplayAmount = getDisplayAmount({
     tokenAmount: maxFeeAmount,
     token: feeTokenInfo,
     approx: true,
+    localCurrencySymbol,
+    usdToLocalRate,
   })
 
   const totalPlusFees = useMemo(() => {

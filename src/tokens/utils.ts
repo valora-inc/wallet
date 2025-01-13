@@ -1,5 +1,11 @@
 import BigNumber from 'bignumber.js'
 import { TokenProperties } from 'src/analytics/Properties'
+import {
+  APPROX_SYMBOL,
+  getDisplayLocalAmount,
+  getDisplayTokenAmount,
+} from 'src/components/TokenEnterAmount'
+import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getDynamicConfigParams, getMultichainFeatures } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
@@ -213,4 +219,34 @@ export function isHistoricalPriceUpdated(token: TokenBalance) {
 
 export function isFeeCurrency(token: TokenBalance | undefined): token is TokenBalance {
   return token?.isNative || !!token?.isFeeCurrency || !!token?.feeCurrencyAdapterAddress
+}
+
+// Displays amount string in the format "≈ 2.5 USDC ($2.5)"
+export function getDisplayAmount({
+  tokenAmount,
+  token,
+  approx,
+  localCurrencySymbol = LocalCurrencySymbol.USD,
+  usdToLocalRate,
+}: {
+  tokenAmount: BigNumber | undefined
+  token: TokenBalance | undefined
+  localCurrencySymbol?: LocalCurrencySymbol
+  usdToLocalRate: string | null
+  approx?: boolean
+}) {
+  if (!token || !tokenAmount) return ''
+
+  const tokenToLocal = convertTokenToLocalAmount({
+    tokenAmount,
+    tokenInfo: token,
+    usdToLocalRate,
+  })
+
+  const displayTokenAmount = getDisplayTokenAmount(tokenAmount, token)
+  const displayLocalAmount = getDisplayLocalAmount(tokenToLocal, localCurrencySymbol)
+
+  const approxString = approx ? `${APPROX_SYMBOL} ` : ''
+  const localAmountString = displayLocalAmount ? ` (${displayLocalAmount})` : ''
+  return `${approxString}${displayTokenAmount}${localAmountString}`
 }
