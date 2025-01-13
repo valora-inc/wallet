@@ -413,7 +413,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   {
                     "alignItems": "center",
                     "flexDirection": "row",
-                    "gap": 6,
+                    "gap": 4,
                   }
                 }
               >
@@ -462,7 +462,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   {
                     "alignItems": "center",
                     "flexDirection": "row",
-                    "gap": 6,
+                    "gap": 4,
                   }
                 }
               >
@@ -511,7 +511,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   {
                     "alignItems": "center",
                     "flexDirection": "row",
-                    "gap": 6,
+                    "gap": 4,
                   }
                 }
               >

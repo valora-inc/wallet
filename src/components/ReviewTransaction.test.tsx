@@ -2,6 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { type Recipient } from 'src/recipients/recipient'
 import { typeScale } from 'src/styles/fonts'
+import Logger from 'src/utils/Logger'
 import {
   ReviewContent,
   ReviewDetailsItem,
@@ -9,6 +10,8 @@ import {
   ReviewSummaryItemContact,
   ReviewTransaction,
 } from './ReviewTransaction'
+
+jest.mock('src/utils/Logger')
 
 describe('ReviewTransaction', () => {
   it('uses the custom headerAction if provided', async () => {
@@ -106,13 +109,10 @@ describe('ReviewSummaryItemContact', () => {
     expect(tree.getByTestId('ContactItem/Address/Title')).toHaveTextContent('0x123456789')
   })
 
-  it('displays "unknown" if no name/phone/address exist', () => {
+  it('logs an error if no name/phone/address exist', () => {
     const recipient = {} as Recipient
-    const tree = render(
-      <ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />
-    )
-
-    expect(tree.getByTestId('ContactItem/Unknown/Title')).toHaveTextContent('unknown')
+    render(<ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />)
+    expect(Logger.error).toHaveBeenCalledTimes(1)
   })
 })
 
