@@ -221,7 +221,13 @@ export function isFeeCurrency(token: TokenBalance | undefined): token is TokenBa
   return token?.isNative || !!token?.isFeeCurrency || !!token?.feeCurrencyAdapterAddress
 }
 
-// Displays amount string in the format "≈ 2.5 USDC ($2.5)"
+/**
+ * Displays amount string in the following formats:
+ *   1.23 USDC
+ *   1.23 USDC ($1.23)
+ *   ≈ 1.23 USDC
+ *   ≈ 1.23 USDC ($1.23)
+ */
 export function getDisplayAmount({
   tokenAmount,
   token,
@@ -231,20 +237,23 @@ export function getDisplayAmount({
 }: {
   tokenAmount: BigNumber | undefined
   token: TokenBalance | undefined
-  localCurrencySymbol: LocalCurrencySymbol | undefined
-  usdToLocalRate: string | null
+  localCurrencySymbol?: LocalCurrencySymbol | undefined
+  usdToLocalRate?: string | null
   approx?: boolean
 }) {
   if (!token || !tokenAmount) return ''
 
-  const tokenToLocal = convertTokenToLocalAmount({
-    tokenAmount,
-    tokenInfo: token,
-    usdToLocalRate,
-  })
-
   const displayTokenAmount = getDisplayTokenAmount(tokenAmount, token)
-  const displayLocalAmount = getDisplayLocalAmount(tokenToLocal, localCurrencySymbol)
+  let displayLocalAmount = ''
+
+  if (usdToLocalRate) {
+    const tokenToLocal = convertTokenToLocalAmount({
+      tokenAmount,
+      tokenInfo: token,
+      usdToLocalRate,
+    })
+    displayLocalAmount = getDisplayLocalAmount(tokenToLocal, localCurrencySymbol)
+  }
 
   const approxString = approx ? `${APPROX_SYMBOL} ` : ''
   const localAmountString = displayLocalAmount ? ` (${displayLocalAmount})` : ''
