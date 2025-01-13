@@ -20,10 +20,7 @@ export default onRamps = () => {
   })
 
   afterEach(async () => {
-    try {
-      // Avoid reloading the app which can cause issues with the bottom sheet display
-      await multiTap('BackChevron')
-    } catch {}
+    await multiTap('BackChevron')
   })
 
   it.each`
