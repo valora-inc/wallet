@@ -73,30 +73,27 @@ describe('ReviewSummaryItemContact', () => {
     expect(tree.getByTestId('ContactItem/Name/Subtitle')).toHaveTextContent('+111111111')
   })
 
-  it('displays only displayNumber phone if name is not available', () => {
-    const recipient = {
-      displayNumber: '+111111111',
-      e164PhoneNumber: '+222222222',
-    } as Recipient
-    const tree = render(
-      <ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />
-    )
+  it.each([
+    [
+      'displayNumber',
+      { displayNumber: '+111111111', e164PhoneNumber: '+222222222', phoneToShow: '+111111111' },
+    ],
+    [
+      'e164PhoneNumber',
+      { displayNumber: undefined, e164PhoneNumber: '+222222222', phoneToShow: '+222222222' },
+    ],
+  ])(
+    'displays only %s phone if name is not available',
+    (_, { displayNumber, e164PhoneNumber, phoneToShow }) => {
+      const recipient = { displayNumber, e164PhoneNumber } as Recipient
+      const tree = render(
+        <ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />
+      )
 
-    expect(tree.getByTestId('ContactItem/Phone/Title')).toHaveTextContent('+111111111')
-    expect(tree.queryByTestId('ContactItem/Phone/Subtitle')).toBeNull()
-  })
-
-  it('displays only e164PhoneNumber phone if name and displayNumber are not available', () => {
-    const recipient = {
-      e164PhoneNumber: '+222222222',
-    } as Recipient
-    const tree = render(
-      <ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />
-    )
-
-    expect(tree.getByTestId('ContactItem/Phone/Title')).toHaveTextContent('+222222222')
-    expect(tree.queryByTestId('ContactItem/Phone/Subtitle')).toBeNull()
-  })
+      expect(tree.getByTestId('ContactItem/Phone/Title')).toHaveTextContent(phoneToShow)
+      expect(tree.queryByTestId('ContactItem/Phone/Subtitle')).toBeNull()
+    }
+  )
 
   it('displays address if name/phone not available', () => {
     const recipient = {
