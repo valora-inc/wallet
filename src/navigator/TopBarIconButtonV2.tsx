@@ -66,7 +66,7 @@ export function TopBarIconButtonV2(props: TopBarIconButtonV2Props) {
           style={[styles.button, props.style]}
           borderRadius={Spacing.Thick24}
         >
-          {props.text}
+          {props.icon}
         </Touchable>
       </View>
     </Wrapper>

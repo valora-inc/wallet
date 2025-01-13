@@ -59,7 +59,7 @@ export function useTransactionRecipient(transfer: TokenTransfer): Recipient {
 
   const providerInfo = txHashToFeedInfo[transfer.transactionHash]
   if (providerInfo) {
-    Object.assign(recipient, { name: providerInfo.name, thumbnailPath: providerInfo.text })
+    Object.assign(recipient, { name: providerInfo.name, thumbnailPath: providerInfo.icon })
   }
   return recipient
 }
