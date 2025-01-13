@@ -2,6 +2,7 @@ import { createClient } from '@segment/analytics-react-native'
 import { PincodeType } from 'src/account/reducer'
 import AppAnalyticsModule from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
+import * as config from 'src/config'
 import { store } from 'src/redux/store'
 import { getDefaultStatsigUser, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
@@ -25,10 +26,6 @@ jest.mock('@segment/analytics-react-native-plugin-clevertap')
 jest.mock('@segment/analytics-react-native-plugin-firebase')
 jest.mock('@sentry/react-native', () => ({ init: jest.fn() }))
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
-jest.mock('src/config', () => ({
-  ...(jest.requireActual('src/config') as any),
-  STATSIG_API_KEY: 'statsig-key',
-}))
 jest.mock('statsig-react-native')
 jest.mock('src/statsig')
 jest.mock('src/web3/networkConfig', () => {
@@ -186,6 +183,7 @@ beforeAll(() => {
 
 describe('AppAnalytics', () => {
   let AppAnalytics: typeof AppAnalyticsModule
+  let mockConfig: jest.MockedObject<typeof config>
   const mockSegmentClient = {
     identify: jest.fn().mockResolvedValue(undefined),
     track: jest.fn().mockResolvedValue(undefined),
@@ -205,7 +203,11 @@ describe('AppAnalytics', () => {
     jest.unmock('src/analytics/AppAnalytics')
     jest.isolateModules(() => {
       AppAnalytics = require('src/analytics/AppAnalytics').default
+      mockConfig = require('src/config')
     })
+
+    mockConfig.STATSIG_API_KEY = 'statsig-key'
+    mockConfig.STATSIG_ENABLED = true
     mockStore.getState.mockImplementation(() => state)
     jest.mocked(getFeatureGate).mockReturnValue(true)
     jest.mocked(getMultichainFeatures).mockReturnValue({
@@ -213,14 +215,33 @@ describe('AppAnalytics', () => {
     })
   })
 
-  it('creates statsig client on initialization with default statsig user', async () => {
-    jest.mocked(getDefaultStatsigUser).mockReturnValue({ userID: 'someUserId' })
-    await AppAnalytics.init()
-    expect(Statsig.initialize).toHaveBeenCalledWith(
-      'statsig-key',
-      { userID: 'someUserId' },
-      { environment: { tier: 'development' }, overrideStableID: 'anonId', localMode: false }
-    )
+  describe('init', () => {
+    it('initializes segment', async () => {
+      await AppAnalytics.init()
+      expect(mockCreateSegmentClient).toHaveBeenCalled()
+    })
+
+    it('does not initialize segment if SEGMENT_API_KEY is not present', async () => {
+      mockConfig.SEGMENT_API_KEY = undefined
+      await AppAnalytics.init()
+      expect(mockCreateSegmentClient).not.toHaveBeenCalled()
+    })
+
+    it('creates statsig client on initialization with default statsig user', async () => {
+      jest.mocked(getDefaultStatsigUser).mockReturnValue({ userID: 'someUserId' })
+      await AppAnalytics.init()
+      expect(Statsig.initialize).toHaveBeenCalledWith(
+        'statsig-key',
+        { userID: 'someUserId' },
+        { environment: { tier: 'development' }, overrideStableID: 'anonId' }
+      )
+    })
+
+    it('does not initialize statsig if STATSIG_ENABLED is false', async () => {
+      mockConfig.STATSIG_ENABLED = false
+      await AppAnalytics.init()
+      expect(Statsig.initialize).not.toHaveBeenCalled()
+    })
   })
 
   it('delays identify calls until async init has finished', async () => {

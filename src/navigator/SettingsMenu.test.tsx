@@ -23,6 +23,11 @@ jest.mock('statsig-react-native', () => ({
   },
 }))
 
+jest.mock('src/config', () => ({
+  ...jest.requireActual('src/config'),
+  STATSIG_ENABLED: true,
+}))
+
 describe('SettingsMenu', () => {
   beforeEach(() => {
     jest.clearAllMocks()

@@ -14,11 +14,11 @@ import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
 import {
   DEFAULT_TESTNET,
-  E2E_TEST_STATSIG_ID,
   FIREBASE_ENABLED,
   isE2EEnv,
   SEGMENT_API_KEY,
   STATSIG_API_KEY,
+  STATSIG_ENABLED,
   STATSIG_ENV,
 } from 'src/config'
 import { store } from 'src/redux/store'
@@ -101,60 +101,60 @@ class AppAnalytics {
 
   async init() {
     let uniqueID
-    try {
-      if (!SEGMENT_API_KEY) {
-        throw Error('API Key not present, likely due to environment. Skipping enabling')
-      }
-      this.segmentClient = createClient({
-        debug: __DEV__,
-        trackAppLifecycleEvents: true,
-        trackDeepLinks: true,
-        writeKey: SEGMENT_API_KEY,
-        storePersistor: AsyncStoragePersistor,
-      })
-
-      this.segmentClient.add({ plugin: new DestinationFiltersPlugin() })
-      this.segmentClient.add({ plugin: new InjectTraits() })
-      this.segmentClient.add({ plugin: new AdjustPlugin() })
-      this.segmentClient.add({ plugin: new ClevertapPlugin() })
-      if (FIREBASE_ENABLED) {
-        this.segmentClient.add({ plugin: new FirebasePlugin() })
-      }
-
+    if (SEGMENT_API_KEY) {
       try {
-        const deviceInfo = await getDeviceInfo()
-        this.deviceInfo = deviceInfo
-        uniqueID = deviceInfo.UniqueID
-        this.sessionId = sha256(Buffer.from(uniqueID + String(Date.now()))).slice(2)
-      } catch (error) {
-        Logger.error(TAG, 'getDeviceInfo error', error)
-      }
+        this.segmentClient = createClient({
+          debug: __DEV__,
+          trackAppLifecycleEvents: true,
+          trackDeepLinks: true,
+          writeKey: SEGMENT_API_KEY,
+          storePersistor: AsyncStoragePersistor,
+        })
 
-      Logger.info(TAG, 'Segment Analytics Integration initialized!')
-    } catch (err) {
-      const error = ensureError(err)
-      Logger.error(TAG, `Segment setup error: ${error.message}\n`, error)
+        this.segmentClient.add({ plugin: new DestinationFiltersPlugin() })
+        this.segmentClient.add({ plugin: new InjectTraits() })
+        this.segmentClient.add({ plugin: new AdjustPlugin() })
+        this.segmentClient.add({ plugin: new ClevertapPlugin() })
+        if (FIREBASE_ENABLED) {
+          this.segmentClient.add({ plugin: new FirebasePlugin() })
+        }
+
+        try {
+          const deviceInfo = await getDeviceInfo()
+          this.deviceInfo = deviceInfo
+          uniqueID = deviceInfo.UniqueID
+          this.sessionId = sha256(Buffer.from(uniqueID + String(Date.now()))).slice(2)
+        } catch (error) {
+          Logger.error(TAG, 'getDeviceInfo error', error)
+        }
+
+        Logger.info(TAG, 'Segment Analytics Integration initialized!')
+      } catch (err) {
+        const error = ensureError(err)
+        Logger.error(TAG, `Segment setup error: ${error.message}\n`, error)
+      }
+    } else {
+      Logger.info(TAG, 'Segment API key not present, skipping setup')
     }
 
-    try {
-      const statsigUser = getDefaultStatsigUser()
-      // getAnonymousId causes the e2e tests to fail
-      let overrideStableID: string = E2E_TEST_STATSIG_ID
-      if (!isE2EEnv) {
+    if (STATSIG_ENABLED) {
+      try {
+        const statsigUser = getDefaultStatsigUser()
         if (!this.segmentClient) {
           throw new Error('segmentClient is undefined, cannot get anonymous ID')
         }
-        overrideStableID = this.segmentClient.userInfo.get().anonymousId
+        const overrideStableID = this.segmentClient.userInfo.get().anonymousId
+        Logger.debug(TAG, 'Statsig stable ID', overrideStableID)
+        await Statsig.initialize(STATSIG_API_KEY, statsigUser, {
+          // StableID should match Segment anonymousId
+          overrideStableID,
+          environment: STATSIG_ENV,
+        })
+      } catch (error) {
+        Logger.warn(TAG, `Statsig setup error`, error)
       }
-      Logger.debug(TAG, 'Statsig stable ID', overrideStableID)
-      await Statsig.initialize(STATSIG_API_KEY, statsigUser, {
-        // StableID should match Segment anonymousId
-        overrideStableID,
-        environment: STATSIG_ENV,
-        localMode: isE2EEnv,
-      })
-    } catch (error) {
-      Logger.warn(TAG, `Statsig setup error`, error)
+    } else {
+      Logger.info(TAG, 'Statsig is not enabled, skipping setup')
     }
   }
 

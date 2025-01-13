@@ -2597,9 +2597,13 @@
         "moreInformation": "更多信息",
         "estNetworkFee": "预估网络费用",
         "maxNetworkFee": "最高网络费用",
-        "networkFeeDescription": "使用网络处理存款交易需支付网络费用。",
-        "networkFeeDescriptionWithdrawal": "使用网络处理提款交易需支付网络费用。",
-        "networkSwapFeeDescription": "使用网络处理存款交易需支付网络费用。使用我们的产品时，将收取 {{appFeePercentage}}% 的 {{appName}} 费用。",
+        "estCrossChainFee": "Est.跨链费用",
+        "maxCrossChainFee": "最大跨链费用",
+        "description_deposit": "使用网络处理存款交易需支付网络费用。",
+        "description_withdraw": "使用网络处理提款交易需支付网络费用。",
+        "description_depositSwapFee": "使用网络处理存款交易需支付网络费用。使用我们的产品时，将收取 {{appFeePercentage}}% 的 {{appName}} 费用。",
+        "description_depositCrossChain": "网络费是网络处理存款交易所需的费用。跨链费用由跨链提供商收取。",
+        "description_depositCrossChainWithSwapFee": "网络费是网络处理存款交易所需的费用。 {{appName}} 费用为 {{appFeePercentage}}%，用于您使用我们的产品。跨链费用由跨链提供商收取。",
         "appSwapFee": "{{appName}} 费用"
       },
       "swapBottomSheet": {
@@ -2821,7 +2825,22 @@
   "tokenEnterAmount": {
     "availableBalance": "可用：<0></0>",
     "selectToken": "选择代币",
-    "fiatPriceUnavailable": "价格不详"
+    "fiatPriceUnavailable": "价格不详",
+    "tokenDescription": "{{tokenName}} {{tokenNetwork}}"
+  },
+  "gasFeeWarning": {
+    "title": "您需要更多 {{tokenSymbol}} 来支付燃气费",
+    "title_Dapp": "您的燃气令牌余额不足",
+    "descriptionMaxAmount_Send": "添加 {{tokenSymbol}} 以支付汽油费或降低寄送金额",
+    "descriptionMaxAmount_Swap": "添加 {{tokenSymbol}} 作为油费或降低交换金额",
+    "descriptionMaxAmount_Deposit": "添加 {{tokenSymbol}} 作为汽油费或降低存款金额",
+    "descriptionMaxAmount_Withdraw": "添加 {{tokenSymbol}} 以支付汽油费或降低提款金额",
+    "descriptionDapp": "添加 {{tokenSymbol}} 以完成此交易",
+    "ctaBuy": "购买 {{tokenSymbol}}",
+    "ctaAction_Send": "发送较少金额",
+    "ctaAction_Swap": "交换较少金额",
+    "ctaAction_Deposit": "存入较少金额",
+    "ctaAction_Withdraw": "提取较少金额"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

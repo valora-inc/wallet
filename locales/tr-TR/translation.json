@@ -2599,9 +2599,13 @@
         "moreInformation": "Daha fazla bilgi",
         "estNetworkFee": "Tahmini Ağ Ücreti",
         "maxNetworkFee": "Maks. Ağ Ücreti",
-        "networkFeeDescription": "Ağ ücreti, yatırma işlemin gerçekleştirilmesi için ağ tarafından talep edilir.",
-        "networkFeeDescriptionWithdrawal": "Ağ ücreti, ağın, para çekme işlemlerini işleme koyması için gereklidir.",
-        "networkSwapFeeDescription": "Ağ ücreti, para yatırma işlemlerinin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için %{{appFeePercentage}} {{appName}} ücreti tahsil edilir.",
+        "estCrossChainFee": "Est. Çapraz Zincir Ücreti",
+        "maxCrossChainFee": "Maksimum Çapraz Zincir Ücreti",
+        "description_deposit": "Ağ ücreti, yatırma işlemin gerçekleştirilmesi için ağ tarafından talep edilir.",
+        "description_withdraw": "Ağ ücreti, ağın, para çekme işlemlerini işleme koyması için gereklidir.",
+        "description_depositSwapFee": "Ağ ücreti, para yatırma işlemlerinin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için %{{appFeePercentage}} {{appName}} ücreti tahsil edilir.",
+        "description_depositCrossChain": "Ağ ücreti, para yatırma işlemini gerçekleştirmek için ağ tarafından talep edilir. Çapraz zincir ücreti, çapraz zincir sağlayıcısı tarafından tahsil edilir.",
+        "description_depositCrossChainWithSwapFee": "Ağ ücreti, para yatırma işlemlerini işlemek için ağ tarafından talep edilir. {{appName}} ücreti {{appFeePercentage}}% ürünümüzü kullanmanız için tahsil edilir. Çapraz zincir ücreti, çapraz zincir sağlayıcısı tarafından tahsil edilir.",
         "appSwapFee": "{{appName}} Ücreti"
       },
       "swapBottomSheet": {
@@ -2823,7 +2827,22 @@
   "tokenEnterAmount": {
     "availableBalance": "Mevcut: <0></0>",
     "selectToken": "Token seçin",
-    "fiatPriceUnavailable": "Fiyat mevcut değil"
+    "fiatPriceUnavailable": "Fiyat mevcut değil",
+    "tokenDescription": "{{tokenName}} {{tokenNetwork}}adresinde"
+  },
+  "gasFeeWarning": {
+    "title": "Benzin ücretleri için daha fazla {{tokenSymbol}} adresine ihtiyacınız var",
+    "title_Dapp": "Yetersiz gaz jetonu bakiyeniz var",
+    "descriptionMaxAmount_Send": "Benzin ücretleri için {{tokenSymbol}} adresini ekleyin veya gönderdiğiniz miktarı azaltın",
+    "descriptionMaxAmount_Swap": "Benzin ücretleri için {{tokenSymbol}} adresini ekleyin veya takas ettiğiniz miktarı düşürün",
+    "descriptionMaxAmount_Deposit": "Benzin ücretleri için {{tokenSymbol}} adresini ekleyin veya yatırdığınız miktarı düşürün",
+    "descriptionMaxAmount_Withdraw": "Gaz ücretleri için {{tokenSymbol}} adresini ekleyin veya çektiğiniz miktarı düşürün",
+    "descriptionDapp": "Bu işlemi tamamlamak için {{tokenSymbol}} adresini ekleyin",
+    "ctaBuy": "{{tokenSymbol}} satın alın",
+    "ctaAction_Send": "Daha küçük miktar gönderin",
+    "ctaAction_Swap": "Daha düşük bir tutarı swap edin",
+    "ctaAction_Deposit": "Daha az miktarda para yatırın",
+    "ctaAction_Withdraw": "Daha küçük miktarda para çekme"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

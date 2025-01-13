@@ -2831,5 +2831,19 @@
     "selectToken": "Select token",
     "fiatPriceUnavailable": "Price unavailable",
     "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
+  },
+  "gasFeeWarning": {
+    "title": "You need more {{tokenSymbol}} for gas fees",
+    "title_Dapp": "You have an insufficient gas token balance",
+    "descriptionMaxAmount_Send": "Add {{tokenSymbol}} for gas fees or lower the amount you're sending",
+    "descriptionMaxAmount_Swap": "Add {{tokenSymbol}} for gas fees or lower the amount you're swapping",
+    "descriptionMaxAmount_Deposit": "Add {{tokenSymbol}} for gas fees or lower the amount you're depositing",
+    "descriptionMaxAmount_Withdraw": "Add {{tokenSymbol}} for gas fees or lower the amount you're withdrawing",
+    "descriptionDapp": "Add {{tokenSymbol}} to complete this transaction",
+    "ctaBuy": "Buy {{tokenSymbol}}",
+    "ctaAction_Send": "Send smaller amount",
+    "ctaAction_Swap": "Swap smaller amount",
+    "ctaAction_Deposit": "Deposit smaller amount",
+    "ctaAction_Withdraw": "Withdraw smaller amount"
   }
 }

@@ -2597,9 +2597,13 @@
         "moreInformation": "Thông tin bổ sung",
         "estNetworkFee": "Phí mạng ước tính",
         "maxNetworkFee": "Phí mạng tối đa",
-        "networkFeeDescription": "Phí mạng là khoản phí bắt buộc giúp mạng có thể xử lý giao dịch nạp tiền.",
-        "networkFeeDescriptionWithdrawal": "Phí mạng là khoản phí bắt buộc giúp mạng có thể xử lý giao dịch rút tiền.",
-        "networkSwapFeeDescription": "Phí mạng là khoản phí bắt buộc giúp mạng có thể xử lý giao dịch nạp tiền. Chúng tôi sẽ thu phí {{appName}} là {{appFeePercentage}}% khi bạn sử dụng sản phẩm của chúng tôi.",
+        "estCrossChainFee": "Est. Cross-chain Fee",
+        "maxCrossChainFee": "Max Cross-chain Fee",
+        "description_deposit": "Phí mạng là khoản phí bắt buộc giúp mạng có thể xử lý giao dịch nạp tiền.",
+        "description_withdraw": "Phí mạng là khoản phí bắt buộc giúp mạng có thể xử lý giao dịch rút tiền.",
+        "description_depositSwapFee": "Phí mạng là khoản phí bắt buộc giúp mạng có thể xử lý giao dịch nạp tiền. Chúng tôi sẽ thu phí {{appName}} là {{appFeePercentage}}% khi bạn sử dụng sản phẩm của chúng tôi.",
+        "description_depositCrossChain": "The network fee is required by the network to process the deposit transaction. The cross-chain fee is charged by the cross-chain provider.",
+        "description_depositCrossChainWithSwapFee": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product. The cross-chain fee is charged by the cross-chain provider.",
         "appSwapFee": "Phí {{appName}}"
       },
       "swapBottomSheet": {
@@ -2821,7 +2825,22 @@
   "tokenEnterAmount": {
     "availableBalance": "Có sẵn: <0></0>",
     "selectToken": "Chọn token",
-    "fiatPriceUnavailable": "Không có giá"
+    "fiatPriceUnavailable": "Không có giá",
+    "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
+  },
+  "gasFeeWarning": {
+    "title": "You need more {{tokenSymbol}} for gas fees",
+    "title_Dapp": "You have an insufficient gas token balance",
+    "descriptionMaxAmount_Send": "Add {{tokenSymbol}} for gas fees or lower the amount you're sending",
+    "descriptionMaxAmount_Swap": "Add {{tokenSymbol}} for gas fees or lower the amount you're swapping",
+    "descriptionMaxAmount_Deposit": "Add {{tokenSymbol}} for gas fees or lower the amount you're depositing",
+    "descriptionMaxAmount_Withdraw": "Add {{tokenSymbol}} for gas fees or lower the amount you're withdrawing",
+    "descriptionDapp": "Add {{tokenSymbol}} to complete this transaction",
+    "ctaBuy": "Mua {{tokenSymbol}}",
+    "ctaAction_Send": "Send smaller amount",
+    "ctaAction_Swap": "Trao đổi số tiền nhỏ hơn",
+    "ctaAction_Deposit": "Deposit smaller amount",
+    "ctaAction_Withdraw": "Withdraw smaller amount"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

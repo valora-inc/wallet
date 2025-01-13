@@ -212,7 +212,9 @@ describe('TokenEnterAmount', () => {
         } as TokenBalance,
       })
 
-      await act(async () => result.current.handleToggleAmountType())
+      await act(async () => {
+        result.current.handleToggleAmountType()
+      })
       await act(async () => result.current.handleAmountInputChange('1234.67'))
       await act(async () => result.current.handleAmountInputChange('1234.678'))
 
@@ -255,7 +257,9 @@ describe('TokenEnterAmount', () => {
         } as TokenBalance,
       })
 
-      await act(() => result.current.handleToggleAmountType())
+      await act(() => {
+        result.current.handleToggleAmountType()
+      })
       expect(result.current.amountType).toBe('local')
       // the processedAmounts should be unchanged when toggling amount type with no amount entered
       expect(result.current.processedAmounts).toStrictEqual({

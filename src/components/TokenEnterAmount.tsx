@@ -211,16 +211,20 @@ export function useEnterAmount(props: {
     }
   }, [amount, amountType, localCurrencySymbol, usdToLocalRate, props.token])
 
-  function handleToggleAmountType() {
-    if (!props.token) return
+  /**
+   * @returns New amount type
+   */
+  function handleToggleAmountType(forcedAmountType?: AmountEnteredIn) {
+    if (!props.token) return amountType
 
-    const newAmountType = amountType === 'local' ? 'token' : 'local'
+    const newAmountType = forcedAmountType ?? (amountType === 'local' ? 'token' : 'local')
     setAmountType(newAmountType)
     setAmount(
       newAmountType === 'local'
         ? processedAmounts.local.bignum?.toFixed(2) || ''
         : processedAmounts.token.bignum?.decimalPlaces(props.token.decimals).toString() || ''
     )
+    return newAmountType
   }
 
   function handleAmountInputChange(val: string) {
@@ -259,7 +263,16 @@ export function useEnterAmount(props: {
     }
 
     const rawValue = unformatNumberForProcessing(value)
-    const roundedAmount = new BigNumber(rawValue).decimalPlaces(props.token?.decimals).toString()
+    const roundedAmount =
+      amountType === 'token'
+        ? new BigNumber(rawValue).decimalPlaces(props.token.decimals).toString()
+        : roundFiatValue(
+            convertTokenToLocalAmount({
+              tokenAmount: new BigNumber(rawValue),
+              tokenInfo: props.token,
+              usdToLocalRate,
+            })
+          )
     setAmount(roundedAmount)
   }
 

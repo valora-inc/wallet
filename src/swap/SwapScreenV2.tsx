@@ -162,10 +162,10 @@ export default function SwapScreenV2({ route }: Props) {
 
   const {
     amount: amountFrom,
-    amountType,
+    amountType: amountTypeFrom,
     processedAmounts: processedAmountsFrom,
     handleAmountInputChange,
-    handleToggleAmountType,
+    handleToggleAmountType: handleToggleAmountTypeFrom,
     handleSelectPercentageAmount,
   } = useEnterAmount({
     inputRef: inputFromRef,
@@ -177,8 +177,10 @@ export default function SwapScreenV2({ route }: Props) {
 
   const {
     amount: amountTo,
+    amountType: amountTypeTo,
     processedAmounts: processedAmountsTo,
     replaceAmount: replaceAmountTo,
+    handleToggleAmountType: handleToggleAmountTypeTo,
   } = useEnterAmount({ token: toToken, inputRef: inputToRef })
 
   const filterChipsFrom = useFilterChips(Field.FROM)
@@ -650,6 +652,11 @@ export default function SwapScreenV2({ route }: Props) {
     })
   }
 
+  function handleToggleAmountType() {
+    const newAmountType = handleToggleAmountTypeFrom()
+    handleToggleAmountTypeTo(newAmountType)
+  }
+
   function handleSelectAmountPercentage(percentage: number) {
     handleSelectPercentageAmount(percentage)
     setSelectedPercentage(percentage)
@@ -698,7 +705,7 @@ export default function SwapScreenV2({ route }: Props) {
                 tokenAmount={processedAmountsFrom.token.displayAmount}
                 localAmount={processedAmountsFrom.local.displayAmount}
                 onInputChange={handleAmountInputChange}
-                amountType={amountType}
+                amountType={amountTypeFrom}
                 toggleAmountType={handleToggleAmountType}
                 onOpenTokenPicker={() => handleOpenTokenPicker(Field.FROM)}
                 testID="SwapAmountInput"
@@ -723,7 +730,7 @@ export default function SwapScreenV2({ route }: Props) {
                 inputRef={inputToRef}
                 tokenAmount={processedAmountsTo.token.displayAmount}
                 localAmount={processedAmountsTo.local.displayAmount}
-                amountType={amountType}
+                amountType={amountTypeTo}
                 onOpenTokenPicker={() => handleOpenTokenPicker(Field.TO)}
                 loading={shouldShowSkeletons}
                 testID="SwapAmountInput"

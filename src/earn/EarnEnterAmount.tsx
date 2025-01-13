@@ -9,6 +9,7 @@ import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import GasFeeWarning from 'src/components/GasFeeWarning'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
@@ -27,7 +28,6 @@ import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
-import { CICOFlow } from 'src/fiatExchanges/types'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -36,7 +36,6 @@ import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions
 import { EarnPosition, Position } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import EnterAmountOptions from 'src/send/EnterAmountOptions'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
@@ -286,10 +285,6 @@ export default function EarnEnterAmount({ route }: Props) {
 
   const showLowerAmountError =
     processedAmounts.token.bignum && processedAmounts.token.bignum.gt(inputToken.balance)
-  const showNotEnoughBalanceForGasWarning =
-    !showLowerAmountError &&
-    prepareTransactionsResult &&
-    prepareTransactionsResult.type === 'not-enough-balance-for-gas'
   const transactionIsPossible =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -423,39 +418,11 @@ export default function EarnEnterAmount({ route }: Props) {
             />
           )}
         </View>
-
-        {showNotEnoughBalanceForGasWarning && (
-          <InLineNotification
-            variant={NotificationVariant.Warning}
-            title={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.title', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-            })}
-            description={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.description', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
-            })}
-            ctaLabel={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta', {
-              feeTokenSymbol: feeCurrencies[0].symbol,
-              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
-            })}
-            onPressCta={() => {
-              AppAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {
-                gasTokenId: feeCurrencies[0].tokenId,
-                depositTokenId: pool.dataProps.depositTokenId,
-                networkId: pool.networkId,
-                providerId: pool.appId,
-                poolId: pool.positionId,
-              })
-              navigate(Screens.FiatExchangeAmount, {
-                tokenId: prepareTransactionsResult.feeCurrencies[0].tokenId,
-                flow: CICOFlow.CashIn,
-                tokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-              })
-            }}
-            style={styles.warning}
-            testID="EarnEnterAmount/NotEnoughForGasWarning"
-          />
-        )}
+        <GasFeeWarning
+          prepareTransactionsResult={prepareTransactionsResult}
+          flow={'Deposit'}
+          onPressSmallerAmount={handleAmountInputChange}
+        />
         {showLowerAmountError && (
           <InLineNotification
             variant={NotificationVariant.Warning}

@@ -2603,9 +2603,13 @@
         "moreInformation": "Дополнительная информация",
         "estNetworkFee": "Прибл. комиссия сообщества",
         "maxNetworkFee": "Максимальная комиссия сеть",
-        "networkFeeDescription": "Эта комиссия необходима сообществу для обработки операции пополнения счета.",
-        "networkFeeDescriptionWithdrawal": "Сетевая комиссия требуется сети для обработки транзакции вывода средств.",
-        "networkSwapFeeDescription": "Комиссия необходима сообществу для обработки операции пополнению счета. Комиссия {{appName}} в размере {{appFeePercentage}}% взимается за использование нашего продукта.",
+        "estCrossChainFee": "Эст. Плата за перекрестную цепочку",
+        "maxCrossChainFee": "Максимальный сбор за перекрестную цепочку",
+        "description_deposit": "Эта комиссия необходима сообществу для обработки операции пополнения счета.",
+        "description_withdraw": "Сетевая комиссия требуется сети для обработки транзакции вывода средств.",
+        "description_depositSwapFee": "Комиссия необходима сообществу для обработки операции пополнению счета. Комиссия {{appName}} в размере {{appFeePercentage}}% взимается за использование нашего продукта.",
+        "description_depositCrossChain": "Сетевая комиссия требуется сети для обработки депозитной операции. Плата за кросс-цепочку взимается провайдером кросс-цепочки.",
+        "description_depositCrossChainWithSwapFee": "Сетевая комиссия необходима сети для обработки операций по пополнению счета. Комиссия {{appName}} в размере {{appFeePercentage}}% взимается за использование тобой нашего продукта. Плата за кросс-цепочку взимается провайдером кросс-цепочки.",
         "appSwapFee": "Комиссия {{appName}}"
       },
       "swapBottomSheet": {
@@ -2827,7 +2831,22 @@
   "tokenEnterAmount": {
     "availableBalance": "Доступно: <0></0>",
     "selectToken": "Выберите токен",
-    "fiatPriceUnavailable": "Цена недоступна"
+    "fiatPriceUnavailable": "Цена недоступна",
+    "tokenDescription": "{{tokenName}} на {{tokenNetwork}}"
+  },
+  "gasFeeWarning": {
+    "title": "Тебе нужно больше {{tokenSymbol}} для оплаты газа.",
+    "title_Dapp": "У тебя недостаточный баланс газовых жетонов",
+    "descriptionMaxAmount_Send": "Добавь {{tokenSymbol}} для оплаты бензина или уменьши сумму, которую ты отправляешь.",
+    "descriptionMaxAmount_Swap": "Добавь {{tokenSymbol}} для оплаты газа или уменьши сумму, которую ты обмениваешь.",
+    "descriptionMaxAmount_Deposit": "Добавь {{tokenSymbol}} для оплаты бензина или уменьши сумму, которую ты вносишь на счет.",
+    "descriptionMaxAmount_Withdraw": "Добавь {{tokenSymbol}} для оплаты газа или уменьши сумму, которую ты снимаешь.",
+    "descriptionDapp": "Добавь {{tokenSymbol}} , чтобы завершить эту операцию.",
+    "ctaBuy": "Купить {{tokenSymbol}}",
+    "ctaAction_Send": "Отправь меньшую сумму",
+    "ctaAction_Swap": "Обменять меньшую сумму",
+    "ctaAction_Deposit": "Депозит на меньшую сумму",
+    "ctaAction_Withdraw": "Выводите меньшую сумму"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
