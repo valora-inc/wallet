@@ -198,7 +198,6 @@ export default function SendConfirmation(props: Props) {
             testID="SendConfirmationNetwork"
             label={t('transactionDetails.network')}
             value={fees.networkName}
-            isLoading={prepareTransactionLoading}
           />
           <ReviewDetailsItem
             testID="SendConfirmationFee"
