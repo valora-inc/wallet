@@ -318,6 +318,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   "lineHeight": 24,
                 },
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 24,
@@ -339,6 +340,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 "lineHeight": 24,
               },
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -454,6 +456,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   "lineHeight": 24,
                 },
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 24,
@@ -475,6 +478,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 "lineHeight": 24,
               },
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 24,

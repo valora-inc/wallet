@@ -37,6 +37,7 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
     <Text
       style={
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 18,
           "lineHeight": 28,
@@ -50,6 +51,7 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
     <Text
       style={
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "lineHeight": 24,
@@ -207,6 +209,7 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
     <Text
       style={
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 18,
           "lineHeight": 28,
@@ -220,6 +223,7 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
     <Text
       style={
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "lineHeight": 24,

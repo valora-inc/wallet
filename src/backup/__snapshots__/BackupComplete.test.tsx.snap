@@ -42,6 +42,7 @@ exports[`BackupComplete renders correctly 1`] = `
     <Text
       style={
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Bold",
           "fontSize": 24,
           "lineHeight": 32,
