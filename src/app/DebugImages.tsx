@@ -30,7 +30,7 @@ const IconItem = ({ Component, fileName }: { Component: React.ElementType; fileN
 function DebugImages() {
   return (
     <LinearGradient
-      colors={[Colors.white, Colors.gray3]}
+      colors={[Colors.background, Colors.gray3]}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
     >

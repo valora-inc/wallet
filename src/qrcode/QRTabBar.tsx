@@ -41,7 +41,7 @@ export default function QRTabBar({
     [state, descriptors]
   )
 
-  const color = state.index === 0 ? colors.backgroundInverse : colors.white
+  const color = state.index === 0 ? colors.backgroundInverse : colors.background
   const shareOpacity = interpolate(state.index, [0, 0.1], [1, 0], Extrapolation.CLAMP)
 
   const onPressClose = () => {
@@ -87,7 +87,7 @@ export default function QRTabBar({
             testID="HeaderTitle"
             style={{
               ...styles.headerTitle,
-              color: state.index === 0 ? colors.textPrimary : colors.white,
+              color: state.index === 0 ? colors.textPrimary : colors.textInverse,
             }}
             numberOfLines={1}
             allowFontScaling={false}

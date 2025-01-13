@@ -64,7 +64,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           />
           {!!showAppIcon && (
             <Logo
-              color={Colors.white}
+              color={Colors.textInverse}
               style={styles.appIcon}
               size={ICON_SIZE}
               testID="RecipientItem/AppIcon"

@@ -40,7 +40,7 @@ class FullscreenCTA extends React.PureComponent<Props> {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
     height: variables.height,
     width: variables.width,
     flex: 1,

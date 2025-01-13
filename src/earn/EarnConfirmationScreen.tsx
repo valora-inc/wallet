@@ -283,10 +283,16 @@ function GasFeeError() {
 function GasFeeLoading() {
   return (
     <View testID="EarnConfirmation/GasLoading">
-      <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
+      <SkeletonPlaceholder
+        backgroundColor={Colors.gray2}
+        highlightColor={Colors.loadingSkeletonHighlight}
+      >
         <View style={styles.gasFeeCryptoLoading} />
       </SkeletonPlaceholder>
-      <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
+      <SkeletonPlaceholder
+        backgroundColor={Colors.gray2}
+        highlightColor={Colors.loadingSkeletonHighlight}
+      >
         <View style={styles.gasFeeFiatLoading} />
       </SkeletonPlaceholder>
     </View>

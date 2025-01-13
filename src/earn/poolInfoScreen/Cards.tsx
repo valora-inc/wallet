@@ -362,7 +362,7 @@ export const styles = StyleSheet.create({
     ...typeScale.titleMedium,
   },
   depositAndEarningCardSubtitleContainer: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
     padding: Spacing.Regular16,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,

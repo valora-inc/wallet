@@ -123,7 +123,7 @@ function ActionsCarousel() {
 
 const styles = StyleSheet.create({
   viewContainer: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
   },
   carouselContainer: {
     padding: Spacing.Regular16,

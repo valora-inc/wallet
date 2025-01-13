@@ -62,7 +62,7 @@ function GetStartedSection() {
         <CircledIcon
           radius={Math.min(24 * getFontScaleSync(), 50)}
           style={getStartedStyles.optionNum}
-          backgroundColor={colors.white}
+          backgroundColor={colors.background}
         >
           <Text adjustsFontSizeToFit={true} style={getStartedStyles.optionNumText}>
             {optionNum}

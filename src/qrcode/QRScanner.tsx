@@ -29,7 +29,7 @@ const SeeThroughOverlay = () => {
     <Svg height={height} width={width} viewBox={`0 0 ${width} ${height}`}>
       <Defs>
         <Mask id="mask" x="0" y="0" height="100%" width="100%">
-          <Rect height="100%" width="100%" fill={colors.white} />
+          <Rect height="100%" width="100%" fill={colors.background} />
           <Rect
             x={margin}
             y={(height - centerBoxSize) / 2}
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     bottom: 32,
     ...typeScale.labelSemiBoldSmall,
     lineHeight: undefined,
-    color: colors.white,
+    color: colors.textInverse,
     textAlign: 'center',
     paddingHorizontal: 30,
   },

@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { DappShortcutsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { DappShortcutsEvents } from 'src/analytics/Events'
 import Button, { BtnSizes } from 'src/components/Button'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     marginRight: Spacing.Smallest8,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
     borderRadius: 100,
   },
   dappName: {

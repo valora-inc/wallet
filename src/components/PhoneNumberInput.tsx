@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     height: Spacing.XLarge48,
     paddingHorizontal: 12,
     alignItems: 'stretch',
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
     borderRadius: 8,
   },
   countryFlagContainer: {

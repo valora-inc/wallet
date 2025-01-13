@@ -21,10 +21,13 @@ enum Colors {
   lightShadow = 'rgba(48, 46, 37, 0.15)',
   barShadow = 'rgba(129, 134, 139, 0.5)',
 
+  background = '#FFFFFF',
   backgroundInverse = '#2E3338',
+  loadingSkeletonHighlight = '#FFFFFF',
   navigation = '#2E3338',
   shadow = '#2E3338',
   textPrimary = '#2E3338',
+  textInverse = '#FFFFFF',
 
   /** @deprecated */
   infoDark = '#0768AE',
@@ -38,8 +41,6 @@ enum Colors {
   goldBrand = '#FBCC5C',
   /** @deprecated */
   onboardingBrownLight = '#A49B80',
-  /** @deprecated */
-  white = '#FFFFFF',
   /** @deprecated */
   gray5 = '#505050',
   /** @deprecated */

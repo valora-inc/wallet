@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   refreshControl: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
   },
   sectionList: {
     flex: 1,

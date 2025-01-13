@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     flex: 1,
     margin: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
     justifyContent: 'center',
     paddingHorizontal: Spacing.Small12,
     paddingVertical: 6,

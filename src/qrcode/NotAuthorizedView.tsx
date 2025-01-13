@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
   title: {
     ...typeScale.titleSmall,
     marginBottom: 8,
-    color: colors.white,
+    color: colors.textInverse,
   },
   description: {
     ...typeScale.bodyMedium,
-    color: colors.white,
+    color: colors.textInverse,
     textAlign: 'center',
     marginBottom: 16,
   },

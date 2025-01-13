@@ -276,7 +276,7 @@ function Actions({
             })
             action.onPress()
           }}
-          icon={<action.iconComponent color={Colors.white} />}
+          icon={<action.iconComponent color={Colors.textInverse} />}
           style={styles.actionButton}
           size={BtnSizes.FULL}
           touchableStyle={styles.actionTouchable}

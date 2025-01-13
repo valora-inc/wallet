@@ -84,7 +84,7 @@ export const emptyHeader: NativeStackNavigationOptions = {
   headerShadowVisible: false,
   headerTitleAlign: 'center',
   headerStyle: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
   },
 }
 
