@@ -232,7 +232,7 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
   )
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setLoadingDescriptionColor(() => appTheme.colors.textPrimary)
+      setLoadingDescriptionColor(() => appTheme.colors.text)
     }, LOADING_DESCRIPTION_TIMEOUT_MS)
     return () => clearTimeout(timeout)
   }, [])
