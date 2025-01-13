@@ -69,7 +69,7 @@ export function ReviewSummaryItem(props: {
       </Text>
       <View style={styles.reviewSummaryItemContent}>
         {props.icon}
-        <View style={{ flexShrink: 1 }}>
+        <View style={styles.reviewSummaryItemTitlesWrapper}>
           <Text style={styles.reviewSummaryItemTitle} testID={`${props.testID}/Title`}>
             {props.title}
           </Text>
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   reviewSummaryItem: {
-    gap: 4,
+    gap: Spacing.Tiny4,
   },
   reviewSummaryItemHeader: {
     ...typeScale.labelSmall,
@@ -218,8 +218,11 @@ const styles = StyleSheet.create({
   },
   reviewSummaryItemContent: {
     flexDirection: 'row',
-    gap: 8,
+    gap: Spacing.Smallest8,
     alignItems: 'center',
+  },
+  reviewSummaryItemTitlesWrapper: {
+    flexShrink: 1,
   },
   reviewSummaryItemTitle: {
     ...typeScale.labelSemiBoldLarge,
@@ -241,7 +244,7 @@ const styles = StyleSheet.create({
   reviewDetailsItemLabel: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: Spacing.Tiny4,
   },
   reviewDetailsItemText: {
     ...typeScale.bodyMedium,
