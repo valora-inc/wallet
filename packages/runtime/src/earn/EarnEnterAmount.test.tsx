@@ -5,7 +5,7 @@ import { DeviceEventEmitter } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
-import { EarnEvents } from 'src/analytics/Events'
+import { EarnEvents, FeeEvents } from 'src/analytics/Events'
 import EarnEnterAmount from 'src/earn/EarnEnterAmount'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { Status as EarnStatus } from 'src/earn/slice'
@@ -18,6 +18,7 @@ import { SwapTransaction } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import {
+  PreparedTransactionsNeedDecreaseSpendAmountForGas,
   PreparedTransactionsNotEnoughBalanceForGas,
   PreparedTransactionsPossible,
 } from 'src/viem/prepareTransactions'
@@ -96,6 +97,20 @@ const mockPreparedTransactionNotEnough: PreparedTransactionsNotEnoughBalanceForG
   ],
 }
 
+const mockPreparedTransactionDecreaseSpend: PreparedTransactionsNeedDecreaseSpendAmountForGas = {
+  type: 'need-decrease-spend-amount-for-gas' as const,
+  feeCurrency: {
+    ...mockTokenBalances[mockArbEthTokenId],
+    isNative: true,
+    balance: new BigNumber(0),
+    priceUsd: new BigNumber(1500),
+    lastKnownPriceUsd: new BigNumber(1500),
+  },
+  maxGasFeeInDecimal: new BigNumber(1),
+  estimatedGasFeeInDecimal: new BigNumber(1),
+  decreasedSpendAmount: new BigNumber(1),
+}
+
 const mockArbFeeCurrencies: TokenBalance[] = [
   {
     ...mockTokenBalances[mockArbEthTokenId],
@@ -146,8 +161,8 @@ const mockCrossChainSwapTransaction: SwapTransaction = {
   ...mockSwapTransaction,
   swapType: 'cross-chain',
   estimatedDuration: 300,
-  maxCrossChainFee: '0.1',
-  estimatedCrossChainFee: '0.05',
+  maxCrossChainFee: '1000000000000000',
+  estimatedCrossChainFee: '500000000000000',
   sellTokenAddress: mockCeloAddress,
   price: '4',
   guaranteedPrice: '4',
@@ -499,7 +514,7 @@ describe('EarnEnterAmount', () => {
         prepareTransactionError: undefined,
         isPreparingTransactions: false,
       })
-      const { getByTestId, getByText } = render(
+      const { getByTestId, getByText, queryByTestId } = render(
         <Provider store={store}>
           <MockedNavigator component={EarnEnterAmount} params={swapDepositParams} />
         </Provider>
@@ -523,6 +538,8 @@ describe('EarnEnterAmount', () => {
 
       expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
+
+      expect(queryByTestId('EarnEnterAmount/Duration')).toBeFalsy()
 
       fireEvent.press(getByText('earnFlow.enterAmount.continue'))
 
@@ -587,6 +604,9 @@ describe('EarnEnterAmount', () => {
 
       expect(getByTestId('EarnEnterAmount/Fees')).toBeTruthy()
       expect(getByTestId('EarnEnterAmount/Fees')).toHaveTextContent('₱0.012')
+
+      expect(getByTestId('EarnEnterAmount/Duration')).toBeTruthy()
+      expect(getByTestId('EarnEnterAmount/Duration')).toHaveTextContent('{"minutes":5}')
 
       fireEvent.press(getByText('earnFlow.enterAmount.continue'))
 
@@ -871,6 +891,8 @@ describe('EarnEnterAmount', () => {
     const replaceSeparators = (value: string) =>
       value.replace(/\./g, '|').replace(/,/g, group).replace(/\|/g, decimal)
 
+    const defaultFormat = BigNumber.config().FORMAT
+
     beforeEach(() => {
       jest
         .mocked(getNumberFormatSettings)
@@ -882,6 +904,10 @@ describe('EarnEnterAmount', () => {
           groupSize: 3,
         },
       })
+    })
+
+    afterEach(() => {
+      BigNumber.config({ FORMAT: defaultFormat })
     })
 
     const mockStore = createMockStore({
@@ -917,7 +943,7 @@ describe('EarnEnterAmount', () => {
     })
   })
 
-  it('should track analytics and navigate correctly when tapping cta to add gas', async () => {
+  it('should show gas warning error when prepareTransactionsResult is type not-enough-balance-for-gas, and tapping cta behaves as expected', async () => {
     jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransactionNotEnough,
@@ -934,24 +960,62 @@ describe('EarnEnterAmount', () => {
       </Provider>
     )
 
-    await waitFor(() => expect(getByTestId('EarnEnterAmount/NotEnoughForGasWarning')).toBeTruthy())
-    fireEvent.press(
-      getByText(
-        'earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta, {"feeTokenSymbol":"ETH","network":"Arbitrum Sepolia"}'
-      )
-    )
-    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_add_gas_press, {
-      gasTokenId: mockArbEthTokenId,
+    await waitFor(() => expect(getByTestId('GasFeeWarning')).toBeTruthy())
+    fireEvent.press(getByText('gasFeeWarning.ctaBuy, {"tokenSymbol":"ETH"}'))
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(FeeEvents.gas_fee_warning_impression, {
+      errorType: 'not-enough-balance-for-gas',
+      flow: 'Deposit',
+      tokenId: mockArbEthTokenId,
       networkId: NetworkId['arbitrum-sepolia'],
-      poolId: mockEarnPositions[0].positionId,
-      providerId: mockEarnPositions[0].appId,
-      depositTokenId: mockArbUsdcTokenId,
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(FeeEvents.gas_fee_warning_cta_press, {
+      errorType: 'not-enough-balance-for-gas',
+      flow: 'Deposit',
+      tokenId: mockArbEthTokenId,
+      networkId: NetworkId['arbitrum-sepolia'],
     })
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockArbEthTokenId,
       flow: CICOFlow.CashIn,
       tokenSymbol: 'ETH',
     })
+  })
+
+  it('should show gas warning error when prepareTransactionsResult is type need-decrease-spend-amount-for-gas, and tapping cta behaves as expected', async () => {
+    jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: mockPreparedTransactionDecreaseSpend,
+        swapTransaction: undefined,
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByTestId('GasFeeWarning')).toBeTruthy())
+    fireEvent.press(getByText('gasFeeWarning.ctaAction, {"context":"Deposit"}'))
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(AppAnalytics.track).toHaveBeenCalledWith(FeeEvents.gas_fee_warning_impression, {
+      errorType: 'need-decrease-spend-amount-for-gas',
+      flow: 'Deposit',
+      tokenId: mockArbEthTokenId,
+      networkId: NetworkId['arbitrum-sepolia'],
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(FeeEvents.gas_fee_warning_cta_press, {
+      errorType: 'need-decrease-spend-amount-for-gas',
+      flow: 'Deposit',
+      tokenId: mockArbEthTokenId,
+      networkId: NetworkId['arbitrum-sepolia'],
+    })
+    // Deposit value should now be decreasedSpendAmount from mockPreparedTransactionDecreaseSpend, which is 1
+    expect(getByTestId('EarnEnterAmount/Deposit/Crypto')).toHaveTextContent('1.00 USDC')
   })
 
   it('should show the FeeDetailsBottomSheet when the user taps the fee details icon', async () => {
@@ -966,7 +1030,7 @@ describe('EarnEnterAmount', () => {
       isPreparingTransactions: false,
     })
 
-    const { getByTestId, getByText } = render(
+    const { getByTestId, getByText, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={EarnEnterAmount} params={params} />
       </Provider>
@@ -975,9 +1039,16 @@ describe('EarnEnterAmount', () => {
     fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
     fireEvent.press(getByTestId('LabelWithInfo/FeeLabel'))
     expect(getByText('earnFlow.enterAmount.feeBottomSheet.feeDetails')).toBeVisible()
-    expect(getByTestId('EstNetworkFee/Value')).toBeTruthy()
-    expect(getByTestId('MaxNetworkFee/Value')).toBeTruthy()
-    expect(getByText('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')).toBeVisible()
+    expect(getByTestId('EstNetworkFee')).toBeTruthy()
+    expect(getByTestId('MaxNetworkFee')).toBeTruthy()
+    expect(queryByTestId('SwapFee')).toBeFalsy()
+    expect(queryByTestId('EstCrossChainFee')).toBeFalsy()
+    expect(queryByTestId('MaxCrossChainFee')).toBeFalsy()
+    expect(getByTestId('EstNetworkFee/Value')).toHaveTextContent('₱0.012 (0.000006 ETH)')
+    expect(getByTestId('MaxNetworkFee/Value')).toHaveTextContent('₱0.012 (0.000006 ETH)')
+    expect(
+      getByText('earnFlow.enterAmount.feeBottomSheet.description, {"context":"deposit"}')
+    ).toBeVisible()
   })
 
   it('should show swap fees on the FeeDetailsBottomSheet when swap transaction is present', async () => {
@@ -985,6 +1056,43 @@ describe('EarnEnterAmount', () => {
       prepareTransactionsResult: {
         prepareTransactionsResult: mockPreparedTransaction,
         swapTransaction: mockSwapTransaction,
+      },
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+      isPreparingTransactions: false,
+    })
+
+    const { getByTestId, getByText, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EarnEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
+    fireEvent.press(getByTestId('LabelWithInfo/FeeLabel'))
+    expect(getByText('earnFlow.enterAmount.feeBottomSheet.feeDetails')).toBeVisible()
+    expect(getByTestId('EstNetworkFee')).toBeTruthy()
+    expect(getByTestId('MaxNetworkFee')).toBeTruthy()
+    expect(getByTestId('SwapFee')).toBeTruthy()
+    expect(queryByTestId('EstCrossChainFee')).toBeFalsy()
+    expect(queryByTestId('MaxCrossChainFee')).toBeFalsy()
+    expect(getByTestId('EstNetworkFee/Value')).toHaveTextContent('₱0.012 (0.000006 ETH)')
+    expect(getByTestId('MaxNetworkFee/Value')).toHaveTextContent('₱0.012 (0.000006 ETH)')
+    expect(getByTestId('SwapFee/Value')).toHaveTextContent('₱0.008 (0.006 USDC)')
+    expect(
+      getByText(
+        'earnFlow.enterAmount.feeBottomSheet.description, {"context":"depositSwapFee","appFeePercentage":"0.6"}'
+      )
+    ).toBeVisible()
+    expect(getByTestId('FeeDetailsBottomSheet/GotIt')).toBeVisible()
+  })
+
+  it('should show swap and cross chain fees on the FeeDetailsBottomSheet when cross chain swap transaction is present', async () => {
+    jest.mocked(usePrepareEnterAmountTransactionsCallback).mockReturnValue({
+      prepareTransactionsResult: {
+        prepareTransactionsResult: mockPreparedTransaction,
+        swapTransaction: mockCrossChainSwapTransaction,
       },
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
@@ -1001,12 +1109,19 @@ describe('EarnEnterAmount', () => {
     fireEvent.changeText(getByTestId('EarnEnterAmount/TokenAmountInput'), '1')
     fireEvent.press(getByTestId('LabelWithInfo/FeeLabel'))
     expect(getByText('earnFlow.enterAmount.feeBottomSheet.feeDetails')).toBeVisible()
-    expect(getByTestId('EstNetworkFee/Value')).toBeTruthy()
-    expect(getByTestId('MaxNetworkFee/Value')).toBeTruthy()
-    expect(getByTestId('SwapFee/Value')).toBeTruthy()
+    expect(getByTestId('EstNetworkFee')).toBeTruthy()
+    expect(getByTestId('MaxNetworkFee')).toBeTruthy()
+    expect(getByTestId('SwapFee')).toBeTruthy()
+    expect(getByTestId('EstCrossChainFee')).toBeTruthy()
+    expect(getByTestId('MaxCrossChainFee')).toBeTruthy()
+    expect(getByTestId('EstNetworkFee/Value')).toHaveTextContent('₱0.012 (0.000006 ETH)')
+    expect(getByTestId('MaxNetworkFee/Value')).toHaveTextContent('₱0.012 (0.000006 ETH)')
+    expect(getByTestId('SwapFee/Value')).toHaveTextContent('₱0.008 (0.006 USDC)')
+    expect(getByTestId('EstCrossChainFee/Value')).toHaveTextContent('₱1.00 (0.0005 ETH)')
+    expect(getByTestId('MaxCrossChainFee/Value')).toHaveTextContent('₱2.00 (0.001 ETH)')
     expect(
       getByText(
-        'earnFlow.enterAmount.feeBottomSheet.networkSwapFeeDescription, {"appFeePercentage":"0.6"}'
+        'earnFlow.enterAmount.feeBottomSheet.description, {"context":"depositCrossChainWithSwapFee","appFeePercentage":"0.6"}'
       )
     ).toBeVisible()
     expect(getByTestId('FeeDetailsBottomSheet/GotIt')).toBeVisible()

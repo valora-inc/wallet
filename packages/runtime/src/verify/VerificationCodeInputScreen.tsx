@@ -9,10 +9,12 @@ import { PhoneVerificationEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import InfoBottomSheet from 'src/components/InfoBottomSheet'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, popToScreen } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
+import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { useVerifyPhoneNumber } from 'src/verify/hooks'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
@@ -21,7 +23,6 @@ function VerificationCodeInputScreen({
   route,
   navigation,
 }: NativeStackScreenProps<StackParamList, Screens.VerificationCodeInputScreen>) {
-  const nextScreen = route.params.verificationCompletionScreen
   const [showHelpDialog, setShowHelpDialog] = useState(false)
 
   const { t } = useTranslation()
@@ -30,6 +31,7 @@ function VerificationCodeInputScreen({
     route.params.e164Number,
     route.params.countryCallingCode
   )
+  const onboardingProps = useSelector(onboardingPropsSelector)
 
   const onResendSms = () => {
     AppAnalytics.track(PhoneVerificationEvents.phone_verification_resend_message)
@@ -83,7 +85,24 @@ function VerificationCodeInputScreen({
         setSmsCode={setSmsCode}
         onResendSms={onResendSms}
         onSuccess={() => {
-          navigate(nextScreen)
+          if (route.params.hasOnboarded) {
+            const routes = navigation.getState().routes
+            // if not from onboarding, go back to the screen where phone
+            // verification was started, which is 2 screens back. If no screen
+            // is found, go to home screen
+            const prevRoute = routes[routes.length - 3]
+            if (prevRoute?.name) {
+              popToScreen(prevRoute.name)
+            } else {
+              navigate(Screens.TabHome)
+            }
+          } else {
+            // if onboarding, continue with the next onboarding screen
+            goToNextOnboardingScreen({
+              firstScreenInCurrentStep: Screens.VerificationStartScreen,
+              onboardingProps,
+            })
+          }
         }}
         containerStyle={{ marginTop: headerHeight }}
       />

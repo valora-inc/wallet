@@ -406,7 +406,10 @@ export function SwapScreen({ route }: Props) {
         // to confirm the swap in this case.
         break
       case 'possible':
+        const swapId = uuidv4()
+
         AppAnalytics.track(SwapEvents.swap_review_submit, {
+          swapId,
           toToken: toToken.address,
           toTokenId: toToken.tokenId,
           toTokenNetworkId: toToken.networkId,
@@ -431,7 +434,6 @@ export function SwapScreen({ route }: Props) {
           ),
         })
 
-        const swapId = uuidv4()
         localDispatch(startSwap({ swapId }))
         dispatch(
           swapStart({
@@ -621,7 +623,17 @@ export function SwapScreen({ route }: Props) {
   const crossChainFeeCurrency = useSelector((state) =>
     feeCurrenciesSelector(state, fromToken?.networkId || networkConfig.defaultNetworkId)
   ).find((token) => token.isNative)
-  const crossChainFee = getCrossChainFee(quote, crossChainFeeCurrency)
+  const crossChainFee =
+    quote?.swapType === 'cross-chain'
+      ? getCrossChainFee({
+          feeCurrency: crossChainFeeCurrency,
+          preparedTransactions: quote.preparedTransactions,
+          fromTokenId: quote.fromTokenId,
+          sellAmount: quote.sellAmount,
+          estimatedCrossChainFee: quote.estimatedCrossChainFee,
+          maxCrossChainFee: quote.maxCrossChainFee,
+        })
+      : undefined
 
   const getWarningStatuses = () => {
     // NOTE: If a new condition is added here, make sure to update `allowSwap` below if

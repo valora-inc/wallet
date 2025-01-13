@@ -322,8 +322,8 @@ export enum QrScreenEvents {
 }
 
 export enum FeeEvents {
-  estimate_fee_failed = 'estimate_fee_failed',
-  estimate_fee_success = 'estimate_fee_success',
+  gas_fee_warning_impression = 'gas_fee_warning_impression',
+  gas_fee_warning_cta_press = 'gas_fee_warning_cta_press',
 }
 
 export enum TransactionEvents {
@@ -529,6 +529,7 @@ export enum SwapEvents {
   swap_review_submit = 'swap_review_submit',
   swap_execute_success = 'swap_execute_success',
   swap_execute_error = 'swap_execute_error',
+  swap_cancel = 'swap_cancel',
   swap_learn_more = 'swap_learn_more',
   swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed',
   swap_show_info = 'swap_show_info',
@@ -660,7 +661,6 @@ export enum EarnEvents {
   earn_deposit_submit_error = 'earn_deposit_submit_error',
   earn_deposit_submit_cancel = 'earn_deposit_submit_cancel',
   earn_enter_amount_continue_press = 'earn_enter_amount_continue_press',
-  earn_deposit_add_gas_press = 'earn_deposit_add_gas_press',
   earn_feed_item_select = 'earn_feed_item_select',
   earn_collect_earnings_press = 'earn_collect_earnings_press',
   earn_withdraw_submit_start = 'earn_withdraw_submit_start',

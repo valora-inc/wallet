@@ -6,22 +6,25 @@ import {
   recoveringFromStoreWipeSelector,
 } from 'src/account/selectors'
 import { phoneNumberVerifiedSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
+import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { updateStatsigAndNavigate } from 'src/onboarding/actions'
-import { store } from 'src/redux/store'
+import {
+  onboardingCompleted,
+  updateLastOnboardingScreen,
+  updateStatsigAndNavigate,
+} from 'src/onboarding/actions'
 import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
-import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
-import { onboardingCompleted, updateLastOnboardingScreen } from 'src/onboarding/actions'
+import { store } from 'src/redux/store'
 
-const END_OF_ONBOARDING_SCREENS = [Screens.TabHome, Screens.ChooseYourAdventure]
+const END_OF_ONBOARDING_SCREEN: keyof StackParamList = Screens.OnboardingSuccessScreen
 
 interface NavigatorFunctions {
   navigate: typeof NavigationService.navigate
   popToScreen: typeof NavigationService.popToScreen
-  finishOnboarding: (screen: keyof StackParamList) => void
+  finishOnboarding: () => void
   navigateClearingStack: typeof NavigationService.navigateClearingStack
 }
 
@@ -127,7 +130,7 @@ export function getOnboardingStepValues(screen: Screens, onboardingProps: Onboar
   const nextStepAndCount: typeof NavigationService.navigate = (...args) => {
     // dummy navigation function to help determine what onboarding step the user is on, without triggering side effects like actually cycling them back through the first few onboarding screens
     const [nextScreen] = args
-    if (!END_OF_ONBOARDING_SCREENS.includes(nextScreen)) {
+    if (nextScreen !== END_OF_ONBOARDING_SCREEN) {
       totalCounter++
       if (currentScreen === screen) {
         reachedStep = true
@@ -139,11 +142,11 @@ export function getOnboardingStepValues(screen: Screens, onboardingProps: Onboar
     currentScreen = nextScreen
   }
 
-  const finishOnboarding = (nextScreen: Screens) => {
-    currentScreen = nextScreen
+  const finishOnboarding = () => {
+    currentScreen = END_OF_ONBOARDING_SCREEN
   }
 
-  while (!END_OF_ONBOARDING_SCREENS.includes(currentScreen)) {
+  while (currentScreen !== END_OF_ONBOARDING_SCREEN) {
     const stepInfo = _getStepInfo({
       firstScreenInStep: currentScreen,
       navigator: {
@@ -183,10 +186,10 @@ export function goToNextOnboardingScreen({
     navigator: {
       navigate: NavigationService.navigate,
       popToScreen: NavigationService.popToScreen,
-      finishOnboarding: (screen: keyof StackParamList) => {
+      finishOnboarding: () => {
         store.dispatch(onboardingCompleted())
-        store.dispatch(updateLastOnboardingScreen(screen))
-        store.dispatch(updateStatsigAndNavigate(screen))
+        store.dispatch(updateLastOnboardingScreen(END_OF_ONBOARDING_SCREEN))
+        store.dispatch(updateStatsigAndNavigate(END_OF_ONBOARDING_SCREEN))
       },
       navigateClearingStack: NavigationService.navigateClearingStack,
     },
@@ -225,11 +228,40 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
     dispatch(updateLastOnboardingScreen(screen))
   }
 
-  const navigateImportOrImportSelect = () => {
-    if (props.showCloudAccountBackupRestore) {
-      wrapNavigate(Screens.ImportSelect)
+  const navigateToPhoneVerificationOrFinish = (
+    screen:
+      | Screens.LinkPhoneNumber
+      | Screens.VerificationStartScreen = Screens.VerificationStartScreen
+  ) => {
+    if (skipVerification || numberAlreadyVerifiedCentrally) {
+      finishOnboarding()
     } else {
-      wrapNavigate(Screens.ImportWallet)
+      // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
+      wrapNavigate(screen)
+    }
+  }
+
+  const biometryNext = () => {
+    if (choseToRestoreAccount) {
+      popToScreen(Screens.Welcome)
+      if (props.showCloudAccountBackupRestore) {
+        wrapNavigate(Screens.ImportSelect)
+      } else {
+        wrapNavigate(Screens.ImportWallet)
+      }
+    } else if (showCloudAccountBackupSetup) {
+      dispatch(initializeAccount())
+      wrapNavigate(Screens.SignInWithEmail, {
+        keylessBackupFlow: KeylessBackupFlow.Setup,
+        origin: KeylessBackupOrigin.Onboarding,
+      })
+    } else {
+      dispatch(initializeAccount())
+      if (skipProtectWallet) {
+        navigateToPhoneVerificationOrFinish()
+      } else {
+        wrapNavigate(Screens.ProtectWallet)
+      }
     }
   }
 
@@ -239,97 +271,29 @@ function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: GetStep
         next: () => {
           if (supportedBiometryType !== null) {
             wrapNavigate(Screens.EnableBiometry)
-          } else if (choseToRestoreAccount) {
-            popToScreen(Screens.Welcome)
-            navigateImportOrImportSelect()
-          } else if (showCloudAccountBackupSetup) {
-            dispatch(initializeAccount())
-            wrapNavigate(Screens.SignInWithEmail, {
-              keylessBackupFlow: KeylessBackupFlow.Setup,
-              origin: KeylessBackupOrigin.Onboarding,
-            })
           } else {
-            dispatch(initializeAccount())
-            if (skipProtectWallet) {
-              finishOnboarding(Screens.ChooseYourAdventure)
-            } else {
-              wrapNavigate(Screens.ProtectWallet)
-            }
+            biometryNext()
           }
         },
       }
     case Screens.EnableBiometry:
       return {
-        next: () => {
-          if (choseToRestoreAccount) {
-            navigateImportOrImportSelect()
-          } else if (showCloudAccountBackupSetup) {
-            dispatch(initializeAccount())
-            wrapNavigate(Screens.SignInWithEmail, {
-              keylessBackupFlow: KeylessBackupFlow.Setup,
-              origin: KeylessBackupOrigin.Onboarding,
-            })
-          } else {
-            dispatch(initializeAccount())
-            if (skipProtectWallet) {
-              finishOnboarding(Screens.ChooseYourAdventure)
-            } else {
-              wrapNavigate(Screens.ProtectWallet)
-            }
-          }
-        },
+        next: () => biometryNext(),
       }
     case Screens.ImportSelect:
-      return {
-        next: () => {
-          if (skipVerification || numberAlreadyVerifiedCentrally) {
-            finishOnboarding(Screens.ChooseYourAdventure)
-          } else {
-            // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
-            wrapNavigate(Screens.LinkPhoneNumber)
-          }
-        },
-      }
     case Screens.SignInWithEmail:
       return {
-        next: () => {
-          if (skipVerification || numberAlreadyVerifiedCentrally) {
-            finishOnboarding(Screens.ChooseYourAdventure)
-          } else {
-            // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
-            wrapNavigate(Screens.VerificationStartScreen)
-          }
-        },
+        next: () => navigateToPhoneVerificationOrFinish(Screens.LinkPhoneNumber),
       }
     case Screens.ImportWallet:
+    case Screens.ProtectWallet:
       return {
-        next: () => {
-          if (skipVerification || numberAlreadyVerifiedCentrally) {
-            finishOnboarding(Screens.ChooseYourAdventure)
-          } else {
-            // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
-            wrapNavigate(Screens.VerificationStartScreen)
-          }
-        },
+        next: () => navigateToPhoneVerificationOrFinish(),
       }
     case Screens.LinkPhoneNumber:
     case Screens.VerificationStartScreen:
       return {
-        next: () => {
-          // initializeAccount is called in the middle of
-          // the verification flow, so we don't need to call it here
-          finishOnboarding(Screens.ChooseYourAdventure)
-        },
-      }
-    case Screens.ProtectWallet:
-      return {
-        next: () => {
-          if (skipVerification) {
-            finishOnboarding(Screens.ChooseYourAdventure)
-          } else {
-            wrapNavigate(Screens.VerificationStartScreen)
-          }
-        },
+        next: () => finishOnboarding(),
       }
     default:
       throw new Error(

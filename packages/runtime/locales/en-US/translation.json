@@ -2579,6 +2579,7 @@
       "fees": "Fees",
       "available": "Available",
       "swap": "Swap",
+      "estimatedDuration": "Est. Transaction Time",
       "claimingReward": "Claiming Reward",
       "earnUpToLabel": "You could earn up to:",
       "rateLabel": "Rate (est.)",
@@ -2598,9 +2599,13 @@
         "moreInformation": "More information",
         "estNetworkFee": "Est. Network Fee",
         "maxNetworkFee": "Max Network Fee",
-        "networkFeeDescription": "The network fee is required by the network to process the deposit transaction.",
-        "networkFeeDescriptionWithdrawal": "The network fee is required by the network to process the withdrawal transaction.",
-        "networkSwapFeeDescription": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
+        "estCrossChainFee": "Est. Cross-chain Fee",
+        "maxCrossChainFee": "Max Cross-chain Fee",
+        "description_deposit": "The network fee is required by the network to process the deposit transaction.",
+        "description_withdraw": "The network fee is required by the network to process the withdrawal transaction.",
+        "description_depositSwapFee": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product.",
+        "description_depositCrossChain": "The network fee is required by the network to process the deposit transaction. The cross-chain fee is charged by the cross-chain provider.",
+        "description_depositCrossChainWithSwapFee": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product. The cross-chain fee is charged by the cross-chain provider.",
         "appSwapFee": "{{appName}} Fee"
       },
       "swapBottomSheet": {
@@ -2783,12 +2788,14 @@
       "youNeedTitle": "You Need {{tokenSymbol}} on {{tokenNetwork}} to Deposit",
       "depositTitle": "Deposit to pool",
       "crossChainAlternativeDescription": "If you don’t want to use your tokens on {{tokenNetwork}}, choose an option below. You’ll need to return to complete your pool deposit later.",
+      "alternativeDescription": "If you don’t want to use your tokens, choose an option below. You’ll need to return to complete your pool deposit later.",
       "beforeYouCanDepositTitle": "Before you can deposit...",
       "beforeYouCanDepositDescription": "You’ll need to add one of the pool tokens. Once added, you’ll need to return to complete your pool deposit.",
       "beforeYouCanDepositDescriptionV1_101": "You’ll need to add {{tokenSymbol}} on {{tokenNetwork}}. Once added, you’ll need to return to complete your pool deposit.",
       "action": {
         "swapAndDeposit": "Swap & Deposit",
         "swapAndDepositDescription": "Choose any token on {{tokenNetwork}}. We’ll swap and deposit it simultaneously for you.",
+        "swapAndDepositAllTokensDescription": "Choose any token—we’ll swap and deposit it simultaneously for you.",
         "crossChainSwap": "Cross-chain Swap",
         "crossChainSwapDescription": "Swap a token on another network for {{tokenSymbol}}",
         "swap": "Swap",
@@ -2820,7 +2827,22 @@
   "tokenEnterAmount": {
     "availableBalance": "Available: <0></0>",
     "selectToken": "Select token",
-    "fiatPriceUnavailable": "Price unavailable"
+    "fiatPriceUnavailable": "Price unavailable",
+    "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
+  },
+  "gasFeeWarning": {
+    "title": "You need more {{tokenSymbol}} for gas fees",
+    "title_Dapp": "You have an insufficient gas token balance",
+    "descriptionMaxAmount_Send": "Add {{tokenSymbol}} for gas fees or lower the amount you're sending",
+    "descriptionMaxAmount_Swap": "Add {{tokenSymbol}} for gas fees or lower the amount you're swapping",
+    "descriptionMaxAmount_Deposit": "Add {{tokenSymbol}} for gas fees or lower the amount you're depositing",
+    "descriptionMaxAmount_Withdraw": "Add {{tokenSymbol}} for gas fees or lower the amount you're withdrawing",
+    "descriptionDapp": "Add {{tokenSymbol}} to complete this transaction",
+    "ctaBuy": "Buy {{tokenSymbol}}",
+    "ctaAction_Send": "Send smaller amount",
+    "ctaAction_Swap": "Swap smaller amount",
+    "ctaAction_Deposit": "Deposit smaller amount",
+    "ctaAction_Withdraw": "Withdraw smaller amount"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

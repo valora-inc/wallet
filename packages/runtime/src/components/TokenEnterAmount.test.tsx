@@ -212,7 +212,9 @@ describe('TokenEnterAmount', () => {
         } as TokenBalance,
       })
 
-      await act(async () => result.current.handleToggleAmountType())
+      await act(async () => {
+        result.current.handleToggleAmountType()
+      })
       await act(async () => result.current.handleAmountInputChange('1234.67'))
       await act(async () => result.current.handleAmountInputChange('1234.678'))
 
@@ -255,7 +257,9 @@ describe('TokenEnterAmount', () => {
         } as TokenBalance,
       })
 
-      await act(() => result.current.handleToggleAmountType())
+      await act(() => {
+        result.current.handleToggleAmountType()
+      })
       expect(result.current.amountType).toBe('local')
       // the processedAmounts should be unchanged when toggling amount type with no amount entered
       expect(result.current.processedAmounts).toStrictEqual({
@@ -280,7 +284,9 @@ describe('TokenEnterAmount', () => {
         </Provider>
       )
 
-      expect(getByTestId('TokenEnterAmount/TokenName')).toHaveTextContent('CELO on Celo Alfajores')
+      expect(getByTestId('TokenEnterAmount/TokenName')).toHaveTextContent(
+        'tokenEnterAmount.tokenDescription, {"tokenName":"CELO","tokenNetwork":"Celo Alfajores"}'
+      )
       expect(getByTestId('TokenEnterAmount/SwitchTokens')).toBeTruthy()
       expect(getByTestId('TokenEnterAmount/TokenSelect')).toBeTruthy()
       expect(getByTestId('TokenEnterAmount/TokenBalance')).toHaveTextContent(
@@ -403,17 +409,17 @@ describe('TokenEnterAmount', () => {
         <Provider store={store}>
           <TokenEnterAmount
             {...defaultProps}
-            editable={false}
             inputValue="1234.5678"
             tokenAmount="1,234.5678"
             localAmount="$123.57"
             amountType="token"
+            onInputChange={undefined}
           />
         </Provider>
       )
       const input = getByTestId('TokenEnterAmount/TokenAmountInput')
 
-      expect(input.props.editable).toBe(false)
+      expect(input).toBeDisabled()
     })
 
     it('shows unavailable fiat price message when priceUsd is undefined', () => {

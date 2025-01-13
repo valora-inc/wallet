@@ -2579,6 +2579,7 @@
       "fees": "Tarifas",
       "available": "Disponible",
       "swap": "Cambio",
+      "estimatedDuration": "Est. Tiempo de transacción",
       "claimingReward": "Reclamar la recompensa",
       "earnUpToLabel": "Podrías ganar hasta:",
       "rateLabel": "Tasa (est.)",
@@ -2598,9 +2599,13 @@
         "moreInformation": "Más información",
         "estNetworkFee": "Tarifa de red est.",
         "maxNetworkFee": "Tarifa máxima de red",
-        "networkFeeDescription": "La tarifa de red es requerida por la red para procesar la transacción de depósito.",
-        "networkFeeDescriptionWithdrawal": "La tarifa de red es requerida por la red para procesar la transacción de retiro.",
-        "networkSwapFeeDescription": "La tarifa de red es requerida por la red para procesar las transacciones de depósito. La tarifa de {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto.",
+        "estCrossChainFee": "Est. Tasa de cadena cruzada",
+        "maxCrossChainFee": "Tasa máxima por cadena cruzada",
+        "description_deposit": "La tarifa de red es requerida por la red para procesar la transacción de depósito.",
+        "description_withdraw": "La tarifa de red es requerida por la red para procesar la transacción de retiro.",
+        "description_depositSwapFee": "La tarifa de red es requerida por la red para procesar las transacciones de depósito. La tarifa de {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto.",
+        "description_depositCrossChain": "La comisión de red es exigida por la red para procesar la transacción de depósito. La comisión de la cadena cruzada la cobra el proveedor de la cadena cruzada.",
+        "description_depositCrossChainWithSwapFee": "La comisión de red es exigida por la red para procesar las transacciones de depósito. La comisión de {{appName}} de {{appFeePercentage}}% se cobra por el uso de nuestro producto. La comisión de la cadena cruzada la cobra el proveedor de la cadena cruzada.",
         "appSwapFee": "Tarifa de {{appName}}"
       },
       "swapBottomSheet": {
@@ -2783,12 +2788,14 @@
       "youNeedTitle": "Necesitas {{tokenSymbol}} en {{tokenNetwork}} para depositar",
       "depositTitle": "Depósito a la piscina",
       "crossChainAlternativeDescription": "Si no quieres usar tus tokens en {{tokenNetwork}}, elige una opción a continuación. Tendrás que volver para completar tu depósito en el pool más tarde.",
+      "alternativeDescription": "Si no quieres utilizar tus fichas, elige una opción a continuación. Tendrás que volver más tarde para completar el depósito de tu piscina.",
       "beforeYouCanDepositTitle": "Antes de que puedas depositar...",
       "beforeYouCanDepositDescription": "Tendrás que agregarr uno de los tokens del pool. Una vez agregado, tendrás que volver para completar el depósito en el pool.",
       "beforeYouCanDepositDescriptionV1_101": "Tendrás que añadir {{tokenSymbol}} en {{tokenNetwork}}. Una vez añadido, tendrás que volver para completar el depósito de tu piscina.",
       "action": {
         "swapAndDeposit": "Intercambiar y depositar",
         "swapAndDepositDescription": "Elige cualquier token en {{tokenNetwork}}. Lo cambiaremos y lo depositaremos simultáneamente por ti.",
+        "swapAndDepositAllTokensDescription": "Elige cualquier ficha: la canjearemos y depositaremos simultáneamente por ti.",
         "crossChainSwap": "Intercambio entre cadenas",
         "crossChainSwapDescription": "Intercambia un token en otra red por {{tokenSymbol}}",
         "swap": "Cambio",
@@ -2820,7 +2827,22 @@
   "tokenEnterAmount": {
     "availableBalance": "Disponible: <0></0>",
     "selectToken": "Selecciona un token",
-    "fiatPriceUnavailable": "Precio no disponible"
+    "fiatPriceUnavailable": "Precio no disponible",
+    "tokenDescription": "{{tokenName}} en {{tokenNetwork}}"
+  },
+  "gasFeeWarning": {
+    "title": "Necesitas más {{tokenSymbol}} para las tasas de gas",
+    "title_Dapp": "Tienes un saldo insuficiente de fichas de gas",
+    "descriptionMaxAmount_Send": "Añade {{tokenSymbol}} para los gastos de gasolina o reduce la cantidad que envías",
+    "descriptionMaxAmount_Swap": "Añade {{tokenSymbol}} para las tasas de gas o reduce la cantidad que intercambias",
+    "descriptionMaxAmount_Deposit": "Añade {{tokenSymbol}} para los gastos de gasolina o reduce la cantidad que depositas",
+    "descriptionMaxAmount_Withdraw": "Añade {{tokenSymbol}} para los gastos de gasolina o reduce la cantidad que retiras",
+    "descriptionDapp": "Añade {{tokenSymbol}} para completar esta transacción",
+    "ctaBuy": "Compra {{tokenSymbol}}",
+    "ctaAction_Send": "Envía una cantidad menor",
+    "ctaAction_Swap": "Intercambiar monto menor",
+    "ctaAction_Deposit": "Deposita una cantidad menor",
+    "ctaAction_Withdraw": "Retirar una cantidad menor"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

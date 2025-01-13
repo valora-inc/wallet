@@ -2577,6 +2577,7 @@
       "fees": "ค่าธรรมเนียม",
       "available": "ใช้ได้",
       "swap": "สว็อป",
+      "estimatedDuration": "Est. Transaction Time",
       "claimingReward": "ขอรับรางวัล",
       "earnUpToLabel": "คุณสามารถสร้างรายได้สูงถึง:",
       "rateLabel": "อัตรา (โดยประมาณ)",
@@ -2596,9 +2597,13 @@
         "moreInformation": "ข้อมูลเพิ่มเติม",
         "estNetworkFee": "ค่าธรรมเนียมเครือข่ายโดยประมาณ",
         "maxNetworkFee": "ค่าธรรมเนียมเครือข่ายสูงสุด",
-        "networkFeeDescription": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน",
-        "networkFeeDescriptionWithdrawal": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการถอนเงิน",
-        "networkSwapFeeDescription": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน โดยเรียกเก็บค่าธรรมเนียม {{appName}} จำนวน {{appFeePercentage}}% สำหรับการที่คุณใช้ผลิตภัณฑ์ของเรา",
+        "estCrossChainFee": "Est. Cross-chain Fee",
+        "maxCrossChainFee": "Max Cross-chain Fee",
+        "description_deposit": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน",
+        "description_withdraw": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการถอนเงิน",
+        "description_depositSwapFee": "เครือข่ายจะเรียกเก็บค่าธรรมเนียมเครือข่ายในการดำเนินธุรกรรมเกี่ยวกับการฝากเงิน โดยเรียกเก็บค่าธรรมเนียม {{appName}} จำนวน {{appFeePercentage}}% สำหรับการที่คุณใช้ผลิตภัณฑ์ของเรา",
+        "description_depositCrossChain": "The network fee is required by the network to process the deposit transaction. The cross-chain fee is charged by the cross-chain provider.",
+        "description_depositCrossChainWithSwapFee": "The network fee is required by the network to process the deposit transactions. The {{appName}} fee of {{appFeePercentage}}% is charged for your use of our product. The cross-chain fee is charged by the cross-chain provider.",
         "appSwapFee": "ค่าธรรมเนียม {{appName}}"
       },
       "swapBottomSheet": {
@@ -2781,12 +2786,14 @@
       "youNeedTitle": "คุณจำเป็นต้องมี {{tokenSymbol}} บน {{tokenNetwork}} จึงจะฝากเงินได้",
       "depositTitle": "Deposit to pool",
       "crossChainAlternativeDescription": "หากคุณไม่ต้องการใช้โทเค็นของคุณบน {{tokenNetwork}} ให้เลือกตัวเลือกด้านล่างนี้ ทั้งนี้ คุณจะต้องกลับมาฝากเงินเข้าพูลในภายหลัง",
+      "alternativeDescription": "If you don’t want to use your tokens, choose an option below. You’ll need to return to complete your pool deposit later.",
       "beforeYouCanDepositTitle": "ก่อนที่คุณจะสามารถฝากเงินได้...",
       "beforeYouCanDepositDescription": "คุณจะต้องเพิ่มโทเค็นพูลหนึ่งรายการ เมื่อเพิ่มแล้ว คุณจะต้องกลับไปเพื่อทำการฝากเงินเข้าพูลให้เสร็จสมบูรณ์",
       "beforeYouCanDepositDescriptionV1_101": "You’ll need to add {{tokenSymbol}} on {{tokenNetwork}}. Once added, you’ll need to return to complete your pool deposit.",
       "action": {
         "swapAndDeposit": "สว็อปและฝากเงิน",
         "swapAndDepositDescription": "เลือกโทเค็นใดโทเค็นหนึ่งบน {{tokenNetwork}} เราจะสว็อปและฝากเงินให้คุณในเวลาเดียวกัน",
+        "swapAndDepositAllTokensDescription": "Choose any token—we’ll swap and deposit it simultaneously for you.",
         "crossChainSwap": "สว็อปแบบ Cross-chain",
         "crossChainSwapDescription": "สว็อปโทเค็นบนเครือข่ายอื่นสำหรับ {{tokenSymbol}}",
         "swap": "สว็อป",
@@ -2818,7 +2825,22 @@
   "tokenEnterAmount": {
     "availableBalance": "ที่ใช้ได้: <0></0>",
     "selectToken": "เลือกโทเค็น",
-    "fiatPriceUnavailable": "ไม่มีราคา"
+    "fiatPriceUnavailable": "ไม่มีราคา",
+    "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
+  },
+  "gasFeeWarning": {
+    "title": "You need more {{tokenSymbol}} for gas fees",
+    "title_Dapp": "You have an insufficient gas token balance",
+    "descriptionMaxAmount_Send": "Add {{tokenSymbol}} for gas fees or lower the amount you're sending",
+    "descriptionMaxAmount_Swap": "Add {{tokenSymbol}} for gas fees or lower the amount you're swapping",
+    "descriptionMaxAmount_Deposit": "Add {{tokenSymbol}} for gas fees or lower the amount you're depositing",
+    "descriptionMaxAmount_Withdraw": "Add {{tokenSymbol}} for gas fees or lower the amount you're withdrawing",
+    "descriptionDapp": "Add {{tokenSymbol}} to complete this transaction",
+    "ctaBuy": "ซื้อ {{tokenSymbol}}",
+    "ctaAction_Send": "Send smaller amount",
+    "ctaAction_Swap": "สว็อปจำนวนเงินที่น้อยลง",
+    "ctaAction_Deposit": "Deposit smaller amount",
+    "ctaAction_Withdraw": "Withdraw smaller amount"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

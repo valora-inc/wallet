@@ -9,6 +9,7 @@ import { EarnEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import GasFeeWarning from 'src/components/GasFeeWarning'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import { LabelWithInfo } from 'src/components/LabelWithInfo'
@@ -27,7 +28,6 @@ import EarnDepositBottomSheet from 'src/earn/EarnDepositBottomSheet'
 import { usePrepareEnterAmountTransactionsCallback } from 'src/earn/hooks'
 import { depositStatusSelector } from 'src/earn/selectors'
 import { getSwapToAmountInDecimals } from 'src/earn/utils'
-import { CICOFlow } from 'src/fiatExchanges/types'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -36,13 +36,13 @@ import { hooksApiUrlSelector, positionsWithBalanceSelector } from 'src/positions
 import { EarnPosition, Position } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
 import EnterAmountOptions from 'src/send/EnterAmountOptions'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { SwapTransaction } from 'src/swap/types'
+import getCrossChainFee from 'src/swap/getCrossChainFee'
+import { SwapFeeAmount, SwapTransaction } from 'src/swap/types'
 import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
@@ -152,6 +152,7 @@ export default function EarnEnterAmount({ route }: Props) {
   const reviewBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const feeDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const swapDetailsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+  const estimatedDurationBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null)
   const hooksApiUrl = useSelector(hooksApiUrlSelector)
@@ -225,6 +226,21 @@ export default function EarnEnterAmount({ route }: Props) {
     })
   }
 
+  const crossChainFeeCurrency = useSelector((state) =>
+    feeCurrenciesSelector(state, inputToken.networkId)
+  ).find((token) => token.isNative)
+  const crossChainFee =
+    swapTransaction?.swapType === 'cross-chain' && prepareTransactionsResult
+      ? getCrossChainFee({
+          feeCurrency: crossChainFeeCurrency,
+          preparedTransactions: prepareTransactionsResult,
+          estimatedCrossChainFee: swapTransaction.estimatedCrossChainFee,
+          maxCrossChainFee: swapTransaction.maxCrossChainFee,
+          fromTokenId: inputToken.tokenId,
+          sellAmount: swapTransaction.sellAmount,
+        })
+      : undefined
+
   // This is for withdrawals as we want the user to be able to input the amounts in the deposit token
   const { transactionToken, transactionTokenAmount } = useMemo(() => {
     const transactionToken = isWithdrawal ? withdrawToken : inputToken
@@ -269,10 +285,6 @@ export default function EarnEnterAmount({ route }: Props) {
 
   const showLowerAmountError =
     processedAmounts.token.bignum && processedAmounts.token.bignum.gt(inputToken.balance)
-  const showNotEnoughBalanceForGasWarning =
-    !showLowerAmountError &&
-    prepareTransactionsResult &&
-    prepareTransactionsResult.type === 'not-enough-balance-for-gas'
   const transactionIsPossible =
     !showLowerAmountError &&
     prepareTransactionsResult &&
@@ -391,6 +403,7 @@ export default function EarnEnterAmount({ route }: Props) {
               prepareTransactionsResult={prepareTransactionsResult}
               feeDetailsBottomSheetRef={feeDetailsBottomSheetRef}
               swapDetailsBottomSheetRef={swapDetailsBottomSheetRef}
+              estimatedDurationBottomSheetRef={estimatedDurationBottomSheetRef}
               swapTransaction={swapTransaction}
             />
           )}
@@ -405,39 +418,11 @@ export default function EarnEnterAmount({ route }: Props) {
             />
           )}
         </View>
-
-        {showNotEnoughBalanceForGasWarning && (
-          <InLineNotification
-            variant={NotificationVariant.Warning}
-            title={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.title', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-            })}
-            description={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.description', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
-            })}
-            ctaLabel={t('earnFlow.enterAmount.notEnoughBalanceForGasWarning.noGasCta', {
-              feeTokenSymbol: feeCurrencies[0].symbol,
-              network: NETWORK_NAMES[prepareTransactionsResult.feeCurrencies[0].networkId],
-            })}
-            onPressCta={() => {
-              AppAnalytics.track(EarnEvents.earn_deposit_add_gas_press, {
-                gasTokenId: feeCurrencies[0].tokenId,
-                depositTokenId: pool.dataProps.depositTokenId,
-                networkId: pool.networkId,
-                providerId: pool.appId,
-                poolId: pool.positionId,
-              })
-              navigate(Screens.FiatExchangeAmount, {
-                tokenId: prepareTransactionsResult.feeCurrencies[0].tokenId,
-                flow: CICOFlow.CashIn,
-                tokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-              })
-            }}
-            style={styles.warning}
-            testID="EarnEnterAmount/NotEnoughForGasWarning"
-          />
-        )}
+        <GasFeeWarning
+          prepareTransactionsResult={prepareTransactionsResult}
+          flow={'Deposit'}
+          onPressSmallerAmount={handleAmountInputChange}
+        />
         {showLowerAmountError && (
           <InLineNotification
             variant={NotificationVariant.Warning}
@@ -498,6 +483,7 @@ export default function EarnEnterAmount({ route }: Props) {
           token={inputToken}
           tokenAmount={processedAmounts.token.bignum}
           isWithdrawal={isWithdrawal}
+          crossChainFee={crossChainFee}
         />
       )}
       {swapTransaction && processedAmounts.token.bignum && (
@@ -510,6 +496,9 @@ export default function EarnEnterAmount({ route }: Props) {
           tokenAmount={processedAmounts.token.bignum}
           parsedTokenAmount={processedAmounts.token.bignum}
         />
+      )}
+      {swapTransaction?.swapType === 'cross-chain' && processedAmounts.token.bignum && (
+        <EstimatedDurationBottomSheet forwardedRef={estimatedDurationBottomSheetRef} />
       )}
       {processedAmounts.token.bignum && prepareTransactionsResult?.type === 'possible' && (
         <EarnDepositBottomSheet
@@ -621,6 +610,7 @@ function TransactionDepositDetails({
   swapTransaction,
   feeDetailsBottomSheetRef,
   swapDetailsBottomSheetRef,
+  estimatedDurationBottomSheetRef,
 }: {
   pool: EarnPosition
   token: TokenBalance
@@ -629,9 +619,12 @@ function TransactionDepositDetails({
   swapTransaction?: SwapTransaction
   feeDetailsBottomSheetRef: React.RefObject<BottomSheetModalRefType>
   swapDetailsBottomSheetRef: React.RefObject<BottomSheetModalRefType>
+  estimatedDurationBottomSheetRef: React.RefObject<BottomSheetModalRefType>
 }) {
   const { t } = useTranslation()
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
+  const estimatedDurationInSeconds =
+    swapTransaction?.swapType === 'cross-chain' ? swapTransaction.estimatedDuration : undefined
 
   const depositAmount = useMemo(
     () =>
@@ -713,12 +706,30 @@ function TransactionDepositDetails({
             />
           </View>
         </View>
+        {!!estimatedDurationInSeconds && (
+          <View style={styles.txDetailsLineItem}>
+            <LabelWithInfo
+              label={t('earnFlow.enterAmount.estimatedDuration')}
+              onPress={() => {
+                estimatedDurationBottomSheetRef?.current?.snapToIndex(0)
+              }}
+              testID="LabelWithInfo/DurationLabel"
+            />
+            <View style={styles.txDetailsValue}>
+              <Text style={styles.txDetailsValueText} testID="EarnEnterAmount/Duration">
+                {t('swapScreen.transactionDetails.estimatedTransactionTimeInMinutes', {
+                  minutes: Math.ceil(estimatedDurationInSeconds / 60),
+                })}
+              </Text>
+            </View>
+          </View>
+        )}
       </View>
     )
   )
 }
 
-// Might be sharable with src/swap/FeeInfoBottomSheet.tsx
+// TODO(ACT-1534) src/swap/FeeInfoBottomSheet.tsx
 function FeeDetailsBottomSheet({
   forwardedRef,
   testID,
@@ -730,6 +741,7 @@ function FeeDetailsBottomSheet({
   token,
   tokenAmount,
   isWithdrawal,
+  crossChainFee,
 }: {
   forwardedRef: React.RefObject<BottomSheetModalRefType>
   testID: string
@@ -741,6 +753,7 @@ function FeeDetailsBottomSheet({
   token: TokenBalance
   tokenAmount: BigNumber
   isWithdrawal: boolean
+  crossChainFee?: SwapFeeAmount
 }) {
   const { t } = useTranslation()
   const inputToken = useTokenInfo(pool.dataProps.depositTokenId)
@@ -831,23 +844,71 @@ function FeeDetailsBottomSheet({
             </Text>
           </View>
         )}
+        {crossChainFee && crossChainFee.token && (
+          <>
+            <RowDivider key="divider" />
+            <View style={styles.gap8}>
+              <View style={styles.bottomSheetLineItem} testID="EstCrossChainFee">
+                <Text style={styles.bottomSheetLineLabel}>
+                  {t('earnFlow.enterAmount.feeBottomSheet.estCrossChainFee')}
+                </Text>
+                <Text style={styles.bottomSheetLineLabelText} testID="EstCrossChainFee/Value">
+                  {'≈ '}
+                  <TokenDisplay
+                    tokenId={crossChainFee.token.tokenId}
+                    amount={crossChainFee.amount.toString()}
+                  />
+                  {' ('}
+                  <TokenDisplay
+                    tokenId={crossChainFee.token.tokenId}
+                    showLocalAmount={false}
+                    amount={crossChainFee.amount.toString()}
+                  />
+                  {')'}
+                </Text>
+              </View>
+              {crossChainFee.maxAmount && (
+                <View style={styles.bottomSheetLineItem} testID="MaxCrossChainFee">
+                  <Text style={styles.bottomSheetLineLabel}>
+                    {t('earnFlow.enterAmount.feeBottomSheet.maxCrossChainFee')}
+                  </Text>
+                  <Text style={styles.bottomSheetLineLabelText} testID="MaxCrossChainFee/Value">
+                    {'≈ '}
+                    <TokenDisplay
+                      tokenId={crossChainFee.token.tokenId}
+                      amount={crossChainFee.maxAmount.toString()}
+                    />
+                    {' ('}
+                    <TokenDisplay
+                      tokenId={crossChainFee.token.tokenId}
+                      showLocalAmount={false}
+                      amount={crossChainFee.maxAmount.toString()}
+                    />
+                    {')'}
+                  </Text>
+                </View>
+              )}
+            </View>
+          </>
+        )}
         <View style={descriptionContainerStyle}>
           <Text style={styles.bottomSheetDescriptionTitle}>
             {t('earnFlow.enterAmount.feeBottomSheet.moreInformation')}
           </Text>
-          {swapFeeAmount ? (
-            <Text style={styles.bottomSheetDescriptionText}>
-              {t('earnFlow.enterAmount.feeBottomSheet.networkSwapFeeDescription', {
-                appFeePercentage: swapTransaction?.appFeePercentageIncludedInPrice,
-              })}
-            </Text>
-          ) : (
-            <Text style={styles.bottomSheetDescriptionText}>
-              {isWithdrawal
-                ? t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescriptionWithdrawal')
-                : t('earnFlow.enterAmount.feeBottomSheet.networkFeeDescription')}
-            </Text>
-          )}
+          <Text style={styles.bottomSheetDescriptionText}>
+            {t('earnFlow.enterAmount.feeBottomSheet.description', {
+              context: isWithdrawal
+                ? 'withdraw'
+                : swapFeeAmount
+                  ? crossChainFee
+                    ? 'depositCrossChainWithSwapFee'
+                    : 'depositSwapFee'
+                  : crossChainFee
+                    ? 'depositCrossChain'
+                    : 'deposit',
+              appFeePercentage: swapTransaction?.appFeePercentageIncludedInPrice,
+            })}
+          </Text>
         </View>
       </View>
       <Button
@@ -952,6 +1013,32 @@ function SwapDetailsBottomSheet({
   )
 }
 
+function EstimatedDurationBottomSheet({
+  forwardedRef,
+}: {
+  forwardedRef: React.RefObject<BottomSheetModalRefType>
+}) {
+  const { t } = useTranslation()
+  return (
+    <BottomSheet
+      forwardedRef={forwardedRef}
+      title={t('swapScreen.transactionDetails.estimatedTransactionTime')}
+      description={t('swapScreen.transactionDetails.estimatedTransactionTimeInfo')}
+      testId="EstimatedDurationBottomSheet"
+    >
+      <Button
+        type={BtnTypes.SECONDARY}
+        size={BtnSizes.FULL}
+        onPress={() => {
+          forwardedRef.current?.close()
+        }}
+        text={t('swapScreen.transactionDetails.infoDismissButton')}
+        style={styles.bottomSheetButton}
+      />
+    </BottomSheet>
+  )
+}
+
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
@@ -1041,5 +1128,8 @@ const styles = StyleSheet.create({
   bottomSheetDescriptionText: {
     ...typeScale.bodySmall,
     color: Colors.black,
+  },
+  bottomSheetButton: {
+    marginTop: Spacing.Thick24,
   },
 })

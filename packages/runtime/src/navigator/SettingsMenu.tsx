@@ -31,6 +31,7 @@ import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import GradientBlock from 'src/components/GradientBlock'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import Touchable from 'src/components/Touchable'
+import { STATSIG_ENABLED } from 'src/config'
 import Envelope from 'src/icons/Envelope'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import Lock from 'src/icons/Lock'
@@ -162,7 +163,7 @@ export default function SettingsMenu({ route }: Props) {
     if (!devModeActive) {
       return null
     } else {
-      const statsigStableId = Statsig.getStableID()
+      const statsigStableId = STATSIG_ENABLED ? Statsig.getStableID() : 'statsig-not-enabled'
       return (
         <View style={styles.devSettings}>
           <Touchable onPress={onCopyText(sessionId)} style={styles.devSettingsItem}>

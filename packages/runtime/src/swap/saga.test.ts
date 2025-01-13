@@ -506,6 +506,7 @@ describe(swapSubmitSaga, () => {
         swapTxHash: '0x2',
         areSwapTokensShuffled: false,
         swapType: 'same-chain',
+        swapId: 'test-swap-id',
       })
 
       const analyticsProps = (AppAnalytics.track as jest.Mock).mock.calls[0][1]
@@ -787,6 +788,7 @@ describe(swapSubmitSaga, () => {
       swapTxHash: undefined,
       areSwapTokensShuffled: false,
       swapType: 'same-chain',
+      swapId: 'test-swap-id',
     })
     const analyticsProps = (AppAnalytics.track as jest.Mock).mock.calls[0][1]
     expect(analyticsProps.gas).toBeCloseTo(
@@ -815,7 +817,7 @@ describe(swapSubmitSaga, () => {
       .not.put(swapError('test-swap-id'))
       .run()
     expect(navigate).not.toHaveBeenCalled()
-    expect(AppAnalytics.track).not.toHaveBeenCalled()
+    expect(AppAnalytics.track).toHaveBeenLastCalledWith(SwapEvents.swap_cancel, expect.anything())
   })
 
   it('should track swap result for a user in the swap tokens order holdout group', async () => {
