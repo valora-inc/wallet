@@ -15,7 +15,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
-export function Review(props: {
+export function ReviewTransaction(props: {
   title: string
   children: ReactNode
   headerAction?: ReactNode

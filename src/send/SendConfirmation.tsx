@@ -9,7 +9,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import {
-  Review,
   ReviewContent,
   ReviewDetails,
   ReviewDetailsItem,
@@ -17,7 +16,8 @@ import {
   ReviewSummary,
   ReviewSummaryItem,
   ReviewSummaryItemContact,
-} from 'src/components/Review'
+  ReviewTransaction,
+} from 'src/components/ReviewTransaction'
 import { getDisplayLocalAmount, getDisplayTokenAmount } from 'src/components/TokenEnterAmount'
 import TokenIcon from 'src/components/TokenIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
@@ -172,7 +172,7 @@ export default function SendConfirmation(props: Props) {
   }
 
   return (
-    <Review
+    <ReviewTransaction
       title="Review Send"
       headerAction={<BackButton eventName={SendEvents.send_confirm_back} />}
     >
@@ -227,6 +227,6 @@ export default function SendConfirmation(props: Props) {
           disabled={disableSend}
         />
       </ReviewFooter>
-    </Review>
+    </ReviewTransaction>
   )
 }

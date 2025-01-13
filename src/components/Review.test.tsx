@@ -3,21 +3,25 @@ import React from 'react'
 import { type Recipient } from 'src/recipients/recipient'
 import { typeScale } from 'src/styles/fonts'
 import {
-  Review,
   ReviewContent,
   ReviewDetailsItem,
   ReviewSummaryItem,
   ReviewSummaryItemContact,
-} from './Review'
+  ReviewTransaction,
+} from './ReviewTransaction'
 
 describe('Review', () => {
   it('uses the custom headerAction if provided', async () => {
     const tree = render(
-      <Review title="Custom HeaderAction" headerAction={<>Custom Left Action</>} testID="Review">
+      <ReviewTransaction
+        title="Custom HeaderAction"
+        headerAction={<>Custom Left Action</>}
+        testID="Review"
+      >
         <ReviewContent>
           <></>
         </ReviewContent>
-      </Review>
+      </ReviewTransaction>
     )
 
     expect(tree.getByTestId('Review')).toHaveTextContent('Custom Left Action')
