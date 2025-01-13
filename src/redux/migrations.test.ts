@@ -259,7 +259,7 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[8](v7Stub)
     expect(Object.keys(migratedSchema.fiatExchanges.txHashToProvider).length).toEqual(1)
     expect(migratedSchema.fiatExchanges.txHashToProvider[txHash].name).toEqual(mockName)
-    expect(migratedSchema.fiatExchanges.txHashToProvider[txHash].text).toEqual(mockIcon)
+    expect(migratedSchema.fiatExchanges.txHashToProvider[txHash].icon).toEqual(mockIcon)
     expect(migratedSchema.fiatExchanges.lastUsedProvider).toEqual('Simplex')
   })
 
