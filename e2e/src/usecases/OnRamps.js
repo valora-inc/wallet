@@ -1,3 +1,4 @@
+import { sleep } from '../../../src/utils/sleep'
 import { launchApp } from '../utils/retries'
 import { isElementVisible, waitForElementById, waitForElementByText } from '../utils/utils'
 
@@ -17,6 +18,7 @@ export default onRamps = () => {
   beforeEach(async () => {
     await waitForElementById('HomeAction-Add')
     await element(by.id('HomeAction-Add')).tap()
+    await sleep(5000)
   })
 
   afterEach(async () => {
