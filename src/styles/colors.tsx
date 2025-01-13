@@ -21,11 +21,11 @@ enum Colors {
   lightShadow = 'rgba(48, 46, 37, 0.15)',
   barShadow = 'rgba(129, 134, 139, 0.5)',
 
-  text = '#2E3338',
-  navigation = '#2E3338',
-  icon = '#2E3338',
   backgroundInverse = '#2E3338',
+  icon = '#2E3338',
+  navigation = '#2E3338',
   shadow = '#2E3338',
+  text = '#2E3338',
 
   /** @deprecated */
   infoDark = '#0768AE',
