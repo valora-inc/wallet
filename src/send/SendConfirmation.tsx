@@ -181,7 +181,7 @@ export default function SendConfirmation(props: Props) {
           <ReviewSummaryItem
             testID="SendConfirmationToken"
             header="Sending"
-            icon={<TokenIcon token={tokenInfo!} />}
+            icon={<TokenIcon token={tokenInfo} />}
             title={getDisplayTokenAmount(tokenAmount, tokenInfo!)}
             subtitle={getDisplayLocalAmount(localAmount, localCurrencySymbol)}
           />
