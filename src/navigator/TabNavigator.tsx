@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NativeStackHeaderProps, NativeStackScreenProps } from '@react-navigation/native-stack'
+import { omit } from 'lodash'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -83,7 +84,9 @@ export default function TabNavigator({ route }: Props) {
 
 const styles = StyleSheet.create({
   label: {
-    ...typeScale.labelSemiBoldSmall,
+    // prevent overriding the color set by tabBarActiveTintColor and
+    // tabBarInactiveTintColor
+    ...omit(typeScale.labelSemiBoldSmall, 'color'),
   },
   tabBarItem: {
     paddingVertical: Spacing.Smallest8,
