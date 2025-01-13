@@ -34,7 +34,7 @@ function ContactCircle({
   backgroundColor,
   foregroundColor,
   borderColor,
-  DefaultIcon = ({ color, size = 20 }) => <User size={size} color={color} />,
+  DefaultIcon = User,
 }: Props) {
   const address = recipient.address
   const iconBackgroundColor = backgroundColor ?? getAddressBackgroundColor(address || '0x0')
