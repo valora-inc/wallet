@@ -26,8 +26,8 @@ enum Colors {
   loadingSkeletonHighlight = '#FFFFFF',
   navigation = '#2E3338',
   shadow = '#2E3338',
-  textPrimary = '#2E3338',
   textInverse = '#FFFFFF',
+  textPrimary = '#2E3338',
 
   /** @deprecated */
   infoDark = '#0768AE',
