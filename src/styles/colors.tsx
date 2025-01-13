@@ -22,10 +22,9 @@ enum Colors {
   barShadow = 'rgba(129, 134, 139, 0.5)',
 
   backgroundInverse = '#2E3338',
-  icon = '#2E3338',
   navigation = '#2E3338',
   shadow = '#2E3338',
-  text = '#2E3338',
+  textPrimary = '#2E3338',
 
   /** @deprecated */
   infoDark = '#0768AE',

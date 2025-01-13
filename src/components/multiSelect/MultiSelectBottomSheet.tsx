@@ -143,7 +143,7 @@ function OptionLineItem({ onPress, text, iconUrl, isSelected }: OptionLineItemPr
       <Touchable style={styles.option} onPress={onPress}>
         <View style={styles.optionRow}>
           <View style={styles.leftColumn}>
-            <FastImage source={{ uri: iconUrl }} style={styles.icon} testID={`${text}-icon`} />
+            <FastImage source={{ uri: iconUrl }} style={styles.text} testID={`${text}-icon`} />
           </View>
           <View style={styles.centerColumn}>
             <Text numberOfLines={1} style={styles.textStyle}>
@@ -155,7 +155,7 @@ function OptionLineItem({ onPress, text, iconUrl, isSelected }: OptionLineItemPr
               {isSelected && (
                 <Checkmark
                   testID={`${text}-checkmark`}
-                  color={Colors.icon}
+                  color={Colors.textPrimary}
                   height={Spacing.Thick24}
                   width={Spacing.Thick24}
                 />

@@ -211,7 +211,7 @@ export default function PriceHistoryChart({
   containerStyle,
   testID,
   chartPadding,
-  color = colors.text,
+  color = colors.textPrimary,
   step = CHART_STEP_IN_HOURS,
 }: PriceHistoryChartProps) {
   const dispatch = useDispatch()

@@ -31,7 +31,7 @@ export default function SimpleMessagingCard({
         // @ts-ignore isValidElement check above ensures image is an image source type
         source={iconProp}
         resizeMode="contain"
-        style={styles.icon}
+        style={styles.text}
         testID={`${testID}/Icon`}
       />
     )

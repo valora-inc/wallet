@@ -655,7 +655,7 @@ function TransactionDepositDetails({
                 showLocalAmount={false}
                 style={styles.txDetailsValueText}
               />
-              <ArrowRightThick size={20} color={Colors.icon} />
+              <ArrowRightThick size={20} color={Colors.textPrimary} />
               <TokenDisplay
                 testID="EarnEnterAmount/Swap/To"
                 tokenId={pool.dataProps.depositTokenId}

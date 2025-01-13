@@ -61,7 +61,7 @@ export type TopBarIconButtonProps = CommonProps & {
  * @deprecated
  */
 export function TopBarIconButton(props: TopBarIconButtonProps) {
-  return <Wrapper {...props}>{props.icon}</Wrapper>
+  return <Wrapper {...props}>{props.text}</Wrapper>
 }
 
 export type TopBarTextButtonProps = CommonProps & {

@@ -32,7 +32,7 @@ function NoActivity({ loading, error }: Props) {
       </View>
       {loading && (
         <ActivityIndicator
-          style={styles.icon}
+          style={styles.text}
           size="large"
           color={colors.accent}
           testID="NoActivity/loading"

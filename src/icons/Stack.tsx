@@ -7,7 +7,7 @@ interface Props {
   color?: string
 }
 
-function Stack({ color = colors.icon, size = 24 }: Props) {
+function Stack({ color = colors.textPrimary, size = 24 }: Props) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path

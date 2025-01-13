@@ -33,13 +33,13 @@ function SelectRecipientButton({
         {gradientBackground ? (
           <GradientIcon radius={40}>{icon}</GradientIcon>
         ) : (
-          <CircledIcon radius={40} style={styles.icon} backgroundColor={colors.gray1}>
+          <CircledIcon radius={40} style={styles.text} backgroundColor={colors.gray1}>
             {icon}
           </CircledIcon>
         )}
         {showCheckmark && (
           <View style={styles.checkmark} testID={`${testID}/checkmark`}>
-            <Checkmark height={12} width={12} color={colors.icon} />
+            <Checkmark height={12} width={12} color={colors.textPrimary} />
           </View>
         )}
         <View style={styles.textSection}>

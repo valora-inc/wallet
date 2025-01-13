@@ -7,7 +7,7 @@ interface Props {
   color?: string
 }
 
-const GearIcon = ({ size = 24, color = colors.icon }: Props) => (
+const GearIcon = ({ size = 24, color = colors.textPrimary }: Props) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path
       fill={color}

@@ -22,7 +22,7 @@ export default function ContactCircleSelf({ style, size }: Props) {
       size={size}
       backgroundColor={colors.gray1}
       borderColor={colors.gray2}
-      foregroundColor={colors.icon}
+      foregroundColor={colors.textPrimary}
     />
   )
 }

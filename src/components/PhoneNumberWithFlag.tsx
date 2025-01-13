@@ -29,7 +29,7 @@ export class PhoneNumberWithFlag extends React.PureComponent<Props> {
           style={{
             ...typeScale.labelSmall,
             lineHeight: 18,
-            color: this.props.textColor ?? Colors.text,
+            color: this.props.textColor ?? Colors.textPrimary,
           }}
         >
           {parsedNumber ? parsedNumber.displayNumberInternational : ''}

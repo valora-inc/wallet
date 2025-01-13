@@ -13,7 +13,7 @@ function HamburgerCard() {
           y1="9.75"
           x2="24.75"
           y2="9.75"
-          stroke={Colors.icon}
+          stroke={Colors.textPrimary}
           strokeWidth="2.5"
           strokeLinecap="round"
         />
@@ -22,7 +22,7 @@ function HamburgerCard() {
           y1="15.75"
           x2="24.75"
           y2="15.75"
-          stroke={Colors.icon}
+          stroke={Colors.textPrimary}
           strokeWidth="2.5"
           strokeLinecap="round"
         />
@@ -31,7 +31,7 @@ function HamburgerCard() {
           y1="21.75"
           x2="24.75"
           y2="21.75"
-          stroke={Colors.icon}
+          stroke={Colors.textPrimary}
           strokeWidth="2.5"
           strokeLinecap="round"
         />

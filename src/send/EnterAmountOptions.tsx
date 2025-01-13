@@ -111,7 +111,7 @@ export default function EnterAmountOptions({
               <Text
                 style={[
                   styles.chipText,
-                  { color: selectedAmount === amount ? Colors.white : Colors.text },
+                  { color: selectedAmount === amount ? Colors.white : Colors.textPrimary },
                 ]}
               >
                 {label}
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   chip: {
     borderWidth: 1,
     borderRadius: 100,
-    borderColor: Colors.text,
+    borderColor: Colors.textPrimary,
     paddingVertical: Spacing.Smallest8,
     paddingHorizontal: Spacing.Regular16,
   },

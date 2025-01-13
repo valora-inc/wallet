@@ -391,7 +391,7 @@ describe('TransferStatusScreen', () => {
       expect(getByTestId('loadingDescription')).toHaveTextContent(
         'fiatConnectStatusScreen.stillProcessing'
       )
-      expect(getByTestId('loadingDescription')).toHaveStyle({ color: appTheme.colors.text })
+      expect(getByTestId('loadingDescription')).toHaveStyle({ color: appTheme.colors.textPrimary })
     })
   })
 })

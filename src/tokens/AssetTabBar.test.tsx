@@ -21,7 +21,7 @@ describe('AssetTabBar', () => {
     const tabItems = getAllByTestId('Assets/TabBarItem')
     expect(tabItems).toHaveLength(3)
     expect(tabItems[0]).toHaveTextContent('tokens')
-    expect(tabItems[0].children[0]).toHaveStyle({ color: Colors.text })
+    expect(tabItems[0].children[0]).toHaveStyle({ color: Colors.textPrimary })
     expect(tabItems[1]).toHaveTextContent('collectibles')
     expect(tabItems[1].children[0]).toHaveStyle({ color: Colors.gray4 })
     expect(tabItems[2]).toHaveTextContent('dappPositions')
@@ -42,7 +42,7 @@ describe('AssetTabBar', () => {
     expect(tabItems[0]).toHaveTextContent('tokens')
     expect(tabItems[0].children[0]).toHaveStyle({ color: Colors.gray4 })
     expect(tabItems[1]).toHaveTextContent('collectibles')
-    expect(tabItems[1].children[0]).toHaveStyle({ color: Colors.text })
+    expect(tabItems[1].children[0]).toHaveStyle({ color: Colors.textPrimary })
   })
 
   it.each([

@@ -123,7 +123,7 @@ function LearnMoreTouchable({
           <Text style={styles.learnMoreText}>
             {t('earnFlow.poolInfoScreen.learnMoreOnProvider', { providerName })}
           </Text>
-          <OpenLinkIcon color={Colors.icon} size={16} />
+          <OpenLinkIcon color={Colors.textPrimary} size={16} />
         </View>
       </Touchable>
     </View>
@@ -496,7 +496,7 @@ function InfoBottomSheet({
               <Text style={styles.learnMoreText}>
                 <Trans i18nKey={linkKey} tOptions={{ providerName }} />
               </Text>
-              <OpenLinkIcon color={Colors.icon} size={16} />
+              <OpenLinkIcon color={Colors.textPrimary} size={16} />
             </View>
           </Touchable>
         </View>

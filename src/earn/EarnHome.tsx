@@ -267,7 +267,7 @@ export default function EarnHome({ navigation, route }: Props) {
         </Animated.View>
         {errorLoadingPools && (
           <View style={styles.textContainer}>
-            <AttentionIcon size={48} color={Colors.icon} />
+            <AttentionIcon size={48} color={Colors.textPrimary} />
             <Text style={styles.errorTitle}>{t('earnFlow.home.errorTitle')}</Text>
             <Text style={styles.description}>{t('earnFlow.home.errorDescription')}</Text>
           </View>

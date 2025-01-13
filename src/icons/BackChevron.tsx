@@ -23,7 +23,7 @@ function BackChevron({ color, height }: Props) {
 
 BackChevron.defaultProps = {
   height: 16,
-  color: Colors.icon,
+  color: Colors.textPrimary,
 }
 
 export default BackChevron

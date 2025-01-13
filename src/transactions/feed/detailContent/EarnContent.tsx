@@ -129,7 +129,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
                 showLocalAmount={false}
                 style={styles.bodyText}
               />
-              <ArrowRightThick size={20} color={Colors.icon} />
+              <ArrowRightThick size={20} color={Colors.textPrimary} />
               <TokenDisplay
                 testID="EarnSwapDeposit/Swap/To"
                 tokenId={depositAmount.tokenId}

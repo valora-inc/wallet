@@ -58,7 +58,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
             style={styles.avatar}
             recipient={recipient}
             backgroundColor={Colors.gray1}
-            foregroundColor={Colors.icon}
+            foregroundColor={Colors.textPrimary}
             borderColor={Colors.gray2}
             DefaultIcon={() => renderDefaultIcon(recipient)} // no need to honor color props here since the color we need match the defaults
           />
@@ -93,9 +93,9 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
 
 function renderDefaultIcon(recipient: Recipient) {
   if (recipientHasNumber(recipient)) {
-    return <PhoneIcon color={Colors.icon} size={24} testID="RecipientItem/PhoneIcon" />
+    return <PhoneIcon color={Colors.textPrimary} size={24} testID="RecipientItem/PhoneIcon" />
   } else {
-    return <WalletIcon color={Colors.icon} size={24} testID="RecipientItem/WalletIcon" />
+    return <WalletIcon color={Colors.textPrimary} size={24} testID="RecipientItem/WalletIcon" />
   }
 }
 

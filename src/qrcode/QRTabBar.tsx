@@ -87,7 +87,7 @@ export default function QRTabBar({
             testID="HeaderTitle"
             style={{
               ...styles.headerTitle,
-              color: state.index === 0 ? colors.text : colors.white,
+              color: state.index === 0 ? colors.textPrimary : colors.white,
             }}
             numberOfLines={1}
             allowFontScaling={false}
@@ -100,7 +100,7 @@ export default function QRTabBar({
         style={[styles.rightContainer, { opacity: shareOpacity }]}
         pointerEvents={state.index > 0 ? 'none' : undefined}
       >
-        <TopBarIconButton icon={<Share color={colors.icon} />} onPress={onPressShare} />
+        <TopBarIconButton icon={<Share color={colors.textPrimary} />} onPress={onPressShare} />
       </Animated.View>
     </SafeAreaView>
   )
