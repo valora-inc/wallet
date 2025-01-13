@@ -30,7 +30,7 @@ const Dapp = ({
     <View style={styles.touchableContainer}>
       <Touchable borderRadius={12} onPress={onPress} style={styles.rowContainer}>
         <View style={styles.row}>
-          <Image source={{ uri: icon }} style={styles.text} />
+          <Image source={{ uri: icon }} style={styles.icon} />
           <View style={styles.rowContent}>
             <Text style={styles.appName}>{metadata?.name}</Text>
             <Text style={styles.disconnectButton}>{t('tapToDisconnect')}</Text>

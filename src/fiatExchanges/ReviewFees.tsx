@@ -125,7 +125,7 @@ export default function ReviewFees({
               {provider} {t('fee')}
             </Text>
             <Touchable
-              style={[styles.text]}
+              style={[styles.icon]}
               onPress={openFeeExplanation}
               hitSlop={variables.iconHitslop}
             >
@@ -139,7 +139,7 @@ export default function ReviewFees({
           <View style={[styles.reviewLineInfo]}>
             <Text style={[styles.reviewLineText]}>{t('feeDiscount')}</Text>
             <Touchable
-              style={[styles.text]}
+              style={[styles.icon]}
               onPress={openFeeDiscountExplanation}
               hitSlop={variables.iconHitslop}
             >

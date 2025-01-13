@@ -25,7 +25,7 @@ const LEVEL_TO_MAX_HIGHLIGHTED_BAR: Record<Safety['level'], 1 | 2 | 3> = {
 function Risk({ risk }: { risk: SafetyRisk }) {
   return (
     <View style={styles.riskContainer} testID="SafetyCard/Risk">
-      <View style={styles.text}>
+      <View style={styles.icon}>
         {risk.isPositive ? (
           <DataUp color={Colors.accent} testID="SafetyCard/RiskPositive" />
         ) : (

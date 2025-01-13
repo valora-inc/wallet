@@ -72,7 +72,7 @@ function ContactCircle({
     <View style={[styles.container, style]}>
       <View
         style={[
-          styles.text,
+          styles.icon,
           {
             backgroundColor: iconBackgroundColor,
             height: iconSize,
