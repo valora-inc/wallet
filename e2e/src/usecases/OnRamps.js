@@ -40,7 +40,7 @@ export default onRamps = () => {
     await multiTap(`${token}Symbol`)
     await waitForElementById('FiatExchangeInput')
     await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
-    await element(by.id('FiatExchangeNextButton')).tap()
+    await waitForElementById('FiatExchangeNextButton', { tap: true })
     await waitForElementByText({ text: 'Select Payment Method' })
     // Check IF Single Card Provider
     if (await isElementVisible('Card/singleProvider')) {
