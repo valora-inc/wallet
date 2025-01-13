@@ -60,7 +60,7 @@ export function parseCleverTapMessages(rawMessages: ExpectedCleverTapInboxMessag
       const content = rawMessage.msg?.content?.[0]
       const header = content?.title?.text
       const text = content?.message?.text
-      const iconUrl = content?.text?.url
+      const iconUrl = content?.icon?.url
       const icon = iconUrl ? { uri: iconUrl } : undefined
       const action = content?.action?.links?.[0]
       const ctaText = action?.text
