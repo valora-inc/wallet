@@ -1,6 +1,5 @@
 import { launchApp, reloadReactNative } from '../utils/retries'
-import { isElementVisible, waitForElementById } from '../utils/utils'
-import { sleep } from '../../../src/utils/sleep'
+import { isElementVisible, sleep, waitForElementById } from '../utils/utils'
 
 export default onRamps = () => {
   beforeAll(async () => {

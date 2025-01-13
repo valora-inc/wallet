@@ -1,4 +1,3 @@
-import { E2E_WALLET_12_WORDS_MNEMONIC, E2E_WALLET_MNEMONIC } from 'react-native-dotenv'
 import { WALLET_12_WORDS_ADDRESS, WALLET_ADDRESS } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import { enterPinUi, scrollIntoView, waitForElementById } from '../utils/utils'
@@ -9,9 +8,9 @@ export default RestoreAccountOnboarding = () => {
   })
 
   it.each`
-    wordCount | phrase                          | walletAddress              | walletFunded | verifiedPhoneNumber
-    ${'12'}   | ${E2E_WALLET_12_WORDS_MNEMONIC} | ${WALLET_12_WORDS_ADDRESS} | ${false}     | ${false}
-    ${'24'}   | ${E2E_WALLET_MNEMONIC}          | ${WALLET_ADDRESS}          | ${true}      | ${true}
+    wordCount | phrase                                      | walletAddress              | walletFunded | verifiedPhoneNumber
+    ${'12'}   | ${process.env.E2E_WALLET_12_WORDS_MNEMONIC} | ${WALLET_12_WORDS_ADDRESS} | ${false}     | ${false}
+    ${'24'}   | ${process.env.E2E_WALLET_MNEMONIC}          | ${WALLET_ADDRESS}          | ${true}      | ${true}
   `(
     'restores an existing wallet using a $wordCount word recovery phrase',
     async ({ phrase, walletAddress, walletFunded, verifiedPhoneNumber }) => {

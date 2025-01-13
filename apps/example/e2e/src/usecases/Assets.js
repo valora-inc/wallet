@@ -1,4 +1,3 @@
-import { E2E_WALLET_MNEMONIC } from 'react-native-dotenv'
 import { english, generateMnemonic } from 'viem/accounts'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { launchApp } from '../utils/retries'
@@ -80,7 +79,7 @@ export default Assets = () => {
         delete: true,
         permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
       })
-      let mnemonic = E2E_WALLET_MNEMONIC
+      let mnemonic = process.env.E2E_WALLET_MNEMONIC
       if (balance === 'zero') {
         mnemonic = generateMnemonic(english)
       }

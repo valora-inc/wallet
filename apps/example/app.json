@@ -69,7 +69,14 @@
           "domain": "{DOMAIN}"
         }
       ],
-      "@mobilestack-xyz/runtime"
+      "@mobilestack-xyz/runtime",
+      "@config-plugins/detox",
+      [
+        "./plugins/withCustomGradleProperties",
+        {
+          "org.gradle.jvmargs": "-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError"
+        }
+      ]
     ]
   }
 }

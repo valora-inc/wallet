@@ -4,9 +4,21 @@ const config: KnipConfig = {
   workspaces: {
     '.': {
       entry: ['.github/scripts/*.ts', './scripts/**/*.js'],
+      ignoreBinaries: [
+        // Maybe we can remove these once we upgrade knip?
+        // See https://github.com/webpro-nl/knip/issues/735
+        'prebuild', // used in workflows to build the example app
+        'e2e:build:android-release', // used in workflows to build the example app
+      ],
     },
     'apps/example': {
-      entry: ['index.ts!', 'metro.config.js!'],
+      entry: [
+        'index.ts!',
+        'metro.config.js!',
+        'detox.config.js!',
+        'plugins/**/*.{js,ts}',
+        'e2e/**/*.{js,ts}',
+      ],
       ignoreDependencies: [
         '@babel/core', // needed for react-native
         // TODO: these ignores should be unnecessary once we use a recent version of knip with th expo plugin
@@ -15,19 +27,15 @@ const config: KnipConfig = {
         'expo-dev-client', // used in app.json
         'expo-splash-screen', // used in app.json
         'expo-status-bar', // used in app.json
+        '@config-plugins/detox', // used in app.json
         'babel-preset-expo', // not listed in package.json so we use the version used by expo
         'babel-plugin-module-resolver', // not listed in package.json so we use the version from the runtime for now
+        'ts-node', // used in workflows run by github actions from the example app dir
+        '@walletconnect/core', // used in e2e tests via @walletconnect/sign-client
       ],
     },
     'packages/runtime': {
-      entry: [
-        'index.js!',
-        'metro.config.js!',
-        // TODO: move these e2e files once we have a e2e setup in the new monorepo
-        'e2e/**/*.js',
-        'e2e/**/*.ts',
-        './scripts/**/*.js',
-      ],
+      entry: ['index.js!', 'metro.config.js!', './scripts/**/*.js'],
       project: ['src/**/*.ts!', 'src/**/*.tsx!', 'src/**/*.js!'],
       ignoreDependencies: [
         '@actions/github',
@@ -46,24 +54,11 @@ const config: KnipConfig = {
         'typescript-json-schema', // helps manage redux state migrations
         '@types/jest',
         'husky',
-        // Following ignores are used by the e2e test
-        // TODO: remove these once we have a e2e setup in the new monorepo
-        '@faker-js/faker',
-        '@mento-protocol/mento-sdk',
-        '@types/fs-extra',
-        '@walletconnect/sign-client',
-        'dotenv',
-        'ethers',
-        'expect',
-        'pixelmatch',
-        'ts-retry-promise',
-        'twilio',
       ],
       ignore: [
         'src/redux/reducersForSchemaGeneration.ts', // used for root state schema generation
         'src/analytics/docs.ts', // documents analytics events, no references
         'src/account/__mocks__/Persona.tsx', // unit test mocks
-        'src/firebase/remoteConfigValuesDefaults.e2e.ts', // e2e test setup
         'src/setupE2eEnv.e2e.ts', // e2e test setup
       ],
     },

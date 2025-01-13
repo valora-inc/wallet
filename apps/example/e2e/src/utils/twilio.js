@@ -1,20 +1,15 @@
-import {
-  TWILIO_ACCOUNT_SID,
-  TWILIO_AUTH_TOKEN,
-  VERIFICATION_PHONE_NUMBER,
-} from 'react-native-dotenv'
 import twilio from 'twilio'
-import { sleep } from '../../../src/utils/sleep'
+import { sleep } from './utils'
 
 const MAX_TRIES = 180
 
 export const receiveSms = async (after = new Date(), numCodes = 3) => {
   try {
-    let client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+    let client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
     let tryNumber = 0
 
     let request = {
-      to: `${VERIFICATION_PHONE_NUMBER.replace(/-/g, ' ')}`,
+      to: `${process.env.VERIFICATION_PHONE_NUMBER.replace(/-/g, ' ')}`,
       limit: 3,
       dateSentAfter: after,
     }
@@ -35,7 +30,7 @@ export const receiveSms = async (after = new Date(), numCodes = 3) => {
 
 export const checkBalance = async (minBalance = 0.0675) => {
   try {
-    let client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+    let client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
     const twilioBalance = await client.balance.fetch()
     console.log(`Twilio Balance is ${twilioBalance.balance} ${twilioBalance.currency}`)
     // Convert balance to number and check

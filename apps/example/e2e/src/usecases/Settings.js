@@ -1,4 +1,3 @@
-import { sleep } from '../../../src/utils/sleep'
 import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
 import {
@@ -6,6 +5,7 @@ import {
   navigateToProfile,
   scrollIntoView,
   waitForElementById,
+  sleep,
 } from '../utils/utils'
 
 const faker = require('@faker-js/faker')

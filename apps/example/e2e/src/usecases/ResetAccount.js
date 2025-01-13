@@ -1,4 +1,3 @@
-import { E2E_WALLET_MNEMONIC } from 'react-native-dotenv'
 import { reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, navigateToSecurity, waitForElementById } from '../utils/utils'
 
@@ -31,7 +30,7 @@ export default ResetAccount = () => {
     // Go through the quiz.
     await element(by.id('backupKeySavedSwitch')).longPress()
     await element(by.id('backupKeyContinue')).tap()
-    const mnemonic = E2E_WALLET_MNEMONIC.split(' ')
+    const mnemonic = process.env.E2E_WALLET_MNEMONIC.split(' ')
     await waitForElementById(`backupQuiz/${mnemonic[0]}`)
     for (const word of mnemonic) {
       await element(by.id(`backupQuiz/${word}`)).tap()

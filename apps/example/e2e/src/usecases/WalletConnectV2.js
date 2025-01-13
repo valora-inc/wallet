@@ -1,6 +1,5 @@
 import { Core } from '@walletconnect/core'
 import Client from '@walletconnect/sign-client'
-import { E2E_WALLET_CONNECT_PROJECT_ID } from 'react-native-dotenv'
 import {
   createPublicClient,
   hashMessage,
@@ -11,11 +10,10 @@ import {
 } from 'viem'
 import { parseTransaction } from 'viem/celo'
 import { celo } from 'viem/chains'
-import { sleep } from '../../../src/utils/sleep'
 import WALLET_ADDRESS from '../utils/consts'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
-import { enterPinUiIfNecessary, waitForElementById } from '../utils/utils'
+import { enterPinUiIfNecessary, waitForElementById, sleep } from '../utils/utils'
 
 import jestExpect from 'expect'
 
@@ -100,7 +98,7 @@ export default WalletConnect = () => {
     }))
 
     core = await Core.init({
-      projectId: E2E_WALLET_CONNECT_PROJECT_ID,
+      projectId: process.env.E2E_WALLET_CONNECT_PROJECT_ID,
       relayUrl: 'wss://relay.walletconnect.org',
     })
 

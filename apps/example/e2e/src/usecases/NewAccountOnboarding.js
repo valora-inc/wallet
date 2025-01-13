@@ -1,4 +1,3 @@
-import { sleep } from '../../../src/utils/sleep'
 import { launchApp } from '../utils/retries'
 import {
   completeProtectWalletScreen,
@@ -6,6 +5,7 @@ import {
   navigateToSecurity,
   quickOnboarding,
   waitForElementById,
+  sleep,
 } from '../utils/utils'
 
 import jestExpect from 'expect'

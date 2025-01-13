@@ -1,5 +1,9 @@
 import { RemoteConfigValues } from 'src/app/saga'
-import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
+import {
+  DEFAULT_SENTRY_NETWORK_ERRORS,
+  DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
+  isE2EEnv,
+} from 'src/config'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
@@ -11,16 +15,18 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
 } = {
   inviteRewardsVersion: 'none',
   walletConnectV2Enabled: true,
-  pincodeUseExpandedBlocklist: false,
+  pincodeUseExpandedBlocklist: isE2EEnv ? true : false,
   logPhoneNumberTypeEnabled: false,
   allowOtaTranslations: false,
   sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
   sentryNetworkErrors: DEFAULT_SENTRY_NETWORK_ERRORS.join(','),
-  maxNumRecentDapps: 0,
-  dappsWebViewEnabled: false,
-  dappListApiUrl: '',
+  maxNumRecentDapps: isE2EEnv ? 4 : 0,
+  dappsWebViewEnabled: isE2EEnv ? true : false,
+  dappListApiUrl: isE2EEnv
+    ? 'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/dappList'
+    : '',
   fiatConnectCashInEnabled: false,
-  fiatConnectCashOutEnabled: false,
+  fiatConnectCashOutEnabled: isE2EEnv ? true : false,
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
   maxSwapSlippagePercentage: 2,

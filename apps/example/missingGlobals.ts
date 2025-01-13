@@ -15,7 +15,8 @@ Config.APP_DISPLAY_NAME = 'Example'
 // Config.IOS_GOOGLE_SERVICE_PLIST="GoogleService-Info.mainnetdev.plist"
 Config.SENTRY_ENABLED = 'false'
 Config.AUTH0_DOMAIN = 'auth.valora.xyz'
-Config.ONBOARDING_FEATURES_ENABLED =
-  'CloudBackupSetup,CloudBackupRestore,CloudBackupInOnboarding,EnableBiometry,ProtectWallet'
+Config.ONBOARDING_FEATURES_ENABLED = 'EnableBiometry,ProtectWallet,PhoneVerification'
 Config.DEEP_LINK_URL_SCHEME = 'celo'
-Config.APP_REGISTRY_NAME = 'Example'
+// For now use 'Valora' so CPV works (since it's known by identity-service)
+// TODO: find a better long term solution
+Config.APP_REGISTRY_NAME = 'Valora'

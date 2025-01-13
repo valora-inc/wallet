@@ -233,11 +233,13 @@ header {
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-body::-webkit-scrollbar, main::-webkit-scrollbar {
+body::-webkit-scrollbar,
+main::-webkit-scrollbar {
   display: none;
 }
 
-body, main {
-  -ms-overflow-style: none;  
+body,
+main {
+  -ms-overflow-style: none;
   scrollbar-width: none;
 }

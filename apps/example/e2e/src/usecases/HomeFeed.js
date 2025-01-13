@@ -1,6 +1,5 @@
 import jestExpect from 'expect'
-import { waitForElementById } from '../utils/utils'
-import { sleep } from '../../../src/utils/sleep'
+import { sleep, waitForElementById } from '../utils/utils'
 
 export default HomeFeed = () => {
   it('should show correct information on tap of feed item', async () => {

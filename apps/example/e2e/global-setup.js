@@ -5,14 +5,12 @@ const detox = require('detox')
 async function globalSetup() {
   await require('detox/runners/jest/index').globalSetup()
 
-  const config = resolveSelectedConfiguration() || {}
-  downloadTestButlerAPKIfNeeded(config)
-}
-
-function downloadTestButlerAPKIfNeeded(config) {
-  if (isAndroidConfig(config)) {
+  if (process.env.DETOX_CONFIGURATION?.includes('android')) {
     downloadTestButlerAPK()
   }
+
+  // Inject the e2e env variables
+  require('dotenv').config({ path: `${__dirname}/.env` })
 }
 
 function downloadTestButlerAPK() {
@@ -25,19 +23,6 @@ function downloadTestButlerAPK() {
     console.log(`\nDownloading Test-Butler APK v${version}...`)
     execSync(`curl -f -o ${filePath} ${artifactUrl}`)
   }
-}
-
-function resolveSelectedConfiguration() {
-  const { configurations } = require('../package.json').detox
-  const configName = process.env.DETOX_CONFIGURATION
-  return configurations[configName]
-}
-
-// TODO eventually, this should be made available by Detox more explicitly
-function isAndroidConfig(config) {
-  return [config.type, process.env.DETOX_CONFIGURATION, config.device].some((s) =>
-    `${s}`.includes('android')
-  )
 }
 
 module.exports = globalSetup
