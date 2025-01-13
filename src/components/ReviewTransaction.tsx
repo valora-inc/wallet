@@ -1,5 +1,4 @@
 import React, { useMemo, type ReactNode } from 'react'
-import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
@@ -14,6 +13,7 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import Logger from 'src/utils/Logger'
 
 export function ReviewTransaction(props: {
   title: string
@@ -93,8 +93,6 @@ export function ReviewSummaryItemContact({
   header: string
   recipient: Recipient
 }) {
-  const { t } = useTranslation()
-
   const contact = useMemo(() => {
     const phone = recipient.displayNumber || recipient.e164PhoneNumber
     if (recipient.name) {
@@ -108,9 +106,17 @@ export function ReviewSummaryItemContact({
     if (recipient.address) {
       return { title: recipient.address, icon: WalletIcon, testID: 'Address' }
     }
-
-    return { title: t('unknown'), icon: UserIcon, testID: 'Unknown' }
   }, [recipient])
+
+  // Should never happen
+  if (!contact) {
+    Logger.error(
+      'ReviewSummaryItemContact',
+      'Could not render a contact item for transaction review',
+      { header, recipient }
+    )
+    return null
+  }
 
   return (
     <ReviewSummaryItem

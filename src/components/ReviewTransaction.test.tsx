@@ -10,7 +10,7 @@ import {
   ReviewTransaction,
 } from './ReviewTransaction'
 
-describe('Review', () => {
+describe('ReviewTransaction', () => {
   it('uses the custom headerAction if provided', async () => {
     const tree = render(
       <ReviewTransaction
@@ -40,7 +40,6 @@ describe('ReviewSummaryItem', () => {
       />
     )
 
-    // Check if header, title, and subtitle all exist
     expect(tree.getByTestId('MyItem/Header')).toHaveTextContent('Item Header')
     expect(tree.getByTestId('MyItem/Title')).toHaveTextContent('Item Title')
     expect(tree.getByTestId('MyItem/Subtitle')).toHaveTextContent('Item Subtitle')
@@ -80,7 +79,6 @@ describe('ReviewSummaryItemContact', () => {
       <ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />
     )
 
-    // This means phone is the title, no subtitle
     expect(tree.getByTestId('ContactItem/Phone/Title')).toHaveTextContent('+111111111')
     expect(tree.queryByTestId('ContactItem/Phone/Subtitle')).toBeNull()
   })
@@ -93,7 +91,6 @@ describe('ReviewSummaryItemContact', () => {
       <ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />
     )
 
-    // This means phone is the title, no subtitle
     expect(tree.getByTestId('ContactItem/Phone/Title')).toHaveTextContent('+222222222')
     expect(tree.queryByTestId('ContactItem/Phone/Subtitle')).toBeNull()
   })
@@ -131,7 +128,6 @@ describe('ReviewDetailsItem', () => {
     )
 
     expect(tree.getByTestId('LoadingItem/Loader')).toBeTruthy()
-    // The value text is not displayed
     expect(tree.queryByText('Should not show')).toBeNull()
   })
 
