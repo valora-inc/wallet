@@ -11,7 +11,6 @@ export default onRamps = () => {
     await reloadReactNative()
     await waitForElementById('HomeAction-Add')
     await element(by.id('HomeAction-Add')).tap()
-    await sleep(5000)
   })
 
   it.each`
@@ -24,6 +23,7 @@ export default onRamps = () => {
     ${'CELO'} | ${'2'}
   `('Should display $token provider(s) for $$amount', async ({ token, amount }) => {
     await waitForElementById(`${token}Symbol`)
+    await sleep(5000) // Wait for the bottom sheet to animate
     await element(by.id(`${token}Symbol`)).tap()
 
     await waitForElementById('FiatExchangeInput')
