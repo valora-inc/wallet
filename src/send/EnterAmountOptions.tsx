@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   chip: {
     borderWidth: 1,
     borderRadius: 100,
-    borderColor: Colors.black,
+    borderColor: Colors.text,
     paddingVertical: Spacing.Smallest8,
     paddingHorizontal: Spacing.Regular16,
   },

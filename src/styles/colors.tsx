@@ -25,6 +25,7 @@ enum Colors {
   navigation = '#2E3338',
   icon = '#2E3338',
   backgroundInverse = '#2E3338',
+  shadow = '#2E3338',
 
   /** @deprecated */
   infoDark = '#0768AE',
@@ -38,8 +39,6 @@ enum Colors {
   goldBrand = '#FBCC5C',
   /** @deprecated */
   onboardingBrownLight = '#A49B80',
-  /** @deprecated */
-  black = '#2E3338',
   /** @deprecated */
   white = '#FFFFFF',
   /** @deprecated */

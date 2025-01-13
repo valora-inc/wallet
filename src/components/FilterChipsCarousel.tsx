@@ -67,7 +67,10 @@ function FilterChipsCarousel<T>({
             style={[
               styles.filterChipBackground,
               chip.isSelected
-                ? { backgroundColor: Colors.black, borderColor: Colors.black }
+                ? {
+                    backgroundColor: Colors.backgroundInverse,
+                    borderColor: Colors.backgroundInverse,
+                  }
                 : { backgroundColor: Colors.gray1, borderColor: Colors.gray2 },
             ]}
           >
