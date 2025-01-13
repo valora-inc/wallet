@@ -231,7 +231,7 @@ export function getDisplayAmount({
 }: {
   tokenAmount: BigNumber | undefined
   token: TokenBalance | undefined
-  localCurrencySymbol?: LocalCurrencySymbol
+  localCurrencySymbol: LocalCurrencySymbol | undefined
   usdToLocalRate: string | null
   approx?: boolean
 }) {
