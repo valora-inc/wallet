@@ -1,6 +1,11 @@
-import { launchApp, reloadReactNative } from '../utils/retries'
-import { isElementVisible, waitForElementById } from '../utils/utils'
-import { sleep } from '../../../src/utils/sleep'
+import { launchApp } from '../utils/retries'
+import { isElementVisible, waitForElementById, waitForElementByText } from '../utils/utils'
+
+goBackNScreens = async (numOfScreens = 2) => {
+  for (let i = 0; i < numOfScreens; i++) {
+    await waitForElementById('BackChevron', { tap: true })
+  }
+}
 
 export default onRamps = () => {
   beforeAll(async () => {
@@ -8,9 +13,15 @@ export default onRamps = () => {
   })
 
   beforeEach(async () => {
-    await reloadReactNative()
     await waitForElementById('HomeAction-Add')
     await element(by.id('HomeAction-Add')).tap()
+  })
+
+  afterEach(async () => {
+    try {
+      // Avoid reloading the app which can cause issues with the bottom sheet display
+      await goBackNScreens()
+    } catch {}
   })
 
   it.each`
@@ -23,13 +34,12 @@ export default onRamps = () => {
     ${'CELO'} | ${'2'}
   `('Should display $token provider(s) for $$amount', async ({ token, amount }) => {
     await waitForElementById(`${token}Symbol`)
-    await sleep(5000) // Wait for the bottom sheet to animate
     await element(by.id(`${token}Symbol`)).tap()
 
     await waitForElementById('FiatExchangeInput')
     await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
     await element(by.id('FiatExchangeNextButton')).tap()
-    await expect(element(by.text('Select Payment Method'))).toBeVisible()
+    await waitForElementByText({ text: 'Select Payment Method' })
     // Check IF Single Card Provider
     if (await isElementVisible('Card/singleProvider')) {
       await expect(element(by.id('Card/provider-0'))).toExist()
