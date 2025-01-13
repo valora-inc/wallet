@@ -2834,6 +2834,20 @@
     "fiatPriceUnavailable": "Cena niedostępna",
     "tokenDescription": "{{tokenName}} na {{tokenNetwork}}"
   },
+  "gasFeeWarning": {
+    "title": "Potrzebujesz więcej {{tokenSymbol}} na opłaty za gaz",
+    "title_Dapp": "Masz niewystarczające saldo żetonów gazu",
+    "descriptionMaxAmount_Send": "Dodaj {{tokenSymbol}} do opłat za benzynę lub obniż wysyłaną kwotę.",
+    "descriptionMaxAmount_Swap": "Dodaj {{tokenSymbol}} do opłat za paliwo lub obniż kwotę wymiany.",
+    "descriptionMaxAmount_Deposit": "Dodaj {{tokenSymbol}} do opłat za benzynę lub obniż kwotę, którą wpłacasz.",
+    "descriptionMaxAmount_Withdraw": "Dodaj stronę {{tokenSymbol}} na opłaty za gaz lub obniż kwotę, którą wypłacasz.",
+    "descriptionDapp": "Dodaj {{tokenSymbol}} , aby zakończyć tę transakcję",
+    "ctaBuy": "Kup {{tokenSymbol}}",
+    "ctaAction_Send": "Wyślij mniejszą kwotę",
+    "ctaAction_Swap": "Wymień mniejszą kwotę",
+    "ctaAction_Deposit": "Wpłać mniejszą kwotę",
+    "ctaAction_Withdraw": "Wypłać mniejszą kwotę"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",

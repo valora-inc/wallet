@@ -166,7 +166,7 @@ describe('VerificationStartScreen', () => {
       countryCallingCode: '+31',
       e164Number: '+31619123456',
       registrationStep: { step: 3, totalSteps: 3 },
-      verificationCompletionScreen: 'OnboardingSuccessScreen',
+      hasOnboarded: false,
     })
   })
 
@@ -189,7 +189,7 @@ describe('VerificationStartScreen', () => {
       countryCallingCode: '+31',
       e164Number: '+31619123456',
       registrationStep: undefined,
-      verificationCompletionScreen: 'OnboardingSuccessScreen',
+      hasOnboarded: false,
     })
   })
 
@@ -212,7 +212,7 @@ describe('VerificationStartScreen', () => {
       countryCallingCode: '+31',
       e164Number: '+31619123456',
       registrationStep: undefined,
-      verificationCompletionScreen: 'TabHome',
+      hasOnboarded: true,
     })
   })
 })

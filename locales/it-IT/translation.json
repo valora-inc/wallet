@@ -2830,6 +2830,20 @@
     "fiatPriceUnavailable": "Prezzo non disponibile",
     "tokenDescription": "{{tokenName}} su {{tokenNetwork}}"
   },
+  "gasFeeWarning": {
+    "title": "Hai bisogno di più {{tokenSymbol}} per le tariffe del gas",
+    "title_Dapp": "Il saldo dei gettoni del gas è insufficiente",
+    "descriptionMaxAmount_Send": "Aggiungi {{tokenSymbol}} per le spese del gas o riduci l'importo che stai inviando.",
+    "descriptionMaxAmount_Swap": "Aggiungi {{tokenSymbol}} per le spese del gas o diminuisci l'importo che stai scambiando.",
+    "descriptionMaxAmount_Deposit": "Aggiungi {{tokenSymbol}} per le spese del gas o diminuisci l'importo che stai depositando.",
+    "descriptionMaxAmount_Withdraw": "Aggiungi {{tokenSymbol}} per le spese del gas o riduci l'importo del prelievo.",
+    "descriptionDapp": "Aggiungi {{tokenSymbol}} per completare questa transazione",
+    "ctaBuy": "Acquista {{tokenSymbol}}",
+    "ctaAction_Send": "Invia un importo minore",
+    "ctaAction_Swap": "Scambia importo minore",
+    "ctaAction_Deposit": "Deposita un importo minore",
+    "ctaAction_Withdraw": "Preleva un importo minore"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
