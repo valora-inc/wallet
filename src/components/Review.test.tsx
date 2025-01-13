@@ -111,7 +111,6 @@ describe('ReviewSummaryItemContact', () => {
       <ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />
     )
 
-    // "t('unknown')" returns "mockedTranslation:unknown" as per our mock
     expect(tree.getByTestId('ContactItem/Unknown/Title')).toHaveTextContent('unknown')
   })
 })
