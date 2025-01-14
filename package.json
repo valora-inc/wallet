@@ -16,7 +16,7 @@
     "format:check": "prettier --check .",
     "check-licenses": "yarn licenses list --prod | grep '\\(─ GPL\\|─ (GPL-[1-9]\\.[0-9]\\+ OR GPL-[1-9]\\.[0-9]\\+)\\)' && echo 'Found GPL license(s). Use 'yarn licenses list --prod' to look up the offending package' && exit 1 || echo 'No GPL licenses found'",
     "knip:depcheck": "knip --include dependencies",
-    "postinstall": "patch-package && cp packages/runtime/secrets.json.template packages/runtime/secrets.json"
+    "postinstall": "patch-package && cp packages/runtime/secrets.json.template packages/runtime/secrets.json && yarn --cwd packages/runtime build:plugin"
   },
   "dependencies": {
     "@jambit/eslint-plugin-typed-redux-saga": "^0.4.0",

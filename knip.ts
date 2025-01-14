@@ -9,6 +9,7 @@ const config: KnipConfig = {
         // See https://github.com/webpro-nl/knip/issues/735
         'prebuild', // used in workflows to build the example app
         'e2e:build:android-release', // used in workflows to build the example app
+        'build:plugin', // used in postinstall script
       ],
     },
     'apps/example': {
@@ -54,6 +55,7 @@ const config: KnipConfig = {
         'typescript-json-schema', // helps manage redux state migrations
         '@types/jest',
         'husky',
+        '@tsconfig/node-lts', // used in plugin/tsconfig.json
       ],
       ignore: [
         'src/redux/reducersForSchemaGeneration.ts', // used for root state schema generation

@@ -1,1 +1,1 @@
-module.exports = require('./plugin/withAndroidCameraBuildFix')
+module.exports = require('./plugin/build')
