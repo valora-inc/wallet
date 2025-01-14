@@ -23,5 +23,5 @@ jobs:
     name: iOS
     uses: ./.github/workflows/e2e-ios.yml
     with:
-      ios-version: '15.0'
+      ios-version: '15.2'
     secrets: inherit

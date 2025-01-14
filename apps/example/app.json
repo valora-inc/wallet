@@ -2,6 +2,8 @@
   "expo": {
     "name": "MobileStack",
     "slug": "mobile-stack",
+    // TODO: use a MobileStack scheme
+    "scheme": "celo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -48,6 +50,8 @@
         "expo-build-properties",
         {
           "ios": {
+            // Minimum iOS version we support
+            "deploymentTarget": "15.1",
             "useFrameworks": "static"
           },
           "android": {

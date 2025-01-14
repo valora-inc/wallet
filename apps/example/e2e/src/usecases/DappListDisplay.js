@@ -31,7 +31,8 @@ export default DappListDisplay = () => {
     await element(by.id('WebViewScreen/CloseButton')).tap()
   })
 
-  it(':ios: should correctly filter dapp list based on user agent', async () => {
+  // TODO: re-enable once we have the UserAgent module in the example app
+  it.skip(':ios: should correctly filter dapp list based on user agent', async () => {
     const iOSDappList = await fetchDappList('Valora/1.0.0 (iOS 15.0; iPhone)')
     const dappCards = await getElementTextList('DappsScreen/AllSection/DappCard')
     jestExpect(dappCards.length).toEqual(iOSDappList.applications.length)

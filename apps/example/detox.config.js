@@ -42,11 +42,11 @@ module.exports = {
         type: 'iPhone SE (2nd generation)',
       },
     },
-    'simulator.15.0': {
+    'simulator.15.2': {
       type: 'ios.simulator',
       device: {
         type: 'iPhone SE (2nd generation)',
-        os: 'iOS 15.0',
+        os: 'iOS 15.2',
       },
     },
     'simulator.17.2': {
@@ -73,8 +73,8 @@ module.exports = {
       device: 'simulator',
       app: 'ios.release',
     },
-    'ios.release.15.0': {
-      device: 'simulator.15.0',
+    'ios.release.15.2': {
+      device: 'simulator.15.2',
       app: 'ios.release',
     },
     'ios.release.17.2': {

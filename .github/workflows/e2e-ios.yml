@@ -8,8 +8,6 @@ on:
 
 jobs:
   ios:
-    # TODO re-enable once we have an app in the repo
-    if: false
     env:
       # `if` conditions can't directly access secrets, so we use a workaround
       # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
@@ -40,26 +38,22 @@ jobs:
             E2E_WALLET_12_WORDS_MNEMONIC:projects/1027349420744/secrets/E2E_WALLET_12_WORDS_MNEMONIC
       - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
-      # Since the e2e runners have access to the Valora branding,
-      # This check ensures there are no type errors there.
-      # The `yarn build` step done in the test workflow also includes it but does it with the default celo branding.
-      - name: TS check
-        run: yarn build:ts
       - name: Install Ruby dependencies
         run: bundle install --path vendor/bundle
       - name: Fail if someone forgot to commit "Gemfile.lock"
         run: git diff --exit-code
-      - name: Install CocoaPods dependencies
-        working-directory: ios
-        run: bundle exec pod install || bundle exec pod install --repo-update
-      - name: Fail if someone forgot to commit "Podfile.lock" and push changes if PR is from renovate
-        run: yarn ts-node ./.github/scripts/checkPodfileAndUpdateRenovatePr.ts
+      # This way cocoapods and other installed gems from the Gemfile can be found without using `bundle exec`
+      - name: Add installed Gems binaries to PATH
+        run: echo "$(ruby -e 'puts Gem.bindir')" >> $GITHUB_PATH
       - name: Check E2E wallet balance
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
+        working-directory: apps/example
+      - name: Prebuild
+        run: yarn run prebuild
+        working-directory: apps/example
       - name: Create Detox Build
-        run: |
-          export CELO_TEST_CONFIG=e2e
-          yarn detox build -c ios.release
+        run: yarn run e2e:build:ios-release
+        working-directory: apps/example
       - name: Upload Detox Build to Emerge
         if: |
           env.SECRETS_AVAILABLE
@@ -82,6 +76,7 @@ jobs:
           --debug-synchronization 10000
           --maxWorkers 6
           --retries 3
+        working-directory: apps/example
         timeout-minutes: 45
         env:
           E2E_WALLET_CONNECT_PROJECT_ID: ${{ steps.google-secrets.outputs.E2E_WALLET_CONNECT_PROJECT_ID }}
@@ -92,24 +87,26 @@ jobs:
           E2E_WALLET_SINGLE_VERIFIED_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_WALLET_SINGLE_VERIFIED_MNEMONIC }}
           E2E_WALLET_MULTIPLE_VERIFIED_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_WALLET_MULTIPLE_VERIFIED_MNEMONIC }}
           E2E_WALLET_12_WORDS_MNEMONIC: ${{ steps.google-secrets.outputs.E2E_WALLET_12_WORDS_MNEMONIC }}
-      - name: Publish iOS JUnit Report
-        if: always()
-        uses: mikepenz/action-junit-report@v4
-        with:
-          check_name: iOS (${{ inputs.ios-version }}) e2e Test Report
-          report_paths: 'e2e/test-results/junit.xml'
+      # Disabled for now, as the reports are sent to the wrong build
+      # See https://github.com/mikepenz/action-junit-report/issues/40
+      # - name: Publish iOS JUnit Report
+      #   if: always()
+      #   uses: mikepenz/action-junit-report@v4
+      #   with:
+      #     check_name: iOS (${{ inputs.ios-version }}) e2e Test Report
+      #     report_paths: 'e2e/test-results/junit.xml'
       - name: 'Upload iOS E2E Artifacts'
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: ios-${{ inputs.ios-version }}-e2e-artifact
-          path: e2e/artifacts
+          path: apps/example/e2e/artifacts
       - name: 'Upload iOS E2E HTML Report'
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ios-${{ inputs.ios-version }}-test-report
-          path: e2e/test-results
+          path: apps/example/e2e/test-results
       - name: 'Close simulators'
         if: always()
         run: xcrun simctl shutdown all

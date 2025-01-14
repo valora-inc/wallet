@@ -1,7 +1,8 @@
 import HandleNotification from './usecases/HandleNotification'
 import { quickOnboarding } from './utils/utils'
 
-describe('Handle app open from push notifications', () => {
+// TODO: re-enable once we add back CleverTap, since it's required for this test
+describe.skip('Handle app open from push notifications', () => {
   beforeAll(async () => {
     await quickOnboarding()
   })
