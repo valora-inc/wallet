@@ -74,17 +74,22 @@ describe('ReviewSummaryItemContact', () => {
   })
 
   it.each([
-    [
-      'displayNumber',
-      { displayNumber: '+111111111', e164PhoneNumber: '+222222222', phoneToShow: '+111111111' },
-    ],
-    [
-      'e164PhoneNumber',
-      { displayNumber: undefined, e164PhoneNumber: '+222222222', phoneToShow: '+222222222' },
-    ],
+    {
+      phoneNumberType: 'displayNumber',
+      displayNumber: '+111111111',
+      e164PhoneNumber: '+222222222',
+      phoneToShow: '+111111111',
+    },
+
+    {
+      phoneNumberType: 'e164PhoneNumber',
+      displayNumber: undefined,
+      e164PhoneNumber: '+222222222',
+      phoneToShow: '+222222222',
+    },
   ])(
-    'displays only %s phone if name is not available',
-    (_, { displayNumber, e164PhoneNumber, phoneToShow }) => {
+    'displays only $phoneNumberType phone if name is not available',
+    ({ displayNumber, e164PhoneNumber, phoneToShow }) => {
       const recipient = { displayNumber, e164PhoneNumber } as Recipient
       const tree = render(
         <ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />

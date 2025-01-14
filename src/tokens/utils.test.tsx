@@ -1,6 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { APPROX_SYMBOL } from 'src/components/TokenEnterAmount'
-import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { CurrencyTokens } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import {
@@ -13,10 +11,9 @@ import {
 } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
-import { getTokenDisplayAmount } from 'src/utils/formatting'
 import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
-import { mockCusdTokenBalance, mockPoofTokenId, mockTokenBalances } from 'test/values'
+import { mockPoofTokenId, mockTokenBalances } from 'test/values'
 
 describe(getHigherBalanceCurrency, () => {
   const tokens = {
@@ -290,70 +287,5 @@ describe(isHistoricalPriceUpdated, () => {
         },
       })
     ).toEqual(true)
-  })
-})
-
-describe(getTokenDisplayAmount, () => {
-  it('returns an empty string if token or tokenAmount is undefined', () => {
-    const resultNoToken = getTokenDisplayAmount({
-      tokenAmount: new BigNumber(123.45),
-      token: undefined,
-      usdToLocalRate: null,
-      localCurrencySymbol: undefined,
-    })
-    const resultNoTokenAmount = getTokenDisplayAmount({
-      tokenAmount: undefined,
-      token: mockCusdTokenBalance,
-      usdToLocalRate: null,
-      localCurrencySymbol: undefined,
-    })
-
-    expect(resultNoToken).toBe('')
-    expect(resultNoTokenAmount).toBe('')
-  })
-
-  it('returns only token amount when local currency conversion is not available', () => {
-    const result = getTokenDisplayAmount({
-      tokenAmount: new BigNumber(123.45),
-      token: mockCusdTokenBalance,
-      usdToLocalRate: null,
-      localCurrencySymbol: LocalCurrencySymbol.USD,
-    })
-
-    expect(result).toBe('123.45 cUSD')
-  })
-
-  it('returns token and local amounts when usdToLocalRate is available', () => {
-    const result = getTokenDisplayAmount({
-      tokenAmount: new BigNumber(123.45),
-      token: mockCusdTokenBalance,
-      usdToLocalRate: '1',
-      localCurrencySymbol: LocalCurrencySymbol.USD,
-    })
-
-    expect(result).toBe(`123.45 cUSD ($123.57)`)
-  })
-
-  it('includes APPROX_SYMBOL if approx is true', () => {
-    const result = getTokenDisplayAmount({
-      tokenAmount: new BigNumber(123.45),
-      token: mockCusdTokenBalance,
-      usdToLocalRate: '1',
-      approx: true,
-      localCurrencySymbol: LocalCurrencySymbol.USD,
-    })
-
-    expect(result).toBe(`${APPROX_SYMBOL} 123.45 cUSD ($123.57)`)
-  })
-
-  it('defaults to USD if no localCurrencySymbol is passed', () => {
-    const result = getTokenDisplayAmount({
-      tokenAmount: new BigNumber(123.45),
-      token: mockCusdTokenBalance,
-      usdToLocalRate: '1',
-      localCurrencySymbol: undefined,
-    })
-
-    expect(result).toBe('123.45 cUSD ($123.57)')
   })
 })
