@@ -112,8 +112,7 @@ export function ReviewSummaryItemContact({
   if (!contact) {
     Logger.error(
       'ReviewSummaryItemContact',
-      'Could not render a contact item for transaction review',
-      { header, recipient }
+      `Transaction review could not render a contact item for recipient header: ${header}`
     )
     return null
   }
