@@ -36,7 +36,7 @@ import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
-import { getDisplayAmount } from 'src/tokens/utils'
+import { getTokenDisplayAmount } from 'src/utils/formatting'
 import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -65,7 +65,7 @@ function useCalculatedFees({
   const feeAmount = maxFeeAmount ?? new BigNumber(0)
   const localMaxFeeAmount = useTokenToLocalAmount(feeAmount, feeTokenInfo?.tokenId)
 
-  const feeDisplayAmount = getDisplayAmount({
+  const feeDisplayAmount = getTokenDisplayAmount({
     tokenAmount: maxFeeAmount,
     token: feeTokenInfo,
     approx: true,

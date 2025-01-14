@@ -6,7 +6,6 @@ import { TokenBalance } from 'src/tokens/slice'
 import {
   convertLocalToTokenAmount,
   convertTokenToLocalAmount,
-  getDisplayAmount,
   getHigherBalanceCurrency,
   getTokenId,
   isHistoricalPriceUpdated,
@@ -14,6 +13,7 @@ import {
 } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { getTokenDisplayAmount } from 'src/utils/formatting'
 import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
 import { mockCusdTokenBalance, mockPoofTokenId, mockTokenBalances } from 'test/values'
@@ -293,15 +293,15 @@ describe(isHistoricalPriceUpdated, () => {
   })
 })
 
-describe(getDisplayAmount, () => {
+describe(getTokenDisplayAmount, () => {
   it('returns an empty string if token or tokenAmount is undefined', () => {
-    const resultNoToken = getDisplayAmount({
+    const resultNoToken = getTokenDisplayAmount({
       tokenAmount: new BigNumber(123.45),
       token: undefined,
       usdToLocalRate: null,
       localCurrencySymbol: undefined,
     })
-    const resultNoTokenAmount = getDisplayAmount({
+    const resultNoTokenAmount = getTokenDisplayAmount({
       tokenAmount: undefined,
       token: mockCusdTokenBalance,
       usdToLocalRate: null,
@@ -313,7 +313,7 @@ describe(getDisplayAmount, () => {
   })
 
   it('returns only token amount when local currency conversion is not available', () => {
-    const result = getDisplayAmount({
+    const result = getTokenDisplayAmount({
       tokenAmount: new BigNumber(123.45),
       token: mockCusdTokenBalance,
       usdToLocalRate: null,
@@ -324,7 +324,7 @@ describe(getDisplayAmount, () => {
   })
 
   it('returns token and local amounts when usdToLocalRate is available', () => {
-    const result = getDisplayAmount({
+    const result = getTokenDisplayAmount({
       tokenAmount: new BigNumber(123.45),
       token: mockCusdTokenBalance,
       usdToLocalRate: '1',
@@ -335,7 +335,7 @@ describe(getDisplayAmount, () => {
   })
 
   it('includes APPROX_SYMBOL if approx is true', () => {
-    const result = getDisplayAmount({
+    const result = getTokenDisplayAmount({
       tokenAmount: new BigNumber(123.45),
       token: mockCusdTokenBalance,
       usdToLocalRate: '1',
@@ -347,7 +347,7 @@ describe(getDisplayAmount, () => {
   })
 
   it('defaults to USD if no localCurrencySymbol is passed', () => {
-    const result = getDisplayAmount({
+    const result = getTokenDisplayAmount({
       tokenAmount: new BigNumber(123.45),
       token: mockCusdTokenBalance,
       usdToLocalRate: '1',
