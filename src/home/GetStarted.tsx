@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   touchable: {
     padding: Spacing.Regular16,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   itemBody: {
     ...typeScale.bodyXSmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   touchableView: {
     gap: Spacing.Thick24,

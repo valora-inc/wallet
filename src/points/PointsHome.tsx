@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
   },
   disclaimerText: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.textLink,
     textAlign: 'center',
     marginVertical: Spacing.Thick24,
   },

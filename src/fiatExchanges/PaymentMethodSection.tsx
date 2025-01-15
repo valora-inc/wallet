@@ -358,12 +358,12 @@ const styles = StyleSheet.create({
   },
   expandedInfo: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
     marginTop: 2,
   },
   topInfo: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
     marginTop: 4,
   },
   expandedFee: {

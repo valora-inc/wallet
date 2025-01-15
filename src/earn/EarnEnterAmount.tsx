@@ -566,7 +566,7 @@ function TransactionWithdrawDetails({
                 amount={position.tokens[0].balance.toString()}
                 style={styles.txDetailsValueText}
               />
-              <Text style={[styles.txDetailsValueText, styles.gray4]}>
+              <Text style={[styles.txDetailsValueText, styles.textSecondary]}>
                 {'('}
                 <TokenDisplay
                   testID={`EarnEnterAmount/Reward-${index}-crypto`}
@@ -676,7 +676,7 @@ function TransactionDepositDetails({
               showLocalAmount={false}
               style={styles.txDetailsValueText}
             />
-            <Text style={[styles.txDetailsValueText, styles.gray4]}>
+            <Text style={[styles.txDetailsValueText, styles.textSecondary]}>
               {'('}
               <TokenDisplay
                 testID="EarnEnterAmount/Deposit/Fiat"
@@ -1092,7 +1092,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   gray4: {
-    color: Colors.gray4,
+    color: Colors.textSecondary,
   },
   gap8: {
     gap: Spacing.Smallest8,

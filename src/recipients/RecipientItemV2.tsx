@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   name: { ...typeScale.labelMedium },
   phone: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.textSecondary,
   },
   rightIconContainer: {
     justifyContent: 'center',

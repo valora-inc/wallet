@@ -323,7 +323,7 @@ const TextInputGroup = ({
     <TextInput
       multiline={false}
       style={styles.messageTextInput}
-      placeholderTextColor={Colors.gray4}
+      placeholderTextColor={Colors.inactive}
       numberOfLines={1}
       showClearButton={true}
       autoCorrect={false}

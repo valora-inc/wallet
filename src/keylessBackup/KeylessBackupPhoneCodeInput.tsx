@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   secondaryCta: {
-    color: colors.gray4,
+    color: colors.textLink,
     textAlign: 'center',
   },
   button: {

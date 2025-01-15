@@ -84,6 +84,6 @@ const styles = StyleSheet.create({
   placeholderLogoText: {
     ...typeScale.titleMedium,
     lineHeight: undefined,
-    color: Colors.gray4,
+    color: Colors.textSecondary,
   },
 })

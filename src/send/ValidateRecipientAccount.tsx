@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
   modalBody2: {
     ...typeScale.bodySmall,
     textAlign: 'center',
-    color: colors.gray4,
+    color: colors.textSecondary,
     paddingVertical: 16,
     paddingTop: 16,
   },
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
   },
   menuText: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
     paddingHorizontal: 8,
   },
   addressContainer: {

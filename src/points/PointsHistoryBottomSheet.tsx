@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   },
   cardSubtitle: {
     ...typeScale.labelSmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   cardPointsAmount: {
     ...typeScale.labelMedium,

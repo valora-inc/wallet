@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   },
   tokenNetwork: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray4,
+    color: Colors.textSecondary,
     paddingHorizontal: 4,
   },
   tokenInfoText: {
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     ...typeScale.bodyXSmall,
     paddingLeft: Spacing.Smallest8,
     maxWidth: '40%',
-    color: Colors.gray4,
+    color: Colors.textSecondary,
     paddingVertical: Spacing.Smallest8,
   },
 })

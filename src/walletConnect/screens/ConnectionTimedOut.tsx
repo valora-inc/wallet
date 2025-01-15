@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.bodyMedium,
-    color: colors.gray4,
+    color: colors.textSecondary,
     textAlign: 'center',
     marginTop: 16,
     marginBottom: 24,

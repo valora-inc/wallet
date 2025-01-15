@@ -234,7 +234,7 @@ function Restore() {
         <SafeAreaView style={styles.safeAreaView}>
           <ScrollView contentContainerStyle={styles.bodyContainer}>
             <View style={iconMarginTop}>
-              <Help size={60} color={colors.gray4} />
+              <Help size={60} color={colors.navigationTopSecondary} />
             </View>
             <Text style={styles.title}>{t('keylessBackupStatus.restore.notFound.title')}</Text>
             <Text style={styles.body}>

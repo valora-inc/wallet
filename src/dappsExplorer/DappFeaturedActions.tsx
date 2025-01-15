@@ -116,6 +116,6 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray4,
+    color: Colors.textSecondary,
   },
 })

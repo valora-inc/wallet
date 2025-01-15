@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     textAlign: 'center',
     lineHeight: undefined,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   chosenWordFilled: {
     ...typeScale.bodySmall,
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
   },
   resetButton: { alignItems: 'center', padding: 24, marginTop: 8 },
   cancelButton: {
-    color: colors.gray4,
+    color: colors.navigationTopSecondary,
   },
 })
 
