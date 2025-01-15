@@ -1,7 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
+import { Text } from 'react-native'
 import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
@@ -18,14 +19,11 @@ import {
   ReviewSummaryItemContact,
   ReviewTransaction,
 } from 'src/components/ReviewTransaction'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { getDisplayLocalAmount, getDisplayTokenAmount } from 'src/components/TokenEnterAmount'
 import TokenIcon from 'src/components/TokenIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
-import {
-  getLocalCurrencyCode,
-  getLocalCurrencySymbol,
-  usdToLocalCurrencyRateSelector,
-} from 'src/localCurrency/selectors'
+import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -34,9 +32,9 @@ import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { NETWORK_NAMES } from 'src/shared/conts'
+import Colors from 'src/styles/colors'
 import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
-import { getTokenDisplayAmount } from 'src/utils/formatting'
 import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -51,37 +49,37 @@ const DEBOUNCE_TIME_MS = 250
 export const sendConfirmationScreenNavOptions = noHeader
 
 function useCalculatedFees({
+  tokenAmount,
   localAmount,
   prepareTransactionsResult,
 }: {
+  tokenAmount: BigNumber | null
   localAmount: BigNumber | null
   prepareTransactionsResult: PreparedTransactionsResult | undefined
 }) {
-  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const { maxFeeAmount, feeCurrency: feeTokenInfo } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
-
   const feeAmount = maxFeeAmount ?? new BigNumber(0)
-  const localMaxFeeAmount = useTokenToLocalAmount(feeAmount, feeTokenInfo?.tokenId)
+  const localFeeAmount = useTokenToLocalAmount(feeAmount, feeTokenInfo?.tokenId)
 
-  const feeDisplayAmount = getTokenDisplayAmount({
-    tokenAmount: maxFeeAmount,
-    token: feeTokenInfo,
-    approx: true,
-    localCurrencySymbol,
-    usdToLocalRate,
-  })
+  const totalDisplayTokenAmount = useMemo(() => {
+    const total = (tokenAmount ?? new BigNumber(0)).plus(feeAmount ?? new BigNumber(0))
+    return formatValueToDisplay(total)
+  }, [tokenAmount, feeAmount, localCurrencySymbol])
 
-  const totalPlusFees = useMemo(() => {
-    const total = (localAmount ?? new BigNumber(0)).plus(localMaxFeeAmount ?? new BigNumber(0))
-    return getDisplayLocalAmount(total, localCurrencySymbol)
-  }, [localAmount, localMaxFeeAmount, localCurrencySymbol])
+  const totalDisplayLocalAmount = useMemo(() => {
+    const total = (localAmount ?? new BigNumber(0)).plus(localFeeAmount ?? new BigNumber(0))
+    return formatValueToDisplay(total)
+  }, [localAmount, localFeeAmount, localCurrencySymbol])
 
   return {
-    networkName: feeTokenInfo && NETWORK_NAMES[feeTokenInfo.networkId],
-    feeDisplayAmount,
-    totalPlusFees,
+    localAmount: localFeeAmount,
+    displayTokenAmount: formatValueToDisplay(feeAmount),
+    displayLocalAmount: localFeeAmount ? formatValueToDisplay(localFeeAmount) : undefined,
+    tokenSymbol: feeTokenInfo?.symbol,
+    totalDisplayTokenAmount,
+    totalDisplayLocalAmount,
   }
 }
 
@@ -108,7 +106,7 @@ export default function SendConfirmation(props: Props) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const localAmount = useTokenToLocalAmount(tokenAmount, tokenId)
   const usdAmount = useAmountAsUsd(tokenAmount, tokenId)
-  const fees = useCalculatedFees({ localAmount, prepareTransactionsResult })
+  const fees = useCalculatedFees({ tokenAmount, localAmount, prepareTransactionsResult })
 
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, tokenInfo!.networkId))
@@ -197,21 +195,46 @@ export default function SendConfirmation(props: Props) {
           <ReviewDetailsItem
             testID="SendConfirmationNetwork"
             label={t('transactionDetails.network')}
-            value={fees.networkName}
-            isLoading={prepareTransactionLoading}
+            value={tokenInfo && NETWORK_NAMES[tokenInfo.networkId]}
           />
           <ReviewDetailsItem
             testID="SendConfirmationFee"
             label={t('networkFee')}
-            value={fees.feeDisplayAmount}
             isLoading={prepareTransactionLoading}
+            value={
+              <Trans
+                i18nKey={'reviewTransaction.fullAmountApprox'}
+                context={fees.localAmount?.gt(0) ? undefined : 'noFiatPrice'}
+                values={{
+                  tokenAmount: fees.displayTokenAmount,
+                  localAmount: fees.displayLocalAmount,
+                  tokenSymbol: fees.tokenSymbol,
+                  localCurrencySymbol,
+                }}
+              >
+                <Text />
+              </Trans>
+            }
           />
           <ReviewDetailsItem
             testID="SendConfirmationTotal"
             variant="bold"
-            label={t('totalPlusFees')}
-            value={fees.totalPlusFees}
+            label={t('reviewTransaction.totalPlusFees')}
             isLoading={prepareTransactionLoading}
+            value={
+              <Trans
+                i18nKey={'reviewTransaction.fullAmountApprox'}
+                context={fees.localAmount?.gt(0) ? undefined : 'noFiatPrice'}
+                values={{
+                  tokenAmount: fees.totalDisplayTokenAmount,
+                  localAmount: fees.totalDisplayLocalAmount,
+                  tokenSymbol: fees.tokenSymbol,
+                  localCurrencySymbol,
+                }}
+              >
+                <Text style={{ color: Colors.gray3 }} />
+              </Trans>
+            }
           />
         </ReviewDetails>
       </ReviewContent>

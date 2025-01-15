@@ -1,12 +1,5 @@
 import BigNumber from 'bignumber.js'
-import {
-  APPROX_SYMBOL,
-  getDisplayLocalAmount,
-  getDisplayTokenAmount,
-} from 'src/components/TokenEnterAmount'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { type TokenBalance } from 'src/tokens/slice'
-import { convertTokenToLocalAmount } from 'src/tokens/utils'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 // Returns a localized string that represents the number with the right decimal points.
@@ -111,43 +104,4 @@ export function roundUp(
     )
   }
   return new BigNumber(value).decimalPlaces(decimals, BigNumber.ROUND_UP)
-}
-
-/**
- * Displays amount string in the following formats:
- *   1.23 USDC
- *   1.23 USDC ($1.23)
- *   ≈ 1.23 USDC
- *   ≈ 1.23 USDC ($1.23)
- */
-export function getTokenDisplayAmount({
-  tokenAmount,
-  token,
-  approx,
-  localCurrencySymbol = LocalCurrencySymbol.USD,
-  usdToLocalRate,
-}: {
-  tokenAmount: BigNumber | undefined
-  token: TokenBalance | undefined
-  localCurrencySymbol?: LocalCurrencySymbol
-  usdToLocalRate?: string | null
-  approx?: boolean
-}) {
-  if (!token || !tokenAmount) return ''
-
-  const displayTokenAmount = getDisplayTokenAmount(tokenAmount, token)
-  let displayLocalAmount = ''
-
-  if (usdToLocalRate) {
-    const tokenToLocal = convertTokenToLocalAmount({
-      tokenAmount,
-      tokenInfo: token,
-      usdToLocalRate,
-    })
-    displayLocalAmount = getDisplayLocalAmount(tokenToLocal, localCurrencySymbol)
-  }
-
-  const approxString = approx ? `${APPROX_SYMBOL} ` : ''
-  const localAmountString = displayLocalAmount ? ` (${displayLocalAmount})` : ''
-  return `${approxString}${displayTokenAmount}${localAmountString}`
 }

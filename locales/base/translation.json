@@ -2832,7 +2832,6 @@
     "fiatPriceUnavailable": "Price unavailable",
     "tokenDescription": "{{tokenName}} on {{tokenNetwork}}"
   },
-  "totalPlusFees": "Total + Fees",
   "gasFeeWarning": {
     "title": "You need more {{tokenSymbol}} for gas fees",
     "title_Dapp": "You have an insufficient gas token balance",
@@ -2846,5 +2845,10 @@
     "ctaAction_Swap": "Swap smaller amount",
     "ctaAction_Deposit": "Deposit smaller amount",
     "ctaAction_Withdraw": "Withdraw smaller amount"
+  },
+  "reviewTransaction": {
+    "totalPlusFees": "Total Plus Fees",
+    "fullAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+    "fullAmountApprox_noFiatPrice": "≈ {{tokenAmount}} {{tokenSymbol}}"
   }
 }
