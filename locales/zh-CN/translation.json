@@ -2277,7 +2277,7 @@
     "crossChainSwapTransactionLabel": "跨链",
     "depositTitle": "已存入",
     "depositSubtitle": "至 {{txAppName}} 池",
-    "depositSubtitle_noTxAppName": "到一个应用程序",
+    "depositSubtitle_noTxAppName": "到应用程序",
     "withdrawTitle": "已取出",
     "withdrawSubtitle": "从 {{txAppName}} 池",
     "withdrawSubtitle_noTxAppName": "从应用程序",
@@ -2295,15 +2295,15 @@
     "descriptionLabel": "详细信息",
     "depositTitle": "已存入",
     "depositSubtitle": "已向 {{txAppName}} 池存入 {{tokenSymbol}}",
-    "depositSubtitle_noTxAppName": "将 {{tokenSymbol}} 存入应用程序",
+    "depositSubtitle_noTxAppName": "已将 {{tokenSymbol}} 存入到应用程序",
     "depositDetails": "已转入金额",
     "withdrawTitle": "已取出",
     "withdrawSubtitle": "已从 {{txAppName}} 池取出 {{tokenSymbol}}",
-    "withdrawSubtitle_noTxAppName": "从应用程序中提取 {{tokenSymbol}}",
+    "withdrawSubtitle_noTxAppName": "已从应用程序中取出 {{tokenSymbol}}",
     "withdrawDetails": "已提取金额",
     "claimRewardTitle": "已领取",
     "claimRewardSubtitle": "已从 {{txAppName}} 池领取 {{tokenSymbol}}",
-    "claimRewardSubtitle_noTxAppName": "从应用程序中收集 {{tokenSymbol}}",
+    "claimRewardSubtitle_noTxAppName": "已从应用程序中收集 {{tokenSymbol}}",
     "claimRewardDetails": "已领取金额",
     "swap": "交换",
     "network": "网络",
@@ -2597,13 +2597,13 @@
         "moreInformation": "更多信息",
         "estNetworkFee": "预估网络费用",
         "maxNetworkFee": "最高网络费用",
-        "estCrossChainFee": "Est.跨链费用",
+        "estCrossChainFee": "估计跨链费用",
         "maxCrossChainFee": "最大跨链费用",
         "description_deposit": "使用网络处理存款交易需支付网络费用。",
         "description_withdraw": "使用网络处理提款交易需支付网络费用。",
         "description_depositSwapFee": "使用网络处理存款交易需支付网络费用。使用我们的产品时，将收取 {{appFeePercentage}}% 的 {{appName}} 费用。",
-        "description_depositCrossChain": "网络费是网络处理存款交易所需的费用。跨链费用由跨链提供商收取。",
-        "description_depositCrossChainWithSwapFee": "网络费是网络处理存款交易所需的费用。 {{appName}} 费用为 {{appFeePercentage}}%，用于您使用我们的产品。跨链费用由跨链提供商收取。",
+        "description_depositCrossChain": "使用网络处理存款交易需支付网络费用。跨链费用由跨链服务供应商收取。",
+        "description_depositCrossChainWithSwapFee": "使用网络处理存款交易需支付网络费用。使用我们的产品时，将收取 {{appFeePercentage}}% 的 {{appName}} 费用。跨链费用由跨链服务供应商收取。",
         "appSwapFee": "{{appName}} 费用"
       },
       "swapBottomSheet": {
@@ -2784,16 +2784,16 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "您需要在 {{tokenNetwork}} 上持有 {{tokenSymbol}} 才可进行存款",
-      "depositTitle": "游泳池押金",
+      "depositTitle": "存入资金池",
       "crossChainAlternativeDescription": "如果您不想使用 {{tokenNetwork}} 上的代币，请选择以下选项。您需要稍后返回，继续完成资金池存款操作。",
-      "alternativeDescription": "如果您不想使用代币，请在下面选择一个选项。您需要稍后返回完成泳池存款。",
+      "alternativeDescription": "如果您不想使用您的代币，请选择以下选项。您需要稍后返回，以完成资金池存款操作。",
       "beforeYouCanDepositTitle": "在您进行存款之前……",
       "beforeYouCanDepositDescription": "您需要添加某一资金池的代币。成功添加代币后，您需要返回继续完成资金池存款操作。",
-      "beforeYouCanDepositDescriptionV1_101": "您需要在 {{tokenNetwork}}上添加 {{tokenSymbol}} 。添加后，您需要返回以完成泳池押金。",
+      "beforeYouCanDepositDescriptionV1_101": "您需要在 {{tokenNetwork}} 中添加 {{tokenSymbol}}。添加后，您需要返回以完成资金池存款操作。",
       "action": {
         "swapAndDeposit": "交换与存款",
         "swapAndDepositDescription": "请选择 {{tokenNetwork}} 上的任何代币。我们将同步为您进行交换和存款。",
-        "swapAndDepositAllTokensDescription": "选择任何代币--我们将同时为您交换和存入代币。",
+        "swapAndDepositAllTokensDescription": "请选择任何代币，我们将同步为您进行交换和存款。",
         "crossChainSwap": "跨链交换",
         "crossChainSwapDescription": "将另一个网络上的某种代币交换为 {{tokenSymbol}}",
         "swap": "交换",
@@ -2803,8 +2803,8 @@
         "transfer": "转账",
         "transferDescription": "使用任何与 {{tokenNetwork}} 兼容的钱包或交易所，来存入 {{tokenSymbol}}",
         "addMore": "购买更多 {{tokenSymbol}}",
-        "deposit": "存款 {{tokenSymbol}}",
-        "depositDescription": "您有 {{amount}} {{tokenSymbol}}"
+        "deposit": "存入您的 {{tokenSymbol}}",
+        "depositDescription": "您有 {{amount}} 个 {{tokenSymbol}}"
       }
     }
   },
@@ -2826,7 +2826,7 @@
     "availableBalance": "可用：<0></0>",
     "selectToken": "选择代币",
     "fiatPriceUnavailable": "价格不详",
-    "tokenDescription": "{{tokenName}} {{tokenNetwork}}"
+    "tokenDescription": "{{tokenNetwork}} 上的 {{tokenName}}"
   },
   "gasFeeWarning": {
     "title": "您需要更多 {{tokenSymbol}} 来支付燃气费",

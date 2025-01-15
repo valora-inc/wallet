@@ -2301,11 +2301,11 @@
     "depositDetails": "Yatırılan Toplam",
     "withdrawTitle": "Çekilen",
     "withdrawSubtitle": "{{txAppName}} Havuzundan {{tokenSymbol}} Çekildi",
-    "withdrawSubtitle_noTxAppName": "Bir uygulamadan {{tokenSymbol}} adresini geri çekti",
+    "withdrawSubtitle_noTxAppName": "Bir uygulamadan {{tokenSymbol}} çekildi",
     "withdrawDetails": "Çekilen Tutar",
     "claimRewardTitle": "Toplanan",
     "claimRewardSubtitle": "{{txAppName}} Havuzundan {{tokenSymbol}} Toplandı",
-    "claimRewardSubtitle_noTxAppName": "Bir uygulamadan toplanan {{tokenSymbol}}",
+    "claimRewardSubtitle_noTxAppName": "Bir uygulamadan {{tokenSymbol}} toplandı",
     "claimRewardDetails": "Toplanan Tutar",
     "swap": "Swap",
     "network": "Ağ",
@@ -2599,13 +2599,13 @@
         "moreInformation": "Daha fazla bilgi",
         "estNetworkFee": "Tahmini Ağ Ücreti",
         "maxNetworkFee": "Maks. Ağ Ücreti",
-        "estCrossChainFee": "Est. Çapraz Zincir Ücreti",
-        "maxCrossChainFee": "Maksimum Çapraz Zincir Ücreti",
+        "estCrossChainFee": "Tahmini Zincirler Arası İşlem Ücreti",
+        "maxCrossChainFee": "Maksimum Zincirler Arası İşlem Ücreti",
         "description_deposit": "Ağ ücreti, yatırma işlemin gerçekleştirilmesi için ağ tarafından talep edilir.",
         "description_withdraw": "Ağ ücreti, ağın, para çekme işlemlerini işleme koyması için gereklidir.",
         "description_depositSwapFee": "Ağ ücreti, para yatırma işlemlerinin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için %{{appFeePercentage}} {{appName}} ücreti tahsil edilir.",
-        "description_depositCrossChain": "Ağ ücreti, para yatırma işlemini gerçekleştirmek için ağ tarafından talep edilir. Çapraz zincir ücreti, çapraz zincir sağlayıcısı tarafından tahsil edilir.",
-        "description_depositCrossChainWithSwapFee": "Ağ ücreti, para yatırma işlemlerini işlemek için ağ tarafından talep edilir. {{appName}} ücreti {{appFeePercentage}}% ürünümüzü kullanmanız için tahsil edilir. Çapraz zincir ücreti, çapraz zincir sağlayıcısı tarafından tahsil edilir.",
+        "description_depositCrossChain": "Ağ ücreti, para yatırma işleminin gerçekleştirilmesi için ağ tarafından talep edilir. Zincirler arası işlem ücreti, zincirler arası işlem sağlayıcısı tarafından tahsil edilir.",
+        "description_depositCrossChainWithSwapFee": "Ağ ücreti, para yatırma işlemlerinin gerçekleştirilmesi için ağ tarafından talep edilir. Ürünümüzü kullanmanız için %{{appFeePercentage}} {{appName}} ücreti tahsil edilir. Zincirler arası işlem ücreti, zincirler arası işlem sağlayıcısı tarafından tahsil edilir.",
         "appSwapFee": "{{appName}} Ücreti"
       },
       "swapBottomSheet": {
@@ -2786,16 +2786,16 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Yatırma İşlemi için {{tokenNetwork}} ağında {{tokenSymbol}} tokenine sahip olmalısınız",
-      "depositTitle": "Havuz için depozito",
+      "depositTitle": "Havuza yatır",
       "crossChainAlternativeDescription": "{{tokenNetwork}} ağındaki tokenlerinizi kullanmaz istemiyorsanız aşağıdaki seçeneklerden birini seçin. Havuza yatırma işleminizi tamamlamak için daha sonra geri dönmeniz gerekecektir.",
-      "alternativeDescription": "Jetonlarınızı kullanmak istemiyorsanız, aşağıdaki seçeneklerden birini seçin. Havuz depozitonuzu tamamlamak için daha sonra geri dönmeniz gerekecektir.",
+      "alternativeDescription": "Tokenlerinizi kullanmaz istemiyorsanız aşağıdaki seçeneklerden birini seçin. Havuza para yatırma işleminizi tamamlamak için daha sonra geri dönmeniz gerekecektir.",
       "beforeYouCanDepositTitle": "Para yatırmadan önce...",
       "beforeYouCanDepositDescription": "Havuz tokenlerinden birini eklemeniz gereklidir. Token eklendikten sonra havuza para yatırma işlemini tamamlamak için geri dönmeniz gerekir.",
-      "beforeYouCanDepositDescriptionV1_101": "{{tokenSymbol}} adresini {{tokenNetwork}}adresine eklemeniz gerekmektedir. Eklendikten sonra, havuz depozitonuzu tamamlamak için geri dönmeniz gerekecektir.",
+      "beforeYouCanDepositDescriptionV1_101": "{{tokenNetwork}} ağında {{tokenSymbol}} eklemeniz gereklidir. Token eklendikten sonra havuza para yatırma işlemini tamamlamak için geri dönmeniz gerekir.",
       "action": {
         "swapAndDeposit": "Swap ve Para Yatırma",
         "swapAndDepositDescription": "{{tokenNetwork}} ağındaki herhangi bir tokeni seçin. Seçtiğiniz tokeni sizin için anında swap edip yatırma işleminizi tamamlayacağız.",
-        "swapAndDepositAllTokensDescription": "Herhangi bir jetonu seçin - sizin için aynı anda takas edip yatıralım.",
+        "swapAndDepositAllTokensDescription": "Herhangi bir token seçin. Seçtiğiniz tokeni sizin için anında swap edip para yatırma işleminizi tamamlayacağız.",
         "crossChainSwap": "Zincirler arası Swap",
         "crossChainSwapDescription": "Başka bir ağdaki tokeni {{tokenSymbol}} ile swap edin",
         "swap": "Swap",
@@ -2804,9 +2804,9 @@
         "addDescription": "Güvenilir sağlayıcılarımızdan birini kullanarak {{tokenNetwork}} ağında {{tokenSymbol}} satın alın",
         "transfer": "Transfer Et",
         "transferDescription": "{{tokenSymbol}} yatırmak için {{tokenNetwork}} uyumlu cüzdan veya borsa kullanın",
-        "addMore": "Daha fazla satın al {{tokenSymbol}}",
-        "deposit": "{{tokenSymbol}}adresinizi yatırın",
-        "depositDescription": "{{amount}} {{tokenSymbol}}adresiniz var."
+        "addMore": "Daha fazla {{tokenSymbol}} satın al",
+        "deposit": "{{tokenSymbol}} tokeninizi yatırın",
+        "depositDescription": "{{amount}} {{tokenSymbol}} var"
       }
     }
   },
@@ -2828,7 +2828,7 @@
     "availableBalance": "Mevcut: <0></0>",
     "selectToken": "Token seçin",
     "fiatPriceUnavailable": "Fiyat mevcut değil",
-    "tokenDescription": "{{tokenName}} {{tokenNetwork}}adresinde"
+    "tokenDescription": "{{tokenNetwork}} ağında {{tokenName}}"
   },
   "gasFeeWarning": {
     "title": "Benzin ücretleri için daha fazla {{tokenSymbol}} adresine ihtiyacınız var",

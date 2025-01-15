@@ -2305,11 +2305,11 @@
     "depositDetails": "Kwota wpłacona",
     "withdrawTitle": "Wycofano",
     "withdrawSubtitle": "Wycofano {{tokenSymbol}} z puli {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Wycofano {{tokenSymbol}} z aplikacji",
+    "withdrawSubtitle_noTxAppName": "Wypłacono {{tokenSymbol}} z aplikacji",
     "withdrawDetails": "Wypłacona kwota",
     "claimRewardTitle": "Zebrano",
     "claimRewardSubtitle": "Zebrano {{tokenSymbol}} z puli {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Zebrano {{tokenSymbol}} z aplikacji",
+    "claimRewardSubtitle_noTxAppName": "Odebrano {{tokenSymbol}} z aplikacji",
     "claimRewardDetails": "Zebrana kwota",
     "swap": "Zamieniaj",
     "network": "Sieć",
@@ -2583,7 +2583,7 @@
       "fees": "Opłaty",
       "available": "Dostępne",
       "swap": "Zamieniaj",
-      "estimatedDuration": "Szac. Czas transakcji",
+      "estimatedDuration": "Szac. czas transakcji",
       "claimingReward": "Odbieranie nagrody",
       "earnUpToLabel": "Możesz zarobić do:",
       "rateLabel": "Stawka (szac.)",
@@ -2603,13 +2603,13 @@
         "moreInformation": "Więcej informacji",
         "estNetworkFee": "Szac. opłata sieciowa",
         "maxNetworkFee": "Maksymalna opłata sieciowa",
-        "estCrossChainFee": "Est. Opłata międzyłańcuchowa",
-        "maxCrossChainFee": "Maksymalna opłata międzyłańcuchowa",
+        "estCrossChainFee": "Szac. opłata cross-chain",
+        "maxCrossChainFee": "Maks. opłaty cross-chain",
         "description_deposit": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję wpłaty.",
         "description_withdraw": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję wypłaty.",
         "description_depositSwapFee": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcje wpłaty. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu.",
-        "description_depositCrossChain": "Opłata sieciowa jest wymagana przez sieć do przetworzenia transakcji wpłaty. Opłata cross-chain jest pobierana przez dostawcę cross-chain.",
-        "description_depositCrossChainWithSwapFee": "Opłata sieciowa jest wymagana przez sieć do przetwarzania transakcji depozytowych. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu. Opłata cross-chain jest pobierana przez dostawcę cross-chain.",
+        "description_depositCrossChain": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcję wpłaty. Opłata za wymianę między łańcuchami jest pobierana przez dostawcę świadczącego usługi wymiany między łańcuchami.",
+        "description_depositCrossChainWithSwapFee": "Należy wnieść opłatę sieciową, aby sieć mogła przetworzyć transakcje wpłaty. Opłata {{appName}} w wysokości {{appFeePercentage}}% jest pobierana za korzystanie z naszego produktu. Opłata za wymianę między łańcuchami jest pobierana przez dostawcę świadczącego usługi wymiany między łańcuchami.",
         "appSwapFee": "Opłata w aplikacji {{appName}}"
       },
       "swapBottomSheet": {
@@ -2790,16 +2790,16 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Aby dokonać wpłaty, potrzebny jest {{tokenSymbol}} w {{tokenNetwork}}",
-      "depositTitle": "Depozyt do puli",
+      "depositTitle": "Wpłata do puli",
       "crossChainAlternativeDescription": "Jeśli nie chcesz użyć swoich tokenów w {{tokenNetwork}}, wybierz poniższą opcję. Trzeba będzie tu wrócić, aby później sfinalizować wpłatę do puli.",
-      "alternativeDescription": "Jeśli nie chcesz korzystać z tokenów, wybierz opcję poniżej. Będziesz musiał wrócić, aby uzupełnić depozyt w puli później.",
+      "alternativeDescription": "Jeśli nie chcesz użyć swoich tokenów, wybierz poniższą opcję. Trzeba będzie tu wrócić, aby później sfinalizować wpłatę do puli.",
       "beforeYouCanDepositTitle": "Zanim będzie można dokonać wpłaty...",
       "beforeYouCanDepositDescription": "Musisz dodać jeden z tokenów puli. Po dodaniu musisz tu wrócić, aby sfinalizować wpłatę do puli.",
-      "beforeYouCanDepositDescriptionV1_101": "Musisz dodać stronę {{tokenSymbol}} na {{tokenNetwork}}. Po dodaniu musisz wrócić, aby uzupełnić depozyt za basen.",
+      "beforeYouCanDepositDescriptionV1_101": "Musisz dodać {{tokenSymbol}} do {{tokenNetwork}}. Po dodaniu musisz tu wrócić, aby sfinalizować wpłatę do puli.",
       "action": {
         "swapAndDeposit": "Wymiana i wpłata",
         "swapAndDepositDescription": "Wybierz dowolny token w {{tokenNetwork}}. Wymienimy go i jednocześnie wpłacimy za Ciebie.",
-        "swapAndDepositAllTokensDescription": "Wybierz dowolny token - wymienimy i zdeponujemy go jednocześnie za Ciebie.",
+        "swapAndDepositAllTokensDescription": "Wybierz dowolny token. Wymienimy go i jednocześnie wpłacimy za Ciebie.",
         "crossChainSwap": "Wymiana międzyłańcuchowa",
         "crossChainSwapDescription": "Wymień token z innej sieci na {{tokenSymbol}}",
         "swap": "Zamieniaj",
@@ -2809,7 +2809,7 @@
         "transfer": "Transfer",
         "transferDescription": "Użyj dowolnego portfela lub giełdy kompatybilnej z {{tokenNetwork}}, aby wpłacić {{tokenSymbol}}",
         "addMore": "Kup więcej {{tokenSymbol}}",
-        "deposit": "Złóż depozyt na {{tokenSymbol}}",
+        "deposit": "Wpłać swoje {{tokenSymbol}}",
         "depositDescription": "Masz {{amount}} {{tokenSymbol}}"
       }
     }
@@ -2832,7 +2832,7 @@
     "availableBalance": "Dostępna: <0></0>",
     "selectToken": "Wybierz token",
     "fiatPriceUnavailable": "Cena niedostępna",
-    "tokenDescription": "{{tokenName}} na {{tokenNetwork}}"
+    "tokenDescription": "{{tokenName}} w {{tokenNetwork}}"
   },
   "gasFeeWarning": {
     "title": "Potrzebujesz więcej {{tokenSymbol}} na opłaty za gaz",

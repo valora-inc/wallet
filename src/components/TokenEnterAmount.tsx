@@ -474,7 +474,9 @@ export default function TokenEnterAmount({
               <>
                 {toggleAmountType && (
                   <Touchable
-                    onPress={toggleAmountType}
+                    onPress={() => {
+                      toggleAmountType()
+                    }}
                     style={styles.swapArrowContainer}
                     testID={`${testID}/SwitchTokens`}
                     hitSlop={variables.iconHitslop}
