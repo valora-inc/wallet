@@ -94,7 +94,7 @@ const SwapAmountInput = ({
           ) : (
             <Text style={styles.tokenNamePlaceholder}>{buttonPlaceholder}</Text>
           )}
-          <DownArrowIcon height={24} color={Colors.gray3} />
+          <DownArrowIcon height={24} color={Colors.textSecondary} />
         </View>
       </Touchable>
       {token && (
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   tokenNamePlaceholder: {
     ...typeScale.labelMedium,
     paddingHorizontal: 4,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   fiatValue: {
     ...typeScale.bodyXSmall,

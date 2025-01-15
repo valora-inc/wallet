@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     marginTop: 8,
     alignItems: 'flex-start',
-    borderColor: colors.gray3,
+    borderColor: colors.textSecondary,
     borderRadius: 4,
     borderWidth: 1.5,
     height: 80,

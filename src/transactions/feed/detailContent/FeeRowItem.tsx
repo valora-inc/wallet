@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   currencyAmountSecondaryText: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
     textAlign: 'right',
   },
 })

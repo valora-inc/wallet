@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   },
   bottomSheetPreviousPointsAmount: {
     ...typeScale.labelSemiBoldXSmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
     textDecorationLine: 'line-through',
   },
   bottomSheetTitle: {
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
   },
   bottomSheetBody: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
     marginBottom: Spacing.XLarge48,
   },
   balanceRow: {

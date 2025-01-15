@@ -346,7 +346,7 @@ export const styles = StyleSheet.create({
   },
   cardLabelText: {
     ...typeScale.bodyMedium,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   depositAndEarningCard: {
     backgroundColor: Colors.gray1,

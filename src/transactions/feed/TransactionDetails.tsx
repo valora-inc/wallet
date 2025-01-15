@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
     marginTop: 2,
   },
   status: {
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   blockExplorerLink: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.textLink,
     marginRight: Spacing.Tiny4,
   },
 })

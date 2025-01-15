@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
   },
   learnMoreText: {
     ...typeScale.labelSmall,
-    color: Colors.gray3,
+    color: Colors.textLink,
   },
   priceInfo: {
     marginTop: Spacing.Tiny4,
@@ -386,6 +386,6 @@ const styles = StyleSheet.create({
   },
   priceInfoUnavailable: {
     ...typeScale.labelSmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
 })

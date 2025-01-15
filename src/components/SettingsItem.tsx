@@ -66,7 +66,10 @@ export function SettingsItemTextValue({
             </Text>
           )}
           {(!!value || showChevron) && (
-            <ForwardChevron height={12} color={isValueActionable ? colors.accent : colors.gray3} />
+            <ForwardChevron
+              height={12}
+              color={isValueActionable ? colors.accent : colors.textSecondary}
+            />
           )}
           {isExternalLink && <OpenLinkIcon size={16} color={colors.textPrimary} />}
         </View>
@@ -189,7 +192,7 @@ export function SettingsItemCta({
       <View style={styles.container}>
         <Title value={title} />
         <View style={styles.right}>{cta}</View>
-        {showChevron && <ForwardChevron height={12} color={colors.gray3} />}
+        {showChevron && <ForwardChevron height={12} color={colors.textSecondary} />}
       </View>
     </Wrapper>
   )

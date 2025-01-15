@@ -129,7 +129,7 @@ export default function ReviewFees({
               onPress={openFeeExplanation}
               hitSlop={variables.iconHitslop}
             >
-              <InfoIcon color={colors.gray3} size={14} />
+              <InfoIcon color={colors.textSecondary} size={14} />
             </Touchable>
           </View>
           <Text>{showAmount(fiat.total - fiat.subTotal, false, [styles.reviewLineText])}</Text>
@@ -143,7 +143,7 @@ export default function ReviewFees({
               onPress={openFeeDiscountExplanation}
               hitSlop={variables.iconHitslop}
             >
-              <InfoIcon color={colors.gray3} size={14} />
+              <InfoIcon color={colors.textSecondary} size={14} />
             </Touchable>
           </View>
           <Text style={styles.feeWaivedText}>{t('free')}</Text>

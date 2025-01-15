@@ -533,7 +533,7 @@ const styles = StyleSheet.create({
   },
   subtitleLabel: {
     ...typeScale.bodyMedium,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   subtitleInfo: {
     ...typeScale.labelMedium,

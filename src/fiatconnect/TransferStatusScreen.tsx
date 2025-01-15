@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
   },
   cancelBtn: {
     ...typeScale.bodyMedium,
-    color: Colors.gray3,
+    color: Colors.navigationTopSecondary,
     paddingHorizontal: Spacing.Thick24,
   },
 })

@@ -625,7 +625,7 @@ const styles = StyleSheet.create({
   },
   sectionHeaderText: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.gray3,
+    color: colors.textSecondary,
     marginBottom: 8,
   },
   sectionMainTextContainer: {
@@ -647,7 +647,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   cancelBtn: {
-    color: colors.gray3,
+    color: colors.navigationTopSecondary,
   },
   activityIndicatorContainer: {
     paddingVertical: variables.contentPadding,

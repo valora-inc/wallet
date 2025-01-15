@@ -48,7 +48,7 @@ function PercentageIndicator({
     color = Colors.errorDark
     indicator = <DownIcon color={color} testID={`${testID}:DownIndicator`} />
   } else {
-    color = Colors.gray3
+    color = Colors.inactive
     indicator = NoChangeIcon && (
       <NoChangeIcon color={color} testID={`${testID}:NoChangeIndicator`} />
     )

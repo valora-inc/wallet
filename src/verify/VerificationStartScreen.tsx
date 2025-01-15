@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   learnMore: {
-    color: colors.gray3,
+    color: colors.textLink,
   },
   countryFlag: {
     backgroundColor: colors.gray1,

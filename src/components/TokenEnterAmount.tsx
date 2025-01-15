@@ -417,7 +417,7 @@ export default function TokenEnterAmount({
             )}
           </View>
 
-          {onOpenTokenPicker && <DownArrowIcon height={24} color={Colors.gray3} />}
+          {onOpenTokenPicker && <DownArrowIcon height={24} color={Colors.textSecondary} />}
         </View>
       </Touchable>
       {token && (
@@ -435,7 +435,7 @@ export default function TokenEnterAmount({
                 onInputChange?.(value)
               }}
               value={formattedInputValue}
-              placeholderTextColor={Colors.gray3}
+              placeholderTextColor={Colors.inactive}
               placeholder={amountType === 'token' ? placeholder.token : placeholder.local}
               keyboardType="decimal-pad"
               // Work around for RN issue with Samsung keyboards
@@ -481,7 +481,7 @@ export default function TokenEnterAmount({
                     testID={`${testID}/SwitchTokens`}
                     hitSlop={variables.iconHitslop}
                   >
-                    <SwapArrows color={Colors.gray3} size={24} />
+                    <SwapArrows color={Colors.textSecondary} size={24} />
                   </Touchable>
                 )}
 
@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
   },
   tokenBalance: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   primaryAmountText: {
     ...typeScale.titleMedium,
@@ -555,12 +555,12 @@ const styles = StyleSheet.create({
   },
   secondaryAmountText: {
     ...typeScale.bodyMedium,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   placeholderText: {
     ...typeScale.labelMedium,
     paddingHorizontal: 4,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   swapArrowContainer: {
     transform: [{ rotate: '90deg' }],

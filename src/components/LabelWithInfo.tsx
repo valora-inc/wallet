@@ -33,7 +33,7 @@ export function LabelWithInfo({
         <Text style={[styles.labelText, labelStyle]} numberOfLines={1}>
           {label}
         </Text>
-        {onPress && <InfoIcon size={iconSize} color={Colors.gray3} />}
+        {onPress && <InfoIcon size={iconSize} color={Colors.textSecondary} />}
       </>
     </Touchable>
   )
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingRight: 20, // Prevents Icon from being cut off on long labels
     minWidth: '25%',
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   labelText: {
     ...typeScale.bodyMedium,

@@ -304,7 +304,7 @@ function FormField({
             style={styles.infoIcon}
             hitSlop={variables.iconHitslop}
           >
-            <InfoIcon size={18} color={colors.gray3} />
+            <InfoIcon size={18} color={colors.textSecondary} />
           </TouchableOpacity>
         )}
       </View>
