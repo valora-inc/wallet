@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   sectionLabel: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.gray3,
+    color: colors.textSecondary,
     marginBottom: 4,
   },
   userContainer: {

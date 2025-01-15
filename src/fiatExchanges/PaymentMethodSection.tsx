@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
   },
   providerDropdown: {
     ...typeScale.labelSmall,
-    color: colors.gray3,
+    color: colors.textSecondary,
   },
   expandedInfo: {
     ...typeScale.bodySmall,

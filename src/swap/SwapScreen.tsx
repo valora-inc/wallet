@@ -1124,7 +1124,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelXXSmall,
     paddingBottom: Spacing.Smallest8,
     flexWrap: 'wrap',
-    color: colors.gray3,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   disclaimerLink: {

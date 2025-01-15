@@ -198,7 +198,7 @@ function FiatExchangeAmount({ route }: Props) {
             keyboardType={'decimal-pad'}
             onChangeText={onChangeExchangeAmount}
             value={inputAmount.length > 0 ? `${inputSymbol}${inputAmount}` : undefined}
-            placeholderTextColor={colors.gray3}
+            placeholderTextColor={colors.textSecondary}
             placeholder={`${inputSymbol}0`}
             style={[styles.currencyInput, styles.fiatCurrencyColor]}
             testID="FiatExchangeInput"

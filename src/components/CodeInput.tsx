@@ -42,7 +42,7 @@ export default function CodeInput({
 
   const textColorForStatus = {
     [CodeInputStatus.Inputting]: colors.textPrimary,
-    [CodeInputStatus.Processing]: colors.gray3,
+    [CodeInputStatus.Processing]: colors.textSecondary,
     [CodeInputStatus.Error]: colors.error,
     [CodeInputStatus.Accepted]: colors.successDark,
   }

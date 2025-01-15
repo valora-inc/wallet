@@ -2,12 +2,13 @@
 // from https://www.figma.com/design/erFfzHvSTm5g1sjK6jWyEH/Working-Design-System?node-id=2100-4881&node-type=frame&t=vKGGXrs3Torz7kFE-0
 enum Colors {
   // backgrounds
-  background = '#FFFFFF',
-  backgroundInverse = '#2E3338',
+  background = '#FFFFFF', // primary background
+  backgroundInverse = '#2E3338', // inverse background (e.g. high contrast to primary)
 
   // text
-  textPrimary = '#2E3338',
-  textInverse = '#FFFFFF',
+  textPrimary = '#2E3338', // text on primary background
+  textSecondary = '#757575', // supporting, placeholder, or less important text
+  textInverse = '#FFFFFF', // text on inverse background
 
   // borders, shadows, highlights
   shadow = '#2E3338',
@@ -18,6 +19,7 @@ enum Colors {
 
   // interactive elements
   navigationTop = '#2E3338',
+  navigationTopSecondary = '#757575',
   navigationBottom = '#2E3338',
   navigationBottomSecondary = '#757575',
   buttonPrimary = '#2E3338',

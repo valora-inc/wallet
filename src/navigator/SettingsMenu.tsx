@@ -35,10 +35,10 @@ import { STATSIG_ENABLED } from 'src/config'
 import Envelope from 'src/icons/Envelope'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import Lock from 'src/icons/Lock'
+import Wallet from 'src/icons/navigator/Wallet'
 import Preferences from 'src/icons/Preferences'
 import Stack from 'src/icons/Stack'
 import Help from 'src/icons/navigator/Help'
-import Wallet from 'src/icons/navigator/Wallet'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -111,7 +111,7 @@ function ProfileMenuOption() {
       <View style={styles.profileContainer}>
         <ContactCircleSelf size={48} />
         {renderContent()}
-        <ForwardChevron color={Colors.gray3} height={12} />
+        <ForwardChevron color={Colors.textSecondary} height={12} />
       </View>
     </Touchable>
   )
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
   },
   secondaryProfileLabel: {
     ...typeScale.bodyMedium,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   appVersionContainer: {
     flexDirection: 'row',
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
   },
   appVersionText: {
     ...typeScale.bodyMedium,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   devSettings: {
     alignItems: 'flex-start',

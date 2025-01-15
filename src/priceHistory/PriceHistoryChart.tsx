@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   timeframe: {
-    color: colors.gray3,
+    color: colors.textSecondary,
     fontSize: 16,
     flexGrow: 1,
   },

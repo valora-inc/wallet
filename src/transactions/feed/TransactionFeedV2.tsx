@@ -562,7 +562,7 @@ const styles = StyleSheet.create({
   },
   allTransactionsText: {
     ...typeScale.bodySmall,
-    color: colors.gray3,
+    color: colors.textSecondary,
     textAlign: 'center',
     marginHorizontal: Spacing.Regular16,
     marginVertical: Spacing.Thick24,

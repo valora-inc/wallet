@@ -32,7 +32,7 @@ export function SendSelectRecipientSearchInput({
         value={input}
         onChangeText={onChangeText}
         inputStyle={styles.input}
-        placeholderTextColor={colors.gray3}
+        placeholderTextColor={colors.textSecondary}
         allowFontScaling={allowFontScaling}
         testID="SendSelectRecipientSearchInput"
       />
@@ -60,6 +60,6 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.gray3,
+    color: colors.textSecondary,
   },
 })

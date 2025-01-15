@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.bodySmall,
-    color: colors.gray3,
+    color: colors.textSecondary,
   },
   title: {
     ...typeScale.labelMedium,

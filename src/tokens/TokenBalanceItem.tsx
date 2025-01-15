@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   subAmount: {
     ...typeScale.bodySmall,
-    color: colors.gray3,
+    color: colors.textSecondary,
   },
   label: {
     ...typeScale.labelMedium,
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     overflow: 'hidden',
     flexShrink: 1,
-    color: colors.gray3,
+    color: colors.textSecondary,
   },
   textContainer: {
     flex: 1,

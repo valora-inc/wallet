@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   },
   disclaimer: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
 })
 

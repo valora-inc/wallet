@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   moreInfoContainer: {
     marginTop: Spacing.Large32,

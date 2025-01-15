@@ -386,6 +386,6 @@ const styles = StyleSheet.create({
   },
   priceInfoUnavailable: {
     ...typeScale.labelSmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
 })

@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
   },
   rewardLabel: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   rewardAmount: {
     ...typeScale.labelSemiBoldLarge,
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
   },
   subHeading: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   claimButton: {
     minWidth: 72,

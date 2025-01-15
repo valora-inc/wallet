@@ -83,7 +83,7 @@ export default function RecoveryPhraseInput({
                 showClearButton={false}
                 value={inputValue}
                 placeholder={inputPlaceholder}
-                placeholderTextColor={colors.gray3}
+                placeholderTextColor={colors.textSecondary}
                 onChangeText={onInputChange}
                 multiline={true}
                 // This disables keyboard suggestions on iOS, but unfortunately NOT on Android

@@ -1,8 +1,8 @@
 import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import CancelButton from 'src/components/CancelButton'
 import TextButton from 'src/components/TextButton'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   supportBtn: {
     ...typeScale.bodyMedium,
-    color: colors.gray3,
+    color: colors.navigationTopSecondary,
     paddingHorizontal: Spacing.Thick24,
   },
 })

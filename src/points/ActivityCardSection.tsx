@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   body: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
     marginTop: Spacing.Tiny4,
   },
 })

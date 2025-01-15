@@ -234,7 +234,7 @@ export default function EnterAmount({
             <View style={styles.feeContainer} testID="SendEnterAmount/Fee">
               <LabelWithInfo
                 label={t('sendEnterAmountScreen.networkFeeV1_97')}
-                labelStyle={{ color: Colors.gray3 }}
+                labelStyle={{ color: Colors.textSecondary }}
                 testID="SendEnterAmount/FeeLabel"
                 style={styles.feeLabelContainer}
               />
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
   },
   feeValue: {
     ...typeScale.bodyMedium,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
     flexWrap: 'wrap',
     textAlign: 'right',
   },

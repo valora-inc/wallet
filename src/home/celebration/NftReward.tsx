@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   description: {
     marginTop: Spacing.Regular16,
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   button: {
     marginTop: Spacing.XLarge48,
