@@ -1,6 +1,14 @@
-import { launchApp, reloadReactNative } from '../utils/retries'
-import { isElementVisible, waitForElementById } from '../utils/utils'
 import { sleep } from '../../../src/utils/sleep'
+import { launchApp } from '../utils/retries'
+import { isElementVisible, waitForElementById, waitForElementByText } from '../utils/utils'
+
+async function multiTap(testID, { numberOfTaps = 2 } = {}) {
+  try {
+    for (let i = 0; i < numberOfTaps; i++) {
+      await waitForElementById(testID, { tap: true })
+    }
+  } catch {}
+}
 
 export default onRamps = () => {
   beforeAll(async () => {
@@ -8,10 +16,13 @@ export default onRamps = () => {
   })
 
   beforeEach(async () => {
-    await reloadReactNative()
     await waitForElementById('HomeAction-Add')
     await element(by.id('HomeAction-Add')).tap()
     await sleep(5000)
+  })
+
+  afterEach(async () => {
+    await multiTap('BackChevron')
   })
 
   it.each`
@@ -23,13 +34,13 @@ export default onRamps = () => {
     ${'CELO'} | ${'20'}
     ${'CELO'} | ${'2'}
   `('Should display $token provider(s) for $$amount', async ({ token, amount }) => {
-    await waitForElementById(`${token}Symbol`)
-    await element(by.id(`${token}Symbol`)).tap()
-
+    // We use multiTap as sometimes the network select renders above the bottom sheet
+    // This appears to be a detox specific issue as it is not reproducible in a non detox build
+    await multiTap(`${token}Symbol`)
     await waitForElementById('FiatExchangeInput')
     await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
-    await element(by.id('FiatExchangeNextButton')).tap()
-    await expect(element(by.text('Select Payment Method'))).toBeVisible()
+    await waitForElementById('FiatExchangeNextButton', { tap: true })
+    await waitForElementByText({ text: 'Select Payment Method' })
     // Check IF Single Card Provider
     if (await isElementVisible('Card/singleProvider')) {
       await expect(element(by.id('Card/provider-0'))).toExist()
