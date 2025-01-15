@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
   textRed: {
-    color: colors.errorDark,
+    color: colors.error,
   },
 })
 

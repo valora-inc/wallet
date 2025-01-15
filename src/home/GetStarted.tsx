@@ -20,8 +20,8 @@ function EarnItem() {
   return (
     <Item
       icon={
-        <CircledIcon radius={32} backgroundColor={colors.successLight}>
-          <EarnCoins color={colors.successDark} />
+        <CircledIcon radius={32} backgroundColor={colors.successSecondary}>
+          <EarnCoins color={colors.success} />
         </CircledIcon>
       }
       title={t('earnFlow.entrypoint.title')}

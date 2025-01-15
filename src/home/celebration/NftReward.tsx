@@ -50,8 +50,8 @@ export default function NftRewardBottomSheet() {
 
   const { pillStyle, labelStyle } = isReminder
     ? {
-        pillStyle: { backgroundColor: Colors.warningLight },
-        labelStyle: { color: Colors.warningDark },
+        pillStyle: { backgroundColor: Colors.warningSecondary },
+        labelStyle: { color: Colors.warning },
       }
     : {
         pillStyle: { backgroundColor: Colors.gray1 },

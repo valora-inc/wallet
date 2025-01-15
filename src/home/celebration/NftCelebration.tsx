@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: IMAGE_BORDER_RADIUS,
     aspectRatio: 1.45,
     overflow: 'hidden',
-    backgroundColor: Colors.successLight,
+    backgroundColor: Colors.successSecondary,
   },
   imageError: {
     ...StyleSheet.absoluteFillObject,
