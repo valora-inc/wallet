@@ -285,13 +285,13 @@ function GasFeeLoading() {
     <View testID="EarnConfirmation/GasLoading">
       <SkeletonPlaceholder
         backgroundColor={Colors.gray2}
-        highlightColor={Colors.loadingSkeletonHighlight}
+        highlightColor={Colors.skeletonPlaceholderHighlight}
       >
         <View style={styles.gasFeeCryptoLoading} />
       </SkeletonPlaceholder>
       <SkeletonPlaceholder
         backgroundColor={Colors.gray2}
-        highlightColor={Colors.loadingSkeletonHighlight}
+        highlightColor={Colors.skeletonPlaceholderHighlight}
       >
         <View style={styles.gasFeeFiatLoading} />
       </SkeletonPlaceholder>
