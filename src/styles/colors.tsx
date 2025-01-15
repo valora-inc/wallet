@@ -1,9 +1,26 @@
 // Designer Created Figma Colors
 // from https://www.figma.com/design/erFfzHvSTm5g1sjK6jWyEH/Working-Design-System?node-id=2100-4881&node-type=frame&t=vKGGXrs3Torz7kFE-0
 enum Colors {
-  // primary
-  primary = '#2E3338',
+  // backgrounds
+  backgroundInverse = '#2E3338',
+
+  // text
+  textPrimary = '#2E3338',
+
+  // borders, shadows, highlights
+  shadow = '#2E3338',
+  softShadow = 'rgba(156, 164, 169, 0.4)',
+  lightShadow = 'rgba(48, 46, 37, 0.15)',
+  barShadow = 'rgba(129, 134, 139, 0.5)',
+
+  // interactive elements
+  navigationTop = '#2E3338',
+  navigationBottom = '#2E3338',
+  navigationBottomSecondary = '#757575',
+  buttonPrimary = '#2E3338',
   accent = '#1AB775',
+
+  // states
 
   // other
   successDark = '#137211',
@@ -15,16 +32,6 @@ enum Colors {
   errorLight = '#FBF2F0',
   gradientBorderLeft = '#26d98a',
   gradientBorderRight = '#ffd52c',
-
-  // shadows
-  softShadow = 'rgba(156, 164, 169, 0.4)',
-  lightShadow = 'rgba(48, 46, 37, 0.15)',
-  barShadow = 'rgba(129, 134, 139, 0.5)',
-
-  backgroundInverse = '#2E3338',
-  navigation = '#2E3338',
-  shadow = '#2E3338',
-  textPrimary = '#2E3338',
 
   /** @deprecated */
   infoDark = '#0768AE',
