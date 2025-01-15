@@ -35,7 +35,6 @@ interface Props {
   type: DisplayType
   amount: MoneyAmount
   size: number // only used for DisplayType.Big
-  useColors: boolean
   hideSign: boolean
   hideSymbol: boolean
   hideCode: boolean
@@ -121,7 +120,6 @@ export function getFullCurrencyName(currency: Currency | null) {
 export default function CurrencyDisplay({
   type,
   size,
-  useColors,
   hideSign,
   hideSymbol,
   hideCode,
@@ -228,7 +226,6 @@ export default function CurrencyDisplay({
 CurrencyDisplay.defaultProps = {
   type: DisplayType.Default,
   size: 48,
-  useColors: false,
   hideSign: false,
   hideSymbol: false,
   hideCode: true,
