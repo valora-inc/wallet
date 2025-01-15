@@ -24,8 +24,10 @@ enum Colors {
   navigationBottomSecondary = '#757575',
   buttonPrimary = '#2E3338',
   accent = '#1AB775',
+  textLink = '#757575', // similar to secondary text but for interactive links
 
   // states
+  inactive = '#757575', // disabled, inactive, or placeholder
 
   // other
   successDark = '#137211',

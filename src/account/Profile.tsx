@@ -64,7 +64,7 @@ function Profile({ navigation }: Props) {
         <View style={styles.inputContainer}>
           <TextInput
             placeholder={t('profileScreen.namePlaceholder', { exampleName }) ?? undefined}
-            placeholderTextColor={colors.textSecondary}
+            placeholderTextColor={colors.inactive}
             testID="ProfileEditName"
             onChangeText={updateName}
             value={newName ?? t('unknown')}

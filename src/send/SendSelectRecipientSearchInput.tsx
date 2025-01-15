@@ -32,7 +32,7 @@ export function SendSelectRecipientSearchInput({
         value={input}
         onChangeText={onChangeText}
         inputStyle={styles.input}
-        placeholderTextColor={colors.textSecondary}
+        placeholderTextColor={colors.inactive}
         allowFontScaling={allowFontScaling}
         testID="SendSelectRecipientSearchInput"
       />

@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   newLabelContainer: {
-    backgroundColor: colors.gray3,
+    backgroundColor: colors.textLink,
     borderRadius: 100,
     paddingVertical: 4,
     paddingHorizontal: 8,

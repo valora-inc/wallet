@@ -435,7 +435,7 @@ export default function TokenEnterAmount({
                 onInputChange?.(value)
               }}
               value={formattedInputValue}
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={Colors.inactive}
               placeholder={amountType === 'token' ? placeholder.token : placeholder.local}
               keyboardType="decimal-pad"
               // Work around for RN issue with Samsung keyboards

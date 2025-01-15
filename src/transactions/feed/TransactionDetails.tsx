@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   blockExplorerLink: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.textLink,
     marginRight: Spacing.Tiny4,
   },
 })
