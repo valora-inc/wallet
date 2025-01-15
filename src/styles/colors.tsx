@@ -37,8 +37,6 @@ enum Colors {
   /** @deprecated */
   infoLight = '#E8F8FF',
   /** @deprecated */
-  accentDisabled = `${accent}80`, // 50% opacity
-  /** @deprecated */
   goldBrand = '#FBCC5C',
   /** @deprecated */
   onboardingBrownLight = '#A49B80',
