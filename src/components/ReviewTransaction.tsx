@@ -127,7 +127,7 @@ export function ReviewSummaryItemContact({
         <ContactCircle
           size={32}
           backgroundColor={Colors.gray2}
-          foregroundColor={Colors.black}
+          foregroundColor={Colors.backgroundInverse}
           recipient={recipient}
           DefaultIcon={contact.icon}
         />
@@ -170,7 +170,7 @@ export function ReviewDetailsItem({
             <SkeletonPlaceholder
               borderRadius={100}
               backgroundColor={Colors.gray2}
-              highlightColor={Colors.white}
+              highlightColor={Colors.background}
             >
               <View style={styles.loader} />
             </SkeletonPlaceholder>
