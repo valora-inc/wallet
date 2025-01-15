@@ -15,7 +15,7 @@ enum Colors {
   softShadow = 'rgba(156, 164, 169, 0.4)',
   lightShadow = 'rgba(48, 46, 37, 0.15)',
   barShadow = 'rgba(129, 134, 139, 0.5)',
-  loadingSkeletonHighlight = '#FFFFFF',
+  skeletonPlaceholderHighlight = '#FFFFFF',
 
   // interactive elements
   navigationTop = '#2E3338',
@@ -29,12 +29,13 @@ enum Colors {
   // states
   inactive = '#757575', // disabled, inactive, or placeholder
 
+  // states
+
   // other
   successDark = '#137211',
   successLight = '#F1FDF1',
   warningDark = '#9C6E00',
   warningLight = '#FFF9EA',
-  error = '#EA6042',
   errorDark = '#C93717',
   errorLight = '#FBF2F0',
   gradientBorderLeft = '#26d98a',
@@ -42,14 +43,6 @@ enum Colors {
 
   /** @deprecated */
   infoDark = '#0768AE',
-  /** @deprecated */
-  infoLight = '#E8F8FF',
-  /** @deprecated */
-  ivory = '#F9F6F0',
-  /** @deprecated */
-  accentDisabled = `${accent}80`, // 50% opacity
-  /** @deprecated */
-  goldBrand = '#FBCC5C',
   /** @deprecated */
   onboardingBrownLight = '#A49B80',
   /** @deprecated */
