@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
     marginBottom: Spacing.Smallest8,
   },
   row: {
@@ -120,7 +119,6 @@ const styles = StyleSheet.create({
   },
   totalSupplied: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
   },
   image: {
     width: 80,

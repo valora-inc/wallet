@@ -315,11 +315,9 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleSmall,
-    color: Colors.black,
   },
   description: {
     ...typeScale.bodySmall,
-    color: Colors.black,
   },
   labelledItem: {
     gap: Spacing.Tiny4,
@@ -330,7 +328,6 @@ const styles = StyleSheet.create({
   },
   value: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.black,
   },
   valueRow: {
     flexDirection: 'row',

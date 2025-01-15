@@ -80,7 +80,6 @@ function Item({ icon, title, body }: { icon: React.ReactNode; title: string; bod
 const styles = StyleSheet.create({
   cardTitle: {
     ...typeScale.labelSemiBoldMedium,
-    color: colors.black,
   },
   container: {
     gap: 18,
@@ -102,7 +101,6 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     ...typeScale.labelSemiBoldXSmall,
-    color: colors.black,
   },
   itemBody: {
     ...typeScale.bodyXSmall,

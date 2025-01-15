@@ -5,7 +5,9 @@ import {
   PincodeType,
   RecoveryPhraseInOnboardingStatus,
 } from 'src/account/reducer'
-import { DEEP_LINK_URL_SCHEME } from 'src/config'
+import { DEEP_LINK_URL_SCHEME, ONBOARDING_FEATURES_ENABLED } from 'src/config'
+import { Screens } from 'src/navigator/Screens'
+import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 import { exchangeInitialState, migrations } from 'src/redux/migrations'
 import {
   Network,
@@ -13,10 +15,7 @@ import {
   TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
-import { ONBOARDING_FEATURES_ENABLED } from 'src/config'
-import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { Screens } from 'src/navigator/Screens'
 import {
   DEFAULT_DAILY_PAYMENT_LIMIT_CUSD_LEGACY,
   v0Schema,

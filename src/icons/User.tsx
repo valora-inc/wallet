@@ -7,7 +7,7 @@ interface Props {
   size?: number
 }
 
-export default function User({ color = Colors.black, size = 24 }: Props) {
+export default function User({ color = Colors.textPrimary, size = 24 }: Props) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path

@@ -352,7 +352,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
-    color: Colors.black,
   },
   titleContainer: {
     marginBottom: Spacing.Thick24,

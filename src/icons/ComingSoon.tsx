@@ -7,7 +7,7 @@ interface Props {
   color?: string
 }
 
-const ComingSoon = ({ size = 24, color = Colors.black }: Props) => (
+const ComingSoon = ({ size = 24, color = Colors.textPrimary }: Props) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path
       fill={color}

@@ -37,11 +37,11 @@ const SeeThroughOverlay = () => {
             ry={centerBoxBorderRadius}
             width={centerBoxSize}
             height={centerBoxSize}
-            fill={colors.black}
+            fill={colors.backgroundInverse}
           />
         </Mask>
       </Defs>
-      <Rect height="100%" width="100%" fill={`${colors.black}80`} mask="url(#mask)" />
+      <Rect height="100%" width="100%" fill={`${colors.backgroundInverse}80`} mask="url(#mask)" />
     </Svg>
   )
 }
@@ -166,7 +166,6 @@ const styles = StyleSheet.create({
     borderColor: colors.gray3,
     borderRadius: 4,
     borderWidth: 1.5,
-    color: colors.black,
     height: 80,
     maxHeight: 150,
   },

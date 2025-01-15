@@ -204,7 +204,6 @@ const styles = StyleSheet.create({
   },
   networkChip: {
     ...typeScale.labelXSmall,
-    color: Colors.black,
     backgroundColor: Colors.gray2,
     paddingVertical: Spacing.Tiny4,
     paddingHorizontal: Spacing.Smallest8,

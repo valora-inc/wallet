@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
   title: {
     ...typeScale.labelSemiBoldSmall,
     lineHeight: 24,
-    color: Colors.black,
   },
   subtitle: {
     ...typeScale.bodyXSmall,

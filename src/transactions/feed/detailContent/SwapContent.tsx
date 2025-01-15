@@ -5,7 +5,6 @@ import { StyleSheet, Text, View } from 'react-native'
 import RowDivider from 'src/components/RowDivider'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokensList } from 'src/tokens/hooks'
@@ -120,11 +119,9 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
   },
   currencyAmountPrimaryText: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     textAlign: 'right',
   },
 })

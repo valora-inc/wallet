@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
   },
   pointsAmount: {
     ...typeScale.labelXSmall,
-    color: Colors.black,
   },
   previousPointsAmount: {
     ...typeScale.labelXSmall,

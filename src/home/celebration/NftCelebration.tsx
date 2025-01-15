@@ -193,7 +193,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleSmall,
-    color: Colors.black,
   },
   description: {
     ...typeScale.bodySmall,

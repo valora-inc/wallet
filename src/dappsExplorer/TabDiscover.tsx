@@ -11,7 +11,6 @@ import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import PointsDiscoverCard from 'src/points/PointsDiscoverCard'
-import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -70,7 +69,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
-    color: Colors.black,
     paddingVertical: Spacing.Thick24,
   },
 })

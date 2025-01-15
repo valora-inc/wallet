@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...typeScale.bodyXSmall,
-    color: Colors.black,
   },
   ctaLabel: {
     ...typeScale.labelSmall,
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
 
 const variantColors: Record<NotificationVariant, CustomColors> = {
   [NotificationVariant.Info]: {
-    primary: Colors.black,
+    primary: Colors.textPrimary,
     secondary: Colors.gray1,
   },
   [NotificationVariant.Success]: {

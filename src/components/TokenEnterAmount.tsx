@@ -543,7 +543,6 @@ const styles = StyleSheet.create({
   },
   tokenName: {
     ...typeScale.labelMedium,
-    color: Colors.black,
   },
   tokenBalance: {
     ...typeScale.bodySmall,
@@ -553,7 +552,6 @@ const styles = StyleSheet.create({
     ...typeScale.titleMedium,
     paddingTop: 0,
     paddingBottom: 0,
-    color: Colors.black,
   },
   secondaryAmountText: {
     ...typeScale.bodyMedium,

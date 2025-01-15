@@ -132,7 +132,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleSmall,
-    color: Colors.black,
   },
   subtitle: {
     ...typeScale.bodyXSmall,

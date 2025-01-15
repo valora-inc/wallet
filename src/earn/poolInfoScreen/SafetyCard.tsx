@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
   },
   riskTitle: {
     ...typeScale.labelMedium,
-    color: Colors.black,
   },
   riskCategory: {
     ...typeScale.bodySmall,

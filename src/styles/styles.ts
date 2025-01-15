@@ -33,7 +33,7 @@ export function getShadowStyle(shadow: Shadow) {
 export function elevationShadowStyle(elevation: number) {
   return {
     elevation,
-    shadowColor: Colors.black,
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 0.5 * elevation },
     shadowOpacity: 0.3,
     shadowRadius: 0.8 * elevation,

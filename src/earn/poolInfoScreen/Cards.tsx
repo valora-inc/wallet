@@ -343,7 +343,6 @@ export const styles = StyleSheet.create({
   },
   cardTitleText: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
   },
   cardLabelText: {
     ...typeScale.bodyMedium,
@@ -361,7 +360,6 @@ export const styles = StyleSheet.create({
   },
   depositAndEarningCardTitleText: {
     ...typeScale.titleMedium,
-    color: Colors.black,
   },
   depositAndEarningCardSubtitleContainer: {
     backgroundColor: Colors.white,
@@ -372,13 +370,11 @@ export const styles = StyleSheet.create({
   },
   depositAndEarningsCardLabelText: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'left',
   },
   depositAndEarningsCardValueText: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'right',
   },
