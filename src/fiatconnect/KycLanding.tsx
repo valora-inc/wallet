@@ -162,7 +162,11 @@ function KycAgreement(props: {
           style={styles.checkBoxContainer}
         >
           {/* If disabled, the user is in step 2 and this should be completed already*/}
-          <CheckBox testID="checkbox" checked={disabled || agreementChecked} />
+          <CheckBox
+            testID="checkbox"
+            checked={disabled || agreementChecked}
+            checkedColor={Colors.accent}
+          />
         </TouchableOpacity>
         <Text style={styles.disclaimer}>
           <Trans i18nKey={'fiatConnectKycLandingScreen.disclaimer'}>

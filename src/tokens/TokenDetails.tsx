@@ -310,7 +310,7 @@ function LearnMore({
           <Text style={styles.learnMoreText} testID="TokenDetails/LearnMore">
             {t('tokenDetails.learnMore', { tokenName: tokenName })}
           </Text>
-          <ArrowRightThick />
+          <ArrowRightThick color={Colors.textLink} />
         </View>
       </Touchable>
     </View>

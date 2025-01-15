@@ -12,7 +12,7 @@ export default function SearchInput({ style, ...passThroughProps }: Props) {
   return (
     <View style={[styles.container, style]}>
       <View style={styles.iconContainer}>
-        <Search />
+        <Search color={colors.inactive} />
       </View>
       <TextInput {...passThroughProps} inputStyle={styles.input} testID="SearchInput" />
     </View>

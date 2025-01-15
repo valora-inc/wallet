@@ -10,7 +10,7 @@ interface Props {
 
 function CrossChainIndicator({
   size = 16,
-  backgroundColor = Colors.gray3,
+  backgroundColor = Colors.textPrimary,
   color = Colors.textInverse,
 }: Props) {
   return (
@@ -27,7 +27,7 @@ function CrossChainIndicator({
       </G>
       <Defs>
         <ClipPath id="a">
-          <Path fill={Colors.textInverse} d="M1 4h14v9H1z" />
+          <Path fill={color} d="M1 4h14v9H1z" />
         </ClipPath>
       </Defs>
     </Svg>
