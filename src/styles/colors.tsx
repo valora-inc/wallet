@@ -48,8 +48,6 @@ enum Colors {
   /** @deprecated */
   gray4 = '#666666',
   /** @deprecated */
-  gray3 = '#757575',
-  /** @deprecated */
   gray2 = '#E6E6E6',
   /** @deprecated */
   gray1 = '#F8F9F9',

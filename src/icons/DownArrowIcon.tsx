@@ -13,7 +13,7 @@ interface Props {
 
 export default function DownArrowIcon({
   height,
-  color = colors.gray3,
+  color = colors.textPrimary,
   strokeWidth = 1,
   style = {},
 }: Props) {

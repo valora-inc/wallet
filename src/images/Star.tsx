@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg'
 import Colors from 'src/styles/colors'
 
-const StarOutline = () => (
+const Star = () => (
   <Svg width={24} height={24} fill="none">
     <G clipPath="url(#a)">
       <Path
@@ -18,4 +18,4 @@ const StarOutline = () => (
   </Svg>
 )
 
-export default StarOutline
+export default Star
