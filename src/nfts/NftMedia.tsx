@@ -40,7 +40,7 @@ function Placeholder({
     <SkeletonPlaceholder
       borderRadius={borderRadius}
       backgroundColor={colors.gray2}
-      highlightColor={colors.loadingSkeletonHighlight}
+      highlightColor={colors.skeletonPlaceholderHighlight}
       testID={testID}
     >
       <View

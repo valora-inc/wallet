@@ -59,7 +59,7 @@ CeloNewsFeedItem.Skeleton = () => (
   <SkeletonPlaceholder
     borderRadius={4}
     backgroundColor={colors.gray2}
-    highlightColor={colors.loadingSkeletonHighlight}
+    highlightColor={colors.skeletonPlaceholderHighlight}
     testID="CeloNewsFeedItemSkeleton"
   >
     <View style={styles.contentContainer}>
