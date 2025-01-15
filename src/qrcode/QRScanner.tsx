@@ -29,7 +29,7 @@ const SeeThroughOverlay = () => {
     <Svg height={height} width={width} viewBox={`0 0 ${width} ${height}`}>
       <Defs>
         <Mask id="mask" x="0" y="0" height="100%" width="100%">
-          <Rect height="100%" width="100%" fill={colors.white} />
+          <Rect height="100%" width="100%" fill={colors.background} />
           <Rect
             x={margin}
             y={(height - centerBoxSize) / 2}
@@ -37,11 +37,11 @@ const SeeThroughOverlay = () => {
             ry={centerBoxBorderRadius}
             width={centerBoxSize}
             height={centerBoxSize}
-            fill={colors.black}
+            fill={colors.backgroundInverse}
           />
         </Mask>
       </Defs>
-      <Rect height="100%" width="100%" fill={`${colors.black}80`} mask="url(#mask)" />
+      <Rect height="100%" width="100%" fill={`${colors.backgroundInverse}80`} mask="url(#mask)" />
     </Svg>
   )
 }
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     bottom: 32,
     ...typeScale.labelSemiBoldSmall,
     lineHeight: undefined,
-    color: colors.white,
+    color: colors.textInverse,
     textAlign: 'center',
     paddingHorizontal: 30,
   },
@@ -166,7 +166,6 @@ const styles = StyleSheet.create({
     borderColor: colors.gray3,
     borderRadius: 4,
     borderWidth: 1.5,
-    color: colors.black,
     height: 80,
     maxHeight: 150,
   },

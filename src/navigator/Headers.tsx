@@ -67,7 +67,8 @@ export const nuxNavigationOptions: NativeStackNavigationOptions = {
 
 export const nuxNavigationOptionsOnboarding: NativeStackNavigationOptions = {
   ...nuxNavigationOptions,
-  headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton color={Colors.black} /> : <View />),
+  headerLeft: ({ canGoBack }) =>
+    canGoBack ? <BackButton color={Colors.navigationTop} /> : <View />,
 }
 
 export const nuxNavigationOptionsNoBackButton: NativeStackNavigationOptions = {
@@ -84,7 +85,7 @@ export const emptyHeader: NativeStackNavigationOptions = {
   headerShadowVisible: false,
   headerTitleAlign: 'center',
   headerStyle: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
   },
 }
 
@@ -236,7 +237,7 @@ export const tabHeader: NativeStackNavigationOptions = {
   },
   headerLeft: () => (
     <View style={[styles.topElementsContainer, { marginLeft: Spacing.Regular16 }]}>
-      <Logo color={Colors.black} size={22} />
+      <Logo color={Colors.navigationTop} size={22} />
     </View>
   ),
 }

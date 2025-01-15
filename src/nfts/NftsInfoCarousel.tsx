@@ -254,7 +254,6 @@ NftsInfoCarousel.navigationOptions = () => ({
 const styles = StyleSheet.create({
   attributeText: {
     ...typeScale.bodyMedium,
-    color: colors.black,
   },
   attributeTitle: {
     ...typeScale.labelSmall,

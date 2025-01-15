@@ -134,7 +134,6 @@ const styles = StyleSheet.create({
   },
   amount: {
     ...typeScale.labelMedium,
-    color: colors.black,
     flexWrap: 'wrap',
     textAlign: 'right',
   },

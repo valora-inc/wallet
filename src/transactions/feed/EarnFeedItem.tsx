@@ -168,7 +168,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelMedium,
-    color: Colors.black,
   },
   subtitle: {
     ...typeScale.bodySmall,
@@ -179,7 +178,6 @@ const styles = StyleSheet.create({
   },
   amountTitle: {
     ...typeScale.labelMedium,
-    color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'right',
   },

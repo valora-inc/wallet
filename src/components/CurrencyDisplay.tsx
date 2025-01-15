@@ -6,7 +6,6 @@ import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/localCurrency/types'
-import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import {
@@ -36,7 +35,6 @@ interface Props {
   type: DisplayType
   amount: MoneyAmount
   size: number // only used for DisplayType.Big
-  useColors: boolean
   hideSign: boolean
   hideSymbol: boolean
   hideCode: boolean
@@ -122,7 +120,6 @@ export function getFullCurrencyName(currency: Currency | null) {
 export default function CurrencyDisplay({
   type,
   size,
-  useColors,
   hideSign,
   hideSymbol,
   hideCode,
@@ -164,11 +161,7 @@ export default function CurrencyDisplay({
   const code = displayAmount?.currencyCode
   const fullCurrencyName = getFullCurrencyName(amountCurrency)
 
-  const color = useColors
-    ? amountCurrency === Currency.Celo
-      ? colors.goldBrand
-      : colors.accent
-    : StyleSheet.flatten(style)?.color
+  const color = StyleSheet.flatten(style)?.color
 
   if (type === DisplayType.Big) {
     // In this type the symbol is displayed as superscript
@@ -233,7 +226,6 @@ export default function CurrencyDisplay({
 CurrencyDisplay.defaultProps = {
   type: DisplayType.Default,
   size: 48,
-  useColors: false,
   hideSign: false,
   hideSymbol: false,
   hideCode: true,

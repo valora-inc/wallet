@@ -2301,15 +2301,15 @@
     "descriptionLabel": "Подробности",
     "depositTitle": "Депонировано",
     "depositSubtitle": "Депонировано {{tokenSymbol}} в пул {{txAppName}}",
-    "depositSubtitle_noTxAppName": "Поместил {{tokenSymbol}} в приложение",
+    "depositSubtitle_noTxAppName": "{{tokenSymbol}} внесен в приложение",
     "depositDetails": "Вложенная сумма",
     "withdrawTitle": "Выведено",
     "withdrawSubtitle": "Выведено {{tokenSymbol}} из пула {{txAppName}}",
-    "withdrawSubtitle_noTxAppName": "Выведи {{tokenSymbol}} из приложения",
+    "withdrawSubtitle_noTxAppName": "{{tokenSymbol}} выведен из приложения",
     "withdrawDetails": "Сумма выведено",
     "claimRewardTitle": "Получено",
     "claimRewardSubtitle": "Получено {{tokenSymbol}} из пула {{txAppName}}",
-    "claimRewardSubtitle_noTxAppName": "Собранные {{tokenSymbol}} из приложения",
+    "claimRewardSubtitle_noTxAppName": "{{tokenSymbol}} получен из приложения",
     "claimRewardDetails": "Полученная сумма",
     "swap": "Обмен",
     "network": "Сообщество",
@@ -2583,7 +2583,7 @@
       "fees": "Комиссия",
       "available": "Доступно",
       "swap": "Обмен",
-      "estimatedDuration": "Эст. Время транзакции",
+      "estimatedDuration": "Прибл. время транзакции",
       "claimingReward": "Заявка на получение вознаграждений",
       "earnUpToLabel": "Вы можете заработать до:",
       "rateLabel": "Ставка (прибл.)",
@@ -2603,13 +2603,13 @@
         "moreInformation": "Дополнительная информация",
         "estNetworkFee": "Прибл. комиссия сообщества",
         "maxNetworkFee": "Максимальная комиссия сеть",
-        "estCrossChainFee": "Эст. Плата за перекрестную цепочку",
-        "maxCrossChainFee": "Максимальный сбор за перекрестную цепочку",
+        "estCrossChainFee": "Прибл. кроссчейн-комиссия",
+        "maxCrossChainFee": "Макс. кроссчейн-комиссия",
         "description_deposit": "Эта комиссия необходима сообществу для обработки операции пополнения счета.",
         "description_withdraw": "Сетевая комиссия требуется сети для обработки транзакции вывода средств.",
         "description_depositSwapFee": "Комиссия необходима сообществу для обработки операции пополнению счета. Комиссия {{appName}} в размере {{appFeePercentage}}% взимается за использование нашего продукта.",
-        "description_depositCrossChain": "Сетевая комиссия требуется сети для обработки депозитной операции. Плата за кросс-цепочку взимается провайдером кросс-цепочки.",
-        "description_depositCrossChainWithSwapFee": "Сетевая комиссия необходима сети для обработки операций по пополнению счета. Комиссия {{appName}} в размере {{appFeePercentage}}% взимается за использование тобой нашего продукта. Плата за кросс-цепочку взимается провайдером кросс-цепочки.",
+        "description_depositCrossChain": "Комиссия сообщества требуется ему для обработки транзакции внесения. Кроссчейн-комиссия взимается поставщиком кроссчейна.",
+        "description_depositCrossChainWithSwapFee": "Комиссия сообщества необходима ему для обработки транзакций внесения. Комиссия {{appName}} в размере {{appFeePercentage}}% взимается за использование нашего продукта. Кроссчейн-комиссия взимается поставщиком кроссчейна.",
         "appSwapFee": "Комиссия {{appName}}"
       },
       "swapBottomSheet": {
@@ -2790,16 +2790,16 @@
     },
     "beforeDepositBottomSheet": {
       "youNeedTitle": "Для пополнения счета потребуется {{tokenSymbol}} в {{tokenNetwork}}",
-      "depositTitle": "Депозит в бассейн",
+      "depositTitle": "Внесение в пул",
       "crossChainAlternativeDescription": "Если вы не хотите использовать свои токены в {{tokenNetwork}}, выберите вариант ниже. Потребуется вернуться, чтобы завершить пополнение счета в пуле позже.",
-      "alternativeDescription": "Если ты не хочешь использовать свои жетоны, выбери вариант ниже. Тебе нужно будет вернуться, чтобы заполнить депозит в бассейне, позже.",
+      "alternativeDescription": "Если вы не хотите использовать свои токены, выбери вариант ниже. Вам потребуется вернуться, чтобы завершить внесение в пул позже.",
       "beforeYouCanDepositTitle": "Для пополнения счета...",
       "beforeYouCanDepositDescription": "Вам потребуется добавить один из токенов пула. После добавления потребуется вернуться, чтобы завершить пополнение счета в пуле.",
-      "beforeYouCanDepositDescriptionV1_101": "Тебе нужно будет добавить {{tokenSymbol}} на сайте {{tokenNetwork}}. После добавления тебе нужно будет вернуться, чтобы завершить депозит за бассейн.",
+      "beforeYouCanDepositDescriptionV1_101": "Вам потребуется добавить {{tokenSymbol}} в {{tokenNetwork}}. После добавления вам потребуется вернуться, чтобы завершить внесение в пул.",
       "action": {
         "swapAndDeposit": "Обмен и пополнение счета",
         "swapAndDepositDescription": "Выберите любой токен в {{tokenNetwork}}. Мы сразу выполним обмен и пополнение счета.",
-        "swapAndDepositAllTokensDescription": "Выбирай любой токен - мы обменяем и пополним его одновременно для тебя.",
+        "swapAndDepositAllTokensDescription": "Выбирайте любой токен — мы обменяем и одновременно внесем его на счет.",
         "crossChainSwap": "Кроссчейн-обмен",
         "crossChainSwapDescription": "Обменяйте токен в другой сети на {{tokenSymbol}}",
         "swap": "Обмен",
@@ -2808,9 +2808,9 @@
         "addDescription": "Купите {{tokenSymbol}} в {{tokenNetwork}} с помощью одного из доверенных поставщиков",
         "transfer": "Перевод",
         "transferDescription": "Используйте совместимый с {{tokenNetwork}} кошелек или криптобиржу для депонирования {{tokenSymbol}}",
-        "addMore": "Покупай больше {{tokenSymbol}}",
-        "deposit": "Пополни свой счет {{tokenSymbol}}",
-        "depositDescription": "У тебя есть {{amount}} {{tokenSymbol}}."
+        "addMore": "Купите больше {{tokenSymbol}}",
+        "deposit": "Внесите свой {{tokenSymbol}}",
+        "depositDescription": "У вас есть {{amount}} {{tokenSymbol}}"
       }
     }
   },
@@ -2832,7 +2832,7 @@
     "availableBalance": "Доступно: <0></0>",
     "selectToken": "Выберите токен",
     "fiatPriceUnavailable": "Цена недоступна",
-    "tokenDescription": "{{tokenName}} на {{tokenNetwork}}"
+    "tokenDescription": "{{tokenName}} в {{tokenNetwork}}"
   },
   "gasFeeWarning": {
     "title": "Тебе нужно больше {{tokenSymbol}} для оплаты газа.",

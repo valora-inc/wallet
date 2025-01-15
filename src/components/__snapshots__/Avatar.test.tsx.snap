@@ -45,6 +45,7 @@ exports[`Avatar renders correctly with address and name but no number 1`] = `
         style={
           [
             {
+              "color": "#2E3338",
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 24,
@@ -67,11 +68,13 @@ exports[`Avatar renders correctly with address and name but no number 1`] = `
     style={
       [
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 14,
           "lineHeight": 20,
         },
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 12,
           "letterSpacing": 0.12,
@@ -90,6 +93,7 @@ exports[`Avatar renders correctly with address and name but no number 1`] = `
     numberOfLines={1}
     style={
       {
+        "color": "#2E3338",
         "fontFamily": "Inter-Regular",
         "fontSize": 12,
         "letterSpacing": 0.12,
@@ -164,11 +168,13 @@ exports[`Avatar renders correctly with address but no name nor number 1`] = `
     style={
       [
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 14,
           "lineHeight": 20,
         },
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 12,
           "letterSpacing": 0.12,
@@ -244,11 +250,13 @@ exports[`Avatar renders correctly with just number 1`] = `
     style={
       [
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 14,
           "lineHeight": 20,
         },
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 12,
           "letterSpacing": 0.12,
@@ -273,6 +281,7 @@ exports[`Avatar renders correctly with just number 1`] = `
       style={
         {
           "alignItems": "center",
+          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 14,
           "justifyContent": "center",
@@ -344,6 +353,7 @@ exports[`Avatar renders correctly with number and name 1`] = `
         style={
           [
             {
+              "color": "#2E3338",
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 24,
@@ -366,11 +376,13 @@ exports[`Avatar renders correctly with number and name 1`] = `
     style={
       [
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 14,
           "lineHeight": 20,
         },
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 12,
           "letterSpacing": 0.12,
@@ -395,6 +407,7 @@ exports[`Avatar renders correctly with number and name 1`] = `
       style={
         {
           "alignItems": "center",
+          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 14,
           "justifyContent": "center",

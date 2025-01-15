@@ -101,7 +101,7 @@ export default function EstimatedNetworkFee({ isLoading, networkId, transactions
             <SkeletonPlaceholder
               borderRadius={100} // ensure rounded corners with font scaling
               backgroundColor={Colors.gray2}
-              highlightColor={Colors.white}
+              highlightColor={Colors.skeletonPlaceholderHighlight}
               testID="EstimatedNetworkFee/Loading"
             >
               <View style={styles.loader} />
@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
   },
   amountPrimaryText: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.black,
   },
   amountSecondaryText: {
     ...typeScale.bodyXSmall,

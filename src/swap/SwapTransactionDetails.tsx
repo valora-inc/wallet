@@ -123,7 +123,7 @@ function ValueWithLoading({ value, isLoading }: { value: React.ReactNode; isLoad
             <SkeletonPlaceholder
               borderRadius={100}
               backgroundColor={colors.gray2}
-              highlightColor={colors.white}
+              highlightColor={colors.skeletonPlaceholderHighlight}
               testID="SwapTransactionDetails/ExchangeRate/Loader"
             >
               <View style={styles.loader} />
@@ -264,7 +264,6 @@ const styles = StyleSheet.create({
   },
   value: {
     ...typeScale.bodySmall,
-    color: colors.black,
     textAlign: 'right',
   },
   label: {

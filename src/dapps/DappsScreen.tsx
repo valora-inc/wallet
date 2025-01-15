@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   refreshControl: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
   },
   sectionList: {
     flex: 1,
@@ -352,7 +352,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
-    color: Colors.black,
   },
   titleContainer: {
     marginBottom: Spacing.Thick24,

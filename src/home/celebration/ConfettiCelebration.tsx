@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   backdrop: {
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.backgroundInverse,
   },
   confetti: {
     ...StyleSheet.absoluteFillObject,
@@ -161,11 +161,9 @@ const styles = StyleSheet.create({
   titleText: {
     ...typeScale.labelSemiBoldSmall,
     marginBottom: Spacing.Tiny4,
-    color: Colors.black,
   },
   descriptionText: {
     ...typeScale.bodyXSmall,
-    color: Colors.black,
   },
 })
 

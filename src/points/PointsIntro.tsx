@@ -14,7 +14,6 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { pointsIntroDismissed } from 'src/points/slice'
 import { useDispatch } from 'src/redux/hooks'
-import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -76,12 +75,10 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleLarge,
-    color: Colors.black,
     textAlign: 'center',
   },
   description: {
     ...typeScale.bodySmall,
-    color: Colors.black,
     marginTop: Spacing.Regular16,
     textAlign: 'center',
   },

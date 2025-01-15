@@ -41,7 +41,7 @@ export default class SmallButton extends React.Component<ButtonProps> {
             accessibilityLabel={accessibilityLabel}
             style={[
               styles.text,
-              solid ? { color: colors.white } : { color: colors.accent },
+              solid ? { color: colors.textInverse } : { color: colors.accent },
               children ? styles.textPadding : null,
               textStyle,
             ]}

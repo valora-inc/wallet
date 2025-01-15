@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
     marginBottom: Spacing.Smallest8,
   },
   description: {
@@ -103,7 +102,6 @@ const styles = StyleSheet.create({
   },
   balance: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.black,
   },
   linearGradient: {
     height: 40,
@@ -116,7 +114,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     flex: 1,
     margin: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
     justifyContent: 'center',
     paddingHorizontal: Spacing.Small12,
     paddingVertical: 6,

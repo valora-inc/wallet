@@ -37,7 +37,7 @@ function Times({ color, height, strokeWidth }: Props) {
 
 Times.defaultProps = {
   height: 16,
-  color: colors.black,
+  color: colors.textPrimary,
   strokeWidth: 2,
 }
 

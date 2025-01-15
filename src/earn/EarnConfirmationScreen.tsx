@@ -283,10 +283,16 @@ function GasFeeError() {
 function GasFeeLoading() {
   return (
     <View testID="EarnConfirmation/GasLoading">
-      <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
+      <SkeletonPlaceholder
+        backgroundColor={Colors.gray2}
+        highlightColor={Colors.skeletonPlaceholderHighlight}
+      >
         <View style={styles.gasFeeCryptoLoading} />
       </SkeletonPlaceholder>
-      <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
+      <SkeletonPlaceholder
+        backgroundColor={Colors.gray2}
+        highlightColor={Colors.skeletonPlaceholderHighlight}
+      >
         <View style={styles.gasFeeFiatLoading} />
       </SkeletonPlaceholder>
     </View>
@@ -363,7 +369,6 @@ const styles = StyleSheet.create({
   },
   cryptoText: {
     ...typeScale.labelSemiBoldLarge,
-    color: Colors.black,
   },
   fiatText: {
     ...typeScale.bodySmall,
@@ -371,7 +376,6 @@ const styles = StyleSheet.create({
   },
   collectItemTitle: {
     ...typeScale.labelSemiBoldXSmall,
-    color: Colors.black,
     marginBottom: Spacing.Smallest8,
   },
   separator: {

@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     padding: Spacing.Thick24,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
     width: '100%',
   },
   title: {

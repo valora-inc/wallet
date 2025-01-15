@@ -136,7 +136,7 @@ function SimplexScreen({ route, navigation }: Props) {
             onPress={onButtonPress}
             disabled={!simplexPaymentRequest?.paymentId}
             showLoading={asyncSimplexPaymentData.status === 'loading'}
-            loadingColor={colors.white}
+            loadingColor={colors.textInverse}
           />
         </View>
       ) : (

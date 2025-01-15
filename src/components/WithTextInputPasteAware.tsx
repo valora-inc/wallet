@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   pasteIconContainer: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
     position: 'absolute',
     right: 11,
     top: 13,

@@ -266,7 +266,6 @@ const styles = StyleSheet.create({
   },
   walletTabTitle: {
     ...typeScale.titleMedium,
-    color: Colors.black,
     marginRight: 10,
   },
   totalAssetsInfoContainer: {
@@ -275,12 +274,12 @@ const styles = StyleSheet.create({
     width: 190,
     paddingVertical: Spacing.Smallest8,
     paddingHorizontal: Spacing.Regular16,
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.backgroundInverse,
     borderRadius: 8,
   },
   totalAssetsInfoText: {
     ...typeScale.bodySmall,
-    color: Colors.white,
+    color: Colors.textInverse,
     textAlign: 'center',
   },
   titleExchange: {
@@ -303,7 +302,6 @@ const styles = StyleSheet.create({
   },
   totalBalance: {
     ...typeScale.titleLarge,
-    color: Colors.black,
   },
   exchangeBalance: {
     ...typeScale.labelLarge,

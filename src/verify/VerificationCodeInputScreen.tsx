@@ -69,10 +69,10 @@ function VerificationCodeInputScreen({
           title={t('phoneVerificationInput.help')}
           testID="PhoneVerificationHelpHeader"
           onPress={onPressHelp}
-          titleStyle={{ color: colors.black }}
+          titleStyle={{ color: colors.navigationTop }}
         />
       ),
-      headerLeft: () => <BackButton color={colors.black} />,
+      headerLeft: () => <BackButton color={colors.navigationTop} />,
       headerTransparent: true,
     })
   }, [navigation, route.params])

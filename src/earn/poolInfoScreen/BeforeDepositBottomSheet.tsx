@@ -20,7 +20,6 @@ import { EarnPosition } from 'src/positions/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
@@ -442,10 +441,8 @@ const styles = StyleSheet.create({
   },
   actionDetails: {
     ...typeScale.bodySmall,
-    color: Colors.black,
   },
   bottomSheetTitle: {
     ...typeScale.titleSmall,
-    color: Colors.black,
   },
 })

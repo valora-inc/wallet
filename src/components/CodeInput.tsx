@@ -41,9 +41,9 @@ export default function CodeInput({
   const showStatus = showCheckmark || showSpinner || showError
 
   const textColorForStatus = {
-    [CodeInputStatus.Inputting]: colors.black,
+    [CodeInputStatus.Inputting]: colors.textPrimary,
     [CodeInputStatus.Processing]: colors.gray3,
-    [CodeInputStatus.Error]: colors.error,
+    [CodeInputStatus.Error]: colors.errorDark,
     [CodeInputStatus.Accepted]: colors.successDark,
   }
   return (
@@ -85,7 +85,7 @@ export default function CodeInput({
 
           {showError && (
             <AttentionIcon
-              color={colors.error}
+              color={colors.errorDark}
               testId={testID ? `${testID}/ErrorIcon` : undefined}
               size={20}
             />

@@ -16,7 +16,7 @@ function HiddenEyeIcon({ color, size }: Props) {
       </G>
       <Defs>
         <ClipPath id="a">
-          <Path fill={Colors.white} d="M0 0h24v24H0z" />
+          <Path fill={Colors.textInverse} d="M0 0h24v24H0z" />
         </ClipPath>
       </Defs>
     </Svg>
@@ -25,7 +25,7 @@ function HiddenEyeIcon({ color, size }: Props) {
 
 HiddenEyeIcon.defaultProps = {
   size: 24,
-  color: Colors.black,
+  color: Colors.textPrimary,
 }
 
 export default HiddenEyeIcon

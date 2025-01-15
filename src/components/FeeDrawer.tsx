@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.bodyMedium,
-    color: colors.black,
   },
   dropDownText: {
     ...typeScale.bodyMedium,

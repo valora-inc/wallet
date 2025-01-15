@@ -129,7 +129,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
                 showLocalAmount={false}
                 style={styles.bodyText}
               />
-              <ArrowRightThick size={20} color={Colors.black} />
+              <ArrowRightThick size={20} color={Colors.textPrimary} />
               <TokenDisplay
                 testID="EarnSwapDeposit/Swap/To"
                 tokenId={depositAmount.tokenId}
@@ -218,11 +218,9 @@ export function EarnWithdrawContent({ transaction }: EarnWithdrawProps) {
 const styles = StyleSheet.create({
   detailsTitle: {
     ...typeScale.labelSmall,
-    color: Colors.black,
   },
   detailsSubtitle: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
   },
   row: {
     flex: 1,
@@ -232,16 +230,13 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
   },
   bodyTextValue: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     textAlign: 'right',
   },
   amountTitle: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
   },
   amountSubtitle: {
     ...typeScale.bodySmall,

@@ -102,13 +102,16 @@ export default function EnterAmountOptions({
             <View
               style={[
                 styles.chip,
-                { backgroundColor: selectedAmount === amount ? Colors.black : 'transparent' },
+                {
+                  backgroundColor:
+                    selectedAmount === amount ? Colors.backgroundInverse : 'transparent',
+                },
               ]}
             >
               <Text
                 style={[
                   styles.chipText,
-                  { color: selectedAmount === amount ? Colors.white : Colors.black },
+                  { color: selectedAmount === amount ? Colors.textInverse : Colors.textPrimary },
                 ]}
               >
                 {label}
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
   chip: {
     borderWidth: 1,
     borderRadius: 100,
-    borderColor: Colors.black,
+    borderColor: Colors.textPrimary,
     paddingVertical: Spacing.Smallest8,
     paddingHorizontal: Spacing.Regular16,
   },

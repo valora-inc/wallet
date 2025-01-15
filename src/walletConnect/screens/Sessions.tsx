@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     ...typeScale.bodyMedium,
-    color: colors.black,
     paddingBottom: Spacing.Small12,
   },
 
@@ -133,7 +132,6 @@ const styles = StyleSheet.create({
   },
   appName: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.black,
   },
   disconnectButton: {
     ...typeScale.bodySmall,

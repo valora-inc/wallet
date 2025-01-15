@@ -54,13 +54,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 5,
     paddingHorizontal: Spacing.Thick24,
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
     flexDirection: 'row',
     height: Spacing.XLarge48,
     flexGrow: 1,
   },
   fontStyle: {
     ...typeScale.labelSemiBoldMedium,
-    color: colors.black,
   },
 })

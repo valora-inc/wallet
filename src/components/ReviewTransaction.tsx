@@ -231,7 +231,6 @@ const styles = StyleSheet.create({
   },
   reviewSummaryItemTitle: {
     ...typeScale.labelSemiBoldLarge,
-    color: Colors.black,
   },
   reviewSummaryItemSubtitle: {
     ...typeScale.bodySmall,
@@ -257,7 +256,6 @@ const styles = StyleSheet.create({
   },
   reviewDetailsItemTextBold: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
   },
   reviewFooter: {
     gap: Spacing.Regular16,

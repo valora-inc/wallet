@@ -35,7 +35,10 @@ function SegmentedControl({ values, selectedIndex, onChange }: Props) {
           onPress={handleSelectOption(value, index)}
         >
           <Text
-            style={[styles.text, { color: index === selectedIndex ? Colors.white : Colors.gray4 }]}
+            style={[
+              styles.text,
+              { color: index === selectedIndex ? Colors.textInverse : Colors.gray4 },
+            ]}
           >
             {value}
           </Text>

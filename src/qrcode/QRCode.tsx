@@ -99,7 +99,7 @@ export default function QRCodeDisplay(props: Props) {
       <Button
         text={t('fiatExchangeFlow.exchange.copyAddress')}
         onPress={onPressCopy}
-        icon={<CopyIcon color={colors.white} />}
+        icon={<CopyIcon color={colors.textInverse} />}
         iconMargin={12}
         iconPositionLeft={false}
         testID="copyButton"
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
   },
   link: {
     ...typeScale.labelSemiBoldMedium,

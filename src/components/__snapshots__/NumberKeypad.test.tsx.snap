@@ -62,6 +62,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -116,6 +117,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -170,6 +172,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -235,6 +238,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -289,6 +293,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -343,6 +348,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -408,6 +414,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -462,6 +469,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -516,6 +524,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -580,6 +589,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -634,6 +644,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -687,6 +698,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -786,6 +798,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -840,6 +853,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -894,6 +908,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -959,6 +974,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -1013,6 +1029,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -1067,6 +1084,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -1132,6 +1150,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -1186,6 +1205,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -1240,6 +1260,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -1268,6 +1289,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       style={
         {
           "alignItems": "center",
+          "color": "#2E3338",
           "fontFamily": "Inter-Medium",
           "fontSize": 22,
           "justifyContent": "center",
@@ -1319,6 +1341,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",
@@ -1372,6 +1395,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
         style={
           {
             "alignItems": "center",
+            "color": "#2E3338",
             "fontFamily": "Inter-Medium",
             "fontSize": 22,
             "justifyContent": "center",

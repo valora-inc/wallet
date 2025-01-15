@@ -78,7 +78,7 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
                 showLocalAmount={false}
                 style={styles.bodyText}
               />
-              <ArrowRightThick size={20} color={Colors.black} />
+              <ArrowRightThick size={20} color={Colors.textPrimary} />
               <TokenDisplay
                 testID="DepositOrWithdraw/Swap/To"
                 tokenId={transaction.swap.inAmount.tokenId}
@@ -117,11 +117,9 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
 const styles = StyleSheet.create({
   detailsTitle: {
     ...typeScale.labelSmall,
-    color: Colors.black,
   },
   detailsSubtitle: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
   },
   row: {
     flex: 1,
@@ -131,16 +129,13 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
   },
   bodyTextValue: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     textAlign: 'right',
   },
   amountTitle: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
   },
   amountSubtitle: {
     ...typeScale.bodySmall,

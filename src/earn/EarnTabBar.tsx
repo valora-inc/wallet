@@ -69,6 +69,5 @@ const styles = StyleSheet.create({
   },
   itemSelected: {
     ...typeScale.labelMedium,
-    color: Colors.black,
   },
 })

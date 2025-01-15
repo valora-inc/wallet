@@ -386,6 +386,5 @@ const styles = StyleSheet.create({
   },
   importTokenText: {
     ...typeScale.labelMedium,
-    color: Colors.black,
   },
 })

@@ -18,6 +18,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
         <Text
           style={
             {
+              "color": "#2E3338",
               "fontFamily": "Inter-Bold",
               "fontSize": 20,
               "lineHeight": 28,
@@ -33,6 +34,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             <Text
               style={
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 24,
@@ -45,6 +47,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             <Text
               style={
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 24,
@@ -57,6 +60,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             <Text
               style={
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 14,
                   "lineHeight": 20,
@@ -249,6 +253,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
           onPress={[Function]}
           style={
             {
+              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
               "lineHeight": 20,
@@ -326,6 +331,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
         <Text
           style={
             {
+              "color": "#2E3338",
               "fontFamily": "Inter-Bold",
               "fontSize": 20,
               "lineHeight": 28,
@@ -341,6 +347,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
             <Text
               style={
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 24,
@@ -353,6 +360,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
             <Text
               style={
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 14,
                   "lineHeight": 20,
@@ -746,6 +754,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
           onPress={[Function]}
           style={
             {
+              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
               "lineHeight": 20,

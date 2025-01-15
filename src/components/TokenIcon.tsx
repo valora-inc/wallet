@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray2,
   },
   tokenText: {
-    color: colors.black,
     textAlign: 'center',
   },
 })

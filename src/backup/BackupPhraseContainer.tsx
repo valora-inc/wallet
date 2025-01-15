@@ -174,7 +174,6 @@ const styles = StyleSheet.create({
   },
   wordText: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.black,
   },
   phraseContainer: {
     flexWrap: 'wrap',
