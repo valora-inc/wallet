@@ -812,7 +812,7 @@ export function SwapScreen({ route }: Props) {
               testID="SwapScreen/SwitchTokens"
             >
               <CircledIcon radius={Spacing.Large32} backgroundColor={colors.textPrimary}>
-                <ArrowDown color={colors.white} />
+                <ArrowDown color={colors.textInverse} />
               </CircledIcon>
             </Touchable>
           </View>

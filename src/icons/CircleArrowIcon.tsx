@@ -28,7 +28,7 @@ export default function CircleArrowIcon({ style }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
     width: SIZE,
     height: SIZE,
     borderRadius: SIZE / 2,

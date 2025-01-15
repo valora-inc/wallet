@@ -42,7 +42,7 @@ function HamburgerCard() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
     ...elevationShadowStyle(12),
     alignItems: 'center',
     justifyContent: 'center',

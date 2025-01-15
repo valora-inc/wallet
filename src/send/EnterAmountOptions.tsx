@@ -111,7 +111,7 @@ export default function EnterAmountOptions({
               <Text
                 style={[
                   styles.chipText,
-                  { color: selectedAmount === amount ? Colors.white : Colors.textPrimary },
+                  { color: selectedAmount === amount ? Colors.textInverse : Colors.textPrimary },
                 ]}
               >
                 {label}

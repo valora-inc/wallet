@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     marginRight: Spacing.Smallest8,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
     borderRadius: 100,
   },
   dappName: {

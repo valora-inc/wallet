@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     ...getShadowStyle(Shadow.SoftLight),
     paddingBottom: Spacing.Regular16,
     paddingHorizontal: Spacing.Regular16,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
     position: 'absolute',
     width: '100%',
     zIndex: 1,

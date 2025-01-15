@@ -139,7 +139,7 @@ const SwapAmountInput = ({
                 <SkeletonPlaceholder
                   borderRadius={100} // ensure rounded corners with font scaling
                   backgroundColor={Colors.gray2}
-                  highlightColor={Colors.white}
+                  highlightColor={Colors.skeletonPlaceholderHighlight}
                   testID="SwapAmountInput/Loader"
                 >
                   <View style={styles.loader} />

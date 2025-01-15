@@ -160,7 +160,7 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
   let borderColor
   switch (type) {
     case BtnTypes.PRIMARY:
-      textColor = Colors.white
+      textColor = Colors.textInverse
       backgroundColor = Colors.buttonPrimary
       opacity = disabled ? 0.25 : 1.0
       break
@@ -172,7 +172,7 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       break
     case BtnTypes.TERTIARY:
       textColor = Colors.textPrimary
-      backgroundColor = Colors.white
+      backgroundColor = Colors.background
       borderColor = Colors.gray2
       opacity = disabled ? 0.5 : 1.0
       break

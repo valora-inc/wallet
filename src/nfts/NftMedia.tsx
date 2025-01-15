@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import Video, { ResizeMode } from 'react-native-video'
-import { NftEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { NftEvents } from 'src/analytics/Events'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import { nftsLoadingSelector } from 'src/nfts/selectors'
 import { Nft, NftOrigin } from 'src/nfts/types'
@@ -40,7 +40,7 @@ function Placeholder({
     <SkeletonPlaceholder
       borderRadius={borderRadius}
       backgroundColor={colors.gray2}
-      highlightColor={colors.white}
+      highlightColor={colors.skeletonPlaceholderHighlight}
       testID={testID}
     >
       <View

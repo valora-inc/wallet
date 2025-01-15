@@ -99,7 +99,7 @@ function CodeRow({
 const styles = StyleSheet.create({
   codeInput: {
     flex: 0,
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
     borderColor: colors.gray2,
     borderRadius: 3,
     borderWidth: 1,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   codeProcessingContainer: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
     position: 'relative',
     justifyContent: 'center',
     marginVertical: 5,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   codeInputSpinner: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
     position: 'absolute',
     top: 5,
     right: 3,

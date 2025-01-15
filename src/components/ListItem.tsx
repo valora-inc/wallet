@@ -33,7 +33,7 @@ export default function ListItem({ children, onPress, disabled, testID, borderle
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
   },
   innerView: {
     paddingVertical: variables.contentPadding,

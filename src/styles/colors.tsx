@@ -2,16 +2,19 @@
 // from https://www.figma.com/design/erFfzHvSTm5g1sjK6jWyEH/Working-Design-System?node-id=2100-4881&node-type=frame&t=vKGGXrs3Torz7kFE-0
 enum Colors {
   // backgrounds
+  background = '#FFFFFF',
   backgroundInverse = '#2E3338',
 
   // text
   textPrimary = '#2E3338',
+  textInverse = '#FFFFFF',
 
   // borders, shadows, highlights
   shadow = '#2E3338',
   softShadow = 'rgba(156, 164, 169, 0.4)',
   lightShadow = 'rgba(48, 46, 37, 0.15)',
   barShadow = 'rgba(129, 134, 139, 0.5)',
+  skeletonPlaceholderHighlight = '#FFFFFF',
 
   // interactive elements
   navigationTop = '#2E3338',
@@ -36,8 +39,6 @@ enum Colors {
   infoDark = '#0768AE',
   /** @deprecated */
   onboardingBrownLight = '#A49B80',
-  /** @deprecated */
-  white = '#FFFFFF',
   /** @deprecated */
   gray5 = '#505050',
   /** @deprecated */

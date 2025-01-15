@@ -135,8 +135,8 @@ export default function RecoveryPhraseInput({
 const styles = StyleSheet.create({
   container: {
     padding: 0,
-    backgroundColor: colors.white,
-    borderColor: colors.white,
+    backgroundColor: colors.background,
+    borderColor: colors.background,
     borderRadius: Spacing.Smallest8,
     borderWidth: 1,
   },

@@ -171,7 +171,7 @@ function OptionLineItem({ onPress, text, iconUrl, isSelected }: OptionLineItemPr
 const styles = StyleSheet.create({
   doneButton: {
     borderRadius: Spacing.Regular16,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
     height: 56,
     flexGrow: 1,
     alignItems: 'center',
@@ -225,12 +225,12 @@ const styles = StyleSheet.create({
   borderRadiusTop: {
     borderTopLeftRadius: Spacing.Regular16,
     borderTopRightRadius: Spacing.Regular16,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
   },
   optionsContainer: {
     flexDirection: 'column',
     marginBottom: Spacing.Smallest8,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.background,
     borderBottomLeftRadius: Spacing.Regular16,
     borderBottomRightRadius: Spacing.Regular16,
   },
