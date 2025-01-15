@@ -37,8 +37,6 @@ enum Colors {
   /** @deprecated */
   infoLight = '#E8F8FF',
   /** @deprecated */
-  goldBrand = '#FBCC5C',
-  /** @deprecated */
   onboardingBrownLight = '#A49B80',
   /** @deprecated */
   white = '#FFFFFF',

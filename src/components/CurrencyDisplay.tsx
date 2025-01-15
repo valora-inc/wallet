@@ -6,7 +6,6 @@ import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/localCurrency/types'
-import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import {
@@ -164,11 +163,7 @@ export default function CurrencyDisplay({
   const code = displayAmount?.currencyCode
   const fullCurrencyName = getFullCurrencyName(amountCurrency)
 
-  const color = useColors
-    ? amountCurrency === Currency.Celo
-      ? colors.goldBrand
-      : colors.accent
-    : StyleSheet.flatten(style)?.color
+  const color = StyleSheet.flatten(style)?.color
 
   if (type === DisplayType.Big) {
     // In this type the symbol is displayed as superscript
