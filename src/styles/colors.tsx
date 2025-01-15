@@ -29,8 +29,6 @@ enum Colors {
   // states
   inactive = '#757575', // disabled, inactive, or placeholder
 
-  // states
-
   // other
   successDark = '#137211',
   successLight = '#F1FDF1',
