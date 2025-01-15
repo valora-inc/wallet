@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
   },
   containerError: {
-    backgroundColor: colors.error,
+    backgroundColor: colors.errorDark,
   },
   containerWithButton: {
     flexDirection: 'column',

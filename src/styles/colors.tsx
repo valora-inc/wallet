@@ -30,7 +30,6 @@ enum Colors {
   successLight = '#F1FDF1',
   warningDark = '#9C6E00',
   warningLight = '#FFF9EA',
-  error = '#EA6042',
   errorDark = '#C93717',
   errorLight = '#FBF2F0',
   gradientBorderLeft = '#26d98a',
@@ -38,14 +37,6 @@ enum Colors {
 
   /** @deprecated */
   infoDark = '#0768AE',
-  /** @deprecated */
-  infoLight = '#E8F8FF',
-  /** @deprecated */
-  ivory = '#F9F6F0',
-  /** @deprecated */
-  accentDisabled = `${accent}80`, // 50% opacity
-  /** @deprecated */
-  goldBrand = '#FBCC5C',
   /** @deprecated */
   onboardingBrownLight = '#A49B80',
   /** @deprecated */

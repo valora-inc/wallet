@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
   },
   chip: {
     marginTop: Spacing.Smallest8,
-    backgroundColor: Colors.infoLight,
+    backgroundColor: Colors.successLight,
     paddingVertical: 2,
     paddingHorizontal: Spacing.Smallest8,
     borderRadius: 100,

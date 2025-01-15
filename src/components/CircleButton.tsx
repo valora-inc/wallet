@@ -20,7 +20,7 @@ export default class CircleButton extends React.PureComponent<ButtonProps> {
     size: 50,
     disable: false,
     activeColor: colors.accent,
-    inactiveColor: colors.accentDisabled,
+    inactiveColor: `${colors.accent}80`,
   }
 
   render() {
