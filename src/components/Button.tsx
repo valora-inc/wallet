@@ -23,7 +23,7 @@ export enum BtnSizes {
   FULL = 'full',
 }
 
-export enum TextSizes {
+enum TextSizes {
   SMALL = 'small',
   MEDIUM = 'medium',
 }
