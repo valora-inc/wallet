@@ -25,9 +25,9 @@ function TransactionStatusIndicator({ status, testID }: Props) {
   }[status]
 
   const [color, backgroundColor] = {
-    [TransactionStatus.Complete]: [Colors.successDark, Colors.successLight],
-    [TransactionStatus.Pending]: [Colors.warningDark, Colors.warningLight],
-    [TransactionStatus.Failed]: [Colors.errorDark, Colors.errorLight],
+    [TransactionStatus.Complete]: [Colors.success, Colors.successSecondary],
+    [TransactionStatus.Pending]: [Colors.warning, Colors.warningSecondary],
+    [TransactionStatus.Failed]: [Colors.error, Colors.errorSecondary],
   }[status]
 
   const icon = {

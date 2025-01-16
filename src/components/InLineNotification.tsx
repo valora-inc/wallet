@@ -137,16 +137,16 @@ const variantColors: Record<NotificationVariant, CustomColors> = {
     secondary: Colors.gray1,
   },
   [NotificationVariant.Success]: {
-    primary: Colors.successDark,
-    secondary: Colors.successLight,
+    primary: Colors.success,
+    secondary: Colors.successSecondary,
   },
   [NotificationVariant.Warning]: {
-    primary: Colors.warningDark,
-    secondary: Colors.warningLight,
+    primary: Colors.warning,
+    secondary: Colors.warningSecondary,
   },
   [NotificationVariant.Error]: {
-    primary: Colors.errorDark,
-    secondary: Colors.errorLight,
+    primary: Colors.error,
+    secondary: Colors.errorSecondary,
   },
 }
 

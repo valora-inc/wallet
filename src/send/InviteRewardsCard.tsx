@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
     gap: Spacing.Regular16,
     borderRadius: Spacing.Smallest8,
-    backgroundColor: Colors.successLight,
+    backgroundColor: Colors.successSecondary,
   },
   container: {
     marginHorizontal: Spacing.Thick24,

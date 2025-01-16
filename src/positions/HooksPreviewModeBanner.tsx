@@ -18,7 +18,7 @@ const STATUS_COLORS = {
   idle: colors.gray2,
   loading: colors.gray2,
   success: colors.accent,
-  error: colors.errorDark,
+  error: colors.error,
 }
 
 export default function HooksPreviewModeBanner() {
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     top: -10,
     left: 0,
     right: 0,
-    backgroundColor: colors.warningDark,
+    backgroundColor: colors.warning,
   },
   text: {
     ...typeScale.labelXSmall,

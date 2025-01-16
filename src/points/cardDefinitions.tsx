@@ -1,20 +1,20 @@
+import { TFunction } from 'i18next'
 import React from 'react'
-import { ClaimHistoryCardItem, CreateLiveLinkClaimHistory } from 'src/points/types'
-import Celebration from 'src/icons/Celebration'
-import SwapArrows from 'src/icons/SwapArrows'
-import MagicWand from 'src/icons/MagicWand'
 import { useTranslation } from 'react-i18next'
+import IconWithNetworkBadge from 'src/components/IconWithNetworkBadge'
+import Celebration from 'src/icons/Celebration'
+import CircledIcon from 'src/icons/CircledIcon'
+import EarnCoins from 'src/icons/EarnCoins'
+import MagicWand from 'src/icons/MagicWand'
+import SwapArrows from 'src/icons/SwapArrows'
+import { ClaimHistoryCardItem, CreateLiveLinkClaimHistory } from 'src/points/types'
 import { useSelector } from 'src/redux/hooks'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import colors from 'src/styles/colors'
 import { tokensByIdSelector } from 'src/tokens/selectors'
+import { TokenBalances } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
-import { TokenBalances } from 'src/tokens/slice'
-import { TFunction } from 'i18next'
-import { NETWORK_NAMES } from 'src/shared/conts'
-import EarnCoins from 'src/icons/EarnCoins'
-import IconWithNetworkBadge from 'src/components/IconWithNetworkBadge'
-import CircledIcon from 'src/icons/CircledIcon'
 
 const TAG = 'Points/cardDefinitions'
 
@@ -64,8 +64,8 @@ export function useGetHistoryDefinition(): (
       case 'create-wallet': {
         return {
           icon: (
-            <CircledIcon backgroundColor={colors.successLight} radius={ICON_SIZE}>
-              <Celebration color={colors.successDark} />
+            <CircledIcon backgroundColor={colors.successSecondary} radius={ICON_SIZE}>
+              <Celebration color={colors.success} />
             </CircledIcon>
           ),
           title: t('points.history.cards.createWallet.title'),
@@ -82,8 +82,8 @@ export function useGetHistoryDefinition(): (
         }
         return {
           icon: (
-            <CircledIcon backgroundColor={colors.successLight} radius={ICON_SIZE}>
-              <SwapArrows color={colors.successDark} />
+            <CircledIcon backgroundColor={colors.successSecondary} radius={ICON_SIZE}>
+              <SwapArrows color={colors.success} />
             </CircledIcon>
           ),
           title: t('points.history.cards.swap.title'),
@@ -102,7 +102,7 @@ export function useGetHistoryDefinition(): (
         }
         return {
           icon: (
-            <CircledIcon backgroundColor={colors.successLight} radius={ICON_SIZE}>
+            <CircledIcon backgroundColor={colors.successSecondary} radius={ICON_SIZE}>
               <MagicWand />
             </CircledIcon>
           ),
@@ -120,8 +120,8 @@ export function useGetHistoryDefinition(): (
         return {
           icon: (
             <IconWithNetworkBadge networkId={token.networkId}>
-              <CircledIcon backgroundColor={colors.successLight} radius={ICON_SIZE}>
-                <EarnCoins color={colors.successDark} />
+              <CircledIcon backgroundColor={colors.successSecondary} radius={ICON_SIZE}>
+                <EarnCoins color={colors.success} />
               </CircledIcon>
             </IconWithNetworkBadge>
           ),
