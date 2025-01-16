@@ -386,7 +386,7 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     textAlign: 'center',
     lineHeight: undefined,
-    color: colors.gray5,
+    color: colors.textPrimary,
   },
   mnemonicButtonsContainer: {
     marginTop: 24,

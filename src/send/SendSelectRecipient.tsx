@@ -117,7 +117,6 @@ const getStartedStyles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelMedium,
-    color: colors.gray5,
   },
   optionWrapper: {
     flexDirection: 'row',
@@ -135,7 +134,6 @@ const getStartedStyles = StyleSheet.create({
   },
   optionTitle: {
     ...typeScale.labelSmall,
-    color: colors.gray5,
     paddingBottom: Spacing.Tiny4,
   },
   optionSubtitle: {

@@ -338,7 +338,6 @@ const styles = StyleSheet.create({
   },
   positionSectionHeaderText: {
     ...typeScale.labelXXSmall,
-    color: Colors.gray5,
   },
   nftsPairingContainer: {
     flexDirection: 'row',

@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelMedium,
     fontSize: 13,
     lineHeight: 20,
-    color: colors.gray5,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   textPadding: {

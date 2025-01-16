@@ -44,8 +44,6 @@ enum Colors {
   /** @deprecated */
   onboardingBrownLight = '#A49B80',
   /** @deprecated */
-  gray5 = '#505050',
-  /** @deprecated */
   gray2 = '#E6E6E6',
   /** @deprecated */
   gray1 = '#F8F9F9',

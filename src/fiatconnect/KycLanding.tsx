@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
   disclaimer: {
-    color: Colors.gray5,
+    color: Colors.textSecondary,
     textAlign: 'left',
     marginLeft: 11,
     fontSize: 13,

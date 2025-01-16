@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   addressHasChanged: {
     ...typeScale.bodySmall,
-    color: colors.gray5,
+    color: colors.textSecondary,
     marginBottom: 8,
   },
   accountBox: {
@@ -128,6 +128,6 @@ const styles = StyleSheet.create({
   },
   accountLabel: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.gray5,
+    color: colors.textSecondary,
   },
 })
