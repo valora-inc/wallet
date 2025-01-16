@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: Spacing.Regular16,
     paddingVertical: Spacing.Small12,
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
   },

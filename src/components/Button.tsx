@@ -166,7 +166,7 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       break
     case BtnTypes.SECONDARY:
       textColor = Colors.textPrimary
-      backgroundColor = Colors.gray1
+      backgroundColor = Colors.buttonSecondary
       borderColor = Colors.gray2
       opacity = disabled ? 0.5 : 1.0
       break

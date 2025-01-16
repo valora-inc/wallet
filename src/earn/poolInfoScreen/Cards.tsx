@@ -349,7 +349,7 @@ export const styles = StyleSheet.create({
     color: Colors.textSecondary,
   },
   depositAndEarningCard: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     padding: 0,
     gap: 0,
   },

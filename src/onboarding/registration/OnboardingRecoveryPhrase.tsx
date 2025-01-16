@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     borderColor: colors.gray2,
     borderRadius: 8,
     marginTop: 0,
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
   },
   contentContainer: {
     flexGrow: 1,

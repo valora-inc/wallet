@@ -104,7 +104,7 @@ function GetStartedSection() {
 
 const getStartedStyles = StyleSheet.create({
   container: {
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
     padding: Spacing.Thick24,
     margin: Spacing.Regular16,
     marginTop: Spacing.Large32,

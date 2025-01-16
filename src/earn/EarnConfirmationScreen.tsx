@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.gray2,
     borderWidth: 1,
     borderRadius: 16,
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
   },
   row: {
     flexDirection: 'row',

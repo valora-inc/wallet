@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.gray2,
     borderRadius: BORDER_RADIUS,
     padding: Spacing.Regular16,
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

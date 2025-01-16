@@ -6,8 +6,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { JumpstartEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { JumpstartEvents } from 'src/analytics/Events'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import Toast from 'src/components/Toast'
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Thick24,
   },
   amountContainer: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 16,

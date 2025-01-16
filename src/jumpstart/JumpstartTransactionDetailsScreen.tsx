@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
   },
   amountContainer: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 16,

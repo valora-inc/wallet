@@ -57,7 +57,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           <ContactCircle
             style={styles.avatar}
             recipient={recipient}
-            backgroundColor={Colors.gray1}
+            backgroundColor={Colors.backgroundSecondary}
             foregroundColor={Colors.textPrimary}
             borderColor={Colors.gray2}
             DefaultIcon={() => renderDefaultIcon(recipient)} // no need to honor color props here since the color we need match the defaults
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rowSelected: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
   },
   avatar: {
     marginRight: Spacing.Small12,

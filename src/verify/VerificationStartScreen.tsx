@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     color: colors.textLink,
   },
   countryFlag: {
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.buttonSecondary,
     borderWidth: 1,
     borderColor: colors.gray2,
   },

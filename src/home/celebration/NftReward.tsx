@@ -54,7 +54,7 @@ export default function NftRewardBottomSheet() {
         labelStyle: { color: Colors.warning },
       }
     : {
-        pillStyle: { backgroundColor: Colors.gray1 },
+        pillStyle: { backgroundColor: Colors.info },
         labelStyle: { color: Colors.textPrimary },
       }
 

@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   card: {
     marginTop: Spacing.Regular16,
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
     flex: 1,
     padding: 0,
   },
