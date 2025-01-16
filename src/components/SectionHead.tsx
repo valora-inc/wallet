@@ -28,8 +28,6 @@ const styles = StyleSheet.create({
   },
   text: {
     ...typeScale.labelSmall,
-    fontSize: 13,
-    lineHeight: 16,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
 })

@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     ...typeScale.labelXSmall,
-    color: Colors.gray4,
+    color: Colors.textSecondary,
     marginTop: Spacing.Smallest8,
   },
   listFooterComponent: {

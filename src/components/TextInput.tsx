@@ -93,7 +93,7 @@ export class CTextInput extends React.Component<Props, State> {
             onPress={this.onClear}
             solid={true}
             size={20}
-            activeColor={Colors.gray5}
+            activeColor={Colors.textSecondary}
             inactiveColor={Colors.gray1}
           />
         )}

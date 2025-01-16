@@ -151,7 +151,7 @@ exports[`ReviewFees renders correctly 1`] = `
             "lineHeight": 24,
           },
           {
-            "color": "#666666",
+            "color": "#757575",
           },
         ]
       }
@@ -168,7 +168,7 @@ exports[`ReviewFees renders correctly 1`] = `
             "lineHeight": 24,
           },
           {
-            "color": "#666666",
+            "color": "#757575",
           },
         ]
       }
@@ -178,11 +178,11 @@ exports[`ReviewFees renders correctly 1`] = `
           [
             [
               {
-                "color": "#666666",
+                "color": "#757575",
               },
             ],
             {
-              "color": "#666666",
+              "color": "#757575",
             },
           ]
         }
@@ -633,7 +633,7 @@ exports[`ReviewFees renders correctly 2`] = `
             "lineHeight": 24,
           },
           {
-            "color": "#666666",
+            "color": "#757575",
           },
         ]
       }
@@ -650,7 +650,7 @@ exports[`ReviewFees renders correctly 2`] = `
             "lineHeight": 24,
           },
           {
-            "color": "#666666",
+            "color": "#757575",
           },
         ]
       }
@@ -660,11 +660,11 @@ exports[`ReviewFees renders correctly 2`] = `
           [
             [
               {
-                "color": "#666666",
+                "color": "#757575",
               },
             ],
             {
-              "color": "#666666",
+              "color": "#757575",
             },
           ]
         }

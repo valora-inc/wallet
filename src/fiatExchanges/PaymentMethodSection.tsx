@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     borderTopColor: colors.gray2,
     paddingVertical: 16,
     paddingHorizontal: 16,
-    backgroundColor: colors.successLight,
+    backgroundColor: colors.successSecondary,
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
@@ -358,12 +358,12 @@ const styles = StyleSheet.create({
   },
   expandedInfo: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
     marginTop: 2,
   },
   topInfo: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
     marginTop: 4,
   },
   expandedFee: {

@@ -37,7 +37,7 @@ function SegmentedControl({ values, selectedIndex, onChange }: Props) {
           <Text
             style={[
               styles.text,
-              { color: index === selectedIndex ? Colors.textInverse : Colors.gray4 },
+              { color: index === selectedIndex ? Colors.textInverse : Colors.textSecondary },
             ]}
           >
             {value}

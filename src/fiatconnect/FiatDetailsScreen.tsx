@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
   },
   error: {
     fontSize: 12,
-    color: colors.errorDark,
+    color: colors.error,
   },
   submitButton: {
     padding: variables.contentPadding,
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cancelBtn: {
-    color: colors.gray4,
+    color: colors.navigationTopSecondary,
   },
   headerSubTitleContainer: {
     flexDirection: 'row',

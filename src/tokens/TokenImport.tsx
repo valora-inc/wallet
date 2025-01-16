@@ -323,7 +323,7 @@ const TextInputGroup = ({
     <TextInput
       multiline={false}
       style={styles.messageTextInput}
-      placeholderTextColor={Colors.gray4}
+      placeholderTextColor={Colors.inactive}
       numberOfLines={1}
       showClearButton={true}
       autoCorrect={false}
@@ -375,6 +375,6 @@ const styles = StyleSheet.create({
   },
   errorLabel: {
     ...typeScale.labelSmall,
-    color: Colors.errorDark,
+    color: Colors.error,
   },
 })

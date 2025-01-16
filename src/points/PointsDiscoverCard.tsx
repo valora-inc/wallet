@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   description: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray4,
+    color: Colors.textSecondary,
   },
   balance: {
     ...typeScale.labelSemiBoldSmall,

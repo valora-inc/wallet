@@ -107,18 +107,18 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
     textAlign: 'center',
     marginBottom: Spacing.Large32,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   helpContainer: {
     marginBottom: Spacing.Regular16,
   },
   helpText: {
     ...typeScale.bodyXSmall,
-    color: colors.gray5,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   helpLink: {
-    color: colors.infoDark,
+    color: colors.textLink,
     flexWrap: 'wrap',
     textDecorationLine: 'underline',
   },

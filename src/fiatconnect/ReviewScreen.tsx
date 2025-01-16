@@ -639,7 +639,7 @@ const styles = StyleSheet.create({
   },
   sectionSubText: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   submitBtn: {
     flexDirection: 'column',
@@ -678,7 +678,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: variables.contentPadding,
     marginBottom: 20,
     textAlign: 'center',
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
 })
 

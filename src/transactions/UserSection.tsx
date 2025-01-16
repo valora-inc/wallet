@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   phoneNumber: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   avatarContainer: {
     flex: 1,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   addressHasChanged: {
     ...typeScale.bodySmall,
-    color: colors.gray5,
+    color: colors.textSecondary,
     marginBottom: 8,
   },
   accountBox: {
@@ -128,6 +128,6 @@ const styles = StyleSheet.create({
   },
   accountLabel: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.gray5,
+    color: colors.textSecondary,
   },
 })

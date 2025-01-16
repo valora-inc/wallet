@@ -84,14 +84,16 @@ function FilterChipsCarousel<T>({
                 <Text
                   style={[
                     styles.filterChipText,
-                    chip.isSelected ? { color: Colors.textInverse } : { color: Colors.gray4 },
+                    chip.isSelected
+                      ? { color: Colors.textInverse }
+                      : { color: Colors.textSecondary },
                   ]}
                 >
                   {chip.name}
                 </Text>
                 {isNetworkChip(chip) && (
                   <DownArrowIcon
-                    color={chip.isSelected ? Colors.textInverse : Colors.gray4}
+                    color={chip.isSelected ? Colors.textInverse : Colors.textSecondary}
                     strokeWidth={2}
                     height={Spacing.Regular16}
                     style={{ marginBottom: 2, marginLeft: 4 }}

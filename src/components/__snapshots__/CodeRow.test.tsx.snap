@@ -18,7 +18,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 1`] = `
   <Text
     style={
       {
-        "color": "#505050",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
         "lineHeight": 24,
@@ -98,7 +98,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 3`] = `
   <Text
     style={
       {
-        "color": "#505050",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
         "lineHeight": 24,
@@ -141,7 +141,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 4`] = `
     numberOfLines={1}
     style={
       {
-        "color": "#505050",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
         "lineHeight": 24,
@@ -171,7 +171,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 5`] = `
     numberOfLines={1}
     style={
       {
-        "color": "#505050",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
         "lineHeight": 24,

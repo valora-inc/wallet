@@ -28,25 +28,17 @@ enum Colors {
 
   // states
   inactive = '#757575', // disabled, inactive, or placeholder
+  success = '#137211',
+  successSecondary = '#F1FDF1',
+  warning = '#9C6E00',
+  warningSecondary = '#FFF9EA',
+  error = '#C93717',
+  errorSecondary = '#FBF2F0',
 
-  // other
-  successDark = '#137211',
-  successLight = '#F1FDF1',
-  warningDark = '#9C6E00',
-  warningLight = '#FFF9EA',
-  errorDark = '#C93717',
-  errorLight = '#FBF2F0',
+  // brand
   gradientBorderLeft = '#26d98a',
   gradientBorderRight = '#ffd52c',
 
-  /** @deprecated */
-  infoDark = '#0768AE',
-  /** @deprecated */
-  onboardingBrownLight = '#A49B80',
-  /** @deprecated */
-  gray5 = '#505050',
-  /** @deprecated */
-  gray4 = '#666666',
   /** @deprecated */
   gray2 = '#E6E6E6',
   /** @deprecated */

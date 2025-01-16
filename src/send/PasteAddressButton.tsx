@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   address: {
     ...typeScale.bodyXSmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
     flexWrap: 'wrap',
     flexShrink: 1,
     maxWidth: '100%',

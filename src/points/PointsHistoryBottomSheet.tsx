@@ -188,7 +188,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         ctaLabel={t('points.history.pageError.refresh')}
         onPressCta={() => onPressTryAgain(true)}
         style={styles.errorNotification}
-        customIcon={<AttentionIcon color={colors.errorDark} size={20} />}
+        customIcon={<AttentionIcon color={colors.error} size={20} />}
         testID={'PointsHistoryBottomSheet/ErrorBanner'}
       />
     </BottomSheetBase>
@@ -249,11 +249,11 @@ const styles = StyleSheet.create({
   },
   cardSubtitle: {
     ...typeScale.labelSmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   cardPointsAmount: {
     ...typeScale.labelMedium,
-    color: colors.successDark,
+    color: colors.success,
   },
   cardPointsAmountContainer: {
     flexDirection: 'row',

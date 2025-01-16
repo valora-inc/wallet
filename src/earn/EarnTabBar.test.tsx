@@ -21,7 +21,7 @@ describe('EarnTabBar', () => {
     expect(tabItems[0]).toHaveTextContent('earnFlow.poolFilters.allPools')
     expect(tabItems[0].children[0]).toHaveStyle({ color: Colors.textPrimary })
     expect(tabItems[1]).toHaveTextContent('earnFlow.poolFilters.myPools')
-    expect(tabItems[1].children[0]).toHaveStyle({ color: Colors.gray4 })
+    expect(tabItems[1].children[0]).toHaveStyle({ color: Colors.textSecondary })
   })
 
   it.each([{ tab: EarnTabType.AllPools }, { tab: EarnTabType.MyPools }])(

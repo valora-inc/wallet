@@ -133,7 +133,7 @@ function SupportContact({ route }: Props) {
           value={message}
           multiline={true}
           style={styles.messageTextInput}
-          placeholderTextColor={colors.gray4}
+          placeholderTextColor={colors.inactive}
           underlineColorAndroid="transparent"
           numberOfLines={10}
           placeholder={t('contactMessagePlaceholder') ?? undefined}
@@ -158,7 +158,7 @@ function SupportContact({ route }: Props) {
           multiline={false}
           value={email}
           style={styles.singleLineTextInput}
-          placeholderTextColor={colors.gray4}
+          placeholderTextColor={colors.inactive}
           placeholder={t('Email') ?? undefined}
           showClearButton={false}
           testID={'EmailEntry'}
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   disclaimerText: {
     ...typeScale.bodyMedium,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   container: {
     flex: 1,

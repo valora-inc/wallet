@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     maxWidth: Dimensions.get('window').width * 0.6,
   },
   headerSubTitle: {
-    color: Colors.gray4,
+    color: Colors.textSecondary,
   },
   header: {
     alignItems: 'center',

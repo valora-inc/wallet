@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   codeValue: {
     ...typeScale.bodyMedium,
     fontSize: 15,
-    color: colors.gray5,
+    color: colors.textSecondary,
   },
 })
 

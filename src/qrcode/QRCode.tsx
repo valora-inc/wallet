@@ -176,14 +176,14 @@ const styles = StyleSheet.create({
   },
   address: {
     ...typeScale.bodyMedium,
-    color: colors.gray5,
+    color: colors.textSecondary,
     marginHorizontal: variables.width / 5,
     marginBottom: 8,
     textAlign: 'center',
   },
   exchangeText: {
     ...typeScale.bodyMedium,
-    color: colors.gray5,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
 })
