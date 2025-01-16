@@ -123,7 +123,7 @@ const getStartedStyles = StyleSheet.create({
   },
   optionNum: {
     borderWidth: 1,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
   },
   optionNumText: {
     ...typeScale.labelXSmall,

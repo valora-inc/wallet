@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: Spacing.Thick24,
     borderTopWidth: 1,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
   },
   optionRow: {
     flexDirection: 'row',

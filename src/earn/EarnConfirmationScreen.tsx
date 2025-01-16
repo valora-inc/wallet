@@ -284,13 +284,13 @@ function GasFeeLoading() {
   return (
     <View testID="EarnConfirmation/GasLoading">
       <SkeletonPlaceholder
-        backgroundColor={Colors.gray2}
+        backgroundColor={Colors.skeletonPlaceholderBackground}
         highlightColor={Colors.skeletonPlaceholderHighlight}
       >
         <View style={styles.gasFeeCryptoLoading} />
       </SkeletonPlaceholder>
       <SkeletonPlaceholder
-        backgroundColor={Colors.gray2}
+        backgroundColor={Colors.skeletonPlaceholderBackground}
         highlightColor={Colors.skeletonPlaceholderHighlight}
       >
         <View style={styles.gasFeeFiatLoading} />
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
   },
   collectInfoContainer: {
     padding: Spacing.Regular16,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderWidth: 1,
     borderRadius: 16,
     backgroundColor: Colors.backgroundSecondary,
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
   separator: {
     marginBottom: Spacing.Regular16,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.gray2,
+    borderBottomColor: Colors.border,
   },
   rateText: {
     ...typeScale.bodySmall,

@@ -17,6 +17,8 @@ enum Colors {
   lightShadow = 'rgba(48, 46, 37, 0.15)',
   barShadow = 'rgba(129, 134, 139, 0.5)',
   skeletonPlaceholderHighlight = '#FFFFFF',
+  skeletonPlaceholderBackground = '#E6E6E6',
+  border = '#E6E6E6',
 
   // interactive elements
   navigationTop = '#2E3338',
@@ -29,6 +31,7 @@ enum Colors {
   textLink = '#757575', // similar to secondary text but for interactive links
 
   // states
+  disabled = '#E6E6E6',
   inactive = '#757575', // disabled, inactive, or placeholder
   info = '#F8F9F9', // neutral or informative
   success = '#137211',

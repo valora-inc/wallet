@@ -41,7 +41,7 @@ function ResendButtonWithDelay({ onPress }: Props) {
       testID="PhoneVerificationResendSmsBtn"
       disabled={disabled}
       style={{
-        color: disabled ? colors.gray2 : colors.textSecondary,
+        color: disabled ? colors.disabled : colors.textSecondary,
         fontVariant: ['tabular-nums'],
       }}
       onPress={handleOnPress}

@@ -39,7 +39,7 @@ function Placeholder({
   return (
     <SkeletonPlaceholder
       borderRadius={borderRadius}
-      backgroundColor={colors.gray2}
+      backgroundColor={colors.skeletonPlaceholderBackground}
       highlightColor={colors.skeletonPlaceholderHighlight}
       testID={testID}
     >

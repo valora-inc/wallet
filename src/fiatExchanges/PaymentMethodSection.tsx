@@ -294,7 +294,7 @@ export function PaymentMethodSection({
 const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray2,
+    borderBottomColor: colors.border,
   },
   expandableContainer: {
     paddingHorizontal: 16,
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
   },
   expandedContainer: {
     borderTopWidth: 1,
-    borderTopColor: colors.gray2,
+    borderTopColor: colors.border,
     paddingVertical: 16,
     paddingHorizontal: 16,
     backgroundColor: colors.successSecondary,

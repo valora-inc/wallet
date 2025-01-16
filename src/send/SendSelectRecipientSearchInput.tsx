@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.Smallest8,
     paddingHorizontal: Spacing.Small12,
     borderWidth: 1,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
     borderRadius: 100,
   },
   input: {

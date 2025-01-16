@@ -506,7 +506,7 @@ export default function TokenEnterAmount({
             <View testID={`${testID}/Loader`} style={styles.loader}>
               <SkeletonPlaceholder
                 borderRadius={100} // ensure rounded corners with font scaling
-                backgroundColor={Colors.gray2}
+                backgroundColor={Colors.skeletonPlaceholderBackground}
                 highlightColor={Colors.skeletonPlaceholderHighlight}
               >
                 <View style={{ height: '100%', width: '100%' }} />
@@ -522,7 +522,7 @@ export default function TokenEnterAmount({
 const styles = StyleSheet.create({
   rowContainer: {
     borderWidth: 1,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderRadius: BORDER_RADIUS,
     padding: Spacing.Regular16,
     backgroundColor: Colors.backgroundSecondary,

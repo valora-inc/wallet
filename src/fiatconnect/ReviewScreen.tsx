@@ -620,7 +620,7 @@ const styles = StyleSheet.create({
   sectionContainer: {
     marginHorizontal: variables.contentPadding,
     borderTopWidth: 1,
-    borderTopColor: colors.gray2,
+    borderTopColor: colors.border,
     paddingVertical: 24,
   },
   sectionHeaderText: {

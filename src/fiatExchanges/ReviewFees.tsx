@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     height: 1,
     width: '100%',
-    backgroundColor: colors.gray2,
+    backgroundColor: colors.border,
   },
   icon: {
     position: 'relative',

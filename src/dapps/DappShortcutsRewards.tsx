@@ -205,7 +205,7 @@ function DappShortcutsRewards() {
 const styles = StyleSheet.create({
   card: {
     borderWidth: 1,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderRadius: 12,
     marginBottom: Spacing.Regular16,
   },
