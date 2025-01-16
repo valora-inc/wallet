@@ -110,7 +110,7 @@ function SimplexScreen({ route, navigation }: Props) {
     <View style={styles.container}>
       {loadSimplexCheckout && simplexPaymentRequest && !redirected && (
         <View style={[styles.container, styles.indicator]}>
-          <ActivityIndicator size="large" color={colors.accent} />
+          <ActivityIndicator size="large" color={colors.loadingIndicator} />
         </View>
       )}
       {!loadSimplexCheckout || !simplexPaymentRequest ? (

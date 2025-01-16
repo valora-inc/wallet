@@ -81,7 +81,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           <View style={styles.rightIconContainer}>
             <ActivityIndicator
               size="small"
-              color={Colors.accent}
+              color={Colors.loadingIndicator}
               testID="RecipientItem/ActivityIndicator"
             />
           </View>

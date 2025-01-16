@@ -61,7 +61,7 @@ function KycExpired({ route, navigation }: Props) {
   if (tryAgainLoading) {
     return (
       <View testID="spinnerContainer" style={styles.activityIndicatorContainer}>
-        <ActivityIndicator size="large" color={colors.accent} />
+        <ActivityIndicator size="large" color={colors.loadingIndicator} />
       </View>
     )
   }

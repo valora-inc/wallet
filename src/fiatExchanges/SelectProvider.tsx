@@ -234,7 +234,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   if (quotesLoading) {
     return (
       <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator testID="QuotesLoading" size="large" color={colors.accent} />
+        <ActivityIndicator testID="QuotesLoading" size="large" color={colors.loadingIndicator} />
       </View>
     )
   }

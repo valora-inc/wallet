@@ -31,7 +31,7 @@ const CHART_MIN_VERTICAL_RANGE = 0.01 // one cent
 const CHART_DOMAIN_PADDING = { y: [30, 30] as [number, number], x: [5, 5] as [number, number] }
 const CHART_STEP_IN_HOURS = 12
 
-function Loader({ color = colors.accent, style }: { color?: colors; style?: ViewStyle }) {
+function Loader({ color = colors.loadingIndicator, style }: { color?: colors; style?: ViewStyle }) {
   return (
     <View style={[styles.loader, style]}>
       <ActivityIndicator testID="PriceHistoryChart/Loader" size="large" color={color} />

@@ -30,7 +30,7 @@ function WalletConnectRequest({ route: { params } }: Props) {
     >
       {params.type === WalletConnectRequestType.Loading && (
         <>
-          <ActivityIndicator color={colors.accent} />
+          <ActivityIndicator color={colors.loadingIndicator} />
           <Text style={styles.connecting}>
             {params.origin === WalletConnectPairingOrigin.Scan
               ? t('loadingFromScan')

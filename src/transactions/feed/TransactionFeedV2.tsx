@@ -506,7 +506,8 @@ export default function TransactionFeedV2() {
           <RefreshControl
             refreshing={status === 'loading'}
             onRefresh={handleRetryFetch}
-            colors={[colors.accent]}
+            colors={[colors.loadingIndicator]}
+            tintColor={colors.loadingIndicator}
           />
         }
         onEndReached={fetchMoreTransactions}
@@ -523,7 +524,11 @@ export default function TransactionFeedV2() {
             {/* prevent loading indicator due to polling from showing at the bottom of the screen */}
             {isFetching && !allTransactionsShown && (
               <View style={styles.centerContainer} testID="TransactionList/loading">
-                <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
+                <ActivityIndicator
+                  style={styles.loadingIcon}
+                  size="large"
+                  color={colors.loadingIndicator}
+                />
               </View>
             )}
             {allTransactionsShown && sections.length > 0 && (

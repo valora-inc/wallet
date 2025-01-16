@@ -208,8 +208,8 @@ function DappsScreen({ navigation }: Props) {
           <AnimatedSectionList
             refreshControl={
               <RefreshControl
-                tintColor={Colors.accent}
-                colors={[Colors.accent]}
+                tintColor={Colors.loadingIndicator}
+                colors={[Colors.loadingIndicator]}
                 style={styles.refreshControl}
                 refreshing={loading}
                 onRefresh={() => dispatch(fetchDappsList())}

@@ -70,7 +70,7 @@ export default function Dialog({
           </TextButton>
         )}
         {showLoading ? (
-          <ActivityIndicator style={styles.primary} size="small" color={colors.accent} />
+          <ActivityIndicator style={styles.primary} size="small" color={colors.loadingIndicator} />
         ) : (
           <>
             {!!actionText && (

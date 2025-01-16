@@ -175,7 +175,7 @@ function SupportContact({ route }: Props) {
         </View>
         {inProgress && (
           <View style={styles.loadingSpinnerContainer} testID="ImportWalletLoadingCircle">
-            <ActivityIndicator size="large" color={colors.accent} />
+            <ActivityIndicator size="large" color={colors.loadingIndicator} />
           </View>
         )}
 
