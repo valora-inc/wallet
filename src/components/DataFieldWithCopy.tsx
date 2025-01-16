@@ -52,7 +52,7 @@ function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy, s
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Regular16,
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     marginTop: Spacing.Smallest8,
     marginBottom: Spacing.Large32,
   },

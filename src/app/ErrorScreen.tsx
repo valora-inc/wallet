@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
     fontSize: 12,
     borderRadius: 25,
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     padding: 15,
   },
 })

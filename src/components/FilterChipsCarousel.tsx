@@ -71,7 +71,7 @@ function FilterChipsCarousel<T>({
                     backgroundColor: Colors.backgroundInverse,
                     borderColor: Colors.backgroundInverse,
                   }
-                : { backgroundColor: Colors.gray1, borderColor: Colors.gray2 },
+                : { backgroundColor: Colors.buttonSecondary, borderColor: Colors.gray2 },
             ]}
           >
             <Touchable

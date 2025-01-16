@@ -4,6 +4,7 @@ enum Colors {
   // backgrounds
   background = '#FFFFFF', // primary background
   backgroundInverse = '#2E3338', // inverse background (e.g. high contrast to primary)
+  backgroundSecondary = '#F8F9F9', // secondary background (e.g. cards, input fields)
 
   // text
   textPrimary = '#2E3338', // text on primary background
@@ -23,11 +24,13 @@ enum Colors {
   navigationBottom = '#2E3338',
   navigationBottomSecondary = '#757575',
   buttonPrimary = '#2E3338',
+  buttonSecondary = '#F8F9F9',
   accent = '#1AB775',
   textLink = '#757575', // similar to secondary text but for interactive links
 
   // states
   inactive = '#757575', // disabled, inactive, or placeholder
+  info = '#F8F9F9', // neutral or informative
   success = '#137211',
   successSecondary = '#F1FDF1',
   warning = '#9C6E00',
@@ -41,8 +44,6 @@ enum Colors {
 
   /** @deprecated */
   gray2 = '#E6E6E6',
-  /** @deprecated */
-  gray1 = '#F8F9F9',
 }
 
 export default Colors

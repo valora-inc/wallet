@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     margin: Spacing.Regular16,
     padding: Spacing.Regular16,
     borderRadius: Spacing.Regular16,
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.info,
   },
   titleText: {
     ...typeScale.labelSemiBoldSmall,

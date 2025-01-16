@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     marginTop: 8,
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: colors.gray2,

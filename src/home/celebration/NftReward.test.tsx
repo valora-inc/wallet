@@ -68,7 +68,7 @@ describe('NftReward', () => {
     expect(StyleSheet.flatten(pillLabel.props.style)).toHaveProperty('color', Colors.textPrimary)
     expect(StyleSheet.flatten(getByTestId('NftReward/Pill').props.style)).toHaveProperty(
       'backgroundColor',
-      Colors.gray1
+      Colors.info
     )
   })
 
