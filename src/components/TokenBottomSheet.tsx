@@ -104,7 +104,7 @@ function NoResults({
   return (
     <View testID={testID} style={styles.noResultsContainer}>
       <View style={styles.iconContainer}>
-        <InfoIcon color={Colors.infoDark} />
+        <InfoIcon color={Colors.warningDark} />
       </View>
       <Text style={styles.noResultsText}>
         {t(noResultsText, { searchTerm: searchTerm, filterNames: activeFilterNames.join(', ') })}
@@ -386,10 +386,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   noResultsContainer: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: Spacing.Regular16,
+    margin: Spacing.Thick24,
   },
   tokenBalanceItemContainer: {
     marginHorizontal: Spacing.Thick24,

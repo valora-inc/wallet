@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
   },
   contactSupportLink: {
-    color: colors.infoDark,
+    color: colors.textLink,
     textDecorationLine: 'underline',
   },
   contentContainerStyle: {
