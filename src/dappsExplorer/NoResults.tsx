@@ -34,7 +34,7 @@ function NoResults({ selectedFilter, removeFilter, testID, searchTerm }: Props) 
       {searchTerm !== '' && (
         <View style={styles.searchContainer}>
           <View style={styles.iconContainer}>
-            <InfoIcon color={Colors.warningDark} />
+            <InfoIcon color={Colors.warning} />
           </View>
           <View style={styles.searchTextContainer}>
             <Text style={styles.text}>

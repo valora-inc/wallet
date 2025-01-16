@@ -104,7 +104,7 @@ function NoResults({
   return (
     <View testID={testID} style={styles.noResultsContainer}>
       <View style={styles.iconContainer}>
-        <InfoIcon color={Colors.warningDark} />
+        <InfoIcon color={Colors.warning} />
       </View>
       <Text style={styles.noResultsText}>
         {t(noResultsText, { searchTerm: searchTerm, filterNames: activeFilterNames.join(', ') })}
