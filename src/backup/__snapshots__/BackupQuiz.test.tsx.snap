@@ -102,7 +102,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -134,7 +134,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -166,7 +166,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -198,7 +198,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -230,7 +230,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -262,7 +262,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -294,7 +294,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -326,7 +326,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -358,7 +358,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -390,7 +390,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -422,7 +422,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -454,7 +454,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -486,7 +486,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -518,7 +518,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -550,7 +550,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -582,7 +582,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -614,7 +614,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -646,7 +646,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -678,7 +678,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -710,7 +710,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -742,7 +742,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -774,7 +774,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -806,7 +806,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
@@ -838,7 +838,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 14,
                 "lineHeight": undefined,
