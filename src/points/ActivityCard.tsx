@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSmall,
   },
   card: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     flexDirection: 'row',
     alignItems: 'center',
     padding: Spacing.Regular16,

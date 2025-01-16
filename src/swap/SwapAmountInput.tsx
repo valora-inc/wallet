@@ -166,7 +166,7 @@ const SwapAmountInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     borderColor: Colors.gray2,
     borderWidth: 1,
   },

@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
   containerActive: {
     padding: 0,
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
     borderColor: colors.gray2,
     borderRadius: Spacing.Smallest8,
     borderWidth: 1,

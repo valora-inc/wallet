@@ -33,7 +33,7 @@ function SelectRecipientButton({
         {gradientBackground ? (
           <GradientIcon radius={40}>{icon}</GradientIcon>
         ) : (
-          <CircledIcon radius={40} style={styles.icon} backgroundColor={colors.gray1}>
+          <CircledIcon radius={40} style={styles.icon} backgroundColor={colors.backgroundSecondary}>
             {icon}
           </CircledIcon>
         )}

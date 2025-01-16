@@ -112,7 +112,7 @@ export default function EarnHome({ navigation, route }: Props) {
       shadowColor: interpolateColor(
         scrollPosition.value,
         [nonStickyHeaderHeight - 10, nonStickyHeaderHeight + 10],
-        ['transparent', Colors.gray1]
+        ['transparent', Colors.softShadow]
       ),
     }
   }, [scrollPosition.value, nonStickyHeaderHeight])

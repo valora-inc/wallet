@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
   nftImageLoadingErrorContainer: {
     width: '100%',
     height: DEFAULT_HEIGHT,
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
