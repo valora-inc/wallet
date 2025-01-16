@@ -402,7 +402,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 24,
                         },
                         {
-                          "color": "#666666",
+                          "color": "#757575",
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -624,7 +624,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 24,
                         },
                         {
-                          "color": "#666666",
+                          "color": "#757575",
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -820,7 +820,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 24,
                         },
                         {
-                          "color": "#666666",
+                          "color": "#757575",
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,

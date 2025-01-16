@@ -4,7 +4,7 @@ exports[`AccountNumber renders correctly when touch disabled 1`] = `
 <Text
   style={
     {
-      "color": "#666666",
+      "color": "#757575",
       "fontFamily": "Inter-Regular",
       "fontSize": 14,
       "lineHeight": 20,
@@ -58,7 +58,7 @@ exports[`AccountNumber renders correctly when touch enabled 1`] = `
   <Text
     style={
       {
-        "color": "#666666",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 14,
         "lineHeight": 20,
@@ -72,7 +72,7 @@ exports[`AccountNumber renders correctly when touch enabled 1`] = `
   <Text
     style={
       {
-        "color": "#666666",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 14,
         "lineHeight": 20,

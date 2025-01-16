@@ -218,7 +218,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 <Text
                   style={
                     {
-                      "color": "#666666",
+                      "color": "#757575",
                       "fontFamily": "Inter-Medium",
                       "fontSize": 16,
                       "lineHeight": 24,
@@ -389,7 +389,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   "lineHeight": 24,
                 },
                 {
-                  "color": "#666666",
+                  "color": "#757575",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 14,
                   "lineHeight": 20,
@@ -409,7 +409,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 "lineHeight": 24,
               },
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 14,
                 "lineHeight": 20,
@@ -530,7 +530,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   "lineHeight": 24,
                 },
                 {
-                  "color": "#666666",
+                  "color": "#757575",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 14,
                   "lineHeight": 20,
@@ -542,7 +542,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             <Text
               style={
                 {
-                  "color": "#666666",
+                  "color": "#757575",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 14,
                   "lineHeight": 20,
@@ -568,7 +568,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 "lineHeight": 24,
               },
               {
-                "color": "#666666",
+                "color": "#757575",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 14,
                 "lineHeight": 20,
