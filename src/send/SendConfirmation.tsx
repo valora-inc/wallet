@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
@@ -232,7 +232,7 @@ export default function SendConfirmation(props: Props) {
                   localCurrencySymbol,
                 }}
               >
-                <Text style={{ color: Colors.gray3 }} />
+                <Text style={styles.totalPlusFeesLocalAmount} />
               </Trans>
             }
           />
@@ -253,3 +253,9 @@ export default function SendConfirmation(props: Props) {
     </ReviewTransaction>
   )
 }
+
+const styles = StyleSheet.create({
+  totalPlusFeesLocalAmount: {
+    color: Colors.textSecondary,
+  },
+})

@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   },
   reviewSummaryItemHeader: {
     ...typeScale.labelSmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   reviewSummaryItemContent: {
     flexDirection: 'row',
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
   },
   reviewSummaryItemSubtitle: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   reviewDetails: {
     gap: Spacing.Regular16,
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
   },
   reviewDetailsItemText: {
     ...typeScale.bodyMedium,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   reviewDetailsItemTextBold: {
     ...typeScale.labelSemiBoldMedium,
