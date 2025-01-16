@@ -40,10 +40,6 @@ enum Colors {
   gradientBorderRight = '#ffd52c',
 
   /** @deprecated */
-  infoDark = '#0768AE',
-  /** @deprecated */
-  onboardingBrownLight = '#A49B80',
-  /** @deprecated */
   gray5 = '#505050',
   /** @deprecated */
   gray2 = '#E6E6E6',
