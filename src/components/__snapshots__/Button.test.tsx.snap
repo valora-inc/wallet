@@ -97,6 +97,103 @@ exports[`Button when type is SECONDARY renders 1`] = `
 </View>
 `;
 
+exports[`Button when type is TERTIARY and text size is small renders 1`] = `
+<View
+  style={
+    [
+      {
+        "flexDirection": "row",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        {
+          "borderRadius": 100,
+        },
+      ]
+    }
+  >
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      nativeBackgroundAndroid={
+        {
+          "attribute": "selectableItemBackground",
+          "rippleRadius": undefined,
+          "type": "ThemeAttrAndroid",
+        }
+      }
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "alignItems": "center",
+            "backgroundColor": "#FFFFFF",
+            "borderColor": "#E6E6E6",
+            "borderRadius": 100,
+            "borderWidth": 1,
+            "flexDirection": "row",
+            "height": 48,
+            "justifyContent": "center",
+            "minWidth": 120,
+            "opacity": 1,
+            "paddingHorizontal": 24,
+            "paddingVertical": 5,
+          },
+          undefined,
+        ]
+      }
+    >
+      <Text
+        maxFontSizeMultiplier={1}
+        style={
+          {
+            "color": "#2E3338",
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 14,
+            "lineHeight": 20,
+            "marginLeft": 0,
+            "marginRight": 0,
+          }
+        }
+      >
+        Button
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
 exports[`Button when type not given defaults to primary 1`] = `
 <View
   style={
