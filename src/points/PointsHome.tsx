@@ -285,14 +285,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: Spacing.Tiny4,
     alignSelf: 'flex-start',
-    backgroundColor: Colors.successLight,
+    backgroundColor: Colors.successSecondary,
     borderRadius: Spacing.XLarge48,
     paddingVertical: Spacing.Smallest8,
     paddingHorizontal: Spacing.Small12,
   },
   bottomSheetPointAmount: {
     ...typeScale.labelSemiBoldXSmall,
-    color: Colors.successDark,
+    color: Colors.success,
   },
   bottomSheetPreviousPointsAmount: {
     ...typeScale.labelSemiBoldXSmall,
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     gap: Spacing.Tiny4,
   },
   infoCard: {
-    backgroundColor: Colors.successLight,
+    backgroundColor: Colors.successSecondary,
     padding: Spacing.Regular16,
     marginBottom: Spacing.Thick24,
     borderRadius: 12,

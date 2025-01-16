@@ -85,10 +85,10 @@ describe('NftReward', () => {
     expect(pillLabel).toHaveTextContent(
       'nftCelebration.rewardReminderBottomSheet.expirationLabel, {"expirationLabelText":"in about 1 month"}'
     )
-    expect(StyleSheet.flatten(pillLabel.props.style)).toHaveProperty('color', Colors.warningDark)
+    expect(StyleSheet.flatten(pillLabel.props.style)).toHaveProperty('color', Colors.warning)
     expect(StyleSheet.flatten(getByTestId('NftReward/Pill').props.style)).toHaveProperty(
       'backgroundColor',
-      Colors.warningLight
+      Colors.warningSecondary
     )
   })
 })

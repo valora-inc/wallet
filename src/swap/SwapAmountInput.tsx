@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   inputError: {
-    color: Colors.errorDark,
+    color: Colors.error,
   },
   inputText: {
     ...typeScale.titleSmall,
