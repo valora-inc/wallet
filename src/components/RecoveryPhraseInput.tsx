@@ -116,7 +116,7 @@ export default function RecoveryPhraseInput({
           </View>
           {showStatus && (
             <View style={styles.statusContainer}>
-              {showStatus && <ActivityIndicator size="small" color={colors.accent} />}
+              {showStatus && <ActivityIndicator size="small" color={colors.loadingIndicator} />}
             </View>
           )}
         </View>

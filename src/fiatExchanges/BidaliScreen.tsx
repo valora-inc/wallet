@@ -164,7 +164,7 @@ BidaliScreen.navigationOptions = () => {
       <ActivityIndicator
         style={styles.headerActivityIndicator}
         size="small"
-        color={colors.accent}
+        color={colors.loadingIndicator}
       />
     ),
   }

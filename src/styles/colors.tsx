@@ -19,6 +19,7 @@ enum Colors {
   skeletonPlaceholderHighlight = '#FFFFFF',
   skeletonPlaceholderBackground = '#E6E6E6',
   border = '#E6E6E6',
+  loadingIndicator = '#1AB775', // spinner or loading indicator
 
   // interactive elements
   navigationTop = '#2E3338',

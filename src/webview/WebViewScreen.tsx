@@ -210,7 +210,13 @@ function WebViewScreen({ route, navigation }: Props) {
           onShouldStartLoadWithRequest={handleLoadRequest}
           source={{ uri }}
           startInLoadingState={true}
-          renderLoading={() => <ActivityIndicator style={styles.loading} size="large" />}
+          renderLoading={() => (
+            <ActivityIndicator
+              style={styles.loading}
+              size="large"
+              color={colors.loadingIndicator}
+            />
+          )}
           onNavigationStateChange={(navState) => {
             setCanGoBack(navState.canGoBack)
             setCanGoForward(navState.canGoForward)

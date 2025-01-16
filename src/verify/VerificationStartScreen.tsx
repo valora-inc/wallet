@@ -203,7 +203,7 @@ function VerificationStartScreen({
   if (!account) {
     return (
       <SafeAreaView style={styles.container}>
-        <ActivityIndicator size="large" color={colors.accent} />
+        <ActivityIndicator size="large" color={colors.loadingIndicator} />
       </SafeAreaView>
     )
   }
