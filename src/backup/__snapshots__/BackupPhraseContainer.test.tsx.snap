@@ -149,7 +149,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           adjustsFontSizeToFit={true}
           style={
             {
-              "color": "#505050",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,
@@ -192,7 +192,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           adjustsFontSizeToFit={true}
           style={
             {
-              "color": "#505050",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,
@@ -235,7 +235,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           adjustsFontSizeToFit={true}
           style={
             {
-              "color": "#505050",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,
@@ -278,7 +278,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           adjustsFontSizeToFit={true}
           style={
             {
-              "color": "#505050",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,
@@ -321,7 +321,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           adjustsFontSizeToFit={true}
           style={
             {
-              "color": "#505050",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,
@@ -364,7 +364,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           adjustsFontSizeToFit={true}
           style={
             {
-              "color": "#505050",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,
@@ -407,7 +407,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           adjustsFontSizeToFit={true}
           style={
             {
-              "color": "#505050",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,
@@ -450,7 +450,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           adjustsFontSizeToFit={true}
           style={
             {
-              "color": "#505050",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,
@@ -493,7 +493,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           adjustsFontSizeToFit={true}
           style={
             {
-              "color": "#505050",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,
@@ -536,7 +536,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           adjustsFontSizeToFit={true}
           style={
             {
-              "color": "#505050",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,
@@ -579,7 +579,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           adjustsFontSizeToFit={true}
           style={
             {
-              "color": "#505050",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,
@@ -622,7 +622,7 @@ exports[`BackupPhraseContainer renders correctly for readonly backup 12-word phr
           adjustsFontSizeToFit={true}
           style={
             {
-              "color": "#505050",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,

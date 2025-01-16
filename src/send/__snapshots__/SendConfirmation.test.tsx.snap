@@ -262,7 +262,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             <Text
               style={
                 {
-                  "color": "#505050",
+                  "color": "#757575",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 24,

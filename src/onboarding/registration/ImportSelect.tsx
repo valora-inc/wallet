@@ -69,7 +69,7 @@ export default function ImportSelect({ navigation }: Props) {
         <TopBarTextButtonOnboarding
           title={t('cancel')}
           onPress={handleNavigateBack}
-          titleStyle={{ color: colors.gray5 }}
+          titleStyle={{ color: colors.navigationTopSecondary }}
         />
       ),
       headerStyle: {

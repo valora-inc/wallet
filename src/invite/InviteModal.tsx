@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   helpText: {
     ...typeScale.bodyXSmall,
-    color: colors.gray5,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   helpLink: {

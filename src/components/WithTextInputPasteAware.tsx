@@ -24,7 +24,7 @@ export default function withTextInputPasteAware<P extends TextInputProps>(
               onPress={onPressPaste}
               hitSlop={iconHitslop}
             >
-              <Paste />
+              <Paste color={Colors.textSecondary} />
             </TouchableDefault>
           )}
         </View>

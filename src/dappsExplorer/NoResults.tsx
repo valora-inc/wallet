@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   filterAppliedText: {
     ...typeScale.labelSmall,
-    color: Colors.gray5,
+    color: Colors.textSecondary,
     paddingRight: 4,
   },
   removeFilterTouchableContainer: {

@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
   },
   address: {
     ...typeScale.labelSmall,
-    color: colors.gray5,
+    color: colors.textSecondary,
     paddingRight: 4,
   },
   amount: {
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
   },
   amountSubscript: {
     ...typeScale.bodyMedium,
-    color: colors.gray5,
+    color: colors.textSecondary,
     paddingBottom: 16,
   },
   subHeading: {

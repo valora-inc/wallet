@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   },
   moreWays: {
     ...typeScale.bodyMedium,
-    color: colors.gray5,
+    color: colors.textSecondary,
     margin: variables.contentPadding,
   },
   fundingOptionsLink: {
