@@ -1,6 +1,10 @@
 // Inspired by https://github.com/expo/expo/blob/03e99016c9c5b9ad47864b204511ded2dec80375/packages/%40expo/config-plugins/src/ios/Maps.ts#L6
 import { ConfigPlugin, withAppDelegate } from '@expo/config-plugins'
 import { mergeContents, MergeResults } from '@expo/config-plugins/build/utils/generateCode'
+import {
+  APPLICATION_DID_FINISH_LAUNCHING_LINE_MATCHER,
+  APPLICATION_DID_FINISH_LAUNCHING_LINE_MATCHER_MULTILINE,
+} from './consts'
 
 const RESET_KEYCHAIN_FUNCTION = `
 // Use same key as react-native-secure-key-store
@@ -33,10 +37,6 @@ static void resetKeychainIfNecessary()
 
 const METHOD_INVOCATION_BLOCK = `resetKeychainIfNecessary();`
 
-// https://regex101.com/r/nHrTa9/1/
-const INVOCATION_LINE_MATCHER =
-  /-\s*\(BOOL\)\s*application:\s*\(UIApplication\s*\*\s*\)\s*\w+\s+didFinishLaunchingWithOptions:/g
-
 function addResetKeychainFunction(src: string): MergeResults {
   return mergeContents({
     tag: '@mobilestack-xyz/runtime/app-delegate-reset-keychain-function',
@@ -50,14 +50,13 @@ function addResetKeychainFunction(src: string): MergeResults {
 
 function addCallResetKeychain(src: string): MergeResults {
   // tests if the opening `{` is in the new line
-  const multilineMatcher = new RegExp(INVOCATION_LINE_MATCHER.source + '.+\\n*{')
-  const isHeaderMultiline = multilineMatcher.test(src)
+  const isHeaderMultiline = APPLICATION_DID_FINISH_LAUNCHING_LINE_MATCHER_MULTILINE.test(src)
 
   return mergeContents({
     tag: '@mobilestack-xyz/runtime/app-delegate-call-reset-keychain',
     src,
     newSrc: METHOD_INVOCATION_BLOCK,
-    anchor: INVOCATION_LINE_MATCHER,
+    anchor: APPLICATION_DID_FINISH_LAUNCHING_LINE_MATCHER,
     // new line will be inserted right below matched anchor
     // or two lines, if the `{` is in the new line
     offset: isHeaderMultiline ? 2 : 1,
