@@ -322,8 +322,8 @@ function ImportTokensItem() {
       }}
     >
       <View style={styles.importTokenContainer}>
-        <CircledIcon radius={32} backgroundColor={Colors.successLight}>
-          <Add color={Colors.successDark} />
+        <CircledIcon radius={32} backgroundColor={Colors.successSecondary}>
+          <Add color={Colors.success} />
         </CircledIcon>
         <Text style={styles.importTokenText}>{t('assets.importTokens')}</Text>
       </View>
