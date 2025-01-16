@@ -101,7 +101,6 @@ export default function SendConfirmation(props: Props) {
 
   const tokenInfo = useTokenInfo(tokenId)
   const isSending = useSelector(isSendingSelector)
-  const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const localAmount = useTokenToLocalAmount(tokenAmount, tokenId)
@@ -163,7 +162,8 @@ export default function SendConfirmation(props: Props) {
         tokenId,
         usdAmount,
         recipient,
-        fromModal,
+        // TODO remove fromModal from `sendPayment`
+        false,
         getSerializablePreparedTransaction(preparedTransaction)
       )
     )
