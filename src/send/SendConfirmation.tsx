@@ -20,7 +20,6 @@ import {
   ReviewTransaction,
 } from 'src/components/ReviewTransaction'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
-import { getDisplayLocalAmount, getDisplayTokenAmount } from 'src/components/TokenEnterAmount'
 import TokenIcon from 'src/components/TokenIcon'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -35,6 +34,7 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -48,39 +48,59 @@ const DEBOUNCE_TIME_MS = 250
 
 export const sendConfirmationScreenNavOptions = noHeader
 
-function useCalculatedFees({
+function useDisplaySendAmounts({
   tokenAmount,
   localAmount,
+  tokenInfo,
   prepareTransactionsResult,
 }: {
+  tokenInfo: TokenBalance | undefined
   tokenAmount: BigNumber | null
   localAmount: BigNumber | null
   prepareTransactionsResult: PreparedTransactionsResult | undefined
 }) {
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const { maxFeeAmount, feeCurrency: feeTokenInfo } =
     getFeeCurrencyAndAmounts(prepareTransactionsResult)
   const feeAmount = maxFeeAmount ?? new BigNumber(0)
   const localFeeAmount = useTokenToLocalAmount(feeAmount, feeTokenInfo?.tokenId)
 
-  const totalDisplayTokenAmount = useMemo(() => {
-    const total = (tokenAmount ?? new BigNumber(0)).plus(feeAmount ?? new BigNumber(0))
-    return formatValueToDisplay(total)
-  }, [tokenAmount, feeAmount, localCurrencySymbol])
+  const networkFee = useMemo(
+    () => ({
+      localAmount,
+      feeTokenSymbol: feeTokenInfo?.symbol,
+      displayTokenAmount: formatValueToDisplay(feeAmount),
+      displayLocalAmount: localFeeAmount ? formatValueToDisplay(localFeeAmount) : undefined,
+    }),
+    [localFeeAmount, feeAmount, feeTokenInfo]
+  )
 
-  const totalDisplayLocalAmount = useMemo(() => {
-    const total = (localAmount ?? new BigNumber(0)).plus(localFeeAmount ?? new BigNumber(0))
-    return formatValueToDisplay(total)
-  }, [localAmount, localFeeAmount, localCurrencySymbol])
+  const total = useMemo(() => {
+    const totalLocalAmount = localAmount && localFeeAmount ? localAmount.plus(localFeeAmount) : null
+    const displayLocalAmount = totalLocalAmount ? formatValueToDisplay(totalLocalAmount) : ''
 
-  return {
-    localAmount: localFeeAmount,
-    displayTokenAmount: formatValueToDisplay(feeAmount),
-    displayLocalAmount: localFeeAmount ? formatValueToDisplay(localFeeAmount) : undefined,
-    tokenSymbol: feeTokenInfo?.symbol,
-    totalDisplayTokenAmount,
-    totalDisplayLocalAmount,
-  }
+    if (tokenInfo?.tokenId !== feeTokenInfo?.tokenId) {
+      return {
+        type: 'multiple-tokens' as const,
+        token1: {
+          amount: tokenAmount ? formatValueToDisplay(tokenAmount) : '',
+          symbol: tokenInfo?.symbol,
+        },
+        token2: { amount: formatValueToDisplay(feeAmount), symbol: feeTokenInfo?.symbol },
+      }
+    }
+
+    const totalTokenAmount = (tokenAmount ?? new BigNumber(0)).plus(feeAmount ?? new BigNumber(0))
+    const displayTokenAmount = formatValueToDisplay(totalTokenAmount)
+    return {
+      type: 'same-token' as const,
+      tokenAmount: totalTokenAmount,
+      displayLocalAmount,
+      displayTokenAmount,
+      tokenSymbol: tokenInfo?.symbol,
+    }
+  }, [tokenInfo, feeTokenInfo, tokenAmount, feeAmount, localAmount, localFeeAmount])
+
+  return { networkFee, total }
 }
 
 export default function SendConfirmation(props: Props) {
@@ -105,7 +125,12 @@ export default function SendConfirmation(props: Props) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const localAmount = useTokenToLocalAmount(tokenAmount, tokenId)
   const usdAmount = useAmountAsUsd(tokenAmount, tokenId)
-  const fees = useCalculatedFees({ tokenAmount, localAmount, prepareTransactionsResult })
+  const displayAmounts = useDisplaySendAmounts({
+    tokenAmount,
+    localAmount,
+    tokenInfo,
+    prepareTransactionsResult,
+  })
 
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, tokenInfo!.networkId))
@@ -180,8 +205,15 @@ export default function SendConfirmation(props: Props) {
             testID="SendConfirmationToken"
             header="Sending"
             icon={<TokenIcon token={tokenInfo} />}
-            title={getDisplayTokenAmount(tokenAmount, tokenInfo!)}
-            subtitle={getDisplayLocalAmount(localAmount, localCurrencySymbol)}
+            title={t('tokenAmount', {
+              amount: formatValueToDisplay(tokenAmount),
+              symbol: tokenInfo?.symbol ?? '',
+            })}
+            subtitle={t('localAmount', {
+              amount: formatValueToDisplay(localAmount ?? new BigNumber(0)),
+              symbol: localCurrencySymbol,
+              context: localAmount ? undefined : 'noFiatPrice',
+            })}
           />
 
           <ReviewSummaryItemContact
@@ -203,12 +235,12 @@ export default function SendConfirmation(props: Props) {
             isLoading={prepareTransactionLoading}
             value={
               <Trans
-                i18nKey={'reviewTransaction.fullAmountApprox'}
-                context={fees.localAmount?.gt(0) ? undefined : 'noFiatPrice'}
+                i18nKey={'reviewTransaction.tokenAndLocalDisplayAmountApprox'}
+                context={displayAmounts.networkFee.localAmount?.gt(0) ? undefined : 'noFiatPrice'}
                 values={{
-                  tokenAmount: fees.displayTokenAmount,
-                  localAmount: fees.displayLocalAmount,
-                  tokenSymbol: fees.tokenSymbol,
+                  tokenAmount: displayAmounts.networkFee.displayTokenAmount,
+                  localAmount: displayAmounts.networkFee.displayLocalAmount,
+                  tokenSymbol: displayAmounts.networkFee.feeTokenSymbol,
                   localCurrencySymbol,
                 }}
               >
@@ -222,18 +254,27 @@ export default function SendConfirmation(props: Props) {
             label={t('reviewTransaction.totalPlusFees')}
             isLoading={prepareTransactionLoading}
             value={
-              <Trans
-                i18nKey={'reviewTransaction.fullAmountApprox'}
-                context={fees.localAmount?.gt(0) ? undefined : 'noFiatPrice'}
-                values={{
-                  tokenAmount: fees.totalDisplayTokenAmount,
-                  localAmount: fees.totalDisplayLocalAmount,
-                  tokenSymbol: fees.tokenSymbol,
-                  localCurrencySymbol,
-                }}
-              >
-                <Text style={styles.totalPlusFeesLocalAmount} />
-              </Trans>
+              displayAmounts.total.type === 'same-token' ? (
+                <Trans
+                  i18nKey={'reviewTransaction.tokenAndLocalDisplayAmountApprox'}
+                  context={displayAmounts.total.tokenAmount?.gt(0) ? undefined : 'noFiatPrice'}
+                  values={{
+                    tokenAmount: displayAmounts.total.displayTokenAmount,
+                    localAmount: displayAmounts.total.displayLocalAmount,
+                    tokenSymbol: displayAmounts.total.tokenSymbol,
+                    localCurrencySymbol,
+                  }}
+                >
+                  <Text style={styles.totalPlusFeesLocalAmount} />
+                </Trans>
+              ) : (
+                t('reviewTransaction.totalDisplayAmountForMultipleTokens', {
+                  amount1: displayAmounts.total.token1.amount,
+                  symbol1: displayAmounts.total.token1.symbol,
+                  amount2: displayAmounts.total.token2.amount,
+                  symbol2: displayAmounts.total.token2.symbol,
+                })
+              )
             }
           />
         </ReviewDetails>

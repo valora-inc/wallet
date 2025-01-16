@@ -2848,7 +2848,11 @@
   },
   "reviewTransaction": {
     "totalPlusFees": "Total Plus Fees",
-    "fullAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
-    "fullAmountApprox_noFiatPrice": "≈ {{tokenAmount}} {{tokenSymbol}}"
-  }
+    "tokenAndLocalDisplayAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+    "tokenAndLocalDisplayAmountApprox_noFiatPrice": "≈ {{tokenAmount}} {{tokenSymbol}}",
+    "totalDisplayAmountForMultipleTokens": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
+  },
+  "tokenAmount": "{{amount}} {{symbol}}",
+  "localAmount": "{{symbol}}{{amount}}",
+  "localAmount_noFiatPrice": "Price Unavailable"
 }
