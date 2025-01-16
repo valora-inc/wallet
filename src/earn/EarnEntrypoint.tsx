@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   description: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   totalSupplied: {
     ...typeScale.labelSemiBoldMedium,

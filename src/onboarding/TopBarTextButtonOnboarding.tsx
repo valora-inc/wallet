@@ -12,6 +12,6 @@ export default function TopBarTextButtonOnboarding({
 
 const styles = StyleSheet.create({
   title: {
-    color: colors.gray3,
+    color: colors.navigationTopSecondary,
   },
 })

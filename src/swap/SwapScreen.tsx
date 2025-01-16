@@ -830,7 +830,7 @@ export function SwapScreen({ route }: Props) {
 
           {showCrossChainSwapNotification && (
             <View style={styles.crossChainNotificationWrapper}>
-              <CrossChainIndicator />
+              <CrossChainIndicator backgroundColor={colors.textSecondary} />
               <Text style={styles.crossChainNotification}>
                 {t('swapScreen.crossChainNotification')}
               </Text>
@@ -1124,7 +1124,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelXXSmall,
     paddingBottom: Spacing.Smallest8,
     flexWrap: 'wrap',
-    color: colors.gray3,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   disclaimerLink: {
@@ -1155,7 +1155,7 @@ const styles = StyleSheet.create({
   crossChainNotification: {
     ...typeScale.labelXSmall,
     paddingLeft: Spacing.Tiny4,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
 })
 

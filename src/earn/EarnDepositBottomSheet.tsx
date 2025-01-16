@@ -185,7 +185,7 @@ export default function EarnDepositBottomSheet({
                 showLocalAmount={false}
                 style={styles.valueSecondary}
               />
-              <ArrowRightThick size={20} color={Colors.gray3} />
+              <ArrowRightThick size={20} color={Colors.textSecondary} />
               <TokenDisplay
                 testID="EarnDeposit/Swap/To"
                 tokenId={pool.dataProps.depositTokenId}
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typeScale.labelXSmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   value: {
     ...typeScale.labelSemiBoldSmall,
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
   },
   valueSecondary: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   providerNameContainer: {
     flexDirection: 'row',
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
   termsLink: {
     textDecorationLine: 'underline',

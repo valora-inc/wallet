@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   contactSupportText: {
     ...typeScale.bodySmall,
     textAlign: 'center',
-    color: colors.gray3,
+    color: colors.textLink,
   },
   // Touchable are wrapped in a view to prevent the ripple effect from overflowing on Android
   contactSupportTouchableContainer: {
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   subTitle: {
     ...typeScale.bodyMedium,
     textAlign: 'center',
-    color: colors.gray3,
+    color: colors.textSecondary,
   },
   title: {
     ...typeScale.titleSmall,

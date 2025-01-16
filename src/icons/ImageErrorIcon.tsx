@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function ImageErrorIcon({
-  color = colors.gray3,
+  color = colors.inactive,
   size = 88,
   testID = 'ImageErrorIcon',
 }: Props) {

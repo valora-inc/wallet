@@ -113,7 +113,7 @@ const getStartedStyles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.labelXXSmall,
-    color: colors.gray3,
+    color: colors.textSecondary,
   },
   title: {
     ...typeScale.labelMedium,
@@ -140,7 +140,7 @@ const getStartedStyles = StyleSheet.create({
   },
   optionSubtitle: {
     ...typeScale.bodyXSmall,
-    color: colors.gray3,
+    color: colors.textSecondary,
   },
 })
 
@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
   },
   searchResultsHeader: {
     ...typeScale.labelXSmall,
-    color: colors.gray3,
+    color: colors.textSecondary,
     paddingHorizontal: Spacing.Regular16,
     paddingVertical: Spacing.Smallest8,
   },
@@ -446,12 +446,12 @@ const styles = StyleSheet.create({
   },
   noResultsTitle: {
     ...typeScale.bodyMedium,
-    color: colors.gray3,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   noResultsSubtitle: {
     ...typeScale.labelXSmall,
-    color: colors.gray3,
+    color: colors.textSecondary,
     justifyContent: 'center',
     padding: Spacing.Regular16,
     textAlign: 'center',

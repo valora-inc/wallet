@@ -111,7 +111,7 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
             >
               <View style={styles.rowContainer}>
                 <Text style={styles.blockExplorerLink}>{explorerName}</Text>
-                <ArrowRightThick size={16} />
+                <ArrowRightThick size={16} color={Colors.textLink} />
               </View>
             </Touchable>
           </>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
     marginTop: 2,
   },
   status: {
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   blockExplorerLink: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.textLink,
     marginRight: Spacing.Tiny4,
   },
 })

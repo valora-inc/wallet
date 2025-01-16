@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   },
   description: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
     marginTop: Spacing.Smallest8,
   },
   button: {

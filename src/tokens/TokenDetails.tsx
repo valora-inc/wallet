@@ -310,7 +310,7 @@ function LearnMore({
           <Text style={styles.learnMoreText} testID="TokenDetails/LearnMore">
             {t('tokenDetails.learnMore', { tokenName: tokenName })}
           </Text>
-          <ArrowRightThick />
+          <ArrowRightThick color={Colors.textLink} />
         </View>
       </Touchable>
     </View>
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
   },
   learnMoreText: {
     ...typeScale.labelSmall,
-    color: Colors.gray3,
+    color: Colors.textLink,
   },
   priceInfo: {
     marginTop: Spacing.Tiny4,
@@ -386,6 +386,6 @@ const styles = StyleSheet.create({
   },
   priceInfoUnavailable: {
     ...typeScale.labelSmall,
-    color: Colors.gray3,
+    color: Colors.textSecondary,
   },
 })
