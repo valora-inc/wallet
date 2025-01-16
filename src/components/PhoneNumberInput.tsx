@@ -108,6 +108,7 @@ export default function PhoneNumberInput({
               isExpandable={editable}
               isExpanded={false}
               containerStyle={styles.countryFlagContainer}
+              arrowColor={colors.textSecondary}
             >
               <Text style={styles.flag} testID={'countryCodeFlag'}>
                 {flagEmoji}

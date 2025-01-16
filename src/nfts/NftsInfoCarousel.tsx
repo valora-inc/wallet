@@ -230,7 +230,7 @@ export default function NftsInfoCarousel({ route }: Props) {
             <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
               <View style={styles.explorerLinkContainer}>
                 <Text style={styles.explorerLink}>{networkIdToExplorerString[networkId]}</Text>
-                <OpenLinkIcon color={colors.successDark} />
+                <OpenLinkIcon color={colors.success} />
               </View>
             </Touchable>
           </View>
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
   },
   explorerLink: {
     ...typeScale.labelSmall,
-    color: colors.successDark,
+    color: colors.success,
     paddingRight: Spacing.Smallest8,
   },
   explorerLinkContainer: {

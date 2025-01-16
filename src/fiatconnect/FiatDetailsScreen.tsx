@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
   },
   error: {
     fontSize: 12,
-    color: colors.errorDark,
+    color: colors.error,
   },
   submitButton: {
     padding: variables.contentPadding,

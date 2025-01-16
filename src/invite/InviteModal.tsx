@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   helpLink: {
-    color: colors.infoDark,
+    color: colors.textLink,
     flexWrap: 'wrap',
     textDecorationLine: 'underline',
   },
