@@ -196,7 +196,7 @@ function SuccessOrProcessingSection({
             <Text style={styles.txDetails}>
               {t('fiatConnectStatusScreen.success.viewOnCeloScan')}
             </Text>
-            <OpenLinkIcon color={Colors.gray4} />
+            <OpenLinkIcon color={Colors.textLink} />
           </View>
         </Touchable>
       )}
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   txDetails: {
-    color: Colors.gray4,
+    color: Colors.textLink,
   },
   iconContainer: {
     marginBottom: 24,

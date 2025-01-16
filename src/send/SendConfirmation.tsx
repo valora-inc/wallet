@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     ...typeScale.labelMedium,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   displayName: {
     ...typeScale.labelMedium,
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
   },
   subHeadingText: {
     ...typeScale.labelSmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
 })
 

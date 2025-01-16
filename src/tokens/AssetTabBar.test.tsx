@@ -23,9 +23,9 @@ describe('AssetTabBar', () => {
     expect(tabItems[0]).toHaveTextContent('tokens')
     expect(tabItems[0].children[0]).toHaveStyle({ color: Colors.textPrimary })
     expect(tabItems[1]).toHaveTextContent('collectibles')
-    expect(tabItems[1].children[0]).toHaveStyle({ color: Colors.gray4 })
+    expect(tabItems[1].children[0]).toHaveStyle({ color: Colors.textSecondary })
     expect(tabItems[2]).toHaveTextContent('dappPositions')
-    expect(tabItems[2].children[0]).toHaveStyle({ color: Colors.gray4 })
+    expect(tabItems[2].children[0]).toHaveStyle({ color: Colors.textSecondary })
   })
 
   it('does not render positions if disabled', () => {
@@ -40,7 +40,7 @@ describe('AssetTabBar', () => {
     const tabItems = getAllByTestId('Assets/TabBarItem')
     expect(tabItems).toHaveLength(2)
     expect(tabItems[0]).toHaveTextContent('tokens')
-    expect(tabItems[0].children[0]).toHaveStyle({ color: Colors.gray4 })
+    expect(tabItems[0].children[0]).toHaveStyle({ color: Colors.textSecondary })
     expect(tabItems[1]).toHaveTextContent('collectibles')
     expect(tabItems[1].children[0]).toHaveStyle({ color: Colors.textPrimary })
   })

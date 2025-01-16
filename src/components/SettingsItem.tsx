@@ -2,7 +2,6 @@ import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import ListItem from 'src/components/ListItem'
 import Switch from 'src/components/Switch'
-import TextInput from 'src/components/TextInput'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import colors from 'src/styles/colors'
@@ -133,48 +132,6 @@ export function SettingsExpandedItem({
   )
 }
 
-type SettingsItemInputProps = {
-  value: string
-  placeholder?: string
-  onValueChange: (value: string) => void
-} & Omit<BaseProps, 'onPress'>
-
-export function SettingsItemInput({
-  testID,
-  title,
-  onValueChange,
-  value,
-  placeholder,
-}: SettingsItemInputProps) {
-  const onFocus = () => {
-    setInputColor(colors.textPrimary)
-  }
-  const onBlur = () => {
-    setInputColor(colors.gray4)
-  }
-
-  const [inputColor, setInputColor] = React.useState(colors.gray4)
-  return (
-    <Wrapper>
-      <View style={styles.container}>
-        <Title value={title} />
-        <TextInput
-          testID={testID}
-          style={styles.input}
-          inputStyle={[styles.innerInput, { color: inputColor }]}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          value={value}
-          placeholder={placeholder}
-          onChangeText={onValueChange}
-          showClearButton={false}
-          multiline={true}
-        />
-      </View>
-    </Wrapper>
-  )
-}
-
 type SettingsItemCtaProps = {
   cta: JSX.Element
   showChevron?: boolean
@@ -213,7 +170,7 @@ const styles = StyleSheet.create({
   },
   value: {
     ...typeScale.bodyMedium,
-    color: colors.gray4,
+    color: colors.textSecondary,
     marginRight: 8,
   },
   valueActionable: {
@@ -223,23 +180,13 @@ const styles = StyleSheet.create({
   },
   details: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
     paddingTop: 16,
     paddingRight: 16,
   },
   right: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  input: {
-    justifyContent: 'flex-end',
-    paddingLeft: 16,
-  },
-  innerInput: {
-    minWidth: 160,
-    textAlign: 'right',
-    paddingVertical: 0,
-    color: colors.gray4,
   },
   iconContainer: {
     paddingRight: Spacing.Smallest8,

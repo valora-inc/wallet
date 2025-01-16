@@ -67,12 +67,12 @@ const styles = StyleSheet.create({
   },
   text: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
     marginBottom: 8,
   },
   link: {
     ...typeScale.bodySmall,
     textDecorationLine: 'underline',
-    color: colors.gray4,
+    color: colors.textLink,
   },
 })

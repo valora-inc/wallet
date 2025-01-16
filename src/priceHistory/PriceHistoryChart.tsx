@@ -81,7 +81,7 @@ function ChartAwareSvgText({
       /*
       // @ts-ignore */
       onLayout={onLayout}
-      fill={colors.gray4}
+      fill={colors.textSecondary}
       fontSize="14"
       fontFamily="Inter-Regular"
       x={adjustedX}

@@ -595,7 +595,7 @@ const styles = StyleSheet.create({
   },
   linkToOtherScreen: {
     ...typeScale.labelSmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   disclaimerContainer: {
     padding: Spacing.Regular16,
@@ -606,7 +606,7 @@ const styles = StyleSheet.create({
   },
   disclaimerText: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   underline: {
     textDecorationLine: 'underline',
@@ -617,7 +617,7 @@ const styles = StyleSheet.create({
   },
   contactSupport: {
     ...typeScale.labelLarge,
-    color: colors.gray4,
+    color: colors.textLink,
     padding: Spacing.Smallest8,
   },
   amountSpentInfo: {

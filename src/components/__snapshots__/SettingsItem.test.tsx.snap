@@ -1,113 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SettingsItemInput renders correctly 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "#FFFFFF",
-    }
-  }
->
-  <View
-    style={
-      {
-        "borderBottomColor": "#E6E6E6",
-        "borderBottomWidth": 1,
-        "marginHorizontal": 16,
-        "paddingVertical": 16,
-      }
-    }
-  >
-    <View
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-        }
-      }
-    >
-      <View
-        style={
-          [
-            {
-              "flex": 1,
-              "justifyContent": "center",
-            },
-          ]
-        }
-      >
-        <Text
-          style={
-            {
-              "color": "#2E3338",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 16,
-              "lineHeight": 24,
-            }
-          }
-        >
-          title
-        </Text>
-      </View>
-      <View
-        style={
-          [
-            {
-              "alignItems": "center",
-              "flex": 1,
-              "flexDirection": "row",
-              "gap": 8,
-              "justifyContent": "center",
-            },
-            {
-              "justifyContent": "flex-end",
-              "paddingLeft": 16,
-            },
-          ]
-        }
-      >
-        <TextInput
-          multiline={true}
-          onBlur={[Function]}
-          onChangeText={[MockFunction]}
-          onFocus={[Function]}
-          style={
-            [
-              {
-                "color": "#2E3338",
-                "flex": 1,
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 22,
-                "paddingHorizontal": 0,
-                "paddingVertical": 12,
-              },
-              {
-                "textAlignVertical": "top",
-              },
-              [
-                {
-                  "color": "#666666",
-                  "minWidth": 160,
-                  "paddingVertical": 0,
-                  "textAlign": "right",
-                },
-                {
-                  "color": "#666666",
-                },
-              ],
-            ]
-          }
-          testID="testID"
-          value="value"
-        />
-      </View>
-    </View>
-  </View>
-</View>
-`;
-
 exports[`SettingsItemSwitch renders correctly 1`] = `
 <View
   style={
@@ -236,7 +128,7 @@ exports[`SettingsItemTextValue renders correctly 1`] = `
         <Text
           style={
             {
-              "color": "#666666",
+              "color": "#757575",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,

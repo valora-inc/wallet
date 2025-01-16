@@ -248,7 +248,7 @@ export function FiatExchangeTokenBalance() {
           {tokenBalances.length > 1 ? (
             <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
               <Text style={styles.exchangeTotalValue}>{t('totalValue')}</Text>
-              <ForwardChevron height={9.62} color={Colors.gray4} />
+              <ForwardChevron height={9.62} color={Colors.textSecondary} />
             </TouchableOpacity>
           ) : (
             <Text style={styles.exchangeTotalValue}>{t('totalValue')}</Text>
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
   },
   exchangeTotalValue: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.gray4,
+    color: Colors.textSecondary,
     paddingRight: 3,
     paddingBottom: 4,
   },
@@ -318,6 +318,6 @@ const styles = StyleSheet.create({
   },
   tokenBalance: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.gray4,
+    color: Colors.textSecondary,
   },
 })

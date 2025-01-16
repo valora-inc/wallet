@@ -107,7 +107,7 @@ function LabelWithInfo({
     <Touchable style={styles.touchableRow} onPress={onPress} testID={testID}>
       <>
         <Text style={styles.label}>{label}</Text>
-        <InfoIcon size={14} color={colors.gray4} testID={`${testID}/Icon`} />
+        <InfoIcon size={14} color={colors.textSecondary} testID={`${testID}/Icon`} />
       </>
     </Touchable>
   )
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
     marginRight: Spacing.Tiny4,
   },
   loaderContainer: {

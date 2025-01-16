@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   phoneNumber: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   avatarContainer: {
     flex: 1,

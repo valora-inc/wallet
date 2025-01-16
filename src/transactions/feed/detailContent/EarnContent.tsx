@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   },
   amountSubtitle: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.textSecondary,
     marginLeft: 'auto',
   },
   amountContainer: {

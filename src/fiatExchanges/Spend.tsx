@@ -2,8 +2,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import ListItem from 'src/components/ListItem'
 import { SPEND_MERCHANT_LINKS } from 'src/config'
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   optionSubtitle: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
 })
 

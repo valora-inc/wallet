@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     color: colors.accent,
   },
   reviewLineTextAlt: {
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   reviewLineTextTotal: {
     ...typeScale.labelSemiBoldMedium,

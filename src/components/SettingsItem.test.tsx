@@ -4,7 +4,6 @@ import 'react-native'
 import { View } from 'react-native'
 import {
   SettingsItemCta,
-  SettingsItemInput,
   SettingsItemSwitch,
   SettingsItemTextValue,
 } from 'src/components/SettingsItem'
@@ -55,36 +54,6 @@ describe('SettingsItemSwitch', () => {
     )
     fireEvent(getByTestId(testID), 'valueChange', !value)
     expect(onValueChange).toHaveBeenCalledWith(!value)
-  })
-})
-
-describe('SettingsItemInput', () => {
-  const value = 'value'
-  const newValue = 'newValue'
-  const onValueChange = jest.fn()
-  it('renders correctly', () => {
-    const wrapper = render(
-      <SettingsItemInput
-        testID={testID}
-        onValueChange={onValueChange}
-        title={title}
-        value={value}
-      />
-    )
-    expect(wrapper.toJSON()).toMatchSnapshot()
-  })
-
-  it('reacts on press', () => {
-    const { getByTestId } = render(
-      <SettingsItemInput
-        testID={testID}
-        title={title}
-        value={value}
-        onValueChange={onValueChange}
-      />
-    )
-    fireEvent(getByTestId(testID), 'changeText', newValue)
-    expect(onValueChange).toHaveBeenCalledWith(newValue)
   })
 })
 

@@ -241,7 +241,7 @@ function DappsScreen({ navigation }: Props) {
                   }}
                   value={searchTerm}
                   multiline={false}
-                  placeholderTextColor={Colors.gray4}
+                  placeholderTextColor={Colors.inactive}
                   underlineColorAndroid="transparent"
                   placeholder={t('dappsScreen.searchPlaceHolder') ?? undefined}
                   showClearButton={true}
@@ -339,12 +339,12 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.gray4,
+    color: Colors.textSecondary,
     marginTop: Spacing.Large32,
   },
   disclaimer: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray4,
+    color: Colors.textSecondary,
   },
   listFooterComponent: {
     marginTop: Spacing.Large32,

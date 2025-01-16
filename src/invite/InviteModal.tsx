@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
     textAlign: 'center',
     marginBottom: Spacing.Large32,
-    color: colors.gray4,
+    color: colors.textSecondary,
   },
   helpContainer: {
     marginBottom: Spacing.Regular16,
