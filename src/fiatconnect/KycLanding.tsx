@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 48,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.gray2,
+    borderBottomColor: Colors.border,
   },
   stepTwo: {
     alignItems: 'center',

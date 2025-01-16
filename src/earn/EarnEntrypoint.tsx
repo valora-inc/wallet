@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Thick24,
   },
   touchable: {
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderWidth: 1,
     borderRadius: 8,
   },

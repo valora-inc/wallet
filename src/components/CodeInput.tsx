@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: colors.backgroundSecondary,
     borderWidth: 1,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
   },
   innerContent: {
     flex: 1,

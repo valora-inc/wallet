@@ -167,13 +167,14 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
     case BtnTypes.SECONDARY:
       textColor = Colors.textPrimary
       backgroundColor = Colors.buttonSecondary
-      borderColor = Colors.gray2
+      borderColor = Colors.border
       opacity = disabled ? 0.5 : 1.0
       break
+
     case BtnTypes.TERTIARY:
       textColor = Colors.textPrimary
       backgroundColor = Colors.background
-      borderColor = Colors.gray2
+      borderColor = Colors.border
       opacity = disabled ? 0.5 : 1.0
       break
   }

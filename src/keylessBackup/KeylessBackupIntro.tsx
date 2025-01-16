@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   authFactorsCard: {
     backgroundColor: Colors.backgroundSecondary,
     marginTop: Spacing.Smallest8,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderWidth: 1,
     borderRadius: 10,
     padding: Spacing.Thick24,

@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     borderWidth: 1,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
   },
   subtitle: {
     ...typeScale.bodySmall,

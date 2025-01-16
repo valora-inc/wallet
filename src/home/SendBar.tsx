@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import Button, { BtnSizes } from 'src/components/Button'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: variables.contentPadding,
     paddingVertical: 12,
-    borderTopColor: colors.gray2,
+    borderTopColor: colors.border,
     borderTopWidth: 1,
   },
   button: {

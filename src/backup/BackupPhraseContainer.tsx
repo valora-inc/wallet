@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundSecondary,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
     alignContent: 'center',
     justifyContent: 'center',
     padding: 8,
