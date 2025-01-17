@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   },
   requestDetailLabel: {
     ...typeScale.labelXSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     marginBottom: 4,
   },
   requestDetailValue: {

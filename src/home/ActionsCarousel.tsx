@@ -34,14 +34,14 @@ function ActionsCarousel() {
   const actions: Actions = {
     [HomeActionName.Send]: {
       title: t('homeActions.send'),
-      icon: <QuickActionsSend color={Colors.success} />,
+      icon: <QuickActionsSend color={Colors.successPrimary} />,
       onPress: () => {
         navigate(Screens.SendSelectRecipient)
       },
     },
     [HomeActionName.Receive]: {
       title: t('homeActions.receive'),
-      icon: <QuickActionsReceive color={Colors.success} />,
+      icon: <QuickActionsReceive color={Colors.successPrimary} />,
       onPress: () => {
         navigate(Screens.QRNavigator, {
           screen: Screens.QRCode,
@@ -50,14 +50,14 @@ function ActionsCarousel() {
     },
     [HomeActionName.Add]: {
       title: t('homeActions.add'),
-      icon: <QuickActionsAdd color={Colors.success} />,
+      icon: <QuickActionsAdd color={Colors.successPrimary} />,
       onPress: () => {
         navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
       },
     },
     [HomeActionName.Swap]: {
       title: t('homeActions.swap'),
-      icon: <SwapArrows color={Colors.success} />,
+      icon: <SwapArrows color={Colors.successPrimary} />,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack)
       },
@@ -65,7 +65,7 @@ function ActionsCarousel() {
     },
     [HomeActionName.Withdraw]: {
       title: t('homeActions.withdraw'),
-      icon: <QuickActionsWithdraw color={Colors.success} />,
+      icon: <QuickActionsWithdraw color={Colors.successPrimary} />,
       onPress: () => {
         navigate(Screens.WithdrawSpend)
       },
@@ -123,7 +123,7 @@ function ActionsCarousel() {
 
 const styles = StyleSheet.create({
   viewContainer: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
   },
   carouselContainer: {
     padding: Spacing.Regular16,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSmall,
     lineHeight: 17,
     paddingTop: Spacing.Smallest8,
-    color: Colors.success,
+    color: Colors.successPrimary,
   },
 })
 

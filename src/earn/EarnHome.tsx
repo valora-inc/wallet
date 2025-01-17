@@ -267,7 +267,7 @@ export default function EarnHome({ navigation, route }: Props) {
         </Animated.View>
         {errorLoadingPools && (
           <View style={styles.textContainer}>
-            <AttentionIcon size={48} color={Colors.textPrimary} />
+            <AttentionIcon size={48} color={Colors.contentPrimary} />
             <Text style={styles.errorTitle}>{t('earnFlow.home.errorTitle')}</Text>
             <Text style={styles.description}>{t('earnFlow.home.errorDescription')}</Text>
           </View>
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     ...getShadowStyle(Shadow.SoftLight),
     paddingBottom: Spacing.Regular16,
     paddingHorizontal: Spacing.Regular16,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     position: 'absolute',
     width: '100%',
     zIndex: 1,

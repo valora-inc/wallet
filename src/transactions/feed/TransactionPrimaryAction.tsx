@@ -27,9 +27,9 @@ function TransactionPrimaryAction({ status, type, onPress, testID }: Props) {
   }[status]
 
   const [color, backgroundColor] = {
-    [TransactionStatus.Complete]: [Colors.success, Colors.successSecondary],
-    [TransactionStatus.Pending]: [Colors.warning, Colors.warningSecondary],
-    [TransactionStatus.Failed]: [Colors.error, Colors.errorSecondary],
+    [TransactionStatus.Complete]: [Colors.successPrimary, Colors.successSecondary],
+    [TransactionStatus.Pending]: [Colors.warningPrimary, Colors.warningSecondary],
+    [TransactionStatus.Failed]: [Colors.errorPrimary, Colors.errorSecondary],
   }[status]
 
   const icon = {

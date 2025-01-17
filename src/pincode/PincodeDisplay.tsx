@@ -84,9 +84,9 @@ const styles = StyleSheet.create({
     height: DOT_SIZE,
     borderRadius: DOT_SIZE / 2,
     borderWidth: 1,
-    borderColor: colors.textPrimary,
+    borderColor: colors.contentPrimary,
   },
   dotFilled: {
-    backgroundColor: colors.textPrimary,
+    backgroundColor: colors.contentPrimary,
   },
 })

@@ -346,7 +346,7 @@ export const styles = StyleSheet.create({
   },
   cardLabelText: {
     ...typeScale.bodyMedium,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   depositAndEarningCard: {
     backgroundColor: Colors.backgroundSecondary,
@@ -362,7 +362,7 @@ export const styles = StyleSheet.create({
     ...typeScale.titleMedium,
   },
   depositAndEarningCardSubtitleContainer: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     padding: Spacing.Regular16,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,

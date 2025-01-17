@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 import Colors from 'src/styles/colors'
 
-const GoogleIcon = ({ color = Colors.textPrimary }) => (
+const GoogleIcon = ({ color = Colors.contentPrimary }) => (
   <Svg width={32} height={32} viewBox="0 0 32 32" fill="none">
     <Path
       fill={color}

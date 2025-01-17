@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   subTitle: {
     ...typeScale.bodyMedium,
     textAlign: 'center',
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   title: {
     ...typeScale.titleSmall,

@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   text: {
     ...typeScale.bodySmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     marginBottom: 8,
   },
   link: {

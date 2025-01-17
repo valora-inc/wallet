@@ -10,8 +10,8 @@ interface Props {
 
 function CrossChainIndicator({
   size = 16,
-  backgroundColor = Colors.textPrimary,
-  color = Colors.textInverse,
+  backgroundColor = Colors.contentPrimary,
+  color = Colors.contentInverse,
 }: Props) {
   return (
     <Svg width={size} height={size} fill="none" viewBox="0 0 16 16">
