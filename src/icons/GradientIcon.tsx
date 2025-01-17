@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   mask: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     opacity: 0.9,
   },
 })
