@@ -228,7 +228,7 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
 
   // make loading description visible if sending is taking a while
   const [loadingDescriptionColor, setLoadingDescriptionColor] = useState(
-    appTheme.colors.backgroundPrimary.toString()
+    appTheme.colors.background.toString()
   )
   useEffect(() => {
     const timeout = setTimeout(() => {
