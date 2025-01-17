@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   viewDetailsText: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     textAlign: 'center',
     flex: 1,
   },
@@ -148,6 +148,6 @@ const styles = StyleSheet.create({
   },
   riskCategory: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
 })

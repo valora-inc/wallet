@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
   },
   attributeTitle: {
     ...typeScale.labelSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   attributesContainer: {
     paddingBottom: Spacing.Thick24,
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
   errorImageText: {
     marginTop: Spacing.Regular16,
     ...typeScale.bodyMedium,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   explorerLink: {
     ...typeScale.labelSmall,

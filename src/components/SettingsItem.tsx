@@ -67,10 +67,10 @@ export function SettingsItemTextValue({
           {(!!value || showChevron) && (
             <ForwardChevron
               height={12}
-              color={isValueActionable ? colors.accent : colors.textSecondary}
+              color={isValueActionable ? colors.accent : colors.contentSecondary}
             />
           )}
-          {isExternalLink && <OpenLinkIcon size={16} color={colors.textPrimary} />}
+          {isExternalLink && <OpenLinkIcon size={16} color={colors.contentPrimary} />}
         </View>
       </View>
     </Wrapper>
@@ -149,7 +149,7 @@ export function SettingsItemCta({
       <View style={styles.container}>
         <Title value={title} />
         <View style={styles.right}>{cta}</View>
-        {showChevron && <ForwardChevron height={12} color={colors.textSecondary} />}
+        {showChevron && <ForwardChevron height={12} color={colors.contentSecondary} />}
       </View>
     </Wrapper>
   )
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   value: {
     ...typeScale.bodyMedium,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     marginRight: 8,
   },
   valueActionable: {
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   details: {
     ...typeScale.bodySmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     paddingTop: 16,
     paddingRight: 16,
   },

@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
   },
   changePinContainer: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     justifyContent: 'space-between',
   },
 })

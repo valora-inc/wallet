@@ -148,7 +148,7 @@ function SuccessOrProcessingSection({
   if (status === SendingTransferStatus.Completed) {
     icon = (
       <CircledIcon>
-        <Checkmark color={Colors.textInverse} height={22} width={22} />
+        <Checkmark color={Colors.contentInverse} height={22} width={22} />
       </CircledIcon>
     )
     title = t('fiatConnectStatusScreen.success.title')
@@ -158,7 +158,7 @@ function SuccessOrProcessingSection({
   } else {
     icon = (
       <CircledIcon>
-        <ClockIcon color={Colors.textInverse} height={22} width={22} />
+        <ClockIcon color={Colors.contentInverse} height={22} width={22} />
       </CircledIcon>
     )
     title = t('fiatConnectStatusScreen.txProcessing.title')
@@ -228,7 +228,7 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
 
   // make loading description visible if sending is taking a while
   const [loadingDescriptionColor, setLoadingDescriptionColor] = useState(
-    appTheme.colors.background.toString()
+    appTheme.colors.backgroundPrimary.toString()
   )
   useEffect(() => {
     const timeout = setTimeout(() => {

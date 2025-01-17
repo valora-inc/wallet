@@ -417,7 +417,7 @@ export default function TokenEnterAmount({
             )}
           </View>
 
-          {onOpenTokenPicker && <DownArrowIcon height={24} color={Colors.textSecondary} />}
+          {onOpenTokenPicker && <DownArrowIcon height={24} color={Colors.contentSecondary} />}
         </View>
       </Touchable>
       {token && (
@@ -481,7 +481,7 @@ export default function TokenEnterAmount({
                     testID={`${testID}/SwitchTokens`}
                     hitSlop={variables.iconHitslop}
                   >
-                    <SwapArrows color={Colors.textSecondary} size={24} />
+                    <SwapArrows color={Colors.contentSecondary} size={24} />
                   </Touchable>
                 )}
 
@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
   },
   tokenBalance: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   primaryAmountText: {
     ...typeScale.titleMedium,
@@ -555,12 +555,12 @@ const styles = StyleSheet.create({
   },
   secondaryAmountText: {
     ...typeScale.bodyMedium,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   placeholderText: {
     ...typeScale.labelMedium,
     paddingHorizontal: 4,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   swapArrowContainer: {
     transform: [{ rotate: '90deg' }],

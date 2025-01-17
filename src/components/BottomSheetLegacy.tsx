@@ -35,7 +35,7 @@ function BottomSheet({
   onBackgroundPress,
   testID = 'BottomSheetContainer',
   opacity = 0.5,
-  backgroundColor = colors.backgroundInverse,
+  backgroundColor = colors.shadow,
   stickyHeader,
   fullHeight = false,
 }: Props) {
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     opacity: 1,
     width: '100%',
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundPrimary,
     borderTopRightRadius: Spacing.Regular16,
     borderTopLeftRadius: Spacing.Regular16,
   },

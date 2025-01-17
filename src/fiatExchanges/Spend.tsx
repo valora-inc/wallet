@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   optionSubtitle: {
     ...typeScale.bodySmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })
 

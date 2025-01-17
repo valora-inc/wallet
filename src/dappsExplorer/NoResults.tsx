@@ -101,11 +101,11 @@ const styles = StyleSheet.create({
   },
   filterText: {
     ...typeScale.labelSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   filterAppliedText: {
     ...typeScale.labelSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     paddingRight: 4,
   },
   removeFilterTouchableContainer: {

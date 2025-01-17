@@ -122,7 +122,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     pointsHistoryStatus === 'errorFirstPage' ? (
       <View testID={'PointsHistoryBottomSheet/Error'} style={styles.emptyContainer}>
         <View style={styles.messageContainer}>
-          <Attention size={48} color={Colors.textPrimary} />
+          <Attention size={48} color={Colors.contentPrimary} />
           <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
           <Text style={styles.messageSubtitle}>{t('points.history.error.subtitle')}</Text>
         </View>
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   },
   cardSubtitle: {
     ...typeScale.labelSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   cardPointsAmount: {
     ...typeScale.labelMedium,

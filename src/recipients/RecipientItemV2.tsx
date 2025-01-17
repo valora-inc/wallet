@@ -58,13 +58,13 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
             style={styles.avatar}
             recipient={recipient}
             backgroundColor={Colors.backgroundSecondary}
-            foregroundColor={Colors.textPrimary}
+            foregroundColor={Colors.contentPrimary}
             borderColor={Colors.border}
             DefaultIcon={() => renderDefaultIcon(recipient)} // no need to honor color props here since the color we need match the defaults
           />
           {!!showAppIcon && (
             <Logo
-              color={Colors.textInverse}
+              color={Colors.contentInverse}
               style={styles.appIcon}
               size={ICON_SIZE}
               testID="RecipientItem/AppIcon"
@@ -93,9 +93,9 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
 
 function renderDefaultIcon(recipient: Recipient) {
   if (recipientHasNumber(recipient)) {
-    return <PhoneIcon color={Colors.textPrimary} size={24} testID="RecipientItem/PhoneIcon" />
+    return <PhoneIcon color={Colors.contentPrimary} size={24} testID="RecipientItem/PhoneIcon" />
   } else {
-    return <WalletIcon color={Colors.textPrimary} size={24} testID="RecipientItem/WalletIcon" />
+    return <WalletIcon color={Colors.contentPrimary} size={24} testID="RecipientItem/WalletIcon" />
   }
 }
 
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   name: { ...typeScale.labelMedium },
   phone: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   rightIconContainer: {
     justifyContent: 'center',

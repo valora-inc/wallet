@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   backdrop: {
-    backgroundColor: Colors.backgroundInverse,
+    backgroundColor: Colors.shadow,
   },
   confetti: {
     ...StyleSheet.absoluteFillObject,

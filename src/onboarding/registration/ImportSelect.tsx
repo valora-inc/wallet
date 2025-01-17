@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   safeArea: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundPrimary,
     flex: 1,
   },
   screenDescription: {

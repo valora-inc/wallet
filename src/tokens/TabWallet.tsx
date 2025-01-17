@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     ...getShadowStyle(Shadow.SoftLight),
     paddingBottom: Spacing.Regular16,
     paddingHorizontal: Spacing.Regular16,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     position: 'absolute',
     width: '100%',
     zIndex: 1,
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.Thick24,
   },
   footerContainer: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     position: 'absolute',
     bottom: 0,
     left: 10, // so the scroll bar is still visible

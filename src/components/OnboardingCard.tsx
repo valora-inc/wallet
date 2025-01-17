@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.bodyXSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
 })
 

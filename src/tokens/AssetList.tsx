@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
   },
   noNftsText: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     textAlign: 'center',
   },
   noNftsTextContainer: {

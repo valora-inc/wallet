@@ -7,7 +7,7 @@ interface Props {
   size?: number
 }
 
-export function Help({ color = colors.textPrimary, size = 32 }: Props) {
+export function Help({ color = colors.contentPrimary, size = 32 }: Props) {
   return (
     <Svg testID="Help" width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path

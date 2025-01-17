@@ -400,7 +400,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     padding: Spacing.Thick24,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     width: '100%',
   },
   title: {

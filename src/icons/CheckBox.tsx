@@ -12,7 +12,7 @@ type Props = {
 const CheckBox = ({
   checked,
   testID,
-  checkedColor = Colors.textPrimary,
+  checkedColor = Colors.contentPrimary,
   uncheckedColor = Colors.inactive,
 }: Props) => {
   if (checked)

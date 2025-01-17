@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
 
 const variantColors: Record<NotificationVariant, CustomColors> = {
   [NotificationVariant.Info]: {
-    primary: Colors.textPrimary,
+    primary: Colors.contentPrimary,
     secondary: Colors.info,
   },
   [NotificationVariant.Success]: {

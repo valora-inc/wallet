@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   amountContainer: {
     maxWidth: '50%',
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   },
   amountSubtitle: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     flexWrap: 'wrap',
     textAlign: 'right',
   },

@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
   authFactorsContainer: {
     borderBottomWidth: 1,
-    borderBottomColor: `${Colors.backgroundInverse}33`, // alpha 0.2 (20% opacity)
+    borderBottomColor: `${Colors.shadow}33`, // alpha 0.2 (20% opacity)
     gap: Spacing.Thick24,
     paddingBottom: Spacing.Thick24,
   },

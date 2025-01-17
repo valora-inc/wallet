@@ -80,7 +80,7 @@ function ChooseYourAdventure() {
       goToNextScreen: () => {
         navigateHomeAndThenToScreen(Screens.EarnInfoScreen)
       },
-      icon: <EarnCoins color={colors.textPrimary} />,
+      icon: <EarnCoins color={colors.contentPrimary} />,
       name: AdventureCardName.Earn,
     },
     {
@@ -96,7 +96,7 @@ function ChooseYourAdventure() {
       goToNextScreen: () => {
         navigateHomeAndThenToScreen(Screens.PointsIntro)
       },
-      icon: <LogoHeart size={Spacing.Thick24} color={colors.textPrimary} />,
+      icon: <LogoHeart size={Spacing.Thick24} color={colors.contentPrimary} />,
       name: AdventureCardName.LearnPoints,
     },
   ]
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   skip: {
-    color: colors.textPrimary,
+    color: colors.contentPrimary,
   },
   cardText: {
     ...typeScale.bodySmall,
