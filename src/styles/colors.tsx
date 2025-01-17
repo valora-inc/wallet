@@ -31,7 +31,7 @@ enum Colors {
   buttonSecondary = '#F8F9F9',
   accent = '#1AB775',
   textLink = '#757575', // similar to secondary text but for interactive links
-  bottomSheetHandleBar = '#E6E6E6',
+  bottomSheetHandle = '#E6E6E6',
 
   // states
   disabled = '#E6E6E6',
