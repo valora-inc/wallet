@@ -26,7 +26,7 @@ const BottomSheetBase = ({
   snapPoints,
   handleComponent,
   backgroundStyle,
-  handleIndicatorStyle = styles.handle,
+  handleIndicatorStyle,
 }: BottomSheetBaseProps) => {
   const reduceMotionEnabled = useReducedMotion()
 
@@ -64,7 +64,7 @@ const BottomSheetBase = ({
       enablePanDownToClose
       backdropComponent={renderBackdrop}
       handleComponent={handleComponent}
-      handleIndicatorStyle={handleIndicatorStyle}
+      handleIndicatorStyle={[styles.handle, handleIndicatorStyle]}
       backgroundStyle={backgroundStyle}
       onAnimate={handleAnimate}
       onDismiss={onClose}
@@ -81,7 +81,7 @@ const BottomSheetBase = ({
 
 const styles = StyleSheet.create({
   handle: {
-    backgroundColor: Colors.border,
+    backgroundColor: Colors.bottomSheetHandleBar,
     width: 40,
   },
 })

@@ -5,6 +5,7 @@ enum Colors {
   background = '#FFFFFF', // primary background
   backgroundInverse = '#2E3338', // inverse background (e.g. high contrast to primary)
   backgroundSecondary = '#F8F9F9', // secondary background (e.g. cards, input fields)
+  backgroundTertiary = '#E6E6E6', // tertiary background (e.g. used on top of secondary background)
 
   // text
   textPrimary = '#2E3338', // text on primary background
@@ -30,6 +31,7 @@ enum Colors {
   buttonSecondary = '#F8F9F9',
   accent = '#1AB775',
   textLink = '#757575', // similar to secondary text but for interactive links
+  bottomSheetHandleBar = '#E6E6E6',
 
   // states
   disabled = '#E6E6E6',
@@ -45,9 +47,6 @@ enum Colors {
   // brand
   gradientBorderLeft = '#26d98a',
   gradientBorderRight = '#ffd52c',
-
-  /** @deprecated */
-  gray2 = '#E6E6E6',
 }
 
 export default Colors

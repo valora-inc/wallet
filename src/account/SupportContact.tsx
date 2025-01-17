@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
     height: 40,
     alignItems: 'center',
     marginTop: 4,
+    gap: 12,
   },
   logsSwitch: {
     marginBottom: 3,

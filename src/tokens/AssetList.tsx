@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.gray2,
+    backgroundColor: Colors.backgroundTertiary,
     borderRadius: Spacing.Regular16,
   },
   nftsNoMetadataText: {
