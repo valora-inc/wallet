@@ -202,9 +202,9 @@ const styles = StyleSheet.create({
   },
   reviewSummary: {
     borderWidth: 1,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderRadius: Spacing.Small12,
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     padding: Spacing.Regular16,
     gap: Spacing.Regular16,
     flexShrink: 1,
