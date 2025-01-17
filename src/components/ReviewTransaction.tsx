@@ -1,10 +1,12 @@
-import React, { useMemo, type ReactNode } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { type ReactNode, useMemo } from 'react'
+import { ScrollView, type StyleProp, StyleSheet, Text, type TextStyle, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import BackButton from 'src/components/BackButton'
 import ContactCircle from 'src/components/ContactCircle'
 import CustomHeader from 'src/components/header/CustomHeader'
+import Touchable from 'src/components/Touchable'
+import InfoIcon from 'src/icons/InfoIcon'
 import WalletIcon from 'src/icons/navigator/Wallet'
 import PhoneIcon from 'src/icons/Phone'
 import UserIcon from 'src/icons/User'
@@ -139,27 +141,43 @@ export function ReviewDetailsItem({
   label,
   value,
   variant = 'default',
+  size = 'normal',
+  color = Colors.textPrimary,
   isLoading,
   testID,
+  onInfoPress,
 }: {
   label: ReactNode
   value: ReactNode
   variant?: 'default' | 'bold'
+  size?: 'small' | 'normal'
+  color?: Colors
   isLoading?: boolean
   testID?: string
+  onInfoPress?: () => void
 }) {
-  const textStyle =
-    variant === 'bold' ? styles.reviewDetailsItemTextBold : styles.reviewDetailsItemText
+  const textFont = useMemo((): StyleProp<TextStyle> => {
+    if (size === 'small') {
+      return variant === 'bold' ? typeScale.labelSemiBoldSmall : typeScale.bodySmall
+    }
+    return variant === 'bold' ? typeScale.labelSemiBoldMedium : typeScale.bodyMedium
+  }, [variant, size])
 
   return (
     <View style={styles.reviewDetailsItem} testID={testID}>
-      <View style={styles.reviewDetailsItemLabel}>
-        <Text style={textStyle} testID={`${testID}/Label`}>
-          {label}
-        </Text>
-        {/* TODO Add <InfoIcon /> for Earn Deposit/Withdrawal */}
-      </View>
-      <View>
+      <Touchable
+        style={styles.reviewDetailsItemLabel}
+        onPress={onInfoPress}
+        disabled={!onInfoPress || isLoading}
+      >
+        <>
+          <Text style={[textFont, { color }]} testID={`${testID}/Label`}>
+            {label}
+          </Text>
+          {onInfoPress && <InfoIcon testID={`${testID}/InfoIcon`} />}
+        </>
+      </Touchable>
+      <View style={styles.reviewDetailsItemValue}>
         {isLoading ? (
           <View testID={`${testID}/Loader`} style={styles.loaderContainer}>
             <SkeletonPlaceholder
@@ -171,7 +189,10 @@ export function ReviewDetailsItem({
             </SkeletonPlaceholder>
           </View>
         ) : (
-          <Text style={textStyle} testID={`${testID}/Value`}>
+          <Text
+            style={[styles.reviewDetailsItemValueText, textFont, { color }]}
+            testID={`${testID}/Value`}
+          >
             {value}
           </Text>
         )}
@@ -237,6 +258,7 @@ const styles = StyleSheet.create({
   },
   reviewDetailsItem: {
     flexDirection: 'row',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
     gap: Spacing.Smallest8,
   },
@@ -245,12 +267,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Spacing.Tiny4,
   },
-  reviewDetailsItemText: {
-    ...typeScale.bodyMedium,
-    color: Colors.textSecondary,
+  reviewDetailsItemValue: {
+    flexShrink: 1,
+    alignItems: 'flex-end',
   },
-  reviewDetailsItemTextBold: {
-    ...typeScale.labelSemiBoldMedium,
+  reviewDetailsItemValueText: {
+    textAlign: 'right',
   },
   reviewFooter: {
     gap: Spacing.Regular16,

@@ -1,14 +1,15 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
-import Button, { BtnSizes } from 'src/components/Button'
+import BottomSheet, { type BottomSheetModalRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import {
   ReviewContent,
   ReviewDetails,
@@ -32,6 +33,7 @@ import { isSendingSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
+import { Spacing } from 'src/styles/styles'
 import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
@@ -106,6 +108,7 @@ function useDisplaySendAmounts({
 export default function SendConfirmation(props: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const totalPlusFeesBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const {
     origin,
@@ -228,11 +231,13 @@ export default function SendConfirmation(props: Props) {
             testID="SendConfirmationNetwork"
             label={t('transactionDetails.network')}
             value={tokenInfo && NETWORK_NAMES[tokenInfo.networkId]}
+            color={Colors.textSecondary}
           />
           <ReviewDetailsItem
             testID="SendConfirmationFee"
             label={t('networkFee')}
             isLoading={prepareTransactionLoading}
+            color={Colors.textSecondary}
             value={
               <Trans
                 i18nKey={'reviewTransaction.tokenAndLocalDisplayAmountApprox'}
@@ -253,6 +258,9 @@ export default function SendConfirmation(props: Props) {
             variant="bold"
             label={t('reviewTransaction.totalPlusFees')}
             isLoading={prepareTransactionLoading}
+            onInfoPress={() => {
+              totalPlusFeesBottomSheetRef.current?.snapToIndex(0)
+            }}
             value={
               displayAmounts.total.type === 'same-token' ? (
                 <Trans
@@ -291,6 +299,88 @@ export default function SendConfirmation(props: Props) {
           disabled={disableSend}
         />
       </ReviewFooter>
+
+      <BottomSheet
+        forwardedRef={totalPlusFeesBottomSheetRef}
+        testId="InfoBottomSheet"
+        title={t('reviewTransaction.totalPlusFeesBottomSheet.title')}
+      >
+        <View style={styles.totalPlusFeesBottomSheetContent}>
+          <ReviewDetailsItem
+            size="small"
+            label={t('reviewTransaction.totalPlusFeesBottomSheet.sending')}
+            value={
+              <Trans
+                i18nKey={'reviewTransaction.tokenAndLocalDisplayAmountApprox'}
+                context={localAmount?.gt(0) ? undefined : 'noFiatPrice'}
+                values={{
+                  tokenAmount: formatValueToDisplay(tokenAmount),
+                  localAmount: formatValueToDisplay(localAmount ?? new BigNumber(0)),
+                  tokenSymbol: tokenInfo?.symbol,
+                  localCurrencySymbol,
+                }}
+              >
+                <Text />
+              </Trans>
+            }
+          />
+          <ReviewDetailsItem
+            size="small"
+            label={t('reviewTransaction.totalPlusFeesBottomSheet.fees')}
+            value={
+              <Trans
+                i18nKey={'reviewTransaction.tokenAndLocalDisplayAmountApprox'}
+                context={displayAmounts.networkFee.localAmount?.gt(0) ? undefined : 'noFiatPrice'}
+                values={{
+                  tokenAmount: displayAmounts.networkFee.displayTokenAmount,
+                  localAmount: displayAmounts.networkFee.displayLocalAmount,
+                  tokenSymbol: displayAmounts.networkFee.feeTokenSymbol,
+                  localCurrencySymbol,
+                }}
+              >
+                <Text />
+              </Trans>
+            }
+          />
+          <ReviewDetailsItem
+            size="small"
+            variant="bold"
+            label={t('reviewTransaction.totalPlusFees')}
+            value={
+              displayAmounts.total.type === 'same-token' ? (
+                <Trans
+                  i18nKey={'reviewTransaction.tokenAndLocalDisplayAmountApprox'}
+                  context={displayAmounts.total.tokenAmount?.gt(0) ? undefined : 'noFiatPrice'}
+                  values={{
+                    tokenAmount: displayAmounts.total.displayTokenAmount,
+                    localAmount: displayAmounts.total.displayLocalAmount,
+                    tokenSymbol: displayAmounts.total.tokenSymbol,
+                    localCurrencySymbol,
+                  }}
+                >
+                  <Text />
+                </Trans>
+              ) : (
+                t('reviewTransaction.totalDisplayAmountForMultipleTokens', {
+                  amount1: displayAmounts.total.token1.amount,
+                  symbol1: displayAmounts.total.token1.symbol,
+                  amount2: displayAmounts.total.token2.amount,
+                  symbol2: displayAmounts.total.token2.symbol,
+                })
+              )
+            }
+          />
+        </View>
+
+        <Button
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.FULL}
+          text={t('reviewTransaction.totalPlusFeesBottomSheet.infoDismissButton')}
+          onPress={() => {
+            totalPlusFeesBottomSheetRef.current?.close()
+          }}
+        />
+      </BottomSheet>
     </ReviewTransaction>
   )
 }
@@ -298,5 +388,9 @@ export default function SendConfirmation(props: Props) {
 const styles = StyleSheet.create({
   totalPlusFeesLocalAmount: {
     color: Colors.textSecondary,
+  },
+  totalPlusFeesBottomSheetContent: {
+    gap: Spacing.Smallest8,
+    marginBottom: Spacing.Thick24,
   },
 })
