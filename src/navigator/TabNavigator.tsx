@@ -40,6 +40,7 @@ export default function TabNavigator({ route }: Props) {
         tabBarAllowFontScaling: false,
         tabBarStyle: {
           height: variables.height * 0.1,
+          backgroundColor: Colors.backgroundPrimary,
         },
         ...(tabHeader as NativeStackHeaderProps),
       }}
