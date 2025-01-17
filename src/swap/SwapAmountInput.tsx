@@ -138,7 +138,7 @@ const SwapAmountInput = ({
               <View style={styles.loaderContainer}>
                 <SkeletonPlaceholder
                   borderRadius={100} // ensure rounded corners with font scaling
-                  backgroundColor={Colors.gray2}
+                  backgroundColor={Colors.skeletonPlaceholderBackground}
                   highlightColor={Colors.skeletonPlaceholderHighlight}
                   testID="SwapAmountInput/Loader"
                 >
@@ -166,8 +166,8 @@ const SwapAmountInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.gray1,
-    borderColor: Colors.gray2,
+    backgroundColor: Colors.backgroundSecondary,
+    borderColor: Colors.border,
     borderWidth: 1,
   },
   tokenInfo: {
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   bottomContainer: {
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderTopWidth: 1,
   },
   inputContainer: {

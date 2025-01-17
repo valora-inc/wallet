@@ -58,7 +58,7 @@ export default function CeloNewsFeedItem({ article, testID }: Props) {
 CeloNewsFeedItem.Skeleton = () => (
   <SkeletonPlaceholder
     borderRadius={4}
-    backgroundColor={colors.gray2}
+    backgroundColor={colors.skeletonPlaceholderBackground}
     highlightColor={colors.skeletonPlaceholderHighlight}
     testID="CeloNewsFeedItemSkeleton"
   >

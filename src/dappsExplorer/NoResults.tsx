@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   removeFilterTouchable: {
     paddingVertical: 0,
     paddingHorizontal: Spacing.Smallest8,
-    backgroundColor: Colors.gray2,
+    backgroundColor: Colors.buttonSecondary,
     borderRadius: 16,
   },
   removeFilterText: {

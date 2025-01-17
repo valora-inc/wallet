@@ -41,8 +41,8 @@ function DetailsItem({
   return (
     <View style={styles.detailsItemContainer}>
       <CircledIcon
-        backgroundColor={Colors.gray1}
-        borderColor={Colors.gray2}
+        backgroundColor={Colors.backgroundSecondary}
+        borderColor={Colors.border}
         radius={ICON_BACKGROUND_CIRCLE_SIZE}
       >
         {icon}

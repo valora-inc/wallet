@@ -185,7 +185,11 @@ function SignInWithEmail({ route, navigation }: Props) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.activityIndicatorContainer} testID="SignInWithEmail/Spinner">
-          <ActivityIndicator testID="loadingTransferStatus" size="large" color={colors.accent} />
+          <ActivityIndicator
+            testID="loadingTransferStatus"
+            size="large"
+            color={colors.loadingIndicator}
+          />
         </View>
       </SafeAreaView>
     )

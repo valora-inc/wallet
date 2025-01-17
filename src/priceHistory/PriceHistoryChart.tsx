@@ -31,7 +31,7 @@ const CHART_MIN_VERTICAL_RANGE = 0.01 // one cent
 const CHART_DOMAIN_PADDING = { y: [30, 30] as [number, number], x: [5, 5] as [number, number] }
 const CHART_STEP_IN_HOURS = 12
 
-function Loader({ color = colors.accent, style }: { color?: colors; style?: ViewStyle }) {
+function Loader({ color = colors.loadingIndicator, style }: { color?: colors; style?: ViewStyle }) {
   return (
     <View style={[styles.loader, style]}>
       <ActivityIndicator testID="PriceHistoryChart/Loader" size="large" color={color} />
@@ -116,7 +116,7 @@ function renderPointOnChart(
           <G key={idx + 'dot'}>
             {idx === 0 && (
               <>
-                <Line x1={0} y1={y} x2={chartWidth} y2={y} stroke={colors.gray2} strokeWidth="1" />
+                <Line x1={0} y1={y} x2={chartWidth} y2={y} stroke={colors.border} strokeWidth="1" />
                 <Circle cx={x} cy={y} r="4" fill={color} />
               </>
             )}

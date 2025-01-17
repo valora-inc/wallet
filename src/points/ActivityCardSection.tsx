@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   container: {
     padding: Spacing.Regular16,
     borderWidth: 1,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderRadius: Spacing.Small12,
   },
   cardsContainer: {

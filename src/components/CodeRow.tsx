@@ -65,7 +65,11 @@ function CodeRow({
     return (
       <View style={styles.codeProcessingContainer}>
         <Text style={styles.codeValue}>{shortenedInput || t('processing')}</Text>
-        <ActivityIndicator size="small" color={colors.accent} style={styles.codeInputSpinner} />
+        <ActivityIndicator
+          size="small"
+          color={colors.loadingIndicator}
+          style={styles.codeInputSpinner}
+        />
       </View>
     )
   }
@@ -100,7 +104,7 @@ const styles = StyleSheet.create({
   codeInput: {
     flex: 0,
     backgroundColor: colors.background,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
     borderRadius: 3,
     borderWidth: 1,
     height: 50,
@@ -110,12 +114,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 5,
     paddingHorizontal: 10,
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
     borderRadius: 3,
     height: 50,
   },
   checkmarkContainer: {
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
     position: 'absolute',
     top: 3,
     right: 3,
@@ -127,7 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 5,
     paddingHorizontal: 10,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
     borderRadius: 3,
     borderWidth: 1,
     height: 50,
@@ -143,11 +147,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10,
     marginVertical: 5,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
     borderRadius: 3,
     borderWidth: 1,
     height: 50,
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
   },
   codeValue: {
     ...typeScale.bodyMedium,

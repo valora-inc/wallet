@@ -175,7 +175,7 @@ function SupportContact({ route }: Props) {
         </View>
         {inProgress && (
           <View style={styles.loadingSpinnerContainer} testID="ImportWalletLoadingCircle">
-            <ActivityIndicator size="large" color={colors.accent} />
+            <ActivityIndicator size="large" color={colors.loadingIndicator} />
           </View>
         )}
 
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     marginTop: 8,
     alignItems: 'flex-start',
-    borderColor: colors.gray2,
+    borderColor: colors.border,
     borderRadius: 8,
     borderWidth: 1,
     marginBottom: 16,
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     marginTop: 8,
     alignItems: 'flex-start',
-    borderColor: colors.gray2,
+    borderColor: colors.border,
     borderRadius: 8,
     borderWidth: 1,
     marginBottom: 16,

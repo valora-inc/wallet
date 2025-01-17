@@ -241,7 +241,11 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
     case SendingTransferStatus.Sending:
       return (
         <View style={styles.activityIndicatorContainer}>
-          <ActivityIndicator testID="loadingTransferStatus" size="large" color={Colors.accent} />
+          <ActivityIndicator
+            testID="loadingTransferStatus"
+            size="large"
+            color={Colors.loadingIndicator}
+          />
           <Text
             style={{ ...styles.loadingDescription, color: loadingDescriptionColor }}
             testID="loadingDescription"

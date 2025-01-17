@@ -57,9 +57,9 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           <ContactCircle
             style={styles.avatar}
             recipient={recipient}
-            backgroundColor={Colors.gray1}
+            backgroundColor={Colors.backgroundSecondary}
             foregroundColor={Colors.textPrimary}
-            borderColor={Colors.gray2}
+            borderColor={Colors.border}
             DefaultIcon={() => renderDefaultIcon(recipient)} // no need to honor color props here since the color we need match the defaults
           />
           {!!showAppIcon && (
@@ -81,7 +81,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           <View style={styles.rightIconContainer}>
             <ActivityIndicator
               size="small"
-              color={Colors.accent}
+              color={Colors.loadingIndicator}
               testID="RecipientItem/ActivityIndicator"
             />
           </View>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rowSelected: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
   },
   avatar: {
     marginRight: Spacing.Small12,

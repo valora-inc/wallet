@@ -287,7 +287,8 @@ export default function AssetList({
         <RefreshControl
           refreshing={isRefreshingBalances}
           onRefresh={onRefresh}
-          colors={[Colors.accent]}
+          colors={[Colors.loadingIndicator]}
+          tintColor={Colors.loadingIndicator}
         />
       }
       // ensure header is above the scrollbar on ios overscroll

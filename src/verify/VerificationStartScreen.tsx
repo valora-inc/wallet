@@ -203,7 +203,7 @@ function VerificationStartScreen({
   if (!account) {
     return (
       <SafeAreaView style={styles.container}>
-        <ActivityIndicator size="large" color={colors.accent} />
+        <ActivityIndicator size="large" color={colors.loadingIndicator} />
       </SafeAreaView>
     )
   }
@@ -292,9 +292,9 @@ const styles = StyleSheet.create({
     color: colors.textLink,
   },
   countryFlag: {
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.buttonSecondary,
     borderWidth: 1,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
   },
 })
 

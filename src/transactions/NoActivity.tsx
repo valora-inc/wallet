@@ -34,7 +34,7 @@ function NoActivity({ loading, error }: Props) {
         <ActivityIndicator
           style={styles.icon}
           size="large"
-          color={colors.accent}
+          color={colors.loadingIndicator}
           testID="NoActivity/loading"
         />
       )}

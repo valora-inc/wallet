@@ -116,7 +116,7 @@ export default function RecoveryPhraseInput({
           </View>
           {showStatus && (
             <View style={styles.statusContainer}>
-              {showStatus && <ActivityIndicator size="small" color={colors.accent} />}
+              {showStatus && <ActivityIndicator size="small" color={colors.loadingIndicator} />}
             </View>
           )}
         </View>
@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
   },
   containerActive: {
     padding: 0,
-    backgroundColor: colors.gray1,
-    borderColor: colors.gray2,
+    backgroundColor: colors.backgroundSecondary,
+    borderColor: colors.border,
     borderRadius: Spacing.Smallest8,
     borderWidth: 1,
   },

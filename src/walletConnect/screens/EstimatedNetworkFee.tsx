@@ -100,7 +100,7 @@ export default function EstimatedNetworkFee({ isLoading, networkId, transactions
           <View style={StyleSheet.absoluteFill}>
             <SkeletonPlaceholder
               borderRadius={100} // ensure rounded corners with font scaling
-              backgroundColor={Colors.gray2}
+              backgroundColor={Colors.skeletonPlaceholderBackground}
               highlightColor={Colors.skeletonPlaceholderHighlight}
               testID="EstimatedNetworkFee/Loading"
             >

@@ -107,8 +107,8 @@ export default function PointsHome({ route, navigation }: Props) {
         contentContainerStyle={styles.contentContainer}
         refreshControl={
           <RefreshControl
-            tintColor={Colors.accent}
-            colors={[Colors.accent]}
+            tintColor={Colors.loadingIndicator}
+            colors={[Colors.loadingIndicator]}
             refreshing={pointsBalanceStatus === 'loading'}
             onRefresh={onRefreshHistoryAndBalance}
           />

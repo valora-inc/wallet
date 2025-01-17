@@ -104,7 +104,7 @@ function GetStartedSection() {
 
 const getStartedStyles = StyleSheet.create({
   container: {
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
     padding: Spacing.Thick24,
     margin: Spacing.Regular16,
     marginTop: Spacing.Large32,
@@ -123,7 +123,7 @@ const getStartedStyles = StyleSheet.create({
   },
   optionNum: {
     borderWidth: 1,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
   },
   optionNumText: {
     ...typeScale.labelXSmall,

@@ -94,7 +94,7 @@ export class CTextInput extends React.Component<Props, State> {
             solid={true}
             size={20}
             activeColor={Colors.textSecondary}
-            inactiveColor={Colors.gray1}
+            inactiveColor={Colors.disabled}
           />
         )}
         {rightElement}

@@ -234,7 +234,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   if (quotesLoading) {
     return (
       <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator testID="QuotesLoading" size="large" color={colors.accent} />
+        <ActivityIndicator testID="QuotesLoading" size="large" color={colors.loadingIndicator} />
       </View>
     )
   }
@@ -557,7 +557,7 @@ const styles = StyleSheet.create({
   },
   container: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray2,
+    borderBottomColor: colors.border,
   },
   expandableContainer: {
     paddingHorizontal: Spacing.Regular16,
@@ -624,7 +624,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 8,
     padding: 16,
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
     borderRadius: 16,
   },
   amountSpentInfoText: {

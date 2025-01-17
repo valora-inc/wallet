@@ -245,7 +245,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   if (fiatConnectQuotesLoading) {
     return (
       <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator size="large" color={colors.accent} />
+        <ActivityIndicator size="large" color={colors.loadingIndicator} />
       </View>
     )
   }
@@ -620,7 +620,7 @@ const styles = StyleSheet.create({
   sectionContainer: {
     marginHorizontal: variables.contentPadding,
     borderTopWidth: 1,
-    borderTopColor: colors.gray2,
+    borderTopColor: colors.border,
     paddingVertical: 24,
   },
   sectionHeaderText: {
