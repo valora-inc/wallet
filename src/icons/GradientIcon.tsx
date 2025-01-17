@@ -64,9 +64,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   mask: {
-    // White is intentionally hardcoded as it effectively softens the gradient
-    // without altering its color balance, ensuring the design remains consistent.
-    backgroundColor: 'white',
+    backgroundColor: Colors.background,
     opacity: 0.9,
   },
 })
