@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     width: 4,
-    backgroundColor: Colors.gray2,
+    backgroundColor: Colors.disabled,
   },
   barHighlighted: {
     backgroundColor: Colors.accent,

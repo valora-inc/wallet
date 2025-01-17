@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   tokenCircle: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.gray2,
+    backgroundColor: colors.backgroundTertiary,
   },
   tokenText: {
     textAlign: 'center',

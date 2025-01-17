@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   },
   accountBox: {
     borderRadius: 4,
-    backgroundColor: colors.gray2,
+    backgroundColor: colors.backgroundTertiary,
     flexDirection: 'column',
     padding: 16,
   },

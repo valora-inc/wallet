@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   errorThumbnail: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.gray2,
+    backgroundColor: colors.backgroundTertiary,
   },
   errorImageText: {
     marginTop: Spacing.Regular16,

@@ -136,7 +136,7 @@ export default function EnterAmountOptions({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.gray2,
+    backgroundColor: Colors.backgroundTertiary,
   },
   contentContainer: {
     flexDirection: 'row',

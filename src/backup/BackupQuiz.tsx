@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   chosenWordWrapperFilled: {
-    backgroundColor: colors.gray2,
+    backgroundColor: colors.backgroundTertiary,
   },
   chosenWord: {
     ...typeScale.bodySmall,
