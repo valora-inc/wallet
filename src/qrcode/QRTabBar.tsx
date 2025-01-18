@@ -1,7 +1,7 @@
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Platform, StyleSheet, Text, View } from 'react-native'
 import Animated, { Extrapolation, interpolate } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SegmentedControl from 'src/components/SegmentedControl'
@@ -9,6 +9,7 @@ import BackChevron from 'src/icons/BackChevron'
 import Share from 'src/icons/Share'
 import Times from 'src/icons/Times'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { TopBarIconButtonV2 } from 'src/navigator/TopBarIconButtonV2'
 import { useDispatch } from 'src/redux/hooks'
 import { shareQRCode, SVG } from 'src/send/actions'
 import colors from 'src/styles/colors'
@@ -74,7 +75,7 @@ export default function QRTabBar({
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.leftContainer}>
-        <TopBarIconButton
+        <TopBarIconButtonV2
           icon={leftIcon === 'times' ? <Times color={color} /> : <BackChevron color={color} />}
           onPress={onPressClose}
         />
@@ -114,16 +115,26 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
-    paddingTop: Spacing.Regular16,
+    ...Platform.select({
+      android: {
+        paddingTop: Spacing.Smallest8,
+        paddingVertical: Spacing.Smallest8,
+      },
+      ios: {
+        paddingTop: -3,
+        paddingHorizontal: Spacing.Tiny4,
+      },
+    }),
   },
   leftContainer: {
     width: 50,
     alignItems: 'center',
+    marginLeft: -1,
   },
   rightContainer: {
     width: 50,
     alignItems: 'center',
+    marginRight: -1,
   },
   headerTitleContainer: {
     alignItems: 'center',
