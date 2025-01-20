@@ -35,6 +35,7 @@ import Colors from 'src/styles/colors'
 import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
+import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -45,6 +46,7 @@ type Props = NativeStackScreenProps<
 >
 
 const DEBOUNCE_TIME_MS = 250
+const TAG = 'send/SendConfirmation'
 
 export const sendConfirmationScreenNavOptions = noHeader
 
@@ -194,6 +196,11 @@ export default function SendConfirmation(props: Props) {
     )
   }
 
+  // Should never happen
+  if (!tokenInfo) {
+    Logger.error(TAG, `tokenInfo is missing`)
+  }
+
   return (
     <ReviewTransaction
       title="Review Send"
@@ -201,20 +208,22 @@ export default function SendConfirmation(props: Props) {
     >
       <ReviewContent>
         <ReviewSummary>
-          <ReviewSummaryItem
-            testID="SendConfirmationToken"
-            header="Sending"
-            icon={<TokenIcon token={tokenInfo} />}
-            title={t('tokenAmount', {
-              amount: formatValueToDisplay(tokenAmount),
-              symbol: tokenInfo?.symbol ?? '',
-            })}
-            subtitle={t('localAmount', {
-              amount: formatValueToDisplay(localAmount ?? new BigNumber(0)),
-              localCurrencySymbol,
-              context: localAmount ? undefined : 'noFiatPrice',
-            })}
-          />
+          {tokenInfo && (
+            <ReviewSummaryItem
+              testID="SendConfirmationToken"
+              header="Sending"
+              icon={<TokenIcon token={tokenInfo} />}
+              title={t('tokenAmount', {
+                amount: formatValueToDisplay(tokenAmount),
+                symbol: tokenInfo.symbol ?? '',
+              })}
+              subtitle={t('localAmount', {
+                amount: formatValueToDisplay(localAmount ?? new BigNumber(0)),
+                localCurrencySymbol,
+                context: localAmount ? undefined : 'noFiatPrice',
+              })}
+            />
+          )}
 
           <ReviewSummaryItemContact
             testID="SendConfirmationRecipient"
