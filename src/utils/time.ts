@@ -58,7 +58,7 @@ function timeDifference(currTime: number, prevTime: number) {
   return 1.0 * (millisecondsSinceEpoch(currTime) - millisecondsSinceEpoch(prevTime))
 }
 
-// some timestamps are in seconds, some are in miliseconds
+// some timestamps are in seconds, some are in milliseconds
 // assume dates will be within a few decades of now and multiple accordingly
 function millisecondsSinceEpoch(timestamp: number) {
   return Math.abs(differenceInYears(timestamp, Date.now())) > 40 ? timestamp * 1000 : timestamp

@@ -73,7 +73,7 @@ const usePrepareBaseFiatConnectOutTransactions = ({
       )
     }
 
-    // note that the receipient address on the prepared transaction is the
+    // note that the recipient address on the prepared transaction is the
     // user's own address. this will be replaced by the fiatconnect provider
     // transfer address in the sagas if the user proceeds with the transaction.
     // the provider address is not known until making a POST request to the
@@ -323,8 +323,8 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
                   serializablePreparedTransaction:
                     prepareTransactionsResult.result?.type === 'possible'
                       ? getSerializablePreparedTransaction(
-                          prepareTransactionsResult.result.transactions[0] // there should be only one transaction
-                        )
+                        prepareTransactionsResult.result.transactions[0] // there should be only one transaction
+                      )
                       : undefined,
                   networkId: token?.networkId,
                 })
