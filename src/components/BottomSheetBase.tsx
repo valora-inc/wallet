@@ -65,7 +65,7 @@ const BottomSheetBase = ({
       backdropComponent={renderBackdrop}
       handleComponent={handleComponent}
       handleIndicatorStyle={[styles.handle, handleIndicatorStyle]}
-      backgroundStyle={backgroundStyle}
+      backgroundStyle={[styles.background, backgroundStyle]}
       onAnimate={handleAnimate}
       onDismiss={onClose}
       onChange={onChange}
@@ -83,6 +83,9 @@ const styles = StyleSheet.create({
   handle: {
     backgroundColor: Colors.bottomSheetHandle,
     width: 40,
+  },
+  background: {
+    backgroundColor: Colors.backgroundPrimary,
   },
 })
 

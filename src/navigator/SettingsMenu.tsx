@@ -167,19 +167,19 @@ export default function SettingsMenu({ route }: Props) {
       return (
         <View style={styles.devSettings}>
           <Touchable onPress={onCopyText(sessionId)} style={styles.devSettingsItem}>
-            <Text>{`Session ID: ${sessionId}`}</Text>
+            <Text style={styles.debugInfoText}>{`Session ID: ${sessionId}`}</Text>
           </Touchable>
           <Touchable onPress={onCopyText(statsigStableId)} style={styles.devSettingsItem}>
-            <Text>{`Statsig Stable ID: ${statsigStableId}`}</Text>
+            <Text style={styles.debugInfoText}>{`Statsig Stable ID: ${statsigStableId}`}</Text>
           </Touchable>
           <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={showDebugImagesScreen}>
-              <Text>See App Assets</Text>
+              <Text style={styles.debugInfoText}>See App Assets</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={confirmAccountRemoval}>
-              <Text>App Quick Reset</Text>
+              <Text style={styles.debugInfoText}>App Quick Reset</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -322,5 +322,8 @@ const styles = StyleSheet.create({
   divider: {
     marginVertical: Spacing.Smallest8,
     marginHorizontal: Spacing.Regular16,
+  },
+  debugInfoText: {
+    ...typeScale.bodySmall,
   },
 })
