@@ -1,9 +1,9 @@
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetProps } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
 import React, { useCallback, useEffect } from 'react'
-import { Keyboard, StyleSheet } from 'react-native'
+import { Keyboard } from 'react-native'
 import { useReducedMotion } from 'react-native-reanimated'
-import Colors from 'src/styles/colors'
+import styles from 'src/styles/styles'
 
 interface BottomSheetBaseProps {
   forwardedRef: React.RefObject<BottomSheetModal>
@@ -64,8 +64,8 @@ const BottomSheetBase = ({
       enablePanDownToClose
       backdropComponent={renderBackdrop}
       handleComponent={handleComponent}
-      handleIndicatorStyle={[styles.handle, handleIndicatorStyle]}
-      backgroundStyle={[styles.background, backgroundStyle]}
+      handleIndicatorStyle={[styles.bottomSheetHandleIndicator, handleIndicatorStyle]}
+      backgroundStyle={[styles.bottomSheetBackground, backgroundStyle]}
       onAnimate={handleAnimate}
       onDismiss={onClose}
       onChange={onChange}
@@ -78,15 +78,5 @@ const BottomSheetBase = ({
     </BottomSheetModal>
   )
 }
-
-const styles = StyleSheet.create({
-  handle: {
-    backgroundColor: Colors.bottomSheetHandle,
-    width: 40,
-  },
-  background: {
-    backgroundColor: Colors.backgroundPrimary,
-  },
-})
 
 export default BottomSheetBase
