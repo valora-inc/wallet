@@ -54,7 +54,7 @@ const IconSizeToStyle = {
 }
 
 interface Props {
-  token: BaseToken | Token
+  token: BaseToken | Token | undefined
   viewStyle?: StyleProp<ViewStyle>
   testID?: string
   size?: IconSize
@@ -68,6 +68,18 @@ export default function TokenIcon({
   size = IconSize.MEDIUM,
   showNetworkIcon = true,
 }: Props) {
+  /**
+   * There are cases when token info is returned from Redux selector and it is typed optional.
+   * In order to not add an extra conditional rendering step in all the usages of this component
+   * (e.g. `{tokenInfo ? <TokenIcon token={tokenInfo} /> : null }`) it is easier to return null
+   * from within the component itself.
+   * Typing token prop to "| undefined" isntead of making it optional will still ensure that token
+   * prop must be provided.
+   */
+  if (!token) {
+    return null
+  }
+
   const { tokenImageSize, networkImageSize, networkImagePosition, tokenTextSize } =
     IconSizeToStyle[size]
 

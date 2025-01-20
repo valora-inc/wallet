@@ -12,7 +12,11 @@ interface Props {
   backgroundColor?: Colors
   foregroundColor?: Colors
   borderColor?: Colors
-  DefaultIcon?: React.ComponentType<{ foregroundColor?: Colors; backgroundColor?: Colors }>
+  DefaultIcon?: React.ComponentType<{
+    color?: Colors
+    backgroundColor?: Colors
+    size?: number
+  }>
 }
 
 const DEFAULT_ICON_SIZE = 40
@@ -30,7 +34,7 @@ function ContactCircle({
   backgroundColor,
   foregroundColor,
   borderColor,
-  DefaultIcon = ({ foregroundColor }) => <User color={foregroundColor} />,
+  DefaultIcon = User,
 }: Props) {
   const address = recipient.address
   const iconBackgroundColor = backgroundColor ?? getAddressBackgroundColor(address || '0x0')
@@ -65,7 +69,13 @@ function ContactCircle({
       )
     }
 
-    return <DefaultIcon foregroundColor={fontColor} backgroundColor={iconBackgroundColor} />
+    return (
+      <DefaultIcon
+        size={iconSize / 1.625}
+        color={fontColor}
+        backgroundColor={iconBackgroundColor}
+      />
+    )
   }
 
   return (

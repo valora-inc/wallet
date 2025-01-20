@@ -2845,5 +2845,14 @@
     "ctaAction_Swap": "Swap smaller amount",
     "ctaAction_Deposit": "Deposit smaller amount",
     "ctaAction_Withdraw": "Withdraw smaller amount"
-  }
+  },
+  "reviewTransaction": {
+    "totalPlusFees": "Total Plus Fees",
+    "tokenAndLocalDisplayAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+    "tokenAndLocalDisplayAmountApprox_noFiatPrice": "≈ {{tokenAmount}} {{tokenSymbol}}",
+    "totalDisplayAmountForMultipleTokens": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
+  },
+  "tokenAmount": "{{amount}} {{symbol}}",
+  "localAmount": "{{symbol}}{{amount}}",
+  "localAmount_noFiatPrice": "Price Unavailable"
 }
