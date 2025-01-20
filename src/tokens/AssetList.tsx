@@ -324,7 +324,7 @@ function ImportTokensItem() {
     >
       <View style={styles.importTokenContainer}>
         <CircledIcon radius={32} backgroundColor={Colors.successSecondary}>
-          <Add color={Colors.success} />
+          <Add color={Colors.successPrimary} />
         </CircledIcon>
         <Text style={styles.importTokenText}>{t('assets.importTokens')}</Text>
       </View>
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
   },
   noNftsText: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     textAlign: 'center',
   },
   noNftsTextContainer: {

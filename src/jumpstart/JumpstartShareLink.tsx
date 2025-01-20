@@ -173,7 +173,7 @@ function JumpstartShareLink({ route }: Props) {
             text={t('jumpstartShareLinkScreen.ctaShare')}
             onPress={() => nativeShare.execute(JumpstartShareOrigin.MainScreen)}
             style={styles.button}
-            icon={<ShareIcon color={Colors.textInverse} />}
+            icon={<ShareIcon color={Colors.contentInverse} />}
             iconPositionLeft={false}
             size={BtnSizes.FULL}
           />
@@ -181,7 +181,7 @@ function JumpstartShareLink({ route }: Props) {
             text={t('jumpstartShareLinkScreen.ctaScanQRCode')}
             onPress={handleShowQRBottomSheet}
             style={styles.button}
-            icon={<QRCodeIcon color={Colors.textInverse} />}
+            icon={<QRCodeIcon color={Colors.contentInverse} />}
             iconPositionLeft={false}
             size={BtnSizes.FULL}
           />
@@ -226,7 +226,7 @@ function JumpstartShareLink({ route }: Props) {
           text={t('jumpstartShareLinkScreen.ctaShare')}
           onPress={() => nativeShare.execute(JumpstartShareOrigin.QrScreen)}
           style={styles.button}
-          icon={<ShareIcon color={Colors.textInverse} />}
+          icon={<ShareIcon color={Colors.contentInverse} />}
           iconPositionLeft={false}
           size={BtnSizes.FULL}
         />

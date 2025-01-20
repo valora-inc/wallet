@@ -15,6 +15,6 @@ export default function FormLabel({ style, children }: Props) {
 const styles = StyleSheet.create({
   container: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })

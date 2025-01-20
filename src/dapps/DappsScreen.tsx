@@ -332,19 +332,19 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   refreshControl: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
   },
   sectionList: {
     flex: 1,
   },
   sectionTitle: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     marginTop: Spacing.Large32,
   },
   disclaimer: {
     ...typeScale.bodyXSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   listFooterComponent: {
     marginTop: Spacing.Large32,

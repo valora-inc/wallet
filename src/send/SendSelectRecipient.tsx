@@ -62,7 +62,7 @@ function GetStartedSection() {
         <CircledIcon
           radius={Math.min(24 * getFontScaleSync(), 50)}
           style={getStartedStyles.optionNum}
-          backgroundColor={colors.background}
+          backgroundColor={colors.backgroundPrimary}
         >
           <Text adjustsFontSizeToFit={true} style={getStartedStyles.optionNumText}>
             {optionNum}
@@ -113,7 +113,7 @@ const getStartedStyles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.labelXXSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   title: {
     ...typeScale.labelMedium,
@@ -138,7 +138,7 @@ const getStartedStyles = StyleSheet.create({
   },
   optionSubtitle: {
     ...typeScale.bodyXSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })
 
@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
   },
   searchResultsHeader: {
     ...typeScale.labelXSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     paddingHorizontal: Spacing.Regular16,
     paddingVertical: Spacing.Smallest8,
   },
@@ -444,12 +444,12 @@ const styles = StyleSheet.create({
   },
   noResultsTitle: {
     ...typeScale.bodyMedium,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     textAlign: 'center',
   },
   noResultsSubtitle: {
     ...typeScale.labelXSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     justifyContent: 'center',
     padding: Spacing.Regular16,
     textAlign: 'center',

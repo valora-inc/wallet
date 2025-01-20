@@ -6,7 +6,7 @@ interface Props {
   color?: string
 }
 
-const TripleDotVertical = ({ color = Colors.textPrimary }: Props) => (
+const TripleDotVertical = ({ color = Colors.contentPrimary }: Props) => (
   <Svg width={4} height={16} fill="none">
     <Path
       d="M.688 1.414a1.313 1.313 0 1 0 2.625 0 1.313 1.313 0 0 0-2.626 0Zm0 6.563a1.313 1.313 0 1 0 2.625 0 1.313 1.313 0 0 0-2.626 0Zm0 6.562a1.312 1.312 0 1 0 2.624 0 1.312 1.312 0 0 0-2.624 0Z"

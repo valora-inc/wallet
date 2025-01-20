@@ -81,7 +81,7 @@ function ChartAwareSvgText({
       /*
       // @ts-ignore */
       onLayout={onLayout}
-      fill={colors.textSecondary}
+      fill={colors.contentSecondary}
       fontSize="14"
       fontFamily="Inter-Regular"
       x={adjustedX}
@@ -211,7 +211,7 @@ export default function PriceHistoryChart({
   containerStyle,
   testID,
   chartPadding,
-  color = colors.textPrimary,
+  color = colors.contentPrimary,
   step = CHART_STEP_IN_HOURS,
 }: PriceHistoryChartProps) {
   const dispatch = useDispatch()
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   timeframe: {
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     fontSize: 16,
     flexGrow: 1,
   },

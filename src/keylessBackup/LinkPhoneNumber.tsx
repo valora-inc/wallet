@@ -25,7 +25,7 @@ export default function LinkPhoneNumber({ navigation }: Props) {
     navigation.setOptions({
       headerLeft: () => <BackButton />,
       headerStyle: {
-        backgroundColor: colors.background,
+        backgroundColor: colors.backgroundPrimary,
       },
     })
   }, [navigation])
@@ -77,7 +77,7 @@ export default function LinkPhoneNumber({ navigation }: Props) {
 const styles = StyleSheet.create({
   safeArea: {
     alignItems: 'center',
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundPrimary,
     flexGrow: 1,
     justifyContent: 'space-between',
   },

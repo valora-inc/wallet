@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
   amountSubtitle: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     marginLeft: 'auto',
   },
 })

@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   optionSubtitle: {
     marginTop: 2,
     ...typeScale.bodySmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   moreWaysContainer: {
     flexGrow: 1,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   },
   moreWays: {
     ...typeScale.bodyMedium,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     margin: variables.contentPadding,
   },
   fundingOptionsLink: {

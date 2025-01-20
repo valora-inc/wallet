@@ -276,7 +276,7 @@ function Actions({
             })
             action.onPress()
           }}
-          icon={<action.iconComponent color={Colors.textInverse} />}
+          icon={<action.iconComponent color={Colors.contentInverse} />}
           style={styles.actionButton}
           size={BtnSizes.FULL}
           touchableStyle={styles.actionTouchable}
@@ -386,6 +386,6 @@ const styles = StyleSheet.create({
   },
   priceInfoUnavailable: {
     ...typeScale.labelSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
 })

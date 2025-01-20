@@ -408,7 +408,7 @@ const styles = StyleSheet.create({
   },
   value: {
     ...typeScale.bodyMedium,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     marginRight: Spacing.Smallest8,
     marginLeft: Spacing.Tiny4,
   },

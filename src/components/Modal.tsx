@@ -50,7 +50,7 @@ export default function Modal({
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundPrimary,
     padding: 24,
     maxHeight: '100%',
   },

@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   connecting: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     marginTop: Spacing.Thick24,
   },
 })

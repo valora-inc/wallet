@@ -384,7 +384,9 @@ describe('TransferStatusScreen', () => {
         </Provider>
       )
       expect(getByTestId('loadingTransferStatus')).toBeTruthy()
-      expect(getByTestId('loadingDescription')).toHaveStyle({ color: appTheme.colors.background })
+      expect(getByTestId('loadingDescription')).toHaveStyle({
+        color: appTheme.colors.background,
+      })
       await act(async () => {
         jest.runOnlyPendingTimers()
       })

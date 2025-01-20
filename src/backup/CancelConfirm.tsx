@@ -55,6 +55,6 @@ export default function CancelConfirm({ screen }: Props) {
 
 const styles = StyleSheet.create({
   button: {
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })

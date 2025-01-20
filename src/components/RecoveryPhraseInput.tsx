@@ -135,8 +135,8 @@ export default function RecoveryPhraseInput({
 const styles = StyleSheet.create({
   container: {
     padding: 0,
-    backgroundColor: colors.background,
-    borderColor: colors.background,
+    backgroundColor: colors.backgroundPrimary,
+    borderColor: colors.backgroundPrimary,
     borderRadius: Spacing.Smallest8,
     borderWidth: 1,
   },
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   labelLong: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     opacity: 0.5,
     marginBottom: 4,
   },
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   codeValueLong: {
     ...typeScale.bodyMedium,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   statusContainer: {
     width: 32,

@@ -12,7 +12,7 @@ const Star = () => (
     </G>
     <Defs>
       <ClipPath id="a">
-        <Path fill={Colors.textInverse} d="M0 0h24v24H0z" />
+        <Path fill={Colors.contentInverse} d="M0 0h24v24H0z" />
       </ClipPath>
     </Defs>
   </Svg>

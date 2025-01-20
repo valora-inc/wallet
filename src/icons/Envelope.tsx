@@ -19,7 +19,7 @@ export function Envelope({ color, size }: Props) {
 }
 
 Envelope.defaultProps = {
-  color: Colors.textPrimary,
+  color: Colors.contentPrimary,
   size: 24,
 }
 

@@ -719,8 +719,8 @@ export default function SwapScreenV2({ route }: Props) {
                   onPress={handleSwitchTokens}
                   testID="SwapScreen/SwitchTokens"
                 >
-                  <CircledIcon radius={Spacing.Large32} backgroundColor={colors.textPrimary}>
-                    <ArrowDown color={colors.textInverse} />
+                  <CircledIcon radius={Spacing.Large32} backgroundColor={colors.contentPrimary}>
+                    <ArrowDown color={colors.contentInverse} />
                   </CircledIcon>
                 </Touchable>
               </View>
@@ -739,7 +739,7 @@ export default function SwapScreenV2({ route }: Props) {
 
             {showCrossChainSwapNotification && (
               <View style={styles.crossChainNotificationWrapper}>
-                <CrossChainIndicator backgroundColor={colors.textSecondary} />
+                <CrossChainIndicator backgroundColor={colors.contentSecondary} />
                 <Text style={styles.crossChainNotification}>
                   {t('swapScreen.crossChainNotification')}
                 </Text>
@@ -1070,7 +1070,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelXXSmall,
     paddingBottom: Spacing.Smallest8,
     flexWrap: 'wrap',
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     textAlign: 'center',
   },
   disclaimerLink: {
@@ -1101,6 +1101,6 @@ const styles = StyleSheet.create({
   crossChainNotification: {
     ...typeScale.labelXSmall,
     paddingLeft: Spacing.Tiny4,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })

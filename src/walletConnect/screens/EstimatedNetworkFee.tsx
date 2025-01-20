@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     ...typeScale.labelXSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     marginBottom: Spacing.Tiny4,
   },
   amountPrimaryText: {
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   amountSecondaryText: {
     ...typeScale.bodyXSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   contentLoading: {
     opacity: 0,

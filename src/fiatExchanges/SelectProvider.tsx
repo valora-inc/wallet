@@ -595,7 +595,7 @@ const styles = StyleSheet.create({
   },
   linkToOtherScreen: {
     ...typeScale.labelSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   disclaimerContainer: {
     padding: Spacing.Regular16,
@@ -606,7 +606,7 @@ const styles = StyleSheet.create({
   },
   disclaimerText: {
     ...typeScale.bodySmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   underline: {
     textDecorationLine: 'underline',

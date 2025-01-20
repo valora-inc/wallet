@@ -65,7 +65,7 @@ export function useGetHistoryDefinition(): (
         return {
           icon: (
             <CircledIcon backgroundColor={colors.successSecondary} radius={ICON_SIZE}>
-              <Celebration color={colors.success} />
+              <Celebration color={colors.successPrimary} />
             </CircledIcon>
           ),
           title: t('points.history.cards.createWallet.title'),
@@ -83,7 +83,7 @@ export function useGetHistoryDefinition(): (
         return {
           icon: (
             <CircledIcon backgroundColor={colors.successSecondary} radius={ICON_SIZE}>
-              <SwapArrows color={colors.success} />
+              <SwapArrows color={colors.successPrimary} />
             </CircledIcon>
           ),
           title: t('points.history.cards.swap.title'),
@@ -121,7 +121,7 @@ export function useGetHistoryDefinition(): (
           icon: (
             <IconWithNetworkBadge networkId={token.networkId}>
               <CircledIcon backgroundColor={colors.successSecondary} radius={ICON_SIZE}>
-                <EarnCoins color={colors.success} />
+                <EarnCoins color={colors.successPrimary} />
               </CircledIcon>
             </IconWithNetworkBadge>
           ),

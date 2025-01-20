@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
   },
   rewardLabel: {
     ...typeScale.bodyXSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   rewardAmount: {
     ...typeScale.labelSemiBoldLarge,
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     marginRight: Spacing.Smallest8,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     borderRadius: 100,
   },
   dappName: {
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
   },
   subHeading: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   claimButton: {
     minWidth: 72,

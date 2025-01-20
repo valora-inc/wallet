@@ -12,7 +12,7 @@ export default class Backspace extends React.PureComponent<Props> {
   static defaultProps = {
     height: 30,
     width: 30,
-    color: colors.textPrimary,
+    color: colors.contentPrimary,
   }
 
   render() {

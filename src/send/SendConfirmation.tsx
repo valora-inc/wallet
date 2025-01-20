@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     ...typeScale.labelMedium,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   displayName: {
     ...typeScale.labelMedium,
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
   },
   address: {
     ...typeScale.labelSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     paddingRight: 4,
   },
   amount: {
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
   },
   amountSubscript: {
     ...typeScale.bodyMedium,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     paddingBottom: 16,
   },
   subHeading: {
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
   },
   subHeadingText: {
     ...typeScale.labelSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })
 

@@ -54,6 +54,6 @@ const styles = StyleSheet.create({
   code: {
     ...typeScale.bodyMedium,
     marginRight: 16,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })

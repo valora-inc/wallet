@@ -304,7 +304,7 @@ function FormField({
             style={styles.infoIcon}
             hitSlop={variables.iconHitslop}
           >
-            <InfoIcon size={18} color={colors.textSecondary} />
+            <InfoIcon size={18} color={colors.contentSecondary} />
           </TouchableOpacity>
         )}
       </View>
@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
   },
   error: {
     fontSize: 12,
-    color: colors.error,
+    color: colors.errorPrimary,
   },
   submitButton: {
     padding: variables.contentPadding,

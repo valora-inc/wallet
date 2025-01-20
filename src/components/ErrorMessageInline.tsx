@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     ...typeScale.bodySmall,
-    color: colors.error,
+    color: colors.errorPrimary,
   },
 })
 

@@ -19,7 +19,7 @@ const getSizing = (baseSize: number = 16, maxSize: number = 28) => {
 function InfoIcon({
   size = 16,
   scaledSize = getSizing(size),
-  color = colors.textPrimary,
+  color = colors.contentPrimary,
   testID,
 }: Props) {
   return (

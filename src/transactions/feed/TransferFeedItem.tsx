@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.bodySmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   amount: {
     ...typeScale.labelMedium,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   tokenAmount: {
     ...typeScale.bodySmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     flexWrap: 'wrap',
     textAlign: 'right',
   },

@@ -230,7 +230,7 @@ export default function NftsInfoCarousel({ route }: Props) {
             <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
               <View style={styles.explorerLinkContainer}>
                 <Text style={styles.explorerLink}>{networkIdToExplorerString[networkId]}</Text>
-                <OpenLinkIcon color={colors.success} />
+                <OpenLinkIcon color={colors.successPrimary} />
               </View>
             </Touchable>
           </View>
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
   },
   attributeTitle: {
     ...typeScale.labelSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   attributesContainer: {
     paddingBottom: Spacing.Thick24,
@@ -276,11 +276,11 @@ const styles = StyleSheet.create({
   errorImageText: {
     marginTop: Spacing.Regular16,
     ...typeScale.bodyMedium,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   explorerLink: {
     ...typeScale.labelSmall,
-    color: colors.success,
+    color: colors.successPrimary,
     paddingRight: Spacing.Smallest8,
   },
   explorerLinkContainer: {

@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.bodyXSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     marginTop: 2,
   },
   status: {

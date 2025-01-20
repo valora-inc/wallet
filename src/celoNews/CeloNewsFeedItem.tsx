@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   author: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.warning,
+    color: colors.warningPrimary,
     marginBottom: Spacing.Small12,
   },
   row: {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     fontSize: 13,
     lineHeight: 16,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     marginLeft: 4,
   },
   image: {

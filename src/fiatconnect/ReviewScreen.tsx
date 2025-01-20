@@ -625,7 +625,7 @@ const styles = StyleSheet.create({
   },
   sectionHeaderText: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     marginBottom: 8,
   },
   sectionMainTextContainer: {
@@ -639,7 +639,7 @@ const styles = StyleSheet.create({
   },
   sectionSubText: {
     ...typeScale.bodySmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   submitBtn: {
     flexDirection: 'column',
@@ -678,7 +678,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: variables.contentPadding,
     marginBottom: 20,
     textAlign: 'center',
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })
 

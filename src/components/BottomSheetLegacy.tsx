@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     opacity: 1,
     width: '100%',
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundPrimary,
     borderTopRightRadius: Spacing.Regular16,
     borderTopLeftRadius: Spacing.Regular16,
   },

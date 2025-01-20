@@ -8,7 +8,7 @@ interface Props {
   testID?: string
 }
 
-export default function Phone({ color = Colors.textPrimary, size = 24, testID }: Props) {
+export default function Phone({ color = Colors.contentPrimary, size = 24, testID }: Props) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" testID={testID}>
       <Path

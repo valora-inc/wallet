@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   subAmount: {
     ...typeScale.bodySmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   label: {
     ...typeScale.labelMedium,
@@ -123,11 +123,11 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     overflow: 'hidden',
     flexShrink: 1,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   bridgeLabel: {
     ...typeScale.labelSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     overflow: 'hidden',
     flexShrink: 1,
   },

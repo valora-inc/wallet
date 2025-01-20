@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   previousPointsAmount: {
     ...typeScale.labelXSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     textDecorationLine: 'line-through',
   },
 })

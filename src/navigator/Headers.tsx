@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     maxWidth: Dimensions.get('window').width * 0.6,
   },
   headerSubTitle: {
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   header: {
     alignItems: 'center',
@@ -68,7 +68,7 @@ export const nuxNavigationOptions: NativeStackNavigationOptions = {
 export const nuxNavigationOptionsOnboarding: NativeStackNavigationOptions = {
   ...nuxNavigationOptions,
   headerLeft: ({ canGoBack }) =>
-    canGoBack ? <BackButton color={Colors.navigationTop} /> : <View />,
+    canGoBack ? <BackButton color={Colors.navigationTopPrimary} /> : <View />,
 }
 
 export const nuxNavigationOptionsNoBackButton: NativeStackNavigationOptions = {
@@ -85,7 +85,7 @@ export const emptyHeader: NativeStackNavigationOptions = {
   headerShadowVisible: false,
   headerTitleAlign: 'center',
   headerStyle: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
   },
 }
 
@@ -237,7 +237,7 @@ export const tabHeader: NativeStackNavigationOptions = {
   },
   headerLeft: () => (
     <View style={[styles.topElementsContainer, { marginLeft: Spacing.Regular16 }]}>
-      <Logo color={Colors.navigationTop} size={22} />
+      <Logo color={Colors.navigationTopPrimary} size={22} />
     </View>
   ),
 }

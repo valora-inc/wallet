@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Smallest8,
   },
   info: {
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     marginBottom: Spacing.Smallest8,
   },
   exchangeText: {

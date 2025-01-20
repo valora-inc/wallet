@@ -19,7 +19,7 @@ export default function SectionHead({ text, style }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundPrimary,
     paddingHorizontal: variables.contentPadding,
     paddingVertical: 8,
     flexDirection: 'row',
@@ -28,6 +28,6 @@ const styles = StyleSheet.create({
   },
   text: {
     ...typeScale.labelSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })

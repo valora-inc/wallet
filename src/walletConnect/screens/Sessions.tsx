@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   disconnectButton: {
     ...typeScale.bodySmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })
 

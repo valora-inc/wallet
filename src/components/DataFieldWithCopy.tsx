@@ -42,7 +42,7 @@ function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy, s
           {value}
         </Text>
         <Touchable hitSlop={variables.iconHitslop} onPress={handleCopy} testID={`${testID}/Copy`}>
-          <CopyIcon color={Colors.textSecondary} />
+          <CopyIcon color={Colors.contentSecondary} />
         </Touchable>
       </View>
     </View>

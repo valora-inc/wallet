@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   text: {
     ...typeScale.bodyLarge,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   noTransactionsContainer: {
     padding: Spacing.Regular16,

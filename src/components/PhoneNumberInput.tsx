@@ -108,7 +108,7 @@ export default function PhoneNumberInput({
               isExpandable={editable}
               isExpanded={false}
               containerStyle={styles.countryFlagContainer}
-              arrowColor={colors.textSecondary}
+              arrowColor={colors.contentSecondary}
             >
               <Text style={styles.flag} testID={'countryCodeFlag'}>
                 {flagEmoji}
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     height: Spacing.XLarge48,
     paddingHorizontal: 12,
     alignItems: 'stretch',
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundPrimary,
     borderRadius: 8,
   },
   countryFlagContainer: {

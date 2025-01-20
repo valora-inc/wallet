@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
   disclaimer: {
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     textAlign: 'left',
     marginLeft: 11,
     fontSize: 13,

@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   disclaimerText: {
     ...typeScale.bodyMedium,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   container: {
     flex: 1,
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     marginBottom: 16,
-    color: colors.textPrimary,
+    color: colors.contentPrimary,
     height: 80,
     maxHeight: 150,
   },
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     marginBottom: 16,
-    color: colors.textPrimary,
+    color: colors.contentPrimary,
     maxHeight: 50,
   },
   headerText: {

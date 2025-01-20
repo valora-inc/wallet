@@ -75,7 +75,7 @@ export default function AddAssetsBottomSheet({
             testID={`${testId}/${action.name}`}
           >
             <>
-              <action.iconComponent color={Colors.textPrimary} />
+              <action.iconComponent color={Colors.contentPrimary} />
               <View style={styles.contentContainer}>
                 <Text style={styles.actionTitle}>{action.title}</Text>
                 <Text style={styles.actionDetails}>{action.details}</Text>

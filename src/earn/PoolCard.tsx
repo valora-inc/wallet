@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   keyText: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   valueText: {
     ...typeScale.bodySmall,
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   poweredByText: {
     ...typeScale.bodyXSmall,
     alignSelf: 'center',
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   withBalanceContainer: {
     borderTopWidth: 1,

@@ -65,7 +65,7 @@ const InviteModal = ({
         <Button
           style={{ width: '100%' }}
           testID="InviteModalShareButton"
-          icon={<ShareIcon color={colors.textInverse} size={24} />}
+          icon={<ShareIcon color={colors.contentInverse} size={24} />}
           iconPositionLeft={false}
           size={BtnSizes.FULL}
           text={buttonLabel}
@@ -90,7 +90,7 @@ const InviteModal = ({
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundPrimary,
     paddingHorizontal: Spacing.Thick24,
   },
   contentContainer: {
@@ -107,14 +107,14 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
     textAlign: 'center',
     marginBottom: Spacing.Large32,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   helpContainer: {
     marginBottom: Spacing.Regular16,
   },
   helpText: {
     ...typeScale.bodyXSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     textAlign: 'center',
   },
   helpLink: {

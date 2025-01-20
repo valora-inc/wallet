@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   address: {
     ...typeScale.bodyXSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     flexWrap: 'wrap',
     flexShrink: 1,
     maxWidth: '100%',

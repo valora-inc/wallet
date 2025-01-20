@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
   },
   fiatText: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   collectItemTitle: {
     ...typeScale.labelSemiBoldXSmall,
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
   },
   rateText: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     marginBottom: Spacing.Tiny4,
   },
   iconContainer: {
@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
   },
   gasFeeFiat: {
     ...typeScale.bodyXSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   button: {
     padding: Spacing.Thick24,
