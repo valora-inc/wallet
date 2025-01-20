@@ -2853,6 +2853,6 @@
     "totalDisplayAmountForMultipleTokens": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
   },
   "tokenAmount": "{{amount}} {{symbol}}",
-  "localAmount": "{{symbol}}{{amount}}",
+  "localAmount": "{{localCurrencySymbol}}{{amount}}",
   "localAmount_noFiatPrice": "Price Unavailable"
 }

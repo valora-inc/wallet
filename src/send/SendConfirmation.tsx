@@ -211,7 +211,7 @@ export default function SendConfirmation(props: Props) {
             })}
             subtitle={t('localAmount', {
               amount: formatValueToDisplay(localAmount ?? new BigNumber(0)),
-              symbol: localCurrencySymbol,
+              localCurrencySymbol,
               context: localAmount ? undefined : 'noFiatPrice',
             })}
           />
