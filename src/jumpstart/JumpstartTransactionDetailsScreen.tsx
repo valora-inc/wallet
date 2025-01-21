@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   amountContainer: {
     backgroundColor: Colors.backgroundSecondary,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colors.borderSecondary,
     borderRadius: 16,
     paddingHorizontal: Spacing.Regular16,
     paddingVertical: Spacing.Large32,

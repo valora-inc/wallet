@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.Thick24,
   },
   learnMoreContainer: {
-    borderTopColor: Colors.border,
+    borderTopColor: Colors.borderSecondary,
     borderTopWidth: 1,
     paddingTop: Spacing.Regular16,
     marginHorizontal: Spacing.Thick24,

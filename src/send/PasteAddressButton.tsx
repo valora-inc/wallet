@@ -31,7 +31,7 @@ function PasteAddressButton(props: Props) {
           <CircledIcon
             radius={40}
             backgroundColor={colors.backgroundSecondary}
-            borderColor={colors.border}
+            borderColor={colors.borderSecondary}
           >
             <Clipboard />
           </CircledIcon>

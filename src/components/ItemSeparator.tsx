@@ -10,7 +10,7 @@ export default function ItemSeparator() {
 const styles = StyleSheet.create({
   container: {
     height: 1,
-    backgroundColor: colors.border,
+    backgroundColor: colors.borderSecondary,
     marginHorizontal: variables.contentPadding,
   },
 })

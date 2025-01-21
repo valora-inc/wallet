@@ -324,7 +324,8 @@ export const styles = StyleSheet.create({
   },
   card: {
     padding: Spacing.Regular16,
-    borderColor: Colors.border,
+    borderColor: Colors.borderSecondary,
+    backgroundColor: Colors.backgroundSecondary,
     borderWidth: 1,
     borderRadius: 12,
     gap: Spacing.Regular16,
@@ -362,8 +363,10 @@ export const styles = StyleSheet.create({
     ...typeScale.titleMedium,
   },
   depositAndEarningCardSubtitleContainer: {
-    backgroundColor: Colors.backgroundPrimary,
+    backgroundColor: Colors.backgroundSecondary,
     padding: Spacing.Regular16,
+    borderTopColor: Colors.borderSecondary,
+    borderTopWidth: 1,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
     gap: Spacing.Smallest8,

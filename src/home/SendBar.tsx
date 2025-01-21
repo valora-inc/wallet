@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: variables.contentPadding,
     paddingVertical: 12,
-    borderTopColor: colors.border,
+    borderTopColor: colors.borderSecondary,
     borderTopWidth: 1,
   },
   button: {

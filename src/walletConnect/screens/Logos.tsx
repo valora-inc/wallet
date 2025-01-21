@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   placeholderLogoBackground: {
     backgroundColor: Colors.backgroundPrimary,
     marginRight: -Spacing.Small12,
-    borderColor: Colors.border,
+    borderColor: Colors.borderSecondary,
     borderWidth: 1,
   },
   placeholderLogoText: {

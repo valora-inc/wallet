@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   },
   backupPhrase: {
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.borderSecondary,
     borderRadius: 8,
     marginTop: 0,
     backgroundColor: colors.backgroundSecondary,

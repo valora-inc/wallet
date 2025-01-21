@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   touchable: {
     padding: Spacing.Regular16,
-    borderColor: colors.border,
+    borderColor: colors.borderSecondary,
     borderWidth: 1,
     borderRadius: 8,
   },

@@ -68,7 +68,7 @@ function Dropdown<T>(props: Props<T>) {
 const styles = StyleSheet.create({
   selectedOptionContainer: {
     padding: Spacing.Small12,
-    borderColor: Colors.border,
+    borderColor: Colors.borderSecondary,
     borderRadius: Spacing.Tiny4,
     borderWidth: 1,
     gap: Spacing.Thick24,
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   optionsContainer: {
     position: 'absolute',
     top: 0,
-    borderColor: Colors.border,
+    borderColor: Colors.borderSecondary,
     borderRadius: Spacing.Tiny4,
     borderWidth: 1,
     backgroundColor: Colors.backgroundPrimary,

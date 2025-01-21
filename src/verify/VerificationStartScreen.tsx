@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   countryFlag: {
     backgroundColor: colors.buttonSecondary,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.borderSecondary,
   },
 })
 

@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   divider: {
     marginVertical: Spacing.Small12,
     height: 1,
-    backgroundColor: Colors.border,
+    backgroundColor: Colors.borderSecondary,
     width: '100%',
   },
   label: {

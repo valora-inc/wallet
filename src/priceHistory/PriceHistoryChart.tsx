@@ -116,7 +116,14 @@ function renderPointOnChart(
           <G key={idx + 'dot'}>
             {idx === 0 && (
               <>
-                <Line x1={0} y1={y} x2={chartWidth} y2={y} stroke={colors.border} strokeWidth="1" />
+                <Line
+                  x1={0}
+                  y1={y}
+                  x2={chartWidth}
+                  y2={y}
+                  stroke={colors.borderSecondary}
+                  strokeWidth="1"
+                />
                 <Circle cx={x} cy={y} r="4" fill={color} />
               </>
             )}
