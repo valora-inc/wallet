@@ -1112,10 +1112,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   bottomSheetLineLabel: {
+    ...typeScale.bodySmall,
     maxWidth: '40%',
     textAlign: 'left',
   },
   bottomSheetLineLabelText: {
+    ...typeScale.bodySmall,
     maxWidth: '60%',
     textAlign: 'right',
   },
