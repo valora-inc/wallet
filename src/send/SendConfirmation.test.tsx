@@ -92,14 +92,20 @@ describe('SendConfirmation', () => {
     screenProps?: ScreenProps
   ) {
     const store = createMockStore({
+      ...storeOverrides,
       tokens: {
+        ...(storeOverrides.tokens ?? {}),
         tokenBalances: {
           [mockPoofTokenId]: mockTokenBalances[mockPoofTokenId],
           [mockCeloTokenId]: { ...mockTokenBalances[mockCeloTokenId], balance: '5', priceUsd: '5' },
           [mockCusdTokenId]: mockTokenBalances[mockCusdTokenId],
+          ...(storeOverrides.tokens?.tokenBalances ?? {}),
         },
       },
-      ...storeOverrides,
+      localCurrency: {
+        usdToLocalRate: '1',
+        ...(storeOverrides.localCurrency ?? {}),
+      },
     })
 
     const tree = render(
@@ -161,5 +167,83 @@ describe('SendConfirmation', () => {
         getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
       )
     )
+  })
+
+  describe('TotalPlusFees', () => {
+    it.each([
+      {
+        tokenId: mockCeloTokenId,
+        amount: 10,
+        gas: BigInt('5'.concat('0'.repeat(17))), // 0.5 CELO,
+        priceUsd: '1',
+        title:
+          'returns token and local amounts if send token and fee token are the same and local price is available',
+        result:
+          'tokenAndLocalAmount_oneToken, {"tokenAmount":"10.50","localAmount":"10.50","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
+      },
+      {
+        tokenId: mockCeloTokenId,
+        amount: 10,
+        gas: BigInt('5'.concat('0'.repeat(17))), // 0.5 CELO,
+        priceUsd: null,
+        title:
+          "returns only a token amount if send token and fee token are the same but they don't have local price",
+        result: 'tokenAmount, {"tokenAmount":"10.5","tokenSymbol":"CELO"}',
+      },
+      {
+        tokenId: mockCusdTokenId,
+        amount: 10,
+        gas: BigInt('5'.concat('0'.repeat(17))), // 0.5 CELO,
+        priceUsd: '1',
+        title:
+          'returns only a local amount if send token and fee token are different but local prices for both are available',
+        result: 'localAmount, {"localAmount":"10.5","localCurrencySymbol":"₱"}',
+      },
+      {
+        tokenId: mockCusdTokenId,
+        amount: 10,
+        gas: BigInt('5'.concat('0'.repeat(17))), // 0.5 CELO,
+        priceUsd: null,
+        title:
+          'returns multiple token amounts if send token and fee token are different and no local prices available',
+        result:
+          'reviewTransaction.totalAmount_mutlipleTokens_noFiatPrice, {"amount1":"10.00","symbol1":"cUSD","amount2":"0.50","symbol2":"CELO"}',
+      },
+    ])('$title', ({ tokenId, amount, result, gas, priceUsd }) => {
+      jest.mocked(usePrepareSendTransactions).mockReturnValue({
+        ...mockUsePrepareSendTransactionsOutput,
+        prepareTransactionsResult: {
+          ...mockPrepareTransactionsResultPossible,
+          transactions: [{ ...mockPrepareTransactionsResultPossible.transactions[0], gas }],
+        },
+      })
+      const tokenAmount = new BigNumber(amount)
+      const { getByTestId } = renderScreen(
+        {
+          tokens: {
+            tokenBalances: {
+              [mockCusdTokenId]: { ...mockTokenBalances[mockCusdTokenId], priceUsd },
+              // @ts-expect-error priceUsd can be null but throws an error
+              [mockCeloTokenId]: { ...mockTokenBalances[mockCeloTokenId], priceUsd },
+            },
+          },
+        },
+        {
+          ...mockScreenProps,
+          route: {
+            ...mockScreenProps.route,
+            params: {
+              ...mockScreenProps.route.params,
+              transactionData: {
+                ...mockScreenProps.route.params.transactionData,
+                tokenAmount,
+                tokenId,
+              },
+            },
+          },
+        }
+      )
+      expect(getByTestId('SendConfirmationTotal/Value')).toHaveTextContent(result)
+    })
   })
 })

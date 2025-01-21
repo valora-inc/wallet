@@ -277,7 +277,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                     }
                     testID="SendConfirmationToken/Title"
                   >
-                    tokenAmount, {"amount":"1.00","symbol":"cUSD"}
+                    tokenAmount, {"tokenAmount":"1.00","tokenSymbol":"cUSD"}
                   </Text>
                   <Text
                     style={
@@ -290,7 +290,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                     }
                     testID="SendConfirmationToken/Subtitle"
                   >
-                    localAmount, {"amount":"1.33","symbol":"₱"}
+                    localAmount, {"localAmount":"1.00","localCurrencySymbol":"₱"}
                   </Text>
                 </View>
               </View>
@@ -493,7 +493,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   }
                   testID="SendConfirmationFee/Value"
                 >
-                  reviewTransaction.tokenAndLocalDisplayAmountApprox
+                  tokenAndLocalAmount_oneToken, {"tokenAmount":"0.01","localAmount":"0.05","tokenSymbol":"CELO","localCurrencySymbol":"₱"}
                   <Text />
                 </Text>
               </View>
@@ -543,7 +543,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   }
                   testID="SendConfirmationTotal/Value"
                 >
-                  reviewTransaction.totalDisplayAmountForMultipleTokens, {"amount1":"1.00","symbol1":"cUSD","amount2":"0.01","symbol2":"CELO"}
+                  localAmount, {"localAmount":"1.051","localCurrencySymbol":"₱"}
                 </Text>
               </View>
             </View>

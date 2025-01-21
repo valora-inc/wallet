@@ -36,7 +36,7 @@ import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import { getFeeCurrencyAndAmounts, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
+import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -50,59 +50,91 @@ const TAG = 'send/SendConfirmation'
 
 export const sendConfirmationScreenNavOptions = noHeader
 
-function useDisplaySendAmounts({
+export function TotalPlusFees({
+  tokenInfo,
+  feeTokenInfo,
   tokenAmount,
   localAmount,
-  tokenInfo,
-  prepareTransactionsResult,
+  tokenFeeAmount,
+  localFeeAmount,
 }: {
   tokenInfo: TokenBalance | undefined
+  feeTokenInfo: TokenBalance | undefined
   tokenAmount: BigNumber | null
   localAmount: BigNumber | null
-  prepareTransactionsResult: PreparedTransactionsResult | undefined
+  tokenFeeAmount: BigNumber | undefined
+  localFeeAmount: BigNumber | null
 }) {
-  const { maxFeeAmount, feeCurrency: feeTokenInfo } =
-    getFeeCurrencyAndAmounts(prepareTransactionsResult)
-  const feeAmount = maxFeeAmount ?? new BigNumber(0)
-  const localFeeAmount = useTokenToLocalAmount(feeAmount, feeTokenInfo?.tokenId)
+  const { t } = useTranslation()
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
 
-  const networkFee = useMemo(
-    () => ({
-      localAmount,
-      feeTokenSymbol: feeTokenInfo?.symbol,
-      displayTokenAmount: formatValueToDisplay(feeAmount),
-      displayLocalAmount: localFeeAmount ? formatValueToDisplay(localFeeAmount) : undefined,
-    }),
-    [localFeeAmount, feeAmount, feeTokenInfo]
-  )
+  // if there are not token info or token amount then it should not even be possible to get to the review screen
+  if (!tokenInfo || !tokenAmount) {
+    return null
+  }
 
-  const total = useMemo(() => {
-    const totalLocalAmount = localAmount && localFeeAmount ? localAmount.plus(localFeeAmount) : null
-    const displayLocalAmount = totalLocalAmount ? formatValueToDisplay(totalLocalAmount) : ''
+  // if there are no fees then just format token amount
+  if (!feeTokenInfo || !tokenFeeAmount) {
+    return (
+      <Trans
+        i18nKey={'tokenAndLocalAmount_oneToken'}
+        context={localAmount ? undefined : 'noFiatPrice'}
+        tOptions={{
+          tokenAmount: formatValueToDisplay(tokenAmount),
+          localAmount: localAmount ? formatValueToDisplay(localAmount) : '',
+          tokenSymbol: tokenInfo.symbol,
+          localCurrencySymbol,
+        }}
+      >
+        <Text style={styles.totalPlusFeesLocalAmount} />
+      </Trans>
+    )
+  }
 
-    if (tokenInfo?.tokenId !== feeTokenInfo?.tokenId) {
-      return {
-        type: 'multiple-tokens' as const,
-        token1: {
-          amount: tokenAmount ? formatValueToDisplay(tokenAmount) : '',
-          symbol: tokenInfo?.symbol,
-        },
-        token2: { amount: formatValueToDisplay(feeAmount), symbol: feeTokenInfo?.symbol },
-      }
-    }
+  const sameToken = tokenInfo.tokenId === feeTokenInfo.tokenId
+  const haveLocalPrice =
+    !!tokenInfo.priceUsd && !!feeTokenInfo.priceUsd && localAmount && localFeeAmount
 
-    const totalTokenAmount = (tokenAmount ?? new BigNumber(0)).plus(feeAmount ?? new BigNumber(0))
-    const displayTokenAmount = formatValueToDisplay(totalTokenAmount)
-    return {
-      type: 'same-token' as const,
-      tokenAmount: totalTokenAmount,
-      displayLocalAmount,
-      displayTokenAmount,
-      tokenSymbol: tokenInfo?.symbol,
-    }
-  }, [tokenInfo, feeTokenInfo, tokenAmount, feeAmount, localAmount, localFeeAmount])
+  // if single token and have local price - return token and local amounts
+  if (sameToken && haveLocalPrice) {
+    return (
+      <Trans
+        i18nKey={'tokenAndLocalAmount_oneToken'}
+        tOptions={{
+          tokenAmount: formatValueToDisplay(tokenAmount.plus(tokenFeeAmount)),
+          localAmount: formatValueToDisplay(localAmount.plus(localFeeAmount)),
+          tokenSymbol: tokenInfo.symbol,
+          localCurrencySymbol,
+        }}
+      >
+        <Text style={styles.totalPlusFeesLocalAmount} />
+      </Trans>
+    )
+  }
 
-  return { networkFee, total }
+  // if single token but no local price - return token amount
+  if (sameToken && !haveLocalPrice) {
+    return t('tokenAmount', {
+      tokenAmount: tokenAmount.plus(tokenFeeAmount),
+      tokenSymbol: tokenInfo.symbol,
+    })
+  }
+
+  // if multiple tokens and have local price - return local amount
+  if (!sameToken && haveLocalPrice) {
+    return t('localAmount', {
+      localAmount: localAmount.plus(localFeeAmount),
+      localCurrencySymbol,
+    })
+  }
+
+  // otherwise there are multiple tokens with no local prices so return multiple token amounts
+  return t('reviewTransaction.totalAmount_mutlipleTokens_noFiatPrice', {
+    amount1: formatValueToDisplay(tokenAmount),
+    symbol1: tokenInfo.symbol,
+    amount2: formatValueToDisplay(tokenFeeAmount),
+    symbol2: feeTokenInfo.symbol,
+  })
 }
 
 export default function SendConfirmation(props: Props) {
@@ -127,15 +159,20 @@ export default function SendConfirmation(props: Props) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const localAmount = useTokenToLocalAmount(tokenAmount, tokenId)
   const usdAmount = useAmountAsUsd(tokenAmount, tokenId)
-  const displayAmounts = useDisplaySendAmounts({
-    tokenAmount,
-    localAmount,
-    tokenInfo,
-    prepareTransactionsResult,
-  })
-
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, tokenInfo!.networkId))
+  const { maxFeeAmount, feeCurrency: feeTokenInfo } =
+    getFeeCurrencyAndAmounts(prepareTransactionsResult)
+  const tokenFeeAmount = maxFeeAmount ?? new BigNumber(0)
+  const localFeeAmount = useTokenToLocalAmount(tokenFeeAmount, feeTokenInfo?.tokenId)
+
+  const networkFeeDisplayAmount = useMemo(
+    () => ({
+      token: formatValueToDisplay(tokenFeeAmount),
+      local: localFeeAmount ? formatValueToDisplay(localFeeAmount) : undefined,
+    }),
+    [localFeeAmount, tokenFeeAmount, feeTokenInfo]
+  )
 
   useEffect(() => {
     if (!walletAddress || !tokenInfo) {
@@ -214,11 +251,11 @@ export default function SendConfirmation(props: Props) {
               header="Sending"
               icon={<TokenIcon token={tokenInfo} />}
               title={t('tokenAmount', {
-                amount: formatValueToDisplay(tokenAmount),
-                symbol: tokenInfo.symbol ?? '',
+                tokenAmount: formatValueToDisplay(tokenAmount),
+                tokenSymbol: tokenInfo.symbol ?? '',
               })}
               subtitle={t('localAmount', {
-                amount: formatValueToDisplay(localAmount ?? new BigNumber(0)),
+                localAmount: formatValueToDisplay(localAmount ?? new BigNumber(0)),
                 localCurrencySymbol,
                 context: localAmount ? undefined : 'noFiatPrice',
               })}
@@ -244,12 +281,12 @@ export default function SendConfirmation(props: Props) {
             isLoading={prepareTransactionLoading}
             value={
               <Trans
-                i18nKey={'reviewTransaction.tokenAndLocalDisplayAmountApprox'}
-                context={displayAmounts.networkFee.localAmount?.gt(0) ? undefined : 'noFiatPrice'}
-                values={{
-                  tokenAmount: displayAmounts.networkFee.displayTokenAmount,
-                  localAmount: displayAmounts.networkFee.displayLocalAmount,
-                  tokenSymbol: displayAmounts.networkFee.feeTokenSymbol,
+                i18nKey={'tokenAndLocalAmount_oneToken'}
+                context={localFeeAmount?.gt(0) ? undefined : 'noFiatPrice'}
+                tOptions={{
+                  tokenAmount: networkFeeDisplayAmount.token,
+                  localAmount: networkFeeDisplayAmount.local,
+                  tokenSymbol: feeTokenInfo?.symbol,
                   localCurrencySymbol,
                 }}
               >
@@ -263,27 +300,14 @@ export default function SendConfirmation(props: Props) {
             label={t('reviewTransaction.totalPlusFees')}
             isLoading={prepareTransactionLoading}
             value={
-              displayAmounts.total.type === 'same-token' ? (
-                <Trans
-                  i18nKey={'reviewTransaction.tokenAndLocalDisplayAmountApprox'}
-                  context={displayAmounts.total.tokenAmount?.gt(0) ? undefined : 'noFiatPrice'}
-                  values={{
-                    tokenAmount: displayAmounts.total.displayTokenAmount,
-                    localAmount: displayAmounts.total.displayLocalAmount,
-                    tokenSymbol: displayAmounts.total.tokenSymbol,
-                    localCurrencySymbol,
-                  }}
-                >
-                  <Text style={styles.totalPlusFeesLocalAmount} />
-                </Trans>
-              ) : (
-                t('reviewTransaction.totalDisplayAmountForMultipleTokens', {
-                  amount1: displayAmounts.total.token1.amount,
-                  symbol1: displayAmounts.total.token1.symbol,
-                  amount2: displayAmounts.total.token2.amount,
-                  symbol2: displayAmounts.total.token2.symbol,
-                })
-              )
+              <TotalPlusFees
+                tokenInfo={tokenInfo}
+                feeTokenInfo={feeTokenInfo}
+                tokenAmount={tokenAmount}
+                localAmount={localAmount}
+                tokenFeeAmount={maxFeeAmount}
+                localFeeAmount={localFeeAmount}
+              />
             }
           />
         </ReviewDetails>
