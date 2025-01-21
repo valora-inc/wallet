@@ -114,6 +114,7 @@ import ValidateRecipientIntro, {
 } from 'src/send/ValidateRecipientIntro'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import styles from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import SwapScreen from 'src/swap/SwapScreen'
 import SwapScreenV2 from 'src/swap/SwapScreenV2'
@@ -757,6 +758,8 @@ function RootStackScreen() {
         // take up the whole screen, it is no longer obvious that they are a bottom
         // sheet / how to navigate away
         maxDynamicContentSize: variables.height * 0.9,
+        backgroundStyle: styles.bottomSheetBackground,
+        handleIndicatorStyle: styles.bottomSheetHandleIndicator,
       }}
     >
       <RootStack.Screen name={Screens.MainModal} component={ModalStackScreen} />

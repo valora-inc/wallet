@@ -62,6 +62,13 @@ const styles = StyleSheet.create({
     shadowRadius: 1.5,
     shadowColor: Colors.barShadow,
   },
+  bottomSheetHandleIndicator: {
+    backgroundColor: Colors.bottomSheetHandle,
+    width: 40,
+  },
+  bottomSheetBackground: {
+    backgroundColor: Colors.backgroundPrimary,
+  },
 })
 
 export default styles

@@ -58,6 +58,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 2`] = `
     onChangeText={[MockFunction]}
     onFocus={[Function]}
     placeholder="placeholder"
+    selectionColor="#757575"
     shouldShowClipboard={[MockFunction]}
     style={
       [

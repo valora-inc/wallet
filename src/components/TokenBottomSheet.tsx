@@ -271,6 +271,7 @@ function TokenBottomSheet({
         keyExtractor={(item) => item.tokenId}
         contentContainerStyle={{
           paddingBottom: insets.bottom,
+          backgroundColor: Colors.backgroundPrimary,
           // fill full height if there are filter chips, otherwise the bottom
           // sheet height changes as tokens are filtered
           flexGrow: filterChips.length ? 1 : undefined,
