@@ -53,6 +53,19 @@ export function formatNumber(value: string) {
 
 export function unformatNumberForProcessing(value: string) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+
+  /**
+   * If the number passed is a regular number which is formatted in the standard JS number format
+   * (e.g. "123456.789") then just keep it as is. This will ensure this function will properly
+   * unformat different numbers, including those that come from external sources (e.g from API
+   * response)
+   *
+   * Number.isNaN considers unfinished decimal number e.g. "1." a valid number. If the number ends with grouping separator instead of decimal separator - it can be simply erased by casting it to a number.
+   */
+  if (!Number.isNaN(+value)) {
+    return value.endsWith(groupingSeparator) ? `${+value}` : value
+  }
+
   return value.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
 }
 
