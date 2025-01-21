@@ -50,7 +50,7 @@ const TAG = 'send/SendConfirmation'
 
 export const sendConfirmationScreenNavOptions = noHeader
 
-export function TotalPlusFees({
+function TotalPlusFees({
   tokenInfo,
   feeTokenInfo,
   tokenAmount,
