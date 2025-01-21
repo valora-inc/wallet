@@ -1266,6 +1266,7 @@
                 },
                 "type": {
                     "enum": [
+                        "CROSS_CHAIN_DEPOSIT",
                         "DEPOSIT",
                         "WITHDRAW"
                     ],
@@ -2734,6 +2735,7 @@
                 },
                 "type": {
                     "enum": [
+                        "CROSS_CHAIN_DEPOSIT",
                         "DEPOSIT",
                         "WITHDRAW"
                     ],
@@ -3994,10 +3996,7 @@
                     "$ref": "#/definitions/PendingStandbyTransaction<NftTransfer>"
                 },
                 {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnSwapDeposit>"
+                    "$ref": "#/definitions/PendingStandbyTransaction<DepositOrWithdraw>"
                 },
                 {
                     "$ref": "#/definitions/PendingStandbyTransaction<EarnWithdraw>"
@@ -4009,10 +4008,13 @@
                     "$ref": "#/definitions/PendingStandbyTransaction<PendingTokenExchange>"
                 },
                 {
-                    "$ref": "#/definitions/PendingStandbyTransaction<DepositOrWithdraw>"
+                    "$ref": "#/definitions/PendingStandbyTransaction<ClaimReward>"
                 },
                 {
-                    "$ref": "#/definitions/PendingStandbyTransaction<ClaimReward>"
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnSwapDeposit>"
                 },
                 {
                     "additionalProperties": false,
@@ -4328,6 +4330,7 @@
                         },
                         "type": {
                             "enum": [
+                                "CROSS_CHAIN_DEPOSIT",
                                 "DEPOSIT",
                                 "WITHDRAW"
                             ],
@@ -6510,10 +6513,7 @@
                     "$ref": "#/definitions/NftTransfer"
                 },
                 {
-                    "$ref": "#/definitions/EarnDeposit"
-                },
-                {
-                    "$ref": "#/definitions/EarnSwapDeposit"
+                    "$ref": "#/definitions/DepositOrWithdraw"
                 },
                 {
                     "$ref": "#/definitions/EarnWithdraw"
@@ -6522,10 +6522,13 @@
                     "$ref": "#/definitions/EarnClaimReward"
                 },
                 {
-                    "$ref": "#/definitions/DepositOrWithdraw"
+                    "$ref": "#/definitions/ClaimReward"
                 },
                 {
-                    "$ref": "#/definitions/ClaimReward"
+                    "$ref": "#/definitions/EarnDeposit"
+                },
+                {
+                    "$ref": "#/definitions/EarnSwapDeposit"
                 }
             ]
         },
