@@ -44,12 +44,15 @@ export function WebViewAndroidBottomSheet({
         <Pressable
           style={styles.pressable}
           onPress={openExternalLink}
-          android_ripple={{ color: Colors.gray2, borderless: false }}
+          android_ripple={{ color: Colors.lightShadow, borderless: false }}
           testID="OpenInExternalBrowser"
         >
           <Text style={styles.bottomSheetText}>{t('webView.openExternal')}</Text>
         </Pressable>
-        <Pressable onPress={onClose} android_ripple={{ color: Colors.gray2, borderless: false }}>
+        <Pressable
+          onPress={onClose}
+          android_ripple={{ color: Colors.lightShadow, borderless: false }}
+        >
           <Text style={styles.bottomSheetText}>{t('dismiss')}</Text>
         </Pressable>
       </View>
@@ -63,7 +66,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   centerContainer: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
   },
   // Needed to add icons in the pressable buttons
   pressable: {

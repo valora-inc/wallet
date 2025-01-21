@@ -34,7 +34,7 @@ function NoResults({ selectedFilter, removeFilter, testID, searchTerm }: Props) 
       {searchTerm !== '' && (
         <View style={styles.searchContainer}>
           <View style={styles.iconContainer}>
-            <InfoIcon color={Colors.warning} />
+            <InfoIcon color={Colors.warningPrimary} />
           </View>
           <View style={styles.searchTextContainer}>
             <Text style={styles.text}>
@@ -101,11 +101,11 @@ const styles = StyleSheet.create({
   },
   filterText: {
     ...typeScale.labelSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   filterAppliedText: {
     ...typeScale.labelSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     paddingRight: 4,
   },
   removeFilterTouchableContainer: {

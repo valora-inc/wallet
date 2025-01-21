@@ -122,6 +122,6 @@ const styles = StyleSheet.create({
   },
   dropDownText: {
     ...typeScale.bodyMedium,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })

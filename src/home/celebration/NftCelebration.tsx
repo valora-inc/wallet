@@ -189,14 +189,14 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 4,
-    backgroundColor: Colors.gray2,
+    backgroundColor: Colors.bottomSheetHandle,
   },
   title: {
     ...typeScale.titleSmall,
   },
   description: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     marginTop: Spacing.Smallest8,
   },
   button: {

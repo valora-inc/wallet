@@ -53,6 +53,19 @@ export function formatNumber(value: string) {
 
 export function unformatNumberForProcessing(value: string) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+
+  /**
+   * If the number passed is a regular number which is formatted in the standard JS number format
+   * (e.g. "123456.789") then just keep it as is. This will ensure this function will properly
+   * unformat different numbers, including those that come from external sources (e.g from API
+   * response)
+   *
+   * Number.isNaN considers unfinished decimal number e.g. "1." a valid number. If the number ends with grouping separator instead of decimal separator - it can be simply erased by casting it to a number.
+   */
+  if (!Number.isNaN(+value)) {
+    return value.endsWith(groupingSeparator) ? `${+value}` : value
+  }
+
   return value.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
 }
 
@@ -228,7 +241,7 @@ export function useEnterAmount(props: {
   }
 
   function handleAmountInputChange(val: string) {
-    let value = val.startsWith(localCurrencySymbol) ? val.slice(1) : val
+    let value = val.startsWith(localCurrencySymbol) ? val.slice(localCurrencySymbol.length) : val
     value = unformatNumberForProcessing(value)
     value = value.startsWith('.') ? `0${value}` : value
 
@@ -417,7 +430,7 @@ export default function TokenEnterAmount({
             )}
           </View>
 
-          {onOpenTokenPicker && <DownArrowIcon height={24} color={Colors.textSecondary} />}
+          {onOpenTokenPicker && <DownArrowIcon height={24} color={Colors.contentSecondary} />}
         </View>
       </Touchable>
       {token && (
@@ -481,7 +494,7 @@ export default function TokenEnterAmount({
                     testID={`${testID}/SwitchTokens`}
                     hitSlop={variables.iconHitslop}
                   >
-                    <SwapArrows color={Colors.textSecondary} size={24} />
+                    <SwapArrows color={Colors.contentSecondary} size={24} />
                   </Touchable>
                 )}
 
@@ -546,7 +559,7 @@ const styles = StyleSheet.create({
   },
   tokenBalance: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   primaryAmountText: {
     ...typeScale.titleMedium,
@@ -555,12 +568,12 @@ const styles = StyleSheet.create({
   },
   secondaryAmountText: {
     ...typeScale.bodyMedium,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   placeholderText: {
     ...typeScale.labelMedium,
     paddingHorizontal: 4,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   swapArrowContainer: {
     transform: [{ rotate: '90deg' }],

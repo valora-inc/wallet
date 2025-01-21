@@ -66,17 +66,17 @@ const styles = StyleSheet.create({
     height: DAPP_IMAGE_SIZE,
     width: DAPP_IMAGE_SIZE,
     borderRadius: 100,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
   },
   dappImage: {
     height: DAPP_IMAGE_SIZE,
     width: DAPP_IMAGE_SIZE,
     borderRadius: 100,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     marginLeft: -4,
   },
   placeholderLogoBackground: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     marginRight: -Spacing.Small12,
     borderColor: Colors.border,
     borderWidth: 1,
@@ -84,6 +84,6 @@ const styles = StyleSheet.create({
   placeholderLogoText: {
     ...typeScale.titleMedium,
     lineHeight: undefined,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
 })

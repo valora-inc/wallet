@@ -247,7 +247,7 @@ function SignInWithEmail({ route, navigation }: Props) {
           text={t('signInWithEmail.google')}
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}
-          icon={<GoogleIcon color={Colors.textPrimary} />}
+          icon={<GoogleIcon color={Colors.contentPrimary} />}
           iconMargin={10}
           showLoading={loading === 'google-oauth2'}
           disabled={!!loading}
@@ -258,7 +258,7 @@ function SignInWithEmail({ route, navigation }: Props) {
           text={t('signInWithEmail.apple')}
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}
-          icon={<AppleIcon color={Colors.textPrimary} />}
+          icon={<AppleIcon color={Colors.contentPrimary} />}
           iconMargin={10}
           showLoading={loading === 'apple'}
           disabled={!!loading}

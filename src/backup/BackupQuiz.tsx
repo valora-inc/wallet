@@ -374,19 +374,19 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   chosenWordWrapperFilled: {
-    backgroundColor: colors.gray2,
+    backgroundColor: colors.backgroundTertiary,
   },
   chosenWord: {
     ...typeScale.bodySmall,
     textAlign: 'center',
     lineHeight: undefined,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   chosenWordFilled: {
     ...typeScale.bodySmall,
     textAlign: 'center',
     lineHeight: undefined,
-    color: colors.textPrimary,
+    color: colors.contentPrimary,
   },
   mnemonicButtonsContainer: {
     marginTop: 24,

@@ -23,7 +23,7 @@ function OnboardingCard({ testId, onPress, title, subtitle }: Props) {
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.subtitle}>{subtitle}</Text>
           </View>
-          <ForwardChevron color={Colors.success} />
+          <ForwardChevron color={Colors.successPrimary} />
         </>
       </Touchable>
     </Card>
@@ -50,11 +50,11 @@ const styles = StyleSheet.create({
     ...typeScale.labelSmall,
     lineHeight: 24,
     paddingBottom: 5,
-    color: Colors.success,
+    color: Colors.successPrimary,
   },
   subtitle: {
     ...typeScale.bodyXSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
 })
 

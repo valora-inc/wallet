@@ -74,17 +74,17 @@ export default function EarnInfoScreen() {
         </Text>
         <View style={styles.detailsContainer}>
           <DetailsItem
-            icon={<EarnCoins size={ICON_SIZE} color={Colors.textPrimary} />}
+            icon={<EarnCoins size={ICON_SIZE} color={Colors.contentPrimary} />}
             title={t('earnFlow.earnInfo.details.work.title')}
             subtitle={t('earnFlow.earnInfo.details.work.subtitle')}
           />
           <DetailsItem
-            icon={<Manage size={ICON_SIZE} color={Colors.textPrimary} />}
+            icon={<Manage size={ICON_SIZE} color={Colors.contentPrimary} />}
             title={t('earnFlow.earnInfo.details.manage.titleV1_94')}
             subtitle={t('earnFlow.earnInfo.details.manage.subtitleV1_94')}
           />
           <DetailsItem
-            icon={<ArrowDown size={ARROW_ICON_SIZE} color={Colors.textPrimary} />}
+            icon={<ArrowDown size={ARROW_ICON_SIZE} color={Colors.contentPrimary} />}
             title={t('earnFlow.earnInfo.details.access.title')}
             subtitle={t('earnFlow.earnInfo.details.access.subtitle')}
           />
