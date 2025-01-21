@@ -121,7 +121,7 @@ export function ReviewSummaryItemContact({
       icon={
         <ContactCircle
           size={32}
-          backgroundColor={Colors.gray2}
+          backgroundColor={Colors.backgroundTertiary}
           foregroundColor={Colors.backgroundInverse}
           recipient={recipient}
           DefaultIcon={contact.icon}
@@ -164,8 +164,8 @@ export function ReviewDetailsItem({
           <View testID={`${testID}/Loader`} style={styles.loaderContainer}>
             <SkeletonPlaceholder
               borderRadius={100}
-              backgroundColor={Colors.gray2}
-              highlightColor={Colors.background}
+              backgroundColor={Colors.skeletonPlaceholderBackground}
+              highlightColor={Colors.skeletonPlaceholderHighlight}
             >
               <View style={styles.loader} />
             </SkeletonPlaceholder>
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   },
   reviewSummaryItemHeader: {
     ...typeScale.labelSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   reviewSummaryItemContent: {
     flexDirection: 'row',
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
   },
   reviewSummaryItemSubtitle: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   reviewDetails: {
     gap: Spacing.Regular16,
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
   },
   reviewDetailsItemText: {
     ...typeScale.bodyMedium,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   reviewDetailsItemTextBold: {
     ...typeScale.labelSemiBoldMedium,

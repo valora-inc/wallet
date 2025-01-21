@@ -330,6 +330,6 @@ export default function SendConfirmation(props: Props) {
 
 const styles = StyleSheet.create({
   totalPlusFeesLocalAmount: {
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
 })
