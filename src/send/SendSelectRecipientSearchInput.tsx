@@ -60,6 +60,6 @@ const styles = StyleSheet.create({
   },
   label: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })

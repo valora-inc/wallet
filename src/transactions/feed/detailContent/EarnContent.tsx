@@ -129,7 +129,7 @@ export function EarnDepositContent({ transaction }: EarnDepositProps) {
                 showLocalAmount={false}
                 style={styles.bodyText}
               />
-              <ArrowRightThick size={20} color={Colors.textPrimary} />
+              <ArrowRightThick size={20} color={Colors.contentPrimary} />
               <TokenDisplay
                 testID="EarnSwapDeposit/Swap/To"
                 tokenId={depositAmount.tokenId}
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   },
   amountSubtitle: {
     ...typeScale.bodySmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     marginLeft: 'auto',
   },
   amountContainer: {

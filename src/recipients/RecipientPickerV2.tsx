@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSmall,
     marginBottom: Spacing.Smallest8,
     marginHorizontal: Spacing.Regular16,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
 })
 

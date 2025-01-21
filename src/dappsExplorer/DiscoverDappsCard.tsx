@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     ...typeScale.labelXSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
     marginTop: Spacing.Smallest8,
   },
   listFooterComponent: {
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   },
   disclaimer: {
     ...typeScale.bodyXSmall,
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
 })
 

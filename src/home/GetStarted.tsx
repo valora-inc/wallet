@@ -21,7 +21,7 @@ function EarnItem() {
     <Item
       icon={
         <CircledIcon radius={32} backgroundColor={colors.successSecondary}>
-          <EarnCoins color={colors.success} />
+          <EarnCoins color={colors.successPrimary} />
         </CircledIcon>
       }
       title={t('earnFlow.entrypoint.title')}
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   touchable: {
     padding: Spacing.Regular16,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   itemBody: {
     ...typeScale.bodyXSmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   touchableView: {
     gap: Spacing.Thick24,

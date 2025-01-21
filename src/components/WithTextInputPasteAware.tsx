@@ -24,7 +24,7 @@ export default function withTextInputPasteAware<P extends TextInputProps>(
               onPress={onPressPaste}
               hitSlop={iconHitslop}
             >
-              <Paste color={Colors.textSecondary} />
+              <Paste color={Colors.contentSecondary} />
             </TouchableDefault>
           )}
         </View>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   pasteIconContainer: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     position: 'absolute',
     right: 11,
     top: 13,

@@ -12,7 +12,7 @@ export default class Paste extends React.PureComponent<Props> {
   static defaultProps = {
     width: 28,
     height: 28,
-    color: colors.textPrimary,
+    color: colors.contentPrimary,
   }
 
   render() {

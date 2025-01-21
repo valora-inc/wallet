@@ -380,13 +380,13 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     textAlign: 'center',
     lineHeight: undefined,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
   chosenWordFilled: {
     ...typeScale.bodySmall,
     textAlign: 'center',
     lineHeight: undefined,
-    color: colors.textPrimary,
+    color: colors.contentPrimary,
   },
   mnemonicButtonsContainer: {
     marginTop: 24,

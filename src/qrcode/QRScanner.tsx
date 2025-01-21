@@ -29,7 +29,7 @@ const SeeThroughOverlay = () => {
     <Svg height={height} width={width} viewBox={`0 0 ${width} ${height}`}>
       <Defs>
         <Mask id="mask" x="0" y="0" height="100%" width="100%">
-          <Rect height="100%" width="100%" fill={colors.background} />
+          <Rect height="100%" width="100%" fill={colors.backgroundPrimary} />
           <Rect
             x={margin}
             y={(height - centerBoxSize) / 2}
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     bottom: 32,
     ...typeScale.labelSemiBoldSmall,
     lineHeight: undefined,
-    color: colors.textInverse,
+    color: colors.contentInverse,
     textAlign: 'center',
     paddingHorizontal: 30,
   },
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     marginTop: 8,
     alignItems: 'flex-start',
-    borderColor: colors.textSecondary,
+    borderColor: colors.contentSecondary,
     borderRadius: 4,
     borderWidth: 1.5,
     height: 80,
@@ -180,6 +180,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   cancelButton: {
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
   },
 })
