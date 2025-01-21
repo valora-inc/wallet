@@ -97,6 +97,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 onChangeText={[Function]}
                 onFocus={[Function]}
                 placeholder="0xf1b1d5a6e7728g309c4a025k122d71ad75a61976"
+                selectionColor="#757575"
                 shouldShowClipboard={[Function]}
                 style={
                   [
@@ -414,6 +415,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     onChangeText={[Function]}
                     onFocus={[Function]}
                     placeholder="a"
+                    selectionColor="#757575"
                     style={
                       [
                         {
@@ -474,6 +476,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     onChangeText={[Function]}
                     onFocus={[Function]}
                     placeholder="0"
+                    selectionColor="#757575"
                     style={
                       [
                         {
@@ -534,6 +537,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     onChangeText={[Function]}
                     onFocus={[Function]}
                     placeholder="F"
+                    selectionColor="#757575"
                     style={
                       [
                         {
@@ -594,6 +598,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     onChangeText={[Function]}
                     onFocus={[Function]}
                     placeholder="4"
+                    selectionColor="#757575"
                     style={
                       [
                         {

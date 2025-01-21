@@ -176,6 +176,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
           onFocus={[Function]}
           placeholder="00 00 00 00 00"
           placeholderTextColor="#757575"
+          selectionColor="#757575"
           style={
             [
               {
