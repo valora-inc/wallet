@@ -18,7 +18,7 @@ const STATUS_COLORS = {
   idle: colors.inactive,
   loading: colors.inactive,
   success: colors.accent,
-  error: colors.error,
+  error: colors.errorPrimary,
 }
 
 export default function HooksPreviewModeBanner() {
@@ -58,11 +58,11 @@ const styles = StyleSheet.create({
     top: -10,
     left: 0,
     right: 0,
-    backgroundColor: colors.warning,
+    backgroundColor: colors.warningPrimary,
   },
   text: {
     ...typeScale.labelXSmall,
-    color: colors.textInverse,
+    color: colors.contentInverse,
     textAlign: 'center',
     paddingHorizontal: 10,
   },

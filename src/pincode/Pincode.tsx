@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   error: {
     ...typeScale.labelMedium,
-    color: colors.error,
+    color: colors.errorPrimary,
     textAlign: 'center',
     marginBottom: Spacing.Thick24,
   },

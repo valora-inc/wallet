@@ -655,7 +655,7 @@ function TransactionDepositDetails({
                 showLocalAmount={false}
                 style={styles.txDetailsValueText}
               />
-              <ArrowRightThick size={20} color={Colors.textPrimary} />
+              <ArrowRightThick size={20} color={Colors.contentPrimary} />
               <TokenDisplay
                 testID="EarnEnterAmount/Swap/To"
                 tokenId={pool.dataProps.depositTokenId}
@@ -1092,7 +1092,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   mutedText: {
-    color: Colors.textSecondary,
+    color: Colors.contentSecondary,
   },
   gap8: {
     gap: Spacing.Smallest8,
@@ -1112,10 +1112,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   bottomSheetLineLabel: {
+    ...typeScale.bodySmall,
     maxWidth: '40%',
     textAlign: 'left',
   },
   bottomSheetLineLabelText: {
+    ...typeScale.bodySmall,
     maxWidth: '60%',
     textAlign: 'right',
   },

@@ -52,6 +52,6 @@ const styles = StyleSheet.create({
   incorrect: {
     ...typeScale.labelMedium,
     textAlign: 'center',
-    color: colors.error,
+    color: colors.errorPrimary,
   },
 })

@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 import Colors from 'src/styles/colors'
 
-const MagicWand = ({ size = 24, color = Colors.success }) => (
+const MagicWand = ({ size = 24, color = Colors.successPrimary }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24">
     <Path
       fill={color}

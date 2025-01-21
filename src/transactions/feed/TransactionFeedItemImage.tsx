@@ -35,7 +35,7 @@ function TransactionFeedItemBaseImage(props: Props) {
   if (status === TransactionStatus.Failed) {
     return (
       <CircledIcon backgroundColor={Colors.errorSecondary} radius={AVATAR_SIZE}>
-        <AttentionIcon color={Colors.error} size={24} testId={'FailedTransactionAlert'} />
+        <AttentionIcon color={Colors.errorPrimary} size={24} testId={'FailedTransactionAlert'} />
       </CircledIcon>
     )
   }
@@ -48,7 +48,7 @@ function TransactionFeedItemBaseImage(props: Props) {
   ) {
     return (
       <CircledIcon backgroundColor={Colors.successSecondary} radius={AVATAR_SIZE}>
-        <SwapArrows color={Colors.success} />
+        <SwapArrows color={Colors.successPrimary} />
       </CircledIcon>
     )
   }
@@ -87,7 +87,7 @@ function TransactionFeedItemBaseImage(props: Props) {
   ) {
     return (
       <CircledIcon backgroundColor={Colors.successSecondary} radius={AVATAR_SIZE}>
-        <EarnCoins size={24} color={Colors.success} />
+        <EarnCoins size={24} color={Colors.successPrimary} />
       </CircledIcon>
     )
   }

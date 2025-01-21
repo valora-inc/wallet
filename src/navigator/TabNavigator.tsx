@@ -33,13 +33,14 @@ export default function TabNavigator({ route }: Props) {
         headerShown: true,
         headerShadowVisible: false,
         headerTitleAllowFontScaling: false,
-        tabBarActiveTintColor: Colors.navigationBottom,
+        tabBarActiveTintColor: Colors.navigationBottomPrimary,
         tabBarInactiveTintColor: Colors.navigationBottomSecondary,
         tabBarLabelStyle: styles.label,
         tabBarItemStyle: styles.tabBarItem,
         tabBarAllowFontScaling: false,
         tabBarStyle: {
           height: variables.height * 0.1,
+          backgroundColor: Colors.backgroundPrimary,
         },
         ...(tabHeader as NativeStackHeaderProps),
       }}

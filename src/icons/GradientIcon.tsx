@@ -32,7 +32,7 @@ export default function GradientIcon({ radius = 50, borderWidth = 1, children }:
     >
       {borderWidth > 0 && (
         <LinearGradient
-          colors={[Colors.gradientBorderLeft, Colors.gradientBorderRight]}
+          colors={[Colors.brandGradientLeft, Colors.brandGradientRight]}
           locations={[0, 0.8915]}
           useAngle={true}
           angle={90}
@@ -40,7 +40,7 @@ export default function GradientIcon({ radius = 50, borderWidth = 1, children }:
         />
       )}
       <LinearGradient
-        colors={[Colors.gradientBorderLeft, Colors.gradientBorderRight]}
+        colors={[Colors.brandGradientLeft, Colors.brandGradientRight]}
         locations={[0.1085, 1]}
         useAngle={true}
         angle={90}
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   mask: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     opacity: 0.9,
   },
 })

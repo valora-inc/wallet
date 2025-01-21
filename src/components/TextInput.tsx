@@ -83,6 +83,7 @@ export class CTextInput extends React.Component<Props, State> {
             inputStyle,
           ]}
           value={value}
+          selectionColor={Colors.contentSecondary}
           {...passThroughProps}
           onFocus={this.handleInputFocus}
           onBlur={this.handleInputBlur}
@@ -93,7 +94,7 @@ export class CTextInput extends React.Component<Props, State> {
             onPress={this.onClear}
             solid={true}
             size={20}
-            activeColor={Colors.textSecondary}
+            activeColor={Colors.contentSecondary}
             inactiveColor={Colors.disabled}
           />
         )}

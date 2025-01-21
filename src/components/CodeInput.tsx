@@ -41,10 +41,10 @@ export default function CodeInput({
   const showStatus = showCheckmark || showSpinner || showError
 
   const textColorForStatus = {
-    [CodeInputStatus.Inputting]: colors.textPrimary,
-    [CodeInputStatus.Processing]: colors.textSecondary,
-    [CodeInputStatus.Error]: colors.error,
-    [CodeInputStatus.Accepted]: colors.success,
+    [CodeInputStatus.Inputting]: colors.contentPrimary,
+    [CodeInputStatus.Processing]: colors.contentSecondary,
+    [CodeInputStatus.Error]: colors.errorPrimary,
+    [CodeInputStatus.Accepted]: colors.successPrimary,
   }
   return (
     <Card rounded={true} shadow={null} style={[styles.container, style]}>
@@ -85,7 +85,7 @@ export default function CodeInput({
 
           {showError && (
             <AttentionIcon
-              color={colors.error}
+              color={colors.errorPrimary}
               testId={testID ? `${testID}/ErrorIcon` : undefined}
               size={20}
             />

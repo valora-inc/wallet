@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   headerDescription: {
     ...typeScale.bodySmall,
-    color: colors.textSecondary,
+    color: colors.contentSecondary,
     marginTop: Spacing.Smallest8,
   },
   readMoreButton: {

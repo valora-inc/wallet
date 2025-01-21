@@ -123,7 +123,9 @@ const Education = (props: Props) => {
         <TopBarIconButton
           testID={`Education/${currentIndex === 0 ? 'Close' : 'Back'}Icon`}
           onPress={goBack}
-          icon={currentIndex === 0 ? <Times /> : <BackChevron color={colors.navigationTop} />}
+          icon={
+            currentIndex === 0 ? <Times /> : <BackChevron color={colors.navigationTopPrimary} />
+          }
         />
       </View>
       <View style={styles.container}>
