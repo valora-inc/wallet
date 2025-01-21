@@ -24,9 +24,9 @@ jest.mock('src/analytics/AppAnalytics')
 const mockStore = {
   localCurrency: {
     isLoading: false,
-    preferredCurrencyCode: LocalCurrencyCode['USD'],
-    fetchedCurrencyCode: LocalCurrencyCode['USD'],
-    usdToLocalRate: '1',
+    preferredCurrencyCode: LocalCurrencyCode['BOB'],
+    fetchedCurrencyCode: LocalCurrencyCode['BOB'],
+    usdToLocalRate: '0.5',
   } satisfies RootState['localCurrency'],
 }
 
@@ -196,8 +196,8 @@ describe('TokenEnterAmount', () => {
           displayAmount: '1,234.678 USDC',
         },
         local: {
-          bignum: new BigNumber('1235.912678'),
-          displayAmount: '$1,235.91',
+          bignum: new BigNumber('617.956339'),
+          displayAmount: 'Bs617.96',
         },
       })
     })
@@ -217,18 +217,18 @@ describe('TokenEnterAmount', () => {
       await act(async () => {
         result.current.handleToggleAmountType()
       })
-      await act(async () => result.current.handleAmountInputChange('1234.67'))
-      await act(async () => result.current.handleAmountInputChange('1234.678'))
+      await act(async () => result.current.handleAmountInputChange('Bs1234.67'))
+      await act(async () => result.current.handleAmountInputChange('Bs1234.678'))
 
       expect(result.current.amount).toBe('1234.67')
       expect(result.current.processedAmounts).toStrictEqual({
         local: {
           bignum: new BigNumber('1234.67'),
-          displayAmount: '$1,234.67',
+          displayAmount: 'Bs1,234.67',
         },
         token: {
-          bignum: new BigNumber('1233.436563'),
-          displayAmount: '1,233.436563 USDC',
+          bignum: new BigNumber('2466.873127'),
+          displayAmount: '2,466.873127 USDC',
         },
       })
     })
@@ -328,7 +328,7 @@ describe('TokenEnterAmount', () => {
         </Provider>
       )
 
-      expect(input.props.value).toBe('$0.1')
+      expect(input.props.value).toBe('Bs0.1')
       expect(converted.props.children).toBe(`${APPROX_SYMBOL} 1 CELO`)
     })
 
