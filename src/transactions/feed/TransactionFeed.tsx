@@ -111,6 +111,7 @@ function TransactionFeed() {
       case TokenTransactionTypeV2.Deposit:
       case TokenTransactionTypeV2.Withdraw:
       case TokenTransactionTypeV2.ClaimReward:
+      case TokenTransactionTypeV2.CrossChainDeposit:
         // These are handled by the FeedV2 only
         return null
       case TokenTransactionTypeV2.EarnDeposit:

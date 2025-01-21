@@ -17,18 +17,10 @@ const AVATAR_SIZE = 40
 
 type Props = { networkId: NetworkId; status: TransactionStatus; hideNetworkIcon?: boolean } & (
   | {
-      transactionType:
-        | TokenTransactionTypeV2.Exchange
-        | TokenTransactionTypeV2.SwapTransaction
-        | TokenTransactionTypeV2.CrossChainSwapTransaction
-        | TokenTransactionTypeV2.Approval
-        | TokenTransactionTypeV2.Deposit
-        | TokenTransactionTypeV2.Withdraw
-        | TokenTransactionTypeV2.ClaimReward
-        | TokenTransactionTypeV2.EarnDeposit
-        | TokenTransactionTypeV2.EarnSwapDeposit
-        | TokenTransactionTypeV2.EarnWithdraw
-        | TokenTransactionTypeV2.EarnClaimReward
+      transactionType: Exclude<
+        TokenTransactionTypeV2,
+        TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
+      >
     }
   | {
       transactionType: TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
@@ -87,6 +79,7 @@ function TransactionFeedItemBaseImage(props: Props) {
     transactionType === TokenTransactionTypeV2.Deposit ||
     transactionType === TokenTransactionTypeV2.Withdraw ||
     transactionType === TokenTransactionTypeV2.ClaimReward ||
+    transactionType === TokenTransactionTypeV2.CrossChainDeposit ||
     transactionType === TokenTransactionTypeV2.EarnWithdraw ||
     transactionType === TokenTransactionTypeV2.EarnDeposit ||
     transactionType === TokenTransactionTypeV2.EarnClaimReward ||

@@ -291,6 +291,7 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
       return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.Deposit:
     case TokenTransactionTypeV2.Withdraw:
+    case TokenTransactionTypeV2.CrossChainDeposit:
       return <DepositOrWithdrawFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.ClaimReward:
       return <ClaimRewardFeedItem key={tx.transactionHash} transaction={tx} />

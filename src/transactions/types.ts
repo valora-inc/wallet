@@ -145,6 +145,7 @@ export enum TokenTransactionTypeV2 {
   Deposit = 'DEPOSIT',
   Withdraw = 'WITHDRAW',
   ClaimReward = 'CLAIM_REWARD',
+  CrossChainDeposit = 'CROSS_CHAIN_DEPOSIT',
   /** @deprecated Use Deposit instead */
   EarnDeposit = 'EARN_DEPOSIT',
   /** @deprecated Use Deposit instead */
@@ -168,6 +169,7 @@ export const FEED_V2_INCLUDE_TYPES = [
   TokenTransactionTypeV2.Deposit,
   TokenTransactionTypeV2.Withdraw,
   TokenTransactionTypeV2.ClaimReward,
+  TokenTransactionTypeV2.CrossChainDeposit,
 ]
 
 // Can we optional the fields `transactionHash` and `block`?
@@ -250,7 +252,10 @@ export interface TokenApproval {
 
 export interface DepositOrWithdraw {
   networkId: NetworkId
-  type: TokenTransactionTypeV2.Deposit | TokenTransactionTypeV2.Withdraw
+  type:
+    | TokenTransactionTypeV2.Deposit
+    | TokenTransactionTypeV2.Withdraw
+    | TokenTransactionTypeV2.CrossChainDeposit
   transactionHash: string
   timestamp: number
   block: string

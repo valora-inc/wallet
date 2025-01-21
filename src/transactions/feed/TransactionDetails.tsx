@@ -41,7 +41,8 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
   // been initiated. Therefore for failed cross chain swaps, we should show the
   // transaction in the default network explorer.
   const showCrossChainSwapExplorer =
-    transaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction &&
+    (transaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction ||
+      transaction.type === TokenTransactionTypeV2.CrossChainDeposit) &&
     transaction.status !== TransactionStatus.Failed
 
   const openBlockExplorerHandler =
