@@ -241,7 +241,7 @@ export function useEnterAmount(props: {
   }
 
   function handleAmountInputChange(val: string) {
-    let value = val.startsWith(localCurrencySymbol) ? val.slice(1) : val
+    let value = val.startsWith(localCurrencySymbol) ? val.slice(localCurrencySymbol.length) : val
     value = unformatNumberForProcessing(value)
     value = value.startsWith('.') ? `0${value}` : value
 
