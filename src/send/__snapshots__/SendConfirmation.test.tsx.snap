@@ -4,16 +4,15 @@ exports[`SendConfirmation renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
     {
-      "bottom": "additive",
-      "left": "additive",
-      "right": "additive",
+      "bottom": "off",
+      "left": "off",
+      "right": "off",
       "top": "additive",
     }
   }
   style={
     {
       "flex": 1,
-      "paddingHorizontal": 8,
     }
   }
 >
@@ -29,11 +28,37 @@ exports[`SendConfirmation renders correctly 1`] = `
           "width": "100%",
         },
         {
-          "paddingHorizontal": 8,
+          "paddingHorizontal": 16,
         },
       ]
     }
   >
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+        }
+      }
+    >
+      <Text
+        style={
+          {
+            "color": "#2E3338",
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 16,
+            "lineHeight": 24,
+            "maxWidth": 450,
+          }
+        }
+        testID="CustomHeaderTitle"
+      >
+        Review Send
+      </Text>
+    </View>
     <View
       style={
         {
@@ -122,60 +147,182 @@ exports[`SendConfirmation renders correctly 1`] = `
       </View>
     </View>
   </View>
-  <View
-    style={
-      [
-        {
-          "backgroundColor": "#FFFFFF",
-          "flex": 1,
-        },
-        undefined,
-      ]
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "flex": 1,
+        "paddingBottom": 24,
+      }
     }
   >
-    <RCTScrollView
-      contentContainerStyle={
-        {
-          "paddingVertical": 10,
+    <View>
+      <View
+        style={
+          {
+            "flex": 1,
+            "gap": 24,
+            "justifyContent": "space-between",
+            "margin": 16,
+          }
         }
-      }
-      keyboardShouldPersistTaps="handled"
-      testID="KeyboardAwareScrollView"
-    >
-      <View>
+      >
         <View
           style={
             {
-              "marginHorizontal": 16,
+              "gap": 24,
             }
           }
         >
           <View
             style={
               {
-                "alignItems": "flex-start",
-                "paddingBottom": 24,
+                "backgroundColor": "#F8F9F9",
+                "borderColor": "#E6E6E6",
+                "borderRadius": 12,
+                "borderWidth": 1,
+                "flexShrink": 1,
+                "gap": 16,
+                "padding": 16,
               }
             }
           >
             <View
               style={
                 {
-                  "alignItems": "flex-start",
-                  "flexDirection": "row",
+                  "gap": 4,
                 }
               }
+              testID="SendConfirmationToken"
             >
+              <Text
+                style={
+                  {
+                    "color": "#757575",
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 14,
+                    "lineHeight": 20,
+                  }
+                }
+                testID="SendConfirmationToken/Header"
+              >
+                Sending
+              </Text>
               <View
                 style={
-                  [
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "gap": 8,
+                  }
+                }
+              >
+                <View>
+                  <View
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "left": 0,
+                            "position": "relative",
+                            "top": 0,
+                          },
+                          {
+                            "borderRadius": 16,
+                            "height": 32,
+                            "width": 32,
+                          },
+                        ],
+                      ]
+                    }
+                  >
+                    <FastImageView
+                      defaultSource={null}
+                      resizeMode="cover"
+                      source={
+                        {
+                          "uri": "https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cUSD.png",
+                        }
+                      }
+                      style={
+                        {
+                          "bottom": 0,
+                          "left": 0,
+                          "position": "absolute",
+                          "right": 0,
+                          "top": 0,
+                        }
+                      }
+                      testID="TokenIcon"
+                    />
+                  </View>
+                </View>
+                <View
+                  style={
                     {
-                      "alignItems": "center",
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                    },
-                    undefined,
-                  ]
+                      "flexShrink": 1,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-SemiBold",
+                        "fontSize": 18,
+                        "lineHeight": 28,
+                      }
+                    }
+                    testID="SendConfirmationToken/Title"
+                  >
+                    tokenAmount, {"tokenAmount":"1.00","tokenSymbol":"cUSD"}
+                  </Text>
+                  <Text
+                    style={
+                      {
+                        "color": "#757575",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 14,
+                        "lineHeight": 20,
+                      }
+                    }
+                    testID="SendConfirmationToken/Subtitle"
+                  >
+                    localAmount, {"localAmount":"1.33","localCurrencySymbol":"₱"}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "gap": 4,
+                }
+              }
+              testID="SendConfirmationRecipient/Address"
+            >
+              <Text
+                style={
+                  {
+                    "color": "#757575",
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 14,
+                    "lineHeight": 20,
+                  }
+                }
+                testID="SendConfirmationRecipient/Address/Header"
+              >
+                To
+              </Text>
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "gap": 8,
+                  }
                 }
               >
                 <View
@@ -183,35 +330,91 @@ exports[`SendConfirmation renders correctly 1`] = `
                     [
                       {
                         "alignItems": "center",
+                        "flexDirection": "row",
                         "justifyContent": "center",
-                      },
-                      {
-                        "backgroundColor": "hsl(0, 53%, 93%)",
-                        "borderRadius": 20,
-                        "height": 40,
-                        "width": 40,
                       },
                       undefined,
                     ]
                   }
                 >
-                  <svg
-                    fill="none"
-                    height={24.615384615384617}
-                    viewBox="0 0 24 24"
-                    width={24.615384615384617}
+                  <View
+                    style={
+                      [
+                        {
+                          "alignItems": "center",
+                          "justifyContent": "center",
+                        },
+                        {
+                          "backgroundColor": "#E6E6E6",
+                          "borderRadius": 16,
+                          "height": 32,
+                          "width": 32,
+                        },
+                        undefined,
+                      ]
+                    }
                   >
-                    <path
-                      d="M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 7c2.67 0 8 1.33 8 4v3H4v-3c0-2.67 5.33-4 8-4Zm0 1.9c-2.97 0-6.1 1.46-6.1 2.1v1.1h12.2V17c0-.64-3.13-2.1-6.1-2.1Z"
-                      fill="hsl(0, 67%, 24%)"
-                    />
-                  </svg>
+                    <svg
+                      fill="none"
+                      height={19.692307692307693}
+                      viewBox="0 0 20 20"
+                      width={19.692307692307693}
+                    >
+                      <path
+                        d="M13.333 11.25c.361 0 .66-.118.896-.354s.354-.535.354-.896-.118-.66-.354-.896a1.214 1.214 0 0 0-.896-.354c-.36 0-.66.118-.896.354a1.214 1.214 0 0 0-.354.896c0 .361.118.66.354.896.237.236.535.354.896.354ZM4.167 17.5c-.459 0-.851-.163-1.178-.49a1.602 1.602 0 0 1-.489-1.177V4.167c0-.459.163-.851.49-1.178.327-.326.719-.49 1.177-.489h11.666c.459 0 .851.163 1.178.49.326.327.49.719.489 1.177V6.25h-1.667V4.167H4.167v11.666h11.666V13.75H17.5v2.083c0 .459-.163.851-.49 1.178-.327.326-.719.49-1.177.489H4.167Zm6.666-3.333c-.458 0-.85-.164-1.177-.49a1.602 1.602 0 0 1-.49-1.177v-5c0-.458.164-.85.49-1.178.327-.326.72-.49 1.177-.489h5.834c.458 0 .85.164 1.177.49.327.327.49.72.49 1.177v5c0 .458-.164.85-.49 1.178-.327.326-.72.49-1.177.489h-5.834Zm5.834-1.667v-5h-5.834v5h5.834Z"
+                        fill="#2E3338"
+                      />
+                    </svg>
+                  </View>
+                </View>
+                <View
+                  style={
+                    {
+                      "flexShrink": 1,
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-SemiBold",
+                        "fontSize": 18,
+                        "lineHeight": 28,
+                      }
+                    }
+                    testID="SendConfirmationRecipient/Address/Title"
+                  >
+                    0x0000000000000000000000000000000000007E57
+                  </Text>
                 </View>
               </View>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "gap": 16,
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                {
+                  "flexDirection": "row",
+                  "gap": 8,
+                  "justifyContent": "space-between",
+                }
+              }
+              testID="SendConfirmationNetwork"
+            >
               <View
                 style={
                   {
-                    "paddingLeft": 8,
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "gap": 4,
                   }
                 }
               >
@@ -219,493 +422,236 @@ exports[`SendConfirmation renders correctly 1`] = `
                   style={
                     {
                       "color": "#757575",
-                      "fontFamily": "Inter-Medium",
+                      "fontFamily": "Inter-Regular",
                       "fontSize": 16,
                       "lineHeight": 24,
                     }
                   }
-                  testID="HeaderText"
+                  testID="SendConfirmationNetwork/Label"
                 >
-                  sending
+                  transactionDetails.network
                 </Text>
+              </View>
+              <View>
+                <Text
+                  style={
+                    {
+                      "color": "#757575",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 24,
+                    }
+                  }
+                  testID="SendConfirmationNetwork/Value"
+                >
+                  Celo Alfajores
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "flexDirection": "row",
+                  "gap": 8,
+                  "justifyContent": "space-between",
+                }
+              }
+              testID="SendConfirmationFee"
+            >
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "gap": 4,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    {
+                      "color": "#757575",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 24,
+                    }
+                  }
+                  testID="SendConfirmationFee/Label"
+                >
+                  networkFee
+                </Text>
+              </View>
+              <View>
+                <Text
+                  style={
+                    {
+                      "color": "#757575",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 24,
+                    }
+                  }
+                  testID="SendConfirmationFee/Value"
+                >
+                  tokenAndLocalAmount_oneToken, {"tokenAmount":"0.01","localAmount":"0.067","tokenSymbol":"CELO","localCurrencySymbol":"₱"}
+                  <Text />
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "flexDirection": "row",
+                  "gap": 8,
+                  "justifyContent": "space-between",
+                }
+              }
+              testID="SendConfirmationTotal"
+            >
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "gap": 4,
+                  }
+                }
+              >
                 <Text
                   style={
                     {
                       "color": "#2E3338",
-                      "fontFamily": "Inter-Medium",
+                      "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 24,
                     }
                   }
-                  testID="DisplayName"
+                  testID="SendConfirmationTotal/Label"
                 >
-                  feedItemAddress, {"address":"0x0000...7E57"}
+                  reviewTransaction.totalPlusFees
+                </Text>
+              </View>
+              <View>
+                <Text
+                  style={
+                    {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-SemiBold",
+                      "fontSize": 16,
+                      "lineHeight": 24,
+                    }
+                  }
+                  testID="SendConfirmationTotal/Value"
+                >
+                  localAmount, {"localAmount":"1.39783","localCurrencySymbol":"₱"}
                 </Text>
               </View>
             </View>
-            <Text
-              style={
-                {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Bold",
-                  "fontSize": 32,
-                  "letterSpacing": -0.32,
-                  "lineHeight": 40,
-                  "paddingVertical": 8,
-                }
-              }
-              testID="SendAmount"
-            >
-              1.00
-               cUSD
-            </Text>
-            <Text
-              style={
-                {
-                  "color": "#757575",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
-                  "lineHeight": 24,
-                  "paddingBottom": 16,
-                }
-              }
-              testID="SendAmountFiat"
-            >
-              ₱
-              1.33
-            </Text>
           </View>
         </View>
-      </View>
-    </RCTScrollView>
-    <View
-      style={
-        {
-          "padding": 16,
-          "paddingBottom": 8,
-        }
-      }
-    >
-      <View
-        style={
-          [
-            {
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-              "justifyContent": "space-between",
-              "marginVertical": 5,
-            },
-            undefined,
-          ]
-        }
-      >
         <View
           style={
             {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "marginRight": 5,
+              "gap": 16,
             }
-          }
-        >
-          <Text
-            style={
-              [
-                {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 16,
-                  "lineHeight": 24,
-                },
-                {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
-                  "lineHeight": 24,
-                },
-              ]
-            }
-            testID="LineItemRowTitle/SendConfirmation/fee"
-          >
-            feeEstimate
-          </Text>
-        </View>
-        <Text
-          style={
-            [
-              {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Medium",
-                "fontSize": 16,
-                "lineHeight": 24,
-              },
-              {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 24,
-              },
-            ]
-          }
-          testID="LineItemRow/SendConfirmation/fee"
-        >
-          <Text>
-            0.01
-             CELO
-          </Text>
-        </Text>
-      </View>
-      <View
-        style={
-          [
-            {
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-              "justifyContent": "space-between",
-              "marginVertical": 5,
-            },
-            {
-              "marginVertical": 0,
-            },
-          ]
-        }
-      >
-        <View
-          style={
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "marginRight": 5,
-            }
-          }
-        >
-          <Text
-            style={
-              [
-                {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 16,
-                  "lineHeight": 24,
-                },
-                {
-                  "color": "#757575",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 14,
-                  "lineHeight": 20,
-                },
-              ]
-            }
-            testID="LineItemRowTitle/SendConfirmation/localFee"
-          />
-        </View>
-        <Text
-          style={
-            [
-              {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Medium",
-                "fontSize": 16,
-                "lineHeight": 24,
-              },
-              {
-                "color": "#757575",
-                "fontFamily": "Inter-Medium",
-                "fontSize": 14,
-                "lineHeight": 20,
-              },
-            ]
-          }
-          testID="LineItemRow/SendConfirmation/localFee"
-        >
-          <Text>
-            ₱
-            0.067
-          </Text>
-        </Text>
-      </View>
-      <View
-        style={
-          [
-            {
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-              "justifyContent": "space-between",
-              "marginVertical": 5,
-            },
-            undefined,
-          ]
-        }
-      >
-        <View
-          style={
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "marginRight": 5,
-            }
-          }
-        >
-          <Text
-            style={
-              [
-                {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 16,
-                  "lineHeight": 24,
-                },
-                {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-SemiBold",
-                  "fontSize": 16,
-                  "lineHeight": 24,
-                },
-              ]
-            }
-            testID="LineItemRowTitle/undefined"
-          >
-            total
-          </Text>
-        </View>
-        <Text
-          style={
-            [
-              {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Medium",
-                "fontSize": 16,
-                "lineHeight": 24,
-              },
-              {
-                "color": "#2E3338",
-                "fontFamily": "Inter-SemiBold",
-                "fontSize": 16,
-                "lineHeight": 24,
-              },
-            ]
-          }
-          testID="LineItemRow/undefined"
-        >
-          <Text
-            testID="TotalLineItem/Total"
-          >
-            ≈ 
-            1.05
-             cUSD
-          </Text>
-        </Text>
-      </View>
-      <View
-        style={
-          [
-            {
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-              "justifyContent": "space-between",
-              "marginVertical": 5,
-            },
-            {
-              "marginVertical": 0,
-            },
-          ]
-        }
-      >
-        <View
-          style={
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "marginRight": 5,
-            }
-          }
-        >
-          <Text
-            style={
-              [
-                {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 16,
-                  "lineHeight": 24,
-                },
-                {
-                  "color": "#757575",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 14,
-                  "lineHeight": 20,
-                },
-              ]
-            }
-            testID="LineItemRowTitle/undefined"
-          >
-            <Text
-              style={
-                {
-                  "color": "#757575",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 14,
-                  "lineHeight": 20,
-                }
-              }
-              testID="TotalLineItem/ExchangeRate"
-            >
-              tokenExchangeRateApprox, {"symbol":"cUSD"}
-              <Text>
-                ₱
-                1.33
-              </Text>
-            </Text>
-          </Text>
-        </View>
-        <Text
-          style={
-            [
-              {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Medium",
-                "fontSize": 16,
-                "lineHeight": 24,
-              },
-              {
-                "color": "#757575",
-                "fontFamily": "Inter-Medium",
-                "fontSize": 14,
-                "lineHeight": 20,
-              },
-            ]
-          }
-          testID="LineItemRow/undefined"
-        >
-          <Text
-            testID="TotalLineItem/Subtotal"
-          >
-            ₱
-            1.40
-          </Text>
-        </Text>
-      </View>
-    </View>
-    <View
-      style={
-        {
-          "marginHorizontal": 16,
-          "paddingVertical": 16,
-        }
-      }
-    >
-      <View
-        style={
-          [
-            {
-              "flexDirection": "column",
-            },
-            {
-              "marginBottom": 16,
-            },
-          ]
-        }
-      >
-        <View
-          style={
-            [
-              {
-                "overflow": "hidden",
-              },
-              {
-                "borderRadius": 100,
-              },
-            ]
           }
         >
           <View
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": false,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              {
-                "attribute": "selectableItemBackground",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
               [
                 {
-                  "alignItems": "center",
-                  "backgroundColor": "#2E3338",
-                  "flexDirection": "row",
-                  "flexGrow": 1,
-                  "height": 48,
-                  "justifyContent": "center",
-                  "opacity": 1,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
+                  "flexDirection": "column",
                 },
                 undefined,
               ]
             }
-            testID="ConfirmButton"
           >
-            <Text
-              accessibilityLabel="send"
-              maxFontSizeMultiplier={1}
+            <View
               style={
-                {
-                  "color": "#FFFFFF",
-                  "fontFamily": "Inter-SemiBold",
-                  "fontSize": 16,
-                  "lineHeight": 24,
-                  "marginLeft": 0,
-                  "marginRight": 0,
-                }
+                [
+                  {
+                    "overflow": "hidden",
+                  },
+                  {
+                    "borderRadius": 100,
+                  },
+                ]
               }
             >
-              send
-            </Text>
+              <View
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": false,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                focusable={true}
+                nativeBackgroundAndroid={
+                  {
+                    "attribute": "selectableItemBackground",
+                    "rippleRadius": undefined,
+                    "type": "ThemeAttrAndroid",
+                  }
+                }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  [
+                    {
+                      "alignItems": "center",
+                      "backgroundColor": "#2E3338",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "height": 48,
+                      "justifyContent": "center",
+                      "opacity": 1,
+                      "paddingHorizontal": 24,
+                      "paddingVertical": 5,
+                    },
+                    undefined,
+                  ]
+                }
+                testID="ConfirmButton"
+              >
+                <Text
+                  accessibilityLabel="send"
+                  maxFontSizeMultiplier={1}
+                  style={
+                    {
+                      "color": "#FFFFFF",
+                      "fontFamily": "Inter-SemiBold",
+                      "fontSize": 16,
+                      "lineHeight": 24,
+                      "marginLeft": 0,
+                      "marginRight": 0,
+                    }
+                  }
+                >
+                  send
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
       </View>
     </View>
-    <View
-      collapsable={false}
-      style={
-        [
-          {
-            "bottom": 0,
-            "left": 0,
-            "right": 0,
-          },
-          {
-            "height": 0,
-          },
-          undefined,
-        ]
-      }
-    />
-  </View>
+  </RCTScrollView>
 </RNCSafeAreaView>
 `;
