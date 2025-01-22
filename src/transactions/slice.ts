@@ -117,8 +117,8 @@ const slice = createSlice({
                 block,
                 timestamp: action.payload.blockTimestampInMs,
                 fees: fees || [],
-                ...(standbyTransaction.type ===
-                  TokenTransactionTypeV2.CrossChainSwapTransaction && {
+                ...((standbyTransaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction ||
+                  standbyTransaction.type === TokenTransactionTypeV2.CrossChainDeposit) && {
                   isSourceNetworkTxConfirmed: true,
                 }),
               }

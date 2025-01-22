@@ -37,8 +37,13 @@ export function* getTransactionReceipt(
   transaction: StandbyTransaction & { transactionHash: string },
   network: Network
 ) {
+  const { feeCurrencyId, transactionHash, type } = transaction
+  const isCrossChainSwapTransaction = type === TokenTransactionTypeV2.CrossChainSwapTransaction
+  const isSwapTransaction = type === TokenTransactionTypeV2.SwapTransaction
+  const isCrossChainDeposit = type === TokenTransactionTypeV2.CrossChainDeposit
+  const isCrossChainTransaction = isCrossChainSwapTransaction || isCrossChainDeposit
   if (
-    transaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction &&
+    isCrossChainTransaction &&
     'isSourceNetworkTxConfirmed' in transaction &&
     transaction.isSourceNetworkTxConfirmed
   ) {
@@ -49,10 +54,7 @@ export function* getTransactionReceipt(
     return
   }
 
-  const { feeCurrencyId, transactionHash, type } = transaction
   const networkId = networkConfig.networkToNetworkId[network]
-  const isCrossChainSwapTransaction = type === TokenTransactionTypeV2.CrossChainSwapTransaction
-  const isSwapTransaction = type === TokenTransactionTypeV2.SwapTransaction
 
   try {
     const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
@@ -64,13 +66,13 @@ export function* getTransactionReceipt(
       receipt,
       networkId,
       feeCurrencyId,
-      // The tx receipt for a cross-chain swap is for the source network only,
+      // The tx receipt for a cross-chain swap/deposit is for the source network only,
       // so we do not want to mark the whole cross-chain swap as completed if
       // the status here is successful. We do however want to update the
       // transaction details, including marking it as failed if the status is
       // reverted.
       overrideStatus:
-        isCrossChainSwapTransaction && receipt.status === 'success'
+        isCrossChainTransaction && receipt.status === 'success'
           ? TransactionStatus.Pending
           : undefined,
     })
