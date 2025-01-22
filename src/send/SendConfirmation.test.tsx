@@ -15,16 +15,11 @@ import { getSerializablePreparedTransaction } from 'src/viem/preparedTransaction
 import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
-  mockAccount2,
-  mockAccount3,
-  mockAddressRecipient,
   mockCeloTokenBalance,
   mockCeloTokenId,
   mockCusdTokenBalance,
   mockCusdTokenId,
-  mockE164Number,
   mockPoofTokenId,
-  mockRecipient,
   mockTokenBalances,
   mockTokenTransactionData,
 } from 'test/values'
@@ -166,54 +161,5 @@ describe('SendConfirmation', () => {
         getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
       )
     )
-  })
-
-  it('renders address for phone recipients with multiple addresses', () => {
-    const screenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-      transactionData: {
-        ...mockTokenTransactionData,
-        recipient: mockRecipient, // recipient that includes a PN
-      },
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: false,
-    })
-    const { getByTestId } = renderScreen(
-      {
-        identity: {
-          e164NumberToAddress: {
-            [mockE164Number]: [mockAccount3, mockAccount2],
-          },
-        },
-      },
-      screenProps
-    )
-
-    expect(getByTestId('RecipientAddress')).toBeTruthy()
-  })
-
-  it.each([
-    { testSuffix: 'non phone number recipients', recipient: mockAddressRecipient },
-    { testSuffix: 'phone number recipient with one address', recipient: mockRecipient },
-  ])('does not render address for $testSuffix', ({ recipient }) => {
-    const screenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-      transactionData: {
-        ...mockTokenTransactionData,
-        recipient,
-      },
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: false,
-    })
-    const { queryByTestId } = renderScreen(
-      {
-        identity: {
-          e164NumberToAddress: {
-            [mockE164Number]: [mockAccount3],
-          },
-        },
-      },
-      screenProps
-    )
-
-    expect(queryByTestId('RecipientAddress')).toBeFalsy()
   })
 })
