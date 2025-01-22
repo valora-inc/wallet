@@ -256,7 +256,7 @@ export function ReviewTotalValue({
   // if single token but no local price - return token amount
   if (sameToken && !haveLocalPrice) {
     return t('tokenAmount', {
-      tokenAmount: tokenAmount.plus(tokenFeeAmount),
+      tokenAmount: formatValueToDisplay(tokenAmount.plus(tokenFeeAmount)),
       tokenSymbol: tokenInfo.symbol,
     })
   }
@@ -264,7 +264,7 @@ export function ReviewTotalValue({
   // if multiple tokens and have local price - return local amount
   if (!sameToken && haveLocalPrice) {
     return t('localAmount', {
-      localAmount: localAmount.plus(localFeeAmount),
+      localAmount: formatValueToDisplay(localAmount.plus(localFeeAmount)),
       localCurrencySymbol,
     })
   }
