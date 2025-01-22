@@ -64,6 +64,7 @@ function useHeaderTitle(transaction: TokenTransaction) {
     case TokenTransactionTypeV2.Approval:
       return t('transactionFeed.approvalTransactionTitle')
     case TokenTransactionTypeV2.Deposit:
+    case TokenTransactionTypeV2.CrossChainDeposit:
       return t('transactionFeed.depositTitle')
     case TokenTransactionTypeV2.Withdraw:
       return t('transactionFeed.withdrawTitle')
@@ -118,6 +119,7 @@ function TransactionDetailsScreen({ route }: Props) {
       break
     case TokenTransactionTypeV2.Deposit:
     case TokenTransactionTypeV2.Withdraw:
+    case TokenTransactionTypeV2.CrossChainDeposit:
       content = <DepositOrWithdrawContent transaction={transaction} />
       break
     case TokenTransactionTypeV2.ClaimReward:

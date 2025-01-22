@@ -574,10 +574,11 @@ describe('TransactionDetailsScreen', () => {
 
     function depositTransaction({
       status = TransactionStatus.Complete,
+      type = TokenTransactionTypeV2.Deposit,
       ...rest
     }: Partial<DepositOrWithdraw>): DepositOrWithdraw {
       return {
-        type: TokenTransactionTypeV2.Deposit,
+        type,
         networkId: NetworkId['celo-alfajores'],
         timestamp: 1234567890,
         block: '123456',
@@ -702,6 +703,42 @@ describe('TransactionDetailsScreen', () => {
       expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
       expect(getByTestId('DepositOrWithdraw/Swap/From')).toBeTruthy()
       expect(getByTestId('DepositOrWithdraw/Swap/To')).toBeTruthy()
+      expect(getByTestId('DepositOrWithdraw/Network')).toHaveTextContent('Celo Alfajores')
+    })
+
+    it('renders swap details for deposit with cross chain swap', () => {
+      const transactionWithSwap = {
+        ...depositTransaction({
+          status: TransactionStatus.Complete,
+          type: TokenTransactionTypeV2.CrossChainDeposit,
+        }),
+        swap: {
+          inAmount: {
+            value: '50',
+            tokenId: mockCeloTokenId,
+          },
+          outAmount: {
+            value: '100',
+            tokenId: mockEthTokenId,
+          },
+        },
+      }
+
+      const { getByText, getByTestId } = renderScreen({
+        transaction: transactionWithSwap,
+        storeOverrides: {
+          tokens: {
+            tokenBalances: mockTokenBalances,
+          },
+        },
+      })
+
+      expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+      expect(getByTestId('DepositOrWithdraw/Swap/From')).toBeTruthy()
+      expect(getByTestId('DepositOrWithdraw/Swap/To')).toBeTruthy()
+      expect(getByTestId('DepositOrWithdraw/Network')).toHaveTextContent(
+        'swapTransactionDetailPage.networkValue, {"fromNetwork":"Ethereum Sepolia","toNetwork":"Celo Alfajores"}'
+      )
     })
 
     it('renders network information', () => {
@@ -715,7 +752,7 @@ describe('TransactionDetailsScreen', () => {
       expect(getByText(NETWORK_NAMES[NetworkId['celo-alfajores']])).toBeTruthy()
     })
 
-    it('renders fees correctly', () => {
+    it('renders fees correctly for deposit only', () => {
       const transactionWithFees = {
         ...depositTransaction({ status: TransactionStatus.Complete }),
         fees: [
@@ -734,6 +771,44 @@ describe('TransactionDetailsScreen', () => {
       })
 
       expect(getByTestId('TransactionDetails/FeeRowItem')).toHaveTextContent('0.10 CELO')
+    })
+
+    it('renders fees correctly for cross chain swap and deposit', () => {
+      const transactionWithFees = {
+        ...depositTransaction({ status: TransactionStatus.Complete }),
+        fees: [
+          {
+            type: FeeType.SecurityFee,
+            amount: {
+              value: '0.1',
+              tokenId: mockCeloTokenId,
+            },
+          },
+          {
+            type: FeeType.AppFee,
+            amount: {
+              value: '0.1',
+              tokenId: mockCusdTokenId,
+            },
+          },
+          {
+            type: FeeType.CrossChainFee,
+            amount: {
+              value: '0.11',
+              tokenId: mockCeloTokenId,
+            },
+          },
+        ],
+      }
+
+      const { getAllByTestId } = renderScreen({
+        transaction: transactionWithFees,
+      })
+
+      expect(getAllByTestId('TransactionDetails/FeeRowItem')).toHaveLength(3)
+      expect(getAllByTestId('TransactionDetails/FeeRowItem')[0]).toHaveTextContent('0.10 CELO')
+      expect(getAllByTestId('TransactionDetails/FeeRowItem')[1]).toHaveTextContent('0.10 cUSD')
+      expect(getAllByTestId('TransactionDetails/FeeRowItem')[2]).toHaveTextContent('0.11 CELO')
     })
   })
 

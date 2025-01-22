@@ -3,11 +3,10 @@ import { REHYDRATE, type RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 import { transactionFeedV2Api } from 'src/transactions/api'
 import {
+  DepositOrWithdraw,
   TokenTransactionTypeV2,
   TransactionStatus,
   type EarnClaimReward,
-  type EarnDeposit,
-  type EarnSwapDeposit,
   type EarnWithdraw,
   type Fee,
   type NetworkId,
@@ -27,8 +26,7 @@ export type BaseStandbyTransaction =
   | BaseStandbyTransactionType<TokenExchange>
   | BaseStandbyTransactionType<TokenApproval>
   | BaseStandbyTransactionType<NftTransfer>
-  | BaseStandbyTransactionType<EarnDeposit>
-  | BaseStandbyTransactionType<EarnSwapDeposit>
+  | BaseStandbyTransactionType<DepositOrWithdraw>
   | BaseStandbyTransactionType<EarnWithdraw>
   | BaseStandbyTransactionType<EarnClaimReward>
 

@@ -185,7 +185,10 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
         return {
           context: newTransactionContext(TAG, 'Earn/Deposit'),
           networkId: fromNetworkId,
-          type: TokenTransactionTypeV2.EarnDeposit,
+          type:
+            mode === 'swap-deposit' && fromNetworkId !== poolNetworkId
+              ? TokenTransactionTypeV2.CrossChainDeposit
+              : TokenTransactionTypeV2.Deposit,
           inAmount: {
             value: amount,
             tokenId: pool.dataProps.withdrawTokenId,
@@ -194,35 +197,18 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
             value: amount,
             tokenId: depositTokenId,
           },
-          providerId: pool.appId,
+          appName: pool.appName,
           transactionHash,
           feeCurrencyId,
+          ...(mode === 'swap-deposit' && {
+            swap: {
+              inAmount: { value: amount, tokenId: depositTokenId },
+              outAmount: { value: fromTokenAmount, tokenId: fromTokenId },
+            },
+          }),
         }
       }
-      const createSwapDepositStandbyTx = (
-        transactionHash: string,
-        feeCurrencyId?: string
-      ): BaseStandbyTransaction => {
-        return {
-          context: newTransactionContext(TAG, 'Earn/SwapDeposit'),
-          networkId: fromNetworkId,
-          type: TokenTransactionTypeV2.EarnSwapDeposit,
-          swap: {
-            inAmount: { value: amount, tokenId: depositTokenId },
-            outAmount: { value: fromTokenAmount, tokenId: fromTokenId },
-          },
-          deposit: {
-            inAmount: { value: amount, tokenId: pool.dataProps.withdrawTokenId },
-            outAmount: { value: amount, tokenId: depositTokenId },
-            providerId: pool.appId,
-          },
-          transactionHash,
-          feeCurrencyId,
-        }
-      }
-      createDepositStandbyTxHandlers.push(
-        mode === 'deposit' ? createDepositStandbyTx : createSwapDepositStandbyTx
-      )
+      createDepositStandbyTxHandlers.push(createDepositStandbyTx)
     } else {
       Logger.info(TAG, 'More than 2 deposit transactions, using empty standby handlers')
       createDepositStandbyTxHandlers.push(...preparedTransactions.map(() => () => null))

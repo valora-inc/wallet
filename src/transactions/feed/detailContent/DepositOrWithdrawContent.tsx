@@ -19,14 +19,15 @@ interface DepositOrWithdrawContentProps {
 export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawContentProps) {
   const { t } = useTranslation()
   const txAppName = transaction.appName
-  const tokenInfo = useTokenInfo(
-    transaction.type === TokenTransactionTypeV2.Deposit
-      ? transaction.outAmount.tokenId
-      : transaction.inAmount.tokenId
+  const isDeposit =
+    transaction.type === TokenTransactionTypeV2.Deposit ||
+    transaction.type === TokenTransactionTypeV2.CrossChainDeposit
+  const isCrossChain = transaction.type === TokenTransactionTypeV2.CrossChainDeposit
+  const depositTokenInfo = useTokenInfo(
+    isDeposit ? transaction.outAmount.tokenId : transaction.inAmount.tokenId
   )
-  const tokenSymbol = tokenInfo?.symbol ?? ''
-
-  const isDeposit = transaction.type === TokenTransactionTypeV2.Deposit
+  const fromTokenInfo = useTokenInfo(transaction.swap?.outAmount.tokenId)
+  const tokenSymbol = depositTokenInfo?.symbol ?? ''
   const amount = isDeposit ? transaction.outAmount : transaction.inAmount
 
   return (
@@ -91,7 +92,14 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
         )}
         <View style={styles.row}>
           <Text style={styles.bodyText}>{t('transactionDetails.network')}</Text>
-          <Text style={styles.bodyTextValue}>{NETWORK_NAMES[transaction.networkId]}</Text>
+          <Text testID="DepositOrWithdraw/Network" style={styles.bodyTextValue}>
+            {isCrossChain && fromTokenInfo && depositTokenInfo // these tokens should be present for cross chain
+              ? t('swapTransactionDetailPage.networkValue', {
+                  fromNetwork: NETWORK_NAMES[fromTokenInfo.networkId],
+                  toNetwork: NETWORK_NAMES[depositTokenInfo.networkId],
+                })
+              : NETWORK_NAMES[transaction.networkId]}
+          </Text>
         </View>
       </View>
       <RowDivider />
@@ -102,13 +110,16 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
           feeType={FeeType.SecurityFee}
           transactionStatus={transaction.status}
         />
-        {transaction.swap && (
-          <FeeRowItem
-            fees={transaction.fees}
-            feeType={FeeType.AppFee}
-            transactionStatus={transaction.status}
-          />
-        )}
+        <FeeRowItem
+          fees={transaction.fees}
+          feeType={FeeType.AppFee}
+          transactionStatus={transaction.status}
+        />
+        <FeeRowItem
+          fees={transaction.fees}
+          feeType={FeeType.CrossChainFee}
+          transactionStatus={transaction.status}
+        />
       </View>
     </>
   )
