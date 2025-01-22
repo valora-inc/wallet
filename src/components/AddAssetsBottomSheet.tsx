@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleSmall,
   },
   touchable: {
-    backgroundColor: Colors.buttonSecondary,
+    backgroundColor: Colors.buttonSecondaryBackground,
     padding: Spacing.Regular16,
     flexDirection: 'row',
     gap: Spacing.Regular16,
