@@ -269,6 +269,9 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       ...commonAnalyticsProps,
       ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, poolNetworkId, tokensById),
     })
+    if (sameChainSwap) {
+      // fire new event (earn_deposit_execute_success)
+    }
     yield* put(
       depositSuccess({
         tokenId: depositTokenInfo.tokenId,

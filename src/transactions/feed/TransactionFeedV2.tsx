@@ -118,6 +118,7 @@ function trackCompletionOfCrossChainTxs(transactions: (TokenExchange | DepositOr
             : undefined,
       })
     } else if (tx.type === TokenTransactionTypeV2.CrossChainDeposit) {
+      // TODO(ACT-1514): fire event for cross-chain deposit (earn_deposit_execute_success)
     } else {
       // should never happen
       Logger.warn(TAG, 'Unknown cross-chain transaction type', tx)
