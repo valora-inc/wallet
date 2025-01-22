@@ -45,26 +45,32 @@ export function ReviewSummary(props: { children: ReactNode }) {
 }
 
 export function ReviewSummaryItem(props: {
-  header: string
+  label: string
   icon: ReactNode
-  title: string
-  subtitle?: string
+  primaryValue: string
+  secondaryValue?: string
   testID?: string
 }) {
   return (
     <View style={styles.reviewSummaryItem} testID={props.testID}>
-      <Text style={styles.reviewSummaryItemHeader} testID={`${props.testID}/Header`}>
-        {props.header}
+      <Text style={styles.reviewSummaryItemLabel} testID={`${props.testID}/Label`}>
+        {props.label}
       </Text>
       <View style={styles.reviewSummaryItemContent}>
         {props.icon}
-        <View style={styles.reviewSummaryItemTitlesWrapper}>
-          <Text style={styles.reviewSummaryItemTitle} testID={`${props.testID}/Title`}>
-            {props.title}
+        <View style={styles.reviewSummaryItemValuesWrapper}>
+          <Text
+            style={styles.reviewSummaryItemPrimaryValue}
+            testID={`${props.testID}/PrimaryValue`}
+          >
+            {props.primaryValue}
           </Text>
-          {!!props.subtitle && (
-            <Text style={styles.reviewSummaryItemSubtitle} testID={`${props.testID}/Subtitle`}>
-              {props.subtitle}
+          {!!props.secondaryValue && (
+            <Text
+              style={styles.reviewSummaryItemSecondaryValue}
+              testID={`${props.testID}/SecondaryValue`}
+            >
+              {props.secondaryValue}
             </Text>
           )}
         </View>
@@ -154,7 +160,7 @@ const styles = StyleSheet.create({
   reviewSummaryItem: {
     gap: Spacing.Tiny4,
   },
-  reviewSummaryItemHeader: {
+  reviewSummaryItemLabel: {
     ...typeScale.labelSmall,
     color: Colors.contentSecondary,
   },
@@ -163,13 +169,13 @@ const styles = StyleSheet.create({
     gap: Spacing.Smallest8,
     alignItems: 'center',
   },
-  reviewSummaryItemTitlesWrapper: {
+  reviewSummaryItemValuesWrapper: {
     flexShrink: 1,
   },
-  reviewSummaryItemTitle: {
+  reviewSummaryItemPrimaryValue: {
     ...typeScale.labelSemiBoldLarge,
   },
-  reviewSummaryItemSubtitle: {
+  reviewSummaryItemSecondaryValue: {
     ...typeScale.bodySmall,
     color: Colors.contentSecondary,
   },

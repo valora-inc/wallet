@@ -14,9 +14,9 @@ describe('ReviewTransaction', () => {
   it('uses the custom headerAction if provided', async () => {
     const tree = render(
       <ReviewTransaction
+        testID="Review"
         title="Custom HeaderAction"
         headerAction={<>Custom Left Action</>}
-        testID="Review"
       >
         <ReviewContent>
           <></>
@@ -32,25 +32,30 @@ describe('ReviewSummaryItem', () => {
   it('renders the title and optional subtitle', () => {
     const tree = render(
       <ReviewSummaryItem
-        header="Item Header"
-        title="Item Title"
-        subtitle="Item Subtitle"
-        icon={<>Item Icon</>}
         testID="MyItem"
+        label="Item Label"
+        primaryValue="Item Primary Value"
+        secondaryValue="Item Secondary Value"
+        icon={<>Item Icon</>}
       />
     )
 
-    expect(tree.getByTestId('MyItem/Header')).toHaveTextContent('Item Header')
-    expect(tree.getByTestId('MyItem/Title')).toHaveTextContent('Item Title')
-    expect(tree.getByTestId('MyItem/Subtitle')).toHaveTextContent('Item Subtitle')
+    expect(tree.getByTestId('MyItem/Label')).toHaveTextContent('Item Label')
+    expect(tree.getByTestId('MyItem/PrimaryValue')).toHaveTextContent('Item Primary Value')
+    expect(tree.getByTestId('MyItem/SecondaryValue')).toHaveTextContent('Item Secondary Value')
     expect(tree.getByTestId('MyItem')).toHaveTextContent('Item Icon')
   })
 
   it('does not render subtitle if not provided', () => {
     const tree = render(
-      <ReviewSummaryItem header="Header" title="Title" icon={<></>} testID="NoSubtitleItem" />
+      <ReviewSummaryItem
+        testID="NoSubtitleItem"
+        label="Label"
+        primaryValue="Primary Value"
+        icon={<></>}
+      />
     )
-    expect(tree.queryByTestId('NoSubtitleItem/Subtitle')).toBeNull()
+    expect(tree.queryByTestId('NoSubtitleItem/SecondaryValue')).toBeNull()
   })
 })
 
@@ -59,9 +64,9 @@ describe('ReviewDetailsItem', () => {
     const tree = render(
       <ReviewDetailsItem
         isLoading
+        testID="LoadingItem"
         label="Loading Label"
         value="Should not show"
-        testID="LoadingItem"
       />
     )
 
@@ -70,14 +75,14 @@ describe('ReviewDetailsItem', () => {
   })
 
   it('renders value text if isLoading is false', () => {
-    const tree = render(<ReviewDetailsItem label="Label" value="Value" testID="DetailsItem" />)
+    const tree = render(<ReviewDetailsItem testID="DetailsItem" label="Label" value="Value" />)
     expect(tree.queryByTestId('DetailsItem/Loader')).toBeNull()
     expect(tree.getByTestId('DetailsItem/Value')).toHaveTextContent('Value')
   })
 
   it('applies bold variant if specified', () => {
     const tree = render(
-      <ReviewDetailsItem label="Bold Label" value="Bold Value" variant="bold" testID="BoldItem" />
+      <ReviewDetailsItem testID="BoldItem" label="Bold Label" value="Bold Value" variant="bold" />
     )
     expect(tree.getByTestId('BoldItem/Label')).toHaveStyle(typeScale.labelSemiBoldMedium)
   })
