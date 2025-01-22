@@ -12,7 +12,7 @@ import variables from 'src/styles/variables'
 export function ReviewTransaction(props: {
   title: string
   children: ReactNode
-  headerAction?: ReactNode
+  headerLeftButton?: ReactNode
   testID?: string
 }) {
   const insets = useSafeAreaInsets()
@@ -21,7 +21,7 @@ export function ReviewTransaction(props: {
     <SafeAreaView style={styles.safeAreaView} edges={['top']} testID={props.testID}>
       <CustomHeader
         style={styles.header}
-        left={props.headerAction ?? <BackButton />}
+        left={props.headerLeftButton ?? <BackButton />}
         title={props.title}
       />
       <ScrollView

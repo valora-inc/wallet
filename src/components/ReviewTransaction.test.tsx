@@ -16,7 +16,7 @@ describe('ReviewTransaction', () => {
       <ReviewTransaction
         testID="Review"
         title="Custom HeaderAction"
-        headerAction={<>Custom Left Action</>}
+        headerLeftButton={<>Custom Left Button</>}
       >
         <ReviewContent>
           <></>
@@ -24,7 +24,7 @@ describe('ReviewTransaction', () => {
       </ReviewTransaction>
     )
 
-    expect(tree.getByTestId('Review')).toHaveTextContent('Custom Left Action')
+    expect(tree.getByTestId('Review')).toHaveTextContent('Custom Left Button')
   })
 })
 
