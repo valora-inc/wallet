@@ -1,18 +1,25 @@
+import BigNumber from 'bignumber.js'
 import React, { useMemo, type ReactNode } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import BackButton from 'src/components/BackButton'
 import ContactCircle from 'src/components/ContactCircle'
 import CustomHeader from 'src/components/header/CustomHeader'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import WalletIcon from 'src/icons/navigator/Wallet'
 import PhoneIcon from 'src/icons/Phone'
 import UserIcon from 'src/icons/User'
+import { LocalCurrencySymbol } from 'src/localCurrency/consts'
+import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { type Recipient } from 'src/recipients/recipient'
+import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 
 export function ReviewTransaction(props: {
@@ -184,6 +191,93 @@ export function ReviewFooter(props: { children: ReactNode }) {
   return <View style={styles.reviewFooter}>{props.children}</View>
 }
 
+export function ReviewTotalValue({
+  tokenInfo,
+  feeTokenInfo,
+  tokenAmount,
+  localAmount,
+  tokenFeeAmount,
+  localFeeAmount,
+}: {
+  tokenInfo: TokenBalance | undefined
+  feeTokenInfo: TokenBalance | undefined
+  tokenAmount: BigNumber | null
+  localAmount: BigNumber | null
+  tokenFeeAmount: BigNumber | undefined
+  localFeeAmount: BigNumber | null
+}) {
+  const { t } = useTranslation()
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
+
+  // if there are not token info or token amount then it should not even be possible to get to the review screen
+  if (!tokenInfo || !tokenAmount) {
+    return null
+  }
+
+  // if there are no fees then just format token amount
+  if (!feeTokenInfo || !tokenFeeAmount) {
+    return (
+      <Trans
+        i18nKey={'tokenAndLocalAmount_oneToken'}
+        context={localAmount ? undefined : 'noFiatPrice'}
+        tOptions={{
+          tokenAmount: formatValueToDisplay(tokenAmount),
+          localAmount: localAmount ? formatValueToDisplay(localAmount) : '',
+          tokenSymbol: tokenInfo.symbol,
+          localCurrencySymbol,
+        }}
+      >
+        <Text style={styles.totalPlusFeesLocalAmount} />
+      </Trans>
+    )
+  }
+
+  const sameToken = tokenInfo.tokenId === feeTokenInfo.tokenId
+  const haveLocalPrice =
+    !!tokenInfo.priceUsd && !!feeTokenInfo.priceUsd && localAmount && localFeeAmount
+
+  // if single token and have local price - return token and local amounts
+  if (sameToken && haveLocalPrice) {
+    return (
+      <Trans
+        i18nKey={'tokenAndLocalAmount_oneToken'}
+        tOptions={{
+          tokenAmount: formatValueToDisplay(tokenAmount.plus(tokenFeeAmount)),
+          localAmount: formatValueToDisplay(localAmount.plus(localFeeAmount)),
+          tokenSymbol: tokenInfo.symbol,
+          localCurrencySymbol,
+        }}
+      >
+        <Text style={styles.totalPlusFeesLocalAmount} />
+      </Trans>
+    )
+  }
+
+  // if single token but no local price - return token amount
+  if (sameToken && !haveLocalPrice) {
+    return t('tokenAmount', {
+      tokenAmount: tokenAmount.plus(tokenFeeAmount),
+      tokenSymbol: tokenInfo.symbol,
+    })
+  }
+
+  // if multiple tokens and have local price - return local amount
+  if (!sameToken && haveLocalPrice) {
+    return t('localAmount', {
+      localAmount: localAmount.plus(localFeeAmount),
+      localCurrencySymbol,
+    })
+  }
+
+  // otherwise there are multiple tokens with no local prices so return multiple token amounts
+  return t('reviewTransaction.totalAmount_mutlipleTokens_noFiatPrice', {
+    amount1: formatValueToDisplay(tokenAmount),
+    symbol1: tokenInfo.symbol,
+    amount2: formatValueToDisplay(tokenFeeAmount),
+    symbol2: feeTokenInfo.symbol,
+  })
+}
+
 const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
@@ -262,5 +356,8 @@ const styles = StyleSheet.create({
   loader: {
     height: '100%',
     width: '100%',
+  },
+  totalPlusFeesLocalAmount: {
+    color: Colors.contentSecondary,
   },
 })

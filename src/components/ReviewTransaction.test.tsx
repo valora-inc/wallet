@@ -1,13 +1,21 @@
 import { render } from '@testing-library/react-native'
+import BigNumber from 'bignumber.js'
 import React from 'react'
+import { View } from 'react-native'
+import { Provider } from 'react-redux'
 import { type Recipient } from 'src/recipients/recipient'
 import { typeScale } from 'src/styles/fonts'
+import { TokenBalance } from 'src/tokens/slice'
+import { convertTokenToLocalAmount } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
+import { createMockStore } from 'test/utils'
+import { mockCeloTokenId, mockCusdTokenId, mockTokenBalances } from 'test/values'
 import {
   ReviewContent,
   ReviewDetailsItem,
   ReviewSummaryItem,
   ReviewSummaryItemContact,
+  ReviewTotalValue,
   ReviewTransaction,
 } from './ReviewTransaction'
 
@@ -144,5 +152,107 @@ describe('ReviewDetailsItem', () => {
       <ReviewDetailsItem label="Bold Label" value="Bold Value" variant="bold" testID="BoldItem" />
     )
     expect(tree.getByTestId('BoldItem/Label')).toHaveStyle(typeScale.labelSemiBoldMedium)
+  })
+})
+
+describe('ReviewTotalValue', () => {
+  it.each([
+    {
+      tokenId: mockCeloTokenId,
+      feeTokenId: null,
+      amount: 10,
+      feeAmount: null,
+      priceUsd: '1',
+      title:
+        'returns token and local amounts only for send operation if there is no fee and local price is available',
+      result:
+        'tokenAndLocalAmount_oneToken, {"tokenAmount":"10.00","localAmount":"10.00","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
+    },
+    {
+      tokenId: mockCeloTokenId,
+      feeTokenId: null,
+      amount: 10,
+      feeAmount: null,
+      priceUsd: null,
+      title:
+        'returns only a token amount only for send operation if there is no fee and no local price available',
+      result:
+        'tokenAndLocalAmount_oneToken, {"context":"noFiatPrice","tokenAmount":"10.00","localAmount":"","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
+    },
+    {
+      tokenId: mockCeloTokenId,
+      feeTokenId: mockCeloTokenId,
+      amount: 10,
+      feeAmount: 0.5,
+      priceUsd: '1',
+      title:
+        'returns token and local amounts if send token and fee token are the same and local price is available',
+      result:
+        'tokenAndLocalAmount_oneToken, {"tokenAmount":"10.50","localAmount":"10.50","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
+    },
+    {
+      tokenId: mockCeloTokenId,
+      feeTokenId: mockCeloTokenId,
+      amount: 10,
+      feeAmount: 0.5,
+      priceUsd: null,
+      title:
+        "returns only a token amount if send token and fee token are the same but they don't have local price",
+      result: 'tokenAmount, {"tokenAmount":"10.5","tokenSymbol":"CELO"}',
+    },
+    {
+      tokenId: mockCusdTokenId,
+      feeTokenId: mockCeloTokenId,
+      amount: 10,
+      feeAmount: 0.5,
+      priceUsd: '1',
+      title:
+        'returns only a local amount if send token and fee token are different but local prices for both are available',
+      result: 'localAmount, {"localAmount":"10.5","localCurrencySymbol":"₱"}',
+    },
+    {
+      tokenId: mockCusdTokenId,
+      feeTokenId: mockCeloTokenId,
+      amount: 10,
+      feeAmount: 0.5,
+      priceUsd: null,
+      title:
+        'returns multiple token amounts if send token and fee token are different and no local prices available',
+      result:
+        'reviewTransaction.totalAmount_mutlipleTokens_noFiatPrice, {"amount1":"10.00","symbol1":"cUSD","amount2":"0.50","symbol2":"CELO"}',
+    },
+  ])('$title', ({ tokenId, feeTokenId, amount, feeAmount, priceUsd, result }) => {
+    const tokenInfo = { ...mockTokenBalances[tokenId], priceUsd } as unknown as TokenBalance
+    const feeTokenInfo = feeTokenId
+      ? ({
+          ...mockTokenBalances[feeTokenId],
+          priceUsd,
+        } as unknown as TokenBalance)
+      : undefined
+    const tokenAmount = new BigNumber(amount)
+    const localAmount = convertTokenToLocalAmount({ tokenAmount, tokenInfo, usdToLocalRate: '1' })
+    const tokenFeeAmount = feeAmount ? new BigNumber(feeAmount) : undefined
+    const localFeeAmount = tokenFeeAmount
+      ? convertTokenToLocalAmount({
+          tokenAmount: tokenFeeAmount,
+          tokenInfo: feeTokenInfo,
+          usdToLocalRate: '1',
+        })
+      : null
+    const tree = render(
+      <Provider store={createMockStore()}>
+        <View testID="Total">
+          <ReviewTotalValue
+            tokenInfo={tokenInfo}
+            feeTokenInfo={feeTokenInfo}
+            tokenAmount={tokenAmount}
+            localAmount={localAmount}
+            tokenFeeAmount={tokenFeeAmount}
+            localFeeAmount={localFeeAmount}
+          />
+        </View>
+      </Provider>
+    )
+    expect(tree.getByTestId('Total')).toHaveTextContent(result)
   })
 })
