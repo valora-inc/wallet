@@ -2846,10 +2846,12 @@
     "ctaAction_Deposit": "Deposit smaller amount",
     "ctaAction_Withdraw": "Withdraw smaller amount",
     "reviewTransaction": {
+      "totalPlusFees": "Total Plus Fees",
       "totalAmount_mutlipleTokens_noFiatPrice": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
     },
     "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
     "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+    "localAmount_noFiatPrice": "Price Unavailable",
     "tokenAndLocalAmount_oneToken": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
     "tokenAndLocalAmount_oneToken_noFiatPrice": "≈ {{tokenAmount}} {{tokenSymbol}}"
   }
