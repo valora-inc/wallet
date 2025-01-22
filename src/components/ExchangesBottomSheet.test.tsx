@@ -2,7 +2,6 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import ExchangesBottomSheet from 'src/components/ExchangesBottomSheet'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { getElementText } from 'test/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 
@@ -37,30 +36,30 @@ describe('ExchangesBottomSheet', () => {
     jest.clearAllMocks()
   })
 
-  function renderExchangesBottomSheet(visible: boolean) {
-    return render(
+  it('renders correctly', () => {
+    const { getByTestId } = render(
       <ExchangesBottomSheet
-        isVisible={visible}
         onExchangeSelected={onExchangeSelectedMock}
         onClose={onCloseMock}
         exchanges={exchanges}
+        forwardedRef={{ current: null }}
       />
     )
-  }
 
-  it('renders correctly', () => {
-    const tree = renderExchangesBottomSheet(true)
-    const { getByTestId } = tree
-
-    expect(tree.getByTestId('BottomSheetContainer')).toBeTruthy()
-
-    expect(getElementText(getByTestId('Coinbase Pro-Touchable'))).toBe('Coinbase Pro')
-    expect(getElementText(getByTestId('Bittrex-Touchable'))).toBe('Bittrex')
-    expect(getElementText(getByTestId('KuCoin-Touchable'))).toBe('KuCoin')
+    expect(getByTestId('Coinbase Pro-Touchable')).toHaveTextContent('Coinbase Pro')
+    expect(getByTestId('Bittrex-Touchable')).toHaveTextContent('Bittrex')
+    expect(getByTestId('KuCoin-Touchable')).toHaveTextContent('KuCoin')
   })
 
   it('fires callback on exchange press and navigates', () => {
-    const { getByTestId } = renderExchangesBottomSheet(true)
+    const { getByTestId } = render(
+      <ExchangesBottomSheet
+        onExchangeSelected={onExchangeSelectedMock}
+        onClose={onCloseMock}
+        exchanges={exchanges}
+        forwardedRef={{ current: null }}
+      />
+    )
 
     fireEvent.press(getByTestId('Coinbase Pro-Touchable'))
     expect(onExchangeSelectedMock).toHaveBeenLastCalledWith(exchanges[0])
@@ -79,17 +78,5 @@ describe('ExchangesBottomSheet', () => {
     expect(navigate).toHaveBeenLastCalledWith(Screens.WebViewScreen, {
       uri: exchanges[2].link,
     })
-  })
-
-  it('handles taps on the background correctly', () => {
-    const { getByTestId } = renderExchangesBottomSheet(true)
-
-    fireEvent.press(getByTestId('BackgroundTouchable'))
-    expect(onCloseMock).toHaveBeenCalled()
-  })
-
-  it('renders nothing if not visible', () => {
-    const { queryByTestId } = renderExchangesBottomSheet(false)
-    expect(queryByTestId('BottomSheetContainer')).toBeFalsy()
   })
 })
