@@ -203,10 +203,8 @@ exports[`SendConfirmation renders correctly 1`] = `
                     "lineHeight": 20,
                   }
                 }
-                testID="SendConfirmationToken/Header"
-              >
-                Sending
-              </Text>
+                testID="SendConfirmationToken/Label"
+              />
               <View
                 style={
                   {
@@ -275,23 +273,8 @@ exports[`SendConfirmation renders correctly 1`] = `
                         "lineHeight": 28,
                       }
                     }
-                    testID="SendConfirmationToken/Title"
-                  >
-                    tokenAmount, {"tokenAmount":"1.00","tokenSymbol":"cUSD"}
-                  </Text>
-                  <Text
-                    style={
-                      {
-                        "color": "#757575",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 14,
-                        "lineHeight": 20,
-                      }
-                    }
-                    testID="SendConfirmationToken/Subtitle"
-                  >
-                    localAmount, {"localAmount":"1.33","localCurrencySymbol":"₱"}
-                  </Text>
+                    testID="SendConfirmationToken/PrimaryValue"
+                  />
                 </View>
               </View>
             </View>
@@ -301,7 +284,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   "gap": 4,
                 }
               }
-              testID="SendConfirmationRecipient/Address"
+              testID="SendConfirmationRecipient"
             >
               <Text
                 style={
@@ -312,9 +295,9 @@ exports[`SendConfirmation renders correctly 1`] = `
                     "lineHeight": 20,
                   }
                 }
-                testID="SendConfirmationRecipient/Address/Header"
+                testID="SendConfirmationRecipient/Label"
               >
-                To
+                to
               </Text>
               <View
                 style={
@@ -356,9 +339,9 @@ exports[`SendConfirmation renders correctly 1`] = `
                   >
                     <svg
                       fill="none"
-                      height={19.692307692307693}
+                      height={20}
                       viewBox="0 0 20 20"
-                      width={19.692307692307693}
+                      width={20}
                     >
                       <path
                         d="M13.333 11.25c.361 0 .66-.118.896-.354s.354-.535.354-.896-.118-.66-.354-.896a1.214 1.214 0 0 0-.896-.354c-.36 0-.66.118-.896.354a1.214 1.214 0 0 0-.354.896c0 .361.118.66.354.896.237.236.535.354.896.354ZM4.167 17.5c-.459 0-.851-.163-1.178-.49a1.602 1.602 0 0 1-.489-1.177V4.167c0-.459.163-.851.49-1.178.327-.326.719-.49 1.177-.489h11.666c.459 0 .851.163 1.178.49.326.327.49.719.489 1.177V6.25h-1.667V4.167H4.167v11.666h11.666V13.75H17.5v2.083c0 .459-.163.851-.49 1.178-.327.326-.719.49-1.177.489H4.167Zm6.666-3.333c-.458 0-.85-.164-1.177-.49a1.602 1.602 0 0 1-.49-1.177v-5c0-.458.164-.85.49-1.178.327-.326.72-.49 1.177-.489h5.834c.458 0 .85.164 1.177.49.327.327.49.72.49 1.177v5c0 .458-.164.85-.49 1.178-.327.326-.72.49-1.177.489h-5.834Zm5.834-1.667v-5h-5.834v5h5.834Z"
@@ -383,7 +366,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                         "lineHeight": 28,
                       }
                     }
-                    testID="SendConfirmationRecipient/Address/Title"
+                    testID="SendConfirmationRecipient/PrimaryValue"
                   >
                     0x0000000000000000000000000000000000007E57
                   </Text>
@@ -543,7 +526,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   }
                   testID="SendConfirmationTotal/Value"
                 >
-                  localAmount, {"localAmount":"1.39783","localCurrencySymbol":"₱"}
+                  localAmountApprox, {"localAmount":"1.40","localCurrencySymbol":"₱"}
                 </Text>
               </View>
             </View>
@@ -617,6 +600,9 @@ exports[`SendConfirmation renders correctly 1`] = `
                     {
                       "alignItems": "center",
                       "backgroundColor": "#2E3338",
+                      "borderColor": "#2E3338",
+                      "borderRadius": 100,
+                      "borderWidth": 1,
                       "flexDirection": "row",
                       "flexGrow": 1,
                       "height": 48,

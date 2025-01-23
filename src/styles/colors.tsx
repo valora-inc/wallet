@@ -29,9 +29,18 @@ enum Colors {
   navigationBottomPrimary = '#2E3338', // color for text and icons on bottom navigation
   navigationBottomSecondary = '#757575', // secondary color for text and icons on bottom navigation
   bottomSheetHandle = '#757575', // color for bottom sheet handle
-  buttonPrimary = '#2E3338', // Primary button background, used for high-priority actions.
-  buttonSecondary = '#F8F9F9', // Secondary button background, for less emphasized actions or alternative options.
-  buttonTertiary = '#FFFFFF', // Tertiary button background, typically used for minimal or low-emphasis actions.
+  buttonPrimaryBackground = '#2E3338', // Background color for primary buttons (high-priority actions).
+  buttonPrimaryContent = '#FFFFFF', // Text and icon color for primary buttons.
+  buttonPrimaryBorder = '#2E3338', // Border color for primary buttons.
+  buttonSecondaryBackground = '#F8F9F9', // Background color for secondary buttons (less emphasized actions).
+  buttonSecondaryContent = '#2E3338', // Text and icon color for secondary buttons.
+  buttonSecondaryBorder = '#E6E6E6', // Border color for secondary buttons.
+  buttonTertiaryBackground = '#FFFFFF', // Background color for tertiary buttons (minimal or low-emphasis actions).
+  buttonTertiaryContent = '#2E3338', // Text and icon color for tertiary buttons.
+  buttonTertiaryBorder = '#E6E6E6', // Border color for tertiary buttons.
+  buttonQuickActionBackground = '#F1FDF1', // Background color for quick action buttons (specialized high-priority actions).
+  buttonQuickActionContent = '#137211', // Text and icon color for quick action buttons.
+  buttonQuickActionBorder = '#F1FDF1', // Border color for quick action buttons.
 
   // statuses and UI feedback colors
   disabled = '#E6E6E6', // Used for disabled elements that are non-interactive or visually de-emphasized.

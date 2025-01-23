@@ -563,6 +563,9 @@ exports[`SimplexScreen renders correctly 1`] = `
               {
                 "alignItems": "center",
                 "backgroundColor": "#2E3338",
+                "borderColor": "#2E3338",
+                "borderRadius": 100,
+                "borderWidth": 1,
                 "flexDirection": "row",
                 "flexGrow": 1,
                 "height": 48,
@@ -1150,6 +1153,9 @@ exports[`SimplexScreen renders correctly 2`] = `
               {
                 "alignItems": "center",
                 "backgroundColor": "#2E3338",
+                "borderColor": "#2E3338",
+                "borderRadius": 100,
+                "borderWidth": 1,
                 "flexDirection": "row",
                 "flexGrow": 1,
                 "height": 48,

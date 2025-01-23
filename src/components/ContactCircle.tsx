@@ -71,7 +71,7 @@ function ContactCircle({
 
     return (
       <DefaultIcon
-        size={iconSize / 1.625}
+        size={Math.round(iconSize / 1.625)}
         color={fontColor}
         backgroundColor={iconBackgroundColor}
       />

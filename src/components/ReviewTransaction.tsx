@@ -25,7 +25,7 @@ import Logger from 'src/utils/Logger'
 export function ReviewTransaction(props: {
   title: string
   children: ReactNode
-  headerAction?: ReactNode
+  headerLeftButton?: ReactNode
   testID?: string
 }) {
   const insets = useSafeAreaInsets()
@@ -34,7 +34,7 @@ export function ReviewTransaction(props: {
     <SafeAreaView style={styles.safeAreaView} edges={['top']} testID={props.testID}>
       <CustomHeader
         style={styles.header}
-        left={props.headerAction ?? <BackButton />}
+        left={props.headerLeftButton ?? <BackButton />}
         title={props.title}
       />
       <ScrollView
@@ -58,26 +58,32 @@ export function ReviewSummary(props: { children: ReactNode }) {
 }
 
 export function ReviewSummaryItem(props: {
-  header: string
+  label: string
   icon: ReactNode
-  title: string
-  subtitle?: string
+  primaryValue: string
+  secondaryValue?: string
   testID?: string
 }) {
   return (
     <View style={styles.reviewSummaryItem} testID={props.testID}>
-      <Text style={styles.reviewSummaryItemHeader} testID={`${props.testID}/Header`}>
-        {props.header}
+      <Text style={styles.reviewSummaryItemLabel} testID={`${props.testID}/Label`}>
+        {props.label}
       </Text>
       <View style={styles.reviewSummaryItemContent}>
         {props.icon}
-        <View style={styles.reviewSummaryItemTitlesWrapper}>
-          <Text style={styles.reviewSummaryItemTitle} testID={`${props.testID}/Title`}>
-            {props.title}
+        <View style={styles.reviewSummaryItemValuesWrapper}>
+          <Text
+            style={styles.reviewSummaryItemPrimaryValue}
+            testID={`${props.testID}/PrimaryValue`}
+          >
+            {props.primaryValue}
           </Text>
-          {!!props.subtitle && (
-            <Text style={styles.reviewSummaryItemSubtitle} testID={`${props.testID}/Subtitle`}>
-              {props.subtitle}
+          {!!props.secondaryValue && (
+            <Text
+              style={styles.reviewSummaryItemSecondaryValue}
+              testID={`${props.testID}/SecondaryValue`}
+            >
+              {props.secondaryValue}
             </Text>
           )}
         </View>
@@ -88,48 +94,47 @@ export function ReviewSummaryItem(props: {
 
 export function ReviewSummaryItemContact({
   testID,
-  header,
   recipient,
 }: {
   testID?: string
-  header: string
   recipient: Recipient
 }) {
+  const { t } = useTranslation()
   const contact = useMemo(() => {
     const phone = recipient.displayNumber || recipient.e164PhoneNumber
     if (recipient.name) {
-      return { title: recipient.name, subtitle: phone, icon: UserIcon, testID: 'Name' }
+      return { title: recipient.name, subtitle: phone, icon: UserIcon }
     }
 
     if (phone) {
-      return { title: phone, icon: PhoneIcon, testID: 'Phone' }
+      return { title: phone, icon: PhoneIcon }
     }
 
     if (recipient.address) {
-      return { title: recipient.address, icon: WalletIcon, testID: 'Address' }
+      return { title: recipient.address, icon: WalletIcon }
     }
   }, [recipient])
 
-  // Should never happen
+  // This should never happen
   if (!contact) {
     Logger.error(
       'ReviewSummaryItemContact',
-      `Transaction review could not render a contact item for recipient header: ${header}`
+      `Transaction review could not render a contact item for recipient`
     )
     return null
   }
 
   return (
     <ReviewSummaryItem
-      testID={`${testID}/${contact.testID}`}
-      header={header}
-      title={contact.title}
-      subtitle={contact.subtitle}
+      testID={testID}
+      label={t('to')}
+      primaryValue={contact.title}
+      secondaryValue={contact.subtitle}
       icon={
         <ContactCircle
           size={32}
           backgroundColor={Colors.backgroundTertiary}
-          foregroundColor={Colors.backgroundInverse}
+          foregroundColor={Colors.contentPrimary}
           recipient={recipient}
           DefaultIcon={contact.icon}
         />
@@ -218,7 +223,7 @@ export function ReviewTotalValue({
   if (!feeTokenInfo || !tokenFeeAmount) {
     return (
       <Trans
-        i18nKey={'tokenAndLocalAmount_oneToken'}
+        i18nKey={'tokenAndLocalAmountApprox_oneToken'}
         context={localAmount ? undefined : 'noFiatPrice'}
         tOptions={{
           tokenAmount: formatValueToDisplay(tokenAmount),
@@ -240,7 +245,7 @@ export function ReviewTotalValue({
   if (sameToken && haveLocalPrice) {
     return (
       <Trans
-        i18nKey={'tokenAndLocalAmount_oneToken'}
+        i18nKey={'tokenAndLocalAmountApprox_oneToken'}
         tOptions={{
           tokenAmount: formatValueToDisplay(tokenAmount.plus(tokenFeeAmount)),
           localAmount: formatValueToDisplay(localAmount.plus(localFeeAmount)),
@@ -255,7 +260,7 @@ export function ReviewTotalValue({
 
   // if single token but no local price - return token amount
   if (sameToken && !haveLocalPrice) {
-    return t('tokenAmount', {
+    return t('tokenAmountApprox', {
       tokenAmount: formatValueToDisplay(tokenAmount.plus(tokenFeeAmount)),
       tokenSymbol: tokenInfo.symbol,
     })
@@ -263,7 +268,7 @@ export function ReviewTotalValue({
 
   // if multiple tokens and have local price - return local amount
   if (!sameToken && haveLocalPrice) {
-    return t('localAmount', {
+    return t('localAmountApprox', {
       localAmount: formatValueToDisplay(localAmount.plus(localFeeAmount)),
       localCurrencySymbol,
     })
@@ -306,7 +311,7 @@ const styles = StyleSheet.create({
   reviewSummaryItem: {
     gap: Spacing.Tiny4,
   },
-  reviewSummaryItemHeader: {
+  reviewSummaryItemLabel: {
     ...typeScale.labelSmall,
     color: Colors.contentSecondary,
   },
@@ -315,13 +320,13 @@ const styles = StyleSheet.create({
     gap: Spacing.Smallest8,
     alignItems: 'center',
   },
-  reviewSummaryItemTitlesWrapper: {
+  reviewSummaryItemValuesWrapper: {
     flexShrink: 1,
   },
-  reviewSummaryItemTitle: {
+  reviewSummaryItemPrimaryValue: {
     ...typeScale.labelSemiBoldLarge,
   },
-  reviewSummaryItemSubtitle: {
+  reviewSummaryItemSecondaryValue: {
     ...typeScale.bodySmall,
     color: Colors.contentSecondary,
   },

@@ -235,7 +235,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
               icon={
                 isClaimed ? (
                   <Checkmark height={Spacing.Thick24} color={Colors.contentInverse} />
-                ) : null
+                ) : undefined
               }
               iconPositionLeft={false}
             />

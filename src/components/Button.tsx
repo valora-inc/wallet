@@ -1,5 +1,5 @@
 import { debounce } from 'lodash'
-import React, { ReactNode, useCallback } from 'react'
+import React, { ReactElement, ReactNode, useCallback } from 'react'
 import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import Colors from 'src/styles/colors'
@@ -34,10 +34,9 @@ export interface ButtonProps {
   style?: StyleProp<ViewStyle>
   text: string | ReactNode
   showLoading?: boolean // shows activity indicator on the button, but doesn't disable it. disabled must explicitly be set to disable the button
-  loadingColor?: string
   accessibilityLabel?: string
   type?: BtnTypes
-  icon?: ReactNode
+  icon?: ReactElement
   iconPositionLeft?: boolean
   disabled?: boolean
   size?: BtnSizes
@@ -59,7 +58,6 @@ export default React.memo(function Button(props: ButtonProps) {
     type = BtnTypes.PRIMARY,
     style,
     showLoading,
-    loadingColor,
     touchableStyle,
     iconMargin = 4,
     textSize = TextSizes.MEDIUM,
@@ -81,7 +79,7 @@ export default React.memo(function Button(props: ButtonProps) {
     [props.onPress, type, disabled]
   )
 
-  const { textColor, backgroundColor, opacity, borderColor } = getColors(type, disabled)
+  const { contentColor, backgroundColor, opacity, borderColor } = getColors(type, disabled)
 
   return (
     <View style={getStyleForWrapper(size, style)}>
@@ -97,20 +95,19 @@ export default React.memo(function Button(props: ButtonProps) {
           testID={testID}
         >
           {showLoading ? (
-            <ActivityIndicator
-              size="small"
-              color={loadingColor ?? textColor}
-              testID="Button/Loading"
-            />
+            <ActivityIndicator size="small" color={contentColor} testID="Button/Loading" />
           ) : (
             <>
-              {icon}
+              {!!icon &&
+                React.cloneElement(icon, {
+                  color: contentColor,
+                })}
               <Text
                 maxFontSizeMultiplier={1}
                 accessibilityLabel={accessibilityLabel}
                 style={{
                   ...getTextStyle(textSize),
-                  color: textColor,
+                  color: contentColor,
                   marginLeft: icon && iconPositionLeft ? iconMargin : 0,
                   marginRight: icon && !iconPositionLeft ? iconMargin : 0,
                 }}
@@ -154,32 +151,33 @@ const styles = StyleSheet.create({
 })
 
 function getColors(type: BtnTypes, disabled: boolean | undefined) {
-  let textColor
+  let contentColor
   let backgroundColor
   let opacity
   let borderColor
   switch (type) {
     case BtnTypes.PRIMARY:
-      textColor = Colors.contentInverse
-      backgroundColor = Colors.buttonPrimary
+      contentColor = Colors.buttonPrimaryContent
+      backgroundColor = Colors.buttonPrimaryBackground
+      borderColor = Colors.buttonPrimaryBorder
       opacity = disabled ? 0.25 : 1.0
       break
     case BtnTypes.SECONDARY:
-      textColor = Colors.contentPrimary
-      backgroundColor = Colors.buttonSecondary
-      borderColor = Colors.border
+      contentColor = Colors.buttonSecondaryContent
+      backgroundColor = Colors.buttonSecondaryBackground
+      borderColor = Colors.buttonSecondaryBorder
       opacity = disabled ? 0.5 : 1.0
       break
 
     case BtnTypes.TERTIARY:
-      textColor = Colors.contentPrimary
-      backgroundColor = Colors.backgroundPrimary
-      borderColor = Colors.border
+      contentColor = Colors.buttonTertiaryContent
+      backgroundColor = Colors.buttonTertiaryBackground
+      borderColor = Colors.buttonTertiaryBorder
       opacity = disabled ? 0.5 : 1.0
       break
   }
 
-  return { textColor, backgroundColor, opacity, borderColor }
+  return { contentColor, backgroundColor, opacity, borderColor }
 }
 
 function getStyle(
