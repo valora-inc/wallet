@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     bottom: 32,
     ...typeScale.labelSemiBoldSmall,
     lineHeight: undefined,
-    color: colors.contentInverse,
+    color: colors.qrTabBarSecondary,
     textAlign: 'center',
     paddingHorizontal: 30,
   },
