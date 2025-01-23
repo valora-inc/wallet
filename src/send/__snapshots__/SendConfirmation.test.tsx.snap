@@ -204,7 +204,9 @@ exports[`SendConfirmation renders correctly 1`] = `
                   }
                 }
                 testID="SendConfirmationToken/Label"
-              />
+              >
+                Sending
+              </Text>
               <View
                 style={
                   {
@@ -274,7 +276,22 @@ exports[`SendConfirmation renders correctly 1`] = `
                       }
                     }
                     testID="SendConfirmationToken/PrimaryValue"
-                  />
+                  >
+                    tokenAmount, {"tokenAmount":"1.00","tokenSymbol":"cUSD"}
+                  </Text>
+                  <Text
+                    style={
+                      {
+                        "color": "#757575",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 14,
+                        "lineHeight": 20,
+                      }
+                    }
+                    testID="SendConfirmationToken/SecondaryValue"
+                  >
+                    localAmount, {"localAmount":"1.33","localCurrencySymbol":"₱"}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -476,7 +493,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   }
                   testID="SendConfirmationFee/Value"
                 >
-                  tokenAndLocalAmount_oneToken, {"tokenAmount":"0.01","localAmount":"0.067","tokenSymbol":"CELO","localCurrencySymbol":"₱"}
+                  tokenAndLocalAmountApprox_oneToken, {"tokenAmount":"0.01","localAmount":"0.067","tokenSymbol":"CELO","localCurrencySymbol":"₱"}
                   <Text />
                 </Text>
               </View>

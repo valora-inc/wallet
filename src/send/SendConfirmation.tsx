@@ -153,20 +153,20 @@ export default function SendConfirmation(props: Props) {
   return (
     <ReviewTransaction
       title="Review Send"
-      headerAction={<BackButton eventName={SendEvents.send_confirm_back} />}
+      headerLeftButton={<BackButton eventName={SendEvents.send_confirm_back} />}
     >
       <ReviewContent>
         <ReviewSummary>
           {tokenInfo && (
             <ReviewSummaryItem
               testID="SendConfirmationToken"
-              header="Sending"
+              label="Sending"
               icon={<TokenIcon token={tokenInfo} />}
-              title={t('tokenAmount', {
+              primaryValue={t('tokenAmount', {
                 tokenAmount: formatValueToDisplay(tokenAmount),
                 tokenSymbol: tokenInfo.symbol ?? '',
               })}
-              subtitle={t('localAmount', {
+              secondaryValue={t('localAmount', {
                 localAmount: formatValueToDisplay(localAmount ?? new BigNumber(0)),
                 localCurrencySymbol,
                 context: localAmount ? undefined : 'noFiatPrice',
@@ -174,11 +174,7 @@ export default function SendConfirmation(props: Props) {
             />
           )}
 
-          <ReviewSummaryItemContact
-            testID="SendConfirmationRecipient"
-            header="To"
-            recipient={recipient}
-          />
+          <ReviewSummaryItemContact testID="SendConfirmationRecipient" recipient={recipient} />
         </ReviewSummary>
 
         <ReviewDetails>
@@ -193,7 +189,7 @@ export default function SendConfirmation(props: Props) {
             isLoading={prepareTransactionLoading}
             value={
               <Trans
-                i18nKey={'tokenAndLocalAmount_oneToken'}
+                i18nKey={'tokenAndLocalAmountApprox_oneToken'}
                 context={localFeeAmount?.gt(0) ? undefined : 'noFiatPrice'}
                 tOptions={{
                   tokenAmount: networkFeeDisplayAmount.token,
