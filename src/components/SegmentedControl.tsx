@@ -32,12 +32,12 @@ export default function SegmentedControl({ values, selectedIndex = 0, onChange }
   const color = interpolateColor(
     selectedIndex,
     [0.5, 1],
-    [colors.backgroundInverse, colors.backgroundPrimary]
+    [colors.qrTabBarPrimary, colors.qrTabBarSecondary]
   )
   const colorInverted = interpolateColor(
     selectedIndex,
     [0.5, 1],
-    [colors.backgroundPrimary, colors.backgroundInverse]
+    [colors.qrTabBarSecondary, colors.qrTabBarPrimary]
   )
 
   const onLayout = ({
@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: colors.backgroundInverse,
   },
   maskedContainer: {
     // Transparent background because mask is based off alpha channel.

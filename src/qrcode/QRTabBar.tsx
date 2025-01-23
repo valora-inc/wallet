@@ -41,7 +41,7 @@ export default function QRTabBar({
     [state, descriptors]
   )
 
-  const color = state.index === 0 ? colors.backgroundInverse : colors.backgroundPrimary
+  const color = state.index === 0 ? colors.qrTabBarPrimary : colors.qrTabBarSecondary
   const shareOpacity = interpolate(state.index, [0, 0.1], [1, 0], Extrapolation.CLAMP)
 
   const onPressClose = () => {

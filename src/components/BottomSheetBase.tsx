@@ -32,7 +32,12 @@ const BottomSheetBase = ({
 
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
-      <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
+      <BottomSheetBackdrop
+        {...props}
+        style={[props.style, styles.bottomSheetBackdrop]}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+      />
     ),
     []
   )
