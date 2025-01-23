@@ -100,7 +100,7 @@ export default function QRCodeDisplay(props: Props) {
       <Button
         text={t('fiatExchangeFlow.exchange.copyAddress')}
         onPress={onPressCopy}
-        icon={<CopyIcon color={colors.contentInverse} />}
+        icon={<CopyIcon />}
         iconMargin={12}
         iconPositionLeft={false}
         testID="copyButton"

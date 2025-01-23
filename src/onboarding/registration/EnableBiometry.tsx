@@ -149,11 +149,8 @@ export default function EnableBiometry({ navigation }: Props) {
           size={BtnSizes.FULL}
           type={BtnTypes.PRIMARY}
           testID="EnableBiometryButton"
-          icon={
-            supportedBiometryType ? (
-              <View style={styles.biometryIcon}>{biometryIconMap[supportedBiometryType]}</View>
-            ) : undefined
-          }
+          icon={supportedBiometryType ? biometryIconMap[supportedBiometryType] : undefined}
+          iconMargin={Spacing.Smallest8}
         />
         <Button
           onPress={onPressSkip}
@@ -184,9 +181,6 @@ const styles = StyleSheet.create({
   guideText: {
     ...typeScale.bodyMedium,
     textAlign: 'center',
-  },
-  biometryIcon: {
-    paddingRight: 4,
   },
   buttonContainer: {
     gap: Spacing.Smallest8,
