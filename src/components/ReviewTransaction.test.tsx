@@ -165,7 +165,7 @@ describe('ReviewTotalValue', () => {
       title:
         'returns token and local amounts only for send operation if there is no fee and local price is available',
       result:
-        'tokenAndLocalAmount_oneToken, {"tokenAmount":"10.00","localAmount":"10.00","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
+        'tokenAndLocalAmountApprox_oneToken, {"tokenAmount":"10.00","localAmount":"10.00","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
     },
     {
       tokenId: mockCeloTokenId,
@@ -176,7 +176,7 @@ describe('ReviewTotalValue', () => {
       title:
         'returns only a token amount only for send operation if there is no fee and no local price available',
       result:
-        'tokenAndLocalAmount_oneToken, {"context":"noFiatPrice","tokenAmount":"10.00","localAmount":"","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
+        'tokenAndLocalAmountApprox_oneToken, {"context":"noFiatPrice","tokenAmount":"10.00","localAmount":"","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
     },
     {
       tokenId: mockCeloTokenId,
@@ -187,7 +187,7 @@ describe('ReviewTotalValue', () => {
       title:
         'returns token and local amounts if send token and fee token are the same and local price is available',
       result:
-        'tokenAndLocalAmount_oneToken, {"tokenAmount":"10.50","localAmount":"10.50","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
+        'tokenAndLocalAmountApprox_oneToken, {"tokenAmount":"10.50","localAmount":"10.50","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
     },
     {
       tokenId: mockCeloTokenId,
@@ -197,7 +197,7 @@ describe('ReviewTotalValue', () => {
       priceUsd: null,
       title:
         "returns only a token amount if send token and fee token are the same but they don't have local price",
-      result: 'tokenAmount, {"tokenAmount":"10.5","tokenSymbol":"CELO"}',
+      result: 'tokenAmountApprox, {"tokenAmount":"10.50","tokenSymbol":"CELO"}',
     },
     {
       tokenId: mockCusdTokenId,
@@ -207,7 +207,7 @@ describe('ReviewTotalValue', () => {
       priceUsd: '1',
       title:
         'returns only a local amount if send token and fee token are different but local prices for both are available',
-      result: 'localAmount, {"localAmount":"10.5","localCurrencySymbol":"₱"}',
+      result: 'localAmountApprox, {"localAmount":"10.50","localCurrencySymbol":"₱"}',
     },
     {
       tokenId: mockCusdTokenId,
