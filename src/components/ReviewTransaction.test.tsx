@@ -25,9 +25,9 @@ describe('ReviewTransaction', () => {
   it('uses the custom headerAction if provided', async () => {
     const tree = render(
       <ReviewTransaction
-        title="Custom HeaderAction"
-        headerAction={<>Custom Left Action</>}
         testID="Review"
+        title="Custom HeaderAction"
+        headerLeftButton={<>Custom Left Button</>}
       >
         <ReviewContent>
           <></>
@@ -35,7 +35,7 @@ describe('ReviewTransaction', () => {
       </ReviewTransaction>
     )
 
-    expect(tree.getByTestId('Review')).toHaveTextContent('Custom Left Action')
+    expect(tree.getByTestId('Review')).toHaveTextContent('Custom Left Button')
   })
 })
 
@@ -43,25 +43,30 @@ describe('ReviewSummaryItem', () => {
   it('renders the title and optional subtitle', () => {
     const tree = render(
       <ReviewSummaryItem
-        header="Item Header"
-        title="Item Title"
-        subtitle="Item Subtitle"
-        icon={<>Item Icon</>}
         testID="MyItem"
+        label="Item Label"
+        primaryValue="Item Primary Value"
+        secondaryValue="Item Secondary Value"
+        icon={<>Item Icon</>}
       />
     )
 
-    expect(tree.getByTestId('MyItem/Header')).toHaveTextContent('Item Header')
-    expect(tree.getByTestId('MyItem/Title')).toHaveTextContent('Item Title')
-    expect(tree.getByTestId('MyItem/Subtitle')).toHaveTextContent('Item Subtitle')
+    expect(tree.getByTestId('MyItem/Label')).toHaveTextContent('Item Label')
+    expect(tree.getByTestId('MyItem/PrimaryValue')).toHaveTextContent('Item Primary Value')
+    expect(tree.getByTestId('MyItem/SecondaryValue')).toHaveTextContent('Item Secondary Value')
     expect(tree.getByTestId('MyItem')).toHaveTextContent('Item Icon')
   })
 
   it('does not render subtitle if not provided', () => {
     const tree = render(
-      <ReviewSummaryItem header="Header" title="Title" icon={<></>} testID="NoSubtitleItem" />
+      <ReviewSummaryItem
+        testID="NoSubtitleItem"
+        label="Label"
+        primaryValue="Primary Value"
+        icon={<></>}
+      />
     )
-    expect(tree.queryByTestId('NoSubtitleItem/Subtitle')).toBeNull()
+    expect(tree.queryByTestId('NoSubtitleItem/SecondaryValue')).toBeNull()
   })
 })
 
@@ -72,13 +77,10 @@ describe('ReviewSummaryItemContact', () => {
       displayNumber: '+111111111',
       e164PhoneNumber: '+222222222',
     } as Recipient
-    const tree = render(
-      <ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />
-    )
+    const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
 
-    expect(tree.getByTestId('ContactItem/Name/Header')).toHaveTextContent('Contact')
-    expect(tree.getByTestId('ContactItem/Name/Title')).toHaveTextContent('John Doe')
-    expect(tree.getByTestId('ContactItem/Name/Subtitle')).toHaveTextContent('+111111111')
+    expect(tree.getByTestId('ContactItem/PrimaryValue')).toHaveTextContent('John Doe')
+    expect(tree.getByTestId('ContactItem/SecondaryValue')).toHaveTextContent('+111111111')
   })
 
   it.each([
@@ -86,25 +88,23 @@ describe('ReviewSummaryItemContact', () => {
       phoneNumberType: 'displayNumber',
       displayNumber: '+111111111',
       e164PhoneNumber: '+222222222',
-      phoneToShow: '+111111111',
+      expectedDisplayedValue: '+111111111',
     },
 
     {
       phoneNumberType: 'e164PhoneNumber',
       displayNumber: undefined,
       e164PhoneNumber: '+222222222',
-      phoneToShow: '+222222222',
+      expectedDisplayedValue: '+222222222',
     },
   ])(
     'displays only $phoneNumberType phone if name is not available',
-    ({ displayNumber, e164PhoneNumber, phoneToShow }) => {
+    ({ displayNumber, e164PhoneNumber, expectedDisplayedValue }) => {
       const recipient = { displayNumber, e164PhoneNumber } as Recipient
-      const tree = render(
-        <ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />
-      )
+      const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
 
-      expect(tree.getByTestId('ContactItem/Phone/Title')).toHaveTextContent(phoneToShow)
-      expect(tree.queryByTestId('ContactItem/Phone/Subtitle')).toBeNull()
+      expect(tree.getByTestId('ContactItem/PrimaryValue')).toHaveTextContent(expectedDisplayedValue)
+      expect(tree.queryByTestId('ContactItem/SecondaryValue')).toBeNull()
     }
   )
 
@@ -112,17 +112,16 @@ describe('ReviewSummaryItemContact', () => {
     const recipient = {
       address: '0x123456789',
     } as Recipient
-    const tree = render(
-      <ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />
-    )
+    const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
 
-    expect(tree.getByTestId('ContactItem/Address/Title')).toHaveTextContent('0x123456789')
+    expect(tree.getByTestId('ContactItem/PrimaryValue')).toHaveTextContent('0x123456789')
   })
 
   it('logs an error if no name/phone/address exist', () => {
     const recipient = {} as Recipient
-    render(<ReviewSummaryItemContact header="Contact" recipient={recipient} testID="ContactItem" />)
+    const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
     expect(Logger.error).toHaveBeenCalledTimes(1)
+    expect(tree.toJSON()).toBeNull()
   })
 })
 
@@ -131,9 +130,9 @@ describe('ReviewDetailsItem', () => {
     const tree = render(
       <ReviewDetailsItem
         isLoading
+        testID="LoadingItem"
         label="Loading Label"
         value="Should not show"
-        testID="LoadingItem"
       />
     )
 
@@ -142,14 +141,14 @@ describe('ReviewDetailsItem', () => {
   })
 
   it('renders value text if isLoading is false', () => {
-    const tree = render(<ReviewDetailsItem label="Label" value="Value" testID="DetailsItem" />)
+    const tree = render(<ReviewDetailsItem testID="DetailsItem" label="Label" value="Value" />)
     expect(tree.queryByTestId('DetailsItem/Loader')).toBeNull()
     expect(tree.getByTestId('DetailsItem/Value')).toHaveTextContent('Value')
   })
 
   it('applies bold variant if specified', () => {
     const tree = render(
-      <ReviewDetailsItem label="Bold Label" value="Bold Value" variant="bold" testID="BoldItem" />
+      <ReviewDetailsItem testID="BoldItem" label="Bold Label" value="Bold Value" variant="bold" />
     )
     expect(tree.getByTestId('BoldItem/Label')).toHaveStyle(typeScale.labelSemiBoldMedium)
   })
