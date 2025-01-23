@@ -223,7 +223,7 @@ export function ReviewTotalValue({
   if (!feeTokenInfo || !tokenFeeAmount) {
     return (
       <Trans
-        i18nKey={'tokenAndLocalAmount_oneToken'}
+        i18nKey={'tokenAndLocalAmountApprox_oneToken'}
         context={localAmount ? undefined : 'noFiatPrice'}
         tOptions={{
           tokenAmount: formatValueToDisplay(tokenAmount),
@@ -245,7 +245,7 @@ export function ReviewTotalValue({
   if (sameToken && haveLocalPrice) {
     return (
       <Trans
-        i18nKey={'tokenAndLocalAmount_oneToken'}
+        i18nKey={'tokenAndLocalAmountApprox_oneToken'}
         tOptions={{
           tokenAmount: formatValueToDisplay(tokenAmount.plus(tokenFeeAmount)),
           localAmount: formatValueToDisplay(localAmount.plus(localFeeAmount)),
@@ -260,7 +260,7 @@ export function ReviewTotalValue({
 
   // if single token but no local price - return token amount
   if (sameToken && !haveLocalPrice) {
-    return t('tokenAmount', {
+    return t('tokenAmountApprox', {
       tokenAmount: formatValueToDisplay(tokenAmount.plus(tokenFeeAmount)),
       tokenSymbol: tokenInfo.symbol,
     })
@@ -268,7 +268,7 @@ export function ReviewTotalValue({
 
   // if multiple tokens and have local price - return local amount
   if (!sameToken && haveLocalPrice) {
-    return t('localAmount', {
+    return t('localAmountApprox', {
       localAmount: formatValueToDisplay(localAmount.plus(localFeeAmount)),
       localCurrencySymbol,
     })
