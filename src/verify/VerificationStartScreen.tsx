@@ -1,6 +1,6 @@
 import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, BackHandler, StyleSheet, Text, View } from 'react-native'
@@ -16,8 +16,8 @@ import { getPhoneNumberDetails } from 'src/account/utils'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import InfoBottomSheet from 'src/components/InfoBottomSheet'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
@@ -45,7 +45,6 @@ function VerificationStartScreen({
   route,
   navigation,
 }: NativeStackScreenProps<StackParamList, Screens.VerificationStartScreen>) {
-  const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)
   const [phoneNumberInfo, setPhoneNumberInfo] = useState(() =>
     getPhoneNumberDetails(
       cachedNumber || '',
@@ -55,6 +54,7 @@ function VerificationStartScreen({
   )
   const [signedMessageCreated, setSignedMessageCreated] = useState(false)
 
+  const infoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const headerHeight = useHeaderHeight()
@@ -100,11 +100,11 @@ function VerificationStartScreen({
 
   const onPressLearnMore = () => {
     AppAnalytics.track(PhoneVerificationEvents.phone_verification_learn_more)
-    setShowLearnMoreDialog(true)
+    infoBottomSheetRef.current?.snapToIndex(0)
   }
 
   const onPressLearnMoreDismiss = () => {
-    setShowLearnMoreDialog(false)
+    infoBottomSheetRef.current?.close()
   }
 
   useLayoutEffect(() => {
@@ -247,13 +247,20 @@ function VerificationStartScreen({
         </TextButton>
       </View>
       <KeyboardSpacer />
-      <InfoBottomSheet
-        isVisible={showLearnMoreDialog}
+      <BottomSheet
+        forwardedRef={infoBottomSheetRef}
         title={t('phoneVerificationScreen.learnMore.title')}
-        body={t('phoneVerificationScreen.learnMore.body')}
-        onDismiss={onPressLearnMoreDismiss}
-        testID="PhoneVerificationLearnMoreDialog"
-      />
+        description={t('phoneVerificationScreen.learnMore.body')}
+        testId="PhoneVerificationLearnMoreDialog"
+      >
+        <Button
+          text={t('dismiss')}
+          onPress={onPressLearnMoreDismiss}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+          style={styles.dismissHelpButton}
+        />
+      </BottomSheet>
     </SafeAreaView>
   )
 }
@@ -295,6 +302,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.buttonSecondary,
     borderWidth: 1,
     borderColor: colors.border,
+  },
+  dismissHelpButton: {
+    marginTop: Spacing.Thick24,
   },
 })
 

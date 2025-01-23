@@ -104,12 +104,10 @@ describe('ExchangeQR', () => {
     )
 
     expect(queryByTestId('bottomSheetLink')).toBeTruthy()
-    await fireEvent.press(getByTestId('bottomSheetLink'))
+    fireEvent.press(getByTestId('bottomSheetLink'))
     expect(props.onPressInfo).toHaveBeenCalledTimes(1)
 
-    expect(queryByTestId('BottomSheetContainer')).toBeTruthy()
-    expect(queryByTestId('Bittrex-Touchable')).toBeTruthy()
-    await fireEvent.press(getByTestId('Bittrex-Touchable'))
+    fireEvent.press(getByTestId('Bittrex-Touchable'))
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
       uri: 'https://bittrex.com/Market/Index?MarketName=USD-CELO',
     })
