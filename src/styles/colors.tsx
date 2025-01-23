@@ -15,7 +15,6 @@ enum Colors {
 
   // borders, shadows, highlights, visual effects
   border = '#E6E6E6',
-  shadow = '#2E3338', // shadow base color
   softShadow = 'rgba(156, 164, 169, 0.4)',
   lightShadow = 'rgba(48, 46, 37, 0.15)',
   barShadow = 'rgba(129, 134, 139, 0.5)',
