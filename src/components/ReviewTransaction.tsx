@@ -1,4 +1,5 @@
 import React, { useMemo, type ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
@@ -87,13 +88,12 @@ export function ReviewSummaryItem(props: {
 
 export function ReviewSummaryItemContact({
   testID,
-  label,
   recipient,
 }: {
   testID?: string
-  label: string
   recipient: Recipient
 }) {
+  const { t } = useTranslation()
   const contact = useMemo(() => {
     const phone = recipient.displayNumber || recipient.e164PhoneNumber
     if (recipient.name) {
@@ -121,7 +121,7 @@ export function ReviewSummaryItemContact({
   return (
     <ReviewSummaryItem
       testID={testID}
-      label={label}
+      label={t('to')}
       primaryValue={contact.title}
       secondaryValue={contact.subtitle}
       icon={
