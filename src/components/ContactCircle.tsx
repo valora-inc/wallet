@@ -70,11 +70,7 @@ function ContactCircle({
     }
 
     return (
-      <DefaultIcon
-        size={iconSize / 1.625}
-        color={fontColor}
-        backgroundColor={iconBackgroundColor}
-      />
+      <DefaultIcon size={iconSize / 1.5} color={fontColor} backgroundColor={iconBackgroundColor} />
     )
   }
 

@@ -97,15 +97,15 @@ export function ReviewSummaryItemContact({
   const contact = useMemo(() => {
     const phone = recipient.displayNumber || recipient.e164PhoneNumber
     if (recipient.name) {
-      return { title: recipient.name, subtitle: phone, icon: UserIcon, testID: 'Name' }
+      return { title: recipient.name, subtitle: phone, icon: UserIcon }
     }
 
     if (phone) {
-      return { title: phone, icon: PhoneIcon, testID: 'Phone' }
+      return { title: phone, icon: PhoneIcon }
     }
 
     if (recipient.address) {
-      return { title: recipient.address, icon: WalletIcon, testID: 'Address' }
+      return { title: recipient.address, icon: WalletIcon }
     }
   }, [recipient])
 
@@ -113,14 +113,14 @@ export function ReviewSummaryItemContact({
   if (!contact) {
     Logger.error(
       'ReviewSummaryItemContact',
-      `Transaction review could not render a contact item for recipient header: ${label}`
+      `Transaction review could not render a contact item for recipient`
     )
     return null
   }
 
   return (
     <ReviewSummaryItem
-      testID={`${testID}/${contact.testID}`}
+      testID={testID}
       label={label}
       primaryValue={contact.title}
       secondaryValue={contact.subtitle}
@@ -128,7 +128,7 @@ export function ReviewSummaryItemContact({
         <ContactCircle
           size={32}
           backgroundColor={Colors.backgroundTertiary}
-          foregroundColor={Colors.backgroundInverse}
+          foregroundColor={Colors.contentPrimary}
           recipient={recipient}
           DefaultIcon={contact.icon}
         />
