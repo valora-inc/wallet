@@ -48,6 +48,7 @@
     "clevertap-react-native": "^2.2.1",
     "expo": "~52.0.23",
     "expo-build-properties": "~0.13.0",
+    "expo-constants": "~17.0.4",
     "expo-dev-client": "~5.0.0",
     "expo-splash-screen": "~0.29.13",
     "expo-status-bar": "~2.0.0",
@@ -89,6 +90,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@config-plugins/detox": "^9.0.0",
+    "@expo/config-plugins": "~9.0.12",
     "@faker-js/faker": "^5.5.3",
     "@mento-protocol/mento-sdk": "^0.2.3",
     "@types/fs-extra": "^9.0.13",
@@ -98,7 +100,6 @@
     "dotenv": "^16.3.1",
     "ethers": "^5.7.2",
     "expect": "^29.7.0",
-    "@expo/config-plugins": "~9.0.12",
     "lodash": "^4.17.21",
     "ts-node": "^10.9.2",
     "ts-retry-promise": "^0.6.0",
