@@ -38,6 +38,7 @@ const config: KnipConfig = {
     'src/account/__mocks__/Persona.tsx', // unit test mocks
     'src/firebase/remoteConfigValuesDefaults.e2e.ts', // e2e test setup
     'src/setupE2eEnv.e2e.ts', // e2e test setup
+    'src/components/ReviewTransaction.tsx', // will be removed once used in SendConfirmation
   ],
 }
 
