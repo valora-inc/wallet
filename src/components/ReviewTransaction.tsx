@@ -18,7 +18,7 @@ import Logger from 'src/utils/Logger'
 export function ReviewTransaction(props: {
   title: string
   children: ReactNode
-  headerAction?: ReactNode
+  headerLeftButton?: ReactNode
   testID?: string
 }) {
   const insets = useSafeAreaInsets()
@@ -27,7 +27,7 @@ export function ReviewTransaction(props: {
     <SafeAreaView style={styles.safeAreaView} edges={['top']} testID={props.testID}>
       <CustomHeader
         style={styles.header}
-        left={props.headerAction ?? <BackButton />}
+        left={props.headerLeftButton ?? <BackButton />}
         title={props.title}
       />
       <ScrollView
@@ -51,26 +51,32 @@ export function ReviewSummary(props: { children: ReactNode }) {
 }
 
 export function ReviewSummaryItem(props: {
-  header: string
+  label: string
   icon: ReactNode
-  title: string
-  subtitle?: string
+  primaryValue: string
+  secondaryValue?: string
   testID?: string
 }) {
   return (
     <View style={styles.reviewSummaryItem} testID={props.testID}>
-      <Text style={styles.reviewSummaryItemHeader} testID={`${props.testID}/Header`}>
-        {props.header}
+      <Text style={styles.reviewSummaryItemLabel} testID={`${props.testID}/Label`}>
+        {props.label}
       </Text>
       <View style={styles.reviewSummaryItemContent}>
         {props.icon}
-        <View style={styles.reviewSummaryItemTitlesWrapper}>
-          <Text style={styles.reviewSummaryItemTitle} testID={`${props.testID}/Title`}>
-            {props.title}
+        <View style={styles.reviewSummaryItemValuesWrapper}>
+          <Text
+            style={styles.reviewSummaryItemPrimaryValue}
+            testID={`${props.testID}/PrimaryValue`}
+          >
+            {props.primaryValue}
           </Text>
-          {!!props.subtitle && (
-            <Text style={styles.reviewSummaryItemSubtitle} testID={`${props.testID}/Subtitle`}>
-              {props.subtitle}
+          {!!props.secondaryValue && (
+            <Text
+              style={styles.reviewSummaryItemSecondaryValue}
+              testID={`${props.testID}/SecondaryValue`}
+            >
+              {props.secondaryValue}
             </Text>
           )}
         </View>
@@ -81,11 +87,11 @@ export function ReviewSummaryItem(props: {
 
 export function ReviewSummaryItemContact({
   testID,
-  header,
+  label,
   recipient,
 }: {
   testID?: string
-  header: string
+  label: string
   recipient: Recipient
 }) {
   const contact = useMemo(() => {
@@ -107,7 +113,7 @@ export function ReviewSummaryItemContact({
   if (!contact) {
     Logger.error(
       'ReviewSummaryItemContact',
-      `Transaction review could not render a contact item for recipient header: ${header}`
+      `Transaction review could not render a contact item for recipient header: ${label}`
     )
     return null
   }
@@ -115,9 +121,9 @@ export function ReviewSummaryItemContact({
   return (
     <ReviewSummaryItem
       testID={`${testID}/${contact.testID}`}
-      header={header}
-      title={contact.title}
-      subtitle={contact.subtitle}
+      label={label}
+      primaryValue={contact.title}
+      secondaryValue={contact.subtitle}
       icon={
         <ContactCircle
           size={32}
@@ -212,7 +218,7 @@ const styles = StyleSheet.create({
   reviewSummaryItem: {
     gap: Spacing.Tiny4,
   },
-  reviewSummaryItemHeader: {
+  reviewSummaryItemLabel: {
     ...typeScale.labelSmall,
     color: Colors.contentSecondary,
   },
@@ -221,13 +227,13 @@ const styles = StyleSheet.create({
     gap: Spacing.Smallest8,
     alignItems: 'center',
   },
-  reviewSummaryItemTitlesWrapper: {
+  reviewSummaryItemValuesWrapper: {
     flexShrink: 1,
   },
-  reviewSummaryItemTitle: {
+  reviewSummaryItemPrimaryValue: {
     ...typeScale.labelSemiBoldLarge,
   },
-  reviewSummaryItemSubtitle: {
+  reviewSummaryItemSecondaryValue: {
     ...typeScale.bodySmall,
     color: Colors.contentSecondary,
   },
