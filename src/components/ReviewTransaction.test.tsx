@@ -1,10 +1,13 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
+import { type Recipient } from 'src/recipients/recipient'
 import { typeScale } from 'src/styles/fonts'
+import Logger from 'src/utils/Logger'
 import {
   ReviewContent,
   ReviewDetailsItem,
   ReviewSummaryItem,
+  ReviewSummaryItemContact,
   ReviewTransaction,
 } from './ReviewTransaction'
 
@@ -56,6 +59,61 @@ describe('ReviewSummaryItem', () => {
       />
     )
     expect(tree.queryByTestId('NoSubtitleItem/SecondaryValue')).toBeNull()
+  })
+})
+
+describe('ReviewSummaryItemContact', () => {
+  it('displays name + phone if recipient has a name and phone number', () => {
+    const recipient = {
+      name: 'John Doe',
+      displayNumber: '+111111111',
+      e164PhoneNumber: '+222222222',
+    } as Recipient
+    const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
+
+    expect(tree.getByTestId('ContactItem/PrimaryValue')).toHaveTextContent('John Doe')
+    expect(tree.getByTestId('ContactItem/SecondaryValue')).toHaveTextContent('+111111111')
+  })
+
+  it.each([
+    {
+      phoneNumberType: 'displayNumber',
+      displayNumber: '+111111111',
+      e164PhoneNumber: '+222222222',
+      expectedDisplayedValue: '+111111111',
+    },
+
+    {
+      phoneNumberType: 'e164PhoneNumber',
+      displayNumber: undefined,
+      e164PhoneNumber: '+222222222',
+      expectedDisplayedValue: '+222222222',
+    },
+  ])(
+    'displays only $phoneNumberType phone if name is not available',
+    ({ displayNumber, e164PhoneNumber, expectedDisplayedValue }) => {
+      const recipient = { displayNumber, e164PhoneNumber } as Recipient
+      const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
+
+      expect(tree.getByTestId('ContactItem/PrimaryValue')).toHaveTextContent(expectedDisplayedValue)
+      expect(tree.queryByTestId('ContactItem/SecondaryValue')).toBeNull()
+    }
+  )
+
+  it('displays address if name/phone not available', () => {
+    const recipient = {
+      address: '0x123456789',
+    } as Recipient
+    const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
+
+    expect(tree.getByTestId('ContactItem/PrimaryValue')).toHaveTextContent('0x123456789')
+  })
+
+  it('logs an error if no name/phone/address exist', () => {
+    const recipient = {} as Recipient
+    const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
+    expect(Logger.error).toHaveBeenCalledTimes(1)
+    expect(tree.toJSON()).toBeNull()
   })
 })
 
