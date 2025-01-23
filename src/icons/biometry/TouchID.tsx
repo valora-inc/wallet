@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 import Colors from 'src/styles/colors'
 
-export function TouchID({ color = Colors.contentPrimary }: { color?: Colors }) {
+function TouchID({ color = Colors.contentPrimary }: { color?: Colors }) {
   return (
     <Svg testID="TouchIDBiometryIcon" width={24} height={24} fill="none">
       <Path
