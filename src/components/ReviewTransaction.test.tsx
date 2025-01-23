@@ -69,9 +69,7 @@ describe('ReviewSummaryItemContact', () => {
       displayNumber: '+111111111',
       e164PhoneNumber: '+222222222',
     } as Recipient
-    const tree = render(
-      <ReviewSummaryItemContact label="Contact" recipient={recipient} testID="ContactItem" />
-    )
+    const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
 
     expect(tree.getByTestId('ContactItem/Label')).toHaveTextContent('Contact')
     expect(tree.getByTestId('ContactItem/PrimaryValue')).toHaveTextContent('John Doe')
@@ -96,9 +94,7 @@ describe('ReviewSummaryItemContact', () => {
     'displays only $phoneNumberType phone if name is not available',
     ({ displayNumber, e164PhoneNumber, expectedDisplayedValue }) => {
       const recipient = { displayNumber, e164PhoneNumber } as Recipient
-      const tree = render(
-        <ReviewSummaryItemContact label="Contact" recipient={recipient} testID="ContactItem" />
-      )
+      const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
 
       expect(tree.getByTestId('ContactItem/PrimaryValue')).toHaveTextContent(expectedDisplayedValue)
       expect(tree.queryByTestId('ContactItem/SecondaryValue')).toBeNull()
@@ -109,18 +105,14 @@ describe('ReviewSummaryItemContact', () => {
     const recipient = {
       address: '0x123456789',
     } as Recipient
-    const tree = render(
-      <ReviewSummaryItemContact label="Contact" recipient={recipient} testID="ContactItem" />
-    )
+    const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
 
     expect(tree.getByTestId('ContactItem/PrimaryValue')).toHaveTextContent('0x123456789')
   })
 
   it('logs an error if no name/phone/address exist', () => {
     const recipient = {} as Recipient
-    const tree = render(
-      <ReviewSummaryItemContact label="Contact" recipient={recipient} testID="ContactItem" />
-    )
+    const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
     expect(Logger.error).toHaveBeenCalledTimes(1)
     expect(tree.toJSON()).toBeNull()
   })
