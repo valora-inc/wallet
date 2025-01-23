@@ -5,7 +5,7 @@ import Config from 'react-native-config'
 import DeviceInfo from 'react-native-device-info'
 import { setAppConfig } from '../appConfig'
 import { ToggleableOnboardingFeatures } from '../onboarding/types'
-import { PublicAppConfig } from './types'
+import { PublicAppConfig, TabScreenConfig } from './types'
 
 // Note: could be nice to have a direct mapping, but for now it's explicit and simple
 // but we have to remember to expose new features
@@ -34,7 +34,9 @@ function getOnboardingFeatures(config: PublicAppConfig) {
   return onboardingFeatures.join(',')
 }
 
-export function createApp(config: PublicAppConfig) {
+export function createApp<const tabScreenConfigs extends TabScreenConfig[]>(
+  config: PublicAppConfig<tabScreenConfigs>
+) {
   // Hack, map public config to react-native-config
   // TODO: refactor to eliminate this, but for now it avoids more changes in the rest of the codebase
   Config.DEFAULT_TESTNET = 'mainnet'

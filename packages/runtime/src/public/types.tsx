@@ -1,3 +1,12 @@
+// Type for tab configuration
+export interface TabScreenConfig {
+  name: string // Just a unique identifier for the screen
+  component: React.ComponentType<any>
+  icon: (props: { focused: boolean; color: string; size: number }) => React.ReactNode
+  label: (t: (key: string) => string) => string
+  testID?: string
+}
+
 // This will evolve. We should be mindful of breaking changes.
 // This structure should scale well as we add more features
 // and makes it clear what's core configuration vs optional features.
@@ -8,7 +17,7 @@
 // - Configuration options should be well documented and have clear purposes
 // - Breaking changes to configuration should be avoided when possible
 // - Configuration should be type-safe. In some cases we can consider runtime validation.
-export interface PublicAppConfig {
+export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = TabScreenConfig[]> {
   registryName: string
   displayName: string
   deepLinkUrlScheme: string
@@ -43,6 +52,21 @@ export interface PublicAppConfig {
         }
       }
     }
+  }
+
+  // Screen overrides
+  screens?: {
+    // Tab navigation configuration
+    tabs?: (args: {
+      defaultTabs: {
+        wallet: TabScreenConfig & { name: 'wallet' }
+        activity: TabScreenConfig & { name: 'activity' }
+        discover: TabScreenConfig & { name: 'discover' }
+      }
+    }) => {
+      screens?: tabScreenConfigs
+      initialScreen?: tabScreenConfigs[number]['name']
+    } // Later we could allow passing in a component for advanced cases
   }
 
   // Optional features/capabilities

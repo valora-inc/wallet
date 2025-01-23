@@ -3,6 +3,7 @@ import { NativeStackHeaderProps, NativeStackScreenProps } from '@react-navigatio
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
+import { getAppConfig } from 'src/appConfig'
 import TabDiscover from 'src/dappsExplorer/TabDiscover'
 import TabHome from 'src/home/TabHome'
 import Discover from 'src/icons/navigator/Discover'
@@ -11,6 +12,7 @@ import Wallet from 'src/icons/navigator/Wallet'
 import { tabHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { TabScreenConfig } from 'src/public/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -21,13 +23,68 @@ const Tab = createBottomTabNavigator()
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TabNavigator>
 
+type TabScreenConfigInternal = TabScreenConfig & {
+  screenName: Screens
+  options?: {
+    freezeOnBlur?: boolean
+    lazy?: boolean
+  }
+}
+
+const DEFAULT_TABS = {
+  wallet: {
+    name: 'wallet',
+    screenName: Screens.TabWallet,
+    component: TabWallet,
+    icon: Wallet,
+    label: (t) => t('bottomTabsNavigator.wallet.tabName'),
+    testID: 'Tab/Wallet',
+  },
+  activity: {
+    name: 'activity',
+    // TODO: we'll rename this to TabActivity
+    screenName: Screens.TabHome,
+    component: TabHome,
+    icon: Home,
+    label: (t) => t('bottomTabsNavigator.home.tabName'),
+    testID: 'Tab/Home',
+    options: {
+      freezeOnBlur: true,
+      lazy: true,
+    },
+  },
+  discover: {
+    name: 'discover',
+    screenName: Screens.TabDiscover,
+    component: TabDiscover,
+    icon: Discover,
+    label: (t) => t('bottomTabsNavigator.discover.tabName'),
+    testID: 'Tab/Discover',
+  },
+} as const satisfies Record<string, TabScreenConfigInternal>
+
+const DEFAULT_SCREENS = [DEFAULT_TABS.wallet, DEFAULT_TABS.activity, DEFAULT_TABS.discover]
+
 export default function TabNavigator({ route }: Props) {
-  const initialScreen = route.params?.initialScreen ?? Screens.TabHome
   const { t } = useTranslation()
+  const config = getAppConfig()
+  const tabsConfig = config.screens?.tabs?.({ defaultTabs: DEFAULT_TABS })
+
+  const screens = tabsConfig?.screens ?? DEFAULT_SCREENS
+  const initialScreen = tabsConfig?.initialScreen ?? DEFAULT_TABS.activity.name
+
+  // Find the initial screen config to be sure it's actually in the list
+  const initialScreenConfig = screens.find((screen) => screen.name === initialScreen)
+
+  const initialRouteName =
+    route.params?.initialScreen ??
+    (initialScreenConfig && 'screenName' in initialScreenConfig
+      ? initialScreenConfig.screenName
+      : initialScreenConfig?.name)
 
   return (
     <Tab.Navigator
-      initialRouteName={initialScreen}
+      initialRouteName={initialRouteName}
       screenOptions={{
         headerShown: true,
         headerShadowVisible: false,
@@ -43,40 +100,21 @@ export default function TabNavigator({ route }: Props) {
         ...(tabHeader as NativeStackHeaderProps),
       }}
     >
-      <Tab.Screen
-        name={Screens.TabWallet}
-        component={TabWallet}
-        options={{
-          tabBarLabel: t('bottomTabsNavigator.wallet.tabName') as string,
-          tabBarIcon: Wallet,
-          tabBarButtonTestID: 'Tab/Wallet',
-        }}
-      />
-      <Tab.Screen
-        name={Screens.TabHome}
-        component={TabHome}
-        options={{
-          freezeOnBlur: false,
-          lazy: false,
-          tabBarLabel: t('bottomTabsNavigator.home.tabName') as string,
-          tabBarIcon: Home,
-          tabBarButtonTestID: 'Tab/Home',
-        }}
-      />
-      <Tab.Screen
-        name={Screens.TabDiscover}
-        component={TabDiscover}
-        options={{
-          tabBarLabel: t('bottomTabsNavigator.discover.tabName') as string,
-          tabBarIcon: Discover,
-          tabBarButtonTestID: 'Tab/Discover',
-          // Special case for the Dapps explorer,
-          // so it reloads the list when the user comes back to it
-          // Note: we generally want to avoid this as it resets the scroll position (and all other component state)
-          // but here it's the right expectation
-          popToTopOnBlur: true,
-        }}
-      />
+      {screens.map((screenConfig) => {
+        return (
+          <Tab.Screen
+            key={screenConfig.name}
+            name={'screenName' in screenConfig ? screenConfig.screenName : screenConfig.name}
+            component={screenConfig.component as React.ComponentType<any>}
+            options={{
+              ...('options' in screenConfig && screenConfig.options),
+              tabBarLabel: screenConfig.label(t),
+              tabBarIcon: screenConfig.icon,
+              tabBarButtonTestID: screenConfig.testID,
+            }}
+          />
+        )
+      })}
     </Tab.Navigator>
   )
 }
