@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
     borderRadius: 12,
     borderWidth: 1,
+    backgroundColor: Colors.backgroundSecondary,
   },
   cardView: { gap: Spacing.Regular16 },
   titleRow: {
@@ -170,7 +171,6 @@ const styles = StyleSheet.create({
   },
   keyText: {
     ...typeScale.bodySmall,
-    color: Colors.contentSecondary,
   },
   valueText: {
     ...typeScale.bodySmall,
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
   withBalanceContainer: {
     borderTopWidth: 1,
-    borderTopColor: Colors.border,
+    borderTopColor: Colors.divider,
     paddingTop: Spacing.Regular16,
     gap: Spacing.Smallest8,
     flexDirection: 'row',

@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: 100,
+    backgroundColor: colors.textInputBackground,
   },
   input: {
     ...typeScale.bodySmall,

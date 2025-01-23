@@ -463,6 +463,7 @@ export default function TokenEnterAmount({
                 inputStyle,
                 Platform.select({ ios: { lineHeight: undefined } }),
               ]}
+              style={styles.input}
               onBlur={() => {
                 handleSetStartPosition(0)
               }}
@@ -585,5 +586,8 @@ const styles = StyleSheet.create({
     left: 0,
     height: '100%',
     width: '100%',
+  },
+  input: {
+    backgroundColor: Colors.backgroundSecondary,
   },
 })

@@ -15,6 +15,7 @@ enum Colors {
 
   // borders, shadows, highlights, visual effects
   border = '#E6E6E6',
+  divider = '#E6E6E6',
   shadow = '#2E3338', // shadow base color
   softShadow = 'rgba(156, 164, 169, 0.4)',
   lightShadow = 'rgba(48, 46, 37, 0.15)',
@@ -41,6 +42,7 @@ enum Colors {
   buttonQuickActionBackground = '#F1FDF1', // Background color for quick action buttons (specialized high-priority actions).
   buttonQuickActionContent = '#137211', // Text and icon color for quick action buttons.
   buttonQuickActionBorder = '#F1FDF1', // Border color for quick action buttons.
+  textInputBackground = '#FFFFFF', // Background color for text input fields.
 
   // statuses and UI feedback colors
   disabled = '#E6E6E6', // Used for disabled elements that are non-interactive or visually de-emphasized.

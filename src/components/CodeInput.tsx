@@ -66,8 +66,10 @@ export default function CodeInput({
               ...typeScale.bodyLarge,
               textAlign: 'center',
               minHeight: undefined,
+              lineHeight: undefined, // unset lineHeight to ensure vertical text centering
               color: textColorForStatus[status],
             }}
+            style={styles.codeInput}
             autoCapitalize="none"
             autoFocus={autoFocus}
             testID={testID}
@@ -118,5 +120,8 @@ const styles = StyleSheet.create({
   statusContainer: {
     width: 32,
     marginLeft: 4,
+  },
+  codeInput: {
+    backgroundColor: colors.backgroundSecondary,
   },
 })

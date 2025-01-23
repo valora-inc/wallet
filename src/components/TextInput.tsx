@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: Spacing.Smallest8,
+    backgroundColor: Colors.textInputBackground,
   },
   input: {
     ...typeScale.bodyMedium,

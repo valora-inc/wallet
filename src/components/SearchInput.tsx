@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     borderWidth: 1.5,
     paddingRight: 8,
+    backgroundColor: colors.textInputBackground,
   },
   iconContainer: {
     marginLeft: 17,
