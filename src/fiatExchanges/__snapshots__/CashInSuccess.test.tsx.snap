@@ -136,6 +136,9 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
               {
                 "alignItems": "center",
                 "backgroundColor": "#2E3338",
+                "borderColor": "#2E3338",
+                "borderRadius": 100,
+                "borderWidth": 1,
                 "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
@@ -308,6 +311,9 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
               {
                 "alignItems": "center",
                 "backgroundColor": "#2E3338",
+                "borderColor": "#2E3338",
+                "borderRadius": 100,
+                "borderWidth": 1,
                 "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",
