@@ -69,6 +69,9 @@ const styles = StyleSheet.create({
   bottomSheetBackground: {
     backgroundColor: Colors.backgroundPrimary,
   },
+  bottomSheetBackdrop: {
+    backgroundColor: Colors.backgroundScrim,
+  },
 })
 
 export default styles

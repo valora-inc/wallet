@@ -25,11 +25,14 @@ const SeeThroughOverlay = () => {
 
   // TODO(jeanregisser): Investigate why the mask is pixelated on iOS.
   // It's visible on the rounded corners but since they are small, I'm ignoring it for now.
+
+  // Node that the Mask component is using hard coded color values solely to
+  // create the "cutout" effect.
   return (
     <Svg height={height} width={width} viewBox={`0 0 ${width} ${height}`}>
       <Defs>
         <Mask id="mask" x="0" y="0" height="100%" width="100%">
-          <Rect height="100%" width="100%" fill={colors.backgroundPrimary} />
+          <Rect height="100%" width="100%" fill="#FFFFFF" />
           <Rect
             x={margin}
             y={(height - centerBoxSize) / 2}
@@ -37,11 +40,11 @@ const SeeThroughOverlay = () => {
             ry={centerBoxBorderRadius}
             width={centerBoxSize}
             height={centerBoxSize}
-            fill={colors.backgroundInverse}
+            fill="#000000"
           />
         </Mask>
       </Defs>
-      <Rect height="100%" width="100%" fill={`${colors.backgroundInverse}80`} mask="url(#mask)" />
+      <Rect height="100%" width="100%" fill={`${colors.backgroundScrim}80`} mask="url(#mask)" />
     </Svg>
   )
 }
@@ -152,7 +155,7 @@ const styles = StyleSheet.create({
     bottom: 32,
     ...typeScale.labelSemiBoldSmall,
     lineHeight: undefined,
-    color: colors.contentInverse,
+    color: colors.qrTabBarSecondary,
     textAlign: 'center',
     paddingHorizontal: 30,
   },

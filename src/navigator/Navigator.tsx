@@ -744,7 +744,13 @@ function ModalStackScreen() {
 function RootStackScreen() {
   const renderBackdrop = React.useCallback(
     (props: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop opacity={0.25} appearsOnIndex={0} disappearsOnIndex={-1} {...props} />
+      <BottomSheetBackdrop
+        {...props}
+        style={[props.style, styles.bottomSheetBackdrop]}
+        opacity={0.25}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+      />
     ),
     []
   )

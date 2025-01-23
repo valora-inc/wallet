@@ -3,9 +3,9 @@
 enum Colors {
   // backgrounds
   backgroundPrimary = '#FFFFFF', // Main background color for the app, used for primary surfaces (screens, navigation).
-  backgroundInverse = '#2E3338', // High-contrast background color for the app.
   backgroundSecondary = '#F8F9F9', // Subtle contrast background for secondary surfaces like cards, panels, or inputs.
   backgroundTertiary = '#E6E6E6', // Low-emphasis background for subtle supporting areas, typically used when both primary and secondary backgrounds are present, and an additional layer of distinction is needed.
+  backgroundScrim = '#000000', // Semi-transparent underlay behind bottom sheets, modals, dialogs, and other temporary surfaces to dim the background.
 
   // text, icons, and other content
   contentPrimary = '#2E3338', // main content on primary background
@@ -41,6 +41,8 @@ enum Colors {
   buttonQuickActionBackground = '#F1FDF1', // Background color for quick action buttons (specialized high-priority actions).
   buttonQuickActionContent = '#137211', // Text and icon color for quick action buttons.
   buttonQuickActionBorder = '#F1FDF1', // Border color for quick action buttons.
+  qrTabBarPrimary = '#2E3338', // color for text and icons on QR tab bar
+  qrTabBarSecondary = '#FFFFFF', // secondary color for text and icons on QR tab bar
 
   // statuses and UI feedback colors
   disabled = '#E6E6E6', // Used for disabled elements that are non-interactive or visually de-emphasized.

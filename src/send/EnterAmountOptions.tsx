@@ -104,7 +104,7 @@ export default function EnterAmountOptions({
                 styles.chip,
                 {
                   backgroundColor:
-                    selectedAmount === amount ? Colors.backgroundInverse : 'transparent',
+                    selectedAmount === amount ? Colors.contentPrimary : 'transparent',
                 },
               ]}
             >
