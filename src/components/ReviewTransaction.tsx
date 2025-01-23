@@ -109,7 +109,7 @@ export function ReviewSummaryItemContact({
     }
   }, [recipient])
 
-  // Should never happen
+  // This should never happen
   if (!contact) {
     Logger.error(
       'ReviewSummaryItemContact',
