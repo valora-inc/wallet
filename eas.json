@@ -1,0 +1,45 @@
+{
+  "cli": {
+    "version": ">= 14.3.1",
+    "appVersionSource": "local"
+  },
+  "build": {
+    "base": {
+      "node": "20.17.0"
+    },
+    "development": {
+      "extends": "base",
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "withoutCredentials": true
+      },
+      "ios": {
+        "simulator": true
+      }
+    },
+    "production": {
+      "extends": "base",
+      "android": {
+        "credentialsSource": "local"
+      }
+    },
+    "alfajores": {
+      "extends": "base",
+      "android": {
+        "credentialsSource": "local",
+        "gradleCommand": ":app:bundlealfajoresRelease"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "play-console-account.json",
+        "track": "internal",
+        "releaseStatus": "draft",
+        "changesNotSentForReview": true
+      }
+    }
+  }
+}
