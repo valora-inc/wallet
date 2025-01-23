@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ViewStyle } from 'react-native'
-import Svg, { Mask, Path, Rect } from 'react-native-svg'
+import Svg, { Path, Rect } from 'react-native-svg'
 import Colors from 'src/styles/colors'
 
 interface Props {
@@ -11,13 +11,6 @@ export default function KeylessBackup({ style }: Props) {
   return (
     <Svg width={80} height={80} fill="none" style={style}>
       <Rect width={80} height={80} fill={Colors.warningSecondary} rx={40} />
-      <Mask id="a" fill={Colors.contentInverse}>
-        <Path
-          fillRule="evenodd"
-          d="M53.725 29.555v3.523c.912.541 1.545 1.514 1.545 2.658v9.272c0 1.144-.633 2.118-1.545 2.658v3.524a3.1 3.1 0 0 1-3.09 3.09H28.998a3.09 3.09 0 0 1-3.09-3.09V29.555a3.09 3.09 0 0 1 3.09-3.091h21.635a3.1 3.1 0 0 1 3.091 3.09ZM52.18 45.008v-9.272H41.362v9.272H52.18ZM28.999 29.555V51.19h21.635V48.1h-9.272a3.1 3.1 0 0 1-3.09-3.092v-9.272a3.1 3.1 0 0 1 3.09-3.09h9.272v-3.091H29Zm19.317 10.817a2.318 2.318 0 1 1-4.636 0 2.318 2.318 0 0 1 4.636 0Z"
-          clipRule="evenodd"
-        />
-      </Mask>
       <Path
         fill={Colors.warningPrimary}
         fillRule="evenodd"

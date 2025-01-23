@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg'
-import Colors from 'src/styles/colors'
 
 const Star = () => (
   <Svg width={24} height={24} fill="none">
@@ -12,7 +11,7 @@ const Star = () => (
     </G>
     <Defs>
       <ClipPath id="a">
-        <Path fill={Colors.contentInverse} d="M0 0h24v24H0z" />
+        <Path fill={'#FFFFFF'} d="M0 0h24v24H0z" />
       </ClipPath>
     </Defs>
   </Svg>
