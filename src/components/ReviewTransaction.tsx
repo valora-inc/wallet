@@ -1,13 +1,20 @@
-import React, { type ReactNode } from 'react'
+import React, { useMemo, type ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import BackButton from 'src/components/BackButton'
+import ContactCircle from 'src/components/ContactCircle'
 import CustomHeader from 'src/components/header/CustomHeader'
+import WalletIcon from 'src/icons/navigator/Wallet'
+import PhoneIcon from 'src/icons/Phone'
+import UserIcon from 'src/icons/User'
+import { type Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import Logger from 'src/utils/Logger'
 
 export function ReviewTransaction(props: {
   title: string
@@ -76,6 +83,57 @@ export function ReviewSummaryItem(props: {
         </View>
       </View>
     </View>
+  )
+}
+
+export function ReviewSummaryItemContact({
+  testID,
+  recipient,
+}: {
+  testID?: string
+  recipient: Recipient
+}) {
+  const { t } = useTranslation()
+  const contact = useMemo(() => {
+    const phone = recipient.displayNumber || recipient.e164PhoneNumber
+    if (recipient.name) {
+      return { title: recipient.name, subtitle: phone, icon: UserIcon }
+    }
+
+    if (phone) {
+      return { title: phone, icon: PhoneIcon }
+    }
+
+    if (recipient.address) {
+      return { title: recipient.address, icon: WalletIcon }
+    }
+  }, [recipient])
+
+  // This should never happen
+  if (!contact) {
+    Logger.error(
+      'ReviewSummaryItemContact',
+      `Transaction review could not render a contact item for recipient`
+    )
+    return null
+  }
+
+  return (
+    <ReviewSummaryItem
+      testID={testID}
+      label={t('to')}
+      primaryValue={contact.title}
+      secondaryValue={contact.subtitle}
+      icon={
+        <ContactCircle
+          size={32}
+          backgroundColor={Colors.backgroundTertiary}
+          foregroundColor={Colors.contentPrimary}
+          recipient={recipient}
+          DefaultIcon={contact.icon}
+        />
+      }
+    />
   )
 }
 
