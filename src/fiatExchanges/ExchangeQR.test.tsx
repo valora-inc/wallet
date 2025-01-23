@@ -79,7 +79,7 @@ describe('ExchangeQR', () => {
     )
 
     expect(queryByTestId('bottomSheetLink')).toBeTruthy()
-    await fireEvent.press(getByTestId('bottomSheetLink'))
+    fireEvent.press(getByTestId('bottomSheetLink'))
     expect(AppAnalytics.track).toHaveBeenCalledWith(
       FiatExchangeEvents.cico_exchange_qr_bottom_sheet_open,
       {
@@ -87,9 +87,7 @@ describe('ExchangeQR', () => {
       }
     )
 
-    expect(queryByTestId('BottomSheetContainer')).toBeTruthy()
-    expect(queryByTestId('Coinbase Pro-Touchable')).toBeTruthy()
-    await fireEvent.press(getByTestId('Coinbase Pro-Touchable'))
+    fireEvent.press(getByTestId('Coinbase Pro-Touchable'))
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: 'https://example.com/0' })
     expect(AppAnalytics.track).toHaveBeenCalledWith(
       FiatExchangeEvents.cico_exchange_qr_bottom_sheet_link_press,
