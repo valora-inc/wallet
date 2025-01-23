@@ -150,9 +150,9 @@ export default function EnableBiometry({ navigation }: Props) {
           type={BtnTypes.PRIMARY}
           testID="EnableBiometryButton"
           icon={
-            supportedBiometryType && (
+            supportedBiometryType ? (
               <View style={styles.biometryIcon}>{biometryIconMap[supportedBiometryType]}</View>
-            )
+            ) : undefined
           }
         />
         <Button
