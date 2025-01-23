@@ -28,15 +28,15 @@
       "extends": "base",
       "android": {
         "credentialsSource": "local",
-        "gradleCommand": ":app:bundlealfajoresRelease"
+        "gradleCommand": ":app:bundleAlfajoresRelease"
       }
     }
   },
   "submit": {
-    "production": {
+    "alfajores": {
       "android": {
         "serviceAccountKeyPath": "play-console-account.json",
-        "track": "internal",
+        "track": "alpha",
         "releaseStatus": "draft",
         "changesNotSentForReview": true
       }
