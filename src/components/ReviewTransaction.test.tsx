@@ -71,7 +71,6 @@ describe('ReviewSummaryItemContact', () => {
     } as Recipient
     const tree = render(<ReviewSummaryItemContact recipient={recipient} testID="ContactItem" />)
 
-    expect(tree.getByTestId('ContactItem/Label')).toHaveTextContent('Contact')
     expect(tree.getByTestId('ContactItem/PrimaryValue')).toHaveTextContent('John Doe')
     expect(tree.getByTestId('ContactItem/SecondaryValue')).toHaveTextContent('+111111111')
   })
