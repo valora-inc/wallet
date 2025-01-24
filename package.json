@@ -54,7 +54,9 @@
     "deploy:update-disclaimer": "yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
     "postinstall": "patch-package && yarn keys:decrypt && ./scripts/copy_license_to_android_assets.sh",
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
-    "keys:encrypt": "bash scripts/key_placer.sh encrypt"
+    "keys:encrypt": "bash scripts/key_placer.sh encrypt",
+    "eas-build-pre-install": "bash scripts/eas/init_gcloud.sh",
+    "eas-build-post-install": "bash scripts/eas/post_install.sh"
   },
   "husky": {
     "hooks": {
@@ -234,7 +236,6 @@
     "chalk": "^4.0.0",
     "detox": "^20.28.0",
     "dotenv": "^16.3.1",
-    "eas-cli": "^14.4.1",
     "easy-table": "^1.2.0",
     "escape-string-regexp": "^1.0.5",
     "eslint": "^8.19.0",
