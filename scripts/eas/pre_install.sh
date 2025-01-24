@@ -16,3 +16,5 @@ gcloud --version
 
 echo Authenticating with Google Cloud...
 gcloud auth activate-service-account --key-file="$GOOGLE_CLOUD_SERVICE_ACCOUNT"
+
+echo Last commit timestamp is: $(git log -1 --format=%ct)

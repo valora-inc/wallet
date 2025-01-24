@@ -3,8 +3,6 @@ set -e
 echo Running pre-build checks...
 yarn ts-node .github/scripts/preBuildChecks.ts
 
-echo Last commit timestamp is: $(git log -1 --format=%ct)
-
 if [[ "$EAS_BUILD_PLATFORM" == "android" ]]; then
   echo Updating Android version code...
   if [[ -n "$APP_VERSION_CODE" ]]; then
