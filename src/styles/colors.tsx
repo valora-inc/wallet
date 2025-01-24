@@ -41,6 +41,7 @@ enum Colors {
   buttonQuickActionBackground = '#F1FDF1', // Background color for quick action buttons (specialized high-priority actions).
   buttonQuickActionContent = '#137211', // Text and icon color for quick action buttons.
   buttonQuickActionBorder = '#F1FDF1', // Border color for quick action buttons.
+  textInputBackground = '#FFFFFF', // Background color for text input fields.
   qrTabBarPrimary = '#2E3338', // color for text and icons on QR tab bar
   qrTabBarSecondary = '#FFFFFF', // secondary color for text and icons on QR tab bar
 

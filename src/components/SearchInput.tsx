@@ -25,9 +25,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: HEIGHT,
     borderRadius: HEIGHT / 2,
-    borderColor: colors.borderPrimary,
+    borderColor: colors.borderSecondary,
     borderWidth: 1.5,
     paddingRight: 8,
+    backgroundColor: colors.textInputBackground,
   },
   iconContainer: {
     marginLeft: 17,
