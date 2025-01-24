@@ -14,7 +14,7 @@ import ClipboardAwarePasteButton from 'src/components/ClipboardAwarePasteButton'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-import { Shadow, Spacing } from 'src/styles/styles'
+import { Spacing } from 'src/styles/styles'
 import { useClipboard } from 'src/utils/useClipboard'
 
 export enum RecoveryPhraseInputStatus {
@@ -66,11 +66,7 @@ export default function RecoveryPhraseInput({
   const keyboardType = Platform.OS === 'android' ? 'visible-password' : undefined
 
   return (
-    <Card
-      rounded={true}
-      shadow={showInput ? null : Shadow.SoftLight}
-      style={[showInput ? styles.containerActive : styles.container]}
-    >
+    <Card rounded={true} shadow={null} style={styles.container}>
       {/* These views cannot be combined as it will cause the shadow to be clipped on iOS */}
       <View style={styles.containRadius}>
         <View style={[showInput ? styles.contentActiveLong : styles.contentLong]}>
@@ -135,13 +131,6 @@ export default function RecoveryPhraseInput({
 
 const styles = StyleSheet.create({
   container: {
-    padding: 0,
-    backgroundColor: colors.backgroundPrimary,
-    borderColor: colors.backgroundPrimary,
-    borderRadius: Spacing.Smallest8,
-    borderWidth: 1,
-  },
-  containerActive: {
     padding: 0,
     backgroundColor: colors.textInputBackground,
     borderColor: colors.borderSecondary,
