@@ -166,7 +166,7 @@ describe('ReviewTotalValue', () => {
       feeTokenAmount: undefined,
       feeLocalAmount: null,
       title:
-        'returns token and local amounts only for send operation if there is no fee but local price is available',
+        'returns the token and fiat amount when fee info is missing and local price is available',
       result:
         'tokenAndLocalAmountApprox, {"tokenAmount":"10.00","localAmount":"10.00","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
     },
@@ -178,7 +178,7 @@ describe('ReviewTotalValue', () => {
       feeTokenAmount: undefined,
       feeLocalAmount: null,
       title:
-        'returns only a token amount only for send operation if there is no fee and no local price available',
+        'returns only the token amount when fee info is missing and no local price is available',
       result: 'tokenAmountApprox, {"tokenAmount":"10.00","tokenSymbol":"CELO"}',
     },
     {
@@ -189,19 +189,19 @@ describe('ReviewTotalValue', () => {
       feeTokenAmount: new BigNumber(0.5),
       feeLocalAmount: new BigNumber(0.5),
       title:
-        'returns token and local amounts if send token and fee token are the same and local price is available',
+        'returns the token and local amount when the token and fee token are the same and local price is available',
       result:
         'tokenAndLocalAmountApprox, {"tokenAmount":"10.50","localAmount":"10.50","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
     },
     {
       tokenInfo: { ...celoToken, priceUsd: null },
       tokenAmount: new BigNumber(10),
-      localAmount: new BigNumber(10),
+      localAmount: null,
       feeTokenInfo: { ...celoToken, priceUsd: null },
       feeTokenAmount: new BigNumber(0.5),
-      feeLocalAmount: new BigNumber(0.5),
+      feeLocalAmount: null,
       title:
-        "returns only a token amount if send token and fee token are the same but they don't have local price",
+        "returns only the token amount when token and fee token are the same but they don't have local price",
       result: 'tokenAmountApprox, {"tokenAmount":"10.50","tokenSymbol":"CELO"}',
     },
     {
@@ -212,18 +212,18 @@ describe('ReviewTotalValue', () => {
       feeTokenAmount: new BigNumber(0.5),
       feeLocalAmount: new BigNumber(0.5),
       title:
-        'returns only a local amount if send token and fee token are different but local prices for both are available',
+        'returns only the local amount when token and fee token are different but local prices are available for both',
       result: 'localAmountApprox, {"localAmount":"10.50","localCurrencySymbol":"₱"}',
     },
     {
       tokenInfo: { ...cUSDToken, priceUsd: null },
       tokenAmount: new BigNumber(10),
-      localAmount: new BigNumber(10),
+      localAmount: null,
       feeTokenInfo: { ...celoToken, priceUsd: null },
       feeTokenAmount: new BigNumber(0.5),
-      feeLocalAmount: new BigNumber(0.5),
+      feeLocalAmount: null,
       title:
-        'returns multiple token amounts if send token and fee token are different and no local prices available',
+        'returns multiple token amounts when token and fee token are different and no local prices available',
       result:
         'reviewTransaction.multipleTokensWithPlusSign, {"amount1":"10.00","symbol1":"cUSD","amount2":"0.50","symbol2":"CELO"}',
     },

@@ -243,8 +243,7 @@ export function ReviewTotalValue({
   }
 
   const sameToken = tokenInfo.tokenId === feeTokenInfo.tokenId
-  const haveLocalPrice =
-    !!tokenInfo.priceUsd && !!feeTokenInfo.priceUsd && localAmount && feeLocalAmount
+  const haveLocalPrice = !!localAmount && !!feeLocalAmount
 
   // if single token and have local price - return token and local amounts
   if (sameToken && haveLocalPrice) {
@@ -306,7 +305,7 @@ const styles = StyleSheet.create({
   },
   reviewSummary: {
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colors.borderPrimary,
     borderRadius: Spacing.Small12,
     backgroundColor: Colors.backgroundSecondary,
     padding: Spacing.Regular16,

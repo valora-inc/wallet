@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.Small12,
   },
   rowContainer: {
-    borderColor: colors.border,
+    borderColor: colors.borderPrimary,
     borderWidth: 1,
     borderRadius: Spacing.Small12,
   },
