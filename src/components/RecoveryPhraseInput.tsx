@@ -104,6 +104,7 @@ export default function RecoveryPhraseInput({
                     Platform.OS === 'ios' && NUMBER_OF_LINES
                       ? LINE_HEIGHT * NUMBER_OF_LINES
                       : undefined,
+                  backgroundColor: colors.textInputBackground,
                 }}
                 autoCapitalize="none"
                 testID={testID}
@@ -142,8 +143,8 @@ const styles = StyleSheet.create({
   },
   containerActive: {
     padding: 0,
-    backgroundColor: colors.backgroundSecondary,
-    borderColor: colors.borderPrimary,
+    backgroundColor: colors.textInputBackground,
+    borderColor: colors.borderSecondary,
     borderRadius: Spacing.Smallest8,
     borderWidth: 1,
   },
@@ -165,6 +166,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: Spacing.Regular16,
     paddingBottom: 4,
+    borderBottomWidth: 1,
+    borderColor: colors.borderSecondary,
   },
   innerContent: {
     flex: 1,
