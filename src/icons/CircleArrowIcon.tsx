@@ -2,7 +2,7 @@ import * as React from 'react'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
 import colors from 'src/styles/colors'
-import { elevationShadowStyle } from 'src/styles/styles'
+import globalStyles from 'src/styles/styles'
 
 const SIZE = 24
 
@@ -28,12 +28,12 @@ export default function CircleArrowIcon({ style }: Props) {
 
 const styles = StyleSheet.create({
   container: {
+    ...globalStyles.softShadowLight,
     backgroundColor: colors.backgroundPrimary,
     width: SIZE,
     height: SIZE,
     borderRadius: SIZE / 2,
     alignItems: 'center',
     justifyContent: 'center',
-    ...elevationShadowStyle(3),
   },
 })

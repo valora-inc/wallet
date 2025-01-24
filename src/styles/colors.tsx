@@ -14,7 +14,6 @@ enum Colors {
   textLink = '#757575', // underlined text links on primary background
 
   // borders, shadows, highlights, visual effects
-  shadow = '#2E3338', // shadow base color
   borderPrimary = '#E6E6E6', // Border color to be used on surfaces with backgroundPrimary
   borderSecondary = '#E6E6E6', // Border color to be used on surfaces with backgroundSecondary
   softShadow = 'rgba(156, 164, 169, 0.4)',
