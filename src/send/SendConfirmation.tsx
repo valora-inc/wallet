@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showError } from 'src/alert/actions'
-import { SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SendEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import ContactCircle from 'src/components/ContactCircle'
@@ -263,28 +263,26 @@ const styles = StyleSheet.create({
   },
   headerText: {
     ...typeScale.labelMedium,
-    color: colors.gray4,
+    color: colors.contentSecondary,
   },
   displayName: {
     ...typeScale.labelMedium,
-    color: colors.black,
   },
   addressContainer: {
     flexDirection: 'row',
   },
   address: {
     ...typeScale.labelSmall,
-    color: colors.gray5,
+    color: colors.contentSecondary,
     paddingRight: 4,
   },
   amount: {
     ...typeScale.titleLarge,
     paddingVertical: 8,
-    color: colors.black,
   },
   amountSubscript: {
     ...typeScale.bodyMedium,
-    color: colors.gray5,
+    color: colors.contentSecondary,
     paddingBottom: 16,
   },
   subHeading: {
@@ -292,7 +290,7 @@ const styles = StyleSheet.create({
   },
   subHeadingText: {
     ...typeScale.labelSmall,
-    color: colors.gray4,
+    color: colors.contentSecondary,
   },
 })
 

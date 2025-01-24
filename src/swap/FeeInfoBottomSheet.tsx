@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   divider: {
     marginVertical: Spacing.Small12,
     height: 1,
-    backgroundColor: Colors.gray2,
+    backgroundColor: Colors.border,
     width: '100%',
   },
   label: {
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
   },
   moreInfoContainer: {
     marginTop: Spacing.Large32,

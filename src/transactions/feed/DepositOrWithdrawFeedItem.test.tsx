@@ -6,7 +6,7 @@ import { HomeEvents } from 'src/analytics/Events'
 import DepositOrWithdrawFeedItem from 'src/transactions/feed/DepositOrWithdrawFeedItem'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
-import { mockCeloTokenId, mockCusdTokenId } from 'test/values'
+import { mockCeloTokenId, mockCusdTokenId, mockUSDCTokenId } from 'test/values'
 
 describe('DepositOrWithdrawFeedItem', () => {
   const store = createMockStore()
@@ -20,7 +20,7 @@ describe('DepositOrWithdrawFeedItem', () => {
     fees: [],
     appName: 'Some Dapp',
     inAmount: {
-      value: '100',
+      value: '50',
       tokenId: mockCeloTokenId,
     },
     outAmount: {
@@ -35,6 +35,21 @@ describe('DepositOrWithdrawFeedItem', () => {
     type: TokenTransactionTypeV2.Withdraw as const,
   }
 
+  const crossChainDepositTransaction = {
+    ...depositTransaction,
+    type: TokenTransactionTypeV2.CrossChainDeposit as const,
+    swap: {
+      inAmount: {
+        value: '100',
+        tokenId: mockCusdTokenId,
+      },
+      outAmount: {
+        value: '100',
+        tokenId: mockUSDCTokenId,
+      },
+    },
+  }
+
   it('renders deposit correctly', () => {
     const { getByText, getByTestId } = render(
       <Provider store={store}>
@@ -46,6 +61,9 @@ describe('DepositOrWithdrawFeedItem', () => {
     expect(getByText('transactionFeed.depositSubtitle, {"txAppName":"Some Dapp"}')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/DEPOSIT-amount-crypto')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/DEPOSIT-amount-local')).toBeTruthy()
+    expect(getByTestId('DepositOrWithdrawFeedItem/DEPOSIT-amount-crypto')).toHaveTextContent(
+      '-100.00 cUSD'
+    )
   })
 
   it('renders withdraw correctly', () => {
@@ -59,6 +77,25 @@ describe('DepositOrWithdrawFeedItem', () => {
     expect(getByText('transactionFeed.withdrawSubtitle, {"txAppName":"Some Dapp"}')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/WITHDRAW-amount-crypto')).toBeTruthy()
     expect(getByTestId('DepositOrWithdrawFeedItem/WITHDRAW-amount-local')).toBeTruthy()
+    expect(getByTestId('DepositOrWithdrawFeedItem/WITHDRAW-amount-crypto')).toHaveTextContent(
+      '+50.00 CELO'
+    )
+  })
+
+  it('renders cross chain deposit correctly', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={store}>
+        <DepositOrWithdrawFeedItem transaction={crossChainDepositTransaction} />
+      </Provider>
+    )
+
+    expect(getByText('transactionFeed.depositTitle')).toBeTruthy()
+    expect(getByText('transactionFeed.depositSubtitle, {"txAppName":"Some Dapp"}')).toBeTruthy()
+    expect(getByTestId('DepositOrWithdrawFeedItem/CROSS_CHAIN_DEPOSIT-amount-crypto')).toBeTruthy()
+    expect(getByTestId('DepositOrWithdrawFeedItem/CROSS_CHAIN_DEPOSIT-amount-local')).toBeTruthy()
+    expect(
+      getByTestId('DepositOrWithdrawFeedItem/CROSS_CHAIN_DEPOSIT-amount-crypto')
+    ).toHaveTextContent('-100.00 cUSD')
   })
 
   it('displays app name when available', () => {

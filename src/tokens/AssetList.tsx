@@ -287,7 +287,8 @@ export default function AssetList({
         <RefreshControl
           refreshing={isRefreshingBalances}
           onRefresh={onRefresh}
-          colors={[Colors.accent]}
+          colors={[Colors.loadingIndicator]}
+          tintColor={Colors.loadingIndicator}
         />
       }
       // ensure header is above the scrollbar on ios overscroll
@@ -322,8 +323,8 @@ function ImportTokensItem() {
       }}
     >
       <View style={styles.importTokenContainer}>
-        <CircledIcon radius={32} backgroundColor={Colors.successLight}>
-          <Add color={Colors.successDark} />
+        <CircledIcon radius={32} backgroundColor={Colors.successSecondary}>
+          <Add color={Colors.successPrimary} />
         </CircledIcon>
         <Text style={styles.importTokenText}>{t('assets.importTokens')}</Text>
       </View>
@@ -338,7 +339,6 @@ const styles = StyleSheet.create({
   },
   positionSectionHeaderText: {
     ...typeScale.labelXXSmall,
-    color: Colors.gray5,
   },
   nftsPairingContainer: {
     flexDirection: 'row',
@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.gray2,
+    backgroundColor: Colors.backgroundTertiary,
     borderRadius: Spacing.Regular16,
   },
   nftsNoMetadataText: {
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
   },
   noNftsText: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
     textAlign: 'center',
   },
   noNftsTextContainer: {
@@ -386,6 +386,5 @@ const styles = StyleSheet.create({
   },
   importTokenText: {
     ...typeScale.labelMedium,
-    color: Colors.black,
   },
 })

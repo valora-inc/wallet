@@ -230,7 +230,7 @@ export default function NftsInfoCarousel({ route }: Props) {
             <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
               <View style={styles.explorerLinkContainer}>
                 <Text style={styles.explorerLink}>{networkIdToExplorerString[networkId]}</Text>
-                <OpenLinkIcon color={colors.successDark} />
+                <OpenLinkIcon color={colors.successPrimary} />
               </View>
             </Touchable>
           </View>
@@ -254,11 +254,10 @@ NftsInfoCarousel.navigationOptions = () => ({
 const styles = StyleSheet.create({
   attributeText: {
     ...typeScale.bodyMedium,
-    color: colors.black,
   },
   attributeTitle: {
     ...typeScale.labelSmall,
-    color: colors.gray3,
+    color: colors.contentSecondary,
   },
   attributesContainer: {
     paddingBottom: Spacing.Thick24,
@@ -272,16 +271,16 @@ const styles = StyleSheet.create({
   errorThumbnail: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.gray2,
+    backgroundColor: colors.backgroundTertiary,
   },
   errorImageText: {
     marginTop: Spacing.Regular16,
     ...typeScale.bodyMedium,
-    color: colors.gray3,
+    color: colors.contentSecondary,
   },
   explorerLink: {
     ...typeScale.labelSmall,
-    color: colors.successDark,
+    color: colors.successPrimary,
     paddingRight: Spacing.Smallest8,
   },
   explorerLinkContainer: {
@@ -299,7 +298,7 @@ const styles = StyleSheet.create({
   nftImageLoadingErrorContainer: {
     width: '100%',
     height: DEFAULT_HEIGHT,
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,

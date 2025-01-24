@@ -187,18 +187,13 @@ describe('depositSubmitSaga', () => {
       tokenId: mockArbUsdcTokenId,
     },
     transactionHash: '0x2',
-    type: TokenTransactionTypeV2.EarnDeposit,
+    type: TokenTransactionTypeV2.Deposit,
     feeCurrencyId: undefined,
-    providerId: mockEarnPositions[0].appId,
+    appName: mockEarnPositions[0].appName,
   }
 
   const expectedSwapDepositStandbyTx = {
-    context: {
-      id: 'id-earn/saga-Earn/SwapDeposit',
-      tag: 'earn/saga',
-      description: 'Earn/SwapDeposit',
-    },
-    networkId: NetworkId['arbitrum-sepolia'],
+    ...expectedDepositStandbyTx,
     swap: {
       inAmount: {
         value: '100',
@@ -209,20 +204,6 @@ describe('depositSubmitSaga', () => {
         tokenId: mockArbArbTokenId,
       },
     },
-    deposit: {
-      inAmount: {
-        value: '100',
-        tokenId: mockAaveArbUsdcTokenId,
-      },
-      outAmount: {
-        value: '100',
-        tokenId: mockArbUsdcTokenId,
-      },
-      providerId: mockEarnPositions[0].appId,
-    },
-    transactionHash: '0x2',
-    type: TokenTransactionTypeV2.EarnSwapDeposit,
-    feeCurrencyId: undefined,
   }
 
   const expectedApproveGasAnalyticsProperties = {
@@ -369,16 +350,18 @@ describe('depositSubmitSaga', () => {
       fromTokenId: mockArbArbTokenId,
       fromNetworkId: NetworkId['arbitrum-sepolia'],
       fromAddress: mockArbArbAddress,
+      txType: TokenTransactionTypeV2.Deposit,
     },
     {
       swapType: 'cross-chain',
       fromTokenId: mockCusdTokenId,
       fromNetworkId: NetworkId['celo-alfajores'],
       fromAddress: mockCusdAddress,
+      txType: TokenTransactionTypeV2.CrossChainDeposit,
     },
   ])(
     'sends approve and swap-deposit ($swapType) transactions, navigates home and dispatches the success action (gas subsidy off)',
-    async ({ swapType, fromTokenId, fromNetworkId, fromAddress }) => {
+    async ({ swapType, fromTokenId, fromNetworkId, fromAddress, txType }) => {
       jest.mocked(decodeFunctionData).mockReturnValue({
         functionName: 'approve',
         args: ['0xspenderAddress', BigInt(5e19)],
@@ -436,6 +419,7 @@ describe('depositSubmitSaga', () => {
             tokenId: fromTokenId,
           },
         },
+        type: txType,
       })
       expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_start, {
         ...expectedAnalyticsProps,

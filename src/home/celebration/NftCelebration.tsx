@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: IMAGE_BORDER_RADIUS,
     aspectRatio: 1.45,
     overflow: 'hidden',
-    backgroundColor: Colors.successLight,
+    backgroundColor: Colors.successSecondary,
   },
   imageError: {
     ...StyleSheet.absoluteFillObject,
@@ -189,15 +189,14 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 4,
-    backgroundColor: Colors.gray2,
+    backgroundColor: Colors.bottomSheetHandle,
   },
   title: {
     ...typeScale.titleSmall,
-    color: Colors.black,
   },
   description: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
     marginTop: Spacing.Smallest8,
   },
   button: {

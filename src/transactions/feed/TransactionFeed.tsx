@@ -111,6 +111,7 @@ function TransactionFeed() {
       case TokenTransactionTypeV2.Deposit:
       case TokenTransactionTypeV2.Withdraw:
       case TokenTransactionTypeV2.ClaimReward:
+      case TokenTransactionTypeV2.CrossChainDeposit:
         // These are handled by the FeedV2 only
         return null
       case TokenTransactionTypeV2.EarnDeposit:
@@ -138,7 +139,11 @@ function TransactionFeed() {
       />
       {fetchingMoreTransactions && (
         <View style={styles.centerContainer}>
-          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
+          <ActivityIndicator
+            style={styles.loadingIcon}
+            size="large"
+            color={colors.loadingIndicator}
+          />
         </View>
       )}
     </>

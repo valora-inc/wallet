@@ -20,7 +20,7 @@ export default class CircleButton extends React.PureComponent<ButtonProps> {
     size: 50,
     disable: false,
     activeColor: colors.accent,
-    inactiveColor: colors.accentDisabled,
+    inactiveColor: `${colors.accent}80`,
   }
 
   render() {
@@ -32,7 +32,7 @@ export default class CircleButton extends React.PureComponent<ButtonProps> {
       borderWidth !== undefined ? { borderWidth } : { borderWidth: 0 },
       { borderColor: color, width: size, height: size, borderRadius: Math.floor(size! / 2) },
     ]
-    const xColor = solid ? colors.white : color
+    const xColor = solid ? colors.contentInverse : color
 
     return (
       <View style={[styles.row, this.props.style]}>

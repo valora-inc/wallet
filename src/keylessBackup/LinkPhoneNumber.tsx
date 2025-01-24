@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { navigate } from 'src/navigator/NavigationService'
@@ -25,7 +25,7 @@ export default function LinkPhoneNumber({ navigation }: Props) {
     navigation.setOptions({
       headerLeft: () => <BackButton />,
       headerStyle: {
-        backgroundColor: colors.gray1,
+        backgroundColor: colors.backgroundPrimary,
       },
     })
   }, [navigation])
@@ -77,7 +77,7 @@ export default function LinkPhoneNumber({ navigation }: Props) {
 const styles = StyleSheet.create({
   safeArea: {
     alignItems: 'center',
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundPrimary,
     flexGrow: 1,
     justifyContent: 'space-between',
   },

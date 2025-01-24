@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   tokenFiatValueText: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
   },
 })
 

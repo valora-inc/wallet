@@ -151,18 +151,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.infoDark,
+    backgroundColor: colors.warningPrimary,
     paddingBottom: PADDING_VERTICAL,
     paddingHorizontal: 25,
   },
   containerError: {
-    backgroundColor: colors.error,
+    backgroundColor: colors.errorPrimary,
   },
   containerWithButton: {
     flexDirection: 'column',
   },
   text: {
-    color: colors.white,
+    color: colors.contentInverse,
     // Unset explicit lineHeight set by fonts.tsx otherwise the text is not centered vertically
     lineHeight: undefined,
     textAlign: 'center',
@@ -173,11 +173,11 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 8,
-    borderColor: colors.white,
+    borderColor: colors.contentInverse,
     alignSelf: 'center',
   },
   buttonText: {
-    color: colors.white,
+    color: colors.contentInverse,
   },
 })
 

@@ -18,7 +18,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { useSelector } from 'src/redux/hooks'
-import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
@@ -151,7 +150,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
-    color: Colors.black,
     textAlign: 'center',
   },
   description: {

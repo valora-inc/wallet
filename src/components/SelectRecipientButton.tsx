@@ -33,13 +33,13 @@ function SelectRecipientButton({
         {gradientBackground ? (
           <GradientIcon radius={40}>{icon}</GradientIcon>
         ) : (
-          <CircledIcon radius={40} style={styles.icon} backgroundColor={colors.gray1}>
+          <CircledIcon radius={40} style={styles.icon} backgroundColor={colors.backgroundSecondary}>
             {icon}
           </CircledIcon>
         )}
         {showCheckmark && (
           <View style={styles.checkmark} testID={`${testID}/checkmark`}>
-            <Checkmark height={12} width={12} color={colors.black} />
+            <Checkmark height={12} width={12} color={colors.contentPrimary} />
           </View>
         )}
         <View style={styles.textSection}>
@@ -58,15 +58,14 @@ const styles = StyleSheet.create({
   },
   icon: {
     borderWidth: 1,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
   },
   subtitle: {
     ...typeScale.bodySmall,
-    color: colors.gray3,
+    color: colors.contentSecondary,
   },
   title: {
     ...typeScale.labelMedium,
-    color: colors.black,
   },
   body: {
     flexDirection: 'row',
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 26,
     top: 26,
-    backgroundColor: colors.gray2,
+    backgroundColor: colors.backgroundTertiary,
     borderRadius: 100,
     padding: 2,
   },

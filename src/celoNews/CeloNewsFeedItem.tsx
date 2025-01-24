@@ -1,8 +1,8 @@
 import { formatDistanceToNowStrict } from 'date-fns'
 import * as React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { CeloNewsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { CeloNewsEvents } from 'src/analytics/Events'
 import { CeloNewsArticle } from 'src/celoNews/types'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import Touchable from 'src/components/Touchable'
@@ -58,8 +58,8 @@ export default function CeloNewsFeedItem({ article, testID }: Props) {
 CeloNewsFeedItem.Skeleton = () => (
   <SkeletonPlaceholder
     borderRadius={4}
-    backgroundColor={colors.gray2}
-    highlightColor={colors.white}
+    backgroundColor={colors.skeletonPlaceholderBackground}
+    highlightColor={colors.skeletonPlaceholderHighlight}
     testID="CeloNewsFeedItemSkeleton"
   >
     <View style={styles.contentContainer}>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   author: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.warningDark,
+    color: colors.warningPrimary,
     marginBottom: Spacing.Small12,
   },
   row: {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     fontSize: 13,
     lineHeight: 16,
-    color: colors.gray5,
+    color: colors.contentSecondary,
     marginLeft: 4,
   },
   image: {

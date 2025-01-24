@@ -566,7 +566,7 @@ function TransactionWithdrawDetails({
                 amount={position.tokens[0].balance.toString()}
                 style={styles.txDetailsValueText}
               />
-              <Text style={[styles.txDetailsValueText, styles.gray4]}>
+              <Text style={[styles.txDetailsValueText, styles.mutedText]}>
                 {'('}
                 <TokenDisplay
                   testID={`EarnEnterAmount/Reward-${index}-crypto`}
@@ -655,7 +655,7 @@ function TransactionDepositDetails({
                 showLocalAmount={false}
                 style={styles.txDetailsValueText}
               />
-              <ArrowRightThick size={20} color={Colors.black} />
+              <ArrowRightThick size={20} color={Colors.contentPrimary} />
               <TokenDisplay
                 testID="EarnEnterAmount/Swap/To"
                 tokenId={pool.dataProps.depositTokenId}
@@ -676,7 +676,7 @@ function TransactionDepositDetails({
               showLocalAmount={false}
               style={styles.txDetailsValueText}
             />
-            <Text style={[styles.txDetailsValueText, styles.gray4]}>
+            <Text style={[styles.txDetailsValueText, styles.mutedText]}>
               {'('}
               <TokenDisplay
                 testID="EarnEnterAmount/Deposit/Fiat"
@@ -1050,7 +1050,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
-    color: Colors.black,
     marginBottom: Spacing.Thick24,
   },
   inputContainer: {
@@ -1068,7 +1067,7 @@ const styles = StyleSheet.create({
   txDetailsContainer: {
     marginVertical: Spacing.Regular16,
     padding: Spacing.Regular16,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderWidth: 1,
     borderRadius: 12,
     gap: Spacing.Smallest8,
@@ -1089,12 +1088,11 @@ const styles = StyleSheet.create({
   },
   txDetailsValueText: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'right',
   },
-  gray4: {
-    color: Colors.gray4,
+  mutedText: {
+    color: Colors.contentSecondary,
   },
   gap8: {
     gap: Spacing.Smallest8,
@@ -1114,20 +1112,20 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   bottomSheetLineLabel: {
+    ...typeScale.bodySmall,
     maxWidth: '40%',
     textAlign: 'left',
   },
   bottomSheetLineLabelText: {
+    ...typeScale.bodySmall,
     maxWidth: '60%',
     textAlign: 'right',
   },
   bottomSheetDescriptionTitle: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.black,
   },
   bottomSheetDescriptionText: {
     ...typeScale.bodySmall,
-    color: Colors.black,
   },
   bottomSheetButton: {
     marginTop: Spacing.Thick24,

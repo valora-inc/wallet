@@ -283,10 +283,16 @@ function GasFeeError() {
 function GasFeeLoading() {
   return (
     <View testID="EarnConfirmation/GasLoading">
-      <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
+      <SkeletonPlaceholder
+        backgroundColor={Colors.skeletonPlaceholderBackground}
+        highlightColor={Colors.skeletonPlaceholderHighlight}
+      >
         <View style={styles.gasFeeCryptoLoading} />
       </SkeletonPlaceholder>
-      <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
+      <SkeletonPlaceholder
+        backgroundColor={Colors.skeletonPlaceholderBackground}
+        highlightColor={Colors.skeletonPlaceholderHighlight}
+      >
         <View style={styles.gasFeeFiatLoading} />
       </SkeletonPlaceholder>
     </View>
@@ -351,10 +357,10 @@ const styles = StyleSheet.create({
   },
   collectInfoContainer: {
     padding: Spacing.Regular16,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderWidth: 1,
     borderRadius: 16,
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
   },
   row: {
     flexDirection: 'row',
@@ -363,25 +369,23 @@ const styles = StyleSheet.create({
   },
   cryptoText: {
     ...typeScale.labelSemiBoldLarge,
-    color: Colors.black,
   },
   fiatText: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
   },
   collectItemTitle: {
     ...typeScale.labelSemiBoldXSmall,
-    color: Colors.black,
     marginBottom: Spacing.Smallest8,
   },
   separator: {
     marginBottom: Spacing.Regular16,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.gray2,
+    borderBottomColor: Colors.border,
   },
   rateText: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
     marginBottom: Spacing.Tiny4,
   },
   iconContainer: {
@@ -393,7 +397,7 @@ const styles = StyleSheet.create({
   },
   gasFeeFiat: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
   },
   button: {
     padding: Spacing.Thick24,

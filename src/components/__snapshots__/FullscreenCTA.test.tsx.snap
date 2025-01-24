@@ -35,6 +35,7 @@ exports[`FullscreenCTA renders correctly 1`] = `
     <Text
       style={
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Bold",
           "fontSize": 24,
           "lineHeight": 32,
@@ -46,6 +47,7 @@ exports[`FullscreenCTA renders correctly 1`] = `
     <Text
       style={
         {
+          "color": "#2E3338",
           "fontFamily": "Inter-Bold",
           "fontSize": 20,
           "lineHeight": 28,
@@ -63,6 +65,7 @@ exports[`FullscreenCTA renders correctly 1`] = `
         {
           "backgroundColor": "rgba(238, 238, 238, 0.75)",
           "borderRadius": 25,
+          "color": "#2E3338",
           "fontFamily": "Inter-Regular",
           "fontSize": 12,
           "lineHeight": 24,
@@ -141,6 +144,9 @@ exports[`FullscreenCTA renders correctly 1`] = `
               {
                 "alignItems": "center",
                 "backgroundColor": "#2E3338",
+                "borderColor": "#2E3338",
+                "borderRadius": 100,
+                "borderWidth": 1,
                 "flexDirection": "row",
                 "height": 48,
                 "justifyContent": "center",

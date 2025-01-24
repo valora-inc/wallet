@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 
 interface Props {
@@ -30,7 +29,6 @@ const styles = StyleSheet.create({
   heading: {
     padding: 10,
     paddingBottom: 10,
-    color: colors.black,
     alignSelf: 'center',
   },
 })

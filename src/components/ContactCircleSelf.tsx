@@ -20,9 +20,9 @@ export default function ContactCircleSelf({ style, size }: Props) {
       style={style}
       recipient={recipient}
       size={size}
-      backgroundColor={colors.gray1}
-      borderColor={colors.gray2}
-      foregroundColor={colors.black}
+      backgroundColor={colors.backgroundSecondary}
+      borderColor={colors.border}
+      foregroundColor={colors.contentPrimary}
     />
   )
 }

@@ -73,11 +73,7 @@ export const TokenBalanceItem = ({
           )}
         </View>
         {!!token.bridge && (
-          <Text
-            testID="BridgeLabel"
-            numberOfLines={1}
-            style={[styles.subLabel, { color: colors.infoDark }]}
-          >
+          <Text testID="BridgeLabel" numberOfLines={1} style={styles.bridgeLabel}>
             {t('assets.bridge', { bridge: token.bridge })}
           </Text>
         )}
@@ -115,7 +111,7 @@ const styles = StyleSheet.create({
   },
   subAmount: {
     ...typeScale.bodySmall,
-    color: colors.gray3,
+    color: colors.contentSecondary,
   },
   label: {
     ...typeScale.labelMedium,
@@ -127,7 +123,13 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     overflow: 'hidden',
     flexShrink: 1,
-    color: colors.gray3,
+    color: colors.contentSecondary,
+  },
+  bridgeLabel: {
+    ...typeScale.labelSmall,
+    color: colors.contentSecondary,
+    overflow: 'hidden',
+    flexShrink: 1,
   },
   textContainer: {
     flex: 1,

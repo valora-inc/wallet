@@ -13,7 +13,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
     style={
       [
         {
-          "color": "#A49B80",
+          "color": "#757575",
           "fontFamily": "Inter-SemiBold",
           "fontSize": 14,
           "lineHeight": 20,
@@ -97,7 +97,6 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
               {
                 "alignItems": "center",
                 "flexDirection": "row",
-                "flexWrap": "wrap",
               },
               {
                 "justifyContent": "center",
@@ -177,6 +176,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
           onFocus={[Function]}
           placeholder="00 00 00 00 00"
           placeholderTextColor="#757575"
+          selectionColor="#757575"
           style={
             [
               {
@@ -202,7 +202,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
       <View
         style={
           {
-            "backgroundColor": "#A49B80",
+            "backgroundColor": "#757575",
             "height": 1,
             "opacity": 0.2,
           }

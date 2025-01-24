@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
-import { TransactionDetailsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { TransactionDetailsEvents } from 'src/analytics/Events'
 import Touchable from 'src/components/Touchable'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import Colors from 'src/styles/colors'
@@ -27,9 +27,9 @@ function TransactionPrimaryAction({ status, type, onPress, testID }: Props) {
   }[status]
 
   const [color, backgroundColor] = {
-    [TransactionStatus.Complete]: [Colors.successDark, Colors.successLight],
-    [TransactionStatus.Pending]: [Colors.warningDark, Colors.warningLight],
-    [TransactionStatus.Failed]: [Colors.errorDark, Colors.errorLight],
+    [TransactionStatus.Complete]: [Colors.successPrimary, Colors.successSecondary],
+    [TransactionStatus.Pending]: [Colors.warningPrimary, Colors.warningSecondary],
+    [TransactionStatus.Failed]: [Colors.errorPrimary, Colors.errorSecondary],
   }[status]
 
   const icon = {

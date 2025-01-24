@@ -102,13 +102,19 @@ export default function EnterAmountOptions({
             <View
               style={[
                 styles.chip,
-                { backgroundColor: selectedAmount === amount ? Colors.black : 'transparent' },
+                {
+                  backgroundColor:
+                    selectedAmount === amount ? Colors.contentPrimary : 'transparent',
+                },
               ]}
             >
               <Text
                 style={[
                   styles.chipText,
-                  { color: selectedAmount === amount ? Colors.white : Colors.black },
+                  {
+                    color:
+                      selectedAmount === amount ? Colors.contentInverse : Colors.contentPrimary,
+                  },
                 ]}
               >
                 {label}
@@ -133,7 +139,7 @@ export default function EnterAmountOptions({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.gray2,
+    backgroundColor: Colors.backgroundTertiary,
   },
   contentContainer: {
     flexDirection: 'row',
@@ -146,7 +152,7 @@ const styles = StyleSheet.create({
   chip: {
     borderWidth: 1,
     borderRadius: 100,
-    borderColor: Colors.black,
+    borderColor: Colors.contentPrimary,
     paddingVertical: Spacing.Smallest8,
     paddingHorizontal: Spacing.Regular16,
   },

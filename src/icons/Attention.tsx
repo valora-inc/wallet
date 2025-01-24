@@ -3,7 +3,7 @@ import Svg, { Path } from 'react-native-svg'
 import Colors from 'src/styles/colors'
 
 const AttentionIcon = ({
-  color = Colors.warningDark,
+  color = Colors.warningPrimary,
   size = 16,
   testId,
 }: {

@@ -12,7 +12,7 @@ interface Props {
 
 export default class Error extends React.PureComponent<Props> {
   static defaultProps = {
-    color: colors.white,
+    color: colors.contentInverse,
     width: getSizing(),
     style: {},
   }

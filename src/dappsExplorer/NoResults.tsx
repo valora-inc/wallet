@@ -34,7 +34,7 @@ function NoResults({ selectedFilter, removeFilter, testID, searchTerm }: Props) 
       {searchTerm !== '' && (
         <View style={styles.searchContainer}>
           <View style={styles.iconContainer}>
-            <InfoIcon color={Colors.infoDark} />
+            <InfoIcon color={Colors.warningPrimary} />
           </View>
           <View style={styles.searchTextContainer}>
             <Text style={styles.text}>
@@ -75,7 +75,6 @@ function NoResults({ selectedFilter, removeFilter, testID, searchTerm }: Props) 
 
 const styles = StyleSheet.create({
   searchedText: {
-    color: Colors.black,
     fontWeight: 'bold',
   },
   text: {
@@ -102,11 +101,11 @@ const styles = StyleSheet.create({
   },
   filterText: {
     ...typeScale.labelSmall,
-    color: Colors.infoDark,
+    color: Colors.contentSecondary,
   },
   filterAppliedText: {
     ...typeScale.labelSmall,
-    color: Colors.gray5,
+    color: Colors.contentSecondary,
     paddingRight: 4,
   },
   removeFilterTouchableContainer: {
@@ -116,12 +115,11 @@ const styles = StyleSheet.create({
   removeFilterTouchable: {
     paddingVertical: 0,
     paddingHorizontal: Spacing.Smallest8,
-    backgroundColor: Colors.gray2,
+    backgroundColor: Colors.buttonSecondaryBackground,
     borderRadius: 16,
   },
   removeFilterText: {
     ...typeScale.labelSmall,
-    color: Colors.infoDark,
   },
 })
 

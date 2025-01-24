@@ -114,7 +114,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         testID={'PointsHistoryBottomSheet/Loading'}
         style={styles.loadingIcon}
         size="large"
-        color={colors.accent}
+        color={colors.loadingIndicator}
       />
     ) : null
 
@@ -122,7 +122,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
     pointsHistoryStatus === 'errorFirstPage' ? (
       <View testID={'PointsHistoryBottomSheet/Error'} style={styles.emptyContainer}>
         <View style={styles.messageContainer}>
-          <Attention size={48} color={Colors.black} />
+          <Attention size={48} color={Colors.contentPrimary} />
           <Text style={styles.messageTitle}>{t('points.history.error.title')}</Text>
           <Text style={styles.messageSubtitle}>{t('points.history.error.subtitle')}</Text>
         </View>
@@ -188,7 +188,7 @@ function PointsHistoryBottomSheet({ forwardedRef }: Props) {
         ctaLabel={t('points.history.pageError.refresh')}
         onPressCta={() => onPressTryAgain(true)}
         style={styles.errorNotification}
-        customIcon={<AttentionIcon color={colors.errorDark} size={20} />}
+        customIcon={<AttentionIcon color={colors.errorPrimary} size={20} />}
         testID={'PointsHistoryBottomSheet/ErrorBanner'}
       />
     </BottomSheetBase>
@@ -249,11 +249,11 @@ const styles = StyleSheet.create({
   },
   cardSubtitle: {
     ...typeScale.labelSmall,
-    color: colors.gray4,
+    color: colors.contentSecondary,
   },
   cardPointsAmount: {
     ...typeScale.labelMedium,
-    color: colors.successDark,
+    color: colors.successPrimary,
   },
   cardPointsAmountContainer: {
     flexDirection: 'row',

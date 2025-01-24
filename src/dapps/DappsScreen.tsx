@@ -208,8 +208,8 @@ function DappsScreen({ navigation }: Props) {
           <AnimatedSectionList
             refreshControl={
               <RefreshControl
-                tintColor={Colors.accent}
-                colors={[Colors.accent]}
+                tintColor={Colors.loadingIndicator}
+                colors={[Colors.loadingIndicator]}
                 style={styles.refreshControl}
                 refreshing={loading}
                 onRefresh={() => dispatch(fetchDappsList())}
@@ -241,7 +241,7 @@ function DappsScreen({ navigation }: Props) {
                   }}
                   value={searchTerm}
                   multiline={false}
-                  placeholderTextColor={Colors.gray4}
+                  placeholderTextColor={Colors.inactive}
                   underlineColorAndroid="transparent"
                   placeholder={t('dappsScreen.searchPlaceHolder') ?? undefined}
                   showClearButton={true}
@@ -332,19 +332,19 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   refreshControl: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.backgroundPrimary,
   },
   sectionList: {
     flex: 1,
   },
   sectionTitle: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
     marginTop: Spacing.Large32,
   },
   disclaimer: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
   },
   listFooterComponent: {
     marginTop: Spacing.Large32,
@@ -352,7 +352,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
-    color: Colors.black,
   },
   titleContainer: {
     marginBottom: Spacing.Thick24,

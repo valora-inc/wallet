@@ -17,18 +17,10 @@ const AVATAR_SIZE = 40
 
 type Props = { networkId: NetworkId; status: TransactionStatus; hideNetworkIcon?: boolean } & (
   | {
-      transactionType:
-        | TokenTransactionTypeV2.Exchange
-        | TokenTransactionTypeV2.SwapTransaction
-        | TokenTransactionTypeV2.CrossChainSwapTransaction
-        | TokenTransactionTypeV2.Approval
-        | TokenTransactionTypeV2.Deposit
-        | TokenTransactionTypeV2.Withdraw
-        | TokenTransactionTypeV2.ClaimReward
-        | TokenTransactionTypeV2.EarnDeposit
-        | TokenTransactionTypeV2.EarnSwapDeposit
-        | TokenTransactionTypeV2.EarnWithdraw
-        | TokenTransactionTypeV2.EarnClaimReward
+      transactionType: Exclude<
+        TokenTransactionTypeV2,
+        TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
+      >
     }
   | {
       transactionType: TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
@@ -42,8 +34,8 @@ function TransactionFeedItemBaseImage(props: Props) {
 
   if (status === TransactionStatus.Failed) {
     return (
-      <CircledIcon backgroundColor={Colors.errorLight} radius={AVATAR_SIZE}>
-        <AttentionIcon color={Colors.errorDark} size={24} testId={'FailedTransactionAlert'} />
+      <CircledIcon backgroundColor={Colors.errorSecondary} radius={AVATAR_SIZE}>
+        <AttentionIcon color={Colors.errorPrimary} size={24} testId={'FailedTransactionAlert'} />
       </CircledIcon>
     )
   }
@@ -55,14 +47,14 @@ function TransactionFeedItemBaseImage(props: Props) {
     transactionType === TokenTransactionTypeV2.CrossChainSwapTransaction
   ) {
     return (
-      <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
-        <SwapArrows color={Colors.successDark} />
+      <CircledIcon backgroundColor={Colors.successSecondary} radius={AVATAR_SIZE}>
+        <SwapArrows color={Colors.successPrimary} />
       </CircledIcon>
     )
   }
   if (transactionType === TokenTransactionTypeV2.Approval) {
     return (
-      <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
+      <CircledIcon backgroundColor={Colors.successSecondary} radius={AVATAR_SIZE}>
         <Activity />
       </CircledIcon>
     )
@@ -74,7 +66,7 @@ function TransactionFeedItemBaseImage(props: Props) {
   ) {
     if (props.isJumpstart) {
       return (
-        <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
+        <CircledIcon backgroundColor={Colors.successSecondary} radius={AVATAR_SIZE}>
           <MagicWand size={24} />
         </CircledIcon>
       )
@@ -87,14 +79,15 @@ function TransactionFeedItemBaseImage(props: Props) {
     transactionType === TokenTransactionTypeV2.Deposit ||
     transactionType === TokenTransactionTypeV2.Withdraw ||
     transactionType === TokenTransactionTypeV2.ClaimReward ||
+    transactionType === TokenTransactionTypeV2.CrossChainDeposit ||
     transactionType === TokenTransactionTypeV2.EarnWithdraw ||
     transactionType === TokenTransactionTypeV2.EarnDeposit ||
     transactionType === TokenTransactionTypeV2.EarnClaimReward ||
     transactionType === TokenTransactionTypeV2.EarnSwapDeposit
   ) {
     return (
-      <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
-        <EarnCoins size={24} color={Colors.successDark} />
+      <CircledIcon backgroundColor={Colors.successSecondary} radius={AVATAR_SIZE}>
+        <EarnCoins size={24} color={Colors.successPrimary} />
       </CircledIcon>
     )
   }

@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSmall,
   },
   card: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     flexDirection: 'row',
     alignItems: 'center',
     padding: Spacing.Regular16,
@@ -85,18 +85,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: 100,
     borderWidth: 1,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     paddingHorizontal: Spacing.Smallest8,
     paddingVertical: Spacing.Tiny4,
     gap: Spacing.Tiny4,
   },
   pointsAmount: {
     ...typeScale.labelXSmall,
-    color: Colors.black,
   },
   previousPointsAmount: {
     ...typeScale.labelXSmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
     textDecorationLine: 'line-through',
   },
 })

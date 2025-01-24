@@ -20,8 +20,8 @@ function EarnItem() {
   return (
     <Item
       icon={
-        <CircledIcon radius={32} backgroundColor={colors.successLight}>
-          <EarnCoins color={colors.successDark} />
+        <CircledIcon radius={32} backgroundColor={colors.successSecondary}>
+          <EarnCoins color={colors.successPrimary} />
         </CircledIcon>
       }
       title={t('earnFlow.entrypoint.title')}
@@ -80,7 +80,6 @@ function Item({ icon, title, body }: { icon: React.ReactNode; title: string; bod
 const styles = StyleSheet.create({
   cardTitle: {
     ...typeScale.labelSemiBoldMedium,
-    color: colors.black,
   },
   container: {
     gap: 18,
@@ -88,11 +87,11 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.gray4,
+    color: colors.contentSecondary,
   },
   touchable: {
     padding: Spacing.Regular16,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
     borderWidth: 1,
     borderRadius: 8,
   },
@@ -102,11 +101,10 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     ...typeScale.labelSemiBoldXSmall,
-    color: colors.black,
   },
   itemBody: {
     ...typeScale.bodyXSmall,
-    color: colors.gray4,
+    color: colors.contentSecondary,
   },
   touchableView: {
     gap: Spacing.Thick24,

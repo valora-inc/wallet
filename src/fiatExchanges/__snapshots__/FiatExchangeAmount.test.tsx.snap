@@ -70,6 +70,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           <Text
             style={
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -89,6 +90,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           style={
             [
               {
+                "color": "#2E3338",
                 "flex": 1,
                 "fontFamily": "Inter-Regular",
                 "fontSize": 19,
@@ -170,6 +172,9 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
             {
               "alignItems": "center",
               "backgroundColor": "#2E3338",
+              "borderColor": "#2E3338",
+              "borderRadius": 100,
+              "borderWidth": 1,
               "flexDirection": "row",
               "flexGrow": 1,
               "height": 48,
@@ -291,6 +296,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           <Text
             style={
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -310,6 +316,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           style={
             [
               {
+                "color": "#2E3338",
                 "flex": 1,
                 "fontFamily": "Inter-Regular",
                 "fontSize": 19,
@@ -391,6 +398,9 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
             {
               "alignItems": "center",
               "backgroundColor": "#2E3338",
+              "borderColor": "#2E3338",
+              "borderRadius": 100,
+              "borderWidth": 1,
               "flexDirection": "row",
               "flexGrow": 1,
               "height": 48,

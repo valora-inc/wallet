@@ -83,7 +83,7 @@ export default function RecoveryPhraseInput({
                 showClearButton={false}
                 value={inputValue}
                 placeholder={inputPlaceholder}
-                placeholderTextColor={colors.gray3}
+                placeholderTextColor={colors.inactive}
                 onChangeText={onInputChange}
                 multiline={true}
                 // This disables keyboard suggestions on iOS, but unfortunately NOT on Android
@@ -116,7 +116,7 @@ export default function RecoveryPhraseInput({
           </View>
           {showStatus && (
             <View style={styles.statusContainer}>
-              {showStatus && <ActivityIndicator size="small" color={colors.accent} />}
+              {showStatus && <ActivityIndicator size="small" color={colors.loadingIndicator} />}
             </View>
           )}
         </View>
@@ -135,15 +135,15 @@ export default function RecoveryPhraseInput({
 const styles = StyleSheet.create({
   container: {
     padding: 0,
-    backgroundColor: colors.white,
-    borderColor: colors.white,
+    backgroundColor: colors.backgroundPrimary,
+    borderColor: colors.backgroundPrimary,
     borderRadius: Spacing.Smallest8,
     borderWidth: 1,
   },
   containerActive: {
     padding: 0,
-    backgroundColor: colors.gray1,
-    borderColor: colors.gray2,
+    backgroundColor: colors.backgroundSecondary,
+    borderColor: colors.border,
     borderRadius: Spacing.Smallest8,
     borderWidth: 1,
   },
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   labelLong: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.onboardingBrownLight,
+    color: colors.contentSecondary,
     opacity: 0.5,
     marginBottom: 4,
   },
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   codeValueLong: {
     ...typeScale.bodyMedium,
-    color: colors.onboardingBrownLight,
+    color: colors.contentSecondary,
   },
   statusContainer: {
     width: 32,

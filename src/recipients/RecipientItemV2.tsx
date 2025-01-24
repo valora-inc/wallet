@@ -57,14 +57,14 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           <ContactCircle
             style={styles.avatar}
             recipient={recipient}
-            backgroundColor={Colors.gray1}
-            foregroundColor={Colors.black}
-            borderColor={Colors.gray2}
+            backgroundColor={Colors.backgroundSecondary}
+            foregroundColor={Colors.contentPrimary}
+            borderColor={Colors.border}
             DefaultIcon={() => renderDefaultIcon(recipient)} // no need to honor color props here since the color we need match the defaults
           />
           {!!showAppIcon && (
             <Logo
-              color={Colors.white}
+              color={Colors.contentInverse}
               style={styles.appIcon}
               size={ICON_SIZE}
               testID="RecipientItem/AppIcon"
@@ -81,7 +81,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           <View style={styles.rightIconContainer}>
             <ActivityIndicator
               size="small"
-              color={Colors.accent}
+              color={Colors.loadingIndicator}
               testID="RecipientItem/ActivityIndicator"
             />
           </View>
@@ -93,9 +93,9 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
 
 function renderDefaultIcon(recipient: Recipient) {
   if (recipientHasNumber(recipient)) {
-    return <PhoneIcon color={Colors.black} size={24} testID="RecipientItem/PhoneIcon" />
+    return <PhoneIcon color={Colors.contentPrimary} size={24} testID="RecipientItem/PhoneIcon" />
   } else {
-    return <WalletIcon color={Colors.black} size={24} testID="RecipientItem/WalletIcon" />
+    return <WalletIcon color={Colors.contentPrimary} size={24} testID="RecipientItem/WalletIcon" />
   }
 }
 
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rowSelected: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
   },
   avatar: {
     marginRight: Spacing.Small12,
@@ -115,10 +115,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
   },
-  name: { ...typeScale.labelMedium, color: Colors.black },
+  name: { ...typeScale.labelMedium },
   phone: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
   },
   rightIconContainer: {
     justifyContent: 'center',

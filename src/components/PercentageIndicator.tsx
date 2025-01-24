@@ -45,10 +45,10 @@ function PercentageIndicator({
     color = Colors.accent
     indicator = <UpIcon color={color} testID={`${testID}:UpIndicator`} />
   } else if (comparison < 0) {
-    color = Colors.error
+    color = Colors.errorPrimary
     indicator = <DownIcon color={color} testID={`${testID}:DownIndicator`} />
   } else {
-    color = Colors.gray3
+    color = Colors.inactive
     indicator = NoChangeIcon && (
       <NoChangeIcon color={color} testID={`${testID}:NoChangeIndicator`} />
     )

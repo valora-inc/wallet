@@ -89,6 +89,7 @@ exports[`SimplexScreen renders correctly 1`] = `
         style={
           [
             {
+              "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
               "fontFamily": "Inter-Regular",
@@ -104,6 +105,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -120,6 +122,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -146,6 +149,7 @@ exports[`SimplexScreen renders correctly 1`] = `
         style={
           [
             {
+              "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
               "fontFamily": "Inter-Regular",
@@ -161,12 +165,13 @@ exports[`SimplexScreen renders correctly 1`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
               },
               {
-                "color": "#666666",
+                "color": "#757575",
               },
             ]
           }
@@ -177,12 +182,13 @@ exports[`SimplexScreen renders correctly 1`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
               },
               {
-                "color": "#666666",
+                "color": "#757575",
               },
             ]
           }
@@ -192,11 +198,11 @@ exports[`SimplexScreen renders correctly 1`] = `
               [
                 [
                   {
-                    "color": "#666666",
+                    "color": "#757575",
                   },
                 ],
                 {
-                  "color": "#666666",
+                  "color": "#757575",
                 },
               ]
             }
@@ -223,6 +229,7 @@ exports[`SimplexScreen renders correctly 1`] = `
         style={
           [
             {
+              "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
               "fontFamily": "Inter-Regular",
@@ -238,6 +245,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -251,6 +259,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -278,6 +287,7 @@ exports[`SimplexScreen renders correctly 1`] = `
         style={
           [
             {
+              "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
               "fontFamily": "Inter-Regular",
@@ -303,6 +313,7 @@ exports[`SimplexScreen renders correctly 1`] = `
             style={
               [
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 24,
@@ -393,13 +404,14 @@ exports[`SimplexScreen renders correctly 1`] = `
               [
                 [
                   {
+                    "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 16,
                     "lineHeight": 24,
                   },
                 ],
                 {
-                  "color": undefined,
+                  "color": "#2E3338",
                 },
               ]
             }
@@ -414,6 +426,7 @@ exports[`SimplexScreen renders correctly 1`] = `
         style={
           [
             {
+              "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
               "fontFamily": "Inter-Regular",
@@ -429,11 +442,13 @@ exports[`SimplexScreen renders correctly 1`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
               },
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -447,11 +462,13 @@ exports[`SimplexScreen renders correctly 1`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
               },
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -464,13 +481,14 @@ exports[`SimplexScreen renders correctly 1`] = `
               [
                 [
                   {
+                    "color": "#2E3338",
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 24,
                   },
                 ],
                 {
-                  "color": undefined,
+                  "color": "#2E3338",
                 },
               ]
             }
@@ -545,6 +563,9 @@ exports[`SimplexScreen renders correctly 1`] = `
               {
                 "alignItems": "center",
                 "backgroundColor": "#2E3338",
+                "borderColor": "#2E3338",
+                "borderRadius": 100,
+                "borderWidth": 1,
                 "flexDirection": "row",
                 "flexGrow": 1,
                 "height": 48,
@@ -658,6 +679,7 @@ exports[`SimplexScreen renders correctly 2`] = `
         style={
           [
             {
+              "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
               "fontFamily": "Inter-Regular",
@@ -673,6 +695,7 @@ exports[`SimplexScreen renders correctly 2`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -689,6 +712,7 @@ exports[`SimplexScreen renders correctly 2`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -715,6 +739,7 @@ exports[`SimplexScreen renders correctly 2`] = `
         style={
           [
             {
+              "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
               "fontFamily": "Inter-Regular",
@@ -730,12 +755,13 @@ exports[`SimplexScreen renders correctly 2`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
               },
               {
-                "color": "#666666",
+                "color": "#757575",
               },
             ]
           }
@@ -746,12 +772,13 @@ exports[`SimplexScreen renders correctly 2`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
               },
               {
-                "color": "#666666",
+                "color": "#757575",
               },
             ]
           }
@@ -761,11 +788,11 @@ exports[`SimplexScreen renders correctly 2`] = `
               [
                 [
                   {
-                    "color": "#666666",
+                    "color": "#757575",
                   },
                 ],
                 {
-                  "color": "#666666",
+                  "color": "#757575",
                 },
               ]
             }
@@ -792,6 +819,7 @@ exports[`SimplexScreen renders correctly 2`] = `
         style={
           [
             {
+              "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
               "fontFamily": "Inter-Regular",
@@ -807,6 +835,7 @@ exports[`SimplexScreen renders correctly 2`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -820,6 +849,7 @@ exports[`SimplexScreen renders correctly 2`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -847,6 +877,7 @@ exports[`SimplexScreen renders correctly 2`] = `
         style={
           [
             {
+              "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
               "fontFamily": "Inter-Regular",
@@ -872,6 +903,7 @@ exports[`SimplexScreen renders correctly 2`] = `
             style={
               [
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 24,
@@ -962,13 +994,14 @@ exports[`SimplexScreen renders correctly 2`] = `
               [
                 [
                   {
+                    "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 16,
                     "lineHeight": 24,
                   },
                 ],
                 {
-                  "color": undefined,
+                  "color": "#2E3338",
                 },
               ]
             }
@@ -983,6 +1016,7 @@ exports[`SimplexScreen renders correctly 2`] = `
         style={
           [
             {
+              "color": "#2E3338",
               "display": "flex",
               "flexDirection": "row",
               "fontFamily": "Inter-Regular",
@@ -998,11 +1032,13 @@ exports[`SimplexScreen renders correctly 2`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
               },
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -1016,11 +1052,13 @@ exports[`SimplexScreen renders correctly 2`] = `
           style={
             [
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 24,
               },
               {
+                "color": "#2E3338",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 24,
@@ -1033,13 +1071,14 @@ exports[`SimplexScreen renders correctly 2`] = `
               [
                 [
                   {
+                    "color": "#2E3338",
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 24,
                   },
                 ],
                 {
-                  "color": undefined,
+                  "color": "#2E3338",
                 },
               ]
             }
@@ -1114,6 +1153,9 @@ exports[`SimplexScreen renders correctly 2`] = `
               {
                 "alignItems": "center",
                 "backgroundColor": "#2E3338",
+                "borderColor": "#2E3338",
+                "borderRadius": 100,
+                "borderWidth": 1,
                 "flexDirection": "row",
                 "flexGrow": 1,
                 "height": 48,

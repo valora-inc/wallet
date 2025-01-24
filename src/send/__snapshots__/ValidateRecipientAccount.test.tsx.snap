@@ -18,6 +18,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
         <Text
           style={
             {
+              "color": "#2E3338",
               "fontFamily": "Inter-Bold",
               "fontSize": 20,
               "lineHeight": 28,
@@ -33,6 +34,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             <Text
               style={
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 24,
@@ -45,6 +47,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             <Text
               style={
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 24,
@@ -57,6 +60,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             <Text
               style={
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 14,
                   "lineHeight": 20,
@@ -93,6 +97,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 onChangeText={[Function]}
                 onFocus={[Function]}
                 placeholder="0xf1b1d5a6e7728g309c4a025k122d71ad75a61976"
+                selectionColor="#757575"
                 shouldShowClipboard={[Function]}
                 style={
                   [
@@ -185,6 +190,9 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                   {
                     "alignItems": "center",
                     "backgroundColor": "#2E3338",
+                    "borderColor": "#2E3338",
+                    "borderRadius": 100,
+                    "borderWidth": 1,
                     "flexDirection": "row",
                     "height": 48,
                     "justifyContent": "center",
@@ -249,6 +257,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
           onPress={[Function]}
           style={
             {
+              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
               "lineHeight": 20,
@@ -326,6 +335,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
         <Text
           style={
             {
+              "color": "#2E3338",
               "fontFamily": "Inter-Bold",
               "fontSize": 20,
               "lineHeight": 28,
@@ -341,6 +351,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
             <Text
               style={
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 16,
                   "lineHeight": 24,
@@ -353,6 +364,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
             <Text
               style={
                 {
+                  "color": "#2E3338",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 14,
                   "lineHeight": 20,
@@ -406,6 +418,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     onChangeText={[Function]}
                     onFocus={[Function]}
                     placeholder="a"
+                    selectionColor="#757575"
                     style={
                       [
                         {
@@ -466,6 +479,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     onChangeText={[Function]}
                     onFocus={[Function]}
                     placeholder="0"
+                    selectionColor="#757575"
                     style={
                       [
                         {
@@ -526,6 +540,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     onChangeText={[Function]}
                     onFocus={[Function]}
                     placeholder="F"
+                    selectionColor="#757575"
                     style={
                       [
                         {
@@ -586,6 +601,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     onChangeText={[Function]}
                     onFocus={[Function]}
                     placeholder="4"
+                    selectionColor="#757575"
                     style={
                       [
                         {
@@ -682,6 +698,9 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                   {
                     "alignItems": "center",
                     "backgroundColor": "#2E3338",
+                    "borderColor": "#2E3338",
+                    "borderRadius": 100,
+                    "borderWidth": 1,
                     "flexDirection": "row",
                     "height": 48,
                     "justifyContent": "center",
@@ -746,6 +765,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
           onPress={[Function]}
           style={
             {
+              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 14,
               "lineHeight": 20,

@@ -3,7 +3,6 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
-import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokensList } from 'src/tokens/hooks'
@@ -54,7 +53,6 @@ export default function TokenApprovalDetails({ transaction }: Props) {
 const styles = StyleSheet.create({
   description: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     flex: 1,
     paddingBottom: Spacing.XLarge48,
   },

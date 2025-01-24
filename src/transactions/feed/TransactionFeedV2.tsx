@@ -291,6 +291,7 @@ function renderItem({ item: tx }: { item: TokenTransaction }) {
       return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.Deposit:
     case TokenTransactionTypeV2.Withdraw:
+    case TokenTransactionTypeV2.CrossChainDeposit:
       return <DepositOrWithdrawFeedItem key={tx.transactionHash} transaction={tx} />
     case TokenTransactionTypeV2.ClaimReward:
       return <ClaimRewardFeedItem key={tx.transactionHash} transaction={tx} />
@@ -506,7 +507,8 @@ export default function TransactionFeedV2() {
           <RefreshControl
             refreshing={status === 'loading'}
             onRefresh={handleRetryFetch}
-            colors={[colors.accent]}
+            colors={[colors.loadingIndicator]}
+            tintColor={colors.loadingIndicator}
           />
         }
         onEndReached={fetchMoreTransactions}
@@ -523,7 +525,11 @@ export default function TransactionFeedV2() {
             {/* prevent loading indicator due to polling from showing at the bottom of the screen */}
             {isFetching && !allTransactionsShown && (
               <View style={styles.centerContainer} testID="TransactionList/loading">
-                <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.accent} />
+                <ActivityIndicator
+                  style={styles.loadingIcon}
+                  size="large"
+                  color={colors.loadingIndicator}
+                />
               </View>
             )}
             {allTransactionsShown && sections.length > 0 && (
@@ -562,7 +568,7 @@ const styles = StyleSheet.create({
   },
   allTransactionsText: {
     ...typeScale.bodySmall,
-    color: colors.gray3,
+    color: colors.contentSecondary,
     textAlign: 'center',
     marginHorizontal: Spacing.Regular16,
     marginVertical: Spacing.Thick24,

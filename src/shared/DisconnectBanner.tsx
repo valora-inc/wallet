@@ -69,10 +69,10 @@ const styles = StyleSheet.create({
     lineHeight: undefined,
   },
   textGrey: {
-    color: colors.gray4,
+    color: colors.contentSecondary,
   },
   textRed: {
-    color: colors.error,
+    color: colors.errorPrimary,
   },
 })
 

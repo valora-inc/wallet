@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   error: {
     ...typeScale.labelMedium,
-    color: colors.error,
+    color: colors.errorPrimary,
     textAlign: 'center',
     marginBottom: Spacing.Thick24,
   },
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   subtitle: {
-    ...typeScale.titleMedium,
+    ...typeScale.labelMedium,
     textAlign: 'center',
   },
   title: {

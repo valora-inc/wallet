@@ -13,7 +13,7 @@ export interface TokenAction {
   name: TokenActionName
   title: string
   details: string
-  iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
+  iconComponent: React.MemoExoticComponent<({ color }: { color?: Colors }) => JSX.Element>
   onPress: () => void
   visible: boolean
 }

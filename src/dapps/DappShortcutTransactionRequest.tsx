@@ -149,7 +149,7 @@ function Content({ rewardId }: { rewardId: string }) {
     return (
       <ActivityIndicator
         testID="DappShortcutTransactionRequest/Loading"
-        color={Colors.accent}
+        color={Colors.loadingIndicator}
         style={styles.loader}
       />
     )

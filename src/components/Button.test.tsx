@@ -77,6 +77,7 @@ describe('Button', () => {
       expect(tree).toMatchSnapshot()
     })
   })
+
   describe('when type is TERTIARY and text size is small', () => {
     it('renders', () => {
       const tree = render(

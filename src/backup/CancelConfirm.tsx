@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
-import { OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { OnboardingEvents } from 'src/analytics/Events'
 import CancelButton from 'src/components/CancelButton'
 import Dialog from 'src/components/Dialog'
 import { navigateHome } from 'src/navigator/NavigationService'
@@ -55,6 +55,6 @@ export default function CancelConfirm({ screen }: Props) {
 
 const styles = StyleSheet.create({
   button: {
-    color: colors.gray4,
+    color: colors.contentSecondary,
   },
 })

@@ -53,6 +53,6 @@ export default function CancelButton({
 
 const styles = StyleSheet.create({
   title: {
-    color: colors.black,
+    color: colors.contentPrimary,
   },
 })

@@ -54,7 +54,11 @@ export default function KycLanding(
   if (personaInProgress) {
     return (
       <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator testID="personaInProgress" size="large" color={Colors.accent} />
+        <ActivityIndicator
+          testID="personaInProgress"
+          size="large"
+          color={Colors.loadingIndicator}
+        />
       </View>
     )
   }
@@ -162,7 +166,11 @@ function KycAgreement(props: {
           style={styles.checkBoxContainer}
         >
           {/* If disabled, the user is in step 2 and this should be completed already*/}
-          <CheckBox testID="checkbox" checked={disabled || agreementChecked} />
+          <CheckBox
+            testID="checkbox"
+            checked={disabled || agreementChecked}
+            checkedColor={Colors.accent}
+          />
         </TouchableOpacity>
         <Text style={styles.disclaimer}>
           <Trans i18nKey={'fiatConnectKycLandingScreen.disclaimer'}>
@@ -203,7 +211,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 48,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.gray2,
+    borderBottomColor: Colors.border,
   },
   stepTwo: {
     alignItems: 'center',
@@ -231,7 +239,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
   disclaimer: {
-    color: Colors.gray5,
+    color: Colors.contentSecondary,
     textAlign: 'left',
     marginLeft: 11,
     fontSize: 13,

@@ -41,10 +41,10 @@ export default function CodeInput({
   const showStatus = showCheckmark || showSpinner || showError
 
   const textColorForStatus = {
-    [CodeInputStatus.Inputting]: colors.black,
-    [CodeInputStatus.Processing]: colors.gray3,
-    [CodeInputStatus.Error]: colors.error,
-    [CodeInputStatus.Accepted]: colors.successDark,
+    [CodeInputStatus.Inputting]: colors.contentPrimary,
+    [CodeInputStatus.Processing]: colors.contentSecondary,
+    [CodeInputStatus.Error]: colors.errorPrimary,
+    [CodeInputStatus.Accepted]: colors.successPrimary,
   }
   return (
     <Card rounded={true} shadow={null} style={[styles.container, style]}>
@@ -80,12 +80,12 @@ export default function CodeInput({
       </View>
       {showStatus && (
         <View style={styles.statusContainer}>
-          {showSpinner && <ActivityIndicator size="small" color={colors.accent} />}
+          {showSpinner && <ActivityIndicator size="small" color={colors.loadingIndicator} />}
           {showCheckmark && <Checkmark testID={testID ? `${testID}/CheckIcon` : undefined} />}
 
           {showError && (
             <AttentionIcon
-              color={colors.error}
+              color={colors.errorPrimary}
               testId={testID ? `${testID}/ErrorIcon` : undefined}
               size={20}
             />
@@ -103,9 +103,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: Spacing.Regular16,
     overflow: 'hidden',
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
     borderWidth: 1,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
   },
   innerContent: {
     flex: 1,

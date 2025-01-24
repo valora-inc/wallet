@@ -4,15 +4,15 @@ import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaFrame } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { InviteEvents } from 'src/analytics/Events'
+import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import CustomHeader from 'src/components/header/CustomHeader'
 import ShareIcon from 'src/icons/Share'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import CustomHeader from 'src/components/header/CustomHeader'
-import BackButton from 'src/components/BackButton'
 
 interface Props {
   title: string
@@ -65,7 +65,7 @@ const InviteModal = ({
         <Button
           style={{ width: '100%' }}
           testID="InviteModalShareButton"
-          icon={<ShareIcon color={colors.white} size={24} />}
+          icon={<ShareIcon size={24} />}
           iconPositionLeft={false}
           size={BtnSizes.FULL}
           text={buttonLabel}
@@ -90,7 +90,7 @@ const InviteModal = ({
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundPrimary,
     paddingHorizontal: Spacing.Thick24,
   },
   contentContainer: {
@@ -107,18 +107,18 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
     textAlign: 'center',
     marginBottom: Spacing.Large32,
-    color: colors.gray4,
+    color: colors.contentSecondary,
   },
   helpContainer: {
     marginBottom: Spacing.Regular16,
   },
   helpText: {
     ...typeScale.bodyXSmall,
-    color: colors.gray5,
+    color: colors.contentSecondary,
     textAlign: 'center',
   },
   helpLink: {
-    color: colors.infoDark,
+    color: colors.textLink,
     flexWrap: 'wrap',
     textDecorationLine: 'underline',
   },

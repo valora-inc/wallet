@@ -6,24 +6,24 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { saveName } from 'src/account/actions'
 import { nameSelector } from 'src/account/selectors'
 import { showError, showMessage } from 'src/alert/actions'
-import { SettingsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SettingsEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import TextButton from 'src/components/TextButton'
 import TextInput from 'src/components/TextInput'
 import { generateRandomUsername } from 'src/nameGenerator'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import BackButton from 'src/components/BackButton'
-import TextButton from 'src/components/TextButton'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Profile>
 
@@ -64,7 +64,7 @@ function Profile({ navigation }: Props) {
         <View style={styles.inputContainer}>
           <TextInput
             placeholder={t('profileScreen.namePlaceholder', { exampleName }) ?? undefined}
-            placeholderTextColor={colors.gray3}
+            placeholderTextColor={colors.inactive}
             testID="ProfileEditName"
             onChangeText={updateName}
             value={newName ?? t('unknown')}
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.Small12,
     borderWidth: 1,
     borderRadius: Spacing.Smallest8,
-    borderColor: colors.gray2,
+    borderColor: colors.border,
     marginHorizontal: Spacing.Thick24,
   },
   ctaContainer: {
@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
   },
   generateButton: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.black,
     marginTop: Spacing.Thick24,
   },
   saveButton: {

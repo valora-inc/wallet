@@ -133,7 +133,7 @@ function SupportContact({ route }: Props) {
           value={message}
           multiline={true}
           style={styles.messageTextInput}
-          placeholderTextColor={colors.gray4}
+          placeholderTextColor={colors.inactive}
           underlineColorAndroid="transparent"
           numberOfLines={10}
           placeholder={t('contactMessagePlaceholder') ?? undefined}
@@ -158,7 +158,7 @@ function SupportContact({ route }: Props) {
           multiline={false}
           value={email}
           style={styles.singleLineTextInput}
-          placeholderTextColor={colors.gray4}
+          placeholderTextColor={colors.inactive}
           placeholder={t('Email') ?? undefined}
           showClearButton={false}
           testID={'EmailEntry'}
@@ -175,7 +175,7 @@ function SupportContact({ route }: Props) {
         </View>
         {inProgress && (
           <View style={styles.loadingSpinnerContainer} testID="ImportWalletLoadingCircle">
-            <ActivityIndicator size="large" color={colors.accent} />
+            <ActivityIndicator size="large" color={colors.loadingIndicator} />
           </View>
         )}
 
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   disclaimerText: {
     ...typeScale.bodyMedium,
-    color: colors.gray4,
+    color: colors.contentSecondary,
   },
   container: {
     flex: 1,
@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
     height: 40,
     alignItems: 'center',
     marginTop: 4,
+    gap: 12,
   },
   logsSwitch: {
     marginBottom: 3,
@@ -229,11 +230,11 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     marginTop: 8,
     alignItems: 'flex-start',
-    borderColor: colors.gray2,
+    borderColor: colors.border,
     borderRadius: 8,
     borderWidth: 1,
     marginBottom: 16,
-    color: colors.black,
+    color: colors.contentPrimary,
     height: 80,
     maxHeight: 150,
   },
@@ -242,11 +243,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     marginTop: 8,
     alignItems: 'flex-start',
-    borderColor: colors.gray2,
+    borderColor: colors.border,
     borderRadius: 8,
     borderWidth: 1,
     marginBottom: 16,
-    color: colors.black,
+    color: colors.contentPrimary,
     maxHeight: 50,
   },
   headerText: {

@@ -324,7 +324,7 @@ export const styles = StyleSheet.create({
   },
   card: {
     padding: Spacing.Regular16,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderWidth: 1,
     borderRadius: 12,
     gap: Spacing.Regular16,
@@ -343,14 +343,13 @@ export const styles = StyleSheet.create({
   },
   cardTitleText: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
   },
   cardLabelText: {
     ...typeScale.bodyMedium,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
   },
   depositAndEarningCard: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     padding: 0,
     gap: 0,
   },
@@ -361,10 +360,9 @@ export const styles = StyleSheet.create({
   },
   depositAndEarningCardTitleText: {
     ...typeScale.titleMedium,
-    color: Colors.black,
   },
   depositAndEarningCardSubtitleContainer: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.backgroundPrimary,
     padding: Spacing.Regular16,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
@@ -372,13 +370,11 @@ export const styles = StyleSheet.create({
   },
   depositAndEarningsCardLabelText: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'left',
   },
   depositAndEarningsCardValueText: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'right',
   },

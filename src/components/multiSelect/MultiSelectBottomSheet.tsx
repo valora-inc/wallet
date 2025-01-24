@@ -155,7 +155,7 @@ function OptionLineItem({ onPress, text, iconUrl, isSelected }: OptionLineItemPr
               {isSelected && (
                 <Checkmark
                   testID={`${text}-checkmark`}
-                  color={Colors.black}
+                  color={Colors.contentPrimary}
                   height={Spacing.Thick24}
                   width={Spacing.Thick24}
                 />
@@ -171,7 +171,7 @@ function OptionLineItem({ onPress, text, iconUrl, isSelected }: OptionLineItemPr
 const styles = StyleSheet.create({
   doneButton: {
     borderRadius: Spacing.Regular16,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.backgroundPrimary,
     height: 56,
     flexGrow: 1,
     alignItems: 'center',
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: Spacing.Thick24,
     borderTopWidth: 1,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
   },
   optionRow: {
     flexDirection: 'row',
@@ -225,12 +225,12 @@ const styles = StyleSheet.create({
   borderRadiusTop: {
     borderTopLeftRadius: Spacing.Regular16,
     borderTopRightRadius: Spacing.Regular16,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.backgroundPrimary,
   },
   optionsContainer: {
     flexDirection: 'column',
     marginBottom: Spacing.Smallest8,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.backgroundPrimary,
     borderBottomLeftRadius: Spacing.Regular16,
     borderBottomRightRadius: Spacing.Regular16,
   },

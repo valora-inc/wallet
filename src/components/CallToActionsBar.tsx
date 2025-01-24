@@ -63,6 +63,6 @@ const styles = StyleSheet.create({
     minHeight: 16,
   },
   secondaryAction: {
-    color: colors.gray4,
+    color: colors.textLink,
   },
 })

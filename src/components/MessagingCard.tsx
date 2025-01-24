@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     // NOTE: using this over bar shadow since it's barely visible on android. If we
     // want to use this consistently everywhere (this is TBD from design), this
     // can be pulled into the Card component
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderWidth: 1,
   },
 })

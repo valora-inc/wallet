@@ -34,7 +34,7 @@ function NoActivity({ loading, error }: Props) {
         <ActivityIndicator
           style={styles.icon}
           size="large"
-          color={colors.accent}
+          color={colors.loadingIndicator}
           testID="NoActivity/loading"
         />
       )}
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   text: {
     ...typeScale.bodyLarge,
-    color: colors.gray3,
+    color: colors.contentSecondary,
   },
   noTransactionsContainer: {
     padding: Spacing.Regular16,

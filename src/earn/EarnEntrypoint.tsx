@@ -97,13 +97,12 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Thick24,
   },
   touchable: {
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderWidth: 1,
     borderRadius: 8,
   },
   title: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
     marginBottom: Spacing.Smallest8,
   },
   row: {
@@ -116,11 +115,10 @@ const styles = StyleSheet.create({
   },
   description: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
   },
   totalSupplied: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
   },
   image: {
     width: 80,

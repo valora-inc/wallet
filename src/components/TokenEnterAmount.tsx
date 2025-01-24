@@ -53,6 +53,19 @@ export function formatNumber(value: string) {
 
 export function unformatNumberForProcessing(value: string) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
+
+  /**
+   * If the number passed is a regular number which is formatted in the standard JS number format
+   * (e.g. "123456.789") then just keep it as is. This will ensure this function will properly
+   * unformat different numbers, including those that come from external sources (e.g from API
+   * response)
+   *
+   * Number.isNaN considers unfinished decimal number e.g. "1." a valid number. If the number ends with grouping separator instead of decimal separator - it can be simply erased by casting it to a number.
+   */
+  if (!Number.isNaN(+value)) {
+    return value.endsWith(groupingSeparator) ? `${+value}` : value
+  }
+
   return value.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
 }
 
@@ -228,7 +241,7 @@ export function useEnterAmount(props: {
   }
 
   function handleAmountInputChange(val: string) {
-    let value = val.startsWith(localCurrencySymbol) ? val.slice(1) : val
+    let value = val.startsWith(localCurrencySymbol) ? val.slice(localCurrencySymbol.length) : val
     value = unformatNumberForProcessing(value)
     value = value.startsWith('.') ? `0${value}` : value
 
@@ -417,7 +430,7 @@ export default function TokenEnterAmount({
             )}
           </View>
 
-          {onOpenTokenPicker && <DownArrowIcon height={24} color={Colors.gray3} />}
+          {onOpenTokenPicker && <DownArrowIcon height={24} color={Colors.contentSecondary} />}
         </View>
       </Touchable>
       {token && (
@@ -435,7 +448,7 @@ export default function TokenEnterAmount({
                 onInputChange?.(value)
               }}
               value={formattedInputValue}
-              placeholderTextColor={Colors.gray3}
+              placeholderTextColor={Colors.inactive}
               placeholder={amountType === 'token' ? placeholder.token : placeholder.local}
               keyboardType="decimal-pad"
               // Work around for RN issue with Samsung keyboards
@@ -481,7 +494,7 @@ export default function TokenEnterAmount({
                     testID={`${testID}/SwitchTokens`}
                     hitSlop={variables.iconHitslop}
                   >
-                    <SwapArrows color={Colors.gray3} size={24} />
+                    <SwapArrows color={Colors.contentSecondary} size={24} />
                   </Touchable>
                 )}
 
@@ -506,8 +519,8 @@ export default function TokenEnterAmount({
             <View testID={`${testID}/Loader`} style={styles.loader}>
               <SkeletonPlaceholder
                 borderRadius={100} // ensure rounded corners with font scaling
-                backgroundColor={Colors.gray2}
-                highlightColor={Colors.white}
+                backgroundColor={Colors.skeletonPlaceholderBackground}
+                highlightColor={Colors.skeletonPlaceholderHighlight}
               >
                 <View style={{ height: '100%', width: '100%' }} />
               </SkeletonPlaceholder>
@@ -522,10 +535,10 @@ export default function TokenEnterAmount({
 const styles = StyleSheet.create({
   rowContainer: {
     borderWidth: 1,
-    borderColor: Colors.gray2,
+    borderColor: Colors.border,
     borderRadius: BORDER_RADIUS,
     padding: Spacing.Regular16,
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -543,26 +556,24 @@ const styles = StyleSheet.create({
   },
   tokenName: {
     ...typeScale.labelMedium,
-    color: Colors.black,
   },
   tokenBalance: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
   },
   primaryAmountText: {
     ...typeScale.titleMedium,
     paddingTop: 0,
     paddingBottom: 0,
-    color: Colors.black,
   },
   secondaryAmountText: {
     ...typeScale.bodyMedium,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
   },
   placeholderText: {
     ...typeScale.labelMedium,
     paddingHorizontal: 4,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
   },
   swapArrowContainer: {
     transform: [{ rotate: '90deg' }],

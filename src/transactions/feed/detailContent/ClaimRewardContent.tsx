@@ -63,11 +63,9 @@ export function ClaimRewardContent({ transaction }: ClaimRewardProps) {
 const styles = StyleSheet.create({
   detailsTitle: {
     ...typeScale.labelSmall,
-    color: Colors.black,
   },
   detailsSubtitle: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
   },
   row: {
     flex: 1,
@@ -77,11 +75,10 @@ const styles = StyleSheet.create({
   },
   amountTitle: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
   },
   amountSubtitle: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
     marginLeft: 'auto',
   },
 })
