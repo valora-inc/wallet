@@ -10,14 +10,14 @@ apps/*/android/
 apps/*/ios/
 
 # Ignore Crowdin generated files (often they are written with no final newline)
-packages/runtime/locales/*/*.json
+packages/@interaxyz/mobile/locales/*/*.json
 # Except for the base lang which is maintained by hand
-!packages/runtime/locales/base/*.json
-packages/runtime/src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json
+!packages/@interaxyz/mobile/locales/base/*.json
+packages/@interaxyz/mobile/src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json
 vendor
 
 # Ignore generated RootState schema
-packages/runtime/test/RootStateSchema.json
+packages/@interaxyz/mobile/test/RootStateSchema.json
 
 e2e/test-results/*
 # Ignore generated fastlane files

@@ -35,7 +35,7 @@ const config: KnipConfig = {
         '@walletconnect/core', // used in e2e tests via @walletconnect/sign-client
       ],
     },
-    'packages/runtime': {
+    'packages/@interaxyz/mobile': {
       entry: ['index.js!', 'metro.config.js!', './scripts/**/*.js'],
       project: ['src/**/*.ts!', 'src/**/*.tsx!', 'src/**/*.js!'],
       ignoreDependencies: [

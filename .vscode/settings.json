@@ -44,5 +44,8 @@
   },
   "javascript.format.enable": false,
   "editor.tabSize": 2,
-  "editor.detectIndentation": false
+  "editor.detectIndentation": false,
+  "files.associations": {
+    "*.yaml": "home-assistant"
+  }
 }

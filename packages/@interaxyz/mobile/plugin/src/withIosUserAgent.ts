@@ -28,7 +28,7 @@ function addUserAgentCode(src: string, appName: string): MergeResults {
   const isHeaderMultiline = APPLICATION_DID_FINISH_LAUNCHING_LINE_MATCHER_MULTILINE.test(src)
 
   return mergeContents({
-    tag: '@mobilestack-xyz/runtime/app-delegate-user-agent-code',
+    tag: '@interaxyz/mobile/app-delegate-user-agent-code',
     src,
     newSrc: getUserAgentCode(appName),
     anchor: APPLICATION_DID_FINISH_LAUNCHING_LINE_MATCHER,

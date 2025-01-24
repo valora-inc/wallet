@@ -30,7 +30,7 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
       resizeMode="contain"
       source={
         {
-          "testUri": "../../../packages/runtime/src/images/assets/fiat-exchange.png",
+          "testUri": "../../../packages/@interaxyz/mobile/src/images/assets/fiat-exchange.png",
         }
       }
     />
@@ -200,7 +200,7 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
       resizeMode="contain"
       source={
         {
-          "testUri": "../../../packages/runtime/src/images/assets/fiat-exchange.png",
+          "testUri": "../../../packages/@interaxyz/mobile/src/images/assets/fiat-exchange.png",
         }
       }
     />

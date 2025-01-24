@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`AccountKeyEducation renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
     {
@@ -148,7 +148,7 @@ exports[`renders correctly 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../packages/runtime/src/images/assets/celo-education-1.png",
+                    "testUri": "../../../packages/@interaxyz/mobile/src/images/assets/account-key-1.png",
                   }
                 }
                 style={
@@ -169,7 +169,7 @@ exports[`renders correctly 1`] = `
                   }
                 }
               >
-                goldEducationSteps.0.title
+                guide.0.title
               </Text>
               <Text
                 style={
@@ -183,7 +183,7 @@ exports[`renders correctly 1`] = `
                   }
                 }
               >
-                goldEducationSteps.0.text
+                guide.0.text
               </Text>
             </View>
           </View>
@@ -218,7 +218,7 @@ exports[`renders correctly 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../packages/runtime/src/images/assets/celo-education-2.png",
+                    "testUri": "../../../packages/@interaxyz/mobile/src/images/assets/account-key-2.png",
                   }
                 }
                 style={
@@ -239,7 +239,7 @@ exports[`renders correctly 1`] = `
                   }
                 }
               >
-                goldEducationSteps.1.title
+                guide.1.title
               </Text>
               <Text
                 style={
@@ -253,7 +253,7 @@ exports[`renders correctly 1`] = `
                   }
                 }
               >
-                goldEducationSteps.1.text
+                guide.1.text
               </Text>
             </View>
           </View>
@@ -288,7 +288,7 @@ exports[`renders correctly 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../packages/runtime/src/images/assets/celo-education-3.png",
+                    "testUri": "../../../packages/@interaxyz/mobile/src/images/assets/account-key-3.png",
                   }
                 }
                 style={
@@ -309,7 +309,7 @@ exports[`renders correctly 1`] = `
                   }
                 }
               >
-                goldEducationSteps.2.title
+                guide.2.title
               </Text>
               <Text
                 style={
@@ -323,7 +323,7 @@ exports[`renders correctly 1`] = `
                   }
                 }
               >
-                goldEducationSteps.2.text
+                guide.2.text
               </Text>
             </View>
           </View>
@@ -358,7 +358,7 @@ exports[`renders correctly 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../packages/runtime/src/images/assets/celo-education-4.png",
+                    "testUri": "../../../packages/@interaxyz/mobile/src/images/assets/account-key-4.png",
                   }
                 }
                 style={
@@ -379,7 +379,7 @@ exports[`renders correctly 1`] = `
                   }
                 }
               >
-                goldEducationSteps.3.title
+                guide.3.title
               </Text>
               <Text
                 style={
@@ -393,7 +393,7 @@ exports[`renders correctly 1`] = `
                   }
                 }
               >
-                goldEducationSteps.3.text
+                guide.3.text
               </Text>
             </View>
           </View>

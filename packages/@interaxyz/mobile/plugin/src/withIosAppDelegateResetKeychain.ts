@@ -39,7 +39,7 @@ const METHOD_INVOCATION_BLOCK = `resetKeychainIfNecessary();`
 
 function addResetKeychainFunction(src: string): MergeResults {
   return mergeContents({
-    tag: '@mobilestack-xyz/runtime/app-delegate-reset-keychain-function',
+    tag: '@interaxyz/mobile/app-delegate-reset-keychain-function',
     src,
     newSrc: RESET_KEYCHAIN_FUNCTION,
     anchor: /@implementation AppDelegate/,
@@ -53,7 +53,7 @@ function addCallResetKeychain(src: string): MergeResults {
   const isHeaderMultiline = APPLICATION_DID_FINISH_LAUNCHING_LINE_MATCHER_MULTILINE.test(src)
 
   return mergeContents({
-    tag: '@mobilestack-xyz/runtime/app-delegate-call-reset-keychain',
+    tag: '@interaxyz/mobile/app-delegate-call-reset-keychain',
     src,
     newSrc: METHOD_INVOCATION_BLOCK,
     anchor: APPLICATION_DID_FINISH_LAUNCHING_LINE_MATCHER,

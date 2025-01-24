@@ -44,7 +44,7 @@ function addNeededImports(src: string): MergeResults {
   const imports = NEEDED_IMPORTS.filter((imp) => !src.includes(imp))
 
   return mergeContents({
-    tag: '@mobilestack-xyz/runtime/main-application-user-agent-imports',
+    tag: '@interaxyz/mobile/main-application-user-agent-imports',
     src,
     newSrc: imports.join('\n'),
     anchor: /import com\.facebook\.soloader\.SoLoader/,
@@ -55,7 +55,7 @@ function addNeededImports(src: string): MergeResults {
 
 function addUserAgentCode(src: string, appName: string): MergeResults {
   return mergeContents({
-    tag: '@mobilestack-xyz/runtime/main-application-user-agent-code',
+    tag: '@interaxyz/mobile/main-application-user-agent-code',
     src,
     newSrc: getUserAgentCode(appName),
     anchor: /ApplicationLifecycleDispatcher\.onApplicationCreate\(this\)/,

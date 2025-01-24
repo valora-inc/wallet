@@ -1,6 +1,6 @@
 // Note: We should be careful of what we import in this module, we don't want to load the entire runtime here
 // until createApp is called, since we set some globals here, which will be read by other runtime modules
-import '@mobilestack-xyz/runtime/src/missingGlobals'
+import '@interaxyz/mobile/src/missingGlobals'
 import Config from 'react-native-config'
 import DeviceInfo from 'react-native-device-info'
 import { setAppConfig } from '../appConfig'

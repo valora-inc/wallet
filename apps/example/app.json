@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "MobileStack",
-    "slug": "mobile-stack",
-    // TODO: use a MobileStack scheme
+    "name": "Intera",
+    "slug": "intera",
+    // TODO: use an Intera scheme
     "scheme": "celo",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,7 +13,7 @@
     "newArchEnabled": false,
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "xyz.mobilestack.example",
+      "bundleIdentifier": "xyz.intera.example",
       "infoPlist": {
         // TODO: add all reasons for all permissions
         "NSCameraUsageDescription": "[REASON]",
@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ff5050"
       },
-      "package": "xyz.mobilestack.example",
+      "package": "xyz.intera.example",
       "permissions": [
         // TODO: add all reasons for all permissions
         "android.permission.CAMERA"
@@ -68,7 +68,7 @@
           "domain": "{DOMAIN}"
         }
       ],
-      "@mobilestack-xyz/runtime",
+      "@interaxyz/mobile",
       "@config-plugins/detox",
       [
         "./plugins/withCustomGradleProperties",

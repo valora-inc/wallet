@@ -1,4 +1,4 @@
-const iosName = 'MobileStack'
+const iosName = 'Intera'
 const derivedDataPath = 'ios/build'
 const sdk = 'iphonesimulator'
 

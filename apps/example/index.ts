@@ -1,4 +1,4 @@
-import { createApp } from '@mobilestack-xyz/runtime/src/public/createApp'
+import { createApp } from '@interaxyz/mobile/src/public/createApp'
 import { registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
 
