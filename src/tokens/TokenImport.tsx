@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
   },
   messageTextInput: {
     paddingHorizontal: Spacing.Small12,
-    borderColor: Colors.border,
+    borderColor: Colors.borderPrimary,
     borderRadius: Spacing.Tiny4,
     borderWidth: 1.5,
   },

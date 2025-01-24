@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   },
   reviewSummary: {
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colors.borderPrimary,
     borderRadius: Spacing.Small12,
     backgroundColor: Colors.backgroundSecondary,
     padding: Spacing.Regular16,

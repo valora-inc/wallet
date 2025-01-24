@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.Small12,
     borderWidth: 1,
     borderRadius: Spacing.Smallest8,
-    borderColor: colors.border,
+    borderColor: colors.borderPrimary,
     marginHorizontal: Spacing.Thick24,
   },
   ctaContainer: {

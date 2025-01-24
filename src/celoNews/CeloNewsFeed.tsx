@@ -138,7 +138,7 @@ export default function CeloNewsFeed() {
 const styles = StyleSheet.create({
   separator: {
     height: 1,
-    backgroundColor: colors.border,
+    backgroundColor: colors.borderPrimary,
   },
   header: {
     marginVertical: Spacing.Regular16,

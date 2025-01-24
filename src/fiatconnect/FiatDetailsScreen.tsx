@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
   formInputContainer: {
     borderRadius: 4,
     borderWidth: 1.5,
-    borderColor: colors.border,
+    borderColor: colors.borderPrimary,
     marginBottom: 4,
     paddingHorizontal: 8,
   },
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
     borderRadius: 4,
     borderWidth: 1.5,
-    borderColor: colors.border,
+    borderColor: colors.borderPrimary,
     marginBottom: 4,
     paddingHorizontal: 8,
     paddingVertical: 12,
