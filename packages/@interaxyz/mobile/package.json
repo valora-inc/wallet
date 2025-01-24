@@ -4,6 +4,7 @@
   "author": "Valora Inc",
   "license": "Apache-2.0",
   "private": true,
+  "main": "./src/public/index.ts",
   "engines": {
     "node": "20.17.0"
   },

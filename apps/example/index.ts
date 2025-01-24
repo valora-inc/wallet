@@ -1,4 +1,4 @@
-import { createApp } from '@interaxyz/mobile/src/public/createApp'
+import { createApp } from '@interaxyz/mobile'
 import { registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
 
