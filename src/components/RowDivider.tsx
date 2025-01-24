@@ -7,7 +7,7 @@ export interface Props {
   color?: Colors
 }
 
-export default function RowDivider({ color = Colors.border }: Props) {
+export default function RowDivider({ color = Colors.borderPrimary }: Props) {
   return <View style={[styles.container, { backgroundColor: color }]} />
 }
 

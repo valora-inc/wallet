@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   borderStyle: {
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colors.borderPrimary,
   },
   dappIcon: {
     width: 40,

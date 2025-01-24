@@ -78,7 +78,7 @@ export default function PointsDiscoverCard() {
 const styles = StyleSheet.create({
   touchable: {
     overflow: 'hidden',
-    borderColor: Colors.border,
+    borderColor: Colors.borderPrimary,
     borderWidth: 1,
     borderRadius: Spacing.Smallest8,
     marginBottom: Spacing.Thick24,

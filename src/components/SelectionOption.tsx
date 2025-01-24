@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     paddingVertical: 14,
     borderBottomWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.borderPrimary,
   },
   text: {
     ...typeScale.bodyMedium,
