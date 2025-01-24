@@ -2848,14 +2848,13 @@
   },
   "reviewTransaction": {
     "totalPlusFees": "Total Plus Fees",
-    "totalAmount_mutlipleTokens_noFiatPrice": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
+    "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
   },
   "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
-  "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
   "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "Price Unavailable",
+  "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
   "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
-  "tokenAndLocalAmount_oneToken": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
-  "tokenAndLocalAmount_oneToken_noFiatPrice": "{{tokenAmount}} {{tokenSymbol}}",
-  "tokenAndLocalAmountApprox_oneToken": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
-  "tokenAndLocalAmountApprox_oneToken_noFiatPrice": "≈ {{tokenAmount}} {{tokenSymbol}}"
+  "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>"
 }

@@ -232,11 +232,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
               type={BtnTypes.PRIMARY}
               text={isClaimed ? t('claimed') : t('reclaim')}
               size={BtnSizes.FULL}
-              icon={
-                isClaimed ? (
-                  <Checkmark height={Spacing.Thick24} color={Colors.contentInverse} />
-                ) : undefined
-              }
+              icon={isClaimed ? <Checkmark height={Spacing.Thick24} /> : undefined}
               iconPositionLeft={false}
             />
           </View>

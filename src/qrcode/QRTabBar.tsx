@@ -41,7 +41,7 @@ export default function QRTabBar({
     [state, descriptors]
   )
 
-  const color = state.index === 0 ? colors.backgroundInverse : colors.backgroundPrimary
+  const color = state.index === 0 ? colors.qrTabBarPrimary : colors.qrTabBarSecondary
   const shareOpacity = interpolate(state.index, [0, 0.1], [1, 0], Extrapolation.CLAMP)
 
   const onPressClose = () => {
@@ -87,7 +87,7 @@ export default function QRTabBar({
             testID="HeaderTitle"
             style={{
               ...styles.headerTitle,
-              color: state.index === 0 ? colors.contentPrimary : colors.contentInverse,
+              color: state.index === 0 ? colors.qrTabBarPrimary : colors.qrTabBarSecondary,
             }}
             numberOfLines={1}
             allowFontScaling={false}
@@ -100,7 +100,7 @@ export default function QRTabBar({
         style={[styles.rightContainer, { opacity: shareOpacity }]}
         pointerEvents={state.index > 0 ? 'none' : undefined}
       >
-        <TopBarIconButton icon={<Share color={colors.contentPrimary} />} onPress={onPressShare} />
+        <TopBarIconButton icon={<Share color={colors.qrTabBarPrimary} />} onPress={onPressShare} />
       </Animated.View>
     </SafeAreaView>
   )
