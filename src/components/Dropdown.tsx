@@ -68,7 +68,7 @@ function Dropdown<T>(props: Props<T>) {
 const styles = StyleSheet.create({
   selectedOptionContainer: {
     padding: Spacing.Small12,
-    backgroundColor: Colors.backgroundSecondary,
+    backgroundColor: Colors.textInputBackground,
     borderColor: Colors.borderSecondary,
     borderRadius: Spacing.Tiny4,
     borderWidth: 1,
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.borderSecondary,
     borderRadius: Spacing.Tiny4,
     borderWidth: 1,
-    backgroundColor: Colors.backgroundSecondary,
+    backgroundColor: Colors.textInputBackground,
     flexDirection: 'column',
     width: '100%',
   },
