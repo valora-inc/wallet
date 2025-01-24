@@ -118,6 +118,8 @@ function DiscoverDappsCard() {
                 onPressDapp={() => onPressDapp({ ...dapp, openedFrom: section.dappSection }, index)}
                 disableFavoriting={true}
                 testID={`${section.testID}/DappCard`}
+                cardStyle={styles.dappCard}
+                cardContentContainerStyle={styles.dappCardContentContainer}
               />
             )
           }}
@@ -159,6 +161,14 @@ const styles = StyleSheet.create({
   footer: {
     ...typeScale.labelSemiBoldXSmall,
     color: Colors.accent,
+    marginTop: Spacing.Regular16,
+  },
+  dappCard: {
+    marginVertical: Spacing.Regular16,
+    backgroundColor: Colors.backgroundPrimary,
+  },
+  dappCardContentContainer: {
+    padding: 0,
   },
   title: {
     ...typeScale.labelSemiBoldMedium,

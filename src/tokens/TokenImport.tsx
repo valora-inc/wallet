@@ -351,9 +351,9 @@ const styles = StyleSheet.create({
   },
   messageTextInput: {
     paddingHorizontal: Spacing.Small12,
-    borderColor: Colors.borderPrimary,
+    borderColor: Colors.borderSecondary,
     borderRadius: Spacing.Tiny4,
-    borderWidth: 1.5,
+    borderWidth: 1,
   },
   scrollViewContainer: {
     marginVertical: Spacing.Smallest8,

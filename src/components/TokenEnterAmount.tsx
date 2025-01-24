@@ -464,6 +464,7 @@ export default function TokenEnterAmount({
                 inputStyle,
                 Platform.select({ ios: { lineHeight: undefined } }),
               ]}
+              style={styles.input}
               onBlur={() => {
                 handleSetStartPosition(0)
               }}
@@ -536,7 +537,7 @@ export default function TokenEnterAmount({
 const styles = StyleSheet.create({
   rowContainer: {
     borderWidth: 1,
-    borderColor: Colors.borderPrimary,
+    borderColor: Colors.borderSecondary,
     borderRadius: BORDER_RADIUS,
     padding: Spacing.Regular16,
     backgroundColor: Colors.backgroundSecondary,
@@ -586,5 +587,8 @@ const styles = StyleSheet.create({
     left: 0,
     height: '100%',
     width: '100%',
+  },
+  input: {
+    backgroundColor: Colors.backgroundSecondary,
   },
 })
