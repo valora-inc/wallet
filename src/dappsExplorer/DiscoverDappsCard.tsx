@@ -143,7 +143,7 @@ function DiscoverDappsCard() {
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Regular16,
-    borderColor: Colors.border,
+    borderColor: Colors.borderPrimary,
     borderWidth: 1,
     borderRadius: 8,
   },

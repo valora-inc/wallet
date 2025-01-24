@@ -324,7 +324,7 @@ export const styles = StyleSheet.create({
   },
   card: {
     padding: Spacing.Regular16,
-    borderColor: Colors.border,
+    borderColor: Colors.borderPrimary,
     borderWidth: 1,
     borderRadius: 12,
     gap: Spacing.Regular16,
