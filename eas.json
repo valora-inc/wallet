@@ -18,24 +18,65 @@
         "simulator": true
       }
     },
-    "production": {
+    "mainnet": {
       "extends": "base",
       "android": {
-        "credentialsSource": "local"
+        "gradleCommand": ":app:bundleMainnetRelease"
+      },
+      "ios": {
+        "scheme": "MobileStack-mainnet"
+      }
+    },
+    "mainnetnightly": {
+      "extends": "base",
+      "android": {
+        "gradleCommand": ":app:bundleMainnetNightlyRelease"
+      },
+      "ios": {
+        "scheme": "MobileStack-mainnetnightly"
+      }
+    },
+    "mainnetdev": {
+      "extends": "development",
+      "android": {
+        "gradleCommand": ":app:bundleMainnetDevRelease"
+      },
+      "ios": {
+        "scheme": "MobileStack-mainnetdev"
       }
     },
     "alfajores": {
       "extends": "base",
       "android": {
-        "credentialsSource": "local",
         "gradleCommand": ":app:bundleAlfajoresRelease"
+      },
+      "ios": {
+        "scheme": "MobileStack-alfajores"
+      }
+    },
+    "alfajoresnightly": {
+      "extends": "base",
+      "android": {
+        "gradleCommand": ":app:bundleAlfajoresNightlyRelease"
+      },
+      "ios": {
+        "scheme": "MobileStack-alfajoresnightly"
+      }
+    },
+    "alfajoresdev": {
+      "extends": "development",
+      "android": {
+        "gradleCommand": ":app:bundleAlfajoresDevRelease"
+      },
+      "ios": {
+        "scheme": "MobileStack-alfajoresdev"
       }
     }
   },
   "submit": {
     "alfajores": {
       "android": {
-        "serviceAccountKeyPath": "play-console-account.json",
+        "applicationId": "valora",
         "track": "alpha",
         "releaseStatus": "draft",
         "changesNotSentForReview": true
