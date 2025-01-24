@@ -213,8 +213,9 @@ export default function SendConfirmation(props: Props) {
                 feeTokenInfo={feeTokenInfo}
                 tokenAmount={tokenAmount}
                 localAmount={localAmount}
-                tokenFeeAmount={maxFeeAmount}
-                localFeeAmount={localFeeAmount}
+                feeTokenAmount={maxFeeAmount}
+                feeLocalAmount={localFeeAmount}
+                localCurrencySymbol={localCurrencySymbol}
               />
             }
           />

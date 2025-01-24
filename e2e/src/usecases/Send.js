@@ -93,7 +93,7 @@ export default Send = () => {
         timeout: 30_000,
         tap: true,
       })
-      let amount = await element(by.id('SendConfirmationToken/Title')).getAttributes()
+      let amount = await element(by.id('SendConfirmationToken/PrimaryValue')).getAttributes()
       jestExpect(amount.text).toEqual('0.01 cEUR')
     })
 
