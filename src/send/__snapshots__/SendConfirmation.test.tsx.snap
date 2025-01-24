@@ -543,7 +543,14 @@ exports[`SendConfirmation renders correctly 1`] = `
                   }
                   testID="SendConfirmationTotal/Value"
                 >
-                  localAmountApprox, {"localAmount":"1.40","localCurrencySymbol":"₱"}
+                  tokenAndLocalAmountApprox, {"tokenAmount":"1.00","localAmount":"1.33","tokenSymbol":"cUSD"}
+                  <Text
+                    style={
+                      {
+                        "color": "#757575",
+                      }
+                    }
+                  />
                 </Text>
               </View>
             </View>
