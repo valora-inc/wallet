@@ -12,9 +12,7 @@ import WalletIcon from 'src/icons/navigator/Wallet'
 import PhoneIcon from 'src/icons/Phone'
 import UserIcon from 'src/icons/User'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { type Recipient } from 'src/recipients/recipient'
-import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -201,18 +199,19 @@ export function ReviewTotalValue({
   feeTokenInfo,
   tokenAmount,
   localAmount,
-  tokenFeeAmount,
-  localFeeAmount,
+  feeTokenAmount,
+  feeLocalAmount,
+  localCurrencySymbol,
 }: {
   tokenInfo: TokenBalance | undefined
   feeTokenInfo: TokenBalance | undefined
   tokenAmount: BigNumber | null
   localAmount: BigNumber | null
-  tokenFeeAmount: BigNumber | undefined
-  localFeeAmount: BigNumber | null
+  feeTokenAmount: BigNumber | undefined
+  feeLocalAmount: BigNumber | null
+  localCurrencySymbol: LocalCurrencySymbol
 }) {
   const { t } = useTranslation()
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
 
   // if there are not token info or token amount then it should not even be possible to get to the review screen
   if (!tokenInfo || !tokenAmount) {
@@ -220,35 +219,41 @@ export function ReviewTotalValue({
   }
 
   // if there are no fees then just format token amount
-  if (!feeTokenInfo || !tokenFeeAmount) {
-    return (
-      <Trans
-        i18nKey={'tokenAndLocalAmountApprox_oneToken'}
-        context={localAmount ? undefined : 'noFiatPrice'}
-        tOptions={{
-          tokenAmount: formatValueToDisplay(tokenAmount),
-          localAmount: localAmount ? formatValueToDisplay(localAmount) : '',
-          tokenSymbol: tokenInfo.symbol,
-          localCurrencySymbol,
-        }}
-      >
-        <Text style={styles.totalPlusFeesLocalAmount} />
-      </Trans>
-    )
+  if (!feeTokenInfo || !feeTokenAmount) {
+    if (localAmount) {
+      return (
+        <Trans
+          i18nKey={'tokenAndLocalAmountApprox'}
+          tOptions={{
+            tokenAmount: formatValueToDisplay(tokenAmount),
+            localAmount: formatValueToDisplay(localAmount),
+            tokenSymbol: tokenInfo.symbol,
+            localCurrencySymbol,
+          }}
+        >
+          <Text style={styles.totalPlusFeesLocalAmount} />
+        </Trans>
+      )
+    }
+
+    return t('tokenAmountApprox', {
+      tokenAmount: formatValueToDisplay(tokenAmount),
+      tokenSymbol: tokenInfo.symbol,
+    })
   }
 
   const sameToken = tokenInfo.tokenId === feeTokenInfo.tokenId
   const haveLocalPrice =
-    !!tokenInfo.priceUsd && !!feeTokenInfo.priceUsd && localAmount && localFeeAmount
+    !!tokenInfo.priceUsd && !!feeTokenInfo.priceUsd && localAmount && feeLocalAmount
 
   // if single token and have local price - return token and local amounts
   if (sameToken && haveLocalPrice) {
     return (
       <Trans
-        i18nKey={'tokenAndLocalAmountApprox_oneToken'}
+        i18nKey={'tokenAndLocalAmountApprox'}
         tOptions={{
-          tokenAmount: formatValueToDisplay(tokenAmount.plus(tokenFeeAmount)),
-          localAmount: formatValueToDisplay(localAmount.plus(localFeeAmount)),
+          tokenAmount: formatValueToDisplay(tokenAmount.plus(feeTokenAmount)),
+          localAmount: formatValueToDisplay(localAmount.plus(feeLocalAmount)),
           tokenSymbol: tokenInfo.symbol,
           localCurrencySymbol,
         }}
@@ -261,7 +266,7 @@ export function ReviewTotalValue({
   // if single token but no local price - return token amount
   if (sameToken && !haveLocalPrice) {
     return t('tokenAmountApprox', {
-      tokenAmount: formatValueToDisplay(tokenAmount.plus(tokenFeeAmount)),
+      tokenAmount: formatValueToDisplay(tokenAmount.plus(feeTokenAmount)),
       tokenSymbol: tokenInfo.symbol,
     })
   }
@@ -269,16 +274,16 @@ export function ReviewTotalValue({
   // if multiple tokens and have local price - return local amount
   if (!sameToken && haveLocalPrice) {
     return t('localAmountApprox', {
-      localAmount: formatValueToDisplay(localAmount.plus(localFeeAmount)),
+      localAmount: formatValueToDisplay(localAmount.plus(feeLocalAmount)),
       localCurrencySymbol,
     })
   }
 
   // otherwise there are multiple tokens with no local prices so return multiple token amounts
-  return t('reviewTransaction.totalAmount_mutlipleTokens_noFiatPrice', {
+  return t('reviewTransaction.multipleTokensWithPlusSign', {
     amount1: formatValueToDisplay(tokenAmount),
     symbol1: tokenInfo.symbol,
-    amount2: formatValueToDisplay(tokenFeeAmount),
+    amount2: formatValueToDisplay(feeTokenAmount),
     symbol2: feeTokenInfo.symbol,
   })
 }

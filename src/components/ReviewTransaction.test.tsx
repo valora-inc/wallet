@@ -3,10 +3,10 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { View } from 'react-native'
 import { Provider } from 'react-redux'
+import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { type Recipient } from 'src/recipients/recipient'
 import { typeScale } from 'src/styles/fonts'
 import { TokenBalance } from 'src/tokens/slice'
-import { convertTokenToLocalAmount } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { createMockStore } from 'test/utils'
 import { mockCeloTokenId, mockCusdTokenId, mockTokenBalances } from 'test/values'
@@ -155,103 +155,105 @@ describe('ReviewDetailsItem', () => {
 })
 
 describe('ReviewTotalValue', () => {
+  const celoToken = mockTokenBalances[mockCeloTokenId] as unknown as TokenBalance
+  const cUSDToken = mockTokenBalances[mockCusdTokenId] as unknown as TokenBalance
   it.each([
     {
-      tokenId: mockCeloTokenId,
-      feeTokenId: null,
-      amount: 10,
-      feeAmount: null,
-      priceUsd: '1',
+      tokenInfo: { ...celoToken, priceUsd: new BigNumber(1) },
+      tokenAmount: new BigNumber(10),
+      localAmount: new BigNumber(10),
+      feeTokenInfo: undefined,
+      feeTokenAmount: undefined,
+      feeLocalAmount: null,
       title:
-        'returns token and local amounts only for send operation if there is no fee and local price is available',
+        'returns token and local amounts only for send operation if there is no fee but local price is available',
       result:
-        'tokenAndLocalAmountApprox_oneToken, {"tokenAmount":"10.00","localAmount":"10.00","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
+        'tokenAndLocalAmountApprox, {"tokenAmount":"10.00","localAmount":"10.00","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
     },
     {
-      tokenId: mockCeloTokenId,
-      feeTokenId: null,
-      amount: 10,
-      feeAmount: null,
-      priceUsd: null,
+      tokenInfo: { ...celoToken, priceUsd: null },
+      tokenAmount: new BigNumber(10),
+      localAmount: null,
+      feeTokenInfo: undefined,
+      feeTokenAmount: undefined,
+      feeLocalAmount: null,
       title:
         'returns only a token amount only for send operation if there is no fee and no local price available',
-      result:
-        'tokenAndLocalAmountApprox_oneToken, {"context":"noFiatPrice","tokenAmount":"10.00","localAmount":"","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
+      result: 'tokenAmountApprox, {"tokenAmount":"10.00","tokenSymbol":"CELO"}',
     },
     {
-      tokenId: mockCeloTokenId,
-      feeTokenId: mockCeloTokenId,
-      amount: 10,
-      feeAmount: 0.5,
-      priceUsd: '1',
+      tokenInfo: { ...celoToken, priceUsd: new BigNumber(1) },
+      tokenAmount: new BigNumber(10),
+      localAmount: new BigNumber(10),
+      feeTokenInfo: { ...celoToken, priceUsd: new BigNumber(1) },
+      feeTokenAmount: new BigNumber(0.5),
+      feeLocalAmount: new BigNumber(0.5),
       title:
         'returns token and local amounts if send token and fee token are the same and local price is available',
       result:
-        'tokenAndLocalAmountApprox_oneToken, {"tokenAmount":"10.50","localAmount":"10.50","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
+        'tokenAndLocalAmountApprox, {"tokenAmount":"10.50","localAmount":"10.50","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
     },
     {
-      tokenId: mockCeloTokenId,
-      feeTokenId: mockCeloTokenId,
-      amount: 10,
-      feeAmount: 0.5,
-      priceUsd: null,
+      tokenInfo: { ...celoToken, priceUsd: null },
+      tokenAmount: new BigNumber(10),
+      localAmount: new BigNumber(10),
+      feeTokenInfo: { ...celoToken, priceUsd: null },
+      feeTokenAmount: new BigNumber(0.5),
+      feeLocalAmount: new BigNumber(0.5),
       title:
         "returns only a token amount if send token and fee token are the same but they don't have local price",
       result: 'tokenAmountApprox, {"tokenAmount":"10.50","tokenSymbol":"CELO"}',
     },
     {
-      tokenId: mockCusdTokenId,
-      feeTokenId: mockCeloTokenId,
-      amount: 10,
-      feeAmount: 0.5,
-      priceUsd: '1',
+      tokenInfo: { ...cUSDToken, priceUsd: new BigNumber(1) },
+      tokenAmount: new BigNumber(10),
+      localAmount: new BigNumber(10),
+      feeTokenInfo: { ...celoToken, priceUsd: new BigNumber(1) },
+      feeTokenAmount: new BigNumber(0.5),
+      feeLocalAmount: new BigNumber(0.5),
       title:
         'returns only a local amount if send token and fee token are different but local prices for both are available',
       result: 'localAmountApprox, {"localAmount":"10.50","localCurrencySymbol":"₱"}',
     },
     {
-      tokenId: mockCusdTokenId,
-      feeTokenId: mockCeloTokenId,
-      amount: 10,
-      feeAmount: 0.5,
-      priceUsd: null,
+      tokenInfo: { ...cUSDToken, priceUsd: null },
+      tokenAmount: new BigNumber(10),
+      localAmount: new BigNumber(10),
+      feeTokenInfo: { ...celoToken, priceUsd: null },
+      feeTokenAmount: new BigNumber(0.5),
+      feeLocalAmount: new BigNumber(0.5),
       title:
         'returns multiple token amounts if send token and fee token are different and no local prices available',
       result:
-        'reviewTransaction.totalAmount_mutlipleTokens_noFiatPrice, {"amount1":"10.00","symbol1":"cUSD","amount2":"0.50","symbol2":"CELO"}',
+        'reviewTransaction.multipleTokensWithPlusSign, {"amount1":"10.00","symbol1":"cUSD","amount2":"0.50","symbol2":"CELO"}',
     },
-  ])('$title', ({ tokenId, feeTokenId, amount, feeAmount, priceUsd, result }) => {
-    const tokenInfo = { ...mockTokenBalances[tokenId], priceUsd } as unknown as TokenBalance
-    const feeTokenInfo = feeTokenId
-      ? ({
-          ...mockTokenBalances[feeTokenId],
-          priceUsd,
-        } as unknown as TokenBalance)
-      : undefined
-    const tokenAmount = new BigNumber(amount)
-    const localAmount = convertTokenToLocalAmount({ tokenAmount, tokenInfo, usdToLocalRate: '1' })
-    const tokenFeeAmount = feeAmount ? new BigNumber(feeAmount) : undefined
-    const localFeeAmount = tokenFeeAmount
-      ? convertTokenToLocalAmount({
-          tokenAmount: tokenFeeAmount,
-          tokenInfo: feeTokenInfo,
-          usdToLocalRate: '1',
-        })
-      : null
-    const tree = render(
-      <Provider store={createMockStore()}>
-        <View testID="Total">
-          <ReviewTotalValue
-            tokenInfo={tokenInfo}
-            feeTokenInfo={feeTokenInfo}
-            tokenAmount={tokenAmount}
-            localAmount={localAmount}
-            tokenFeeAmount={tokenFeeAmount}
-            localFeeAmount={localFeeAmount}
-          />
-        </View>
-      </Provider>
-    )
-    expect(tree.getByTestId('Total')).toHaveTextContent(result)
-  })
+  ])(
+    '$title',
+    ({
+      tokenInfo,
+      tokenAmount,
+      localAmount,
+      feeTokenInfo,
+      feeTokenAmount,
+      feeLocalAmount,
+      result,
+    }) => {
+      const tree = render(
+        <Provider store={createMockStore()}>
+          <View testID="Total">
+            <ReviewTotalValue
+              tokenInfo={tokenInfo}
+              feeTokenInfo={feeTokenInfo}
+              tokenAmount={tokenAmount}
+              localAmount={localAmount}
+              feeTokenAmount={feeTokenAmount}
+              feeLocalAmount={feeLocalAmount}
+              localCurrencySymbol={LocalCurrencySymbol.PHP}
+            />
+          </View>
+        </Provider>
+      )
+      expect(tree.getByTestId('Total')).toHaveTextContent(result)
+    }
+  )
 })
