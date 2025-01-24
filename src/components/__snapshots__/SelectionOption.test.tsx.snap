@@ -43,7 +43,7 @@ exports[`renders selected correctly 1`] = `
         "borderBottomWidth": 1,
         "borderColor": "#E6E6E6",
         "flexDirection": "row",
-        "marginLeft": 16,
+        "marginHorizontal": 16,
         "paddingVertical": 14,
       }
     }
@@ -141,7 +141,7 @@ exports[`renders unselected correctly 1`] = `
         "borderBottomWidth": 1,
         "borderColor": "#E6E6E6",
         "flexDirection": "row",
-        "marginLeft": 16,
+        "marginHorizontal": 16,
         "paddingVertical": 14,
       }
     }
