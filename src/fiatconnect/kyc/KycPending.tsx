@@ -48,9 +48,9 @@ function KycPending({ route, navigation }: Props) {
         >
           <BankIcon color={colors.contentPrimary} height={24} width={24} />
         </CircledIcon>
-        <CircledIcon radius={85} backgroundColor={colors.contentInverse} style={styles.clockIcon}>
+        <CircledIcon radius={85} backgroundColor={colors.contentTertiary} style={styles.clockIcon}>
           <CircledIcon radius={80}>
-            <ClockIcon color={colors.contentInverse} height={24} width={24} />
+            <ClockIcon color={colors.contentTertiary} height={24} width={24} />
           </CircledIcon>
         </CircledIcon>
       </View>

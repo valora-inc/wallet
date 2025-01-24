@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   text: {
     ...typeScale.labelXSmall,
-    color: colors.contentInverse,
+    color: colors.contentTertiary,
     textAlign: 'center',
     paddingHorizontal: 10,
   },
