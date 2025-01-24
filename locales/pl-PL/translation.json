@@ -903,7 +903,7 @@
     "learnMore": {
       "buttonLabel": "Czy podłączenie numeru jest konieczne?",
       "title": "Czy podłączenie numeru jest konieczne?",
-      "body": "Podłączenie numeru telefonu pozwoli Ci na wysyłanie pieniędzy do znajomych z książki adresowej i innych numerów telefonów. \n \n Jeśli pominiesz ten krok, nie będziesz mieć dostępu do swoich kontaktów i będziesz w stanie wysyłać pieniądze tylko za pomocą kodu QR lub adresu portfela."
+      "body": "Podłączenie numeru telefonu pozwoli Ci wysyłać pieniądze do znajomych z książki adresowej i innych numerów telefonów. \n\nJeśli zdecydujesz się pominąć ten krok, nie będziesz mieć dostępu do swoich kontaktów i będziesz mógł wysyłać pieniądze tylko za pomocą kodu QR lub adresu portfela."
     },
     "skip": {
       "title": "Czy na pewno?",
@@ -919,8 +919,8 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Pomoc",
-      "body": "Wysłaliśmy wiadomość SMS pod Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. \n\nJeśli masz problemy z odbieraniem wiadomości, możesz pominąć ten krok i spróbować ponownie później.",
-      "bodyCloudBackupOnboarding": "Wysłaliśmy SMS na Twój telefon. Sprawdź nasze wiadomości i odszukaj 6-cyfrowy kod. \n \n Jeśli masz problemy z odbieraniem wiadomości, zalecamy utworzenie kopii zapasowej za pomocą frazy odzyskiwania. Możesz spróbować zalogować się za pomocą adresu e-mail i numeru telefonu później.",
+      "body": "Wysłaliśmy wiadomość SMS na Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. \n\nJeśli masz problemy z odbieraniem wiadomości, możesz na razie pominąć ten krok i spróbować ponownie później.",
+      "bodyCloudBackupOnboarding": "Wysłaliśmy wiadomość SMS na Twój numer telefonu. Sprawdź swoje wiadomości tekstowe, aby znaleźć 6-cyfrowy kod. \n\nJeśli masz problemy z odbieraniem wiadomości, zalecamy utworzenie kopii zapasowej za pomocą frazy odzyskiwania. Możesz spróbować zalogować się za pomocą adresu e-mail i telefonu później.",
       "skip": "Pomiń",
       "dismiss": "Wróć",
       "useRecoveryPhrase": "Użyj frazy odzyskiwania"
