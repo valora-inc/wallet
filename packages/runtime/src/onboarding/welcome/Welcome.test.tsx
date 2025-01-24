@@ -1,20 +1,32 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
+import { Text } from 'react-native'
 import { Provider } from 'react-redux'
 import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
+import { getAppConfig } from 'src/appConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import Welcome from 'src/onboarding/welcome/Welcome'
+import { PublicAppConfig } from 'src/public/types'
 import { patchUpdateStatsigUser } from 'src/statsig'
 import { createMockStore } from 'test/utils'
 
+jest.mock('src/appConfig')
 jest.mock('src/onboarding/steps')
 jest.mock('src/statsig', () => ({
   patchUpdateStatsigUser: jest.fn(),
 }))
+
+const mockGetAppConfig = jest.mocked(getAppConfig)
+
+const defaultConfig: PublicAppConfig = {
+  registryName: 'test',
+  displayName: 'test',
+  deepLinkUrlScheme: 'test',
+}
 
 describe('Welcome', () => {
   beforeAll(() => {
@@ -24,6 +36,8 @@ describe('Welcome', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+
+    mockGetAppConfig.mockReturnValue(defaultConfig)
   })
 
   describe('Welcome', () => {
@@ -129,5 +143,51 @@ describe('Welcome', () => {
         expect(AppAnalytics.track).toHaveBeenCalledWith(event)
       }
     )
+
+    it('shows a custom logo when configured', () => {
+      mockGetAppConfig.mockReturnValue({
+        ...defaultConfig,
+        themes: {
+          default: {
+            assets: {
+              welcomeLogo: () => <Text>Custom Logo</Text>,
+            },
+          },
+        },
+      })
+
+      const store = createMockStore()
+      const { getByText } = render(
+        <Provider store={store}>
+          <Welcome />
+        </Provider>
+      )
+
+      expect(getByText('Custom Logo')).toBeTruthy()
+    })
+
+    it('shows a custom background image when configured', () => {
+      const customBackground = { uri: 'custom-background.png' } as any
+      mockGetAppConfig.mockReturnValue({
+        ...defaultConfig,
+        themes: {
+          default: {
+            assets: {
+              welcomeBackgroundImage: customBackground,
+            },
+          },
+        },
+      })
+
+      const store = createMockStore()
+      const { UNSAFE_getByProps } = render(
+        <Provider store={store}>
+          <Welcome />
+        </Provider>
+      )
+
+      const backgroundImage = UNSAFE_getByProps({ source: customBackground })
+      expect(backgroundImage).toBeTruthy()
+    })
   })
 })

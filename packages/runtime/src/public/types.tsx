@@ -51,6 +51,12 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
           disabled?: string
         }
       }
+
+      assets?: {
+        // TODO: refine this as we add more assets (e.g. do we want to group by type? or screens? etc)
+        welcomeLogo?: React.ComponentType<any>
+        welcomeBackgroundImage?: typeof require
+      }
     }
   }
 

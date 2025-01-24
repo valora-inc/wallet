@@ -6,6 +6,7 @@ import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
+import { getAppConfig } from 'src/appConfig'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { welcomeBackground } from 'src/images/Images'
 import WelcomeLogo from 'src/images/WelcomeLogo'
@@ -61,11 +62,16 @@ export default function Welcome() {
     navigateNext()
   }
 
+  const assetsConfig = getAppConfig().themes?.default?.assets
+
+  const Logo = assetsConfig?.welcomeLogo ?? WelcomeLogo
+  const backgroundImage = assetsConfig?.welcomeBackgroundImage ?? welcomeBackground
+
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground source={welcomeBackground} resizeMode="stretch" style={styles.image}>
+      <ImageBackground source={backgroundImage} resizeMode="stretch" style={styles.image}>
         <View style={styles.contentContainer}>
-          <WelcomeLogo />
+          <Logo />
         </View>
         <View style={{ ...styles.buttonView, marginBottom: Math.max(0, 40 - insets.bottom) }}>
           <Button
