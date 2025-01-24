@@ -149,7 +149,7 @@ export function PaymentMethodSection({
         >
           <>
             <Text style={styles.newLabelText}>{t('selectProviderScreen.newLabel')}</Text>
-            <InfoIcon size={16} color={colors.contentInverse} />
+            <InfoIcon size={16} color={colors.contentTertiary} />
           </>
         </Touchable>
       )}
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   },
   newLabelText: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.contentInverse,
+    color: colors.contentTertiary,
     marginRight: 5,
   },
   category: {

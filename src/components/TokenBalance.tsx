@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
   },
   totalAssetsInfoText: {
     ...typeScale.bodySmall,
-    color: Colors.contentInverse,
+    color: Colors.contentTertiary,
     textAlign: 'center',
   },
   titleExchange: {
