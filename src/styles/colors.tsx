@@ -10,11 +10,10 @@ enum Colors {
   // text, icons, and other content
   contentPrimary = '#2E3338', // main content on primary background
   contentSecondary = '#757575', // supporting context on primary background
-  contentInverse = '#FFFFFF', // content on inverse backgrounds
+  contentTertiary = '#FFFFFF', // content on colored backgrounds
   textLink = '#757575', // underlined text links on primary background
 
   // borders, shadows, highlights, visual effects
-  shadow = '#2E3338', // shadow base color
   borderPrimary = '#E6E6E6', // Border color to be used on surfaces with backgroundPrimary
   borderSecondary = '#E6E6E6', // Border color to be used on surfaces with backgroundSecondary
   softShadow = 'rgba(156, 164, 169, 0.4)',
@@ -60,6 +59,7 @@ enum Colors {
   accent = '#1AB775', // Accent color for emphasizing key elements, such as highlights, icons, or decorative details.
   brandGradientLeft = '#26d98a', // Starting color for the brand gradient, used in backgrounds or borders to reinforce brand identity.
   brandGradientRight = '#ffd52c', // Ending color for the brand gradient, used in backgrounds or borders to reinforce brand identity.
+  contentOnboardingComplete = '#FFFFFF', // Text and image color for onboarding completion screen
 }
 
 export default Colors
