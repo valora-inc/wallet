@@ -903,7 +903,7 @@
     "learnMore": {
       "buttonLabel": "Preciso conectar o número?",
       "title": "Preciso conectar o número?",
-      "body": "Conectar seu número de telefone permitirá que você envie dinheiro para amigos em sua agenda de endereços e outros números de telefone. \n \nSe você optar por pular esta etapa, não poderá acessar seus contatos e só poderá enviar dinheiro via código QR ou endereço de carteira."
+      "body": "Conectar seu número de telefone permitirá que você envie dinheiro para amigos em seu catálogo de endereços e outros números de telefone. \n\nSe você optar por pular essa etapa, não poderá acessar seus contatos e só poderá enviar dinheiro por meio do código QR ou do endereço da carteira."
     },
     "skip": {
       "title": "Tem certeza?",
@@ -919,8 +919,8 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Ajuda",
-      "body": "Enviamos um SMS para o seu número de celular com um código de 6 dígitos.\n\nSe você estiver tendo problemas para receber mensagens, pode pular esta etapa e tentar novamente mais tarde.",
-      "bodyCloudBackupOnboarding": "Enviamos um SMS para o seu número de celular. Verifique suas mensagens para encontrar o código de 6 dígitos.\n\nSe estiver com dificuldades para receber mensagens, recomendamos fazer backup com uma frase de recuperação. Você pode tentar entrar com seu e-mail e telefone mais tarde.",
+      "body": "Enviamos um SMS para o seu número de telefone. Verifique suas mensagens de texto para encontrar o código de 6 dígitos. \n\nSe estiver com problemas para receber mensagens, você pode pular esta etapa por enquanto e tentar novamente mais tarde.",
+      "bodyCloudBackupOnboarding": "Enviamos um SMS para o seu número de telefone. Verifique suas mensagens de texto para encontrar o código de 6 dígitos. \n\nSe você estiver tendo problemas para receber mensagens, recomendamos fazer backup com uma frase de recuperação. Você pode tentar fazer login com seu e-mail e telefone mais tarde.",
       "skip": "Pular",
       "dismiss": "Voltar",
       "useRecoveryPhrase": "Usar frase de recuperação"

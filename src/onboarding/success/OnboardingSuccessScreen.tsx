@@ -22,7 +22,7 @@ function OnboardingSuccessScreen() {
   return (
     <View style={styles.container}>
       <Image source={background} style={styles.backgroundImage} />
-      <Logo color={colors.contentInverse} size={70} />
+      <Logo color={colors.contentOnboardingComplete} size={70} />
       <Text style={styles.text}>{t('success.message')}</Text>
     </View>
   )
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleSmall,
     fontSize: 30,
     lineHeight: 36,
-    color: colors.contentInverse,
+    color: colors.contentOnboardingComplete,
     marginTop: Spacing.Regular16,
     marginBottom: 30,
     shadowOffset: { width: 0, height: 1 },

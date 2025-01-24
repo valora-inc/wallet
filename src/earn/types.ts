@@ -54,7 +54,7 @@ export interface BeforeDepositAction {
   name: BeforeDepositActionName
   title: string
   details: string
-  iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
+  iconComponent: React.MemoExoticComponent<({ color }: { color?: Colors }) => JSX.Element>
   onPress: () => void
 }
 
@@ -62,7 +62,7 @@ export interface WithdrawAction {
   name: Extract<EarnActiveMode, 'withdraw' | 'claim-rewards' | 'exit'>
   title: string
   details: string
-  iconComponent: React.MemoExoticComponent<({ color }: { color: Colors }) => JSX.Element>
+  iconComponent: React.MemoExoticComponent<({ color }: { color?: Colors }) => JSX.Element>
   onPress: () => void
 }
 

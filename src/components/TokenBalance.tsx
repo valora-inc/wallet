@@ -274,12 +274,12 @@ const styles = StyleSheet.create({
     width: 190,
     paddingVertical: Spacing.Smallest8,
     paddingHorizontal: Spacing.Regular16,
-    backgroundColor: Colors.backgroundInverse,
+    backgroundColor: Colors.backgroundScrim,
     borderRadius: 8,
   },
   totalAssetsInfoText: {
     ...typeScale.bodySmall,
-    color: Colors.contentInverse,
+    color: Colors.contentTertiary,
     textAlign: 'center',
   },
   titleExchange: {

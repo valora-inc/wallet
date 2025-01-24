@@ -65,7 +65,7 @@ const InviteModal = ({
         <Button
           style={{ width: '100%' }}
           testID="InviteModalShareButton"
-          icon={<ShareIcon color={colors.contentInverse} size={24} />}
+          icon={<ShareIcon size={24} />}
           iconPositionLeft={false}
           size={BtnSizes.FULL}
           text={buttonLabel}

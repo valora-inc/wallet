@@ -20,7 +20,6 @@ import QRTabBar from 'src/qrcode/QRTabBar'
 import { useDispatch } from 'src/redux/hooks'
 import { SVG, handleQRCodeDetected } from 'src/send/actions'
 import { QrCode } from 'src/send/types'
-import Colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 
 const Tab = createMaterialTopTabNavigator()
@@ -113,8 +112,6 @@ export default function QRNavigator({ route }: Props) {
       tabBar={tabBar}
       // Trick to position the tabs floating on top
       tabBarPosition="bottom"
-      style={styles.container}
-      screenOptions={{ sceneStyle: styles.sceneContainerStyle }}
       initialLayout={initialLayout}
     >
       <Tab.Screen name={Screens.QRCode} options={{ title: t('myCode') ?? undefined }}>
@@ -141,12 +138,6 @@ QRNavigator.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.backgroundInverse,
-  },
-  sceneContainerStyle: {
-    backgroundColor: Colors.backgroundInverse,
-  },
   viewContainer: {
     flex: 1,
     justifyContent: 'center',
