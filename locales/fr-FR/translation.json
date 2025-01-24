@@ -903,7 +903,7 @@
     "learnMore": {
       "buttonLabel": "Dois-je connecter mon numéro ?",
       "title": "Dois-je connecter mon numéro ?",
-      "body": "Connecter votre numéro de téléphone vous permettra d'envoyer des fonds à vos contacts et d'autres numéros de téléphone. \n \nSi vous choisissez d'ignorer cette étape, vous ne pourrez pas accéder à vos contacts, et vous ne pourrez envoyer des fonds que via le code QR ou l’adresse du wallet."
+      "body": "La connexion de ton numéro de téléphone te permettra d'envoyer de l'argent aux amis de ton carnet d'adresses et à d'autres numéros de téléphone. \n\nSi tu choisis de sauter cette étape, tu ne pourras pas accéder à tes contacts et tu ne pourras envoyer de l'argent que via le code QR ou l'adresse du portefeuille."
     },
     "skip": {
       "title": "Êtes-vous sûr ?",
@@ -919,8 +919,8 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Aide",
-      "body": "Nous avons envoyé un SMS à votre numéro de téléphone. Veuillez consulter vos SMS, un code à 6 chiffres devrait s'y trouver.\n\nSi vous ne recevez pas nos messages, vous pouvez ignorer cette étape et réessayer plus tard.",
-      "bodyCloudBackupOnboarding": "Nous avons envoyé un SMS sur votre numéro de téléphone. Consultez vos SMS pour trouver votre code à 6 chiffres. \n \n Si vous ne recevez pas bien les messages, nous vous recommandons de faire une sauvegarde de votre phrase de récupération. Vous pourrez essayer de vous connecter avec votre e-mail et votre téléphone plus tard.",
+      "body": "Nous avons envoyé un SMS à ton numéro de téléphone. Vérifie tes textos pour trouver le code à 6 chiffres. \n\nSi tu as des difficultés à recevoir des messages, tu peux sauter cette étape pour l'instant et réessayer plus tard.",
+      "bodyCloudBackupOnboarding": "Nous avons envoyé un SMS à ton numéro de téléphone. Vérifie tes SMS pour trouver le code à 6 chiffres. \n\nSi tu as des difficultés à recevoir des messages, nous te recommandons de faire une sauvegarde avec une phrase de récupération. Tu pourras essayer de te connecter avec ton email et ton téléphone plus tard.",
       "skip": "Ignorer",
       "dismiss": "Retour",
       "useRecoveryPhrase": "Utiliser la Phrase de récupération"
