@@ -75,6 +75,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 [
                   {
                     "alignItems": "center",
+                    "backgroundColor": "#FFFFFF",
                     "flex": 1,
                     "flexDirection": "row",
                     "gap": 8,
@@ -393,6 +394,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     [
                       {
                         "alignItems": "center",
+                        "backgroundColor": "#FFFFFF",
                         "flex": 1,
                         "flexDirection": "row",
                         "gap": 8,
@@ -454,6 +456,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     [
                       {
                         "alignItems": "center",
+                        "backgroundColor": "#FFFFFF",
                         "flex": 1,
                         "flexDirection": "row",
                         "gap": 8,
@@ -515,6 +518,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     [
                       {
                         "alignItems": "center",
+                        "backgroundColor": "#FFFFFF",
                         "flex": 1,
                         "flexDirection": "row",
                         "gap": 8,
@@ -576,6 +580,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     [
                       {
                         "alignItems": "center",
+                        "backgroundColor": "#FFFFFF",
                         "flex": 1,
                         "flexDirection": "row",
                         "gap": 8,
