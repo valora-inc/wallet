@@ -1,13 +1,21 @@
 import { render } from '@testing-library/react-native'
+import BigNumber from 'bignumber.js'
 import React from 'react'
+import { View } from 'react-native'
+import { Provider } from 'react-redux'
+import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { type Recipient } from 'src/recipients/recipient'
 import { typeScale } from 'src/styles/fonts'
+import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
+import { createMockStore } from 'test/utils'
+import { mockCeloTokenId, mockCusdTokenId, mockTokenBalances } from 'test/values'
 import {
   ReviewContent,
   ReviewDetailsItem,
   ReviewSummaryItem,
   ReviewSummaryItemContact,
+  ReviewTotalValue,
   ReviewTransaction,
 } from './ReviewTransaction'
 
@@ -144,4 +152,108 @@ describe('ReviewDetailsItem', () => {
     )
     expect(tree.getByTestId('BoldItem/Label')).toHaveStyle(typeScale.labelSemiBoldMedium)
   })
+})
+
+describe('ReviewTotalValue', () => {
+  const celoToken = mockTokenBalances[mockCeloTokenId] as unknown as TokenBalance
+  const cUSDToken = mockTokenBalances[mockCusdTokenId] as unknown as TokenBalance
+  it.each([
+    {
+      tokenInfo: { ...celoToken, priceUsd: new BigNumber(1) },
+      tokenAmount: new BigNumber(10),
+      localAmount: new BigNumber(10),
+      feeTokenInfo: undefined,
+      feeTokenAmount: undefined,
+      feeLocalAmount: null,
+      title:
+        'returns the token and fiat amount when fee info is missing and local price is available',
+      result:
+        'tokenAndLocalAmountApprox, {"tokenAmount":"10.00","localAmount":"10.00","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
+    },
+    {
+      tokenInfo: { ...celoToken, priceUsd: null },
+      tokenAmount: new BigNumber(10),
+      localAmount: null,
+      feeTokenInfo: undefined,
+      feeTokenAmount: undefined,
+      feeLocalAmount: null,
+      title:
+        'returns only the token amount when fee info is missing and no local price is available',
+      result: 'tokenAmountApprox, {"tokenAmount":"10.00","tokenSymbol":"CELO"}',
+    },
+    {
+      tokenInfo: { ...celoToken, priceUsd: new BigNumber(1) },
+      tokenAmount: new BigNumber(10),
+      localAmount: new BigNumber(10),
+      feeTokenInfo: { ...celoToken, priceUsd: new BigNumber(1) },
+      feeTokenAmount: new BigNumber(0.5),
+      feeLocalAmount: new BigNumber(0.5),
+      title:
+        'returns the token and local amount when the token and fee token are the same and local price is available',
+      result:
+        'tokenAndLocalAmountApprox, {"tokenAmount":"10.50","localAmount":"10.50","tokenSymbol":"CELO","localCurrencySymbol":"₱"}',
+    },
+    {
+      tokenInfo: { ...celoToken, priceUsd: null },
+      tokenAmount: new BigNumber(10),
+      localAmount: null,
+      feeTokenInfo: { ...celoToken, priceUsd: null },
+      feeTokenAmount: new BigNumber(0.5),
+      feeLocalAmount: null,
+      title:
+        "returns only the token amount when token and fee token are the same but they don't have local price",
+      result: 'tokenAmountApprox, {"tokenAmount":"10.50","tokenSymbol":"CELO"}',
+    },
+    {
+      tokenInfo: { ...cUSDToken, priceUsd: new BigNumber(1) },
+      tokenAmount: new BigNumber(10),
+      localAmount: new BigNumber(10),
+      feeTokenInfo: { ...celoToken, priceUsd: new BigNumber(1) },
+      feeTokenAmount: new BigNumber(0.5),
+      feeLocalAmount: new BigNumber(0.5),
+      title:
+        'returns only the local amount when token and fee token are different but local prices are available for both',
+      result: 'localAmountApprox, {"localAmount":"10.50","localCurrencySymbol":"₱"}',
+    },
+    {
+      tokenInfo: { ...cUSDToken, priceUsd: null },
+      tokenAmount: new BigNumber(10),
+      localAmount: null,
+      feeTokenInfo: { ...celoToken, priceUsd: null },
+      feeTokenAmount: new BigNumber(0.5),
+      feeLocalAmount: null,
+      title:
+        'returns multiple token amounts when token and fee token are different and no local prices available',
+      result:
+        'reviewTransaction.multipleTokensWithPlusSign, {"amount1":"10.00","symbol1":"cUSD","amount2":"0.50","symbol2":"CELO"}',
+    },
+  ])(
+    '$title',
+    ({
+      tokenInfo,
+      tokenAmount,
+      localAmount,
+      feeTokenInfo,
+      feeTokenAmount,
+      feeLocalAmount,
+      result,
+    }) => {
+      const tree = render(
+        <Provider store={createMockStore()}>
+          <View testID="Total">
+            <ReviewTotalValue
+              tokenInfo={tokenInfo}
+              feeTokenInfo={feeTokenInfo}
+              tokenAmount={tokenAmount}
+              localAmount={localAmount}
+              feeTokenAmount={feeTokenAmount}
+              feeLocalAmount={feeLocalAmount}
+              localCurrencySymbol={LocalCurrencySymbol.PHP}
+            />
+          </View>
+        </Provider>
+      )
+      expect(tree.getByTestId('Total')).toHaveTextContent(result)
+    }
+  )
 })

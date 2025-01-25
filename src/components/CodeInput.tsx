@@ -66,6 +66,7 @@ export default function CodeInput({
               ...typeScale.bodyLarge,
               textAlign: 'center',
               minHeight: undefined,
+              lineHeight: undefined, // ensure that the text is centered vertically
               color: textColorForStatus[status],
             }}
             autoCapitalize="none"
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: colors.backgroundSecondary,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.borderSecondary,
   },
   innerContent: {
     flex: 1,

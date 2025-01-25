@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     minWidth: 55,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.borderPrimary,
     borderRadius: 100,
   },
   chosenWordWrapperFilled: {

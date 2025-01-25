@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   borderStyle: {
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colors.borderSecondary,
   },
   dappIcon: {
     width: 40,
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
   },
   card: {
     padding: 0,
+    backgroundColor: Colors.backgroundSecondary,
   },
   title: {
     ...typeScale.labelSemiBoldSmall,

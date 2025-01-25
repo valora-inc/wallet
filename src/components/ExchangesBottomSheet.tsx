@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   separator: {
     width: '100%',
     height: 1,
-    backgroundColor: colors.border,
+    backgroundColor: colors.borderPrimary,
   },
 })
 

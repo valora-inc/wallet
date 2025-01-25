@@ -32,7 +32,7 @@ export default class CircleButton extends React.PureComponent<ButtonProps> {
       borderWidth !== undefined ? { borderWidth } : { borderWidth: 0 },
       { borderColor: color, width: size, height: size, borderRadius: Math.floor(size! / 2) },
     ]
-    const xColor = solid ? colors.contentInverse : color
+    const xColor = solid ? colors.contentTertiary : color
 
     return (
       <View style={[styles.row, this.props.style]}>

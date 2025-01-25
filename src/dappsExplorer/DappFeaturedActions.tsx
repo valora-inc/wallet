@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colors.borderPrimary,
     width: variables.width - Spacing.Thick24 * 2,
   },
   cardContainer: {

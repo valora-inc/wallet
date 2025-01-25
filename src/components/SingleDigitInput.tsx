@@ -41,7 +41,7 @@ export function SingleDigitInput({
 
 const styles = StyleSheet.create({
   codeInput: {
-    borderColor: colors.border,
+    borderColor: colors.borderPrimary,
     borderRadius: 3,
     borderWidth: 1,
     flex: 0,

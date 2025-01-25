@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
   countryFlag: {
     backgroundColor: colors.buttonSecondaryBackground,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.borderSecondary,
   },
   dismissHelpButton: {
     marginTop: Spacing.Thick24,

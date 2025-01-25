@@ -242,10 +242,6 @@ export function SwapTransactionDetails({
 
 const styles = StyleSheet.create({
   container: {
-    padding: Spacing.Regular16,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 12,
     gap: Spacing.Regular16,
   },
   row: {
