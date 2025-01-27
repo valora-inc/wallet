@@ -41,7 +41,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<
   StackParamList,
-  Screens.SendConfirmation | Screens.SendConfirmationModal
+  Screens.SendConfirmation | Screens.SendConfirmationFromExternal
 >
 
 const DEBOUNCE_TIME_MS = 250
@@ -65,7 +65,7 @@ export default function SendConfirmation(props: Props) {
     prepareTransactionLoading,
   } = usePrepareSendTransactions()
 
-  const fromModal = props.route.name === Screens.SendConfirmationModal
+  const fromExternal = props.route.name === Screens.SendConfirmationFromExternal
   const tokenInfo = useTokenInfo(tokenId)
   const isSending = useSelector(isSendingSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
@@ -139,8 +139,7 @@ export default function SendConfirmation(props: Props) {
         tokenId,
         usdAmount,
         recipient,
-        // TODO rename "fromModal" in all related files to "fromExternal"
-        fromModal,
+        fromExternal,
         getSerializablePreparedTransaction(preparedTransaction)
       )
     )
