@@ -68,7 +68,7 @@ const mockPrepareTransactionsResultPossible: PreparedTransactionsPossible = {
 
 type ScreenProps = NativeStackScreenProps<
   StackParamList,
-  Screens.SendConfirmation | Screens.SendConfirmationModal
+  Screens.SendConfirmation | Screens.SendConfirmationFromExternal
 >
 
 describe('SendConfirmation', () => {
