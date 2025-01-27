@@ -1056,7 +1056,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   inputsContainer: {
-    paddingBottom: Spacing.Thick24,
+    paddingBottom: Spacing.Small12,
     flex: 1,
     gap: 4,
   },

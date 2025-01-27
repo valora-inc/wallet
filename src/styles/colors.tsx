@@ -14,8 +14,8 @@ enum Colors {
   textLink = '#757575', // underlined text links on primary background
 
   // borders, shadows, highlights, visual effects
-  borderPrimary = '#E6E6E6', // Border color to be used on surfaces with backgroundPrimary
-  borderSecondary = '#E6E6E6', // Border color to be used on surfaces with backgroundSecondary
+  borderPrimary = '#E6E6E6', // Border color used to create emphasis or highlight key areas.
+  borderSecondary = '#E6E6E6', // Border color used to define or separate secondary content.
   softShadow = 'rgba(156, 164, 169, 0.4)',
   lightShadow = 'rgba(48, 46, 37, 0.15)',
   barShadow = 'rgba(129, 134, 139, 0.5)',
@@ -41,6 +41,7 @@ enum Colors {
   buttonQuickActionBackground = '#F1FDF1', // Background color for quick action buttons (specialized high-priority actions).
   buttonQuickActionContent = '#137211', // Text and icon color for quick action buttons.
   buttonQuickActionBorder = '#F1FDF1', // Border color for quick action buttons.
+  textInputBackground = '#FFFFFF', // Background color for text input fields.
   qrTabBarPrimary = '#2E3338', // color for text and icons on QR tab bar
   qrTabBarSecondary = '#FFFFFF', // secondary color for text and icons on QR tab bar
 

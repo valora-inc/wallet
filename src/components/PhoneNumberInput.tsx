@@ -162,7 +162,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   phoneNumberInput: {
-    flex: 1,
+    // flex: 1,
     marginLeft: Spacing.Regular16,
+    backgroundColor: colors.backgroundPrimary,
+    borderBottomWidth: 1,
+    borderColor: colors.borderPrimary,
   },
 })
