@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   container: {},
   header: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
     marginBottom: Spacing.Smallest8,
   },
   innerContainer: {

@@ -15,10 +15,10 @@ import { typeScale } from 'src/styles/fonts'
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView)
 
 const STATUS_COLORS = {
-  idle: colors.gray2,
-  loading: colors.gray2,
+  idle: colors.inactive,
+  loading: colors.inactive,
   success: colors.accent,
-  error: colors.errorDark,
+  error: colors.errorPrimary,
 }
 
 export default function HooksPreviewModeBanner() {
@@ -58,11 +58,11 @@ const styles = StyleSheet.create({
     top: -10,
     left: 0,
     right: 0,
-    backgroundColor: colors.warningDark,
+    backgroundColor: colors.warningPrimary,
   },
   text: {
     ...typeScale.labelXSmall,
-    color: colors.white,
+    color: colors.contentTertiary,
     textAlign: 'center',
     paddingHorizontal: 10,
   },

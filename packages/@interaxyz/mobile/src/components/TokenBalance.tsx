@@ -248,7 +248,7 @@ export function FiatExchangeTokenBalance() {
           {tokenBalances.length > 1 ? (
             <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
               <Text style={styles.exchangeTotalValue}>{t('totalValue')}</Text>
-              <ForwardChevron height={9.62} color={Colors.gray4} />
+              <ForwardChevron height={9.62} color={Colors.contentSecondary} />
             </TouchableOpacity>
           ) : (
             <Text style={styles.exchangeTotalValue}>{t('totalValue')}</Text>
@@ -266,7 +266,6 @@ const styles = StyleSheet.create({
   },
   walletTabTitle: {
     ...typeScale.titleMedium,
-    color: Colors.black,
     marginRight: 10,
   },
   totalAssetsInfoContainer: {
@@ -275,12 +274,12 @@ const styles = StyleSheet.create({
     width: 190,
     paddingVertical: Spacing.Smallest8,
     paddingHorizontal: Spacing.Regular16,
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.backgroundScrim,
     borderRadius: 8,
   },
   totalAssetsInfoText: {
     ...typeScale.bodySmall,
-    color: Colors.white,
+    color: Colors.contentTertiary,
     textAlign: 'center',
   },
   titleExchange: {
@@ -294,7 +293,7 @@ const styles = StyleSheet.create({
   },
   exchangeTotalValue: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
     paddingRight: 3,
     paddingBottom: 4,
   },
@@ -303,7 +302,6 @@ const styles = StyleSheet.create({
   },
   totalBalance: {
     ...typeScale.titleLarge,
-    color: Colors.black,
   },
   exchangeBalance: {
     ...typeScale.labelLarge,
@@ -320,6 +318,6 @@ const styles = StyleSheet.create({
   },
   tokenBalance: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
   },
 })

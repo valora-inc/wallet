@@ -129,7 +129,7 @@ export default function ReviewFees({
               onPress={openFeeExplanation}
               hitSlop={variables.iconHitslop}
             >
-              <InfoIcon color={colors.gray3} size={14} />
+              <InfoIcon color={colors.contentSecondary} size={14} />
             </Touchable>
           </View>
           <Text>{showAmount(fiat.total - fiat.subTotal, false, [styles.reviewLineText])}</Text>
@@ -143,7 +143,7 @@ export default function ReviewFees({
               onPress={openFeeDiscountExplanation}
               hitSlop={variables.iconHitslop}
             >
-              <InfoIcon color={colors.gray3} size={14} />
+              <InfoIcon color={colors.contentSecondary} size={14} />
             </Touchable>
           </View>
           <Text style={styles.feeWaivedText}>{t('free')}</Text>
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     color: colors.accent,
   },
   reviewLineTextAlt: {
-    color: colors.gray4,
+    color: colors.contentSecondary,
   },
   reviewLineTextTotal: {
     ...typeScale.labelSemiBoldMedium,
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     height: 1,
     width: '100%',
-    backgroundColor: colors.gray2,
+    backgroundColor: colors.borderPrimary,
   },
   icon: {
     position: 'relative',

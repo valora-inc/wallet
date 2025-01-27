@@ -97,7 +97,6 @@ export default function TokenDetailsScreen({ route }: Props) {
             containerStyle={styles.chartContainer}
             chartPadding={Spacing.Thick24}
             testID={`TokenDetails/Chart/${tokenId}`}
-            color={Colors.black}
           />
         )}
         <Actions
@@ -277,7 +276,7 @@ function Actions({
             })
             action.onPress()
           }}
-          icon={<action.iconComponent color={Colors.white} />}
+          icon={<action.iconComponent />}
           style={styles.actionButton}
           size={BtnSizes.FULL}
           touchableStyle={styles.actionTouchable}
@@ -311,7 +310,7 @@ function LearnMore({
           <Text style={styles.learnMoreText} testID="TokenDetails/LearnMore">
             {t('tokenDetails.learnMore', { tokenName: tokenName })}
           </Text>
-          <ArrowRightThick />
+          <ArrowRightThick color={Colors.textLink} />
         </View>
       </Touchable>
     </View>
@@ -330,14 +329,12 @@ const styles = StyleSheet.create({
   },
   tokenName: {
     ...typeScale.labelLarge,
-    color: Colors.black,
   },
   tokenImg: {
     marginRight: Spacing.Tiny4,
   },
   assetValue: {
     ...typeScale.titleLarge,
-    color: Colors.black,
     marginHorizontal: Spacing.Thick24,
   },
   chartContainer: {
@@ -362,12 +359,11 @@ const styles = StyleSheet.create({
   },
   yourBalance: {
     ...typeScale.labelMedium,
-    color: Colors.black,
     marginTop: Spacing.Regular16,
     marginHorizontal: Spacing.Thick24,
   },
   learnMoreContainer: {
-    borderTopColor: Colors.gray2,
+    borderTopColor: Colors.borderPrimary,
     borderTopWidth: 1,
     paddingTop: Spacing.Regular16,
     marginHorizontal: Spacing.Thick24,
@@ -379,7 +375,7 @@ const styles = StyleSheet.create({
   },
   learnMoreText: {
     ...typeScale.labelSmall,
-    color: Colors.gray3,
+    color: Colors.textLink,
   },
   priceInfo: {
     marginTop: Spacing.Tiny4,
@@ -390,6 +386,6 @@ const styles = StyleSheet.create({
   },
   priceInfoUnavailable: {
     ...typeScale.labelSmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
   },
 })

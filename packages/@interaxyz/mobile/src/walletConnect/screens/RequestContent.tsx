@@ -206,22 +206,19 @@ const styles = StyleSheet.create({
   },
   header: {
     ...typeScale.titleSmall,
-    color: Colors.black,
     paddingVertical: Spacing.Regular16,
   },
   description: {
     ...typeScale.bodySmall,
-    color: Colors.black,
     marginBottom: Spacing.Thick24,
   },
   requestDetailLabel: {
     ...typeScale.labelXSmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
     marginBottom: 4,
   },
   requestDetailValue: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.black,
   },
 })
 

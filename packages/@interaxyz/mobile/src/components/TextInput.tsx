@@ -83,6 +83,7 @@ export class CTextInput extends React.Component<Props, State> {
             inputStyle,
           ]}
           value={value}
+          selectionColor={Colors.contentSecondary}
           {...passThroughProps}
           onFocus={this.handleInputFocus}
           onBlur={this.handleInputBlur}
@@ -93,8 +94,8 @@ export class CTextInput extends React.Component<Props, State> {
             onPress={this.onClear}
             solid={true}
             size={20}
-            activeColor={Colors.gray5}
-            inactiveColor={Colors.gray1}
+            activeColor={Colors.contentSecondary}
+            inactiveColor={Colors.disabled}
           />
         )}
         {rightElement}
@@ -117,10 +118,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: Spacing.Smallest8,
+    backgroundColor: Colors.textInputBackground,
   },
   input: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     flex: 1,
     paddingVertical: Spacing.Small12,
     paddingHorizontal: 0,

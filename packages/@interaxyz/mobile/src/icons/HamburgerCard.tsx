@@ -2,7 +2,7 @@ import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Line, Svg } from 'react-native-svg'
 import { default as Colors, default as colors } from 'src/styles/colors'
-import { elevationShadowStyle } from 'src/styles/styles'
+import globalStyles from 'src/styles/styles'
 
 function HamburgerCard() {
   return (
@@ -13,7 +13,7 @@ function HamburgerCard() {
           y1="9.75"
           x2="24.75"
           y2="9.75"
-          stroke={Colors.black}
+          stroke={Colors.contentPrimary}
           strokeWidth="2.5"
           strokeLinecap="round"
         />
@@ -22,7 +22,7 @@ function HamburgerCard() {
           y1="15.75"
           x2="24.75"
           y2="15.75"
-          stroke={Colors.black}
+          stroke={Colors.contentPrimary}
           strokeWidth="2.5"
           strokeLinecap="round"
         />
@@ -31,7 +31,7 @@ function HamburgerCard() {
           y1="21.75"
           x2="24.75"
           y2="21.75"
-          stroke={Colors.black}
+          stroke={Colors.contentPrimary}
           strokeWidth="2.5"
           strokeLinecap="round"
         />
@@ -42,8 +42,8 @@ function HamburgerCard() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
-    ...elevationShadowStyle(12),
+    backgroundColor: colors.backgroundPrimary,
+    ...globalStyles.softShadowLight,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,

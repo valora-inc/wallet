@@ -19,10 +19,10 @@ exports[`renders text 1`] = `
   <Text
     style={
       {
-        "color": "#666666",
+        "color": "#757575",
         "fontFamily": "Inter-Medium",
-        "fontSize": 13,
-        "lineHeight": 16,
+        "fontSize": 14,
+        "lineHeight": 20,
       }
     }
   >

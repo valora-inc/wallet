@@ -903,7 +903,7 @@
     "learnMore": {
       "buttonLabel": "Devo necessariamente collegarmi?",
       "title": "Devo necessariamente collegarmi?",
-      "body": "Collegando il tuo numero di telefono potrai scambiare denaro con i tuoi amici ad altri numeri di telefono.\n\nSe scegli di saltare questo passaggio, non potrai accedere ai tuoi contatti e potrai inviare denaro solo tramite codice QR o indirizzo del wallet."
+      "body": "Collegando il tuo numero di telefono potrai inviare denaro agli amici della tua rubrica e ad altri numeri di telefono. \n\nSe scegli di saltare questo passaggio non potrai accedere ai tuoi contatti e potrai inviare denaro solo tramite codice QR o indirizzo del portafoglio."
     },
     "skip": {
       "title": "Sei sicuro?",
@@ -919,8 +919,8 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Guida",
-      "body": "Abbiamo inviato un SMS al tuo numero telefonico. Controlla i tuoi SMS per trovare il codice di 6 cifre.\n\nSe hai problemi a ricevere i messaggi, puoi saltare questo passaggio e riprovare più tardi.",
-      "bodyCloudBackupOnboarding": "Abbiamo inviato un SMS al tuo numero di telefono. Controlla i tuoi messaggi per trovare il codice di 6 cifre. \n \n Se hai problemi a ricevere i messaggi, ti consigliamo di fare un backup con una frase di recupero. Puoi provare ad accedere con la tua e-mail e il tuo telefono in un secondo momento.",
+      "body": "Abbiamo inviato un SMS al tuo numero di telefono. Controlla i tuoi messaggi per trovare il codice a 6 cifre. \n\nSe hai problemi a ricevere i messaggi, puoi saltare questo passaggio e riprovare più tardi.",
+      "bodyCloudBackupOnboarding": "Abbiamo inviato un SMS al tuo numero di telefono. Controlla i tuoi messaggi per trovare il codice di 6 cifre. \n\nSe hai problemi a ricevere i messaggi, ti consigliamo di fare un backup con una frase di recupero. Puoi provare ad accedere con la tua e-mail e il tuo telefono in un secondo momento.",
       "skip": "Salta",
       "dismiss": "Indietro",
       "useRecoveryPhrase": "Usa la Frase di recupero"
@@ -2844,6 +2844,15 @@
     "ctaAction_Deposit": "Deposita un importo minore",
     "ctaAction_Withdraw": "Preleva un importo minore"
   },
+  "reviewTransaction": {
+    "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
+  },
+  "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
+  "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
+  "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
+  "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }

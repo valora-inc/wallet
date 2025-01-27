@@ -106,7 +106,7 @@ function WebViewScreen({ route, navigation }: Props) {
         <TopBarTextButton
           title={t('close')}
           onPress={navigateBack}
-          titleStyle={{ color: colors.gray4, paddingHorizontal: 0 }}
+          titleStyle={{ color: colors.navigationTopSecondary, paddingHorizontal: 0 }}
           testID="WebViewScreen/CloseButton"
         />
       ),
@@ -210,7 +210,13 @@ function WebViewScreen({ route, navigation }: Props) {
           onShouldStartLoadWithRequest={handleLoadRequest}
           source={{ uri }}
           startInLoadingState={true}
-          renderLoading={() => <ActivityIndicator style={styles.loading} size="large" />}
+          renderLoading={() => (
+            <ActivityIndicator
+              style={styles.loading}
+              size="large"
+              color={colors.loadingIndicator}
+            />
+          )}
           onNavigationStateChange={(navState) => {
             setCanGoBack(navState.canGoBack)
             setCanGoForward(navState.canGoForward)
@@ -236,7 +242,7 @@ function WebViewScreen({ route, navigation }: Props) {
           disabled={!canGoBack}
           testID="WebViewScreen/GoBack"
         >
-          <BackChevron color={canGoBack ? colors.black : colors.gray3} />
+          <BackChevron color={canGoBack ? colors.contentPrimary : colors.inactive} />
         </Touchable>
         <Touchable
           onPress={handleGoForward}
@@ -244,17 +250,17 @@ function WebViewScreen({ route, navigation }: Props) {
           disabled={!canGoForward}
           testID="WebViewScreen/GoForward"
         >
-          <ForwardChevron color={canGoForward ? colors.black : colors.gray3} />
+          <ForwardChevron color={canGoForward ? colors.contentPrimary : colors.inactive} />
         </Touchable>
         <Touchable onPress={handleRefresh} hitSlop={iconHitslop} testID="WebViewScreen/Refresh">
-          <Refresh height={20} color={colors.black} />
+          <Refresh height={20} color={colors.contentPrimary} />
         </Touchable>
         <Touchable
           onPress={openActionSheet}
           hitSlop={iconHitslop}
           testID="WebViewScreen/OpenBottomSheet"
         >
-          <TripleDotVertical color={colors.black} />
+          <TripleDotVertical color={colors.contentPrimary} />
         </Touchable>
       </View>
     </SafeAreaView>
@@ -283,7 +289,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 32,
     borderTopWidth: 1,
-    borderColor: colors.gray2,
+    borderColor: colors.borderPrimary,
   },
 })
 

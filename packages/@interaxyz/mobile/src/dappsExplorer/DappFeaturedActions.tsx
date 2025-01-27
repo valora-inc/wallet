@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: Colors.gray2,
+    borderColor: Colors.borderPrimary,
     width: variables.width - Spacing.Thick24 * 2,
   },
   cardContainer: {
@@ -116,6 +116,6 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
   },
 })

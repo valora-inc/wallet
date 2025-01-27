@@ -30,16 +30,6 @@ export function getShadowStyle(shadow: Shadow) {
   }
 }
 
-export function elevationShadowStyle(elevation: number) {
-  return {
-    elevation,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 0.5 * elevation },
-    shadowOpacity: 0.3,
-    shadowRadius: 0.8 * elevation,
-  }
-}
-
 const styles = StyleSheet.create({
   softShadow: {
     elevation: 12,
@@ -61,6 +51,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 1.5,
     shadowColor: Colors.barShadow,
+  },
+  bottomSheetHandleIndicator: {
+    backgroundColor: Colors.bottomSheetHandle,
+    width: 40,
+  },
+  bottomSheetBackground: {
+    backgroundColor: Colors.backgroundPrimary,
+  },
+  bottomSheetBackdrop: {
+    backgroundColor: Colors.backgroundScrim,
   },
 })
 

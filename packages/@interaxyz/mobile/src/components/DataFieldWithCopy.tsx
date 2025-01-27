@@ -42,7 +42,7 @@ function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy, s
           {value}
         </Text>
         <Touchable hitSlop={variables.iconHitslop} onPress={handleCopy} testID={`${testID}/Copy`}>
-          <CopyIcon color={Colors.gray4} />
+          <CopyIcon color={Colors.contentSecondary} />
         </Touchable>
       </View>
     </View>
@@ -52,7 +52,7 @@ function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy, s
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Regular16,
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     marginTop: Spacing.Smallest8,
     marginBottom: Spacing.Large32,
   },
@@ -64,12 +64,10 @@ const styles = StyleSheet.create({
   },
   transactionDataLabel: {
     ...typeScale.labelXSmall,
-    color: Colors.black,
     marginBottom: Spacing.Smallest8,
   },
   transactionData: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     flex: 1,
   },
 })

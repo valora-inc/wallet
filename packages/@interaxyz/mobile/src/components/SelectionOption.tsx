@@ -46,10 +46,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 16,
+    marginHorizontal: 16,
     paddingVertical: 14,
     borderBottomWidth: 1,
-    borderColor: colors.gray2,
+    borderColor: colors.borderPrimary,
   },
   text: {
     ...typeScale.bodyMedium,

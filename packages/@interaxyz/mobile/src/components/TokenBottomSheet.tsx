@@ -104,7 +104,7 @@ function NoResults({
   return (
     <View testID={testID} style={styles.noResultsContainer}>
       <View style={styles.iconContainer}>
-        <InfoIcon color={Colors.infoDark} />
+        <InfoIcon color={Colors.warningPrimary} />
       </View>
       <Text style={styles.noResultsText}>
         {t(noResultsText, { searchTerm: searchTerm, filterNames: activeFilterNames.join(', ') })}
@@ -271,6 +271,7 @@ function TokenBottomSheet({
         keyExtractor={(item) => item.tokenId}
         contentContainerStyle={{
           paddingBottom: insets.bottom,
+          backgroundColor: Colors.backgroundPrimary,
           // fill full height if there are filter chips, otherwise the bottom
           // sheet height changes as tokens are filtered
           flexGrow: filterChips.length ? 1 : undefined,
@@ -386,10 +387,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   noResultsContainer: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: Spacing.Regular16,
+    margin: Spacing.Thick24,
   },
   tokenBalanceItemContainer: {
     marginHorizontal: Spacing.Thick24,
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     padding: Spacing.Thick24,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.backgroundPrimary,
     width: '100%',
   },
   title: {

@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   sectionLabel: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.gray3,
+    color: colors.contentSecondary,
     marginBottom: 4,
   },
   userContainer: {
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   phoneNumber: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.contentSecondary,
   },
   avatarContainer: {
     flex: 1,
@@ -117,17 +117,17 @@ const styles = StyleSheet.create({
   },
   addressHasChanged: {
     ...typeScale.bodySmall,
-    color: colors.gray5,
+    color: colors.contentSecondary,
     marginBottom: 8,
   },
   accountBox: {
     borderRadius: 4,
-    backgroundColor: colors.gray2,
+    backgroundColor: colors.backgroundTertiary,
     flexDirection: 'column',
     padding: 16,
   },
   accountLabel: {
     ...typeScale.labelSemiBoldSmall,
-    color: colors.gray5,
+    color: colors.contentSecondary,
   },
 })

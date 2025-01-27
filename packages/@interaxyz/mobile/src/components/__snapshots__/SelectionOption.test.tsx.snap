@@ -43,7 +43,7 @@ exports[`renders selected correctly 1`] = `
         "borderBottomWidth": 1,
         "borderColor": "#E6E6E6",
         "flexDirection": "row",
-        "marginLeft": 16,
+        "marginHorizontal": 16,
         "paddingVertical": 14,
       }
     }
@@ -61,7 +61,6 @@ exports[`renders selected correctly 1`] = `
         style={{}}
         viewBox="0 0 20 20"
         width={20}
-        xmlns="http://www.w3.org/2000/svg"
       >
         <circle
           cx="10"
@@ -84,6 +83,7 @@ exports[`renders selected correctly 1`] = `
       numberOfLines={1}
       style={
         {
+          "color": "#2E3338",
           "flex": 1,
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
@@ -141,7 +141,7 @@ exports[`renders unselected correctly 1`] = `
         "borderBottomWidth": 1,
         "borderColor": "#E6E6E6",
         "flexDirection": "row",
-        "marginLeft": 16,
+        "marginHorizontal": 16,
         "paddingVertical": 14,
       }
     }
@@ -159,7 +159,6 @@ exports[`renders unselected correctly 1`] = `
         style={{}}
         viewBox="0 0 20 20"
         width={20}
-        xmlns="http://www.w3.org/2000/svg"
       >
         <circle
           cx="10"
@@ -182,6 +181,7 @@ exports[`renders unselected correctly 1`] = `
       numberOfLines={1}
       style={
         {
+          "color": "#2E3338",
           "flex": 1,
           "fontFamily": "Inter-Regular",
           "fontSize": 16,

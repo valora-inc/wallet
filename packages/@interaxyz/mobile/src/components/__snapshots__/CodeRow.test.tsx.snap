@@ -18,7 +18,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 1`] = `
   <Text
     style={
       {
-        "color": "#505050",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
         "lineHeight": 24,
@@ -36,6 +36,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 2`] = `
     [
       {
         "alignItems": "center",
+        "backgroundColor": "#FFFFFF",
         "flex": 1,
         "flexDirection": "row",
         "gap": 8,
@@ -58,6 +59,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 2`] = `
     onChangeText={[MockFunction]}
     onFocus={[Function]}
     placeholder="placeholder"
+    selectionColor="#757575"
     shouldShowClipboard={[MockFunction]}
     style={
       [
@@ -98,7 +100,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 3`] = `
   <Text
     style={
       {
-        "color": "#505050",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
         "lineHeight": 24,
@@ -141,7 +143,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 4`] = `
     numberOfLines={1}
     style={
       {
-        "color": "#505050",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
         "lineHeight": 24,
@@ -171,7 +173,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 5`] = `
     numberOfLines={1}
     style={
       {
-        "color": "#505050",
+        "color": "#757575",
         "fontFamily": "Inter-Regular",
         "fontSize": 15,
         "lineHeight": 24,

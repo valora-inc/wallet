@@ -120,7 +120,7 @@ function SmartTopAlert({ alert }: Props) {
             },
           ]}
         >
-          {isError && <Error style={styles.errorIcon} />}
+          {isError && <Error color={colors.contentTertiary} style={styles.errorIcon} />}
           <Text style={[typeScale.bodySmall, isError && typeScale.labelSmall, styles.text]}>
             {!!title && <Text style={[typeScale.labelSmall, styles.text]}> {title} </Text>}
             {message}
@@ -129,7 +129,6 @@ function SmartTopAlert({ alert }: Props) {
             <SmallButton
               onPress={onPress}
               text={buttonMessage}
-              solid={false}
               style={styles.button}
               textStyle={styles.buttonText}
               testID={'SmartTopAlertButton'}
@@ -151,18 +150,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.infoDark,
+    backgroundColor: colors.warningPrimary,
     paddingBottom: PADDING_VERTICAL,
     paddingHorizontal: 25,
   },
   containerError: {
-    backgroundColor: colors.error,
+    backgroundColor: colors.errorPrimary,
   },
   containerWithButton: {
     flexDirection: 'column',
   },
   text: {
-    color: colors.white,
+    color: colors.contentTertiary,
     // Unset explicit lineHeight set by fonts.tsx otherwise the text is not centered vertically
     lineHeight: undefined,
     textAlign: 'center',
@@ -173,11 +172,11 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 8,
-    borderColor: colors.white,
+    borderColor: colors.contentTertiary,
     alignSelf: 'center',
   },
   buttonText: {
-    color: colors.white,
+    color: colors.contentTertiary,
   },
 })
 

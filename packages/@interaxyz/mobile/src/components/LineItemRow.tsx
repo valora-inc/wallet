@@ -46,7 +46,7 @@ export default function LineItemRow({
       )}
       {isLoading && (
         <View style={styles.loadingContainer} testID="LineItemLoading">
-          <ActivityIndicator size="small" color={colors.accent} />
+          <ActivityIndicator size="small" color={colors.loadingIndicator} />
         </View>
       )}
     </View>
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
   },
   text: {
     ...typeScale.labelMedium,
-    color: colors.black,
   },
   loadingContainer: {
     transform: [{ scale: 0.7 }],

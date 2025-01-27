@@ -67,8 +67,14 @@ function FilterChipsCarousel<T>({
             style={[
               styles.filterChipBackground,
               chip.isSelected
-                ? { backgroundColor: Colors.black, borderColor: Colors.black }
-                : { backgroundColor: Colors.gray1, borderColor: Colors.gray2 },
+                ? {
+                    backgroundColor: Colors.buttonPrimaryBackground,
+                    borderColor: Colors.buttonPrimaryBorder,
+                  }
+                : {
+                    backgroundColor: Colors.buttonSecondaryBackground,
+                    borderColor: Colors.buttonSecondaryBorder,
+                  },
             ]}
           >
             <Touchable
@@ -81,14 +87,18 @@ function FilterChipsCarousel<T>({
                 <Text
                   style={[
                     styles.filterChipText,
-                    chip.isSelected ? { color: Colors.white } : { color: Colors.gray4 },
+                    chip.isSelected
+                      ? { color: Colors.buttonPrimaryContent }
+                      : { color: Colors.buttonSecondaryContent },
                   ]}
                 >
                   {chip.name}
                 </Text>
                 {isNetworkChip(chip) && (
                   <DownArrowIcon
-                    color={chip.isSelected ? Colors.white : Colors.gray4}
+                    color={
+                      chip.isSelected ? Colors.buttonPrimaryContent : Colors.buttonSecondaryContent
+                    }
                     strokeWidth={2}
                     height={Spacing.Regular16}
                     style={{ marginBottom: 2, marginLeft: 4 }}

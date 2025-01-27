@@ -112,7 +112,7 @@ export default function EarnHome({ navigation, route }: Props) {
       shadowColor: interpolateColor(
         scrollPosition.value,
         [nonStickyHeaderHeight - 10, nonStickyHeaderHeight + 10],
-        ['transparent', Colors.gray1]
+        ['transparent', Colors.softShadow]
       ),
     }
   }, [scrollPosition.value, nonStickyHeaderHeight])
@@ -267,7 +267,7 @@ export default function EarnHome({ navigation, route }: Props) {
         </Animated.View>
         {errorLoadingPools && (
           <View style={styles.textContainer}>
-            <AttentionIcon size={48} color={Colors.black} />
+            <AttentionIcon size={48} color={Colors.contentPrimary} />
             <Text style={styles.errorTitle}>{t('earnFlow.home.errorTitle')}</Text>
             <Text style={styles.description}>{t('earnFlow.home.errorDescription')}</Text>
           </View>
@@ -351,13 +351,12 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleMedium,
-    color: Colors.black,
   },
   listHeaderContainer: {
     ...getShadowStyle(Shadow.SoftLight),
     paddingBottom: Spacing.Regular16,
     paddingHorizontal: Spacing.Regular16,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.backgroundPrimary,
     position: 'absolute',
     width: '100%',
     zIndex: 1,
@@ -378,16 +377,13 @@ const styles = StyleSheet.create({
   },
   learnMoreTitle: {
     ...typeScale.titleSmall,
-    color: Colors.black,
   },
   learnMoreSubTitle: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.black,
     marginBottom: Spacing.Tiny4,
   },
   learnMoreDescription: {
     ...typeScale.bodySmall,
-    color: Colors.black,
     marginBottom: Spacing.Thick24,
   },
   textContainer: {

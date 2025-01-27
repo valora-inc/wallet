@@ -23,7 +23,6 @@ import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -173,7 +172,7 @@ function JumpstartShareLink({ route }: Props) {
             text={t('jumpstartShareLinkScreen.ctaShare')}
             onPress={() => nativeShare.execute(JumpstartShareOrigin.MainScreen)}
             style={styles.button}
-            icon={<ShareIcon color={Colors.white} />}
+            icon={<ShareIcon />}
             iconPositionLeft={false}
             size={BtnSizes.FULL}
           />
@@ -181,7 +180,7 @@ function JumpstartShareLink({ route }: Props) {
             text={t('jumpstartShareLinkScreen.ctaScanQRCode')}
             onPress={handleShowQRBottomSheet}
             style={styles.button}
-            icon={<QRCodeIcon color={Colors.white} />}
+            icon={<QRCodeIcon />}
             iconPositionLeft={false}
             size={BtnSizes.FULL}
           />
@@ -226,7 +225,7 @@ function JumpstartShareLink({ route }: Props) {
           text={t('jumpstartShareLinkScreen.ctaShare')}
           onPress={() => nativeShare.execute(JumpstartShareOrigin.QrScreen)}
           style={styles.button}
-          icon={<ShareIcon color={Colors.white} />}
+          icon={<ShareIcon />}
           iconPositionLeft={false}
           size={BtnSizes.FULL}
         />

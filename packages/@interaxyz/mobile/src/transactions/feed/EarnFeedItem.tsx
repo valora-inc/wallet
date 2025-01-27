@@ -168,24 +168,22 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelMedium,
-    color: Colors.black,
   },
   subtitle: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
   },
   amountContainer: {
     maxWidth: '50%',
   },
   amountTitle: {
     ...typeScale.labelMedium,
-    color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'right',
   },
   amountSubtitle: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
     flexWrap: 'wrap',
     textAlign: 'right',
   },

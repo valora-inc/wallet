@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import { AnalyticsEventType, AnalyticsPropertiesList } from 'src/analytics/Properties'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AnalyticsEventType, AnalyticsPropertiesList } from 'src/analytics/Properties'
 import Touchable from 'src/components/Touchable'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'

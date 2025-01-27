@@ -12,7 +12,6 @@ import Trophy from 'src/icons/Trophy'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
-import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -165,6 +164,5 @@ const styles = StyleSheet.create({
   },
   bottomSheetTitle: {
     ...typeScale.titleSmall,
-    color: Colors.black,
   },
 })

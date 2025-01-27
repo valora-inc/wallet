@@ -13,7 +13,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
     style={
       [
         {
-          "color": "#A49B80",
+          "color": "#757575",
           "fontFamily": "Inter-SemiBold",
           "fontSize": 14,
           "lineHeight": 20,
@@ -97,7 +97,6 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
               {
                 "alignItems": "center",
                 "flexDirection": "row",
-                "flexWrap": "wrap",
               },
               {
                 "justifyContent": "center",
@@ -148,65 +147,54 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
     </View>
     <View
       style={
-        {
-          "flex": 1,
-          "marginLeft": 16,
-        }
+        [
+          {
+            "alignItems": "center",
+            "backgroundColor": "#FFFFFF",
+            "flex": 1,
+            "flexDirection": "row",
+            "gap": 8,
+            "justifyContent": "center",
+          },
+          {
+            "backgroundColor": "#FFFFFF",
+            "borderBottomWidth": 1,
+            "borderColor": "#E6E6E6",
+            "marginLeft": 16,
+          },
+        ]
       }
     >
-      <View
+      <TextInput
+        countryCallingCode="+33"
+        editable={true}
+        keyboardType="phone-pad"
+        onBlur={[Function]}
+        onChangeText={[Function]}
+        onFocus={[Function]}
+        placeholder="00 00 00 00 00"
+        placeholderTextColor="#757575"
+        selectionColor="#757575"
         style={
           [
             {
-              "alignItems": "center",
+              "color": "#2E3338",
               "flex": 1,
-              "flexDirection": "row",
-              "gap": 8,
-              "justifyContent": "center",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+              "paddingHorizontal": 0,
+              "paddingVertical": 12,
             },
+            undefined,
             undefined,
           ]
         }
-      >
-        <TextInput
-          countryCallingCode="+33"
-          editable={true}
-          keyboardType="phone-pad"
-          onBlur={[Function]}
-          onChangeText={[Function]}
-          onFocus={[Function]}
-          placeholder="00 00 00 00 00"
-          placeholderTextColor="#757575"
-          style={
-            [
-              {
-                "color": "#2E3338",
-                "flex": 1,
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 22,
-                "paddingHorizontal": 0,
-                "paddingVertical": 12,
-              },
-              undefined,
-              undefined,
-            ]
-          }
-          testID="PhoneNumberField"
-          textContentType="telephoneNumber"
-          underlineColorAndroid="transparent"
-          validator="phone"
-          value=""
-        />
-      </View>
-      <View
-        style={
-          {
-            "backgroundColor": "#A49B80",
-            "height": 1,
-            "opacity": 0.2,
-          }
-        }
+        testID="PhoneNumberField"
+        textContentType="telephoneNumber"
+        underlineColorAndroid="transparent"
+        validator="phone"
+        value=""
       />
     </View>
   </View>

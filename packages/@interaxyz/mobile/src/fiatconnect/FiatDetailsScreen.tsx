@@ -204,7 +204,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     case SendingFiatAccountStatus.Sending:
       return (
         <View testID="spinner" style={styles.activityIndicatorContainer}>
-          <ActivityIndicator size="large" color={colors.accent} />
+          <ActivityIndicator size="large" color={colors.loadingIndicator} />
         </View>
       )
     case SendingFiatAccountStatus.KycApproved:
@@ -304,7 +304,7 @@ function FormField({
             style={styles.infoIcon}
             hitSlop={variables.iconHitslop}
           >
-            <InfoIcon size={18} color={colors.gray3} />
+            <InfoIcon size={18} color={colors.contentSecondary} />
           </TouchableOpacity>
         )}
       </View>
@@ -383,28 +383,26 @@ const styles = StyleSheet.create({
   formInputContainer: {
     borderRadius: 4,
     borderWidth: 1.5,
-    borderColor: colors.gray2,
+    borderColor: colors.borderPrimary,
     marginBottom: 4,
     paddingHorizontal: 8,
   },
   formInput: {
     ...typeScale.bodyMedium,
-    color: colors.black,
   },
   formSelectInput: {
     ...typeScale.bodyMedium,
     borderRadius: 4,
     borderWidth: 1.5,
-    borderColor: colors.gray2,
+    borderColor: colors.borderPrimary,
     marginBottom: 4,
-    color: colors.black,
     paddingHorizontal: 8,
     paddingVertical: 12,
     lineHeight: LINE_HEIGHT,
   },
   error: {
     fontSize: 12,
-    color: colors.errorDark,
+    color: colors.errorPrimary,
   },
   submitButton: {
     padding: variables.contentPadding,
@@ -416,7 +414,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cancelBtn: {
-    color: colors.gray4,
+    color: colors.navigationTopSecondary,
   },
   headerSubTitleContainer: {
     flexDirection: 'row',

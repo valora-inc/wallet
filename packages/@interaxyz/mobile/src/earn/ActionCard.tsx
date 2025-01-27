@@ -16,7 +16,7 @@ export function ActionCard({ action }: { action: BeforeDepositAction | WithdrawA
       testID={`Earn/ActionCard/${action.name}`}
     >
       <>
-        <action.iconComponent color={Colors.black} />
+        <action.iconComponent color={Colors.contentPrimary} />
         <View style={styles.cardContainer}>
           <Text style={styles.actionTitle}>{action.title}</Text>
           <Text style={styles.actionDetails}>{action.details}</Text>
@@ -29,14 +29,12 @@ export function ActionCard({ action }: { action: BeforeDepositAction | WithdrawA
 const styles = StyleSheet.create({
   actionTitle: {
     ...typeScale.labelMedium,
-    color: Colors.black,
   },
   actionDetails: {
     ...typeScale.bodySmall,
-    color: Colors.black,
   },
   touchable: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.buttonSecondaryBackground,
     padding: Spacing.Regular16,
     flexDirection: 'row',
     gap: Spacing.Regular16,

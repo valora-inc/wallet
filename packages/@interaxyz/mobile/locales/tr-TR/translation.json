@@ -903,7 +903,7 @@
     "learnMore": {
       "buttonLabel": "Bağlanmam gerekiyor mu?",
       "title": "Bağlanmam gerekiyor mu?",
-      "body": "Telefon numaranızı bağlamanız, adres defterinizdeki ve diğer telefon numaralarınızdaki arkadaşlarınıza para göndermenize olanak tanır.\n \nBu adımı atlarsanız, kişilerinize erişemezsiniz ve yalnızca QR kodu veya cüzdan adresi aracılığıyla para gönderebilirsiniz."
+      "body": "Telefon numaranızı bağlamak, adres defterinizdeki arkadaşlarınıza ve diğer telefon numaralarına para göndermenizi sağlayacaktır. \n\nBu adımı atlamayı seçerseniz, kişilerinize erişemezsiniz ve yalnızca QR kodu veya cüzdan adresi aracılığıyla para gönderebilirsiniz."
     },
     "skip": {
       "title": "Emin misiniz?",
@@ -919,8 +919,8 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Yardım",
-      "body": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n \n Mesaj almakta sorun yaşıyorsanız şimdilik bu adımı atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
-      "bodyCloudBackupOnboarding": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n \n Mesaj almakta sorun yaşıyorsanız bir Kurtarma İfadesi ile yedekleme yapmanızı öneririz. Daha sonra e-posta adresiniz ve telefonunuzla oturum açmayı deneyebilirsiniz.",
+      "body": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n\nMesajları almakta sorun yaşıyorsanız, şimdilik bu adımı atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
+      "bodyCloudBackupOnboarding": "Telefon numaranıza bir SMS gönderdik. Lütfen 6 haneli kodu bulmak için kısa mesajlarınızı kontrol edin. \n\nMesajları almakta sorun yaşıyorsanız, bir Kurtarma İfadesi ile yedekleme yapmanızı öneririz. Daha sonra e-posta adresiniz ve telefonunuzla oturum açmayı deneyebilirsiniz.",
       "skip": "Atla",
       "dismiss": "Geri dön",
       "useRecoveryPhrase": "Kurtarma İfadesini Kullan"
@@ -2844,6 +2844,15 @@
     "ctaAction_Deposit": "Daha az miktarda para yatırın",
     "ctaAction_Withdraw": "Daha küçük miktarda para çekme"
   },
+  "reviewTransaction": {
+    "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
+  },
+  "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
+  "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
+  "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
+  "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

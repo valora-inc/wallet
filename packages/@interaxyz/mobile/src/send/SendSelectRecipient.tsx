@@ -62,7 +62,7 @@ function GetStartedSection() {
         <CircledIcon
           radius={Math.min(24 * getFontScaleSync(), 50)}
           style={getStartedStyles.optionNum}
-          backgroundColor={colors.white}
+          backgroundColor={colors.backgroundPrimary}
         >
           <Text adjustsFontSizeToFit={true} style={getStartedStyles.optionNumText}>
             {optionNum}
@@ -104,7 +104,7 @@ function GetStartedSection() {
 
 const getStartedStyles = StyleSheet.create({
   container: {
-    backgroundColor: colors.gray1,
+    backgroundColor: colors.backgroundSecondary,
     padding: Spacing.Thick24,
     margin: Spacing.Regular16,
     marginTop: Spacing.Large32,
@@ -113,22 +113,20 @@ const getStartedStyles = StyleSheet.create({
   },
   subtitle: {
     ...typeScale.labelXXSmall,
-    color: colors.gray3,
+    color: colors.contentSecondary,
   },
   title: {
     ...typeScale.labelMedium,
-    color: colors.gray5,
   },
   optionWrapper: {
     flexDirection: 'row',
   },
   optionNum: {
     borderWidth: 1,
-    borderColor: colors.gray2,
+    borderColor: colors.borderSecondary,
   },
   optionNumText: {
     ...typeScale.labelXSmall,
-    color: colors.black,
   },
   optionText: {
     paddingLeft: Spacing.Smallest8,
@@ -136,12 +134,11 @@ const getStartedStyles = StyleSheet.create({
   },
   optionTitle: {
     ...typeScale.labelSmall,
-    color: colors.gray5,
     paddingBottom: Spacing.Tiny4,
   },
   optionSubtitle: {
     ...typeScale.bodyXSmall,
-    color: colors.gray3,
+    color: colors.contentSecondary,
   },
 })
 
@@ -436,7 +433,7 @@ const styles = StyleSheet.create({
   },
   searchResultsHeader: {
     ...typeScale.labelXSmall,
-    color: colors.gray3,
+    color: colors.contentSecondary,
     paddingHorizontal: Spacing.Regular16,
     paddingVertical: Spacing.Smallest8,
   },
@@ -447,12 +444,12 @@ const styles = StyleSheet.create({
   },
   noResultsTitle: {
     ...typeScale.bodyMedium,
-    color: colors.gray3,
+    color: colors.contentSecondary,
     textAlign: 'center',
   },
   noResultsSubtitle: {
     ...typeScale.labelXSmall,
-    color: colors.gray3,
+    color: colors.contentSecondary,
     justifyContent: 'center',
     padding: Spacing.Regular16,
     textAlign: 'center',

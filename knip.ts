@@ -62,6 +62,7 @@ const config: KnipConfig = {
         'src/analytics/docs.ts', // documents analytics events, no references
         'src/account/__mocks__/Persona.tsx', // unit test mocks
         'src/setupE2eEnv.e2e.ts', // e2e test setup
+        'src/components/ReviewTransaction.tsx', // will be removed once used in SendConfirmation
       ],
     },
   },

@@ -58,7 +58,7 @@ export default function PointsDiscoverCard() {
           <Text style={styles.title}>{t('points.discoverCard.title')}</Text>
           <Text style={styles.description}>{t('points.discoverCard.description')}</Text>
           <LinearGradient
-            colors={[Colors.gradientBorderLeft, Colors.gradientBorderRight]}
+            colors={[Colors.brandGradientLeft, Colors.brandGradientRight]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.linearGradient}
@@ -78,7 +78,7 @@ export default function PointsDiscoverCard() {
 const styles = StyleSheet.create({
   touchable: {
     overflow: 'hidden',
-    borderColor: Colors.gray2,
+    borderColor: Colors.borderPrimary,
     borderWidth: 1,
     borderRadius: Spacing.Smallest8,
     marginBottom: Spacing.Thick24,
@@ -94,16 +94,14 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
     marginBottom: Spacing.Smallest8,
   },
   description: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
   },
   balance: {
     ...typeScale.labelSemiBoldSmall,
-    color: Colors.black,
   },
   linearGradient: {
     height: 40,
@@ -116,7 +114,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     flex: 1,
     margin: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.backgroundPrimary,
     justifyContent: 'center',
     paddingHorizontal: Spacing.Small12,
     paddingVertical: 6,

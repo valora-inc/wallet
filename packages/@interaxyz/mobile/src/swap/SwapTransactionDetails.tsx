@@ -107,7 +107,7 @@ function LabelWithInfo({
     <Touchable style={styles.touchableRow} onPress={onPress} testID={testID}>
       <>
         <Text style={styles.label}>{label}</Text>
-        <InfoIcon size={14} color={colors.gray4} testID={`${testID}/Icon`} />
+        <InfoIcon size={14} color={colors.contentSecondary} testID={`${testID}/Icon`} />
       </>
     </Touchable>
   )
@@ -122,8 +122,8 @@ function ValueWithLoading({ value, isLoading }: { value: React.ReactNode; isLoad
           <View style={styles.loaderContainer}>
             <SkeletonPlaceholder
               borderRadius={100}
-              backgroundColor={colors.gray2}
-              highlightColor={colors.white}
+              backgroundColor={colors.skeletonPlaceholderBackground}
+              highlightColor={colors.skeletonPlaceholderHighlight}
               testID="SwapTransactionDetails/ExchangeRate/Loader"
             >
               <View style={styles.loader} />
@@ -242,10 +242,6 @@ export function SwapTransactionDetails({
 
 const styles = StyleSheet.create({
   container: {
-    padding: Spacing.Regular16,
-    borderWidth: 1,
-    borderColor: colors.gray2,
-    borderRadius: 12,
     gap: Spacing.Regular16,
   },
   row: {
@@ -264,12 +260,11 @@ const styles = StyleSheet.create({
   },
   value: {
     ...typeScale.bodySmall,
-    color: colors.black,
     textAlign: 'right',
   },
   label: {
     ...typeScale.bodySmall,
-    color: colors.gray4,
+    color: colors.contentSecondary,
     marginRight: Spacing.Tiny4,
   },
   loaderContainer: {

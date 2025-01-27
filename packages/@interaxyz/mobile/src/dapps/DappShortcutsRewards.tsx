@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { DappShortcutsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { DappShortcutsEvents } from 'src/analytics/Events'
 import Button, { BtnSizes } from 'src/components/Button'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -205,7 +205,7 @@ function DappShortcutsRewards() {
 const styles = StyleSheet.create({
   card: {
     borderWidth: 1,
-    borderColor: Colors.gray2,
+    borderColor: Colors.borderPrimary,
     borderRadius: 12,
     marginBottom: Spacing.Regular16,
   },
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
   },
   rewardLabel: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
   },
   rewardAmount: {
     ...typeScale.labelSemiBoldLarge,
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: Spacing.Regular16,
     paddingVertical: Spacing.Small12,
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.backgroundSecondary,
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
   },
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     marginRight: Spacing.Smallest8,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.backgroundPrimary,
     borderRadius: 100,
   },
   dappName: {
@@ -261,14 +261,14 @@ const styles = StyleSheet.create({
   },
   subHeading: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
   },
   claimButton: {
     minWidth: 72,
   },
   chip: {
     marginTop: Spacing.Smallest8,
-    backgroundColor: Colors.infoLight,
+    backgroundColor: Colors.successSecondary,
     paddingVertical: 2,
     paddingHorizontal: Spacing.Smallest8,
     borderRadius: 100,

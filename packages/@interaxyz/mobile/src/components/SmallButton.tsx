@@ -8,7 +8,6 @@ interface ButtonProps {
   onPress: () => void
   text: string
   accessibilityLabel?: string
-  solid: boolean
   disabled?: boolean
   style?: ViewStyle
   textStyle?: TextStyle
@@ -20,8 +19,7 @@ const TOUCH_OVERFLOW = 7
 
 export default class SmallButton extends React.Component<ButtonProps> {
   render() {
-    const { onPress, text, accessibilityLabel, solid, disabled, style, textStyle, children } =
-      this.props
+    const { onPress, text, accessibilityLabel, disabled, style, textStyle, children } = this.props
     return (
       <Touchable
         testID={this.props.testID}
@@ -33,18 +31,13 @@ export default class SmallButton extends React.Component<ButtonProps> {
           bottom: TOUCH_OVERFLOW,
           right: TOUCH_OVERFLOW,
         }}
-        style={[styles.button, solid ? styles.solid : styles.hollow, style]}
+        style={[styles.button, style]}
       >
         <>
           {children}
           <Text
             accessibilityLabel={accessibilityLabel}
-            style={[
-              styles.text,
-              solid ? { color: colors.white } : { color: colors.accent },
-              children ? styles.textPadding : null,
-              textStyle,
-            ]}
+            style={[styles.text, children ? styles.textPadding : null, textStyle]}
           >
             {text}
           </Text>
@@ -65,22 +58,13 @@ const styles = StyleSheet.create({
     paddingVertical: PADDING_VERTICAL,
     paddingHorizontal: PADDING_HORIZONTAL,
     borderRadius: 2,
-  },
-  solid: {
-    backgroundColor: colors.accent,
-    paddingVertical: PADDING_VERTICAL + 2,
-    paddingHorizontal: PADDING_HORIZONTAL + 2,
-  },
-  hollow: {
     backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: colors.accent,
   },
   text: {
     ...typeScale.labelMedium,
     fontSize: 13,
     lineHeight: 20,
-    color: colors.gray5,
+    color: colors.contentSecondary,
     textAlign: 'center',
   },
   textPadding: {

@@ -69,7 +69,7 @@ exports[`PriceHistoryChart renders while update is in progress 1`] = `
           />
         </g>
         <text
-          fill="#666666"
+          fill="#757575"
           fontFamily="Inter-Regular"
           fontSize="14"
           onLayout={[Function]}
@@ -88,7 +88,7 @@ exports[`PriceHistoryChart renders while update is in progress 1`] = `
           />
         </g>
         <text
-          fill="#666666"
+          fill="#757575"
           fontFamily="Inter-Regular"
           fontSize="14"
           onLayout={[Function]}
@@ -278,7 +278,7 @@ exports[`PriceHistoryChart renders with history 1`] = `
           />
         </g>
         <text
-          fill="#666666"
+          fill="#757575"
           fontFamily="Inter-Regular"
           fontSize="14"
           onLayout={[Function]}
@@ -297,7 +297,7 @@ exports[`PriceHistoryChart renders with history 1`] = `
           />
         </g>
         <text
-          fill="#666666"
+          fill="#757575"
           fontFamily="Inter-Regular"
           fontSize="14"
           onLayout={[Function]}

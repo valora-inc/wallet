@@ -41,7 +41,8 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
   // been initiated. Therefore for failed cross chain swaps, we should show the
   // transaction in the default network explorer.
   const showCrossChainSwapExplorer =
-    transaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction &&
+    (transaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction ||
+      transaction.type === TokenTransactionTypeV2.CrossChainDeposit) &&
     transaction.status !== TransactionStatus.Failed
 
   const openBlockExplorerHandler =
@@ -111,7 +112,7 @@ function TransactionDetails({ transaction, title, subtitle, children, retryHandl
             >
               <View style={styles.rowContainer}>
                 <Text style={styles.blockExplorerLink}>{explorerName}</Text>
-                <ArrowRightThick size={16} />
+                <ArrowRightThick size={16} color={Colors.textLink} />
               </View>
             </Touchable>
           </>
@@ -132,11 +133,10 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleSmall,
-    color: Colors.black,
   },
   subtitle: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
     marginTop: 2,
   },
   status: {
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   },
   blockExplorerLink: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.textLink,
     marginRight: Spacing.Tiny4,
   },
 })

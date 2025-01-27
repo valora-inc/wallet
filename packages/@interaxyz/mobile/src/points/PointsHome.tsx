@@ -107,8 +107,8 @@ export default function PointsHome({ route, navigation }: Props) {
         contentContainerStyle={styles.contentContainer}
         refreshControl={
           <RefreshControl
-            tintColor={Colors.accent}
-            colors={[Colors.accent]}
+            tintColor={Colors.loadingIndicator}
+            colors={[Colors.loadingIndicator]}
             refreshing={pointsBalanceStatus === 'loading'}
             onRefresh={onRefreshHistoryAndBalance}
           />
@@ -124,7 +124,7 @@ export default function PointsHome({ route, navigation }: Props) {
 
         {pointsConfigStatus === 'error' && (
           <View style={styles.loadingStatusContainer}>
-            <AttentionIcon size={48} color={Colors.black} />
+            <AttentionIcon size={48} color={Colors.contentPrimary} />
             <Text style={styles.loadingStatusTitle}>{t('points.error.title')}</Text>
             <Text style={styles.loadingStatusBodyText}>{t('points.error.description')}</Text>
             <Button
@@ -285,18 +285,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: Spacing.Tiny4,
     alignSelf: 'flex-start',
-    backgroundColor: Colors.successLight,
+    backgroundColor: Colors.successSecondary,
     borderRadius: Spacing.XLarge48,
     paddingVertical: Spacing.Smallest8,
     paddingHorizontal: Spacing.Small12,
   },
   bottomSheetPointAmount: {
     ...typeScale.labelSemiBoldXSmall,
-    color: Colors.successDark,
+    color: Colors.successPrimary,
   },
   bottomSheetPreviousPointsAmount: {
     ...typeScale.labelSemiBoldXSmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
     textDecorationLine: 'line-through',
   },
   bottomSheetTitle: {
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
   },
   bottomSheetBody: {
     ...typeScale.bodySmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
     marginBottom: Spacing.XLarge48,
   },
   balanceRow: {
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     gap: Spacing.Tiny4,
   },
   infoCard: {
-    backgroundColor: Colors.successLight,
+    backgroundColor: Colors.successSecondary,
     padding: Spacing.Regular16,
     marginBottom: Spacing.Thick24,
     borderRadius: 12,
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
   },
   disclaimerText: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.textLink,
     textAlign: 'center',
     marginVertical: Spacing.Thick24,
   },

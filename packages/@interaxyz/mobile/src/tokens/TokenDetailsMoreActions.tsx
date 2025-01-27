@@ -47,7 +47,7 @@ export default function TokenDetailsMoreActions({
             testID={`TokenDetailsMoreActions/${action.name}`}
           >
             <>
-              <action.iconComponent color={Colors.black} />
+              <action.iconComponent color={Colors.contentPrimary} />
               <View style={{ flex: 1 }}>
                 <Text style={styles.actionTitle}>{action.title}</Text>
                 <Text style={styles.actionDetails}>{action.details}</Text>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelLarge,
   },
   touchable: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.buttonSecondaryBackground,
     padding: Spacing.Regular16,
     flexDirection: 'row',
     gap: Spacing.Regular16,

@@ -9,8 +9,8 @@ const SvgComponent = (props: { height: number; width: number; testID?: string })
       <Path fill="url(#a)" d={`M0 0h${props.width}v${props.height}H0z`} />
       <Defs>
         <LinearGradient id="a" x1={0} y1={0} x2={0} y2={1000} gradientUnits="userSpaceOnUse">
-          <Stop stopColor={Colors.white} />
-          <Stop offset={1} stopColor={Colors.white} stopOpacity={0} />
+          <Stop stopColor={Colors.disabled} />
+          <Stop offset={1} stopColor={Colors.disabled} stopOpacity={0} />
         </LinearGradient>
       </Defs>
     </Svg>

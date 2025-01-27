@@ -34,14 +34,14 @@ function ActionsCarousel() {
   const actions: Actions = {
     [HomeActionName.Send]: {
       title: t('homeActions.send'),
-      icon: <QuickActionsSend color={Colors.successDark} />,
+      icon: <QuickActionsSend color={Colors.buttonQuickActionContent} />,
       onPress: () => {
         navigate(Screens.SendSelectRecipient)
       },
     },
     [HomeActionName.Receive]: {
       title: t('homeActions.receive'),
-      icon: <QuickActionsReceive color={Colors.successDark} />,
+      icon: <QuickActionsReceive color={Colors.buttonQuickActionContent} />,
       onPress: () => {
         navigate(Screens.QRNavigator, {
           screen: Screens.QRCode,
@@ -50,14 +50,14 @@ function ActionsCarousel() {
     },
     [HomeActionName.Add]: {
       title: t('homeActions.add'),
-      icon: <QuickActionsAdd color={Colors.successDark} />,
+      icon: <QuickActionsAdd color={Colors.buttonQuickActionContent} />,
       onPress: () => {
         navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
       },
     },
     [HomeActionName.Swap]: {
       title: t('homeActions.swap'),
-      icon: <SwapArrows color={Colors.successDark} />,
+      icon: <SwapArrows color={Colors.buttonQuickActionContent} />,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack)
       },
@@ -65,7 +65,7 @@ function ActionsCarousel() {
     },
     [HomeActionName.Withdraw]: {
       title: t('homeActions.withdraw'),
-      icon: <QuickActionsWithdraw color={Colors.successDark} />,
+      icon: <QuickActionsWithdraw color={Colors.buttonQuickActionContent} />,
       onPress: () => {
         navigate(Screens.WithdrawSpend)
       },
@@ -123,7 +123,7 @@ function ActionsCarousel() {
 
 const styles = StyleSheet.create({
   viewContainer: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.backgroundPrimary,
   },
   carouselContainer: {
     padding: Spacing.Regular16,
@@ -132,7 +132,9 @@ const styles = StyleSheet.create({
   card: {
     width: 84,
     padding: 0,
-    backgroundColor: Colors.successLight,
+    backgroundColor: Colors.buttonQuickActionBackground,
+    borderColor: Colors.buttonQuickActionBorder,
+    borderWidth: 1,
     borderRadius: 10,
   },
   touchable: {
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSmall,
     lineHeight: 17,
     paddingTop: Spacing.Smallest8,
-    color: Colors.successDark,
+    color: Colors.buttonQuickActionContent,
   },
 })
 

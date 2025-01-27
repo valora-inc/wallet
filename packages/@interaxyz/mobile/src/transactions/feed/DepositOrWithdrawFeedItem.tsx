@@ -27,6 +27,7 @@ function Description({ transaction }: DescriptionProps) {
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Deposit:
+    case TokenTransactionTypeV2.CrossChainDeposit:
       title = t('transactionFeed.depositTitle')
       subtitle = t('transactionFeed.depositSubtitle', {
         context: !txAppName ? 'noTxAppName' : undefined,
@@ -66,6 +67,7 @@ function AmountDisplay({ transaction, isLocal }: AmountDisplayProps) {
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Deposit:
+    case TokenTransactionTypeV2.CrossChainDeposit:
       amountValue = new BigNumber(-transaction.outAmount.value)
       localAmount = transaction.outAmount.localAmount
       tokenId = transaction.outAmount.tokenId
@@ -132,6 +134,7 @@ export default function DepositOrWithdrawFeedItem({ transaction }: Props) {
           status={transaction.status}
           transactionType={transaction.type}
           networkId={transaction.networkId}
+          hideNetworkIcon={transaction.type === TokenTransactionTypeV2.CrossChainDeposit}
         />
         <Description transaction={transaction} />
         <Amount transaction={transaction} />
@@ -153,24 +156,22 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelMedium,
-    color: Colors.black,
   },
   subtitle: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
   },
   amountContainer: {
     maxWidth: '50%',
   },
   amountTitle: {
     ...typeScale.labelMedium,
-    color: Colors.black,
     flexWrap: 'wrap',
     textAlign: 'right',
   },
   amountSubtitle: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
     flexWrap: 'wrap',
     textAlign: 'right',
   },

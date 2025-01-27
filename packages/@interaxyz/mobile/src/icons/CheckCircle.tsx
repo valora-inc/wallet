@@ -8,7 +8,7 @@ interface Props {
   testID?: string
 }
 
-const CheckCircle = ({ size = 24, color = Colors.black, testID }: Props) => (
+const CheckCircle = ({ size = 24, color = Colors.contentPrimary, testID }: Props) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" testID={testID}>
     <Path
       fill={color}

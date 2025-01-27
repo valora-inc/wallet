@@ -70,7 +70,7 @@ export default function Dialog({
           </TextButton>
         )}
         {showLoading ? (
-          <ActivityIndicator style={styles.primary} size="small" color={colors.accent} />
+          <ActivityIndicator style={styles.primary} size="small" color={colors.loadingIndicator} />
         ) : (
           <>
             {!!actionText && (
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   secondary: {
-    color: colors.gray4,
+    color: colors.contentSecondary,
     paddingTop: 16,
   },
   primary: {

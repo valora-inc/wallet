@@ -1,18 +1,16 @@
 import * as React from 'react'
 import { View, ViewStyle } from 'react-native'
-import colors from 'src/styles/colors'
 import Svg, { Circle, Path } from 'svgs'
 import { getSizing } from '../styles/accessibility'
 
 interface Props {
-  color?: string
+  color: string
   width?: number
   style?: ViewStyle
 }
 
 export default class Error extends React.PureComponent<Props> {
   static defaultProps = {
-    color: colors.white,
     width: getSizing(),
     style: {},
   }
@@ -26,7 +24,6 @@ export default class Error extends React.PureComponent<Props> {
           height={this.props.width}
           viewBox="0 0 16 16"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg"
         >
           <Path
             fillRule="evenodd"

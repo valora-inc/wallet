@@ -152,7 +152,7 @@ exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
         nativeBackgroundAndroid={
           {
             "borderless": false,
-            "color": -1644826,
+            "color": 640691749,
             "rippleRadius": undefined,
             "type": "RippleAndroid",
           }
@@ -177,6 +177,7 @@ exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
         <Text
           style={
             {
+              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,
@@ -212,7 +213,7 @@ exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
         nativeBackgroundAndroid={
           {
             "borderless": false,
-            "color": -1644826,
+            "color": 640691749,
             "rippleRadius": undefined,
             "type": "RippleAndroid",
           }
@@ -230,6 +231,7 @@ exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
         <Text
           style={
             {
+              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 24,

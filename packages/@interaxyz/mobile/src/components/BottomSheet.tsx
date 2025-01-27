@@ -19,7 +19,7 @@ interface Props {
   contentContainerStyle?: ViewStyle
   stickyTitle?: boolean
   stickyHeaderComponent?: React.ReactNode
-  testId: string
+  testId?: string
 }
 
 export type BottomSheetModalRefType = BottomSheetModal

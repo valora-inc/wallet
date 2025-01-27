@@ -86,11 +86,10 @@ const styles = StyleSheet.create({
   },
   item: {
     ...typeScale.bodyMedium,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
   },
   itemSelected: {
     ...typeScale.labelMedium,
-    color: Colors.black,
   },
   activeTabUnderline: {
     height: 2,

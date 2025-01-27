@@ -21,21 +21,15 @@ export default class RadioButton extends React.PureComponent<Props> {
   render() {
     let stroke
     if (this.props.disabled) {
-      stroke = colors.gray2
+      stroke = colors.disabled
     } else if (this.props.selected) {
       stroke = this.props.color
     } else if (!this.props.selected) {
-      stroke = colors.gray3
+      stroke = colors.inactive
     }
     const fill = this.props.selected && !this.props.disabled ? this.props.color : 'none'
     return (
-      <Svg
-        xmlns="http://www.w3.org/2000/svg"
-        height={this.props.height}
-        width={this.props.height}
-        viewBox="0 0 20 20"
-        fill="none"
-      >
+      <Svg height={this.props.height} width={this.props.height} viewBox="0 0 20 20" fill="none">
         <Circle cx="10" cy="10" r="9" stroke={stroke} strokeWidth={2} />
         <Circle cx="10" cy="10" r="6" fill={fill} />
       </Svg>

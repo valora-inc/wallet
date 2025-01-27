@@ -148,7 +148,7 @@ function SuccessOrProcessingSection({
   if (status === SendingTransferStatus.Completed) {
     icon = (
       <CircledIcon>
-        <Checkmark color={Colors.white} height={22} width={22} />
+        <Checkmark color={Colors.contentTertiary} height={22} width={22} />
       </CircledIcon>
     )
     title = t('fiatConnectStatusScreen.success.title')
@@ -158,7 +158,7 @@ function SuccessOrProcessingSection({
   } else {
     icon = (
       <CircledIcon>
-        <ClockIcon color={Colors.white} height={22} width={22} />
+        <ClockIcon color={Colors.contentTertiary} height={22} width={22} />
       </CircledIcon>
     )
     title = t('fiatConnectStatusScreen.txProcessing.title')
@@ -196,7 +196,7 @@ function SuccessOrProcessingSection({
             <Text style={styles.txDetails}>
               {t('fiatConnectStatusScreen.success.viewOnCeloScan')}
             </Text>
-            <OpenLinkIcon color={Colors.gray4} />
+            <OpenLinkIcon color={Colors.textLink} />
           </View>
         </Touchable>
       )}
@@ -241,7 +241,11 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
     case SendingTransferStatus.Sending:
       return (
         <View style={styles.activityIndicatorContainer}>
-          <ActivityIndicator testID="loadingTransferStatus" size="large" color={Colors.accent} />
+          <ActivityIndicator
+            testID="loadingTransferStatus"
+            size="large"
+            color={Colors.loadingIndicator}
+          />
           <Text
             style={{ ...styles.loadingDescription, color: loadingDescriptionColor }}
             testID="loadingDescription"
@@ -303,7 +307,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   txDetails: {
-    color: Colors.gray4,
+    color: Colors.textLink,
   },
   iconContainer: {
     marginBottom: 24,
@@ -341,7 +345,7 @@ const styles = StyleSheet.create({
   },
   cancelBtn: {
     ...typeScale.bodyMedium,
-    color: Colors.gray3,
+    color: Colors.navigationTopSecondary,
     paddingHorizontal: Spacing.Thick24,
   },
 })

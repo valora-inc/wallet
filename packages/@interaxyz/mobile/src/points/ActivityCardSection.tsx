@@ -54,7 +54,7 @@ export default function ActivityCardSection({ pointsActivities, onCardPress }: P
         return {
           ...activity,
           title: t('points.activityCards.createLiveLink.title'),
-          icon: <MagicWand color={Colors.black} />,
+          icon: <MagicWand color={Colors.contentPrimary} />,
           onPress: () =>
             onCardPress({
               ...activity,
@@ -74,7 +74,7 @@ export default function ActivityCardSection({ pointsActivities, onCardPress }: P
         return {
           ...activity,
           title: t('points.activityCards.depositEarn.title'),
-          icon: <EarnCoins color={Colors.black} />,
+          icon: <EarnCoins color={Colors.contentPrimary} />,
           onPress: () =>
             onCardPress({
               ...activity,
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   container: {
     padding: Spacing.Regular16,
     borderWidth: 1,
-    borderColor: Colors.gray2,
+    borderColor: Colors.borderPrimary,
     borderRadius: Spacing.Small12,
   },
   cardsContainer: {
@@ -138,11 +138,10 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
   },
   body: {
     ...typeScale.bodyXSmall,
-    color: Colors.gray3,
+    color: Colors.contentSecondary,
     marginTop: Spacing.Tiny4,
   },
 })

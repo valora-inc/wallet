@@ -19,14 +19,15 @@ interface DepositOrWithdrawContentProps {
 export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawContentProps) {
   const { t } = useTranslation()
   const txAppName = transaction.appName
-  const tokenInfo = useTokenInfo(
-    transaction.type === TokenTransactionTypeV2.Deposit
-      ? transaction.outAmount.tokenId
-      : transaction.inAmount.tokenId
+  const isDeposit =
+    transaction.type === TokenTransactionTypeV2.Deposit ||
+    transaction.type === TokenTransactionTypeV2.CrossChainDeposit
+  const isCrossChain = transaction.type === TokenTransactionTypeV2.CrossChainDeposit
+  const depositTokenInfo = useTokenInfo(
+    isDeposit ? transaction.outAmount.tokenId : transaction.inAmount.tokenId
   )
-  const tokenSymbol = tokenInfo?.symbol ?? ''
-
-  const isDeposit = transaction.type === TokenTransactionTypeV2.Deposit
+  const fromTokenInfo = useTokenInfo(transaction.swap?.outAmount.tokenId)
+  const tokenSymbol = depositTokenInfo?.symbol ?? ''
   const amount = isDeposit ? transaction.outAmount : transaction.inAmount
 
   return (
@@ -78,7 +79,7 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
                 showLocalAmount={false}
                 style={styles.bodyText}
               />
-              <ArrowRightThick size={20} color={Colors.black} />
+              <ArrowRightThick size={20} color={Colors.contentPrimary} />
               <TokenDisplay
                 testID="DepositOrWithdraw/Swap/To"
                 tokenId={transaction.swap.inAmount.tokenId}
@@ -91,7 +92,14 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
         )}
         <View style={styles.row}>
           <Text style={styles.bodyText}>{t('transactionDetails.network')}</Text>
-          <Text style={styles.bodyTextValue}>{NETWORK_NAMES[transaction.networkId]}</Text>
+          <Text testID="DepositOrWithdraw/Network" style={styles.bodyTextValue}>
+            {isCrossChain && fromTokenInfo && depositTokenInfo // these tokens should be present for cross chain
+              ? t('swapTransactionDetailPage.networkValue', {
+                  fromNetwork: NETWORK_NAMES[fromTokenInfo.networkId],
+                  toNetwork: NETWORK_NAMES[depositTokenInfo.networkId],
+                })
+              : NETWORK_NAMES[transaction.networkId]}
+          </Text>
         </View>
       </View>
       <RowDivider />
@@ -102,13 +110,16 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
           feeType={FeeType.SecurityFee}
           transactionStatus={transaction.status}
         />
-        {transaction.swap && (
-          <FeeRowItem
-            fees={transaction.fees}
-            feeType={FeeType.AppFee}
-            transactionStatus={transaction.status}
-          />
-        )}
+        <FeeRowItem
+          fees={transaction.fees}
+          feeType={FeeType.AppFee}
+          transactionStatus={transaction.status}
+        />
+        <FeeRowItem
+          fees={transaction.fees}
+          feeType={FeeType.CrossChainFee}
+          transactionStatus={transaction.status}
+        />
       </View>
     </>
   )
@@ -117,11 +128,9 @@ export function DepositOrWithdrawContent({ transaction }: DepositOrWithdrawConte
 const styles = StyleSheet.create({
   detailsTitle: {
     ...typeScale.labelSmall,
-    color: Colors.black,
   },
   detailsSubtitle: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
   },
   row: {
     flex: 1,
@@ -131,20 +140,17 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
   },
   bodyTextValue: {
     ...typeScale.bodyMedium,
-    color: Colors.black,
     textAlign: 'right',
   },
   amountTitle: {
     ...typeScale.labelSemiBoldMedium,
-    color: Colors.black,
   },
   amountSubtitle: {
     ...typeScale.bodySmall,
-    color: Colors.gray4,
+    color: Colors.contentSecondary,
     marginLeft: 'auto',
   },
   amountContainer: {
