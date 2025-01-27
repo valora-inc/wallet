@@ -91,6 +91,7 @@ export default function Welcome() {
             disabled={!enabledInOnboarding}
             delayLongPress={DEMO_MODE_LONG_PRESS_DELAY_MS}
             onLongPress={onActivateDemoMode}
+            testID="Welcome/ActivateDemoMode"
           >
             <WelcomeLogo />
           </TouchableWithoutFeedback>
