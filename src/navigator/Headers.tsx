@@ -6,6 +6,7 @@ import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CloseButton from 'src/components/CloseButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
+import DemoModeChipIndicator from 'src/components/DemoModeChipIndicator'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
 import QrScanButton from 'src/components/QrScanButton'
 import SettingsGearButton from 'src/components/SettingsGearButton'
@@ -236,8 +237,11 @@ export const tabHeader: NativeStackNavigationOptions = {
     )
   },
   headerLeft: () => (
-    <View style={[styles.topElementsContainer, { marginLeft: Spacing.Regular16 }]}>
+    <View
+      style={[styles.topElementsContainer, { marginLeft: Spacing.Regular16, gap: Spacing.Small12 }]}
+    >
       <Logo color={Colors.navigationTopPrimary} size={22} />
+      <DemoModeChipIndicator />
     </View>
   ),
 }

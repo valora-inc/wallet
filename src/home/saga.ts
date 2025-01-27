@@ -1,4 +1,5 @@
 import { Actions as AccountActions } from 'src/account/actions'
+import { Actions as AppActions } from 'src/app/actions'
 import { depositSuccess, withdrawSuccess } from 'src/earn/slice'
 import { createFiatConnectTransferCompleted } from 'src/fiatconnect/slice'
 import { notificationsChannel } from 'src/firebase/firebase'
@@ -63,6 +64,7 @@ export function* watchRefreshBalances() {
       createFiatConnectTransferCompleted.type,
       depositTransactionSucceeded.type,
       swapSuccess.type,
+      AppActions.DEMO_MODE_TOGGLED,
     ],
     safely(withLoading(withTimeout(REFRESH_TIMEOUT, refreshAllBalances)))
   )
