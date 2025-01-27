@@ -65,6 +65,7 @@ export default function SendConfirmation(props: Props) {
     prepareTransactionLoading,
   } = usePrepareSendTransactions()
 
+  const fromModal = props.route.name === Screens.SendConfirmationModal
   const tokenInfo = useTokenInfo(tokenId)
   const isSending = useSelector(isSendingSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
@@ -138,8 +139,8 @@ export default function SendConfirmation(props: Props) {
         tokenId,
         usdAmount,
         recipient,
-        // TODO remove fromModal from `sendPayment`
-        false,
+        // TODO rename "fromModal" in all related files to "fromExternal"
+        fromModal,
         getSerializablePreparedTransaction(preparedTransaction)
       )
     )
