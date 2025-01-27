@@ -143,7 +143,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 238,
+          "version": 239,
         },
         "account": {
           "acceptedTerms": false,
@@ -182,6 +182,7 @@ describe('store state', () => {
           "celoEducationUri": null,
           "celoNews": {},
           "coinbasePayEnabled": false,
+          "demoModeEnabled": false,
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,

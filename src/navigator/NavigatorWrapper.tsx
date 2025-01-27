@@ -6,12 +6,13 @@ import { SeverityLevel } from '@sentry/types'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import LinearGradient from 'react-native-linear-gradient'
 import ShakeForSupport from 'src/account/ShakeForSupport'
 import AlertBanner from 'src/alert/AlertBanner'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { activeScreenChanged } from 'src/app/actions'
-import { getAppLocked } from 'src/app/selectors'
+import { demoModeEnabledSelector, getAppLocked } from 'src/app/selectors'
 import { useDeepLinks } from 'src/app/useDeepLinks'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD } from 'src/config'
 import JumpstartClaimStatusToasts from 'src/jumpstart/JumpstartClaimStatusToasts'
@@ -30,6 +31,7 @@ import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import appTheme from 'src/styles/appTheme'
+import Colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
@@ -62,6 +64,7 @@ export const NavigatorWrapper = () => {
   )
   const routeNameRef = React.useRef<string>()
   const inSanctionedCountry = useSelector(userInSanctionedCountrySelector)
+  const demoModeEnabled = useSelector(demoModeEnabledSelector)
 
   const dispatch = useDispatch()
 
@@ -174,16 +177,26 @@ export const NavigatorWrapper = () => {
       initialState={initialState}
       theme={appTheme}
     >
-      <View style={styles.container}>
-        <Navigator />
-        <HooksPreviewModeBanner />
-        {(appLocked || updateRequired) && (
-          <View style={styles.locked}>{updateRequired ? <UpgradeScreen /> : <PincodeLock />}</View>
-        )}
-        <AlertBanner />
-        <ShakeForSupport />
-        <JumpstartClaimStatusToasts />
-      </View>
+      <LinearGradient
+        colors={[Colors.brandGradientLeft, Colors.brandGradientRight]}
+        locations={[0, 0.8915]}
+        useAngle={true}
+        angle={90}
+        style={styles.linearGradientBackground}
+      >
+        <View style={[styles.container, { borderWidth: demoModeEnabled ? 3 : 0 }]}>
+          <Navigator />
+          <HooksPreviewModeBanner />
+          {(appLocked || updateRequired) && (
+            <View style={styles.locked}>
+              {updateRequired ? <UpgradeScreen /> : <PincodeLock />}
+            </View>
+          )}
+          <AlertBanner />
+          <ShakeForSupport />
+          <JumpstartClaimStatusToasts />
+        </View>
+      </LinearGradient>
     </NavigationContainer>
   )
 }
@@ -194,6 +207,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
+    borderColor: 'transparent',
+  },
+  linearGradientBackground: {
+    flex: 1,
   },
   locked: {
     position: 'absolute',

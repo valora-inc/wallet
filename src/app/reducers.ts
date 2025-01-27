@@ -48,6 +48,7 @@ interface State {
   showNotificationSpotlight: boolean
   hideBalances: boolean
   pendingDeepLinks: PendingDeepLink[]
+  demoModeEnabled: boolean
 }
 
 interface PendingDeepLink {
@@ -89,6 +90,7 @@ const initialState = {
   showNotificationSpotlight: false,
   hideBalances: false,
   pendingDeepLinks: [],
+  demoModeEnabled: false,
 }
 
 function getPersistedDeepLinks(deepLinks: PendingDeepLink[]) {
@@ -256,6 +258,11 @@ export const appReducer = (
         pendingDeepLinks: state.pendingDeepLinks.filter(
           (pendingDeepLink) => pendingDeepLink.url !== action.deepLink
         ),
+      }
+    case Actions.DEMO_MODE_TOGGLED:
+      return {
+        ...state,
+        demoModeEnabled: action.enabled,
       }
     default:
       return state

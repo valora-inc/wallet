@@ -122,6 +122,13 @@ export const DynamicConfigs = {
       supportedAppIds: [] as string[],
     },
   },
+  [StatsigDynamicConfigs.DEMO_MODE_CONFIG]: {
+    configName: StatsigDynamicConfigs.DEMO_MODE_CONFIG,
+    defaultValues: {
+      enabledInOnboarding: false,
+      demoWalletAddress: '',
+    },
+  },
 } satisfies {
   [key in StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig]: {
     configName: key

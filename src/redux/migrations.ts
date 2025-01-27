@@ -1982,4 +1982,11 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'multichainBetaStatus'),
   }),
+  239: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      demoModeEnabled: false,
+    },
+  }),
 }

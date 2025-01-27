@@ -1,22 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, StyleSheet, View } from 'react-native'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
+import { demoModeToggled } from 'src/app/actions'
+import { demoModeEnabledSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { welcomeBackground } from 'src/images/Images'
 import WelcomeLogo from 'src/images/WelcomeLogo'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import LanguageButton from 'src/onboarding/LanguageButton'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { patchUpdateStatsigUser } from 'src/statsig'
+import { getDynamicConfigParams, patchUpdateStatsigUser } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
+
+const DEMO_MODE_LONG_PRESS_DELAY_MS = 5_000
 
 export default function Welcome() {
   const { t } = useTranslation()
@@ -25,6 +32,21 @@ export default function Welcome() {
   const startOnboardingTime = useSelector((state) => state.account.startOnboardingTime)
   const insets = useSafeAreaInsets()
   const recoveringFromStoreWipe = useSelector(recoveringFromStoreWipeSelector)
+  const demoModeEnabled = useSelector(demoModeEnabledSelector)
+
+  const { enabledInOnboarding } = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.DEMO_MODE_CONFIG]
+  )
+
+  useEffect(() => {
+    if (demoModeEnabled) {
+      navigateHome()
+    }
+  }, [demoModeEnabled])
+
+  const onActivateDemoMode = () => {
+    dispatch(demoModeToggled(true))
+  }
 
   const startOnboarding = () => {
     navigate(
@@ -65,7 +87,13 @@ export default function Welcome() {
     <SafeAreaView style={styles.container}>
       <ImageBackground source={welcomeBackground} resizeMode="stretch" style={styles.image}>
         <View style={styles.contentContainer}>
-          <WelcomeLogo />
+          <TouchableWithoutFeedback
+            disabled={!enabledInOnboarding}
+            delayLongPress={DEMO_MODE_LONG_PRESS_DELAY_MS}
+            onLongPress={onActivateDemoMode}
+          >
+            <WelcomeLogo />
+          </TouchableWithoutFeedback>
         </View>
         <View style={{ ...styles.buttonView, marginBottom: Math.max(0, 40 - insets.bottom) }}>
           <Button
