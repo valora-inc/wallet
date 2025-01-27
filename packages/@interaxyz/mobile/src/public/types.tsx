@@ -34,22 +34,66 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
       // To adjust status bar style, keyboard appearance, etc
       isDark?: boolean
       colors?: {
-        // Core brand colors
-        primary?: string
-        secondary?: string
-        background?: string
+        // backgrounds
+        backgroundPrimary?: string
+        backgroundSecondary?: string
+        backgroundTertiary?: string
+        backgroundScrim?: string
 
-        // Semantic colors
-        error?: string
-        success?: string
-        warning?: string
+        // text, icons, and other content
+        contentPrimary?: string
+        contentSecondary?: string
+        contentTertiary?: string
+        textLink?: string
 
-        // Text colors
-        text?: {
-          primary?: string
-          secondary?: string
-          disabled?: string
-        }
+        // borders, shadows, highlights, visual effects
+        borderPrimary?: string
+        borderSecondary?: string
+        softShadow?: string
+        lightShadow?: string
+        barShadow?: string
+        skeletonPlaceholderHighlight?: string
+        skeletonPlaceholderBackground?: string
+        loadingIndicator?: string
+
+        // interactive elements
+        navigationTopPrimary?: string
+        navigationTopSecondary?: string
+        navigationBottomPrimary?: string
+        navigationBottomSecondary?: string
+        bottomSheetHandle?: string
+        buttonPrimaryBackground?: string
+        buttonPrimaryContent?: string
+        buttonPrimaryBorder?: string
+        buttonSecondaryBackground?: string
+        buttonSecondaryContent?: string
+        buttonSecondaryBorder?: string
+        buttonTertiaryBackground?: string
+        buttonTertiaryContent?: string
+        buttonTertiaryBorder?: string
+        buttonQuickActionBackground?: string
+        buttonQuickActionContent?: string
+        buttonQuickActionBorder?: string
+        textInputBackground?: string
+        qrTabBarPrimary?: string
+        qrTabBarSecondary?: string
+
+        // statuses and UI feedback colors
+        disabled?: string
+        inactive?: string
+        info?: string
+        successPrimary?: string
+        successSecondary?: string
+        warningPrimary?: string
+        warningSecondary?: string
+        errorPrimary?: string
+        errorSecondary?: string
+
+        // brand colors for decorative elements
+        accent?: string
+        brandGradientLeft?: string
+        brandGradientRight?: string
+        contentOnboardingComplete?: string
       }
 
       assets?: {
