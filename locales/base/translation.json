@@ -2847,6 +2847,7 @@
     "ctaAction_Withdraw": "Withdraw smaller amount"
   },
   "reviewTransaction": {
+    "title": "Review Send",
     "totalPlusFees": "Total Plus Fees",
     "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
   },

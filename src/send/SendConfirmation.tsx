@@ -83,7 +83,7 @@ export default function SendConfirmation(props: Props) {
       token: formatValueToDisplay(tokenFeeAmount),
       local: localFeeAmount ? formatValueToDisplay(localFeeAmount) : undefined,
     }),
-    [localFeeAmount, tokenFeeAmount, feeTokenInfo]
+    [localFeeAmount, tokenFeeAmount]
   )
 
   useEffect(() => {
@@ -148,31 +148,30 @@ export default function SendConfirmation(props: Props) {
   // Should never happen
   if (!tokenInfo) {
     Logger.error(TAG, `tokenInfo is missing`)
+    return null
   }
 
   return (
     <ReviewTransaction
-      title="Review Send"
+      title={t('reviewTransaction.title')}
       headerLeftButton={<BackButton eventName={SendEvents.send_confirm_back} />}
     >
       <ReviewContent>
         <ReviewSummary>
-          {tokenInfo && (
-            <ReviewSummaryItem
-              testID="SendConfirmationToken"
-              label="Sending"
-              icon={<TokenIcon token={tokenInfo} />}
-              primaryValue={t('tokenAmount', {
-                tokenAmount: formatValueToDisplay(tokenAmount),
-                tokenSymbol: tokenInfo.symbol ?? '',
-              })}
-              secondaryValue={t('localAmount', {
-                localAmount: formatValueToDisplay(localAmount ?? new BigNumber(0)),
-                localCurrencySymbol,
-                context: localAmount ? undefined : 'noFiatPrice',
-              })}
-            />
-          )}
+          <ReviewSummaryItem
+            testID="SendConfirmationToken"
+            label={t('sending')}
+            icon={<TokenIcon token={tokenInfo} />}
+            primaryValue={t('tokenAmount', {
+              tokenAmount: formatValueToDisplay(tokenAmount),
+              tokenSymbol: tokenInfo.symbol ?? '',
+            })}
+            secondaryValue={t('localAmount', {
+              localAmount: formatValueToDisplay(localAmount ?? new BigNumber(0)),
+              localCurrencySymbol,
+              context: localAmount ? undefined : 'noFiatPrice',
+            })}
+          />
 
           <ReviewSummaryItemContact testID="SendConfirmationRecipient" recipient={recipient} />
         </ReviewSummary>
@@ -181,7 +180,7 @@ export default function SendConfirmation(props: Props) {
           <ReviewDetailsItem
             testID="SendConfirmationNetwork"
             label={t('transactionDetails.network')}
-            value={tokenInfo && NETWORK_NAMES[tokenInfo.networkId]}
+            value={NETWORK_NAMES[tokenInfo.networkId]}
           />
           <ReviewDetailsItem
             testID="SendConfirmationFee"

@@ -114,9 +114,49 @@ describe('SendConfirmation', () => {
     }
   }
 
-  it('renders correctly', async () => {
-    const tree = renderScreen()
-    expect(tree).toMatchSnapshot()
+  it('renders the structure properly', () => {
+    const { getByTestId } = renderScreen()
+
+    // renders screen header
+    expect(getByTestId('CustomHeaderTitle')).toHaveTextContent('reviewTransaction.title')
+
+    // renders token and amount details
+    expect(getByTestId('SendConfirmationToken/Label')).toHaveTextContent('sending')
+    expect(getByTestId('SendConfirmationToken/PrimaryValue')).toHaveTextContent(
+      'tokenAmount, {"tokenAmount":"1.00","tokenSymbol":"cUSD"}'
+    )
+    expect(getByTestId('SendConfirmationToken/SecondaryValue')).toHaveTextContent(
+      'localAmount, {"localAmount":"1.33","localCurrencySymbol":"₱"}'
+    )
+
+    // renders recipient details
+    expect(getByTestId('SendConfirmationRecipient/Label')).toHaveTextContent('to')
+    expect(getByTestId('SendConfirmationRecipient/PrimaryValue')).toHaveTextContent(
+      '0x0000000000000000000000000000000000007E57'
+    )
+
+    // renders network details
+    expect(getByTestId('SendConfirmationNetwork/Label')).toHaveTextContent(
+      'transactionDetails.network'
+    )
+    expect(getByTestId('SendConfirmationNetwork/Value')).toHaveTextContent('Celo Alfajores')
+
+    // renders fee details
+    expect(getByTestId('SendConfirmationFee/Label')).toHaveTextContent('networkFee')
+    expect(getByTestId('SendConfirmationFee/Value')).toHaveTextContent(
+      'tokenAndLocalAmountApprox_oneToken, {"tokenAmount":"0.01","localAmount":"0.067","tokenSymbol":"CELO","localCurrencySymbol":"₱"}'
+    )
+
+    // renders total details
+    expect(getByTestId('SendConfirmationTotal/Label')).toHaveTextContent(
+      'reviewTransaction.totalPlusFees'
+    )
+    expect(getByTestId('SendConfirmationTotal/Value')).toHaveTextContent(
+      'localAmountApprox, {"localAmount":"1.40","localCurrencySymbol":"₱"}'
+    )
+
+    // renders confirmation button
+    expect(getByTestId('ConfirmButton')).toHaveTextContent('send')
   })
 
   it('prepares a transaction on load', () => {
