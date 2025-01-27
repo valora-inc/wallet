@@ -2849,10 +2849,13 @@
     "ctaAction_Withdraw": "Wypłać mniejszą kwotę"
   },
   "reviewTransaction": {
+    "title": "Wyślij recenzję",
+    "totalPlusFees": "Razem plus opłaty",
     "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
   },
   "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
   "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "Cena niedostępna",
   "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
   "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
