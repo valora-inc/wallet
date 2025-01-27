@@ -5,13 +5,11 @@ import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
+import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress, mockCusdTokenId, mockPositions, mockShortcuts } from 'test/values'
 
-jest.mock('src/statsig', () => ({
-  getFeatureGate: jest.fn(() => true),
-}))
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
   return {
@@ -147,6 +145,7 @@ describe('DappShortcutsRewards', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockStore.clearActions()
+    jest.mocked(getFeatureGate).mockReturnValue(true)
   })
 
   it('should render claimable rewards correctly', () => {

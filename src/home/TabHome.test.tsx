@@ -73,14 +73,6 @@ const mockBalances = {
   },
 }
 
-jest.mock('src/statsig', () => ({
-  getFeatureGate: jest.fn().mockReturnValue(false),
-  getMultichainFeatures: jest.fn(() => ({
-    showBalances: ['celo-alfajores'],
-    showTransfers: ['celo-alfajores'],
-  })),
-}))
-
 jest.mock('src/fiatExchanges/utils', () => ({
   ...(jest.requireActual('src/fiatExchanges/utils') as any),
   fetchProviders: jest.fn(),

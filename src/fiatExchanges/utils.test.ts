@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { PaymentMethod } from 'src/fiatExchanges/types'
 import { fetchExchanges, getProviderSelectionAnalyticsData } from 'src/fiatExchanges/utils'
+import { getDynamicConfigParams } from 'src/statsig'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
@@ -147,6 +148,8 @@ describe('fiatExchanges utils', () => {
   })
   describe('fetchExchanges', () => {
     it('fetchExchanges works as expected', async () => {
+      jest.mocked(getDynamicConfigParams).mockReturnValue({ cico: 30 })
+
       const exchanges = await fetchExchanges('US', 'mock-token-id')
       expect(fetchWithTimeout).toHaveBeenCalledWith(
         `${networkConfig.fetchExchangesUrl}?country=US&tokenId=mock-token-id`,

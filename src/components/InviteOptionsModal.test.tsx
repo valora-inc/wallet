@@ -3,7 +3,12 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import { Recipient, RecipientType } from 'src/recipients/recipient'
+import { getDynamicConfigParams } from 'src/statsig'
 import { createMockStore } from 'test/utils'
+
+jest.mocked(getDynamicConfigParams).mockReturnValue({
+  links: { inviteRewardsNftsLearnMore: 'https://example.com' },
+})
 
 it('renders correctly with invite rewards disabled', () => {
   const recipient: Recipient = {

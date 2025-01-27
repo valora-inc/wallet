@@ -2,58 +2,40 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
+import { getMultichainFeatures } from 'src/statsig'
 import { importToken } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
-import { Network, NetworkId } from 'src/transactions/types'
-import { publicClient } from 'src/viem'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdAddress, mockPoofAddress } from 'test/values'
-import {
-  CallExecutionError,
-  ContractFunctionExecutionError,
-  GetContractReturnType,
-  PublicClient,
-  TimeoutError,
-  erc20Abi,
-  getContract,
-} from 'viem'
+import { CallExecutionError, ContractFunctionExecutionError, TimeoutError, erc20Abi } from 'viem'
 import TokenImportScreen from './TokenImport'
-import mocked = jest.mocked
 
+const mockSymbol = jest.fn()
 jest.mock('viem', () => ({
   ...jest.requireActual('viem'),
-  getContract: jest.fn(),
-}))
-
-jest.mock('src/tokens/utils', () => ({
-  ...jest.requireActual('src/tokens/utils'),
-  getSupportedNetworkIdsForTokenBalances: jest.fn(),
+  getContract: jest.fn().mockReturnValue({
+    read: {
+      symbol: () => mockSymbol(),
+      decimals: jest.fn().mockResolvedValue(18),
+      name: jest.fn().mockResolvedValue('ABC Coin'),
+      balanceOf: jest.fn().mockResolvedValue(BigInt('500000000000000000')),
+    },
+  }),
 }))
 
 const mockScreenProps = getMockStackScreenProps(Screens.TokenImport)
 
 describe('TokenImport', () => {
-  const mockBytecode = jest.fn()
-  const mockSymbol = jest.fn()
-
   beforeEach(() => {
-    jest.resetAllMocks()
-    const client = publicClient[Network.Celo]
-
-    client.getBytecode = mockBytecode.mockResolvedValue('0xabc')
-    mocked(getContract).mockReturnValue({
-      read: {
-        symbol: mockSymbol.mockResolvedValue('ABC'),
-        decimals: jest.fn().mockResolvedValue(18),
-        name: jest.fn().mockResolvedValue('ABC Coin'),
-        balanceOf: jest.fn().mockResolvedValue(BigInt('500000000000000000')),
-      },
-    } as unknown as GetContractReturnType<typeof erc20Abi, PublicClient>)
+    jest.clearAllMocks()
+    mockSymbol.mockResolvedValue('ABC')
   })
 
   describe('when only Celo network is enabled', () => {
     beforeEach(() => {
-      mocked(getSupportedNetworkIdsForTokenBalances).mockReturnValue([NetworkId['celo-alfajores']])
+      jest
+        .mocked(getMultichainFeatures)
+        .mockReturnValue({ showBalances: [NetworkId['celo-alfajores']] })
     })
 
     it('renders correctly', () => {
@@ -207,8 +189,6 @@ describe('TokenImport', () => {
       })
 
       it('should display the correct error message due to network timeout', async () => {
-        jest.useFakeTimers()
-        mockBytecode.mockResolvedValue('0xb0babeef')
         mockSymbol.mockImplementation(
           () =>
             new Promise((_, reject) => {
@@ -254,10 +234,9 @@ describe('TokenImport', () => {
 
   describe('when more than one network is enabled', () => {
     beforeEach(() => {
-      mocked(getSupportedNetworkIdsForTokenBalances).mockReturnValue([
-        NetworkId['celo-alfajores'],
-        NetworkId['ethereum-sepolia'],
-      ])
+      jest.mocked(getMultichainFeatures).mockReturnValue({
+        showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+      })
     })
 
     it('renders correctly', () => {

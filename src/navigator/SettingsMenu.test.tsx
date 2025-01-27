@@ -10,13 +10,6 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mockE164Number } from 'test/values'
 
-jest.mock('src/statsig', () => ({
-  getFeatureGate: jest.fn().mockReturnValue(false),
-  getMultichainFeatures: jest.fn(() => ({
-    showBalances: ['celo-alfajores'],
-  })),
-}))
-
 jest.mock('statsig-react-native', () => ({
   Statsig: {
     getStableID: jest.fn().mockReturnValue('stableId'),

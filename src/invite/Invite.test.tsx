@@ -3,13 +3,19 @@ import { noop } from 'lodash'
 import React from 'react'
 import { Share } from 'react-native'
 import { Provider } from 'react-redux'
-import { InviteEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { InviteEvents } from 'src/analytics/Events'
 import * as InviteUtils from 'src/firebase/dynamicLinks'
+import { getDynamicConfigParams } from 'src/statsig'
 import { createMockStore } from 'test/utils'
 import Invite from './Invite'
 
 jest.mock('src/analytics/AppAnalytics')
+jest.mocked(getDynamicConfigParams).mockReturnValue({
+  links: {
+    inviteRewardsNftsLearnMore: '',
+  },
+})
 const mockShare = jest.spyOn(Share, 'share')
 const mockCreateInviteLink = jest.spyOn(InviteUtils, 'createInviteLink')
 

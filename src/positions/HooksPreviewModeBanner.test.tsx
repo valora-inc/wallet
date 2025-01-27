@@ -3,7 +3,10 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import HooksPreviewModeBanner from 'src/positions/HooksPreviewModeBanner'
 import { previewModeDisabled } from 'src/positions/slice'
+import { getFeatureGate } from 'src/statsig'
 import { createMockStore } from 'test/utils'
+
+jest.mocked(getFeatureGate).mockReturnValue(true)
 
 describe(HooksPreviewModeBanner, () => {
   it('should render when hooks preview is enabled', () => {
@@ -15,7 +18,7 @@ describe(HooksPreviewModeBanner, () => {
           },
         })}
       >
-        <HooksPreviewModeBanner />)
+        <HooksPreviewModeBanner />
       </Provider>
     )
 
@@ -31,7 +34,7 @@ describe(HooksPreviewModeBanner, () => {
           },
         })}
       >
-        <HooksPreviewModeBanner />)
+        <HooksPreviewModeBanner />
       </Provider>
     )
 
@@ -46,7 +49,7 @@ describe(HooksPreviewModeBanner, () => {
     })
     const tree = render(
       <Provider store={store}>
-        <HooksPreviewModeBanner />)
+        <HooksPreviewModeBanner />
       </Provider>
     )
 

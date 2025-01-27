@@ -26,6 +26,7 @@ import { getMockStoreData } from 'test/utils'
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('statsig-react-native')
 jest.mock('src/utils/Logger')
+jest.unmock('src/statsig')
 
 const mockConfig = jest.mocked(config)
 

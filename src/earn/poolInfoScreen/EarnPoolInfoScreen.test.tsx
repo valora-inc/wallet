@@ -22,11 +22,6 @@ import {
   mockTokenBalances,
 } from 'test/values'
 
-jest.mock('src/statsig', () => ({
-  getMultichainFeatures: jest.fn(),
-  getFeatureGate: jest.fn(),
-}))
-
 const mockPoolTokenId = mockEarnPositions[0].dataProps.depositTokenId
 
 function getStore({
