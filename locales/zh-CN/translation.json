@@ -2843,10 +2843,13 @@
     "ctaAction_Withdraw": "提取较少金额"
   },
   "reviewTransaction": {
+    "title": "审查发送",
+    "totalPlusFees": "加费用共计",
     "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
   },
   "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
   "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "价格不详",
   "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
   "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
