@@ -34,7 +34,6 @@ export enum Actions {
   IN_APP_REVIEW_REQUESTED = 'APP/IN_APP_REVIEW_REQUESTED',
   NOTIFICATION_SPOTLIGHT_SEEN = 'APP/NOTIFICATION_SPOTLIGHT_SEEN',
   TOGGLE_HIDE_BALANCES = 'APP/TOGGLE_HIDE_BALANCES',
-  DEMO_MODE_TOGGLED = 'APP/DEMO_MODE_TOGGLED',
 }
 
 export interface SetAppState {
@@ -158,11 +157,6 @@ interface ToggleHideBalances {
   type: Actions.TOGGLE_HIDE_BALANCES
 }
 
-interface DemoModeToggled {
-  type: Actions.DEMO_MODE_TOGGLED
-  enabled: boolean
-}
-
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -188,7 +182,6 @@ export type ActionTypes =
   | NotificationSpotlightSeen
   | ToggleHideBalances
   | DeepLinkDeferred
-  | DemoModeToggled
 
 export const setAppState = (state: string): SetAppState => ({
   type: Actions.SET_APP_STATE,
@@ -345,12 +338,5 @@ export const notificationSpotlightSeen = (): NotificationSpotlightSeen => {
 export const toggleHideBalances = (): ToggleHideBalances => {
   return {
     type: Actions.TOGGLE_HIDE_BALANCES,
-  }
-}
-
-export const demoModeToggled = (enabled: boolean): DemoModeToggled => {
-  return {
-    type: Actions.DEMO_MODE_TOGGLED,
-    enabled,
   }
 }

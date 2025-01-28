@@ -12,7 +12,7 @@ import AlertBanner from 'src/alert/AlertBanner'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { activeScreenChanged } from 'src/app/actions'
-import { demoModeEnabledSelector, getAppLocked } from 'src/app/selectors'
+import { getAppLocked } from 'src/app/selectors'
 import { useDeepLinks } from 'src/app/useDeepLinks'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD } from 'src/config'
 import JumpstartClaimStatusToasts from 'src/jumpstart/JumpstartClaimStatusToasts'
@@ -35,6 +35,7 @@ import Colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
+import { demoModeEnabledSelector } from 'src/web3/selectors'
 
 // This uses RN Navigation's experimental nav state persistence
 // to improve the hot reloading experience when in DEV mode

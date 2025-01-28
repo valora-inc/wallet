@@ -1,8 +1,4 @@
-import { createSelector } from 'reselect'
 import { RootState } from 'src/redux/reducers'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -81,15 +77,3 @@ export const showNotificationSpotlightSelector = (state: RootState) =>
 export const hideWalletBalancesSelector = (state: RootState) => state.app.hideBalances
 
 export const pendingDeepLinkSelector = (state: RootState) => state.app.pendingDeepLinks[0] ?? null
-
-export const demoModeEnabledSelector = createSelector(
-  [
-    () =>
-      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.DEMO_MODE_CONFIG])
-        .enabledInOnboarding,
-    (state: RootState) => state.app.demoModeEnabled,
-  ],
-  (dynamicConfigEnabled, demoModeToggledOn) => {
-    return dynamicConfigEnabled && demoModeToggledOn
-  }
-)

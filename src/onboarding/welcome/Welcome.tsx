@@ -8,7 +8,6 @@ import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
 import { demoModeToggled } from 'src/app/actions'
-import { demoModeEnabledSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { welcomeBackground } from 'src/images/Images'
 import WelcomeLogo from 'src/images/WelcomeLogo'
@@ -22,6 +21,7 @@ import { getDynamicConfigParams, patchUpdateStatsigUser } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
+import { demoModeEnabledSelector } from 'src/web3/selectors'
 
 const DEMO_MODE_LONG_PRESS_DELAY_MS = 5_000
 

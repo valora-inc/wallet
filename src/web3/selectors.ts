@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect'
-import { demoModeEnabledSelector } from 'src/app/selectors'
 import { RootState } from 'src/redux/reducers'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -17,11 +16,26 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
  */
 export const rawWalletAddressSelector = (state: RootState) => state.web3.account ?? null
 
-const demoModeAddressSelector = () =>
-  getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.DEMO_MODE_CONFIG]).demoWalletAddress
+export const demoModeEnabledSelector = createSelector(
+  [
+    () =>
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.DEMO_MODE_CONFIG])
+        ?.enabledInOnboarding,
+    (state: RootState) => state.web3.demoModeEnabled,
+  ],
+  (dynamicConfigEnabled, demoModeToggledOn) => {
+    return dynamicConfigEnabled && demoModeToggledOn
+  }
+)
 
 export const walletAddressSelector = createSelector(
-  [rawWalletAddressSelector, demoModeEnabledSelector, demoModeAddressSelector],
+  [
+    rawWalletAddressSelector,
+    demoModeEnabledSelector,
+    () =>
+      getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.DEMO_MODE_CONFIG])
+        ?.demoWalletAddress,
+  ],
   (rawAddress, demoModeEnabled, demoModeAddress) => {
     return (demoModeEnabled ? demoModeAddress : rawAddress)?.toLowerCase() ?? null
   }
