@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
-import { demoModeToggled } from 'src/app/actions'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
@@ -12,6 +11,7 @@ import Welcome from 'src/onboarding/welcome/Welcome'
 import { getDynamicConfigParams, patchUpdateStatsigUser } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { demoModeToggled } from 'src/web3/actions'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/onboarding/steps')
@@ -157,7 +157,7 @@ describe('Welcome', () => {
       rerender(
         <Provider
           store={createMockStore({
-            app: {
+            web3: {
               demoModeEnabled: true,
             },
           })}
