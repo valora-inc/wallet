@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 
-const QRCode = ({ color = Colors.contentPrimary }: { color?: Colors }) => (
+const QRCode = ({ color = Colors.contentPrimary }: { color?: ColorValue }) => (
   <Svg width={18} height={18}>
     <Path
       fill={color}

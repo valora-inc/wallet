@@ -1,10 +1,10 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import colors from 'src/styles/colors'
+import colors, { ColorValue } from 'src/styles/colors'
 
 interface Props {
   size?: number
-  notificationMark?: colors
+  notificationMark?: ColorValue
 }
 
 const NotificationBellIcon = ({ size = 24, notificationMark }: Props) => (

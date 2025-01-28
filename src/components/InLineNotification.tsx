@@ -3,7 +3,7 @@ import { GestureResponderEvent, StyleProp, StyleSheet, Text, View, ViewStyle } f
 import Touchable from 'src/components/Touchable'
 import AttentionIcon from 'src/icons/Attention'
 import Warning from 'src/icons/Warning'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -30,8 +30,8 @@ export interface InLineNotificationProps {
 }
 
 interface CustomColors {
-  primary: Colors
-  secondary: Colors
+  primary: ColorValue
+  secondary: ColorValue
 }
 
 export function InLineNotification({
@@ -52,7 +52,7 @@ export function InLineNotification({
   const renderCtaLabel = (
     label?: string | null,
     onPress?: (event: GestureResponderEvent) => void,
-    color?: Colors
+    color?: ColorValue
   ) =>
     label &&
     onPress && (
