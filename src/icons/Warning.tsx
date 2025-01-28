@@ -1,8 +1,14 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 
-function Warning({ color = Colors.warningPrimary, size = 16 }: { color?: Colors; size?: number }) {
+function Warning({
+  color = Colors.warningPrimary,
+  size = 16,
+}: {
+  color?: ColorValue
+  size?: number
+}) {
   return (
     <Svg width={size} height={size} viewBox="0 0 20 20" fill="none">
       <Path

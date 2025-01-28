@@ -1,10 +1,10 @@
 import * as React from 'react'
 import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 
 export interface Props {
   size?: number
-  color?: Colors
+  color?: ColorValue
 }
 
 function HiddenEyeIcon({ color = Colors.accent, size = 24 }: Props) {

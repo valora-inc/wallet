@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 
 export interface Props {
-  color?: Colors
+  color?: ColorValue
 }
 
 export default function RowDivider({ color = Colors.borderPrimary }: Props) {
