@@ -182,7 +182,6 @@ describe('store state', () => {
           "celoEducationUri": null,
           "celoNews": {},
           "coinbasePayEnabled": false,
-          "demoModeEnabled": false,
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
@@ -383,6 +382,7 @@ describe('store state', () => {
         },
         "web3": {
           "account": "0x0000000000000000000000000000000000007E57",
+          "demoModeEnabled": false,
         },
       }
     `)

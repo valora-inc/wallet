@@ -3600,8 +3600,8 @@ export const v239Schema = {
     ...v238Schema._persist,
     version: 239,
   },
-  app: {
-    ...v238Schema.app,
+  web3: {
+    ...v238Schema.web3,
     demoModeEnabled: false,
   },
 }

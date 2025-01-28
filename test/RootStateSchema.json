@@ -4709,9 +4709,6 @@
                 "coinbasePayEnabled": {
                     "type": "boolean"
                 },
-                "demoModeEnabled": {
-                    "type": "boolean"
-                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -4831,7 +4828,6 @@
                 "celoEducationUri",
                 "celoNews",
                 "coinbasePayEnabled",
-                "demoModeEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
@@ -5893,10 +5889,14 @@
                         "null",
                         "string"
                     ]
+                },
+                "demoModeEnabled": {
+                    "type": "boolean"
                 }
             },
             "required": [
-                "account"
+                "account",
+                "demoModeEnabled"
             ],
             "type": "object"
         },

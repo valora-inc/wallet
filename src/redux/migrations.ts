@@ -1984,8 +1984,8 @@ export const migrations = {
   }),
   239: (state: any) => ({
     ...state,
-    app: {
-      ...state.app,
+    web3: {
+      ...state.web3,
       demoModeEnabled: false,
     },
   }),
