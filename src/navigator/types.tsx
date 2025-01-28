@@ -248,7 +248,7 @@ export type StackParamList = {
       }
     | undefined
   [Screens.SendConfirmation]: SendConfirmationParams
-  [Screens.SendConfirmationModal]: SendConfirmationParams
+  [Screens.SendConfirmationFromExternal]: SendConfirmationParams
   [Screens.SendEnterAmount]: SendEnterAmountParams
   [Screens.JumpstartEnterAmount]: undefined
   [Screens.JumpstartSendConfirmation]: {

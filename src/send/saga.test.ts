@@ -77,7 +77,7 @@ describe(sendPaymentSaga, () => {
     tokenId: mockCusdTokenId,
     usdAmount: amount,
     recipient: mockQRCodeRecipient,
-    fromModal: false,
+    fromExternal: false,
     preparedTransaction: {
       from: '0xfrom',
       to: '0xto',
@@ -118,18 +118,18 @@ describe(sendPaymentSaga, () => {
   it.each([
     {
       testSuffix: 'navigates home when not initiated from modal',
-      fromModal: false,
+      fromExternal: false,
       navigateFn: navigateHome,
     },
     {
       testSuffix: 'navigates back when initiated from modal',
-      fromModal: true,
+      fromExternal: true,
       navigateFn: navigateBack,
     },
   ])(
     'sends a payment successfully with viem and $testSuffix',
-    async ({ fromModal, navigateFn }) => {
-      await expectSaga(sendPaymentSaga, { ...sendAction, fromModal })
+    async ({ fromExternal, navigateFn }) => {
+      await expectSaga(sendPaymentSaga, { ...sendAction, fromExternal })
         .withState(createMockStore({}).getState())
         .provide(createDefaultProviders())
         .call(getViemWallet, networkConfig.viemChain.celo, false)
