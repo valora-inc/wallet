@@ -3,10 +3,10 @@ import React from 'react'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import DataDown from 'src/icons/DataDown'
 import DataUp from 'src/icons/DataUp'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 
-type IconComponentType = React.ComponentType<{ color?: Colors; testID?: string }>
+type IconComponentType = React.ComponentType<{ color?: ColorValue; testID?: string }>
 
 interface Props {
   testID?: string
@@ -39,8 +39,7 @@ function PercentageIndicator({
   const percentageString = `${percentage.abs().toFixed(2)}%`
 
   let indicator: React.ReactElement | undefined
-  let color: Colors
-
+  let color: ColorValue
   if (comparison > 0) {
     color = Colors.accent
     indicator = <UpIcon color={color} testID={`${testID}:UpIndicator`} />

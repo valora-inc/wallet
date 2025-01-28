@@ -44,7 +44,7 @@ export function* sendPaymentSaga({
   tokenId,
   usdAmount,
   recipient,
-  fromModal,
+  fromExternal,
   preparedTransaction: serializablePreparedTransaction,
 }: SendPaymentAction) {
   try {
@@ -123,7 +123,7 @@ export function* sendPaymentSaga({
       })
     }
 
-    if (fromModal) {
+    if (fromExternal) {
       navigateBack()
     } else {
       navigateHome()

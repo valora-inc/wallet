@@ -18,7 +18,7 @@ import { priceHistoryPricesSelector, priceHistoryStatusSelector } from 'src/pric
 import { Price, fetchPriceHistoryStart } from 'src/priceHistory/slice'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { RootState } from 'src/redux/reducers'
-import colors from 'src/styles/colors'
+import colors, { ColorValue } from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
@@ -31,7 +31,13 @@ const CHART_MIN_VERTICAL_RANGE = 0.01 // one cent
 const CHART_DOMAIN_PADDING = { y: [30, 30] as [number, number], x: [5, 5] as [number, number] }
 const CHART_STEP_IN_HOURS = 12
 
-function Loader({ color = colors.loadingIndicator, style }: { color?: colors; style?: ViewStyle }) {
+function Loader({
+  color = colors.loadingIndicator,
+  style,
+}: {
+  color?: ColorValue
+  style?: ViewStyle
+}) {
   return (
     <View style={[styles.loader, style]}>
       <ActivityIndicator testID="PriceHistoryChart/Loader" size="large" color={color} />
@@ -96,7 +102,7 @@ function ChartAwareSvgText({
 function renderPointOnChart(
   chartData: Array<{ amount: number | BigNumber; displayValue: string }>,
   chartWidth: number,
-  color: colors
+  color: ColorValue
 ) {
   let lowestRateIdx = 0,
     highestRateIdx = 0
@@ -209,7 +215,7 @@ interface PriceHistoryChartProps {
   containerStyle?: ViewStyle
   testID?: string
   chartPadding?: number
-  color?: colors
+  color?: ColorValue
   step?: number
 }
 

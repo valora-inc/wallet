@@ -1,11 +1,11 @@
 import * as React from 'react'
 import Svg, { Circle, ClipPath, Defs, G, Path } from 'react-native-svg'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 
 interface Props {
   size?: number
-  backgroundColor?: Colors
-  color?: Colors
+  backgroundColor?: ColorValue
+  color?: ColorValue
 }
 
 function CrossChainIndicator({

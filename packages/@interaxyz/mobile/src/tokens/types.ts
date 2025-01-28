@@ -1,4 +1,4 @@
-import Colors from 'src/styles/colors'
+import { ColorValue } from 'src/styles/colors'
 
 export enum TokenActionName {
   Send = 'Send',
@@ -13,7 +13,7 @@ export interface TokenAction {
   name: TokenActionName
   title: string
   details: string
-  iconComponent: React.MemoExoticComponent<({ color }: { color?: Colors }) => JSX.Element>
+  iconComponent: React.MemoExoticComponent<({ color }: { color?: ColorValue }) => JSX.Element>
   onPress: () => void
   visible: boolean
 }

@@ -21,7 +21,9 @@ const launchDeepLink = async ({ url, newInstance = true }) => {
  * @returns {Promise<string>}
  */
 const getCryptoSymbol = async () => {
-  const sendAmountCryptoElement = await element(by.id('SendAmount')).getAttributes()
+  const sendAmountCryptoElement = await element(
+    by.id('SendConfirmationToken/PrimaryValue')
+  ).getAttributes()
   return sendAmountCryptoElement.label.split(' ').at(-1)
 }
 
@@ -41,11 +43,11 @@ export default HandleDeepLinkSend = () => {
       jestExpect(cryptoSymbol).toBe('cUSD')
 
       // Fiat amount should match value passed in deeplink
-      await waitFor(element(by.id('SendAmountFiat')))
+      await waitFor(element(by.id('SendConfirmationToken/SecondaryValue')))
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
 
-      await waitFor(element(by.id('DisplayName')))
+      await waitFor(element(by.id('SendConfirmationRecipient/PrimaryValue')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
 
@@ -87,7 +89,7 @@ export default HandleDeepLinkSend = () => {
       await launchDeepLink({
         url: deepLinks.withoutAddress,
       })
-      await expect(element(by.id('SendAmount'))).not.toBeVisible()
+      await expect(element(by.id('SendConfirmationToken/PrimaryValue'))).not.toBeVisible()
     })
   })
 
@@ -105,11 +107,11 @@ export default HandleDeepLinkSend = () => {
       jestExpect(cryptoSymbol).toBe('cUSD')
 
       // Fiat amount should match value passed in deeplink
-      await waitFor(element(by.id('SendAmountFiat')))
+      await waitFor(element(by.id('SendConfirmationToken/SecondaryValue')))
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
 
-      await waitFor(element(by.id('DisplayName')))
+      await waitFor(element(by.id('SendConfirmationRecipient/PrimaryValue')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
 
@@ -125,7 +127,7 @@ export default HandleDeepLinkSend = () => {
 
     it('Then should error if no address provided', async () => {
       await launchDeepLink({ url: deepLinks.withoutAddress, newInstance: false })
-      await expect(element(by.id('SendAmount'))).not.toBeVisible()
+      await expect(element(by.id('SendConfirmationToken/PrimaryValue'))).not.toBeVisible()
     })
   })
 
@@ -138,11 +140,11 @@ export default HandleDeepLinkSend = () => {
       jestExpect(cryptoSymbol).toBe('cUSD')
 
       // Fiat amount should match value passed in deeplink
-      await waitFor(element(by.id('SendAmountFiat')))
+      await waitFor(element(by.id('SendConfirmationToken/SecondaryValue')))
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
 
-      await waitFor(element(by.id('DisplayName')))
+      await waitFor(element(by.id('SendConfirmationRecipient/PrimaryValue')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
 
@@ -158,7 +160,7 @@ export default HandleDeepLinkSend = () => {
 
     it('Then should error if no address provided', async () => {
       await openDeepLink(deepLinks.withoutAddress)
-      await expect(element(by.id('SendAmount'))).not.toBeVisible()
+      await expect(element(by.id('SendConfirmationToken/PrimaryValue'))).not.toBeVisible()
     })
   })
 
