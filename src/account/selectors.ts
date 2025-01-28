@@ -53,7 +53,6 @@ export const accountCreationTimeSelector = (state: RootState) => state.account.a
 export const celoEducationCompletedSelector = (state: RootState) =>
   state.account.celoEducationCompleted
 
-export const startOnboardingTimeSelector = (state: RootState) => state.account.startOnboardingTime
 export const recoveryPhraseInOnboardingStatusSelector = (state: RootState) =>
   state.account.recoveryPhraseInOnboardingStatus
 
