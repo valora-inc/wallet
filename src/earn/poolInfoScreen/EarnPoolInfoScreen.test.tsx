@@ -23,6 +23,7 @@ import {
 } from 'test/values'
 
 jest.mock('src/statsig', () => ({
+  ...jest.requireActual('src/statsig'),
   getMultichainFeatures: jest.fn(),
   getFeatureGate: jest.fn(),
 }))

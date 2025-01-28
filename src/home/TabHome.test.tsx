@@ -74,6 +74,7 @@ const mockBalances = {
 }
 
 jest.mock('src/statsig', () => ({
+  ...jest.requireActual('src/statsig'),
   getFeatureGate: jest.fn().mockReturnValue(false),
   getMultichainFeatures: jest.fn(() => ({
     showBalances: ['celo-alfajores'],

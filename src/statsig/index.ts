@@ -1,6 +1,5 @@
 import * as _ from 'lodash'
 import { LaunchArguments } from 'react-native-launch-arguments'
-import { startOnboardingTimeSelector } from 'src/account/selectors'
 import { ExpectedLaunchArgs, STATSIG_ENABLED } from 'src/config'
 import { DynamicConfigs } from 'src/statsig/constants'
 import {
@@ -12,7 +11,6 @@ import {
 } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { walletAddressSelector } from 'src/web3/selectors'
 import { EvaluationReason } from 'statsig-js'
 import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
 
@@ -148,9 +146,9 @@ export function getDefaultStatsigUser(): StatsigUser {
   const { store } = require('src/redux/store')
   const state = store.getState()
   return {
-    userID: walletAddressSelector(state) ?? undefined,
+    userID: state.web3.account?.toLowerCase() ?? undefined,
     custom: {
-      startOnboardingTime: startOnboardingTimeSelector(state),
+      startOnboardingTime: state.account.startOnboardingTime,
       loadTime: Date.now(),
     },
   }
