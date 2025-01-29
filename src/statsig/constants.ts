@@ -9,13 +9,6 @@ import networkConfig from 'src/web3/networkConfig'
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
-  // Needed for CI, remove if there are actual experiments
-  [StatsigExperiments.SAMPLE]: {
-    experimentName: StatsigExperiments.SAMPLE,
-    defaultValues: {
-      testParam: 'sample-param-1',
-    },
-  },
   [StatsigExperiments.COST_EFFECTIVE_CICO]: {
     experimentName: StatsigExperiments.COST_EFFECTIVE_CICO,
     defaultValues: {

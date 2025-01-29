@@ -39,7 +39,6 @@ export enum StatsigFeatureGates {
 }
 
 export enum StatsigExperiments {
-  SAMPLE = 'sample', // Needed for CI, remove if there are actual experiments
   COST_EFFECTIVE_CICO = 'cost_effective_cico',
 }
 
