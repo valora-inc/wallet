@@ -11,6 +11,13 @@ const config: KnipConfig = {
         'e2e:build:android-release', // used in workflows to build the example app
         'build:plugin', // used in postinstall script
       ],
+      ignoreDependencies: [
+        '@semantic-release/commit-analyzer', // imported by multi-semantic-release
+        '@semantic-release/github', // imported by multi-semantic-release
+        '@semantic-release/npm', // imported by multi-semantic-release
+        '@semantic-release/release-notes-generator', // imported by multi-semantic-release
+        'conventional-changelog-conventionalcommits', // used by semantic-release config preset
+      ],
     },
     'apps/example': {
       entry: [

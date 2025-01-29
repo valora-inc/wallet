@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  # Important note about `workflow_run`:
+  # > This event will only trigger a workflow run if the workflow file exists on the default branch
+  # See https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#workflow_run
+  workflow_run:
+    # TODO: consider doing this only if the e2e tests succeeded
+    # However a condition on more than 1 workflow is not currently easily doable
+    # See https://stackoverflow.com/questions/67721399/run-a-workflow-when-multiple-other-workflows-have-finished-in-github-actions
+    workflows: ['Test']
+    branches: [main]
+    types: [completed]
+  # Trigger on PRs to main to exercise the dry run without delay
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  publish:
+    name: ${{ github.ref == 'refs/heads/main' && 'Publish' || 'Publish (dry-run)' }}
+    # Only run if the test workflow succeeded or it's a PR (where we don't want to delay the dry run)
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full git history is needed for release notes
+          fetch-depth: 0
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
+      - id: google-secrets
+        uses: google-github-actions/get-secretmanager-secrets@v2
+        with:
+          secrets: |-
+            NPM_TOKEN:celo-mobile-mainnet/NPM_TOKEN
+            SLACK_WEBHOOK_URL:celo-mobile-mainnet/SLACK_ONCALL_WEBHOOK_URL
+      - uses: ./.github/actions/yarn-install
+      - name: Publish to NPM
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            yarn release
+          else
+            # Dry run to ensure it still works in case of deps changes
+            # Note: we adjust the env a bit so it doesn't abort early with
+            # "This run was triggered by a pull request and therefore a new version won't be published."
+            # We're in dry run anyway.
+            GITHUB_REF="$GITHUB_HEAD_REF" yarn release --dry-run --no-ci --branches "$GITHUB_HEAD_REF"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ steps.google-secrets.outputs.NPM_TOKEN }}
+      - uses: ravsamhq/notify-slack-action@v2
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: '{workflow} has {status_message}'
+          message_format: '{emoji} *{workflow}* {status_message}. <{run_url}|View Run>'
+          footer: 'Repo: <{repo_url}|{repo}>'
+          notify_when: 'failure'
+          # Tag @supporthero on failures, can change to any slack group id
+          mention_groups: 'S0277QUM4KB'
+          mention_groups_when: 'failure'
+        env:
+          SLACK_WEBHOOK_URL: ${{ steps.google-secrets.outputs.SLACK_WEBHOOK_URL }}
