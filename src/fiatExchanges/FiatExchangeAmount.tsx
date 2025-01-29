@@ -244,7 +244,7 @@ FiatExchangeAmount.navOptions = ({
     headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_amount_back} />,
     headerTitle: () =>
       route.params.flow === CICOFlow.CashIn ? (
-        !!tokenSymbol ? (
+        tokenSymbol ? (
           i18n.t(`fiatExchangeFlow.cashOut.exchangeAmountTitle`, {
             currency: tokenSymbol,
           })
