@@ -34,6 +34,9 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -51,12 +54,8 @@ type Props = RouteProps
 
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation()
-  const { flow, tokenId, tokenSymbol } = {
-    flow: CICOFlow.CashIn,
-    tokenId: undefined,
-    tokenSymbol: undefined,
-  } //route.params
-  const { variant } = { variant: 'treatment' } // getExperimentParams(ExperimentConfigs[StatsigExperiments.COST_EFFECTIVE_CICO])
+  const { flow, tokenId, tokenSymbol } = route.params
+  const { variant } = getExperimentParams(ExperimentConfigs[StatsigExperiments.COST_EFFECTIVE_CICO])
 
   const [showingInvalidAmountDialog, setShowingInvalidAmountDialog] = useState(false)
   const closeInvalidAmountDialog = () => {
@@ -241,11 +240,7 @@ FiatExchangeAmount.navOptions = ({
 }: {
   route: RouteProp<StackParamList, Screens.FiatExchangeAmount>
 }) => {
-  const { flow, tokenId, tokenSymbol } = {
-    flow: CICOFlow.CashIn,
-    tokenId: undefined,
-    tokenSymbol: undefined,
-  } // route.params
+  const { flow, tokenId, tokenSymbol } = route.params
   const inputIsCrypto = isUserInputCrypto(flow)
   return {
     ...emptyHeader,
