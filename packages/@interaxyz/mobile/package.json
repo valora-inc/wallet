@@ -22,6 +22,7 @@
   },
   "files": [
     "src",
+    "locales",
     "plugin/build",
     "app.plugin.js"
   ],
