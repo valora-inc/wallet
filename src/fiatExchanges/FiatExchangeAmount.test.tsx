@@ -218,13 +218,17 @@ describe('FiatExchangeAmount cashIn', () => {
       flow: CICOFlow.CashIn,
       tokenSymbol: undefined,
     })
-    const { getByText } = render(
+    const { getByText, getByTestId } = render(
       <Provider store={storeWithEUR}>
         <FiatExchangeAmount {...mockScreenProps} />
       </Provider>
     )
     expect(getByText('enterAnAmount')).toBeTruthy()
     expect(getByText('fiatExchangeFlow.cashIn.nextSelectToken')).toBeTruthy()
+    fireEvent.changeText(getByTestId('FiatExchangeInput'), '10')
+    fireEvent.press(getByTestId('FiatExchangeNextButton'))
+    // TODO(ACT-1512): Update to test navigation when added, needed now for test coverage
+    expect(navigate).not.toHaveBeenCalled()
   })
 })
 
