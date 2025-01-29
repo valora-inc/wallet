@@ -1,10 +1,9 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-
-import Colors from 'src/styles/colors'
+import { ColorValue } from 'src/styles/colors'
 
 interface Props {
-  color: Colors
+  color: ColorValue
 }
 
 const QuickActionsReceive = ({ color }: Props) => (

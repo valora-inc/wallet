@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import colors from 'src/styles/colors'
+import colors, { ColorValue } from 'src/styles/colors'
 
 interface Props {
-  backgroundColor?: colors
+  backgroundColor?: ColorValue
   radius?: number
   style?: StyleProp<ViewStyle>
   children?: React.ReactNode
-  borderColor?: colors
+  borderColor?: ColorValue
 }
 
 export default function CircledIcon({

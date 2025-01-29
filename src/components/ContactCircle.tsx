@@ -2,19 +2,19 @@ import * as React from 'react'
 import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import User from 'src/icons/User'
 import { Recipient } from 'src/recipients/recipient'
-import Colors from 'src/styles/colors'
+import { ColorValue } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   style?: ViewStyle
   size?: number
   recipient: Recipient
-  backgroundColor?: Colors
-  foregroundColor?: Colors
-  borderColor?: Colors
+  backgroundColor?: ColorValue
+  foregroundColor?: ColorValue
+  borderColor?: ColorValue
   DefaultIcon?: React.ComponentType<{
-    color?: Colors
-    backgroundColor?: Colors
+    color?: ColorValue
+    backgroundColor?: ColorValue
     size?: number
   }>
 }
@@ -22,9 +22,9 @@ interface Props {
 const DEFAULT_ICON_SIZE = 40
 
 const getAddressBackgroundColor = (address: string) =>
-  `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 53%, 93%)` as Colors
+  `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 53%, 93%)` as ColorValue
 const getAddressForegroundColor = (address: string) =>
-  `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 67%, 24%)` as Colors
+  `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 67%, 24%)` as ColorValue
 const getNameInitial = (name: string) => name.charAt(0).toLocaleUpperCase()
 
 function ContactCircle({
