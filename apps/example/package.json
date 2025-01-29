@@ -101,7 +101,7 @@
     "ethers": "^5.7.2",
     "expect": "^29.7.0",
     "lodash": "^4.17.21",
-    "ts-node": "^10.9.2",
+    "ts-node": "11.0.0-beta.1",
     "ts-retry-promise": "^0.6.0",
     "twilio": "^3.69.0",
     "typescript": "^5.3.3",

@@ -40,6 +40,7 @@ const config: KnipConfig = {
         'babel-plugin-module-resolver', // not listed in package.json so we use the version from the runtime for now
         'ts-node', // used in workflows run by github actions from the example app dir
         '@walletconnect/core', // used in e2e tests via @walletconnect/sign-client
+        'tslib', // for some reason this is triggered after applying multiple tsconfigs to "extends" of apps/example/tsconfig.json
       ],
     },
     'packages/@interaxyz/mobile': {

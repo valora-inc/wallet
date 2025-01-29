@@ -431,6 +431,8 @@ const tokensWithBalanceOrShowZeroBalanceSelector = createSelector(
     )
 )
 
+export type SortedTokensWithBalanceOrShowZeroBalanceSelector =
+  typeof sortedTokensWithBalanceOrShowZeroBalanceSelector
 export const sortedTokensWithBalanceOrShowZeroBalanceSelector = createSelector(
   tokensWithBalanceOrShowZeroBalanceSelector,
   (tokens) =>

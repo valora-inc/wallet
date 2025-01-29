@@ -1,4 +1,4 @@
-import { RootState } from 'src/redux/reducers'
+import type { RootState } from 'src/redux/reducers'
 
 /**
  * Get the "raw" (non-lower-cased) version of the wallet address in redux state.
@@ -15,3 +15,5 @@ export const rawWalletAddressSelector = (state: RootState) => state.web3.account
 export const walletAddressSelector = (state: RootState) => state.web3.account?.toLowerCase() ?? null
 // @deprecated please use walletAddressSelector instead.
 export const currentAccountSelector = walletAddressSelector
+
+export type WalletAddressSelector = typeof walletAddressSelector

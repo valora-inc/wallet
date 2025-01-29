@@ -1,6 +1,8 @@
 {
-  "extends": "expo/tsconfig.base",
+  // Temporary hack until we figure out a way for this to be { "extends": "expo/tsconfig.base" }
+  "extends": ["expo/tsconfig.base", "@interaxyz/mobile"],
   "compilerOptions": {
-    "strict": true
-  }
+    "jsx": "react-native"
+  },
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
 }

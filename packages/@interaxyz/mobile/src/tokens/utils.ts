@@ -169,6 +169,7 @@ export function getTokenId(networkId: NetworkId, tokenAddress?: string): string 
   return `${networkId}:${tokenAddress}`
 }
 
+export type GetSupportedNetworkIdsForSend = typeof getSupportedNetworkIdsForSend
 export function getSupportedNetworkIdsForSend(): NetworkId[] {
   return getMultichainFeatures().showSend
 }

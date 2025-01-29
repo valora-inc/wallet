@@ -6,4 +6,5 @@
  * - Prevent accidental exposure of internal implementation details
  */
 export { createApp } from './createApp'
+export { useWallet } from './hooks/useWallet'
 export { type PublicAppConfig } from './types'
