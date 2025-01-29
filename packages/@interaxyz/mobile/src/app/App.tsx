@@ -12,6 +12,7 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import AppInitGate from 'src/app/AppInitGate'
 import ErrorBoundary from 'src/app/ErrorBoundary'
+import { getAppConfig } from 'src/appConfig'
 import { AUTH0_CLIENT_ID, AUTH0_DOMAIN, isE2EEnv } from 'src/config'
 import i18n from 'src/i18n'
 import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
@@ -62,6 +63,8 @@ interface Props extends Record<string, unknown> {
 export class App extends React.Component<Props> {
   reactLoadTime: number = Date.now()
   isConsumingInitialLink = false
+  // TODO: add support for changing themes dynamically, here we are getting only the default theme colors.
+  isDarkTheme = getAppConfig().themes?.default?.isDark
 
   async componentDidMount() {
     if (isE2EEnv) {
@@ -79,7 +82,10 @@ export class App extends React.Component<Props> {
                 appStartedMillis={this.props.appStartedMillis}
                 reactLoadTime={this.reactLoadTime}
               >
-                <StatusBar backgroundColor="transparent" barStyle="dark-content" />
+                <StatusBar
+                  backgroundColor="transparent"
+                  barStyle={this.isDarkTheme ? 'light-content' : 'dark-content'}
+                />
                 <ErrorBoundary>
                   <GestureHandlerRootView style={{ flex: 1 }}>
                     <BottomSheetModalProvider>
