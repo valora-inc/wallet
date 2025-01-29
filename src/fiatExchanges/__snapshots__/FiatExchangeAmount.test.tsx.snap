@@ -72,8 +72,8 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
               {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Medium",
-                "fontSize": 16,
-                "lineHeight": 24,
+                "fontSize": 18,
+                "lineHeight": 28,
               }
             }
           >
@@ -92,7 +92,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
               {
                 "color": "#2E3338",
                 "flex": 1,
-                "fontFamily": "Inter-Regular",
+                "fontFamily": "Inter-Medium",
                 "fontSize": 19,
                 "lineHeight": 27,
                 "marginLeft": 10,
@@ -100,7 +100,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
                 "textAlign": "right",
               },
               {
-                "color": "#1AB775",
+                "color": "#2E3338",
               },
             ]
           }
@@ -298,8 +298,8 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
               {
                 "color": "#2E3338",
                 "fontFamily": "Inter-Medium",
-                "fontSize": 16,
-                "lineHeight": 24,
+                "fontSize": 18,
+                "lineHeight": 28,
               }
             }
           >
@@ -318,7 +318,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
               {
                 "color": "#2E3338",
                 "flex": 1,
-                "fontFamily": "Inter-Regular",
+                "fontFamily": "Inter-Medium",
                 "fontSize": 19,
                 "lineHeight": 27,
                 "marginLeft": 10,
@@ -326,7 +326,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
                 "textAlign": "right",
               },
               {
-                "color": "#1AB775",
+                "color": "#2E3338",
               },
             ]
           }
