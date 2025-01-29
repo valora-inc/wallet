@@ -111,50 +111,6 @@ export const setupStore = (initialState?: ReducersRootState, config = persistCon
 
   const middlewares: Middleware[] = [sagaMiddleware, ...apiMiddlewares]
 
-  if (__DEV__ && !process.env.JEST_WORKER_ID) {
-    const createDebugger = require('redux-flipper').default
-    // Sending the whole state makes the redux debugger in flipper super slow!!
-    // I suspect it's the exchange rates causing this!
-    // For now exclude the `exchange`, `tokens`, & `priceHistory` reducers.
-    // They can be uncommented if needed for debugging.
-    middlewares.push(
-      createDebugger({
-        stateWhitelist: [
-          'app',
-          'dapps',
-          'i18n',
-          'networkInfo',
-          'alert',
-          'goldToken',
-          'stableToken',
-          'send',
-          'positions',
-          'points',
-          'home',
-          'transactions',
-          'web3',
-          'identity',
-          'account',
-          'invite',
-          'fees',
-          'recipients',
-          'localCurrency',
-          'imports',
-          'paymentRequest',
-          'fiatConnect',
-          'keylessBackup',
-          'nfts',
-          'swap',
-          'jumpstart',
-          'earn',
-          // 'exchange',
-          // 'tokens',
-          // 'priceHistory',
-        ],
-      })
-    )
-  }
-
   const persistedReducer = persistReducer(config, rootReducer)
 
   const createdStore = configureStore({

@@ -64,6 +64,8 @@ const config: KnipConfig = {
         '@types/jest',
         'husky',
         '@tsconfig/node-lts', // used in plugin/tsconfig.json
+        'react-native-flipper',
+        'redux-flipper',
       ],
       ignore: [
         'src/redux/reducersForSchemaGeneration.ts', // used for root state schema generation
