@@ -16,6 +16,12 @@ export const ExperimentConfigs = {
       testParam: 'sample-param-1',
     },
   },
+  [StatsigExperiments.COST_EFFECTIVE_CICO]: {
+    experimentName: StatsigExperiments.COST_EFFECTIVE_CICO,
+    defaultValues: {
+      variant: 'control' as 'control' | 'treatment',
+    },
+  },
 } satisfies {
   [key in StatsigExperiments]: {
     experimentName: key

@@ -10,7 +10,7 @@ import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -26,6 +26,7 @@ import {
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
+  getExperimentParams: jest.fn(),
 }))
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -124,6 +125,7 @@ describe('FiatExchangeAmount cashIn', () => {
     jest.clearAllMocks()
     storeWithUSD.clearActions()
     storeWithPHP.clearActions()
+    jest.mocked(getExperimentParams).mockReturnValue({ variant: 'control' })
   })
 
   it.each([
@@ -207,6 +209,22 @@ describe('FiatExchangeAmount cashIn', () => {
       </Provider>
     )
     expect(tree).toMatchSnapshot()
+  })
+
+  it('renders correctly when user is part of CICO experiment and token is not set', () => {
+    jest.mocked(getExperimentParams).mockReturnValue({ variant: 'treatment' })
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      tokenId: undefined,
+      flow: CICOFlow.CashIn,
+      tokenSymbol: undefined,
+    })
+    const { getByText } = render(
+      <Provider store={storeWithEUR}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+    expect(getByText('enterAnAmount')).toBeTruthy()
+    expect(getByText('fiatExchangeFlow.cashIn.nextSelectToken')).toBeTruthy()
   })
 })
 

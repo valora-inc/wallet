@@ -644,6 +644,7 @@
   "insufficientBalance": "Your balance is too low to make this transaction",
   "insufficientBalanceStable": "You do not have enough cUSD or cEUR to complete this transaction",
   "amount": "Amount",
+  "enterAnAmount": "Enter an amount",
   "currentBalance": "Current Balance (cUSD)",
   "restore": "Restore",
   "commentUnavailable": "Comment Unavailable",
@@ -1688,9 +1689,11 @@
       "fiatExchangeSubtitle": "Fund your {{appName}} account from a bank, card or exchange.",
       "selectCurrencyTitle": "Add Funds",
       "exchangeAmountTitle": "Add {{currency}}",
+      "buy": "Buy",
       "selectProviderHeader": "Select Payment Method",
       "selectProviderHeader_UK": "Provider Details",
-      "depositExchangeTitle": "Deposit Crypto"
+      "depositExchangeTitle": "Deposit Crypto",
+      "nextSelectToken": "Next: Select a Token"
     },
     "cashOut": {
       "fiatExchangeTitle": "Withdraw Funds",

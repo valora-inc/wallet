@@ -77,7 +77,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
               }
             }
           >
-            amount
+            enterAnAmount
           </Text>
         </View>
         <TextInput
@@ -303,7 +303,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
               }
             }
           >
-            amount
+            enterAnAmount
           </Text>
         </View>
         <TextInput
