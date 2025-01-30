@@ -208,6 +208,7 @@ describe('AppAnalytics', () => {
 
     mockConfig.STATSIG_API_KEY = 'statsig-key'
     mockConfig.STATSIG_ENABLED = true
+    mockConfig.SEGMENT_API_KEY = 'segment-key'
     mockStore.getState.mockImplementation(() => state)
     jest.mocked(getFeatureGate).mockReturnValue(true)
     jest.mocked(getMultichainFeatures).mockReturnValue({

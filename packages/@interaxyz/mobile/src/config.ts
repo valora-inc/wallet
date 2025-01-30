@@ -16,13 +16,8 @@ export interface ExpectedLaunchArgs {
   onboardingOverrides?: string // same format as ONBOARDING_FEATURES_ENABLED env var
 }
 
-// extract secrets from secrets.json
-let secretsFile = {}
-try {
-  secretsFile = require('../secrets.json')
-} catch {
-  // TODO: remove the secrets file and inject secrets another way
-}
+// TODO: remove the secrets file and inject secrets another way
+const secretsFile = {}
 const keyOrUndefined = (file: any, secretsKey: any, attribute: any) => {
   if (secretsKey in file) {
     if (attribute in file[secretsKey]) {
