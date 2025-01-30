@@ -123,7 +123,7 @@ interface Props {
 
 export function HeaderTitleWithBalance({
   title,
-  token,
+  token = Currency.Dollar,
   switchTitleAndSubtitle = false,
   displayCrypto = false,
 }: Props) {
@@ -251,8 +251,4 @@ export const headerWithCloseButton: NativeStackNavigationOptions = {
       <CloseButton testID="CloseButton" />
     </View>
   ),
-}
-
-HeaderTitleWithBalance.defaultProps = {
-  token: Currency.Dollar,
 }
