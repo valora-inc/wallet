@@ -32,16 +32,16 @@ export enum FormatType {
 }
 
 interface Props {
-  type: DisplayType
+  type?: DisplayType
   amount: MoneyAmount
-  size: number // only used for DisplayType.Big
-  hideSign: boolean
-  hideSymbol: boolean
-  hideCode: boolean
+  size?: number // only used for DisplayType.Big
+  hideSign?: boolean
+  hideSymbol?: boolean
+  hideCode?: boolean
   showLocalAmount?: boolean
-  showExplicitPositiveSign: boolean // shows '+' for a positive amount when true (default is false)
-  formatType: FormatType
-  hideFullCurrencyName: boolean
+  showExplicitPositiveSign?: boolean // shows '+' for a positive amount when true (default is false)
+  formatType?: FormatType
+  hideFullCurrencyName?: boolean
   style?: StyleProp<TextStyle>
   currencyInfo?: CurrencyInfo
   testID?: string
