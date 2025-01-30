@@ -295,7 +295,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
       ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
-    showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},

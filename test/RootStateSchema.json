@@ -4795,9 +4795,6 @@
                 "showNotificationSpotlight": {
                     "type": "boolean"
                 },
-                "showSwapMenuInDrawerMenu": {
-                    "type": "boolean"
-                },
                 "supportedBiometryType": {
                     "anyOf": [
                         {
@@ -4849,7 +4846,6 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "showNotificationSpotlight",
-                "showSwapMenuInDrawerMenu",
                 "supportedBiometryType",
                 "walletConnectV2Enabled"
             ],
