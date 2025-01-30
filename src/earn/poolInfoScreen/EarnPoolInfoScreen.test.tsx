@@ -23,6 +23,7 @@ import {
 } from 'test/values'
 
 jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn().mockResolvedValue({ enabled: true }),
   getMultichainFeatures: jest.fn(),
   getFeatureGate: jest.fn(),
 }))
@@ -55,7 +56,6 @@ function getStore({
     positions: {
       positions: includeRewardPositions ? [...mockPositions, ...mockRewardsPositions] : [],
     },
-    app: { showSwapMenuInDrawerMenu: true },
   })
 }
 

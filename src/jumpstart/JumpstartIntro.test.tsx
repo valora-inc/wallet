@@ -8,21 +8,15 @@ import { createMockStore } from 'test/utils'
 
 jest.mock('src/statsig')
 
-jest.mocked(getDynamicConfigParams).mockReturnValue({
-  wallet_network_timeout_seconds: 10,
-  jumpstartContracts: [],
-})
-
 describe('JumpstartIntro', () => {
   it('should render the correct actions and components', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      wallet_network_timeout_seconds: 10,
+      jumpstartContracts: [],
+      enabled: false, // swap feature disabled
+    })
     const { getByText, queryByText, getByTestId } = render(
-      <Provider
-        store={createMockStore({
-          app: {
-            showSwapMenuInDrawerMenu: false,
-          },
-        })}
-      >
+      <Provider store={createMockStore()}>
         <JumpstartIntro />
       </Provider>
     )
@@ -39,14 +33,13 @@ describe('JumpstartIntro', () => {
   })
 
   it('should trigger the expected callbacks on press actions', async () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      wallet_network_timeout_seconds: 10,
+      jumpstartContracts: [],
+      enabled: true, // swap feature enabled
+    })
     const { getByText } = render(
-      <Provider
-        store={createMockStore({
-          app: {
-            showSwapMenuInDrawerMenu: true,
-          },
-        })}
-      >
+      <Provider store={createMockStore()}>
         <JumpstartIntro />
       </Provider>
     )

@@ -191,7 +191,6 @@ export interface RemoteConfigValues {
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
   coinbasePayEnabled: boolean
-  showSwapMenuInDrawerMenu: boolean
   maxSwapSlippagePercentage: number
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
