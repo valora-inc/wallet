@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     // I tried removing the parent view, but it didn't help either
     paddingHorizontal: Spacing.Regular16,
     paddingVertical: Spacing.Small12, // vertical padding slightly smaller so the ripple effect isn't cut off
-    paddingVertical: Spacing.Small12,
     left: -Spacing.Regular16,
   },
 })
