@@ -23,7 +23,7 @@ import {
 } from 'test/values'
 
 jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn().mockResolvedValue({ enabled: true }),
+  getDynamicConfigParams: jest.fn().mockReturnValue({ enabled: true }),
   getMultichainFeatures: jest.fn(),
   getFeatureGate: jest.fn(),
 }))
