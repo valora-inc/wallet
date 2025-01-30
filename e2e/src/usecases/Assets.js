@@ -28,7 +28,7 @@ async function validateSendFlow(tokenSymbol) {
 async function validateAddFlow(tokenSymbol) {
   // check the header includes the appropriate token symbol
   await waitFor(element(by.id('HeaderTitle')))
-    .toHaveText(`Add ${tokenSymbol}`)
+    .toHaveText(`Buy ${tokenSymbol}`)
     .withTimeout(10 * 1000)
   await element(by.id('BackChevron')).tap()
 }
