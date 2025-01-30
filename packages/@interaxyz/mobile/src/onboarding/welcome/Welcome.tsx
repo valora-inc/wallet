@@ -65,7 +65,10 @@ export default function Welcome() {
   const assetsConfig = getAppConfig().themes?.default?.assets
 
   const Logo = assetsConfig?.welcomeLogo ?? WelcomeLogo
-  const backgroundImage = assetsConfig?.welcomeBackgroundImage ?? welcomeBackground
+  const backgroundImage =
+    assetsConfig && 'welcomeBackgroundImage' in assetsConfig
+      ? assetsConfig.welcomeBackgroundImage
+      : welcomeBackground
 
   return (
     <SafeAreaView style={styles.container}>
