@@ -320,7 +320,7 @@
   "superchargingNotificationStart": "Learn more",
   "startSuperchargingNotificationBody": "Get rewarded with crypto weekly. Start Supercharging!",
   "startSuperchargingNotificationStart": "Get rewards",
-  "cashIn": "Buy {{currency}}",
+  "cashIn": "Add {{currency}}",
   "connectNumber": "Connect number",
   "connectToWallet": "Connect to {{dappName}}",
   "confirmTransaction": "Confirm transaction",

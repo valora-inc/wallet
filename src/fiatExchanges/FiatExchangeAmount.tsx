@@ -248,13 +248,16 @@ FiatExchangeAmount.navOptions = ({
     headerTitle: () =>
       route.params.flow === CICOFlow.CashIn ? (
         tokenSymbol ? (
-          <Text style={styles.headerTitle}>
+          <Text style={styles.headerTitle} testID="HeaderTitle">
             {i18n.t(`fiatExchangeFlow.cashIn.exchangeAmountTitle`, {
               currency: tokenSymbol,
             })}
           </Text>
         ) : (
-          <Text style={styles.headerTitle}> {i18n.t('fiatExchangeFlow.cashIn.buy')}</Text>
+          <Text style={styles.headerTitle} testID="HeaderTitle">
+            {' '}
+            {i18n.t('fiatExchangeFlow.cashIn.buy')}
+          </Text>
         )
       ) : (
         <FiatExchangeAmountHeader
