@@ -7,7 +7,7 @@ interface Props {
   color?: string
 }
 
-export function Envelope({ color, size }: Props) {
+export function Envelope({ color = Colors.contentPrimary, size = 24 }: Props) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
@@ -16,11 +16,6 @@ export function Envelope({ color, size }: Props) {
       />
     </Svg>
   )
-}
-
-Envelope.defaultProps = {
-  color: Colors.contentPrimary,
-  size: 24,
 }
 
 export default React.memo(Envelope)

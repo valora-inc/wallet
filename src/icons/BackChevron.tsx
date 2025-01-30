@@ -8,7 +8,7 @@ export interface Props {
   color: ColorValue
 }
 
-function BackChevron({ color, height }: Props) {
+function BackChevron({ color = Colors.contentPrimary, height = 16 }: Props) {
   return (
     <Svg height={height} width={height / 2} viewBox="0 0 8 16" fill="none" testID="BackChevron">
       <Path
@@ -19,11 +19,6 @@ function BackChevron({ color, height }: Props) {
       />
     </Svg>
   )
-}
-
-BackChevron.defaultProps = {
-  height: 16,
-  color: Colors.contentPrimary,
 }
 
 export default BackChevron
