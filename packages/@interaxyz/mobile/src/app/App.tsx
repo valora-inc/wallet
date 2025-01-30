@@ -85,6 +85,7 @@ export class App extends React.Component<Props> {
                 <StatusBar
                   backgroundColor="transparent"
                   barStyle={this.isDarkTheme ? 'light-content' : 'dark-content'}
+                  translucent
                 />
                 <ErrorBoundary>
                   <GestureHandlerRootView style={{ flex: 1 }}>
