@@ -2,6 +2,7 @@ import * as React from 'react'
 import { View, ViewStyle } from 'react-native'
 import Svg, { Circle, Path } from 'svgs'
 import { getSizing } from '../styles/accessibility'
+import { Colors } from '../styles/colors'
 
 interface Props {
   color: string
@@ -11,7 +12,7 @@ interface Props {
 
 export default class Error extends React.PureComponent<Props> {
   render() {
-    const { width = getSizing(), style = {} } = this.props
+    const { width = getSizing(), style = {}, color = Colors.contentPrimary } = this.props
     return (
       <View style={style}>
         <Svg testID="ErrorIcon" width={width} height={width} viewBox="0 0 16 16" fill="none">
