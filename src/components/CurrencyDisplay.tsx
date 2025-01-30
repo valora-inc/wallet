@@ -118,16 +118,16 @@ export function getFullCurrencyName(currency: Currency | null) {
  * @deprecated use TokenDisplay instead
  */
 export default function CurrencyDisplay({
-  type,
-  size,
-  hideSign,
-  hideSymbol,
-  hideCode,
+  type = DisplayType.Default,
+  size = 48,
+  hideSign = false,
+  hideSymbol = false,
+  hideCode = true,
   showLocalAmount,
-  showExplicitPositiveSign,
+  showExplicitPositiveSign = false,
   amount,
-  formatType,
-  hideFullCurrencyName,
+  formatType = FormatType.Default,
+  hideFullCurrencyName = true,
   style,
   currencyInfo,
   testID,
@@ -221,17 +221,6 @@ export default function CurrencyDisplay({
       {!hideFullCurrencyName && !!fullCurrencyName && ` ${fullCurrencyName}`}
     </Text>
   )
-}
-
-CurrencyDisplay.defaultProps = {
-  type: DisplayType.Default,
-  size: 48,
-  hideSign: false,
-  hideSymbol: false,
-  hideCode: true,
-  showExplicitPositiveSign: false,
-  formatType: FormatType.Default,
-  hideFullCurrencyName: true,
 }
 
 const styles = StyleSheet.create({
