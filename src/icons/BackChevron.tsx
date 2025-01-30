@@ -4,8 +4,8 @@ import Svg, { Path } from 'react-native-svg'
 import Colors from 'src/styles/colors'
 
 export interface Props {
-  height: number
-  color: ColorValue
+  height?: number
+  color?: ColorValue
 }
 
 function BackChevron({ color = Colors.contentPrimary, height = 16 }: Props) {

@@ -3,8 +3,8 @@ import colors from 'src/styles/colors'
 import Svg, { Path } from 'svgs'
 
 interface Props {
-  height: number
-  color: string
+  height?: number
+  color?: string
 }
 
 function ForwardChevron({ color = colors.contentPrimary, height = 16 }: Props) {

@@ -41,8 +41,8 @@ const defaultAnimation: LayoutAnimationConfig = {
 }
 
 interface Props {
-  topSpacing: number
-  onToggle: (visible: boolean, keyboardSpace?: number) => void
+  topSpacing?: number
+  onToggle?: (visible: boolean, keyboardSpace?: number) => void
   style?: ViewStyle
 }
 

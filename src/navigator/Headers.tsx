@@ -116,7 +116,7 @@ export const headerWithBackEditButtons: NativeStackNavigationOptions = {
 
 interface Props {
   title: string | React.ReactNode
-  token: Currency
+  token?: Currency
   switchTitleAndSubtitle?: boolean
   displayCrypto?: boolean
 }
