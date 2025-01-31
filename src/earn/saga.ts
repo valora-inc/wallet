@@ -262,13 +262,15 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
       throw new Error(`Deposit transaction reverted: ${depositTxReceipt?.transactionHash}`)
     }
 
-    // TODO(ACT-1514): for cross chain swaps, fire this when the tx feed
-    // confirms it, similar to swaps (or consider firing a  new event, since we
-    // have some gas properties here that can be useful for all txs)
     AppAnalytics.track(EarnEvents.earn_deposit_submit_success, {
       ...commonAnalyticsProps,
       ...getDepositTxsReceiptAnalyticsProperties(trackedTxs, poolNetworkId, tokensById),
     })
+    if (fromNetworkId === poolNetworkId) {
+      // for non cross chain swaps, we can fire this here. For cross chain
+      // swaps, we'll fire it once the blockchain-api confirms the transaction
+      AppAnalytics.track(EarnEvents.earn_deposit_execute_success, commonAnalyticsProps)
+    }
     yield* put(
       depositSuccess({
         tokenId: depositTokenInfo.tokenId,
