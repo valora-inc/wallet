@@ -5884,10 +5884,14 @@
                         "null",
                         "string"
                     ]
+                },
+                "demoModeEnabled": {
+                    "type": "boolean"
                 }
             },
             "required": [
-                "account"
+                "account",
+                "demoModeEnabled"
             ],
             "type": "object"
         },

@@ -4,16 +4,12 @@ import { type FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { type ReactTestInstance } from 'react-test-renderer'
-import AppAnalytics from 'src/analytics/AppAnalytics'
-import { FiatExchangeEvents, SwapEvents } from 'src/analytics/Events'
 import { type ApiReducersKeys } from 'src/redux/apiReducersList'
 import { type RootState } from 'src/redux/reducers'
 import { reducersList } from 'src/redux/reducersList'
 import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
-import * as TokenSelectors from 'src/tokens/selectors'
-import { type TokenBalance } from 'src/tokens/slice'
 import { transactionFeedV2Api, type TransactionFeedV2Response } from 'src/transactions/api'
 import { setupApiStore } from 'src/transactions/apiTestHelpers'
 import TransactionFeedV2 from 'src/transactions/feed/TransactionFeedV2'
@@ -328,19 +324,6 @@ describe('TransactionFeedV2', () => {
     await waitFor(() => expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(7))
   })
 
-  it('cleanup is triggered for confirmed stand by transactions', async () => {
-    mockFetch.mockResponse(typedResponse({ transactions: [mockTransaction()] }))
-    const { store } = renderScreen({
-      transactions: { standbyTransactions: [mockTransaction()] },
-    })
-
-    /**
-     * For now, there's no way to check for dispatched actions via getActions as we usually do
-     * as the current setupApiStore doesn't return it.
-     */
-    await waitFor(() => expect(store.getState().transactions.standbyTransactions.length).toBe(0))
-  })
-
   it('should show stand by transactions if paginated data is empty', async () => {
     mockFetch.mockResponse(typedResponse({ transactions: [] }))
     const { store, ...tree } = renderScreen({
@@ -502,69 +485,6 @@ describe('TransactionFeedV2', () => {
       expect(tree.getByTestId('TransactionList').props.data[0].data.length).toBe(2)
     })
     expect(vibrateSuccess).not.toHaveBeenCalled()
-  })
-
-  it('should send analytics event when cross-chain swap transaction status changed to "Complete"', async () => {
-    mockFetch.mockResponse(typedResponse({ transactions: [] }))
-    jest.spyOn(TokenSelectors, 'tokensByIdSelector').mockReturnValue({
-      'op-mainnet:native': { priceUsd: new BigNumber(100) } as TokenBalance,
-      'base-mainnet:native': { priceUsd: new BigNumber(1000) } as TokenBalance,
-    })
-
-    const hash = '0x01' as string
-    const mockedTransaction = {
-      context: { id: hash },
-      transactionHash: hash,
-      type: TokenTransactionTypeV2.CrossChainSwapTransaction,
-      status: TransactionStatus.Pending,
-      networkId: NetworkId['celo-alfajores'],
-      inAmount: { value: '0.1', tokenId: 'op-mainnet:native' },
-      outAmount: { value: '0.2', tokenId: 'base-mainnet:native' },
-      timestamp: Date.now(),
-      fees: [
-        { type: 'SECURITY_FEE', amount: { value: '0.3', tokenId: 'base-mainnet:native' } },
-        { type: 'APP_FEE', amount: { value: '0.4', tokenId: 'base-mainnet:native' } },
-        { type: 'CROSS_CHAIN_FEE', amount: { value: '0.5', tokenId: 'base-mainnet:native' } },
-      ],
-    } as StandbyTransaction
-
-    const { store } = renderScreen({
-      transactions: {
-        standbyTransactions: [mockedTransaction],
-      },
-    })
-
-    // imitate changing of pending stand by transaction to confirmed
-    await act(() => {
-      const changePendingToConfirmed = transactionConfirmed({
-        txId: hash,
-        receipt: { status: TransactionStatus.Complete, transactionHash: hash, block: '' },
-        blockTimestampInMs: mockTransaction().timestamp,
-      })
-      store.dispatch(changePendingToConfirmed)
-    })
-
-    expect(AppAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
-      swapType: 'cross-chain',
-      swapExecuteTxId: hash,
-      toTokenId: 'op-mainnet:native',
-      toTokenAmount: '0.1',
-      toTokenAmountUsd: 10,
-      fromTokenId: 'base-mainnet:native',
-      fromTokenAmount: '0.2',
-      fromTokenAmountUsd: 200,
-      networkFeeTokenId: 'base-mainnet:native',
-      networkFeeAmount: '0.3',
-      networkFeeAmountUsd: 300,
-      appFeeTokenId: 'base-mainnet:native',
-      appFeeAmount: '0.4',
-      appFeeAmountUsd: 400,
-      crossChainFeeTokenId: 'base-mainnet:native',
-      crossChainFeeAmount: '0.5',
-      crossChainFeeAmountUsd: 500,
-    })
-    expect(AppAnalytics.track).toBeCalledWith(FiatExchangeEvents.cico_add_get_started_impression)
-    expect(AppAnalytics.track).toBeCalledTimes(2)
   })
 
   it('should pre-populate persisted first page of the feed', async () => {

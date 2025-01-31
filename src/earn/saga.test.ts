@@ -289,6 +289,7 @@ describe('depositSubmitSaga', () => {
     expect(mockStandbyHandler).toHaveBeenCalledTimes(2)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(1, expectedApproveStandbyTx)
     expect(mockStandbyHandler).toHaveBeenNthCalledWith(2, expectedDepositStandbyTx)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(3)
     expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_submit_start,
       expectedAnalyticsProps
@@ -297,6 +298,10 @@ describe('depositSubmitSaga', () => {
       ...expectedAnalyticsProps,
       ...expectedCumulativeGasAnalyticsProperties,
     })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_deposit_execute_success,
+      expectedAnalyticsProps
+    )
     expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(true)
     expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(false)
   })
@@ -329,6 +334,7 @@ describe('depositSubmitSaga', () => {
     expect(decodeFunctionData).not.toHaveBeenCalled()
     expect(mockStandbyHandler).toHaveBeenCalledTimes(1)
     expect(mockStandbyHandler).toHaveBeenCalledWith(expectedDepositStandbyTx)
+    expect(AppAnalytics.track).toHaveBeenCalledTimes(3)
     expect(AppAnalytics.track).toHaveBeenCalledWith(
       EarnEvents.earn_deposit_submit_start,
       expectedAnalyticsProps
@@ -340,6 +346,10 @@ describe('depositSubmitSaga', () => {
       gasFeeUsd: 2.787555,
       gasUsed: 371674,
     })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(
+      EarnEvents.earn_deposit_execute_success,
+      expectedAnalyticsProps
+    )
     expect(mockIsGasSubsidizedCheck).toHaveBeenCalledWith(false)
     expect(mockIsGasSubsidizedCheck).not.toHaveBeenCalledWith(true)
   })
@@ -421,6 +431,7 @@ describe('depositSubmitSaga', () => {
         },
         type: txType,
       })
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(swapType === 'same-chain' ? 3 : 2)
       expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_submit_start, {
         ...expectedAnalyticsProps,
         fromTokenAmount: '50',
@@ -485,6 +496,13 @@ describe('depositSubmitSaga', () => {
       gasFee: 0.00185837,
       gasFeeUsd: 2.787555,
       gasUsed: 371674,
+      fromTokenAmount: '50',
+      fromTokenId: mockArbArbTokenId,
+      swapType: 'same-chain',
+      mode: 'swap-deposit',
+    })
+    expect(AppAnalytics.track).toHaveBeenCalledWith(EarnEvents.earn_deposit_execute_success, {
+      ...expectedAnalyticsProps,
       fromTokenAmount: '50',
       fromTokenId: mockArbArbTokenId,
       swapType: 'same-chain',

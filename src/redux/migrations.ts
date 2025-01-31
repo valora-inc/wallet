@@ -1986,4 +1986,11 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'showSwapMenuInDrawerMenu'),
   }),
+  240: (state: any) => ({
+    ...state,
+    web3: {
+      ...state.web3,
+      demoModeEnabled: false,
+    },
+  }),
 }
