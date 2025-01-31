@@ -1,4 +1,4 @@
-import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
+import { BottomSheetScreenProps } from '@interaxyz/react-navigation-bottom-sheet'
 import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FilterChip } from 'src/components/FilterChipsCarousel'

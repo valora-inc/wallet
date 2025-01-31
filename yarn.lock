@@ -1661,6 +1661,11 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
+"@interaxyz/react-navigation-bottom-sheet@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@interaxyz/react-navigation-bottom-sheet/-/react-navigation-bottom-sheet-0.3.2.tgz#e2ed37e5c407647434053d79fd4b7241fc8cab69"
+  integrity sha512-8Q8A8GmqlMF4W0f+GL9+FBFRn2syNgL8ngJyA9V3uIQskAlr4bGe25iX+UB7ccksU8BpniRcNAD6gl0vq4CnBg==
+
 "@interaxyz/react-native-webview@^13.13.4":
   version "13.13.4"
   resolved "https://registry.yarnpkg.com/@interaxyz/react-native-webview/-/react-native-webview-13.13.4.tgz#a0528e4515e305edd3395e286b19c335ec08a90d"
@@ -4301,11 +4306,6 @@
     jest-matcher-utils "^29.7.0"
     pretty-format "^29.7.0"
     redent "^3.0.0"
-
-"@th3rdwave/react-navigation-bottom-sheet@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@th3rdwave/react-navigation-bottom-sheet/-/react-navigation-bottom-sheet-0.3.2.tgz#b7999322d54cb8f9a2b1b39e6c47f482407c5250"
-  integrity sha512-DEqC9tlAWE8qw5DDveyTwG0qjMJH3h8nup5Qi3TBlfW8hG9qx0N1/dfA1D+GKFEb4gw1C2/AWC6umc13z7ytoQ==
 
 "@toruslabs/bs58@^1.0.0":
   version "1.0.0"
