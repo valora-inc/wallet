@@ -129,6 +129,12 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
     walletConnect?: {
       projectId: string
     }
+    statsig?: {
+      apiKey: string
+    }
+    segment?: {
+      apiKey: string
+    }
   }
 
   //

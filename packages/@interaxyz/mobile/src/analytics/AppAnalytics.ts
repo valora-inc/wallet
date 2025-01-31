@@ -137,7 +137,7 @@ class AppAnalytics {
       Logger.info(TAG, 'Segment API key not present, skipping setup')
     }
 
-    if (STATSIG_ENABLED) {
+    if (STATSIG_ENABLED && STATSIG_API_KEY) {
       try {
         const statsigUser = getDefaultStatsigUser()
         if (!this.segmentClient) {

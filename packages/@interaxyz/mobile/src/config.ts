@@ -6,6 +6,7 @@ import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
 import { LaunchArguments } from 'react-native-launch-arguments'
+import { getAppConfig } from 'src/appConfig'
 import { HomeActionName } from 'src/home/types'
 import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 import { stringToBoolean } from 'src/utils/parsing'
@@ -18,6 +19,7 @@ export interface ExpectedLaunchArgs {
 
 // TODO: remove the secrets file and inject secrets another way
 const secretsFile = {}
+const appConfig = getAppConfig()
 const keyOrUndefined = (file: any, secretsKey: any, attribute: any) => {
   if (secretsKey in file) {
     if (attribute in file[secretsKey]) {
@@ -122,9 +124,9 @@ export const ALCHEMY_BASE_API_KEY = keyOrUndefined(
 )
 
 export const ZENDESK_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'ZENDESK_API_KEY')
-export const STATSIG_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'STATSIG_API_KEY')
+export const STATSIG_API_KEY = appConfig.features?.statsig?.apiKey
 export const STATSIG_ENABLED = !isE2EEnv && !!STATSIG_API_KEY
-export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SEGMENT_API_KEY')
+export const SEGMENT_API_KEY = appConfig.features?.segment?.apiKey
 export const SENTRY_CLIENT_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SENTRY_CLIENT_URL')
 export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
 export const WALLET_CONNECT_PROJECT_ID =
