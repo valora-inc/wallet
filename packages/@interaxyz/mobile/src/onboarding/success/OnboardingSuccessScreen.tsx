@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import { getAppConfig } from 'src/appConfig'
 import { background } from 'src/images/Images'
 import Logo from 'src/images/Logo'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
@@ -19,11 +20,24 @@ function OnboardingSuccessScreen() {
 
   const { t } = useTranslation()
 
+  const assetsConfig = getAppConfig().themes?.default?.assets
+
+  const image = assetsConfig?.onboardingSuccessImage
+
   return (
     <View style={styles.container}>
-      <Image source={background} style={styles.backgroundImage} />
-      <Logo color={colors.contentOnboardingComplete} size={70} />
-      <Text style={styles.text}>{t('success.message')}</Text>
+      {image ? (
+        <>
+          <Image source={image} />
+          <Text style={styles.textWithImage}>{t('success.message')}</Text>
+        </>
+      ) : (
+        <>
+          <Image source={background} style={styles.backgroundImage} />
+          <Logo color={colors.contentOnboardingComplete} size={70} />
+          <Text style={styles.textWithBackground}>{t('success.message')}</Text>
+        </>
+      )}
     </View>
   )
 }
@@ -35,6 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: colors.backgroundPrimary,
   },
   backgroundImage: {
     ...StyleSheet.absoluteFillObject,
@@ -42,7 +57,14 @@ const styles = StyleSheet.create({
     width: undefined,
     height: undefined,
   },
-  text: {
+  textWithImage: {
+    ...typeScale.titleLarge,
+    color: colors.accent,
+    marginTop: Spacing.Regular16,
+    marginBottom: 30,
+    textAlign: 'center',
+  },
+  textWithBackground: {
     ...typeScale.titleSmall,
     fontSize: 30,
     lineHeight: 36,
