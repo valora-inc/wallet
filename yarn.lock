@@ -1661,6 +1661,14 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
+"@interaxyz/react-native-webview@^13.13.4":
+  version "13.13.4"
+  resolved "https://registry.yarnpkg.com/@interaxyz/react-native-webview/-/react-native-webview-13.13.4.tgz#a0528e4515e305edd3395e286b19c335ec08a90d"
+  integrity sha512-/TdnLQGbQ7ajYTc7KaTJ0DKPlmdIEv23IGdFpdsAf5A3nyGjsFelTapyMttRsKyqpsS6DRdUHwrUvZScaiFGIw==
+  dependencies:
+    escape-string-regexp "^4.0.0"
+    invariant "2.2.4"
+
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/@isaacs/cliui/-/cliui-8.0.2.tgz#b37667b7bc181c168782259bab42474fbf52b550"
@@ -12859,14 +12867,6 @@ react-native-video@^6.6.4:
   version "6.6.4"
   resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.6.4.tgz#77630a7b20b93a12ebc83244e9171ea5f0da52fd"
   integrity sha512-YBaStWAhWZMDaRG7Q9u173Si7ho7I3xwrS1SCKnProeXfdaS7vZNbt84ueFwufa4YxZ0JZoyOypH0tA0JZK3GQ==
-
-react-native-webview@^13.12.5:
-  version "13.12.5"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-13.12.5.tgz#ed9eec1eda234d7cf18d329859b9bdebf7e258b6"
-  integrity sha512-INOKPom4dFyzkbxbkuQNfeRG9/iYnyRDzrDkJeyvSWgJAW2IDdJkWFJBS2v0RxIL4gqLgHkiIZDOfiLaNnw83Q==
-  dependencies:
-    escape-string-regexp "^4.0.0"
-    invariant "2.2.4"
 
 react-native@0.72.15:
   version "0.72.15"
