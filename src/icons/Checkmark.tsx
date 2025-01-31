@@ -11,27 +11,14 @@ interface Props {
 }
 
 export default class Checkmark extends React.PureComponent<Props> {
-  static defaultProps = {
-    height: 32,
-    width: 32,
-    color: colors.accent,
-    stroke: false,
-    testID: undefined,
-  }
-
   render() {
+    const { height = 32, width = 32, color = colors.accent, stroke = false, testID } = this.props
     return (
-      <Svg
-        width={this.props.width}
-        height={this.props.height}
-        viewBox="0 0 24 24"
-        fill="none"
-        testID={this.props.testID}
-      >
+      <Svg width={width} height={height} viewBox="0 0 24 24" fill="none" testID={testID}>
         <Path
           d="M20.5 7.33 9.186 18.643 4 13.458l1.33-1.33 3.856 3.847L19.17 6 20.5 7.33Z"
-          fill={this.props.color}
-          stroke={this.props.stroke ? this.props.color : undefined}
+          fill={color}
+          stroke={stroke ? color : undefined}
         />
       </Svg>
     )
