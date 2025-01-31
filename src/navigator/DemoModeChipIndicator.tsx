@@ -1,14 +1,13 @@
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import Colors from 'src/styles/colors'
+import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { demoModeToggled } from 'src/web3/actions'
@@ -34,22 +33,15 @@ export default function DemoModeChipIndicator() {
 
   return (
     <>
-      <LinearGradient
-        colors={[Colors.brandGradientLeft, Colors.brandGradientRight]}
-        locations={[0, 0.8915]}
-        useAngle={true}
-        angle={90}
-        style={styles.background}
+      <Touchable
+        style={styles.container}
+        borderRadius={100}
+        onPress={() => {
+          demoModeBottomSheetRef.current?.snapToIndex(0)
+        }}
       >
-        <Touchable
-          style={styles.container}
-          onPress={() => {
-            demoModeBottomSheetRef.current?.snapToIndex(0)
-          }}
-        >
-          <Text style={styles.text}>{t('demoMode.inAppIndicatorLabel')}</Text>
-        </Touchable>
-      </LinearGradient>
+        <Text style={styles.text}>{t('demoMode.inAppIndicatorLabel')}</Text>
+      </Touchable>
       <BottomSheet
         forwardedRef={demoModeBottomSheetRef}
         title={t('demoMode.confirmExit.title')}
@@ -68,19 +60,15 @@ export default function DemoModeChipIndicator() {
 }
 
 const styles = StyleSheet.create({
-  background: {
-    borderRadius: 100,
-  },
   container: {
     paddingVertical: Spacing.Tiny4,
     paddingHorizontal: Spacing.Small12,
-    margin: 1, // to show the gradient border
-    backgroundColor: Colors.backgroundPrimary,
-    opacity: 0.9,
+    backgroundColor: colors.accent,
     borderRadius: 100,
   },
   text: {
     ...typeScale.labelXSmall,
+    color: colors.contentTertiary,
   },
   demoModeButton: {
     marginTop: Spacing.Thick24,
