@@ -2860,7 +2860,7 @@
     "confirmEnter": {
       "title": "Demo Modu",
       "info": "Demo moduna girmek üzeresiniz. Herhangi bir işlem yapmadan uygulamanın özelliklerini keşfetmekte özgürsünüz",
-      "cta": "Enter Demo"
+      "cta": "Demo Girin"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
