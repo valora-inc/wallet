@@ -1,13 +1,13 @@
 import * as React from 'react'
 import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 
 export interface Props {
   size?: number
-  color?: Colors
+  color?: ColorValue
 }
 
-function HiddenEyeIcon({ color, size }: Props) {
+function HiddenEyeIcon({ color = Colors.accent, size = 24 }: Props) {
   return (
     <Svg height={size} width={size} viewBox="0 0 24 24" fill="none" testID="HiddenEyeIcon">
       <G fill={color} stroke={color} clipPath="url(#a)">
@@ -16,16 +16,11 @@ function HiddenEyeIcon({ color, size }: Props) {
       </G>
       <Defs>
         <ClipPath id="a">
-          <Path fill={Colors.contentInverse} d="M0 0h24v24H0z" />
+          <Path fill={color} d="M0 0h24v24H0z" />
         </ClipPath>
       </Defs>
     </Svg>
   )
-}
-
-HiddenEyeIcon.defaultProps = {
-  size: 24,
-  color: Colors.contentPrimary,
 }
 
 export default HiddenEyeIcon

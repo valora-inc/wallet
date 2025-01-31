@@ -720,7 +720,7 @@ export default function SwapScreenV2({ route }: Props) {
                   testID="SwapScreen/SwitchTokens"
                 >
                   <CircledIcon radius={Spacing.Large32} backgroundColor={colors.contentPrimary}>
-                    <ArrowDown color={colors.contentInverse} />
+                    <ArrowDown color={colors.backgroundPrimary} />
                   </CircledIcon>
                 </Touchable>
               </View>
@@ -1056,7 +1056,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   inputsContainer: {
-    paddingBottom: Spacing.Thick24,
+    paddingBottom: Spacing.Small12,
     flex: 1,
     gap: 4,
   },

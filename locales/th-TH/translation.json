@@ -903,7 +903,7 @@
     "learnMore": {
       "buttonLabel": "ฉันต้องเชื่อมต่อหรือไม่",
       "title": "ฉันต้องเชื่อมต่อหรือไม่",
-      "body": "การเชื่อมต่อหมายเลขโทรศัพท์ของคุณจะช่วยให้คุณสามารถส่งเงินให้เพื่อนในสมุดที่อยู่และหมายเลขโทรศัพท์อื่นๆ \n \n หากคุณเลือกข้ามขั้นตอนนี้ คุณจะไม่สามารถเข้าถึงผู้ติดต่อของงคุณ และจะสามารถส่งเงินผ่าน QR Code หรือที่อยู่บัญชีเท่านั้น"
+      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n\nIf you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or wallet address."
     },
     "skip": {
       "title": "คุณแน่ใจหรือไม่",
@@ -919,8 +919,8 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "ความช่วยเหลือ",
-      "body": "เราได้ส่ง SMS ไปยังหมายเลขโทรศัพท์ของคุณ โปรดตรวจสอบข้อความของคุณเพื่อดูรหัส 6 ตัว หากคุณมีปัญหาในการรับข้อความ คุณสามารถข้ามขั้นตอนนี้ไปก่อนและลองอีกครั้งภายหลัง",
-      "bodyCloudBackupOnboarding": "เราได้ส่ง SMS ไปยังหมายเลขโทรศัพท์ของคุณ โปรดตรวจสอบข้อความของคุณเพื่อดูรหัส 6 ตัว \n \n หากคุณมีปัญหาในการรับข้อความ ขอแนะนำให้คุณสำรองข้อมูลวลีกู้คืนรหัสไว้ โดยสามารถลองลงชื่อเข้าใช้ด้วยอีเมลและหมายเลขโทรศัพท์ของคุณได้ภายหลัง",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n\nIf you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "bodyCloudBackupOnboarding": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n\nIf you’re having trouble receiving messages, we recommend backing up with a Recovery Phrase. You can try signing in with your email and phone later.",
       "skip": "ข้าม",
       "dismiss": "ย้อนกลับ",
       "useRecoveryPhrase": "ใช้วลีกู้คืนรหัส"
@@ -2842,5 +2842,17 @@
     "ctaAction_Deposit": "Deposit smaller amount",
     "ctaAction_Withdraw": "Withdraw smaller amount"
   },
+  "reviewTransaction": {
+    "title": "Review Send",
+    "totalPlusFees": "Total Plus Fees",
+    "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
+  },
+  "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
+  "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "ไม่มีราคา",
+  "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
+  "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
+  "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

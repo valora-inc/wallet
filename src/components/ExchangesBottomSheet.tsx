@@ -1,17 +1,15 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Touchable from 'src/components/Touchable'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
-import { typeScale } from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 
 interface Props {
-  isVisible: boolean
+  forwardedRef: React.RefObject<BottomSheetModalRefType>
   onClose: () => void
   onExchangeSelected: (exchange: ExternalExchangeProvider) => void
   exchanges: ExternalExchangeProvider[]
@@ -31,7 +29,7 @@ function ExchangeOption({
   )
 }
 
-function ExchangesBottomSheet({ isVisible, onClose, onExchangeSelected, exchanges }: Props) {
+function ExchangesBottomSheet({ forwardedRef, onClose, onExchangeSelected, exchanges }: Props) {
   const { t } = useTranslation()
 
   const getOnExchangePress = (exchange: ExternalExchangeProvider) => () => {
@@ -40,34 +38,27 @@ function ExchangesBottomSheet({ isVisible, onClose, onExchangeSelected, exchange
   }
 
   return (
-    <BottomSheetLegacy isVisible={isVisible} onBackgroundPress={onClose}>
-      <>
-        <Text style={styles.title}>{t('fiatExchangeFlow.exchange.bottomSheetTitle')}</Text>
-        <Text style={styles.info}>{t('fiatExchangeFlow.exchange.bottomSheetInfo')}</Text>
-        {exchanges.map((exchange, index) => {
-          return (
-            <React.Fragment key={`exchange-${exchange.name}`}>
-              {index > 0 && <View style={styles.separator} />}
-              <ExchangeOption exchange={exchange} onPress={getOnExchangePress(exchange)} />
-            </React.Fragment>
-          )
-        })}
-      </>
-    </BottomSheetLegacy>
+    <BottomSheet
+      forwardedRef={forwardedRef}
+      title={t('fiatExchangeFlow.exchange.bottomSheetTitle')}
+      description={t('fiatExchangeFlow.exchange.bottomSheetInfo')}
+      onClose={onClose}
+    >
+      {exchanges.map((exchange, index) => {
+        return (
+          <React.Fragment key={`exchange-${exchange.name}`}>
+            {index > 0 && <View style={styles.separator} />}
+            <ExchangeOption exchange={exchange} onPress={getOnExchangePress(exchange)} />
+          </React.Fragment>
+        )
+      })}
+    </BottomSheet>
   )
 }
 
 ExchangesBottomSheet.navigationOptions = {}
 
 const styles = StyleSheet.create({
-  title: {
-    ...typeScale.titleSmall,
-    marginBottom: Spacing.Smallest8,
-  },
-  info: {
-    color: colors.contentSecondary,
-    marginBottom: Spacing.Smallest8,
-  },
   exchangeText: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -76,7 +67,7 @@ const styles = StyleSheet.create({
   separator: {
     width: '100%',
     height: 1,
-    backgroundColor: colors.border,
+    backgroundColor: colors.borderPrimary,
   },
 })
 

@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   backdrop: {
-    backgroundColor: Colors.backgroundInverse,
+    backgroundColor: Colors.backgroundScrim,
   },
   notificationContainer: {
     position: 'absolute',

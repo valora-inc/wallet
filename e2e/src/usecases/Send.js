@@ -76,7 +76,7 @@ export default Send = () => {
     })
 
     it('Then should display correct recipient', async () => {
-      await expect(element(by.text(recipientAddressDisplay))).toBeVisible()
+      await expect(element(by.text(DEFAULT_RECIPIENT_ADDRESS))).toBeVisible()
     })
 
     it('Then should be able to edit amount', async () => {
@@ -93,7 +93,7 @@ export default Send = () => {
         timeout: 30_000,
         tap: true,
       })
-      let amount = await element(by.id('SendAmount')).getAttributes()
+      let amount = await element(by.id('SendConfirmationToken/PrimaryValue')).getAttributes()
       jestExpect(amount.text).toEqual('0.01 cEUR')
     })
 
@@ -143,7 +143,7 @@ export default Send = () => {
     })
 
     it('Then should display correct recipient', async () => {
-      await expect(element(by.text(recipientAddressDisplay))).toBeVisible()
+      await expect(element(by.text(DEFAULT_RECIPIENT_ADDRESS))).toBeVisible()
     })
 
     it('Then should be able to send', async () => {

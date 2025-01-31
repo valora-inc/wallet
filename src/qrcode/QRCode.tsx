@@ -1,9 +1,10 @@
 import Clipboard from '@react-native-clipboard/clipboard'
-import React, { useState } from 'react'
+import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { nameSelector } from 'src/account/selectors'
+import { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button from 'src/components/Button'
 import ExchangesBottomSheet from 'src/components/ExchangesBottomSheet'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
@@ -33,6 +34,8 @@ interface Props {
 }
 
 export default function QRCodeDisplay(props: Props) {
+  const exchangesBottomSheetRef = React.createRef<BottomSheetModalRefType>()
+
   const { t } = useTranslation()
   const { exchanges, qrSvgRef } = props
   const address = useSelector(walletAddressSelector)
@@ -40,11 +43,9 @@ export default function QRCodeDisplay(props: Props) {
 
   const insets = useSafeAreaInsets()
 
-  const [bottomSheetVisible, setBottomSheetVisible] = useState(false)
-
   const onCloseBottomSheet = () => {
     props.onCloseBottomSheet?.()
-    setBottomSheetVisible(false)
+    exchangesBottomSheetRef.current?.close()
   }
 
   const onPressCopy = () => {
@@ -56,7 +57,7 @@ export default function QRCodeDisplay(props: Props) {
 
   const onPressInfo = () => {
     props.onPressInfo?.()
-    setBottomSheetVisible(true)
+    exchangesBottomSheetRef.current?.snapToIndex(0)
   }
 
   const onPressExchange = (exchange: ExternalExchangeProvider) => {
@@ -99,7 +100,7 @@ export default function QRCodeDisplay(props: Props) {
       <Button
         text={t('fiatExchangeFlow.exchange.copyAddress')}
         onPress={onPressCopy}
-        icon={<CopyIcon color={colors.contentInverse} />}
+        icon={<CopyIcon />}
         iconMargin={12}
         iconPositionLeft={false}
         testID="copyButton"
@@ -121,7 +122,7 @@ export default function QRCodeDisplay(props: Props) {
               </Trans>
             </Text>
             <ExchangesBottomSheet
-              isVisible={!!bottomSheetVisible}
+              forwardedRef={exchangesBottomSheetRef}
               onClose={onCloseBottomSheet}
               onExchangeSelected={onPressExchange}
               exchanges={exchanges}

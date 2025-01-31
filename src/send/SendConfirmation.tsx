@@ -1,74 +1,91 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import BigNumber from 'bignumber.js'
+import React, { useEffect, useMemo } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import { Text } from 'react-native'
 import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
-import ContactCircle from 'src/components/ContactCircle'
-import LineItemRow from 'src/components/LineItemRow'
-import ReviewFrame from 'src/components/ReviewFrame'
-import ShortenedAddress from 'src/components/ShortenedAddress'
-import TokenDisplay from 'src/components/TokenDisplay'
-import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
-import CustomHeader from 'src/components/header/CustomHeader'
-import { e164NumberToAddressSelector } from 'src/identity/selectors'
-import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import Button, { BtnSizes } from 'src/components/Button'
+import {
+  ReviewContent,
+  ReviewDetails,
+  ReviewDetailsItem,
+  ReviewFooter,
+  ReviewSummary,
+  ReviewSummaryItem,
+  ReviewSummaryItemContact,
+  ReviewTotalValue,
+  ReviewTransaction,
+} from 'src/components/ReviewTransaction'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import TokenIcon from 'src/components/TokenIcon'
+import { LocalCurrencySymbol } from 'src/localCurrency/consts'
+import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getDisplayName } from 'src/recipients/recipient'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
-import DisconnectBanner from 'src/shared/DisconnectBanner'
-import colors from 'src/styles/colors'
-import { typeScale } from 'src/styles/fonts'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
+import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-type OwnProps = NativeStackScreenProps<
+type Props = NativeStackScreenProps<
   StackParamList,
-  Screens.SendConfirmation | Screens.SendConfirmationModal
+  Screens.SendConfirmation | Screens.SendConfirmationFromExternal
 >
-type Props = OwnProps
 
 const DEBOUNCE_TIME_MS = 250
+const TAG = 'send/SendConfirmation'
 
 export const sendConfirmationScreenNavOptions = noHeader
 
-function SendConfirmation(props: Props) {
+export default function SendConfirmation(props: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const {
     origin,
     transactionData: { recipient, tokenAmount, tokenAddress, tokenId },
   } = props.route.params
 
-  const { prepareTransactionsResult, refreshPreparedTransactions, clearPreparedTransactions } =
-    usePrepareSendTransactions()
+  const {
+    prepareTransactionsResult,
+    refreshPreparedTransactions,
+    clearPreparedTransactions,
+    prepareTransactionLoading,
+  } = usePrepareSendTransactions()
 
-  const { maxFeeAmount, feeCurrency: feeTokenInfo } =
-    getFeeCurrencyAndAmounts(prepareTransactionsResult)
-
+  const fromExternal = props.route.name === Screens.SendConfirmationFromExternal
   const tokenInfo = useTokenInfo(tokenId)
   const isSending = useSelector(isSendingSelector)
-  const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol) ?? LocalCurrencySymbol.USD
   const localAmount = useTokenToLocalAmount(tokenAmount, tokenId)
   const usdAmount = useAmountAsUsd(tokenAmount, tokenId)
-
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, tokenInfo!.networkId))
+  const { maxFeeAmount, feeCurrency: feeTokenInfo } =
+    getFeeCurrencyAndAmounts(prepareTransactionsResult)
+  const tokenFeeAmount = maxFeeAmount ?? new BigNumber(0)
+  const localFeeAmount = useTokenToLocalAmount(tokenFeeAmount, feeTokenInfo?.tokenId)
 
-  const dispatch = useDispatch()
+  const networkFeeDisplayAmount = useMemo(
+    () => ({
+      token: formatValueToDisplay(tokenFeeAmount),
+      local: localFeeAmount ? formatValueToDisplay(localFeeAmount) : undefined,
+    }),
+    [localFeeAmount, tokenFeeAmount]
+  )
 
   useEffect(() => {
     if (!walletAddress || !tokenInfo) {
@@ -87,60 +104,8 @@ function SendConfirmation(props: Props) {
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [tokenInfo, tokenAmount, recipient, walletAddress, feeCurrencies])
 
-  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
-  const showAddress =
-    !!recipient.e164PhoneNumber && (e164NumberToAddress[recipient.e164PhoneNumber]?.length ?? 0) > 1
-
   const disableSend =
     isSending || !prepareTransactionsResult || prepareTransactionsResult.type !== 'possible'
-
-  const feeInUsd =
-    maxFeeAmount && feeTokenInfo?.priceUsd ? maxFeeAmount.times(feeTokenInfo.priceUsd) : undefined
-
-  const FeeContainer = () => {
-    return (
-      <View style={styles.feeContainer}>
-        <LineItemRow
-          testID="SendConfirmation/fee"
-          title={t('feeEstimate')}
-          textStyle={typeScale.bodyMedium}
-          amount={
-            maxFeeAmount && (
-              <TokenDisplay
-                amount={maxFeeAmount}
-                tokenId={feeTokenInfo?.tokenId}
-                showLocalAmount={false}
-              />
-            )
-          }
-          isLoading={!maxFeeAmount}
-        />
-        <LineItemRow
-          testID="SendConfirmation/localFee"
-          title=""
-          style={styles.subHeading}
-          textStyle={styles.subHeadingText}
-          amount={
-            maxFeeAmount && (
-              <TokenDisplay
-                amount={maxFeeAmount}
-                tokenId={feeTokenInfo?.tokenId}
-                showLocalAmount={true}
-              />
-            )
-          }
-        />
-        <TokenTotalLineItem
-          tokenAmount={tokenAmount}
-          tokenId={tokenId}
-          feeToAddInUsd={feeInUsd}
-          showLocalAmountForTotal={false}
-          showApproxTotalBalance={true}
-          showApproxExchangeRate={true}
-        />
-      </View>
-    )
-  }
 
   const onSend = () => {
     const preparedTransaction =
@@ -174,124 +139,99 @@ function SendConfirmation(props: Props) {
         tokenId,
         usdAmount,
         recipient,
-        fromModal,
+        fromExternal,
         getSerializablePreparedTransaction(preparedTransaction)
       )
     )
   }
 
+  // Should never happen
+  if (!tokenInfo) {
+    Logger.error(TAG, `tokenInfo is missing`)
+    return null
+  }
+
   return (
-    <SafeAreaView
-      style={styles.container}
-      // No modal display on android so we set edges to undefined
-      edges={
-        props.route.name === Screens.SendConfirmationModal && Platform.OS === 'ios'
-          ? ['bottom']
-          : undefined
-      }
+    <ReviewTransaction
+      title={t('reviewTransaction.title')}
+      headerLeftButton={<BackButton eventName={SendEvents.send_confirm_back} />}
     >
-      <CustomHeader
-        style={{ paddingHorizontal: 8 }}
-        left={<BackButton eventName={SendEvents.send_confirm_back} />}
-      />
-      <DisconnectBanner />
-      <ReviewFrame
-        FooterComponent={FeeContainer}
-        confirmButton={{
-          action: onSend,
-          text: t('send'),
-          disabled: disableSend,
-        }}
-        isSending={isSending}
-      >
-        <View style={styles.transferContainer}>
-          <View style={styles.headerContainer}>
-            <ContactCircle recipient={recipient} />
-            <View style={styles.recipientInfoContainer}>
-              <Text style={styles.headerText} testID="HeaderText">
-                {t('sending')}
-              </Text>
-              <Text testID="DisplayName" style={styles.displayName}>
-                {getDisplayName(recipient, t)}
-              </Text>
-              {showAddress && (
-                <View style={styles.addressContainer} testID="RecipientAddress">
-                  <ShortenedAddress style={styles.address} address={recipient.address} />
-                </View>
-              )}
-            </View>
-          </View>
-          <TokenDisplay
-            testID="SendAmount"
-            style={styles.amount}
-            amount={tokenAmount}
-            tokenId={tokenId}
-            showLocalAmount={false}
+      <ReviewContent>
+        <ReviewSummary>
+          <ReviewSummaryItem
+            testID="SendConfirmationToken"
+            label={t('sending')}
+            icon={<TokenIcon token={tokenInfo} />}
+            primaryValue={t('tokenAmount', {
+              tokenAmount: formatValueToDisplay(tokenAmount),
+              tokenSymbol: tokenInfo.symbol ?? '',
+            })}
+            secondaryValue={t('localAmount', {
+              localAmount: formatValueToDisplay(localAmount ?? new BigNumber(0)),
+              localCurrencySymbol,
+              context: localAmount ? undefined : 'noFiatPrice',
+            })}
           />
-          <TokenDisplay
-            testID="SendAmountFiat"
-            style={styles.amountSubscript}
-            amount={tokenAmount}
-            tokenId={tokenInfo?.tokenId}
-            showLocalAmount={true}
+
+          <ReviewSummaryItemContact testID="SendConfirmationRecipient" recipient={recipient} />
+        </ReviewSummary>
+
+        <ReviewDetails>
+          <ReviewDetailsItem
+            testID="SendConfirmationNetwork"
+            label={t('transactionDetails.network')}
+            value={NETWORK_NAMES[tokenInfo.networkId]}
           />
-        </View>
-      </ReviewFrame>
-    </SafeAreaView>
+          <ReviewDetailsItem
+            testID="SendConfirmationFee"
+            label={t('networkFee')}
+            isLoading={prepareTransactionLoading}
+            value={
+              <Trans
+                i18nKey={'tokenAndLocalAmountApprox_oneToken'}
+                context={localFeeAmount?.gt(0) ? undefined : 'noFiatPrice'}
+                tOptions={{
+                  tokenAmount: networkFeeDisplayAmount.token,
+                  localAmount: networkFeeDisplayAmount.local,
+                  tokenSymbol: feeTokenInfo?.symbol,
+                  localCurrencySymbol,
+                }}
+              >
+                <Text />
+              </Trans>
+            }
+          />
+          <ReviewDetailsItem
+            testID="SendConfirmationTotal"
+            variant="bold"
+            label={t('reviewTransaction.totalPlusFees')}
+            isLoading={prepareTransactionLoading}
+            value={
+              <ReviewTotalValue
+                tokenInfo={tokenInfo}
+                feeTokenInfo={feeTokenInfo}
+                tokenAmount={tokenAmount}
+                localAmount={localAmount}
+                feeTokenAmount={maxFeeAmount}
+                feeLocalAmount={localFeeAmount}
+                localCurrencySymbol={localCurrencySymbol}
+              />
+            }
+          />
+        </ReviewDetails>
+      </ReviewContent>
+
+      <ReviewFooter>
+        <Button
+          testID="ConfirmButton"
+          text={t('send')}
+          accessibilityLabel={t('send')}
+          onPress={onSend}
+          showLoading={isSending}
+          size={BtnSizes.FULL}
+          disabled={disableSend}
+        />
+      </ReviewFooter>
+    </ReviewTransaction>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 8,
-  },
-  feeContainer: {
-    padding: 16,
-    paddingBottom: 8,
-  },
-  transferContainer: {
-    alignItems: 'flex-start',
-    paddingBottom: 24,
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  recipientInfoContainer: {
-    paddingLeft: 8,
-  },
-  headerText: {
-    ...typeScale.labelMedium,
-    color: colors.contentSecondary,
-  },
-  displayName: {
-    ...typeScale.labelMedium,
-  },
-  addressContainer: {
-    flexDirection: 'row',
-  },
-  address: {
-    ...typeScale.labelSmall,
-    color: colors.contentSecondary,
-    paddingRight: 4,
-  },
-  amount: {
-    ...typeScale.titleLarge,
-    paddingVertical: 8,
-  },
-  amountSubscript: {
-    ...typeScale.bodyMedium,
-    color: colors.contentSecondary,
-    paddingBottom: 16,
-  },
-  subHeading: {
-    marginVertical: 0,
-  },
-  subHeadingText: {
-    ...typeScale.labelSmall,
-    color: colors.contentSecondary,
-  },
-})
-
-export default SendConfirmation

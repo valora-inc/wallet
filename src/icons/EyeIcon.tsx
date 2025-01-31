@@ -1,10 +1,10 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 
 export interface Props {
   size?: number
-  color?: Colors
+  color?: ColorValue
 }
 
 function EyeIcon({ color, size }: Props) {

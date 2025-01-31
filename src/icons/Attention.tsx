@@ -1,13 +1,13 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 
 const AttentionIcon = ({
   color = Colors.warningPrimary,
   size = 16,
   testId,
 }: {
-  color?: Colors
+  color?: ColorValue
   size?: number
   testId?: string
 }) => (

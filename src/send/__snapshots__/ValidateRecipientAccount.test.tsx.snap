@@ -75,6 +75,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 [
                   {
                     "alignItems": "center",
+                    "backgroundColor": "#FFFFFF",
                     "flex": 1,
                     "flexDirection": "row",
                     "gap": 8,
@@ -190,6 +191,9 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                   {
                     "alignItems": "center",
                     "backgroundColor": "#2E3338",
+                    "borderColor": "#2E3338",
+                    "borderRadius": 100,
+                    "borderWidth": 1,
                     "flexDirection": "row",
                     "height": 48,
                     "justifyContent": "center",
@@ -390,6 +394,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     [
                       {
                         "alignItems": "center",
+                        "backgroundColor": "#FFFFFF",
                         "flex": 1,
                         "flexDirection": "row",
                         "gap": 8,
@@ -451,6 +456,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     [
                       {
                         "alignItems": "center",
+                        "backgroundColor": "#FFFFFF",
                         "flex": 1,
                         "flexDirection": "row",
                         "gap": 8,
@@ -512,6 +518,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     [
                       {
                         "alignItems": "center",
+                        "backgroundColor": "#FFFFFF",
                         "flex": 1,
                         "flexDirection": "row",
                         "gap": 8,
@@ -573,6 +580,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     [
                       {
                         "alignItems": "center",
+                        "backgroundColor": "#FFFFFF",
                         "flex": 1,
                         "flexDirection": "row",
                         "gap": 8,
@@ -695,6 +703,9 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                   {
                     "alignItems": "center",
                     "backgroundColor": "#2E3338",
+                    "borderColor": "#2E3338",
+                    "borderRadius": 100,
+                    "borderWidth": 1,
                     "flexDirection": "row",
                     "height": 48,
                     "justifyContent": "center",

@@ -903,7 +903,7 @@
     "learnMore": {
       "buttonLabel": "Tôi có cần kết nối không?",
       "title": "Tôi có cần kết nối không?",
-      "body": "Việc kết nối số điện thoại cho phép bạn gửi tiền cho bạn bè trong sổ địa chỉ và các số điện thoại khác. \n \n Nếu bỏ qua bước này, bạn sẽ không truy cập được vào danh bạ và chỉ có thể gửi tiền qua mã QR hoặc địa chỉ ví khoản."
+      "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n\nIf you choose to skip this step you won’t be able to access your contacts and you will only be able to send money via QR code or wallet address."
     },
     "skip": {
       "title": "Bạn có chắc chắn không?",
@@ -919,8 +919,8 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Trợ giúp",
-      "body": "Chúng tôi đã gửi tin nhắn SMS đến số điện thoại của bạn. Vui lòng kiểm tra tin nhắn văn bản để tìm mã gồm 6 chữ số. Nếu gặp sự cố khi nhận tin nhắn, bạn có thể tạm thời bỏ qua bước này và thử lại sau.",
-      "bodyCloudBackupOnboarding": "Chúng tôi đã gửi tin nhắn SMS đến số điện thoại của bạn. Vui lòng kiểm tra tin nhắn văn bản để tìm mã gồm 6 chữ số. \n \n Nếu gặp sự cố khi nhận tin nhắn, bạn nên sao lưu bằng Cụm từ khôi phục. Bạn có thể thử đăng nhập bằng email và số điện thoại của bạn sau.",
+      "body": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n\nIf you’re having trouble receiving messages, you can skip this step for now and try again later.",
+      "bodyCloudBackupOnboarding": "We sent an SMS to your phone number. Please check your text messages to find the 6 digit code. \n\nIf you’re having trouble receiving messages, we recommend backing up with a Recovery Phrase. You can try signing in with your email and phone later.",
       "skip": "Bỏ qua",
       "dismiss": "Quay lại",
       "useRecoveryPhrase": "Sử dụng Cụm từ khôi phục"
@@ -2842,5 +2842,17 @@
     "ctaAction_Deposit": "Deposit smaller amount",
     "ctaAction_Withdraw": "Withdraw smaller amount"
   },
+  "reviewTransaction": {
+    "title": "Review Send",
+    "totalPlusFees": "Total Plus Fees",
+    "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
+  },
+  "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
+  "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "Không có giá",
+  "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
+  "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
+  "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

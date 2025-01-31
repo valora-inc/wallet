@@ -232,11 +232,7 @@ function JumpstartTransactionDetailsScreen({ route }: Props) {
               type={BtnTypes.PRIMARY}
               text={isClaimed ? t('claimed') : t('reclaim')}
               size={BtnSizes.FULL}
-              icon={
-                isClaimed ? (
-                  <Checkmark height={Spacing.Thick24} color={Colors.contentInverse} />
-                ) : null
-              }
+              icon={isClaimed ? <Checkmark height={Spacing.Thick24} /> : undefined}
               iconPositionLeft={false}
             />
           </View>
@@ -359,7 +355,7 @@ const styles = StyleSheet.create({
   amountContainer: {
     backgroundColor: Colors.backgroundSecondary,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colors.borderPrimary,
     borderRadius: 16,
     paddingHorizontal: Spacing.Regular16,
     paddingVertical: Spacing.Large32,

@@ -903,7 +903,7 @@
     "learnMore": {
       "buttonLabel": "¿Necesito conectar mi número?",
       "title": "¿Necesito conectar mi número?",
-      "body": "Conectar tu número de teléfono te permitirá enviar fondos a tus contactos y a otros números de teléfono.\n\nSi decides omitir este paso, no podrás acceder a tus contactos y solo podrás enviar cripto con el código QR o la dirección de wallet."
+      "body": "Conectar tu número de teléfono te permitirá enviar dinero a los amigos de tu agenda y a otros números de teléfono. \n\nSi decides omitir este paso, no podrás acceder a tus contactos y sólo podrás enviar dinero mediante el código QR o la dirección del monedero."
     },
     "skip": {
       "title": "¿Quieres omitir este paso?",
@@ -919,8 +919,8 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Ayuda",
-      "body": "Hemos enviado un SMS a tu número de teléfono. Busca el código de 6 dígitos en tus mensajes.\n\nSi tienes problemas para recibir los mensajes, puedes omitir este paso por ahora e intentarlo más tarde.",
-      "bodyCloudBackupOnboarding": "Enviamos un SMS a tu número de teléfono. Revisa entre tus mensajes de texto el código de 6 dígitos. \n \nSi tienes problemas para recibir mensajes, te recomendamos que hagas una copia de seguridad con tu Frase de recuperación. Puedes intentar iniciar sesión con tu correo electrónico y teléfono más tarde.",
+      "body": "Hemos enviado un SMS a tu número de teléfono. Comprueba tus mensajes de texto para encontrar el código de 6 dígitos. \n\nSi tienes problemas para recibir mensajes, puedes omitir este paso por ahora y volver a intentarlo más tarde.",
+      "bodyCloudBackupOnboarding": "Hemos enviado un SMS a tu número de teléfono. Comprueba tus mensajes de texto para encontrar el código de 6 dígitos. \n\nSi tienes problemas para recibir mensajes, te recomendamos que hagas una copia de seguridad con una Frase de recuperación. Puedes intentar iniciar sesión con tu correo electrónico y teléfono más tarde.",
       "skip": "Omitir",
       "dismiss": "Regresar",
       "useRecoveryPhrase": "Usar frase de recuperación"
@@ -2844,6 +2844,18 @@
     "ctaAction_Deposit": "Deposita una cantidad menor",
     "ctaAction_Withdraw": "Retirar una cantidad menor"
   },
+  "reviewTransaction": {
+    "title": "Revisión Enviar",
+    "totalPlusFees": "Total más tasas",
+    "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
+  },
+  "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
+  "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "Precio no disponible",
+  "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
+  "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
+  "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

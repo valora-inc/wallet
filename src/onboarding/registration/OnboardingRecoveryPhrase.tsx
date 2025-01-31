@@ -1,6 +1,6 @@
 import Clipboard from '@react-native-clipboard/clipboard'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -12,7 +12,7 @@ import BackupPhraseContainer, {
   BackupPhraseType,
 } from 'src/backup/BackupPhraseContainer'
 import { useAccountKey } from 'src/backup/utils'
-import BottomSheetLegacy from 'src/components/BottomSheetLegacy'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
 import CopyIcon from 'src/icons/CopyIcon'
@@ -28,11 +28,14 @@ import {
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.OnboardingRecoveryPhrase>
 
 function OnboardingRecoveryPhrase({ navigation, route }: Props) {
+  const infoBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+
   const onboardingProps = useSelector(onboardingPropsSelector)
   // Use a lower step count for CAB onboarding
   const { step, totalSteps } = getOnboardingStepValues(
@@ -40,7 +43,6 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
     onboardingProps
   )
   const accountKey = useAccountKey()
-  const [showBottomSheet, setShowBottomSheet] = useState(false)
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
@@ -68,11 +70,11 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
 
   const onPressHelp = () => {
     AppAnalytics.track(OnboardingEvents.protect_wallet_help)
-    setShowBottomSheet(true)
+    infoBottomSheetRef.current?.snapToIndex(0)
   }
   const onPressDismissBottomSheet = () => {
     AppAnalytics.track(OnboardingEvents.protect_wallet_help_dismiss)
-    setShowBottomSheet(false)
+    infoBottomSheetRef.current?.close()
   }
   const onPressCopy = () => {
     AppAnalytics.track(OnboardingEvents.protect_wallet_copy_phrase)
@@ -118,28 +120,24 @@ function OnboardingRecoveryPhrase({ navigation, route }: Props) {
         />
       </View>
 
-      <BottomSheetLegacy
-        testID="OnboardingRecoveryPhraseBottomSheet"
-        isVisible={showBottomSheet}
-        onBackgroundPress={onPressDismissBottomSheet}
+      <BottomSheet
+        forwardedRef={infoBottomSheetRef}
+        title={t('recoveryPhrase.bottomSheet.title')}
+        testId="OnboardingRecoveryPhraseBottomSheet"
       >
-        <View>
-          <Text style={styles.bottomSheetTitle}>{t('recoveryPhrase.bottomSheet.title')}</Text>
-          <Text style={styles.bottomSheetBody}>
-            {t('recoveryPhrase.bottomSheet.writeDownPhrase')}
-          </Text>
-          <Text style={styles.bottomSheetBody}>
-            {t('recoveryPhrase.bottomSheet.phraseLocation')}
-          </Text>
-          <TextButton
-            style={styles.buttonStyle}
-            onPress={onPressDismissBottomSheet}
-            testID={'ProtectWalletBottomSheetContinue'}
-          >
-            {t('dismiss')}
-          </TextButton>
-        </View>
-      </BottomSheetLegacy>
+        <Text style={styles.bottomSheetBody}>
+          {t('recoveryPhrase.bottomSheet.writeDownPhrase')}
+        </Text>
+        <Text style={styles.bottomSheetBody}>{t('recoveryPhrase.bottomSheet.phraseLocation')}</Text>
+        <Button
+          text={t('dismiss')}
+          onPress={onPressDismissBottomSheet}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+          style={styles.buttonStyle}
+          testID="ProtectWalletBottomSheetContinue"
+        />
+      </BottomSheet>
     </SafeAreaView>
   )
 }
@@ -164,13 +162,7 @@ const styles = StyleSheet.create({
     color: colors.accent,
   },
   buttonStyle: {
-    marginTop: 37,
-    marginBottom: 9,
-    textAlign: 'center',
-    color: colors.textLink,
-  },
-  bottomSheetTitle: {
-    ...typeScale.titleSmall,
+    marginTop: Spacing.Thick24,
   },
   bottomSheetBody: {
     ...typeScale.bodyMedium,
@@ -179,7 +171,7 @@ const styles = StyleSheet.create({
   },
   backupPhrase: {
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.borderPrimary,
     borderRadius: 8,
     marginTop: 0,
     backgroundColor: colors.backgroundSecondary,

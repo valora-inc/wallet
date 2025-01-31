@@ -903,7 +903,7 @@
     "learnMore": {
       "buttonLabel": "我需要关联吗？",
       "title": "我需要关联吗？",
-      "body": "关联您的手机号码将允许您向您通讯录中的朋友和其他手机号码发送资金。 \n \n 如果您选择跳过这一步，您将无法访问您的联系人，并将只能通过二维码或钱包地址发送资金。"
+      "body": "连接电话号码后，您就可以向通讯录中的朋友和其他电话号码汇款。 \n\n如果您选择跳过这一步，您将无法访问联系人，只能通过 QR 码或钱包地址汇款。"
     },
     "skip": {
       "title": "您确定吗？",
@@ -919,8 +919,8 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "帮助",
-      "body": "我们向您的手机号码发送了短信。请查看您短信中的 6 位数字代码。\n\n如果您在接收短信方面有问题，可以暂时跳过这一步，稍后再试。",
-      "bodyCloudBackupOnboarding": "我们向您的电话号码发送了短信。请查看短信中的 6 位数字代码。 \n \n 如果您在接收短信时遇到问题，我们建议您使用恢复短语进行备份。您可以稍后尝试使用电子邮件和手机登录。",
+      "body": "我们向您的电话号码发送了短信。请查看您的短信，找到 6 位数字代码。 \n\n如果您在接收短信时遇到困难，可以暂时跳过这一步，稍后再试。",
+      "bodyCloudBackupOnboarding": "我们向您的电话号码发送了短信。请查看短信，查找 6 位数字代码。 \n\n如果您在接收短信时遇到问题，我们建议您使用恢复短语进行备份。您可以稍后尝试使用电子邮件和手机登录。",
       "skip": "跳过",
       "dismiss": "返回",
       "useRecoveryPhrase": "使用恢复短语"
@@ -2842,5 +2842,17 @@
     "ctaAction_Deposit": "存入较少金额",
     "ctaAction_Withdraw": "提取较少金额"
   },
+  "reviewTransaction": {
+    "title": "审查发送",
+    "totalPlusFees": "加费用共计",
+    "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
+  },
+  "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
+  "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "价格不详",
+  "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
+  "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
+  "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

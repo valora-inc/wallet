@@ -903,7 +903,7 @@
     "learnMore": {
       "buttonLabel": "Muss ich verbinden?",
       "title": "Muss ich verbinden?",
-      "body": "Wenn du deine Telefonnummer verbindest, kannst du Guthaben an Freunde in deinem Adressbuch sowie an andere Telefonnummern senden.\n\nWenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen. Du kannst dann nur Guthaben per QR-Code oder über deiner Wallet-Adresse versenden."
+      "body": "Wenn du deine Telefonnummer verbindest, kannst du Geld an Freunde in deinem Adressbuch und andere Telefonnummern senden. \n\nWenn du diesen Schritt überspringst, kannst du nicht auf deine Kontakte zugreifen und nur über den QR-Code oder die Brieftaschenadresse Geld senden."
     },
     "skip": {
       "title": "Bist du sicher?",
@@ -919,8 +919,8 @@
     "codeInputPlaceholder": "123456",
     "helpDialog": {
       "title": "Hilfe",
-      "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 6-stelligen Code zu finden.\n\nWenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen.",
-      "bodyCloudBackupOnboarding": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine Textnachrichten bezüglich des 6-stelligen Codes. \n \nWenn du Probleme beim Empfang von Nachrichten hast, empfehlen wir dir, eine Wiederherstellungsphrase zu verwenden. Du kannst zu einem späteren Zeitpunkt versuchen, dich mit deiner E-Mail und deinem Telefon anzumelden.",
+      "body": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine SMS, um den 6-stelligen Code zu finden. \n\nWenn du Probleme beim Empfang von Nachrichten hast, kannst du diesen Schritt überspringen und es später noch einmal versuchen.",
+      "bodyCloudBackupOnboarding": "Wir haben eine SMS an deine Telefonnummer geschickt. Bitte überprüfe deine Textnachrichten, um den 6-stelligen Code zu finden. \n\nWenn du Probleme mit dem Empfang von Nachrichten hast, empfehlen wir dir, mit einer Wiederherstellungsphrase zu sichern. Du kannst später versuchen, dich mit deiner E-Mail und deinem Telefon anzumelden.",
       "skip": "Überspringen",
       "dismiss": "Zurück",
       "useRecoveryPhrase": "Wiederherstellungsphrase verwenden"
@@ -2844,6 +2844,18 @@
     "ctaAction_Deposit": "Kleineren Betrag einzahlen",
     "ctaAction_Withdraw": "Kleineren Betrag abheben"
   },
+  "reviewTransaction": {
+    "title": "Rückblick Senden",
+    "totalPlusFees": "Gesamt plus Gebühren",
+    "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
+  },
+  "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
+  "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "Preis nicht verfügbar",
+  "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
+  "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
+  "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
