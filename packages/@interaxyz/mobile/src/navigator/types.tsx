@@ -89,6 +89,7 @@ export type StackParamList = {
     useMax: boolean
   }
   [Screens.EarnHome]: { activeEarnTab?: EarnTabType } | undefined
+  [Screens.TabEarn]: { activeEarnTab?: EarnTabType } | undefined
   [Screens.EarnPoolInfoScreen]: { pool: EarnPosition }
   [Screens.ErrorScreen]: {
     errorMessage?: string

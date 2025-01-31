@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { getAppConfig } from 'src/appConfig'
 import TabDiscover from 'src/dappsExplorer/TabDiscover'
+import TabEarn from 'src/earn/TabEarn'
 import TabHome from 'src/home/TabHome'
 import Discover from 'src/icons/navigator/Discover'
 import Home from 'src/icons/navigator/Home'
@@ -61,6 +62,14 @@ const DEFAULT_TABS = {
     icon: Discover,
     label: (t) => t('bottomTabsNavigator.discover.tabName'),
     testID: 'Tab/Discover',
+  },
+  earn: {
+    name: 'earn',
+    screenName: Screens.TabEarn,
+    component: TabEarn,
+    icon: Home,
+    label: (t) => t('bottomTabsNavigator.earn.tabName'),
+    testID: 'Tab/Earn',
   },
 } as const satisfies Record<string, TabScreenConfigInternal>
 

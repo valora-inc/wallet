@@ -2363,6 +2363,9 @@
     "discover": {
       "tabName": "Discover",
       "title": "Discover"
+    },
+    "earn": {
+      "tabName": "Earn"
     }
   },
   "jumpstartStatus": {
