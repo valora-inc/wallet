@@ -74,7 +74,7 @@ import networkConfig, {
   walletConnectChainIdToNetworkId,
 } from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
-import { walletAddressSelector } from 'src/web3/selectors'
+import { demoModeEnabledSelector, walletAddressSelector } from 'src/web3/selectors'
 import {
   call,
   delay,
@@ -427,6 +427,13 @@ export function* normalizeTransaction(rawTx: any, network: Network) {
 function* showActionRequest(request: Web3WalletTypes.EventArguments['session_request']) {
   if (!client) {
     throw new Error('missing client')
+  }
+
+  const demoModeEnabled = yield* select(demoModeEnabledSelector)
+  if (demoModeEnabled) {
+    navigate(Screens.DemoModeAuthBlock)
+    yield* put(denyRequest(request, getSdkError('USER_REJECTED')))
+    return
   }
 
   const method = request.params.request.method
