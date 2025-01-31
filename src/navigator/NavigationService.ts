@@ -9,8 +9,8 @@ import { createRef, MutableRefObject } from 'react'
 import { Platform } from 'react-native'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
-import { AuthenticationEvents, NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AuthenticationEvents, NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import {
@@ -23,6 +23,7 @@ import { isUserCancelledError } from 'src/storage/keychain'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { sleep } from 'src/utils/sleep'
+import { demoModeEnabledSelector } from 'src/web3/selectors'
 
 const TAG = 'NavigationService'
 
@@ -134,6 +135,12 @@ export const navigateClearingStack: SafeNavigate = (...args) => {
 }
 
 export async function ensurePincode(): Promise<boolean> {
+  const demoModeEnabled = demoModeEnabledSelector(store.getState())
+  if (demoModeEnabled) {
+    navigate(Screens.DemoModeAuthBlock)
+    return false
+  }
+
   AppAnalytics.track(AuthenticationEvents.get_pincode_start)
   const pincodeType = pincodeTypeSelector(store.getState())
 

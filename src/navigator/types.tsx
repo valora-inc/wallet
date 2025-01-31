@@ -77,6 +77,7 @@ export type StackParamList = {
   }
   [Screens.DappsScreen]: undefined
   [Screens.DebugImages]: undefined
+  [Screens.DemoModeAuthBlock]: undefined
   [Screens.EarnInfoScreen]: undefined
   [Screens.EarnEnterAmount]: {
     pool: EarnPosition

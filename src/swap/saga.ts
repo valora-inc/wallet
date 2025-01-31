@@ -29,8 +29,6 @@ import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
-import { getViemWallet } from 'src/web3/contracts'
-import networkConfig from 'src/web3/networkConfig'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select, takeEvery } from 'typed-redux-saga'
 import { decodeFunctionData, erc20Abi } from 'viem'
@@ -167,12 +165,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       throw new Error('Unknown token network')
     }
 
-    const wallet = yield* call(getViemWallet, networkConfig.viemChain[network])
-    if (!wallet.account) {
-      // this should never happen
-      throw new Error('no account found in the wallet')
-    }
-
     for (const tx of preparedTransactions) {
       trackedTxs.push({
         tx,
@@ -182,7 +174,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     }
 
     // Execute transaction(s)
-    Logger.debug(TAG, `Starting to swap execute for address: ${wallet.account.address}`)
+    Logger.debug(TAG, `Starting to execute swap for swapId ${swapId}`)
 
     const beforeSwapExecutionTimestamp = Date.now()
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
