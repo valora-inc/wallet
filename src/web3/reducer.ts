@@ -4,10 +4,12 @@ import { ActionTypes, Actions } from 'src/web3/actions'
 
 interface State {
   account: string | null // this is the wallet address (EOA)
+  demoModeEnabled: boolean
 }
 
 const initialState: State = {
   account: null,
+  demoModeEnabled: false,
 }
 
 export const reducer = (
@@ -26,6 +28,11 @@ export const reducer = (
       return {
         ...state,
         account: action.address.toLowerCase(),
+      }
+    case Actions.DEMO_MODE_TOGGLED:
+      return {
+        ...state,
+        demoModeEnabled: action.enabled,
       }
     default:
       return state
