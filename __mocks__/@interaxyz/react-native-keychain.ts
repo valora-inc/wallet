@@ -28,6 +28,14 @@ const keychainMock = {
     SECURE_HARDWARE: 'SECURE_HARDWARE',
     ANY: 'ANY',
   },
+  STORAGE_TYPE: {
+    FB: 'MOCK_FacebookConceal',
+    AES: 'MOCK_KeystoreAESCBC',
+    AES_CBC: 'MOCK_KeystoreAESCBC',
+    AES_GCM_NO_AUTH: 'MOCK_KeystoreAESGCM_NoAuth',
+    AES_GCM: 'MOCK_KeystoreAESGCM',
+    RSA: 'MOCK_KeystoreRSAECB',
+  },
   setGenericPassword: jest.fn(async (username, password, options) => {
     mockedItems.set(options.service, { username, password, options })
     return true

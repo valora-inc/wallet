@@ -1,4 +1,4 @@
-import { BIOMETRY_TYPE } from 'react-native-keychain'
+import { BIOMETRY_TYPE } from '@interaxyz/react-native-keychain'
 import { createSelector } from 'reselect'
 import { initializeAccount } from 'src/account/actions'
 import {
