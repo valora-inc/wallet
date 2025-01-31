@@ -4,7 +4,7 @@ import Colors, { ColorValue } from 'src/styles/colors'
 
 const MagicWand = ({
   size = 24,
-  color = Colors.successPrimary,
+  color = Colors.contentPrimary,
 }: {
   size?: number
   color?: ColorValue

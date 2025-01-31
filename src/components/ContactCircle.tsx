@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import User from 'src/icons/User'
 import { Recipient } from 'src/recipients/recipient'
-import { ColorValue } from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 
 interface Props {
@@ -21,24 +21,15 @@ interface Props {
 
 const DEFAULT_ICON_SIZE = 40
 
-const getAddressBackgroundColor = (address: string) =>
-  `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 53%, 93%)` as ColorValue
-const getAddressForegroundColor = (address: string) =>
-  `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 67%, 24%)` as ColorValue
-const getNameInitial = (name: string) => name.charAt(0).toLocaleUpperCase()
-
 function ContactCircle({
   size: iconSize = DEFAULT_ICON_SIZE,
   recipient,
   style,
-  backgroundColor,
-  foregroundColor,
+  backgroundColor = Colors.backgroundSecondary,
+  foregroundColor = Colors.contentPrimary,
   borderColor,
   DefaultIcon = User,
 }: Props) {
-  const address = recipient.address
-  const iconBackgroundColor = backgroundColor ?? getAddressBackgroundColor(address || '0x0')
-
   const renderThumbnail = () => {
     if (recipient.thumbnailPath) {
       return (
@@ -53,15 +44,14 @@ function ContactCircle({
       )
     }
 
-    const fontColor = foregroundColor ?? getAddressForegroundColor(address || '0x0')
     if (recipient.name) {
-      const initial = getNameInitial(recipient.name)
+      const initial = recipient.name.charAt(0).toLocaleUpperCase()
       return (
         <Text
           allowFontScaling={false}
           style={[
             typeScale.labelMedium,
-            { fontSize: iconSize / 2.0, color: fontColor, lineHeight: iconSize / 1.5 },
+            { fontSize: iconSize / 2.0, color: foregroundColor, lineHeight: iconSize / 1.5 },
           ]}
         >
           {initial.toLocaleUpperCase()}
@@ -72,8 +62,8 @@ function ContactCircle({
     return (
       <DefaultIcon
         size={Math.round(iconSize / 1.625)}
-        color={fontColor}
-        backgroundColor={iconBackgroundColor}
+        color={foregroundColor}
+        backgroundColor={backgroundColor}
       />
     )
   }
@@ -84,7 +74,7 @@ function ContactCircle({
         style={[
           styles.icon,
           {
-            backgroundColor: iconBackgroundColor,
+            backgroundColor,
             height: iconSize,
             width: iconSize,
             borderRadius: iconSize / 2,
