@@ -1,22 +1,31 @@
+import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
+import AppAnalytics from 'src/analytics/AppAnalytics'
+import { EarnEvents, SwapEvents } from 'src/analytics/Events'
 import { trackPointsEvent } from 'src/points/slice'
+import { earnPositionsSelector } from 'src/positions/selectors'
+import { RootState } from 'src/redux/store'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseToken } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
+import { transactionFeedV2Api, TransactionFeedV2Response } from 'src/transactions/api'
 import { pendingStandbyTransactionsSelector } from 'src/transactions/selectors'
-import { transactionConfirmed } from 'src/transactions/slice'
+import { transactionConfirmed, transactionsConfirmedFromFeedApi } from 'src/transactions/slice'
 import {
+  DepositOrWithdraw,
   Fee,
+  FeeType,
   Network,
   NetworkId,
   StandbyTransaction,
+  TokenExchange,
   TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
-import { call, delay, fork, put, select, spawn } from 'typed-redux-saga'
+import { call, delay, fork, put, select, spawn, takeEvery } from 'typed-redux-saga'
 import { Hash, TransactionReceipt } from 'viem'
 
 const TAG = 'transactions/saga'
@@ -136,8 +145,40 @@ export function* watchPendingTransactions() {
   }
 }
 
+export function* handleTransactionFeedV2ApiFulfilled(
+  action: PayloadAction<TransactionFeedV2Response>
+) {
+  const state = yield* select((state) => state)
+  const pendingStandbyTxs = yield* select(pendingStandbyTransactionsSelector)
+  const newlyCompletedCrossChainTxs = action.payload.transactions.filter(
+    (tx): tx is TokenExchange | DepositOrWithdraw =>
+      tx.status === TransactionStatus.Complete &&
+      (tx.type === TokenTransactionTypeV2.CrossChainSwapTransaction ||
+        tx.type === TokenTransactionTypeV2.CrossChainDeposit) &&
+      pendingStandbyTxs.some((standbyTx) => standbyTx.transactionHash === tx.transactionHash)
+  )
+
+  Logger.debug(
+    TAG,
+    'handleTransactionFeedV2ApiFulfilled newlyCompletedCrossChainTxs',
+    newlyCompletedCrossChainTxs.length
+  )
+
+  trackCompletionOfCrossChainTxs(state, newlyCompletedCrossChainTxs)
+
+  yield* put(transactionsConfirmedFromFeedApi(action.payload.transactions))
+}
+
+function* watchTransactionFeedV2ApiFulfilled() {
+  yield* takeEvery(
+    transactionFeedV2Api.endpoints.transactionFeedV2.matchFulfilled,
+    handleTransactionFeedV2ApiFulfilled
+  )
+}
+
 export function* transactionSaga() {
   yield* spawn(watchPendingTransactions)
+  yield* spawn(watchTransactionFeedV2ApiFulfilled)
 }
 
 function* handleTransactionReceiptReceived({
@@ -209,4 +250,84 @@ function buildGasFees(feeCurrencyInfo: BaseToken, gasFeeInSmallestUnit: BigNumbe
       },
     },
   ]
+}
+
+function trackCompletionOfCrossChainTxs(
+  state: RootState,
+  transactions: (TokenExchange | DepositOrWithdraw)[]
+) {
+  const tokensById = tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
+
+  for (const tx of transactions) {
+    const networkFee = tx.fees.find((fee) => fee.type === FeeType.SecurityFee)
+    const networkFeeTokenPrice = networkFee && tokensById[networkFee?.amount.tokenId]?.priceUsd
+    const appFee = tx.fees.find((fee) => fee.type === FeeType.AppFee)
+    const appFeeTokenPrice = appFee && tokensById[appFee?.amount.tokenId]?.priceUsd
+    const crossChainFee = tx.fees.find((fee) => fee.type === FeeType.CrossChainFee)
+    const crossChainFeeTokenPrice =
+      crossChainFee && tokensById[crossChainFee?.amount.tokenId]?.priceUsd
+
+    const feeProperties = {
+      networkFeeTokenId: networkFee?.amount.tokenId,
+      networkFeeAmount: networkFee?.amount.value.toString(),
+      networkFeeAmountUsd:
+        networkFeeTokenPrice && networkFee.amount.value
+          ? BigNumber(networkFee.amount.value).times(networkFeeTokenPrice).toNumber()
+          : undefined,
+      appFeeTokenId: appFee?.amount.tokenId,
+      appFeeAmount: appFee?.amount.value.toString(),
+      appFeeAmountUsd:
+        appFeeTokenPrice && appFee.amount.value
+          ? BigNumber(appFee.amount.value).times(appFeeTokenPrice).toNumber()
+          : undefined,
+      crossChainFeeTokenId: crossChainFee?.amount.tokenId,
+      crossChainFeeAmount: crossChainFee?.amount.value.toString(),
+      crossChainFeeAmountUsd:
+        crossChainFeeTokenPrice && crossChainFee.amount.value
+          ? BigNumber(crossChainFee.amount.value).times(crossChainFeeTokenPrice).toNumber()
+          : undefined,
+    }
+
+    if (tx.type === TokenTransactionTypeV2.CrossChainSwapTransaction) {
+      const toTokenPrice = tokensById[tx.inAmount.tokenId]?.priceUsd
+      const fromTokenPrice = tokensById[tx.outAmount.tokenId]?.priceUsd
+
+      AppAnalytics.track(SwapEvents.swap_execute_success, {
+        swapType: 'cross-chain',
+        swapExecuteTxId: tx.transactionHash,
+        toTokenId: tx.inAmount.tokenId,
+        toTokenAmount: tx.inAmount.value.toString(),
+        toTokenAmountUsd: toTokenPrice
+          ? BigNumber(tx.inAmount.value).times(toTokenPrice).toNumber()
+          : undefined,
+        fromTokenId: tx.outAmount.tokenId,
+        fromTokenAmount: tx.outAmount.value.toString(),
+        fromTokenAmountUsd: fromTokenPrice
+          ? BigNumber(tx.outAmount.value).times(fromTokenPrice).toNumber()
+          : undefined,
+        ...feeProperties,
+      })
+    } else if (tx.type === TokenTransactionTypeV2.CrossChainDeposit) {
+      const depositTokenId = tx.outAmount.tokenId
+      const position = earnPositionsSelector(state).find(
+        (position) => position.dataProps?.depositTokenId === depositTokenId
+      )
+      AppAnalytics.track(EarnEvents.earn_deposit_execute_success, {
+        networkId: position?.networkId,
+        poolId: position?.positionId,
+        providerId: position?.appId,
+        depositTokenId,
+        depositTokenAmount: tx.outAmount.value.toString(),
+        mode: 'swap-deposit',
+        swapType: 'cross-chain',
+        fromTokenAmount: tx.swap?.outAmount.value.toString(),
+        fromTokenId: tx.swap?.outAmount.tokenId,
+        fromNetworkId: tx.networkId,
+        ...feeProperties,
+      })
+    } else {
+      // should never happen
+      Logger.warn(TAG, 'Unknown cross-chain transaction type', tx)
+    }
+  }
 }
