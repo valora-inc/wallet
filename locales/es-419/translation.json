@@ -2856,6 +2856,13 @@
   "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
   "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
   "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "demoMode": {
+    "confirmEnter": {
+      "title": "Modo Demo",
+      "info": "Estás a punto de entrar en el modo de demostración. Puedes explorar las funciones de la aplicación sin completar ninguna transacción.",
+      "cta": "Enter Demo"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
