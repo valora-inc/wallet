@@ -896,7 +896,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-adjust (from `../node_modules/react-native-adjust`)
-  - react-native-camera (from `../node_modules/react-native-camera`)
+  - "react-native-camera (from `../node_modules/@interaxyz/react-native-camera`)"
   - "react-native-compat (from `../node_modules/@walletconnect/react-native-compat`)"
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-contacts (from `../node_modules/react-native-contacts`)
@@ -1068,7 +1068,7 @@ EXTERNAL SOURCES:
   react-native-adjust:
     :path: "../node_modules/react-native-adjust"
   react-native-camera:
-    :path: "../node_modules/react-native-camera"
+    :path: "../node_modules/@interaxyz/react-native-camera"
   react-native-compat:
     :path: "../node_modules/@walletconnect/react-native-compat"
   react-native-config:
@@ -1265,7 +1265,7 @@ SPEC CHECKSUMS:
   React-jsinspector: b86a8abae760c28d69366bbc1d991561e51341ed
   React-logger: 8c0f8173197ad28ac3212c18f8141690209dfe52
   react-native-adjust: a3d3fd6edd8d4a7ef707ebc45deaecab1ffb2afc
-  react-native-camera: 079d80421f0572d6b4e836908114d614d0adb553
+  react-native-camera: d1eea5cd676056be46275eca29346cb008cfaa52
   react-native-compat: 03e54a7e1a09f56471b0af199867b4edf13de7ca
   react-native-config: ea75335a7cca1d3326de1da384227e580a7c082e
   react-native-contacts: 5eeeb8bff95a0e1680a11329e15653eb73d29a1d

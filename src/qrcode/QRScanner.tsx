@@ -1,7 +1,7 @@
+import { RNCamera } from '@interaxyz/react-native-camera'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { RNCamera } from 'react-native-camera'
 import DeviceInfo from 'react-native-device-info'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Defs, Mask, Rect, Svg } from 'react-native-svg'

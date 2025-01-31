@@ -1661,6 +1661,13 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
+"@interaxyz/react-native-camera@^4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@interaxyz/react-native-camera/-/react-native-camera-4.2.1.tgz#6d2a00d200a27da35ece13bcd31a6e2dab1aaf53"
+  integrity sha512-6RvwYTGPaEHzr8eVxDSs/W4CPOOv5UvQy0KNPByI93kc5xp5qbxyLIuPJb6EjU5oBnnBOzgrPmGqOfeiI/fbsg==
+  dependencies:
+    prop-types "^15.6.2"
+
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/@isaacs/cliui/-/cliui-8.0.2.tgz#b37667b7bc181c168782259bab42474fbf52b550"
@@ -12560,13 +12567,6 @@ react-native-auth0@^3.2.1:
     prettier-quick "^0.0.5"
     prop-types "^15.8.1"
     url "^0.11.0"
-
-react-native-camera@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-4.2.1.tgz#caf74081f055e89d7e9b0cd5108965d808c60e90"
-  integrity sha512-+Vkql24PFYQfsPRznJCvPwJQfyzCnjlcww/iZ4Ej80bgivKjL9eU0IMQIXp4yi6XCrKi4voWXxIDPMupQZKeIQ==
-  dependencies:
-    prop-types "^15.6.2"
 
 react-native-config@^1.5.3:
   version "1.5.3"
