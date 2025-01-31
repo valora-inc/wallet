@@ -2,19 +2,19 @@ import * as React from 'react'
 import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import User from 'src/icons/User'
 import { Recipient } from 'src/recipients/recipient'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   style?: ViewStyle
   size?: number
   recipient: Recipient
-  backgroundColor?: Colors
-  foregroundColor?: Colors
-  borderColor?: Colors
+  backgroundColor?: ColorValue
+  foregroundColor?: ColorValue
+  borderColor?: ColorValue
   DefaultIcon?: React.ComponentType<{
-    color?: Colors
-    backgroundColor?: Colors
+    color?: ColorValue
+    backgroundColor?: ColorValue
     size?: number
   }>
 }

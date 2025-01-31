@@ -43,7 +43,7 @@ export interface SendPaymentAction {
   tokenId: string
   usdAmount: BigNumber | null
   recipient: Recipient
-  fromModal: boolean
+  fromExternal: boolean
   preparedTransaction: SerializableTransactionRequest
 }
 
@@ -108,7 +108,7 @@ export const sendPayment = (
   tokenId: string,
   usdAmount: BigNumber | null,
   recipient: Recipient,
-  fromModal: boolean,
+  fromExternal: boolean,
   preparedTransaction: SerializableTransactionRequest
 ): SendPaymentAction => ({
   type: Actions.SEND_PAYMENT,
@@ -116,7 +116,7 @@ export const sendPayment = (
   tokenId,
   usdAmount,
   recipient,
-  fromModal,
+  fromExternal,
   preparedTransaction,
 })
 

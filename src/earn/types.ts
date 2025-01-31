@@ -1,5 +1,5 @@
 import { EarnPosition, Token } from 'src/positions/types'
-import Colors from 'src/styles/colors'
+import { ColorValue } from 'src/styles/colors'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { Hash } from 'viem'
@@ -54,7 +54,7 @@ export interface BeforeDepositAction {
   name: BeforeDepositActionName
   title: string
   details: string
-  iconComponent: React.MemoExoticComponent<({ color }: { color?: Colors }) => JSX.Element>
+  iconComponent: React.MemoExoticComponent<({ color }: { color?: ColorValue }) => JSX.Element>
   onPress: () => void
 }
 
@@ -62,7 +62,7 @@ export interface WithdrawAction {
   name: Extract<EarnActiveMode, 'withdraw' | 'claim-rewards' | 'exit'>
   title: string
   details: string
-  iconComponent: React.MemoExoticComponent<({ color }: { color?: Colors }) => JSX.Element>
+  iconComponent: React.MemoExoticComponent<({ color }: { color?: ColorValue }) => JSX.Element>
   onPress: () => void
 }
 

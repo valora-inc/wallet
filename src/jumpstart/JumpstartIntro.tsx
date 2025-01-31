@@ -16,8 +16,10 @@ import WaveCurve from 'src/images/WaveCurve'
 import { jumpstartIntroSeen } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { useSelector } from 'src/redux/hooks'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
@@ -31,7 +33,9 @@ export default function JumpstartIntro() {
   const addAssetsBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const tokens = useSelector(jumpstartSendTokensSelector)
-  const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
+  const isSwapEnabled = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
+  ).enabled
   const noTokens = tokens.length === 0
 
   // Track in analytics whenever user sees the intro

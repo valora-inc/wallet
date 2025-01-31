@@ -14,7 +14,7 @@ import ClipboardAwarePasteButton from 'src/components/ClipboardAwarePasteButton'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-import { Shadow, Spacing } from 'src/styles/styles'
+import { Spacing } from 'src/styles/styles'
 import { useClipboard } from 'src/utils/useClipboard'
 
 export enum RecoveryPhraseInputStatus {
@@ -66,11 +66,7 @@ export default function RecoveryPhraseInput({
   const keyboardType = Platform.OS === 'android' ? 'visible-password' : undefined
 
   return (
-    <Card
-      rounded={true}
-      shadow={showInput ? null : Shadow.SoftLight}
-      style={[showInput ? styles.containerActive : styles.container]}
-    >
+    <Card rounded={true} shadow={null} style={styles.container}>
       {/* These views cannot be combined as it will cause the shadow to be clipped on iOS */}
       <View style={styles.containRadius}>
         <View style={[showInput ? styles.contentActiveLong : styles.contentLong]}>
@@ -104,6 +100,7 @@ export default function RecoveryPhraseInput({
                     Platform.OS === 'ios' && NUMBER_OF_LINES
                       ? LINE_HEIGHT * NUMBER_OF_LINES
                       : undefined,
+                  backgroundColor: colors.textInputBackground,
                 }}
                 autoCapitalize="none"
                 testID={testID}
@@ -135,15 +132,8 @@ export default function RecoveryPhraseInput({
 const styles = StyleSheet.create({
   container: {
     padding: 0,
-    backgroundColor: colors.backgroundPrimary,
-    borderColor: colors.backgroundPrimary,
-    borderRadius: Spacing.Smallest8,
-    borderWidth: 1,
-  },
-  containerActive: {
-    padding: 0,
-    backgroundColor: colors.backgroundSecondary,
-    borderColor: colors.borderPrimary,
+    backgroundColor: colors.textInputBackground,
+    borderColor: colors.borderSecondary,
     borderRadius: Spacing.Smallest8,
     borderWidth: 1,
   },
@@ -165,6 +155,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: Spacing.Regular16,
     paddingBottom: 4,
+    borderBottomWidth: 1,
+    borderColor: colors.borderSecondary,
   },
   innerContent: {
     flex: 1,

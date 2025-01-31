@@ -2,7 +2,7 @@ import { debounce } from 'lodash'
 import React, { ReactElement, ReactNode, useCallback } from 'react'
 import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Touchable from 'src/components/Touchable'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 
@@ -182,9 +182,9 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
 
 function getStyle(
   size: BtnSizes | undefined,
-  backgroundColor: Colors,
+  backgroundColor: ColorValue,
   opacity: number | undefined,
-  borderColor: Colors | undefined,
+  borderColor: ColorValue | undefined,
   iconPositionLeft: boolean
 ) {
   const borderStyles = borderColor

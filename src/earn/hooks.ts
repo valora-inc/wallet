@@ -9,13 +9,13 @@ import {
 } from 'src/earn/prepareTransactions'
 import { EarnActiveMode } from 'src/earn/types'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
-import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { earnPositionsSelector } from 'src/positions/selectors'
 import { EarnPosition, Position } from 'src/positions/types'
 import { useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { useCashInTokens, useSwappableTokens } from 'src/tokens/hooks'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
@@ -44,7 +44,9 @@ export function useDepositEntrypointInfo({
 
   const { swappableFromTokens } = useSwappableTokens()
   const cashInTokens = useCashInTokens()
-  const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
+  const isSwapEnabled = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
+  ).enabled
   const userLocation = useSelector(userLocationDataSelector)
 
   const hasDepositToken = useMemo(() => {

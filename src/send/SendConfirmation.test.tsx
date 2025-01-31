@@ -15,16 +15,11 @@ import { getSerializablePreparedTransaction } from 'src/viem/preparedTransaction
 import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
-  mockAccount2,
-  mockAccount3,
-  mockAddressRecipient,
   mockCeloTokenBalance,
   mockCeloTokenId,
   mockCusdTokenBalance,
   mockCusdTokenId,
-  mockE164Number,
   mockPoofTokenId,
-  mockRecipient,
   mockTokenBalances,
   mockTokenTransactionData,
 } from 'test/values'
@@ -73,7 +68,7 @@ const mockPrepareTransactionsResultPossible: PreparedTransactionsPossible = {
 
 type ScreenProps = NativeStackScreenProps<
   StackParamList,
-  Screens.SendConfirmation | Screens.SendConfirmationModal
+  Screens.SendConfirmation | Screens.SendConfirmationFromExternal
 >
 
 describe('SendConfirmation', () => {
@@ -119,9 +114,49 @@ describe('SendConfirmation', () => {
     }
   }
 
-  it('renders correctly', async () => {
-    const tree = renderScreen()
-    expect(tree).toMatchSnapshot()
+  it('renders the structure properly', () => {
+    const { getByTestId } = renderScreen()
+
+    // renders screen header
+    expect(getByTestId('CustomHeaderTitle')).toHaveTextContent('reviewTransaction.title')
+
+    // renders token and amount details
+    expect(getByTestId('SendConfirmationToken/Label')).toHaveTextContent('sending')
+    expect(getByTestId('SendConfirmationToken/PrimaryValue')).toHaveTextContent(
+      'tokenAmount, {"tokenAmount":"1.00","tokenSymbol":"cUSD"}'
+    )
+    expect(getByTestId('SendConfirmationToken/SecondaryValue')).toHaveTextContent(
+      'localAmount, {"localAmount":"1.33","localCurrencySymbol":"₱"}'
+    )
+
+    // renders recipient details
+    expect(getByTestId('SendConfirmationRecipient/Label')).toHaveTextContent('to')
+    expect(getByTestId('SendConfirmationRecipient/PrimaryValue')).toHaveTextContent(
+      '0x0000000000000000000000000000000000007E57'
+    )
+
+    // renders network details
+    expect(getByTestId('SendConfirmationNetwork/Label')).toHaveTextContent(
+      'transactionDetails.network'
+    )
+    expect(getByTestId('SendConfirmationNetwork/Value')).toHaveTextContent('Celo Alfajores')
+
+    // renders fee details
+    expect(getByTestId('SendConfirmationFee/Label')).toHaveTextContent('networkFee')
+    expect(getByTestId('SendConfirmationFee/Value')).toHaveTextContent(
+      'tokenAndLocalAmountApprox_oneToken, {"tokenAmount":"0.01","localAmount":"0.067","tokenSymbol":"CELO","localCurrencySymbol":"₱"}'
+    )
+
+    // renders total details
+    expect(getByTestId('SendConfirmationTotal/Label')).toHaveTextContent(
+      'reviewTransaction.totalPlusFees'
+    )
+    expect(getByTestId('SendConfirmationTotal/Value')).toHaveTextContent(
+      'localAmountApprox, {"localAmount":"1.40","localCurrencySymbol":"₱"}'
+    )
+
+    // renders confirmation button
+    expect(getByTestId('ConfirmButton')).toHaveTextContent('send')
   })
 
   it('prepares a transaction on load', () => {
@@ -166,54 +201,5 @@ describe('SendConfirmation', () => {
         getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
       )
     )
-  })
-
-  it('renders address for phone recipients with multiple addresses', () => {
-    const screenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-      transactionData: {
-        ...mockTokenTransactionData,
-        recipient: mockRecipient, // recipient that includes a PN
-      },
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: false,
-    })
-    const { getByTestId } = renderScreen(
-      {
-        identity: {
-          e164NumberToAddress: {
-            [mockE164Number]: [mockAccount3, mockAccount2],
-          },
-        },
-      },
-      screenProps
-    )
-
-    expect(getByTestId('RecipientAddress')).toBeTruthy()
-  })
-
-  it.each([
-    { testSuffix: 'non phone number recipients', recipient: mockAddressRecipient },
-    { testSuffix: 'phone number recipient with one address', recipient: mockRecipient },
-  ])('does not render address for $testSuffix', ({ recipient }) => {
-    const screenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-      transactionData: {
-        ...mockTokenTransactionData,
-        recipient,
-      },
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: false,
-    })
-    const { queryByTestId } = renderScreen(
-      {
-        identity: {
-          e164NumberToAddress: {
-            [mockE164Number]: [mockAccount3],
-          },
-        },
-      },
-      screenProps
-    )
-
-    expect(queryByTestId('RecipientAddress')).toBeFalsy()
   })
 })

@@ -6,7 +6,7 @@ import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Price } from 'src/priceHistory/slice'
-import { getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -20,6 +20,7 @@ import {
 } from 'test/values'
 
 jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn(),
   getMultichainFeatures: jest.fn(() => {
     return {
       showCico: ['celo-alfajores', 'ethereum-sepolia'],
@@ -33,6 +34,7 @@ jest.mock('src/statsig', () => ({
 describe('TokenDetails', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(getDynamicConfigParams).mockReturnValue({ enabled: true }) // Ennable swap feature by default
   })
   it('renders title, balance and token balance item', () => {
     const store = createMockStore({
@@ -293,9 +295,6 @@ describe('TokenDetails', () => {
           [mockPoofTokenId]: mockTokenBalances[mockPoofTokenId],
         },
       },
-      app: {
-        showSwapMenuInDrawerMenu: true,
-      },
     })
 
     const { getByTestId, queryByTestId } = render(
@@ -317,9 +316,6 @@ describe('TokenDetails', () => {
         tokenBalances: {
           [mockPoofTokenId]: { ...mockTokenBalances[mockPoofTokenId], isSwappable: true },
         },
-      },
-      app: {
-        showSwapMenuInDrawerMenu: true,
       },
     })
 
@@ -347,9 +343,6 @@ describe('TokenDetails', () => {
           },
         },
       },
-      app: {
-        showSwapMenuInDrawerMenu: true,
-      },
     })
 
     const { getByTestId, queryByTestId } = render(
@@ -375,9 +368,6 @@ describe('TokenDetails', () => {
           },
         },
       },
-      app: {
-        showSwapMenuInDrawerMenu: true,
-      },
     })
 
     const { getByTestId, queryByTestId } = render(
@@ -394,6 +384,7 @@ describe('TokenDetails', () => {
   })
 
   it('hides swap action and shows more action if token is swappable, has balance and CICO token but swapfeature gate is false', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({ enabled: false }) // disable swap feature
     const store = createMockStore({
       tokens: {
         tokenBalances: {
@@ -403,9 +394,6 @@ describe('TokenDetails', () => {
             isSwappable: true,
           },
         },
-      },
-      app: {
-        showSwapMenuInDrawerMenu: false,
       },
     })
 
@@ -433,9 +421,6 @@ describe('TokenDetails', () => {
             isSwappable: true,
           },
         },
-      },
-      app: {
-        showSwapMenuInDrawerMenu: true,
       },
     })
 
@@ -478,9 +463,6 @@ describe('TokenDetails', () => {
             symbol: 'TT',
           },
         },
-      },
-      app: {
-        showSwapMenuInDrawerMenu: true,
       },
     })
 

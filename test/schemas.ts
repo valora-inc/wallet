@@ -3594,6 +3594,27 @@ export const v238Schema = {
   app: _.omit(v237Schema.app, 'multichainBetaStatus'),
 }
 
+export const v239Schema = {
+  ...v238Schema,
+  _persist: {
+    ...v238Schema._persist,
+    version: 239,
+  },
+  app: _.omit(v238Schema.app, 'showSwapMenuInDrawerMenu'),
+}
+
+export const v240Schema = {
+  ...v239Schema,
+  _persist: {
+    ...v239Schema._persist,
+    version: 240,
+  },
+  web3: {
+    ...v239Schema.web3,
+    demoModeEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v238Schema as Partial<RootState>
+  return v240Schema as Partial<RootState>
 }
