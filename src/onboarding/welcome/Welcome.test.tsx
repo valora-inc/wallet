@@ -143,13 +143,13 @@ describe('Welcome', () => {
       })
 
       const store = createMockStore()
-      const { getByTestId, rerender } = render(
+      const { getByText, rerender } = render(
         <Provider store={store}>
           <Welcome />
         </Provider>
       )
 
-      fireEvent(getByTestId('Welcome/ActivateDemoMode'), 'onLongPress')
+      fireEvent.press(getByText('demoMode.confirmEnter.cta'))
 
       expect(store.getActions()).toEqual([demoModeToggled(true)])
       await waitFor(() => expect(navigateHome).not.toHaveBeenCalled())

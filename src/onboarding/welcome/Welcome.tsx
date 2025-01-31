@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageBackground, StyleSheet, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
@@ -7,6 +7,7 @@ import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { welcomeBackground } from 'src/images/Images'
 import WelcomeLogo from 'src/images/WelcomeLogo'
@@ -23,9 +24,11 @@ import { Spacing } from 'src/styles/styles'
 import { demoModeToggled } from 'src/web3/actions'
 import { demoModeEnabledSelector } from 'src/web3/selectors'
 
-const DEMO_MODE_LONG_PRESS_DELAY_MS = 5_000
+const DEMO_MODE_LONG_PRESS_DELAY_MS = 4_000
 
 export default function Welcome() {
+  const demoModeBottomSheetRef = useRef<BottomSheetModalRefType>(null)
+
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const acceptedTerms = useSelector((state) => state.account.acceptedTerms)
@@ -46,6 +49,10 @@ export default function Welcome() {
 
   const onActivateDemoMode = () => {
     dispatch(demoModeToggled(true))
+  }
+
+  const onRequestActivateDemoMode = () => {
+    demoModeBottomSheetRef.current?.snapToIndex(0)
   }
 
   const startOnboarding = () => {
@@ -90,8 +97,8 @@ export default function Welcome() {
           <TouchableWithoutFeedback
             disabled={!enabledInOnboarding}
             delayLongPress={DEMO_MODE_LONG_PRESS_DELAY_MS}
-            onLongPress={onActivateDemoMode}
-            testID="Welcome/ActivateDemoMode"
+            onLongPress={onRequestActivateDemoMode}
+            testID="Welcome/RequestActivateDemoMode"
           >
             <WelcomeLogo />
           </TouchableWithoutFeedback>
@@ -114,6 +121,19 @@ export default function Welcome() {
           />
         </View>
       </ImageBackground>
+      <BottomSheet
+        forwardedRef={demoModeBottomSheetRef}
+        title={t('demoMode.confirmEnter.title')}
+        description={t('demoMode.confirmEnter.info')}
+      >
+        <Button
+          onPress={onActivateDemoMode}
+          text={t('demoMode.confirmEnter.cta')}
+          size={BtnSizes.FULL}
+          type={BtnTypes.PRIMARY}
+          style={styles.demoModeButton}
+        />
+      </BottomSheet>
     </SafeAreaView>
   )
 }
@@ -142,5 +162,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     marginTop: Spacing.XLarge48,
+  },
+  demoModeButton: {
+    marginTop: Spacing.Thick24,
   },
 })
