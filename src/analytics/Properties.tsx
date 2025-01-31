@@ -1614,6 +1614,18 @@ interface EarnEventsProperties {
   [EarnEvents.earn_deposit_cancel]: EarnDepositProperties
   [EarnEvents.earn_deposit_submit_start]: EarnDepositProperties
   [EarnEvents.earn_deposit_submit_success]: EarnDepositProperties & EarnDepositTxsReceiptProperties
+  [EarnEvents.earn_deposit_execute_success]: Partial<EarnDepositProperties> & {
+    // only relevant for cross chain swap and deposit
+    networkFeeTokenId?: string
+    networkFeeAmount?: string
+    networkFeeAmountUsd?: number
+    appFeeTokenId?: string
+    appFeeAmount?: string
+    appFeeAmountUsd?: number
+    crossChainFeeTokenId?: string
+    crossChainFeeAmount?: string
+    crossChainFeeAmountUsd?: number
+  }
   [EarnEvents.earn_deposit_submit_error]: EarnDepositProperties &
     EarnDepositTxsReceiptProperties & {
       error: string
