@@ -1,7 +1,7 @@
 import * as fuzzysort from 'fuzzysort'
 import { TFunction } from 'i18next'
 import { MinimalContact } from 'react-native-contacts'
-import { formatShortenedAddress } from 'src/components/ShortenedAddress'
+import { formatShortenedAddress } from 'src/account/utils'
 import {
   AddressToDisplayNameType,
   AddressToE164NumberType,

@@ -2,6 +2,7 @@ import { Action, Predicate } from '@redux-saga/types'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
 import { ActionTypes as AppActionTypes, Actions as AppActions } from 'src/app/actions'
+import { FIREBASE_ENABLED } from 'src/config'
 import {
   Actions,
   BidaliPaymentRequestedAction,
@@ -78,7 +79,7 @@ function* bidaliPaymentRequest({
     tokenAmount: new BigNumber(amount),
   }
 
-  navigate(Screens.SendConfirmationModal, {
+  navigate(Screens.SendConfirmationFromExternal, {
     transactionData,
     origin: SendOrigin.Bidali,
     isFromScan: false,
@@ -167,6 +168,11 @@ export function* tagTxsWithProviderInfo(action: UpdateTransactionsPayload) {
 }
 
 export function* importProviderLogos() {
+  if (!FIREBASE_ENABLED) {
+    Logger.info(`${TAG}/importProviderLogos`, 'Firebase disabled')
+    return
+  }
+
   const providerLogos: ProviderLogos = yield readOnceFromFirebase('providerLogos')
   yield* put(setProviderLogos(providerLogos))
 }

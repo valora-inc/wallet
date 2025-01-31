@@ -1,8 +1,14 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import Colors from 'src/styles/colors'
+import Colors, { ColorValue } from 'src/styles/colors'
 
-const MagicWand = ({ size = 24, color = Colors.successPrimary }) => (
+const MagicWand = ({
+  size = 24,
+  color = Colors.successPrimary,
+}: {
+  size?: number
+  color?: ColorValue
+}) => (
   <Svg width={size} height={size} viewBox="0 0 24 24">
     <Path
       fill={color}

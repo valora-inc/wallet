@@ -65,6 +65,7 @@ export const DynamicConfigs = {
       maxSlippagePercentage: '0.3',
       enableAppFee: false,
       popularTokenIds: [] as string[],
+      enabled: false,
     },
   },
   [StatsigDynamicConfigs.CICO_TOKEN_INFO]: {
