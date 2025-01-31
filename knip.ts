@@ -7,7 +7,7 @@ const config: KnipConfig = {
       ignoreBinaries: [
         // Maybe we can remove these once we upgrade knip?
         // See https://github.com/webpro-nl/knip/issues/735
-        'prebuild', // used in workflows to build the example app
+        'e2e:prebuild', // used in workflows to build the example app
         'e2e:build:android-release', // used in workflows to build the example app
         'build:plugin', // used in postinstall script
       ],

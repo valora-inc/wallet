@@ -7,6 +7,7 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
+    "e2e:prebuild": "EXPO_PUBLIC_MOBILE_STACK_E2E=true expo prebuild --clean",
     "e2e:packager": "EXPO_PUBLIC_MOBILE_STACK_E2E=true yarn expo start",
     "e2e:build:android-debug": "EXPO_PUBLIC_MOBILE_STACK_E2E=true detox build -c android.debug",
     "e2e:build:android-release": "EXPO_PUBLIC_MOBILE_STACK_E2E=true detox build -c android.release",

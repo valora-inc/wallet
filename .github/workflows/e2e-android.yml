@@ -61,7 +61,7 @@ jobs:
           java-version: '17'
       - uses: ./.github/actions/yarn-install
       - name: Prebuild
-        run: yarn run prebuild
+        run: yarn run e2e:prebuild
         working-directory: apps/example
       - name: Store compileSdkVersion in env
         run: echo "ANDROID_COMPILE_SDK_VERSION=$(grep 'compileSdkVersion' apps/example/android/build.gradle | grep -o '[0-9]\+')" >> $GITHUB_ENV

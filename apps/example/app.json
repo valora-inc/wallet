@@ -1,5 +1,7 @@
 {
   "expo": {
+    // Using app.json for clarity in this example app.
+    // For more complex conditional configs, consider using app.config.js/ts instead.
     "name": "Intera",
     "slug": "intera",
     // TODO: use an Intera scheme
@@ -69,7 +71,7 @@
         }
       ],
       "@interaxyz/mobile",
-      "@config-plugins/detox",
+      "./plugins/withConditionalDetox",
       [
         "./plugins/withCustomGradleProperties",
         {

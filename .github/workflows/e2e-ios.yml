@@ -49,7 +49,7 @@ jobs:
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
         working-directory: apps/example
       - name: Prebuild
-        run: yarn run prebuild
+        run: yarn run e2e:prebuild
         working-directory: apps/example
       - name: Create Detox Build
         run: yarn run e2e:build:ios-release
