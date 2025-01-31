@@ -2,6 +2,7 @@ import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
 import { Dimensions, PixelRatio, StyleSheet, Text, View } from 'react-native'
+import { getAppConfig } from 'src/appConfig'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CloseButton from 'src/components/CloseButton'
@@ -235,11 +236,15 @@ export const tabHeader: NativeStackNavigationOptions = {
       </View>
     )
   },
-  headerLeft: () => (
-    <View style={[styles.topElementsContainer, { marginLeft: Spacing.Regular16 }]}>
-      <Logo color={Colors.navigationTopPrimary} size={22} />
-    </View>
-  ),
+  headerLeft: () => {
+    const assetsConfig = getAppConfig().themes?.default?.assets
+    const TabHeaderLogo = assetsConfig?.tabHeaderLogo ?? Logo
+    return (
+      <View style={[styles.topElementsContainer, { marginLeft: Spacing.Regular16 }]}>
+        <TabHeaderLogo color={Colors.navigationTopPrimary} size={22} />
+      </View>
+    )
+  },
 }
 
 export const headerWithCloseButton: NativeStackNavigationOptions = {
