@@ -1,3 +1,4 @@
+import { ShouldStartLoadRequest } from '@interaxyz/react-native-webview/lib/WebViewTypes'
 import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
@@ -11,7 +12,6 @@ import {
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { DappExplorerEvents, WebViewEvents } from 'src/analytics/Events'
 import { openDeepLink } from 'src/app/actions'
