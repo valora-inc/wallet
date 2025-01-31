@@ -3603,6 +3603,18 @@ export const v239Schema = {
   app: _.omit(v238Schema.app, 'showSwapMenuInDrawerMenu'),
 }
 
+export const v240Schema = {
+  ...v239Schema,
+  _persist: {
+    ...v239Schema._persist,
+    version: 240,
+  },
+  web3: {
+    ...v239Schema.web3,
+    demoModeEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v239Schema as Partial<RootState>
+  return v240Schema as Partial<RootState>
 }

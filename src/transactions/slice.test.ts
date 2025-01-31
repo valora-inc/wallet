@@ -1,7 +1,11 @@
 import { type RootState } from 'src/redux/store'
 import { getMultichainFeatures } from 'src/statsig'
 import { pendingStandbyTransactionsSelector } from 'src/transactions/selectors'
-import reducer, { _initialState, updateTransactions } from 'src/transactions/slice'
+import reducer, {
+  _initialState,
+  transactionsConfirmedFromFeedApi,
+  updateTransactions,
+} from 'src/transactions/slice'
 import {
   NetworkId,
   type StandbyTransaction,
@@ -240,6 +244,31 @@ describe('transactions reducer', () => {
           ],
         },
         standbyTransactions: [],
+      })
+    })
+  })
+
+  describe('transactionsConfirmedFromFeedApi action', () => {
+    it('cleans up standby transactions that have been confirmed', () => {
+      const state: RootState['transactions'] = {
+        ..._initialState,
+        standbyTransactions: [
+          { transactionHash: '0x1' } as StandbyTransaction,
+          { transactionHash: '0x2' } as StandbyTransaction,
+          { transactionHash: '0x3' } as StandbyTransaction,
+        ],
+      }
+      const updatedState = reducer(
+        state,
+        transactionsConfirmedFromFeedApi([
+          { transactionHash: '0x1', status: TransactionStatus.Complete } as TokenTransaction,
+          { transactionHash: '0x3', status: TransactionStatus.Complete } as TokenTransaction,
+        ])
+      )
+
+      expect(updatedState).toEqual({
+        ..._initialState,
+        standbyTransactions: [{ transactionHash: '0x2' }],
       })
     })
   })
