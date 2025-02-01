@@ -21,6 +21,7 @@ import { fetchTokenBalancesSaga } from 'src/tokens/saga'
 import { updateFeedFirstPage, updateTransactions } from 'src/transactions/slice'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
+import { Actions as Web3Actions } from 'src/web3/actions'
 import { all, call, cancelled, put, spawn, take, takeLeading } from 'typed-redux-saga'
 
 const REFRESH_TIMEOUT = 15000
@@ -63,6 +64,7 @@ export function* watchRefreshBalances() {
       createFiatConnectTransferCompleted.type,
       depositTransactionSucceeded.type,
       swapSuccess.type,
+      Web3Actions.DEMO_MODE_TOGGLED,
     ],
     safely(withLoading(withTimeout(REFRESH_TIMEOUT, refreshAllBalances)))
   )

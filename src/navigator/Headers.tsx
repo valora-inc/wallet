@@ -13,6 +13,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import NotificationBell from 'src/home/NotificationBell'
 import i18n from 'src/i18n'
 import Logo from 'src/images/Logo'
+import DemoModeChipIndicator from 'src/navigator/DemoModeChipIndicator'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -236,8 +237,11 @@ export const tabHeader: NativeStackNavigationOptions = {
     )
   },
   headerLeft: () => (
-    <View style={[styles.topElementsContainer, { marginLeft: Spacing.Regular16 }]}>
+    <View
+      style={[styles.topElementsContainer, { marginLeft: Spacing.Regular16, gap: Spacing.Small12 }]}
+    >
       <Logo color={Colors.navigationTopPrimary} size={22} />
+      <DemoModeChipIndicator />
     </View>
   ),
 }
