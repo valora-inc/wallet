@@ -116,14 +116,14 @@ export const headerWithBackEditButtons: NativeStackNavigationOptions = {
 
 interface Props {
   title: string | React.ReactNode
-  token: Currency
+  token?: Currency
   switchTitleAndSubtitle?: boolean
   displayCrypto?: boolean
 }
 
 export function HeaderTitleWithBalance({
   title,
-  token,
+  token = Currency.Dollar,
   switchTitleAndSubtitle = false,
   displayCrypto = false,
 }: Props) {
@@ -251,8 +251,4 @@ export const headerWithCloseButton: NativeStackNavigationOptions = {
       <CloseButton testID="CloseButton" />
     </View>
   ),
-}
-
-HeaderTitleWithBalance.defaultProps = {
-  token: Currency.Dollar,
 }

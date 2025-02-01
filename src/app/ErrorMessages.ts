@@ -13,7 +13,6 @@ export enum ErrorMessages {
   ACCOUNT_UNLOCK_FAILED = 'accountUnlockFailed',
   SEND_PAYMENT_FAILED = 'sendPaymentFailed',
   ACCOUNT_SETUP_FAILED = 'accountSetupFailed',
-  FIREBASE_DISABLED = 'firebaseDisabled',
   FIREBASE_FAILED = 'firebaseFailed',
   IMPORT_CONTACTS_FAILED = 'importContactsFailed',
   QR_FAILED_INVALID_ADDRESS = 'qrFailedInvalidAddress',

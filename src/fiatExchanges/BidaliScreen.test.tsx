@@ -1,6 +1,6 @@
+import { WebView } from '@interaxyz/react-native-webview'
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
-import { WebView } from 'react-native-webview'
 import { Provider } from 'react-redux'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import { Screens } from 'src/navigator/Screens'
