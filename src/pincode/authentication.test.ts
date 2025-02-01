@@ -1,4 +1,4 @@
-import * as Keychain from 'react-native-keychain'
+import * as Keychain from '@interaxyz/react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { PincodeType } from 'src/account/reducer'
@@ -70,7 +70,7 @@ const mockPepper = {
   password:
     '01010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101',
   service: 'some service',
-  storage: 'some string',
+  storage: Keychain.STORAGE_TYPE.RSA,
 }
 const mockPin = '111555'
 const mockedKeychain = jest.mocked(Keychain)
@@ -169,7 +169,7 @@ describe(getPincode, () => {
       password: mockPin,
       username: 'username',
       service: 'service',
-      storage: 'storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
 
     const pin = await getPincode()
@@ -180,6 +180,7 @@ describe(getPincode, () => {
       authenticationPrompt: {
         title: 'unlockWithBiometryPrompt',
       },
+      rules: 'none',
       service: 'PIN',
     })
   })
@@ -198,6 +199,7 @@ describe(getPincode, () => {
       authenticationPrompt: {
         title: 'unlockWithBiometryPrompt',
       },
+      rules: 'none',
       service: 'PIN',
     })
     expect(loggerErrorSpy).toHaveBeenCalledWith(
@@ -224,6 +226,7 @@ describe(getPincode, () => {
       authenticationPrompt: {
         title: 'unlockWithBiometryPrompt',
       },
+      rules: 'none',
       service: 'PIN',
     })
     expect(loggerErrorSpy).not.toHaveBeenCalled()
@@ -253,7 +256,7 @@ describe(getPincodeWithBiometry, () => {
       password: mockPin,
       username: 'username',
       service: 'service',
-      storage: 'storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
     const retrievedPin = await getPincodeWithBiometry()
 
@@ -299,7 +302,7 @@ describe(setPincodeWithBiometry, () => {
       password: mockPin,
       username: 'username',
       service: 'PIN',
-      storage: 'storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
 
     await setPincodeWithBiometry()
@@ -311,7 +314,6 @@ describe(setPincodeWithBiometry, () => {
       expect.objectContaining({
         service: 'PIN',
         accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
-        authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
       })
     )
   })
@@ -324,7 +326,7 @@ describe(setPincodeWithBiometry, () => {
       password: mockPin,
       username: 'username',
       service: 'PIN',
-      storage: 'storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
 
     await setPincodeWithBiometry()
@@ -337,7 +339,6 @@ describe(setPincodeWithBiometry, () => {
       expect.objectContaining({
         service: 'PIN',
         accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
-        authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
       })
     )
   })
@@ -347,7 +348,7 @@ describe(setPincodeWithBiometry, () => {
       password: 'some random password',
       username: 'username',
       service: 'PIN',
-      storage: 'storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
 
     await expect(setPincodeWithBiometry()).rejects.toThrowError(
@@ -373,32 +374,34 @@ describe(updatePin, () => {
     encryptedMnemonicOldPin = await encryptMnemonic(mockMnemonic, oldPassword)
 
     mockedKeychain.getGenericPassword.mockImplementation((options) => {
-      if (options?.service === 'PEPPER') {
-        return Promise.resolve(mockPepper)
-      }
-      if (options?.service === 'mnemonic') {
-        return Promise.resolve({
-          username: 'some username',
-          password: encryptedMnemonicOldPin,
-          service: 'some service',
-          storage: 'some string',
-        })
-      }
-      if (options?.service === accountHash) {
-        return Promise.resolve({
-          username: 'some username',
-          password: newPasswordHash,
-          service: 'some service',
-          storage: 'some string',
-        })
-      }
-      if (options?.service === 'PIN') {
-        return Promise.resolve({
-          username: 'some username',
-          password: mockPin,
-          service: 'some service',
-          storage: 'some string',
-        })
+      if (typeof options === 'object') {
+        if (options?.service === 'PEPPER') {
+          return Promise.resolve(mockPepper)
+        }
+        if (options?.service === 'mnemonic') {
+          return Promise.resolve({
+            username: 'some username',
+            password: encryptedMnemonicOldPin,
+            service: 'some service',
+            storage: Keychain.STORAGE_TYPE.RSA,
+          })
+        }
+        if (options?.service === accountHash) {
+          return Promise.resolve({
+            username: 'some username',
+            password: newPasswordHash,
+            service: 'some service',
+            storage: Keychain.STORAGE_TYPE.RSA,
+          })
+        }
+        if (options?.service === 'PIN') {
+          return Promise.resolve({
+            username: 'some username',
+            password: mockPin,
+            service: 'some service',
+            storage: Keychain.STORAGE_TYPE.RSA,
+          })
+        }
       }
       return Promise.resolve(false)
     })
@@ -453,7 +456,6 @@ describe(updatePin, () => {
       expect.objectContaining({
         service: 'PIN',
         accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
-        authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
       })
     )
   })
@@ -504,7 +506,7 @@ describe(retrieveOrGeneratePepper, () => {
     mockedKeychain.getGenericPassword.mockResolvedValueOnce(false)
     mockedKeychain.setGenericPassword.mockResolvedValueOnce({
       service: 'PEPPER',
-      storage: 'some storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
     mockedKeychain.getGenericPassword.mockResolvedValueOnce(mockPepper)
     const pepper = await retrieveOrGeneratePepper()
@@ -517,7 +519,7 @@ describe(retrieveOrGeneratePepper, () => {
     mockedKeychain.getGenericPassword.mockResolvedValueOnce(false)
     mockedKeychain.setGenericPassword.mockResolvedValueOnce({
       service: 'PEPPER',
-      storage: 'some storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
     mockedKeychain.getGenericPassword.mockResolvedValueOnce({
       ...mockPepper,

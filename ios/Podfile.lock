@@ -783,7 +783,8 @@ PODS:
   - RNGestureHandler (2.21.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNKeychain (8.2.0):
+  - RNKeychain (9.2.2):
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNLocalize (3.3.0):
     - React-Core
@@ -947,7 +948,7 @@ DEPENDENCIES:
   - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - RNKeychain (from `../node_modules/react-native-keychain`)
+  - "RNKeychain (from `../node_modules/@interaxyz/react-native-keychain`)"
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNPersonaInquiry2 (from `../node_modules/react-native-persona`)
@@ -1170,7 +1171,7 @@ EXTERNAL SOURCES:
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNKeychain:
-    :path: "../node_modules/react-native-keychain"
+    :path: "../node_modules/@interaxyz/react-native-keychain"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
   RNPermissions:
@@ -1317,7 +1318,7 @@ SPEC CHECKSUMS:
   RNFBRemoteConfig: 1c92f072b1772b91663247b07a711cd4e9e191e8
   RNFS: 89de7d7f4c0f6bafa05343c578f61118c8282ed8
   RNGestureHandler: b81313e62e717cc165ea3b99436aa305d04c57b4
-  RNKeychain: bbe2f6d5cc008920324acb49ef86ccc03d3b38e4
+  RNKeychain: 91dc223bc77e3bb8576a3c75cdd28863bc2cb26e
   RNLocalize: d024afa9204c13885e61dc88b8190651bcaabac9
   RNPermissions: 1d002266e43df33d7080d5355a64b7d12bdb5e75
   RNPersonaInquiry2: 4202f797d7a172af2908f271954123858abe47bf
