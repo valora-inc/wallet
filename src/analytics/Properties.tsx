@@ -722,7 +722,7 @@ interface FiatExchangeEventsProperties {
   }
   [FiatExchangeEvents.cico_amount_chosen_invalid]: {
     amount: number
-    currency: string
+    currency?: string
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_back]: {
