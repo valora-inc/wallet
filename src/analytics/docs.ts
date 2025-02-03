@@ -213,8 +213,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [OnboardingEvents.protect_wallet_help_dismiss]: ``,
   [OnboardingEvents.protect_wallet_copy_phrase]: ``,
   [OnboardingEvents.protect_wallet_complete]: ``,
-  [OnboardingEvents.cya_button_press]: `when one of the choose your adventure card is pressed. Properties include card name, position of the card (1-based index) and card order`,
-  [OnboardingEvents.cya_later]: `when "I'll explore later" is pressed`,
   [OnboardingEvents.link_phone_number]: `User chooses to link phone number for CPV after recovery flow`,
   [OnboardingEvents.link_phone_number_later]: `User chooses not to link phone number for CPV after recovery flow`,
 

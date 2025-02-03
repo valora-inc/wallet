@@ -9,16 +9,11 @@ import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { CYA_ENABLED } from 'src/config'
 
 function OnboardingSuccessScreen() {
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (CYA_ENABLED) {
-        navigate(Screens.ChooseYourAdventure)
-      } else {
-        navigateHome()
-      }
+      navigateHome()
     }, 3000)
 
     return () => clearTimeout(timeout)

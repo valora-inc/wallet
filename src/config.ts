@@ -194,8 +194,6 @@ const ONBOARDING_FEATURES_ALL_DISABLED = Object.fromEntries(
   Object.values(ToggleableOnboardingFeatures).map((value) => [value, false])
 )
 
-export const CYA_ENABLED = stringToBoolean(Config.CYA_ENABLED || 'false')
-
 export const ONBOARDING_FEATURES_ENABLED = (
   LaunchArguments.value<ExpectedLaunchArgs>()?.onboardingOverrides ??
   Config.ONBOARDING_FEATURES_ENABLED ??

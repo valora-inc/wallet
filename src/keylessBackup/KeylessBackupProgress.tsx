@@ -40,7 +40,6 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTotalTokenBalance } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
-import { CYA_ENABLED } from 'src/config'
 
 const TAG = 'keylessBackup/KeylessBackupProgress'
 
