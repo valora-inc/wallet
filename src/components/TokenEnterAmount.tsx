@@ -260,6 +260,11 @@ export function useEnterAmount(props: {
     }
   }
 
+  /**
+   * This function is intended for a full value replacement. This is mostly useful for the swap
+   * flow when the "To" amount is always calculated by the API and have to be replaced while
+   * keeping the intended number formatting logic.
+   */
   function replaceAmount(value: string) {
     if (!props.token) return
 
@@ -268,6 +273,11 @@ export function useEnterAmount(props: {
       return
     }
 
+    /**
+     * If the value comes from external source (e.g. API response) then it will probably be a
+     * regular JS-compatible number in a format "1234.5678" for which we should skip the
+     * unformatting step.
+     */
     const numericValue = new BigNumber(value)
     const rawValue = numericValue.isNaN()
       ? unformatNumberForProcessing(value)
