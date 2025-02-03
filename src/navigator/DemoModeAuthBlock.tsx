@@ -9,12 +9,11 @@ import { useDispatch, useSelector } from 'src/redux/hooks'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { demoModeToggled } from 'src/web3/actions'
-import { demoModeEnabledSelector, rawWalletAddressSelector } from 'src/web3/selectors'
+import { rawWalletAddressSelector } from 'src/web3/selectors'
 
 export default function DemoModeAuthBlock() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const demoModeEnabled = useSelector(demoModeEnabledSelector)
   const originalWalletAddress = useSelector(rawWalletAddressSelector)
 
   const handleExitDemoMode = () => {
@@ -24,10 +23,6 @@ export default function DemoModeAuthBlock() {
     if (!originalWalletAddress) {
       navigateClearingStack(Screens.Welcome)
     }
-  }
-
-  if (!demoModeEnabled) {
-    return null
   }
 
   return (
