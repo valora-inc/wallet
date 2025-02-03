@@ -267,6 +267,7 @@ const styles = StyleSheet.create({
   walletTabTitle: {
     ...typeScale.titleMedium,
     marginRight: 10,
+    paddingTop: Spacing.Small12,
   },
   totalAssetsInfoContainer: {
     position: 'absolute',
