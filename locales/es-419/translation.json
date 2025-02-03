@@ -2861,7 +2861,13 @@
       "title": "Modo Demo",
       "info": "Estás a punto de entrar en el modo de demostración. Puedes explorar las funciones de la aplicación sin completar ninguna transacción.",
       "cta": "Entra en Demo"
-    }
+    },
+    "confirmExit": {
+      "title": "En modo Demo",
+      "info": "Estás viendo la aplicación en modo demo",
+      "cta": "Salir de la Demo"
+    },
+    "inAppIndicatorLabel": "Modo Demo"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
