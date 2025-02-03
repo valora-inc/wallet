@@ -70,7 +70,6 @@ describe('TokenEnterAmount', () => {
     expect(unformatNumberForProcessing('')).toBe('')
     expect(unformatNumberForProcessing('0.25')).toBe('0.25')
     expect(unformatNumberForProcessing('1,234.34567')).toBe('1234.34567')
-    expect(unformatNumberForProcessing('1234.34567')).toBe('1234.34567')
 
     expect(roundFiatValue(null)).toBe('')
     expect(roundFiatValue(new BigNumber('0.01'))).toBe('0.01')
@@ -120,7 +119,6 @@ describe('TokenEnterAmount', () => {
     expect(unformatNumberForProcessing('')).toBe('')
     expect(unformatNumberForProcessing('0,25')).toBe('0.25')
     expect(unformatNumberForProcessing('1.234,34567')).toBe('1234.34567')
-    expect(unformatNumberForProcessing('1234.34567')).toBe('1234.34567')
 
     expect(roundFiatValue(null)).toBe('')
     expect(roundFiatValue(new BigNumber('0.01'))).toBe('0.01')

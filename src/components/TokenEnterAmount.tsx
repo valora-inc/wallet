@@ -51,21 +51,14 @@ export function formatNumber(value: string) {
     .replaceAll('_', groupingSeparator)
 }
 
+/**
+ * Unformats value from the phone's selected number format to a standard "1234.5678" js number.
+ * This function IS NOT indended for:
+ *   - for numbers that don't follow the format from phone's settings
+ *   - external numbers that are already in JS format (e.g from API responses)
+ */
 export function unformatNumberForProcessing(value: string) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
-
-  /**
-   * If the number passed is a regular number which is formatted in the standard JS number format
-   * (e.g. "123456.789") then just keep it as is. This will ensure this function will properly
-   * unformat different numbers, including those that come from external sources (e.g from API
-   * response)
-   *
-   * Number.isNaN considers unfinished decimal number e.g. "1." a valid number. If the number ends with grouping separator instead of decimal separator - it can be simply erased by casting it to a number.
-   */
-  if (!Number.isNaN(+value)) {
-    return value.endsWith(groupingSeparator) ? `${+value}` : value
-  }
-
   return value.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
 }
 
@@ -275,7 +268,11 @@ export function useEnterAmount(props: {
       return
     }
 
-    const rawValue = unformatNumberForProcessing(value)
+    const numericValue = new BigNumber(value)
+    const rawValue = numericValue.isNaN()
+      ? unformatNumberForProcessing(value)
+      : numericValue.toFixed()
+
     const roundedAmount =
       amountType === 'token'
         ? new BigNumber(rawValue).decimalPlaces(props.token.decimals).toString()
