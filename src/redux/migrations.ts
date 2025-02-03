@@ -719,7 +719,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+      coinbasePayEnabled: false,
     },
   }),
   59: (state: any) => ({

@@ -4705,9 +4705,6 @@
                 "celoNews": {
                     "$ref": "#/definitions/CeloNewsConfig"
                 },
-                "coinbasePayEnabled": {
-                    "type": "boolean"
-                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -4820,7 +4817,6 @@
                 "appState",
                 "celoEducationUri",
                 "celoNews",
-                "coinbasePayEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",

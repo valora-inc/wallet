@@ -181,7 +181,6 @@ describe('store state', () => {
           "appState": "Active",
           "celoEducationUri": null,
           "celoNews": {},
-          "coinbasePayEnabled": false,
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,

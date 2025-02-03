@@ -21,7 +21,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappListApiUrl: '',
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
-  coinbasePayEnabled: false,
   networkTimeoutSeconds: 30,
   celoNews: JSON.stringify({} as RemoteConfigValues['celoNews']),
   priceImpactWarningThreshold: 0.04,

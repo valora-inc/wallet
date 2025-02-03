@@ -294,7 +294,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
       ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
-    coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
     // Convert to percentage, so we're consistent with the price impact value returned by our swap API
