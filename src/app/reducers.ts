@@ -35,7 +35,6 @@ interface State {
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   inviterAddress: string | null
-  networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
   hapticFeedbackEnabled: boolean
   pushNotificationRequestedUnixTime: number | null
@@ -72,7 +71,6 @@ const initialState = {
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
   inviterAddress: null,
-  networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
   hapticFeedbackEnabled: true,
   pushNotificationRequestedUnixTime: null,
@@ -168,7 +166,6 @@ export const appReducer = (
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
-        networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
         celoNews: action.configValues.celoNews,
       }
     case Actions.ACTIVE_SCREEN_CHANGED:

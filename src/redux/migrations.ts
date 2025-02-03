@@ -907,7 +907,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
+      networkTimeoutSeconds: 30,
     },
   }),
   89: (state: any) => ({

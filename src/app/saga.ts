@@ -189,7 +189,6 @@ export interface RemoteConfigValues {
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
-  networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
   priceImpactWarningThreshold: number
 }

@@ -4747,9 +4747,6 @@
                 "loggedIn": {
                     "type": "boolean"
                 },
-                "networkTimeoutSeconds": {
-                    "type": "number"
-                },
                 "pendingDeepLinks": {
                     "items": {
                         "$ref": "#/definitions/PendingDeepLink"
@@ -4824,7 +4821,6 @@
                 "locked",
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
-                "networkTimeoutSeconds",
                 "pendingDeepLinks",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
