@@ -374,34 +374,33 @@ describe(updatePin, () => {
     encryptedMnemonicOldPin = await encryptMnemonic(mockMnemonic, oldPassword)
 
     mockedKeychain.getGenericPassword.mockImplementation((options) => {
-      if (typeof options === 'object') {
-        if (options?.service === 'PEPPER') {
-          return Promise.resolve(mockPepper)
-        }
-        if (options?.service === 'mnemonic') {
-          return Promise.resolve({
-            username: 'some username',
-            password: encryptedMnemonicOldPin,
-            service: 'some service',
-            storage: Keychain.STORAGE_TYPE.RSA,
-          })
-        }
-        if (options?.service === accountHash) {
-          return Promise.resolve({
-            username: 'some username',
-            password: newPasswordHash,
-            service: 'some service',
-            storage: Keychain.STORAGE_TYPE.RSA,
-          })
-        }
-        if (options?.service === 'PIN') {
-          return Promise.resolve({
-            username: 'some username',
-            password: mockPin,
-            service: 'some service',
-            storage: Keychain.STORAGE_TYPE.RSA,
-          })
-        }
+      const service = (options as Keychain.GetOptions)?.service ?? options
+      if (service === 'PEPPER') {
+        return Promise.resolve(mockPepper)
+      }
+      if (service === 'mnemonic') {
+        return Promise.resolve({
+          username: 'some username',
+          password: encryptedMnemonicOldPin,
+          service: 'some service',
+          storage: Keychain.STORAGE_TYPE.RSA,
+        })
+      }
+      if (service === accountHash) {
+        return Promise.resolve({
+          username: 'some username',
+          password: newPasswordHash,
+          service: 'some service',
+          storage: Keychain.STORAGE_TYPE.RSA,
+        })
+      }
+      if (service === 'PIN') {
+        return Promise.resolve({
+          username: 'some username',
+          password: mockPin,
+          service: 'some service',
+          storage: Keychain.STORAGE_TYPE.RSA,
+        })
       }
       return Promise.resolve(false)
     })
