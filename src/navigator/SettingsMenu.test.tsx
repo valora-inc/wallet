@@ -6,22 +6,24 @@ import { clearStoredAccount } from 'src/account/actions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SettingsMenu from 'src/navigator/SettingsMenu'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mockE164Number } from 'test/values'
 
 jest.mock('src/statsig', () => ({
   ...jest.requireActual('src/statsig'),
-  getFeatureGate: jest.fn().mockImplementation((gate) => {
-    if (gate === 'wallet_connect_v2_enabled') {
-      return true
-    }
-    throw new Error('Unexpected gate')
-  }),
   getMultichainFeatures: jest.fn(() => ({
     showBalances: ['celo-alfajores'],
   })),
 }))
+jest.mocked(getFeatureGate).mockImplementation((gate) => {
+  if (gate === StatsigFeatureGates.ALLOW_WALLET_CONNECT_V2) {
+    return true
+  }
+  throw new Error('Unexpected gate')
+})
 
 jest.mock('statsig-react-native', () => ({
   Statsig: {

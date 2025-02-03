@@ -126,7 +126,7 @@ beforeEach(() => {
     showWalletConnect: [NetworkId['celo-alfajores']],
   })
   jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
-    if (featureGate === StatsigFeatureGates.WALLET_CONNECT_V2_ENABLED) {
+    if (featureGate === StatsigFeatureGates.ALLOW_WALLET_CONNECT_V2) {
       return true
     }
     throw new Error(`Unexpected feature gate: ${featureGate}`)
@@ -664,7 +664,7 @@ describe('initialiseWalletConnect', () => {
 
   it('doesnt initialize v2 if disabled', async () => {
     jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
-      if (featureGate === StatsigFeatureGates.WALLET_CONNECT_V2_ENABLED) {
+      if (featureGate === StatsigFeatureGates.ALLOW_WALLET_CONNECT_V2) {
         return false
       }
       throw new Error(`Unexpected feature gate: ${featureGate}`)

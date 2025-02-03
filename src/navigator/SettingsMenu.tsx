@@ -124,7 +124,7 @@ export default function SettingsMenu({ route }: Props) {
   const buildNumber = deviceInfoModule.getBuildNumber()
 
   const { sessions } = useSelector(selectSessions)
-  const walletConnectV2Enabled = getFeatureGate(StatsigFeatureGates.WALLET_CONNECT_V2_ENABLED)
+  const walletConnectV2Enabled = getFeatureGate(StatsigFeatureGates.ALLOW_WALLET_CONNECT_V2)
   const connectedDapps = sessions?.length
 
   const sessionId = useSelector(sessionIdSelector)
