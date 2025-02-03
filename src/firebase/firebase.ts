@@ -274,7 +274,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   const celoNewsString = flags.celoNews?.asString()
 
   return {
-    dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
     inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),

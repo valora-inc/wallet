@@ -23,7 +23,6 @@ describe('DappFeaturedActions', () => {
       <Provider
         store={createMockStore({
           dapps: {
-            dappListApiUrl: 'http://url.com',
             dappsList: mockDappList,
             mostPopularDappIds: ['dapp2'],
           },
@@ -52,7 +51,6 @@ describe('DappFeaturedActions', () => {
       <Provider
         store={createMockStore({
           dapps: {
-            dappListApiUrl: 'http://url.com',
             dappsList: mockDappList,
             mostPopularDappIds: ['dapp2'],
           },

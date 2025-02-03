@@ -5162,12 +5162,6 @@
                         }
                     ]
                 },
-                "dappListApiUrl": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
                 "dappsCategories": {
                     "items": {
                         "$ref": "#/definitions/DappCategory"
@@ -5210,7 +5204,6 @@
             },
             "required": [
                 "activeDapp",
-                "dappListApiUrl",
                 "dappsCategories",
                 "dappsList",
                 "dappsListError",

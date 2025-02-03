@@ -11,7 +11,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   allowOtaTranslations: false,
   sentryTracesSampleRate: 0.2,
   sentryNetworkErrors: '',
-  dappListApiUrl: 'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/dappList',
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: true,
   celoNews: JSON.stringify({} as RemoteConfigValues['celoNews']),

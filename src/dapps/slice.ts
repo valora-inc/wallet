@@ -1,13 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { ActiveDapp, Dapp, DappCategory } from 'src/dapps/types'
-import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
 interface State {
   activeDapp: ActiveDapp | null
   recentDappIds: string[]
-  dappListApiUrl: string | null
   dappsList: Dapp[]
   dappsListLoading: boolean
   dappsListError: string | null
@@ -19,7 +16,6 @@ interface State {
 const initialState: State = {
   activeDapp: null,
   recentDappIds: [],
-  dappListApiUrl: REMOTE_CONFIG_VALUES_DEFAULTS.dappListApiUrl,
   dappsList: [],
   dappsListLoading: false,
   dappsListError: null,
@@ -93,18 +89,11 @@ export const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(
-        AppActions.UPDATE_REMOTE_CONFIG_VALUES,
-        (state, action: UpdateConfigValuesAction) => {
-          state.dappListApiUrl = action.configValues.dappListApiUrl
-        }
-      )
-      .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
-        ...state,
-        ...getRehydratePayload(action, 'dapps'),
-        activeDapp: null,
-      }))
+    builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
+      ...state,
+      ...getRehydratePayload(action, 'dapps'),
+      activeDapp: null,
+    }))
   },
 })
 

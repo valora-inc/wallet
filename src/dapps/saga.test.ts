@@ -3,7 +3,6 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { handleFetchDappsList, handleOpenDapp } from 'src/dapps/saga'
-import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import { dappSelected, fetchDappsListCompleted, fetchDappsListFailed } from 'src/dapps/slice'
 import { Dapp, DappSection } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -16,6 +15,9 @@ import { mockAccount } from 'test/values'
 jest.mock('src/statsig')
 jest.mocked(getDynamicConfigParams).mockReturnValue({
   inAppWebviewEnabled: true,
+  links: {
+    dappList: 'http://some.url',
+  },
 })
 
 describe('Dapps saga', () => {
@@ -66,10 +68,7 @@ describe('Dapps saga', () => {
 
     it('does not fetch the dapps list if the wallet is not yet initialized', async () => {
       await expectSaga(handleFetchDappsList)
-        .provide([
-          [select(dappsListApiUrlSelector), 'http://some.url'],
-          [select(walletAddressSelector), null],
-        ])
+        .provide([[select(walletAddressSelector), null]])
         .run()
 
       expect(mockFetch).not.toHaveBeenCalled()
@@ -121,7 +120,6 @@ describe('Dapps saga', () => {
 
       await expectSaga(handleFetchDappsList)
         .provide([
-          [select(dappsListApiUrlSelector), 'http://some.url'],
           [select(walletAddressSelector), '0xabc'],
           [select(currentLanguageSelector), 'en'],
         ])
@@ -169,7 +167,6 @@ describe('Dapps saga', () => {
 
       await expectSaga(handleFetchDappsList)
         .provide([
-          [select(dappsListApiUrlSelector), 'http://some.url'],
           [select(walletAddressSelector), '0xabc'],
           [select(currentLanguageSelector), 'en'],
         ])

@@ -1,7 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { openDeepLink, openUrl } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl } from 'src/app/saga'
-import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import {
   dappSelected,
   DappSelectedAction,
@@ -56,7 +55,8 @@ export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
 }
 
 export function* handleFetchDappsList() {
-  const dappsListApiUrl = yield* select(dappsListApiUrlSelector)
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const dappsListApiUrl = links.dappList
   if (!dappsListApiUrl) {
     Logger.warn(TAG, 'dappsListApiUrl not found, skipping dapps list fetch')
     return

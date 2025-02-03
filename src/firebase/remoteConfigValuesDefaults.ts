@@ -6,14 +6,12 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   'sentryNetworkErrors' | 'fiatAccountSchemaCountryOverrides' | 'celoNews'
 > & {
   sentryNetworkErrors: string
-  dappListApiUrl: string
   celoNews: string
 } = {
   inviteRewardsVersion: 'none',
   allowOtaTranslations: false,
   sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
   sentryNetworkErrors: DEFAULT_SENTRY_NETWORK_ERRORS.join(','),
-  dappListApiUrl: '',
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
   celoNews: JSON.stringify({} as RemoteConfigValues['celoNews']),

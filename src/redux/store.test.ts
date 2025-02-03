@@ -207,7 +207,6 @@ describe('store state', () => {
         },
         "dapps": {
           "activeDapp": null,
-          "dappListApiUrl": null,
           "dappsCategories": [],
           "dappsList": [],
           "dappsListError": null,
