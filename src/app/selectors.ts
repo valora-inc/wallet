@@ -49,9 +49,6 @@ export const fiatConnectCashInEnabledSelector = (state: RootState) =>
 export const fiatConnectCashOutEnabledSelector = (state: RootState) =>
   state.app.fiatConnectCashOutEnabled
 
-export const maxSwapSlippagePercentageSelector = (state: RootState) =>
-  state.app.maxSwapSlippagePercentage
-
 export const phoneNumberVerifiedSelector = (state: RootState) => state.app.phoneNumberVerified
 
 export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress

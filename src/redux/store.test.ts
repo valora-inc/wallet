@@ -194,7 +194,6 @@ describe('store state', () => {
           "locked": false,
           "logPhoneNumberTypeEnabled": false,
           "loggedIn": false,
-          "maxSwapSlippagePercentage": 2,
           "networkTimeoutSeconds": 30,
           "pendingDeepLinks": [],
           "phoneNumberVerified": false,

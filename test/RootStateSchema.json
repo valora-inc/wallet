@@ -4750,9 +4750,6 @@
                 "loggedIn": {
                     "type": "boolean"
                 },
-                "maxSwapSlippagePercentage": {
-                    "type": "number"
-                },
                 "networkTimeoutSeconds": {
                     "type": "number"
                 },
@@ -4834,7 +4831,6 @@
                 "locked",
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
-                "maxSwapSlippagePercentage",
                 "networkTimeoutSeconds",
                 "pendingDeepLinks",
                 "phoneNumberVerified",

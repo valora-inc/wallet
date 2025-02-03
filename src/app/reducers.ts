@@ -36,7 +36,6 @@ interface State {
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   coinbasePayEnabled: boolean
-  maxSwapSlippagePercentage: number
   inviterAddress: string | null
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
@@ -76,7 +75,6 @@ const initialState = {
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
   coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
-  maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
   inviterAddress: null,
   networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
   celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
@@ -176,7 +174,6 @@ export const appReducer = (
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
         coinbasePayEnabled: action.configValues.coinbasePayEnabled,
-        maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
         networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
         celoNews: action.configValues.celoNews,
       }
