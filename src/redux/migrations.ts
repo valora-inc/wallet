@@ -1993,4 +1993,15 @@ export const migrations = {
       demoModeEnabled: false,
     },
   }),
+  241: (state: any) => ({
+    ...state,
+    app: _.omit(
+      state.app,
+      'walletConnectV2Enabled',
+      'logPhoneNumberTypeEnabled',
+      'coinbasePayEnabled',
+      'maxSwapSlippagePercentage',
+      'networkTimeoutSeconds'
+    ),
+  }),
 }
