@@ -2861,7 +2861,13 @@
       "title": "Demo Modu",
       "info": "Demo moduna girmek üzeresiniz. Herhangi bir işlem yapmadan uygulamanın özelliklerini keşfetmekte özgürsünüz",
       "cta": "Demo Girin"
-    }
+    },
+    "confirmExit": {
+      "title": "Demo Modunda",
+      "info": "Şu anda uygulamayı demo modunda görüntülüyorsunuz",
+      "cta": "Çıkış Demosu"
+    },
+    "inAppIndicatorLabel": "Demo Modu"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
