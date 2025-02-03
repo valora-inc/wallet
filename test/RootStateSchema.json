@@ -5195,9 +5195,6 @@
                     },
                     "type": "array"
                 },
-                "maxNumRecentDapps": {
-                    "type": "number"
-                },
                 "mostPopularDappIds": {
                     "items": {
                         "type": "string"
@@ -5219,7 +5216,6 @@
                 "dappsListError",
                 "dappsListLoading",
                 "favoriteDappIds",
-                "maxNumRecentDapps",
                 "mostPopularDappIds",
                 "recentDappIds"
             ],

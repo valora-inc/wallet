@@ -213,7 +213,6 @@ describe('store state', () => {
           "dappsListError": null,
           "dappsListLoading": false,
           "favoriteDappIds": [],
-          "maxNumRecentDapps": 0,
           "mostPopularDappIds": [],
           "recentDappIds": [],
         },

@@ -6,7 +6,6 @@ import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persi
 
 interface State {
   activeDapp: ActiveDapp | null
-  maxNumRecentDapps: number
   recentDappIds: string[]
   dappListApiUrl: string | null
   dappsList: Dapp[]
@@ -19,7 +18,6 @@ interface State {
 
 const initialState: State = {
   activeDapp: null,
-  maxNumRecentDapps: REMOTE_CONFIG_VALUES_DEFAULTS.maxNumRecentDapps,
   recentDappIds: [],
   dappListApiUrl: REMOTE_CONFIG_VALUES_DEFAULTS.dappListApiUrl,
   dappsList: [],
@@ -99,7 +97,6 @@ export const slice = createSlice({
       .addCase(
         AppActions.UPDATE_REMOTE_CONFIG_VALUES,
         (state, action: UpdateConfigValuesAction) => {
-          state.maxNumRecentDapps = action.configValues.maxNumRecentDapps
           state.dappListApiUrl = action.configValues.dappListApiUrl
         }
       )
