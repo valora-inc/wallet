@@ -179,7 +179,6 @@ export interface RemoteConfigValues {
   celoEducationUri: string | null
   dappListApiUrl: string | null
   inviteRewardsVersion: string
-  logPhoneNumberTypeEnabled: boolean
   pincodeUseExpandedBlocklist: boolean
   allowOtaTranslations: boolean
   sentryTracesSampleRate: number

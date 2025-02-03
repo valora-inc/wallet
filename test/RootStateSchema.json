@@ -4741,9 +4741,6 @@
                 "locked": {
                     "type": "boolean"
                 },
-                "logPhoneNumberTypeEnabled": {
-                    "type": "boolean"
-                },
                 "loggedIn": {
                     "type": "boolean"
                 },
@@ -4819,7 +4816,6 @@
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",
-                "logPhoneNumberTypeEnabled",
                 "loggedIn",
                 "pendingDeepLinks",
                 "phoneNumberVerified",

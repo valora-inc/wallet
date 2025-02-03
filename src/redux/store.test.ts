@@ -191,7 +191,6 @@ describe('store state', () => {
           "inviterAddress": null,
           "lastTimeBackgrounded": 0,
           "locked": false,
-          "logPhoneNumberTypeEnabled": false,
           "loggedIn": false,
           "pendingDeepLinks": [],
           "phoneNumberVerified": false,

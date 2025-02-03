@@ -24,9 +24,6 @@ export const sessionIdSelector = (state: RootState) => {
   return state.app.sessionId
 }
 
-export const logPhoneNumberTypeEnabledSelector = (state: RootState) =>
-  state.app.logPhoneNumberTypeEnabled
-
 export const googleMobileServicesAvailableSelector = (state: RootState) =>
   state.app.googleMobileServicesAvailable
 

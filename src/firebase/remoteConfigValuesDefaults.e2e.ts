@@ -9,7 +9,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
 } = {
   inviteRewardsVersion: 'none',
   pincodeUseExpandedBlocklist: true,
-  logPhoneNumberTypeEnabled: false,
   allowOtaTranslations: false,
   sentryTracesSampleRate: 0.2,
   sentryNetworkErrors: '',

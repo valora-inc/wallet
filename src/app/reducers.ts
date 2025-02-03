@@ -25,7 +25,6 @@ interface State {
   activeScreen: Screens
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
-  logPhoneNumberTypeEnabled: boolean
   googleMobileServicesAvailable?: boolean
   huaweiMobileServicesAvailable?: boolean
   pincodeUseExpandedBlocklist: boolean
@@ -61,7 +60,6 @@ const initialState = {
   sessionId: '',
   celoEducationUri: null,
   activeScreen: Screens.Main,
-  logPhoneNumberTypeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.logPhoneNumberTypeEnabled,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
   pincodeUseExpandedBlocklist: REMOTE_CONFIG_VALUES_DEFAULTS.pincodeUseExpandedBlocklist,
@@ -160,7 +158,6 @@ export const appReducer = (
       return {
         ...state,
         celoEducationUri: action.configValues.celoEducationUri,
-        logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
