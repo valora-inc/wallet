@@ -16,6 +16,7 @@ import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import Logger from 'src/utils/Logger'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockOnboardingProps } from 'test/values'
+import * as config from 'src/config'
 
 const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
 
@@ -27,6 +28,8 @@ jest.mock('src/onboarding/steps', () => ({
   onboardingPropsSelector: () => mockOnboardingPropsSelector(),
   getOnboardingStepValues: () => ({ step: 2, totalSteps: 3 }),
 }))
+
+const mockConfig = jest.mocked(config)
 
 function createStore(keylessBackupStatus: KeylessBackupStatus, zeroBalance = false) {
   return createMockStore({
@@ -57,6 +60,7 @@ function getProps(
 describe('KeylessBackupProgress', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    mockConfig.CYA_ENABLED = true
   })
   describe('setup', () => {
     it('Logs error when not started', async () => {
@@ -172,7 +176,7 @@ describe('KeylessBackupProgress', () => {
         { origin: KeylessBackupOrigin.Onboarding }
       )
     })
-    it('navigates to CYA on failure when coming from onboarding', async () => {
+    it('navigates to CYA on failure when coming from onboarding if CYA enabled', async () => {
       jest.mocked(ensurePincode).mockResolvedValueOnce(true)
       const { getByTestId } = render(
         <Provider store={createStore(KeylessBackupStatus.Failed)}>
@@ -185,6 +189,27 @@ describe('KeylessBackupProgress', () => {
       fireEvent.press(getByTestId('KeylessBackupProgress/Skip'))
 
       expect(navigate).toBeCalledWith(Screens.ChooseYourAdventure)
+
+      expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(AppAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_progress_failed_skip_onboarding
+      )
+    })
+    it('navigates to home on failure when coming from onboarding if CYA disabled', async () => {
+      mockConfig.CYA_ENABLED = false
+      jest.mocked(ensurePincode).mockResolvedValueOnce(true)
+      const { getByTestId } = render(
+        <Provider store={createStore(KeylessBackupStatus.Failed)}>
+          <KeylessBackupProgress
+            {...getProps(KeylessBackupFlow.Setup, KeylessBackupOrigin.Onboarding)}
+          />
+        </Provider>
+      )
+      expect(getByTestId('KeylessBackupProgress/Skip')).toBeTruthy()
+      fireEvent.press(getByTestId('KeylessBackupProgress/Skip'))
+
+      expect(navigate).not.toBeCalledWith(Screens.ChooseYourAdventure)
+      expect(navigateHome).toHaveBeenCalledTimes(1)
 
       expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
       expect(AppAnalytics.track).toHaveBeenCalledWith(

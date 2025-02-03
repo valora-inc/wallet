@@ -40,6 +40,7 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTotalTokenBalance } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
+import { CYA_ENABLED } from 'src/config'
 
 const TAG = 'keylessBackup/KeylessBackupProgress'
 
@@ -341,7 +342,11 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
 
   const onPressSkip = () => {
     AppAnalytics.track(KeylessBackupEvents.cab_progress_failed_skip_onboarding)
-    navigate(Screens.ChooseYourAdventure)
+    if (CYA_ENABLED) {
+      navigate(Screens.ChooseYourAdventure)
+    } else {
+      navigateHome()
+    }
   }
 
   switch (keylessBackupStatus) {

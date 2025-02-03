@@ -4,15 +4,22 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { background } from 'src/images/Images'
 import Logo from 'src/images/Logo'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { CYA_ENABLED } from 'src/config'
 
 function OnboardingSuccessScreen() {
   useEffect(() => {
-    const timeout = setTimeout(() => navigate(Screens.ChooseYourAdventure), 3000)
+    const timeout = setTimeout(() => {
+      if (CYA_ENABLED) {
+        navigate(Screens.ChooseYourAdventure)
+      } else {
+        navigateHome()
+      }
+    }, 3000)
 
     return () => clearTimeout(timeout)
   }, [])
