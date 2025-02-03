@@ -38,8 +38,6 @@ import {
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -115,18 +113,12 @@ export class PincodeSet extends React.Component<Props, State> {
     isVerifying: false,
   }
 
-  useExpandedBlocklist = getFeatureGate(StatsigFeatureGates.ALLOW_EXPANDED_PINCODE_BLOCKLIST)
-
   componentDidMount = () => {
     if (this.isChangingPin()) {
       // We're storing the PIN on the state because it will definitely be in the cache now
       // but it might expire by the time the user enters their new PIN if they take more
       // than 5 minutes to do so.
       this.setState({ oldPin: getCachedPin(DEFAULT_CACHE_ACCOUNT) ?? '' })
-    }
-    // Load the PIN blocklist from the bundle into the component state.
-    if (this.useExpandedBlocklist) {
-      this.setState({ blocklist: new PinBlocklist() })
     }
 
     // Setting choseToRestoreAccount on route param for navigationOptions
@@ -168,10 +160,7 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   isPin1Valid = (pin: string) => {
-    return (
-      isPinValid(pin) &&
-      (!this.useExpandedBlocklist || this.state.blocklist?.contains(pin) === false)
-    )
+    return isPinValid(pin) && this.state.blocklist?.contains(pin) === false
   }
 
   isPin2Valid = (pin: string) => {

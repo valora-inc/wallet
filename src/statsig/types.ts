@@ -38,7 +38,6 @@ export enum StatsigFeatureGates {
   SHOW_NEW_ENTER_AMOUNT_FOR_SWAP = 'show_new_enter_amount_for_swap',
   ALLOW_CROSS_CHAIN_SWAP_AND_DEPOSIT = 'allow_cross_chain_swap_and_deposit',
   ALLOW_WALLET_CONNECT_V2 = 'allow_wallet_connect_v2',
-  ALLOW_EXPANDED_PINCODE_BLOCKLIST = 'allow_expanded_pincode_blocklist',
 }
 
 export enum StatsigExperiments {
