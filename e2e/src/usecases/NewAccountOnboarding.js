@@ -63,9 +63,6 @@ export default NewAccountOnboarding = () => {
     // Skip Phone Number verification
     await element(by.id('PhoneVerificationSkipHeader')).tap()
 
-    // Choose your own adventure (CYA screen)
-    await waitForElementById('ChooseYourAdventure/Later', { tap: true })
-
     // Arrived to Home screen
     await arriveAtHomeScreen()
 

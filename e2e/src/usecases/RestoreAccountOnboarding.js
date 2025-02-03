@@ -59,9 +59,6 @@ export default RestoreAccountOnboarding = () => {
         await waitForElementById('PhoneVerificationSkipHeader', { tap: true })
       }
 
-      // Choose your own adventure (CYA screen)
-      await waitForElementById('ChooseYourAdventure/Later', { tap: true })
-
       // verify that we land on the home screen
       await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 
