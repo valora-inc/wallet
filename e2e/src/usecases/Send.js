@@ -12,6 +12,7 @@ import {
   quickOnboarding,
   waitForElementById,
 } from '../utils/utils'
+import { sleep } from '../../../src/utils/sleep'
 
 export default Send = () => {
   const recipientAddressDisplay = getDisplayAddress(DEFAULT_RECIPIENT_ADDRESS)
@@ -96,6 +97,7 @@ export default Send = () => {
        */
       await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('')
       await element(by.id('SendEnterAmount/TokenAmountInput')).typeText('1000000.123456')
+      await sleep(3000)
       const input = await element(by.id('SendEnterAmount/TokenAmountInput')).getAttributes()
       jestExpect(input.value).toBe('1,000,000.123456')
 
