@@ -12,7 +12,12 @@ import { mockE164Number } from 'test/values'
 
 jest.mock('src/statsig', () => ({
   ...jest.requireActual('src/statsig'),
-  getFeatureGate: jest.fn().mockReturnValue(false),
+  getFeatureGate: jest.fn().mockImplementation((gate) => {
+    if (gate === 'wallet_connect_v2_enabled') {
+      return true
+    }
+    throw new Error('Unexpected gate')
+  }),
   getMultichainFeatures: jest.fn(() => ({
     showBalances: ['celo-alfajores'],
   })),
