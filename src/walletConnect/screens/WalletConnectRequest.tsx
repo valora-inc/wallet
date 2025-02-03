@@ -1,4 +1,4 @@
-import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
+import { BottomSheetScreenProps } from '@interaxyz/react-navigation-bottom-sheet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text } from 'react-native'

@@ -3,6 +3,7 @@ import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AnalyticsEventType, AnalyticsPropertiesList } from 'src/analytics/Properties'
 import Touchable from 'src/components/Touchable'
+import { navigateBack } from 'src/navigator/NavigationService'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -10,7 +11,7 @@ import variables from 'src/styles/variables'
 interface CommonProps {
   disabled?: boolean
   testID?: string
-  onPress: () => void
+  onPress?: () => void
   eventName?: AnalyticsEventType
   eventProperties?: AnalyticsPropertiesList[AnalyticsEventType]
   style?: StyleProp<ViewStyle>
@@ -22,7 +23,7 @@ type WrapperProps = CommonProps & {
 
 function Wrapper({
   eventName,
-  onPress,
+  onPress = navigateBack,
   disabled,
   testID,
   children,

@@ -7,7 +7,7 @@ interface Props {
   color?: string
 }
 
-const Refresh = ({ color, height }: Props) => (
+const Refresh = ({ color = colors.contentPrimary, height = 16 }: Props) => (
   <Svg
     width={height}
     height={height}
@@ -26,10 +26,5 @@ const Refresh = ({ color, height }: Props) => (
     />
   </Svg>
 )
-
-Refresh.defaultProps = {
-  height: 16,
-  color: colors.contentPrimary,
-}
 
 export default Refresh

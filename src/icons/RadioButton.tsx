@@ -3,6 +3,7 @@ import colors from 'src/styles/colors'
 import { Circle, Svg } from 'svgs'
 
 interface Props {
+  width?: number
   height?: number
   color?: string
   selected?: boolean
@@ -10,26 +11,26 @@ interface Props {
 }
 
 export default class RadioButton extends React.PureComponent<Props> {
-  static defaultProps = {
-    width: 20,
-    height: 20,
-    color: colors.accent,
-    selected: true,
-    disabled: false,
-  }
-
   render() {
+    const {
+      width = 20,
+      height = 20,
+      color = colors.accent,
+      selected = true,
+      disabled = false,
+    } = this.props
+
     let stroke
-    if (this.props.disabled) {
+    if (disabled) {
       stroke = colors.disabled
-    } else if (this.props.selected) {
-      stroke = this.props.color
-    } else if (!this.props.selected) {
+    } else if (selected) {
+      stroke = color
+    } else if (!selected) {
       stroke = colors.inactive
     }
-    const fill = this.props.selected && !this.props.disabled ? this.props.color : 'none'
+    const fill = selected && !disabled ? color : 'none'
     return (
-      <Svg height={this.props.height} width={this.props.height} viewBox="0 0 20 20" fill="none">
+      <Svg height={height} width={width} viewBox="0 0 20 20" fill="none">
         <Circle cx="10" cy="10" r="9" stroke={stroke} strokeWidth={2} />
         <Circle cx="10" cy="10" r="6" fill={fill} />
       </Svg>

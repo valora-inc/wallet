@@ -7,14 +7,10 @@ interface Props {
 }
 
 export default class GuideKeyIcon extends React.PureComponent<Props> {
-  static defaultProps = {
-    height: 115,
-    width: 154,
-  }
-
   render() {
+    const { height = 115, width = 154 } = this.props
     return (
-      <Svg width={this.props.width} height={this.props.height} viewBox="0 0 154 115" fill="none">
+      <Svg width={width} height={height} viewBox="0 0 154 115" fill="none">
         <Path
           d="M85.88 60.094H71.31m-9.713 8.846v-8.846h9.713m0 0v8.846"
           stroke="#2E3338"

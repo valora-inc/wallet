@@ -32,16 +32,16 @@ export enum FormatType {
 }
 
 interface Props {
-  type: DisplayType
+  type?: DisplayType
   amount: MoneyAmount
-  size: number // only used for DisplayType.Big
-  hideSign: boolean
-  hideSymbol: boolean
-  hideCode: boolean
+  size?: number // only used for DisplayType.Big
+  hideSign?: boolean
+  hideSymbol?: boolean
+  hideCode?: boolean
   showLocalAmount?: boolean
-  showExplicitPositiveSign: boolean // shows '+' for a positive amount when true (default is false)
-  formatType: FormatType
-  hideFullCurrencyName: boolean
+  showExplicitPositiveSign?: boolean // shows '+' for a positive amount when true (default is false)
+  formatType?: FormatType
+  hideFullCurrencyName?: boolean
   style?: StyleProp<TextStyle>
   currencyInfo?: CurrencyInfo
   testID?: string
@@ -118,16 +118,16 @@ export function getFullCurrencyName(currency: Currency | null) {
  * @deprecated use TokenDisplay instead
  */
 export default function CurrencyDisplay({
-  type,
-  size,
-  hideSign,
-  hideSymbol,
-  hideCode,
+  type = DisplayType.Default,
+  size = 48,
+  hideSign = false,
+  hideSymbol = false,
+  hideCode = true,
   showLocalAmount,
-  showExplicitPositiveSign,
+  showExplicitPositiveSign = false,
   amount,
-  formatType,
-  hideFullCurrencyName,
+  formatType = FormatType.Default,
+  hideFullCurrencyName = true,
   style,
   currencyInfo,
   testID,
@@ -221,17 +221,6 @@ export default function CurrencyDisplay({
       {!hideFullCurrencyName && !!fullCurrencyName && ` ${fullCurrencyName}`}
     </Text>
   )
-}
-
-CurrencyDisplay.defaultProps = {
-  type: DisplayType.Default,
-  size: 48,
-  hideSign: false,
-  hideSymbol: false,
-  hideCode: true,
-  showExplicitPositiveSign: false,
-  formatType: FormatType.Default,
-  hideFullCurrencyName: true,
 }
 
 const styles = StyleSheet.create({
