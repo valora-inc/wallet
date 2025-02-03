@@ -8,7 +8,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   celoNews: string
 } = {
   inviteRewardsVersion: 'none',
-  pincodeUseExpandedBlocklist: true,
   allowOtaTranslations: false,
   sentryTracesSampleRate: 0.2,
   sentryNetworkErrors: '',

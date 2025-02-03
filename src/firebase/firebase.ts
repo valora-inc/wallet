@@ -276,7 +276,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   return {
     dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
     inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
-    pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
     sentryNetworkErrors: flags.sentryNetworkErrors.asString().split(','),

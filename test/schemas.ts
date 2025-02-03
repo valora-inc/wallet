@@ -3628,7 +3628,8 @@ export const v241Schema = {
     'coinbasePayEnabled',
     'maxSwapSlippagePercentage',
     'networkTimeoutSeconds',
-    'celoEducationUri'
+    'celoEducationUri',
+    'pincodeUseExpandedBlocklist'
   ),
 }
 

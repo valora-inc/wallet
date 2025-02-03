@@ -10,7 +10,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   celoNews: string
 } = {
   inviteRewardsVersion: 'none',
-  pincodeUseExpandedBlocklist: false,
   allowOtaTranslations: false,
   sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
   sentryNetworkErrors: DEFAULT_SENTRY_NETWORK_ERRORS.join(','),

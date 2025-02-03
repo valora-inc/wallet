@@ -38,13 +38,14 @@ import {
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 interface StateProps {
   choseToRestoreAccount: boolean | undefined
-  useExpandedBlocklist: boolean
   account: string
   registrationStep: { step: number; totalSteps: number }
   onboardingProps: OnboardingProps
@@ -74,7 +75,6 @@ function mapStateToProps(state: RootState): StateProps {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     onboardingProps: onboardingPropsSelector(state),
     registrationStep: getOnboardingStepValues(Screens.PincodeSet, onboardingPropsSelector(state)),
-    useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
     supportedBiometryType: supportedBiometryTypeSelector(state),
   }
@@ -115,6 +115,8 @@ export class PincodeSet extends React.Component<Props, State> {
     isVerifying: false,
   }
 
+  useExpandedBlocklist = getFeatureGate(StatsigFeatureGates.ALLOW_EXPANDED_PINCODE_BLOCKLIST)
+
   componentDidMount = () => {
     if (this.isChangingPin()) {
       // We're storing the PIN on the state because it will definitely be in the cache now
@@ -123,7 +125,7 @@ export class PincodeSet extends React.Component<Props, State> {
       this.setState({ oldPin: getCachedPin(DEFAULT_CACHE_ACCOUNT) ?? '' })
     }
     // Load the PIN blocklist from the bundle into the component state.
-    if (this.props.useExpandedBlocklist) {
+    if (this.useExpandedBlocklist) {
       this.setState({ blocklist: new PinBlocklist() })
     }
 
@@ -168,7 +170,7 @@ export class PincodeSet extends React.Component<Props, State> {
   isPin1Valid = (pin: string) => {
     return (
       isPinValid(pin) &&
-      (!this.props.useExpandedBlocklist || this.state.blocklist?.contains(pin) === false)
+      (!this.useExpandedBlocklist || this.state.blocklist?.contains(pin) === false)
     )
   }
 

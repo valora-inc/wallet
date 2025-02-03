@@ -178,7 +178,6 @@ export function* checkAndroidMobileServicesSaga() {
 export interface RemoteConfigValues {
   dappListApiUrl: string | null
   inviteRewardsVersion: string
-  pincodeUseExpandedBlocklist: boolean
   allowOtaTranslations: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]

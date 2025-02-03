@@ -4747,9 +4747,6 @@
                 "phoneNumberVerified": {
                     "type": "boolean"
                 },
-                "pincodeUseExpandedBlocklist": {
-                    "type": "boolean"
-                },
                 "pushNotificationRequestedUnixTime": {
                     "type": [
                         "null",
@@ -4812,7 +4809,6 @@
                 "loggedIn",
                 "pendingDeepLinks",
                 "phoneNumberVerified",
-                "pincodeUseExpandedBlocklist",
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
                 "requirePinOnAppOpen",

@@ -2002,7 +2002,8 @@ export const migrations = {
       'coinbasePayEnabled',
       'maxSwapSlippagePercentage',
       'networkTimeoutSeconds',
-      'celoEducationUri'
+      'celoEducationUri',
+      'pincodeUseExpandedBlocklist'
     ),
   }),
 }
