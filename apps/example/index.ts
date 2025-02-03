@@ -7,7 +7,7 @@ if (!expoConfig) {
   throw new Error('expoConfig is not available')
 }
 
-// Create Mobile Stack app
+// Create Intera app
 const App = createApp({
   // For now use 'Valora' so CPV works (since it's known by identity-service)
   // TODO: find a better long term solution
@@ -20,7 +20,7 @@ const App = createApp({
     : 'example',
   features: {
     // Special case for e2e tests as it doesn't handle cloud backup
-    ...(process.env.EXPO_PUBLIC_MOBILE_STACK_E2E === 'true' && {
+    ...(process.env.EXPO_PUBLIC_INTERA_E2E === 'true' && {
       cloudBackup: false,
     }),
   },

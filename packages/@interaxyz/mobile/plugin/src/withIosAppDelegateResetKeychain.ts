@@ -68,7 +68,7 @@ export const withIosAppDelegateResetKeychain: ConfigPlugin = (config) => {
   return withAppDelegate(config, (config) => {
     if (!['objc', 'objcpp'].includes(config.modResults.language)) {
       throw new Error(
-        `Cannot setup MobileStack runtime because the project AppDelegate is not a supported language: ${config.modResults.language}`
+        `Cannot setup Intera runtime because the project AppDelegate is not a supported language: ${config.modResults.language}`
       )
     }
 
@@ -78,7 +78,7 @@ export const withIosAppDelegateResetKeychain: ConfigPlugin = (config) => {
     } catch (error: any) {
       if (error.code === 'ERR_NO_MATCH') {
         throw new Error(
-          `Cannot add MobileStack runtime to the project's AppDelegate because it's malformed. Please report this with a copy of your project AppDelegate.`
+          `Cannot add Intera runtime to the project's AppDelegate because it's malformed. Please report this with a copy of your project AppDelegate.`
         )
       }
       throw error

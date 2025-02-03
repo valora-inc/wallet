@@ -72,7 +72,7 @@ export const withAndroidUserAgent: ConfigPlugin<{ appName?: string }> = (config,
   return withMainApplication(config, (config) => {
     if (!['kt'].includes(config.modResults.language)) {
       throw new Error(
-        `Cannot setup MobileStack runtime because the project MainApplication is not a supported language: ${config.modResults.language}`
+        `Cannot setup Intera runtime because the project MainApplication is not a supported language: ${config.modResults.language}`
       )
     }
 
@@ -85,7 +85,7 @@ export const withAndroidUserAgent: ConfigPlugin<{ appName?: string }> = (config,
     } catch (error: any) {
       if (error.code === 'ERR_NO_MATCH') {
         throw new Error(
-          `Cannot add MobileStack runtime to the project's MainApplication because it's malformed. Please report this with a copy of your project MainApplication.`
+          `Cannot add Intera runtime to the project's MainApplication because it's malformed. Please report this with a copy of your project MainApplication.`
         )
       }
       throw error

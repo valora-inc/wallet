@@ -41,7 +41,7 @@ export const APP_NAME = 'Valora'
 export const APP_REGISTRY_NAME = configOrThrow('APP_REGISTRY_NAME')
 
 // DEV only related settings
-export const isE2EEnv = stringToBoolean(process.env.EXPO_PUBLIC_MOBILE_STACK_E2E || 'false')
+export const isE2EEnv = stringToBoolean(process.env.EXPO_PUBLIC_INTERA_E2E || 'false')
 export const DEV_RESTORE_NAV_STATE_ON_RELOAD = stringToBoolean(
   Config.DEV_RESTORE_NAV_STATE_ON_RELOAD || 'false'
 )

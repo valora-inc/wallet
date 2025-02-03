@@ -22,7 +22,7 @@ function getOnboardingFeatures(config: PublicAppConfig) {
   }
   // Special case for e2e to test phone number verification
   // As we're not yet sure how we wanna expose this feature in the runtime
-  if (process.env.EXPO_PUBLIC_MOBILE_STACK_E2E === 'true') {
+  if (process.env.EXPO_PUBLIC_INTERA_E2E === 'true') {
     onboardingFeatures.push(ToggleableOnboardingFeatures.PhoneVerification)
   }
   if (onboardingConfig) {
