@@ -117,6 +117,7 @@ export const DynamicConfigs = {
         earnStablecoinsLearnMore: 'https://valora.xyz/stablecoin-earn',
         celoEducation: 'https://valoraapp.com/support/quick-guide',
         dappList: 'https://api.mainnet.valora.xyz/dappList',
+        celoNews: 'https://blog.celo.org',
       },
     },
   },

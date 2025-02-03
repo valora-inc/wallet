@@ -30,7 +30,6 @@ import {
   inAppReviewLastInteractionTimestampSelector,
   sentryNetworkErrorsSelector,
 } from 'src/app/selectors'
-import { CeloNewsConfig } from 'src/celoNews/types'
 import { DEFAULT_APP_LANGUAGE, FETCH_TIMEOUT_DURATION, isE2EEnv } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
@@ -183,7 +182,6 @@ export interface RemoteConfigValues {
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
-  celoNews: CeloNewsConfig
 }
 
 export function* appRemoteFeatureFlagSaga() {

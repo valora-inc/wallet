@@ -1,7 +1,6 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { CeloNewsConfig } from 'src/celoNews/types'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
@@ -32,7 +31,6 @@ interface State {
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   inviterAddress: string | null
-  celoNews: CeloNewsConfig
   hapticFeedbackEnabled: boolean
   pushNotificationRequestedUnixTime: number | null
   pushNotificationsEnabled: boolean
@@ -65,7 +63,6 @@ const initialState = {
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
   inviterAddress: null,
-  celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
   hapticFeedbackEnabled: true,
   pushNotificationRequestedUnixTime: null,
   pushNotificationsEnabled: false,
@@ -157,7 +154,6 @@ export const appReducer = (
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
-        celoNews: action.configValues.celoNews,
       }
     case Actions.ACTIVE_SCREEN_CHANGED:
       return {

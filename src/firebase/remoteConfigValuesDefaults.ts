@@ -3,10 +3,9 @@ import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  'sentryNetworkErrors' | 'fiatAccountSchemaCountryOverrides' | 'celoNews'
+  'sentryNetworkErrors' | 'fiatAccountSchemaCountryOverrides'
 > & {
   sentryNetworkErrors: string
-  celoNews: string
 } = {
   inviteRewardsVersion: 'none',
   allowOtaTranslations: false,
@@ -14,5 +13,4 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   sentryNetworkErrors: DEFAULT_SENTRY_NETWORK_ERRORS.join(','),
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
-  celoNews: JSON.stringify({} as RemoteConfigValues['celoNews']),
 }

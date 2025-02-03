@@ -4696,9 +4696,6 @@
                 "appState": {
                     "$ref": "#/definitions/AppState"
                 },
-                "celoNews": {
-                    "$ref": "#/definitions/CeloNewsConfig"
-                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -4797,7 +4794,6 @@
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
-                "celoNews",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",

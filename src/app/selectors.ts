@@ -45,8 +45,6 @@ export const phoneNumberVerifiedSelector = (state: RootState) => state.app.phone
 
 export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress
 
-export const celoNewsConfigSelector = (state: RootState) => state.app.celoNews
-
 export const hapticFeedbackEnabledSelector = (state: RootState) => state.app.hapticFeedbackEnabled
 
 export const pushNotificationsEnabledSelector = (state: RootState) =>

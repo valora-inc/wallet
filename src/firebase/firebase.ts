@@ -271,7 +271,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   // RemoteConfigValues is in app/saga.ts
 
   const fiatAccountSchemaCountryOverrides = flags.fiatAccountSchemaCountryOverrides?.asString()
-  const celoNewsString = flags.celoNews?.asString()
 
   return {
     inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
@@ -283,7 +282,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
       ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
-    celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
   }
 }
 
