@@ -29,12 +29,7 @@ import {
   OnboardingProps,
   onboardingPropsSelector,
 } from 'src/onboarding/steps'
-import {
-  DEFAULT_CACHE_ACCOUNT,
-  isPinValid,
-  PinBlocklist,
-  updatePin,
-} from 'src/pincode/authentication'
+import { DEFAULT_CACHE_ACCOUNT, isPinValid, updatePin } from 'src/pincode/authentication'
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
@@ -60,7 +55,6 @@ interface State {
   pin1: string
   pin2: string
   errorText: string | null
-  blocklist: PinBlocklist | undefined
   isVerifying: boolean
 }
 
@@ -109,7 +103,6 @@ export class PincodeSet extends React.Component<Props, State> {
     pin1: '',
     pin2: '',
     errorText: null,
-    blocklist: undefined,
     isVerifying: false,
   }
 
@@ -160,7 +153,7 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   isPin1Valid = (pin: string) => {
-    return isPinValid(pin) && this.state.blocklist?.contains(pin) === false
+    return isPinValid(pin)
   }
 
   isPin2Valid = (pin: string) => {
