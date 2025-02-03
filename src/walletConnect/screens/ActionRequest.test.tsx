@@ -367,7 +367,6 @@ describe('ActionRequest with WalletConnect V2', () => {
     it('should use the name from activeDapp if the request domain matches', () => {
       const store = createMockStore({
         dapps: {
-          dappsWebViewEnabled: true,
           activeDapp,
         },
         walletConnect: {
@@ -409,7 +408,6 @@ describe('ActionRequest with WalletConnect V2', () => {
     it("should use the payload domain if activeDapp doesn't match", () => {
       const store = createMockStore({
         dapps: {
-          dappsWebViewEnabled: true,
           activeDapp,
         },
         walletConnect: {
@@ -451,7 +449,6 @@ describe('ActionRequest with WalletConnect V2', () => {
     it('should display an empty fallback', () => {
       const store = createMockStore({
         dapps: {
-          dappsWebViewEnabled: true,
           activeDapp,
         },
         walletConnect: {
