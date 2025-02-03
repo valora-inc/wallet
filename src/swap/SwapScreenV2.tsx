@@ -42,7 +42,7 @@ import FeeInfoBottomSheet from 'src/swap/FeeInfoBottomSheet'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import getCrossChainFee from 'src/swap/getCrossChainFee'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
-import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/swap/selectors'
+import { currentSwapSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
 import { AppFeeAmount, Field, SwapFeeAmount } from 'src/swap/types'
 import useFilterChips from 'src/swap/useFilterChips'
@@ -86,9 +86,8 @@ export default function SwapScreenV2({ route }: Props) {
   const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
   const { swappableFromTokens, swappableToTokens, areSwapTokensShuffled } = useSwappableTokens()
   const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
-  const { maxSlippagePercentage, enableAppFee } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
-  )
+  const { maxSlippagePercentage, enableAppFee, priceImpactWarningThreshold } =
+    getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG])
 
   const inputFromRef = useRef<RNTextInput>(null)
   const inputToRef = useRef<RNTextInput>(null)
@@ -119,7 +118,6 @@ export default function SwapScreenV2({ route }: Props) {
 
   const currentSwap = useSelector(currentSwapSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
-  const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
   const tokensById = useSelector((state) =>
     tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
   )

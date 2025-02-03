@@ -284,8 +284,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
       ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
-    // Convert to percentage, so we're consistent with the price impact value returned by our swap API
-    priceImpactWarningThreshold: flags.priceImpactWarningThreshold.asNumber() * 100,
   }
 }
 

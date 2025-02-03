@@ -67,6 +67,7 @@ export const DynamicConfigs = {
       enableAppFee: false,
       popularTokenIds: [] as string[],
       enabled: false,
+      priceImpactWarningThreshold: 4,
     },
   },
   [StatsigDynamicConfigs.CICO_TOKEN_INFO]: {

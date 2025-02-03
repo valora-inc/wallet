@@ -353,7 +353,6 @@ describe('store state', () => {
         "swap": {
           "currentSwap": null,
           "lastSwapped": [],
-          "priceImpactWarningThreshold": 4,
         },
         "tokens": {
           "error": false,

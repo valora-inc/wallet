@@ -184,7 +184,6 @@ export interface RemoteConfigValues {
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
   celoNews: CeloNewsConfig
-  priceImpactWarningThreshold: number
 }
 
 export function* appRemoteFeatureFlagSaga() {

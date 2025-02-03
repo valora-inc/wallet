@@ -15,5 +15,4 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
   celoNews: JSON.stringify({} as RemoteConfigValues['celoNews']),
-  priceImpactWarningThreshold: 0.04,
 }

@@ -5387,16 +5387,11 @@
                         "type": "string"
                     },
                     "type": "array"
-                },
-                "priceImpactWarningThreshold": {
-                    "description": "In percentage, between 0 and 100",
-                    "type": "number"
                 }
             },
             "required": [
                 "currentSwap",
-                "lastSwapped",
-                "priceImpactWarningThreshold"
+                "lastSwapped"
             ],
             "type": "object"
         },
