@@ -3,17 +3,20 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { handleFetchDappsList, handleOpenDapp } from 'src/dapps/saga'
-import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
+import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import { dappSelected, fetchDappsListCompleted, fetchDappsListFailed } from 'src/dapps/slice'
 import { Dapp, DappSection } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getExperimentParams } from 'src/statsig'
+import { getDynamicConfigParams, getExperimentParams } from 'src/statsig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount } from 'test/values'
 
 jest.mock('src/statsig')
+jest.mocked(getDynamicConfigParams).mockReturnValue({
+  inAppWebviewEnabled: true,
+})
 
 describe('Dapps saga', () => {
   describe('Handles opening a dapp', () => {
@@ -30,9 +33,7 @@ describe('Dapps saga', () => {
       await expectSaga(
         handleOpenDapp,
         dappSelected({ dapp: { ...baseDapp, openedFrom: DappSection.All } })
-      )
-        .provide([[select(dappsWebViewEnabledSelector), true]])
-        .run()
+      ).run()
 
       expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
         uri: baseDapp.dappUrl,
@@ -50,10 +51,7 @@ describe('Dapps saga', () => {
           },
         })
       )
-        .provide([
-          [select(dappsWebViewEnabledSelector), true],
-          [select(walletAddressSelector), mockAccount],
-        ])
+        .provide([[select(walletAddressSelector), mockAccount]])
         .run()
 
       expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: undefined })

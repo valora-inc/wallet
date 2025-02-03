@@ -14,7 +14,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
   sentryNetworkErrors: DEFAULT_SENTRY_NETWORK_ERRORS.join(','),
   maxNumRecentDapps: 0,
-  dappsWebViewEnabled: false,
   dappListApiUrl: '',
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,

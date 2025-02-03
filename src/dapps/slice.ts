@@ -5,7 +5,6 @@ import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDe
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
 interface State {
-  dappsWebViewEnabled: boolean
   activeDapp: ActiveDapp | null
   maxNumRecentDapps: number
   recentDappIds: string[]
@@ -19,7 +18,6 @@ interface State {
 }
 
 const initialState: State = {
-  dappsWebViewEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsWebViewEnabled,
   activeDapp: null,
   maxNumRecentDapps: REMOTE_CONFIG_VALUES_DEFAULTS.maxNumRecentDapps,
   recentDappIds: [],
@@ -101,9 +99,7 @@ export const slice = createSlice({
       .addCase(
         AppActions.UPDATE_REMOTE_CONFIG_VALUES,
         (state, action: UpdateConfigValuesAction) => {
-          state.dappsWebViewEnabled = action.configValues.dappsWebViewEnabled
           state.maxNumRecentDapps = action.configValues.maxNumRecentDapps
-          state.dappsWebViewEnabled = action.configValues.dappsWebViewEnabled
           state.dappListApiUrl = action.configValues.dappListApiUrl
         }
       )

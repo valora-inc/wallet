@@ -280,7 +280,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
     sentryNetworkErrors: flags.sentryNetworkErrors.asString().split(','),
     maxNumRecentDapps: flags.maxNumRecentDapps.asNumber(),
-    dappsWebViewEnabled: flags.dappsWebViewEnabled.asBoolean(),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides

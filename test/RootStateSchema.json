@@ -5189,9 +5189,6 @@
                 "dappsListLoading": {
                     "type": "boolean"
                 },
-                "dappsWebViewEnabled": {
-                    "type": "boolean"
-                },
                 "favoriteDappIds": {
                     "items": {
                         "type": "string"
@@ -5221,7 +5218,6 @@
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
-                "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",
                 "mostPopularDappIds",

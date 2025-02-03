@@ -182,7 +182,6 @@ export interface RemoteConfigValues {
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
   maxNumRecentDapps: number
-  dappsWebViewEnabled: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
