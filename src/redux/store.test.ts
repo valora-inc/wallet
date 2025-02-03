@@ -179,7 +179,6 @@ describe('store state', () => {
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
-          "celoEducationUri": null,
           "celoNews": {},
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,

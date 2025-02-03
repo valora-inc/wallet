@@ -2001,7 +2001,8 @@ export const migrations = {
       'logPhoneNumberTypeEnabled',
       'coinbasePayEnabled',
       'maxSwapSlippagePercentage',
-      'networkTimeoutSeconds'
+      'networkTimeoutSeconds',
+      'celoEducationUri'
     ),
   }),
 }

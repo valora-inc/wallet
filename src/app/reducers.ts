@@ -21,7 +21,6 @@ interface State {
   locked: boolean
   lastTimeBackgrounded: number
   sessionId: string
-  celoEducationUri: string | null
   activeScreen: Screens
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
@@ -58,7 +57,6 @@ const initialState = {
   locked: false,
   lastTimeBackgrounded: 0,
   sessionId: '',
-  celoEducationUri: null,
   activeScreen: Screens.Main,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
@@ -157,7 +155,6 @@ export const appReducer = (
     case Actions.UPDATE_REMOTE_CONFIG_VALUES:
       return {
         ...state,
-        celoEducationUri: action.configValues.celoEducationUri,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,

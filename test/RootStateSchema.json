@@ -4696,12 +4696,6 @@
                 "appState": {
                     "$ref": "#/definitions/AppState"
                 },
-                "celoEducationUri": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
                 "celoNews": {
                     "$ref": "#/definitions/CeloNewsConfig"
                 },
@@ -4806,7 +4800,6 @@
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
-                "celoEducationUri",
                 "celoNews",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",

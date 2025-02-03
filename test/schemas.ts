@@ -3627,7 +3627,8 @@ export const v241Schema = {
     'logPhoneNumberTypeEnabled',
     'coinbasePayEnabled',
     'maxSwapSlippagePercentage',
-    'networkTimeoutSeconds'
+    'networkTimeoutSeconds',
+    'celoEducationUri'
   ),
 }
 

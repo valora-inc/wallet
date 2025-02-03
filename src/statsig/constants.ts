@@ -113,6 +113,7 @@ export const DynamicConfigs = {
         inviteRewardsStableTokenLearnMore:
           'https://valora.xyz/support/invite-rewards-stabletoken-learn-more',
         earnStablecoinsLearnMore: 'https://valora.xyz/stablecoin-earn',
+        celoEducation: 'https://valoraapp.com/support/quick-guide',
       },
     },
   },

@@ -3,7 +3,7 @@ import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  'celoEducationUri' | 'sentryNetworkErrors' | 'fiatAccountSchemaCountryOverrides' | 'celoNews'
+  'sentryNetworkErrors' | 'fiatAccountSchemaCountryOverrides' | 'celoNews'
 > & {
   sentryNetworkErrors: string
   dappListApiUrl: string

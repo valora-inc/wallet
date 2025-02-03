@@ -9,6 +9,9 @@ import { Screens } from 'src/navigator/Screens'
 import { getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { useSelector } from 'src/redux/hooks'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import TransferAvatars from 'src/transactions/TransferAvatars'
@@ -24,13 +27,14 @@ function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
   const info = useSelector(recipientInfoSelector)
 
   const celoTokenId = networkConfig.celoTokenId
-  const celoEducationUri = useSelector((state) => state.app.celoEducationUri)
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const celoEducationUri = links.celoEducation
 
   const isCeloTx = amount.tokenId === celoTokenId
   const recipient = getRecipientFromAddress(address, info, metadata.title, metadata.image)
 
   const openLearnMore = () => {
-    navigate(Screens.WebViewScreen, { uri: celoEducationUri! })
+    navigate(Screens.WebViewScreen, { uri: celoEducationUri })
   }
 
   return (

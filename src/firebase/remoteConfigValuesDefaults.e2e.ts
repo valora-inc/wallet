@@ -2,7 +2,7 @@ import { RemoteConfigValues } from 'src/app/saga'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  'celoEducationUri' | 'sentryNetworkErrors' | 'fiatAccountSchemaCountryOverrides' | 'celoNews'
+  'sentryNetworkErrors' | 'fiatAccountSchemaCountryOverrides' | 'celoNews'
 > & {
   sentryNetworkErrors: string
   celoNews: string

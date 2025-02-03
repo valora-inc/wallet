@@ -274,11 +274,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   const celoNewsString = flags.celoNews?.asString()
 
   return {
-    // these next 2 flags are a bit weird because their default is undefined or null
-    // and the default map cannot have a value of undefined or null
-    // that is why we still need to check for it before calling a method
-    // in the future it would be great to avoid using these as default values
-    celoEducationUri: flags.celoEducationUri?.asString() ?? null,
     dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
     inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
     pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
