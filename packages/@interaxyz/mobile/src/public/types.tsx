@@ -142,6 +142,26 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
     }
   }
 
+  /**
+   * Optional copies overwrite. This field should contain the same language keys as @interxyz/mobile.
+   * TODO: Eventually, we want to make this fully type-safe (maybe with generics?)
+   */
+  locales?: Partial<{
+    'en-US': Record<string, any>
+    'es-419': Record<string, any>
+    'pt-BR': Record<string, any>
+    de: Record<string, any>
+    'ru-RU': Record<string, any>
+    'fr-FR': Record<string, any>
+    'it-IT': Record<string, any>
+    'uk-UA': Record<string, any>
+    'th-TH': Record<string, any>
+    'tr-TR': Record<string, any>
+    'pl-PL': Record<string, any>
+    'vi-VN': Record<string, any>
+    'zh-CN': Record<string, any>
+  }>
+
   //
   networks?: {
     // TODO: we'll pass RPC urls, API urls, etc here

@@ -7,8 +7,10 @@ import {
   withTranslation as withTranslationI18Next,
 } from 'react-i18next'
 import DeviceInfo from 'react-native-device-info'
+import { getAppConfig } from 'src/appConfig'
 import { APP_NAME, DEFAULT_APP_LANGUAGE } from 'src/config'
 import { getOtaTranslations } from 'src/i18n/otaTranslations'
+import { type PublicAppConfig } from 'src/public'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
@@ -18,6 +20,9 @@ function getAvailableResources(cachedTranslations: Resource) {
   const resources: Resource = {}
   for (const [language, value] of Object.entries(locales)) {
     let translation: ResourceLanguage
+    const custom: ResourceLanguage | undefined =
+      getAppConfig().locales?.[language as keyof PublicAppConfig['locales']]
+
     Object.defineProperty(resources, language, {
       get: () => {
         if (!translation) {
@@ -27,7 +32,7 @@ function getAvailableResources(cachedTranslations: Resource) {
             ? _.merge(cachedTranslations[language], value!.strings.translation)
             : _.merge(value!.strings.translation, cachedTranslations[language])
         }
-        return { translation }
+        return { translation, custom }
       },
       enumerable: true,
     })
@@ -53,6 +58,9 @@ export async function initI18n(
     },
     lng: language,
     resources,
+    ns: ['custom', 'translation'],
+    defaultNS: 'custom',
+    fallbackNS: 'translation',
     // Only enable for debugging as it forces evaluation of all our lazy loaded locales
     // and prints out all strings when initializing
     debug: false,
