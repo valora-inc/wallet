@@ -3633,6 +3633,17 @@ export const v241Schema = {
   ),
 }
 
+export const v242Schema = {
+  ...v241Schema,
+  _persist: {
+    ...v241Schema._persist,
+    version: 242,
+  },
+  app: _.omit(v241Schema.app, 'celoNews'),
+  dapps: _.omit(v241Schema.dapps, 'dappListApiUrl', 'maxNumRecentDapps', 'dappsWebViewEnabled'),
+  swap: _.omit(v241Schema.swap, 'priceImpactWarningThreshold'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v241Schema as Partial<RootState>
+  return v242Schema as Partial<RootState>
 }
