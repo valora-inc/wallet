@@ -53,9 +53,8 @@ export function formatNumber(value: string) {
 
 /**
  * Unformats value from the phone's selected number format to a standard "1234.5678" js number.
- * This function IS NOT indended for:
- *   - for numbers that don't follow the format from phone's settings
- *   - external numbers that are already in JS format (e.g from API responses)
+ * Do not use this function with values that are not formatted according to the device number
+ * format settings, e.g. values that are returned by API's in the standard js format.
  */
 export function unformatNumberForProcessing(value: string) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
@@ -273,11 +272,6 @@ export function useEnterAmount(props: {
       return
     }
 
-    /**
-     * If the value comes from external source (e.g. API response) then it will probably be a
-     * regular JS-compatible number in a format "1234.5678" for which we should skip the
-     * unformatting step.
-     */
     const numericValue = new BigNumber(value)
     const rawValue = numericValue.isNaN()
       ? unformatNumberForProcessing(value)
