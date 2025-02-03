@@ -24,11 +24,6 @@ export const sessionIdSelector = (state: RootState) => {
   return state.app.sessionId
 }
 
-// this can be called with undefined state in the tests
-export const walletConnectEnabledSelector = (state?: RootState) => ({
-  v2: state?.app.walletConnectV2Enabled ?? false,
-})
-
 export const logPhoneNumberTypeEnabledSelector = (state: RootState) =>
   state.app.logPhoneNumberTypeEnabled
 

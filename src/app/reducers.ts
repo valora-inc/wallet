@@ -23,7 +23,6 @@ interface State {
   sessionId: string
   celoEducationUri: string | null
   activeScreen: Screens
-  walletConnectV2Enabled: boolean
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   logPhoneNumberTypeEnabled: boolean
@@ -63,7 +62,6 @@ const initialState = {
   sessionId: '',
   celoEducationUri: null,
   activeScreen: Screens.Main,
-  walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
   logPhoneNumberTypeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.logPhoneNumberTypeEnabled,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
@@ -164,7 +162,6 @@ export const appReducer = (
       return {
         ...state,
         celoEducationUri: action.configValues.celoEducationUri,
-        walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,

@@ -208,7 +208,6 @@ describe('store state', () => {
           "sessionId": "",
           "showNotificationSpotlight": true,
           "supportedBiometryType": null,
-          "walletConnectV2Enabled": true,
         },
         "dapps": {
           "activeDapp": null,

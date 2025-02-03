@@ -4806,9 +4806,6 @@
                             "type": "null"
                         }
                     ]
-                },
-                "walletConnectV2Enabled": {
-                    "type": "boolean"
                 }
             },
             "required": [
@@ -4838,8 +4835,7 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "showNotificationSpotlight",
-                "supportedBiometryType",
-                "walletConnectV2Enabled"
+                "supportedBiometryType"
             ],
             "type": "object"
         },
