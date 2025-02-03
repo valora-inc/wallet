@@ -16,7 +16,6 @@ import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import Logger from 'src/utils/Logger'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockOnboardingProps } from 'test/values'
-import * as config from 'src/config'
 
 const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
 
@@ -28,8 +27,6 @@ jest.mock('src/onboarding/steps', () => ({
   onboardingPropsSelector: () => mockOnboardingPropsSelector(),
   getOnboardingStepValues: () => ({ step: 2, totalSteps: 3 }),
 }))
-
-const mockConfig = jest.mocked(config)
 
 function createStore(keylessBackupStatus: KeylessBackupStatus, zeroBalance = false) {
   return createMockStore({
@@ -60,7 +57,6 @@ function getProps(
 describe('KeylessBackupProgress', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    mockConfig.CYA_ENABLED = true
   })
   describe('setup', () => {
     it('Logs error when not started', async () => {
