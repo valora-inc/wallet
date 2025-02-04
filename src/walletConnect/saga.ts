@@ -834,9 +834,9 @@ export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPai
 
 export function isWalletConnectEnabled(uri: string) {
   const { version } = parseUri(uri)
-  const walletConnectV2Enabled = getFeatureGate(StatsigFeatureGates.ALLOW_WALLET_CONNECT_V2)
+  const walletConnectV2Disabled = getFeatureGate(StatsigFeatureGates.DISABLE_WALLET_CONNECT_V2)
 
-  return walletConnectV2Enabled && version === 2
+  return !walletConnectV2Disabled && version === 2
 }
 
 export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {

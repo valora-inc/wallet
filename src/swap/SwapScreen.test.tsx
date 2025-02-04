@@ -332,6 +332,7 @@ describe('SwapScreen', () => {
       links: {
         transactionFeesLearnMore: mockTxFeesLearnMoreUrl,
       },
+      priceImpactWarningThreshold: 4,
     })
 
     const originalReadContract = publicClient.celo.readContract

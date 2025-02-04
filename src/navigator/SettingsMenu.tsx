@@ -124,7 +124,7 @@ export default function SettingsMenu({ route }: Props) {
   const buildNumber = deviceInfoModule.getBuildNumber()
 
   const { sessions } = useSelector(selectSessions)
-  const walletConnectV2Enabled = getFeatureGate(StatsigFeatureGates.ALLOW_WALLET_CONNECT_V2)
+  const walletConnectV2Disabled = getFeatureGate(StatsigFeatureGates.DISABLE_WALLET_CONNECT_V2)
   const connectedDapps = sessions?.length
 
   const sessionId = useSelector(sessionIdSelector)
@@ -228,7 +228,7 @@ export default function SettingsMenu({ route }: Props) {
           showChevron
           borderless
         />
-        {walletConnectV2Enabled && (
+        {!walletConnectV2Disabled && (
           <SettingsItemTextValue
             icon={<Stack size={24} color={Colors.contentPrimary} />}
             title={t('connectedApplications')}
