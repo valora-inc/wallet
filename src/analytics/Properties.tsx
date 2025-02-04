@@ -72,7 +72,6 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
-import { AdventureCardName } from 'src/onboarding/types'
 import { PointsActivityId } from 'src/points/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { AmountEnteredIn, QrCode } from 'src/send/types'
@@ -409,14 +408,6 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.protect_wallet_help_dismiss]: undefined
   [OnboardingEvents.protect_wallet_copy_phrase]: undefined
   [OnboardingEvents.protect_wallet_complete]: undefined
-  [OnboardingEvents.cya_button_press]: {
-    cardName: AdventureCardName
-    position: number
-    cardOrder: AdventureCardName[]
-  }
-  [OnboardingEvents.cya_later]: {
-    cardOrder: AdventureCardName[]
-  }
   [OnboardingEvents.link_phone_number]: undefined
   [OnboardingEvents.link_phone_number_later]: undefined
 }

@@ -51,21 +51,13 @@ export function formatNumber(value: string) {
     .replaceAll('_', groupingSeparator)
 }
 
+/**
+ * Unformats value from the phone's selected number format to a standard "1234.5678" js number.
+ * Do not use this function with values that are not formatted according to the device number
+ * format settings, e.g. values that are returned by API's in the standard js format.
+ */
 export function unformatNumberForProcessing(value: string) {
   const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
-
-  /**
-   * If the number passed is a regular number which is formatted in the standard JS number format
-   * (e.g. "123456.789") then just keep it as is. This will ensure this function will properly
-   * unformat different numbers, including those that come from external sources (e.g from API
-   * response)
-   *
-   * Number.isNaN considers unfinished decimal number e.g. "1." a valid number. If the number ends with grouping separator instead of decimal separator - it can be simply erased by casting it to a number.
-   */
-  if (!Number.isNaN(+value)) {
-    return value.endsWith(groupingSeparator) ? `${+value}` : value
-  }
-
   return value.replaceAll(groupingSeparator, '').replaceAll(decimalSeparator, '.')
 }
 
@@ -267,6 +259,11 @@ export function useEnterAmount(props: {
     }
   }
 
+  /**
+   * This function is intended for a full value replacement. This is mostly useful for the swap
+   * flow when the "To" amount is always calculated by the API and have to be replaced while
+   * keeping the intended number formatting logic.
+   */
   function replaceAmount(value: string) {
     if (!props.token) return
 
@@ -275,7 +272,11 @@ export function useEnterAmount(props: {
       return
     }
 
-    const rawValue = unformatNumberForProcessing(value)
+    const numericValue = new BigNumber(value)
+    const rawValue = numericValue.isNaN()
+      ? unformatNumberForProcessing(value)
+      : numericValue.toFixed()
+
     const roundedAmount =
       amountType === 'token'
         ? new BigNumber(rawValue).decimalPlaces(props.token.decimals).toString()
