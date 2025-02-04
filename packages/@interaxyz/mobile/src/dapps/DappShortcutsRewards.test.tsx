@@ -10,6 +10,7 @@ import { createMockStore } from 'test/utils'
 import { mockCusdAddress, mockCusdTokenId, mockPositions, mockShortcuts } from 'test/values'
 
 jest.mock('src/statsig', () => ({
+  ...jest.requireActual('src/statsig'),
   getFeatureGate: jest.fn(() => true),
 }))
 jest.mock('src/web3/networkConfig', () => {

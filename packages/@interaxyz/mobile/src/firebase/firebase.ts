@@ -295,7 +295,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
       ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
-    showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
@@ -369,6 +368,11 @@ export function simpleReadChannel(key: string) {
 }
 
 export async function readOnceFromFirebase(path: string) {
+  if (!FIREBASE_ENABLED) {
+    Logger.info(`${TAG}/readOnceFromFirebase`, 'Firebase disabled')
+    return null
+  }
+
   const timeout = new Promise<void>((_, reject) =>
     setTimeout(
       () => reject(Error(`Reading from Firebase @ ${path} timed out.`)),

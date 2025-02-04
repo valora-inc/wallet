@@ -15,8 +15,9 @@ import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
 import SwapArrows from 'src/icons/SwapArrows'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
-import { useSelector } from 'src/redux/hooks'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -29,7 +30,9 @@ type Actions = Record<
 function ActionsCarousel() {
   const { t } = useTranslation()
 
-  const shouldShowSwapAction = useSelector(isAppSwapsEnabledSelector)
+  const shouldShowSwapAction = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
+  ).enabled
 
   const actions: Actions = {
     [HomeActionName.Send]: {

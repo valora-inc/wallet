@@ -213,8 +213,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [OnboardingEvents.protect_wallet_help_dismiss]: ``,
   [OnboardingEvents.protect_wallet_copy_phrase]: ``,
   [OnboardingEvents.protect_wallet_complete]: ``,
-  [OnboardingEvents.cya_button_press]: `when one of the choose your adventure card is pressed. Properties include card name, position of the card (1-based index) and card order`,
-  [OnboardingEvents.cya_later]: `when "I'll explore later" is pressed`,
   [OnboardingEvents.link_phone_number]: `User chooses to link phone number for CPV after recovery flow`,
   [OnboardingEvents.link_phone_number_later]: `User chooses not to link phone number for CPV after recovery flow`,
 
@@ -585,9 +583,10 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [EarnEvents.earn_deposit_complete]: `When a user taps on the complete button on the deposit bottom sheet`,
   [EarnEvents.earn_deposit_cancel]: `When a user taps on the cancel button on the deposit bottom sheet`,
   [EarnEvents.earn_deposit_submit_start]: `When the wallet is about to submit the deposit transaction to the network`,
-  [EarnEvents.earn_deposit_submit_success]: `When the deposit transaction succeeds`,
+  [EarnEvents.earn_deposit_submit_success]: `When the deposit transaction succeeds. For cross chain swaps, when the tx is submitted to the source chain`,
   [EarnEvents.earn_deposit_submit_error]: `When the deposit transaction fails`,
   [EarnEvents.earn_deposit_submit_cancel]: `When the user cancels the deposit after submitting by cancelling PIN input`,
+  [EarnEvents.earn_deposit_execute_success]: `When the deposit transaction is executed successfully and funds are deposited to the pool. For cross chain swaps, this is after the tx completely succeeds`,
   [EarnEvents.earn_enter_amount_continue_press]: `When a user taps continue on the earn enter amount`,
   [EarnEvents.earn_feed_item_select]: `When the users taps on an earn transaction feed item`,
   [EarnEvents.earn_collect_earnings_press]: `When the user taps on the collect earnings button in the collect screen`,
@@ -664,4 +663,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [AppEvents.multichain_beta_contact_support]: `When the user taps the Contact Support button on the multichain beta screen`,
   // [FeeEvents.estimate_fee_failed]: ``,
   // [FeeEvents.estimate_fee_success]: ``,
+  // [OnboardingEvents.cya_button_press]: `when one of the choose your adventure card is pressed. Properties include card name, position of the card (1-based index) and card order`,
+  // [OnboardingEvents.cya_later]: `when "I'll explore later" is pressed`,
 }

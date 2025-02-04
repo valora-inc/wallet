@@ -1,7 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, type RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
-import { transactionFeedV2Api } from 'src/transactions/api'
 import {
   DepositOrWithdraw,
   TokenTransactionTypeV2,
@@ -117,8 +116,8 @@ const slice = createSlice({
                 block,
                 timestamp: action.payload.blockTimestampInMs,
                 fees: fees || [],
-                ...(standbyTransaction.type ===
-                  TokenTransactionTypeV2.CrossChainSwapTransaction && {
+                ...((standbyTransaction.type === TokenTransactionTypeV2.CrossChainSwapTransaction ||
+                  standbyTransaction.type === TokenTransactionTypeV2.CrossChainDeposit) && {
                   isSourceNetworkTxConfirmed: true,
                 }),
               }
@@ -207,6 +206,34 @@ const slice = createSlice({
       ...state,
       feedFirstPage: action.payload.transactions,
     }),
+
+    /**
+     * Whenever we get new data from the feed pagination - we need to perform updates on some portion
+     * of our reducer data, as side-effects. These scenarios include:
+     *
+     * - In order to avoid bloating stand by transactions with confirmed transactions that are already
+     *   present in the feed via pagination – we need to clean them up. This must run for every page
+     *   as standByTransaction might include very old transactions. We should use the chance whenever
+     *   the user managed to scroll to those old transactions and remove them from persisted storage.
+     *
+     * We don't directly use the transactionFeedV2Api action here because we
+     * want to track analytics for newly completed cross chain transactions in
+     * the redux saga before cleaning up the standby transactions.
+     */
+    transactionsConfirmedFromFeedApi: (state, action: PayloadAction<TokenTransaction[]>) => {
+      const confirmedTransactionHashes = action.payload
+        .filter((tx) => tx.status !== TransactionStatus.Pending)
+        .map((tx) => tx.transactionHash)
+
+      return {
+        ...state,
+        standbyTransactions: state.standbyTransactions.filter((tx) => {
+          // ignore empty hashes as there's no way to compare them
+          if (!tx.transactionHash) return true
+          return !confirmedTransactionHashes.includes(tx.transactionHash)
+        }),
+      }
+    },
   },
 
   extraReducers: (builder) => {
@@ -219,33 +246,6 @@ const slice = createSlice({
         standbyTransactions: filtered,
       }
     })
-
-    /**
-     * Whenever we get new data from the feed pagination - we need to perform updates on some portion
-     * of our reducer data, as side-effects. These scenarios include:
-     *
-     * - In order to avoid bloating stand by transactions with confirmed transactions that are already
-     *   present in the feed via pagination – we need to clean them up. This must run for every page
-     *   as standByTransaction might include very old transactions. We should use the chance whenever
-     *   the user managed to scroll to those old transactions and remove them from persisted storage.
-     */
-    builder.addMatcher(
-      transactionFeedV2Api.endpoints.transactionFeedV2.matchFulfilled,
-      (state, { payload, meta }) => {
-        const confirmedTransactionsFromNewPage = payload.transactions
-          .filter((tx) => tx.status !== TransactionStatus.Pending)
-          .map((tx) => tx.transactionHash)
-
-        return {
-          ...state,
-          standbyTransactions: state.standbyTransactions.filter((tx) => {
-            // ignore empty hashes as there's no way to compare them
-            if (!tx.transactionHash) return true
-            return !confirmedTransactionsFromNewPage.includes(tx.transactionHash)
-          }),
-        }
-      }
-    )
   },
 })
 
@@ -254,6 +254,7 @@ export const {
   transactionConfirmed,
   updateTransactions,
   updateFeedFirstPage,
+  transactionsConfirmedFromFeedApi,
 } = slice.actions
 
 export const { actions } = slice

@@ -2845,14 +2845,30 @@
     "ctaAction_Withdraw": "Daha küçük miktarda para çekme"
   },
   "reviewTransaction": {
+    "title": "İnceleme Gönder",
+    "totalPlusFees": "Toplam Artı Ücretler",
     "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
   },
   "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
   "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "Fiyat Mevcut Değil",
   "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
   "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
   "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "demoMode": {
+    "confirmEnter": {
+      "title": "Demo Modu",
+      "info": "Demo moduna girmek üzeresiniz. Herhangi bir işlem yapmadan uygulamanın özelliklerini keşfetmekte özgürsünüz",
+      "cta": "Demo Girin"
+    },
+    "confirmExit": {
+      "title": "Demo Modunda",
+      "info": "Şu anda uygulamayı demo modunda görüntülüyorsunuz",
+      "cta": "Çıkış Demosu"
+    },
+    "inAppIndicatorLabel": "Demo Modu"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

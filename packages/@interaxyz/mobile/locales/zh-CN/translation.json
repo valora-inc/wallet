@@ -2843,13 +2843,29 @@
     "ctaAction_Withdraw": "提取较少金额"
   },
   "reviewTransaction": {
+    "title": "审查发送",
+    "totalPlusFees": "加费用共计",
     "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
   },
   "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
   "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "价格不详",
   "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
   "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
   "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "demoMode": {
+    "confirmEnter": {
+      "title": "演示模式",
+      "info": "您即将进入演示模式。您可以在不完成任何交易的情况下自由探索应用程序的功能",
+      "cta": "进入演示"
+    },
+    "confirmExit": {
+      "title": "演示模式",
+      "info": "您正在以演示模式查看应用程序",
+      "cta": "退出演示"
+    },
+    "inAppIndicatorLabel": "演示模式"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

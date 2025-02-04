@@ -5,15 +5,16 @@ import { getAppConfig } from 'src/appConfig'
 import { background } from 'src/images/Images'
 import Logo from 'src/images/Logo'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigateHome } from 'src/navigator/NavigationService'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 function OnboardingSuccessScreen() {
   useEffect(() => {
-    const timeout = setTimeout(() => navigate(Screens.ChooseYourAdventure), 3000)
+    const timeout = setTimeout(() => {
+      navigateHome()
+    }, 3000)
 
     return () => clearTimeout(timeout)
   }, [])

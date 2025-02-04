@@ -16,15 +16,17 @@ interface ButtonProps {
 }
 
 export default class CircleButton extends React.PureComponent<ButtonProps> {
-  static defaultProps = {
-    size: 50,
-    disable: false,
-    activeColor: colors.accent,
-    inactiveColor: `${colors.accent}80`,
-  }
-
   render() {
-    const { onPress, solid, borderWidth, disabled, size, activeColor, inactiveColor } = this.props
+    const {
+      onPress,
+      solid,
+      borderWidth,
+      disabled = false,
+      size = 50,
+      activeColor = colors.accent,
+      inactiveColor = `${colors.accent}80`,
+      style,
+    } = this.props
     const color = disabled ? inactiveColor : activeColor
     const buttonStyle = [
       styles.button,
@@ -35,7 +37,7 @@ export default class CircleButton extends React.PureComponent<ButtonProps> {
     const xColor = solid ? colors.contentTertiary : color
 
     return (
-      <View style={[styles.row, this.props.style]}>
+      <View style={[styles.row, style]}>
         <TouchableOpacity
           onPress={onPress}
           disabled={disabled}

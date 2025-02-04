@@ -11,6 +11,7 @@ import { createMockStore } from 'test/utils'
 import { mockE164Number } from 'test/values'
 
 jest.mock('src/statsig', () => ({
+  ...jest.requireActual('src/statsig'),
   getFeatureGate: jest.fn().mockReturnValue(false),
   getMultichainFeatures: jest.fn(() => ({
     showBalances: ['celo-alfajores'],

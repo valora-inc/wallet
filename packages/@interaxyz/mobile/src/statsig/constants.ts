@@ -65,6 +65,7 @@ export const DynamicConfigs = {
       maxSlippagePercentage: '0.3',
       enableAppFee: false,
       popularTokenIds: [] as string[],
+      enabled: false,
     },
   },
   [StatsigDynamicConfigs.CICO_TOKEN_INFO]: {
@@ -120,6 +121,13 @@ export const DynamicConfigs = {
     defaultValues: {
       supportedPools: [] as string[],
       supportedAppIds: [] as string[],
+    },
+  },
+  [StatsigDynamicConfigs.DEMO_MODE_CONFIG]: {
+    configName: StatsigDynamicConfigs.DEMO_MODE_CONFIG,
+    defaultValues: {
+      enabledInOnboarding: false,
+      demoWalletAddress: '',
     },
   },
 } satisfies {

@@ -2037,6 +2037,19 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
+"@interaxyz/react-navigation-bottom-sheet@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@interaxyz/react-navigation-bottom-sheet/-/react-navigation-bottom-sheet-0.3.2.tgz#e2ed37e5c407647434053d79fd4b7241fc8cab69"
+  integrity sha512-8Q8A8GmqlMF4W0f+GL9+FBFRn2syNgL8ngJyA9V3uIQskAlr4bGe25iX+UB7ccksU8BpniRcNAD6gl0vq4CnBg==
+
+"@interaxyz/react-native-webview@^13.13.4":
+  version "13.13.4"
+  resolved "https://registry.yarnpkg.com/@interaxyz/react-native-webview/-/react-native-webview-13.13.4.tgz#a0528e4515e305edd3395e286b19c335ec08a90d"
+  integrity sha512-/TdnLQGbQ7ajYTc7KaTJ0DKPlmdIEv23IGdFpdsAf5A3nyGjsFelTapyMttRsKyqpsS6DRdUHwrUvZScaiFGIw==
+  dependencies:
+    escape-string-regexp "^4.0.0"
+    invariant "2.2.4"
+
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/@isaacs/cliui/-/cliui-8.0.2.tgz#b37667b7bc181c168782259bab42474fbf52b550"
@@ -4977,11 +4990,6 @@
     jest-matcher-utils "^29.7.0"
     pretty-format "^29.7.0"
     redent "^3.0.0"
-
-"@th3rdwave/react-navigation-bottom-sheet@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@th3rdwave/react-navigation-bottom-sheet/-/react-navigation-bottom-sheet-0.3.2.tgz#b7999322d54cb8f9a2b1b39e6c47f482407c5250"
-  integrity sha512-DEqC9tlAWE8qw5DDveyTwG0qjMJH3h8nup5Qi3TBlfW8hG9qx0N1/dfA1D+GKFEb4gw1C2/AWC6umc13z7ytoQ==
 
 "@toruslabs/bs58@^1.0.0":
   version "1.0.0"
@@ -15138,14 +15146,6 @@ react-native-video@^6.6.4:
   version "6.9.0"
   resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.9.0.tgz#4a85da23707eb03f230e59356262bca6480a6d51"
   integrity sha512-iWuj9XzYChUCZueKjGE2fFNLVosqmm7fXenDZjcofkNXZVYr2BNBOLlq7exr0b/H5qjVlWFiE3Mkizaxlh0vOA==
-
-react-native-webview@^13.12.5:
-  version "13.12.5"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-13.12.5.tgz#ed9eec1eda234d7cf18d329859b9bdebf7e258b6"
-  integrity sha512-INOKPom4dFyzkbxbkuQNfeRG9/iYnyRDzrDkJeyvSWgJAW2IDdJkWFJBS2v0RxIL4gqLgHkiIZDOfiLaNnw83Q==
-  dependencies:
-    escape-string-regexp "^4.0.0"
-    invariant "2.2.4"
 
 react-native@*, react-native@0.76.5:
   version "0.76.5"

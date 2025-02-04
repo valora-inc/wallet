@@ -48,6 +48,7 @@
   },
   "//resolutions": "Ensure we use a single version of expo, react, react-native and native dependencies otherwise it can cause issues",
   "resolutions": {
+    "@interaxyz/react-native-webview": "^13.13.4",
     "@react-native-async-storage/async-storage": "^2.1.0",
     "@react-native-clipboard/clipboard": "^1.15.0",
     "@react-native-community/netinfo": "^11.4.1",
@@ -109,8 +110,7 @@
     "react-native-simple-toast": "^3.3.1",
     "react-native-sms-retriever": "^1.1.1",
     "react-native-svg": "^15.7.1",
-    "react-native-video": "^6.6.4",
-    "react-native-webview": "^13.12.5"
+    "react-native-video": "^6.6.4"
   },
   "multi-release": {
     "deps": {

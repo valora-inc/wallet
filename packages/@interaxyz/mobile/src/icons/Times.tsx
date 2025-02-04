@@ -8,7 +8,7 @@ export interface Props {
   strokeWidth?: number
 }
 
-function Times({ color, height, strokeWidth }: Props) {
+function Times({ color = colors.contentPrimary, height = 16, strokeWidth = 2 }: Props) {
   return (
     <Svg
       testID="Times"
@@ -33,12 +33,6 @@ function Times({ color, height, strokeWidth }: Props) {
       />
     </Svg>
   )
-}
-
-Times.defaultProps = {
-  height: 16,
-  color: colors.contentPrimary,
-  strokeWidth: 2,
 }
 
 export default React.memo(Times)

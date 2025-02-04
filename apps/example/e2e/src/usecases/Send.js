@@ -87,6 +87,18 @@ export default Send = () => {
         timeout: 30_000,
         tap: true,
       })
+
+      /**
+       * This tests proper formatting of big amount. This has to be tested with "typeText" due to
+       * formatting having a delay. This occured in an issue when testing with "replaceText" works
+       * as intended (cause that's basically the same as pasting) and it formatted properly while
+       * typing in digits one-by-one revealed the issue.
+       */
+      await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('')
+      await element(by.id('SendEnterAmount/TokenAmountInput')).typeText('1000000.123456')
+      const input = await element(by.id('SendEnterAmount/TokenAmountInput')).getAttributes()
+      jestExpect(input.text).toBe('1,000,000.123456')
+
       await element(by.id('SendEnterAmount/TokenAmountInput')).replaceText('0.01')
       await element(by.id('SendEnterAmount/TokenAmountInput')).tapReturnKey()
       await waitForElementById('SendEnterAmount/ReviewButton', {

@@ -14,6 +14,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import NotificationBell from 'src/home/NotificationBell'
 import i18n from 'src/i18n'
 import Logo from 'src/images/Logo'
+import DemoModeChipIndicator from 'src/navigator/DemoModeChipIndicator'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -117,14 +118,14 @@ export const headerWithBackEditButtons: NativeStackNavigationOptions = {
 
 interface Props {
   title: string | React.ReactNode
-  token: Currency
+  token?: Currency
   switchTitleAndSubtitle?: boolean
   displayCrypto?: boolean
 }
 
 export function HeaderTitleWithBalance({
   title,
-  token,
+  token = Currency.Dollar,
   switchTitleAndSubtitle = false,
   displayCrypto = false,
 }: Props) {
@@ -240,8 +241,14 @@ export const tabHeader: NativeStackNavigationOptions = {
     const assetsConfig = getAppConfig().themes?.default?.assets
     const TabHeaderLogo = assetsConfig?.tabHeaderLogo ?? Logo
     return (
-      <View style={[styles.topElementsContainer, { marginLeft: Spacing.Regular16 }]}>
+      <View
+        style={[
+          styles.topElementsContainer,
+          { marginLeft: Spacing.Regular16, gap: Spacing.Small12 },
+        ]}
+      >
         <TabHeaderLogo color={Colors.navigationTopPrimary} size={22} />
+        <DemoModeChipIndicator />
       </View>
     )
   },
@@ -256,8 +263,4 @@ export const headerWithCloseButton: NativeStackNavigationOptions = {
       <CloseButton testID="CloseButton" />
     </View>
   ),
-}
-
-HeaderTitleWithBalance.defaultProps = {
-  token: Currency.Dollar,
 }

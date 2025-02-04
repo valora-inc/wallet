@@ -1,9 +1,9 @@
 import { BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
+import { createBottomSheetNavigator } from '@interaxyz/react-navigation-bottom-sheet'
 import {
   NativeStackNavigationOptions,
   createNativeStackNavigator,
 } from '@react-navigation/native-stack'
-import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { Platform } from 'react-native'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
@@ -87,7 +87,6 @@ import TabNavigator from 'src/navigator/TabNavigator'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
-import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import ImportSelect from 'src/onboarding/registration/ImportSelect'
 import OnboardingRecoveryPhrase from 'src/onboarding/registration/OnboardingRecoveryPhrase'
@@ -499,11 +498,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
 
 const generalScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.ChooseYourAdventure}
-      component={ChooseYourAdventure}
-      options={ChooseYourAdventure.navOptions}
-    />
     <Navigator.Screen
       name={Screens.TransactionDetailsScreen}
       component={TransactionDetailsScreen}

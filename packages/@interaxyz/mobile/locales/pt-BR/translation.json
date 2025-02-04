@@ -2845,14 +2845,30 @@
     "ctaAction_Withdraw": "Retirar uma quantia menor"
   },
   "reviewTransaction": {
+    "title": "Revisão Enviar",
+    "totalPlusFees": "Total mais taxas",
     "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
   },
   "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
   "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "Preço indisponível",
   "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
   "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
   "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "demoMode": {
+    "confirmEnter": {
+      "title": "Modo de demonstração",
+      "info": "Você está prestes a entrar no modo de demonstração. Você está livre para explorar os recursos do aplicativo sem concluir nenhuma transação",
+      "cta": "Entrar na demonstração"
+    },
+    "confirmExit": {
+      "title": "No modo de demonstração",
+      "info": "No momento, você está visualizando o aplicativo no modo de demonstração",
+      "cta": "Sair da demonstração"
+    },
+    "inAppIndicatorLabel": "Modo de demonstração"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

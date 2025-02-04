@@ -6,18 +6,22 @@ import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
 import { getAppConfig } from 'src/appConfig'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { firstOnboardingScreen } from 'src/onboarding/steps'
 import Welcome from 'src/onboarding/welcome/Welcome'
 import { PublicAppConfig } from 'src/public/types'
-import { patchUpdateStatsigUser } from 'src/statsig'
+import { getDynamicConfigParams, patchUpdateStatsigUser } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { demoModeToggled } from 'src/web3/actions'
 import { createMockStore } from 'test/utils'
 
 jest.mock('src/appConfig')
 jest.mock('src/onboarding/steps')
 jest.mock('src/statsig', () => ({
   patchUpdateStatsigUser: jest.fn(),
+  getDynamicConfigParams: jest.fn(),
 }))
 
 const mockGetAppConfig = jest.mocked(getAppConfig)
@@ -32,6 +36,7 @@ describe('Welcome', () => {
   beforeAll(() => {
     jest.spyOn(Date, 'now').mockImplementation(() => 123)
     jest.mocked(firstOnboardingScreen).mockReturnValue(Screens.PincodeSet)
+    jest.mocked(getDynamicConfigParams).mockReturnValue({})
   })
 
   beforeEach(() => {
@@ -143,6 +148,40 @@ describe('Welcome', () => {
         expect(AppAnalytics.track).toHaveBeenCalledWith(event)
       }
     )
+
+    it('dispatches the correct actions to launch demo mode', async () => {
+      jest.mocked(getDynamicConfigParams).mockImplementation((configName) => {
+        if (configName === DynamicConfigs[StatsigDynamicConfigs.DEMO_MODE_CONFIG]) {
+          return { enabledInOnboarding: true }
+        }
+        throw new Error('Unexpected config name')
+      })
+
+      const store = createMockStore()
+      const { getByText, rerender } = render(
+        <Provider store={store}>
+          <Welcome />
+        </Provider>
+      )
+
+      fireEvent.press(getByText('demoMode.confirmEnter.cta'))
+
+      expect(store.getActions()).toEqual([demoModeToggled(true)])
+      await waitFor(() => expect(navigateHome).not.toHaveBeenCalled())
+
+      rerender(
+        <Provider
+          store={createMockStore({
+            web3: {
+              demoModeEnabled: true,
+            },
+          })}
+        >
+          <Welcome />
+        </Provider>
+      )
+      await waitFor(() => expect(navigateHome).toHaveBeenCalled())
+    })
 
     it('shows a custom logo when configured', () => {
       mockGetAppConfig.mockReturnValue({

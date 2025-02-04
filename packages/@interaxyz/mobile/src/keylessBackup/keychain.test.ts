@@ -6,6 +6,7 @@ import { generatePrivateKey } from 'viem/accounts'
 
 jest.mock('src/pincode/authentication')
 jest.mock('src/storage/keychain')
+jest.mock('src/statsig')
 
 describe(storeSECP256k1PrivateKey, () => {
   beforeEach(() => {

@@ -618,7 +618,7 @@ PODS:
   - react-native-video/Video (6.6.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-webview (13.12.5):
+  - react-native-webview (13.13.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - React-NativeModulesApple (0.72.15):
@@ -913,7 +913,7 @@ DEPENDENCIES:
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-video (from `../node_modules/react-native-video`)
-  - react-native-webview (from `../node_modules/react-native-webview`)
+  - "react-native-webview (from `../node_modules/@interaxyz/react-native-webview`)"
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -1102,7 +1102,7 @@ EXTERNAL SOURCES:
   react-native-video:
     :path: "../node_modules/react-native-video"
   react-native-webview:
-    :path: "../node_modules/react-native-webview"
+    :path: "../node_modules/@interaxyz/react-native-webview"
   React-NativeModulesApple:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-perflogger:
@@ -1282,7 +1282,7 @@ SPEC CHECKSUMS:
   react-native-simple-toast: f6316baf3870934e6e92cf48dbc9e330a5c8eb82
   react-native-splash-screen: 95994222cc95c236bd3cdc59fe45ed5f27969594
   react-native-video: 50cf661686af98a65bd40fe17b5fac54bdcf38e9
-  react-native-webview: e27ee34f9a3bd53e833d8837ae2b09e936f60f41
+  react-native-webview: f1607e3969e0be6ccb01dc504b866c193e688245
   React-NativeModulesApple: e29c0ef4359dbb256738a05b39cc98627cf6c698
   React-perflogger: 6acc671f527e69c0cd93b8e62821d33d3ddf25ca
   React-RCTActionSheet: 569bb9db46d85565d14697e15ecf2166e035eb07

@@ -7,7 +7,7 @@ interface Props {
   color?: ColorValue
 }
 
-function Activity({ color = colors.successPrimary, size = 24 }: Props) {
+function Activity({ color = colors.contentPrimary, size = 24 }: Props) {
   return (
     <Svg width={size} height={size} fill="none" viewBox="0 0 24 24">
       <Path

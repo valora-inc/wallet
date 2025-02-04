@@ -140,7 +140,6 @@ export async function waitForElementById(testID, { timeout = 10000, index = 0, t
 export async function quickOnboarding({
   mnemonic = process.env.E2E_WALLET_MNEMONIC,
   cloudBackupEnabled = false,
-  stopOnCYA = false,
 } = {}) {
   try {
     // Tap Restore Account
@@ -210,15 +209,6 @@ export async function quickOnboarding({
         'Error trying to skip phone verification step during onboarding, likely due to wallet already being verified'
       )
     }
-
-    // Choose your own adventure (CYA screen)
-    if (stopOnCYA) {
-      await waitForElementById('ChooseYourAdventure/Later')
-      return
-    }
-    await waitForElementById('ChooseYourAdventure/Later', {
-      tap: true,
-    })
 
     // Assert on Wallet Home Screen
     await expect(element(by.id('HomeAction-Send'))).toBeVisible()
