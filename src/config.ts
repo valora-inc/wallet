@@ -1,6 +1,6 @@
+import { CachesDirectoryPath } from '@divvi/react-native-fs'
 import { Network } from '@fiatconnect/fiatconnect-types'
 import Config from 'react-native-config'
-import { CachesDirectoryPath } from 'react-native-fs'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages

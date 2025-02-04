@@ -1,5 +1,5 @@
+import * as RNFS from '@divvi/react-native-fs'
 import { useMemo } from 'react'
-import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
 import { showError, showMessage } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'

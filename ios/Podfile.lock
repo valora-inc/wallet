@@ -946,7 +946,7 @@ DEPENDENCIES:
   - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
-  - RNFS (from `../node_modules/react-native-fs`)
+  - "RNFS (from `../node_modules/@divvi/react-native-fs`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNKeychain (from `../node_modules/@interaxyz/react-native-keychain`)"
   - RNLocalize (from `../node_modules/react-native-localize`)
@@ -1167,7 +1167,7 @@ EXTERNAL SOURCES:
   RNFBRemoteConfig:
     :path: "../node_modules/@react-native-firebase/remote-config"
   RNFS:
-    :path: "../node_modules/react-native-fs"
+    :path: "../node_modules/@divvi/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNKeychain:
