@@ -1,6 +1,3 @@
-export interface CeloNewsConfig {
-  readMoreUrl?: string
-}
 export interface CeloNewsArticles {
   articles: CeloNewsArticle[]
   nextPageId: string
