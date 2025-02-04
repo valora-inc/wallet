@@ -1,11 +1,11 @@
 /**
  * This is a reactnavigation SCREEN, which we use to set a PIN.
  */
+import { BIOMETRY_TYPE } from '@interaxyz/react-native-keychain'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
-import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
