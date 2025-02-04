@@ -663,4 +663,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [AppEvents.multichain_beta_contact_support]: `When the user taps the Contact Support button on the multichain beta screen`,
   // [FeeEvents.estimate_fee_failed]: ``,
   // [FeeEvents.estimate_fee_success]: ``,
+  // [OnboardingEvents.cya_button_press]: `when one of the choose your adventure card is pressed. Properties include card name, position of the card (1-based index) and card order`,
+  // [OnboardingEvents.cya_later]: `when "I'll explore later" is pressed`,
 }
