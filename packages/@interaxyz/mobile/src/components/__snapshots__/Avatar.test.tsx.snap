@@ -31,7 +31,7 @@ exports[`Avatar renders correctly with address and name but no number 1`] = `
             "justifyContent": "center",
           },
           {
-            "backgroundColor": "hsl(0, 53%, 93%)",
+            "backgroundColor": "#F8F9F9",
             "borderRadius": 20,
             "height": 40,
             "width": 40,
@@ -51,7 +51,7 @@ exports[`Avatar renders correctly with address and name but no number 1`] = `
               "lineHeight": 24,
             },
             {
-              "color": "hsl(0, 67%, 24%)",
+              "color": "#2E3338",
               "fontSize": 20,
               "lineHeight": 26.666666666666668,
             },
@@ -140,7 +140,7 @@ exports[`Avatar renders correctly with address but no name nor number 1`] = `
             "justifyContent": "center",
           },
           {
-            "backgroundColor": "hsl(0, 53%, 93%)",
+            "backgroundColor": "#F8F9F9",
             "borderRadius": 20,
             "height": 40,
             "width": 40,
@@ -157,7 +157,7 @@ exports[`Avatar renders correctly with address but no name nor number 1`] = `
       >
         <path
           d="M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 7c2.67 0 8 1.33 8 4v3H4v-3c0-2.67 5.33-4 8-4Zm0 1.9c-2.97 0-6.1 1.46-6.1 2.1v1.1h12.2V17c0-.64-3.13-2.1-6.1-2.1Z"
-          fill="hsl(0, 67%, 24%)"
+          fill="#2E3338"
         />
       </svg>
     </View>
@@ -222,7 +222,7 @@ exports[`Avatar renders correctly with just number 1`] = `
             "justifyContent": "center",
           },
           {
-            "backgroundColor": "hsl(0, 53%, 93%)",
+            "backgroundColor": "#F8F9F9",
             "borderRadius": 20,
             "height": 40,
             "width": 40,
@@ -239,7 +239,7 @@ exports[`Avatar renders correctly with just number 1`] = `
       >
         <path
           d="M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 7c2.67 0 8 1.33 8 4v3H4v-3c0-2.67 5.33-4 8-4Zm0 1.9c-2.97 0-6.1 1.46-6.1 2.1v1.1h12.2V17c0-.64-3.13-2.1-6.1-2.1Z"
-          fill="hsl(0, 67%, 24%)"
+          fill="#2E3338"
         />
       </svg>
     </View>
@@ -339,7 +339,7 @@ exports[`Avatar renders correctly with number and name 1`] = `
             "justifyContent": "center",
           },
           {
-            "backgroundColor": "hsl(0, 53%, 93%)",
+            "backgroundColor": "#F8F9F9",
             "borderRadius": 20,
             "height": 40,
             "width": 40,
@@ -359,7 +359,7 @@ exports[`Avatar renders correctly with number and name 1`] = `
               "lineHeight": 24,
             },
             {
-              "color": "hsl(0, 67%, 24%)",
+              "color": "#2E3338",
               "fontSize": 20,
               "lineHeight": 26.666666666666668,
             },

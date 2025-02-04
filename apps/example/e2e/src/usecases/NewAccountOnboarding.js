@@ -28,7 +28,7 @@ const startBackupFromNotifications = async () => {
 
 const arriveAtHomeScreen = async () => {
   // Arrived to Home screen
-  await expect(element(by.id('HomeAction-Send'))).toBeVisible()
+  await waitForElementById('HomeAction-Send')
 }
 
 export default NewAccountOnboarding = () => {
@@ -62,9 +62,6 @@ export default NewAccountOnboarding = () => {
 
     // Skip Phone Number verification
     await element(by.id('PhoneVerificationSkipHeader')).tap()
-
-    // Choose your own adventure (CYA screen)
-    await waitForElementById('ChooseYourAdventure/Later', { tap: true })
 
     // Arrived to Home screen
     await arriveAtHomeScreen()

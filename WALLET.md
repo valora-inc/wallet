@@ -643,7 +643,6 @@ react-native-sms@1.11.0 ✔
 react-native-splash-screen@3.3.0 ✔
 react-native-svg@12.1.1 ✔
 react-native-tab-view@2.15.2 ✔
-react-native-webview@11.6.5 ✔
 $ bash scripts/key_placer.sh decrypt
 Processing encrypted files
 Encrypted files decrypted

@@ -2849,14 +2849,30 @@
     "ctaAction_Withdraw": "Зніміть меншу суму"
   },
   "reviewTransaction": {
+    "title": "Відгук Надіслати",
+    "totalPlusFees": "Загальна сума плюс комісії",
     "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
   },
   "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
   "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "Ціна недоступна",
   "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
   "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
   "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "demoMode": {
+    "confirmEnter": {
+      "title": "Демонстраційний режим",
+      "info": "Ви переходите в демо-режим. Ви можете ознайомитися з функціями додатку, не здійснюючи жодних транзакцій",
+      "cta": "Увійдіть у демо-версію"
+    },
+    "confirmExit": {
+      "title": "У демонстраційному режимі",
+      "info": "Ви зараз переглядаєте додаток у демо-режимі",
+      "cta": "Вихідна демонстрація"
+    },
+    "inAppIndicatorLabel": "Демонстраційний режим"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",

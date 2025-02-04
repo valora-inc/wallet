@@ -64,8 +64,8 @@ export function useGetHistoryDefinition(): (
       case 'create-wallet': {
         return {
           icon: (
-            <CircledIcon backgroundColor={colors.successSecondary} radius={ICON_SIZE}>
-              <Celebration color={colors.successPrimary} />
+            <CircledIcon backgroundColor={colors.backgroundSecondary} radius={ICON_SIZE}>
+              <Celebration color={colors.contentPrimary} />
             </CircledIcon>
           ),
           title: t('points.history.cards.createWallet.title'),
@@ -82,8 +82,8 @@ export function useGetHistoryDefinition(): (
         }
         return {
           icon: (
-            <CircledIcon backgroundColor={colors.successSecondary} radius={ICON_SIZE}>
-              <SwapArrows color={colors.successPrimary} />
+            <CircledIcon backgroundColor={colors.backgroundSecondary} radius={ICON_SIZE}>
+              <SwapArrows color={colors.contentPrimary} />
             </CircledIcon>
           ),
           title: t('points.history.cards.swap.title'),
@@ -102,7 +102,7 @@ export function useGetHistoryDefinition(): (
         }
         return {
           icon: (
-            <CircledIcon backgroundColor={colors.successSecondary} radius={ICON_SIZE}>
+            <CircledIcon backgroundColor={colors.backgroundSecondary} radius={ICON_SIZE}>
               <MagicWand />
             </CircledIcon>
           ),
@@ -120,8 +120,8 @@ export function useGetHistoryDefinition(): (
         return {
           icon: (
             <IconWithNetworkBadge networkId={token.networkId}>
-              <CircledIcon backgroundColor={colors.successSecondary} radius={ICON_SIZE}>
-                <EarnCoins color={colors.successPrimary} />
+              <CircledIcon backgroundColor={colors.backgroundSecondary} radius={ICON_SIZE}>
+                <EarnCoins color={colors.contentPrimary} />
               </CircledIcon>
             </IconWithNetworkBadge>
           ),

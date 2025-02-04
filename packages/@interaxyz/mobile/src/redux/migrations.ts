@@ -743,7 +743,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
+      showSwapMenuInDrawerMenu: false,
     },
   }),
   62: (state: any) => ({
@@ -1981,5 +1981,16 @@ export const migrations = {
   238: (state: any) => ({
     ...state,
     app: _.omit(state.app, 'multichainBetaStatus'),
+  }),
+  239: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'showSwapMenuInDrawerMenu'),
+  }),
+  240: (state: any) => ({
+    ...state,
+    web3: {
+      ...state.web3,
+      demoModeEnabled: false,
+    },
   }),
 }

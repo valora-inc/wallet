@@ -10,23 +10,19 @@ import ActionsCarousel from 'src/home/ActionsCarousel'
 import { HomeActionName } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams } from 'src/statsig'
 import { createMockStore } from 'test/utils'
+
+jest.mock('src/statsig')
 
 const mockConfig = jest.mocked(config)
 const originalEnabledQuickActions = config.ENABLED_QUICK_ACTIONS
 
-function getStore(shouldShowSwapAction: boolean) {
-  return createMockStore({
-    app: {
-      showSwapMenuInDrawerMenu: shouldShowSwapAction,
-    },
-  })
-}
-
 describe('ActionsCarousel', () => {
   let store: MockStoreEnhanced<{}>
   beforeEach(() => {
-    store = getStore(true)
+    jest.mocked(getDynamicConfigParams).mockReturnValue({ enabled: true }) // swap feature enabled
+    store = createMockStore()
     mockConfig.ENABLED_QUICK_ACTIONS = originalEnabledQuickActions
   })
 
@@ -45,7 +41,7 @@ describe('ActionsCarousel', () => {
   })
 
   it('does not render swap action when disabled', () => {
-    store = getStore(false)
+    jest.mocked(getDynamicConfigParams).mockReturnValue({ enabled: false }) // swap feature disabled
     const { queryByTestId, getAllByTestId } = render(
       <Provider store={store}>
         <ActionsCarousel />

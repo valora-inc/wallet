@@ -6,13 +6,10 @@ interface Props {
 }
 
 export default class LoadingSpinner extends React.PureComponent<Props> {
-  static defaultProps = {
-    width: 40,
-  }
-
   animation: LottieView | null | undefined
 
   render() {
+    const { width = 40 } = this.props
     return (
       <LottieView
         ref={(animation) => {
@@ -21,7 +18,7 @@ export default class LoadingSpinner extends React.PureComponent<Props> {
         source={require('./loadingSpinnerGreen.json')}
         autoPlay={true}
         loop={true}
-        style={{ width: this.props.width }}
+        style={{ width }}
       />
     )
   }

@@ -41,18 +41,12 @@ const defaultAnimation: LayoutAnimationConfig = {
 }
 
 interface Props {
-  topSpacing: number
-  onToggle: (visible: boolean, keyboardSpace?: number) => void
+  topSpacing?: number
+  onToggle?: (visible: boolean, keyboardSpace?: number) => void
   style?: ViewStyle
 }
 
 export default class KeyboardSpacer extends React.Component<Props> {
-  static defaultProps = {
-    topSpacing: 0,
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onToggle: (visible: boolean, keyboardSpace: number) => {},
-  }
-
   _listeners: EmitterSubscription[] = []
   _viewRef = React.createRef<View>()
   _currentMeasureToken: object | null = null
@@ -85,7 +79,9 @@ export default class KeyboardSpacer extends React.Component<Props> {
       return 0
     }
 
-    const keyboardY = keyboardFrame.screenY - this.props.topSpacing
+    const { topSpacing = 0 } = this.props
+
+    const keyboardY = keyboardFrame.screenY - topSpacing
 
     // Calculate the displacement needed for the view such that it
     // no longer overlaps with the keyboard
@@ -93,13 +89,15 @@ export default class KeyboardSpacer extends React.Component<Props> {
   }
 
   updateKeyboardSpace = (event: KeyboardEvent) => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const { onToggle = (_visible: boolean, _keyboardSpace?: number) => {} } = this.props
     if (!event.endCoordinates) {
-      this.props.onToggle(true)
+      onToggle(true)
       return
     }
 
     if (!this._viewRef.current) {
-      this.props.onToggle(true)
+      onToggle(true)
       return
     }
 
@@ -130,11 +128,13 @@ export default class KeyboardSpacer extends React.Component<Props> {
       const keyboardSpace = this.relativeKeyboardHeight(viewFrame, keyboardFrame)
 
       this.setState({ keyboardSpace })
-      this.props.onToggle(true, keyboardSpace)
+      onToggle(true, keyboardSpace)
     })
   }
 
   resetKeyboardSpace = (event: KeyboardEvent) => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const { onToggle = (_visible: boolean, _keyboardSpace?: number) => {} } = this.props
     // This cancels measureInWindow
     this._currentMeasureToken = null
 
@@ -149,17 +149,18 @@ export default class KeyboardSpacer extends React.Component<Props> {
     LayoutAnimation.configureNext(animationConfig)
 
     this.setState({ keyboardSpace: 0 })
-    this.props.onToggle(false, 0)
+    onToggle(false, 0)
   }
 
   render() {
+    const { style } = this.props
     // On Android with windowSoftInputMode set to adjustResize we don't need the spacer
     // unless it's using fullscreen layout (which is the case with a transparent status bar)
 
     return (
       <View
         ref={this._viewRef}
-        style={[styles.container, { height: this.state.keyboardSpace }, this.props.style]}
+        style={[styles.container, { height: this.state.keyboardSpace }, style]}
         collapsable={false}
       />
     )

@@ -1,4 +1,4 @@
-import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
+import { BottomSheetScreenProps } from '@interaxyz/react-navigation-bottom-sheet'
 import React, { useEffect } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'

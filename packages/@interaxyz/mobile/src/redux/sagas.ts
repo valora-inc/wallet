@@ -47,7 +47,7 @@ import { swapSaga } from 'src/swap/saga'
 import { tokensSaga } from 'src/tokens/saga'
 import { setTokenBalances } from 'src/tokens/slice'
 import { transactionSaga } from 'src/transactions/saga'
-import { updateTransactions } from 'src/transactions/slice'
+import { transactionsConfirmedFromFeedApi, updateTransactions } from 'src/transactions/slice'
 import Logger from 'src/utils/Logger'
 import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import { walletConnectSaga } from 'src/walletConnect/saga'
@@ -72,6 +72,7 @@ const loggerPayloadBlocklist = [
   fetchShortcutsSuccess.type,
   AppActions.UPDATE_REMOTE_CONFIG_VALUES,
   'transactionFeedV2Api/executeQuery/fulfilled',
+  transactionsConfirmedFromFeedApi.type,
 ]
 
 function* loggerSaga() {

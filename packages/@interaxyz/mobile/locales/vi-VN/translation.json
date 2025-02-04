@@ -2843,13 +2843,29 @@
     "ctaAction_Withdraw": "Withdraw smaller amount"
   },
   "reviewTransaction": {
+    "title": "Review Send",
+    "totalPlusFees": "Total Plus Fees",
     "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
   },
   "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
   "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "Không có giá",
   "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
   "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
   "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "demoMode": {
+    "confirmEnter": {
+      "title": "Demo Mode",
+      "info": "You are about to enter into demo mode. You are free to explore the features of the app without completing any transactions",
+      "cta": "Enter Demo"
+    },
+    "confirmExit": {
+      "title": "In Demo Mode",
+      "info": "You are currently viewing the app in demo mode",
+      "cta": "Exit Demo"
+    },
+    "inAppIndicatorLabel": "Demo Mode"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

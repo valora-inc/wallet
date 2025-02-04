@@ -91,6 +91,7 @@
     ]
   },
   "peerDependencies": {
+    "@interaxyz/react-native-webview": "^13.13.4",
     "@react-native-async-storage/async-storage": "^2.1.0",
     "@react-native-clipboard/clipboard": "^1.15.0",
     "@react-native-community/netinfo": "^11.4.1",
@@ -150,8 +151,7 @@
     "react-native-simple-toast": "^3.3.1",
     "react-native-sms-retriever": "^1.1.1",
     "react-native-svg": "^15.7.1",
-    "react-native-video": "^6.6.4",
-    "react-native-webview": "^13.12.5"
+    "react-native-video": "^6.6.4"
   },
   "dependencies": {
     "@badrap/result": "~0.2.13",
@@ -159,12 +159,12 @@
     "@fiatconnect/fiatconnect-sdk": "^0.5.66",
     "@fiatconnect/fiatconnect-types": "^13.3.10",
     "@gorhom/bottom-sheet": "^5.0.6",
+    "@interaxyz/react-navigation-bottom-sheet": "^0.3.2",
     "@json-rpc-tools/utils": "^1.7.6",
     "@noble/secp256k1": "^1.7.1",
     "@reduxjs/toolkit": "^2.5.0",
     "@scure/bip39": "^1.5.0",
     "@sentry/react-native": "^5.36.0",
-    "@th3rdwave/react-navigation-bottom-sheet": "^0.3.2",
     "@toruslabs/constants": "^14.2.0",
     "@toruslabs/fetch-node-details": "^14.2.0",
     "@toruslabs/torus.js": "^15.1.1",

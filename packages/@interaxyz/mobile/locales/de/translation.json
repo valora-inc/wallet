@@ -2845,14 +2845,30 @@
     "ctaAction_Withdraw": "Kleineren Betrag abheben"
   },
   "reviewTransaction": {
+    "title": "Rückblick Senden",
+    "totalPlusFees": "Gesamt plus Gebühren",
     "multipleTokensWithPlusSign": "≈ {{amount1}} {{symbol1}} + {{amount2}} {{symbol2}}"
   },
   "tokenAmount": "{{tokenAmount}} {{tokenSymbol}}",
   "localAmount": "{{localCurrencySymbol}}{{localAmount}}",
+  "localAmount_noFiatPrice": "Preis nicht verfügbar",
   "tokenAndLocalAmount": "{{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
   "tokenAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}}",
   "localAmountApprox": "≈ {{localCurrencySymbol}}{{localAmount}}",
   "tokenAndLocalAmountApprox": "≈ {{tokenAmount}} {{tokenSymbol}} <0>({{localCurrencySymbol}}{{localAmount}})</0>",
+  "demoMode": {
+    "confirmEnter": {
+      "title": "Demo-Modus",
+      "info": "Du bist dabei, in den Demo-Modus zu wechseln. Du kannst die Funktionen der App erkunden, ohne eine Transaktion abzuschließen.",
+      "cta": "Demo eingeben"
+    },
+    "confirmExit": {
+      "title": "Im Demo-Modus",
+      "info": "Du siehst die App derzeit im Demo-Modus",
+      "cta": "Demo beenden"
+    },
+    "inAppIndicatorLabel": "Demo-Modus"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

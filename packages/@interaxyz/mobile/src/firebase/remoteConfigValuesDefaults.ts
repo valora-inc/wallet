@@ -28,7 +28,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: isE2EEnv ? true : false,
   coinbasePayEnabled: false,
-  showSwapMenuInDrawerMenu: false,
   maxSwapSlippagePercentage: 2,
   networkTimeoutSeconds: 30,
   celoNews: JSON.stringify({} as RemoteConfigValues['celoNews']),
