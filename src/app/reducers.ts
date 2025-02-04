@@ -25,8 +25,6 @@ interface State {
   // for the migration code. We can remove all the code associated with this after some time has passed.
   googleMobileServicesAvailable?: boolean
   huaweiMobileServicesAvailable?: boolean
-  sentryTracesSampleRate: number
-  sentryNetworkErrors: string[]
   supportedBiometryType: BIOMETRY_TYPE | null
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
@@ -57,8 +55,6 @@ const initialState = {
   activeScreen: Screens.Main,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
-  sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
-  sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
   supportedBiometryType: null,
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
@@ -150,8 +146,6 @@ export const appReducer = (
     case Actions.UPDATE_REMOTE_CONFIG_VALUES:
       return {
         ...state,
-        sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
-        sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
       }

@@ -4756,15 +4756,6 @@
                 "requirePinOnAppOpen": {
                     "type": "boolean"
                 },
-                "sentryNetworkErrors": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "sentryTracesSampleRate": {
-                    "type": "number"
-                },
                 "sessionId": {
                     "type": "string"
                 },
@@ -4808,8 +4799,6 @@
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
                 "requirePinOnAppOpen",
-                "sentryNetworkErrors",
-                "sentryTracesSampleRate",
                 "sessionId",
                 "showNotificationSpotlight",
                 "supportedBiometryType"
@@ -4819,9 +4808,6 @@
         "State_1": {
             "additionalProperties": false,
             "properties": {
-                "allowOtaTranslations": {
-                    "type": "boolean"
-                },
                 "language": {
                     "type": [
                         "null",
@@ -4839,7 +4825,6 @@
                 }
             },
             "required": [
-                "allowOtaTranslations",
                 "language",
                 "otaTranslationsAppVersion",
                 "otaTranslationsLanguage",

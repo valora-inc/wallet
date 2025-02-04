@@ -2012,4 +2012,9 @@ export const migrations = {
     dapps: _.omit(state.dapps, 'dappListApiUrl', 'maxNumRecentDapps', 'dappsWebViewEnabled'),
     swap: _.omit(state.swap, 'priceImpactWarningThreshold'),
   }),
+  243: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'sentryTracesSampleRate', 'sentryNetworkErrors'),
+    i18n: _.omit(state.i18n, 'allowOtaTranslations'),
+  }),
 }

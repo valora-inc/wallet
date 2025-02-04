@@ -1,7 +1,11 @@
 import * as Sentry from '@sentry/react-native'
 import DeviceInfo from 'react-native-device-info'
-import { sentryTracesSampleRateSelector } from 'src/app/selectors'
-import { APP_BUNDLE_ID, SENTRY_CLIENT_URL, SENTRY_ENABLED } from 'src/config'
+import {
+  APP_BUNDLE_ID,
+  DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
+  SENTRY_CLIENT_URL,
+  SENTRY_ENABLED,
+} from 'src/config'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -13,7 +17,7 @@ const TAG = 'sentry/Sentry'
 // Set tracesSampleRate: 1 to capture all events for testing performance metrics in Sentry
 export const sentryRoutingInstrumentation = new Sentry.ReactNavigationInstrumentation()
 
-export function* initializeSentry() {
+export function initializeSentry() {
   if (!SENTRY_ENABLED) {
     Logger.info(TAG, 'Sentry not enabled')
     return
@@ -33,7 +37,6 @@ export function* initializeSentry() {
     return
   }
 
-  const tracesSampleRate = yield* select(sentryTracesSampleRateSelector)
   // tracingOrigins is an array of regexes to match domain names against:
   //   https://docs.sentry.io/platforms/javascript/performance/instrumentation/automatic-instrumentation/#tracingorigins
   // If you want to match against a specific domain (which we do) make sure to
@@ -55,7 +58,7 @@ export function* initializeSentry() {
         tracingOrigins,
       }),
     ],
-    tracesSampleRate,
+    tracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
   })
 
   Logger.info(TAG, 'installSentry', 'Sentry installation complete')

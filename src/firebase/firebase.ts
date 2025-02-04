@@ -274,9 +274,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
 
   return {
     inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
-    allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
-    sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
-    sentryNetworkErrors: flags.sentryNetworkErrors.asString().split(','),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides

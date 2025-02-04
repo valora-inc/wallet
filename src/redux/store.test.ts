@@ -143,7 +143,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 242,
+          "version": 243,
         },
         "account": {
           "acceptedTerms": false,
@@ -195,11 +195,6 @@ describe('store state', () => {
           "pushNotificationRequestedUnixTime": 1692878055000,
           "pushNotificationsEnabled": false,
           "requirePinOnAppOpen": false,
-          "sentryNetworkErrors": [
-            "network request failed",
-            "The network connection was lost",
-          ],
-          "sentryTracesSampleRate": 0.2,
           "sessionId": "",
           "showNotificationSpotlight": true,
           "supportedBiometryType": null,
@@ -248,7 +243,6 @@ describe('store state', () => {
           "notifications": {},
         },
         "i18n": {
-          "allowOtaTranslations": false,
           "language": "es-419",
           "otaTranslationsAppVersion": "0",
           "otaTranslationsLanguage": "",

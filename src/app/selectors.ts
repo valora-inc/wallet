@@ -30,10 +30,6 @@ export const googleMobileServicesAvailableSelector = (state: RootState) =>
 export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
   state.app.huaweiMobileServicesAvailable
 
-export const sentryTracesSampleRateSelector = (state: RootState) => state.app.sentryTracesSampleRate
-
-export const sentryNetworkErrorsSelector = (state: RootState) => state.app.sentryNetworkErrors
-
 export const supportedBiometryTypeSelector = (state: RootState) => state.app.supportedBiometryType
 
 export const fiatConnectCashInEnabledSelector = (state: RootState) =>
