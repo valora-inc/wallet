@@ -69,7 +69,6 @@ export type StackParamList = {
   }
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }
-  [Screens.ChooseYourAdventure]: undefined
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappShortcutsRewards]: undefined
   [Screens.DappShortcutTransactionRequest]: {
@@ -77,6 +76,7 @@ export type StackParamList = {
   }
   [Screens.DappsScreen]: undefined
   [Screens.DebugImages]: undefined
+  [Screens.DemoModeAuthBlock]: undefined
   [Screens.EarnInfoScreen]: undefined
   [Screens.EarnEnterAmount]: {
     pool: EarnPosition
