@@ -28,7 +28,7 @@ const startBackupFromNotifications = async () => {
 
 const arriveAtHomeScreen = async () => {
   // Arrived to Home screen
-  await expect(element(by.id('HomeAction-Send'))).toBeVisible()
+  await waitForElementById('HomeAction-Send')
 }
 
 export default NewAccountOnboarding = () => {
