@@ -18,8 +18,8 @@ jest.mocked(getMultichainFeatures).mockReturnValue({
   showBalances: [NetworkId['celo-alfajores']],
 })
 jest.mocked(getFeatureGate).mockImplementation((gate) => {
-  if (gate === StatsigFeatureGates.ALLOW_WALLET_CONNECT_V2) {
-    return true
+  if (gate === StatsigFeatureGates.DISABLE_WALLET_CONNECT_V2) {
+    return false
   }
   throw new Error('Unexpected gate')
 })
