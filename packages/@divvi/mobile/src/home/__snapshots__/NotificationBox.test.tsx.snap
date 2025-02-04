@@ -431,7 +431,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../packages/@interaxyz/mobile/src/images/assets/get-verified.png",
+                    "testUri": "../../../packages/@divvi/mobile/src/images/assets/get-verified.png",
                   }
                 }
                 style={
@@ -849,7 +849,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 resizeMode="contain"
                 source={
                   {
-                    "testUri": "../../../packages/@interaxyz/mobile/src/images/assets/learn-celo.png",
+                    "testUri": "../../../packages/@divvi/mobile/src/images/assets/learn-celo.png",
                   }
                 }
                 style={

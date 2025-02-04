@@ -16,26 +16,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  packages-intera-mobile:
-    name: packages/@interaxyz/mobile
+  packages-divvi-mobile:
+    name: packages/@divvi/mobile
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       - name: Build
         run: yarn build
-        working-directory: packages/@interaxyz/mobile
+        working-directory: packages/@divvi/mobile
       - name: Update RootStateSchema if necessary
         run: yarn test:update-root-state-schema
-        working-directory: packages/@interaxyz/mobile
+        working-directory: packages/@divvi/mobile
       - name: Fail if someone forgot to commit "RootStateSchema.json"
         run: git diff --exit-code
-        working-directory: packages/@interaxyz/mobile
+        working-directory: packages/@divvi/mobile
       - name: Run mobile tests
         run: |
           mkdir -p test-results/jest
           yarn test:ci
-        working-directory: packages/@interaxyz/mobile
+        working-directory: packages/@divvi/mobile
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         with:

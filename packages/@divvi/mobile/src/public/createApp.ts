@@ -1,6 +1,6 @@
 // Note: We should be careful of what we import in this module, we don't want to load the entire runtime here
 // until createApp is called, since we set some globals here, which will be read by other runtime modules
-import '@interaxyz/mobile/src/missingGlobals'
+import '@divvi/mobile/src/missingGlobals'
 import Config from 'react-native-config'
 import DeviceInfo from 'react-native-device-info'
 import { setAppConfig } from '../appConfig'
@@ -22,7 +22,7 @@ function getOnboardingFeatures(config: PublicAppConfig) {
   }
   // Special case for e2e to test phone number verification
   // As we're not yet sure how we wanna expose this feature in the runtime
-  if (process.env.EXPO_PUBLIC_INTERA_E2E === 'true') {
+  if (process.env.EXPO_PUBLIC_DIVVI_E2E === 'true') {
     onboardingFeatures.push(ToggleableOnboardingFeatures.PhoneVerification)
   }
   if (onboardingConfig) {

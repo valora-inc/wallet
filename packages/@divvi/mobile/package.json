@@ -1,17 +1,17 @@
 {
-  "name": "@interaxyz/mobile",
+  "name": "@divvi/mobile",
   "version": "0.0.1",
   "author": "Valora Inc",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/interaxyz/intera-mobile",
-    "directory": "packages/@interaxyz/mobile"
+    "url": "https://github.com/divvixyz/divvi-mobile",
+    "directory": "packages/@divvi/mobile"
   },
   "bugs": {
-    "url": "https://github.com/interaxyz/intera-mobile/issues"
+    "url": "https://github.com/divvixyz/divvi-mobile/issues"
   },
-  "homepage": "https://github.com/interaxyz/intera-mobile",
+  "homepage": "https://github.com/divvixyz/divvi-mobile",
   "main": "./src/public/index.ts",
   "publishConfig": {
     "access": "public",

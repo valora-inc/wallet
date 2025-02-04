@@ -39,7 +39,7 @@ const METHOD_INVOCATION_BLOCK = `resetKeychainIfNecessary();`
 
 function addResetKeychainFunction(src: string): MergeResults {
   return mergeContents({
-    tag: '@interaxyz/mobile/app-delegate-reset-keychain-function',
+    tag: '@divvi/mobile/app-delegate-reset-keychain-function',
     src,
     newSrc: RESET_KEYCHAIN_FUNCTION,
     anchor: /@implementation AppDelegate/,
@@ -53,7 +53,7 @@ function addCallResetKeychain(src: string): MergeResults {
   const isHeaderMultiline = APPLICATION_DID_FINISH_LAUNCHING_LINE_MATCHER_MULTILINE.test(src)
 
   return mergeContents({
-    tag: '@interaxyz/mobile/app-delegate-call-reset-keychain',
+    tag: '@divvi/mobile/app-delegate-call-reset-keychain',
     src,
     newSrc: METHOD_INVOCATION_BLOCK,
     anchor: APPLICATION_DID_FINISH_LAUNCHING_LINE_MATCHER,
@@ -68,7 +68,7 @@ export const withIosAppDelegateResetKeychain: ConfigPlugin = (config) => {
   return withAppDelegate(config, (config) => {
     if (!['objc', 'objcpp'].includes(config.modResults.language)) {
       throw new Error(
-        `Cannot setup Intera runtime because the project AppDelegate is not a supported language: ${config.modResults.language}`
+        `Cannot setup Divvi mobile because the project AppDelegate is not a supported language: ${config.modResults.language}`
       )
     }
 
@@ -78,7 +78,7 @@ export const withIosAppDelegateResetKeychain: ConfigPlugin = (config) => {
     } catch (error: any) {
       if (error.code === 'ERR_NO_MATCH') {
         throw new Error(
-          `Cannot add Intera runtime to the project's AppDelegate because it's malformed. Please report this with a copy of your project AppDelegate.`
+          `Cannot add Divvi mobile to the project's AppDelegate because it's malformed. Please report this with a copy of your project AppDelegate.`
         )
       }
       throw error

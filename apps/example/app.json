@@ -2,9 +2,9 @@
   "expo": {
     // Using app.json for clarity in this example app.
     // For more complex conditional configs, consider using app.config.js/ts instead.
-    "name": "Intera",
-    "slug": "intera",
-    // TODO: use an Intera scheme
+    "name": "Divvi",
+    "slug": "divvi",
+    // TODO: use an Divvi scheme
     "scheme": "celo",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,7 @@
     "newArchEnabled": false,
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "xyz.intera.example",
+      "bundleIdentifier": "xyz.divvi.example",
       "infoPlist": {
         // TODO: add all reasons for all permissions
         "NSCameraUsageDescription": "[REASON]",
@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ff5050"
       },
-      "package": "xyz.intera.example",
+      "package": "xyz.divvi.example",
       "permissions": [
         // TODO: add all reasons for all permissions
         "android.permission.CAMERA"
@@ -70,7 +70,7 @@
           "domain": "{DOMAIN}"
         }
       ],
-      "@interaxyz/mobile",
+      "@divvi/mobile",
       "./plugins/withConditionalDetox",
       [
         "./plugins/withCustomGradleProperties",

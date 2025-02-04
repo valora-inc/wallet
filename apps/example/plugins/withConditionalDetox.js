@@ -10,7 +10,7 @@ module.exports = (config, properties = {}) => {
   // Otherwise we'd get this error on Android, when running the app outside of the e2e environment:
   // `CLEARTEXT communication to [some host] not permitted by network security policy
   // See also https://github.com/expo/config-plugins/tree/main/packages/detox#yarn-e2eandroid-failed
-  if (process.env.EXPO_PUBLIC_INTERA_E2E === 'true') {
+  if (process.env.EXPO_PUBLIC_DIVVI_E2E === 'true') {
     return withPlugins(config, ['@config-plugins/detox'])
   }
 

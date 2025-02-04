@@ -44,7 +44,7 @@ function addNeededImports(src: string): MergeResults {
   const imports = NEEDED_IMPORTS.filter((imp) => !src.includes(imp))
 
   return mergeContents({
-    tag: '@interaxyz/mobile/main-application-user-agent-imports',
+    tag: '@divvi/mobile/main-application-user-agent-imports',
     src,
     newSrc: imports.join('\n'),
     anchor: /import com\.facebook\.soloader\.SoLoader/,
@@ -55,7 +55,7 @@ function addNeededImports(src: string): MergeResults {
 
 function addUserAgentCode(src: string, appName: string): MergeResults {
   return mergeContents({
-    tag: '@interaxyz/mobile/main-application-user-agent-code',
+    tag: '@divvi/mobile/main-application-user-agent-code',
     src,
     newSrc: getUserAgentCode(appName),
     anchor: /ApplicationLifecycleDispatcher\.onApplicationCreate\(this\)/,
@@ -72,7 +72,7 @@ export const withAndroidUserAgent: ConfigPlugin<{ appName?: string }> = (config,
   return withMainApplication(config, (config) => {
     if (!['kt'].includes(config.modResults.language)) {
       throw new Error(
-        `Cannot setup Intera runtime because the project MainApplication is not a supported language: ${config.modResults.language}`
+        `Cannot setup Divvi mobile because the project MainApplication is not a supported language: ${config.modResults.language}`
       )
     }
 
@@ -85,7 +85,7 @@ export const withAndroidUserAgent: ConfigPlugin<{ appName?: string }> = (config,
     } catch (error: any) {
       if (error.code === 'ERR_NO_MATCH') {
         throw new Error(
-          `Cannot add Intera runtime to the project's MainApplication because it's malformed. Please report this with a copy of your project MainApplication.`
+          `Cannot add Divvi mobile to the project's MainApplication because it's malformed. Please report this with a copy of your project MainApplication.`
         )
       }
       throw error

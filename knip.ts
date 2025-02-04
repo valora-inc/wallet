@@ -43,7 +43,7 @@ const config: KnipConfig = {
         'tslib', // for some reason this is triggered after applying multiple tsconfigs to "extends" of apps/example/tsconfig.json
       ],
     },
-    'packages/@interaxyz/mobile': {
+    'packages/@divvi/mobile': {
       entry: ['index.js!', 'metro.config.js!', './scripts/**/*.js'],
       project: ['src/**/*.ts!', 'src/**/*.tsx!', 'src/**/*.js!'],
       ignoreDependencies: [

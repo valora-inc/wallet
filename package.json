@@ -1,5 +1,5 @@
 {
-  "name": "@interaxyz/intera-mobile",
+  "name": "@divvi/divvi-mobile",
   "version": "1.0.0",
   "private": true,
   "engines": {
@@ -8,7 +8,7 @@
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "workspaces": [
     "apps/*",
-    "packages/@interaxyz/*"
+    "packages/@divvi/*"
   ],
   "scripts": {
     "lint": "eslint --ext=.tsx,.ts packages/",
@@ -16,7 +16,7 @@
     "format:check": "prettier --check .",
     "check-licenses": "yarn licenses list --prod | grep '\\(─ GPL\\|─ (GPL-[1-9]\\.[0-9]\\+ OR GPL-[1-9]\\.[0-9]\\+)\\)' && echo 'Found GPL license(s). Use 'yarn licenses list --prod' to look up the offending package' && exit 1 || echo 'No GPL licenses found'",
     "knip:depcheck": "knip --include dependencies",
-    "postinstall": "patch-package && cp packages/@interaxyz/mobile/secrets.json.template packages/@interaxyz/mobile/secrets.json && yarn --cwd packages/@interaxyz/mobile build:plugin",
+    "postinstall": "patch-package && cp packages/@divvi/mobile/secrets.json.template packages/@divvi/mobile/secrets.json && yarn --cwd packages/@divvi/mobile build:plugin",
     "release": "multi-semantic-release"
   },
   "dependencies": {

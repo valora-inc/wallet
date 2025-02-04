@@ -1,6 +1,6 @@
 {
   // Temporary hack until we figure out a way for this to be { "extends": "expo/tsconfig.base" }
-  "extends": ["expo/tsconfig.base", "@interaxyz/mobile"],
+  "extends": ["expo/tsconfig.base", "@divvi/mobile"],
   "compilerOptions": {
     "jsx": "react-native"
   },

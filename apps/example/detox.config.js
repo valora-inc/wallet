@@ -1,4 +1,4 @@
-const iosName = 'Intera'
+const iosName = 'Divvi'
 const derivedDataPath = 'ios/build'
 const sdk = 'iphonesimulator'
 

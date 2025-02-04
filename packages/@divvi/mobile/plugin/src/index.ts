@@ -6,9 +6,9 @@ import { withIosAppDelegateResetKeychain } from './withIosAppDelegateResetKeycha
 import { withIosUserAgent } from './withIosUserAgent'
 
 /**
- * A config plugin for configuring `@interaxyz/mobile`
+ * A config plugin for configuring `@divvi/mobile`
  */
-const withInteraMobileApp: ConfigPlugin<{ appName?: string }> = (config, props = {}) => {
+const withMobileApp: ConfigPlugin<{ appName?: string }> = (config, props = {}) => {
   return withPlugins(config, [
     // iOS
     withIosAppDelegateResetKeychain,
@@ -20,4 +20,4 @@ const withInteraMobileApp: ConfigPlugin<{ appName?: string }> = (config, props =
   ])
 }
 
-export default withInteraMobileApp
+export default withMobileApp
