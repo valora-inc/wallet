@@ -40,6 +40,30 @@ function Risk({ risk }: { risk: SafetyRisk }) {
   )
 }
 
+export function TripleBars({
+  safety,
+  barHeights = BAR_HEIGHTS,
+}: {
+  safety: Safety
+  barHeights?: number[]
+}) {
+  return (
+    <View style={styles.tripleBarContainer}>
+      {barHeights.map((height, index) => (
+        <View
+          testID="SafetyCard/Bar"
+          key={index}
+          style={[
+            styles.bar,
+            { height },
+            index < LEVEL_TO_MAX_HIGHLIGHTED_BAR[safety.level] && styles.barHighlighted,
+          ]}
+        />
+      ))}
+    </View>
+  )
+}
+
 export function SafetyCard({
   safety,
   commonAnalyticsProps,
@@ -62,19 +86,7 @@ export function SafetyCard({
             testID="SafetyCardInfoIcon"
           />
         </View>
-        <View style={styles.tripleBarContainer}>
-          {BAR_HEIGHTS.map((height, index) => (
-            <View
-              testID="SafetyCard/Bar"
-              key={index}
-              style={[
-                styles.bar,
-                { height },
-                index < LEVEL_TO_MAX_HIGHLIGHTED_BAR[safety.level] && styles.barHighlighted,
-              ]}
-            />
-          ))}
-        </View>
+        <TripleBars safety={safety} />
       </View>
       {expanded && (
         <View style={styles.risksContainer}>

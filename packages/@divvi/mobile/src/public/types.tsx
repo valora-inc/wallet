@@ -182,6 +182,7 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
     }
     earn: {
       showLearnMore?: boolean
+      showSafetyScoreOnPoolCard?: boolean
     }
   }
 }
