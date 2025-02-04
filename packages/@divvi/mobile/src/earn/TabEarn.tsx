@@ -16,6 +16,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { AppState } from 'src/app/actions'
 import { appStateSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
+import { getAppConfig } from 'src/appConfig'
 import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import {
@@ -209,6 +210,9 @@ function TabHome({ navigation, route }: Props) {
   const zeroPoolsInMyPoolsTab =
     !errorLoadingPools && displayPools.length === 0 && activeTab === EarnTabType.MyPools
 
+  const assetsConfig = getAppConfig().themes?.default?.assets
+  const NoPoolsLogo = assetsConfig?.noEarnPoolsLogo
+
   return (
     <>
       <Animated.View testID="Home" style={styles.container}>
@@ -240,7 +244,7 @@ function TabHome({ navigation, route }: Props) {
         )}
         {zeroPoolsInMyPoolsTab && (
           <View style={styles.textContainer}>
-            {/* TODO: Add a "no pools" icon  */}
+            {!!NoPoolsLogo && <NoPoolsLogo />}
             <Text style={styles.noPoolsTitle}>{t('earnFlow.home.noPoolsTitle')}</Text>
             <Text style={styles.description}>{t('earnFlow.home.noPoolsDescription')}</Text>
           </View>
