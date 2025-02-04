@@ -63,7 +63,7 @@ export default function CeloNewsFeed() {
 
   const asyncArticles = useFetchArticles()
   const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
-  const readMoreUrl = links.celoNews
+  const readMoreUrl = links?.celoNews
   const isLoading = asyncArticles.status === 'loading'
 
   useEffect(() => {
