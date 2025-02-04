@@ -2871,6 +2871,11 @@
       "info": "Aktualnie przeglądasz aplikację w trybie demonstracyjnym",
       "cta": "Exit Demo"
     },
+    "restrictedAccess": {
+      "title": "W trybie demonstracyjnym",
+      "info": "Nie możesz wykonać tej czynności, ponieważ przeglądasz aplikację w trybie demonstracyjnym",
+      "cta": "Exit Demo"
+    },
     "inAppIndicatorLabel": "Tryb demonstracyjny"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
