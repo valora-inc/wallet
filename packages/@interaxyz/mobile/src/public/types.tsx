@@ -179,5 +179,8 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
       enableBiometry?: boolean
       protectWallet?: boolean
     }
+    earn: {
+      showLearnMore?: boolean
+    }
   }
 }

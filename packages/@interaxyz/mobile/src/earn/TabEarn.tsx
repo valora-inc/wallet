@@ -16,7 +16,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { AppState } from 'src/app/actions'
 import { appStateSelector, phoneNumberVerifiedSelector } from 'src/app/selectors'
-import { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import {
   ALERT_BANNER_DURATION,
@@ -255,7 +255,38 @@ function TabHome({ navigation, route }: Props) {
           />
         )}
       </Animated.View>
+      <LearnMoreBottomSheet learnMoreBottomSheetRef={learnMoreBottomSheetRef} />
     </>
+  )
+}
+
+function LearnMoreBottomSheet({
+  learnMoreBottomSheetRef,
+}: {
+  learnMoreBottomSheetRef: React.RefObject<BottomSheetModalRefType>
+}) {
+  const { t } = useTranslation()
+
+  return (
+    <BottomSheet
+      forwardedRef={learnMoreBottomSheetRef}
+      title={t('earnFlow.home.learnMoreBottomSheet.bottomSheetTitle')}
+      testId={'Earn/Home/LearnMoreBottomSheet'}
+      titleStyle={styles.learnMoreTitle}
+    >
+      <Text style={styles.learnMoreSubTitle}>
+        {t('earnFlow.home.learnMoreBottomSheet.yieldPoolSubtitle')}
+      </Text>
+      <Text style={styles.learnMoreDescription}>
+        {t('earnFlow.home.learnMoreBottomSheet.yieldPoolDescription')}
+      </Text>
+      <Text style={styles.learnMoreSubTitle}>
+        {t('earnFlow.home.learnMoreBottomSheet.chooseSubtitle')}
+      </Text>
+      <Text style={styles.learnMoreDescription}>
+        {t('earnFlow.home.learnMoreBottomSheet.chooseDescription')}
+      </Text>
+    </BottomSheet>
   )
 }
 
@@ -303,6 +334,17 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     textAlign: 'center',
     marginVertical: Spacing.Regular16,
+  },
+  learnMoreTitle: {
+    ...typeScale.titleSmall,
+  },
+  learnMoreSubTitle: {
+    ...typeScale.labelSemiBoldSmall,
+    marginBottom: Spacing.Tiny4,
+  },
+  learnMoreDescription: {
+    ...typeScale.bodySmall,
+    marginBottom: Spacing.Thick24,
   },
 })
 

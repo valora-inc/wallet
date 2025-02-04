@@ -3,9 +3,11 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
+import { getAppConfig } from 'src/appConfig'
 import EarnHome from 'src/earn/EarnHome'
 import { Status } from 'src/earn/slice'
 import { EarnTabType } from 'src/earn/types'
+import { PublicAppConfig } from 'src/public/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -14,6 +16,19 @@ import { createMockStore } from 'test/utils'
 import { mockEarnPositions, mockTokenBalances } from 'test/values'
 
 jest.mock('src/statsig')
+jest.mock('src/appConfig')
+
+const mockGetAppConfig = jest.mocked(getAppConfig)
+const defaultConfig: PublicAppConfig = {
+  registryName: 'test',
+  displayName: 'test',
+  deepLinkUrlScheme: 'test',
+  experimental: {
+    earn: {
+      showLearnMore: true,
+    },
+  },
+}
 
 function getStore(
   mockPoolBalance: string = '0',
@@ -54,6 +69,7 @@ describe('EarnHome', () => {
       .mockImplementation(
         (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_POSITIONS
       )
+    mockGetAppConfig.mockReturnValue(defaultConfig)
   })
   it('shows the zero state UI under my pools if the user has no pools with balance', () => {
     const { getByText } = render(
