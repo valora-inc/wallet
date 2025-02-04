@@ -765,15 +765,6 @@
             ],
             "type": "object"
         },
-        "CeloNewsConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "readMoreUrl": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
         "CiCoCurrency": {
             "enum": [
                 "CELO",
