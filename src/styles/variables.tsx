@@ -12,4 +12,5 @@ export default {
   footerHeight: 60,
   fontSizeBase: 15,
   iconHitslop,
+  demoModeBorderWidth: 3,
 }
