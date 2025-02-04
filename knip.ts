@@ -21,7 +21,7 @@ const config: KnipConfig = {
     },
     'apps/example': {
       entry: [
-        'index.ts!',
+        'index.tsx!',
         'metro.config.js!',
         'detox.config.js!',
         'plugins/**/*.{js,ts}',
