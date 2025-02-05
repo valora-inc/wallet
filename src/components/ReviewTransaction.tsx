@@ -171,8 +171,8 @@ export function ReviewDetailsItem({
       </View>
       <View>
         {isLoading ? (
-          <View style={styles.loaderContainer}>
-            <SkeletonPlaceholder testID={`${testID}/Loader`}>
+          <View testID={`${testID}/Loader`} style={styles.loaderContainer}>
+            <SkeletonPlaceholder>
               <View style={styles.loader} />
             </SkeletonPlaceholder>
           </View>

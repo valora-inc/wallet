@@ -519,8 +519,8 @@ export default function TokenEnterAmount({
           </View>
 
           {loading && (
-            <View style={styles.loader}>
-              <SkeletonPlaceholder testID={`${testID}/Loader`}>
+            <View testID={`${testID}/Loader`} style={styles.loader}>
+              <SkeletonPlaceholder>
                 <View style={{ height: '100%', width: '100%' }} />
               </SkeletonPlaceholder>
             </View>
