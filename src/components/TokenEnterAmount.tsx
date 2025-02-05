@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
+import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TextInput from 'src/components/TextInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -519,12 +519,8 @@ export default function TokenEnterAmount({
           </View>
 
           {loading && (
-            <View testID={`${testID}/Loader`} style={styles.loader}>
-              <SkeletonPlaceholder
-                borderRadius={100} // ensure rounded corners with font scaling
-                backgroundColor={Colors.skeletonPlaceholderBackground}
-                highlightColor={Colors.skeletonPlaceholderHighlight}
-              >
+            <View style={styles.loader}>
+              <SkeletonPlaceholder testID={`${testID}/Loader`}>
                 <View style={{ height: '100%', width: '100%' }} />
               </SkeletonPlaceholder>
             </View>
