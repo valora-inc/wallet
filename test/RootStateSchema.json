@@ -765,15 +765,6 @@
             ],
             "type": "object"
         },
-        "CeloNewsConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "readMoreUrl": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
         "CiCoCurrency": {
             "enum": [
                 "CELO",
@@ -4696,9 +4687,6 @@
                 "appState": {
                     "$ref": "#/definitions/AppState"
                 },
-                "celoNews": {
-                    "$ref": "#/definitions/CeloNewsConfig"
-                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -4797,7 +4785,6 @@
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
-                "celoNews",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
@@ -5162,12 +5149,6 @@
                         }
                     ]
                 },
-                "dappListApiUrl": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
                 "dappsCategories": {
                     "items": {
                         "$ref": "#/definitions/DappCategory"
@@ -5189,17 +5170,11 @@
                 "dappsListLoading": {
                     "type": "boolean"
                 },
-                "dappsWebViewEnabled": {
-                    "type": "boolean"
-                },
                 "favoriteDappIds": {
                     "items": {
                         "type": "string"
                     },
                     "type": "array"
-                },
-                "maxNumRecentDapps": {
-                    "type": "number"
                 },
                 "mostPopularDappIds": {
                     "items": {
@@ -5216,14 +5191,11 @@
             },
             "required": [
                 "activeDapp",
-                "dappListApiUrl",
                 "dappsCategories",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
-                "dappsWebViewEnabled",
                 "favoriteDappIds",
-                "maxNumRecentDapps",
                 "mostPopularDappIds",
                 "recentDappIds"
             ],
@@ -5402,16 +5374,11 @@
                         "type": "string"
                     },
                     "type": "array"
-                },
-                "priceImpactWarningThreshold": {
-                    "description": "In percentage, between 0 and 100",
-                    "type": "number"
                 }
             },
             "required": [
                 "currentSwap",
-                "lastSwapped",
-                "priceImpactWarningThreshold"
+                "lastSwapped"
             ],
             "type": "object"
         },

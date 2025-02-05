@@ -271,24 +271,17 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   // RemoteConfigValues is in app/saga.ts
 
   const fiatAccountSchemaCountryOverrides = flags.fiatAccountSchemaCountryOverrides?.asString()
-  const celoNewsString = flags.celoNews?.asString()
 
   return {
-    dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
     inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
     sentryNetworkErrors: flags.sentryNetworkErrors.asString().split(','),
-    maxNumRecentDapps: flags.maxNumRecentDapps.asNumber(),
-    dappsWebViewEnabled: flags.dappsWebViewEnabled.asBoolean(),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
       ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
-    celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
-    // Convert to percentage, so we're consistent with the price impact value returned by our swap API
-    priceImpactWarningThreshold: flags.priceImpactWarningThreshold.asNumber() * 100,
   }
 }
 

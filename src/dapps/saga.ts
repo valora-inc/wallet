@@ -1,7 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { openDeepLink, openUrl } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl } from 'src/app/saga'
-import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
 import {
   dappSelected,
   DappSelectedAction,
@@ -14,6 +13,9 @@ import { currentLanguageSelector } from 'src/i18n/selectors'
 import { setLanguage } from 'src/i18n/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -36,7 +38,9 @@ interface Application {
 
 export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
   const { dappUrl } = action.payload.dapp
-  const dappsWebViewEnabled = yield* select(dappsWebViewEnabledSelector)
+  const dappsWebViewEnabled = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]
+  ).inAppWebviewEnabled
 
   if (dappsWebViewEnabled) {
     const walletConnectEnabled: boolean = yield* call(isWalletConnectEnabled, dappUrl)
@@ -51,7 +55,8 @@ export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
 }
 
 export function* handleFetchDappsList() {
-  const dappsListApiUrl = yield* select(dappsListApiUrlSelector)
+  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
+  const dappsListApiUrl = links.dappList
   if (!dappsListApiUrl) {
     Logger.warn(TAG, 'dappsListApiUrl not found, skipping dapps list fetch')
     return

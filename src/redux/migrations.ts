@@ -2006,4 +2006,10 @@ export const migrations = {
       'pincodeUseExpandedBlocklist'
     ),
   }),
+  242: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'celoNews'),
+    dapps: _.omit(state.dapps, 'dappListApiUrl', 'maxNumRecentDapps', 'dappsWebViewEnabled'),
+    swap: _.omit(state.swap, 'priceImpactWarningThreshold'),
+  }),
 }

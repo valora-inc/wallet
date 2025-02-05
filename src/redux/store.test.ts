@@ -143,7 +143,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 241,
+          "version": 242,
         },
         "account": {
           "acceptedTerms": false,
@@ -179,7 +179,6 @@ describe('store state', () => {
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
-          "celoNews": {},
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
@@ -207,14 +206,11 @@ describe('store state', () => {
         },
         "dapps": {
           "activeDapp": null,
-          "dappListApiUrl": null,
           "dappsCategories": [],
           "dappsList": [],
           "dappsListError": null,
           "dappsListLoading": false,
-          "dappsWebViewEnabled": false,
           "favoriteDappIds": [],
-          "maxNumRecentDapps": 0,
           "mostPopularDappIds": [],
           "recentDappIds": [],
         },
@@ -356,7 +352,6 @@ describe('store state', () => {
         "swap": {
           "currentSwap": null,
           "lastSwapped": [],
-          "priceImpactWarningThreshold": 4,
         },
         "tokens": {
           "error": false,

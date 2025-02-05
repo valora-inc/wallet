@@ -57,6 +57,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG,
     defaultValues: {
       disabledMediaPlaybackRequiresUserActionOrigins: [] as string[],
+      inAppWebviewEnabled: true,
     },
   },
   [StatsigDynamicConfigs.SWAP_CONFIG]: {
@@ -66,6 +67,7 @@ export const DynamicConfigs = {
       enableAppFee: false,
       popularTokenIds: [] as string[],
       enabled: false,
+      priceImpactWarningThreshold: 4,
     },
   },
   [StatsigDynamicConfigs.CICO_TOKEN_INFO]: {
@@ -114,6 +116,8 @@ export const DynamicConfigs = {
           'https://valora.xyz/support/invite-rewards-stabletoken-learn-more',
         earnStablecoinsLearnMore: 'https://valora.xyz/stablecoin-earn',
         celoEducation: 'https://valoraapp.com/support/quick-guide',
+        dappList: 'https://api.mainnet.valora.xyz/dappList',
+        celoNews: 'https://blog.celo.org',
       },
     },
   },
