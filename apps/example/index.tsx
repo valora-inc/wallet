@@ -1,6 +1,8 @@
 import { createApp } from '@divvi/mobile'
 import { registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
+import React from 'react'
+import CustomScreen from './screens/CustomScreen'
 
 const expoConfig = Constants.expoConfig
 if (!expoConfig) {
@@ -38,6 +40,13 @@ const App = createApp({
     'tr-TR': require('./locales/tr-TR.json'),
     'vi-VN': require('./locales/vi-VN.json'),
     'zh-CN': require('./locales/zh-CN.json'),
+  },
+  screens: {
+    custom: (Screen) => (
+      <>
+        <Screen name="CustomScreen" component={CustomScreen} options={{ headerShown: true }} />
+      </>
+    ),
   },
 })
 

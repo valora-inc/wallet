@@ -1,4 +1,5 @@
 import type { ImageSourcePropType } from 'react-native'
+import type { NavigatorScreen } from '../navigator/Navigator'
 
 // Type for tab configuration
 export interface TabScreenConfig {
@@ -123,6 +124,7 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
       screens?: tabScreenConfigs
       initialScreen?: tabScreenConfigs[number]['name']
     } // Later we could allow passing in a component for advanced cases
+    custom?: (Screen: NavigatorScreen) => React.JSX.Element
   }
 
   // Optional features/capabilities

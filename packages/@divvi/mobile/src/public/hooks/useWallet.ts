@@ -15,6 +15,7 @@
 import { useMemo } from 'react'
 import type { UseSelector } from '../../redux/hooks'
 import type { SortedTokensWithBalanceOrShowZeroBalanceSelector } from '../../tokens/selectors'
+import type { TokenBalance } from '../../tokens/slice'
 import type { GetSupportedNetworkIdsForSend } from '../../tokens/utils'
 import type { NetworkId } from '../../transactions/types'
 import type { WalletAddressSelector } from '../../web3/selectors'
@@ -43,8 +44,8 @@ export function useWallet() {
   const useSelector = require('../../redux/hooks').useSelector as UseSelector
   const walletAddressSelector = require('../../web3/selectors')
     .walletAddressSelector as WalletAddressSelector
-  const address = useSelector(walletAddressSelector)
-  const tokens = useTokens()
+  const address = useSelector(walletAddressSelector) as string | null
+  const tokens = useTokens() as TokenBalance[]
 
   return {
     address,

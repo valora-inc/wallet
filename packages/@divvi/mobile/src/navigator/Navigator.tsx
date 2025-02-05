@@ -23,6 +23,7 @@ import DebugImages from 'src/app/DebugImages'
 import ErrorScreen from 'src/app/ErrorScreen'
 import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
+import { getAppConfig } from 'src/appConfig'
 import BackupComplete from 'src/backup/BackupComplete'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
@@ -132,6 +133,8 @@ const TAG = 'Navigator'
 const Stack = createNativeStackNavigator<StackParamList>()
 const ModalStack = createNativeStackNavigator<StackParamList>()
 const RootStack = createBottomSheetNavigator<StackParamList>()
+
+export type NavigatorScreen = typeof Stack.Screen
 
 const commonScreens = (Navigator: typeof Stack) => {
   return (
@@ -601,6 +604,11 @@ const pointsScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen name={Screens.PointsIntro} component={PointsIntro} options={noHeader} />
   </>
 )
+
+const customScreens = (Navigator: typeof Stack) => {
+  return getAppConfig().screens?.custom?.(Navigator.Screen) ?? null
+}
+
 const mapStateToProps = (state: RootState) => {
   return {
     language: currentLanguageSelector(state),
@@ -656,6 +664,7 @@ function MainStackScreen() {
       {nftScreens(Stack)}
       {assetScreens(Stack)}
       {pointsScreens(Stack)}
+      {customScreens(Stack)}
     </Stack.Navigator>
   )
 }
