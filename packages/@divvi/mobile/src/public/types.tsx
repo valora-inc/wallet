@@ -106,6 +106,13 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
         onboardingSuccessImage?: ImageSourcePropType
         tabHeaderLogo?: React.ComponentType<any>
         noEarnPoolsLogo?: React.ComponentType<any>
+        biometryImages?: {
+          face?: ImageSourcePropType
+          faceId?: ImageSourcePropType
+          fingerprint?: ImageSourcePropType
+          touchId?: ImageSourcePropType
+          iris?: ImageSourcePropType
+        }
       }
     }
   }

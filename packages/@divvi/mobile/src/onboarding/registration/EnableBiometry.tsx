@@ -10,6 +10,7 @@ import { PincodeType } from 'src/account/reducer'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
 import { supportedBiometryTypeSelector } from 'src/app/selectors'
+import { getAppConfig } from 'src/appConfig'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Face from 'src/icons/biometry/Face'
 import FaceID from 'src/icons/biometry/FaceID'
@@ -43,6 +44,8 @@ const TAG = 'EnableBiometry'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.EnableBiometry>
 
+const assetsConfig = getAppConfig().themes?.default?.assets
+
 const biometryIconMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   [Keychain.BIOMETRY_TYPE.FACE_ID]: <FaceID />,
   [Keychain.BIOMETRY_TYPE.TOUCH_ID]: <TouchID />,
@@ -53,14 +56,30 @@ const biometryIconMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
 }
 
 const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
-  [Keychain.BIOMETRY_TYPE.FACE_ID]: <Image testID="Image/FaceID" source={biometryFaceId} />,
-  [Keychain.BIOMETRY_TYPE.TOUCH_ID]: <Image testID="Image/TouchID" source={biometryTouchId} />,
-  [Keychain.BIOMETRY_TYPE.FINGERPRINT]: (
-    <Image testID="Image/Fingerprint" source={biometryFingerprint} />
+  [Keychain.BIOMETRY_TYPE.FACE_ID]: (
+    <Image testID="Image/FaceID" source={assetsConfig?.biometryImages?.faceId ?? biometryFaceId} />
   ),
-  [Keychain.BIOMETRY_TYPE.FACE]: <Image testID="Image/Face" source={biometryFace} />,
-  [Keychain.BIOMETRY_TYPE.IRIS]: <Image testID="Image/Iris" source={biometryIris} />,
-  [Keychain.BIOMETRY_TYPE.OPTIC_ID]: <Image testID="Image/Iris" source={biometryIris} />,
+  [Keychain.BIOMETRY_TYPE.TOUCH_ID]: (
+    <Image
+      testID="Image/TouchID"
+      source={assetsConfig?.biometryImages?.touchId ?? biometryTouchId}
+    />
+  ),
+  [Keychain.BIOMETRY_TYPE.FINGERPRINT]: (
+    <Image
+      testID="Image/Fingerprint"
+      source={assetsConfig?.biometryImages?.fingerprint ?? biometryFingerprint}
+    />
+  ),
+  [Keychain.BIOMETRY_TYPE.FACE]: (
+    <Image testID="Image/Face" source={assetsConfig?.biometryImages?.face ?? biometryFace} />
+  ),
+  [Keychain.BIOMETRY_TYPE.IRIS]: (
+    <Image testID="Image/Iris" source={assetsConfig?.biometryImages?.iris ?? biometryIris} />
+  ),
+  [Keychain.BIOMETRY_TYPE.OPTIC_ID]: (
+    <Image testID="Image/Iris" source={assetsConfig?.biometryImages?.iris ?? biometryIris} />
+  ),
 }
 
 export default function EnableBiometry({ navigation }: Props) {
