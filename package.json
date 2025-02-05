@@ -75,7 +75,7 @@
     "@crowdin/ota-client": "^0.7.0",
     "@divvi/cookies": "^6.2.3",
     "@divvi/react-native-fs": "^2.20.1",
-    "@fiatconnect/fiatconnect-sdk": "^0.5.66",
+    "@fiatconnect/fiatconnect-sdk": "^0.5.71",
     "@fiatconnect/fiatconnect-types": "^13.3.10",
     "@gorhom/bottom-sheet": "^5.0.6",
     "@interaxyz/react-native-keychain": "^9.2.2",
