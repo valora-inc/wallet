@@ -341,7 +341,11 @@ function Setup({ origin }: { origin: KeylessBackupOrigin }) {
 
   const onPressSkip = () => {
     AppAnalytics.track(KeylessBackupEvents.cab_progress_failed_skip_onboarding)
-    navigate(Screens.ChooseYourAdventure)
+    // This callback is only ever triggered from onboarding
+    goToNextOnboardingScreen({
+      onboardingProps,
+      firstScreenInCurrentStep: Screens.SignInWithEmail,
+    })
   }
 
   switch (keylessBackupStatus) {

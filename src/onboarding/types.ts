@@ -1,10 +1,3 @@
-export enum AdventureCardName {
-  Add = 'add',
-  Profile = 'profile',
-  LearnPoints = 'learnPoints',
-  Earn = 'earn',
-}
-
 export enum ToggleableOnboardingFeatures {
   // Enabled Cloud Backup feature in the app, shows setup option in settings
   // and restore option in onboarding.

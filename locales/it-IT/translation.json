@@ -2861,7 +2861,18 @@
       "title": "Modalità demo",
       "info": "Stai per entrare in modalità demo. Sei libero di esplorare le funzionalità dell'applicazione senza completare alcuna transazione.",
       "cta": "Inserisci la demo"
-    }
+    },
+    "confirmExit": {
+      "title": "In modalità demo",
+      "info": "Stai visualizzando l'applicazione in modalità demo",
+      "cta": "Esci dalla demo"
+    },
+    "restrictedAccess": {
+      "title": "In modalità demo",
+      "info": "Non puoi completare questa azione perché stai visualizzando l'applicazione in modalità demo.",
+      "cta": "Esci dalla demo"
+    },
+    "inAppIndicatorLabel": "Modalità demo"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

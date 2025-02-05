@@ -1161,6 +1161,14 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
+"@divvi/react-native-fs@^2.20.1":
+  version "2.20.1"
+  resolved "https://registry.yarnpkg.com/@divvi/react-native-fs/-/react-native-fs-2.20.1.tgz#00a75f6780a3de64aa2e05f50d9c1ddbcabd8935"
+  integrity sha512-g3k5YOBO74lKVrHczto1QYfZpD41M2uh2eiXis+HU5kFfSRuIgCV7pIpCXlYkMcTLNF8sKBF6xZZHm5XcXbJaA==
+  dependencies:
+    base-64 "^0.1.0"
+    utf8 "^3.0.0"
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
@@ -1661,10 +1669,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@interaxyz/react-navigation-bottom-sheet@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@interaxyz/react-navigation-bottom-sheet/-/react-navigation-bottom-sheet-0.3.2.tgz#e2ed37e5c407647434053d79fd4b7241fc8cab69"
-  integrity sha512-8Q8A8GmqlMF4W0f+GL9+FBFRn2syNgL8ngJyA9V3uIQskAlr4bGe25iX+UB7ccksU8BpniRcNAD6gl0vq4CnBg==
+"@interaxyz/react-native-keychain@^9.2.2":
+  version "9.2.2"
+  resolved "https://registry.yarnpkg.com/@interaxyz/react-native-keychain/-/react-native-keychain-9.2.2.tgz#4e32c162ac3fabe4d2b9eb10b2b4f79a480d19a6"
+  integrity sha512-Gd8PSr/H0AA/XgU8/Xo5uzJ27im6Nghl/K3vkvu54HBa07Bc4eBRNhr5g+JoMrji3z8eRXBRRFuMmslz9jGP2g==
 
 "@interaxyz/react-native-webview@^13.13.4":
   version "13.13.4"
@@ -1673,6 +1681,11 @@
   dependencies:
     escape-string-regexp "^4.0.0"
     invariant "2.2.4"
+
+"@interaxyz/react-navigation-bottom-sheet@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@interaxyz/react-navigation-bottom-sheet/-/react-navigation-bottom-sheet-0.3.2.tgz#e2ed37e5c407647434053d79fd4b7241fc8cab69"
+  integrity sha512-8Q8A8GmqlMF4W0f+GL9+FBFRn2syNgL8ngJyA9V3uIQskAlr4bGe25iX+UB7ccksU8BpniRcNAD6gl0vq4CnBg==
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -4623,13 +4636,6 @@
   integrity sha512-sNXU0gCeKnMA4h/LKjhptyLYCYZVCgffvKVVOE5/O9pbfn+ipYfyHLAZhlzdTGSPcEA3qt5VlI1pB4D/HaTcHw==
   dependencies:
     "@types/react" "*"
-
-"@types/react-native-fs@^2.13.0":
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/@types/react-native-fs/-/react-native-fs-2.13.0.tgz#0e918e7638dbc77aa00562a17591b4d316af65e1"
-  integrity sha512-wLBx3J8p1jy9QYavdRzPVIB+2yd83v1VV/jT7xvVZgeeWHHPcY7y9AVre4TibVWR8aq8KNHkU/iXDmARrF3tYg==
-  dependencies:
-    react-native-fs "*"
 
 "@types/react-native-video@^5.0.15":
   version "5.0.15"
@@ -12612,7 +12618,7 @@ react-native-flipper@^0.212.0:
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.212.0.tgz#b3fdd47676ecd09a25edd77a1466acace6276762"
   integrity sha512-bDRfIgE3v/jjEEdnvGP0T6maDD+bXhDAQ/SZUYTKd/CQ6YIU1c0EF+e0urU62LNMv6XEFQKz226McdddyVhYZA==
 
-react-native-fs@*, react-native-fs@^2.14.1, react-native-fs@^2.20.0:
+react-native-fs@^2.14.1:
   version "2.20.0"
   resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.20.0.tgz#05a9362b473bfc0910772c0acbb73a78dbc810f6"
   integrity sha512-VkTBzs7fIDUiy/XajOSNk0XazFE9l+QlMAce7lGuebZcag5CnjszB+u4BdqzwaQOdcYb5wsJIsqq4kxInIRpJQ==
@@ -12646,11 +12652,6 @@ react-native-in-app-review@^4.3.3:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/react-native-in-app-review/-/react-native-in-app-review-4.3.3.tgz#61f09f110de18f0a470a9bb55b9f49600390085f"
   integrity sha512-Q9sXBtK8tCBYFPCGmMgeMlkxXC5e6vAyPZK26OC1oOKUuKUd0QORnryk/qbwnuN4fLshHQN8UKlLgyHLGRuK3A==
-
-react-native-keychain@^8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-8.2.0.tgz#aea82df37aacbb04f8b567a8e0e6d7292025610a"
-  integrity sha512-SkRtd9McIl1Ss2XSWNLorG+KMEbgeVqX+gV+t3u1EAAqT8q2/OpRmRbxpneT2vnb/dMhiU7g6K/pf3nxLUXRvA==
 
 react-native-kill-packager@^1.0.0:
   version "1.0.0"

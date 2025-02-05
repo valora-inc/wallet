@@ -553,6 +553,32 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 -----
 
+The following software may be included in this product: @interaxyz/react-native-webview, @react-native-community/netinfo, @react-native-masked-view/masked-view, @react-native-picker/picker. A copy of the source code may be downloaded from git+https://github.com/interaxyz/react-native-webview.git (@interaxyz/react-native-webview), https://github.com/react-native-netinfo/react-native-netinfo.git (@react-native-community/netinfo), git+https://github.com/react-native-masked-view/masked-view.git (@react-native-masked-view/masked-view), https://github.com/react-native-picker/picker.git (@react-native-picker/picker). This software contains the following license and notice below:
+
+MIT License
+
+Copyright (c) 2015-present, Facebook, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----
+
 The following software may be included in this product: @jest/create-cache-key-function, @jest/environment, @jest/fake-timers, @jest/schemas, @jest/types, hermes-estree, hermes-parser, jest-environment-node, jest-get-type, jest-message-util, jest-mock, jest-util, jest-validate, pretty-format, react-native, scheduler, use-sync-external-store. A copy of the source code may be downloaded from https://github.com/jestjs/jest.git (@jest/create-cache-key-function), https://github.com/jestjs/jest.git (@jest/environment), https://github.com/jestjs/jest.git (@jest/fake-timers), https://github.com/jestjs/jest.git (@jest/schemas), https://github.com/jestjs/jest.git (@jest/types), git@github.com:facebook/hermes.git (hermes-estree), git@github.com:facebook/hermes.git (hermes-parser), https://github.com/jestjs/jest.git (jest-environment-node), https://github.com/jestjs/jest.git (jest-get-type), https://github.com/jestjs/jest.git (jest-message-util), https://github.com/jestjs/jest.git (jest-mock), https://github.com/jestjs/jest.git (jest-util), https://github.com/jestjs/jest.git (jest-validate), https://github.com/jestjs/jest.git (pretty-format), https://github.com/facebook/react-native.git (react-native), https://github.com/facebook/react.git (scheduler), https://github.com/facebook/react.git (use-sync-external-store). This software contains the following license and notice below:
 
 MIT License
@@ -864,32 +890,6 @@ The following software may be included in this product: @react-native-community/
 MIT License
 
 Copyright (c) 2018 react-native-community
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
------
-
-The following software may be included in this product: @react-native-community/netinfo, @react-native-masked-view/masked-view, @react-native-picker/picker, react-native-webview. A copy of the source code may be downloaded from https://github.com/react-native-netinfo/react-native-netinfo.git (@react-native-community/netinfo), git+https://github.com/react-native-masked-view/masked-view.git (@react-native-masked-view/masked-view), https://github.com/react-native-picker/picker.git (@react-native-picker/picker), https://github.com/react-native-webview/react-native-webview.git (react-native-webview). This software contains the following license and notice below:
-
-MIT License
-
-Copyright (c) 2015-present, Facebook, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

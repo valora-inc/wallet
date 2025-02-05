@@ -172,7 +172,7 @@ describe('KeylessBackupProgress', () => {
         { origin: KeylessBackupOrigin.Onboarding }
       )
     })
-    it('navigates to CYA on failure when coming from onboarding', async () => {
+    it('navigates to next onboarding screen on failure', async () => {
       jest.mocked(ensurePincode).mockResolvedValueOnce(true)
       const { getByTestId } = render(
         <Provider store={createStore(KeylessBackupStatus.Failed)}>
@@ -184,7 +184,10 @@ describe('KeylessBackupProgress', () => {
       expect(getByTestId('KeylessBackupProgress/Skip')).toBeTruthy()
       fireEvent.press(getByTestId('KeylessBackupProgress/Skip'))
 
-      expect(navigate).toBeCalledWith(Screens.ChooseYourAdventure)
+      expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+        onboardingProps: expect.any(Object),
+        firstScreenInCurrentStep: Screens.SignInWithEmail,
+      })
 
       expect(AppAnalytics.track).toHaveBeenCalledTimes(1)
       expect(AppAnalytics.track).toHaveBeenCalledWith(

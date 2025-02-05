@@ -57,7 +57,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG,
     defaultValues: {
       disabledMediaPlaybackRequiresUserActionOrigins: [] as string[],
-      inAppWebviewEnabled: false,
+      inAppWebviewEnabled: true,
     },
   },
   [StatsigDynamicConfigs.SWAP_CONFIG]: {

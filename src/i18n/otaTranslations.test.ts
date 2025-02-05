@@ -1,4 +1,4 @@
-import * as RNFS from 'react-native-fs'
+import * as RNFS from '@divvi/react-native-fs'
 import { OTA_TRANSLATIONS_FILEPATH } from 'src/config'
 import { getOtaTranslations, saveOtaTranslations } from 'src/i18n/otaTranslations'
 

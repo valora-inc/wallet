@@ -5,8 +5,8 @@
  * The password is a combination of the two. It is used for unlocking the account in the keychain
  */
 
+import * as Keychain from '@interaxyz/react-native-keychain'
 import crypto from 'crypto'
-import * as Keychain from 'react-native-keychain'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -135,7 +135,6 @@ function storePinWithBiometry(pin: string) {
     options: {
       accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
       accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
-      authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
       securityLevel: Keychain.SECURITY_LEVEL.SECURE_SOFTWARE,
     },
   })
