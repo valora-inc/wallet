@@ -8,10 +8,12 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 import Touchable from 'src/components/Touchable'
+import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { demoModeEnabledSelector } from 'src/web3/selectors'
 
 export default function EnterAmountOptions({
   onPressAmount,
@@ -25,6 +27,7 @@ export default function EnterAmountOptions({
   const { t } = useTranslation()
   const translateY = useSharedValue(0)
   const [isVisible, setIsVisible] = useState(false)
+  const demoModeEnabled = useSelector(demoModeEnabledSelector)
 
   const amountOptions = useMemo(() => {
     return [
@@ -90,7 +93,7 @@ export default function EnterAmountOptions({
         styles.container,
         {
           position: 'absolute',
-          bottom: 0,
+          bottom: demoModeEnabled ? -variables.demoModeBorderWidth : 0,
           width: variables.width,
         },
         animatedStyle,

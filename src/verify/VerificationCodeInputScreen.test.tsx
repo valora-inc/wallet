@@ -1,8 +1,8 @@
+import * as Keychain from '@interaxyz/react-native-keychain'
 import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import MockDate from 'mockdate'
 import React from 'react'
-import * as Keychain from 'react-native-keychain'
 import SmsRetriever from 'react-native-sms-retriever'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
@@ -30,7 +30,7 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
   username: 'some username',
   password: 'someSignedMessage',
   service: 'some service',
-  storage: 'some string',
+  storage: Keychain.STORAGE_TYPE.RSA,
 })
 
 const mockedSmsRetriever = jest.mocked(SmsRetriever)
