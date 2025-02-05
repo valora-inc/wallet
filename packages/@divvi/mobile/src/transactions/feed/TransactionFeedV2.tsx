@@ -264,6 +264,10 @@ export default function TransactionFeedV2() {
     { skip: !address, refetchOnMountOrArgChange: true }
   )
 
+  const transactionsConfig = getAppConfig()?.experimental?.transactions
+  const noTxComponent =
+    transactionsConfig?.emptyState ?? (!showUKCompliantVariant ? <GetStarted /> : <NoActivity />)
+
   /**
    * This is the same hook as above and it only polls the first page of the feed. Thanks to how
    * RTK-Query stores the fetched data, we know that using "useTransactionFeedV2Query" with the
@@ -446,7 +450,7 @@ export default function TransactionFeedV2() {
             <NotificationBox showOnlyHomeScreenNotifications={true} />
           </>
         }
-        ListEmptyComponent={!showUKCompliantVariant ? <GetStarted /> : <NoActivity />}
+        ListEmptyComponent={noTxComponent}
         ListFooterComponent={
           <>
             {/* prevent loading indicator due to polling from showing at the bottom of the screen */}

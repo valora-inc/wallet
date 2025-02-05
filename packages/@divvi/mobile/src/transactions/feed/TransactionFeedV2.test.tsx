@@ -1,4 +1,5 @@
 import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
+import { View } from 'react-native'
 import BigNumber from 'bignumber.js'
 import { type FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
@@ -23,11 +24,21 @@ import {
 } from 'src/transactions/types'
 import { type RecursivePartial } from 'test/utils'
 import { mockCeloTokenId, mockCusdAddress, mockCusdTokenId, mockQRCodeRecipient } from 'test/values'
+import { getAppConfig } from 'src/appConfig'
+import { PublicAppConfig } from 'src/public/types'
 
 jest.mock('src/statsig')
 jest.mock('react-native-simple-toast')
 jest.mock('src/styles/hapticFeedback')
 jest.mock('src/analytics/AppAnalytics')
+jest.mock('src/appConfig')
+
+const mockGetAppConfig = jest.mocked(getAppConfig)
+const defaultConfig: PublicAppConfig = {
+  registryName: 'test',
+  displayName: 'test',
+  deepLinkUrlScheme: 'test',
+}
 
 const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
 const mockFetch = fetch as FetchMock
@@ -93,6 +104,7 @@ function renderScreen(storeOverrides: RecursivePartial<Omit<RootState, ApiReduce
 beforeEach(() => {
   mockFetch.resetMocks()
   jest.clearAllMocks()
+  mockGetAppConfig.mockReturnValue(defaultConfig)
   jest.mocked(getMultichainFeatures).mockReturnValue({
     showCico: [NetworkId['celo-alfajores']],
     showBalances: [NetworkId['celo-alfajores']],
@@ -232,6 +244,25 @@ describe('TransactionFeedV2', () => {
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
     expect(tree.getByTestId('GetStarted')).toBeDefined()
     expect(tree.queryByText('transactionFeed.allTransactionsShown')).toBeFalsy()
+  })
+
+  it('renders custom empty state when overriden', async () => {
+    mockFetch.mockResponse(typedResponse({ transactions: [] }))
+    mockGetAppConfig.mockReturnValue({
+      ...defaultConfig,
+      experimental: {
+        activity: {},
+        earn: {},
+        transactions: {
+          emptyState: <View testID="NoActivityCustomComponent" />,
+        },
+      },
+    })
+
+    const { getByTestId } = renderScreen({})
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
+    expect(getByTestId('NoActivityCustomComponent')).toBeTruthy()
   })
 
   it('renders NoActivity for UK compliance', () => {

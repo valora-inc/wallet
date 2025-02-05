@@ -1,6 +1,7 @@
 import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
+import { View } from 'react-native'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { RootState } from 'src/redux/reducers'
@@ -18,8 +19,18 @@ import {
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockApprovalTransaction, mockCusdAddress, mockCusdTokenId } from 'test/values'
+import { getAppConfig } from 'src/appConfig'
+import { PublicAppConfig } from 'src/public/types'
 
 jest.mock('src/statsig')
+jest.mock('src/appConfig')
+
+const mockGetAppConfig = jest.mocked(getAppConfig)
+const defaultConfig: PublicAppConfig = {
+  registryName: 'test',
+  displayName: 'test',
+  deepLinkUrlScheme: 'test',
+}
 
 const mockTransaction = (
   transactionHash: string,
@@ -159,6 +170,7 @@ describe('TransactionFeed', () => {
   const mockFetch = fetch as FetchMock
   beforeEach(() => {
     jest.clearAllMocks()
+    mockGetAppConfig.mockReturnValue(defaultConfig)
     jest.mocked(getMultichainFeatures).mockReturnValue({
       showCico: [NetworkId['celo-alfajores']],
       showBalances: [NetworkId['celo-alfajores']],
@@ -441,5 +453,23 @@ describe('TransactionFeed', () => {
 
     expect(getByTestId('NoActivity/loading')).toBeTruthy()
     expect(getByText('transactionFeed.noTransactions')).toBeTruthy()
+  })
+
+  it('renders custom empty state when overriden', async () => {
+    mockGetAppConfig.mockReturnValue({
+      ...defaultConfig,
+      experimental: {
+        activity: {},
+        earn: {},
+        transactions: {
+          emptyState: <View testID="NoActivityCustomComponent" />,
+        },
+      },
+    })
+
+    const { getByTestId } = renderScreen({})
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
+    expect(getByTestId('NoActivityCustomComponent')).toBeTruthy()
   })
 })

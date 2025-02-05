@@ -24,6 +24,7 @@ import {
 } from 'src/transactions/selectors'
 import { TokenTransaction, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
+import { getAppConfig } from 'src/appConfig'
 
 function TransactionFeed() {
   const { loading, error, transactions, fetchingMoreTransactions, fetchMoreTransactions } =
@@ -34,6 +35,11 @@ function TransactionFeed() {
   const allowedNetworks = useAllowedNetworkIdsForTransfers()
 
   const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
+
+  const transactionsConfig = getAppConfig()?.experimental?.transactions
+  const noTxComponent =
+    transactionsConfig?.emptyState ??
+    (!showUKCompliantVariant ? <GetStarted /> : <NoActivity loading={loading} error={error} />)
 
   const confirmedFeedTransactions = useMemo(() => {
     // Filter out received pending transactions that are also in the pending
@@ -123,7 +129,7 @@ function TransactionFeed() {
   }
 
   if (!sections.length) {
-    return !showUKCompliantVariant ? <GetStarted /> : <NoActivity loading={loading} error={error} />
+    return noTxComponent
   }
 
   return (
