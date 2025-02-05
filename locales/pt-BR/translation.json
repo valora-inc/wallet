@@ -2867,6 +2867,11 @@
       "info": "No momento, você está visualizando o aplicativo no modo de demonstração",
       "cta": "Sair da demonstração"
     },
+    "restrictedAccess": {
+      "title": "No modo de demonstração",
+      "info": "Não é possível concluir essa ação porque você está visualizando o aplicativo no modo de demonstração",
+      "cta": "Sair da demonstração"
+    },
     "inAppIndicatorLabel": "Modo de demonstração"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

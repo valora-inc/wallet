@@ -2867,6 +2867,11 @@
       "info": "Tu visualises actuellement l'appli en mode démo.",
       "cta": "Quitter la démo"
     },
+    "restrictedAccess": {
+      "title": "En mode démo",
+      "info": "Tu ne peux pas effectuer cette action car tu visualises l'appli en mode démo",
+      "cta": "Quitter la démo"
+    },
     "inAppIndicatorLabel": "Mode démo"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
