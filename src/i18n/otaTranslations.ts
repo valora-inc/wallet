@@ -1,5 +1,5 @@
+import * as RNFS from '@divvi/react-native-fs'
 import { Resource } from 'i18next'
-import * as RNFS from 'react-native-fs'
 import { OTA_TRANSLATIONS_FILEPATH } from 'src/config'
 
 export function saveOtaTranslations(resource: Resource) {
