@@ -86,7 +86,7 @@ export default function PoolCard({
 
   const totalYieldRate = getTotalYieldRate(pool).toFixed(2)
 
-  const showSafetyScore = safety && appConfig.experimental?.earn.showSafetyScoreOnPoolCard
+  const showSafetyScore = safety && appConfig.experimental?.earn?.showSafetyScoreOnPoolCard
 
   const onPress = () => {
     AppAnalytics.track(EarnEvents.earn_pool_card_press, {

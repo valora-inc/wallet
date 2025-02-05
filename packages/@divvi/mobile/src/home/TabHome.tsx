@@ -62,7 +62,7 @@ function TabHome(_props: Props) {
   const showNftReward = canShowNftReward && isFocused && !showNotificationSpotlight
 
   const showZerionTransactionFeed = getFeatureGate(StatsigFeatureGates.SHOW_ZERION_TRANSACTION_FEED)
-  const showActionsCarousel = getAppConfig().experimental?.activity.showActionsCarousel ?? true
+  const showActionsCarousel = getAppConfig().experimental?.activity?.showActionsCarousel ?? true
 
   useEffect(() => {
     dispatch(visitHome())

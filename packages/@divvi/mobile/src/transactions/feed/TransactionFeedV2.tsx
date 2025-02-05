@@ -244,7 +244,7 @@ export default function TransactionFeedV2() {
   const dispatch = useDispatch()
 
   const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
-  const showActionsCarousel = getAppConfig().experimental?.activity.showActionsCarousel ?? true
+  const showActionsCarousel = getAppConfig().experimental?.activity?.showActionsCarousel ?? true
 
   const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
   const address = useSelector(walletAddressSelector)
