@@ -1,5 +1,5 @@
+import { BIOMETRY_TYPE } from '@interaxyz/react-native-keychain'
 import { Platform } from 'react-native'
-import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'

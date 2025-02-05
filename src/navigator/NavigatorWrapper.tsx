@@ -32,6 +32,7 @@ import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import appTheme from 'src/styles/appTheme'
 import Colors from 'src/styles/colors'
+import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
@@ -185,7 +186,12 @@ export const NavigatorWrapper = () => {
         angle={90}
         style={styles.linearGradientBackground}
       >
-        <View style={[styles.container, { borderWidth: demoModeEnabled ? 3 : 0 }]}>
+        <View
+          style={[
+            styles.container,
+            { margin: demoModeEnabled ? variables.demoModeBorderWidth : 0 },
+          ]}
+        >
           <Navigator />
           <HooksPreviewModeBanner />
           {(appLocked || updateRequired) && (
@@ -208,7 +214,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
-    borderColor: 'transparent',
   },
   linearGradientBackground: {
     flex: 1,

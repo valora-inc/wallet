@@ -1,3 +1,6 @@
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/slice'
 import { NetworkId } from 'src/transactions/types'
@@ -10,6 +13,7 @@ import {
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { demoModeEnabledSelector } from 'src/web3/selectors'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select } from 'typed-redux-saga'
 import { Hash } from 'viem'
@@ -41,6 +45,12 @@ export function* sendPreparedTransactions(
   ) => BaseStandbyTransaction | null)[],
   isGasSubsidized: boolean = false
 ) {
+  const demoModeEnabled = yield* select(demoModeEnabledSelector)
+  if (demoModeEnabled) {
+    navigate(Screens.DemoModeAuthBlock)
+    throw CANCELLED_PIN_INPUT
+  }
+
   if (serializablePreparedTransactions.length !== createBaseStandbyTransactions.length) {
     throw new Error('Mismatch in number of prepared transactions and standby transaction creators')
   }

@@ -1,28 +1,28 @@
+import * as Keychain from '@interaxyz/react-native-keychain'
+import { BIOMETRY_TYPE } from '@interaxyz/react-native-keychain'
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
+import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import SecuritySubmenu from 'src/account/SecuritySubmenu'
-import { Screens } from 'src/navigator/Screens'
-import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore } from 'test/utils'
-import { fireEvent, render, waitFor, act } from '@testing-library/react-native'
-import { ensurePincode, navigate } from 'src/navigator/NavigationService'
-import { FetchMock } from 'jest-fetch-mock/types'
-import * as Keychain from 'react-native-keychain'
-import { setAnalyticsEnabled } from 'src/app/actions'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { setPincodeSuccess } from 'src/account/actions'
-import { mockE164Number } from 'test/values'
-import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { PincodeType } from 'src/account/reducer'
-import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
+import SecuritySubmenu from 'src/account/SecuritySubmenu'
+import { showError } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
-import { getFeatureGate } from 'src/statsig/index'
+import { setAnalyticsEnabled } from 'src/app/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { deleteKeylessBackupStarted, hideDeleteKeylessBackupError } from 'src/keylessBackup/slice'
 import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
+import { ensurePincode, navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
+import { getFeatureGate } from 'src/statsig/index'
 import networkConfig from 'src/web3/networkConfig'
+import MockedNavigator from 'test/MockedNavigator'
+import { createMockStore } from 'test/utils'
+import { mockE164Number } from 'test/values'
 
 const mockedEnsurePincode = jest.mocked(ensurePincode)
 const mockFetch = fetch as FetchMock
@@ -31,7 +31,7 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
   username: 'some username',
   password: 'someSignedMessage',
   service: 'some service',
-  storage: 'some string',
+  storage: Keychain.STORAGE_TYPE.RSA,
 })
 
 jest.mock('src/analytics/AppAnalytics')
