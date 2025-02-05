@@ -2,11 +2,9 @@ import OtaClient from '@crowdin/ota-client'
 import i18n from 'i18next'
 import _ from 'lodash'
 import DeviceInfo from 'react-native-device-info'
-import { Actions as AppActions } from 'src/app/actions'
-import { CROWDIN_DISTRIBUTION_HASH } from 'src/config'
+import { CROWDIN_DISTRIBUTION_HASH, ENABLE_OTA_TRANSLATIONS } from 'src/config'
 import { saveOtaTranslations } from 'src/i18n/otaTranslations'
 import {
-  allowOtaTranslationsSelector,
   currentLanguageSelector,
   otaTranslationsAppVersionSelector,
   otaTranslationsLanguageSelector,
@@ -19,9 +17,9 @@ import { call, put, select, spawn, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'i18n/saga'
 const otaClient = new OtaClient(CROWDIN_DISTRIBUTION_HASH)
+const allowOtaTranslations = ENABLE_OTA_TRANSLATIONS
 
 export function* handleFetchOtaTranslations() {
-  const allowOtaTranslations = yield* select(allowOtaTranslationsSelector)
   if (allowOtaTranslations) {
     try {
       const currentLanguage = yield* select(currentLanguageSelector)
@@ -67,10 +65,7 @@ export function* handleFetchOtaTranslations() {
 }
 
 export function* watchOtaTranslations() {
-  yield* takeLatest(
-    [setLanguage.type, AppActions.UPDATE_REMOTE_CONFIG_VALUES],
-    safely(handleFetchOtaTranslations)
-  )
+  yield* takeLatest([setLanguage.type], safely(handleFetchOtaTranslations))
 }
 
 export function* i18nSaga() {

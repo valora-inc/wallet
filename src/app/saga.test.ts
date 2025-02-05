@@ -27,17 +27,12 @@ import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   inAppReviewLastInteractionTimestampSelector,
-  sentryNetworkErrorsSelector,
 } from 'src/app/selectors'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/types'
 import { initI18n } from 'src/i18n'
-import {
-  allowOtaTranslationsSelector,
-  currentLanguageSelector,
-  otaTranslationsAppVersionSelector,
-} from 'src/i18n/selectors'
+import { currentLanguageSelector, otaTranslationsAppVersionSelector } from 'src/i18n/selectors'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -548,10 +543,8 @@ describe('appInit', () => {
   })
 
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
-    [select(allowOtaTranslationsSelector), true],
     [select(otaTranslationsAppVersionSelector), '1'],
     [select(currentLanguageSelector), 'nl-NL'],
-    [select(sentryNetworkErrorsSelector), ['network error']],
   ]
 
   it('should initialise the correct components, with the stored language', async () => {

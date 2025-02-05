@@ -2,8 +2,8 @@ import hoistStatics from 'hoist-non-react-statics'
 import i18n, { Resource, ResourceLanguage } from 'i18next'
 import _ from 'lodash'
 import {
-  WithTranslation,
   initReactI18next,
+  WithTranslation,
   withTranslation as withTranslationI18Next,
 } from 'react-i18next'
 import DeviceInfo from 'react-native-device-info'

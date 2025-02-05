@@ -3644,6 +3644,16 @@ export const v242Schema = {
   swap: _.omit(v241Schema.swap, 'priceImpactWarningThreshold'),
 }
 
+export const v243Schema = {
+  ...v242Schema,
+  _persist: {
+    ...v242Schema._persist,
+    version: 243,
+  },
+  app: _.omit(v242Schema.app, 'sentryTracesSampleRate', 'sentryNetworkErrors'),
+  i18n: _.omit(v242Schema.i18n, 'allowOtaTranslations'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v242Schema as Partial<RootState>
+  return v243Schema as Partial<RootState>
 }
