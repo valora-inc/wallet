@@ -3615,6 +3615,24 @@ export const v240Schema = {
   },
 }
 
+export const v241Schema = {
+  ...v240Schema,
+  _persist: {
+    ...v240Schema._persist,
+    version: 241,
+  },
+  app: _.omit(
+    v240Schema.app,
+    'walletConnectV2Enabled',
+    'logPhoneNumberTypeEnabled',
+    'coinbasePayEnabled',
+    'maxSwapSlippagePercentage',
+    'networkTimeoutSeconds',
+    'celoEducationUri',
+    'pincodeUseExpandedBlocklist'
+  ),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v240Schema as Partial<RootState>
+  return v241Schema as Partial<RootState>
 }

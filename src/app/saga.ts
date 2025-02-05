@@ -176,12 +176,8 @@ export function* checkAndroidMobileServicesSaga() {
 }
 
 export interface RemoteConfigValues {
-  celoEducationUri: string | null
   dappListApiUrl: string | null
   inviteRewardsVersion: string
-  walletConnectV2Enabled: boolean
-  logPhoneNumberTypeEnabled: boolean
-  pincodeUseExpandedBlocklist: boolean
   allowOtaTranslations: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
@@ -190,9 +186,6 @@ export interface RemoteConfigValues {
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
-  coinbasePayEnabled: boolean
-  maxSwapSlippagePercentage: number
-  networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
   priceImpactWarningThreshold: number
 }

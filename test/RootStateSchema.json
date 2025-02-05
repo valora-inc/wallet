@@ -4696,17 +4696,8 @@
                 "appState": {
                     "$ref": "#/definitions/AppState"
                 },
-                "celoEducationUri": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
                 "celoNews": {
                     "$ref": "#/definitions/CeloNewsConfig"
-                },
-                "coinbasePayEnabled": {
-                    "type": "boolean"
                 },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
@@ -4744,17 +4735,8 @@
                 "locked": {
                     "type": "boolean"
                 },
-                "logPhoneNumberTypeEnabled": {
-                    "type": "boolean"
-                },
                 "loggedIn": {
                     "type": "boolean"
-                },
-                "maxSwapSlippagePercentage": {
-                    "type": "number"
-                },
-                "networkTimeoutSeconds": {
-                    "type": "number"
                 },
                 "pendingDeepLinks": {
                     "items": {
@@ -4763,9 +4745,6 @@
                     "type": "array"
                 },
                 "phoneNumberVerified": {
-                    "type": "boolean"
-                },
-                "pincodeUseExpandedBlocklist": {
                     "type": "boolean"
                 },
                 "pushNotificationRequestedUnixTime": {
@@ -4812,18 +4791,13 @@
                             "type": "null"
                         }
                     ]
-                },
-                "walletConnectV2Enabled": {
-                    "type": "boolean"
                 }
             },
             "required": [
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
-                "celoEducationUri",
                 "celoNews",
-                "coinbasePayEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
@@ -4832,13 +4806,9 @@
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",
-                "logPhoneNumberTypeEnabled",
                 "loggedIn",
-                "maxSwapSlippagePercentage",
-                "networkTimeoutSeconds",
                 "pendingDeepLinks",
                 "phoneNumberVerified",
-                "pincodeUseExpandedBlocklist",
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
                 "requirePinOnAppOpen",
@@ -4846,8 +4816,7 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "showNotificationSpotlight",
-                "supportedBiometryType",
-                "walletConnectV2Enabled"
+                "supportedBiometryType"
             ],
             "type": "object"
         },

@@ -143,7 +143,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 240,
+          "version": 241,
         },
         "account": {
           "acceptedTerms": false,
@@ -179,9 +179,7 @@ describe('store state', () => {
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
-          "celoEducationUri": null,
           "celoNews": {},
-          "coinbasePayEnabled": false,
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
@@ -192,13 +190,9 @@ describe('store state', () => {
           "inviterAddress": null,
           "lastTimeBackgrounded": 0,
           "locked": false,
-          "logPhoneNumberTypeEnabled": false,
           "loggedIn": false,
-          "maxSwapSlippagePercentage": 2,
-          "networkTimeoutSeconds": 30,
           "pendingDeepLinks": [],
           "phoneNumberVerified": false,
-          "pincodeUseExpandedBlocklist": false,
           "pushNotificationRequestedUnixTime": 1692878055000,
           "pushNotificationsEnabled": false,
           "requirePinOnAppOpen": false,
@@ -210,7 +204,6 @@ describe('store state', () => {
           "sessionId": "",
           "showNotificationSpotlight": true,
           "supportedBiometryType": null,
-          "walletConnectV2Enabled": true,
         },
         "dapps": {
           "activeDapp": null,
