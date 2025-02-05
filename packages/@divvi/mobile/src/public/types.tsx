@@ -180,6 +180,9 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
       enableBiometry?: boolean
       protectWallet?: boolean
     }
+    activity: {
+      showActionsCarousel?: boolean
+    }
     earn: {
       showLearnMore?: boolean
       showSafetyScoreOnPoolCard?: boolean

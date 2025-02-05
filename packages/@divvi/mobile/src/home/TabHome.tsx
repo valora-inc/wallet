@@ -13,6 +13,7 @@ import {
   phoneNumberVerifiedSelector,
   showNotificationSpotlightSelector,
 } from 'src/app/selectors'
+import { getAppConfig } from 'src/appConfig'
 import { ALERT_BANNER_DURATION, DEFAULT_TESTNET, SHOW_TESTNET_BANNER } from 'src/config'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import NotificationBox from 'src/home/NotificationBox'
@@ -61,6 +62,7 @@ function TabHome(_props: Props) {
   const showNftReward = canShowNftReward && isFocused && !showNotificationSpotlight
 
   const showZerionTransactionFeed = getFeatureGate(StatsigFeatureGates.SHOW_ZERION_TRANSACTION_FEED)
+  const showActionsCarousel = getAppConfig().experimental?.activity.showActionsCarousel ?? true
 
   useEffect(() => {
     dispatch(visitHome())
@@ -126,18 +128,12 @@ function TabHome(_props: Props) {
   ) as React.ReactElement<RefreshControlProps>
 
   const flatListSections = [
-    {
-      key: 'ActionsCarousel',
-      component: <ActionsCarousel />,
-    },
+    ...(showActionsCarousel ? [{ key: 'ActionsCarousel', component: <ActionsCarousel /> }] : []),
     {
       key: 'NotificationBox',
       component: <NotificationBox showOnlyHomeScreenNotifications={true} />,
     },
-    {
-      key: 'TransactionFeed',
-      component: <TransactionFeed />,
-    },
+    { key: 'TransactionFeed', component: <TransactionFeed /> },
   ]
 
   const renderItem = ({ item }: { item: any }) => item.component
