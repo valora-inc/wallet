@@ -73,7 +73,7 @@
   "dependencies": {
     "@badrap/result": "~0.2.13",
     "@crowdin/ota-client": "^0.7.0",
-    "@divvi/react-native-fs": "^2.20.0",
+    "@divvi/react-native-fs": "^2.20.1",
     "@fiatconnect/fiatconnect-sdk": "^0.5.66",
     "@fiatconnect/fiatconnect-types": "^13.3.10",
     "@gorhom/bottom-sheet": "^5.0.6",
@@ -215,7 +215,6 @@
     "@types/node": "^20",
     "@types/react": "^18.0.24",
     "@types/react-native-auth0": "^2.17.5",
-    "@types/react-native-fs": "^2.13.0",
     "@types/react-native-video": "^5.0.15",
     "@types/react-test-renderer": "^18.0.0",
     "@types/redux-mock-store": "^1.0.6",
