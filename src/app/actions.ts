@@ -1,6 +1,6 @@
 import { BIOMETRY_TYPE } from '@interaxyz/react-native-keychain'
 import { RemoteConfigValues } from 'src/app/saga'
-import { SupportedProtocol } from 'src/app/types'
+import { SupportedProtocolIds } from 'src/divviProtocol/types'
 import { Screens } from 'src/navigator/Screens'
 import { NetworkId } from 'src/transactions/types'
 
@@ -157,7 +157,7 @@ interface ToggleHideBalances {
 interface RegistrationCompleted {
   type: Actions.REGISTRATION_COMPLETED
   networkId: NetworkId
-  protocol: SupportedProtocol
+  protocol: SupportedProtocolIds
 }
 
 export type ActionTypes =
@@ -341,7 +341,7 @@ export const toggleHideBalances = (): ToggleHideBalances => {
 
 export const registrationCompleted = (
   networkId: NetworkId,
-  protocol: SupportedProtocol
+  protocol: SupportedProtocolIds
 ): RegistrationCompleted => {
   return {
     type: Actions.REGISTRATION_COMPLETED,

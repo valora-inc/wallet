@@ -1,8 +1,8 @@
 import { BIOMETRY_TYPE } from '@interaxyz/react-native-keychain'
 import { Platform } from 'react-native'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { SupportedProtocol } from 'src/app/types'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
+import { SupportedProtocolIds } from 'src/divviProtocol/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -38,7 +38,7 @@ interface State {
   hideBalances: boolean
   pendingDeepLinks: PendingDeepLink[]
   registrations: {
-    [protocol in SupportedProtocol]?: NetworkId[]
+    [networkId in NetworkId]?: SupportedProtocolIds[]
   }
 }
 
@@ -227,7 +227,7 @@ export const appReducer = (
         ...state,
         registrations: {
           ...state.registrations,
-          [action.protocol]: [...(state.registrations[action.protocol] ?? []), action.networkId],
+          [action.networkId]: [...(state.registrations[action.networkId] ?? []), action.protocol],
         },
       }
     default:

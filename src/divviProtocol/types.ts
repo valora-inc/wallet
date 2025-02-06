@@ -1,5 +1,5 @@
 // TODO: import this from @divvy/mobile
-export type SupportedProtocol =
+export type SupportedProtocolIds =
   | 'beefy'
   | 'tether'
   | 'somm'

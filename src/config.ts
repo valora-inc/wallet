@@ -6,6 +6,7 @@ import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
 import { LaunchArguments } from 'react-native-launch-arguments'
+import { SupportedProtocolIds } from 'src/divviProtocol/types'
 import { HomeActionName } from 'src/home/types'
 import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 import { stringToBoolean } from 'src/utils/parsing'
@@ -224,3 +225,5 @@ export const ENABLED_QUICK_ACTIONS = (
 export const FETCH_FIATCONNECT_QUOTES = true
 
 export const WALLETCONNECT_UNIVERSAL_LINK = 'https://valoraapp.com/wc'
+
+export const CONNECTED_PROTOCOL_IDS: SupportedProtocolIds[] = []

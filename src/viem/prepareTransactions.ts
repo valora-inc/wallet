@@ -2,7 +2,10 @@ import BigNumber from 'bignumber.js'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TransactionEvents } from 'src/analytics/Events'
 import { TransactionOrigin } from 'src/analytics/types'
-import { STATIC_GAS_PADDING } from 'src/config'
+import { registrationsSelector } from 'src/app/selectors'
+import { CONNECTED_PROTOCOL_IDS, STATIC_GAS_PADDING } from 'src/config'
+import { createRegistrationTransactions } from 'src/divviProtocol/registerReferral'
+import { store } from 'src/redux/store'
 import {
   NativeTokenBalance,
   TokenBalance,
@@ -291,6 +294,16 @@ export async function prepareTransactions({
   isGasSubsidized?: boolean
   origin: TransactionOrigin
 }): Promise<PreparedTransactionsResult> {
+  const networkId = feeCurrencies[0].networkId
+  const completedRegistrations = new Set(registrationsSelector(store.getState())[networkId] ?? [])
+  const unregisteredProtocols = CONNECTED_PROTOCOL_IDS.filter(
+    (protocol) => !completedRegistrations.has(protocol)
+  )
+  if (unregisteredProtocols.length > 0) {
+    const registrationTxs = createRegistrationTransactions(unregisteredProtocols)
+    baseTransactions.push(...registrationTxs)
+  }
+
   if (!spendToken && spendTokenAmount.isGreaterThan(0)) {
     throw new Error(
       `prepareTransactions requires a spendToken if spendTokenAmount is greater than 0. spendTokenAmount: ${spendTokenAmount.toString()}`

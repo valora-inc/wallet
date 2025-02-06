@@ -59,4 +59,4 @@ export const hideWalletBalancesSelector = (state: RootState) => state.app.hideBa
 
 export const pendingDeepLinkSelector = (state: RootState) => state.app.pendingDeepLinks[0] ?? null
 
-export const getRegistrations = (state: RootState) => state.app.registrations
+export const registrationsSelector = (state: RootState) => state.app.registrations
