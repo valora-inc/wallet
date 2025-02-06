@@ -102,9 +102,9 @@ export type StackParamList = {
     exchanges?: ExternalExchangeProvider[]
   }
   [Screens.FiatExchangeAmount]: {
-    tokenId: string
+    tokenId?: string
     flow: CICOFlow
-    tokenSymbol: string
+    tokenSymbol?: string
   }
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow

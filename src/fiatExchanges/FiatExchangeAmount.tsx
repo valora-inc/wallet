@@ -34,6 +34,9 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { getExperimentParams } from 'src/statsig'
+import { ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -52,6 +55,7 @@ type Props = RouteProps
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation()
   const { flow, tokenId, tokenSymbol } = route.params
+  const { variant } = getExperimentParams(ExperimentConfigs[StatsigExperiments.COST_EFFECTIVE_CICO])
 
   const [showingInvalidAmountDialog, setShowingInvalidAmountDialog] = useState(false)
   const closeInvalidAmountDialog = () => {
@@ -92,7 +96,10 @@ function FiatExchangeAmount({ route }: Props) {
   const dispatch = useDispatch()
 
   function isNextButtonValid() {
-    return !!tokenInfo && parsedInputAmount.isGreaterThan(0)
+    return (
+      (!!tokenInfo || (variant === 'treatment' && flow === CICOFlow.CashIn)) &&
+      parsedInputAmount.isGreaterThan(0)
+    )
   }
 
   function onChangeExchangeAmount(amount: string) {
@@ -100,6 +107,9 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function goToProvidersScreen() {
+    if (!tokenId || !tokenSymbol) {
+      return // TODO(ACT-1512): If flow is cash-in and user is part of experiment, show token select bottom sheet
+    }
     AppAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
       currency: tokenSymbolToAnalyticsCurrency(tokenSymbol),
@@ -148,7 +158,7 @@ function FiatExchangeAmount({ route }: Props) {
         setShowingInvalidAmountDialog(true)
         AppAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
           amount: inputCryptoAmount.toNumber(),
-          currency: tokenSymbolToAnalyticsCurrency(tokenSymbol),
+          currency: tokenSymbol ? tokenSymbolToAnalyticsCurrency(tokenSymbol) : undefined,
           flow,
         })
         return
@@ -189,7 +199,7 @@ function FiatExchangeAmount({ route }: Props) {
         <View style={styles.amountInputContainer}>
           <View>
             <Text style={styles.exchangeBodyText}>
-              {inputIsCrypto ? `${t('amount')} (${tokenSymbol})` : t('amount')}
+              {inputIsCrypto ? `${t('amount')} (${tokenSymbol})` : t('enterAnAmount')}
             </Text>
           </View>
           <TextInput
@@ -208,7 +218,11 @@ function FiatExchangeAmount({ route }: Props) {
       <Button
         onPress={onPressContinue}
         showLoading={usdToLocalRate === null || attemptReturnUserFlowLoading}
-        text={t('next')}
+        text={
+          variant === 'treatment' && flow === CICOFlow.CashIn && !tokenId
+            ? t('fiatExchangeFlow.cashIn.nextSelectToken')
+            : t('next')
+        }
         type={BtnTypes.PRIMARY}
         accessibilityLabel={t('next') ?? undefined}
         disabled={!isNextButtonValid()}
@@ -231,20 +245,29 @@ FiatExchangeAmount.navOptions = ({
   return {
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_amount_back} />,
-    headerTitle: () => (
-      <FiatExchangeAmountHeader
-        title={i18n.t(
-          route.params.flow === CICOFlow.CashIn
-            ? `fiatExchangeFlow.cashIn.exchangeAmountTitle`
-            : `fiatExchangeFlow.cashOut.exchangeAmountTitle`,
-          {
+    headerTitle: () =>
+      route.params.flow === CICOFlow.CashIn ? (
+        tokenSymbol ? (
+          <Text style={styles.headerTitle} testID="HeaderTitle">
+            {i18n.t(`fiatExchangeFlow.cashIn.exchangeAmountTitle`, {
+              currency: tokenSymbol,
+            })}
+          </Text>
+        ) : (
+          <Text style={styles.headerTitle} testID="HeaderTitle">
+            {' '}
+            {i18n.t('fiatExchangeFlow.cashIn.buy')}
+          </Text>
+        )
+      ) : (
+        <FiatExchangeAmountHeader
+          title={i18n.t(`fiatExchangeFlow.cashOut.exchangeAmountTitle`, {
             currency: tokenSymbol,
-          }
-        )}
-        tokenId={tokenId}
-        showLocalAmount={!inputIsCrypto}
-      />
-    ),
+          })}
+          tokenId={tokenId}
+          showLocalAmount={!inputIsCrypto}
+        />
+      ),
   }
 }
 
@@ -254,7 +277,7 @@ function FiatExchangeAmountHeader({
   showLocalAmount,
 }: {
   title: string | React.ReactNode
-  tokenId: string
+  tokenId?: string
   showLocalAmount: boolean
 }) {
   const tokenInfo = useTokenInfo(tokenId)
@@ -285,10 +308,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   exchangeBodyText: {
-    ...typeScale.labelMedium,
+    ...typeScale.labelLarge,
   },
   currencyInput: {
-    ...typeScale.bodyMedium,
+    ...typeScale.labelLarge,
     marginLeft: 10,
     flex: 1,
     textAlign: 'right',
@@ -297,9 +320,12 @@ const styles = StyleSheet.create({
     minHeight: 48, // setting height manually b.c. of bug causing text to jump on Android
   },
   fiatCurrencyColor: {
-    color: colors.accent,
+    color: colors.contentPrimary,
   },
   reviewBtn: {
     padding: variables.contentPadding,
+  },
+  headerTitle: {
+    ...typeScale.labelSemiBoldMedium,
   },
 })
