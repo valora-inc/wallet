@@ -2,11 +2,11 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapShowInfoType } from 'src/analytics/Properties'
 import { BottomSheetModalRefType } from 'src/components/BottomSheet'
+import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -120,12 +120,7 @@ function ValueWithLoading({ value, isLoading }: { value: React.ReactNode; isLoad
         <Text style={[styles.value, { opacity: isLoading ? 0 : 1 }]}>{value}</Text>
         {isLoading && (
           <View style={styles.loaderContainer}>
-            <SkeletonPlaceholder
-              borderRadius={100}
-              backgroundColor={colors.skeletonPlaceholderBackground}
-              highlightColor={colors.skeletonPlaceholderHighlight}
-              testID="SwapTransactionDetails/ExchangeRate/Loader"
-            >
+            <SkeletonPlaceholder testID="SwapTransactionDetails/ExchangeRate/Loader">
               <View style={styles.loader} />
             </SkeletonPlaceholder>
           </View>
