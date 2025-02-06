@@ -13,6 +13,7 @@ import { AssetsEvents } from 'src/analytics/Events'
 import { getAppConfig } from 'src/appConfig'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
+import ActionsCarousel from 'src/home/ActionsCarousel'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
@@ -56,6 +57,7 @@ function TabWallet({ navigation, route }: Props) {
     dappShortcutsEnabled &&
     positionsWithClaimableRewards.length > 0 &&
     activeTab !== AssetTabType.Collectibles
+  const showActionsCarousel = getAppConfig().experimental?.wallet?.showActionsCarousel ?? false
 
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
   const [listHeaderHeight, setListHeaderHeight] = useState(0)
@@ -173,6 +175,7 @@ function TabWallet({ navigation, route }: Props) {
           onLayout={handleMeasureNonStickyHeaderHeight}
         >
           <AssetsTokenBalance showInfo={displayPositions} />
+          {showActionsCarousel && <ActionsCarousel />}
         </View>
         <AssetTabBar
           activeTab={activeTab}

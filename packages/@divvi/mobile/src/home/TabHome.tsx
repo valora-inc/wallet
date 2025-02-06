@@ -62,7 +62,7 @@ function TabHome(_props: Props) {
   const showNftReward = canShowNftReward && isFocused && !showNotificationSpotlight
 
   const showZerionTransactionFeed = getFeatureGate(StatsigFeatureGates.SHOW_ZERION_TRANSACTION_FEED)
-  const showActionsCarousel = getAppConfig().experimental?.activity?.showActionsCarousel ?? true
+  const hideActionsCarousel = getAppConfig().experimental?.activity?.hideActionsCarousel ?? false
 
   useEffect(() => {
     dispatch(visitHome())
@@ -128,7 +128,7 @@ function TabHome(_props: Props) {
   ) as React.ReactElement<RefreshControlProps>
 
   const flatListSections = [
-    ...(showActionsCarousel ? [{ key: 'ActionsCarousel', component: <ActionsCarousel /> }] : []),
+    ...(!hideActionsCarousel ? [{ key: 'ActionsCarousel', component: <ActionsCarousel /> }] : []),
     {
       key: 'NotificationBox',
       component: <NotificationBox showOnlyHomeScreenNotifications={true} />,

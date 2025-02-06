@@ -2,7 +2,9 @@ import { render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { getAppConfig } from 'src/appConfig'
 import TabHome from 'src/home/TabHome'
+import { PublicAppConfig } from 'src/public/types'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -86,6 +88,13 @@ jest.mock('src/fiatExchanges/utils', () => ({
   ...(jest.requireActual('src/fiatExchanges/utils') as any),
   fetchProviders: jest.fn(),
 }))
+
+const mockGetAppConfig = jest.mocked(getAppConfig)
+const defaultConfig: PublicAppConfig = {
+  registryName: 'test',
+  displayName: 'test',
+  deepLinkUrlScheme: 'test',
+}
 
 describe('TabHome', () => {
   const mockFetch = fetch as FetchMock
@@ -176,6 +185,25 @@ describe('TabHome', () => {
     const { tree } = renderScreen()
 
     await waitFor(() => expect(tree.getByText('Transaction feed v2')).toBeTruthy())
+  })
+
+  it('renders the actions carousel by default', async () => {
+    const { getByTestId } = renderScreen()
+    expect(getByTestId('HomeActionsCarousel')).toBeTruthy()
+  })
+
+  it('hides the actions carousel when disabled via app config', async () => {
+    mockGetAppConfig.mockReturnValue({
+      ...defaultConfig,
+      experimental: {
+        activity: {
+          hideActionsCarousel: true,
+        },
+      },
+    })
+
+    const { queryByTestId } = renderScreen()
+    expect(queryByTestId('HomeActionsCarousel')).toBeFalsy()
   })
 
   describe('nft reward bottom sheet', () => {

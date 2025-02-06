@@ -244,7 +244,7 @@ export default function TransactionFeedV2() {
   const dispatch = useDispatch()
 
   const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
-  const showActionsCarousel = getAppConfig().experimental?.activity?.showActionsCarousel ?? true
+  const hideActionsCarousel = getAppConfig().experimental?.activity?.hideActionsCarousel ?? false
 
   const allowedNetworkForTransfers = useAllowedNetworksForTransfers()
   const address = useSelector(walletAddressSelector)
@@ -446,7 +446,7 @@ export default function TransactionFeedV2() {
         initialNumToRender={20}
         ListHeaderComponent={
           <>
-            {showActionsCarousel && <ActionsCarousel />}
+            {!hideActionsCarousel && <ActionsCarousel />}
             <NotificationBox showOnlyHomeScreenNotifications={true} />
           </>
         }

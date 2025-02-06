@@ -6,7 +6,7 @@ import { getAppConfig } from 'src/appConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { PublicAppConfig } from 'src/public/types'
-import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import TabWallet from 'src/tokens/TabWallet'
 import { NetworkId } from 'src/transactions/types'
@@ -351,5 +351,39 @@ describe('TabWallet', () => {
 
     fireEvent.press(getByText('assets.claimRewards'))
     expect(navigate).toHaveBeenCalledWith(Screens.DappShortcutsRewards)
+  })
+
+  it('does not render actions carousel by default', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({ enabled: true }) // Needed for the quick action bar
+    const store = createMockStore(storeWithPositions)
+
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={TabWallet} />
+      </Provider>
+    )
+
+    expect(queryByTestId('HomeActionsCarousel')).toBeFalsy()
+  })
+
+  it('renders actions carousel when enabled via app config', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({ enabled: true }) // Needed for the quick action bar
+    const store = createMockStore(storeWithPositions)
+    mockGetAppConfig.mockReturnValue({
+      ...defaultConfig,
+      experimental: {
+        wallet: {
+          showActionsCarousel: true,
+        },
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={TabWallet} />
+      </Provider>
+    )
+
+    expect(getByTestId('HomeActionsCarousel')).toBeTruthy()
   })
 })

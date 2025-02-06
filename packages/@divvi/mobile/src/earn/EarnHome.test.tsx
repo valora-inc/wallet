@@ -24,9 +24,6 @@ const defaultConfig: PublicAppConfig = {
   displayName: 'test',
   deepLinkUrlScheme: 'test',
   experimental: {
-    activity: {
-      showActionsCarousel: true,
-    },
     earn: {
       showLearnMore: true,
     },
