@@ -10,6 +10,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AssetsEvents } from 'src/analytics/Events'
+import { getAppConfig } from 'src/appConfig'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
 import { navigate } from 'src/navigator/NavigationService'
@@ -27,7 +28,9 @@ import Colors from 'src/styles/colors'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import AssetList from 'src/tokens/AssetList'
 import AssetTabBar from 'src/tokens/AssetTabBar'
+import { sortedTokensWithBalanceSelector } from 'src/tokens/selectors'
 import { AssetTabType } from 'src/tokens/types'
+import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TabWallet>
 
@@ -152,6 +155,12 @@ function TabWallet({ navigation, route }: Props) {
     navigation.setParams({ activeAssetTab: selectedTab })
   }
 
+  const configuredEmptyState = getAppConfig().experimental?.wallet?.emptyState
+
+  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const hasTokens =
+    useSelector((state) => sortedTokensWithBalanceSelector(state, supportedNetworkIds)).length > 0
+
   return (
     // Transparency issue on Android present when a fragment is used - Nested Animated.View prevents it
     <Animated.View>
@@ -171,12 +180,15 @@ function TabWallet({ navigation, route }: Props) {
           displayPositions={displayPositions}
         />
       </Animated.View>
-
-      <AssetList
-        activeTab={activeTab}
-        listHeaderHeight={listHeaderHeight}
-        handleScroll={handleScroll}
-      />
+      {configuredEmptyState && !hasTokens ? (
+        configuredEmptyState
+      ) : (
+        <AssetList
+          activeTab={activeTab}
+          listHeaderHeight={listHeaderHeight}
+          handleScroll={handleScroll}
+        />
+      )}
       {showClaimRewards && (
         <Animated.View
           style={[styles.footerContainer, animatedFooterStyles]}

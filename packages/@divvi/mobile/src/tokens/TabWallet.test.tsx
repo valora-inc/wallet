@@ -1,8 +1,11 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
+import { View } from 'react-native'
 import { Provider } from 'react-redux'
+import { getAppConfig } from 'src/appConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { PublicAppConfig } from 'src/public/types'
 import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import TabWallet from 'src/tokens/TabWallet'
@@ -22,6 +25,14 @@ import {
 } from 'test/values'
 
 jest.mock('src/statsig')
+jest.mock('src/appConfig')
+
+const mockGetAppConfig = jest.mocked(getAppConfig)
+const defaultConfig: PublicAppConfig = {
+  registryName: 'test',
+  displayName: 'test',
+  deepLinkUrlScheme: 'test',
+}
 
 const storeWithTokenBalances = {
   tokens: {
@@ -51,6 +62,46 @@ const storeWithTokenBalances = {
         name: 'Celo Dollar',
         decimals: 18,
         balance: '10',
+        isFeeCurrency: true,
+        canTransferWithComment: true,
+        priceFetchedAt: Date.now(),
+        networkId: NetworkId['celo-alfajores'],
+      },
+    },
+  },
+  positions: {
+    positions: [],
+  },
+}
+
+const storeWithTokenBalancesZeroBalance = {
+  tokens: {
+    tokenBalances: {
+      [mockCeurTokenId]: {
+        tokenId: mockCeurTokenId,
+        priceUsd: '1.16',
+        address: mockCeurAddress,
+        symbol: 'cEUR',
+        imageUrl:
+          'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cEUR.png',
+        name: 'Celo Euro',
+        decimals: 18,
+        balance: '0',
+        isFeeCurrency: true,
+        canTransferWithComment: true,
+        priceFetchedAt: Date.now(),
+        networkId: NetworkId['celo-alfajores'],
+      },
+      [mockCusdTokenId]: {
+        tokenId: mockCusdTokenId,
+        priceUsd: '1.001',
+        address: mockCusdAddress,
+        symbol: 'cUSD',
+        imageUrl:
+          'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cUSD.png',
+        name: 'Celo Dollar',
+        decimals: 18,
+        balance: '0',
         isFeeCurrency: true,
         canTransferWithComment: true,
         priceFetchedAt: Date.now(),
@@ -99,6 +150,7 @@ describe('TabWallet', () => {
     jest.mocked(getMultichainFeatures).mockReturnValue({
       showBalances: [NetworkId['celo-alfajores']],
     })
+    mockGetAppConfig.mockReturnValue(defaultConfig)
   })
 
   it('renders tokens and collectibles tabs when positions is disabled', () => {
@@ -148,6 +200,27 @@ describe('TabWallet', () => {
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
+  })
+
+  it('renders custom empty state when overriden', async () => {
+    mockGetAppConfig.mockReturnValue({
+      ...defaultConfig,
+      experimental: {
+        activity: {},
+        earn: {},
+        wallet: {
+          emptyState: <View testID="NoTokensCustomComponent" />,
+        },
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={createMockStore(storeWithTokenBalancesZeroBalance)}>
+        <MockedNavigator component={TabWallet} />
+      </Provider>
+    )
+
+    expect(getByTestId('NoTokensCustomComponent')).toBeTruthy()
   })
 
   it('hides dapp positions if feature gate is enabled but there are no positions', () => {
