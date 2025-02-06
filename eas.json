@@ -1,0 +1,86 @@
+{
+  "cli": {
+    "version": ">= 14.3.1",
+    "appVersionSource": "local"
+  },
+  "build": {
+    "base": {
+      "node": "20.17.0"
+    },
+    "development": {
+      "extends": "base",
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "withoutCredentials": true
+      },
+      "ios": {
+        "simulator": true
+      }
+    },
+    "mainnet": {
+      "extends": "base",
+      "android": {
+        "gradleCommand": ":app:bundleMainnetRelease"
+      },
+      "ios": {
+        "scheme": "MobileStack-mainnet"
+      }
+    },
+    "mainnetnightly": {
+      "extends": "base",
+      "android": {
+        "gradleCommand": ":app:bundleMainnetNightlyRelease"
+      },
+      "ios": {
+        "scheme": "MobileStack-mainnetnightly"
+      }
+    },
+    "mainnetdev": {
+      "extends": "development",
+      "android": {
+        "gradleCommand": ":app:bundleMainnetDevRelease"
+      },
+      "ios": {
+        "scheme": "MobileStack-mainnetdev"
+      }
+    },
+    "alfajores": {
+      "extends": "base",
+      "android": {
+        "gradleCommand": ":app:bundleAlfajoresRelease"
+      },
+      "ios": {
+        "scheme": "MobileStack-alfajores"
+      }
+    },
+    "alfajoresnightly": {
+      "extends": "base",
+      "android": {
+        "gradleCommand": ":app:bundleAlfajoresNightlyRelease"
+      },
+      "ios": {
+        "scheme": "MobileStack-alfajoresnightly"
+      }
+    },
+    "alfajoresdev": {
+      "extends": "development",
+      "android": {
+        "gradleCommand": ":app:bundleAlfajoresDevRelease"
+      },
+      "ios": {
+        "scheme": "MobileStack-alfajoresdev"
+      }
+    }
+  },
+  "submit": {
+    "alfajores": {
+      "android": {
+        "applicationId": "valora",
+        "track": "alpha",
+        "releaseStatus": "draft",
+        "changesNotSentForReview": true
+      }
+    }
+  }
+}
