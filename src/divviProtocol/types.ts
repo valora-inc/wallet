@@ -1,0 +1,17 @@
+// TODO: import this from @divvy/mobile
+export type SupportedProtocolIds =
+  | 'beefy'
+  | 'tether'
+  | 'somm'
+  | 'celo'
+  | 'aerodrome'
+  | 'velodrome'
+  | 'vana'
+  | 'curve'
+  | 'farcaster'
+  | 'mento'
+  | 'yearn'
+  | 'fonbnk'
+  | 'offchainlabs'
+  | 'euler'
+  | 'ubeswap'

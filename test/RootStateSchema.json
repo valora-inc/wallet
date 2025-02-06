@@ -4723,9 +4723,6 @@
                 "locked": {
                     "type": "boolean"
                 },
-                "loggedIn": {
-                    "type": "boolean"
-                },
                 "pendingDeepLinks": {
                     "items": {
                         "$ref": "#/definitions/PendingDeepLink"
@@ -4743,6 +4740,9 @@
                 },
                 "pushNotificationsEnabled": {
                     "type": "boolean"
+                },
+                "registrations": {
+                    "$ref": "#/definitions/{\"celo-mainnet\"?:SupportedProtocolIds[]|undefined;\"celo-alfajores\"?:SupportedProtocolIds[]|undefined;\"ethereum-mainnet\"?:SupportedProtocolIds[]|undefined;\"ethereum-sepolia\"?:SupportedProtocolIds[]|undefined;\"arbitrum-one\"?:SupportedProtocolIds[]|undefined;\"arbitrum-sepolia\"?:SupportedProtocolIds[]|undefined;\"op-mainnet\"?:SupportedProtocolIds[]|undefined;\"op-sepolia\"?:SupportedProtocolIds[]|undefined;\"polygon-pos-mainnet\"?:SupportedProtocolIds[]|undefined;\"polygon-pos-amoy\"?:SupportedProtocolIds[]|undefined;\"base-mainnet\"?:SupportedProtocolIds[]|undefined;\"base-sepolia\"?:SupportedProtocolIds[]|undefined;}"
                 },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
@@ -4784,11 +4784,11 @@
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",
-                "loggedIn",
                 "pendingDeepLinks",
                 "phoneNumberVerified",
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
+                "registrations",
                 "requirePinOnAppOpen",
                 "sessionId",
                 "showNotificationSpotlight",
@@ -6205,6 +6205,26 @@
             },
             "type": "object"
         },
+        "SupportedProtocolIds": {
+            "enum": [
+                "aerodrome",
+                "beefy",
+                "celo",
+                "curve",
+                "euler",
+                "farcaster",
+                "fonbnk",
+                "mento",
+                "offchainlabs",
+                "somm",
+                "tether",
+                "ubeswap",
+                "vana",
+                "velodrome",
+                "yearn"
+            ],
+            "type": "string"
+        },
         "SwapClaimHistory": {
             "additionalProperties": false,
             "properties": {
@@ -6757,6 +6777,84 @@
                 "percentage",
                 "tokenId"
             ],
+            "type": "object"
+        },
+        "{\"celo-mainnet\"?:SupportedProtocolIds[]|undefined;\"celo-alfajores\"?:SupportedProtocolIds[]|undefined;\"ethereum-mainnet\"?:SupportedProtocolIds[]|undefined;\"ethereum-sepolia\"?:SupportedProtocolIds[]|undefined;\"arbitrum-one\"?:SupportedProtocolIds[]|undefined;\"arbitrum-sepolia\"?:SupportedProtocolIds[]|undefined;\"op-mainnet\"?:SupportedProtocolIds[]|undefined;\"op-sepolia\"?:SupportedProtocolIds[]|undefined;\"polygon-pos-mainnet\"?:SupportedProtocolIds[]|undefined;\"polygon-pos-amoy\"?:SupportedProtocolIds[]|undefined;\"base-mainnet\"?:SupportedProtocolIds[]|undefined;\"base-sepolia\"?:SupportedProtocolIds[]|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "arbitrum-one": {
+                    "items": {
+                        "$ref": "#/definitions/SupportedProtocolIds"
+                    },
+                    "type": "array"
+                },
+                "arbitrum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/SupportedProtocolIds"
+                    },
+                    "type": "array"
+                },
+                "base-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/SupportedProtocolIds"
+                    },
+                    "type": "array"
+                },
+                "base-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/SupportedProtocolIds"
+                    },
+                    "type": "array"
+                },
+                "celo-alfajores": {
+                    "items": {
+                        "$ref": "#/definitions/SupportedProtocolIds"
+                    },
+                    "type": "array"
+                },
+                "celo-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/SupportedProtocolIds"
+                    },
+                    "type": "array"
+                },
+                "ethereum-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/SupportedProtocolIds"
+                    },
+                    "type": "array"
+                },
+                "ethereum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/SupportedProtocolIds"
+                    },
+                    "type": "array"
+                },
+                "op-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/SupportedProtocolIds"
+                    },
+                    "type": "array"
+                },
+                "op-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/SupportedProtocolIds"
+                    },
+                    "type": "array"
+                },
+                "polygon-pos-amoy": {
+                    "items": {
+                        "$ref": "#/definitions/SupportedProtocolIds"
+                    },
+                    "type": "array"
+                },
+                "polygon-pos-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/SupportedProtocolIds"
+                    },
+                    "type": "array"
+                }
+            },
             "type": "object"
         },
         "{AccountNumber?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;MobileMoney?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;DuniaWallet?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IBANNumber?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IFSCAccount?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;PIXAccount?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;keyType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;key?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;}": {
