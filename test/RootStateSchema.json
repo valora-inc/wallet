@@ -4723,9 +4723,6 @@
                 "locked": {
                     "type": "boolean"
                 },
-                "loggedIn": {
-                    "type": "boolean"
-                },
                 "pendingDeepLinks": {
                     "items": {
                         "$ref": "#/definitions/PendingDeepLink"
@@ -4743,6 +4740,9 @@
                 },
                 "pushNotificationsEnabled": {
                     "type": "boolean"
+                },
+                "registrations": {
+                    "$ref": "#/definitions/{beefy?:NetworkId[]|undefined;tether?:NetworkId[]|undefined;somm?:NetworkId[]|undefined;celo?:NetworkId[]|undefined;aerodrome?:NetworkId[]|undefined;velodrome?:NetworkId[]|undefined;vana?:NetworkId[]|undefined;curve?:NetworkId[]|undefined;farcaster?:NetworkId[]|undefined;mento?:NetworkId[]|undefined;yearn?:NetworkId[]|undefined;fonbnk?:NetworkId[]|undefined;offchainlabs?:NetworkId[]|undefined;euler?:NetworkId[]|undefined;ubeswap?:NetworkId[]|undefined;}"
                 },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
@@ -4784,11 +4784,11 @@
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",
-                "loggedIn",
                 "pendingDeepLinks",
                 "phoneNumberVerified",
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
+                "registrations",
                 "requirePinOnAppOpen",
                 "sessionId",
                 "showNotificationSpotlight",
@@ -6779,6 +6779,102 @@
                 },
                 "PIXAccount": {
                     "$ref": "#/definitions/{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;keyType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;key?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}"
+                }
+            },
+            "type": "object"
+        },
+        "{beefy?:NetworkId[]|undefined;tether?:NetworkId[]|undefined;somm?:NetworkId[]|undefined;celo?:NetworkId[]|undefined;aerodrome?:NetworkId[]|undefined;velodrome?:NetworkId[]|undefined;vana?:NetworkId[]|undefined;curve?:NetworkId[]|undefined;farcaster?:NetworkId[]|undefined;mento?:NetworkId[]|undefined;yearn?:NetworkId[]|undefined;fonbnk?:NetworkId[]|undefined;offchainlabs?:NetworkId[]|undefined;euler?:NetworkId[]|undefined;ubeswap?:NetworkId[]|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "aerodrome": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "beefy": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "celo": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "curve": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "euler": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "farcaster": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "fonbnk": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "mento": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "offchainlabs": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "somm": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "tether": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "ubeswap": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "vana": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "velodrome": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
+                },
+                "yearn": {
+                    "items": {
+                        "$ref": "#/definitions/NetworkId"
+                    },
+                    "type": "array"
                 }
             },
             "type": "object"
