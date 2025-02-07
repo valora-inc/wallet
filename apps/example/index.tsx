@@ -3,6 +3,7 @@ import { registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
 import React from 'react'
 import CustomScreen from './screens/CustomScreen'
+import PlaygroundScreen from './screens/PlaygroundScreen'
 
 const expoConfig = Constants.expoConfig
 if (!expoConfig) {
@@ -42,6 +43,24 @@ const App = createApp({
     'zh-CN': require('./locales/zh-CN.json'),
   },
   screens: {
+    tabs: ({ defaultTabs }) => {
+      return {
+        screens: [
+          defaultTabs.wallet,
+          defaultTabs.activity,
+          defaultTabs.discover,
+          defaultTabs.earn,
+          {
+            name: 'playground',
+            component: PlaygroundScreen,
+            // TODO: add icon
+            icon: () => null,
+            label: (t) => t('playground'),
+          },
+        ],
+        initialScreen: 'activity',
+      }
+    },
     custom: (Screen) => (
       <>
         <Screen name="CustomScreen" component={CustomScreen} options={{ headerShown: true }} />
