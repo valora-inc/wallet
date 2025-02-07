@@ -22,7 +22,6 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getSupportedNetworkIds } from 'src/statsig'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -36,6 +35,7 @@ import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import {
   Address,
   BaseError,
@@ -71,6 +71,7 @@ export default function TokenImportScreen(_: Props) {
   const dispatch = useDispatch()
 
   const supportedNetworkIds = getSupportedNetworkIds()
+  console.log('=====src/tokens/TokenImport.test.tsx', supportedNetworkIds)
   const networkShouldBeEditable = supportedNetworkIds.length > 1
 
   const [tokenAddress, setTokenAddress] = useState<string | undefined>()

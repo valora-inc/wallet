@@ -76,7 +76,6 @@ const mockBalances = {
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn().mockReturnValue({ enabled: true }),
   getFeatureGate: jest.fn().mockReturnValue(false),
-  getSupportedNetworkIds: jest.fn(() => ['celo-alfajores']),
 }))
 
 jest.mock('src/fiatExchanges/utils', () => ({

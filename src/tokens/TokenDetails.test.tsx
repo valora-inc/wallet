@@ -6,7 +6,7 @@ import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Price } from 'src/priceHistory/slice'
-import { getDynamicConfigParams, getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -20,9 +20,6 @@ import {
 } from 'test/values'
 
 jest.mock('src/statsig')
-jest
-  .mocked(getSupportedNetworkIds)
-  .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
 
 describe('TokenDetails', () => {
   beforeEach(() => {

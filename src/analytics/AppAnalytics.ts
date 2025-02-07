@@ -22,9 +22,10 @@ import {
   STATSIG_ENV,
 } from 'src/config'
 import { store } from 'src/redux/store'
-import { getDefaultStatsigUser, getSupportedNetworkIds } from 'src/statsig'
+import { getDefaultStatsigUser } from 'src/statsig'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { Statsig } from 'statsig-react-native'
 import { sha256 } from 'viem'
 

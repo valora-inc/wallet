@@ -9,7 +9,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getDynamicConfigParams, getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { useCashInTokens, useCashOutTokens, useSpendTokens } from 'src/tokens/hooks'
@@ -18,6 +18,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { sortCicoTokens } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { resolveCurrency } from 'src/utils/currencies'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 type Props = BottomSheetScreenProps<StackParamList, Screens.FiatExchangeCurrencyBottomSheet>
 

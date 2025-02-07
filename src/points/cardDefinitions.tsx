@@ -10,11 +10,11 @@ import SwapArrows from 'src/icons/SwapArrows'
 import { ClaimHistoryCardItem, CreateLiveLinkClaimHistory } from 'src/points/types'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getSupportedNetworkIds } from 'src/statsig'
 import colors from 'src/styles/colors'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalances } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 const TAG = 'Points/cardDefinitions'
 

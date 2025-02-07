@@ -12,7 +12,7 @@ import { Status as EarnStatus } from 'src/earn/slice'
 import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { SwapTransaction } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
@@ -23,6 +23,7 @@ import {
   PreparedTransactionsPossible,
 } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {

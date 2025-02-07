@@ -35,7 +35,7 @@ import { NftOrigin, NftWithNetworkId } from 'src/nfts/types'
 import { positionsWithBalanceSelector } from 'src/positions/selectors'
 import { Position } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -47,6 +47,7 @@ import { sortedTokensWithBalanceOrShowZeroBalanceSelector } from 'src/tokens/sel
 import { TokenBalance } from 'src/tokens/slice'
 import { AssetTabType } from 'src/tokens/types'
 import { getTokenAnalyticsProps } from 'src/tokens/utils'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 interface SectionData {
   appName?: string

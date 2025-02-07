@@ -11,7 +11,7 @@ import {
   fetchNftsFailed,
 } from 'src/nfts/slice'
 import { Nft, NftWithNetworkId } from 'src/nfts/types'
-import { getDynamicConfigParams, getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
@@ -21,6 +21,7 @@ import { safely } from 'src/utils/safely'
 import { Actions } from 'src/web3/actions'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'NftsSaga'

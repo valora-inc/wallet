@@ -5,7 +5,6 @@ import { EffectProviders, StaticProvider, dynamic } from 'redux-saga-test-plan/p
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
-import { getSupportedNetworkIds } from 'src/statsig'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo } from 'src/swap/types'
@@ -323,9 +322,6 @@ describe(swapSubmitSaga, () => {
 
   beforeEach(() => {
     sendCallCount = 0
-    jest
-      .mocked(getSupportedNetworkIds)
-      .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
   })
 
   const testCases = [

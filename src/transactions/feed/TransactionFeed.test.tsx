@@ -4,7 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { RootState } from 'src/redux/reducers'
-import { getDynamicConfigParams, getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { QueryResponse } from 'src/transactions/feed/queryHelper'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
@@ -16,10 +16,15 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockApprovalTransaction, mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 jest.mock('src/statsig')
+jest.mock('src/web3/utils', () => ({
+  ...jest.requireActual('src/web3/utils'),
+  getSupportedNetworkIds: jest.fn(),
+}))
 
 const mockTransaction = (
   transactionHash: string,

@@ -1,5 +1,4 @@
 import { type RootState } from 'src/redux/store'
-import { getSupportedNetworkIds } from 'src/statsig'
 import { pendingStandbyTransactionsSelector } from 'src/transactions/selectors'
 import reducer, {
   _initialState,
@@ -14,6 +13,7 @@ import {
   TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { getMockStoreData } from 'test/utils'
 
 jest.mock('src/statsig')

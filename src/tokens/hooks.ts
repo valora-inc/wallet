@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
-import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   cashInTokensByNetworkIdSelector,
@@ -26,6 +26,7 @@ import { Currency } from 'src/utils/currencies'
 import { deterministicShuffle } from 'src/utils/random'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 /**
  * @deprecated use useTokenInfo and select using tokenId

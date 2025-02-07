@@ -17,7 +17,7 @@ import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getDynamicConfigParams, getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
@@ -73,6 +73,7 @@ import networkConfig, {
 } from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 import { demoModeEnabledSelector, walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import {
   call,
   delay,

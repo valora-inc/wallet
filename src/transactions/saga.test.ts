@@ -6,7 +6,7 @@ import { call } from 'redux-saga/effects'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents, SwapEvents } from 'src/analytics/Events'
 import { trackPointsEvent } from 'src/points/slice'
-import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   handleTransactionFeedV2ApiFulfilled,
@@ -26,6 +26,7 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
 import {
   mockAaveArbUsdcTokenId,
@@ -360,7 +361,6 @@ describe('handleTransactionFeedV2ApiFulfilled', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POSITIONS)
-    jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
   })
 
   it('should track analytics event for newly completed cross chain transactions', async () => {
@@ -396,6 +396,7 @@ describe('handleTransactionFeedV2ApiFulfilled', () => {
           },
         }).getState()
       )
+      .provide([[call(getSupportedNetworkIds), [NetworkId['celo-alfajores']]]])
       .put(transactionsConfirmedFromFeedApi(transactions))
       .run()
 
@@ -472,6 +473,7 @@ describe('handleTransactionFeedV2ApiFulfilled', () => {
           },
         }).getState()
       )
+      .provide([[call(getSupportedNetworkIds), [NetworkId['celo-alfajores']]]])
       .put(transactionsConfirmedFromFeedApi(transactions))
       .run()
 

@@ -1,14 +1,13 @@
 import * as _ from 'lodash'
 import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
-import { ENABLED_NETWORK_IDS, ExpectedLaunchArgs, STATSIG_ENABLED } from 'src/config'
+import { ExpectedLaunchArgs, STATSIG_ENABLED } from 'src/config'
 import {
   StatsigDynamicConfigs,
   StatsigExperiments,
   StatsigFeatureGates,
   StatsigParameter,
 } from 'src/statsig/types'
-import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { EvaluationReason } from 'statsig-js'
@@ -96,10 +95,6 @@ function _getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
     Logger.warn(TAG, `Error getting params for dynamic config: ${configName}`, error)
     return defaultValues
   }
-}
-
-export function getSupportedNetworkIds(): NetworkId[] {
-  return ENABLED_NETWORK_IDS as NetworkId[]
 }
 
 // Cannot be used to retrieve dynamic config for multichain features

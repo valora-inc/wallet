@@ -11,7 +11,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { AppDispatch, store } from 'src/redux/store'
-import { getSupportedNetworkIds } from 'src/statsig/index'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import {
@@ -33,6 +32,7 @@ import Logger from 'src/utils/Logger'
 import { gql } from 'src/utils/gql'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 const MIN_NUM_TRANSACTIONS = 10
 

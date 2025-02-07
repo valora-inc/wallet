@@ -9,9 +9,10 @@ import { AssetsTokenBalance, FiatExchangeTokenBalance } from 'src/components/Tok
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore, getElementText } from 'test/utils'
 import {
   mockCeurTokenId,

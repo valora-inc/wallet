@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
-import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   useAmountAsUsd,
@@ -18,6 +18,7 @@ import {
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
@@ -31,6 +32,10 @@ import {
 } from 'test/values'
 
 jest.mock('src/statsig')
+jest.mock('src/web3/utils', () => ({
+  ...jest.requireActual('src/web3/utils'),
+  getSupportedNetworkIds: jest.fn(),
+}))
 
 beforeEach(() => {
   jest.clearAllMocks()

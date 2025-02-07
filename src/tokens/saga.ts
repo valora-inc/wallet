@@ -4,7 +4,6 @@ import { AppEvents } from 'src/analytics/Events'
 import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getSupportedNetworkIds } from 'src/statsig'
 import {
   importedTokensSelector,
   lastKnownTokenBalancesSelector,
@@ -25,6 +24,7 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { call, put, select, spawn, take } from 'typed-redux-saga'
 import { Address, erc20Abi, getContract } from 'viem'
 

@@ -11,11 +11,11 @@ import { useSelector } from 'src/redux/hooks'
 import EnterAmount, { ProceedArgs, SendProceed } from 'src/send/EnterAmount'
 import { lastUsedTokenIdSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
-import { getSupportedNetworkIds } from 'src/statsig'
 import { sortedTokensWithBalanceOrShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 

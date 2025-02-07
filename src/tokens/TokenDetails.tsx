@@ -32,7 +32,7 @@ import { StackParamList } from 'src/navigator/types'
 import PriceHistoryChart from 'src/priceHistory/PriceHistoryChart'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams, getSupportedNetworkIds } from 'src/statsig'
+import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
@@ -52,6 +52,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { TokenAction, TokenActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isHistoricalPriceUpdated } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 

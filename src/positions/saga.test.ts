@@ -40,12 +40,13 @@ import {
   triggerShortcutSuccess,
 } from 'src/positions/slice'
 import { Position } from 'src/positions/types'
-import { getDynamicConfigParams, getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { sendPreparedTransactions } from 'src/viem/saga'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
 
 jest.mock('src/sentry/SentryTransactionHub')

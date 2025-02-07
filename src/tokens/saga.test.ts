@@ -5,7 +5,6 @@ import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents } from 'src/analytics/Events'
-import { getSupportedNetworkIds } from 'src/statsig'
 import {
   fetchImportedTokenBalances,
   fetchTokenBalancesForAddressByTokenId,
@@ -29,6 +28,7 @@ import {
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import {
   mockAccount,
   mockCeurTokenId,

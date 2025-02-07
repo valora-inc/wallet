@@ -17,7 +17,7 @@ import GetStarted from 'src/home/GetStarted'
 import NotificationBox from 'src/home/NotificationBox'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -46,6 +46,7 @@ import {
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 type PaginatedData = {
   [FIRST_PAGE_CURSOR]: TokenTransaction[]

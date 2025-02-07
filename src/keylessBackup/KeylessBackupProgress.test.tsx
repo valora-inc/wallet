@@ -13,8 +13,6 @@ import {
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { goToNextOnboardingScreen } from 'src/onboarding/steps'
-import { getSupportedNetworkIds } from 'src/statsig'
-import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockOnboardingProps } from 'test/values'
@@ -29,9 +27,6 @@ jest.mock('src/onboarding/steps', () => ({
   onboardingPropsSelector: () => mockOnboardingPropsSelector(),
   getOnboardingStepValues: () => ({ step: 2, totalSteps: 3 }),
 }))
-jest.mock('src/statsig')
-
-jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
 
 function createStore(keylessBackupStatus: KeylessBackupStatus, zeroBalance = false) {
   return createMockStore({
