@@ -20,6 +20,7 @@ export interface ExpectedLaunchArgs {
 // TODO: remove the secrets file and inject secrets another way
 const secretsFile = {}
 const appConfig = getAppConfig()
+const experimentalConfig = appConfig.experimental ?? {}
 const keyOrUndefined = (file: any, secretsKey: any, attribute: any) => {
   if (secretsKey in file) {
     if (attribute in file[secretsKey]) {
@@ -98,28 +99,28 @@ export const WEB3AUTH_CLIENT_ID =
 
 // SECRETS
 export const ALCHEMY_ETHEREUM_API_KEY = keyOrUndefined(
-  secretsFile,
-  DEFAULT_TESTNET,
+  experimentalConfig,
+  'alchemyKeys',
   'ALCHEMY_ETHEREUM_API_KEY'
 )
 export const ALCHEMY_ARBITRUM_API_KEY = keyOrUndefined(
-  secretsFile,
-  DEFAULT_TESTNET,
+  experimentalConfig,
+  'alchemyKeys',
   'ALCHEMY_ARBITRUM_API_KEY'
 )
 export const ALCHEMY_OPTIMISM_API_KEY = keyOrUndefined(
-  secretsFile,
-  DEFAULT_TESTNET,
+  experimentalConfig,
+  'alchemyKeys',
   'ALCHEMY_OPTIMISM_API_KEY'
 )
 export const ALCHEMY_POLYGON_POS_API_KEY = keyOrUndefined(
-  secretsFile,
-  DEFAULT_TESTNET,
+  experimentalConfig,
+  'alchemyKeys',
   'ALCHEMY_POLYGON_POS_API_KEY'
 )
 export const ALCHEMY_BASE_API_KEY = keyOrUndefined(
-  secretsFile,
-  DEFAULT_TESTNET,
+  experimentalConfig,
+  'alchemyKeys',
   'ALCHEMY_BASE_API_KEY'
 )
 

@@ -185,6 +185,9 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
    */
   experimental?: {
     firebase?: boolean
+    // can copy/paste old alchemy key/secret pairs here
+    // will be replaced by the networks field
+    alchemyKeys?: Record<string, string>
     onboarding?: {
       enableBiometry?: boolean
       protectWallet?: boolean
