@@ -2,14 +2,14 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { hideAlert } from 'src/alert/actions'
-import { HomeEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { HomeEvents } from 'src/analytics/Events'
 import { toggleHideBalances } from 'src/app/actions'
 import { AssetsTokenBalance, FiatExchangeTokenBalance } from 'src/components/TokenBalance'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
@@ -98,14 +98,14 @@ const staleTokens = {
   },
 }
 
-jest.mocked(getMultichainFeatures).mockReturnValue({
-  showBalances: [
+jest
+  .mocked(getSupportedNetworkIds)
+  .mockReturnValue([
     NetworkId['ethereum-sepolia'],
     NetworkId['celo-alfajores'],
     NetworkId['arbitrum-sepolia'],
     NetworkId['op-sepolia'],
-  ],
-})
+  ])
 
 // Behavior specific to AssetsTokenBalance
 describe('AssetsTokenBalance', () => {

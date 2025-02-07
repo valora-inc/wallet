@@ -8,13 +8,12 @@ import PointsHistoryBottomSheet from 'src/points/PointsHistoryBottomSheet'
 import { getHistoryStarted } from 'src/points/slice'
 import { GetHistoryResponse } from 'src/points/types'
 import { RootState } from 'src/redux/reducers'
+import { getSupportedNetworkIds } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { RecursivePartial, createMockStore } from 'test/utils'
 
-jest.mock('src/statsig', () => ({
-  getMultichainFeatures: jest.fn().mockReturnValue({
-    showSwap: ['celo-alfajores'],
-  }),
-}))
+jest.mock('src/statsig')
+jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
 
 const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
   data: [

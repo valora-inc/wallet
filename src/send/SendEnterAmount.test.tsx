@@ -10,7 +10,7 @@ import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
 import SendEnterAmount from 'src/send/SendEnterAmount'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
-import { getMultichainFeatures } from 'src/statsig'
+import { getSupportedNetworkIds } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 import MockedNavigator from 'test/MockedNavigator'
@@ -94,9 +94,7 @@ const params = {
 describe('SendEnterAmount', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showSend: [NetworkId['celo-alfajores']],
-    })
+    jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
   })
 
   it('should render only the allowed send tokens', () => {

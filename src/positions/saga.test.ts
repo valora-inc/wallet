@@ -40,7 +40,7 @@ import {
   triggerShortcutSuccess,
 } from 'src/positions/slice'
 import { Position } from 'src/positions/types'
-import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { sendPreparedTransactions } from 'src/viem/saga'
@@ -134,9 +134,7 @@ describe(fetchPositionsSaga, () => {
     mockFetch.mockResponseOnce(JSON.stringify(MOCK_RESPONSE))
     mockFetch.mockResponseOnce(JSON.stringify(MOCK_EARN_POSITIONS_RESPONSE))
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showPositions: [NetworkId['celo-mainnet']],
-    })
+    jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-mainnet']])
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       supportedPools: ['arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216'],
       supportedAppIds: ['aave'],
@@ -162,9 +160,7 @@ describe(fetchPositionsSaga, () => {
     mockFetch.mockResponseOnce(JSON.stringify(MOCK_RESPONSE))
     mockFetch.mockResponseOnce(JSON.stringify(MOCK_RESPONSE)) // return the same response for earn positions
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showPositions: [NetworkId['celo-mainnet']],
-    })
+    jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-mainnet']])
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       supportedPools: ['arbitrum-sepolia:0x460b97bd498e1157530aeb3086301d5225b91216'],
       supportedAppIds: ['aave'],
@@ -227,9 +223,7 @@ describe(fetchShortcutsSaga, () => {
   it('fetches shortcuts successfully', async () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_SHORTCUTS_RESPONSE))
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showShortcuts: [NetworkId['celo-mainnet']],
-    })
+    jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-mainnet']])
 
     await expectSaga(fetchShortcutsSaga)
       .provide([
@@ -245,9 +239,7 @@ describe(fetchShortcutsSaga, () => {
   it('fetches shortcuts if the previous fetch attempt failed', async () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_SHORTCUTS_RESPONSE))
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showShortcuts: [NetworkId['celo-mainnet']],
-    })
+    jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-mainnet']])
     await expectSaga(fetchShortcutsSaga)
       .provide([
         [select(shortcutsStatusSelector), 'error'],
@@ -296,9 +288,7 @@ describe(fetchShortcutsSaga, () => {
   it('updates the shortcuts status there is an error', async () => {
     mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showShortcuts: [NetworkId['celo-mainnet']],
-    })
+    jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-mainnet']])
     await expectSaga(fetchShortcutsSaga)
       .provide([
         [select(shortcutsStatusSelector), 'idle'],

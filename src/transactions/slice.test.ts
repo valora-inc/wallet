@@ -1,5 +1,5 @@
 import { type RootState } from 'src/redux/store'
-import { getMultichainFeatures } from 'src/statsig'
+import { getSupportedNetworkIds } from 'src/statsig'
 import { pendingStandbyTransactionsSelector } from 'src/transactions/selectors'
 import reducer, {
   _initialState,
@@ -277,9 +277,7 @@ describe('transactions reducer', () => {
 describe('selector', () => {
   describe('pendingStandbyTransactionsSelector', () => {
     it('should return pending transactions with default values if unavailable', () => {
-      jest
-        .mocked(getMultichainFeatures)
-        .mockReturnValue({ showApprovalTxsInHomefeed: [NetworkId['celo-mainnet']] })
+      jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-mainnet']])
 
       const standbyCrossChainSwap = {
         feeCurrencyId: 'celo-mainnet:native',

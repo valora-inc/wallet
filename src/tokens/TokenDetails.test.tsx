@@ -21,12 +21,8 @@ import {
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn(),
-  getMultichainFeatures: jest.fn(() => {
-    return {
-      showCico: ['celo-alfajores', 'ethereum-sepolia'],
-      showSend: ['celo-alfajores', 'ethereum-sepolia'],
-      showSwap: ['celo-alfajores', 'ethereum-sepolia'],
-    }
+  getSupportedNetworkIds: jest.fn(() => {
+    return [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']]
   }),
   getFeatureGate: jest.fn().mockReturnValue(true),
 }))

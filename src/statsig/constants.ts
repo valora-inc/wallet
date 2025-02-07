@@ -1,9 +1,4 @@
-import {
-  StatsigDynamicConfigs,
-  StatsigExperiments,
-  StatsigMultiNetworkDynamicConfig,
-  StatsigParameter,
-} from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 
 export const ExperimentConfigs = {
@@ -120,7 +115,7 @@ export const DynamicConfigs = {
     },
   },
 } satisfies {
-  [key in StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig]: {
+  [key in StatsigDynamicConfigs]: {
     configName: key
     defaultValues: { [key: string]: StatsigParameter }
   }

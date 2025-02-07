@@ -1,8 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { AssetsEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { AssetsEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchNfts } from 'src/nfts/slice'
@@ -25,9 +25,10 @@ import {
 jest.mock('src/statsig', () => {
   return {
     getFeatureGate: jest.fn(),
-    getMultichainFeatures: jest.fn(() => ({
-      showBalances: ['celo-alfajores', 'ethereum-sepolia'],
-    })),
+    getSupportedNetworkIds: jest.fn(() => [
+      NetworkId['celo-alfajores'],
+      NetworkId['ethereum-sepolia'],
+    ]),
   }
 })
 

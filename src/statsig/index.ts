@@ -1,17 +1,15 @@
 import * as _ from 'lodash'
 import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
-import { ExpectedLaunchArgs, STATSIG_ENABLED } from 'src/config'
+import { ENABLED_NETWORK_IDS, ExpectedLaunchArgs, STATSIG_ENABLED } from 'src/config'
 import {
   StatsigDynamicConfigs,
   StatsigExperiments,
   StatsigFeatureGates,
-  StatsigMultiNetworkDynamicConfig,
   StatsigParameter,
 } from 'src/statsig/types'
-import { Network, NetworkId } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { EvaluationReason } from 'statsig-js'
 import { DynamicConfig, Statsig, StatsigUser } from 'statsig-react-native'
@@ -78,7 +76,7 @@ function _getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
   configName,
   defaultValues,
 }: {
-  configName: StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig
+  configName: StatsigDynamicConfigs
   defaultValues: T
 }): T {
   try {
@@ -101,15 +99,7 @@ function _getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
 }
 
 export function getSupportedNetworkIds(): NetworkId[] {
-  const polygonEnabled = getFeatureGate(StatsigFeatureGates.POLYGON_ENABLED)
-
-  if (polygonEnabled) {
-    return Object.values(networkConfig.networkToNetworkId)
-  }
-
-  return Object.entries(networkConfig.networkToNetworkId)
-    .filter(([network]) => network !== Network.PolygonPoS)
-    .map(([, networkId]) => networkId)
+  return ENABLED_NETWORK_IDS as NetworkId[]
 }
 
 // Cannot be used to retrieve dynamic config for multichain features

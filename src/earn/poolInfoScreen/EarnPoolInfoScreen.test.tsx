@@ -7,7 +7,7 @@ import EarnPoolInfoScreen from 'src/earn/poolInfoScreen/EarnPoolInfoScreen'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { EarnPosition } from 'src/positions/types'
-import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
@@ -24,7 +24,6 @@ import {
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn().mockReturnValue({ enabled: true }),
-  getMultichainFeatures: jest.fn(),
   getFeatureGate: jest.fn(),
 }))
 
@@ -69,10 +68,9 @@ const renderEarnPoolInfoScreen = (pool: EarnPosition) =>
 describe('EarnPoolInfoScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showCico: [NetworkId['arbitrum-sepolia']],
-      showSwap: [NetworkId['celo-alfajores'], NetworkId['arbitrum-sepolia']],
-    })
+    jest
+      .mocked(getSupportedNetworkIds)
+      .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['arbitrum-sepolia']])
     jest
       .mocked(getFeatureGate)
       .mockImplementation((gate) => gate === StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS)

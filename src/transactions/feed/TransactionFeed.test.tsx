@@ -4,7 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { RootState } from 'src/redux/reducers'
-import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { QueryResponse } from 'src/transactions/feed/queryHelper'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
@@ -159,12 +159,7 @@ describe('TransactionFeed', () => {
   const mockFetch = fetch as FetchMock
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showCico: [NetworkId['celo-alfajores']],
-      showBalances: [NetworkId['celo-alfajores']],
-      showTransfers: [NetworkId['celo-alfajores']],
-      showApprovalTxsInHomefeed: [NetworkId['celo-alfajores']],
-    })
+    jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       jumpstartContracts: {
         ['celo-alfajores']: { contractAddress: '0x7bf3fefe9881127553d23a8cd225a2c2442c438c' },

@@ -16,7 +16,7 @@ import {
   getDynamicConfigParams,
   getExperimentParams,
   getFeatureGate,
-  getMultichainFeatures,
+  getSupportedNetworkIds,
 } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
@@ -322,10 +322,9 @@ describe('SwapScreen', () => {
     jest.mocked(getExperimentParams).mockReturnValue({
       swapBuyAmountEnabled: true,
     })
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showSwap: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-      showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
+    jest
+      .mocked(getSupportedNetworkIds)
+      .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       maxSlippagePercentage: '0.3',
       popularTokenIds: [],
@@ -1807,10 +1806,9 @@ describe('SwapScreen', () => {
 
     it('should show "popular" tokens', () => {
       const mockedPopularTokens = [mockUSDCTokenId, mockPoofTokenId]
-      jest.mocked(getMultichainFeatures).mockReturnValue({
-        showSwap: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-        showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-      })
+      jest
+        .mocked(getSupportedNetworkIds)
+        .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
       jest.mocked(getDynamicConfigParams).mockReturnValue({
         popularTokenIds: mockedPopularTokens,
         maxSlippagePercentage: '0.3',

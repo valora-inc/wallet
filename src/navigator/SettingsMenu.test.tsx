@@ -6,7 +6,7 @@ import { clearStoredAccount } from 'src/account/actions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SettingsMenu from 'src/navigator/SettingsMenu'
-import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
@@ -14,9 +14,7 @@ import { createMockStore } from 'test/utils'
 import { mockE164Number } from 'test/values'
 
 jest.mock('src/statsig')
-jest.mocked(getMultichainFeatures).mockReturnValue({
-  showBalances: [NetworkId['celo-alfajores']],
-})
+jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
 jest.mocked(getFeatureGate).mockImplementation((gate) => {
   if (gate === StatsigFeatureGates.DISABLE_WALLET_CONNECT_V2) {
     return false
