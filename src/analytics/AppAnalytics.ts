@@ -22,8 +22,7 @@ import {
   STATSIG_ENV,
 } from 'src/config'
 import { store } from 'src/redux/store'
-import { getDefaultStatsigUser } from 'src/statsig'
-import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
+import { getDefaultStatsigUser, getSupportedNetworkIds } from 'src/statsig'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
@@ -310,7 +309,7 @@ class AppAnalytics {
 
   // Super props, i.e. props sent with all events
   private getSuperProps() {
-    const traits = getCurrentUserTraits(store.getState(), getSupportedNetworkIdsForTokenBalances())
+    const traits = getCurrentUserTraits(store.getState(), getSupportedNetworkIds())
     // Prefix super props with `s` so they don't clash with events props
     const prefixedSuperProps = Object.fromEntries(
       Object.entries({

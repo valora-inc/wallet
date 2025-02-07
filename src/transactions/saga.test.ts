@@ -6,9 +6,8 @@ import { call } from 'redux-saga/effects'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents, SwapEvents } from 'src/analytics/Events'
 import { trackPointsEvent } from 'src/points/slice'
-import { getFeatureGate } from 'src/statsig'
+import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import {
   handleTransactionFeedV2ApiFulfilled,
   internalWatchPendingTransactionsInNetwork,
@@ -325,10 +324,9 @@ describe('watchPendingTransactions', () => {
     await expectSaga(watchPendingTransactions)
       .provide([
         [
-          call(getSupportedNetworkIdsForSend),
+          call(getSupportedNetworkIds),
           [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
         ],
-        [call(getSupportedNetworkIdsForSwap), [NetworkId['celo-alfajores']]],
         [matchers.spawn.fn(watchPendingTransactionsInNetwork), null],
       ])
       .run()
@@ -345,8 +343,7 @@ describe('watchPendingTransactions', () => {
   it('does spawn a watching loop for only allowed network', async () => {
     await expectSaga(watchPendingTransactions)
       .provide([
-        [call(getSupportedNetworkIdsForSend), [NetworkId['celo-alfajores']]],
-        [call(getSupportedNetworkIdsForSwap), [NetworkId['celo-alfajores']]],
+        [call(getSupportedNetworkIds), [NetworkId['celo-alfajores']]],
         [matchers.spawn.fn(watchPendingTransactionsInNetwork), null],
       ])
       .run()

@@ -5,7 +5,6 @@ import {
   StatsigParameter,
 } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
@@ -38,21 +37,6 @@ export const DynamicConfigs = {
       cico: 30,
     },
   },
-  [StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES]: {
-    configName: StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES,
-    defaultValues: {
-      showCico: [networkConfig.defaultNetworkId],
-      showBalances: [networkConfig.defaultNetworkId],
-      showSend: [networkConfig.defaultNetworkId],
-      showSwap: [networkConfig.defaultNetworkId],
-      showTransfers: [networkConfig.defaultNetworkId],
-      showWalletConnect: [networkConfig.defaultNetworkId],
-      showApprovalTxsInHomefeed: [] as NetworkId[],
-      showNfts: [networkConfig.defaultNetworkId],
-      showPositions: [networkConfig.defaultNetworkId],
-      showShortcuts: [networkConfig.defaultNetworkId],
-    },
-  },
   [StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]: {
     configName: StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG,
     defaultValues: {
@@ -64,9 +48,9 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.SWAP_CONFIG,
     defaultValues: {
       maxSlippagePercentage: '0.3',
-      enableAppFee: false,
-      popularTokenIds: [] as string[],
-      enabled: false,
+      enableAppFee: true,
+      popularTokenIds: [] as string[], // TODO
+      enabled: true,
       priceImpactWarningThreshold: 4,
     },
   },
@@ -103,7 +87,7 @@ export const DynamicConfigs = {
     defaultValues: {
       minRequiredVersion: '0.0.0',
       links: {
-        web: 'https://valora.xyz/',
+        web: 'https://valora.xyz/', // TODO: remove
         tos: 'https://valora.xyz/terms',
         privacy: 'https://valora.xyz/privacy',
         faq: 'https://valora.xyz/faq',
@@ -124,7 +108,7 @@ export const DynamicConfigs = {
   [StatsigDynamicConfigs.EARN_CONFIG]: {
     configName: StatsigDynamicConfigs.EARN_CONFIG,
     defaultValues: {
-      supportedPools: [] as string[],
+      supportedPools: [] as string[], // TODO
       supportedAppIds: [] as string[],
     },
   },

@@ -14,7 +14,7 @@ import StyledQRCode from 'src/qrcode/StyledQRCode'
 import { useSelector } from 'src/redux/hooks'
 import { SVG } from 'src/send/actions'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getMultichainFeatures } from 'src/statsig'
+import { getSupportedNetworkIds } from 'src/statsig'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
@@ -65,7 +65,7 @@ export default function QRCodeDisplay(props: Props) {
   }
 
   const getSupportedNetworks = () => {
-    const supportedNetworkIds = getMultichainFeatures().showBalances
+    const supportedNetworkIds = getSupportedNetworkIds()
     const networks = supportedNetworkIds.map((networkId: NetworkId) => {
       return NETWORK_NAMES[networkId]
     })

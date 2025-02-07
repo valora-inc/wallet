@@ -22,6 +22,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
+import { getSupportedNetworkIds } from 'src/statsig'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -29,7 +30,7 @@ import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
 import { networksIconSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { importToken } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForTokenBalances, getTokenId } from 'src/tokens/utils'
+import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
@@ -69,7 +70,7 @@ export default function TokenImportScreen(_: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const supportedNetworkIds = getSupportedNetworkIds()
   const networkShouldBeEditable = supportedNetworkIds.length > 1
 
   const [tokenAddress, setTokenAddress] = useState<string | undefined>()

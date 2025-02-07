@@ -17,7 +17,7 @@ import GetStarted from 'src/home/GetStarted'
 import NotificationBox from 'src/home/NotificationBox'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -56,17 +56,13 @@ const FIRST_PAGE_CURSOR = 'FIRST_PAGE'
 const POLL_INTERVAL_MS = 10_000 // 10 sec
 const TAG = 'transactions/feed/TransactionFeedV2'
 
-function getAllowedNetworksForTransfers() {
-  return getMultichainFeatures().showTransfers
-}
-
 /**
  * Join allowed networks into a string to help react memoization.
  * N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
  * on the home feed, since they get cached in Redux -- this is just a network optimization.
  */
 function useAllowedNetworksForTransfers() {
-  const allowedNetworks = getAllowedNetworksForTransfers().join(',')
+  const allowedNetworks = getSupportedNetworkIds().join(',')
   return useMemo(() => allowedNetworks.split(',') as NetworkId[], [allowedNetworks])
 }
 

@@ -35,7 +35,7 @@ import { NftOrigin, NftWithNetworkId } from 'src/nfts/types'
 import { positionsWithBalanceSelector } from 'src/positions/selectors'
 import { Position } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
+import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -46,7 +46,7 @@ import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { sortedTokensWithBalanceOrShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { AssetTabType } from 'src/tokens/types'
-import { getSupportedNetworkIdsForTokenBalances, getTokenAnalyticsProps } from 'src/tokens/utils'
+import { getTokenAnalyticsProps } from 'src/tokens/utils'
 
 interface SectionData {
   appName?: string
@@ -93,7 +93,7 @@ export default function AssetList({
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const supportedNetworkIds = getSupportedNetworkIds()
   const tokens = useSelector((state) =>
     sortedTokensWithBalanceOrShowZeroBalanceSelector(state, supportedNetworkIds)
   )

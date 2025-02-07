@@ -11,9 +11,9 @@ import { useSelector } from 'src/redux/hooks'
 import EnterAmount, { ProceedArgs, SendProceed } from 'src/send/EnterAmount'
 import { lastUsedTokenIdSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
+import { getSupportedNetworkIds } from 'src/statsig'
 import { sortedTokensWithBalanceOrShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -23,7 +23,7 @@ const TAG = 'SendEnterAmount'
 
 function SendEnterAmount({ route }: Props) {
   const { defaultTokenIdOverride, origin, recipient, isFromScan, forceTokenId } = route.params
-  const supportedNetworkIds = getSupportedNetworkIdsForSend()
+  const supportedNetworkIds = getSupportedNetworkIds()
   // explicitly allow zero state tokens to be shown for exploration purposes for
   // new users with no balance
   const tokens = useSelector((state) =>

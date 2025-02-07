@@ -29,7 +29,7 @@ import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import EnterAmountOptions from 'src/send/EnterAmountOptions'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
@@ -53,7 +53,6 @@ import {
   tokensByIdSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { parseInputAmount } from 'src/utils/parsing'
@@ -251,9 +250,7 @@ export function SwapScreen({ route }: Props) {
 
   const { swappableFromTokens, swappableToTokens, areSwapTokensShuffled } = useSwappableTokens()
 
-  const tokensById = useSelector((state) =>
-    tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
-  )
+  const tokensById = useSelector((state) => tokensByIdSelector(state, getSupportedNetworkIds()))
 
   const initialFromTokenId = route.params?.fromTokenId
   const initialToTokenId = route.params?.toTokenId

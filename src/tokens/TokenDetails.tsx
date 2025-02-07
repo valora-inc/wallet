@@ -32,7 +32,7 @@ import { StackParamList } from 'src/navigator/types'
 import PriceHistoryChart from 'src/priceHistory/PriceHistoryChart'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getSupportedNetworkIds } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
@@ -50,11 +50,7 @@ import {
 import { sortedTokensWithBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenAction, TokenActionName } from 'src/tokens/types'
-import {
-  getSupportedNetworkIdsForSend,
-  getTokenAnalyticsProps,
-  isHistoricalPriceUpdated,
-} from 'src/tokens/utils'
+import { getTokenAnalyticsProps, isHistoricalPriceUpdated } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
@@ -163,7 +159,7 @@ function PriceInfo({ token }: { token: TokenBalance }) {
 
 export const useActions = (token: TokenBalance) => {
   const { t } = useTranslation()
-  const supportedNetworkIdsForSend = getSupportedNetworkIdsForSend()
+  const supportedNetworkIdsForSend = getSupportedNetworkIds()
   const sendableTokensWithBalance = useSelector((state) =>
     sortedTokensWithBalanceSelector(state, supportedNetworkIdsForSend)
   )

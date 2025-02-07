@@ -2,14 +2,13 @@ import { useTranslation } from 'react-i18next'
 import { FilterChip } from 'src/components/FilterChipsCarousel'
 import { TOKEN_MIN_AMOUNT } from 'src/config'
 import { useSelector } from 'src/redux/hooks'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { lastSwappedSelector } from 'src/swap/selectors'
 import { Field } from 'src/swap/types'
 import { useTokensWithTokenBalance } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 
 export default function useFilterChip(
@@ -26,7 +25,7 @@ export default function useFilterChip(
 
   const recentlySwappedTokens = useSelector(lastSwappedSelector)
   const tokensWithBalance = useTokensWithTokenBalance()
-  const supportedNetworkIds = getSupportedNetworkIdsForSwap()
+  const supportedNetworkIds = getSupportedNetworkIds()
 
   if (!showSwapTokenFilters) {
     return []

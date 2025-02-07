@@ -13,9 +13,10 @@ import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
 import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recipient'
 import { updateAppRecipientCache } from 'src/recipients/reducer'
 import { TransactionDataInput } from 'src/send/types'
+import { getSupportedNetworkIds } from 'src/statsig'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { convertLocalToTokenAmount, getSupportedNetworkIdsForSend } from 'src/tokens/utils'
+import { convertLocalToTokenAmount } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { call, put, select } from 'typed-redux-saga'
@@ -48,7 +49,7 @@ export function* handleSendPaymentData({
     })
   )
 
-  const supportedNetworkIds = yield* select(getSupportedNetworkIdsForSend)
+  const supportedNetworkIds = yield* call(getSupportedNetworkIds)
   const tokens: TokenBalance[] = yield* select((state) =>
     tokensListSelector(state, supportedNetworkIds)
   )

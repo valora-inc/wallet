@@ -35,6 +35,7 @@ import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getSupportedNetworkIds } from 'src/statsig'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -47,7 +48,6 @@ import {
   useTotalTokenBalance,
 } from 'src/tokens/hooks'
 import { tokenFetchErrorSelector } from 'src/tokens/selectors'
-import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 
 function TokenBalance({
   style = styles.balance,
@@ -58,7 +58,7 @@ function TokenBalance({
   singleTokenViewEnabled?: boolean
   showBalanceToggle?: boolean
 }) {
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const supportedNetworkIds = getSupportedNetworkIds()
   const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalTokenBalanceLocal = useTotalTokenBalance()
@@ -136,7 +136,7 @@ function HideBalanceButton({ hideBalance }: { hideBalance: boolean }) {
 function useErrorMessageWithRefresh() {
   const { t } = useTranslation()
 
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const supportedNetworkIds = getSupportedNetworkIds()
   const tokensInfoUnavailable = useTokensInfoUnavailable(supportedNetworkIds)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
   const localCurrencyError = useSelector(localCurrencyExchangeRateErrorSelector)

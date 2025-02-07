@@ -5,13 +5,13 @@ import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics, SwapTxsReceiptProperties } from 'src/analytics/Properties'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
+import { getSupportedNetworkIds } from 'src/statsig'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo } from 'src/swap/types'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { BaseStandbyTransaction } from 'src/transactions/slice'
 import {
   NetworkId,
@@ -90,9 +90,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const amount = swapAmount[updatedField]
   const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
 
-  const tokensById = yield* select((state) =>
-    tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
-  )
+  const tokensById = yield* select((state) => tokensByIdSelector(state, getSupportedNetworkIds()))
   const fromToken = tokensById[fromTokenId]
   const toToken = tokensById[toTokenId]
 

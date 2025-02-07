@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { useSelector } from 'src/redux/hooks'
-import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   cashInTokensByNetworkIdSelector,
@@ -20,11 +20,7 @@ import {
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import {
-  convertLocalToTokenAmount,
-  convertTokenToLocalAmount,
-  getSupportedNetworkIdsForTokenBalances,
-} from 'src/tokens/utils'
+import { convertLocalToTokenAmount, convertTokenToLocalAmount } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { deterministicShuffle } from 'src/utils/random'
@@ -44,12 +40,12 @@ export function useTokensWithUsdValue(networkIds: NetworkId[]) {
 }
 
 export function useTotalTokenBalance() {
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const supportedNetworkIds = getSupportedNetworkIds()
   return useSelector((state) => totalTokenBalanceSelector(state, supportedNetworkIds))
 }
 
 export function useTokensWithTokenBalance() {
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const supportedNetworkIds = getSupportedNetworkIds()
   return useSelector((state) => tokensWithTokenBalanceSelector(state, supportedNetworkIds))
 }
 
@@ -82,7 +78,7 @@ export function useTokenPricesAreStale(networkIds: NetworkId[]) {
 }
 
 export function useSwappableTokens() {
-  const networkIdsForSwap = getMultichainFeatures().showSwap
+  const networkIdsForSwap = getSupportedNetworkIds()
   const shouldShuffleTokens = getFeatureGate(StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER)
 
   const walletAddress = useSelector(walletAddressSelector)
@@ -109,19 +105,19 @@ export function useSwappableTokens() {
 }
 
 export function useCashInTokens() {
-  const networkIdsForCico = getMultichainFeatures().showCico
+  const networkIdsForCico = getSupportedNetworkIds()
   return useSelector((state) => cashInTokensByNetworkIdSelector(state, networkIdsForCico))
 }
 
 export function useCashOutTokens(showZeroBalanceTokens: boolean = false) {
-  const networkIdsForCico = getMultichainFeatures().showCico
+  const networkIdsForCico = getSupportedNetworkIds()
   return useSelector((state) =>
     cashOutTokensByNetworkIdSelector(state, networkIdsForCico, showZeroBalanceTokens)
   )
 }
 
 export function useSpendTokens() {
-  const networkIdsForCico = getMultichainFeatures().showCico
+  const networkIdsForCico = getSupportedNetworkIds()
   return useSelector((state) => spendTokensByNetworkIdSelector(state, networkIdsForCico))
 }
 
