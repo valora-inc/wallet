@@ -4,7 +4,12 @@ import { select } from 'redux-saga/effects'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { updateUserTraits } from 'src/analytics/saga'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
+import { getSupportedNetworkIds } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
+
+jest.mock('src/statsig')
+jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
 
 describe(updateUserTraits, () => {
   beforeAll(() => {

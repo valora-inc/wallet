@@ -6,7 +6,7 @@ import { AssetsEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchNfts } from 'src/nfts/slice'
-import { getFeatureGate } from 'src/statsig'
+import { getFeatureGate, getSupportedNetworkIds } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import AssetList from 'src/tokens/AssetList'
 import { AssetTabType } from 'src/tokens/types'
@@ -22,15 +22,10 @@ import {
   mockTokenBalances,
 } from 'test/values'
 
-jest.mock('src/statsig', () => {
-  return {
-    getFeatureGate: jest.fn(),
-    getSupportedNetworkIds: jest.fn(() => [
-      NetworkId['celo-alfajores'],
-      NetworkId['ethereum-sepolia'],
-    ]),
-  }
-})
+jest.mock('src/statsig')
+jest
+  .mocked(getSupportedNetworkIds)
+  .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
 
 const storeWithAssets = {
   tokens: {

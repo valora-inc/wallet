@@ -30,6 +30,8 @@ import { RecipientType } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { handleQRCodeDetected, handleQRCodeDetectedSecureSend } from 'src/send/actions'
 import { QrCode } from 'src/send/types'
+import { getSupportedNetworkIds } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
@@ -46,6 +48,8 @@ import {
 } from 'test/values'
 
 jest.mock('src/positions/saga')
+jest.mock('src/statsig')
+jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
 
 beforeEach(() => {
   jest.clearAllMocks()

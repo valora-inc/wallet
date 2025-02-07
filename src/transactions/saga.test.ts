@@ -41,10 +41,7 @@ import {
   mockTokenBalances,
 } from 'test/values'
 
-jest.mock('src/statsig', () => ({
-  ...jest.requireActual('src/statsig'),
-  getFeatureGate: jest.fn(),
-}))
+jest.mock('src/statsig')
 
 const mockCrossChainSwapTransaction: TokenExchange = {
   type: TokenTransactionTypeV2.CrossChainSwapTransaction,
@@ -363,6 +360,7 @@ describe('handleTransactionFeedV2ApiFulfilled', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_POSITIONS)
+    jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
   })
 
   it('should track analytics event for newly completed cross chain transactions', async () => {

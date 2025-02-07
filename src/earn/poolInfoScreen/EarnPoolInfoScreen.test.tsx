@@ -25,6 +25,7 @@ import {
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn().mockReturnValue({ enabled: true }),
   getFeatureGate: jest.fn(),
+  getSupportedNetworkIds: jest.fn(),
 }))
 
 const mockPoolTokenId = mockEarnPositions[0].dataProps.depositTokenId
