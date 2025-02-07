@@ -510,6 +510,7 @@ const feeCurrenciesByNetworkIdSelector = createSelector(
 // for testing
 export const _feeCurrenciesByNetworkIdSelector = feeCurrenciesByNetworkIdSelector
 
+export type FeeCurrenciesSelector = typeof feeCurrenciesSelector
 export const feeCurrenciesSelector = createSelector(
   feeCurrenciesByNetworkIdSelector,
   (_state: RootState, networkId: NetworkId) => networkId,

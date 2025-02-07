@@ -3986,36 +3986,6 @@
         "StandbyTransaction": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/PendingStandbyTransaction<TokenTransfer>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<TokenApproval>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<NftTransfer>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<DepositOrWithdraw>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnWithdraw>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnClaimReward>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<PendingTokenExchange>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<ClaimReward>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnSwapDeposit>"
-                },
-                {
                     "additionalProperties": false,
                     "properties": {
                         "block": {
@@ -4681,6 +4651,36 @@
                         "type"
                     ],
                     "type": "object"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<PendingTokenExchange>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<TokenTransfer>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<TokenApproval>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<NftTransfer>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<DepositOrWithdraw>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<ClaimReward>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnSwapDeposit>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnWithdraw>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnClaimReward>"
                 }
             ]
         },
@@ -6500,10 +6500,10 @@
         "TokenTransaction": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/TokenTransfer"
+                    "$ref": "#/definitions/TokenExchange"
                 },
                 {
-                    "$ref": "#/definitions/TokenExchange"
+                    "$ref": "#/definitions/TokenTransfer"
                 },
                 {
                     "$ref": "#/definitions/TokenApproval"
@@ -6515,12 +6515,6 @@
                     "$ref": "#/definitions/DepositOrWithdraw"
                 },
                 {
-                    "$ref": "#/definitions/EarnWithdraw"
-                },
-                {
-                    "$ref": "#/definitions/EarnClaimReward"
-                },
-                {
                     "$ref": "#/definitions/ClaimReward"
                 },
                 {
@@ -6528,6 +6522,12 @@
                 },
                 {
                     "$ref": "#/definitions/EarnSwapDeposit"
+                },
+                {
+                    "$ref": "#/definitions/EarnWithdraw"
+                },
+                {
+                    "$ref": "#/definitions/EarnClaimReward"
                 }
             ]
         },

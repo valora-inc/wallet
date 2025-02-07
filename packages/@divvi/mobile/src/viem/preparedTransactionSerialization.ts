@@ -41,6 +41,7 @@ export function getSerializablePreparedTransaction(
   return mapBigIntsToStrings(preparedTransaction, bigIntProps)
 }
 
+export type GetSerializablePreparedTransactions = typeof getSerializablePreparedTransactions
 export function getSerializablePreparedTransactions(
   preparedTransactions: TransactionRequest[]
 ): SerializableTransactionRequest[] {

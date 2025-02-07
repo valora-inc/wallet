@@ -256,6 +256,7 @@ export async function tryEstimateTransactions(
   return transactions
 }
 
+export type PrepareTransactions = typeof prepareTransactions
 /**
  * Prepare transactions to submit to the blockchain.
  *
@@ -481,6 +482,7 @@ export function prepareSendNativeAssetTransaction(
   })
 }
 
+export type GetFeeCurrencyAndAmounts = typeof getFeeCurrencyAndAmounts
 /**
  * Given prepared transactions, get the fee currency and amounts in decimals
  *

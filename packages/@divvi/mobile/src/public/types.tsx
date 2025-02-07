@@ -208,3 +208,18 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
     }
   }
 }
+
+// TODO: we'll use this type throughout the framework once we're able to make bigger refactor, eliminating the current NetworkId enum
+export type NetworkId =
+  | 'celo-mainnet'
+  | 'celo-alfajores'
+  | 'ethereum-mainnet'
+  | 'ethereum-sepolia'
+  | 'arbitrum-one'
+  | 'arbitrum-sepolia'
+  | 'op-mainnet'
+  | 'op-sepolia'
+  | 'polygon-pos-mainnet'
+  | 'polygon-pos-amoy'
+  | 'base-mainnet'
+  | 'base-sepolia'

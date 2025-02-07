@@ -125,12 +125,18 @@ export const setupStore = (initialState?: ReducersRootState, config = persistCon
   const createdPersistor = persistStore(createdStore)
   sagaMiddleware.run(rootSaga)
 
-  return { store: createdStore, persistor: createdPersistor }
+  return { store: createdStore, persistor: createdPersistor, sagaMiddleware }
 }
 
-const { store, persistor } = setupStore()
+const { store, persistor, sagaMiddleware } = setupStore()
 
-export { persistor, store }
+export type RunSaga = typeof runSaga
+function runSaga<T>(saga: () => Generator<unknown, T, unknown>): Promise<T> {
+  return sagaMiddleware.run(saga).toPromise()
+}
+
+export type Store = typeof store
+export { persistor, runSaga, store }
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

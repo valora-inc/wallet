@@ -17,6 +17,7 @@ import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'viem/saga'
 
+export type SendPreparedTransactions = typeof sendPreparedTransactions
 /**
  * Sends prepared transactions and adds standby transactions to the store.
  * Returns the hashes of the sent transactions. Throws if the transactions fail
