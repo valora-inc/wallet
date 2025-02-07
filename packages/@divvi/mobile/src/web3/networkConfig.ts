@@ -25,7 +25,7 @@ export enum Testnets {
   mainnet = 'mainnet',
 }
 
-interface NetworkConfig {
+export interface NetworkConfig {
   blockchainApiUrl: string
   hooksApiUrl: string
   sentryTracingUrls: string[]

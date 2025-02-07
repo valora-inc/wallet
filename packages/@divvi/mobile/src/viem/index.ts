@@ -54,6 +54,7 @@ export const appViemTransports = {
   [Network.Arbitrum]: http(networkConfig.internalRpcUrl.arbitrum),
 } satisfies Record<(typeof INTERNAL_RPC_SUPPORTED_NETWORKS)[number], Transport>
 
+export type StaticPublicClient = typeof publicClient
 export const publicClient = {
   [Network.Celo]: createPublicClient({
     chain: networkConfig.viemChain.celo,

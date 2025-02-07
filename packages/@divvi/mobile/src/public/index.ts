@@ -7,9 +7,13 @@
  */
 export { createApp } from './createApp'
 export { getFees } from './getFees'
+export { getPublicClient } from './getPublicClient'
+export { getWalletClient } from './getWalletClient'
 export { usePrepareTransactions } from './hooks/usePrepareTransactions'
+export { usePublicClient } from './hooks/usePublicClient'
 export { useSendTransactions } from './hooks/useSendTransactions'
 export { useWallet } from './hooks/useWallet'
+export { useWalletClient } from './hooks/useWalletClient'
 export {
   prepareTransactions,
   type PreparedTransactionsNeedDecreaseSpendAmountForGas,

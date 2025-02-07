@@ -49,6 +49,7 @@ export function getKeychainAccounts(): Promise<KeychainAccounts> {
   return initKeychainAccountsPromise
 }
 
+export type GetViemWallet = typeof getViemWallet
 // This code assumes that the account for walletAddress already exists in the Keychain
 // which is a responsibility currently handled by KeychainAccounts
 export function* getViemWallet(chain: Chain, useAppTransport?: boolean) {
