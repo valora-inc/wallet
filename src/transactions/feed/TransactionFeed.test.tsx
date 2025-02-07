@@ -21,10 +21,6 @@ import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockApprovalTransaction, mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 jest.mock('src/statsig')
-jest.mock('src/web3/utils', () => ({
-  ...jest.requireActual('src/web3/utils'),
-  getSupportedNetworkIds: jest.fn(),
-}))
 
 const mockTransaction = (
   transactionHash: string,

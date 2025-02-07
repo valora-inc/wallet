@@ -71,7 +71,6 @@ export default function TokenImportScreen(_: Props) {
   const dispatch = useDispatch()
 
   const supportedNetworkIds = getSupportedNetworkIds()
-  console.log('=====src/tokens/TokenImport.test.tsx', supportedNetworkIds)
   const networkShouldBeEditable = supportedNetworkIds.length > 1
 
   const [tokenAddress, setTokenAddress] = useState<string | undefined>()

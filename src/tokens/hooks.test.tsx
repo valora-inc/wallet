@@ -32,10 +32,6 @@ import {
 } from 'test/values'
 
 jest.mock('src/statsig')
-jest.mock('src/web3/utils', () => ({
-  ...jest.requireActual('src/web3/utils'),
-  getSupportedNetworkIds: jest.fn(),
-}))
 
 beforeEach(() => {
   jest.clearAllMocks()

@@ -10,9 +10,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
-import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore, getElementText } from 'test/utils'
 import {
   mockCeurTokenId,
@@ -98,15 +96,6 @@ const staleTokens = {
     },
   },
 }
-
-jest
-  .mocked(getSupportedNetworkIds)
-  .mockReturnValue([
-    NetworkId['ethereum-sepolia'],
-    NetworkId['celo-alfajores'],
-    NetworkId['arbitrum-sepolia'],
-    NetworkId['op-sepolia'],
-  ])
 
 // Behavior specific to AssetsTokenBalance
 describe('AssetsTokenBalance', () => {

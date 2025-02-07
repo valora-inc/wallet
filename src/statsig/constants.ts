@@ -43,9 +43,9 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.SWAP_CONFIG,
     defaultValues: {
       maxSlippagePercentage: '0.3',
-      enableAppFee: true,
-      popularTokenIds: [] as string[], // TODO
-      enabled: true,
+      enableAppFee: false,
+      popularTokenIds: [] as string[],
+      enabled: false,
       priceImpactWarningThreshold: 4,
     },
   },
@@ -82,7 +82,7 @@ export const DynamicConfigs = {
     defaultValues: {
       minRequiredVersion: '0.0.0',
       links: {
-        web: 'https://valora.xyz/', // TODO: remove
+        web: 'https://valora.xyz/',
         tos: 'https://valora.xyz/terms',
         privacy: 'https://valora.xyz/privacy',
         faq: 'https://valora.xyz/faq',
@@ -103,7 +103,7 @@ export const DynamicConfigs = {
   [StatsigDynamicConfigs.EARN_CONFIG]: {
     configName: StatsigDynamicConfigs.EARN_CONFIG,
     defaultValues: {
-      supportedPools: [] as string[], // TODO
+      supportedPools: [] as string[],
       supportedAppIds: [] as string[],
     },
   },

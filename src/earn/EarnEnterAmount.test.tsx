@@ -23,7 +23,6 @@ import {
   PreparedTransactionsPossible,
 } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
-import { getSupportedNetworkIds } from 'src/web3/utils'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
@@ -46,13 +45,6 @@ import {
 jest.mock('src/earn/hooks')
 jest.mock('react-native-localize')
 jest.mock('src/statsig') // for cross chain swap and indirect use in hooksApiSelector
-jest
-  .mocked(getSupportedNetworkIds)
-  .mockReturnValue([
-    NetworkId['arbitrum-sepolia'],
-    NetworkId['celo-alfajores'],
-    NetworkId['ethereum-sepolia'],
-  ])
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,

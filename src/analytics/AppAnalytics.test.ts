@@ -44,7 +44,6 @@ jest.mock('src/web3/utils', () => ({
   ...jest.requireActual('src/web3/utils'),
   getSupportedNetworkIds: jest.fn(),
 }))
-jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
 
 const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-info.ts (but importing from that file causes weird errors)
 const expectedSessionId = '453e535d43b22002185f316d5b41561010d9224580bfb608da132e74b128227a'
@@ -216,6 +215,7 @@ describe('AppAnalytics', () => {
     mockConfig.STATSIG_ENABLED = true
     mockStore.getState.mockImplementation(() => state)
     jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
   })
 
   describe('init', () => {

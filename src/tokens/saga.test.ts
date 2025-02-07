@@ -45,7 +45,6 @@ import {
 import { getContract } from 'viem'
 
 jest.mock('src/statsig', () => ({
-  getSupportedNetworkIds: jest.fn(),
   getFeatureGate: jest.fn(),
 }))
 jest.mock('src/web3/networkConfig', () => {
