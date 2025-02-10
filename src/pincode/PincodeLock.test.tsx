@@ -1,4 +1,4 @@
-import { BIOMETRY_TYPE } from '@interaxyz/react-native-keychain'
+import { BIOMETRY_TYPE } from '@divvi/react-native-keychain'
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'

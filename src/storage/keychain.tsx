@@ -1,4 +1,4 @@
-import * as Keychain from '@interaxyz/react-native-keychain'
+import * as Keychain from '@divvi/react-native-keychain'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 

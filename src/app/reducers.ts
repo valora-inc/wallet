@@ -1,4 +1,4 @@
-import { BIOMETRY_TYPE } from '@interaxyz/react-native-keychain'
+import { BIOMETRY_TYPE } from '@divvi/react-native-keychain'
 import { Platform } from 'react-native'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'

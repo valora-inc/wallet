@@ -1,4 +1,4 @@
-import { BIOMETRY_TYPE } from '@interaxyz/react-native-keychain'
+import { BIOMETRY_TYPE } from '@divvi/react-native-keychain'
 import * as RNLocalize from 'react-native-localize'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
