@@ -19,7 +19,7 @@ export function createRegistrationTransactions(
     data: encodeFunctionData({
       abi: registryContractAbi,
       functionName: 'registerReferral',
-      args: [APP_REGISTRY_NAME, protocolId],
+      args: [APP_REGISTRY_NAME, protocolId], // TODO check if it's okay to use APP_REGISTRY_NAME - will builders already know this?
     }),
   }))
 }
@@ -52,6 +52,9 @@ export function* monitorRegistrationTransactions(txHashes: Hash[], network: Netw
             protocolId as SupportedProtocolIds
           )
         )
+      } else {
+        // TODO handle UserAlreadyRegistered, log warning if the registration does not belong to this app
+        // TODO handle ReferrerNotRegistered - what do we do here? queue it up for later?
       }
     })
   )
