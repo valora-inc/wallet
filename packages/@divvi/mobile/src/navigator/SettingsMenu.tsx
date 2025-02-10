@@ -39,6 +39,7 @@ import Lock from 'src/icons/Lock'
 import Wallet from 'src/icons/navigator/Wallet'
 import Preferences from 'src/icons/Preferences'
 import Stack from 'src/icons/Stack'
+import DivviLogo from 'src/images/DivviLogo'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -188,8 +189,8 @@ export default function SettingsMenu({ route }: Props) {
   }
 
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <ProfileMenuOption />
         <SettingsItemTextValue
           icon={<Wallet size={24} color={Colors.contentPrimary} />}
@@ -267,6 +268,9 @@ export default function SettingsMenu({ route }: Props) {
           </View>
         </TouchableWithoutFeedback>
         {getDevSettingsComp()}
+        <View style={styles.logo}>
+          <DivviLogo />
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
@@ -277,6 +281,12 @@ SettingsMenu.navigationOptions = () => ({
 })
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+  },
   profileContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -325,5 +335,10 @@ const styles = StyleSheet.create({
   },
   debugInfoText: {
     ...typeScale.bodySmall,
+  },
+  logo: {
+    marginTop: 'auto',
+    paddingVertical: Spacing.Thick24,
+    alignItems: 'center',
   },
 })
