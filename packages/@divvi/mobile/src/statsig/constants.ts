@@ -1,11 +1,5 @@
-import {
-  StatsigDynamicConfigs,
-  StatsigExperiments,
-  StatsigMultiNetworkDynamicConfig,
-  StatsigParameter,
-} from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
@@ -38,25 +32,11 @@ export const DynamicConfigs = {
       cico: 30,
     },
   },
-  [StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES]: {
-    configName: StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES,
-    defaultValues: {
-      showCico: [networkConfig.defaultNetworkId],
-      showBalances: [networkConfig.defaultNetworkId],
-      showSend: [networkConfig.defaultNetworkId],
-      showSwap: [networkConfig.defaultNetworkId],
-      showTransfers: [networkConfig.defaultNetworkId],
-      showWalletConnect: [networkConfig.defaultNetworkId],
-      showApprovalTxsInHomefeed: [] as NetworkId[],
-      showNfts: [networkConfig.defaultNetworkId],
-      showPositions: [networkConfig.defaultNetworkId],
-      showShortcuts: [networkConfig.defaultNetworkId],
-    },
-  },
   [StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]: {
     configName: StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG,
     defaultValues: {
       disabledMediaPlaybackRequiresUserActionOrigins: [] as string[],
+      inAppWebviewEnabled: true,
     },
   },
   [StatsigDynamicConfigs.SWAP_CONFIG]: {
@@ -66,6 +46,7 @@ export const DynamicConfigs = {
       enableAppFee: false,
       popularTokenIds: [] as string[],
       enabled: false,
+      priceImpactWarningThreshold: 4,
     },
   },
   [StatsigDynamicConfigs.CICO_TOKEN_INFO]: {
@@ -113,6 +94,9 @@ export const DynamicConfigs = {
         inviteRewardsStableTokenLearnMore:
           'https://valora.xyz/support/invite-rewards-stabletoken-learn-more',
         earnStablecoinsLearnMore: 'https://valora.xyz/stablecoin-earn',
+        celoEducation: 'https://valoraapp.com/support/quick-guide',
+        dappList: 'https://api.mainnet.valora.xyz/dappList',
+        celoNews: 'https://blog.celo.org',
       },
     },
   },
@@ -131,7 +115,7 @@ export const DynamicConfigs = {
     },
   },
 } satisfies {
-  [key in StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig]: {
+  [key in StatsigDynamicConfigs]: {
     configName: key
     defaultValues: { [key: string]: StatsigParameter }
   }

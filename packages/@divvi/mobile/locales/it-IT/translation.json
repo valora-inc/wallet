@@ -2867,6 +2867,11 @@
       "info": "Stai visualizzando l'applicazione in modalità demo",
       "cta": "Esci dalla demo"
     },
+    "restrictedAccess": {
+      "title": "In modalità demo",
+      "info": "Non puoi completare questa azione perché stai visualizzando l'applicazione in modalità demo.",
+      "cta": "Esci dalla demo"
+    },
     "inAppIndicatorLabel": "Modalità demo"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

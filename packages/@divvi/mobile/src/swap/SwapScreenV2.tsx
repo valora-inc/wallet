@@ -42,7 +42,7 @@ import FeeInfoBottomSheet from 'src/swap/FeeInfoBottomSheet'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import getCrossChainFee from 'src/swap/getCrossChainFee'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
-import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/swap/selectors'
+import { currentSwapSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
 import { AppFeeAmount, Field, SwapFeeAmount } from 'src/swap/types'
 import useFilterChips from 'src/swap/useFilterChips'
@@ -54,12 +54,12 @@ import {
   tokensByIdSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'SwapScreen'
@@ -86,9 +86,8 @@ export default function SwapScreenV2({ route }: Props) {
   const showUKCompliantVariant = getFeatureGate(StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT)
   const { swappableFromTokens, swappableToTokens, areSwapTokensShuffled } = useSwappableTokens()
   const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
-  const { maxSlippagePercentage, enableAppFee } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
-  )
+  const { maxSlippagePercentage, enableAppFee, priceImpactWarningThreshold } =
+    getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG])
 
   const inputFromRef = useRef<RNTextInput>(null)
   const inputToRef = useRef<RNTextInput>(null)
@@ -119,10 +118,7 @@ export default function SwapScreenV2({ route }: Props) {
 
   const currentSwap = useSelector(currentSwapSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
-  const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
-  const tokensById = useSelector((state) =>
-    tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
-  )
+  const tokensById = useSelector((state) => tokensByIdSelector(state, getSupportedNetworkIds()))
   const crossChainFeeCurrency = useSelector((state) =>
     feeCurrenciesSelector(state, fromToken?.networkId || networkConfig.defaultNetworkId)
   ).find((token) => token.isNative)

@@ -271,35 +271,14 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   // RemoteConfigValues is in app/saga.ts
 
   const fiatAccountSchemaCountryOverrides = flags.fiatAccountSchemaCountryOverrides?.asString()
-  const celoNewsString = flags.celoNews?.asString()
 
   return {
-    // these next 2 flags are a bit weird because their default is undefined or null
-    // and the default map cannot have a value of undefined or null
-    // that is why we still need to check for it before calling a method
-    // in the future it would be great to avoid using these as default values
-    celoEducationUri: flags.celoEducationUri?.asString() ?? null,
-    dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
     inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
-    walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
-    pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
-    logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
-    allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
-    sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
-    sentryNetworkErrors: flags.sentryNetworkErrors.asString().split(','),
-    maxNumRecentDapps: flags.maxNumRecentDapps.asNumber(),
-    dappsWebViewEnabled: flags.dappsWebViewEnabled.asBoolean(),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
       ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
-    coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
-    maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
-    networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
-    celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
-    // Convert to percentage, so we're consistent with the price impact value returned by our swap API
-    priceImpactWarningThreshold: flags.priceImpactWarningThreshold.asNumber() * 100,
   }
 }
 

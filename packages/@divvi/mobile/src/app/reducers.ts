@@ -1,7 +1,6 @@
+import { BIOMETRY_TYPE } from '@divvi/react-native-keychain'
 import { Platform } from 'react-native'
-import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { CeloNewsConfig } from 'src/celoNews/types'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
@@ -21,25 +20,15 @@ interface State {
   locked: boolean
   lastTimeBackgrounded: number
   sessionId: string
-  celoEducationUri: string | null
   activeScreen: Screens
-  walletConnectV2Enabled: boolean
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
-  logPhoneNumberTypeEnabled: boolean
   googleMobileServicesAvailable?: boolean
   huaweiMobileServicesAvailable?: boolean
-  pincodeUseExpandedBlocklist: boolean
-  sentryTracesSampleRate: number
-  sentryNetworkErrors: string[]
   supportedBiometryType: BIOMETRY_TYPE | null
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
-  coinbasePayEnabled: boolean
-  maxSwapSlippagePercentage: number
   inviterAddress: string | null
-  networkTimeoutSeconds: number
-  celoNews: CeloNewsConfig
   hapticFeedbackEnabled: boolean
   pushNotificationRequestedUnixTime: number | null
   pushNotificationsEnabled: boolean
@@ -63,23 +52,13 @@ const initialState = {
   locked: false,
   lastTimeBackgrounded: 0,
   sessionId: '',
-  celoEducationUri: null,
   activeScreen: Screens.Main,
-  walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
-  logPhoneNumberTypeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.logPhoneNumberTypeEnabled,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
-  pincodeUseExpandedBlocklist: REMOTE_CONFIG_VALUES_DEFAULTS.pincodeUseExpandedBlocklist,
-  sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
-  sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
   supportedBiometryType: null,
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
-  coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
-  maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
   inviterAddress: null,
-  networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
-  celoNews: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.celoNews),
   hapticFeedbackEnabled: true,
   pushNotificationRequestedUnixTime: null,
   pushNotificationsEnabled: false,
@@ -167,18 +146,8 @@ export const appReducer = (
     case Actions.UPDATE_REMOTE_CONFIG_VALUES:
       return {
         ...state,
-        celoEducationUri: action.configValues.celoEducationUri,
-        walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
-        logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
-        pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
-        sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
-        sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
-        coinbasePayEnabled: action.configValues.coinbasePayEnabled,
-        maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
-        networkTimeoutSeconds: action.configValues.networkTimeoutSeconds,
-        celoNews: action.configValues.celoNews,
       }
     case Actions.ACTIVE_SCREEN_CHANGED:
       return {

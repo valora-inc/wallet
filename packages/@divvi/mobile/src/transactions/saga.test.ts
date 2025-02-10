@@ -8,7 +8,6 @@ import { EarnEvents, SwapEvents } from 'src/analytics/Events'
 import { trackPointsEvent } from 'src/points/slice'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import {
   handleTransactionFeedV2ApiFulfilled,
   internalWatchPendingTransactionsInNetwork,
@@ -27,6 +26,7 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
 import {
   mockAaveArbUsdcTokenId,
@@ -42,10 +42,7 @@ import {
   mockTokenBalances,
 } from 'test/values'
 
-jest.mock('src/statsig', () => ({
-  ...jest.requireActual('src/statsig'),
-  getFeatureGate: jest.fn(),
-}))
+jest.mock('src/statsig')
 
 const mockCrossChainSwapTransaction: TokenExchange = {
   type: TokenTransactionTypeV2.CrossChainSwapTransaction,
@@ -325,10 +322,9 @@ describe('watchPendingTransactions', () => {
     await expectSaga(watchPendingTransactions)
       .provide([
         [
-          call(getSupportedNetworkIdsForSend),
+          call(getSupportedNetworkIds),
           [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
         ],
-        [call(getSupportedNetworkIdsForSwap), [NetworkId['celo-alfajores']]],
         [matchers.spawn.fn(watchPendingTransactionsInNetwork), null],
       ])
       .run()
@@ -345,8 +341,7 @@ describe('watchPendingTransactions', () => {
   it('does spawn a watching loop for only allowed network', async () => {
     await expectSaga(watchPendingTransactions)
       .provide([
-        [call(getSupportedNetworkIdsForSend), [NetworkId['celo-alfajores']]],
-        [call(getSupportedNetworkIdsForSwap), [NetworkId['celo-alfajores']]],
+        [call(getSupportedNetworkIds), [NetworkId['celo-alfajores']]],
         [matchers.spawn.fn(watchPendingTransactionsInNetwork), null],
       ])
       .run()
@@ -401,6 +396,7 @@ describe('handleTransactionFeedV2ApiFulfilled', () => {
           },
         }).getState()
       )
+      .provide([[call(getSupportedNetworkIds), [NetworkId['celo-alfajores']]]])
       .put(transactionsConfirmedFromFeedApi(transactions))
       .run()
 
@@ -477,6 +473,7 @@ describe('handleTransactionFeedV2ApiFulfilled', () => {
           },
         }).getState()
       )
+      .provide([[call(getSupportedNetworkIds), [NetworkId['celo-alfajores']]]])
       .put(transactionsConfirmedFromFeedApi(transactions))
       .run()
 

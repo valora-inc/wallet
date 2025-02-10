@@ -1,6 +1,6 @@
+import * as Keychain from '@divvi/react-native-keychain'
 import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import React from 'react'
-import * as Keychain from 'react-native-keychain'
 import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -56,7 +56,7 @@ describe('VerificationStartScreen', () => {
       password: 'some signed message',
       username: 'username',
       service: 'service',
-      storage: 'storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
     const { getByText, getByTestId, queryByTestId, queryByText } = renderComponent()
 
@@ -75,7 +75,7 @@ describe('VerificationStartScreen', () => {
       password: 'some signed message',
       username: 'username',
       service: 'service',
-      storage: 'storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
     const { getByText, getByTestId } = renderComponent({ hasOnboarded: false })
 
@@ -96,7 +96,7 @@ describe('VerificationStartScreen', () => {
       password: 'some signed message',
       username: 'username',
       service: 'service',
-      storage: 'storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
     const { getByText, getByTestId, queryByTestId } = renderComponent({ hasOnboarded: false }, true)
 
@@ -152,7 +152,7 @@ describe('VerificationStartScreen', () => {
       password: 'some signed message',
       username: 'username',
       service: 'service',
-      storage: 'storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
     const { getByText, getByTestId } = renderComponent({ hasOnboarded: false })
 
@@ -175,7 +175,7 @@ describe('VerificationStartScreen', () => {
       password: 'some signed message',
       username: 'username',
       service: 'service',
-      storage: 'storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
     const { getByText, getByTestId } = renderComponent({ hasOnboarded: false }, true)
 
@@ -198,7 +198,7 @@ describe('VerificationStartScreen', () => {
       password: 'some signed message',
       username: 'username',
       service: 'service',
-      storage: 'storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
     const { getByText, getByTestId } = renderComponent({ hasOnboarded: true }, false)
 

@@ -31,7 +31,7 @@ import AssetList from 'src/tokens/AssetList'
 import AssetTabBar from 'src/tokens/AssetTabBar'
 import { sortedTokensWithBalanceSelector } from 'src/tokens/selectors'
 import { AssetTabType } from 'src/tokens/types'
-import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TabWallet>
 
@@ -159,7 +159,7 @@ function TabWallet({ navigation, route }: Props) {
 
   const configuredEmptyState = getAppConfig().experimental?.wallet?.emptyState
 
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const supportedNetworkIds = getSupportedNetworkIds()
   const hasTokens =
     useSelector((state) => sortedTokensWithBalanceSelector(state, supportedNetworkIds)).length > 0
 

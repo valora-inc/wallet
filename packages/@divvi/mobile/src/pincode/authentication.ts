@@ -5,8 +5,8 @@
  * The password is a combination of the two. It is used for unlocking the account in the keychain
  */
 
+import * as Keychain from '@divvi/react-native-keychain'
 import crypto from 'crypto'
-import * as Keychain from 'react-native-keychain'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -45,8 +45,6 @@ import { getKeychainAccounts } from 'src/web3/contracts'
 import { call, select } from 'typed-redux-saga'
 import { sha256 } from 'viem'
 
-const PIN_BLOCKLIST = require('src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json')
-
 const TAG = 'pincode/authentication'
 
 enum STORAGE_KEYS {
@@ -63,60 +61,6 @@ export const PIN_LENGTH = 6
 export const DEFAULT_CACHE_ACCOUNT = 'default'
 export const CANCELLED_PIN_INPUT = 'CANCELLED_PIN_INPUT'
 export const BIOMETRY_VERIFICATION_DELAY = 800
-
-/**
- * Pin blocklist that loads from the bundle resources a pre-configured list and allows it to be
- * searched to determine if a given PIN should be allowed.
- *
- * @remarks Blocklist format is a sorted list of blocked 6-digit PINs, each encoded as their
- * big-endian numeric representation, truncated to 3-bytes. When bundled as a resource, this binary
- * structure is base64 encoded and formatted as JSON string literal.
- */
-export class PinBlocklist {
-  private readonly buffer: Buffer
-
-  constructor() {
-    this.buffer = Buffer.from(PIN_BLOCKLIST, 'base64')
-  }
-
-  public size(): number {
-    return Math.floor(this.buffer.length / 3)
-  }
-
-  public contains(pin: string): boolean {
-    // Parse the provided 6-digit PIN into an integer in the range [1000000, 0].
-    const target = parseInt(pin)
-    if (isNaN(target) || target > 1e6 || target < 0 || target % 1 !== 0) {
-      throw new Error('failed to parse integer from blocklist search PIN')
-    }
-
-    // Recursively defined binary search in the sorted blocklist.
-    const search = (blocklist: Buffer, target: number): boolean => {
-      if (blocklist.length === 0) {
-        return false
-      }
-
-      const blocklistSize = Math.floor(blocklist.length / 3)
-      const middle = Math.floor(blocklistSize / 2)
-      const pivot = Buffer.concat([
-        Buffer.from([0]),
-        blocklist.slice(middle * 3, (middle + 1) * 3),
-      ]).readUInt32BE(0)
-
-      if (target === pivot) {
-        return true
-      }
-
-      if (target < pivot) {
-        return search(blocklist.slice(0, middle * 3), target)
-      } else {
-        return search(blocklist.slice((middle + 1) * 3), target)
-      }
-    }
-
-    return search(this.buffer, target)
-  }
-}
 
 const DEPRECATED_PIN_BLOCKLIST = [
   '000000',
@@ -191,7 +135,6 @@ function storePinWithBiometry(pin: string) {
     options: {
       accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
       accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
-      authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
       securityLevel: Keychain.SECURITY_LEVEL.SECURE_SOFTWARE,
     },
   })

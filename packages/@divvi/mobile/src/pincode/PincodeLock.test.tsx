@@ -1,6 +1,6 @@
+import { BIOMETRY_TYPE } from '@divvi/react-native-keychain'
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
-import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Provider } from 'react-redux'
 import { PincodeType } from 'src/account/reducer'
 import { appUnlock } from 'src/app/actions'

@@ -765,15 +765,6 @@
             ],
             "type": "object"
         },
-        "CeloNewsConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "readMoreUrl": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
         "CiCoCurrency": {
             "enum": [
                 "CELO",
@@ -3691,6 +3682,7 @@
                 "DappShortcutsRewards",
                 "DappsScreen",
                 "DebugImages",
+                "DemoModeAuthBlock",
                 "EarnConfirmationScreen",
                 "EarnEnterAmount",
                 "EarnHome",
@@ -3985,6 +3977,36 @@
         },
         "StandbyTransaction": {
             "anyOf": [
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<TokenTransfer>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<TokenApproval>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<NftTransfer>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<DepositOrWithdraw>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnWithdraw>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnClaimReward>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<PendingTokenExchange>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<ClaimReward>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyTransaction<EarnSwapDeposit>"
+                },
                 {
                     "additionalProperties": false,
                     "properties": {
@@ -4651,36 +4673,6 @@
                         "type"
                     ],
                     "type": "object"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<PendingTokenExchange>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<TokenTransfer>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<TokenApproval>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<NftTransfer>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<DepositOrWithdraw>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<ClaimReward>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnDeposit>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnSwapDeposit>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnWithdraw>"
-                },
-                {
-                    "$ref": "#/definitions/PendingStandbyTransaction<EarnClaimReward>"
                 }
             ]
         },
@@ -4695,18 +4687,6 @@
                 },
                 "appState": {
                     "$ref": "#/definitions/AppState"
-                },
-                "celoEducationUri": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "celoNews": {
-                    "$ref": "#/definitions/CeloNewsConfig"
-                },
-                "coinbasePayEnabled": {
-                    "type": "boolean"
                 },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
@@ -4744,17 +4724,8 @@
                 "locked": {
                     "type": "boolean"
                 },
-                "logPhoneNumberTypeEnabled": {
-                    "type": "boolean"
-                },
                 "loggedIn": {
                     "type": "boolean"
-                },
-                "maxSwapSlippagePercentage": {
-                    "type": "number"
-                },
-                "networkTimeoutSeconds": {
-                    "type": "number"
                 },
                 "pendingDeepLinks": {
                     "items": {
@@ -4763,9 +4734,6 @@
                     "type": "array"
                 },
                 "phoneNumberVerified": {
-                    "type": "boolean"
-                },
-                "pincodeUseExpandedBlocklist": {
                     "type": "boolean"
                 },
                 "pushNotificationRequestedUnixTime": {
@@ -4779,15 +4747,6 @@
                 },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
-                },
-                "sentryNetworkErrors": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "sentryTracesSampleRate": {
-                    "type": "number"
                 },
                 "sessionId": {
                     "type": "string"
@@ -4812,18 +4771,12 @@
                             "type": "null"
                         }
                     ]
-                },
-                "walletConnectV2Enabled": {
-                    "type": "boolean"
                 }
             },
             "required": [
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
-                "celoEducationUri",
-                "celoNews",
-                "coinbasePayEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
@@ -4832,31 +4785,21 @@
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",
-                "logPhoneNumberTypeEnabled",
                 "loggedIn",
-                "maxSwapSlippagePercentage",
-                "networkTimeoutSeconds",
                 "pendingDeepLinks",
                 "phoneNumberVerified",
-                "pincodeUseExpandedBlocklist",
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
                 "requirePinOnAppOpen",
-                "sentryNetworkErrors",
-                "sentryTracesSampleRate",
                 "sessionId",
                 "showNotificationSpotlight",
-                "supportedBiometryType",
-                "walletConnectV2Enabled"
+                "supportedBiometryType"
             ],
             "type": "object"
         },
         "State_1": {
             "additionalProperties": false,
             "properties": {
-                "allowOtaTranslations": {
-                    "type": "boolean"
-                },
                 "language": {
                     "type": [
                         "null",
@@ -4874,7 +4817,6 @@
                 }
             },
             "required": [
-                "allowOtaTranslations",
                 "language",
                 "otaTranslationsAppVersion",
                 "otaTranslationsLanguage",
@@ -5193,12 +5135,6 @@
                         }
                     ]
                 },
-                "dappListApiUrl": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
                 "dappsCategories": {
                     "items": {
                         "$ref": "#/definitions/DappCategory"
@@ -5220,17 +5156,11 @@
                 "dappsListLoading": {
                     "type": "boolean"
                 },
-                "dappsWebViewEnabled": {
-                    "type": "boolean"
-                },
                 "favoriteDappIds": {
                     "items": {
                         "type": "string"
                     },
                     "type": "array"
-                },
-                "maxNumRecentDapps": {
-                    "type": "number"
                 },
                 "mostPopularDappIds": {
                     "items": {
@@ -5247,14 +5177,11 @@
             },
             "required": [
                 "activeDapp",
-                "dappListApiUrl",
                 "dappsCategories",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
-                "dappsWebViewEnabled",
                 "favoriteDappIds",
-                "maxNumRecentDapps",
                 "mostPopularDappIds",
                 "recentDappIds"
             ],
@@ -5433,16 +5360,11 @@
                         "type": "string"
                     },
                     "type": "array"
-                },
-                "priceImpactWarningThreshold": {
-                    "description": "In percentage, between 0 and 100",
-                    "type": "number"
                 }
             },
             "required": [
                 "currentSwap",
-                "lastSwapped",
-                "priceImpactWarningThreshold"
+                "lastSwapped"
             ],
             "type": "object"
         },
@@ -6011,6 +5933,7 @@
                         "DappShortcutsRewards",
                         "DappsScreen",
                         "DebugImages",
+                        "DemoModeAuthBlock",
                         "EarnConfirmationScreen",
                         "EarnEnterAmount",
                         "EarnHome",
@@ -6500,10 +6423,10 @@
         "TokenTransaction": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/TokenExchange"
+                    "$ref": "#/definitions/TokenTransfer"
                 },
                 {
-                    "$ref": "#/definitions/TokenTransfer"
+                    "$ref": "#/definitions/TokenExchange"
                 },
                 {
                     "$ref": "#/definitions/TokenApproval"
@@ -6515,6 +6438,12 @@
                     "$ref": "#/definitions/DepositOrWithdraw"
                 },
                 {
+                    "$ref": "#/definitions/EarnWithdraw"
+                },
+                {
+                    "$ref": "#/definitions/EarnClaimReward"
+                },
+                {
                     "$ref": "#/definitions/ClaimReward"
                 },
                 {
@@ -6522,12 +6451,6 @@
                 },
                 {
                     "$ref": "#/definitions/EarnSwapDeposit"
-                },
-                {
-                    "$ref": "#/definitions/EarnWithdraw"
-                },
-                {
-                    "$ref": "#/definitions/EarnClaimReward"
                 }
             ]
         },

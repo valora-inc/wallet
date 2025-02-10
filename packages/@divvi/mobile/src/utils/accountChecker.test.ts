@@ -1,5 +1,5 @@
+import * as Keychain from '@divvi/react-native-keychain'
 import * as Sentry from '@sentry/react-native'
-import * as Keychain from 'react-native-keychain'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'
 import { clearStoredAccounts } from 'src/web3/KeychainAccounts'
@@ -48,7 +48,7 @@ describe('resetStateOnInvalidStoredAccount', () => {
       password: 'some hash',
       username: 'username',
       service: 'service',
-      storage: 'storage',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
     const state = getMockStoreData()
     expect(walletAddressSelector(state)).toEqual('0x0000000000000000000000000000000000007e57')

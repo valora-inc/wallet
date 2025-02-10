@@ -17,7 +17,6 @@ import {
   fetchTokenBalancesFailure,
   setTokenBalances,
 } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -25,6 +24,7 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { call, put, select, spawn, take } from 'typed-redux-saga'
 import { Address, erc20Abi, getContract } from 'viem'
 
@@ -39,7 +39,7 @@ export interface FetchedTokenBalance {
 export async function fetchTokenBalancesForAddress(
   address: string
 ): Promise<FetchedTokenBalance[]> {
-  const networkIds = getSupportedNetworkIdsForTokenBalances()
+  const networkIds = getSupportedNetworkIds()
 
   const url = new URL(networkConfig.getWalletBalancesUrl)
   url.searchParams.set('address', address)
@@ -86,7 +86,7 @@ export function* fetchTokenBalancesSaga() {
     }
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
 
-    const supportedNetworks = getSupportedNetworkIdsForTokenBalances()
+    const supportedNetworks = getSupportedNetworkIds()
     const importedTokens = yield* select(importedTokensSelector, supportedNetworks)
     const networkIconByNetworkId = yield* select(networksIconSelector)
 
@@ -160,7 +160,7 @@ export function* watchAccountFundedOrLiquidated() {
     // we reset the usd value of all token balances to 0 if the exchange rate is
     // stale, so it is okay to use stale token prices to monitor the account
     // funded / liquidated status in this case
-    const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+    const supportedNetworkIds = getSupportedNetworkIds()
     const supportedNetworkIdsSet = new Set(supportedNetworkIds)
     const tokenBalance: ReturnType<typeof lastKnownTokenBalancesSelector> = yield* select(
       lastKnownTokenBalancesSelector,

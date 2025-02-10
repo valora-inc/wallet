@@ -46,7 +46,8 @@ import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { sortedTokensWithBalanceOrShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { AssetTabType } from 'src/tokens/types'
-import { getSupportedNetworkIdsForTokenBalances, getTokenAnalyticsProps } from 'src/tokens/utils'
+import { getTokenAnalyticsProps } from 'src/tokens/utils'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 interface SectionData {
   appName?: string
@@ -93,7 +94,7 @@ export default function AssetList({
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const supportedNetworkIds = getSupportedNetworkIds()
   const tokens = useSelector((state) =>
     sortedTokensWithBalanceOrShowZeroBalanceSelector(state, supportedNetworkIds)
   )

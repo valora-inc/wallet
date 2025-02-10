@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
+import * as RNFS from '@divvi/react-native-fs'
 import * as Sentry from '@sentry/react-native'
 import { SeverityLevel } from '@sentry/types'
 import { format } from 'date-fns'
 import { Platform } from 'react-native'
-import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, LOGGER_LEVEL } from 'src/config'
 import { LoggerLevel } from 'src/utils/LoggerLevels'

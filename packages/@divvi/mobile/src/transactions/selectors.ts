@@ -1,26 +1,13 @@
 import { createSelector } from 'reselect'
 import { type RootState } from 'src/redux/reducers'
-import { getSupportedNetworkIdsForApprovalTxsInHomefeed } from 'src/tokens/utils'
 import {
   type ConfirmedStandbyTransaction,
   type NetworkId,
   TokenTransaction,
-  TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
 
 const allStandbyTransactionsSelector = (state: RootState) => state.transactions.standbyTransactions
-const standbyTransactionsSelector = createSelector(
-  [allStandbyTransactionsSelector, getSupportedNetworkIdsForApprovalTxsInHomefeed],
-  (standbyTransactions, supportedNetworkIdsForApprovalTxs) => {
-    return standbyTransactions.filter((tx) => {
-      if (tx.type === TokenTransactionTypeV2.Approval) {
-        return supportedNetworkIdsForApprovalTxs.includes(tx.networkId)
-      }
-      return true
-    })
-  }
-)
 
 export const formattedStandByTransactionsSelector = createSelector(
   [allStandbyTransactionsSelector],
@@ -41,7 +28,7 @@ export const formattedStandByTransactionsSelector = createSelector(
 )
 
 export const pendingStandbyTransactionsSelector = createSelector(
-  [standbyTransactionsSelector],
+  [allStandbyTransactionsSelector],
   (transactions) => {
     return transactions
       .filter((transaction) => transaction.status === TransactionStatus.Pending)
@@ -55,7 +42,7 @@ export const pendingStandbyTransactionsSelector = createSelector(
 )
 
 export const confirmedStandbyTransactionsSelector = createSelector(
-  [standbyTransactionsSelector],
+  [allStandbyTransactionsSelector],
   (transactions) => {
     return transactions.filter(
       (transaction): transaction is ConfirmedStandbyTransaction =>
@@ -69,17 +56,10 @@ const transactionsByNetworkIdSelector = (state: RootState) =>
   state.transactions.transactionsByNetworkId
 
 export const transactionsSelector = createSelector(
-  [transactionsByNetworkIdSelector, getSupportedNetworkIdsForApprovalTxsInHomefeed],
-  (transactions, supportedNetworkIdsForApprovalTxs) => {
+  [transactionsByNetworkIdSelector],
+  (transactions) => {
     const transactionsForAllNetworks = Object.values(transactions).flat()
-    return transactionsForAllNetworks
-      .sort((a, b) => b.timestamp - a.timestamp)
-      .filter((tx) => {
-        if (tx.type === TokenTransactionTypeV2.Approval) {
-          return supportedNetworkIdsForApprovalTxs.includes(tx.networkId)
-        }
-        return true
-      })
+    return transactionsForAllNetworks.sort((a, b) => b.timestamp - a.timestamp)
   }
 )
 
@@ -116,7 +96,7 @@ export const completedTxHashesByNetworkIdSelector = createSelector(
 )
 
 export const pendingStandbyTxHashesByNetworkIdSelector = createSelector(
-  [standbyTransactionsSelector],
+  [allStandbyTransactionsSelector],
   (transactions) => {
     const hashesByNetwork: {
       [networkId in NetworkId]?: Set<string>

@@ -12,12 +12,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { APPROX_SYMBOL } from 'src/components/TokenEnterAmount'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import {
-  getDynamicConfigParams,
-  getExperimentParams,
-  getFeatureGate,
-  getMultichainFeatures,
-} from 'src/statsig'
+import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
 import { swapStart } from 'src/swap/slice'
@@ -322,16 +317,13 @@ describe('SwapScreen', () => {
     jest.mocked(getExperimentParams).mockReturnValue({
       swapBuyAmountEnabled: true,
     })
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showSwap: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-      showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       maxSlippagePercentage: '0.3',
       popularTokenIds: [],
       links: {
         transactionFeesLearnMore: mockTxFeesLearnMoreUrl,
       },
+      priceImpactWarningThreshold: 4,
     })
 
     const originalReadContract = publicClient.celo.readContract
@@ -1806,10 +1798,6 @@ describe('SwapScreen', () => {
 
     it('should show "popular" tokens', () => {
       const mockedPopularTokens = [mockUSDCTokenId, mockPoofTokenId]
-      jest.mocked(getMultichainFeatures).mockReturnValue({
-        showSwap: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-        showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-      })
       jest.mocked(getDynamicConfigParams).mockReturnValue({
         popularTokenIds: mockedPopularTokens,
         maxSlippagePercentage: '0.3',

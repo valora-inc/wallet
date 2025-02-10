@@ -6,7 +6,7 @@ import { getAppConfig } from 'src/appConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { PublicAppConfig } from 'src/public/types'
-import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import TabWallet from 'src/tokens/TabWallet'
 import { NetworkId } from 'src/transactions/types'
@@ -147,9 +147,6 @@ describe('TabWallet', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(getFeatureGate).mockRestore()
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showBalances: [NetworkId['celo-alfajores']],
-    })
     mockGetAppConfig.mockReturnValue(defaultConfig)
   })
 

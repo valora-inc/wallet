@@ -1,18 +1,18 @@
+import * as Keychain from '@divvi/react-native-keychain'
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
+import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import ProfileSubmenu from 'src/account/ProfileSubmenu'
 import { Screens } from 'src/navigator/Screens'
+import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
-import { FetchMock } from 'jest-fetch-mock/types'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number } from 'test/values'
-import networkConfig from 'src/web3/networkConfig'
-import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
-import * as Keychain from 'react-native-keychain'
 const mockFetch = fetch as FetchMock
 const mockedKeychain = jest.mocked(Keychain)
-import Logger from 'src/utils/Logger'
 
 jest.mock('src/utils/Logger')
 
@@ -20,7 +20,7 @@ mockedKeychain.getGenericPassword.mockResolvedValue({
   username: 'some username',
   password: 'someSignedMessage',
   service: 'some service',
-  storage: 'some string',
+  storage: Keychain.STORAGE_TYPE.RSA,
 })
 
 describe('ProfileSubmenu', () => {
