@@ -15,11 +15,14 @@ import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
 import { mockNftAllFields, mockNftMinimumFields } from 'test/values'
 
 jest.mock('src/statsig')
+jest.mock('src/config', () => ({
+  ...jest.requireActual('src/config'),
+  ENABLED_NETWORK_IDS: ['celo-alfajores', 'ethereum-sepolia'],
+}))
 
 const loggerDebugSpy = jest.spyOn(Logger, 'debug')
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
@@ -71,9 +74,6 @@ describe('Given Nfts saga', () => {
     beforeEach(() => {
       mockFetch.resetMocks()
       jest.clearAllMocks()
-      jest
-        .mocked(getSupportedNetworkIds)
-        .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
     })
 
     it("should fetch user's NFTs", async () => {

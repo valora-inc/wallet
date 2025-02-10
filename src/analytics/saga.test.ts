@@ -4,11 +4,12 @@ import { select } from 'redux-saga/effects'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { updateUserTraits } from 'src/analytics/saga'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
-import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
-import { getSupportedNetworkIds } from 'src/web3/utils'
 
-jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
+jest.mock('src/config', () => ({
+  ...jest.requireActual('src/config'),
+  ENABLED_NETWORK_IDS: ['celo-alfajores'],
+}))
 
 describe(updateUserTraits, () => {
   beforeAll(() => {

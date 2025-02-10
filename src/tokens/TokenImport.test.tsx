@@ -24,7 +24,10 @@ jest.mock('viem', () => ({
   ...jest.requireActual('viem'),
   getContract: jest.fn(),
 }))
-
+jest.mock('src/web3/utils', () => ({
+  ...jest.requireActual('src/web3/utils'),
+  getSupportedNetworkIds: jest.fn(),
+}))
 jest.mock('src/statsig')
 
 const mockScreenProps = getMockStackScreenProps(Screens.TokenImport)

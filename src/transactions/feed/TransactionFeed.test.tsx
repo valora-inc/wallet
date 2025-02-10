@@ -16,11 +16,14 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
-import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockApprovalTransaction, mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 jest.mock('src/statsig')
+jest.mock('src/config', () => ({
+  ...jest.requireActual('src/config'),
+  ENABLED_NETWORK_IDS: ['celo-alfajores'],
+}))
 
 const mockTransaction = (
   transactionHash: string,
@@ -160,7 +163,6 @@ describe('TransactionFeed', () => {
   const mockFetch = fetch as FetchMock
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       jumpstartContracts: {
         ['celo-alfajores']: { contractAddress: '0x7bf3fefe9881127553d23a8cd225a2c2442c438c' },

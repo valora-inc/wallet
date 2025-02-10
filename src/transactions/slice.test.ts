@@ -13,7 +13,6 @@ import {
   TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
-import { getSupportedNetworkIds } from 'src/web3/utils'
 import { getMockStoreData } from 'test/utils'
 
 jest.mock('src/statsig')
@@ -277,8 +276,6 @@ describe('transactions reducer', () => {
 describe('selector', () => {
   describe('pendingStandbyTransactionsSelector', () => {
     it('should return pending transactions with default values if unavailable', () => {
-      jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-mainnet']])
-
       const standbyCrossChainSwap = {
         feeCurrencyId: 'celo-mainnet:native',
         inAmount: {

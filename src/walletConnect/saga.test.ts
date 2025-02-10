@@ -42,6 +42,10 @@ import { BaseError } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 jest.mock('src/statsig')
+jest.mock('src/web3/utils', () => ({
+  ...jest.requireActual('src/web3/utils'),
+  getSupportedNetworkIds: jest.fn(),
+}))
 
 function createSessionProposal(
   proposerMetadata: CoreTypes.Metadata
