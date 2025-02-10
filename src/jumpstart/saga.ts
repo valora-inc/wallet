@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
+import { isRegistrationTransaction } from 'src/divviProtocol/registerReferral'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import {
   JumpstarReclaimAction,
@@ -34,7 +35,6 @@ import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
-import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { all, call, fork, put, select, spawn, takeEvery } from 'typed-redux-saga'
@@ -242,17 +242,21 @@ export function* sendJumpstartTransactions(
     }
 
     const createStandbyTxHandlers = []
-    const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
+    const preparedJumpstartTransactions = serializablePreparedTransactions.filter(
+      (tx) => !isRegistrationTransaction(tx)
+    )
+
+    // TODO: how to know if we have 1 approval + 1 send, vs 1 send + 1 registration?
 
     // in this flow, there should only be 1 or 2 transactions. if there are 2
     // transactions, the first one should be an approval.
-    if (preparedTransactions.length > 2) {
+    if (preparedJumpstartTransactions.length > 2) {
       throw new Error(
         'Received more than the maximum expected number of transactions, only 2 is allowed'
       )
     }
 
-    if (preparedTransactions.length === 2) {
+    if (preparedJumpstartTransactions.length === 2) {
       const createApprovalStandbyTx = (
         txHash: string,
         feeCurrencyId?: string

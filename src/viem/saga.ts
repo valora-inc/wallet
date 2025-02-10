@@ -1,5 +1,7 @@
-import { REGISTRY_CONTRACT_ADDRESS } from 'src/divviProtocol/constants'
-import { monitorRegistrationTransactions } from 'src/divviProtocol/registerReferral'
+import {
+  isRegistrationTransaction,
+  sendPreparedRegistrationTransactions,
+} from 'src/divviProtocol/registerReferral'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
@@ -7,7 +9,7 @@ import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { getFeeCurrencyToken } from 'src/viem/prepareTransactions'
+import { TransactionRequest, getFeeCurrencyToken } from 'src/viem/prepareTransactions'
 import {
   SerializableTransactionRequest,
   getPreparedTransactions,
@@ -17,7 +19,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { demoModeEnabledSelector } from 'src/web3/selectors'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
-import { call, fork, put, select } from 'typed-redux-saga'
+import { call, put, select, spawn } from 'typed-redux-saga'
 import { Hash } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
@@ -53,10 +55,6 @@ export function* sendPreparedTransactions(
     throw CANCELLED_PIN_INPUT
   }
 
-  if (serializablePreparedTransactions.length !== createBaseStandbyTransactions.length) {
-    throw new Error('Mismatch in number of prepared transactions and standby transaction creators')
-  }
-
   const network = getNetworkFromNetworkId(networkId)
   if (!network) {
     throw new Error(`No matching network found for network id: ${networkId}`)
@@ -68,6 +66,20 @@ export function* sendPreparedTransactions(
     throw new Error('No account found in the wallet')
   }
 
+  const preparedTransactions: TransactionRequest[] = []
+  const preparedRegistrationTransactions: TransactionRequest[] = []
+  getPreparedTransactions(serializablePreparedTransactions).forEach((tx) => {
+    if (isRegistrationTransaction(tx)) {
+      preparedRegistrationTransactions.push(tx)
+    } else {
+      preparedTransactions.push(tx)
+    }
+  })
+
+  if (preparedTransactions.length !== createBaseStandbyTransactions.length) {
+    throw new Error('Mismatch in number of prepared transactions and standby transaction creators')
+  }
+
   // Unlock account before executing tx
   yield* call(getConnectedUnlockedAccount)
 
@@ -77,9 +89,7 @@ export function* sendPreparedTransactions(
     blockTag: 'pending',
   })
 
-  const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
   const txHashes: Hash[] = []
-  const registrationTxHashes: Hash[] = []
   for (let i = 0; i < preparedTransactions.length; i++) {
     const preparedTransaction = preparedTransactions[i]
     const createBaseStandbyTransaction = createBaseStandbyTransactions[i]
@@ -98,26 +108,24 @@ export function* sendPreparedTransactions(
       hash
     )
 
-    if (preparedTransaction.to === REGISTRY_CONTRACT_ADDRESS) {
-      registrationTxHashes.push(hash)
-    } else {
-      const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
-      const feeCurrencyId = getFeeCurrencyToken(
-        [preparedTransaction],
-        networkId,
-        tokensById
-      )?.tokenId
+    const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
+    const feeCurrencyId = getFeeCurrencyToken([preparedTransaction], networkId, tokensById)?.tokenId
 
-      const standByTx = createBaseStandbyTransaction(hash, feeCurrencyId)
-      if (standByTx) {
-        yield* put(addStandbyTransaction(standByTx))
-      }
-      txHashes.push(hash)
+    const standByTx = createBaseStandbyTransaction(hash, feeCurrencyId)
+    if (standByTx) {
+      yield* put(addStandbyTransaction(standByTx))
     }
+    txHashes.push(hash)
   }
 
-  if (registrationTxHashes.length > 0) {
-    yield* fork(monitorRegistrationTransactions, registrationTxHashes, network)
+  if (preparedRegistrationTransactions.length > 0) {
+    yield* spawn(
+      sendPreparedRegistrationTransactions,
+      preparedRegistrationTransactions,
+      network,
+      wallet,
+      nonce
+    )
   }
 
   return txHashes
