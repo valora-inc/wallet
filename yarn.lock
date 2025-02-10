@@ -1176,6 +1176,11 @@
     base-64 "^0.1.0"
     utf8 "^3.0.0"
 
+"@divvi/react-native-keychain@^9.2.2":
+  version "9.2.2"
+  resolved "https://registry.yarnpkg.com/@divvi/react-native-keychain/-/react-native-keychain-9.2.2.tgz#9379a89f4199e70b39eafdc60a2fd81037a65e25"
+  integrity sha512-akPEW3R1e9eSyo0O2aoPf+vEpVx3KJ/s6GTQO/4tCTYEQZsaBZiCSc7FnS+HEO7xAWX6Zq66pnqYdywT0nBT3w==
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
@@ -1675,11 +1680,6 @@
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
-
-"@interaxyz/react-native-keychain@^9.2.2":
-  version "9.2.2"
-  resolved "https://registry.yarnpkg.com/@interaxyz/react-native-keychain/-/react-native-keychain-9.2.2.tgz#4e32c162ac3fabe4d2b9eb10b2b4f79a480d19a6"
-  integrity sha512-Gd8PSr/H0AA/XgU8/Xo5uzJ27im6Nghl/K3vkvu54HBa07Bc4eBRNhr5g+JoMrji3z8eRXBRRFuMmslz9jGP2g==
 
 "@interaxyz/react-native-webview@^13.13.4":
   version "13.13.4"

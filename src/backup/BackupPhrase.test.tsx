@@ -1,4 +1,4 @@
-import * as Keychain from '@interaxyz/react-native-keychain'
+import * as Keychain from '@divvi/react-native-keychain'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'

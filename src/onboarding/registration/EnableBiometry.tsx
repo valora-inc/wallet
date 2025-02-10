@@ -1,4 +1,4 @@
-import * as Keychain from '@interaxyz/react-native-keychain'
+import * as Keychain from '@divvi/react-native-keychain'
 import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useLayoutEffect } from 'react'

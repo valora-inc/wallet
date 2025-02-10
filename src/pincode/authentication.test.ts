@@ -1,4 +1,4 @@
-import * as Keychain from '@interaxyz/react-native-keychain'
+import * as Keychain from '@divvi/react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { PincodeType } from 'src/account/reducer'
