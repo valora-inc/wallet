@@ -246,8 +246,6 @@ export function* sendJumpstartTransactions(
       (tx) => !isRegistrationTransaction(tx)
     )
 
-    // TODO: how to know if we have 1 approval + 1 send, vs 1 send + 1 registration?
-
     // in this flow, there should only be 1 or 2 transactions. if there are 2
     // transactions, the first one should be an approval.
     if (preparedJumpstartTransactions.length > 2) {
