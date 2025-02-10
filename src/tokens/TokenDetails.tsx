@@ -50,12 +50,9 @@ import {
 import { sortedTokensWithBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenAction, TokenActionName } from 'src/tokens/types'
-import {
-  getSupportedNetworkIdsForSend,
-  getTokenAnalyticsProps,
-  isHistoricalPriceUpdated,
-} from 'src/tokens/utils'
+import { getTokenAnalyticsProps, isHistoricalPriceUpdated } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
@@ -163,7 +160,7 @@ function PriceInfo({ token }: { token: TokenBalance }) {
 
 export const useActions = (token: TokenBalance) => {
   const { t } = useTranslation()
-  const supportedNetworkIdsForSend = getSupportedNetworkIdsForSend()
+  const supportedNetworkIdsForSend = getSupportedNetworkIds()
   const sendableTokensWithBalance = useSelector((state) =>
     sortedTokensWithBalanceSelector(state, supportedNetworkIdsForSend)
   )

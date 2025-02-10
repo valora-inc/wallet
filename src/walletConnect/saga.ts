@@ -21,7 +21,6 @@ import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
-import { getSupportedNetworkIdsForWalletConnect } from 'src/tokens/utils'
 import { Network } from 'src/transactions/types'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
@@ -74,6 +73,7 @@ import networkConfig, {
 } from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 import { demoModeEnabledSelector, walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import {
   call,
   delay,
@@ -335,7 +335,7 @@ function* showSessionRequest(session: Web3WalletTypes.EventArguments['session_pr
 export const _showSessionRequest = showSessionRequest
 
 function getSupportedChains() {
-  const supportedNetworkIdsForWalletConnect = getSupportedNetworkIdsForWalletConnect()
+  const supportedNetworkIdsForWalletConnect = getSupportedNetworkIds()
   return supportedNetworkIdsForWalletConnect.map((networkId) => {
     return networkIdToWalletConnectChainId[networkId]
   })

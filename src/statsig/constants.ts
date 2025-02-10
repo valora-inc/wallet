@@ -1,11 +1,5 @@
-import {
-  StatsigDynamicConfigs,
-  StatsigExperiments,
-  StatsigMultiNetworkDynamicConfig,
-  StatsigParameter,
-} from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
@@ -36,21 +30,6 @@ export const DynamicConfigs = {
     defaultValues: {
       default: 15,
       cico: 30,
-    },
-  },
-  [StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES]: {
-    configName: StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES,
-    defaultValues: {
-      showCico: [networkConfig.defaultNetworkId],
-      showBalances: [networkConfig.defaultNetworkId],
-      showSend: [networkConfig.defaultNetworkId],
-      showSwap: [networkConfig.defaultNetworkId],
-      showTransfers: [networkConfig.defaultNetworkId],
-      showWalletConnect: [networkConfig.defaultNetworkId],
-      showApprovalTxsInHomefeed: [] as NetworkId[],
-      showNfts: [networkConfig.defaultNetworkId],
-      showPositions: [networkConfig.defaultNetworkId],
-      showShortcuts: [networkConfig.defaultNetworkId],
     },
   },
   [StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]: {
@@ -136,7 +115,7 @@ export const DynamicConfigs = {
     },
   },
 } satisfies {
-  [key in StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig]: {
+  [key in StatsigDynamicConfigs]: {
     configName: key
     defaultValues: { [key: string]: StatsigParameter }
   }

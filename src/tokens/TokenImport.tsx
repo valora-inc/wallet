@@ -29,12 +29,13 @@ import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
 import { networksIconSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { importToken } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForTokenBalances, getTokenId } from 'src/tokens/utils'
+import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import {
   Address,
   BaseError,
@@ -69,7 +70,7 @@ export default function TokenImportScreen(_: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const supportedNetworkIds = getSupportedNetworkIds()
   const networkShouldBeEditable = supportedNetworkIds.length > 1
 
   const [tokenAddress, setTokenAddress] = useState<string | undefined>()

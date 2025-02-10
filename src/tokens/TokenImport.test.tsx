@@ -3,9 +3,9 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
 import { importToken } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdAddress, mockPoofAddress } from 'test/values'
 import {
@@ -24,11 +24,11 @@ jest.mock('viem', () => ({
   ...jest.requireActual('viem'),
   getContract: jest.fn(),
 }))
-
-jest.mock('src/tokens/utils', () => ({
-  ...jest.requireActual('src/tokens/utils'),
-  getSupportedNetworkIdsForTokenBalances: jest.fn(),
+jest.mock('src/web3/utils', () => ({
+  ...jest.requireActual('src/web3/utils'),
+  getSupportedNetworkIds: jest.fn(),
 }))
+jest.mock('src/statsig')
 
 const mockScreenProps = getMockStackScreenProps(Screens.TokenImport)
 
@@ -53,7 +53,7 @@ describe('TokenImport', () => {
 
   describe('when only Celo network is enabled', () => {
     beforeEach(() => {
-      mocked(getSupportedNetworkIdsForTokenBalances).mockReturnValue([NetworkId['celo-alfajores']])
+      mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
     })
 
     it('renders correctly', () => {
@@ -254,7 +254,7 @@ describe('TokenImport', () => {
 
   describe('when more than one network is enabled', () => {
     beforeEach(() => {
-      mocked(getSupportedNetworkIdsForTokenBalances).mockReturnValue([
+      mocked(getSupportedNetworkIds).mockReturnValue([
         NetworkId['celo-alfajores'],
         NetworkId['ethereum-sepolia'],
       ])

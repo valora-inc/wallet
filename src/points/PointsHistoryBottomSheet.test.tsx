@@ -10,12 +10,6 @@ import { GetHistoryResponse } from 'src/points/types'
 import { RootState } from 'src/redux/reducers'
 import { RecursivePartial, createMockStore } from 'test/utils'
 
-jest.mock('src/statsig', () => ({
-  getMultichainFeatures: jest.fn().mockReturnValue({
-    showSwap: ['celo-alfajores'],
-  }),
-}))
-
 const MOCK_RESPONSE_NO_NEXT_PAGE: GetHistoryResponse = {
   data: [
     {

@@ -11,7 +11,6 @@ import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo } from 'src/swap/types'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { BaseStandbyTransaction } from 'src/transactions/slice'
 import {
   NetworkId,
@@ -29,7 +28,7 @@ import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
-import { getNetworkFromNetworkId } from 'src/web3/utils'
+import { getNetworkFromNetworkId, getSupportedNetworkIds } from 'src/web3/utils'
 import { call, put, select, takeEvery } from 'typed-redux-saga'
 import { decodeFunctionData, erc20Abi } from 'viem'
 
@@ -90,9 +89,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const amount = swapAmount[updatedField]
   const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
 
-  const tokensById = yield* select((state) =>
-    tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
-  )
+  const tokensById = yield* select((state) => tokensByIdSelector(state, getSupportedNetworkIds()))
   const fromToken = tokensById[fromTokenId]
   const toToken = tokensById[toTokenId]
 

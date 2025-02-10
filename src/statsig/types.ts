@@ -11,11 +11,6 @@ export enum StatsigDynamicConfigs {
   DEMO_MODE_CONFIG = 'demo_mode_config',
 }
 
-// Separating into different enum from StatsigDynamicConfigs to allow for more strict typing
-export enum StatsigMultiNetworkDynamicConfig {
-  MULTI_CHAIN_FEATURES = 'multi_chain_features',
-}
-
 export enum StatsigFeatureGates {
   SHOW_POSITIONS = 'show_positions',
   SHOW_CLAIM_SHORTCUTS = 'show_claim_shortcuts',

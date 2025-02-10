@@ -12,7 +12,7 @@ import { Status as EarnStatus } from 'src/earn/slice'
 import { CICOFlow } from 'src/fiatExchanges/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { SwapTransaction } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
@@ -45,13 +45,6 @@ import {
 jest.mock('src/earn/hooks')
 jest.mock('react-native-localize')
 jest.mock('src/statsig') // for cross chain swap and indirect use in hooksApiSelector
-jest.mocked(getMultichainFeatures).mockReturnValue({
-  showSwap: [
-    NetworkId['arbitrum-sepolia'],
-    NetworkId['celo-alfajores'],
-    NetworkId['ethereum-sepolia'],
-  ],
-})
 
 const mockPreparedTransaction: PreparedTransactionsPossible = {
   type: 'possible' as const,

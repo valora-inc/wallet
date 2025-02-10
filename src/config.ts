@@ -69,6 +69,8 @@ export const DEFAULT_FORNO_URL =
     ? 'https://forno.celo.org/'
     : 'https://alfajores-forno.celo-testnet.org/'
 
+export const ENABLED_NETWORK_IDS = configOrThrow('ENABLED_NETWORK_IDS').split(',')
+
 export const APP_BUNDLE_ID = configOrThrow('APP_BUNDLE_ID')
 export const DEEP_LINK_URL_SCHEME = configOrThrow('DEEP_LINK_URL_SCHEME')
 
