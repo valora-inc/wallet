@@ -225,10 +225,4 @@ export const FETCH_FIATCONNECT_QUOTES = true
 
 export const WALLETCONNECT_UNIVERSAL_LINK = 'https://valoraapp.com/wc'
 
-export const ENABLED_NETWORK_IDS = [
-  'arbitrum-one',
-  'base-mainnet',
-  'celo-mainnet',
-  'ethereum-mainnet',
-  'op-mainnet',
-]
+export const ENABLED_NETWORK_IDS = configOrThrow('ENABLED_NETWORK_IDS').split(',')
