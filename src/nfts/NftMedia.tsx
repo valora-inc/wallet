@@ -8,7 +8,6 @@ import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import { nftsLoadingSelector } from 'src/nfts/selectors'
 import { Nft, NftOrigin } from 'src/nfts/types'
 import { useSelector } from 'src/redux/hooks'
-import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
@@ -37,12 +36,7 @@ function Placeholder({
   borderRadius = 0,
 }: PlaceHolderProps) {
   return (
-    <SkeletonPlaceholder
-      borderRadius={borderRadius}
-      backgroundColor={colors.skeletonPlaceholderBackground}
-      highlightColor={colors.skeletonPlaceholderHighlight}
-      testID={testID}
-    >
+    <SkeletonPlaceholder borderRadius={borderRadius} testID={testID}>
       <View
         style={{
           height,
