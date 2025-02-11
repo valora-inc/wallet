@@ -36,7 +36,7 @@ import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
-import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<
@@ -108,11 +108,11 @@ export default function SendConfirmation(props: Props) {
     isSending || !prepareTransactionsResult || prepareTransactionsResult.type !== 'possible'
 
   const onSend = () => {
-    const preparedTransaction =
-      prepareTransactionsResult &&
+    const preparedTransactions =
+      !!prepareTransactionsResult &&
       prepareTransactionsResult.type === 'possible' &&
-      prepareTransactionsResult.transactions[0]
-    if (!preparedTransaction) {
+      prepareTransactionsResult.transactions
+    if (!preparedTransactions) {
       // This should never happen because the confirm button is disabled if this happens.
       dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
       return
@@ -140,7 +140,7 @@ export default function SendConfirmation(props: Props) {
         usdAmount,
         recipient,
         fromExternal,
-        getSerializablePreparedTransaction(preparedTransaction)
+        getSerializablePreparedTransactions(preparedTransactions)
       )
     )
   }

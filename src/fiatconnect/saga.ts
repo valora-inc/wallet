@@ -20,6 +20,7 @@ import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
+import { isRegistrationTransaction } from 'src/divviProtocol/registerReferral'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/types'
@@ -951,12 +952,12 @@ export function* _initiateSendTxToProvider({
   tokenInfo,
   transferAddress,
   fiatConnectQuote,
-  serializablePreparedTransaction,
+  serializablePreparedTransactions,
 }: {
   tokenInfo: TokenBalance
   transferAddress: string
   fiatConnectQuote: FiatConnectQuote
-  serializablePreparedTransaction: SerializableTransactionRequest
+  serializablePreparedTransactions: SerializableTransactionRequest[]
 }) {
   Logger.info(TAG, 'Starting transfer out transaction..')
 
@@ -982,7 +983,7 @@ export function* _initiateSendTxToProvider({
   try {
     const [hash] = yield* call(
       sendPreparedTransactions,
-      [serializablePreparedTransaction],
+      serializablePreparedTransactions,
       tokenInfo.networkId,
       [createStandbyTransaction]
     )
@@ -1010,7 +1011,7 @@ export function* _initiateSendTxToProvider({
 export function* handleCreateFiatConnectTransfer(
   action: ReturnType<typeof createFiatConnectTransfer>
 ) {
-  const { flow, fiatConnectQuote, serializablePreparedTransaction, fiatAccountId, networkId } =
+  const { flow, fiatConnectQuote, serializablePreparedTransactions, fiatAccountId, networkId } =
     action.payload
 
   const quoteId = fiatConnectQuote.getQuoteId()
@@ -1022,7 +1023,7 @@ export function* handleCreateFiatConnectTransfer(
     )
 
     if (flow === CICOFlow.CashOut) {
-      if (!serializablePreparedTransaction) {
+      if (!serializablePreparedTransactions) {
         throw new Error('Missing serializablePreparedTransaction for cash out')
       }
       if (!networkId) {
@@ -1040,7 +1041,11 @@ export function* handleCreateFiatConnectTransfer(
 
       // update the prepared transaction to use the transferAddress as the
       // recipient. up to this point in the flow, this value was not known.
-      serializablePreparedTransaction.data = encodeFunctionData({
+      // there should only be one fiatconnect transaction.
+      const fiatConnectTransferIndex = serializablePreparedTransactions.findIndex(
+        (tx) => !isRegistrationTransaction(tx)
+      )
+      serializablePreparedTransactions[fiatConnectTransferIndex].data = encodeFunctionData({
         abi: erc20Abi,
         functionName: 'transfer',
         args: [
@@ -1057,7 +1062,7 @@ export function* handleCreateFiatConnectTransfer(
         tokenInfo,
         transferAddress,
         fiatConnectQuote,
-        serializablePreparedTransaction,
+        serializablePreparedTransactions,
       })
       yield* put(
         cacheFiatConnectTransfer({

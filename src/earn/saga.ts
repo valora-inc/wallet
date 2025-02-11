@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import { EarnDepositTxsReceiptProperties } from 'src/analytics/Properties'
+import { isRegistrationTransaction } from 'src/divviProtocol/registerReferral'
 import {
   depositCancel,
   depositError,
@@ -80,7 +81,9 @@ export function* depositSubmitSaga(action: PayloadAction<DepositInfo>) {
   } = action.payload
   const depositTokenId = pool.dataProps.depositTokenId
 
-  const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
+  const preparedTransactions = getPreparedTransactions(
+    serializablePreparedTransactions.filter((tx) => !isRegistrationTransaction(tx))
+  )
 
   const depositTokenInfo = yield* call(getTokenInfo, depositTokenId)
   const fromTokenInfo = yield* call(getTokenInfo, fromTokenId)
@@ -312,7 +315,9 @@ export function* withdrawSubmitSaga(action: PayloadAction<WithdrawInfo>) {
     mode,
   } = action.payload
   const tokenId = pool.dataProps.depositTokenId
-  const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
+  const preparedTransactions = getPreparedTransactions(
+    serializablePreparedTransactions.filter((tx) => !isRegistrationTransaction(tx))
+  )
   const tokenInfo = yield* call(getTokenInfo, tokenId)
 
   if (!tokenInfo) {

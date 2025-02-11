@@ -148,7 +148,7 @@ export interface CreateFiatConnectTransferAction {
   flow: CICOFlow
   fiatConnectQuote: FiatConnectQuote
   fiatAccountId: string
-  serializablePreparedTransaction?: SerializableTransactionRequest
+  serializablePreparedTransactions?: SerializableTransactionRequest[]
   networkId?: NetworkId
 }
 

@@ -44,7 +44,7 @@ import {
   getFeeCurrencyAndAmounts,
   prepareERC20TransferTransaction,
 } from 'src/viem/prepareTransactions'
-import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
@@ -320,10 +320,10 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
                   flow,
                   fiatConnectQuote: normalizedQuote,
                   fiatAccountId: fiatAccount.fiatAccountId,
-                  serializablePreparedTransaction:
+                  serializablePreparedTransactions:
                     prepareTransactionsResult.result?.type === 'possible'
-                      ? getSerializablePreparedTransaction(
-                          prepareTransactionsResult.result.transactions[0] // there should be only one transaction
+                      ? getSerializablePreparedTransactions(
+                          prepareTransactionsResult.result.transactions
                         )
                       : undefined,
                   networkId: token?.networkId,
