@@ -148,4 +148,6 @@ export function* sendPreparedRegistrationTransactions(
       yield* put(registrationCompleted(networkConfig.networkToNetworkId[network], protocolId))
     }
   }
+
+  return nonce
 }

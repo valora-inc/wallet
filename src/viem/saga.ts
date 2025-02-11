@@ -19,7 +19,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { demoModeEnabledSelector } from 'src/web3/selectors'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
-import { call, put, select, spawn } from 'typed-redux-saga'
+import { call, put, select } from 'typed-redux-saga'
 import { Hash } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
@@ -89,6 +89,18 @@ export function* sendPreparedTransactions(
     blockTag: 'pending',
   })
 
+  // if there are registration transactions, send them first so that the
+  // subsequent transactions can have the referral attribution, and update the nonce
+  if (preparedRegistrationTransactions.length > 0) {
+    nonce = yield* call(
+      sendPreparedRegistrationTransactions,
+      preparedRegistrationTransactions,
+      network,
+      wallet,
+      nonce
+    )
+  }
+
   const txHashes: Hash[] = []
   for (let i = 0; i < preparedTransactions.length; i++) {
     const preparedTransaction = preparedTransactions[i]
@@ -116,16 +128,6 @@ export function* sendPreparedTransactions(
       yield* put(addStandbyTransaction(standByTx))
     }
     txHashes.push(hash)
-  }
-
-  if (preparedRegistrationTransactions.length > 0) {
-    yield* spawn(
-      sendPreparedRegistrationTransactions,
-      preparedRegistrationTransactions,
-      network,
-      wallet,
-      nonce
-    )
   }
 
   return txHashes
