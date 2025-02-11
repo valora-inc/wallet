@@ -1,6 +1,6 @@
 import { BIOMETRY_TYPE } from '@interaxyz/react-native-keychain'
 import { RemoteConfigValues } from 'src/app/saga'
-import { SupportedProtocolIds } from 'src/divviProtocol/types'
+import { SupportedProtocolIds } from 'src/divviProtocol/constants'
 import { Screens } from 'src/navigator/Screens'
 import { NetworkId } from 'src/transactions/types'
 
