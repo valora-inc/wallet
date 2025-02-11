@@ -11,8 +11,9 @@ import { ViemWallet } from 'src/viem/getLockableWallet'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { TransactionRequest } from 'src/viem/prepareTransactions'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put } from 'typed-redux-saga'
-import { decodeFunctionData, encodeFunctionData, parseEventLogs } from 'viem'
+import { Address, decodeFunctionData, encodeFunctionData, parseEventLogs } from 'viem'
 
 const TAG = 'divviProtocol/registerReferral'
 
@@ -41,6 +42,8 @@ export async function createRegistrationTransactions({
     return []
   }
 
+  // Caching registration status in Redux reduces on-chain checks but doesn’t guarantee
+  // it wasn’t completed in a previous install or session.
   const completedRegistrations = new Set(registrationsSelector(store.getState())[networkId] ?? [])
   const pendingRegistrations = DIVVI_PROTOCOL_IDS.filter(
     (protocol) => !completedRegistrations.has(protocol)
@@ -53,18 +56,24 @@ export async function createRegistrationTransactions({
   // transactions to prevent gas estimation failures later.
   const client = publicClient[networkIdToNetwork[networkId]]
   const protocolsEligibleForRegistration: string[] = []
+  const walletAddress = walletAddressSelector(store.getState()) as Address
   await Promise.all(
     pendingRegistrations.map(async (protocolId) => {
       try {
-        const [registeredReferrers] = await Promise.all([
+        const [registeredReferrers, registeredUsers] = await Promise.all([
           client.readContract({
             address: REGISTRY_CONTRACT_ADDRESS,
             abi: registryContractAbi,
             functionName: 'getReferrers',
             args: [protocolId],
           }),
-          // TODO: check if the user is already registered for the protocol when
-          // the method is added to the contract
+          // TODO: getUsers is not the correct call to get the registration status of the user for any given protocol
+          client.readContract({
+            address: REGISTRY_CONTRACT_ADDRESS,
+            abi: registryContractAbi,
+            functionName: 'getUsers',
+            args: [protocolId, referrerId],
+          }),
         ])
 
         if (!registeredReferrers.includes(referrerId)) {
@@ -72,6 +81,15 @@ export async function createRegistrationTransactions({
             `${TAG}/createRegistrationTransactions`,
             `Referrer "${referrerId}" is not registered for protocol "${protocolId}". Skipping registration transaction.`
           )
+          return
+        }
+
+        if (registeredUsers[0].includes(walletAddress)) {
+          Logger.debug(
+            `${TAG}/createRegistrationTransactions`,
+            `Referral is already registered for protocol "${protocolId}". Skipping registration transaction.`
+          )
+          store.dispatch(registrationCompleted(networkId, protocolId))
           return
         }
 
