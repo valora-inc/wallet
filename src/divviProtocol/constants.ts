@@ -1,8 +1,6 @@
-import { Address, keccak256, stringToHex } from 'viem'
+import { keccak256, stringToHex } from 'viem'
 
-export const REGISTRY_CONTRACT_ADDRESS: Address = '0x5a1a1027ac1d828e7415af7d797fba2b0cdd5575'
-
-export const supportedProtocolIdHashes: Record<string, string> = {
+const supportedProtocolIdHashes: Record<string, string> = {
   [keccak256(stringToHex('beefy'))]: 'beefy',
   [keccak256(stringToHex('tether'))]: 'tether',
   [keccak256(stringToHex('somm'))]: 'somm',
