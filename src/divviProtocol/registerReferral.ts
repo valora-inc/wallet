@@ -13,12 +13,19 @@ import { TransactionRequest } from 'src/viem/prepareTransactions'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put } from 'typed-redux-saga'
-import { Address, encodeFunctionData, parseEventLogs } from 'viem'
+import { Address, decodeFunctionData, encodeFunctionData, parseEventLogs } from 'viem'
 
 const TAG = 'divviProtocol/registerReferral'
 
 export function isRegistrationTransaction(tx: TransactionRequest | SerializableTransactionRequest) {
-  return tx.to === REGISTRY_CONTRACT_ADDRESS // TOOD add method check
+  return (
+    tx.to === REGISTRY_CONTRACT_ADDRESS &&
+    tx.data &&
+    decodeFunctionData({
+      abi: registryContractAbi,
+      data: tx.data,
+    }).functionName === 'registerReferral'
+  )
 }
 
 export async function createRegistrationTransactions({
@@ -58,6 +65,7 @@ export async function createRegistrationTransactions({
             functionName: 'getReferrers',
             args: [protocolId],
           }),
+          // TODO: getUsers is not the correct call to get the registration status of the user
           client.readContract({
             address: REGISTRY_CONTRACT_ADDRESS,
             abi: registryContractAbi,
