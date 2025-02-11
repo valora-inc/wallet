@@ -226,4 +226,5 @@ export const FETCH_FIATCONNECT_QUOTES = true
 
 export const WALLETCONNECT_UNIVERSAL_LINK = 'https://valoraapp.com/wc'
 
-export const CONNECTED_PROTOCOL_IDS: SupportedProtocolIds[] = []
+export const DIVVI_PROTOCOL_IDS: SupportedProtocolIds[] = []
+export const DIVVI_REFERRER_ID: string | undefined = undefined

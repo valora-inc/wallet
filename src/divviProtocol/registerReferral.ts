@@ -1,6 +1,6 @@
 import { registrationCompleted } from 'src/app/actions'
 import { registrationsSelector } from 'src/app/selectors'
-import { APP_REGISTRY_NAME, CONNECTED_PROTOCOL_IDS } from 'src/config'
+import { DIVVI_PROTOCOL_IDS, DIVVI_REFERRER_ID } from 'src/config'
 import { registryContractAbi } from 'src/divviProtocol/abi/Registry'
 import { REGISTRY_CONTRACT_ADDRESS, supportedProtocolIdHashes } from 'src/divviProtocol/constants'
 import { store } from 'src/redux/store'
@@ -10,9 +10,10 @@ import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { TransactionRequest } from 'src/viem/prepareTransactions'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put } from 'typed-redux-saga'
-import { encodeFunctionData, parseEventLogs } from 'viem'
+import { Address, encodeFunctionData, parseEventLogs } from 'viem'
 
 const TAG = 'divviProtocol/registerReferral'
 
@@ -20,34 +21,85 @@ export function isRegistrationTransaction(tx: TransactionRequest | SerializableT
   return tx.to === REGISTRY_CONTRACT_ADDRESS // TOOD add method check
 }
 
-export function createRegistrationTransactions({
+export async function createRegistrationTransactions({
   networkId,
 }: {
   networkId: NetworkId
-}): TransactionRequest[] {
+}): Promise<TransactionRequest[]> {
+  const referrerId = DIVVI_REFERRER_ID
+  if (!referrerId) {
+    Logger.debug(
+      `${TAG}/createRegistrationTransactions`,
+      'No referrer id set. Skipping registration transactions.'
+    )
+    return []
+  }
+
   const completedRegistrations = new Set(registrationsSelector(store.getState())[networkId] ?? [])
-  const unregisteredProtocols = CONNECTED_PROTOCOL_IDS.filter(
+  const pendingRegistrations = DIVVI_PROTOCOL_IDS.filter(
     (protocol) => !completedRegistrations.has(protocol)
   )
+  if (pendingRegistrations.length === 0) {
+    return []
+  }
 
-  // TODO: read the contract and only create the transactions if the referrer
-  // and protocol are registered. The gas estimation always fails when the
-  // referrer or protocolId has not been registered, which will prevent the
-  // sending of any transactions through preparedTransactions.
+  // Ensure the referrer and protocol are registered before creating
+  // transactions to prevent gas estimation failures later.
+  const client = publicClient[networkIdToNetwork[networkId]]
+  const protocolsEligibleForRegistration: string[] = []
+  const walletAddress = walletAddressSelector(store.getState()) as Address
+  await Promise.all(
+    pendingRegistrations.map(async (protocolId) => {
+      try {
+        const [registeredReferrers, registeredUsers] = await Promise.all([
+          client.readContract({
+            address: REGISTRY_CONTRACT_ADDRESS,
+            abi: registryContractAbi,
+            functionName: 'getReferrers',
+            args: [protocolId],
+          }),
+          client.readContract({
+            address: REGISTRY_CONTRACT_ADDRESS,
+            abi: registryContractAbi,
+            functionName: 'getUsers',
+            args: [protocolId, referrerId],
+          }),
+        ])
 
-  // TODO: Also check if the user is already registered, if so, do not prepare
-  // the transaction and dispatch the action to store the protocol as
-  // registered.
+        if (!registeredReferrers.includes(referrerId)) {
+          Logger.error(
+            `${TAG}/createRegistrationTransactions`,
+            `Referrer "${referrerId}" is not registered for protocol "${protocolId}". Skipping registration transaction.`
+          )
+          return
+        }
 
-  return unregisteredProtocols.map((protocolId) => ({
+        if (registeredUsers[0].includes(walletAddress)) {
+          Logger.debug(
+            `${TAG}/createRegistrationTransactions`,
+            `Referral is already registered for protocol "${protocolId}". Skipping registration transaction.`
+          )
+          store.dispatch(registrationCompleted(networkId, protocolId))
+          return
+        }
+
+        protocolsEligibleForRegistration.push(protocolId)
+      } catch (error) {
+        Logger.error(
+          `${TAG}/createRegistrationTransactions`,
+          `Error reading registered referrers for protocol "${protocolId}". Skipping registration transaction.`,
+          error
+        )
+      }
+    })
+  )
+
+  return protocolsEligibleForRegistration.map((protocolId) => ({
     to: REGISTRY_CONTRACT_ADDRESS,
     data: encodeFunctionData({
       abi: registryContractAbi,
       functionName: 'registerReferral',
-      // TODO: we need to clearly document that the referrer name is the app
-      // registry name, since the referrer registration is done separately to
-      // building the app.
-      args: [APP_REGISTRY_NAME, protocolId],
+      args: [referrerId, protocolId],
     }),
   }))
 }
@@ -83,14 +135,6 @@ export function* sendPreparedRegistrationTransactions(
         eventName: ['ReferralRegistered'],
         logs: receipt.logs,
       })
-
-      if (parsedLogs.length !== 1) {
-        Logger.error(
-          'divvyProtocol/monitorRegistrationTransactions',
-          'Unexpected number of matching logs for ReferralRegistered event'
-        )
-        return
-      }
 
       const protocolId = supportedProtocolIdHashes[parsedLogs[0].args.protocolId]
       if (!protocolId) {

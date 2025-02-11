@@ -292,7 +292,9 @@ export async function prepareTransactions({
   isGasSubsidized?: boolean
   origin: TransactionOrigin
 }): Promise<PreparedTransactionsResult> {
-  const registrationTxs = createRegistrationTransactions({ networkId: feeCurrencies[0].networkId })
+  const registrationTxs = await createRegistrationTransactions({
+    networkId: feeCurrencies[0].networkId,
+  })
   if (registrationTxs.length > 0) {
     baseTransactions.push(...registrationTxs)
   }
