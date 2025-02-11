@@ -19,5 +19,4 @@ export const supportedProtocolIdHashes: Record<string, SupportedProtocolIds> = {
   [keccak256(stringToHex('offchainlabs'))]: 'offchainlabs',
   [keccak256(stringToHex('euler'))]: 'euler',
   [keccak256(stringToHex('ubeswap'))]: 'ubeswap',
-  [keccak256(stringToHex('testProtocol1'))]: 'testProtocol1',
 }
