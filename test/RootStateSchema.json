@@ -4742,7 +4742,7 @@
                     "type": "boolean"
                 },
                 "registrations": {
-                    "$ref": "#/definitions/{beefy?:NetworkId[]|undefined;tether?:NetworkId[]|undefined;somm?:NetworkId[]|undefined;celo?:NetworkId[]|undefined;aerodrome?:NetworkId[]|undefined;velodrome?:NetworkId[]|undefined;vana?:NetworkId[]|undefined;curve?:NetworkId[]|undefined;farcaster?:NetworkId[]|undefined;mento?:NetworkId[]|undefined;yearn?:NetworkId[]|undefined;fonbnk?:NetworkId[]|undefined;offchainlabs?:NetworkId[]|undefined;euler?:NetworkId[]|undefined;ubeswap?:NetworkId[]|undefined;}"
+                    "$ref": "#/definitions/{\"celo-mainnet\"?:string[]|undefined;\"celo-alfajores\"?:string[]|undefined;\"ethereum-mainnet\"?:string[]|undefined;\"ethereum-sepolia\"?:string[]|undefined;\"arbitrum-one\"?:string[]|undefined;\"arbitrum-sepolia\"?:string[]|undefined;\"op-mainnet\"?:string[]|undefined;\"op-sepolia\"?:string[]|undefined;\"polygon-pos-mainnet\"?:string[]|undefined;\"polygon-pos-amoy\"?:string[]|undefined;\"base-mainnet\"?:string[]|undefined;\"base-sepolia\"?:string[]|undefined;}"
                 },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
@@ -6759,6 +6759,84 @@
             ],
             "type": "object"
         },
+        "{\"celo-mainnet\"?:string[]|undefined;\"celo-alfajores\"?:string[]|undefined;\"ethereum-mainnet\"?:string[]|undefined;\"ethereum-sepolia\"?:string[]|undefined;\"arbitrum-one\"?:string[]|undefined;\"arbitrum-sepolia\"?:string[]|undefined;\"op-mainnet\"?:string[]|undefined;\"op-sepolia\"?:string[]|undefined;\"polygon-pos-mainnet\"?:string[]|undefined;\"polygon-pos-amoy\"?:string[]|undefined;\"base-mainnet\"?:string[]|undefined;\"base-sepolia\"?:string[]|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "arbitrum-one": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "arbitrum-sepolia": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "base-mainnet": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "base-sepolia": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "celo-alfajores": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "celo-mainnet": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "ethereum-mainnet": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "ethereum-sepolia": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "op-mainnet": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "op-sepolia": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "polygon-pos-amoy": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "polygon-pos-mainnet": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
         "{AccountNumber?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;MobileMoney?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;DuniaWallet?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IBANNumber?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IFSCAccount?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;PIXAccount?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;keyType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;key?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;}": {
             "additionalProperties": false,
             "properties": {
@@ -6779,102 +6857,6 @@
                 },
                 "PIXAccount": {
                     "$ref": "#/definitions/{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;keyType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;key?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}"
-                }
-            },
-            "type": "object"
-        },
-        "{beefy?:NetworkId[]|undefined;tether?:NetworkId[]|undefined;somm?:NetworkId[]|undefined;celo?:NetworkId[]|undefined;aerodrome?:NetworkId[]|undefined;velodrome?:NetworkId[]|undefined;vana?:NetworkId[]|undefined;curve?:NetworkId[]|undefined;farcaster?:NetworkId[]|undefined;mento?:NetworkId[]|undefined;yearn?:NetworkId[]|undefined;fonbnk?:NetworkId[]|undefined;offchainlabs?:NetworkId[]|undefined;euler?:NetworkId[]|undefined;ubeswap?:NetworkId[]|undefined;}": {
-            "additionalProperties": false,
-            "properties": {
-                "aerodrome": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "beefy": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "celo": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "curve": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "euler": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "farcaster": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "fonbnk": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "mento": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "offchainlabs": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "somm": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "tether": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "ubeswap": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "vana": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "velodrome": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
-                },
-                "yearn": {
-                    "items": {
-                        "$ref": "#/definitions/NetworkId"
-                    },
-                    "type": "array"
                 }
             },
             "type": "object"
