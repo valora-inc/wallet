@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics, SwapTxsReceiptProperties } from 'src/analytics/Properties'
+import { isRegistrationTransaction } from 'src/divviProtocol/registerReferral'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
@@ -88,7 +89,9 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   } = quote
   const amountType = updatedField === Field.TO ? ('buyAmount' as const) : ('sellAmount' as const)
   const amount = swapAmount[updatedField]
-  const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
+  const preparedSwapTransactions = getPreparedTransactions(
+    serializablePreparedTransactions.filter((tx) => !isRegistrationTransaction(tx))
+  )
 
   const tokensById = yield* select((state) =>
     tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
@@ -143,7 +146,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       (Number(appFeePercentageIncludedInPrice) / 100) * Number(estimatedSellTokenUsdValue),
     web3Library: 'viem' as const,
     areSwapTokensShuffled,
-    ...getSwapTxsAnalyticsProperties(preparedTransactions, fromToken.networkId, tokensById),
+    ...getSwapTxsAnalyticsProperties(preparedSwapTransactions, fromToken.networkId, tokensById),
     swapType,
   }
 
@@ -165,7 +168,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       throw new Error('Unknown token network')
     }
 
-    for (const tx of preparedTransactions) {
+    for (const tx of preparedSwapTransactions) {
       trackedTxs.push({
         tx,
         txHash: undefined,
@@ -182,12 +185,16 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     // If there are 2 transactions, the first should be an approval. verify and
     // add a standby transaction for it
-    if (preparedTransactions.length > 1 && preparedTransactions[0].data) {
+    if (preparedSwapTransactions.length > 1 && preparedSwapTransactions[0].data) {
       const { functionName, args } = yield* call(decodeFunctionData, {
         abi: erc20Abi,
-        data: preparedTransactions[0].data,
+        data: preparedSwapTransactions[0].data,
       })
-      if (functionName === 'approve' && preparedTransactions[0].to === fromToken.address && args) {
+      if (
+        functionName === 'approve' &&
+        preparedSwapTransactions[0].to === fromToken.address &&
+        args
+      ) {
         const approvedAmountInSmallestUnit = args[1] as bigint
         const approvedAmount = new BigNumber(approvedAmountInSmallestUnit.toString())
           .shiftedBy(-fromToken.decimals)

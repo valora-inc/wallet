@@ -44,7 +44,7 @@ export interface SendPaymentAction {
   usdAmount: BigNumber | null
   recipient: Recipient
   fromExternal: boolean
-  preparedTransaction: SerializableTransactionRequest
+  preparedTransactions: SerializableTransactionRequest[]
 }
 
 export interface SendPaymentSuccessAction {
@@ -109,7 +109,7 @@ export const sendPayment = (
   usdAmount: BigNumber | null,
   recipient: Recipient,
   fromExternal: boolean,
-  preparedTransaction: SerializableTransactionRequest
+  preparedTransactions: SerializableTransactionRequest[]
 ): SendPaymentAction => ({
   type: Actions.SEND_PAYMENT,
   amount,
@@ -117,7 +117,7 @@ export const sendPayment = (
   usdAmount,
   recipient,
   fromExternal,
-  preparedTransaction,
+  preparedTransactions,
 })
 
 export const sendPaymentSuccess = ({

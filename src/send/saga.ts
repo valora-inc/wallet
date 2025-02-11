@@ -45,7 +45,7 @@ export function* sendPaymentSaga({
   usdAmount,
   recipient,
   fromExternal,
-  preparedTransaction: serializablePreparedTransaction,
+  preparedTransactions: serializablePreparedTransactions,
 }: SendPaymentAction) {
   try {
     SentryTransactionHub.startTransaction(SentryTransaction.send_payment)
@@ -92,7 +92,7 @@ export function* sendPaymentSaga({
 
     const [hash] = yield* call(
       sendPreparedTransactions,
-      [serializablePreparedTransaction],
+      serializablePreparedTransactions,
       tokenInfo.networkId,
       [createStandbyTransaction]
     )
