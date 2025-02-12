@@ -1,6 +1,8 @@
 import { BIOMETRY_TYPE } from '@divvi/react-native-keychain'
 import { RemoteConfigValues } from 'src/app/saga'
+import { SupportedProtocolId } from 'src/divviProtocol/constants'
 import { Screens } from 'src/navigator/Screens'
+import { NetworkId } from 'src/transactions/types'
 
 // https://facebook.github.io/react-native/docs/appstate
 export enum AppState {
@@ -11,7 +13,6 @@ export enum AppState {
 
 export enum Actions {
   SET_APP_STATE = 'APP/SET_APP_STATE',
-  SET_LOGGED_IN = 'APP/SET_LOGGED_IN',
   SET_SUPPORTED_BIOMETRY_TYPE = 'APP/SET_SUPPORTED_BIOMETRY_TYPE',
   OPEN_DEEP_LINK = 'APP/OPEN_DEEP_LINK',
   DEEP_LINK_DEFERRED = 'APP/DEEP_LINK_DEFERRED',
@@ -34,16 +35,12 @@ export enum Actions {
   IN_APP_REVIEW_REQUESTED = 'APP/IN_APP_REVIEW_REQUESTED',
   NOTIFICATION_SPOTLIGHT_SEEN = 'APP/NOTIFICATION_SPOTLIGHT_SEEN',
   TOGGLE_HIDE_BALANCES = 'APP/TOGGLE_HIDE_BALANCES',
+  DIVVI_REGISTRATION_COMPLETED = 'APP/DIVVI_REGISTRATION_COMPLETED',
 }
 
 export interface SetAppState {
   type: Actions.SET_APP_STATE
   state: string
-}
-
-interface SetLoggedIn {
-  type: Actions.SET_LOGGED_IN
-  loggedIn: boolean
 }
 
 interface SetSupportedBiometryType {
@@ -157,9 +154,14 @@ interface ToggleHideBalances {
   type: Actions.TOGGLE_HIDE_BALANCES
 }
 
+interface DivviRegistrationCompleted {
+  type: Actions.DIVVI_REGISTRATION_COMPLETED
+  networkId: NetworkId
+  protocolId: SupportedProtocolId
+}
+
 export type ActionTypes =
   | SetAppState
-  | SetLoggedIn
   | SetSupportedBiometryType
   | OpenDeepLink
   | SetAnalyticsEnabled
@@ -182,15 +184,11 @@ export type ActionTypes =
   | NotificationSpotlightSeen
   | ToggleHideBalances
   | DeepLinkDeferred
+  | DivviRegistrationCompleted
 
 export const setAppState = (state: string): SetAppState => ({
   type: Actions.SET_APP_STATE,
   state,
-})
-
-export const setLoggedIn = (loggedIn: boolean) => ({
-  type: Actions.SET_LOGGED_IN,
-  loggedIn,
 })
 
 export const setSupportedBiometryType = (supportedBiometryType: BIOMETRY_TYPE | null) => ({
@@ -338,5 +336,16 @@ export const notificationSpotlightSeen = (): NotificationSpotlightSeen => {
 export const toggleHideBalances = (): ToggleHideBalances => {
   return {
     type: Actions.TOGGLE_HIDE_BALANCES,
+  }
+}
+
+export const divviRegistrationCompleted = (
+  networkId: NetworkId,
+  protocolId: SupportedProtocolId
+): DivviRegistrationCompleted => {
+  return {
+    type: Actions.DIVVI_REGISTRATION_COMPLETED,
+    networkId,
+    protocolId,
   }
 }

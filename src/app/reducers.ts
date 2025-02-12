@@ -2,9 +2,11 @@ import { BIOMETRY_TYPE } from '@divvi/react-native-keychain'
 import { Platform } from 'react-native'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
+import { SupportedProtocolId } from 'src/divviProtocol/constants'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
+import { NetworkId } from 'src/transactions/types'
 
 const PERSISTED_DEEP_LINKS = [
   'https://valoraapp.com/share',
@@ -12,7 +14,6 @@ const PERSISTED_DEEP_LINKS = [
 ]
 
 interface State {
-  loggedIn: boolean
   phoneNumberVerified: boolean
   analyticsEnabled: boolean
   requirePinOnAppOpen: boolean
@@ -36,6 +37,9 @@ interface State {
   showNotificationSpotlight: boolean
   hideBalances: boolean
   pendingDeepLinks: PendingDeepLink[]
+  divviRegistrations: {
+    [networkId in NetworkId]?: SupportedProtocolId[]
+  }
 }
 
 interface PendingDeepLink {
@@ -44,7 +48,6 @@ interface PendingDeepLink {
 }
 
 const initialState = {
-  loggedIn: false,
   phoneNumberVerified: false,
   analyticsEnabled: true,
   requirePinOnAppOpen: false,
@@ -66,6 +69,7 @@ const initialState = {
   showNotificationSpotlight: false,
   hideBalances: false,
   pendingDeepLinks: [],
+  divviRegistrations: {},
 }
 
 function getPersistedDeepLinks(deepLinks: PendingDeepLink[]) {
@@ -112,11 +116,6 @@ export const appReducer = (
         ...state,
         appState,
         lastTimeBackgrounded,
-      }
-    case Actions.SET_LOGGED_IN:
-      return {
-        ...state,
-        loggedIn: action.loggedIn,
       }
     case Actions.SET_ANALYTICS_ENABLED:
       return {
@@ -222,6 +221,17 @@ export const appReducer = (
         pendingDeepLinks: state.pendingDeepLinks.filter(
           (pendingDeepLink) => pendingDeepLink.url !== action.deepLink
         ),
+      }
+    case Actions.DIVVI_REGISTRATION_COMPLETED:
+      return {
+        ...state,
+        divviRegistrations: {
+          ...state.divviRegistrations,
+          [action.networkId]: [
+            ...(state.divviRegistrations[action.networkId] ?? []),
+            action.protocolId,
+          ],
+        },
       }
     default:
       return state

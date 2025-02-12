@@ -3654,6 +3654,18 @@ export const v243Schema = {
   i18n: _.omit(v242Schema.i18n, 'allowOtaTranslations'),
 }
 
+export const v244Schema = {
+  ...v243Schema,
+  _persist: {
+    ...v243Schema._persist,
+    version: 244,
+  },
+  app: {
+    ..._.omit(v243Schema.app, 'loggedIn'),
+    divviRegistrations: {},
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v243Schema as Partial<RootState>
+  return v244Schema as Partial<RootState>
 }
