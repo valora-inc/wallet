@@ -201,7 +201,7 @@ describe('sendPreparedRegistrationTransactions', () => {
       .run()
   })
 
-  it('does not throw on failures, and returns the original nonce', async () => {
+  it('does not throw on failure during sending to network, and returns the original nonce', async () => {
     const mockNonce = 157
 
     await expectSaga(
