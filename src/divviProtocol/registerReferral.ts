@@ -36,7 +36,7 @@ export function isRegistrationTransaction(tx: TransactionRequest | SerializableT
   }
 }
 
-export async function createRegistrationTransactions({
+export async function createRegistrationTransactionsIfNeeded({
   networkId,
 }: {
   networkId: NetworkId
@@ -44,7 +44,7 @@ export async function createRegistrationTransactions({
   const referrerId = DIVVI_REFERRER_ID
   if (!referrerId) {
     Logger.debug(
-      `${TAG}/createRegistrationTransactions`,
+      `${TAG}/createRegistrationTransactionsIfNeeded`,
       'No referrer id set. Skipping registration transactions.'
     )
     return []
@@ -90,7 +90,7 @@ export async function createRegistrationTransactions({
 
         if (!registeredReferrers.includes(referrerId)) {
           Logger.error(
-            `${TAG}/createRegistrationTransactions`,
+            `${TAG}/createRegistrationTransactionsIfNeeded`,
             `Referrer "${referrerId}" is not registered for protocol "${protocolId}". Skipping registration transaction.`
           )
           return
@@ -98,7 +98,7 @@ export async function createRegistrationTransactions({
 
         if (registeredUsers[0].some((address) => address.toLowerCase() === walletAddress)) {
           Logger.debug(
-            `${TAG}/createRegistrationTransactions`,
+            `${TAG}/createRegistrationTransactionsIfNeeded`,
             `Referral is already registered for protocol "${protocolId}". Skipping registration transaction.`
           )
           store.dispatch(divviRegistrationCompleted(networkId, protocolId))
@@ -108,7 +108,7 @@ export async function createRegistrationTransactions({
         protocolsEligibleForRegistration.push(protocolId)
       } catch (error) {
         Logger.error(
-          `${TAG}/createRegistrationTransactions`,
+          `${TAG}/createRegistrationTransactionsIfNeeded`,
           `Error reading registration state for protocol "${protocolId}". Skipping registration transaction.`,
           error
         )
