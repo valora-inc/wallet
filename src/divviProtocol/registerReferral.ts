@@ -96,7 +96,7 @@ export async function createRegistrationTransactions({
           return
         }
 
-        if (registeredUsers[0].includes(walletAddress)) {
+        if (registeredUsers[0].some((address) => address.toLowerCase() === walletAddress)) {
           Logger.debug(
             `${TAG}/createRegistrationTransactions`,
             `Referral is already registered for protocol "${protocolId}". Skipping registration transaction.`
@@ -109,7 +109,7 @@ export async function createRegistrationTransactions({
       } catch (error) {
         Logger.error(
           `${TAG}/createRegistrationTransactions`,
-          `Error reading registered referrers for protocol "${protocolId}". Skipping registration transaction.`,
+          `Error reading registration state for protocol "${protocolId}". Skipping registration transaction.`,
           error
         )
       }
