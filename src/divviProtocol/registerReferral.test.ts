@@ -201,7 +201,7 @@ describe('sendPreparedRegistrationTransactions', () => {
       .run()
   })
 
-  it('does not throw on failures, and returns the incremented nonce', async () => {
+  it('does not throw on failures, and returns the original nonce', async () => {
     const mockNonce = 157
 
     await expectSaga(
@@ -216,7 +216,7 @@ describe('sendPreparedRegistrationTransactions', () => {
         [matchers.call.fn(mockViemWallet.sendRawTransaction), throwError(new Error('failure'))],
       ])
       .not.put(divviRegistrationCompleted(NetworkId['op-mainnet'], 'beefy'))
-      .returns(mockNonce + 1)
+      .returns(mockNonce)
       .run()
   })
 })

@@ -136,7 +136,7 @@ export function* sendPreparedRegistrationTransactions(
     try {
       const signedTx = yield* call([wallet, 'signTransaction'], {
         ...txs[i],
-        nonce: nonce++,
+        nonce,
       } as any)
       const hash = yield* call([wallet, 'sendRawTransaction'], {
         serializedTransaction: signedTx,
@@ -147,6 +147,7 @@ export function* sendPreparedRegistrationTransactions(
         'Successfully sent transaction to the network',
         hash
       )
+      nonce = nonce + 1
 
       const receipt = yield* call(
         [publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'],
