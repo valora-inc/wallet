@@ -719,7 +719,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+      coinbasePayEnabled: false,
     },
   }),
   59: (state: any) => ({
@@ -817,7 +817,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
+      maxSwapSlippagePercentage: 0.3,
       swapFeeEnabled: false,
       swapFeePercentage: false,
     },
@@ -907,7 +907,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      networkTimeoutSeconds: REMOTE_CONFIG_VALUES_DEFAULTS.networkTimeoutSeconds,
+      networkTimeoutSeconds: 30,
     },
   }),
   89: (state: any) => ({
@@ -1992,5 +1992,29 @@ export const migrations = {
       ...state.web3,
       demoModeEnabled: false,
     },
+  }),
+  241: (state: any) => ({
+    ...state,
+    app: _.omit(
+      state.app,
+      'walletConnectV2Enabled',
+      'logPhoneNumberTypeEnabled',
+      'coinbasePayEnabled',
+      'maxSwapSlippagePercentage',
+      'networkTimeoutSeconds',
+      'celoEducationUri',
+      'pincodeUseExpandedBlocklist'
+    ),
+  }),
+  242: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'celoNews'),
+    dapps: _.omit(state.dapps, 'dappListApiUrl', 'maxNumRecentDapps', 'dappsWebViewEnabled'),
+    swap: _.omit(state.swap, 'priceImpactWarningThreshold'),
+  }),
+  243: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'sentryTracesSampleRate', 'sentryNetworkErrors'),
+    i18n: _.omit(state.i18n, 'allowOtaTranslations'),
   }),
 }

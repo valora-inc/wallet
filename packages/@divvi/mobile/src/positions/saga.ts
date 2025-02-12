@@ -36,7 +36,7 @@ import {
 import { Position, Shortcut } from 'src/positions/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
@@ -46,6 +46,7 @@ import { safely } from 'src/utils/safely'
 import { appendPath } from 'src/utils/string'
 import { sendPreparedTransactions } from 'src/viem/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { call, put, select, spawn, takeEvery, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'positions/saga'
@@ -83,7 +84,7 @@ async function fetchPositions({
   walletAddress: string
   language: string
 }) {
-  const networkIds = getMultichainFeatures().showPositions
+  const networkIds = getSupportedNetworkIds()
 
   const getPositionsUrl = getHooksApiFunctionUrl(hooksApiUrl, 'getPositions')
   getPositionsUrl.searchParams.set('address', walletAddress)
@@ -128,7 +129,7 @@ async function fetchPositions({
 }
 
 async function fetchShortcuts(hooksApiUrl: string, walletAddress: string) {
-  const networkIds = getMultichainFeatures().showShortcuts
+  const networkIds = getSupportedNetworkIds()
 
   const url = getHooksApiFunctionUrl(hooksApiUrl, 'v2/getShortcuts')
   url.searchParams.set('address', walletAddress)

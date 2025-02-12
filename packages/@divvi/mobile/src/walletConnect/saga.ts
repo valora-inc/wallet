@@ -10,7 +10,6 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnect2Properties } from 'src/analytics/Properties'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
-import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { APP_NAME, DEEP_LINK_URL_SCHEME, WALLET_CONNECT_PROJECT_ID } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
@@ -18,11 +17,10 @@ import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
-import { getSupportedNetworkIdsForWalletConnect } from 'src/tokens/utils'
 import { Network } from 'src/transactions/types'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
@@ -74,7 +72,8 @@ import networkConfig, {
   walletConnectChainIdToNetworkId,
 } from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
-import { walletAddressSelector } from 'src/web3/selectors'
+import { demoModeEnabledSelector, walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import {
   call,
   delay,
@@ -336,7 +335,7 @@ function* showSessionRequest(session: Web3WalletTypes.EventArguments['session_pr
 export const _showSessionRequest = showSessionRequest
 
 function getSupportedChains() {
-  const supportedNetworkIdsForWalletConnect = getSupportedNetworkIdsForWalletConnect()
+  const supportedNetworkIdsForWalletConnect = getSupportedNetworkIds()
   return supportedNetworkIdsForWalletConnect.map((networkId) => {
     return networkIdToWalletConnectChainId[networkId]
   })
@@ -427,6 +426,13 @@ export function* normalizeTransaction(rawTx: any, network: Network) {
 function* showActionRequest(request: Web3WalletTypes.EventArguments['session_request']) {
   if (!client) {
     throw new Error('missing client')
+  }
+
+  const demoModeEnabled = yield* select(demoModeEnabledSelector)
+  if (demoModeEnabled) {
+    navigate(Screens.DemoModeAuthBlock)
+    yield* put(denyRequest(request, getSdkError('USER_REJECTED')))
+    return
   }
 
   const method = request.params.request.method
@@ -833,13 +839,11 @@ export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPai
   yield* put(initialisePairing(uri, origin))
 }
 
-export function* isWalletConnectEnabled(uri: string) {
+export function isWalletConnectEnabled(uri: string) {
   const { version } = parseUri(uri)
-  const { v2 } = yield* select(walletConnectEnabledSelector)
-  const versionEnabled: { [version: string]: boolean | undefined } = {
-    '2': v2,
-  }
-  return versionEnabled[version] ?? false
+  const walletConnectV2Disabled = getFeatureGate(StatsigFeatureGates.DISABLE_WALLET_CONNECT_V2)
+
+  return !walletConnectV2Disabled && version === 2
 }
 
 export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {

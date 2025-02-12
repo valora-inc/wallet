@@ -1,11 +1,11 @@
 /**
  * This is a reactnavigation SCREEN, which we use to set a PIN.
  */
+import { BIOMETRY_TYPE } from '@divvi/react-native-keychain'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
-import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
@@ -29,12 +29,7 @@ import {
   OnboardingProps,
   onboardingPropsSelector,
 } from 'src/onboarding/steps'
-import {
-  DEFAULT_CACHE_ACCOUNT,
-  isPinValid,
-  PinBlocklist,
-  updatePin,
-} from 'src/pincode/authentication'
+import { DEFAULT_CACHE_ACCOUNT, isPinValid, updatePin } from 'src/pincode/authentication'
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
@@ -44,7 +39,6 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 interface StateProps {
   choseToRestoreAccount: boolean | undefined
-  useExpandedBlocklist: boolean
   account: string
   registrationStep: { step: number; totalSteps: number }
   onboardingProps: OnboardingProps
@@ -61,7 +55,6 @@ interface State {
   pin1: string
   pin2: string
   errorText: string | null
-  blocklist: PinBlocklist | undefined
   isVerifying: boolean
 }
 
@@ -74,7 +67,6 @@ function mapStateToProps(state: RootState): StateProps {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     onboardingProps: onboardingPropsSelector(state),
     registrationStep: getOnboardingStepValues(Screens.PincodeSet, onboardingPropsSelector(state)),
-    useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
     supportedBiometryType: supportedBiometryTypeSelector(state),
   }
@@ -111,7 +103,6 @@ export class PincodeSet extends React.Component<Props, State> {
     pin1: '',
     pin2: '',
     errorText: null,
-    blocklist: undefined,
     isVerifying: false,
   }
 
@@ -121,10 +112,6 @@ export class PincodeSet extends React.Component<Props, State> {
       // but it might expire by the time the user enters their new PIN if they take more
       // than 5 minutes to do so.
       this.setState({ oldPin: getCachedPin(DEFAULT_CACHE_ACCOUNT) ?? '' })
-    }
-    // Load the PIN blocklist from the bundle into the component state.
-    if (this.props.useExpandedBlocklist) {
-      this.setState({ blocklist: new PinBlocklist() })
     }
 
     // Setting choseToRestoreAccount on route param for navigationOptions
@@ -166,10 +153,7 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   isPin1Valid = (pin: string) => {
-    return (
-      isPinValid(pin) &&
-      (!this.props.useExpandedBlocklist || this.state.blocklist?.contains(pin) === false)
-    )
+    return isPinValid(pin)
   }
 
   isPin2Valid = (pin: string) => {

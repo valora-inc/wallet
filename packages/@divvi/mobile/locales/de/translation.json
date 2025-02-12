@@ -2867,6 +2867,11 @@
       "info": "Du siehst die App derzeit im Demo-Modus",
       "cta": "Demo beenden"
     },
+    "restrictedAccess": {
+      "title": "Im Demo-Modus",
+      "info": "Du kannst diese Aktion nicht abschließen, weil du die App im Demo-Modus betrachtest",
+      "cta": "Demo beenden"
+    },
     "inAppIndicatorLabel": "Demo-Modus"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

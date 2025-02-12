@@ -75,6 +75,7 @@ import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
 import { KeylessBackupFlow, KeylessBackupOrigin } from 'src/keylessBackup/types'
 import Language from 'src/language/Language'
 import SelectLocalCurrency from 'src/localCurrency/SelectLocalCurrency'
+import DemoModeAuthBlock from 'src/navigator/DemoModeAuthBlock'
 import {
   emptyHeader,
   headerWithBackButton,
@@ -720,6 +721,7 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
         name={Screens.FiatExchangeCurrencyBottomSheet}
         component={FiatExchangeCurrencyBottomSheet}
       />
+      <BottomSheet.Screen name={Screens.DemoModeAuthBlock} component={DemoModeAuthBlock} />
     </>
   )
 }

@@ -87,7 +87,7 @@ const defaultExpectedDappOpenProps = {
 }
 
 const defaultStore = createMockStore({
-  dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
+  dapps: { dappsList, dappsCategories },
 })
 
 describe('TabDiscover', () => {
@@ -100,7 +100,6 @@ describe('TabDiscover', () => {
   it('renders correctly when there are no favorite dapps', () => {
     const store = createMockStore({
       dapps: {
-        dappListApiUrl: 'http://url.com',
         dappsList,
         dappsCategories,
         mostPopularDappIds,
@@ -141,7 +140,6 @@ describe('TabDiscover', () => {
   it('renders correctly when there are <=2 favorite dapps', () => {
     const store = createMockStore({
       dapps: {
-        dappListApiUrl: 'http://url.com',
         dappsList,
         dappsCategories,
         mostPopularDappIds,
@@ -183,7 +181,6 @@ describe('TabDiscover', () => {
   it('renders correctly when there are >2 favorite dapps', () => {
     const store = createMockStore({
       dapps: {
-        dappListApiUrl: 'http://url.com',
         dappsList,
         dappsCategories,
         mostPopularDappIds,
@@ -216,7 +213,6 @@ describe('TabDiscover', () => {
   it('renders correctly when there are >5 favorite dapps', () => {
     const store = createMockStore({
       dapps: {
-        dappListApiUrl: 'http://url.com',
         dappsList,
         dappsCategories,
         mostPopularDappIds,
@@ -255,7 +251,6 @@ describe('TabDiscover', () => {
   it('fires event on favorite dapp press', () => {
     const store = createMockStore({
       dapps: {
-        dappListApiUrl: 'http://url.com',
         dappsList,
         dappsCategories,
         mostPopularDappIds,
@@ -285,7 +280,6 @@ describe('TabDiscover', () => {
   it('fires event on popular dapp press', () => {
     const store = createMockStore({
       dapps: {
-        dappListApiUrl: 'http://url.com',
         dappsList,
         dappsCategories,
         mostPopularDappIds,
@@ -318,7 +312,6 @@ describe('TabDiscover', () => {
   it('navigates to dapp screen on button press and fires event', () => {
     const store = createMockStore({
       dapps: {
-        dappListApiUrl: 'http://url.com',
         dappsList,
         dappsCategories,
         mostPopularDappIds,
@@ -356,7 +349,7 @@ describe('TabDiscover', () => {
           (featureGateName) => featureGateName === StatsigFeatureGates.SHOW_POSITIONS
         )
       const store = createMockStore({
-        dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
+        dapps: { dappsList, dappsCategories },
         tokens: {
           tokenBalances: {
             [mockAaveArbUsdcTokenId]: {

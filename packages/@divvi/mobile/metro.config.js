@@ -35,7 +35,7 @@ const config = {
       // This is the crypto module we want to use moving forward (unless something better comes up).
       // It is implemented natively using OpenSSL.
       crypto: require.resolve('react-native-quick-crypto'),
-      fs: require.resolve('react-native-fs'),
+      fs: require.resolve('@divvi/react-native-fs'),
     },
     sourceExts: isE2E ? ['e2e.ts', 'e2e.js'].concat(defaultSourceExts) : defaultSourceExts,
   },

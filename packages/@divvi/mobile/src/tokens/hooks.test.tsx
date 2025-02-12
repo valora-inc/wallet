@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
-import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   useAmountAsUsd,
@@ -18,6 +18,7 @@ import {
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
@@ -31,16 +32,15 @@ import {
 } from 'test/values'
 
 jest.mock('src/statsig')
+jest.mock('src/web3/utils', () => ({
+  ...jest.requireActual('src/web3/utils'),
+  getSupportedNetworkIds: jest.fn(),
+}))
 
 beforeEach(() => {
   jest.clearAllMocks()
   jest.mocked(getFeatureGate).mockReturnValue(true)
-  jest.mocked(getMultichainFeatures).mockReturnValue({
-    showCico: [NetworkId['celo-alfajores']],
-    showSend: [NetworkId['celo-alfajores']],
-    showSwap: [NetworkId['celo-alfajores']],
-    showBalances: [NetworkId['celo-alfajores']],
-  })
+  jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
 })
 
 const tokenAddressWithPriceAndBalance = '0x001'
@@ -278,9 +278,9 @@ describe('useSwappableTokens', () => {
       .mockImplementation(
         (featureGate) => featureGate !== StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER
       )
-    jest.mocked(getMultichainFeatures).mockReturnValueOnce({
-      showSwap: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
+    jest
+      .mocked(getSupportedNetworkIds)
+      .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
     const { result } = renderHook(() => useSwappableTokens(), {
       wrapper: (component) => (
         <Provider store={storeWithMultipleNetworkTokens()}>
@@ -302,9 +302,9 @@ describe('useSwappableTokens', () => {
   })
 
   it('returns deterministically shuffled tokens for each user in the holdout group', () => {
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showSwap: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
+    jest
+      .mocked(getSupportedNetworkIds)
+      .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
 
     const expectedToTokens1 = [mockCeloTokenId, ethTokenId]
     const expectedFromTokens1 = [mockPoofTokenId, mockCeloTokenId, ethTokenId, mockCrealTokenId]
@@ -362,9 +362,9 @@ describe('useCashInTokens', () => {
   })
 
   it('returns tokens eligible for cash in for multiple networks', () => {
-    jest.mocked(getMultichainFeatures).mockReturnValueOnce({
-      showCico: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
+    jest
+      .mocked(getSupportedNetworkIds)
+      .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
     const { getByTestId } = render(
       <Provider store={storeWithMultipleNetworkTokens()}>
         <TokenHookTestComponent hook={useCashInTokens} />
@@ -394,9 +394,9 @@ describe('useCashOutTokens', () => {
   })
 
   it('returns tokens eligible for cash out for multiple networks', () => {
-    jest.mocked(getMultichainFeatures).mockReturnValueOnce({
-      showCico: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
+    jest
+      .mocked(getSupportedNetworkIds)
+      .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
     const { getByTestId } = render(
       <Provider store={storeWithMultipleNetworkTokens()}>
         <TokenHookTestComponent hook={useCashOutTokens} />

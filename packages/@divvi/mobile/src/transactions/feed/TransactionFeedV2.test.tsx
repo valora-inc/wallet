@@ -1,14 +1,16 @@
 import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
-import { View } from 'react-native'
 import BigNumber from 'bignumber.js'
 import { type FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
+import { View } from 'react-native'
 import { Provider } from 'react-redux'
 import { type ReactTestInstance } from 'react-test-renderer'
+import { getAppConfig } from 'src/appConfig'
+import { PublicAppConfig } from 'src/public/types'
 import { type ApiReducersKeys } from 'src/redux/apiReducersList'
 import { type RootState } from 'src/redux/reducers'
 import { reducersList } from 'src/redux/reducersList'
-import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { transactionFeedV2Api, type TransactionFeedV2Response } from 'src/transactions/api'
@@ -24,8 +26,6 @@ import {
 } from 'src/transactions/types'
 import { type RecursivePartial } from 'test/utils'
 import { mockCeloTokenId, mockCusdAddress, mockCusdTokenId, mockQRCodeRecipient } from 'test/values'
-import { getAppConfig } from 'src/appConfig'
-import { PublicAppConfig } from 'src/public/types'
 
 jest.mock('src/statsig')
 jest.mock('react-native-simple-toast')
@@ -105,12 +105,6 @@ beforeEach(() => {
   mockFetch.resetMocks()
   jest.clearAllMocks()
   mockGetAppConfig.mockReturnValue(defaultConfig)
-  jest.mocked(getMultichainFeatures).mockReturnValue({
-    showCico: [NetworkId['celo-alfajores']],
-    showBalances: [NetworkId['celo-alfajores']],
-    showTransfers: [NetworkId['celo-alfajores']],
-    showApprovalTxsInHomefeed: [NetworkId['celo-alfajores']],
-  })
   jest.mocked(getDynamicConfigParams).mockReturnValue({
     jumpstartContracts: {
       ['celo-alfajores']: { contractAddress: '0x7bf3fefe9881127553d23a8cd225a2c2442c438c' },

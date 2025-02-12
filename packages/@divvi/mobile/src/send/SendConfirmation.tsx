@@ -188,7 +188,7 @@ export default function SendConfirmation(props: Props) {
             isLoading={prepareTransactionLoading}
             value={
               <Trans
-                i18nKey={'tokenAndLocalAmountApprox_oneToken'}
+                i18nKey={'tokenAndLocalAmountApprox'}
                 context={localFeeAmount?.gt(0) ? undefined : 'noFiatPrice'}
                 tOptions={{
                   tokenAmount: networkFeeDisplayAmount.token,

@@ -1,5 +1,5 @@
+import * as Keychain from '@divvi/react-native-keychain'
 import { FetchMock } from 'jest-fetch-mock/types'
-import * as Keychain from 'react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
@@ -103,7 +103,7 @@ describe('generateSignedMessage', () => {
       username: 'some username',
       password: 'someSignedMessage',
       service: 'some service',
-      storage: 'some string',
+      storage: Keychain.STORAGE_TYPE.RSA,
     })
 
     await expectSaga(generateSignedMessage)

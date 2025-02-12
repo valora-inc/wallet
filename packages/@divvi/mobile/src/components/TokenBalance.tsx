@@ -47,7 +47,7 @@ import {
   useTotalTokenBalance,
 } from 'src/tokens/hooks'
 import { tokenFetchErrorSelector } from 'src/tokens/selectors'
-import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 function TokenBalance({
   style = styles.balance,
@@ -58,7 +58,7 @@ function TokenBalance({
   singleTokenViewEnabled?: boolean
   showBalanceToggle?: boolean
 }) {
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const supportedNetworkIds = getSupportedNetworkIds()
   const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalTokenBalanceLocal = useTotalTokenBalance()
@@ -136,7 +136,7 @@ function HideBalanceButton({ hideBalance }: { hideBalance: boolean }) {
 function useErrorMessageWithRefresh() {
   const { t } = useTranslation()
 
-  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const supportedNetworkIds = getSupportedNetworkIds()
   const tokensInfoUnavailable = useTokensInfoUnavailable(supportedNetworkIds)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
   const localCurrencyError = useSelector(localCurrencyExchangeRateErrorSelector)

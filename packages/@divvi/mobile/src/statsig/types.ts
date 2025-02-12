@@ -11,11 +11,6 @@ export enum StatsigDynamicConfigs {
   DEMO_MODE_CONFIG = 'demo_mode_config',
 }
 
-// Separating into different enum from StatsigDynamicConfigs to allow for more strict typing
-export enum StatsigMultiNetworkDynamicConfig {
-  MULTI_CHAIN_FEATURES = 'multi_chain_features',
-}
-
 export enum StatsigFeatureGates {
   SHOW_POSITIONS = 'show_positions',
   SHOW_CLAIM_SHORTCUTS = 'show_claim_shortcuts',
@@ -37,6 +32,7 @@ export enum StatsigFeatureGates {
   SHOW_ZERION_TRANSACTION_FEED = 'show_zerion_transaction_feed',
   SHOW_NEW_ENTER_AMOUNT_FOR_SWAP = 'show_new_enter_amount_for_swap',
   ALLOW_CROSS_CHAIN_SWAP_AND_DEPOSIT = 'allow_cross_chain_swap_and_deposit',
+  DISABLE_WALLET_CONNECT_V2 = 'disable_wallet_connect_v2',
 }
 
 export enum StatsigExperiments {

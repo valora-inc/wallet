@@ -19,17 +19,7 @@ import {
   mockTokenBalances,
 } from 'test/values'
 
-jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn(),
-  getMultichainFeatures: jest.fn(() => {
-    return {
-      showCico: ['celo-alfajores', 'ethereum-sepolia'],
-      showSend: ['celo-alfajores', 'ethereum-sepolia'],
-      showSwap: ['celo-alfajores', 'ethereum-sepolia'],
-    }
-  }),
-  getFeatureGate: jest.fn().mockReturnValue(true),
-}))
+jest.mock('src/statsig')
 
 describe('TokenDetails', () => {
   beforeEach(() => {

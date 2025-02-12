@@ -1,4 +1,4 @@
-import * as Keychain from 'react-native-keychain'
+import * as Keychain from '@divvi/react-native-keychain'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 
@@ -13,7 +13,7 @@ const KEYCHAIN_USER_CANCELLED_ERRORS = [
 interface SecureStorage {
   key: string
   value: string
-  options?: Keychain.Options
+  options?: Keychain.SetOptions
 }
 
 export function isUserCancelledError(error: Error) {
@@ -27,7 +27,6 @@ export async function storeItem({ key, value, options = {} }: SecureStorage) {
     const result = await Keychain.setGenericPassword('CELO', value, {
       service: key,
       accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
-      rules: Keychain.SECURITY_RULES.NONE,
       ...options,
     })
     if (result === false) {
@@ -52,10 +51,11 @@ export async function storeItem({ key, value, options = {} }: SecureStorage) {
   }
 }
 
-export async function retrieveStoredItem(key: string, options: Keychain.Options = {}) {
+export async function retrieveStoredItem(key: string, options: Keychain.GetOptions = {}) {
   try {
     const item = await Keychain.getGenericPassword({
       service: key,
+      rules: Keychain.SECURITY_RULES.NONE,
       ...options,
     })
     if (!item) {
@@ -85,7 +85,7 @@ export async function removeStoredItem(key: string) {
 
 export async function listStoredItems() {
   try {
-    return Keychain.getAllGenericPasswordServices()
+    return Keychain.getAllGenericPasswordServices({ skipUIAuth: true })
   } catch (error) {
     Logger.error(TAG, 'Error listing items', error, true)
     throw error

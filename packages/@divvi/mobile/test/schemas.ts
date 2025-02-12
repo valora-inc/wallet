@@ -3615,6 +3615,45 @@ export const v240Schema = {
   },
 }
 
+export const v241Schema = {
+  ...v240Schema,
+  _persist: {
+    ...v240Schema._persist,
+    version: 241,
+  },
+  app: _.omit(
+    v240Schema.app,
+    'walletConnectV2Enabled',
+    'logPhoneNumberTypeEnabled',
+    'coinbasePayEnabled',
+    'maxSwapSlippagePercentage',
+    'networkTimeoutSeconds',
+    'celoEducationUri',
+    'pincodeUseExpandedBlocklist'
+  ),
+}
+
+export const v242Schema = {
+  ...v241Schema,
+  _persist: {
+    ...v241Schema._persist,
+    version: 242,
+  },
+  app: _.omit(v241Schema.app, 'celoNews'),
+  dapps: _.omit(v241Schema.dapps, 'dappListApiUrl', 'maxNumRecentDapps', 'dappsWebViewEnabled'),
+  swap: _.omit(v241Schema.swap, 'priceImpactWarningThreshold'),
+}
+
+export const v243Schema = {
+  ...v242Schema,
+  _persist: {
+    ...v242Schema._persist,
+    version: 243,
+  },
+  app: _.omit(v242Schema.app, 'sentryTracesSampleRate', 'sentryNetworkErrors'),
+  i18n: _.omit(v242Schema.i18n, 'allowOtaTranslations'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v240Schema as Partial<RootState>
+  return v243Schema as Partial<RootState>
 }

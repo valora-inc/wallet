@@ -2867,6 +2867,11 @@
       "info": "Şu anda uygulamayı demo modunda görüntülüyorsunuz",
       "cta": "Çıkış Demosu"
     },
+    "restrictedAccess": {
+      "title": "Demo Modunda",
+      "info": "Uygulamayı demo modunda görüntülediğiniz için bu işlemi tamamlayamazsınız",
+      "cta": "Çıkış Demosu"
+    },
     "inAppIndicatorLabel": "Demo Modu"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

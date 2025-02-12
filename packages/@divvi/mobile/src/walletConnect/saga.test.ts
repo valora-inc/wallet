@@ -6,12 +6,12 @@ import { call, select } from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-plan/providers'
 import { showMessage } from 'src/alert/actions'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
-import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { activeDappSelector } from 'src/dapps/selectors'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getMultichainFeatures } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
@@ -35,12 +35,17 @@ import {
 } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { BaseError } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 jest.mock('src/statsig')
+jest.mock('src/web3/utils', () => ({
+  ...jest.requireActual('src/web3/utils'),
+  getSupportedNetworkIds: jest.fn(),
+}))
 
 function createSessionProposal(
   proposerMetadata: CoreTypes.Metadata
@@ -122,8 +127,12 @@ function createSession(proposerMetadata: CoreTypes.Metadata): SessionTypes.Struc
 
 beforeEach(() => {
   jest.clearAllMocks()
-  jest.mocked(getMultichainFeatures).mockReturnValue({
-    showWalletConnect: [NetworkId['celo-alfajores']],
+  jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
+  jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
+    if (featureGate === StatsigFeatureGates.DISABLE_WALLET_CONNECT_V2) {
+      return false
+    }
+    throw new Error(`Unexpected feature gate: ${featureGate}`)
   })
 })
 
@@ -285,9 +294,9 @@ describe('showSessionRequest', () => {
   })
 
   it('includes all supported chains for session approval', async () => {
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showWalletConnect: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
+    jest
+      .mocked(getSupportedNetworkIds)
+      .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
     const state = createMockStore({}).getState()
     await expectSaga(_showSessionRequest, sessionProposal)
       .withState(state)
@@ -651,17 +660,19 @@ describe('initialiseWalletConnect', () => {
 
   it('initializes v2 if enabled', async () => {
     await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
-      .provide([
-        [select(walletConnectEnabledSelector), { v2: true }],
-        [call(initialiseWalletConnectV2, v2ConnectionString, origin), {}],
-      ])
+      .provide([[call(initialiseWalletConnectV2, v2ConnectionString, origin), {}]])
       .call(initialiseWalletConnectV2, v2ConnectionString, origin)
       .run()
   })
 
   it('doesnt initialize v2 if disabled', async () => {
+    jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
+      if (featureGate === StatsigFeatureGates.DISABLE_WALLET_CONNECT_V2) {
+        return true
+      }
+      throw new Error(`Unexpected feature gate: ${featureGate}`)
+    })
     await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
-      .provide([[select(walletConnectEnabledSelector), { v2: false }]])
       .not.call(initialiseWalletConnectV2, v2ConnectionString, origin)
       .run()
   })

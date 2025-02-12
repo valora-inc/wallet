@@ -1,4 +1,4 @@
-import * as Keychain from 'react-native-keychain'
+import * as Keychain from '@divvi/react-native-keychain'
 
 // This is exposed via __mocks__
 // @ts-ignore

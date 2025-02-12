@@ -2873,6 +2873,11 @@
       "info": "You are currently viewing the app in demo mode",
       "cta": "Exit Demo"
     },
+    "restrictedAccess": {
+      "title": "In Demo Mode",
+      "info": "You can't complete this action because you are viewing the app in demo mode",
+      "cta": "Exit Demo"
+    },
     "inAppIndicatorLabel": "Demo Mode"
   }
 }

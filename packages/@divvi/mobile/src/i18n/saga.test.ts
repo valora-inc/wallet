@@ -6,7 +6,6 @@ import { call, select } from 'redux-saga/effects'
 import { saveOtaTranslations } from 'src/i18n/otaTranslations'
 import { handleFetchOtaTranslations } from 'src/i18n/saga'
 import {
-  allowOtaTranslationsSelector,
   currentLanguageSelector,
   otaTranslationsAppVersionSelector,
   otaTranslationsLanguageSelector,
@@ -44,7 +43,6 @@ describe('i18n sagas', () => {
     const mockedVersion = DeviceInfo.getVersion as jest.MockedFunction<typeof DeviceInfo.getVersion>
     mockedVersion.mockImplementation(() => appVersion)
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
-      [select(allowOtaTranslationsSelector), true],
       [select(otaTranslationsAppVersionSelector), appVersion],
       [select(otaTranslationsLanguageSelector), 'en-US'],
       [select(currentLanguageSelector), 'en-US'],

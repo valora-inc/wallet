@@ -1,8 +1,8 @@
+import * as Keychain from '@divvi/react-native-keychain'
 import locales from 'locales'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import InAppReview from 'react-native-in-app-review'
-import * as Keychain from 'react-native-keychain'
 import { findBestLanguageTag } from 'react-native-localize'
 import { eventChannel } from 'redux-saga'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -10,14 +10,14 @@ import { AppEvents, InviteEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import {
   Actions,
-  OpenDeepLink,
-  OpenUrlAction,
-  SetAppState,
   androidMobileServicesAvailabilityChecked,
   appLock,
   inAppReviewRequested,
   inviteLinkConsumed,
+  OpenDeepLink,
   openDeepLink,
+  OpenUrlAction,
+  SetAppState,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -28,19 +28,19 @@ import {
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
   inAppReviewLastInteractionTimestampSelector,
-  sentryNetworkErrorsSelector,
 } from 'src/app/selectors'
-import { CeloNewsConfig } from 'src/celoNews/types'
-import { DEFAULT_APP_LANGUAGE, FETCH_TIMEOUT_DURATION, isE2EEnv } from 'src/config'
+import {
+  DEFAULT_APP_LANGUAGE,
+  DEFAULT_SENTRY_NETWORK_ERRORS,
+  ENABLE_OTA_TRANSLATIONS,
+  FETCH_TIMEOUT_DURATION,
+  isE2EEnv,
+} from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { initI18n } from 'src/i18n'
-import {
-  allowOtaTranslationsSelector,
-  currentLanguageSelector,
-  otaTranslationsAppVersionSelector,
-} from 'src/i18n/selectors'
+import { currentLanguageSelector, otaTranslationsAppVersionSelector } from 'src/i18n/selectors'
 import { jumpstartClaim } from 'src/jumpstart/saga'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -98,15 +98,16 @@ const REVIEW_INTERVAL = ONE_DAY_IN_MILLIS * 120 // 120 days
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
+  yield* call(initializeSentry)
+
   SentryTransactionHub.startTransaction(SentryTransaction.app_init_saga)
 
-  const allowOtaTranslations = yield* select(allowOtaTranslationsSelector)
   const otaTranslationsAppVersion = yield* select(otaTranslationsAppVersionSelector)
   const language = yield* select(currentLanguageSelector)
   const bestLanguage = findBestLanguageTag(Object.keys(locales))?.languageTag
+  const allowOtaTranslations = ENABLE_OTA_TRANSLATIONS
 
   yield* all([
-    call(initializeSentry),
     call([AppAnalytics, 'init']),
     call(
       initI18n,
@@ -116,10 +117,7 @@ export function* appInit() {
     ),
   ])
 
-  // This step is important if the user is offline and unable to fetch remote
-  // config values, we can use the persisted value instead of an empty one
-  const sentryNetworkErrors = yield* select(sentryNetworkErrorsSelector)
-  Logger.setNetworkErrors(sentryNetworkErrors)
+  Logger.setNetworkErrors(DEFAULT_SENTRY_NETWORK_ERRORS)
 
   const supportedBiometryType = yield* call(Keychain.getSupportedBiometryType)
   yield* put(setSupportedBiometryType(supportedBiometryType))
@@ -176,25 +174,10 @@ export function* checkAndroidMobileServicesSaga() {
 }
 
 export interface RemoteConfigValues {
-  celoEducationUri: string | null
-  dappListApiUrl: string | null
   inviteRewardsVersion: string
-  walletConnectV2Enabled: boolean
-  logPhoneNumberTypeEnabled: boolean
-  pincodeUseExpandedBlocklist: boolean
-  allowOtaTranslations: boolean
-  sentryTracesSampleRate: number
-  sentryNetworkErrors: string[]
-  maxNumRecentDapps: number
-  dappsWebViewEnabled: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
-  coinbasePayEnabled: boolean
-  maxSwapSlippagePercentage: number
-  networkTimeoutSeconds: number
-  celoNews: CeloNewsConfig
-  priceImpactWarningThreshold: number
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -215,7 +198,6 @@ export function* appRemoteFeatureFlagSaga() {
         timeout: delay(FETCH_TIMEOUT_DURATION),
       })
       if (configValues) {
-        Logger.setNetworkErrors(configValues.sentryNetworkErrors)
         yield* put(updateRemoteConfigValues(configValues))
         lastLoadTime = Date.now()
       }

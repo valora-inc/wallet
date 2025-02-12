@@ -4,7 +4,7 @@ import AppAnalyticsModule from 'src/analytics/AppAnalytics'
 import { OnboardingEvents } from 'src/analytics/Events'
 import * as config from 'src/config'
 import { store } from 'src/redux/store'
-import { getDefaultStatsigUser, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getDefaultStatsigUser, getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { Statsig } from 'statsig-react-native'
 import { getMockStoreData } from 'test/utils'
@@ -209,11 +209,9 @@ describe('AppAnalytics', () => {
     mockConfig.STATSIG_API_KEY = 'statsig-key'
     mockConfig.STATSIG_ENABLED = true
     mockConfig.SEGMENT_API_KEY = 'segment-key'
+    mockConfig.ENABLED_NETWORK_IDS = ['celo-alfajores']
     mockStore.getState.mockImplementation(() => state)
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showBalances: [NetworkId['celo-alfajores']],
-    })
   })
 
   describe('init', () => {

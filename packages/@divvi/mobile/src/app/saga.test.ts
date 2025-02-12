@@ -1,4 +1,4 @@
-import { BIOMETRY_TYPE } from 'react-native-keychain'
+import { BIOMETRY_TYPE } from '@divvi/react-native-keychain'
 import * as RNLocalize from 'react-native-localize'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
@@ -27,17 +27,12 @@ import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   inAppReviewLastInteractionTimestampSelector,
-  sentryNetworkErrorsSelector,
 } from 'src/app/selectors'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/types'
 import { initI18n } from 'src/i18n'
-import {
-  allowOtaTranslationsSelector,
-  currentLanguageSelector,
-  otaTranslationsAppVersionSelector,
-} from 'src/i18n/selectors'
+import { currentLanguageSelector, otaTranslationsAppVersionSelector } from 'src/i18n/selectors'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -46,11 +41,12 @@ import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { getDynamicConfigParams, getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import { initialiseWalletConnect } from 'src/walletConnect/saga'
+import { _setClientForTesting, initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
@@ -286,6 +282,7 @@ describe('handleDeepLink', () => {
 describe('WalletConnect deeplinks', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    _setClientForTesting({} as any)
   })
 
   const connectionString = encodeURIComponent(
@@ -546,10 +543,8 @@ describe('appInit', () => {
   })
 
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
-    [select(allowOtaTranslationsSelector), true],
     [select(otaTranslationsAppVersionSelector), '1'],
     [select(currentLanguageSelector), 'nl-NL'],
-    [select(sentryNetworkErrorsSelector), ['network error']],
   ]
 
   it('should initialise the correct components, with the stored language', async () => {
@@ -619,7 +614,12 @@ describe(requestInAppReview, () => {
   `(
     `Should show when isAvailable: true, Last Interaction: $lastInteraction and Wallet Address: 0xTest`,
     async ({ lastInteractionTimestamp }) => {
-      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
+        if (featureGate === StatsigFeatureGates.APP_REVIEW) {
+          return true
+        }
+        return false
+      })
       mockIsInAppReviewAvailable.mockReturnValue(true)
       mockRequestInAppReview.mockResolvedValue(true)
 
@@ -648,7 +648,12 @@ describe(requestInAppReview, () => {
   `(
     `Should not show when Device Available: $isAvailable, Feature Gate: $featureGate, Last Interaction: $lastInteraction and Wallet Address: $walletAddress`,
     async ({ lastInteractionTimestamp, isAvailable, featureGate, walletAddress }) => {
-      jest.mocked(getFeatureGate).mockReturnValue(featureGate)
+      jest.mocked(getFeatureGate).mockImplementation((gate) => {
+        if (gate === StatsigFeatureGates.APP_REVIEW) {
+          return featureGate
+        }
+        return false
+      })
       mockIsInAppReviewAvailable.mockReturnValue(isAvailable)
       mockRequestInAppReview.mockResolvedValue(true)
 
@@ -668,7 +673,12 @@ describe(requestInAppReview, () => {
   )
 
   it('Should handle error from react-native-in-app-review', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
+      if (featureGate === StatsigFeatureGates.APP_REVIEW) {
+        return true
+      }
+      return false
+    })
     mockIsInAppReviewAvailable.mockReturnValue(true)
     mockRequestInAppReview.mockRejectedValue(new Error('🤖💥'))
 

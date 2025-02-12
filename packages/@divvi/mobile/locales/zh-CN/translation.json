@@ -2865,6 +2865,11 @@
       "info": "您正在以演示模式查看应用程序",
       "cta": "退出演示"
     },
+    "restrictedAccess": {
+      "title": "演示模式",
+      "info": "由于您是在演示模式下查看应用程序，因此无法完成此操作",
+      "cta": "退出演示"
+    },
     "inAppIndicatorLabel": "演示模式"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"

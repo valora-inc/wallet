@@ -1,7 +1,7 @@
+import * as Keychain from '@divvi/react-native-keychain'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import * as Keychain from 'react-native-keychain'
 import { Provider } from 'react-redux'
 import BackupPhrase from 'src/backup/BackupPhrase'
 import { navigate } from 'src/navigator/NavigationService'

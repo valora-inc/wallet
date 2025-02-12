@@ -39,7 +39,7 @@ const dappsCategories: DappCategory[] = [
 ]
 
 const defaultStore = createMockStore({
-  dapps: { dappListApiUrl: 'http://url.com', dappsList, dappsCategories },
+  dapps: { dappsList, dappsCategories },
 })
 
 describe('DappsScreen', () => {
@@ -106,7 +106,6 @@ describe('DappsScreen', () => {
   it('opens dapps directly', () => {
     const store = createMockStore({
       dapps: {
-        dappListApiUrl: 'http://url.com',
         dappsList,
         dappsCategories,
       },
@@ -130,7 +129,6 @@ describe('DappsScreen', () => {
   it('renders error message when fetching dapps fails', () => {
     const store = createMockStore({
       dapps: {
-        dappListApiUrl: 'http://url.com',
         dappsList: [],
         dappsCategories: [],
         dappsListError: 'Error fetching dapps',
@@ -152,7 +150,6 @@ describe('DappsScreen', () => {
     it('renders correctly when there are no favorite dapps', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: [],
@@ -173,7 +170,6 @@ describe('DappsScreen', () => {
     it('renders correctly when there are favourited dapps', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp2'],
@@ -195,7 +191,6 @@ describe('DappsScreen', () => {
     it('triggers the events when favoriting', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp1'],
@@ -230,7 +225,6 @@ describe('DappsScreen', () => {
     it('triggers the events when unfavoriting', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp2'],
@@ -268,7 +262,6 @@ describe('DappsScreen', () => {
     it('renders correctly when there are no search results', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: [],
@@ -291,7 +284,6 @@ describe('DappsScreen', () => {
     it('renders correctly when there are search results in both sections', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp2'],
@@ -324,7 +316,6 @@ describe('DappsScreen', () => {
     it('clearing search input should show all dapps', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp2'],
@@ -360,7 +351,6 @@ describe('DappsScreen', () => {
     it('renders correctly when there are no filters applied', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp1'],
@@ -391,7 +381,6 @@ describe('DappsScreen', () => {
     it('renders correctly when there are filters applied', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp1'],
@@ -425,7 +414,6 @@ describe('DappsScreen', () => {
     it('triggers event when filtering', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp1'],
@@ -453,7 +441,6 @@ describe('DappsScreen', () => {
     it('triggers events when toggling a category filter', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp1'],
@@ -488,7 +475,6 @@ describe('DappsScreen', () => {
     it('triggers event when clearing filters from category section', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp2'],
@@ -524,7 +510,6 @@ describe('DappsScreen', () => {
     it('triggers event when clearing filters from favorite section', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp1'],
@@ -559,7 +544,6 @@ describe('DappsScreen', () => {
     it('renders correctly when there are results in all and favorites sections', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp1'],
@@ -588,7 +572,6 @@ describe('DappsScreen', () => {
     it('renders correctly when there are results in favorites and no results in all', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp1'],
@@ -619,7 +602,6 @@ describe('DappsScreen', () => {
     it('renders correctly when there are no results in favorites and results in all', () => {
       const store = createMockStore({
         dapps: {
-          dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp2'],
@@ -651,7 +633,6 @@ describe('DappsScreen', () => {
 
   describe('dapp open analytics event properties', () => {
     const defaultStoreProps = {
-      dappListApiUrl: 'http://url.com',
       dappsList,
       dappsCategories,
       favoriteDappIds: [],
