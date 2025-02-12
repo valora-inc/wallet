@@ -1,4 +1,4 @@
-import { Address } from 'viem'
+import { Address, keccak256, stringToHex } from 'viem'
 
 export const REGISTRY_CONTRACT_ADDRESS: Address = '0x5a1a1027ac1d828e7415af7d797fba2b0cdd5575'
 
@@ -21,3 +21,7 @@ const supportedProtocolIds = [
 ] as const
 
 export type SupportedProtocolId = (typeof supportedProtocolIds)[number]
+
+export const supportedProtocolIdHashes = Object.fromEntries(
+  supportedProtocolIds.map((protocol) => [keccak256(stringToHex(protocol)), protocol])
+)
