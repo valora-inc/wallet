@@ -1,5 +1,5 @@
 import { divviRegistrationCompleted } from 'src/app/actions'
-import { registrationsSelector } from 'src/app/selectors'
+import { divviRegistrationsSelector } from 'src/app/selectors'
 import { DIVVI_PROTOCOL_IDS, DIVVI_REFERRER_ID } from 'src/config'
 import { registryContractAbi } from 'src/divviProtocol/abi/Registry'
 import { REGISTRY_CONTRACT_ADDRESS, supportedProtocolIdHashes } from 'src/divviProtocol/constants'
@@ -52,7 +52,9 @@ export async function createRegistrationTransactions({
 
   // Caching registration status in Redux reduces on-chain checks but doesn’t guarantee
   // it wasn’t completed in a previous install or session.
-  const completedRegistrations = new Set(registrationsSelector(store.getState())[networkId] ?? [])
+  const completedRegistrations = new Set(
+    divviRegistrationsSelector(store.getState())[networkId] ?? []
+  )
   const pendingRegistrations = DIVVI_PROTOCOL_IDS.filter(
     (protocol) => !completedRegistrations.has(protocol)
   )
