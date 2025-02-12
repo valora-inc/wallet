@@ -4687,6 +4687,9 @@
                 "appState": {
                     "$ref": "#/definitions/AppState"
                 },
+                "divviRegistrations": {
+                    "$ref": "#/definitions/{\"celo-mainnet\"?:string[]|undefined;\"celo-alfajores\"?:string[]|undefined;\"ethereum-mainnet\"?:string[]|undefined;\"ethereum-sepolia\"?:string[]|undefined;\"arbitrum-one\"?:string[]|undefined;\"arbitrum-sepolia\"?:string[]|undefined;\"op-mainnet\"?:string[]|undefined;\"op-sepolia\"?:string[]|undefined;\"polygon-pos-mainnet\"?:string[]|undefined;\"polygon-pos-amoy\"?:string[]|undefined;\"base-mainnet\"?:string[]|undefined;\"base-sepolia\"?:string[]|undefined;}"
+                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -4741,9 +4744,6 @@
                 "pushNotificationsEnabled": {
                     "type": "boolean"
                 },
-                "registrations": {
-                    "$ref": "#/definitions/{\"celo-mainnet\"?:string[]|undefined;\"celo-alfajores\"?:string[]|undefined;\"ethereum-mainnet\"?:string[]|undefined;\"ethereum-sepolia\"?:string[]|undefined;\"arbitrum-one\"?:string[]|undefined;\"arbitrum-sepolia\"?:string[]|undefined;\"op-mainnet\"?:string[]|undefined;\"op-sepolia\"?:string[]|undefined;\"polygon-pos-mainnet\"?:string[]|undefined;\"polygon-pos-amoy\"?:string[]|undefined;\"base-mainnet\"?:string[]|undefined;\"base-sepolia\"?:string[]|undefined;}"
-                },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
                 },
@@ -4776,6 +4776,7 @@
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
+                "divviRegistrations",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
@@ -4788,7 +4789,6 @@
                 "phoneNumberVerified",
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
-                "registrations",
                 "requirePinOnAppOpen",
                 "sessionId",
                 "showNotificationSpotlight",

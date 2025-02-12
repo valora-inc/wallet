@@ -3662,7 +3662,7 @@ export const v244Schema = {
   },
   app: {
     ..._.omit(v243Schema.app, 'loggedIn'),
-    registrations: {},
+    divviRegistrations: {},
   },
 }
 

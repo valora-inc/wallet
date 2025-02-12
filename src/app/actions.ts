@@ -35,7 +35,7 @@ export enum Actions {
   IN_APP_REVIEW_REQUESTED = 'APP/IN_APP_REVIEW_REQUESTED',
   NOTIFICATION_SPOTLIGHT_SEEN = 'APP/NOTIFICATION_SPOTLIGHT_SEEN',
   TOGGLE_HIDE_BALANCES = 'APP/TOGGLE_HIDE_BALANCES',
-  REGISTRATION_COMPLETED = 'APP/REGISTRATION_COMPLETED',
+  DIVVI_REGISTRATION_COMPLETED = 'APP/DIVVI_REGISTRATION_COMPLETED',
 }
 
 export interface SetAppState {
@@ -154,8 +154,8 @@ interface ToggleHideBalances {
   type: Actions.TOGGLE_HIDE_BALANCES
 }
 
-interface RegistrationCompleted {
-  type: Actions.REGISTRATION_COMPLETED
+interface DivviRegistrationCompleted {
+  type: Actions.DIVVI_REGISTRATION_COMPLETED
   networkId: NetworkId
   protocol: SupportedProtocolIds
 }
@@ -184,7 +184,7 @@ export type ActionTypes =
   | NotificationSpotlightSeen
   | ToggleHideBalances
   | DeepLinkDeferred
-  | RegistrationCompleted
+  | DivviRegistrationCompleted
 
 export const setAppState = (state: string): SetAppState => ({
   type: Actions.SET_APP_STATE,
@@ -339,12 +339,12 @@ export const toggleHideBalances = (): ToggleHideBalances => {
   }
 }
 
-export const registrationCompleted = (
+export const divviRegistrationCompleted = (
   networkId: NetworkId,
   protocol: SupportedProtocolIds
-): RegistrationCompleted => {
+): DivviRegistrationCompleted => {
   return {
-    type: Actions.REGISTRATION_COMPLETED,
+    type: Actions.DIVVI_REGISTRATION_COMPLETED,
     networkId,
     protocol,
   }
