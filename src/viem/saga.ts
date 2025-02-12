@@ -1,3 +1,7 @@
+import {
+  isRegistrationTransaction,
+  sendPreparedRegistrationTransactions,
+} from 'src/divviProtocol/registerReferral'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
@@ -5,7 +9,7 @@ import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { getFeeCurrencyToken } from 'src/viem/prepareTransactions'
+import { TransactionRequest, getFeeCurrencyToken } from 'src/viem/prepareTransactions'
 import {
   SerializableTransactionRequest,
   getPreparedTransactions,
@@ -51,7 +55,17 @@ export function* sendPreparedTransactions(
     throw CANCELLED_PIN_INPUT
   }
 
-  if (serializablePreparedTransactions.length !== createBaseStandbyTransactions.length) {
+  const preparedTransactions: TransactionRequest[] = []
+  const preparedRegistrationTransactions: TransactionRequest[] = []
+  getPreparedTransactions(serializablePreparedTransactions).forEach((tx) => {
+    if (isRegistrationTransaction(tx)) {
+      preparedRegistrationTransactions.push(tx)
+    } else {
+      preparedTransactions.push(tx)
+    }
+  })
+
+  if (preparedTransactions.length !== createBaseStandbyTransactions.length) {
     throw new Error('Mismatch in number of prepared transactions and standby transaction creators')
   }
 
@@ -75,7 +89,18 @@ export function* sendPreparedTransactions(
     blockTag: 'pending',
   })
 
-  const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
+  // if there are registration transactions, send them first so that the
+  // subsequent transactions can have the referral attribution, and update the nonce
+  if (preparedRegistrationTransactions.length > 0) {
+    nonce = yield* call(
+      sendPreparedRegistrationTransactions,
+      preparedRegistrationTransactions,
+      network,
+      wallet,
+      nonce
+    )
+  }
+
   const txHashes: Hash[] = []
   for (let i = 0; i < preparedTransactions.length; i++) {
     const preparedTransaction = preparedTransactions[i]
