@@ -4,13 +4,13 @@ import { DIVVI_PROTOCOL_IDS, DIVVI_REFERRER_ID } from 'src/config'
 import { registryContractAbi } from 'src/divviProtocol/abi/Registry'
 import { REGISTRY_CONTRACT_ADDRESS, supportedProtocolIdHashes } from 'src/divviProtocol/constants'
 import { store } from 'src/redux/store'
-import { Network, NetworkId } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { TransactionRequest } from 'src/viem/prepareTransactions'
-import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put } from 'typed-redux-saga'
 import { Address, decodeFunctionData, encodeFunctionData, parseEventLogs } from 'viem'
@@ -128,46 +128,57 @@ export async function createRegistrationTransactions({
 
 export function* sendPreparedRegistrationTransactions(
   txs: TransactionRequest[],
-  network: Network,
+  networkId: NetworkId,
   wallet: ViemWallet,
   nonce: number
 ) {
   for (let i = 0; i < txs.length; i++) {
-    const signedTx = yield* call([wallet, 'signTransaction'], {
-      ...txs[i],
-      nonce: nonce++,
-    } as any)
-    const hash = yield* call([wallet, 'sendRawTransaction'], {
-      serializedTransaction: signedTx,
-    })
-
-    Logger.debug(
-      `${TAG}/sendPreparedRegistrationTransactions`,
-      'Successfully sent transaction to the network',
-      hash
-    )
-
-    const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
-      hash,
-    })
-
-    if (receipt.status === 'success') {
-      const parsedLogs = parseEventLogs({
-        abi: registryContractAbi,
-        eventName: ['ReferralRegistered'],
-        logs: receipt.logs,
+    try {
+      const signedTx = yield* call([wallet, 'signTransaction'], {
+        ...txs[i],
+        nonce: nonce++,
+      } as any)
+      const hash = yield* call([wallet, 'sendRawTransaction'], {
+        serializedTransaction: signedTx,
       })
 
-      const protocolId = supportedProtocolIdHashes[parsedLogs[0].args.protocolId]
-      if (!protocolId) {
-        // this should never happen, since we specify the protocolId in the prepareTransactions step
-        Logger.error(
-          `${TAG}/sendPreparedRegistrationTransactions`,
-          `Unknown protocolId received from transaction ${hash}`
-        )
-        throw new Error(`Unknown protocolId received from transaction ${hash}`)
+      Logger.debug(
+        `${TAG}/sendPreparedRegistrationTransactions`,
+        'Successfully sent transaction to the network',
+        hash
+      )
+
+      const receipt = yield* call(
+        [publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'],
+        {
+          hash,
+        }
+      )
+
+      if (receipt.status === 'success') {
+        const parsedLogs = parseEventLogs({
+          abi: registryContractAbi,
+          eventName: ['ReferralRegistered'],
+          logs: receipt.logs,
+        })
+
+        const protocolId = supportedProtocolIdHashes[parsedLogs[0].args.protocolId]
+        if (!protocolId) {
+          // this should never happen, since we specify the protocolId in the prepareTransactions step
+          Logger.error(
+            `${TAG}/sendPreparedRegistrationTransactions`,
+            `Unknown protocolId received from transaction ${hash}`
+          )
+          continue
+        }
+        yield* put(divviRegistrationCompleted(networkId, protocolId))
       }
-      yield* put(divviRegistrationCompleted(networkConfig.networkToNetworkId[network], protocolId))
+    } catch (error) {
+      Logger.error(
+        `${TAG}/sendPreparedRegistrationTransactions`,
+        `Failed to send or parse prepared registration transaction`,
+        error
+      )
     }
   }
 

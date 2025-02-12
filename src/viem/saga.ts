@@ -95,7 +95,7 @@ export function* sendPreparedTransactions(
     nonce = yield* call(
       sendPreparedRegistrationTransactions,
       preparedRegistrationTransactions,
-      network,
+      networkId,
       wallet,
       nonce
     )
