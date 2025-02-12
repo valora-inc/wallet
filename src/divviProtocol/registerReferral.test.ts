@@ -39,6 +39,23 @@ describe('createRegistrationTransactions', () => {
     expect(result).toEqual([])
   })
 
+  it('returns no transactions if referrer is not registered', async () => {
+    jest
+      .spyOn(publicClient.optimism, 'readContract')
+      .mockImplementation(async ({ functionName, args }) => {
+        if (functionName === 'getReferrers') {
+          return ['unrelated-referrer-id'] // Referrer is not registered
+        }
+        if (functionName === 'getUsers' && args) {
+          return [[], []] // User is not registered
+        }
+        throw new Error('Unexpected read contract call.')
+      })
+
+    const result = await createRegistrationTransactions({ networkId: NetworkId['op-mainnet'] })
+    expect(result).toEqual([])
+  })
+
   it('returns no transactions if all registrations are completed', async () => {
     mockStore.getState.mockImplementationOnce(() =>
       getMockStoreData({
