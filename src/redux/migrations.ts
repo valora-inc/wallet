@@ -2021,7 +2021,7 @@ export const migrations = {
     ...state,
     app: {
       ..._.omit(state.app, 'loggedIn'),
-      registrations: {},
+      divviRegistrations: {},
     },
   }),
 }
