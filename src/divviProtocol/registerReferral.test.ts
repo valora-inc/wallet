@@ -7,6 +7,7 @@ import { registryContractAbi } from 'src/divviProtocol/abi/Registry'
 import { REGISTRY_CONTRACT_ADDRESS } from 'src/divviProtocol/constants'
 import {
   createRegistrationTransactionsIfNeeded,
+  monitorRegistrationTransaction,
   sendPreparedRegistrationTransactions,
 } from 'src/divviProtocol/registerReferral'
 import { store } from 'src/redux/store'
@@ -15,7 +16,7 @@ import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { getMockStoreData } from 'test/utils'
 import { mockAccount } from 'test/values'
-import { encodeFunctionData, parseEventLogs } from 'viem'
+import { encodeFunctionData, Hash, parseEventLogs } from 'viem'
 
 // Note: Statsig is not directly used by this module, but mocking it prevents
 // require cycles from impacting the tests.
@@ -164,34 +165,7 @@ describe('sendPreparedRegistrationTransactions', () => {
     sendRawTransaction: jest.fn(async () => '0xhash'),
   } as any as ViemWallet
 
-  it('sends transactions and updates store on success', async () => {
-    const mockNonce = 157
-    jest.mocked(parseEventLogs).mockReturnValue([
-      {
-        args: {
-          protocolId: '0x62bd0dd2bb37b275249fe0ec6a61b0fb5adafd50d05a41adb9e1cbfd41ab0607',
-        },
-      },
-    ] as unknown as ReturnType<typeof parseEventLogs>)
-
-    await expectSaga(
-      sendPreparedRegistrationTransactions,
-      [mockBeefyRegistrationTx],
-      NetworkId['op-mainnet'],
-      mockViemWallet,
-      mockNonce
-    )
-      .provide([
-        [matchers.call.fn(mockViemWallet.signTransaction), '0xsomeSerialisedTransaction'],
-        [matchers.call.fn(mockViemWallet.sendRawTransaction), '0xhash'],
-        [matchers.call.fn(publicClient.optimism.waitForTransactionReceipt), { status: 'success' }],
-      ])
-      .put(divviRegistrationCompleted(NetworkId['op-mainnet'], 'beefy'))
-      .returns(mockNonce + 1)
-      .run()
-  })
-
-  it('handles reverted transaction and does not update the store', async () => {
+  it('sends transactions and spawns the monitor transaction saga', async () => {
     const mockNonce = 157
 
     await expectSaga(
@@ -204,9 +178,9 @@ describe('sendPreparedRegistrationTransactions', () => {
       .provide([
         [matchers.call.fn(mockViemWallet.signTransaction), '0xsomeSerialisedTransaction'],
         [matchers.call.fn(mockViemWallet.sendRawTransaction), '0xhash'],
-        [matchers.call.fn(publicClient.optimism.waitForTransactionReceipt), { status: 'reverted' }],
+        [matchers.spawn.fn(monitorRegistrationTransaction), null],
       ])
-      .not.put(divviRegistrationCompleted(NetworkId['op-mainnet'], 'beefy'))
+      .spawn(monitorRegistrationTransaction, '0xhash', NetworkId['op-mainnet'])
       .returns(mockNonce + 1)
       .run()
   })
@@ -227,6 +201,34 @@ describe('sendPreparedRegistrationTransactions', () => {
       ])
       .not.put(divviRegistrationCompleted(NetworkId['op-mainnet'], 'beefy'))
       .returns(mockNonce)
+      .run()
+  })
+})
+
+describe('monitorRegistrationTransaction', () => {
+  it('updates the store on successful transaction', async () => {
+    jest.mocked(parseEventLogs).mockReturnValue([
+      {
+        args: {
+          protocolId: '0x62bd0dd2bb37b275249fe0ec6a61b0fb5adafd50d05a41adb9e1cbfd41ab0607', // keccak256(stringToHex('beefy'))
+        },
+      },
+    ] as unknown as ReturnType<typeof parseEventLogs>)
+
+    await expectSaga(monitorRegistrationTransaction, '0xhash' as Hash, NetworkId['op-mainnet'])
+      .provide([
+        [matchers.call.fn(publicClient.optimism.waitForTransactionReceipt), { status: 'success' }],
+      ])
+      .put(divviRegistrationCompleted(NetworkId['op-mainnet'], 'beefy'))
+      .run()
+  })
+
+  it('does not update the store on reverted transaction', async () => {
+    await expectSaga(monitorRegistrationTransaction, '0xhash' as Hash, NetworkId['op-mainnet'])
+      .provide([
+        [matchers.call.fn(publicClient.optimism.waitForTransactionReceipt), { status: 'reverted' }],
+      ])
+      .not.put(divviRegistrationCompleted(NetworkId['op-mainnet'], 'beefy'))
       .run()
   })
 })

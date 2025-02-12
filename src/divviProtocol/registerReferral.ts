@@ -12,8 +12,8 @@ import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSeri
 import { TransactionRequest } from 'src/viem/prepareTransactions'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put } from 'typed-redux-saga'
-import { Address, decodeFunctionData, encodeFunctionData, parseEventLogs } from 'viem'
+import { call, put, spawn } from 'typed-redux-saga'
+import { Address, decodeFunctionData, encodeFunctionData, Hash, parseEventLogs } from 'viem'
 
 const TAG = 'divviProtocol/registerReferral'
 
@@ -149,31 +149,7 @@ export function* sendPreparedRegistrationTransactions(
       )
       nonce = nonce + 1
 
-      const receipt = yield* call(
-        [publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'],
-        {
-          hash,
-        }
-      )
-
-      if (receipt.status === 'success') {
-        const parsedLogs = parseEventLogs({
-          abi: registryContractAbi,
-          eventName: ['ReferralRegistered'],
-          logs: receipt.logs,
-        })
-
-        const protocolId = supportedProtocolIdHashes[parsedLogs[0].args.protocolId]
-        if (!protocolId) {
-          // this should never happen, since we specify the protocolId in the prepareTransactions step
-          Logger.error(
-            `${TAG}/sendPreparedRegistrationTransactions`,
-            `Unknown protocolId received from transaction ${hash}`
-          )
-          continue
-        }
-        yield* put(divviRegistrationCompleted(networkId, protocolId))
-      }
+      yield* spawn(monitorRegistrationTransaction, hash, networkId)
     } catch (error) {
       Logger.error(
         `${TAG}/sendPreparedRegistrationTransactions`,
@@ -184,4 +160,32 @@ export function* sendPreparedRegistrationTransactions(
   }
 
   return nonce
+}
+
+export function* monitorRegistrationTransaction(hash: Hash, networkId: NetworkId) {
+  const receipt = yield* call(
+    [publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'],
+    {
+      hash,
+    }
+  )
+
+  if (receipt.status === 'success') {
+    const parsedLogs = parseEventLogs({
+      abi: registryContractAbi,
+      eventName: ['ReferralRegistered'],
+      logs: receipt.logs,
+    })
+
+    const protocolId = supportedProtocolIdHashes[parsedLogs[0].args.protocolId]
+    if (!protocolId) {
+      // this should never happen, since we specify the protocolId in the prepareTransactions step
+      Logger.error(
+        `${TAG}/sendPreparedRegistrationTransactions`,
+        `Unknown protocolId received from transaction ${hash}`
+      )
+      return
+    }
+    yield* put(divviRegistrationCompleted(networkId, protocolId))
+  }
 }
