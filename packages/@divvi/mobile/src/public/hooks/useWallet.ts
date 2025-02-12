@@ -13,6 +13,7 @@
  */
 
 import { useMemo } from 'react'
+import type { EarnPosition } from 'src/positions/types'
 import type { UseSelector } from '../../redux/hooks'
 import type { SortedTokensWithBalanceOrShowZeroBalanceSelector } from '../../tokens/selectors'
 import type { TokenBalance } from '../../tokens/slice'
@@ -40,6 +41,13 @@ function useTokens() {
   return tokens
 }
 
+function useEarnPositions() {
+  const useSelector = require('../../redux/hooks').useSelector as UseSelector
+  const earnPositionsSelector = require('../../positions/selectors').earnPositionsSelector
+  const positions = useSelector(earnPositionsSelector)
+  return positions
+}
+
 export function useWallet() {
   const useSelector = require('../../redux/hooks').useSelector as UseSelector
   const walletAddressSelector = require('../../web3/selectors')
@@ -47,8 +55,10 @@ export function useWallet() {
   const address = useSelector(walletAddressSelector) as string | null
   const tokens = useTokens() as TokenBalance[]
 
+  const earnPositions = useEarnPositions() as EarnPosition[]
   return {
     address,
     tokens,
+    earnPositions,
   }
 }
