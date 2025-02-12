@@ -1,4 +1,4 @@
-import { registrationCompleted } from 'src/app/actions'
+import { divviRegistrationCompleted } from 'src/app/actions'
 import { registrationsSelector } from 'src/app/selectors'
 import { DIVVI_PROTOCOL_IDS, DIVVI_REFERRER_ID } from 'src/config'
 import { registryContractAbi } from 'src/divviProtocol/abi/Registry'
@@ -99,7 +99,7 @@ export async function createRegistrationTransactions({
             `${TAG}/createRegistrationTransactions`,
             `Referral is already registered for protocol "${protocolId}". Skipping registration transaction.`
           )
-          store.dispatch(registrationCompleted(networkId, protocolId))
+          store.dispatch(divviRegistrationCompleted(networkId, protocolId))
           return
         }
 
@@ -165,7 +165,7 @@ export function* sendPreparedRegistrationTransactions(
         )
         throw new Error(`Unknown protocolId received from transaction ${hash}`)
       }
-      yield* put(registrationCompleted(networkConfig.networkToNetworkId[network], protocolId))
+      yield* put(divviRegistrationCompleted(networkConfig.networkToNetworkId[network], protocolId))
     }
   }
 
