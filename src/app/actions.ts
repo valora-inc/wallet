@@ -1,6 +1,6 @@
 import { BIOMETRY_TYPE } from '@divvi/react-native-keychain'
 import { RemoteConfigValues } from 'src/app/saga'
-import { SupportedProtocolIds } from 'src/divviProtocol/constants'
+import { SupportedProtocolId } from 'src/divviProtocol/constants'
 import { Screens } from 'src/navigator/Screens'
 import { NetworkId } from 'src/transactions/types'
 
@@ -157,7 +157,7 @@ interface ToggleHideBalances {
 interface DivviRegistrationCompleted {
   type: Actions.DIVVI_REGISTRATION_COMPLETED
   networkId: NetworkId
-  protocol: SupportedProtocolIds
+  protocolId: SupportedProtocolId
 }
 
 export type ActionTypes =
@@ -341,11 +341,11 @@ export const toggleHideBalances = (): ToggleHideBalances => {
 
 export const divviRegistrationCompleted = (
   networkId: NetworkId,
-  protocol: SupportedProtocolIds
+  protocolId: SupportedProtocolId
 ): DivviRegistrationCompleted => {
   return {
     type: Actions.DIVVI_REGISTRATION_COMPLETED,
     networkId,
-    protocol,
+    protocolId,
   }
 }
