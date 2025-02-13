@@ -150,12 +150,14 @@ export function* getWalletAddress() {
 // This needs to be refactored and removed since the name is misleading.
 export const getAccount = getWalletAddress
 
+export type UnlockResultType = typeof UnlockResult
 export enum UnlockResult {
   SUCCESS,
   FAILURE,
   CANCELED,
 }
 
+export type UnlockAccount = typeof unlockAccount
 export function* unlockAccount(account: string, force: boolean = false) {
   Logger.debug(TAG + '@unlockAccount', `Unlocking account: ${account}`)
 

@@ -24,3 +24,4 @@ export {
 } from './prepareTransactions'
 export { sendTransactions } from './sendTransactions'
 export { type NetworkId, type PublicAppConfig } from './types'
+export { unlockAccount, type UnlockResult } from './unlockAccount'
