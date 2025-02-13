@@ -97,6 +97,7 @@ export type NavigateParams<RouteName extends keyof StackParamList> =
     ? [RouteName] | [RouteName, StackParamList[RouteName]]
     : [RouteName, StackParamList[RouteName]]
 
+export type Navigate = typeof navigate
 export function navigate<RouteName extends keyof StackParamList>(
   ...args: NavigateParams<RouteName>
 ) {

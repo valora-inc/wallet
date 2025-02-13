@@ -14,6 +14,7 @@ export { usePublicClient } from './hooks/usePublicClient'
 export { useSendTransactions } from './hooks/useSendTransactions'
 export { useWallet } from './hooks/useWallet'
 export { useWalletClient } from './hooks/useWalletClient'
+export { navigate, type NativeStackScreenProps, type StackParamList } from './navigate'
 export {
   prepareTransactions,
   type PreparedTransactionsNeedDecreaseSpendAmountForGas,

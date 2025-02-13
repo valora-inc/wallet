@@ -1,12 +1,14 @@
 import { useWallet } from '@divvi/mobile'
 import React from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { RootStackScreenProps } from './types'
 
-export default function CustomScreen() {
+export default function CustomScreen({ route }: RootStackScreenProps<'CustomScreen'>) {
   const { address, tokens } = useWallet()
 
   return (
     <View style={styles.container}>
+      <Text style={styles.text}>route.params: {JSON.stringify(route.params)}</Text>
       <View style={styles.walletAddressContainer}>
         <Text style={[styles.text, styles.title]}>Wallet address:</Text>
         <Text style={styles.text}>{address}</Text>

@@ -88,6 +88,7 @@ type TokensByIdArgs =
       includePositionTokens?: boolean
     }
 
+export type TokensByIdSelector = typeof tokensByIdSelector
 export const tokensByIdSelector = createSelector(
   [
     (state: RootState) => state.tokens.tokenBalances,

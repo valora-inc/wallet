@@ -1,3 +1,4 @@
+export type ScreensType = typeof Screens
 export enum Screens {
   AccountKeyEducation = 'AccountKeyEducation',
   AccounSetupFailureScreen = 'AccounSetupFailureScreen',

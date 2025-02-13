@@ -300,4 +300,5 @@ class Logger {
   }
 }
 
+export type LoggerType = Logger
 export default new Logger({ level: LOGGER_LEVEL })

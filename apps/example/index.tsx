@@ -51,7 +51,7 @@ const App = createApp({
           defaultTabs.discover,
           defaultTabs.earn,
           {
-            name: 'playground',
+            name: 'Playground',
             component: PlaygroundScreen,
             // TODO: add icon
             icon: () => null,
@@ -63,7 +63,12 @@ const App = createApp({
     },
     custom: (Screen) => (
       <>
-        <Screen name="CustomScreen" component={CustomScreen} options={{ headerShown: true }} />
+        <Screen
+          name="CustomScreen"
+          component={CustomScreen}
+          // TODO: make custom screens use our custom back button
+          options={{ headerBackVisible: true, headerShown: true }}
+        />
       </>
     ),
   },

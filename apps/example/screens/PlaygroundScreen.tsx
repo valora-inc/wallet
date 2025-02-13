@@ -1,9 +1,24 @@
-import { getFees, usePrepareTransactions, useSendTransactions, useWallet } from '@divvi/mobile'
+import {
+  getFees,
+  navigate,
+  usePrepareTransactions,
+  useSendTransactions,
+  useWallet,
+} from '@divvi/mobile'
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native'
 import { Address, parseEther } from 'viem'
+import { RootStackScreenProps } from './types'
 
-export default function PlaygroundScreen() {
+export default function PlaygroundScreen(_props: RootStackScreenProps<'Playground'>) {
   const { address } = useWallet()
 
   const [amount, setAmount] = useState('')
@@ -59,10 +74,42 @@ export default function PlaygroundScreen() {
   const fees = getFees(prepared)
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Wallet</Text>
         <Text>Address: {address}</Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Navigate</Text>
+        {[
+          { label: 'Send', onPress: () => navigate('Send') },
+          { label: 'Receive', onPress: () => navigate('Receive') },
+          {
+            label: 'Swap',
+            onPress: () => navigate('Swap', { fromTokenId: 'celo-mainnet:native' }),
+          },
+          { label: 'Add', onPress: () => navigate('Add') },
+          {
+            label: 'Add with tokenId',
+            onPress: () => navigate('Add', { tokenId: 'celo-mainnet:native' }),
+          },
+          { label: 'Withdraw', onPress: () => navigate('Withdraw') },
+          { label: 'Tab Wallet', onPress: () => navigate('TabWallet') },
+          {
+            label: 'Custom Screen',
+            onPress: () => navigate('CustomScreen', { someParam: 'test' }),
+          },
+        ].map((item) => (
+          <Pressable
+            key={item.label}
+            onPress={item.onPress}
+            style={({ pressed }) => [styles.navButton, pressed && styles.navButtonPressed]}
+          >
+            <Text style={styles.navButtonText}>{item.label}</Text>
+            <Text style={styles.navArrow}>›</Text>
+          </Pressable>
+        ))}
       </View>
 
       <View style={styles.section}>
@@ -161,7 +208,7 @@ export default function PlaygroundScreen() {
           </View>
         )}
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -271,5 +318,26 @@ const styles = StyleSheet.create({
   warningText: {
     fontSize: 13,
     color: '#9a3412',
+  },
+  navButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    backgroundColor: '#f8fafc',
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  navButtonPressed: {
+    backgroundColor: '#f1f5f9',
+  },
+  navButtonText: {
+    fontSize: 16,
+    color: '#334155',
+  },
+  navArrow: {
+    fontSize: 20,
+    color: '#64748b',
   },
 })
