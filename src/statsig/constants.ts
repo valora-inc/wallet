@@ -3,11 +3,10 @@ import { NetworkId } from 'src/transactions/types'
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
-  // Needed for CI, remove if there are actual experiments
-  [StatsigExperiments.SAMPLE]: {
-    experimentName: StatsigExperiments.SAMPLE,
+  [StatsigExperiments.COST_EFFECTIVE_CICO]: {
+    experimentName: StatsigExperiments.COST_EFFECTIVE_CICO,
     defaultValues: {
-      testParam: 'sample-param-1',
+      variant: 'control' as 'control' | 'treatment',
     },
   },
 } satisfies {
