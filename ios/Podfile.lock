@@ -780,7 +780,7 @@ PODS:
     - RNFBApp
   - RNFS (2.20.1):
     - React-Core
-  - RNGestureHandler (2.21.2):
+  - RNGestureHandler (2.23.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNKeychain (9.2.2):
@@ -1317,7 +1317,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: d90c3a9e3da96dc2cf150a01d3aa0a68a3c32501
   RNFBRemoteConfig: 1c92f072b1772b91663247b07a711cd4e9e191e8
   RNFS: e21dbd93b9beabe4649fb73ff29114c18e78d36d
-  RNGestureHandler: b81313e62e717cc165ea3b99436aa305d04c57b4
+  RNGestureHandler: 44710b912ee3cda6b1c8a1de1509bdc15db51f96
   RNKeychain: 91dc223bc77e3bb8576a3c75cdd28863bc2cb26e
   RNLocalize: d024afa9204c13885e61dc88b8190651bcaabac9
   RNPermissions: 1d002266e43df33d7080d5355a64b7d12bdb5e75
