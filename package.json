@@ -79,6 +79,7 @@
     "@walletconnect/react-native-compat": "^2.16.2",
     "clevertap-react-native": "^2.2.1",
     "cross-spawn": "^7.0.0",
+    "elliptic": "^6.6.1",
     "expo": "52.0.23",
     "lottie-react-native": "^5.1.6",
     "react": "18.3.1",
