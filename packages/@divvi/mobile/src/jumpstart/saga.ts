@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { JumpstartEvents } from 'src/analytics/Events'
+import { isRegistrationTransaction } from 'src/divviProtocol/registerReferral'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import {
   JumpstarReclaimAction,
@@ -242,7 +243,9 @@ export function* sendJumpstartTransactions(
     }
 
     const createStandbyTxHandlers = []
-    const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
+    const preparedTransactions = getPreparedTransactions(
+      serializablePreparedTransactions.filter((tx) => !isRegistrationTransaction(tx))
+    )
 
     // in this flow, there should only be 1 or 2 transactions. if there are 2
     // transactions, the first one should be an approval.
