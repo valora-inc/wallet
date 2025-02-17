@@ -159,13 +159,13 @@ export default function PlaygroundScreen(_props: RootStackScreenProps<'Playgroun
             <View style={styles.feeRow}>
               <Text style={styles.feeLabel}>Estimated Fee:</Text>
               <Text style={styles.feeAmount}>
-                {fees.estimatedFeeAmount?.toString()} {fees.feeCurrency.symbol}
+                {fees.estimatedFeeAmount?.toString()} {fees.feeCurrency?.symbol}
               </Text>
             </View>
             <View style={styles.feeRow}>
               <Text style={styles.feeLabel}>Max Fee:</Text>
               <Text style={styles.feeAmount}>
-                {fees.maxFeeAmount?.toString()} {fees.feeCurrency.symbol}
+                {fees.maxFeeAmount?.toString()} {fees.feeCurrency?.symbol}
               </Text>
             </View>
           </View>

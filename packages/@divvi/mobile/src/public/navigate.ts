@@ -1,4 +1,6 @@
 // See useWallet for why we don't directly import internal modules, except for the types
+import { ParamListBase } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import type { CICOFlowType, FiatExchangeFlowType } from '../fiatExchanges/types'
 import type { Navigate } from '../navigator/NavigationService'
 import type { ScreensType } from '../navigator/Screens'
@@ -18,6 +20,14 @@ declare global {
     interface RootParamList extends StackParamList {}
   }
 }
+
+export type NavigatorScreen = ReturnType<
+  // TODO: this weird looking type works around a type error when checking the lib vs example app
+  // Maybe we can get rid of this once we're able to ship declaration files
+  typeof createNativeStackNavigator<
+    DivviNavigation.RootParamList extends ParamListBase ? DivviNavigation.RootParamList : never
+  >
+>['Screen']
 
 export type StackParamList = {
   Send: undefined
@@ -43,13 +53,13 @@ export type StackParamList = {
 
 export type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-type NavigateArgs = {
-  [RouteName in keyof DivviNavigation.RootParamList]: undefined extends DivviNavigation.RootParamList[RouteName]
-    ? [RouteName] | [RouteName, DivviNavigation.RootParamList[RouteName]]
-    : [RouteName, DivviNavigation.RootParamList[RouteName]]
-}[keyof DivviNavigation.RootParamList]
+type NavigateArgs<ParamList = DivviNavigation.RootParamList> = {
+  [RouteName in keyof ParamList]: undefined extends ParamList[RouteName]
+    ? [RouteName] | [RouteName, ParamList[RouteName]]
+    : [RouteName, ParamList[RouteName]]
+}[keyof ParamList]
 
-export function navigate(...[routeName, params]: NavigateArgs): void {
+export function navigate(...args: NavigateArgs): void {
   const internalNavigate = require('../navigator/NavigationService').navigate as Navigate
   const Logger = require('../utils/Logger').default as LoggerType
   const store = require('../redux/store').store as Store
@@ -59,6 +69,9 @@ export function navigate(...[routeName, params]: NavigateArgs): void {
   const FiatExchangeFlow = require('../fiatExchanges/types')
     .FiatExchangeFlow as FiatExchangeFlowType
   const CICOFlow = require('../fiatExchanges/types').CICOFlow as CICOFlowType
+
+  // TODO: remove the need to cast once we're able to ship declaration files
+  const [routeName, params] = args as NavigateArgs<StackParamList>
 
   switch (routeName) {
     case 'Send':

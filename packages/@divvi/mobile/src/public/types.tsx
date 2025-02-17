@@ -1,5 +1,5 @@
 import type { ImageSourcePropType } from 'react-native'
-import type { NavigatorScreen } from '../navigator/Navigator'
+import type { NavigatorScreen } from './navigate'
 
 // Type for tab configuration
 export interface TabScreenConfig {

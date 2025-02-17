@@ -1,6 +1,4 @@
 {
-  "extends": [
-    "../../../node_modules/expo/tsconfig.base.json",
-    "../../../node_modules/@divvi/mobile/tsconfig.json"
-  ]
+  // For some reason, ts-node doesn't pick up the tsconfig.json file in the root of the project
+  "extends": "../../../node_modules/@tsconfig/node-lts/tsconfig.json"
 }

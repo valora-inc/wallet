@@ -101,6 +101,7 @@ import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
 import PointsHome from 'src/points/PointsHome'
 import PointsIntro from 'src/points/PointsIntro'
+import { NavigatorScreen } from 'src/public/navigate'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
@@ -134,8 +135,6 @@ const TAG = 'Navigator'
 const Stack = createNativeStackNavigator<StackParamList>()
 const ModalStack = createNativeStackNavigator<StackParamList>()
 const RootStack = createBottomSheetNavigator<StackParamList>()
-
-export type NavigatorScreen = typeof Stack.Screen
 
 const commonScreens = (Navigator: typeof Stack) => {
   return (
@@ -607,7 +606,7 @@ const pointsScreens = (Navigator: typeof Stack) => (
 )
 
 const customScreens = (Navigator: typeof Stack) => {
-  return getAppConfig().screens?.custom?.(Navigator.Screen) ?? null
+  return getAppConfig().screens?.custom?.(Navigator.Screen as NavigatorScreen) ?? null
 }
 
 const mapStateToProps = (state: RootState) => {

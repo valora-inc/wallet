@@ -44,3 +44,12 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+  apps-example:
+    name: apps/example
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/yarn-install
+      - name: Typecheck
+        run: yarn typecheck
+        working-directory: apps/example
