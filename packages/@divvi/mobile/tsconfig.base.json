@@ -1,0 +1,5 @@
+{
+  // This tsconfig is intended to be used by apps consuming the divvi mobile package
+  // TODO: extend from "expo/tsconfig.base" once we're able to get rid of `src` absolute paths
+  "extends": "./tsconfig.json"
+}

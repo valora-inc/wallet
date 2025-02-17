@@ -1,6 +1,5 @@
 {
-  // Temporary hack until we figure out a way for this to be { "extends": "expo/tsconfig.base" }
-  "extends": "@divvi/mobile",
+  "extends": "@divvi/mobile/tsconfig.base",
   // TODO: we should be able to remove the need to include the mobile package index.d.ts once we're able to ship declaration files
   "include": ["**/*", "../../packages/@divvi/mobile/src/index.d.ts"]
 }

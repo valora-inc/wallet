@@ -21,6 +21,8 @@
     "node": ">=20"
   },
   "files": [
+    "tsconfig.json",
+    "tsconfig.base.json",
     "src",
     "locales",
     "plugin/build",
