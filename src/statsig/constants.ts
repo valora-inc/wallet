@@ -11,7 +11,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS]: true,
   [StatsigFeatureGates.ALLOW_HOOKS_PREVIEW]: true,
   [StatsigFeatureGates.APP_REVIEW]: false,
-  [StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW]: false,
+  [StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW]: true,
   [StatsigFeatureGates.SAVE_CONTACTS]: false,
   [StatsigFeatureGates.CLEVERTAP_INBOX]: false,
   [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: true,
@@ -110,6 +110,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.APP_CONFIG,
     defaultValues: {
       minRequiredVersion: '0.0.0',
+      // TODO: add link to documentation for what kind of content these links should link to
       links: {
         web: '',
         tos: '',
@@ -123,8 +124,8 @@ export const DynamicConfigs = {
         inviteRewardsStableTokenLearnMore: '',
         earnStablecoinsLearnMore: '',
         celoEducation: '',
-        dappList: '',
-        celoNews: '',
+        dappList: 'https://api.mainnet.valora.xyz/dappList',
+        celoNews: 'https://blog.celo.org',
       },
     },
   },
