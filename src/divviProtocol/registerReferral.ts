@@ -13,7 +13,15 @@ import { TransactionRequest } from 'src/viem/prepareTransactions'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, spawn } from 'typed-redux-saga'
-import { Address, decodeFunctionData, encodeFunctionData, Hash, parseEventLogs } from 'viem'
+import {
+  Address,
+  decodeFunctionData,
+  encodeFunctionData,
+  Hash,
+  Hex,
+  parseEventLogs,
+  stringToHex,
+} from 'viem'
 
 const TAG = 'divviProtocol/registerReferral'
 
@@ -25,7 +33,7 @@ export function isRegistrationTransaction(tx: TransactionRequest | SerializableT
       decodeFunctionData({
         abi: registryContractAbi,
         data: tx.data,
-      }).functionName === 'registerReferral'
+      }).functionName === 'registerReferrals'
     )
   } catch (error) {
     // decodeFunctionData will throw if the data does not match any function in
@@ -36,18 +44,18 @@ export function isRegistrationTransaction(tx: TransactionRequest | SerializableT
   }
 }
 
-export async function createRegistrationTransactionsIfNeeded({
+export async function createRegistrationTransactionIfNeeded({
   networkId,
 }: {
   networkId: NetworkId
-}): Promise<TransactionRequest[]> {
+}): Promise<TransactionRequest | null> {
   const referrerId = DIVVI_REFERRER_ID
   if (!referrerId) {
     Logger.debug(
       `${TAG}/createRegistrationTransactionsIfNeeded`,
-      'No referrer id set. Skipping registration transactions.'
+      'No referrer id set. Skipping registration transaction.'
     )
-    return []
+    return null
   }
 
   // Caching registration status in Redux reduces on-chain checks but doesn’t guarantee
@@ -59,107 +67,84 @@ export async function createRegistrationTransactionsIfNeeded({
     (protocol) => !completedRegistrations.has(protocol)
   )
   if (pendingRegistrations.length === 0) {
-    return []
+    return null
   }
 
-  // Ensure the referrer and protocol are registered before creating
-  // transactions to prevent gas estimation failures later.
   const client = publicClient[networkIdToNetwork[networkId]]
-  const protocolsEligibleForRegistration: string[] = []
   const walletAddress = walletAddressSelector(store.getState()) as Address
-  await Promise.all(
-    pendingRegistrations.map(async (protocolId) => {
-      try {
-        const [registeredReferrers, registeredUsers] = await Promise.all([
-          client.readContract({
-            address: REGISTRY_CONTRACT_ADDRESS,
-            abi: registryContractAbi,
-            functionName: 'getReferrers',
-            args: [protocolId],
-          }),
-          // TODO: getUsers is not the correct call to get the registration
-          // status of the user for any given protocol, we need to modify this
-          // part once the correct call is available
-          client.readContract({
-            address: REGISTRY_CONTRACT_ADDRESS,
-            abi: registryContractAbi,
-            functionName: 'getUsers',
-            args: [protocolId, referrerId],
-          }),
-        ])
+  const protocolsPendingRegistration = pendingRegistrations.map((protocol) =>
+    stringToHex(protocol, { size: 32 })
+  )
+  const protocolsEligibleForRegistration: Hex[] = []
 
-        if (!registeredReferrers.includes(referrerId)) {
-          Logger.error(
-            `${TAG}/createRegistrationTransactionsIfNeeded`,
-            `Referrer "${referrerId}" is not registered for protocol "${protocolId}". Skipping registration transaction.`
-          )
-          return
-        }
+  try {
+    const userRegistrationStatuses = await client.readContract({
+      address: REGISTRY_CONTRACT_ADDRESS,
+      abi: registryContractAbi,
+      functionName: 'isUserRegistered',
+      args: [walletAddress, protocolsPendingRegistration],
+    })
 
-        if (registeredUsers[0].some((address) => address.toLowerCase() === walletAddress)) {
-          Logger.debug(
-            `${TAG}/createRegistrationTransactionsIfNeeded`,
-            `Referral is already registered for protocol "${protocolId}". Skipping registration transaction.`
-          )
-          store.dispatch(divviRegistrationCompleted(networkId, protocolId))
-          return
-        }
-
-        protocolsEligibleForRegistration.push(protocolId)
-      } catch (error) {
-        Logger.error(
+    userRegistrationStatuses.forEach((isRegistered, index) => {
+      if (isRegistered) {
+        Logger.debug(
           `${TAG}/createRegistrationTransactionsIfNeeded`,
-          `Error reading registration state for protocol "${protocolId}". Skipping registration transaction.`,
-          error
+          `User is already registered for protocol "${pendingRegistrations[index]}". Skipping registration transaction.`
         )
+        store.dispatch(divviRegistrationCompleted(networkId, pendingRegistrations[index]))
+      } else {
+        protocolsEligibleForRegistration.push(protocolsPendingRegistration[index])
       }
     })
-  )
+  } catch (error) {
+    Logger.error(
+      `${TAG}/createRegistrationTransactionsIfNeeded`,
+      `Error reading registration state. Skipping registration transaction.`,
+      error
+    )
+    return null
+  }
 
-  return protocolsEligibleForRegistration.map((protocolId) => ({
+  return {
     to: REGISTRY_CONTRACT_ADDRESS,
     data: encodeFunctionData({
       abi: registryContractAbi,
-      functionName: 'registerReferral',
-      args: [referrerId, protocolId],
+      functionName: 'registerReferrals',
+      args: [stringToHex(referrerId, { size: 32 }), protocolsEligibleForRegistration],
     }),
-  }))
+  }
 }
 
-export function* sendPreparedRegistrationTransactions(
-  txs: TransactionRequest[],
+export function* sendPreparedRegistrationTransaction(
+  tx: TransactionRequest,
   networkId: NetworkId,
   wallet: ViemWallet,
   nonce: number
 ) {
-  for (let i = 0; i < txs.length; i++) {
-    try {
-      const signedTx = yield* call([wallet, 'signTransaction'], {
-        ...txs[i],
-        nonce,
-      } as any)
-      const hash = yield* call([wallet, 'sendRawTransaction'], {
-        serializedTransaction: signedTx,
-      })
+  try {
+    const signedTx = yield* call([wallet, 'signTransaction'], {
+      tx,
+      nonce,
+    } as any)
+    const hash = yield* call([wallet, 'sendRawTransaction'], {
+      serializedTransaction: signedTx,
+    })
 
-      Logger.debug(
-        `${TAG}/sendPreparedRegistrationTransactions`,
-        'Successfully sent transaction to the network',
-        hash
-      )
-      nonce = nonce + 1
+    Logger.debug(
+      `${TAG}/sendPreparedRegistrationTransactions`,
+      'Successfully sent transaction to the network',
+      hash
+    )
 
-      yield* spawn(monitorRegistrationTransaction, hash, networkId)
-    } catch (error) {
-      Logger.error(
-        `${TAG}/sendPreparedRegistrationTransactions`,
-        `Failed to send or parse prepared registration transaction`,
-        error
-      )
-    }
+    yield* spawn(monitorRegistrationTransaction, hash, networkId)
+  } catch (error) {
+    Logger.error(
+      `${TAG}/sendPreparedRegistrationTransactions`,
+      `Failed to send or parse prepared registration transaction`,
+      error
+    )
+    throw error
   }
-
-  return nonce
 }
 
 export function* monitorRegistrationTransaction(hash: Hash, networkId: NetworkId) {

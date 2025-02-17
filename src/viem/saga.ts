@@ -1,6 +1,6 @@
 import {
   isRegistrationTransaction,
-  sendPreparedRegistrationTransactions,
+  sendPreparedRegistrationTransaction,
 } from 'src/divviProtocol/registerReferral'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -56,10 +56,10 @@ export function* sendPreparedTransactions(
   }
 
   const preparedTransactions: TransactionRequest[] = []
-  const preparedRegistrationTransactions: TransactionRequest[] = []
+  let preparedRegistrationTransaction: TransactionRequest | null = null
   getPreparedTransactions(serializablePreparedTransactions).forEach((tx) => {
     if (isRegistrationTransaction(tx)) {
-      preparedRegistrationTransactions.push(tx)
+      preparedRegistrationTransaction = tx
     } else {
       preparedTransactions.push(tx)
     }
@@ -89,15 +89,15 @@ export function* sendPreparedTransactions(
     blockTag: 'pending',
   })
 
-  // if there are registration transactions, send them first so that the
-  // subsequent transactions can have the referral attribution, and update the nonce
-  if (preparedRegistrationTransactions.length > 0) {
-    nonce = yield* call(
-      sendPreparedRegistrationTransactions,
-      preparedRegistrationTransactions,
+  // if there is a registration transaction, send it first so that the
+  // subsequent transactions can have the referral attribution
+  if (preparedRegistrationTransaction) {
+    yield* call(
+      sendPreparedRegistrationTransaction,
+      preparedRegistrationTransaction,
       networkId,
       wallet,
-      nonce
+      nonce++
     )
   }
 

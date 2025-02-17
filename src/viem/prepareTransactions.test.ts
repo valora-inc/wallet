@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TransactionEvents } from 'src/analytics/Events'
-import { createRegistrationTransactionsIfNeeded } from 'src/divviProtocol/registerReferral'
+import { createRegistrationTransactionIfNeeded } from 'src/divviProtocol/registerReferral'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
@@ -59,7 +59,7 @@ jest.mock('src/divviProtocol/registerReferral')
 
 beforeEach(() => {
   jest.clearAllMocks()
-  jest.mocked(createRegistrationTransactionsIfNeeded).mockResolvedValue([])
+  jest.mocked(createRegistrationTransactionIfNeeded).mockResolvedValue([])
 })
 
 describe('prepareTransactions module', () => {
@@ -143,7 +143,7 @@ describe('prepareTransactions module', () => {
   const mockPublicClient = {} as unknown as jest.Mocked<(typeof publicClient)[Network.Celo]>
   describe('prepareTransactions function', () => {
     it('adds divvi registration transactions to the prepared transactions if needed', async () => {
-      mocked(createRegistrationTransactionsIfNeeded).mockResolvedValue([
+      mocked(createRegistrationTransactionIfNeeded).mockResolvedValue([
         {
           data: '0xregistrationData',
           to: '0xregistrationTarget',

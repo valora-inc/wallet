@@ -3,7 +3,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TransactionEvents } from 'src/analytics/Events'
 import { TransactionOrigin } from 'src/analytics/types'
 import { STATIC_GAS_PADDING } from 'src/config'
-import { createRegistrationTransactionsIfNeeded } from 'src/divviProtocol/registerReferral'
+import { createRegistrationTransactionIfNeeded } from 'src/divviProtocol/registerReferral'
 import {
   NativeTokenBalance,
   TokenBalance,
@@ -292,7 +292,7 @@ export async function prepareTransactions({
   isGasSubsidized?: boolean
   origin: TransactionOrigin
 }): Promise<PreparedTransactionsResult> {
-  const registrationTxs = await createRegistrationTransactionsIfNeeded({
+  const registrationTxs = await createRegistrationTransactionIfNeeded({
     networkId: feeCurrencies[0].networkId,
   })
   if (registrationTxs.length > 0) {

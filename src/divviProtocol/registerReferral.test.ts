@@ -6,9 +6,9 @@ import * as config from 'src/config'
 import { registryContractAbi } from 'src/divviProtocol/abi/Registry'
 import { REGISTRY_CONTRACT_ADDRESS } from 'src/divviProtocol/constants'
 import {
-  createRegistrationTransactionsIfNeeded,
+  createRegistrationTransactionIfNeeded,
   monitorRegistrationTransaction,
-  sendPreparedRegistrationTransactions,
+  sendPreparedRegistrationTransaction,
 } from 'src/divviProtocol/registerReferral'
 import { store } from 'src/redux/store'
 import { NetworkId } from 'src/transactions/types'
@@ -54,7 +54,7 @@ describe('createRegistrationTransactionsIfNeeded', () => {
   it('returns no transactions if referrer id is not set', async () => {
     jest.mocked(config).DIVVI_REFERRER_ID = undefined
 
-    const result = await createRegistrationTransactionsIfNeeded({
+    const result = await createRegistrationTransactionIfNeeded({
       networkId: NetworkId['op-mainnet'],
     })
     expect(result).toEqual([])
@@ -73,7 +73,7 @@ describe('createRegistrationTransactionsIfNeeded', () => {
         throw new Error('Unexpected read contract call.')
       })
 
-    const result = await createRegistrationTransactionsIfNeeded({
+    const result = await createRegistrationTransactionIfNeeded({
       networkId: NetworkId['op-mainnet'],
     })
     expect(result).toEqual([])
@@ -89,7 +89,7 @@ describe('createRegistrationTransactionsIfNeeded', () => {
         },
       })
     )
-    const result = await createRegistrationTransactionsIfNeeded({
+    const result = await createRegistrationTransactionIfNeeded({
       networkId: NetworkId['op-mainnet'],
     })
     expect(result).toEqual([])
@@ -111,7 +111,7 @@ describe('createRegistrationTransactionsIfNeeded', () => {
         throw new Error('Unexpected read contract call.')
       })
 
-    const result = await createRegistrationTransactionsIfNeeded({
+    const result = await createRegistrationTransactionIfNeeded({
       networkId: NetworkId['op-mainnet'],
     })
     expect(result).toEqual([
@@ -142,7 +142,7 @@ describe('createRegistrationTransactionsIfNeeded', () => {
         throw new Error('Unexpected read contract call.')
       })
 
-    const result = await createRegistrationTransactionsIfNeeded({
+    const result = await createRegistrationTransactionIfNeeded({
       networkId: NetworkId['op-mainnet'],
     })
     expect(result).toEqual([
@@ -169,7 +169,7 @@ describe('sendPreparedRegistrationTransactions', () => {
     const mockNonce = 157
 
     await expectSaga(
-      sendPreparedRegistrationTransactions,
+      sendPreparedRegistrationTransaction,
       [mockBeefyRegistrationTx],
       NetworkId['op-mainnet'],
       mockViemWallet,
@@ -189,7 +189,7 @@ describe('sendPreparedRegistrationTransactions', () => {
     const mockNonce = 157
 
     await expectSaga(
-      sendPreparedRegistrationTransactions,
+      sendPreparedRegistrationTransaction,
       [mockBeefyRegistrationTx],
       NetworkId['op-mainnet'],
       mockViemWallet,
