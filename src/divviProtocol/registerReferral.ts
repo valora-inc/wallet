@@ -182,7 +182,7 @@ export function* monitorRegistrationTransaction(hash: Hash, networkId: NetworkId
     })
 
     const registeredProtocolIds = parsedLogs
-      .map((log) => hexToString(log.args.protocolId))
+      .map((log) => hexToString(log.args.protocolId, { size: 32 }))
       .filter((protocolId: string): protocolId is SupportedProtocolId => {
         if ((supportedProtocolIds as readonly string[]).includes(protocolId)) {
           return true
@@ -194,6 +194,9 @@ export function* monitorRegistrationTransaction(hash: Hash, networkId: NetworkId
           return false
         }
       })
-    yield* put(divviRegistrationCompleted(networkId, registeredProtocolIds))
+
+    if (registeredProtocolIds.length > 0) {
+      yield* put(divviRegistrationCompleted(networkId, registeredProtocolIds))
+    }
   }
 }

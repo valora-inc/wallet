@@ -83,9 +83,6 @@ describe('createRegistrationTransactionsIfNeeded', () => {
     jest
       .spyOn(publicClient.optimism, 'readContract')
       .mockImplementation(async ({ functionName, args }) => {
-        if (functionName === 'getReferrers') {
-          return ['unrelated-referrer-id', 'referrer-id'] // Referrer is registered
-        }
         if (functionName === 'isUserRegistered' && args) {
           return [true, false] // User is already registered for 'beefy' but not 'somm'
         }
@@ -113,9 +110,6 @@ describe('createRegistrationTransactionsIfNeeded', () => {
     jest
       .spyOn(publicClient.optimism, 'readContract')
       .mockImplementation(async ({ functionName, args }) => {
-        if (functionName === 'getReferrers') {
-          return ['unrelated-referrer-id', 'referrer-id'] // Referrer is registered
-        }
         if (functionName === 'isUserRegistered' && args) {
           throw new Error('Read error for protocol') // simulate error for other protocols
         }
@@ -141,7 +135,7 @@ describe('sendPreparedRegistrationTransactions', () => {
 
     await expectSaga(
       sendPreparedRegistrationTransaction,
-      [mockBeefyRegistrationTx],
+      mockBeefyRegistrationTx,
       NetworkId['op-mainnet'],
       mockViemWallet,
       mockNonce
@@ -152,27 +146,27 @@ describe('sendPreparedRegistrationTransactions', () => {
         [matchers.spawn.fn(monitorRegistrationTransaction), null],
       ])
       .spawn(monitorRegistrationTransaction, '0xhash', NetworkId['op-mainnet'])
-      .returns(mockNonce + 1)
       .run()
   })
 
-  it('does not throw on failure during sending to network, and returns the original nonce', async () => {
+  it('throws on failure during sending to network', async () => {
     const mockNonce = 157
 
-    await expectSaga(
-      sendPreparedRegistrationTransaction,
-      [mockBeefyRegistrationTx],
-      NetworkId['op-mainnet'],
-      mockViemWallet,
-      mockNonce
-    )
-      .provide([
-        [matchers.call.fn(mockViemWallet.signTransaction), '0xsomeSerialisedTransaction'],
-        [matchers.call.fn(mockViemWallet.sendRawTransaction), throwError(new Error('failure'))],
-      ])
-      .not.put(divviRegistrationCompleted(NetworkId['op-mainnet'], 'beefy'))
-      .returns(mockNonce)
-      .run()
+    await expect(
+      expectSaga(
+        sendPreparedRegistrationTransaction,
+        mockBeefyRegistrationTx,
+        NetworkId['op-mainnet'],
+        mockViemWallet,
+        mockNonce
+      )
+        .provide([
+          [matchers.call.fn(mockViemWallet.signTransaction), '0xsomeSerialisedTransaction'],
+          [matchers.call.fn(mockViemWallet.sendRawTransaction), throwError(new Error('failure'))],
+        ])
+        .not.put(divviRegistrationCompleted(NetworkId['op-mainnet'], ['beefy']))
+        .run()
+    ).rejects.toThrow()
   })
 })
 
@@ -181,7 +175,12 @@ describe('monitorRegistrationTransaction', () => {
     jest.mocked(parseEventLogs).mockReturnValue([
       {
         args: {
-          protocolId: '0x62bd0dd2bb37b275249fe0ec6a61b0fb5adafd50d05a41adb9e1cbfd41ab0607', // keccak256(stringToHex('beefy'))
+          protocolId: beefyHex,
+        },
+      },
+      {
+        args: {
+          protocolId: sommHex,
         },
       },
     ] as unknown as ReturnType<typeof parseEventLogs>)
@@ -190,7 +189,7 @@ describe('monitorRegistrationTransaction', () => {
       .provide([
         [matchers.call.fn(publicClient.optimism.waitForTransactionReceipt), { status: 'success' }],
       ])
-      .put(divviRegistrationCompleted(NetworkId['op-mainnet'], 'beefy'))
+      .put(divviRegistrationCompleted(NetworkId['op-mainnet'], ['beefy', 'somm']))
       .run()
   })
 
@@ -199,7 +198,7 @@ describe('monitorRegistrationTransaction', () => {
       .provide([
         [matchers.call.fn(publicClient.optimism.waitForTransactionReceipt), { status: 'reverted' }],
       ])
-      .not.put(divviRegistrationCompleted(NetworkId['op-mainnet'], 'beefy'))
+      .not.put(divviRegistrationCompleted(expect.anything(), expect.anything()))
       .run()
   })
 })
