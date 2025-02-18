@@ -229,7 +229,7 @@ export const appReducer = (
           ...state.divviRegistrations,
           [action.networkId]: [
             ...(state.divviRegistrations[action.networkId] ?? []),
-            action.protocolId,
+            ...action.protocolIds,
           ],
         },
       }

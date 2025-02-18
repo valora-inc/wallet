@@ -3,6 +3,9 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
+import { registryContractAbi } from 'src/divviProtocol/abi/Registry'
+import { REGISTRY_CONTRACT_ADDRESS } from 'src/divviProtocol/constants'
+import { sendPreparedRegistrationTransaction } from 'src/divviProtocol/registerReferral'
 import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/slice'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { ViemWallet } from 'src/viem/getLockableWallet'
@@ -20,6 +23,7 @@ import {
   mockCusdTokenId,
   mockQRCodeRecipient,
 } from 'test/values'
+import { encodeFunctionData, stringToHex } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 const preparedTransactions: TransactionRequest[] = [
@@ -115,6 +119,7 @@ describe('sendPreparedTransactions', () => {
       .withState(createMockStore({}).getState())
       .provide(createDefaultProviders())
       .call(getViemWallet, networkConfig.viemChain.celo, false)
+      .not.call(sendPreparedRegistrationTransaction)
       .put(
         addStandbyTransaction({
           ...mockStandbyTransactions[0],
@@ -209,5 +214,80 @@ describe('sendPreparedTransactions', () => {
         .provide([[matchers.call.fn(getViemWallet), {}], ...createDefaultProviders()])
         .run()
     ).rejects.toThrowError('No account found in the wallet')
+  })
+
+  it('sends the registration transactions first if there is one', async () => {
+    const mockPreparedRegistration: TransactionRequest = {
+      from: mockAccount,
+      to: REGISTRY_CONTRACT_ADDRESS,
+      data: encodeFunctionData({
+        abi: registryContractAbi,
+        functionName: 'registerReferrals',
+        args: [
+          stringToHex('some-referrer', { size: 32 }),
+          [stringToHex('some-protocol', { size: 32 })],
+        ],
+      }),
+      gas: BigInt(59_480),
+      maxFeePerGas: BigInt(12_000_000_000),
+      _baseFeePerGas: BigInt(6_000_000_000),
+    }
+
+    await expectSaga(
+      sendPreparedTransactions,
+      serializablePreparedTransactions.concat(
+        getSerializablePreparedTransactions([mockPreparedRegistration])
+      ),
+      networkConfig.defaultNetworkId,
+      mockCreateBaseStandbyTransactions
+    )
+      .withState(createMockStore({}).getState())
+      .provide([
+        ...createDefaultProviders(),
+        [
+          call(
+            sendPreparedRegistrationTransaction,
+            mockPreparedRegistration,
+            networkConfig.defaultNetworkId,
+            mockViemWallet,
+            10
+          ),
+          11,
+        ],
+      ])
+      .call(getViemWallet, networkConfig.viemChain.celo, false)
+      .call(
+        sendPreparedRegistrationTransaction,
+        mockPreparedRegistration,
+        networkConfig.defaultNetworkId,
+        mockViemWallet,
+        10
+      )
+      .put(
+        addStandbyTransaction({
+          ...mockStandbyTransactions[0],
+          feeCurrencyId: mockCeloTokenId,
+          transactionHash: '0xmockTxHash1',
+        })
+      )
+      .put(
+        addStandbyTransaction({
+          ...mockStandbyTransactions[1],
+          feeCurrencyId: mockCeloTokenId,
+          transactionHash: '0xmockTxHash2',
+        })
+      )
+      .returns(['0xmockTxHash1', '0xmockTxHash2'])
+      .run()
+
+    expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(2)
+    expect(mockViemWallet.signTransaction).toHaveBeenNthCalledWith(1, {
+      ...preparedTransactions[0],
+      nonce: 11, // note that this is higher than the value provided in createDefaultProviders
+    })
+    expect(mockViemWallet.signTransaction).toHaveBeenNthCalledWith(2, {
+      ...preparedTransactions[1],
+      nonce: 12,
+    })
   })
 })
