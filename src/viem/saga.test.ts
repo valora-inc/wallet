@@ -5,7 +5,7 @@ import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-pla
 import { call } from 'redux-saga/effects'
 import { registryContractAbi } from 'src/divviProtocol/abi/Registry'
 import { REGISTRY_CONTRACT_ADDRESS } from 'src/divviProtocol/constants'
-import { sendPreparedRegistrationTransactions } from 'src/divviProtocol/registerReferral'
+import { sendPreparedRegistrationTransaction } from 'src/divviProtocol/registerReferral'
 import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/slice'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { ViemWallet } from 'src/viem/getLockableWallet'
@@ -23,7 +23,7 @@ import {
   mockCusdTokenId,
   mockQRCodeRecipient,
 } from 'test/values'
-import { encodeFunctionData } from 'viem'
+import { encodeFunctionData, stringToHex } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 const preparedTransactions: TransactionRequest[] = [
@@ -119,7 +119,7 @@ describe('sendPreparedTransactions', () => {
       .withState(createMockStore({}).getState())
       .provide(createDefaultProviders())
       .call(getViemWallet, networkConfig.viemChain.celo, false)
-      .not.call(sendPreparedRegistrationTransactions)
+      .not.call(sendPreparedRegistrationTransaction)
       .put(
         addStandbyTransaction({
           ...mockStandbyTransactions[0],
@@ -216,14 +216,17 @@ describe('sendPreparedTransactions', () => {
     ).rejects.toThrowError('No account found in the wallet')
   })
 
-  it('sends the registration transactions first if there are any', async () => {
+  it('sends the registration transactions first if there is one', async () => {
     const mockPreparedRegistration: TransactionRequest = {
       from: mockAccount,
       to: REGISTRY_CONTRACT_ADDRESS,
       data: encodeFunctionData({
         abi: registryContractAbi,
-        functionName: 'registerReferral',
-        args: ['some-referrer', 'some-protocol'],
+        functionName: 'registerReferrals',
+        args: [
+          stringToHex('some-referrer', { size: 32 }),
+          [stringToHex('some-protocol', { size: 32 })],
+        ],
       }),
       gas: BigInt(59_480),
       maxFeePerGas: BigInt(12_000_000_000),
@@ -243,8 +246,8 @@ describe('sendPreparedTransactions', () => {
         ...createDefaultProviders(),
         [
           call(
-            sendPreparedRegistrationTransactions,
-            [mockPreparedRegistration],
+            sendPreparedRegistrationTransaction,
+            mockPreparedRegistration,
             networkConfig.defaultNetworkId,
             mockViemWallet,
             10
@@ -254,8 +257,8 @@ describe('sendPreparedTransactions', () => {
       ])
       .call(getViemWallet, networkConfig.viemChain.celo, false)
       .call(
-        sendPreparedRegistrationTransactions,
-        [mockPreparedRegistration],
+        sendPreparedRegistrationTransaction,
+        mockPreparedRegistration,
         networkConfig.defaultNetworkId,
         mockViemWallet,
         10

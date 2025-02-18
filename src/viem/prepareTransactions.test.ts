@@ -59,7 +59,7 @@ jest.mock('src/divviProtocol/registerReferral')
 
 beforeEach(() => {
   jest.clearAllMocks()
-  jest.mocked(createRegistrationTransactionIfNeeded).mockResolvedValue([])
+  jest.mocked(createRegistrationTransactionIfNeeded).mockResolvedValue(null)
 })
 
 describe('prepareTransactions module', () => {
@@ -143,12 +143,10 @@ describe('prepareTransactions module', () => {
   const mockPublicClient = {} as unknown as jest.Mocked<(typeof publicClient)[Network.Celo]>
   describe('prepareTransactions function', () => {
     it('adds divvi registration transactions to the prepared transactions if needed', async () => {
-      mocked(createRegistrationTransactionIfNeeded).mockResolvedValue([
-        {
-          data: '0xregistrationData',
-          to: '0xregistrationTarget',
-        },
-      ])
+      mocked(createRegistrationTransactionIfNeeded).mockResolvedValue({
+        data: '0xregistrationData',
+        to: '0xregistrationTarget',
+      })
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: BigInt(2),
