@@ -5,13 +5,13 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/divvixyz/divvi-mobile",
+    "url": "https://github.com/divvi-xyz/divvi-mobile",
     "directory": "packages/@divvi/mobile"
   },
   "bugs": {
-    "url": "https://github.com/divvixyz/divvi-mobile/issues"
+    "url": "https://github.com/divvi-xyz/divvi-mobile/issues"
   },
-  "homepage": "https://github.com/divvixyz/divvi-mobile",
+  "homepage": "https://github.com/divvi-xyz/divvi-mobile",
   "main": "./src/public/index.ts",
   "publishConfig": {
     "access": "public",
