@@ -292,11 +292,11 @@ export async function prepareTransactions({
   isGasSubsidized?: boolean
   origin: TransactionOrigin
 }): Promise<PreparedTransactionsResult> {
-  const registrationTxs = await createRegistrationTransactionIfNeeded({
+  const registrationTx = await createRegistrationTransactionIfNeeded({
     networkId: feeCurrencies[0].networkId,
   })
-  if (registrationTxs.length > 0) {
-    baseTransactions.push(...registrationTxs)
+  if (registrationTx) {
+    baseTransactions.push(registrationTx)
   }
 
   if (!spendToken && spendTokenAmount.isGreaterThan(0)) {

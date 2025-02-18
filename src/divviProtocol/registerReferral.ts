@@ -2,7 +2,11 @@ import { divviRegistrationCompleted } from 'src/app/actions'
 import { divviRegistrationsSelector } from 'src/app/selectors'
 import { DIVVI_PROTOCOL_IDS, DIVVI_REFERRER_ID } from 'src/config'
 import { registryContractAbi } from 'src/divviProtocol/abi/Registry'
-import { REGISTRY_CONTRACT_ADDRESS, supportedProtocolIdHashes } from 'src/divviProtocol/constants'
+import {
+  REGISTRY_CONTRACT_ADDRESS,
+  SupportedProtocolId,
+  supportedProtocolIds,
+} from 'src/divviProtocol/constants'
 import { store } from 'src/redux/store'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -19,6 +23,7 @@ import {
   encodeFunctionData,
   Hash,
   Hex,
+  hexToString,
   parseEventLogs,
   stringToHex,
 } from 'viem'
@@ -72,28 +77,27 @@ export async function createRegistrationTransactionIfNeeded({
 
   const client = publicClient[networkIdToNetwork[networkId]]
   const walletAddress = walletAddressSelector(store.getState()) as Address
-  const protocolsPendingRegistration = pendingRegistrations.map((protocol) =>
+  const pendingRegistrationsHex = pendingRegistrations.map((protocol) =>
     stringToHex(protocol, { size: 32 })
   )
-  const protocolsEligibleForRegistration: Hex[] = []
+  const referrerIdHex = stringToHex(referrerId, { size: 32 })
+
+  const protocolsToRegisterHex: Hex[] = []
+  const protocolsAlreadyRegistered: SupportedProtocolId[] = []
 
   try {
-    const userRegistrationStatuses = await client.readContract({
+    const isUserRegisteredForProtocols = await client.readContract({
       address: REGISTRY_CONTRACT_ADDRESS,
       abi: registryContractAbi,
       functionName: 'isUserRegistered',
-      args: [walletAddress, protocolsPendingRegistration],
+      args: [walletAddress, pendingRegistrationsHex],
     })
 
-    userRegistrationStatuses.forEach((isRegistered, index) => {
+    isUserRegisteredForProtocols.forEach((isRegistered, index) => {
       if (isRegistered) {
-        Logger.debug(
-          `${TAG}/createRegistrationTransactionsIfNeeded`,
-          `User is already registered for protocol "${pendingRegistrations[index]}". Skipping registration transaction.`
-        )
-        store.dispatch(divviRegistrationCompleted(networkId, pendingRegistrations[index]))
+        protocolsAlreadyRegistered.push(pendingRegistrations[index])
       } else {
-        protocolsEligibleForRegistration.push(protocolsPendingRegistration[index])
+        protocolsToRegisterHex.push(pendingRegistrationsHex[index])
       }
     })
   } catch (error) {
@@ -105,12 +109,27 @@ export async function createRegistrationTransactionIfNeeded({
     return null
   }
 
+  if (protocolsAlreadyRegistered.length > 0) {
+    Logger.debug(
+      `${TAG}/createRegistrationTransactionsIfNeeded`,
+      `User is already registered for protocols "${protocolsAlreadyRegistered.join(
+        ', '
+      )}". Skipping registration for those protocols.`
+    )
+    store.dispatch(divviRegistrationCompleted(networkId, protocolsAlreadyRegistered))
+  }
+
+  if (protocolsToRegisterHex.length === 0) {
+    return null
+  }
+
   return {
+    from: walletAddress,
     to: REGISTRY_CONTRACT_ADDRESS,
     data: encodeFunctionData({
       abi: registryContractAbi,
       functionName: 'registerReferrals',
-      args: [stringToHex(referrerId, { size: 32 }), protocolsEligibleForRegistration],
+      args: [referrerIdHex, protocolsToRegisterHex],
     }),
   }
 }
@@ -123,7 +142,7 @@ export function* sendPreparedRegistrationTransaction(
 ) {
   try {
     const signedTx = yield* call([wallet, 'signTransaction'], {
-      tx,
+      ...tx,
       nonce,
     } as any)
     const hash = yield* call([wallet, 'sendRawTransaction'], {
@@ -162,15 +181,19 @@ export function* monitorRegistrationTransaction(hash: Hash, networkId: NetworkId
       logs: receipt.logs,
     })
 
-    const protocolId = supportedProtocolIdHashes[parsedLogs[0].args.protocolId]
-    if (!protocolId) {
-      // this should never happen, since we specify the protocolId in the prepareTransactions step
-      Logger.error(
-        `${TAG}/sendPreparedRegistrationTransactions`,
-        `Unknown protocolId received from transaction ${hash}`
-      )
-      return
-    }
-    yield* put(divviRegistrationCompleted(networkId, protocolId))
+    const registeredProtocolIds = parsedLogs
+      .map((log) => hexToString(log.args.protocolId))
+      .filter((protocolId: string): protocolId is SupportedProtocolId => {
+        if ((supportedProtocolIds as readonly string[]).includes(protocolId)) {
+          return true
+        } else {
+          Logger.error(
+            `${TAG}/monitorRegistrationTransaction`,
+            `Received unsupported protocol id "${protocolId}" in ReferralRegistered event`
+          )
+          return false
+        }
+      })
+    yield* put(divviRegistrationCompleted(networkId, registeredProtocolIds))
   }
 }
