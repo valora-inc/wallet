@@ -16,7 +16,7 @@ import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { getMockStoreData } from 'test/utils'
 import { mockAccount } from 'test/values'
-import { encodeFunctionData, Hash, parseEventLogs } from 'viem'
+import { encodeFunctionData, Hash, parseEventLogs, stringToHex } from 'viem'
 
 // Note: Statsig is not directly used by this module, but mocking it prevents
 // require cycles from impacting the tests.
@@ -35,11 +35,14 @@ mockStore.dispatch = jest.fn()
 
 jest.mock('src/config')
 
+const beefyHex = stringToHex('beefy', { size: 32 })
+const sommHex = stringToHex('somm', { size: 32 })
+const referrerIdHex = stringToHex('referrer-id', { size: 32 })
 const mockBeefyRegistrationTx = {
   data: encodeFunctionData({
     abi: registryContractAbi,
-    functionName: 'registerReferral',
-    args: ['referrer-id', 'beefy'],
+    functionName: 'registerReferrals',
+    args: [referrerIdHex, [beefyHex]],
   }),
   to: REGISTRY_CONTRACT_ADDRESS,
 }
@@ -51,35 +54,16 @@ describe('createRegistrationTransactionsIfNeeded', () => {
     jest.mocked(config).DIVVI_REFERRER_ID = 'referrer-id'
   })
 
-  it('returns no transactions if referrer id is not set', async () => {
+  it('returns null if referrer id is not set', async () => {
     jest.mocked(config).DIVVI_REFERRER_ID = undefined
 
     const result = await createRegistrationTransactionIfNeeded({
       networkId: NetworkId['op-mainnet'],
     })
-    expect(result).toEqual([])
+    expect(result).toEqual(null)
   })
 
-  it('returns no transactions if referrer is not registered', async () => {
-    jest
-      .spyOn(publicClient.optimism, 'readContract')
-      .mockImplementation(async ({ functionName, args }) => {
-        if (functionName === 'getReferrers') {
-          return ['unrelated-referrer-id'] // Referrer is not registered
-        }
-        if (functionName === 'getUsers' && args) {
-          return [[], []] // User is not registered
-        }
-        throw new Error('Unexpected read contract call.')
-      })
-
-    const result = await createRegistrationTransactionIfNeeded({
-      networkId: NetworkId['op-mainnet'],
-    })
-    expect(result).toEqual([])
-  })
-
-  it('returns no transactions if all registrations are completed', async () => {
+  it('returns null if all registrations are completed', async () => {
     mockStore.getState.mockImplementationOnce(() =>
       getMockStoreData({
         app: {
@@ -92,21 +76,18 @@ describe('createRegistrationTransactionsIfNeeded', () => {
     const result = await createRegistrationTransactionIfNeeded({
       networkId: NetworkId['op-mainnet'],
     })
-    expect(result).toEqual([])
+    expect(result).toEqual(null)
   })
 
-  it('returns transactions for pending registrations only', async () => {
+  it('returns a transaction for pending registrations only, and updates the redux cache for registered protocols', async () => {
     jest
       .spyOn(publicClient.optimism, 'readContract')
       .mockImplementation(async ({ functionName, args }) => {
         if (functionName === 'getReferrers') {
           return ['unrelated-referrer-id', 'referrer-id'] // Referrer is registered
         }
-        if (functionName === 'getUsers' && args) {
-          if (args[0] === 'beefy') {
-            return [[], []] // User is not registered
-          }
-          return [[mockAccount], []] // User is registered
+        if (functionName === 'isUserRegistered' && args) {
+          return [true, false] // User is already registered for 'beefy' but not 'somm'
         }
         throw new Error('Unexpected read contract call.')
       })
@@ -114,16 +95,18 @@ describe('createRegistrationTransactionsIfNeeded', () => {
     const result = await createRegistrationTransactionIfNeeded({
       networkId: NetworkId['op-mainnet'],
     })
-    expect(result).toEqual([
-      {
-        data: encodeFunctionData({
-          abi: registryContractAbi,
-          functionName: 'registerReferral',
-          args: ['referrer-id', 'beefy'],
-        }),
-        to: REGISTRY_CONTRACT_ADDRESS,
-      },
-    ])
+    expect(result).toEqual({
+      data: encodeFunctionData({
+        abi: registryContractAbi,
+        functionName: 'registerReferrals',
+        args: [referrerIdHex, [sommHex]],
+      }),
+      to: REGISTRY_CONTRACT_ADDRESS,
+      from: mockAccount.toLowerCase(),
+    })
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      divviRegistrationCompleted(NetworkId['op-mainnet'], ['beefy'])
+    )
   })
 
   it('handles errors in contract reads gracefully and returns no corresponding transactions', async () => {
@@ -133,10 +116,7 @@ describe('createRegistrationTransactionsIfNeeded', () => {
         if (functionName === 'getReferrers') {
           return ['unrelated-referrer-id', 'referrer-id'] // Referrer is registered
         }
-        if (functionName === 'getUsers' && args) {
-          if (args[0] === 'beefy') {
-            return [[], []] // User is not registered
-          }
+        if (functionName === 'isUserRegistered' && args) {
           throw new Error('Read error for protocol') // simulate error for other protocols
         }
         throw new Error('Unexpected read contract call.')
@@ -145,16 +125,7 @@ describe('createRegistrationTransactionsIfNeeded', () => {
     const result = await createRegistrationTransactionIfNeeded({
       networkId: NetworkId['op-mainnet'],
     })
-    expect(result).toEqual([
-      {
-        data: encodeFunctionData({
-          abi: registryContractAbi,
-          functionName: 'registerReferral',
-          args: ['referrer-id', 'beefy'],
-        }),
-        to: REGISTRY_CONTRACT_ADDRESS,
-      },
-    ])
+    expect(result).toEqual(null)
   })
 })
 
