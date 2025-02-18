@@ -792,13 +792,13 @@
                     "$ref": "#/definitions/SwapClaimHistory"
                 },
                 {
-                    "$ref": "#/definitions/DepositEarnClaimHistory"
-                },
-                {
                     "$ref": "#/definitions/Erc20CreateLiveLinkClaimHistory"
                 },
                 {
                     "$ref": "#/definitions/Erc721CreateLiveLinkClaimHistory"
+                },
+                {
+                    "$ref": "#/definitions/DepositEarnClaimHistory"
                 }
             ]
         },
@@ -3179,13 +3179,13 @@
                     "$ref": "#/definitions/PointsEventSwap"
                 },
                 {
-                    "$ref": "#/definitions/PointsEventDepositEarn"
-                },
-                {
                     "$ref": "#/definitions/PointsEventErc20CreateLiveLink"
                 },
                 {
                     "$ref": "#/definitions/PointsEventErc721CreateLiveLink"
+                },
+                {
+                    "$ref": "#/definitions/PointsEventDepositEarn"
                 }
             ]
         },
