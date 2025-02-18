@@ -3,11 +3,11 @@ import BigNumber from 'bignumber.js'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { EarnEvents } from 'src/analytics/Events'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
+import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { usePrepareEarnConfirmationScreenTransactions } from 'src/earn/hooks'
@@ -283,16 +283,10 @@ function GasFeeError() {
 function GasFeeLoading() {
   return (
     <View testID="EarnConfirmation/GasLoading">
-      <SkeletonPlaceholder
-        backgroundColor={Colors.skeletonPlaceholderBackground}
-        highlightColor={Colors.skeletonPlaceholderHighlight}
-      >
+      <SkeletonPlaceholder>
         <View style={styles.gasFeeCryptoLoading} />
       </SkeletonPlaceholder>
-      <SkeletonPlaceholder
-        backgroundColor={Colors.skeletonPlaceholderBackground}
-        highlightColor={Colors.skeletonPlaceholderHighlight}
-      >
+      <SkeletonPlaceholder>
         <View style={styles.gasFeeFiatLoading} />
       </SkeletonPlaceholder>
     </View>

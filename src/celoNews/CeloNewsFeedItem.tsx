@@ -56,12 +56,7 @@ export default function CeloNewsFeedItem({ article, testID }: Props) {
 // This is a skeleton placeholder for when the feed is loading
 // It's a simplified version of the real component, reusing styles where possible
 CeloNewsFeedItem.Skeleton = () => (
-  <SkeletonPlaceholder
-    borderRadius={4}
-    backgroundColor={colors.skeletonPlaceholderBackground}
-    highlightColor={colors.skeletonPlaceholderHighlight}
-    testID="CeloNewsFeedItemSkeleton"
-  >
+  <SkeletonPlaceholder borderRadius={4} testID="CeloNewsFeedItemSkeleton">
     <View style={styles.contentContainer}>
       <View style={{ ...styles.author, width: 60 }} />
       <View style={styles.row}>
