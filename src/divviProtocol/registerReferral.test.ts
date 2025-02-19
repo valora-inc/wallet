@@ -83,6 +83,9 @@ describe('createRegistrationTransactionsIfNeeded', () => {
     jest
       .spyOn(publicClient.optimism, 'readContract')
       .mockImplementation(async ({ functionName, args }) => {
+        if (functionName === 'getReferrers' && args) {
+          return [referrerIdHex] // Referrer is registered for all protocols
+        }
         if (functionName === 'isUserRegistered' && args) {
           return [true, true] // User is already registered for both 'beefy' and 'somm'
         }
@@ -102,6 +105,9 @@ describe('createRegistrationTransactionsIfNeeded', () => {
     jest
       .spyOn(publicClient.optimism, 'readContract')
       .mockImplementation(async ({ functionName, args }) => {
+        if (functionName === 'getReferrers' && args) {
+          return [referrerIdHex] // Referrer is registered for all protocols
+        }
         if (functionName === 'isUserRegistered' && args) {
           return [true, false] // User is already registered for 'beefy' but not 'somm'
         }
@@ -119,16 +125,46 @@ describe('createRegistrationTransactionsIfNeeded', () => {
       }),
       to: REGISTRY_CONTRACT_ADDRESS,
       from: mockAccount.toLowerCase(),
-    })
+    }) // the registration transaction should be for 'somm' only
     expect(mockStore.dispatch).toHaveBeenCalledWith(
       divviRegistrationCompleted(NetworkId['op-mainnet'], ['beefy'])
-    )
+    ) // 'beefy' should be marked as registered already
+  })
+
+  it('returns a transaction for registeration only against protocols that the referrer is registered for', async () => {
+    jest
+      .spyOn(publicClient.optimism, 'readContract')
+      .mockImplementation(async ({ functionName, args }) => {
+        if (functionName === 'getReferrers' && args) {
+          return args[0] === sommHex ? [referrerIdHex] : ['0x123'] // Referrer is only registered for 'somm'
+        }
+        if (functionName === 'isUserRegistered' && args) {
+          return [false, false] // User not registered for any protocols
+        }
+        throw new Error('Unexpected read contract call.')
+      })
+
+    const result = await createRegistrationTransactionIfNeeded({
+      networkId: NetworkId['op-mainnet'],
+    })
+    expect(result).toEqual({
+      data: encodeFunctionData({
+        abi: registryContractAbi,
+        functionName: 'registerReferrals',
+        args: [referrerIdHex, [sommHex]],
+      }),
+      to: REGISTRY_CONTRACT_ADDRESS,
+      from: mockAccount.toLowerCase(),
+    })
   })
 
   it('handles errors in contract reads gracefully and returns no corresponding transactions', async () => {
     jest
       .spyOn(publicClient.optimism, 'readContract')
       .mockImplementation(async ({ functionName, args }) => {
+        if (functionName === 'getReferrers' && args) {
+          return [referrerIdHex] // Referrer is registered for all protocols
+        }
         if (functionName === 'isUserRegistered' && args) {
           throw new Error('Read error for protocol') // simulate error for other protocols
         }
