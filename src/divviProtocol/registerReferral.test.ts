@@ -79,6 +79,25 @@ describe('createRegistrationTransactionsIfNeeded', () => {
     expect(result).toEqual(null)
   })
 
+  it('returns null and updates redux if there is no cached redux status but the registrations have been done', async () => {
+    jest
+      .spyOn(publicClient.optimism, 'readContract')
+      .mockImplementation(async ({ functionName, args }) => {
+        if (functionName === 'isUserRegistered' && args) {
+          return [true, true] // User is already registered for both 'beefy' and 'somm'
+        }
+        throw new Error('Unexpected read contract call.')
+      })
+
+    const result = await createRegistrationTransactionIfNeeded({
+      networkId: NetworkId['op-mainnet'],
+    })
+    expect(result).toEqual(null)
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      divviRegistrationCompleted(NetworkId['op-mainnet'], ['beefy', 'somm'])
+    )
+  })
+
   it('returns a transaction for pending registrations only, and updates the redux cache for registered protocols', async () => {
     jest
       .spyOn(publicClient.optimism, 'readContract')
