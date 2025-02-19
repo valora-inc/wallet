@@ -1,4 +1,5 @@
 import type { ImageSourcePropType } from 'react-native'
+import { SupportedProtocolId } from 'src/divviProtocol/constants'
 import type { NavigatorScreen } from './navigate'
 
 // Type for tab configuration
@@ -206,6 +207,11 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
     transactions?: {
       emptyState?: React.ReactElement
     }
+  }
+
+  divviProtocol?: {
+    referrerId: string
+    protocolIds: SupportedProtocolId[]
   }
 }
 

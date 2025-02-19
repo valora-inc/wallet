@@ -72,6 +72,10 @@ const App = createApp({
       </>
     ),
   },
+  divviProtocol: {
+    protocolIds: ['somm'],
+    referrerId: 'some-referrer-id',
+  },
 })
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);

@@ -1,6 +1,6 @@
 import { divviRegistrationCompleted } from 'src/app/actions'
 import { divviRegistrationsSelector } from 'src/app/selectors'
-import { DIVVI_PROTOCOL_IDS, DIVVI_REFERRER_ID } from 'src/config'
+import { getAppConfig } from 'src/appConfig'
 import { registryContractAbi } from 'src/divviProtocol/abi/Registry'
 import {
   REGISTRY_CONTRACT_ADDRESS,
@@ -54,21 +54,23 @@ export async function createRegistrationTransactionIfNeeded({
 }: {
   networkId: NetworkId
 }): Promise<TransactionRequest | null> {
-  const referrerId = DIVVI_REFERRER_ID
-  if (!referrerId) {
+  const appConfig = getAppConfig()
+  if (!appConfig.divviProtocol) {
     Logger.warn(
       `${TAG}/createRegistrationTransactionsIfNeeded`,
-      'No referrer id set. Skipping registration transaction.'
+      'No divviProtocol config found. Skipping registration transaction.'
     )
     return null
   }
+
+  const { referrerId, protocolIds } = appConfig.divviProtocol
 
   // Caching registration status in Redux reduces on-chain checks but doesn’t guarantee
   // it wasn’t completed in a previous install or session.
   const completedRegistrations = new Set(
     divviRegistrationsSelector(store.getState())[networkId] ?? []
   )
-  const pendingRegistrations = DIVVI_PROTOCOL_IDS.filter(
+  const pendingRegistrations = protocolIds.filter(
     (protocol) => !completedRegistrations.has(protocol)
   )
   if (pendingRegistrations.length === 0) {

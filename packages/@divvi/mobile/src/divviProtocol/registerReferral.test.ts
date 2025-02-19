@@ -2,7 +2,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { divviRegistrationCompleted } from 'src/app/actions'
-import * as config from 'src/config'
+import { getAppConfig } from 'src/appConfig'
 import { registryContractAbi } from 'src/divviProtocol/abi/Registry'
 import { REGISTRY_CONTRACT_ADDRESS } from 'src/divviProtocol/constants'
 import {
@@ -33,7 +33,16 @@ const mockStore = jest.mocked(store)
 mockStore.getState.mockImplementation(getMockStoreData)
 mockStore.dispatch = jest.fn()
 
-jest.mock('src/config')
+jest.mock('src/appConfig')
+const mockDefaultAppConfig = {
+  registryName: 'test',
+  displayName: 'test',
+  deepLinkUrlScheme: 'test',
+  divviProtocol: {
+    protocolIds: ['beefy' as const, 'somm' as const],
+    referrerId: 'referrer-id',
+  },
+}
 
 const beefyHex = stringToHex('beefy', { size: 32 })
 const sommHex = stringToHex('somm', { size: 32 })
@@ -50,12 +59,11 @@ const mockBeefyRegistrationTx = {
 describe('createRegistrationTransactionsIfNeeded', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(config).DIVVI_PROTOCOL_IDS = ['beefy', 'somm']
-    jest.mocked(config).DIVVI_REFERRER_ID = 'referrer-id'
+    jest.mocked(getAppConfig).mockReturnValue(mockDefaultAppConfig)
   })
 
   it('returns null if referrer id is not set', async () => {
-    jest.mocked(config).DIVVI_REFERRER_ID = undefined
+    jest.mocked(getAppConfig).mockReturnValue({ ...mockDefaultAppConfig, divviProtocol: undefined })
 
     const result = await createRegistrationTransactionIfNeeded({
       networkId: NetworkId['op-mainnet'],
