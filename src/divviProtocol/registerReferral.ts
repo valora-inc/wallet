@@ -56,7 +56,7 @@ export async function createRegistrationTransactionIfNeeded({
 }): Promise<TransactionRequest | null> {
   const referrerId = DIVVI_REFERRER_ID
   if (!referrerId) {
-    Logger.debug(
+    Logger.warn(
       `${TAG}/createRegistrationTransactionsIfNeeded`,
       'No referrer id set. Skipping registration transaction.'
     )
@@ -84,22 +84,44 @@ export async function createRegistrationTransactionIfNeeded({
 
   const protocolsToRegisterHex: Hex[] = []
   const protocolsAlreadyRegistered: SupportedProtocolId[] = []
+  const referrerUnregisteredProtocols: SupportedProtocolId[] = []
 
   try {
-    const isUserRegisteredForProtocols = await client.readContract({
-      address: REGISTRY_CONTRACT_ADDRESS,
-      abi: registryContractAbi,
-      functionName: 'isUserRegistered',
-      args: [walletAddress, pendingRegistrationsHex],
-    })
+    const [isUserRegisteredForProtocols, ...registeredReferrersForProtocols] = await Promise.all([
+      client.readContract({
+        address: REGISTRY_CONTRACT_ADDRESS,
+        abi: registryContractAbi,
+        functionName: 'isUserRegistered',
+        args: [walletAddress, pendingRegistrationsHex],
+      }),
+      ...pendingRegistrationsHex.map((protocolHex) =>
+        client.readContract({
+          address: REGISTRY_CONTRACT_ADDRESS,
+          abi: registryContractAbi,
+          functionName: 'getReferrers',
+          args: [protocolHex],
+        })
+      ),
+    ])
 
-    isUserRegisteredForProtocols.forEach((isRegistered, index) => {
-      if (isRegistered) {
-        protocolsAlreadyRegistered.push(pendingRegistrations[index])
-      } else {
-        protocolsToRegisterHex.push(pendingRegistrationsHex[index])
+    for (let i = 0; i < pendingRegistrationsHex.length; i++) {
+      const protocolId = pendingRegistrations[i]
+      const protocolIdHex = pendingRegistrationsHex[i]
+      const isUserAlreadyRegistered = isUserRegisteredForProtocols[i]
+      const registeredReferrers = registeredReferrersForProtocols[i]
+
+      if (!registeredReferrers.includes(referrerIdHex)) {
+        referrerUnregisteredProtocols.push(protocolId)
+        continue
       }
-    })
+
+      if (isUserAlreadyRegistered) {
+        protocolsAlreadyRegistered.push(protocolId)
+        continue
+      }
+
+      protocolsToRegisterHex.push(protocolIdHex)
+    }
   } catch (error) {
     Logger.error(
       `${TAG}/createRegistrationTransactionsIfNeeded`,
@@ -110,13 +132,22 @@ export async function createRegistrationTransactionIfNeeded({
   }
 
   if (protocolsAlreadyRegistered.length > 0) {
-    Logger.debug(
+    Logger.warn(
       `${TAG}/createRegistrationTransactionsIfNeeded`,
       `User is already registered for protocols "${protocolsAlreadyRegistered.join(
         ', '
       )}". Skipping registration for those protocols.`
     )
     store.dispatch(divviRegistrationCompleted(networkId, protocolsAlreadyRegistered))
+  }
+
+  if (referrerUnregisteredProtocols.length > 0) {
+    Logger.warn(
+      `${TAG}/createRegistrationTransactionsIfNeeded`,
+      `Referrer is not registered for protocols "${referrerUnregisteredProtocols.join(
+        ', '
+      )}". Skipping registration for those protocols.`
+    )
   }
 
   if (protocolsToRegisterHex.length === 0) {
