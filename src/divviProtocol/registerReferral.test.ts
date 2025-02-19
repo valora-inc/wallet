@@ -131,7 +131,7 @@ describe('createRegistrationTransactionsIfNeeded', () => {
     ) // 'beefy' should be marked as registered already
   })
 
-  it('returns a transaction for registeration only against protocols that the referrer is registered for', async () => {
+  it('returns a transaction for registration only against protocols that the referrer is registered for', async () => {
     jest
       .spyOn(publicClient.optimism, 'readContract')
       .mockImplementation(async ({ functionName, args }) => {
