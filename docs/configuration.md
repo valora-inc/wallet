@@ -1,3 +1,8 @@
+---
+sidebar_position: 2
+sidebar_label: Configuring your app
+---
+
 # Configuring Your Divvi Mobile App
 
 Divvi Mobile apps are configured through a single configuration object passed to `createApp`. By default, you get a fully functioning Divvi app with sensible defaults.

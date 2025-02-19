@@ -1,3 +1,8 @@
+---
+sidebar_position: 1
+sidebar_label: Getting started
+---
+
 # Getting Started with Divvi Mobile
 
 Creating a mobile app with Divvi Mobile is incredibly quick and straightforward. In just a few steps, you'll have your own mobile app ready for development!

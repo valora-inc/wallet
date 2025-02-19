@@ -1,3 +1,8 @@
+---
+sidebar_position: 3
+sidebar_label: Architecture
+---
+
 # Understanding Divvi Mobile Architecture
 
 This document explains the key capabilities and architecture of the Divvi Mobile framework.

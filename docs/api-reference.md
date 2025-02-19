@@ -1,3 +1,8 @@
+---
+sidebar_position: 4
+sidebar_label: API Reference
+---
+
 # API Reference
 
 This section will contain the auto-generated API documentation for the Divvi Mobile framework's public interface.
