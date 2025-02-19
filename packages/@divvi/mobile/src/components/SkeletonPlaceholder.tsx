@@ -1,5 +1,12 @@
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 
+// Extract existing props and add testID
+// This is for apps consuming the mobile package, since they don't have the patch
+// TODO: we should be able to remove this once we ship type declarations
+type SkeletonPlaceholderProps = React.ComponentProps<typeof SkeletonPlaceholder> & {
+  testID?: string
+}
+
 // Just re-export for now
 // We may want to customize this component in the future
 // But at least this way we can use the same import.
@@ -14,4 +21,4 @@ import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 // So don't be surprised if it doesn't behave like standard React Native styles.
 // You may need to provide explicit width / height props to the leaf nodes to get the desired effect.
 // See https://github.com/chramos/react-native-skeleton-placeholder/blob/3c0ebcf3f99f9f0d0708c12f7f8e7fdc8bac843c/src/skeleton-placeholder.tsx#L166
-export default SkeletonPlaceholder
+export default SkeletonPlaceholder as React.FC<SkeletonPlaceholderProps>
