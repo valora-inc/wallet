@@ -156,6 +156,7 @@ describe('createRegistrationTransactionsIfNeeded', () => {
       to: REGISTRY_CONTRACT_ADDRESS,
       from: mockAccount.toLowerCase(),
     })
+    expect(mockStore.dispatch).not.toHaveBeenCalled()
   })
 
   it('handles errors in contract reads gracefully and returns no corresponding transactions', async () => {
