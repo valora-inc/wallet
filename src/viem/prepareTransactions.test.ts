@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { TransactionEvents } from 'src/analytics/Events'
+import { createRegistrationTransactionIfNeeded } from 'src/divviProtocol/registerReferral'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
@@ -10,8 +11,8 @@ import {
   getEstimatedGasFee,
   getFeeCurrency,
   getFeeCurrencyAddress,
-  getFeeCurrencyToken,
   getFeeCurrencyAndAmounts,
+  getFeeCurrencyToken,
   getFeeDecimals,
   getMaxGasFee,
   prepareERC20TransferTransaction,
@@ -54,9 +55,11 @@ jest.mock('src/viem/index', () => ({
     arbitrum: {} as unknown as jest.Mocked<(typeof publicClient)[Network.Arbitrum]>,
   },
 }))
+jest.mock('src/divviProtocol/registerReferral')
 
 beforeEach(() => {
   jest.clearAllMocks()
+  jest.mocked(createRegistrationTransactionIfNeeded).mockResolvedValue(null)
 })
 
 describe('prepareTransactions module', () => {
@@ -139,6 +142,55 @@ describe('prepareTransactions module', () => {
   }
   const mockPublicClient = {} as unknown as jest.Mocked<(typeof publicClient)[Network.Celo]>
   describe('prepareTransactions function', () => {
+    it('adds divvi registration transactions to the prepared transactions if needed', async () => {
+      mocked(createRegistrationTransactionIfNeeded).mockResolvedValue({
+        data: '0xregistrationData',
+        to: '0xregistrationTarget',
+      })
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(1),
+        maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(1),
+      })
+      mocked(estimateGas).mockResolvedValue(BigInt(500))
+
+      const result = await prepareTransactions({
+        feeCurrencies: mockFeeCurrencies,
+        decreasedAmountGasFeeMultiplier: 1,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+          },
+        ],
+        origin: 'send',
+      })
+      expect(result).toStrictEqual({
+        type: 'possible',
+        transactions: [
+          {
+            from: '0xfrom',
+            to: '0xto',
+            data: '0xdata',
+            gas: BigInt(500),
+            maxFeePerGas: BigInt(1),
+            maxPriorityFeePerGas: BigInt(2),
+            _baseFeePerGas: BigInt(1),
+          },
+          {
+            data: '0xregistrationData',
+            to: '0xregistrationTarget',
+            gas: BigInt(500),
+            maxFeePerGas: BigInt(1),
+            maxPriorityFeePerGas: BigInt(2),
+            _baseFeePerGas: BigInt(1),
+          },
+        ],
+        feeCurrency: mockFeeCurrencies[0],
+      })
+    })
+
     it('throws if trying to sendAmount > sendToken balance', async () => {
       await expect(() =>
         prepareTransactions({
