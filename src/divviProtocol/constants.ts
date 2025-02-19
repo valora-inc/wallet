@@ -1,8 +1,8 @@
 import { Address } from 'viem'
 
-export const REGISTRY_CONTRACT_ADDRESS: Address = '0x5a1a1027ac1d828e7415af7d797fba2b0cdd5575'
+export const REGISTRY_CONTRACT_ADDRESS: Address = '0xba9655677f4e42dd289f5b7888170bc0c7da8cdc'
 
-const supportedProtocolIds = [
+export const supportedProtocolIds = [
   'beefy',
   'tether',
   'somm',
