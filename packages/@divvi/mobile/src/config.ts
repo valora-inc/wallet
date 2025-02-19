@@ -7,6 +7,7 @@ import { LoggerLevel } from 'src/utils/LoggerLevels'
 import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
 import { LaunchArguments } from 'react-native-launch-arguments'
 import { getAppConfig } from 'src/appConfig'
+import { SupportedProtocolId } from 'src/divviProtocol/constants'
 import { HomeActionName } from 'src/home/types'
 import { ToggleableOnboardingFeatures } from 'src/onboarding/types'
 import { stringToBoolean } from 'src/utils/parsing'
@@ -227,3 +228,6 @@ export const ENABLED_QUICK_ACTIONS = (
 export const FETCH_FIATCONNECT_QUOTES = true
 
 export const WALLETCONNECT_UNIVERSAL_LINK = 'https://valoraapp.com/wc'
+
+export const DIVVI_PROTOCOL_IDS: SupportedProtocolId[] = []
+export const DIVVI_REFERRER_ID: string | undefined = undefined

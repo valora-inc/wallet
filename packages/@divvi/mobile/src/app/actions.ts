@@ -157,7 +157,7 @@ interface ToggleHideBalances {
 interface DivviRegistrationCompleted {
   type: Actions.DIVVI_REGISTRATION_COMPLETED
   networkId: NetworkId
-  protocolId: SupportedProtocolId
+  protocolIds: SupportedProtocolId[]
 }
 
 export type ActionTypes =
@@ -341,11 +341,11 @@ export const toggleHideBalances = (): ToggleHideBalances => {
 
 export const divviRegistrationCompleted = (
   networkId: NetworkId,
-  protocolId: SupportedProtocolId
+  protocolIds: SupportedProtocolId[]
 ): DivviRegistrationCompleted => {
   return {
     type: Actions.DIVVI_REGISTRATION_COMPLETED,
     networkId,
-    protocolId,
+    protocolIds,
   }
 }
