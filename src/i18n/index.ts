@@ -60,7 +60,6 @@ export async function initI18n(
       escapeValue: false,
       defaultVariables: {
         appName: APP_NAME,
-        tosLink: links.tos.replace(/^https?:\/\//i, ''),
       },
     },
   })

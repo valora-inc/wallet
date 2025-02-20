@@ -26,7 +26,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL]: true,
   [StatsigFeatureGates.SHOW_ZERION_TRANSACTION_FEED]: true,
   [StatsigFeatureGates.SHOW_NEW_ENTER_AMOUNT_FOR_SWAP]: true,
-  [StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAP_AND_DEPOSIT]: true,
+  [StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAP_AND_DEPOSIT]: false,
   [StatsigFeatureGates.DISABLE_WALLET_CONNECT_V2]: false,
 } satisfies { [key in StatsigFeatureGates]: boolean }
 
@@ -122,10 +122,8 @@ export const DynamicConfigs = {
         transactionFeesLearnMore: '',
         inviteRewardsNftsLearnMore: '',
         inviteRewardsStableTokenLearnMore: '',
-        earnStablecoinsLearnMore: '',
-        celoEducation: '',
-        dappList: 'https://api.mainnet.valora.xyz/dappList',
-        celoNews: 'https://blog.celo.org',
+        earnStablecoinsLearnMore: 'https://valora.xyz/stablecoin-earn',
+        celoEducation: 'https://valoraapp.com/support/quick-guide',
       },
     },
   },
