@@ -41,8 +41,8 @@ export default Assets = () => {
         {
           tokenId: 'celo-mainnet:native',
           symbol: 'CELO',
-          actions: ['Send', 'Add'],
-          moreActions: ['Send', 'Add', 'Withdraw'],
+          actions: ['Send', 'Swap'],
+          moreActions: ['Send', 'Swap', 'Add', 'Withdraw'],
           learnMore: true,
         },
         {
