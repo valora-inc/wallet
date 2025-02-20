@@ -1,5 +1,34 @@
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigParameter } from 'src/statsig/types'
+import {
+  StatsigDynamicConfigs,
+  StatsigExperiments,
+  StatsigFeatureGates,
+  StatsigParameter,
+} from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
+
+export const FeatureGates = {
+  [StatsigFeatureGates.SHOW_POSITIONS]: true,
+  [StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS]: true,
+  [StatsigFeatureGates.ALLOW_HOOKS_PREVIEW]: true,
+  [StatsigFeatureGates.APP_REVIEW]: false,
+  [StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW]: true,
+  [StatsigFeatureGates.SAVE_CONTACTS]: false,
+  [StatsigFeatureGates.CLEVERTAP_INBOX]: false,
+  [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: true,
+  [StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER]: false,
+  [StatsigFeatureGates.SHOW_NFT_CELEBRATION]: false,
+  [StatsigFeatureGates.SHOW_NFT_REWARD]: false,
+  [StatsigFeatureGates.SHOW_JUMPSTART_SEND]: false,
+  [StatsigFeatureGates.SHOW_POINTS]: false,
+  [StatsigFeatureGates.SUBSIDIZE_STABLECOIN_EARN_GAS_FEES]: false,
+  [StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAPS]: true,
+  [StatsigFeatureGates.SHOW_UK_COMPLIANT_VARIANT]: false,
+  [StatsigFeatureGates.ALLOW_EARN_PARTIAL_WITHDRAWAL]: true,
+  [StatsigFeatureGates.SHOW_ZERION_TRANSACTION_FEED]: true,
+  [StatsigFeatureGates.SHOW_NEW_ENTER_AMOUNT_FOR_SWAP]: true,
+  [StatsigFeatureGates.ALLOW_CROSS_CHAIN_SWAP_AND_DEPOSIT]: false,
+  [StatsigFeatureGates.DISABLE_WALLET_CONNECT_V2]: false,
+} satisfies { [key in StatsigFeatureGates]: boolean }
 
 export const ExperimentConfigs = {
   // NOTE: the keys of defaultValues MUST be parameter names
@@ -43,9 +72,9 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.SWAP_CONFIG,
     defaultValues: {
       maxSlippagePercentage: '0.3',
-      enableAppFee: false,
+      enableAppFee: true,
       popularTokenIds: [] as string[],
-      enabled: false,
+      enabled: true,
       priceImpactWarningThreshold: 4,
     },
   },
@@ -81,20 +110,20 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.APP_CONFIG,
     defaultValues: {
       minRequiredVersion: '0.0.0',
+      // TODO: add link to documentation for what kind of content these links should link to
       links: {
-        web: 'https://valora.xyz/',
-        tos: 'https://valora.xyz/terms',
-        privacy: 'https://valora.xyz/privacy',
-        faq: 'https://valora.xyz/faq',
-        funding: 'https://valora.xyz/fund-wallet',
-        forum: 'https://forum.celo.org/c/valora/8',
-        swapLearnMore: 'https://valora.xyz/support/swap-learn-more',
-        transactionFeesLearnMore: 'https://valora.xyz/support/transaction-fees-learn-more',
-        inviteRewardsNftsLearnMore: 'https://valora.xyz/support/invite-rewards-nfts-learn-more',
-        inviteRewardsStableTokenLearnMore:
-          'https://valora.xyz/support/invite-rewards-stabletoken-learn-more',
-        earnStablecoinsLearnMore: 'https://valora.xyz/stablecoin-earn',
-        celoEducation: 'https://valoraapp.com/support/quick-guide',
+        web: '',
+        tos: '',
+        privacy: '',
+        faq: '',
+        funding: '',
+        forum: '',
+        swapLearnMore: '',
+        transactionFeesLearnMore: '',
+        inviteRewardsNftsLearnMore: '',
+        inviteRewardsStableTokenLearnMore: '',
+        earnStablecoinsLearnMore: '',
+        celoEducation: '',
         dappList: 'https://api.mainnet.valora.xyz/dappList',
         celoNews: 'https://blog.celo.org',
       },

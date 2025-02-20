@@ -9,9 +9,6 @@ import {
 import DeviceInfo from 'react-native-device-info'
 import { APP_NAME, DEFAULT_APP_LANGUAGE } from 'src/config'
 import { getOtaTranslations } from 'src/i18n/otaTranslations'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 import locales from '../../locales'
 
 function getAvailableResources(cachedTranslations: Resource) {
@@ -44,7 +41,6 @@ export async function initI18n(
     cachedTranslations = await getOtaTranslations()
   }
   const resources = getAvailableResources(cachedTranslations)
-  const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   return i18n.use(initReactI18next).init({
     fallbackLng: {
@@ -60,7 +56,6 @@ export async function initI18n(
       escapeValue: false,
       defaultVariables: {
         appName: APP_NAME,
-        tosLink: links.tos.replace(/^https?:\/\//i, ''),
       },
     },
   })

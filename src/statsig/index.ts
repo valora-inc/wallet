@@ -2,6 +2,7 @@ import * as _ from 'lodash'
 import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
 import { ExpectedLaunchArgs, STATSIG_ENABLED } from 'src/config'
+import { FeatureGates } from 'src/statsig/constants'
 import {
   StatsigDynamicConfigs,
   StatsigExperiments,
@@ -109,9 +110,7 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
 }
 
 export function getFeatureGate(featureGateName: StatsigFeatureGates) {
-  // gates should always default to false, this boolean is to just remain backwards compatible
-  // with gates defaulting to true
-  const defaultGateValue = featureGateName === StatsigFeatureGates.ALLOW_HOOKS_PREVIEW
+  const defaultGateValue = FeatureGates[featureGateName]
   try {
     if (featureGateName in gateOverrides) {
       return gateOverrides[featureGateName]
