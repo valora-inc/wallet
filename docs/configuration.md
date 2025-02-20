@@ -33,6 +33,9 @@ You can customize various aspects of your app by adding optional configuration:
 ### Theme Customization
 
 ```typescript
+import WelcomeLogo from './assets/WelcomeLogo'
+import BrandLogo from './assets/BrandLogo'
+
 const App = createApp({
   // ... basic config
   themes: {
@@ -47,8 +50,9 @@ const App = createApp({
       },
       assets: {
         // Custom logos and images
-        welcomeLogo: require('./assets/logo.png'),
-        tabHeaderLogo: require('./assets/header-logo.png'),
+        welcomeLogo: WelcomeLogo,
+        brandLogo: BrandLogo,
+        onboardingSuccessImage: require('./assets/onboarding-success.png'),
       },
     },
   },

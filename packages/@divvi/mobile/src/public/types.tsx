@@ -105,7 +105,7 @@ export interface PublicAppConfig<tabScreenConfigs extends TabScreenConfig[] = Ta
         welcomeLogo?: React.ComponentType<any>
         welcomeBackgroundImage?: typeof require
         onboardingSuccessImage?: ImageSourcePropType
-        tabHeaderLogo?: React.ComponentType<any>
+        brandLogo?: React.ComponentType<any>
         noEarnPoolsLogo?: React.ComponentType<any>
         biometryImages?: {
           face?: ImageSourcePropType
