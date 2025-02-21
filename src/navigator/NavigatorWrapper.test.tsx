@@ -1,5 +1,5 @@
 import dynamicLinks from '@react-native-firebase/dynamic-links'
-import { render } from '@testing-library/react-native'
+import { render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Linking } from 'react-native'
 import { Provider } from 'react-redux'
@@ -47,7 +47,7 @@ describe('NavigatorWrapper', () => {
       </Provider>
     )
 
-    expect(Linking.addEventListener).toHaveBeenCalled()
+    await waitFor(() => expect(Linking.addEventListener).toHaveBeenCalled())
     expect(dynamicLinks().onLink).toHaveBeenCalled()
     expect(Linking.getInitialURL).toHaveBeenCalled()
     expect(dynamicLinks().getInitialLink).toHaveBeenCalled()
