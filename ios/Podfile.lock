@@ -15,9 +15,6 @@ PODS:
     - React-Core
   - CleverTap-iOS-SDK (6.2.1):
     - SDWebImage (~> 5.11)
-  - clevertap-react-native (2.2.1):
-    - CleverTap-iOS-SDK (= 6.2.1)
-    - React-Core
   - CocoaAsyncSocket (7.6.5)
   - CTNotificationService (0.1.5)
   - DoubleConversion (1.1.6)
@@ -849,7 +846,6 @@ DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - CleverTap-iOS-SDK
-  - clevertap-react-native (from `../node_modules/clevertap-react-native`)
   - CTNotificationService
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -1022,8 +1018,6 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
-  clevertap-react-native:
-    :path: "../node_modules/clevertap-react-native"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -1204,7 +1198,6 @@ SPEC CHECKSUMS:
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   BVLinearGradient: cb006ba232a1f3e4f341bb62c42d1098c284da70
   CleverTap-iOS-SDK: 78ea6d752d84918f0426f7b3959777d862bcb348
-  clevertap-react-native: 8c7a97304df1ee9640f963cc08a9069c42b4935c
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CTNotificationService: 844eb0cf5a6260b76e05420dde49312b72c5ad7c
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -1250,7 +1243,7 @@ SPEC CHECKSUMS:
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   PersonaInquirySDK2: 8153173c5f6d4e964874c9f0d7b375652c9bb6f9
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
-  RCT-Folly: 8dc08ca5a393b48b1c523ab6220dfdcc0fe000ad
+  RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: fb207f74935626041e7308c9e88dcdda680f1073
   RCTTypeSafety: 146fd11361680250b7580dd1f7f601995cfad1b1
   React: f3712351445cc96ba507425675a0cd8d31321d0c

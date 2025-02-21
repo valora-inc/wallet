@@ -1,5 +1,4 @@
 import dynamicLinks from '@react-native-firebase/dynamic-links'
-import CleverTap from 'clevertap-react-native'
 import { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Linking } from 'react-native'
@@ -62,22 +61,6 @@ export const useDeepLinks = () => {
   }
 
   useAsync(async () => {
-    // Handles opening Clevertap deeplinks when app is closed
-    // @ts-expect-error the clevertap ts definition has url as an object, but it
-    // is a string!
-    CleverTap.getInitialUrl(async (err: any, url: string) => {
-      if (err) {
-        if (/CleverTap initialUrl is (nil|null)/gi.test(err)) {
-          Logger.debug('useDeepLinks/useAsync', 'CleverTap InitialUrl is nil|null', err)
-        } else {
-          Logger.error('useDeepLinks/useAsync', 'App CleverTap Deeplink on Load', err)
-        }
-      } else if (url) {
-        Logger.debug('useDeepLinks/useAsync', 'CleverTap InitialUrl', url)
-        handleOpenInitialURL({ url }, true)
-      }
-    })
-
     if (FIREBASE_ENABLED) {
       const firebaseUrl = await dynamicLinks().getInitialLink()
       if (firebaseUrl) {
@@ -94,19 +77,9 @@ export const useDeepLinks = () => {
   }, [])
 
   useEffect(() => {
-    // Handles opening Clevertap deeplinks when app is open.
-    CleverTap.addListener('CleverTapPushNotificationClicked', async (event: any) => {
-      Logger.debug('useDeepLinks/useEffect', 'CleverTapPushNotificationClicked', event)
-      const url = event['wzrk_dl']
-      if (url) {
-        Logger.debug('useDeepLinks/useEffect', 'CleverTapPushNotificationClicked, opening url', url)
-        handleOpenURL({ url }, true)
-      }
-    })
-
-    // Handles opening any deep links, this listener is also triggered when a
-    // its a clevertap push notification or when the app is closed, so the
-    // openDeepLink action could be dispatched multiple times in those cases.
+    // Handles opening any deep links. This listener is also triggered when the
+    // app is closed, so the openDeepLink action could be dispatched multiple
+    // times in this case.
     const linkingEventListener = Linking.addEventListener('url', (event) => {
       Logger.debug('useDeepLinks/useEffect', 'Linking url event', event)
       handleOpenURL(event)
@@ -121,7 +94,6 @@ export const useDeepLinks = () => {
     }
 
     return () => {
-      CleverTap.removeListener('CleverTapPushNotificationClicked')
       linkingEventListener.remove()
       dynamicLinksUnsubsribe?.()
     }

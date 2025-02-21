@@ -2,13 +2,7 @@ import { Actions as AccountActions } from 'src/account/actions'
 import { depositSuccess, withdrawSuccess } from 'src/earn/slice'
 import { createFiatConnectTransferCompleted } from 'src/fiatconnect/slice'
 import { notificationsChannel } from 'src/firebase/firebase'
-import {
-  Actions,
-  cleverTapInboxMessagesReceived,
-  setLoading,
-  updateNotifications,
-} from 'src/home/actions'
-import { CleverTapInboxMessage, cleverTapInboxMessagesChannel } from 'src/home/cleverTapInbox'
+import { Actions, setLoading, updateNotifications } from 'src/home/actions'
 import { IdToNotification } from 'src/home/reducers'
 import { depositTransactionSucceeded } from 'src/jumpstart/slice'
 import { fetchLocalCurrencyRateSaga } from 'src/localCurrency/saga'
@@ -89,29 +83,7 @@ function* fetchNotifications() {
   }
 }
 
-function* fetchCleverTapInboxMessages() {
-  const channel = yield* call(cleverTapInboxMessagesChannel)
-
-  try {
-    while (true) {
-      const notifications = (yield* take(channel)) as CleverTapInboxMessage[]
-      yield* put(cleverTapInboxMessagesReceived(notifications))
-    }
-  } catch (error) {
-    Logger.error(
-      `${TAG}@updateCleverTapInboxMessages`,
-      'Failed to update CleverTap Inbox messages',
-      error
-    )
-  } finally {
-    if (yield* cancelled()) {
-      channel.close()
-    }
-  }
-}
-
 export function* homeSaga() {
   yield* spawn(watchRefreshBalances)
   yield* spawn(fetchNotifications)
-  yield* spawn(fetchCleverTapInboxMessages)
 }
