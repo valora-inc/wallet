@@ -3,10 +3,10 @@ import React, { useMemo, type ReactNode } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import BackButton from 'src/components/BackButton'
 import ContactCircle from 'src/components/ContactCircle'
 import CustomHeader from 'src/components/header/CustomHeader'
+import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import WalletIcon from 'src/icons/navigator/Wallet'
 import PhoneIcon from 'src/icons/Phone'
@@ -172,11 +172,7 @@ export function ReviewDetailsItem({
       <View>
         {isLoading ? (
           <View testID={`${testID}/Loader`} style={styles.loaderContainer}>
-            <SkeletonPlaceholder
-              borderRadius={100}
-              backgroundColor={Colors.skeletonPlaceholderBackground}
-              highlightColor={Colors.skeletonPlaceholderHighlight}
-            >
+            <SkeletonPlaceholder>
               <View style={styles.loader} />
             </SkeletonPlaceholder>
           </View>
