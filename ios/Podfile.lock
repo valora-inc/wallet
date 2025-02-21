@@ -13,10 +13,7 @@ PODS:
   - boost (1.76.0)
   - BVLinearGradient (2.8.3):
     - React-Core
-  - CleverTap-iOS-SDK (6.2.1):
-    - SDWebImage (~> 5.11)
   - CocoaAsyncSocket (7.6.5)
-  - CTNotificationService (0.1.5)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.72.15)
   - FBReactNativeSpec (0.72.15):
@@ -845,8 +842,6 @@ DEPENDENCIES:
   - A0Auth0 (from `../node_modules/react-native-auth0`)
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
-  - CleverTap-iOS-SDK
-  - CTNotificationService
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -962,9 +957,7 @@ SPEC REPOS:
   trunk:
     - Adjust
     - Auth0
-    - CleverTap-iOS-SDK
     - CocoaAsyncSocket
-    - CTNotificationService
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -1197,9 +1190,7 @@ SPEC CHECKSUMS:
   Auth0: 28cb24cb19ebd51f0b07751f16d83b59f4019532
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   BVLinearGradient: cb006ba232a1f3e4f341bb62c42d1098c284da70
-  CleverTap-iOS-SDK: 78ea6d752d84918f0426f7b3959777d862bcb348
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
-  CTNotificationService: 844eb0cf5a6260b76e05420dde49312b72c5ad7c
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 25cbffbaec517695d376ab4bc428948cd0f08088
   FBReactNativeSpec: e03b22fbf7017a6f76641ea4472e73c915dcdda7
@@ -1332,6 +1323,6 @@ SPEC CHECKSUMS:
   Yoga: 6f5ab94cd8b1ecd04b6e973d0bc583ede2a598cc
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: e49ec411923f9bb1906dff8d0e27d0aa410bf3ad
+PODFILE CHECKSUM: 15beaccd3c3e26b1de718bcb6dab83d7dd079d22
 
 COCOAPODS: 1.16.2

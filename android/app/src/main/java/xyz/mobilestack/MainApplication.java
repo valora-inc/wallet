@@ -3,8 +3,6 @@ package xyz.mobilestack;
 import android.util.Log;
 import androidx.multidex.MultiDexApplication;
 import cl.json.ShareApplication;
-import com.clevertap.android.sdk.ActivityLifecycleCallback;
-import com.clevertap.android.sdk.CleverTapAPI;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
@@ -62,7 +60,6 @@ public class MainApplication
 
   @Override
   public void onCreate() {
-    // CleverTap setup
     ActivityLifecycleCallback.register(this);
 
     super.onCreate();
