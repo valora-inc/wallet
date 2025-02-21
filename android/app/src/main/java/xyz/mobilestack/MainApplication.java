@@ -60,8 +60,6 @@ public class MainApplication
 
   @Override
   public void onCreate() {
-    ActivityLifecycleCallback.register(this);
-
     super.onCreate();
     SoLoader.init(this, /* native exopackage */false);
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
