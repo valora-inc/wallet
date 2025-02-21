@@ -23,7 +23,7 @@ export const useDeepLinks = () => {
 
   const shouldConsumeDeepLinks = address && hasVisitedHome
 
-  const handleOpenURL = (event: { url: string }, isSecureOrigin: boolean = false) => {
+  const handleOpenURL = (event: { url: string }) => {
     if (event.url.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
       // dynamic links come through both the `dynamicLinks` and `Linking` APIs.
       // the dynamicLinks handlers will already resolve the link, only the
@@ -34,13 +34,13 @@ export const useDeepLinks = () => {
     }
     Logger.debug(
       'useDeepLinks/handleOpenURL',
-      `Handling url: ${event.url}, isSecureOrigin: ${isSecureOrigin}, shouldConsumeDeepLinks: ${shouldConsumeDeepLinks}`
+      `Handling url: ${event.url}, shouldConsumeDeepLinks: ${shouldConsumeDeepLinks}`
     )
     // defer consuming deep links until the user has completed onboarding
     if (shouldConsumeDeepLinks) {
-      dispatch(openDeepLink(event.url, isSecureOrigin))
+      dispatch(openDeepLink(event.url, false))
     } else {
-      dispatch(deepLinkDeferred(event.url, isSecureOrigin))
+      dispatch(deepLinkDeferred(event.url, false))
     }
   }
 
@@ -51,12 +51,12 @@ export const useDeepLinks = () => {
     }
   }, [pendingDeepLink, address, hasVisitedHome])
 
-  const handleOpenInitialURL = (event: { url: string }, isSecureOrigin: boolean = false) => {
+  const handleOpenInitialURL = (event: { url: string }) => {
     // this function handles initial deep links, but not dynamic links (which
     // are handled by firebase)
     if (!isConsumingInitialLink) {
       setIsConsumingInitialLink(true)
-      handleOpenURL(event, isSecureOrigin)
+      handleOpenURL(event)
     }
   }
 
