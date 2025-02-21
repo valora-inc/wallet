@@ -143,7 +143,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 244,
+          "version": 245,
         },
         "account": {
           "acceptedTerms": false,
@@ -236,7 +236,6 @@ describe('store state', () => {
           "txHashToProvider": {},
         },
         "home": {
-          "cleverTapInboxMessages": [],
           "hasVisitedHome": true,
           "loading": false,
           "nftCelebration": null,

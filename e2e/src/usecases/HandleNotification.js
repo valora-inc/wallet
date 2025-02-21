@@ -1,4 +1,3 @@
-import { DetoxConstants } from 'detox'
 import { launchApp } from '../utils/retries'
 
 export default HandleNotification = () => {
@@ -23,19 +22,13 @@ export default HandleNotification = () => {
     await launchApp({ userNotification })
   })
 
-  it(':ios: Launch app and deeplink to another screen', async () => {
+  it('Launch app and deeplink to another screen', async () => {
     await launchApp({
-      userNotification: {
-        trigger: {
-          type: DetoxConstants.userNotificationTriggers.push,
-        },
-        payload: {
-          wzrk_dl: 'celo://wallet/openScreen?screen=SendSelectRecipient',
-        },
-      },
+      url: 'celo://wallet/cashIn',
+      sourceApp: 'org.celo.mobile.test',
     })
 
-    await waitFor(element(by.id('SendSelectRecipientSearchInput')))
+    await waitFor(element(by.text('Select a Token')))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })

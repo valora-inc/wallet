@@ -2,7 +2,6 @@ import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import {
   Actions,
   celebratedNftFound,
-  cleverTapInboxMessagesReceived,
   nftCelebrationDisplayed,
   nftRewardDisplayed,
   nftRewardReadyToDisplay,
@@ -16,7 +15,7 @@ import {
   homeReducer as reducer,
 } from 'src/home/reducers'
 import { NetworkId } from 'src/transactions/types'
-import { mockCleverTapInboxMessage, mockContractAddress } from 'test/values'
+import { mockContractAddress } from 'test/values'
 
 const createTestNotification = (body: string) => ({
   ctaUri: 'https://celo.org',
@@ -161,14 +160,6 @@ describe('home reducer', () => {
         notification2,
       },
     })
-  })
-
-  it('should update cleverTapInboxMessages', () => {
-    const messages = [mockCleverTapInboxMessage]
-
-    const updatedState = reducer(undefined, cleverTapInboxMessagesReceived(messages))
-
-    expect(updatedState.cleverTapInboxMessages).toEqual(messages)
   })
 
   it('should set nftCelebration', () => {

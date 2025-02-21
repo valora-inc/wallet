@@ -1,6 +1,5 @@
 import { createClient, SegmentClient } from '@segment/analytics-react-native'
 import { AdjustPlugin } from '@segment/analytics-react-native-plugin-adjust'
-import { ClevertapPlugin } from '@segment/analytics-react-native-plugin-clevertap'
 import { DestinationFiltersPlugin } from '@segment/analytics-react-native-plugin-destination-filters'
 import { FirebasePlugin } from '@segment/analytics-react-native-plugin-firebase'
 import _ from 'lodash'
@@ -114,7 +113,6 @@ class AppAnalytics {
         this.segmentClient.add({ plugin: new DestinationFiltersPlugin() })
         this.segmentClient.add({ plugin: new InjectTraits() })
         this.segmentClient.add({ plugin: new AdjustPlugin() })
-        this.segmentClient.add({ plugin: new ClevertapPlugin() })
         if (FIREBASE_ENABLED) {
           this.segmentClient.add({ plugin: new FirebasePlugin() })
         }
