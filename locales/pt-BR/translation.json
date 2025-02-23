@@ -2488,7 +2488,7 @@
         "bottomSheet": {
           "title": "Deposite em um pool de ganhos",
           "body": "Ganhe {{pointsValue}} pontos toda vez que você depositar fundos em um pool de ganhos na {{appName}}. \n\nToque abaixo para começar a ganhar rendimentos e pontos!",
-          "cta": "Acesse os pools de ganhos"
+          "cta": "Acesse as pools de ganhos"
         }
       }
     },
@@ -2535,7 +2535,7 @@
       "details": {
         "earn": {
           "titleGasSubsidy": "Maximize seus ganhos sem taxas de gás*",
-          "title": "Explore e compare os pools",
+          "title": "Explore e compare as pools",
           "subtitle": "Compare o potencial de ganho e os riscos. Troque, compre ou transfira tokens para participar do melhor pool para você.",
           "footnoteSubsidy": "*As taxas de gás estão temporariamente cobertas pela {{appName}}"
         },
@@ -2548,7 +2548,7 @@
           "titleV1_92": "Gerencie diretamente de {{appName}}",
           "titleV1_94": "Gerencie suas posições",
           "subtitle": "Conectaremos a sua carteira para você poder gerenciar os pools sem sair da {{appName}}.",
-          "subtitleV1_92": "Conectaremos a sua carteira para você poder gerenciar os pools sem sair da {{appName}}.",
+          "subtitleV1_92": "Conectaremos a sua carteira para você poder gerenciar as pools sem sair da {{appName}}.",
           "subtitleV1_94": "Escolha um pool de sua preferência, adicione seus tokens e monitore seus ganhos."
         },
         "access": {
@@ -2621,17 +2621,17 @@
       }
     },
     "activePools": {
-      "title": "Pools ativos",
+      "title": "Pools ativas",
       "totalValue": "Valor Total:",
       "apy": "~{{apy}}% de APY",
-      "exitPool": "Sair do pool",
+      "exitPool": "Sair da pool",
       "depositMore": "Depositar mais",
       "viewPools": "Ver pools",
-      "poolsSupplied": "Pools fornecidos",
+      "poolsSupplied": "Pools fornecidas",
       "totalSupplied": "Total fornecido",
       "depositAndEarnings": "Depósitos e ganhos",
-      "myPools": "Meus pools",
-      "explore": "Explorar abertos"
+      "myPools": "Minhas pools",
+      "explore": "Explorar"
     },
     "depositBottomSheet": {
       "title": "Revisar e depositar",
@@ -2695,15 +2695,15 @@
     },
     "home": {
       "title": "Ganhe",
-      "learnMore": "<0>Saiba mais</0> sobre os pools de rendimento.",
+      "learnMore": "<0>Saiba mais</0> sobre as pools de rendimento.",
       "learnMoreBottomSheet": {
-        "bottomSheetTitle": "Saiba mais sobre os pools de rendimento",
+        "bottomSheetTitle": "Saiba mais sobre as pools de rendimento",
         "apySubtitle": "O que é APY?",
         "apyDescription": "O rendimento percentual anual (APY) é uma métrica usada para calcular o retorno anualizado dos investimentos em cripto. É um indicador importante do potencial de retorno.",
         "tvlSubtitle": "O que é TVL?",
         "tvlDescription": "O valor total bloqueado (TVL) é uma métrica usada para medir o valor dos ativos digitais bloqueados em uma rede blockchain. O TVL é calculado pela soma do valor de todos os ativos digitais bloqueados em um protocolo DeFi ou contrato inteligente. Esses ativos podem incluir criptomoedas, stablecoins e outros tokens.",
-        "yieldPoolSubtitle": "O que é um pool de rendimento?",
-        "yieldPoolDescription": "Os pools de rendimento, ou pools de liquidez, são fundos agregados disponibilizados por detentores de tokens, que possibilitam a negociação em exchanges descentralizadas. Ao participar desses pools, é possível obter juros das pessoas que tomam esses fundos emprestados.",
+        "yieldPoolSubtitle": "O que é uma pool de rendimento?",
+        "yieldPoolDescription": "As pools de rendimento, ou pools de liquidez, são fundos agregados disponibilizados por detentores de tokens, que possibilitam a negociação em exchanges descentralizadas. Ao participar dessas pools, é possível obter juros das pessoas que tomam esses fundos emprestados.",
         "chooseSubtitle": "Como você deve escolher um pool? ",
         "chooseDescription": "Qualquer decisão financeira é uma escolha pessoal. Agrupamos alguns pools em diversos protocolos, mas cada um tem seus benefícios e riscos. Fazemos o nosso melhor para fornecer informações úteis sobre cada pool, mas é sempre recomendável realizar uma pesquisa adicional se tiver dúvidas."
       },
