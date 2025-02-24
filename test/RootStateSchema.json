@@ -4690,12 +4690,6 @@
                 "divviRegistrations": {
                     "$ref": "#/definitions/{\"celo-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"celo-alfajores\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"ethereum-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"ethereum-sepolia\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"arbitrum-one\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"arbitrum-sepolia\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"op-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"op-sepolia\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"polygon-pos-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"polygon-pos-amoy\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"base-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"base-sepolia\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;}"
                 },
-                "fiatConnectCashInEnabled": {
-                    "type": "boolean"
-                },
-                "fiatConnectCashOutEnabled": {
-                    "type": "boolean"
-                },
                 "googleMobileServicesAvailable": {
                     "type": "boolean"
                 },
@@ -4753,32 +4747,13 @@
                 "showNotificationSpotlight": {
                     "type": "boolean"
                 },
-                "supportedBiometryType": {
-                    "anyOf": [
-                        {
-                            "enum": [
-                                "Face",
-                                "FaceID",
-                                "Fingerprint",
-                                "Iris",
-                                "OpticID",
-                                "TouchID"
-                            ],
-                            "type": "string"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ]
-                }
+                "supportedBiometryType": {}
             },
             "required": [
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
                 "divviRegistrations",
-                "fiatConnectCashInEnabled",
-                "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
                 "hideBalances",
                 "inAppReviewLastInteractionTimestamp",
