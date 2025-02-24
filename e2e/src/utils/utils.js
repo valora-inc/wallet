@@ -102,10 +102,10 @@ export async function quickOnboarding({
     await enterPinUi()
 
     if (cloudBackupEnabled) {
-      await waitForElementByText({
-        text: 'From recovery phrase',
-        tap: true,
-      })
+      await waitFor(element(by.text('From recovery phrase')))
+        .toBeVisible()
+        .withTimeout(10000)
+      await element(by.text('From recovery phrase')).tap()
     }
 
     // Restore existing wallet
@@ -223,82 +223,6 @@ export async function getElementTextList(elementId) {
     if (elementText) return [elementText]
   } catch {}
   return []
-}
-
-export async function completeProtectWalletScreen() {
-  await expect(element(by.id('recoveryPhraseCard'))).toBeVisible()
-  await element(by.id('recoveryPhraseCard')).tap()
-  await enterPinUi()
-  await expect(element(by.id('protectWalletBottomSheetContinue'))).toBeVisible()
-  await element(by.id('protectWalletBottomSheetContinue')).tap()
-}
-
-/**
- * Fund a wallet, using some existing wallet.
- *
- * @param senderPrivateKey: private key for wallet with funds
- * @param recipientAddress: wallet to receive funds
- * @param stableToken: recognised token symbol (e.g. 'cUSD')
- * @param amountEther: amount in "ethers" (as opposed to wei)
- */
-export async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amountEther) {
-  const stableTokenSymbolToAddress = {
-    cUSD: '0x765de816845861e75a25fca122bb6898b8b1282a',
-  }
-  const tokenAddress = stableTokenSymbolToAddress[stableToken]
-  if (!tokenAddress) {
-    throw new Error(`Unsupported token symbol passed to fundWallet: ${stableToken}`)
-  }
-
-  const account = privateKeyToAccount(senderPrivateKey)
-  const senderAddress = account.address
-  console.log(`Sending ${amountEther} ${stableToken} from ${senderAddress} to ${recipientAddress}`)
-  const client = createWalletClient({
-    account,
-    chain: celo,
-    transport: http(),
-  }).extend(publicActions)
-
-  const fundingAmount = BigInt(amountEther * 10 ** 18)
-  const hash = await client.sendTransaction({
-    to: tokenAddress,
-    from: senderAddress,
-    data: encodeFunctionData({
-      abi: erc20Abi,
-      functionName: 'transfer',
-      args: [recipientAddress, fundingAmount],
-    }),
-  })
-  const receipt = await client.waitForTransactionReceipt({ hash })
-
-  console.log('Funding TX receipt', receipt)
-}
-
-export async function navigateToSecurity() {
-  await waitForElementById('WalletHome/SettingsGearButton', {
-    tap: true,
-  })
-  await waitForElementById('SettingsMenu/Security', {
-    tap: true,
-  })
-}
-
-export async function navigateToProfile() {
-  await waitForElementById('WalletHome/SettingsGearButton', {
-    tap: true,
-  })
-  await waitForElementById('SettingsMenu/Profile', {
-    tap: true,
-  })
-}
-
-export async function navigateToPreferences() {
-  await waitForElementById('WalletHome/SettingsGearButton', {
-    tap: true,
-  })
-  await waitForElementById('SettingsMenu/Preferences', {
-    tap: true,
-  })
 }
 
 export const getDisplayAddress = (address) => {

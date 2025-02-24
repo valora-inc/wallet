@@ -1,6 +1,7 @@
 import { E2E_WALLET_MNEMONIC } from 'react-native-dotenv'
 import { reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, navigateToSecurity, waitForElementById } from '../utils/utils'
+import { enterPinUiIfNecessary, waitForElementById } from '../utils/utils'
+import { navigateToSecurity } from '../utils/navigation'
 
 export default ResetAccount = () => {
   beforeEach(async () => {
