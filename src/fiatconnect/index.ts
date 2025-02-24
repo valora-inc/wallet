@@ -147,10 +147,9 @@ export async function getFiatConnectQuotes(
 export type FetchQuotesInput = QuotesInput
 
 export async function fetchQuotes(params: FetchQuotesInput) {
-  const { fiatConnectCashInEnabled, fiatConnectCashOutEnabled } = getDynamicConfigParams(
+  const { fiatConnectCashOutEnabled } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.FIAT_CONNECT_CONFIG]
   )
-  if (!fiatConnectCashInEnabled && params.flow === CICOFlow.CashIn) return []
   if (!fiatConnectCashOutEnabled && params.flow === CICOFlow.CashOut) return []
   return getFiatConnectQuotes(params)
 }

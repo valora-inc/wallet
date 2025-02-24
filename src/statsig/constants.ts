@@ -146,7 +146,6 @@ export const DynamicConfigs = {
   [StatsigDynamicConfigs.FIAT_CONNECT_CONFIG]: {
     configName: StatsigDynamicConfigs.FIAT_CONNECT_CONFIG,
     defaultValues: {
-      fiatConnectCashInEnabled: false,
       fiatConnectCashOutEnabled: false,
     },
   },

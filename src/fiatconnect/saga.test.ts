@@ -654,7 +654,6 @@ describe('Fiatconnect saga', () => {
       jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
         if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
           return {
-            fiatConnectCashInEnabled: false,
             fiatConnectCashOutEnabled: true,
           }
         }
@@ -696,7 +695,6 @@ describe('Fiatconnect saga', () => {
       jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
         if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
           return {
-            fiatConnectCashInEnabled: false,
             fiatConnectCashOutEnabled: true,
           }
         }
@@ -750,7 +748,6 @@ describe('Fiatconnect saga', () => {
       jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
         if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
           return {
-            fiatConnectCashInEnabled: false,
             fiatConnectCashOutEnabled: true,
           }
         }
@@ -790,7 +787,6 @@ describe('Fiatconnect saga', () => {
       jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
         if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
           return {
-            fiatConnectCashInEnabled: false,
             fiatConnectCashOutEnabled: true,
           }
         }

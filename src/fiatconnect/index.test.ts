@@ -115,24 +115,11 @@ describe('FiatConnect helpers', () => {
       ],
       address: '0xabc',
     }
-    it('returns an empty array if fiatConnectCashInEnabled is false with cash in', async () => {
-      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
-        if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
-          return {
-            fiatConnectCashInEnabled: false,
-            fiatConnectCashOutEnabled: true,
-          }
-        }
-        return {} as any
-      })
-      const quotes = await fetchQuotes(fetchQuotesInput)
-      expect(quotes).toHaveLength(0)
-    })
+
     it('returns an empty array if fiatConnectCashOutEnabled is false with cash out', async () => {
       jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
         if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
           return {
-            fiatConnectCashInEnabled: true,
             fiatConnectCashOutEnabled: false,
           }
         }
