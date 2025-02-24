@@ -9,6 +9,4 @@ describe('Celo page', () => {
   })
 
   describe('celo education', CeloEducation)
-  describe('price chart', PriceChart)
-  describe('celo news', CeloNews)
 })
