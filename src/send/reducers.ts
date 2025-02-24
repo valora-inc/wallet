@@ -1,4 +1,3 @@
-import { UpdateConfigValuesAction } from 'src/app/actions'
 import { Recipient, areRecipientsEquivalent } from 'src/recipients/recipient'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 import { ActionTypes, Actions } from 'src/send/actions'
@@ -33,7 +32,7 @@ const initialState = {
 
 export const sendReducer = (
   state: State = initialState,
-  action: ActionTypes | RehydrateAction | UpdateConfigValuesAction
+  action: ActionTypes | RehydrateAction
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
