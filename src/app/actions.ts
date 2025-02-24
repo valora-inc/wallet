@@ -1,5 +1,4 @@
 import { BIOMETRY_TYPE } from '@divvi/react-native-keychain'
-import { RemoteConfigValues } from 'src/app/saga'
 import { SupportedProtocolId } from 'src/divviProtocol/constants'
 import { Screens } from 'src/navigator/Screens'
 import { NetworkId } from 'src/transactions/types'
@@ -164,7 +163,6 @@ export type ActionTypes =
   | Unlock
   | SetSessionId
   | OpenUrlAction
-  | UpdateConfigValuesAction
   | ActiveScreenChangedAction
   | AppMounted
   | AppUnmounted
@@ -246,13 +244,6 @@ export const openUrl = (
   url,
   openExternal,
   isSecureOrigin,
-})
-
-export const updateRemoteConfigValues = (
-  configValues: RemoteConfigValues
-): UpdateConfigValuesAction => ({
-  type: Actions.UPDATE_REMOTE_CONFIG_VALUES,
-  configValues,
 })
 
 export const activeScreenChanged = (activeScreen: Screens): ActiveScreenChangedAction => ({
