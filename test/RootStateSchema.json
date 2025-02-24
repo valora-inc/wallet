@@ -4747,7 +4747,24 @@
                 "showNotificationSpotlight": {
                     "type": "boolean"
                 },
-                "supportedBiometryType": {}
+                "supportedBiometryType": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "Face",
+                                "FaceID",
+                                "Fingerprint",
+                                "Iris",
+                                "OpticID",
+                                "TouchID"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                }
             },
             "required": [
                 "activeScreen",
