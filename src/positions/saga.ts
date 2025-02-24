@@ -6,7 +6,6 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { BuilderHooksEvents, DappShortcutsEvents } from 'src/analytics/Events'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { isE2EEnv } from 'src/config'
 import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
@@ -176,7 +175,7 @@ export function* fetchPositionsSaga() {
       Logger.debug(TAG, 'Skipping fetching positions since no address was found')
       return
     }
-    if (!getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS) || isE2EEnv) {
+    if (!getFeatureGate(StatsigFeatureGates.SHOW_POSITIONS)) {
       return
     }
 
