@@ -2,8 +2,7 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { notificationInvite } from 'src/images/Images'
-import { useSelector } from 'src/redux/hooks'
-import { inviteRewardsTypeSelector } from 'src/send/selectors'
+import { useInviteReward } from 'src/invite/hooks'
 import { InviteRewardsType } from 'src/send/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -11,14 +10,14 @@ import { Spacing } from 'src/styles/styles'
 
 export default function InviteRewardsCard() {
   const { t } = useTranslation()
-  const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
+  const inviteReward = useInviteReward()
 
   const inviteRewardsToTranslationPrefix: Record<InviteRewardsType, string | null> = {
     [InviteRewardsType.CUSD]: 'inviteRewardsBannerCUSD',
     [InviteRewardsType.NFT]: 'inviteRewardsBanner',
     [InviteRewardsType.NONE]: null,
   }
-  const inviteRewardsTranslationPrefix = inviteRewardsToTranslationPrefix[inviteRewardsType]
+  const inviteRewardsTranslationPrefix = inviteRewardsToTranslationPrefix[inviteReward.type]
 
   // If no translations are available do not show the banner
   if (inviteRewardsTranslationPrefix === null) {

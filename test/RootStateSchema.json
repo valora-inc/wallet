@@ -1721,12 +1721,6 @@
             ],
             "type": "string"
         },
-        "FiatAccountSchemaCountryOverrides": {
-            "additionalProperties": {
-                "$ref": "#/definitions/{AccountNumber?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;MobileMoney?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;DuniaWallet?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IBANNumber?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IFSCAccount?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;PIXAccount?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;keyType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;key?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;}"
-            },
-            "type": "object"
-        },
         "FiatAccountType": {
             "enum": [
                 "BankAccount",
@@ -5295,9 +5289,6 @@
                 "quotesLoading": {
                     "type": "boolean"
                 },
-                "schemaCountryOverrides": {
-                    "$ref": "#/definitions/FiatAccountSchemaCountryOverrides"
-                },
                 "selectFiatConnectQuoteLoading": {
                     "type": "boolean"
                 },
@@ -5326,7 +5317,6 @@
                 "quotes",
                 "quotesError",
                 "quotesLoading",
-                "schemaCountryOverrides",
                 "selectFiatConnectQuoteLoading",
                 "sendingFiatAccountStatus",
                 "transfer"
@@ -5661,9 +5651,6 @@
                         "string"
                     ]
                 },
-                "inviteRewardsVersion": {
-                    "type": "string"
-                },
                 "isEncryptingComment": {
                     "type": "boolean"
                 },
@@ -5688,7 +5675,6 @@
             },
             "required": [
                 "encryptedComment",
-                "inviteRewardsVersion",
                 "isEncryptingComment",
                 "isSending",
                 "recentPayments",

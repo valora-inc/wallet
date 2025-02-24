@@ -1,5 +1,4 @@
-import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
-import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
+import { UpdateConfigValuesAction } from 'src/app/actions'
 import { Recipient, areRecipientsEquivalent } from 'src/recipients/recipient'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 import { ActionTypes, Actions } from 'src/send/actions'
@@ -19,7 +18,6 @@ interface State {
   recentRecipients: Recipient[]
   // Keep a list of recent (last 24 hours) payments
   recentPayments: PaymentInfo[]
-  inviteRewardsVersion: string
   lastUsedTokenId?: string
   encryptedComment: string | null
   isEncryptingComment: boolean
@@ -29,7 +27,6 @@ const initialState = {
   isSending: false,
   recentRecipients: [],
   recentPayments: [],
-  inviteRewardsVersion: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardsVersion,
   encryptedComment: null,
   isEncryptingComment: false,
 }
@@ -73,11 +70,6 @@ export const sendReducer = (
         ...state,
         isSending: false,
         encryptedComment: null,
-      }
-    case AppActions.UPDATE_REMOTE_CONFIG_VALUES:
-      return {
-        ...state,
-        inviteRewardsVersion: action.configValues.inviteRewardsVersion,
       }
     default:
       return state

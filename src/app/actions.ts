@@ -22,7 +22,6 @@ export enum Actions {
   UNLOCK = 'APP/UNLOCK',
   SET_SESSION_ID = 'SET_SESSION_ID',
   OPEN_URL = 'APP/OPEN_URL',
-  UPDATE_REMOTE_CONFIG_VALUES = 'APP/UPDATE_REMOTE_CONFIG_VALUES',
   ACTIVE_SCREEN_CHANGED = 'APP/ACTIVE_SCREEN_CHANGED',
   APP_MOUNTED = 'APP/APP_MOUNTED',
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
@@ -101,11 +100,6 @@ export interface OpenUrlAction {
   url: string
   openExternal: boolean
   isSecureOrigin: boolean
-}
-
-export interface UpdateConfigValuesAction {
-  type: Actions.UPDATE_REMOTE_CONFIG_VALUES
-  configValues: RemoteConfigValues
 }
 
 export interface AndroidMobileServicesAvailabilityChecked {

@@ -70,7 +70,6 @@ const loggerPayloadBlocklist = [
   fetchNftsCompleted.type,
   fetchPositionsSuccess.type,
   fetchShortcutsSuccess.type,
-  AppActions.UPDATE_REMOTE_CONFIG_VALUES,
   'transactionFeedV2Api/executeQuery/fulfilled',
   transactionsConfirmedFromFeedApi.type,
 ]

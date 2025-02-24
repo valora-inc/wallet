@@ -2,8 +2,8 @@ import Clipboard from '@react-native-clipboard/clipboard'
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { SendEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import { fetchAddressVerification, fetchAddressesAndValidate } from 'src/identity/actions'
 import { AddressValidationType } from 'src/identity/reducer'
@@ -12,6 +12,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RecipientType, getRecipientVerificationStatus } from 'src/recipients/recipient'
 import SendSelectRecipient from 'src/send/SendSelectRecipient'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
@@ -35,6 +37,7 @@ jest.mock('src/recipients/recipient', () => ({
 }))
 
 jest.mock('react-native-device-info', () => ({ getFontScaleSync: () => 1 }))
+jest.mock('src/statsig')
 
 const mockScreenProps = ({
   defaultTokenIdOverride,
@@ -61,11 +64,39 @@ const storeWithPhoneVerified = {
   app: { phoneNumberVerified: true },
 }
 
+const defaultAppConfigs = {
+  minRequiredVersion: '0.0.0',
+  inviteRewardsVersion: 'none',
+  // TODO: add link to documentation for what kind of content these links should link to
+  links: {
+    web: '',
+    tos: '',
+    privacy: '',
+    faq: '',
+    funding: '',
+    forum: '',
+    swapLearnMore: '',
+    transactionFeesLearnMore: '',
+    inviteRewardsNftsLearnMore: '',
+    inviteRewardsStableTokenLearnMore: '',
+    earnStablecoinsLearnMore: '',
+    celoEducation: '',
+    dappList: '',
+    celoNews: '',
+  },
+}
+
 describe('SendSelectRecipient', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(Clipboard.getString).mockResolvedValue('')
     jest.mocked(Clipboard.hasString).mockResolvedValue(false)
+    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+      if (configName === StatsigDynamicConfigs.APP_CONFIG) {
+        return defaultAppConfigs
+      }
+      return {} as any
+    })
   })
 
   it('shows contacts when send to contacts button is pressed and conditions are satisfied', async () => {
@@ -478,13 +509,13 @@ describe('SendSelectRecipient', () => {
 
   describe('Invite Rewards', () => {
     it('shows invite rewards card when invite rewards are active and number is verified', async () => {
-      const store = createMockStore({
-        ...storeWithPhoneVerified,
-        send: {
-          ...storeWithPhoneVerified.send,
-          inviteRewardsVersion: 'v5',
-        },
+      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+        if (configName === StatsigDynamicConfigs.APP_CONFIG) {
+          return { ...defaultAppConfigs, inviteRewardsVersion: 'v5' }
+        }
+        return {} as any
       })
+      const store = createMockStore(storeWithPhoneVerified)
 
       const { findByTestId } = render(
         <Provider store={store}>
@@ -498,13 +529,13 @@ describe('SendSelectRecipient', () => {
     })
 
     it('does not show invite rewards card when invite rewards are not active', async () => {
-      const store = createMockStore({
-        ...storeWithPhoneVerified,
-        send: {
-          ...storeWithPhoneVerified.send,
-          inviteRewardsVersion: 'none',
-        },
+      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+        if (configName === StatsigDynamicConfigs.APP_CONFIG) {
+          return { ...defaultAppConfigs, inviteRewardsVersion: 'none' }
+        }
+        return {} as any
       })
+      const store = createMockStore(storeWithPhoneVerified)
 
       const { queryByTestId } = render(
         <Provider store={store}>
@@ -516,13 +547,13 @@ describe('SendSelectRecipient', () => {
     })
 
     it('does not show invite rewards card when invite rewards are active and number is not verified', async () => {
-      const store = createMockStore({
-        ...defaultStore,
-        send: {
-          ...defaultStore.send,
-          inviteRewardsVersion: 'v5',
-        },
+      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+        if (configName === StatsigDynamicConfigs.APP_CONFIG) {
+          return { ...defaultAppConfigs, inviteRewardsVersion: 'v5' }
+        }
+        return {} as any
       })
+      const store = createMockStore(defaultStore)
 
       const { queryByTestId } = render(
         <Provider store={store}>

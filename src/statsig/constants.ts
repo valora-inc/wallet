@@ -1,3 +1,4 @@
+import type { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import {
   StatsigDynamicConfigs,
   StatsigExperiments,
@@ -110,6 +111,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.APP_CONFIG,
     defaultValues: {
       minRequiredVersion: '0.0.0',
+      inviteRewardsVersion: 'none',
       // TODO: add link to documentation for what kind of content these links should link to
       links: {
         web: '',
@@ -147,6 +149,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.FIAT_CONNECT_CONFIG,
     defaultValues: {
       fiatConnectCashOutEnabled: false,
+      fiatAccountSchemaCountryOverrides: {} as FiatAccountSchemaCountryOverrides,
     },
   },
 } satisfies {
