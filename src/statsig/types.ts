@@ -18,7 +18,6 @@ export enum StatsigFeatureGates {
   APP_REVIEW = 'app_review',
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
   SAVE_CONTACTS = 'save_contacts',
-  CLEVERTAP_INBOX = 'clevertap_inbox',
   SHOW_SWAP_TOKEN_FILTERS = 'show_swap_token_filters',
   SHUFFLE_SWAP_TOKENS_ORDER = 'shuffle_swap_tokens_order',
   SHOW_NFT_CELEBRATION = 'show_nft_celebration',

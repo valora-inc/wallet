@@ -850,52 +850,6 @@
             ],
             "type": "object"
         },
-        "CleverTapInboxMessage": {
-            "additionalProperties": false,
-            "properties": {
-                "ctaText": {
-                    "type": "string"
-                },
-                "ctaUrl": {
-                    "type": "string"
-                },
-                "header": {
-                    "type": "string"
-                },
-                "icon": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "uri": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "uri"
-                    ],
-                    "type": "object"
-                },
-                "messageId": {
-                    "type": "string"
-                },
-                "openInExternalBrowser": {
-                    "type": "boolean"
-                },
-                "priority": {
-                    "type": "number"
-                },
-                "text": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "ctaText",
-                "ctaUrl",
-                "messageId",
-                "openInExternalBrowser",
-                "text"
-            ],
-            "type": "object"
-        },
         "ContactRecipient": {
             "anyOf": [
                 {
@@ -5707,12 +5661,6 @@
         "State_5": {
             "additionalProperties": false,
             "properties": {
-                "cleverTapInboxMessages": {
-                    "items": {
-                        "$ref": "#/definitions/CleverTapInboxMessage"
-                    },
-                    "type": "array"
-                },
                 "hasVisitedHome": {
                     "type": "boolean"
                 },
@@ -5763,7 +5711,6 @@
                 }
             },
             "required": [
-                "cleverTapInboxMessages",
                 "hasVisitedHome",
                 "loading",
                 "nftCelebration",

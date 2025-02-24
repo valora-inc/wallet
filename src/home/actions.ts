@@ -1,4 +1,3 @@
-import { CleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { IdToNotification } from 'src/home/reducers'
 import { NetworkId } from 'src/transactions/types'
 
@@ -8,7 +7,6 @@ export enum Actions {
   DISMISS_NOTIFICATION = 'HOME/DISMISS_NOTIFICATION',
   REFRESH_BALANCES = 'HOME/REFRESH_BALANCES',
   VISIT_HOME = 'HOME/VISIT_HOME',
-  CLEVERTAP_INBOX_MESSAGES_RECEIVED = 'HOME/CLEVERTAP_INBOX_MESSAGES_RECEIVED',
   CELEBRATED_NFT_FOUND = 'HOME/CELEBRATED_NFT_FOUND',
   NFT_CELEBRATION_DISPLAYED = 'HOME/NFT_CELEBRATION_DISPLAYED',
   NFT_REWARD_READY_TO_DISPLAY = 'HOME/NFT_REWARD_READY_TO_DISPLAY',
@@ -36,11 +34,6 @@ export interface DismissNotificationAction {
 
 export interface RefreshBalancesBalancesAction {
   type: Actions.REFRESH_BALANCES
-}
-
-interface CleverTapInboxMessagesReceivedAction {
-  type: Actions.CLEVERTAP_INBOX_MESSAGES_RECEIVED
-  messages: CleverTapInboxMessage[]
 }
 
 interface CelebratedNftFoundAction {
@@ -74,7 +67,6 @@ export type ActionTypes =
   | SetLoadingAction
   | UpdateNotificationsAction
   | DismissNotificationAction
-  | CleverTapInboxMessagesReceivedAction
   | VisitHomeAction
   | CelebratedNftFoundAction
   | NftCelebrationDisplayedAction
@@ -104,13 +96,6 @@ export const dismissNotification = (id: string): DismissNotificationAction => ({
 
 export const refreshAllBalances = (): RefreshBalancesBalancesAction => ({
   type: Actions.REFRESH_BALANCES,
-})
-
-export const cleverTapInboxMessagesReceived = (
-  messages: CleverTapInboxMessage[]
-): CleverTapInboxMessagesReceivedAction => ({
-  type: Actions.CLEVERTAP_INBOX_MESSAGES_RECEIVED,
-  messages,
 })
 
 export const celebratedNftFound = ({

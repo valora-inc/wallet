@@ -6,7 +6,6 @@ import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
-import CleverTap from 'clevertap-react-native'
 import { PermissionsAndroid, PermissionStatus, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
@@ -208,19 +207,11 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   const isEmulator = yield* call([DeviceInfo, 'isEmulator'])
   // Emulators can't handle fcm tokens and calling getToken on them will throw an error
   if (!isEmulator) {
-    yield* call([CleverTap, 'registerForPush'])
     fcmToken = yield* call([app.messaging(), 'getToken'])
   }
   if (fcmToken) {
     yield* call(handleUpdateAccountRegistration)
-
-    if (Platform.OS === 'android') {
-      // @ts-ignore FCM constant missing from types
-      yield* call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)
-    }
   }
-
-  CleverTap.createNotificationChannel('CleverTapChannelId', 'CleverTap', 'default channel', 5, true)
 
   app.messaging().onTokenRefresh(async (fcmToken) => {
     Logger.info(TAG, 'Cloud Messaging token refreshed')
@@ -236,11 +227,6 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
         'Unable to update cloud messaging token',
         error
       )
-    }
-
-    if (Platform.OS === 'android') {
-      // @ts-ignore FCM constant missing from types
-      CleverTap.setPushToken(fcmToken, CleverTap.FCM)
     }
   })
 }

@@ -2024,4 +2024,8 @@ export const migrations = {
       divviRegistrations: {},
     },
   }),
+  245: (state: any) => ({
+    ...state,
+    home: _.omit(state.home, 'cleverTapInboxMessages'),
+  }),
 }

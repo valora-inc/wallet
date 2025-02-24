@@ -1,5 +1,4 @@
 import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
-import CleverTap from 'clevertap-react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -8,14 +7,9 @@ import { openUrl } from 'src/app/actions'
 import NotificationCenter from 'src/home/NotificationCenter'
 import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
 import { Spacing } from 'src/styles/styles'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import {
-  mockCleverTapInboxMessage,
-  mockE164Number,
-  mockExpectedCleverTapInboxMessage,
-} from 'test/values'
+import { mockE164Number } from 'test/values'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -34,13 +28,6 @@ jest.mock('src/navigator/NavigationService', () => ({
   navigate: jest.fn(),
 }))
 jest.mock('src/statsig')
-
-jest.mock('clevertap-react-native', () => ({
-  deleteInboxMessageForId: jest.fn(),
-  markReadInboxMessageForId: jest.fn(),
-  pushInboxNotificationViewedEventForId: jest.fn(),
-  pushInboxNotificationClickedEventForId: jest.fn(),
-}))
 jest.mock('src/config', () => ({
   ...jest.requireActual('src/config'),
   ONBOARDING_FEATURES_ENABLED: { CloudBackup: false },
@@ -467,118 +454,6 @@ describe('NotificationCenter', () => {
         openUrl(testNotification.ctaUri, false, true),
         openUrl(testNotification.ctaUri, true, true),
       ])
-    })
-  })
-
-  describe('clevertap notifications', () => {
-    beforeAll(() => {
-      jest.mocked(getFeatureGate).mockReturnValue(true)
-    })
-
-    afterAll(() => {
-      jest.clearAllMocks()
-    })
-
-    it('renders clevertap notification', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        home: {
-          cleverTapInboxMessages: [mockCleverTapInboxMessage],
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-      expect(getByText('CleverTap Message Header')).toBeDefined()
-      expect(getByText('CleverTap Message Body Text')).toBeDefined()
-    })
-
-    it('emits correct events when CTA is pressed', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        home: {
-          cleverTapInboxMessages: [mockCleverTapInboxMessage],
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      store.clearActions()
-
-      fireEvent.press(getByText('CleverTap Message CTA'))
-      expect(store.getActions()).toEqual([openUrl('https://example.com', false, true)])
-
-      expect(CleverTap.pushInboxNotificationClickedEventForId).toBeCalledWith(
-        mockExpectedCleverTapInboxMessage.id
-      )
-
-      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.clevertap_notification,
-        selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
-        notificationPositionInList: 0,
-      })
-    })
-
-    it('emits correct events when notification is dismissed', () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        home: {
-          cleverTapInboxMessages: [mockCleverTapInboxMessage],
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      fireEvent.press(getByText('dismiss'))
-
-      expect(CleverTap.deleteInboxMessageForId).toBeCalledWith(mockExpectedCleverTapInboxMessage.id)
-
-      expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
-        notificationType: NotificationType.clevertap_notification,
-        selectedAction: NotificationBannerCTATypes.decline,
-        notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
-        notificationPositionInList: 0,
-      })
-    })
-
-    it('emits correct events when notification is displayed', async () => {
-      const store = createMockStore({
-        ...storeDataNotificationsDisabled,
-        home: {
-          cleverTapInboxMessages: [mockCleverTapInboxMessage],
-        },
-      })
-      const screen = render(
-        <Provider store={store}>
-          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
-        </Provider>
-      )
-
-      layoutNotificationList(screen)
-
-      await waitFor(() =>
-        expect(AppAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
-          notificationType: NotificationType.clevertap_notification,
-          notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
-          notificationPositionInList: 0,
-        })
-      )
-
-      expect(CleverTap.pushInboxNotificationViewedEventForId).toBeCalledWith(
-        mockExpectedCleverTapInboxMessage.id
-      )
-      expect(CleverTap.markReadInboxMessageForId).toBeCalledWith(
-        mockExpectedCleverTapInboxMessage.id
-      )
     })
   })
 })

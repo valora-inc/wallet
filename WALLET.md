@@ -638,7 +638,6 @@ patch-package 6.2.2
 Applying patches...
 @react-native-community/netinfo@5.8.0 ✔
 bn.js@4.11.9 ✔
-clevertap-react-native@0.5.2 ✔
 react-native-sms@1.11.0 ✔
 react-native-splash-screen@3.3.0 ✔
 react-native-svg@12.1.1 ✔

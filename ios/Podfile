@@ -98,11 +98,6 @@ target "MobileStack" do
   pod 'OpenSSL-Universal', '1.1.1100', :configurations => ['Debug','Release']
 end
 
-target 'NotificationService' do
-  pod 'CTNotificationService'
-  pod 'CleverTap-iOS-SDK'
-end
-
 # Convert all permission pods into static libraries
 # See https://github.com/react-native-community/react-native-permissions#workaround-for-use_frameworks-issues
 pre_install do |installer|
