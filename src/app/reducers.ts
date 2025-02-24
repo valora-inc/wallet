@@ -137,10 +137,6 @@ export const appReducer = (
         ...state,
         sessionId: action.sessionId,
       }
-    case Actions.UPDATE_REMOTE_CONFIG_VALUES:
-      return {
-        ...state,
-      }
     case Actions.ACTIVE_SCREEN_CHANGED:
       return {
         ...state,

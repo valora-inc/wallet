@@ -172,6 +172,14 @@ describe('Fiatconnect saga', () => {
       fiatType: normalizedQuoteKyc.getFiatType(),
     },
   }
+
+  jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+    if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
+      return { fiatConnectCashOutEnabled: true }
+    }
+    return {} as any
+  })
+
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -651,14 +659,6 @@ describe('Fiatconnect saga', () => {
   describe('handleFetchFiatConnectQuotes', () => {
     it('saves quotes when fetch is successful', async () => {
       jest.mocked(fetchQuotes).mockImplementation(() => Promise.resolve(mockFiatConnectQuotes))
-      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
-        if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
-          return {
-            fiatConnectCashOutEnabled: true,
-          }
-        }
-        return {} as any
-      })
       await expectSaga(
         handleFetchFiatConnectQuotes,
         fetchFiatConnectQuotes({
@@ -692,14 +692,6 @@ describe('Fiatconnect saga', () => {
 
     it('fetches providers if null initially', async () => {
       jest.mocked(fetchQuotes).mockImplementation(() => Promise.resolve(mockFiatConnectQuotes))
-      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
-        if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
-          return {
-            fiatConnectCashOutEnabled: true,
-          }
-        }
-        return {} as any
-      })
       const providers = (
         firstValue: FiatConnectProviderInfo[] | null,
         restValue: FiatConnectProviderInfo[] | null
@@ -745,14 +737,6 @@ describe('Fiatconnect saga', () => {
 
     it('saves an error', async () => {
       jest.mocked(fetchQuotes).mockRejectedValue({})
-      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
-        if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
-          return {
-            fiatConnectCashOutEnabled: true,
-          }
-        }
-        return {} as any
-      })
       await expectSaga(
         handleFetchFiatConnectQuotes,
         fetchFiatConnectQuotes({
@@ -784,14 +768,6 @@ describe('Fiatconnect saga', () => {
     })
     it('saves an error when providers is null and fetching them fails', async () => {
       jest.mocked(fetchQuotes).mockResolvedValue(mockFiatConnectQuotes)
-      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
-        if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
-          return {
-            fiatConnectCashOutEnabled: true,
-          }
-        }
-        return {} as any
-      })
       await expectSaga(
         handleFetchFiatConnectQuotes,
         fetchFiatConnectQuotes({
