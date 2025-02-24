@@ -11,10 +11,8 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { AppDispatch, store } from 'src/redux/store'
-import { getMultichainFeatures } from 'src/statsig/index'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { tokensByIdSelector } from 'src/tokens/selectors'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import {
   completedTxHashesByNetworkIdSelector,
   pendingStandbyTxHashesByNetworkIdSelector,
@@ -34,6 +32,7 @@ import Logger from 'src/utils/Logger'
 import { gql } from 'src/utils/gql'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 const MIN_NUM_TRANSACTIONS = 10
 
@@ -84,7 +83,7 @@ export const deduplicateTransactions = (
 
 export function useAllowedNetworkIdsForTransfers() {
   // return a string to help react memoization
-  const allowedNetworkIdsString = getMultichainFeatures().showTransfers.join(',')
+  const allowedNetworkIdsString = getSupportedNetworkIds().join(',')
   // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
   // on the home feed, since they get cached in Redux -- this is just a network optimization.
   return useMemo(() => {
@@ -450,7 +449,7 @@ async function queryTransactionsFeed({
 }
 
 function trackCrossChainSwapSuccess(tx: TokenExchange) {
-  const tokensById = tokensByIdSelector(store.getState(), getSupportedNetworkIdsForSwap())
+  const tokensById = tokensByIdSelector(store.getState(), getSupportedNetworkIds())
 
   const toTokenPrice = tokensById[tx.inAmount.tokenId]?.priceUsd
   const fromTokenPrice = tokensById[tx.outAmount.tokenId]?.priceUsd

@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { type LocalCurrencyCode } from 'src/localCurrency/consts'
-import { getMultichainFeatures } from 'src/statsig'
 import { FEED_V2_INCLUDE_TYPES, type PageInfo, type TokenTransaction } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 export type TransactionFeedV2Response = {
   transactions: TokenTransaction[]
@@ -31,7 +31,7 @@ export const transactionFeedV2Api = createApi({
           url: '',
           params: {
             address,
-            networkIds: getMultichainFeatures().showTransfers.join(','),
+            networkIds: getSupportedNetworkIds().join(','),
             includeTypes: FEED_V2_INCLUDE_TYPES.join(','),
             localCurrencyCode,
             ...(afterCursor && { afterCursor }),

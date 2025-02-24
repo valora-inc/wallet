@@ -10,8 +10,6 @@ import { UriData, urlFromUriData } from 'src/qrcode/schema'
 import { RecipientType } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/types'
 import { handlePaymentDeeplink, handleSendPaymentData } from 'src/send/utils'
-import { getMultichainFeatures } from 'src/statsig'
-import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount2,
@@ -31,9 +29,6 @@ describe('send/utils', () => {
   describe('handleSendPaymentData', () => {
     beforeEach(() => {
       jest.clearAllMocks()
-      jest.mocked(getMultichainFeatures).mockReturnValueOnce({
-        showSend: [NetworkId['celo-alfajores']],
-      })
     })
 
     const mockData: UriData = {

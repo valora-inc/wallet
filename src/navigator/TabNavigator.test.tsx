@@ -7,6 +7,8 @@ import TabNavigator from 'src/navigator/TabNavigator'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 
+jest.mock('src/transactions/feed/TransactionFeedV2')
+
 describe('TabNavigator', () => {
   beforeEach(() => {
     jest.clearAllMocks()

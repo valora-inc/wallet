@@ -581,7 +581,7 @@ PODS:
     - React-Core
   - react-native-contacts (5.0.0):
     - React-Core
-  - react-native-cookies (6.2.1):
+  - react-native-cookies (6.2.3):
     - React-Core
   - react-native-flipper (0.212.0):
     - React-Core
@@ -901,7 +901,7 @@ DEPENDENCIES:
   - "react-native-compat (from `../node_modules/@walletconnect/react-native-compat`)"
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-contacts (from `../node_modules/react-native-contacts`)
-  - "react-native-cookies (from `../node_modules/@react-native-cookies/cookies`)"
+  - "react-native-cookies (from `../node_modules/@divvi/cookies`)"
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-in-app-review (from `../node_modules/react-native-in-app-review`)
   - react-native-launch-arguments (from `../node_modules/react-native-launch-arguments`)
@@ -948,7 +948,7 @@ DEPENDENCIES:
   - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
   - "RNFS (from `../node_modules/@divvi/react-native-fs`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - "RNKeychain (from `../node_modules/@interaxyz/react-native-keychain`)"
+  - "RNKeychain (from `../node_modules/@divvi/react-native-keychain`)"
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNPersonaInquiry2 (from `../node_modules/react-native-persona`)
@@ -1077,7 +1077,7 @@ EXTERNAL SOURCES:
   react-native-contacts:
     :path: "../node_modules/react-native-contacts"
   react-native-cookies:
-    :path: "../node_modules/@react-native-cookies/cookies"
+    :path: "../node_modules/@divvi/cookies"
   react-native-flipper:
     :path: "../node_modules/react-native-flipper"
   react-native-in-app-review:
@@ -1171,7 +1171,7 @@ EXTERNAL SOURCES:
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNKeychain:
-    :path: "../node_modules/@interaxyz/react-native-keychain"
+    :path: "../node_modules/@divvi/react-native-keychain"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
   RNPermissions:
@@ -1270,7 +1270,7 @@ SPEC CHECKSUMS:
   react-native-compat: 03e54a7e1a09f56471b0af199867b4edf13de7ca
   react-native-config: ea75335a7cca1d3326de1da384227e580a7c082e
   react-native-contacts: 5eeeb8bff95a0e1680a11329e15653eb73d29a1d
-  react-native-cookies: f7772e020f2d61cbbb591cf769ac352b8c1517e6
+  react-native-cookies: 0613d8218d02d4a8138d100ee077096a267c82f6
   react-native-flipper: 03f211cc2af0ecf4b9569f0dddcc3e5d2b2d8201
   react-native-in-app-review: b3d1eed3d1596ebf6539804778272c4c65e4a400
   react-native-launch-arguments: d4759f7591e2766e6c5ec746b7032429edaf7058

@@ -2017,4 +2017,11 @@ export const migrations = {
     app: _.omit(state.app, 'sentryTracesSampleRate', 'sentryNetworkErrors'),
     i18n: _.omit(state.i18n, 'allowOtaTranslations'),
   }),
+  244: (state: any) => ({
+    ...state,
+    app: {
+      ..._.omit(state.app, 'loggedIn'),
+      divviRegistrations: {},
+    },
+  }),
 }

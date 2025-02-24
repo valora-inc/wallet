@@ -3,14 +3,8 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import FiatExchangeCurrencyBottomSheet from 'src/fiatExchanges/FiatExchangeCurrencyBottomSheet'
 import { FiatExchangeFlow } from 'src/fiatExchanges/types'
-import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import {
-  StatsigDynamicConfigs,
-  StatsigFeatureGates,
-  StatsigMultiNetworkDynamicConfig,
-} from 'src/statsig/types'
-import { NetworkId } from 'src/transactions/types'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
@@ -53,10 +47,6 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(getFeatureGate).mockReturnValue(false)
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      ...DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES].defaultValues,
-      showCico: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
     jest.mocked(getDynamicConfigParams).mockImplementation(({ configName, defaultValues }) => {
       switch (configName) {
         case StatsigDynamicConfigs.CICO_TOKEN_INFO:

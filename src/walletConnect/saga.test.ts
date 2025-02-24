@@ -10,7 +10,7 @@ import { activeDappSelector } from 'src/dapps/selectors'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
@@ -35,12 +35,17 @@ import {
 } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { BaseError } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 jest.mock('src/statsig')
+jest.mock('src/web3/utils', () => ({
+  ...jest.requireActual('src/web3/utils'),
+  getSupportedNetworkIds: jest.fn(),
+}))
 
 function createSessionProposal(
   proposerMetadata: CoreTypes.Metadata
@@ -122,9 +127,7 @@ function createSession(proposerMetadata: CoreTypes.Metadata): SessionTypes.Struc
 
 beforeEach(() => {
   jest.clearAllMocks()
-  jest.mocked(getMultichainFeatures).mockReturnValue({
-    showWalletConnect: [NetworkId['celo-alfajores']],
-  })
+  jest.mocked(getSupportedNetworkIds).mockReturnValue([NetworkId['celo-alfajores']])
   jest.mocked(getFeatureGate).mockImplementation((featureGate) => {
     if (featureGate === StatsigFeatureGates.DISABLE_WALLET_CONNECT_V2) {
       return false
@@ -291,9 +294,9 @@ describe('showSessionRequest', () => {
   })
 
   it('includes all supported chains for session approval', async () => {
-    jest.mocked(getMultichainFeatures).mockReturnValue({
-      showWalletConnect: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
+    jest
+      .mocked(getSupportedNetworkIds)
+      .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
     const state = createMockStore({}).getState()
     await expectSaga(_showSessionRequest, sessionProposal)
       .withState(state)

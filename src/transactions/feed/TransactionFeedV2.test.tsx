@@ -7,7 +7,7 @@ import { type ReactTestInstance } from 'react-test-renderer'
 import { type ApiReducersKeys } from 'src/redux/apiReducersList'
 import { type RootState } from 'src/redux/reducers'
 import { reducersList } from 'src/redux/reducersList'
-import { getDynamicConfigParams, getFeatureGate, getMultichainFeatures } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { transactionFeedV2Api, type TransactionFeedV2Response } from 'src/transactions/api'
@@ -93,12 +93,6 @@ function renderScreen(storeOverrides: RecursivePartial<Omit<RootState, ApiReduce
 beforeEach(() => {
   mockFetch.resetMocks()
   jest.clearAllMocks()
-  jest.mocked(getMultichainFeatures).mockReturnValue({
-    showCico: [NetworkId['celo-alfajores']],
-    showBalances: [NetworkId['celo-alfajores']],
-    showTransfers: [NetworkId['celo-alfajores']],
-    showApprovalTxsInHomefeed: [NetworkId['celo-alfajores']],
-  })
   jest.mocked(getDynamicConfigParams).mockReturnValue({
     jumpstartContracts: {
       ['celo-alfajores']: { contractAddress: '0x7bf3fefe9881127553d23a8cd225a2c2442c438c' },

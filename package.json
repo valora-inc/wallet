@@ -1,6 +1,6 @@
 {
   "name": "@valora/wallet",
-  "version": "1.103.0",
+  "version": "1.104.0",
   "author": "Valora Inc",
   "license": "Apache-2.0",
   "private": true,
@@ -73,11 +73,12 @@
   "dependencies": {
     "@badrap/result": "~0.2.13",
     "@crowdin/ota-client": "^0.7.0",
+    "@divvi/cookies": "^6.2.3",
     "@divvi/react-native-fs": "^2.20.1",
-    "@fiatconnect/fiatconnect-sdk": "^0.5.66",
+    "@divvi/react-native-keychain": "^9.2.2",
+    "@fiatconnect/fiatconnect-sdk": "^0.5.71",
     "@fiatconnect/fiatconnect-types": "^13.3.10",
     "@gorhom/bottom-sheet": "^5.0.6",
-    "@interaxyz/react-native-keychain": "^9.2.2",
     "@interaxyz/react-native-webview": "^13.13.4",
     "@interaxyz/react-navigation-bottom-sheet": "^0.3.2",
     "@json-rpc-tools/utils": "^1.7.6",
@@ -85,7 +86,6 @@
     "@react-native-async-storage/async-storage": "^2.1.0",
     "@react-native-clipboard/clipboard": "^1.15.0",
     "@react-native-community/netinfo": "^11.4.1",
-    "@react-native-cookies/cookies": "^6.2.1",
     "@react-native-firebase/analytics": "19.1.0",
     "@react-native-firebase/app": "19.1.0",
     "@react-native-firebase/auth": "19.1.0",
@@ -283,6 +283,7 @@
     "yargs": "^17.7.2"
   },
   "resolutions": {
+    "elliptic": "^6.6.1",
     "redux": "^5.0.1",
     "set-value": "^4.1.0"
   },

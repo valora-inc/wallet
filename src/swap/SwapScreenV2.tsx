@@ -54,12 +54,12 @@ import {
   tokensByIdSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'SwapScreen'
@@ -118,9 +118,7 @@ export default function SwapScreenV2({ route }: Props) {
 
   const currentSwap = useSelector(currentSwapSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
-  const tokensById = useSelector((state) =>
-    tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
-  )
+  const tokensById = useSelector((state) => tokensByIdSelector(state, getSupportedNetworkIds()))
   const crossChainFeeCurrency = useSelector((state) =>
     feeCurrenciesSelector(state, fromToken?.networkId || networkConfig.defaultNetworkId)
   ).find((token) => token.isNative)

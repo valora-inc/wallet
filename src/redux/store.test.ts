@@ -143,7 +143,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 243,
+          "version": 244,
         },
         "account": {
           "acceptedTerms": false,
@@ -179,6 +179,7 @@ describe('store state', () => {
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
+          "divviRegistrations": {},
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
@@ -189,7 +190,6 @@ describe('store state', () => {
           "inviterAddress": null,
           "lastTimeBackgrounded": 0,
           "locked": false,
-          "loggedIn": false,
           "pendingDeepLinks": [],
           "phoneNumberVerified": false,
           "pushNotificationRequestedUnixTime": 1692878055000,
