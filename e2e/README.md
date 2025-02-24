@@ -123,7 +123,7 @@ yarn e2e:test:android-release sample-suite.spec.js -t "Test Name" -r
 
 ```JavaScript
 // Sample <TestSuiteName>.spec.js setup
-import { quickOnboarding, getDeviceModel } from './utils/utils'
+import { quickOnboarding } from './utils/utils'
 import { reloadReactNative } from '../utils/retries'
 
 import AddedUsecase from './usecases/AddedUsecase'
