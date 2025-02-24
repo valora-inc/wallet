@@ -1,4 +1,4 @@
-import * as Keychain from '@interaxyz/react-native-keychain'
+import * as Keychain from '@divvi/react-native-keychain'
 import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'

@@ -7,7 +7,6 @@ import { earnPositionsSelector } from 'src/positions/selectors'
 import { RootState } from 'src/redux/store'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseToken } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { transactionFeedV2Api, TransactionFeedV2Response } from 'src/transactions/api'
 import { pendingStandbyTransactionsSelector } from 'src/transactions/selectors'
 import { transactionConfirmed, transactionsConfirmedFromFeedApi } from 'src/transactions/slice'
@@ -25,6 +24,7 @@ import {
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 import { call, delay, fork, put, select, spawn, takeEvery } from 'typed-redux-saga'
 import { Hash, TransactionReceipt } from 'viem'
 
@@ -128,13 +128,8 @@ export function* watchPendingTransactionsInNetwork(network: Network) {
 }
 
 export function* watchPendingTransactions() {
-  const supportedNetworkIdsForSend = yield* call(getSupportedNetworkIdsForSend)
-  const supportedNetworkIdsForSwap = yield* call(getSupportedNetworkIdsForSwap)
   const supportedNetworksByViem = Object.keys(publicClient) as Network[]
-  const supportedNetworkIds = new Set([
-    ...supportedNetworkIdsForSend,
-    ...supportedNetworkIdsForSwap,
-  ])
+  const supportedNetworkIds = new Set([...(yield* call(getSupportedNetworkIds))])
 
   const supportedNetworks = supportedNetworksByViem.filter((network) =>
     supportedNetworkIds.has(networkConfig.networkToNetworkId[network])
@@ -256,7 +251,7 @@ function trackCompletionOfCrossChainTxs(
   state: RootState,
   transactions: (TokenExchange | DepositOrWithdraw)[]
 ) {
-  const tokensById = tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
+  const tokensById = tokensByIdSelector(state, getSupportedNetworkIds())
 
   for (const tx of transactions) {
     const networkFee = tx.fees.find((fee) => fee.type === FeeType.SecurityFee)

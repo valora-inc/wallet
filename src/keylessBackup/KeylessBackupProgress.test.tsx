@@ -1,8 +1,8 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { KeylessBackupEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { KeylessBackupEvents } from 'src/analytics/Events'
 import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
 import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
 import {
@@ -242,7 +242,8 @@ describe('KeylessBackupProgress', () => {
       )
       expect(getByTestId('GreenLoadingSpinnerToCheck')).toBeTruthy()
       expect(getByText(`₱`, { exact: false })).toBeTruthy()
-      expect(getByText(`45.22`, { exact: false })).toBeTruthy()
+      // The balance value includes assets and positions
+      expect(getByText(`55.74`, { exact: false })).toBeTruthy()
 
       fireEvent.press(getByTestId('KeylessBackupProgress/Continue'))
       expect(AppAnalytics.track).toHaveBeenCalledWith(

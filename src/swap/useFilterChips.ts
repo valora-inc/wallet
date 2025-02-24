@@ -9,8 +9,8 @@ import { lastSwappedSelector } from 'src/swap/selectors'
 import { Field } from 'src/swap/types'
 import { useTokensWithTokenBalance } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
+import { getSupportedNetworkIds } from 'src/web3/utils'
 
 export default function useFilterChip(
   selectingField: Field | null,
@@ -26,7 +26,7 @@ export default function useFilterChip(
 
   const recentlySwappedTokens = useSelector(lastSwappedSelector)
   const tokensWithBalance = useTokensWithTokenBalance()
-  const supportedNetworkIds = getSupportedNetworkIdsForSwap()
+  const supportedNetworkIds = getSupportedNetworkIds()
 
   if (!showSwapTokenFilters) {
     return []

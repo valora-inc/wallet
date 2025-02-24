@@ -17,12 +17,7 @@ function getDappsById(dapps: Dapp[], dappIds: string[]) {
   return matchingDapps
 }
 
-export const dappsListApiUrlSelector = (state: RootState) => state.dapps.dappListApiUrl
-
-export const activeDappSelector = (state: RootState) =>
-  state.dapps.dappsWebViewEnabled ? state.dapps.activeDapp : null
-
-export const dappsWebViewEnabledSelector = (state: RootState) => state.dapps.dappsWebViewEnabled
+export const activeDappSelector = (state: RootState) => state.dapps.activeDapp
 
 export const dappsCategoriesSelector = (state: RootState) => state.dapps.dappsCategories
 

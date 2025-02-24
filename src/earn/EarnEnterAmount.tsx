@@ -513,6 +513,7 @@ export default function EarnEnterAmount({ route }: Props) {
       )}
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
+        snapPoints={['90%']}
         origin={TokenPickerOrigin.Earn}
         onTokenSelected={onSelectToken}
         tokens={availableInputTokens}

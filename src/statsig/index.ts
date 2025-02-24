@@ -2,15 +2,13 @@ import * as _ from 'lodash'
 import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
 import { ExpectedLaunchArgs, STATSIG_ENABLED } from 'src/config'
-import { DynamicConfigs } from 'src/statsig/constants'
+import { FeatureGates } from 'src/statsig/constants'
 import {
   StatsigDynamicConfigs,
   StatsigExperiments,
   StatsigFeatureGates,
-  StatsigMultiNetworkDynamicConfig,
   StatsigParameter,
 } from 'src/statsig/types'
-import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { EvaluationReason } from 'statsig-js'
@@ -78,7 +76,7 @@ function _getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
   configName,
   defaultValues,
 }: {
-  configName: StatsigDynamicConfigs | StatsigMultiNetworkDynamicConfig
+  configName: StatsigDynamicConfigs
   defaultValues: T
 }): T {
   try {
@@ -100,17 +98,6 @@ function _getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
   }
 }
 
-export function getMultichainFeatures() {
-  const multichainParams = _getDynamicConfigParams(
-    DynamicConfigs[StatsigMultiNetworkDynamicConfig.MULTI_CHAIN_FEATURES]
-  )
-  const filteredParams = {} as { [key: string]: NetworkId[] }
-  Object.entries(multichainParams).forEach(([key, value]) => {
-    filteredParams[key] = value.filter((networkId) => networkId in NetworkId)
-  })
-  return filteredParams
-}
-
 // Cannot be used to retrieve dynamic config for multichain features
 export function getDynamicConfigParams<T extends Record<string, StatsigParameter>>({
   configName,
@@ -123,9 +110,7 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
 }
 
 export function getFeatureGate(featureGateName: StatsigFeatureGates) {
-  // gates should always default to false, this boolean is to just remain backwards compatible
-  // with gates defaulting to true
-  const defaultGateValue = featureGateName === StatsigFeatureGates.ALLOW_HOOKS_PREVIEW
+  const defaultGateValue = FeatureGates[featureGateName]
   try {
     if (featureGateName in gateOverrides) {
       return gateOverrides[featureGateName]

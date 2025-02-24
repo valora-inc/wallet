@@ -22,11 +22,7 @@ import {
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SettingsEvents } from 'src/analytics/Events'
 import { setSessionId } from 'src/app/actions'
-import {
-  phoneNumberVerifiedSelector,
-  sessionIdSelector,
-  walletConnectEnabledSelector,
-} from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, sessionIdSelector } from 'src/app/selectors'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import GradientBlock from 'src/components/GradientBlock'
 import { SettingsItemTextValue } from 'src/components/SettingsItem'
@@ -44,6 +40,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -125,9 +123,8 @@ export default function SettingsMenu({ route }: Props) {
   const appVersion = deviceInfoModule.getVersion()
   const buildNumber = deviceInfoModule.getBuildNumber()
 
-  const { v2 } = useSelector(walletConnectEnabledSelector)
   const { sessions } = useSelector(selectSessions)
-  const walletConnectEnabled = v2
+  const walletConnectV2Disabled = getFeatureGate(StatsigFeatureGates.DISABLE_WALLET_CONNECT_V2)
   const connectedDapps = sessions?.length
 
   const sessionId = useSelector(sessionIdSelector)
@@ -231,7 +228,7 @@ export default function SettingsMenu({ route }: Props) {
           showChevron
           borderless
         />
-        {walletConnectEnabled && (
+        {!walletConnectV2Disabled && (
           <SettingsItemTextValue
             icon={<Stack size={24} color={Colors.contentPrimary} />}
             title={t('connectedApplications')}

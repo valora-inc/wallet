@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
-import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 import { SwapInfo } from 'src/swap/types'
-import { Hash } from 'viem'
 import { NetworkId } from 'src/transactions/types'
+import { Hash } from 'viem'
 
 type SwapStatus = 'idle' | 'started' | 'success' | 'error'
 
@@ -23,16 +22,11 @@ interface SwapResult {
 
 export interface State {
   currentSwap: SwapTask | null
-  /**
-   * In percentage, between 0 and 100
-   */
-  priceImpactWarningThreshold: number
   lastSwapped: string[]
 }
 
 const initialState: State = {
   currentSwap: null,
-  priceImpactWarningThreshold: 4, // 4% by default
   lastSwapped: [],
 }
 
@@ -86,18 +80,11 @@ export const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(
-        AppActions.UPDATE_REMOTE_CONFIG_VALUES,
-        (state, action: UpdateConfigValuesAction) => {
-          state.priceImpactWarningThreshold = action.configValues.priceImpactWarningThreshold
-        }
-      )
-      .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
-        ...state,
-        ...getRehydratePayload(action, 'swap'),
-        currentSwap: null,
-      }))
+    builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
+      ...state,
+      ...getRehydratePayload(action, 'swap'),
+      currentSwap: null,
+    }))
   },
 })
 

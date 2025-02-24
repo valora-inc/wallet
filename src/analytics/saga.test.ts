@@ -6,6 +6,11 @@ import { updateUserTraits } from 'src/analytics/saga'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
 import networkConfig from 'src/web3/networkConfig'
 
+jest.mock('src/config', () => ({
+  ...jest.requireActual('src/config'),
+  ENABLED_NETWORK_IDS: ['celo-alfajores'],
+}))
+
 describe(updateUserTraits, () => {
   beforeAll(() => {
     jest.useRealTimers()

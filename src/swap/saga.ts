@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics, SwapTxsReceiptProperties } from 'src/analytics/Properties'
+import { isRegistrationTransaction } from 'src/divviProtocol/registerReferral'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError } from 'src/styles/hapticFeedback'
@@ -11,7 +12,6 @@ import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo } from 'src/swap/types'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { BaseStandbyTransaction } from 'src/transactions/slice'
 import {
   NetworkId,
@@ -29,7 +29,7 @@ import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { sendPreparedTransactions } from 'src/viem/saga'
-import { getNetworkFromNetworkId } from 'src/web3/utils'
+import { getNetworkFromNetworkId, getSupportedNetworkIds } from 'src/web3/utils'
 import { call, put, select, takeEvery } from 'typed-redux-saga'
 import { decodeFunctionData, erc20Abi } from 'viem'
 
@@ -88,11 +88,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   } = quote
   const amountType = updatedField === Field.TO ? ('buyAmount' as const) : ('sellAmount' as const)
   const amount = swapAmount[updatedField]
-  const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
-
-  const tokensById = yield* select((state) =>
-    tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
+  const preparedTransactions = getPreparedTransactions(
+    serializablePreparedTransactions.filter((tx) => !isRegistrationTransaction(tx))
   )
+
+  const tokensById = yield* select((state) => tokensByIdSelector(state, getSupportedNetworkIds()))
   const fromToken = tokensById[fromTokenId]
   const toToken = tokensById[toTokenId]
 

@@ -1,15 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { ActiveDapp, Dapp, DappCategory } from 'src/dapps/types'
-import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
 interface State {
-  dappsWebViewEnabled: boolean
   activeDapp: ActiveDapp | null
-  maxNumRecentDapps: number
   recentDappIds: string[]
-  dappListApiUrl: string | null
   dappsList: Dapp[]
   dappsListLoading: boolean
   dappsListError: string | null
@@ -19,11 +14,8 @@ interface State {
 }
 
 const initialState: State = {
-  dappsWebViewEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsWebViewEnabled,
   activeDapp: null,
-  maxNumRecentDapps: REMOTE_CONFIG_VALUES_DEFAULTS.maxNumRecentDapps,
   recentDappIds: [],
-  dappListApiUrl: REMOTE_CONFIG_VALUES_DEFAULTS.dappListApiUrl,
   dappsList: [],
   dappsListLoading: false,
   dappsListError: null,
@@ -97,21 +89,11 @@ export const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(
-        AppActions.UPDATE_REMOTE_CONFIG_VALUES,
-        (state, action: UpdateConfigValuesAction) => {
-          state.dappsWebViewEnabled = action.configValues.dappsWebViewEnabled
-          state.maxNumRecentDapps = action.configValues.maxNumRecentDapps
-          state.dappsWebViewEnabled = action.configValues.dappsWebViewEnabled
-          state.dappListApiUrl = action.configValues.dappListApiUrl
-        }
-      )
-      .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
-        ...state,
-        ...getRehydratePayload(action, 'dapps'),
-        activeDapp: null,
-      }))
+    builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
+      ...state,
+      ...getRehydratePayload(action, 'dapps'),
+      activeDapp: null,
+    }))
   },
 })
 

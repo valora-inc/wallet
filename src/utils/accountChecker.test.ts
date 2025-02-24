@@ -1,4 +1,4 @@
-import * as Keychain from '@interaxyz/react-native-keychain'
+import * as Keychain from '@divvi/react-native-keychain'
 import * as Sentry from '@sentry/react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'

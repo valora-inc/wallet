@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { TokenProperties } from 'src/analytics/Properties'
-import { getDynamicConfigParams, getMultichainFeatures } from 'src/statsig'
+import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { CurrencyTokens } from 'src/tokens/selectors'
@@ -154,10 +154,6 @@ export function convertTokenToLocalAmount({
   return tokenAmount.multipliedBy(tokenPriceUsd).multipliedBy(usdToLocalRate)
 }
 
-export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
-  return getMultichainFeatures().showBalances
-}
-
 export function getTokenId(networkId: NetworkId, tokenAddress?: string): string {
   if (
     (networkId === networkConfig.networkToNetworkId[Network.Celo] &&
@@ -167,22 +163,6 @@ export function getTokenId(networkId: NetworkId, tokenAddress?: string): string 
     return `${networkId}:native`
   }
   return `${networkId}:${tokenAddress}`
-}
-
-export function getSupportedNetworkIdsForSend(): NetworkId[] {
-  return getMultichainFeatures().showSend
-}
-
-export function getSupportedNetworkIdsForSwap(): NetworkId[] {
-  return getMultichainFeatures().showSwap
-}
-
-export function getSupportedNetworkIdsForWalletConnect(): NetworkId[] {
-  return getMultichainFeatures().showWalletConnect
-}
-
-export function getSupportedNetworkIdsForApprovalTxsInHomefeed(): NetworkId[] {
-  return getMultichainFeatures().showApprovalTxsInHomefeed
 }
 
 export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {

@@ -765,15 +765,6 @@
             ],
             "type": "object"
         },
-        "CeloNewsConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "readMoreUrl": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
         "CiCoCurrency": {
             "enum": [
                 "CELO",
@@ -801,13 +792,13 @@
                     "$ref": "#/definitions/SwapClaimHistory"
                 },
                 {
+                    "$ref": "#/definitions/DepositEarnClaimHistory"
+                },
+                {
                     "$ref": "#/definitions/Erc20CreateLiveLinkClaimHistory"
                 },
                 {
                     "$ref": "#/definitions/Erc721CreateLiveLinkClaimHistory"
-                },
-                {
-                    "$ref": "#/definitions/DepositEarnClaimHistory"
                 }
             ]
         },
@@ -3188,13 +3179,13 @@
                     "$ref": "#/definitions/PointsEventSwap"
                 },
                 {
+                    "$ref": "#/definitions/PointsEventDepositEarn"
+                },
+                {
                     "$ref": "#/definitions/PointsEventErc20CreateLiveLink"
                 },
                 {
                     "$ref": "#/definitions/PointsEventErc721CreateLiveLink"
-                },
-                {
-                    "$ref": "#/definitions/PointsEventDepositEarn"
                 }
             ]
         },
@@ -4696,17 +4687,8 @@
                 "appState": {
                     "$ref": "#/definitions/AppState"
                 },
-                "celoEducationUri": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "celoNews": {
-                    "$ref": "#/definitions/CeloNewsConfig"
-                },
-                "coinbasePayEnabled": {
-                    "type": "boolean"
+                "divviRegistrations": {
+                    "$ref": "#/definitions/{\"celo-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"celo-alfajores\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"ethereum-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"ethereum-sepolia\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"arbitrum-one\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"arbitrum-sepolia\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"op-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"op-sepolia\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"polygon-pos-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"polygon-pos-amoy\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"base-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"base-sepolia\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;}"
                 },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
@@ -4744,18 +4726,6 @@
                 "locked": {
                     "type": "boolean"
                 },
-                "logPhoneNumberTypeEnabled": {
-                    "type": "boolean"
-                },
-                "loggedIn": {
-                    "type": "boolean"
-                },
-                "maxSwapSlippagePercentage": {
-                    "type": "number"
-                },
-                "networkTimeoutSeconds": {
-                    "type": "number"
-                },
                 "pendingDeepLinks": {
                     "items": {
                         "$ref": "#/definitions/PendingDeepLink"
@@ -4763,9 +4733,6 @@
                     "type": "array"
                 },
                 "phoneNumberVerified": {
-                    "type": "boolean"
-                },
-                "pincodeUseExpandedBlocklist": {
                     "type": "boolean"
                 },
                 "pushNotificationRequestedUnixTime": {
@@ -4779,15 +4746,6 @@
                 },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
-                },
-                "sentryNetworkErrors": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "sentryTracesSampleRate": {
-                    "type": "number"
                 },
                 "sessionId": {
                     "type": "string"
@@ -4812,18 +4770,13 @@
                             "type": "null"
                         }
                     ]
-                },
-                "walletConnectV2Enabled": {
-                    "type": "boolean"
                 }
             },
             "required": [
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
-                "celoEducationUri",
-                "celoNews",
-                "coinbasePayEnabled",
+                "divviRegistrations",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
@@ -4832,31 +4785,20 @@
                 "inviterAddress",
                 "lastTimeBackgrounded",
                 "locked",
-                "logPhoneNumberTypeEnabled",
-                "loggedIn",
-                "maxSwapSlippagePercentage",
-                "networkTimeoutSeconds",
                 "pendingDeepLinks",
                 "phoneNumberVerified",
-                "pincodeUseExpandedBlocklist",
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
                 "requirePinOnAppOpen",
-                "sentryNetworkErrors",
-                "sentryTracesSampleRate",
                 "sessionId",
                 "showNotificationSpotlight",
-                "supportedBiometryType",
-                "walletConnectV2Enabled"
+                "supportedBiometryType"
             ],
             "type": "object"
         },
         "State_1": {
             "additionalProperties": false,
             "properties": {
-                "allowOtaTranslations": {
-                    "type": "boolean"
-                },
                 "language": {
                     "type": [
                         "null",
@@ -4874,7 +4816,6 @@
                 }
             },
             "required": [
-                "allowOtaTranslations",
                 "language",
                 "otaTranslationsAppVersion",
                 "otaTranslationsLanguage",
@@ -5193,12 +5134,6 @@
                         }
                     ]
                 },
-                "dappListApiUrl": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
                 "dappsCategories": {
                     "items": {
                         "$ref": "#/definitions/DappCategory"
@@ -5220,17 +5155,11 @@
                 "dappsListLoading": {
                     "type": "boolean"
                 },
-                "dappsWebViewEnabled": {
-                    "type": "boolean"
-                },
                 "favoriteDappIds": {
                     "items": {
                         "type": "string"
                     },
                     "type": "array"
-                },
-                "maxNumRecentDapps": {
-                    "type": "number"
                 },
                 "mostPopularDappIds": {
                     "items": {
@@ -5247,14 +5176,11 @@
             },
             "required": [
                 "activeDapp",
-                "dappListApiUrl",
                 "dappsCategories",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
-                "dappsWebViewEnabled",
                 "favoriteDappIds",
-                "maxNumRecentDapps",
                 "mostPopularDappIds",
                 "recentDappIds"
             ],
@@ -5433,16 +5359,11 @@
                         "type": "string"
                     },
                     "type": "array"
-                },
-                "priceImpactWarningThreshold": {
-                    "description": "In percentage, between 0 and 100",
-                    "type": "number"
                 }
             },
             "required": [
                 "currentSwap",
-                "lastSwapped",
-                "priceImpactWarningThreshold"
+                "lastSwapped"
             ],
             "type": "object"
         },
@@ -6836,6 +6757,288 @@
                 "percentage",
                 "tokenId"
             ],
+            "type": "object"
+        },
+        "{\"celo-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"celo-alfajores\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"ethereum-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"ethereum-sepolia\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"arbitrum-one\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"arbitrum-sepolia\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"op-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"op-sepolia\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"polygon-pos-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"polygon-pos-amoy\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"base-mainnet\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;\"base-sepolia\"?:(\"beefy\"|\"tether\"|\"somm\"|\"celo\"|\"aerodrome\"|\"velodrome\"|\"vana\"|\"curve\"|\"farcaster\"|\"mento\"|\"yearn\"|\"fonbnk\"|\"offchainlabs\"|\"euler\"|\"ubeswap\")[]|undefined;}": {
+            "additionalProperties": false,
+            "properties": {
+                "arbitrum-one": {
+                    "items": {
+                        "enum": [
+                            "aerodrome",
+                            "beefy",
+                            "celo",
+                            "curve",
+                            "euler",
+                            "farcaster",
+                            "fonbnk",
+                            "mento",
+                            "offchainlabs",
+                            "somm",
+                            "tether",
+                            "ubeswap",
+                            "vana",
+                            "velodrome",
+                            "yearn"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "arbitrum-sepolia": {
+                    "items": {
+                        "enum": [
+                            "aerodrome",
+                            "beefy",
+                            "celo",
+                            "curve",
+                            "euler",
+                            "farcaster",
+                            "fonbnk",
+                            "mento",
+                            "offchainlabs",
+                            "somm",
+                            "tether",
+                            "ubeswap",
+                            "vana",
+                            "velodrome",
+                            "yearn"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "base-mainnet": {
+                    "items": {
+                        "enum": [
+                            "aerodrome",
+                            "beefy",
+                            "celo",
+                            "curve",
+                            "euler",
+                            "farcaster",
+                            "fonbnk",
+                            "mento",
+                            "offchainlabs",
+                            "somm",
+                            "tether",
+                            "ubeswap",
+                            "vana",
+                            "velodrome",
+                            "yearn"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "base-sepolia": {
+                    "items": {
+                        "enum": [
+                            "aerodrome",
+                            "beefy",
+                            "celo",
+                            "curve",
+                            "euler",
+                            "farcaster",
+                            "fonbnk",
+                            "mento",
+                            "offchainlabs",
+                            "somm",
+                            "tether",
+                            "ubeswap",
+                            "vana",
+                            "velodrome",
+                            "yearn"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "celo-alfajores": {
+                    "items": {
+                        "enum": [
+                            "aerodrome",
+                            "beefy",
+                            "celo",
+                            "curve",
+                            "euler",
+                            "farcaster",
+                            "fonbnk",
+                            "mento",
+                            "offchainlabs",
+                            "somm",
+                            "tether",
+                            "ubeswap",
+                            "vana",
+                            "velodrome",
+                            "yearn"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "celo-mainnet": {
+                    "items": {
+                        "enum": [
+                            "aerodrome",
+                            "beefy",
+                            "celo",
+                            "curve",
+                            "euler",
+                            "farcaster",
+                            "fonbnk",
+                            "mento",
+                            "offchainlabs",
+                            "somm",
+                            "tether",
+                            "ubeswap",
+                            "vana",
+                            "velodrome",
+                            "yearn"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "ethereum-mainnet": {
+                    "items": {
+                        "enum": [
+                            "aerodrome",
+                            "beefy",
+                            "celo",
+                            "curve",
+                            "euler",
+                            "farcaster",
+                            "fonbnk",
+                            "mento",
+                            "offchainlabs",
+                            "somm",
+                            "tether",
+                            "ubeswap",
+                            "vana",
+                            "velodrome",
+                            "yearn"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "ethereum-sepolia": {
+                    "items": {
+                        "enum": [
+                            "aerodrome",
+                            "beefy",
+                            "celo",
+                            "curve",
+                            "euler",
+                            "farcaster",
+                            "fonbnk",
+                            "mento",
+                            "offchainlabs",
+                            "somm",
+                            "tether",
+                            "ubeswap",
+                            "vana",
+                            "velodrome",
+                            "yearn"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "op-mainnet": {
+                    "items": {
+                        "enum": [
+                            "aerodrome",
+                            "beefy",
+                            "celo",
+                            "curve",
+                            "euler",
+                            "farcaster",
+                            "fonbnk",
+                            "mento",
+                            "offchainlabs",
+                            "somm",
+                            "tether",
+                            "ubeswap",
+                            "vana",
+                            "velodrome",
+                            "yearn"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "op-sepolia": {
+                    "items": {
+                        "enum": [
+                            "aerodrome",
+                            "beefy",
+                            "celo",
+                            "curve",
+                            "euler",
+                            "farcaster",
+                            "fonbnk",
+                            "mento",
+                            "offchainlabs",
+                            "somm",
+                            "tether",
+                            "ubeswap",
+                            "vana",
+                            "velodrome",
+                            "yearn"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "polygon-pos-amoy": {
+                    "items": {
+                        "enum": [
+                            "aerodrome",
+                            "beefy",
+                            "celo",
+                            "curve",
+                            "euler",
+                            "farcaster",
+                            "fonbnk",
+                            "mento",
+                            "offchainlabs",
+                            "somm",
+                            "tether",
+                            "ubeswap",
+                            "vana",
+                            "velodrome",
+                            "yearn"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "polygon-pos-mainnet": {
+                    "items": {
+                        "enum": [
+                            "aerodrome",
+                            "beefy",
+                            "celo",
+                            "curve",
+                            "euler",
+                            "farcaster",
+                            "fonbnk",
+                            "mento",
+                            "offchainlabs",
+                            "somm",
+                            "tether",
+                            "ubeswap",
+                            "vana",
+                            "velodrome",
+                            "yearn"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
             "type": "object"
         },
         "{AccountNumber?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;MobileMoney?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;operator?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;DuniaWallet?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;mobile?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IBANNumber?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;iban?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;IFSCAccount?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountNumber?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;country?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;ifsc?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;PIXAccount?:{institutionName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;accountName?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;fiatAccountType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;keyType?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;key?:{regex:string;errorString:string;errorParams?:Record<string,any>|undefined;}|undefined;}|undefined;}": {
