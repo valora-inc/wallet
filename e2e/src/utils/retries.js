@@ -25,7 +25,9 @@ export const launchApp = async (customArgs = {}) => {
       }
     },
     { retries: 5, delay: 10 * 1000, timeout: 30 * 10000 }
-  )
+  ).then(async () => {
+    await device.setURLBlacklist(['https://api.mainnet.valora.xyz/getWalletTransactions'])
+  })
 }
 
 export const reloadReactNative = async () => {
