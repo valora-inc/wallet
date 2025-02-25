@@ -1,4 +1,7 @@
 import { E2E_WALLET_PRIVATE_KEY, E2E_WALLET_SINGLE_VERIFIED_MNEMONIC } from 'react-native-dotenv'
+import { createWalletClient, encodeFunctionData, erc20Abi, http, publicActions } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
+import { celo } from 'viem/chains'
 import {
   WALLET_MULTIPLE_VERIFIED_ADDRESS,
   WALLET_MULTIPLE_VERIFIED_PHONE_NUMBER,
@@ -7,7 +10,6 @@ import {
 import { launchApp } from '../utils/retries'
 import {
   enterPinUiIfNecessary,
-  fundWallet,
   quickOnboarding,
   scrollIntoView,
   waitForElementById,
@@ -15,6 +17,47 @@ import {
 
 const AMOUNT_TO_SEND = '0.01'
 const WALLET_FUNDING_MULTIPLIER = 2.2
+
+/**
+ * Fund a wallet, using some existing wallet.
+ *
+ * @param senderPrivateKey: private key for wallet with funds
+ * @param recipientAddress: wallet to receive funds
+ * @param stableToken: recognised token symbol (e.g. 'cUSD')
+ * @param amountEther: amount in "ethers" (as opposed to wei)
+ */
+const fundWallet = async (senderPrivateKey, recipientAddress, stableToken, amountEther) => {
+  const stableTokenSymbolToAddress = {
+    cUSD: '0x765de816845861e75a25fca122bb6898b8b1282a',
+  }
+  const tokenAddress = stableTokenSymbolToAddress[stableToken]
+  if (!tokenAddress) {
+    throw new Error(`Unsupported token symbol passed to fundWallet: ${stableToken}`)
+  }
+
+  const account = privateKeyToAccount(senderPrivateKey)
+  const senderAddress = account.address
+  console.log(`Sending ${amountEther} ${stableToken} from ${senderAddress} to ${recipientAddress}`)
+  const client = createWalletClient({
+    account,
+    chain: celo,
+    transport: http(),
+  }).extend(publicActions)
+
+  const fundingAmount = BigInt(amountEther * 10 ** 18)
+  const hash = await client.sendTransaction({
+    to: tokenAddress,
+    from: senderAddress,
+    data: encodeFunctionData({
+      abi: erc20Abi,
+      functionName: 'transfer',
+      args: [recipientAddress, fundingAmount],
+    }),
+  })
+  const receipt = await client.waitForTransactionReceipt({ hash })
+
+  console.log('Funding TX receipt', receipt)
+}
 
 export default SecureSend = () => {
   describe('Secure send flow with phone number lookup', () => {

@@ -1,10 +1,10 @@
-import WalletConnectV2 from './usecases/WalletConnectV2'
+import WalletConnect from './usecases/WalletConnect'
 import { quickOnboarding } from './utils/utils'
 
-describe('Given Wallet Connect', () => {
+describe('Given Dapp Connection', () => {
   beforeAll(async () => {
     await quickOnboarding()
   })
 
-  describe('When V2', WalletConnectV2)
+  describe('When WalletConnect', WalletConnect)
 })
