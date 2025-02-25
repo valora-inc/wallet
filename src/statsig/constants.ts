@@ -1,3 +1,4 @@
+import { isE2EEnv } from 'src/config'
 import {
   StatsigDynamicConfigs,
   StatsigExperiments,
@@ -74,7 +75,7 @@ export const DynamicConfigs = {
       maxSlippagePercentage: '0.3',
       enableAppFee: true,
       popularTokenIds: [] as string[],
-      enabled: true,
+      enabled: isE2EEnv ? false : true,
       priceImpactWarningThreshold: 4,
     },
   },
