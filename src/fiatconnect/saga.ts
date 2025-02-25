@@ -16,10 +16,6 @@ import { showError, showMessage } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import {
-  fiatConnectCashInEnabledSelector,
-  fiatConnectCashOutEnabledSelector,
-} from 'src/app/selectors'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/types'
@@ -428,8 +424,6 @@ export function* _getQuotes({
 }): Generator<any, (FiatConnectQuoteSuccess | FiatConnectQuoteError)[], any> {
   const userLocation: UserLocationData = yield* select(userLocationDataSelector)
   const localCurrency: LocalCurrencyCode = yield* select(getLocalCurrencyCode)
-  const fiatConnectCashInEnabled: boolean = yield* select(fiatConnectCashInEnabledSelector)
-  const fiatConnectCashOutEnabled: boolean = yield* select(fiatConnectCashOutEnabledSelector)
   let fiatConnectProviders: FiatConnectProviderInfo[] | null = yield* select(
     fiatConnectProvidersSelector
   )
@@ -457,8 +451,6 @@ export function* _getQuotes({
     fiatAmount,
     country: userLocation?.countryCodeAlpha2 || 'US',
     flow,
-    fiatConnectCashInEnabled,
-    fiatConnectCashOutEnabled,
     fiatConnectProviders: providerIds
       ? fiatConnectProviders.filter(({ id }) => providerIds.includes(id))
       : fiatConnectProviders,

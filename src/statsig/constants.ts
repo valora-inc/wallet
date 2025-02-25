@@ -144,6 +144,12 @@ export const DynamicConfigs = {
       demoWalletAddress: '',
     },
   },
+  [StatsigDynamicConfigs.FIAT_CONNECT_CONFIG]: {
+    configName: StatsigDynamicConfigs.FIAT_CONNECT_CONFIG,
+    defaultValues: {
+      fiatConnectCashOutEnabled: false,
+    },
+  },
 } satisfies {
   [key in StatsigDynamicConfigs]: {
     configName: key

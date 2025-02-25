@@ -175,8 +175,6 @@ export function* checkAndroidMobileServicesSaga() {
 
 export interface RemoteConfigValues {
   inviteRewardsVersion: string
-  fiatConnectCashInEnabled: boolean
-  fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
 }
 

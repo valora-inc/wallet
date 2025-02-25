@@ -1,6 +1,8 @@
 import { FetchMock } from 'jest-fetch-mock'
 import { CICOFlow } from 'src/fiatExchanges/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
@@ -88,8 +90,6 @@ describe('FiatConnect helpers', () => {
 
   describe('fetchFiatConnectQuotes', () => {
     const fetchQuotesInput: FetchQuotesInput = {
-      fiatConnectCashInEnabled: false,
-      fiatConnectCashOutEnabled: false,
       flow: CICOFlow.CashIn,
       localCurrency: LocalCurrencyCode.USD,
       digitalAsset: CiCoCurrency.cUSD,
@@ -115,11 +115,16 @@ describe('FiatConnect helpers', () => {
       ],
       address: '0xabc',
     }
-    it('returns an empty array if fiatConnectCashInEnabled is false with cash in', async () => {
-      const quotes = await fetchQuotes(fetchQuotesInput)
-      expect(quotes).toHaveLength(0)
-    })
+
     it('returns an empty array if fiatConnectCashOutEnabled is false with cash out', async () => {
+      jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+        if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
+          return {
+            fiatConnectCashOutEnabled: false,
+          }
+        }
+        return {} as any
+      })
       const quotes = await fetchQuotes({ ...fetchQuotesInput, flow: CICOFlow.CashOut })
       expect(quotes).toHaveLength(0)
     })
