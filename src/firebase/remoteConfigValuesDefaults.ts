@@ -5,6 +5,4 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   'fiatAccountSchemaCountryOverrides'
 > = {
   inviteRewardsVersion: 'none',
-  fiatConnectCashInEnabled: false,
-  fiatConnectCashOutEnabled: false,
 }

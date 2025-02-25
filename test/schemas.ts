@@ -3666,6 +3666,15 @@ export const v244Schema = {
   },
 }
 
+export const v245Schema = {
+  ...v244Schema,
+  _persist: {
+    ...v244Schema._persist,
+    version: 245,
+  },
+  app: _.omit(v244Schema.app, 'fiatConnectCashInEnabled', 'fiatConnectCashOutEnabled'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v244Schema as Partial<RootState>
+  return v245Schema as Partial<RootState>
 }
