@@ -1,4 +1,3 @@
-import { UpdateConfigValuesAction } from 'src/app/actions'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 import { ActionTypes, Actions } from 'src/web3/actions'
 
@@ -14,7 +13,7 @@ const initialState: State = {
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction | UpdateConfigValuesAction
+  action: ActionTypes | RehydrateAction
 ): State => {
   switch (action.type) {
     case REHYDRATE: {

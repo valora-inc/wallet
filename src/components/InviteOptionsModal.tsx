@@ -4,10 +4,8 @@ import { Share } from 'react-native'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { InviteEvents } from 'src/analytics/Events'
 import InviteModal from 'src/invite/InviteModal'
-import { useShareUrl } from 'src/invite/hooks'
+import { useInviteReward, useShareUrl } from 'src/invite/hooks'
 import { Recipient, getDisplayName } from 'src/recipients/recipient'
-import { useSelector } from 'src/redux/hooks'
-import { inviteRewardsActiveSelector, inviteRewardsTypeSelector } from 'src/send/selectors'
 import { InviteRewardsType } from 'src/send/types'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
@@ -22,8 +20,7 @@ interface Props {
 const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   const { t } = useTranslation()
   const link = useShareUrl()
-  const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
-  const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
+  const inviteReward = useInviteReward()
   const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
 
   const handleShareInvite = async () => {
@@ -45,8 +42,8 @@ const InviteOptionsModal = ({ recipient, onClose }: Props) => {
   let message = t('inviteModal.shareMessage', { link })
   let helpLink = ''
 
-  if (inviteRewardsActive) {
-    switch (inviteRewardsType) {
+  if (inviteReward.active) {
+    switch (inviteReward.type) {
       case InviteRewardsType.NFT:
         title = t('inviteModal.rewardsActive.title', { contactName: getDisplayName(recipient, t) })
         descriptionI18nKey = 'inviteModal.rewardsActive.body'

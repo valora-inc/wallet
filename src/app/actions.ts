@@ -1,5 +1,4 @@
 import { BIOMETRY_TYPE } from '@divvi/react-native-keychain'
-import { RemoteConfigValues } from 'src/app/saga'
 import { SupportedProtocolId } from 'src/divviProtocol/constants'
 import { Screens } from 'src/navigator/Screens'
 import { NetworkId } from 'src/transactions/types'
@@ -22,7 +21,6 @@ export enum Actions {
   UNLOCK = 'APP/UNLOCK',
   SET_SESSION_ID = 'SET_SESSION_ID',
   OPEN_URL = 'APP/OPEN_URL',
-  UPDATE_REMOTE_CONFIG_VALUES = 'APP/UPDATE_REMOTE_CONFIG_VALUES',
   ACTIVE_SCREEN_CHANGED = 'APP/ACTIVE_SCREEN_CHANGED',
   APP_MOUNTED = 'APP/APP_MOUNTED',
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
@@ -103,11 +101,6 @@ export interface OpenUrlAction {
   isSecureOrigin: boolean
 }
 
-export interface UpdateConfigValuesAction {
-  type: Actions.UPDATE_REMOTE_CONFIG_VALUES
-  configValues: RemoteConfigValues
-}
-
 export interface AndroidMobileServicesAvailabilityChecked {
   type: Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED
   googleIsAvailable: boolean | undefined
@@ -170,7 +163,6 @@ export type ActionTypes =
   | Unlock
   | SetSessionId
   | OpenUrlAction
-  | UpdateConfigValuesAction
   | ActiveScreenChangedAction
   | AppMounted
   | AppUnmounted
@@ -252,13 +244,6 @@ export const openUrl = (
   url,
   openExternal,
   isSecureOrigin,
-})
-
-export const updateRemoteConfigValues = (
-  configValues: RemoteConfigValues
-): UpdateConfigValuesAction => ({
-  type: Actions.UPDATE_REMOTE_CONFIG_VALUES,
-  configValues,
 })
 
 export const activeScreenChanged = (activeScreen: Screens): ActiveScreenChangedAction => ({

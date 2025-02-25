@@ -3,12 +3,15 @@ import { noop } from 'lodash'
 import React from 'react'
 import { Share } from 'react-native'
 import { Provider } from 'react-redux'
-import { InviteEvents } from 'src/analytics/Events'
 import AppAnalytics from 'src/analytics/AppAnalytics'
+import { InviteEvents } from 'src/analytics/Events'
 import * as InviteUtils from 'src/firebase/dynamicLinks'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { createMockStore } from 'test/utils'
 import Invite from './Invite'
 
+jest.mock('src/statsig')
 jest.mock('src/analytics/AppAnalytics')
 const mockShare = jest.spyOn(Share, 'share')
 const mockCreateInviteLink = jest.spyOn(InviteUtils, 'createInviteLink')
@@ -23,15 +26,23 @@ describe('Invite', () => {
   const getWrapper = ({
     inviteRewardsVersion,
     phoneNumberVerified,
-  }: { inviteRewardsVersion?: string; phoneNumberVerified?: boolean } = {}) =>
-    render(
+  }: { inviteRewardsVersion?: string; phoneNumberVerified?: boolean } = {}) => {
+    jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+      if (configName === StatsigDynamicConfigs.APP_CONFIG) {
+        return { links: { inviteRewardsStableTokenLearnMore: '' } }
+      }
+      if (configName === StatsigDynamicConfigs.INVITE_REWARDS_CONFIG) {
+        return { inviteRewardsVersion: inviteRewardsVersion || 'none' }
+      }
+
+      return {} as any
+    })
+
+    return render(
       <Provider
         store={createMockStore({
           web3: {
             account: '0xabc123',
-          },
-          send: {
-            inviteRewardsVersion,
           },
           app: {
             phoneNumberVerified,
@@ -41,6 +52,7 @@ describe('Invite', () => {
         <Invite />
       </Provider>
     )
+  }
 
   it('should disable button while loading share URL', () => {
     mockCreateInviteLink.mockReturnValue(new Promise(noop))
@@ -90,8 +102,8 @@ describe('Invite', () => {
     })
 
     const { getByTestId, getByText } = getWrapper({
-      inviteRewardsVersion: 'v4',
       phoneNumberVerified: true,
+      inviteRewardsVersion: 'v4',
     })
 
     expect(getByText('inviteWithUrl.rewardsActive.title')).toBeTruthy()
@@ -116,8 +128,8 @@ describe('Invite', () => {
     })
 
     const { getByTestId, getByText } = getWrapper({
-      inviteRewardsVersion: 'v5',
       phoneNumberVerified: true,
+      inviteRewardsVersion: 'v5',
     })
 
     expect(getByText('inviteWithUrl.rewardsActiveCUSD.title')).toBeTruthy()

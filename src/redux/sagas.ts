@@ -7,12 +7,7 @@ import { accountSaga } from 'src/account/saga'
 import { devModeSelector } from 'src/account/selectors'
 import { analyticsSaga } from 'src/analytics/saga'
 import { Actions as AppActions } from 'src/app/actions'
-import {
-  appInit,
-  appRemoteFeatureFlagSaga,
-  appSaga,
-  checkAndroidMobileServicesSaga,
-} from 'src/app/saga'
+import { appInit, appSaga, checkAndroidMobileServicesSaga } from 'src/app/saga'
 import { dappsSaga } from 'src/dapps/saga'
 import { fetchDappsListCompleted } from 'src/dapps/slice'
 import { earnSaga } from 'src/earn/saga'
@@ -70,7 +65,6 @@ const loggerPayloadBlocklist = [
   fetchNftsCompleted.type,
   fetchPositionsSuccess.type,
   fetchShortcutsSuccess.type,
-  AppActions.UPDATE_REMOTE_CONFIG_VALUES,
   'transactionFeedV2Api/executeQuery/fulfilled',
   transactionsConfirmedFromFeedApi.type,
 ]
@@ -118,7 +112,6 @@ export function* rootSaga() {
 
     // Note, the order of these does matter in certain cases
     yield* spawn(analyticsSaga)
-    yield* spawn(appRemoteFeatureFlagSaga)
     yield* spawn(loggerSaga)
     yield* spawn(appSaga)
     yield* spawn(i18nSaga)

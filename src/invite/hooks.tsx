@@ -1,10 +1,15 @@
 import { isNil } from 'lodash'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { FIREBASE_ENABLED } from 'src/config'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { InviteRewardsType } from 'src/send/types'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createInviteLink } from '../firebase/dynamicLinks'
@@ -32,4 +37,20 @@ export function useShareUrl() {
   }, [address])
 
   return shareUrl
+}
+
+export function useInviteReward() {
+  const numberCentrallyVerified = useSelector(phoneNumberVerifiedSelector)
+  const { inviteRewardsVersion } = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.INVITE_REWARDS_CONFIG]
+  )
+  const type = useMemo(() => {
+    if (inviteRewardsVersion === 'v4') return InviteRewardsType.NFT
+    if (inviteRewardsVersion === 'v5') return InviteRewardsType.CUSD
+    return InviteRewardsType.NONE
+  }, [inviteRewardsVersion])
+
+  const active = type !== InviteRewardsType.NONE && numberCentrallyVerified
+
+  return { type, active }
 }
