@@ -1,19 +1,24 @@
+import type { BottomSheetModal } from '@gorhom/bottom-sheet'
 import BigNumber from 'bignumber.js'
 import React, { useMemo, type ReactNode } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, type StyleProp, type TextStyle } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import BackButton from 'src/components/BackButton'
+import BottomSheet from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import ContactCircle from 'src/components/ContactCircle'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import Touchable from 'src/components/Touchable'
+import InfoIcon from 'src/icons/InfoIcon'
 import WalletIcon from 'src/icons/navigator/Wallet'
 import PhoneIcon from 'src/icons/Phone'
 import UserIcon from 'src/icons/User'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { type Recipient } from 'src/recipients/recipient'
-import Colors from 'src/styles/colors'
+import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -131,8 +136,8 @@ export function ReviewSummaryItemContact({
       icon={
         <ContactCircle
           size={32}
-          backgroundColor={Colors.backgroundTertiary}
-          foregroundColor={Colors.contentPrimary}
+          backgroundColor={colors.backgroundTertiary}
+          foregroundColor={colors.contentPrimary}
           recipient={recipient}
           DefaultIcon={contact.icon}
         />
@@ -145,43 +150,63 @@ export function ReviewDetails(props: { children: ReactNode }) {
   return <View style={styles.reviewDetails}>{props.children}</View>
 }
 
+interface ReviewDetailsItemProps {
+  label: ReactNode
+  value: ReactNode
+  variant?: 'default' | 'bold'
+  size?: 'small' | 'normal'
+  color?: keyof typeof colors
+  isLoading?: boolean
+  testID?: string
+  onInfoPress?: () => void
+}
+
 export function ReviewDetailsItem({
   label,
   value,
   variant = 'default',
+  size = 'normal',
+  color = 'contentPrimary',
   isLoading,
   testID,
-}: {
-  label: ReactNode
-  value: ReactNode
-  variant?: 'default' | 'bold'
-  isLoading?: boolean
-  testID?: string
-}) {
-  const textStyle =
-    variant === 'bold' ? styles.reviewDetailsItemTextBold : styles.reviewDetailsItemText
-
+  onInfoPress,
+}: ReviewDetailsItemProps) {
+  const textFont = useMemo((): StyleProp<TextStyle> => {
+    if (size === 'small') {
+      return variant === 'bold' ? typeScale.labelSemiBoldSmall : typeScale.bodySmall
+    }
+    return variant === 'bold' ? typeScale.labelSemiBoldMedium : typeScale.bodyMedium
+  }, [variant, size])
   return (
     <View style={styles.reviewDetailsItem} testID={testID}>
-      <View style={styles.reviewDetailsItemLabel}>
-        <Text style={textStyle} testID={`${testID}/Label`}>
-          {label}
-        </Text>
-        {/* TODO Add <InfoIcon /> for Earn Deposit/Withdrawal */}
-      </View>
-      <View>
+      <Touchable
+        style={styles.reviewDetailsItemLabel}
+        onPress={onInfoPress}
+        disabled={!onInfoPress || isLoading}
+      >
+        <>
+          <Text style={[textFont, { color: colors[color] }]} testID={`${testID}/Label`}>
+            {label}
+          </Text>
+          {onInfoPress && <InfoIcon testID={`${testID}/InfoIcon`} />}
+        </>
+      </Touchable>
+      <View style={styles.reviewDetailsItemValue}>
         {isLoading ? (
           <View testID={`${testID}/Loader`} style={styles.loaderContainer}>
             <SkeletonPlaceholder
               borderRadius={100}
-              backgroundColor={Colors.skeletonPlaceholderBackground}
-              highlightColor={Colors.skeletonPlaceholderHighlight}
+              backgroundColor={colors.skeletonPlaceholderBackground}
+              highlightColor={colors.skeletonPlaceholderHighlight}
             >
               <View style={styles.loader} />
             </SkeletonPlaceholder>
           </View>
         ) : (
-          <Text style={textStyle} testID={`${testID}/Value`}>
+          <Text
+            style={[styles.reviewDetailsItemValueText, textFont, { color }]}
+            testID={`${testID}/Value`}
+          >
             {value}
           </Text>
         )}
@@ -194,6 +219,16 @@ export function ReviewFooter(props: { children: ReactNode }) {
   return <View style={styles.reviewFooter}>{props.children}</View>
 }
 
+type ReviewTotalValueProps = {
+  tokenInfo: TokenBalance | undefined
+  feeTokenInfo: TokenBalance | undefined
+  tokenAmount: BigNumber | null
+  localAmount: BigNumber | null
+  feeTokenAmount: BigNumber | undefined
+  feeLocalAmount: BigNumber | null
+  localCurrencySymbol: LocalCurrencySymbol
+}
+
 export function ReviewTotalValue({
   tokenInfo,
   feeTokenInfo,
@@ -202,15 +237,7 @@ export function ReviewTotalValue({
   feeTokenAmount,
   feeLocalAmount,
   localCurrencySymbol,
-}: {
-  tokenInfo: TokenBalance | undefined
-  feeTokenInfo: TokenBalance | undefined
-  tokenAmount: BigNumber | null
-  localAmount: BigNumber | null
-  feeTokenAmount: BigNumber | undefined
-  feeLocalAmount: BigNumber | null
-  localCurrencySymbol: LocalCurrencySymbol
-}) {
+}: ReviewTotalValueProps) {
   const { t } = useTranslation()
 
   // if there are not token info or token amount then it should not even be possible to get to the review screen
@@ -287,6 +314,69 @@ export function ReviewTotalValue({
   })
 }
 
+export function ReviewTotalBottomSheet(props: {
+  forwardedRef: React.RefObject<BottomSheetModal>
+  title: string
+  children: React.ReactNode
+}) {
+  const { t } = useTranslation()
+  return (
+    <BottomSheet forwardedRef={props.forwardedRef} testId="InfoBottomSheet" title={props.title}>
+      <View style={styles.totalBottomSheetContent}>{props.children}</View>
+      <Button
+        type={BtnTypes.SECONDARY}
+        size={BtnSizes.FULL}
+        text={t('reviewTransaction.totalBottomSheet.infoDismissButton')}
+        onPress={() => props.forwardedRef.current?.close()}
+      />
+    </BottomSheet>
+  )
+}
+
+export function ReviewTotalBottomSheetDetailsItem(
+  props: Pick<ReviewDetailsItemProps, 'label'> & {
+    tokenAmount: BigNumber | null
+    localAmount: BigNumber | null
+    tokenInfo: TokenBalance | undefined
+    localCurrencySymbol: LocalCurrencySymbol
+  }
+) {
+  return (
+    <ReviewDetailsItem
+      size="small"
+      label={props.label}
+      value={
+        <Trans
+          i18nKey={'tokenAndLocalAmountApprox'}
+          context={props.tokenAmount?.gt(0) ? undefined : 'noFiatPrice'}
+          values={{
+            tokenAmount: formatValueToDisplay(props.tokenAmount ?? new BigNumber(0)),
+            localAmount: formatValueToDisplay(props.localAmount ?? new BigNumber(0)),
+            tokenSymbol: props.tokenInfo?.symbol,
+            localCurrencySymbol: props.localCurrencySymbol,
+          }}
+        >
+          <Text />
+        </Trans>
+      }
+    />
+  )
+}
+
+export function ReviewTotalBottomSheetDetailsItemTotal({
+  label,
+  ...totalProps
+}: Pick<ReviewDetailsItemProps, 'label'> & ReviewTotalValueProps) {
+  return (
+    <ReviewDetailsItem
+      size="small"
+      variant="bold"
+      label={label}
+      value={<ReviewTotalValue {...totalProps} />}
+    />
+  )
+}
+
 const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
@@ -305,9 +395,9 @@ const styles = StyleSheet.create({
   },
   reviewSummary: {
     borderWidth: 1,
-    borderColor: Colors.borderPrimary,
+    borderColor: colors.borderPrimary,
     borderRadius: Spacing.Small12,
-    backgroundColor: Colors.backgroundSecondary,
+    backgroundColor: colors.backgroundSecondary,
     padding: Spacing.Regular16,
     gap: Spacing.Regular16,
     flexShrink: 1,
@@ -317,7 +407,7 @@ const styles = StyleSheet.create({
   },
   reviewSummaryItemLabel: {
     ...typeScale.labelSmall,
-    color: Colors.contentSecondary,
+    color: colors.contentSecondary,
   },
   reviewSummaryItemContent: {
     flexDirection: 'row',
@@ -332,7 +422,7 @@ const styles = StyleSheet.create({
   },
   reviewSummaryItemSecondaryValue: {
     ...typeScale.bodySmall,
-    color: Colors.contentSecondary,
+    color: colors.contentSecondary,
   },
   reviewDetails: {
     gap: Spacing.Regular16,
@@ -340,6 +430,7 @@ const styles = StyleSheet.create({
   },
   reviewDetailsItem: {
     flexDirection: 'row',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
     gap: Spacing.Smallest8,
   },
@@ -348,12 +439,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Spacing.Tiny4,
   },
-  reviewDetailsItemText: {
-    ...typeScale.bodyMedium,
-    color: Colors.contentSecondary,
+  reviewDetailsItemValue: {
+    flexShrink: 1,
+    alignItems: 'flex-end',
   },
-  reviewDetailsItemTextBold: {
-    ...typeScale.labelSemiBoldMedium,
+  reviewDetailsItemValueText: {
+    textAlign: 'right',
   },
   reviewFooter: {
     gap: Spacing.Regular16,
@@ -367,6 +458,10 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   totalPlusFeesLocalAmount: {
-    color: Colors.contentSecondary,
+    color: colors.contentSecondary,
+  },
+  totalBottomSheetContent: {
+    gap: Spacing.Smallest8,
+    marginBottom: Spacing.Thick24,
   },
 })

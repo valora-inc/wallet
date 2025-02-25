@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Text } from 'react-native'
 import { showError } from 'src/alert/actions'
@@ -8,6 +8,7 @@ import AppAnalytics from 'src/analytics/AppAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
+import type { BottomSheetModalRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import {
   ReviewContent,
@@ -17,6 +18,9 @@ import {
   ReviewSummary,
   ReviewSummaryItem,
   ReviewSummaryItemContact,
+  ReviewTotalBottomSheet,
+  ReviewTotalBottomSheetDetailsItem,
+  ReviewTotalBottomSheetDetailsItemTotal,
   ReviewTotalValue,
   ReviewTransaction,
 } from 'src/components/ReviewTransaction'
@@ -52,6 +56,7 @@ export const sendConfirmationScreenNavOptions = noHeader
 export default function SendConfirmation(props: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const totalBottomSheetRef = useRef<BottomSheetModalRefType>(null)
 
   const {
     origin,
@@ -206,6 +211,7 @@ export default function SendConfirmation(props: Props) {
             variant="bold"
             label={t('reviewTransaction.totalPlusFees')}
             isLoading={prepareTransactionLoading}
+            onInfoPress={() => totalBottomSheetRef.current?.snapToIndex(0)}
             value={
               <ReviewTotalValue
                 tokenInfo={tokenInfo}
@@ -232,6 +238,37 @@ export default function SendConfirmation(props: Props) {
           disabled={disableSend}
         />
       </ReviewFooter>
+
+      <ReviewTotalBottomSheet
+        forwardedRef={totalBottomSheetRef}
+        title={t('reviewTransaction.totalBottomSheet.totalPlusFees')}
+      >
+        <ReviewTotalBottomSheetDetailsItem
+          label={t('reviewTransaction.totalBottomSheet.sending')}
+          tokenAmount={tokenAmount}
+          localAmount={localAmount}
+          tokenInfo={tokenInfo}
+          localCurrencySymbol={localCurrencySymbol}
+        />
+        <ReviewTotalBottomSheetDetailsItem
+          label={t('reviewTransaction.totalBottomSheet.fees')}
+          tokenAmount={tokenFeeAmount}
+          localAmount={localFeeAmount}
+          tokenInfo={feeTokenInfo}
+          localCurrencySymbol={localCurrencySymbol}
+        />
+
+        <ReviewTotalBottomSheetDetailsItemTotal
+          label={t('reviewTransaction.totalBottomSheet.totalPlusFees')}
+          tokenInfo={tokenInfo}
+          feeTokenInfo={feeTokenInfo}
+          tokenAmount={tokenAmount}
+          localAmount={localAmount}
+          feeTokenAmount={maxFeeAmount}
+          feeLocalAmount={localFeeAmount}
+          localCurrencySymbol={localCurrencySymbol}
+        />
+      </ReviewTotalBottomSheet>
     </ReviewTransaction>
   )
 }
