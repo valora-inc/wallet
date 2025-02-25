@@ -2857,6 +2857,8 @@
       "depositing": "Depositing",
       "withdrawing": "Withdrawing",
       "fees": "Fees",
+      "estimatedFee": "Estimated Network Fee",
+      "maxFee": "Max Network Fee",
       "infoDismissButton": "Got it"
     }
   },
