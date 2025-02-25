@@ -3,10 +3,7 @@ import CeloNews from './usecases/CeloNews'
 import PriceChart from './usecases/PriceChart'
 import { quickOnboarding } from './utils/utils'
 
-// TODO: this is an ad-hoc fix to unblock the CI in the wallet repo
-// Re-enable in the framework repo
-// Context: https://valora-app.slack.com/archives/C02E2FE98P2/p1740468590381239
-xdescribe('Celo page', () => {
+describe('Celo page', () => {
   beforeAll(async () => {
     await quickOnboarding()
   })

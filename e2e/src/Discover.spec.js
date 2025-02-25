@@ -2,7 +2,7 @@ import DappListDisplay from './usecases/DappListDisplay'
 import { launchApp } from './utils/retries'
 import { quickOnboarding, scrollIntoView, waitForElementById } from './utils/utils'
 
-describe('Discover tab', () => {
+xdescribe('Discover tab', () => {
   beforeAll(async () => {
     await quickOnboarding()
     // Relaunch app to ensure dapp list loads

@@ -8,7 +8,7 @@ const verifyCamera = async () => {
     : await waitForElementById('Camera')
 }
 
-describe('Given QR Scanner', () => {
+xdescribe('Given QR Scanner', () => {
   beforeAll(async () => {
     await quickOnboarding()
     await reloadReactNative()

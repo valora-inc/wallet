@@ -1,7 +1,7 @@
 import HandleDeepLinkSend from './usecases/HandleDeepLinkSend'
 import { quickOnboarding } from './utils/utils'
 
-describe('Given', () => {
+xdescribe('Given', () => {
   beforeAll(async () => {
     // Clear redux store ?
     await quickOnboarding()

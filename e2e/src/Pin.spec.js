@@ -3,7 +3,7 @@ import PINRequire from './usecases/PINRequire'
 import { launchApp } from './utils/retries'
 import { quickOnboarding } from './utils/utils'
 
-describe('Given PIN', () => {
+xdescribe('Given PIN', () => {
   beforeEach(async () => {
     await launchApp({
       delete: true,

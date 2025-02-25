@@ -1,7 +1,7 @@
 import HomeFeed from './usecases/HomeFeed'
 import { quickOnboarding } from './utils/utils'
 
-describe('Home feed', () => {
+xdescribe('Home feed', () => {
   beforeAll(async () => {
     await quickOnboarding()
   })

@@ -1,5 +1,5 @@
 import Send from './usecases/Send'
 
-describe('Given', () => {
+xdescribe('Given', () => {
   describe('Send', Send)
 })

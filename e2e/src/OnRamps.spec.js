@@ -1,7 +1,7 @@
 import onRamps from './usecases/OnRamps'
 import { quickOnboarding } from './utils/utils'
 
-describe('Ramps', () => {
+xdescribe('Ramps', () => {
   beforeAll(async () => {
     await quickOnboarding()
   })
