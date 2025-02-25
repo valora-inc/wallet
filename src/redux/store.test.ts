@@ -143,7 +143,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 244,
+          "version": 245,
         },
         "account": {
           "acceptedTerms": false,
@@ -180,8 +180,6 @@ describe('store state', () => {
           "analyticsEnabled": true,
           "appState": "Active",
           "divviRegistrations": {},
-          "fiatConnectCashInEnabled": false,
-          "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
           "hapticFeedbackEnabled": true,
           "hideBalances": false,
