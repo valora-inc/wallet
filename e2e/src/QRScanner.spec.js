@@ -71,7 +71,5 @@ describe('Given QR Scanner', () => {
       await element(by.text('Done')).tap() // dismiss the keyboard to reveal the proceed button
       await expect(element(by.id('SendEnterAmount/ReviewButton'))).toBeVisible()
     })
-
-    it.todo('Then should be able to wc QR')
   })
 })
