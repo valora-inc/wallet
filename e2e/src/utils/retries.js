@@ -7,7 +7,7 @@ const defaultLaunchArgs = {
   launchArgs: {
     detoxPrintBusyIdleResources: 'YES',
     // Use new tx feed from Zerion by default, disable positions
-    statsigGateOverrides: 'show_zerion_transaction_feed=true,show_positions=false)',
+    statsigGateOverrides: 'show_zerion_transaction_feed=true,show_positions=false',
   },
 }
 
