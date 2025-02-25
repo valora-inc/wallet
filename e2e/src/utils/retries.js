@@ -6,8 +6,8 @@ const defaultLaunchArgs = {
   permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
   launchArgs: {
     detoxPrintBusyIdleResources: 'YES',
-    // Use new tx feed from Zerion by default
-    statsigGateOverrides: 'show_zerion_transaction_feed=true',
+    // Use new tx feed from Zerion by default, disable positions
+    statsigGateOverrides: 'show_zerion_transaction_feed=true,show_positions=false',
   },
 }
 
@@ -25,7 +25,9 @@ export const launchApp = async (customArgs = {}) => {
       }
     },
     { retries: 5, delay: 10 * 1000, timeout: 30 * 10000 }
-  )
+  ).then(async () => {
+    await device.setURLBlacklist(['https://api.mainnet.valora.xyz/getWalletTransactions'])
+  })
 }
 
 export const reloadReactNative = async () => {

@@ -10,7 +10,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
+import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TextInput from 'src/components/TextInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -136,12 +136,7 @@ const SwapAmountInput = ({
             />
             {loading && (
               <View style={styles.loaderContainer}>
-                <SkeletonPlaceholder
-                  borderRadius={100} // ensure rounded corners with font scaling
-                  backgroundColor={Colors.skeletonPlaceholderBackground}
-                  highlightColor={Colors.skeletonPlaceholderHighlight}
-                  testID="SwapAmountInput/Loader"
-                >
+                <SkeletonPlaceholder testID="SwapAmountInput/Loader">
                   <View style={styles.loader} />
                 </SkeletonPlaceholder>
               </View>
