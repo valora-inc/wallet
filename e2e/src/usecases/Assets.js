@@ -38,13 +38,13 @@ export default Assets = () => {
     {
       balance: 'non zero',
       tokens: [
-        {
-          tokenId: 'celo-mainnet:native',
-          symbol: 'CELO',
-          actions: ['Send', 'Swap'],
-          moreActions: ['Send', 'Swap', 'Add', 'Withdraw'],
-          learnMore: true,
-        },
+        // {
+        //   tokenId: 'celo-mainnet:native',
+        //   symbol: 'CELO',
+        //   actions: ['Send', 'Swap'],
+        //   moreActions: ['Send', 'Swap', 'Add', 'Withdraw'],
+        //   learnMore: true,
+        // },
         {
           tokenId: 'celo-mainnet:0x32a9fe697a32135bfd313a6ac28792dae4d9979d',
           symbol: 'cMCO2',
@@ -57,13 +57,13 @@ export default Assets = () => {
     {
       balance: 'zero',
       tokens: [
-        {
-          tokenId: 'celo-mainnet:native',
-          symbol: 'CELO',
-          actions: ['Add'],
-          moreActions: [],
-          learnMore: true,
-        },
+        // {
+        //   tokenId: 'celo-mainnet:native',
+        //   symbol: 'CELO',
+        //   actions: ['Add'],
+        //   moreActions: [],
+        //   learnMore: true,
+        // },
         {
           tokenId: 'celo-mainnet:0x765de816845861e75a25fca122bb6898b8b1282a',
           symbol: 'cUSD',
