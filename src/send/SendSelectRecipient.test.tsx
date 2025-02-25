@@ -64,28 +64,6 @@ const storeWithPhoneVerified = {
   app: { phoneNumberVerified: true },
 }
 
-const defaultAppConfigs = {
-  minRequiredVersion: '0.0.0',
-  inviteRewardsVersion: 'none',
-  // TODO: add link to documentation for what kind of content these links should link to
-  links: {
-    web: '',
-    tos: '',
-    privacy: '',
-    faq: '',
-    funding: '',
-    forum: '',
-    swapLearnMore: '',
-    transactionFeesLearnMore: '',
-    inviteRewardsNftsLearnMore: '',
-    inviteRewardsStableTokenLearnMore: '',
-    earnStablecoinsLearnMore: '',
-    celoEducation: '',
-    dappList: '',
-    celoNews: '',
-  },
-}
-
 describe('SendSelectRecipient', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -93,7 +71,7 @@ describe('SendSelectRecipient', () => {
     jest.mocked(Clipboard.hasString).mockResolvedValue(false)
     jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
       if (configName === StatsigDynamicConfigs.APP_CONFIG) {
-        return defaultAppConfigs
+        return {}
       }
       return {} as any
     })
@@ -510,8 +488,8 @@ describe('SendSelectRecipient', () => {
   describe('Invite Rewards', () => {
     it('shows invite rewards card when invite rewards are active and number is verified', async () => {
       jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
-        if (configName === StatsigDynamicConfigs.APP_CONFIG) {
-          return { ...defaultAppConfigs, inviteRewardsVersion: 'v5' }
+        if (configName === StatsigDynamicConfigs.INVITE_REWARDS_CONFIG) {
+          return { inviteRewardsVersion: 'v5' }
         }
         return {} as any
       })
@@ -530,8 +508,8 @@ describe('SendSelectRecipient', () => {
 
     it('does not show invite rewards card when invite rewards are not active', async () => {
       jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
-        if (configName === StatsigDynamicConfigs.APP_CONFIG) {
-          return { ...defaultAppConfigs, inviteRewardsVersion: 'none' }
+        if (configName === StatsigDynamicConfigs.INVITE_REWARDS_CONFIG) {
+          return { inviteRewardsVersion: 'none' }
         }
         return {} as any
       })
@@ -548,8 +526,8 @@ describe('SendSelectRecipient', () => {
 
     it('does not show invite rewards card when invite rewards are active and number is not verified', async () => {
       jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
-        if (configName === StatsigDynamicConfigs.APP_CONFIG) {
-          return { ...defaultAppConfigs, inviteRewardsVersion: 'v5' }
+        if (configName === StatsigDynamicConfigs.INVITE_REWARDS_CONFIG) {
+          return { inviteRewardsVersion: 'v5' }
         }
         return {} as any
       })

@@ -42,7 +42,7 @@ export function useShareUrl() {
 export function useInviteReward() {
   const numberCentrallyVerified = useSelector(phoneNumberVerifiedSelector)
   const { inviteRewardsVersion } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG]
+    DynamicConfigs[StatsigDynamicConfigs.INVITE_REWARDS_CONFIG]
   )
   const type = useMemo(() => {
     if (inviteRewardsVersion === 'v4') return InviteRewardsType.NFT

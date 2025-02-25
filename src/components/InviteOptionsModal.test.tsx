@@ -9,32 +9,10 @@ import { createMockStore } from 'test/utils'
 
 jest.mock('src/statsig')
 
-const defaultAppConfigs = {
-  minRequiredVersion: '0.0.0',
-  inviteRewardsVersion: 'none',
-  // TODO: add link to documentation for what kind of content these links should link to
-  links: {
-    web: '',
-    tos: '',
-    privacy: '',
-    faq: '',
-    funding: '',
-    forum: '',
-    swapLearnMore: '',
-    transactionFeesLearnMore: '',
-    inviteRewardsNftsLearnMore: '',
-    inviteRewardsStableTokenLearnMore: '',
-    earnStablecoinsLearnMore: '',
-    celoEducation: '',
-    dappList: '',
-    celoNews: '',
-  },
-}
-
 it('renders correctly with invite rewards disabled', () => {
   jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
-    if (configName === StatsigDynamicConfigs.APP_CONFIG) {
-      return { ...defaultAppConfigs, inviteRewardsVersion: 'none' }
+    if (configName === StatsigDynamicConfigs.INVITE_REWARDS_CONFIG) {
+      return { inviteRewardsVersion: 'none' }
     }
     return {} as any
   })
@@ -70,7 +48,10 @@ it('renders correctly with invite rewards disabled', () => {
 it('renders correctly with invite rewards NFTs', () => {
   jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
     if (configName === StatsigDynamicConfigs.APP_CONFIG) {
-      return { ...defaultAppConfigs, inviteRewardsVersion: 'v4' }
+      return { links: { inviteRewardsStableTokenLearnMore: '' } }
+    }
+    if (configName === StatsigDynamicConfigs.INVITE_REWARDS_CONFIG) {
+      return { inviteRewardsVersion: 'v4' }
     }
     return {} as any
   })
@@ -107,7 +88,10 @@ it('renders correctly with invite rewards NFTs', () => {
 it('renders correctly with invite rewards cUSD', () => {
   jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
     if (configName === StatsigDynamicConfigs.APP_CONFIG) {
-      return { ...defaultAppConfigs, inviteRewardsVersion: 'v5' }
+      return { links: { inviteRewardsStableTokenLearnMore: '' } }
+    }
+    if (configName === StatsigDynamicConfigs.INVITE_REWARDS_CONFIG) {
+      return { inviteRewardsVersion: 'v5' }
     }
     return {} as any
   })

@@ -29,27 +29,12 @@ describe('Invite', () => {
   }: { inviteRewardsVersion?: string; phoneNumberVerified?: boolean } = {}) => {
     jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
       if (configName === StatsigDynamicConfigs.APP_CONFIG) {
-        return {
-          minRequiredVersion: '0.0.0',
-          inviteRewardsVersion: inviteRewardsVersion || 'none',
-          links: {
-            web: '',
-            tos: '',
-            privacy: '',
-            faq: '',
-            funding: '',
-            forum: '',
-            swapLearnMore: '',
-            transactionFeesLearnMore: '',
-            inviteRewardsNftsLearnMore: '',
-            inviteRewardsStableTokenLearnMore: '',
-            earnStablecoinsLearnMore: '',
-            celoEducation: '',
-            dappList: '',
-            celoNews: '',
-          },
-        }
+        return { links: { inviteRewardsStableTokenLearnMore: '' } }
       }
+      if (configName === StatsigDynamicConfigs.INVITE_REWARDS_CONFIG) {
+        return { inviteRewardsVersion: inviteRewardsVersion || 'none' }
+      }
+
       return {} as any
     })
 

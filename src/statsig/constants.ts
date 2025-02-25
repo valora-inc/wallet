@@ -111,7 +111,6 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.APP_CONFIG,
     defaultValues: {
       minRequiredVersion: '0.0.0',
-      inviteRewardsVersion: 'none',
       // TODO: add link to documentation for what kind of content these links should link to
       links: {
         web: '',
@@ -150,6 +149,12 @@ export const DynamicConfigs = {
     defaultValues: {
       fiatConnectCashOutEnabled: false,
       fiatAccountSchemaCountryOverrides: {} as FiatAccountSchemaCountryOverrides,
+    },
+  },
+  [StatsigDynamicConfigs.INVITE_REWARDS_CONFIG]: {
+    configName: StatsigDynamicConfigs.INVITE_REWARDS_CONFIG,
+    defaultValues: {
+      inviteRewardsVersion: 'none',
     },
   },
 } satisfies {
