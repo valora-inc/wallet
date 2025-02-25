@@ -3,7 +3,6 @@ import { Platform } from 'react-native'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { DEEP_LINK_URL_SCHEME } from 'src/config'
 import { SupportedProtocolId } from 'src/divviProtocol/constants'
-import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { NetworkId } from 'src/transactions/types'
@@ -27,8 +26,6 @@ interface State {
   googleMobileServicesAvailable?: boolean
   huaweiMobileServicesAvailable?: boolean
   supportedBiometryType: BIOMETRY_TYPE | null
-  fiatConnectCashInEnabled: boolean
-  fiatConnectCashOutEnabled: boolean
   inviterAddress: string | null
   hapticFeedbackEnabled: boolean
   pushNotificationRequestedUnixTime: number | null
@@ -59,8 +56,6 @@ const initialState = {
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
   supportedBiometryType: null,
-  fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
-  fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
   inviterAddress: null,
   hapticFeedbackEnabled: true,
   pushNotificationRequestedUnixTime: null,
@@ -141,12 +136,6 @@ export const appReducer = (
       return {
         ...state,
         sessionId: action.sessionId,
-      }
-    case Actions.UPDATE_REMOTE_CONFIG_VALUES:
-      return {
-        ...state,
-        fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
-        fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
       }
     case Actions.ACTIVE_SCREEN_CHANGED:
       return {
