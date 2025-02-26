@@ -1,6 +1,8 @@
+import { Contract, providers, utils, Wallet } from 'ethers'
 import { Address, createPublicClient, erc20Abi, http } from 'viem'
 import { celo } from 'viem/chains'
 import { REFILL_TOKENS } from './consts'
+import { Token } from './types'
 
 export async function checkBalance(
   address: Address,
@@ -50,4 +52,26 @@ export async function getCeloTokensBalance(walletAddress: Address) {
   } catch (err) {
     console.log(err)
   }
+}
+
+export async function transferToken(
+  token: Token,
+  amount: string, // in decimal
+  to: string,
+  signer: Wallet
+): Promise<providers.TransactionReceipt> {
+  const abi = ['function transfer(address to, uint256 value) returns (bool)']
+  const contract = new Contract(token.address, abi, signer)
+
+  const amountInSmallestUnit = utils.parseUnits(amount, token.decimals)
+  const txObj = await contract.populateTransaction.transfer(to, amountInSmallestUnit)
+  const tx = await signer.sendTransaction(txObj)
+  const receipt = await tx.wait()
+  console.log(`Received transfer tx hash ${receipt.transactionHash} with status ${receipt.status}`)
+
+  if (receipt.status !== 1) {
+    throw new Error(`Transfer reverted. Tx hash: ${receipt.transactionHash}`)
+  }
+
+  return receipt
 }
