@@ -33,7 +33,7 @@ describe('WalletConnect actions', () => {
 
   it('should create initialisePairing action', () => {
     const uri = 'wc:test'
-    const origin = WalletConnectPairingOrigin.DeepLink
+    const origin = WalletConnectPairingOrigin.Deeplink
     expect(initialisePairing(uri, origin).type).toEqual(Actions.INITIALISE_PAIRING)
   })
 
