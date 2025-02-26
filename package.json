@@ -101,7 +101,7 @@
     "@react-navigation/native": "^7.0.14",
     "@react-navigation/native-stack": "^7.2.0",
     "@reduxjs/toolkit": "^2.5.1",
-    "@scure/bip39": "^1.5.0",
+    "@scure/bip39": "^1.5.4",
     "@segment/analytics-react-native": "^2.20.3",
     "@segment/analytics-react-native-plugin-adjust": "^0.7.0",
     "@segment/analytics-react-native-plugin-clevertap": "^1.1.0",
@@ -257,7 +257,6 @@
     "metro-react-native-babel-preset": "^0.76.9",
     "mockdate": "^3.0.5",
     "patch-package": "^6.2.2",
-    "pixelmatch": "^5.2.1",
     "prettier": "3.3.3",
     "prettier-plugin-java": "^2.6.4",
     "react-devtools": "^4.26.0",
@@ -332,11 +331,11 @@
           "type": "iPhone SE (2nd generation)"
         }
       },
-      "simulator.15.0": {
+      "simulator.15.2": {
         "type": "ios.simulator",
         "device": {
           "type": "iPhone SE (2nd generation)",
-          "os": "iOS 15.0"
+          "os": "iOS 15.2"
         }
       },
       "simulator.17.2": {
@@ -365,8 +364,8 @@
         "device": "simulator",
         "app": "ios.release"
       },
-      "ios.release.15.0": {
-        "device": "simulator.15.0",
+      "ios.release.15.2": {
+        "device": "simulator.15.2",
         "app": "ios.release"
       },
       "ios.release.17.2": {
