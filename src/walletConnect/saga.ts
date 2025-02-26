@@ -630,7 +630,7 @@ function* denySession({ session, reason }: DenySession) {
   yield* call(handlePendingStateOrNavigateBack)
 }
 
-function* getSessionFromRequest(request: WalletKitTypes.EventArguments['session_request']) {
+export function* getSessionFromRequest(request: WalletKitTypes.EventArguments['session_request']) {
   if (!client) {
     // should not happen
     throw new Error('missing client')
@@ -781,7 +781,7 @@ function* handlePendingStateOrNavigateBack() {
   }
 }
 
-function* handlePendingState() {
+export function* handlePendingState() {
   const {
     pending: [pendingSession],
   }: { pending: WalletKitTypes.EventArguments['session_proposal'][] } =

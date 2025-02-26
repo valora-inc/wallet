@@ -28,13 +28,15 @@ import {
   _showActionRequest,
   _showSessionRequest,
   getDefaultSessionTrackedProperties,
+  getSessionFromRequest,
+  handlePendingState,
   initialiseWalletConnect,
   initialiseWalletConnectV2,
   normalizeTransaction,
   walletConnectSaga,
 } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
-import { walletAddressSelector } from 'src/web3/selectors'
+import { demoModeEnabledSelector, walletAddressSelector } from 'src/web3/selectors'
 import { getSupportedNetworkIds } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
@@ -243,6 +245,28 @@ describe(walletConnectSaga, () => {
       supportedChains: ['eip155:44787'],
       version: 2,
     })
+  })
+
+  it('does nothing when pending length is greater than 1', async () => {
+    const sessionProposal = createSessionProposal({
+      url: 'someUrl',
+      icons: ['someIcon'],
+      description: 'someDescription',
+      name: 'someName',
+    })
+    const state = createMockStore({
+      walletConnect: {
+        pendingActions: [],
+        pendingSessions: [sessionProposal, sessionProposal],
+        sessions: [],
+      },
+    }).getState()
+
+    await expectSaga(walletConnectSaga)
+      .withState(state)
+      .dispatch(sessionProposalAction(sessionProposal))
+      .not.call(_showActionRequest, sessionProposal)
+      .run()
   })
 })
 
@@ -650,6 +674,16 @@ describe('showActionRequest', () => {
       prepareTransactionErrorMessage: 'viem short message',
     })
   })
+
+  it('throws an error when client is missing', async () => {
+    _setClientForTesting(null)
+
+    await expectSaga(_showActionRequest, actionRequest)
+      .run()
+      .catch((error) => {
+        expect(error.message).toBe('missing client')
+      })
+  })
 })
 
 const v2ConnectionString =
@@ -851,4 +885,144 @@ describe('normalizeTransaction', () => {
       })
     })
   }
+})
+
+const mockRequest = {
+  id: 1,
+  topic: 'topic',
+  params: {
+    request: { method: 'eth_sendTransaction', params: [] },
+    chainId: 'eip155:1',
+  },
+  verifyContext: {
+    verified: { origin: '', validation: 'UNKNOWN' as 'UNKNOWN', verifyUrl: '' },
+  },
+} as any
+
+describe('handleIncomingActionRequest', () => {
+  beforeEach(() => {
+    _setClientForTesting(null)
+  })
+
+  it('throws an error when client is missing', async () => {
+    await expectSaga(_showActionRequest, mockRequest)
+      .run()
+      .catch((error) => {
+        expect(error.message).toBe('missing client')
+      })
+  })
+})
+
+describe('getSessionFromRequest', () => {
+  beforeEach(() => {
+    _setClientForTesting(null)
+  })
+
+  it('throws an error when client is missing', async () => {
+    await expectSaga(getSessionFromRequest, mockRequest)
+      .run()
+      .catch((error) => {
+        expect(error.message).toBe('missing client')
+      })
+  })
+})
+
+describe('handlePendingState', () => {
+  let mockClient: any
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    mockClient = {
+      approveSession: jest.fn(),
+      getActiveSessions: jest.fn(() => {
+        return Promise.resolve({})
+      }),
+    }
+    _setClientForTesting(mockClient as any)
+  })
+
+  afterEach(() => {
+    _setClientForTesting(null)
+  })
+
+  it('shows session request when pending session exists', async () => {
+    const sessionProposal = createSessionProposal({
+      url: 'someUrl',
+      icons: ['someIcon'],
+      description: 'someDescription',
+      name: 'someName',
+    })
+    const state = createMockStore({
+      walletConnect: {
+        pendingActions: [],
+        pendingSessions: [sessionProposal],
+        sessions: [],
+      },
+    }).getState()
+
+    await expectSaga(handlePendingState)
+      .withState(state)
+      .provide([[select(activeDappSelector), null]])
+      .call(_showSessionRequest, sessionProposal)
+      .run()
+
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Session,
+      pendingSession: sessionProposal,
+      namespacesToApprove: expect.anything(),
+      supportedChains: ['eip155:44787'],
+      version: 2,
+    })
+  })
+
+  it('shows action request when pending action exists', async () => {
+    mockClient.getActiveSessions.mockReturnValue(
+      Promise.resolve({
+        [mockRequest.topic]: createSession({
+          url: 'someUrl',
+          icons: ['someIcon'],
+          description: 'someDescription',
+          name: 'someName',
+        }),
+      })
+    )
+
+    const state = createMockStore({
+      walletConnect: {
+        pendingActions: [mockRequest],
+        pendingSessions: [],
+        sessions: [],
+      },
+    }).getState()
+
+    await expectSaga(handlePendingState)
+      .withState(state)
+      .provide([
+        [select(walletAddressSelector), mockAccount],
+        [select(demoModeEnabledSelector), false],
+        [
+          call(getTransactionCount, publicClient[Network.Ethereum], {
+            address: mockAccount,
+            blockTag: 'pending',
+          }),
+          123,
+        ],
+      ])
+      .call(_showActionRequest, mockRequest)
+      .run()
+  })
+
+  it('does nothing when no pending sessions or actions exist', async () => {
+    const state = createMockStore({
+      walletConnect: {
+        pendingActions: [],
+        pendingSessions: [],
+        sessions: [],
+      },
+    }).getState()
+
+    await expectSaga(handlePendingState).withState(state).run()
+
+    expect(navigate).not.toHaveBeenCalled()
+  })
 })
