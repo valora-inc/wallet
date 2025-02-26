@@ -8,7 +8,9 @@ const defaultLaunchArgs = {
     detoxPrintBusyIdleResources: 'YES',
     // Use new tx feed from Zerion by default, disable positions
     statsigGateOverrides: 'show_zerion_transaction_feed=true,show_positions=false',
-    detoxURLBlacklistRegex: '\\("^https://api.mainnet.valora.xyz.*"\\)',
+    // prettier will remove the regex escaping backslashes
+    // prettier-ignore
+    detoxURLBlacklistRegex: '\\("^https://api\.mainnet\.valora\.xyz.*"\\)',
   },
 }
 
