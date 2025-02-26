@@ -8,6 +8,9 @@ const defaultLaunchArgs = {
     detoxPrintBusyIdleResources: 'YES',
     // Use new tx feed from Zerion by default, disable positions
     statsigGateOverrides: 'show_zerion_transaction_feed=true,show_positions=false',
+    // prettier will remove the regex escaping backslashes
+    // prettier-ignore
+    detoxURLBlacklistRegex: '\\("^https://api\.mainnet\.valora\.xyz.*"\\)',
   },
 }
 
@@ -25,9 +28,7 @@ export const launchApp = async (customArgs = {}) => {
       }
     },
     { retries: 5, delay: 10 * 1000, timeout: 30 * 10000 }
-  ).then(async () => {
-    await device.setURLBlacklist(['https://api.mainnet.valora.xyz/getWalletTransactions'])
-  })
+  )
 }
 
 export const reloadReactNative = async () => {

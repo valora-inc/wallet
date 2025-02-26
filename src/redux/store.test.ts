@@ -143,7 +143,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 245,
+          "version": 247,
         },
         "account": {
           "acceptedTerms": false,
@@ -224,7 +224,6 @@ describe('store state', () => {
           "quotes": [],
           "quotesError": null,
           "quotesLoading": false,
-          "schemaCountryOverrides": {},
           "selectFiatConnectQuoteLoading": false,
           "sendingFiatAccountStatus": "NotSending",
           "transfer": null,
@@ -234,7 +233,6 @@ describe('store state', () => {
           "txHashToProvider": {},
         },
         "home": {
-          "cleverTapInboxMessages": [],
           "hasVisitedHome": true,
           "loading": false,
           "nftCelebration": null,
@@ -334,7 +332,6 @@ describe('store state', () => {
         },
         "send": {
           "encryptedComment": null,
-          "inviteRewardsVersion": "none",
           "isEncryptingComment": false,
           "isSending": false,
           "lastUsedTokenId": undefined,

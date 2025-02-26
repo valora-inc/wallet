@@ -1,6 +1,6 @@
+import { WalletKitTypes } from '@reown/walletkit'
 import { SessionTypes } from '@walletconnect/types'
 import { getSdkError } from '@walletconnect/utils'
-import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -23,7 +23,7 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 export type SessionRequestProps = {
   version: 2
-  pendingSession: Web3WalletTypes.EventArguments['session_proposal']
+  pendingSession: WalletKitTypes.EventArguments['session_proposal']
   namespacesToApprove: SessionTypes.Namespaces | null
   supportedChains: string[]
 }

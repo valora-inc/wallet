@@ -1,6 +1,6 @@
+import { WalletKitTypes } from '@reown/walletkit'
 import { fireEvent, render } from '@testing-library/react-native'
 import { buildApprovedNamespaces, getSdkError } from '@walletconnect/utils'
-import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
@@ -11,7 +11,7 @@ import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
 
 describe(SessionRequest, () => {
-  const pendingSession: Web3WalletTypes.EventArguments['session_proposal'] = {
+  const pendingSession: WalletKitTypes.EventArguments['session_proposal'] = {
     id: 1690539550772665,
     params: {
       id: 1690539550772665,

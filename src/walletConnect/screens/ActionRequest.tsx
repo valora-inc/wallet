@@ -1,5 +1,5 @@
+import { WalletKitTypes } from '@reown/walletkit'
 import { getSdkError } from '@walletconnect/utils'
-import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -25,7 +25,7 @@ import { walletConnectChainIdToNetworkId } from 'src/web3/networkConfig'
 
 export interface ActionRequestProps {
   version: 2
-  pendingAction: Web3WalletTypes.EventArguments['session_request']
+  pendingAction: WalletKitTypes.EventArguments['session_request']
   supportedChains: string[]
   hasInsufficientGasFunds: boolean
   feeCurrenciesSymbols: string[]

@@ -3675,6 +3675,25 @@ export const v245Schema = {
   app: _.omit(v244Schema.app, 'fiatConnectCashInEnabled', 'fiatConnectCashOutEnabled'),
 }
 
+export const v246Schema = {
+  ...v245Schema,
+  _persist: {
+    ...v245Schema._persist,
+    version: 246,
+  },
+  send: _.omit(v245Schema.send, 'inviteRewardsVersion'),
+  fiatConnect: _.omit(v245Schema.fiatConnect, 'schemaCountryOverrides'),
+}
+
+export const v247Schema = {
+  ...v246Schema,
+  _persist: {
+    ...v246Schema._persist,
+    version: 247,
+  },
+  home: _.omit(v246Schema.home, 'cleverTapInboxMessages'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v245Schema as Partial<RootState>
+  return v247Schema as Partial<RootState>
 }

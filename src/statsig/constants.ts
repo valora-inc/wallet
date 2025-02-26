@@ -1,3 +1,4 @@
+import type { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import {
   StatsigDynamicConfigs,
   StatsigExperiments,
@@ -13,7 +14,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.APP_REVIEW]: false,
   [StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW]: true,
   [StatsigFeatureGates.SAVE_CONTACTS]: false,
-  [StatsigFeatureGates.CLEVERTAP_INBOX]: false,
   [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: true,
   [StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER]: false,
   [StatsigFeatureGates.SHOW_NFT_CELEBRATION]: false,
@@ -147,6 +147,13 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.FIAT_CONNECT_CONFIG,
     defaultValues: {
       fiatConnectCashOutEnabled: false,
+      fiatAccountSchemaCountryOverrides: {} as FiatAccountSchemaCountryOverrides,
+    },
+  },
+  [StatsigDynamicConfigs.INVITE_REWARDS_CONFIG]: {
+    configName: StatsigDynamicConfigs.INVITE_REWARDS_CONFIG,
+    defaultValues: {
+      inviteRewardsVersion: 'none',
     },
   },
 } satisfies {

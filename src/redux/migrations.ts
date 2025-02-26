@@ -2027,4 +2027,13 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'fiatConnectCashInEnabled', 'fiatConnectCashOutEnabled'),
   }),
+  246: (state: any) => ({
+    ...state,
+    send: _.omit(state.send, 'inviteRewardsVersion'),
+    fiatConnect: _.omit(state.fiatConnect, 'schemaCountryOverrides'),
+  }),
+  247: (state: any) => ({
+    ...state,
+    home: _.omit(state.home, 'cleverTapInboxMessages'),
+  }),
 }

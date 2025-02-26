@@ -1,5 +1,5 @@
+import { WalletKitTypes } from '@reown/walletkit'
 import { SessionTypes } from '@walletconnect/types'
-import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import AppAnalytics from 'src/analytics/AppAnalytics'
@@ -17,7 +17,7 @@ import { SupportedActions } from 'src/walletConnect/constants'
 
 type Props = {
   session: SessionTypes.Struct
-  request: Web3WalletTypes.EventArguments['session_request']
+  request: WalletKitTypes.EventArguments['session_request']
   preparedTransaction?: SerializableTransactionRequest
 }
 

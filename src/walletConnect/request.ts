@@ -1,4 +1,4 @@
-import { Web3WalletTypes } from '@walletconnect/web3wallet'
+import { WalletKitTypes } from '@reown/walletkit'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { Network } from 'src/transactions/types'
@@ -24,7 +24,7 @@ export function* handleRequest(
   {
     request: { method, params },
     chainId,
-  }: Web3WalletTypes.EventArguments['session_request']['params'],
+  }: WalletKitTypes.EventArguments['session_request']['params'],
   serializableTransactionRequest?: SerializableTransactionRequest
 ) {
   // since the chainId comes from the dapp, we cannot be sure that it is a
