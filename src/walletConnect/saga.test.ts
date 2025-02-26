@@ -675,14 +675,12 @@ describe('showActionRequest', () => {
     })
   })
 
-  it('throws an error when client is missing', async () => {
+  it('throws an error when client is missing', () => {
     _setClientForTesting(null)
 
-    await expectSaga(_showActionRequest, actionRequest)
-      .run()
-      .catch((error) => {
-        expect(error.message).toBe('missing client')
-      })
+    return expect(expectSaga(_showActionRequest, mockRequest).run()).rejects.toThrow(
+      'missing client'
+    )
   })
 })
 
@@ -895,7 +893,7 @@ const mockRequest = {
     chainId: 'eip155:1',
   },
   verifyContext: {
-    verified: { origin: '', validation: 'UNKNOWN' as 'UNKNOWN', verifyUrl: '' },
+    verified: { origin: '', validation: 'UNKNOWN', verifyUrl: '' },
   },
 } as any
 
@@ -904,12 +902,10 @@ describe('handleIncomingActionRequest', () => {
     _setClientForTesting(null)
   })
 
-  it('throws an error when client is missing', async () => {
-    await expectSaga(_showActionRequest, mockRequest)
-      .run()
-      .catch((error) => {
-        expect(error.message).toBe('missing client')
-      })
+  it('throws an error when client is missing', () => {
+    return expect(expectSaga(_showActionRequest, mockRequest).run()).rejects.toThrow(
+      'missing client'
+    )
   })
 })
 
@@ -918,12 +914,10 @@ describe('getSessionFromRequest', () => {
     _setClientForTesting(null)
   })
 
-  it('throws an error when client is missing', async () => {
-    await expectSaga(getSessionFromRequest, mockRequest)
-      .run()
-      .catch((error) => {
-        expect(error.message).toBe('missing client')
-      })
+  it('throws an error when client is missing', () => {
+    return expect(expectSaga(getSessionFromRequest, mockRequest).run()).rejects.toThrow(
+      'missing client'
+    )
   })
 })
 
