@@ -1,11 +1,11 @@
+import { WalletKitTypes } from '@reown/walletkit'
 import { SessionTypes } from '@walletconnect/types'
-import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { Actions, UserActions, WalletConnectActions } from 'src/walletConnect/actions'
 
 interface State {
-  pendingActions: Web3WalletTypes.EventArguments['session_request'][]
+  pendingActions: WalletKitTypes.EventArguments['session_request'][]
   sessions: SessionTypes.Struct[]
-  pendingSessions: Web3WalletTypes.EventArguments['session_proposal'][]
+  pendingSessions: WalletKitTypes.EventArguments['session_proposal'][]
 }
 
 const initialState: State = {

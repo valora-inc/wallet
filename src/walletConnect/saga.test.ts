@@ -1,6 +1,6 @@
+import { WalletKitTypes } from '@reown/walletkit'
 import { CoreTypes, SessionTypes } from '@walletconnect/types'
 import { buildApprovedNamespaces } from '@walletconnect/utils'
-import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-plan/providers'
@@ -49,7 +49,7 @@ jest.mock('src/web3/utils', () => ({
 
 function createSessionProposal(
   proposerMetadata: CoreTypes.Metadata
-): Web3WalletTypes.EventArguments['session_proposal'] {
+): WalletKitTypes.EventArguments['session_proposal'] {
   return {
     id: 1669989187506938,
     params: {
@@ -186,7 +186,7 @@ describe('applyIconFixIfNeeded', () => {
     eachMetadata(
       'fixes the `icons` property when the metadata is $metadata',
       async ({ metadata, expected }) => {
-        const sessionProposal = createSessionProposal(metadata as Web3WalletTypes.Metadata)
+        const sessionProposal = createSessionProposal(metadata as WalletKitTypes.Metadata)
         _applyIconFixIfNeeded(sessionProposal)
         // eslint-disable-next-line jest/no-standalone-expect
         expect(sessionProposal.params.proposer.metadata?.icons).toStrictEqual(expected)
@@ -198,7 +198,7 @@ describe('applyIconFixIfNeeded', () => {
     eachMetadata(
       'fixes the `icons` property when the metadata is $metadata',
       async ({ metadata, expected }) => {
-        const session = createSession(metadata as Web3WalletTypes.Metadata)
+        const session = createSession(metadata as WalletKitTypes.Metadata)
         _applyIconFixIfNeeded(session)
         // eslint-disable-next-line jest/no-standalone-expect
         expect(session.peer.metadata?.icons).toStrictEqual(expected)
@@ -491,7 +491,7 @@ describe('acceptSession', () => {
 })
 
 describe('showActionRequest', () => {
-  const actionRequest: Web3WalletTypes.EventArguments['session_request'] = {
+  const actionRequest: WalletKitTypes.EventArguments['session_request'] = {
     id: 1707297778331031,
     topic: '243b33442b6190b97055201b5a8817f4e604e3f37b5376e78ee0b3715cc6211c',
     params: {
