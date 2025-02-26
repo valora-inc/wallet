@@ -24,6 +24,7 @@ import {
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
 import { RecipientVerificationStatus } from 'src/identity/types'
+import { useInviteReward } from 'src/invite/hooks'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -36,7 +37,6 @@ import PasteAddressButton from 'src/send/PasteAddressButton'
 import SelectRecipientButtons from 'src/send/SelectRecipientButtons'
 import { SendSelectRecipientSearchInput } from 'src/send/SendSelectRecipientSearchInput'
 import { useMergedSearchRecipients, useSendRecipients } from 'src/send/hooks'
-import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -181,7 +181,7 @@ enum SelectRecipientView {
 function SendSelectRecipient({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
+  const inviteReward = useInviteReward()
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
 
@@ -372,7 +372,7 @@ function SendSelectRecipient({ route }: Props) {
           />
         ) : (
           <>
-            {inviteRewardsActive && <InviteRewardsCard />}
+            {inviteReward.active && <InviteRewardsCard />}
             <SelectRecipientButtons
               defaultTokenIdOverride={defaultTokenIdOverride}
               onContactsPermissionGranted={onContactsPermissionGranted}

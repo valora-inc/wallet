@@ -19,10 +19,6 @@ import { showError, showMessage } from 'src/alert/actions'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import {
-  fiatConnectCashInEnabledSelector,
-  fiatConnectCashOutEnabledSelector,
-} from 'src/app/selectors'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/types'
@@ -90,6 +86,8 @@ import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import { getDynamicConfigParams } from 'src/statsig'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { isTxPossiblyPending } from 'src/transactions/send'
@@ -113,6 +111,7 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 import { Address, encodeFunctionData, erc20Abi } from 'viem'
 
+jest.mock('src/statsig')
 jest.mock('src/analytics/AppAnalytics')
 jest.mock('src/fiatconnect')
 jest.mock('uuid')
@@ -173,6 +172,14 @@ describe('Fiatconnect saga', () => {
       fiatType: normalizedQuoteKyc.getFiatType(),
     },
   }
+
+  jest.mocked(getDynamicConfigParams).mockImplementation(({ configName }) => {
+    if (configName === StatsigDynamicConfigs.FIAT_CONNECT_CONFIG) {
+      return { fiatConnectCashOutEnabled: true }
+    }
+    return {} as any
+  })
+
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -665,8 +672,6 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(userLocationDataSelector), { countryCodeAlpha2: 'MX' }],
           [select(getLocalCurrencyCode), 'USD'],
-          [select(fiatConnectCashInEnabledSelector), false],
-          [select(fiatConnectCashOutEnabledSelector), true],
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [select(walletAddressSelector), '0xabc'],
         ])
@@ -678,8 +683,6 @@ describe('Fiatconnect saga', () => {
         cryptoAmount: 3,
         fiatAmount: 2,
         digitalAsset: 'CELO',
-        fiatConnectCashInEnabled: false,
-        fiatConnectCashOutEnabled: true,
         flow: CICOFlow.CashIn,
         localCurrency: 'USD',
         fiatConnectProviders: [mockFiatConnectProviderInfo[1]],
@@ -709,8 +712,6 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(userLocationDataSelector), { countryCodeAlpha2: 'MX' }],
           [select(getLocalCurrencyCode), 'USD'],
-          [select(fiatConnectCashInEnabledSelector), false],
-          [select(fiatConnectCashOutEnabledSelector), true],
           [
             select(fiatConnectProvidersSelector),
             dynamic(providers(null, mockFiatConnectProviderInfo)),
@@ -727,8 +728,6 @@ describe('Fiatconnect saga', () => {
         cryptoAmount: 3,
         fiatAmount: 2,
         digitalAsset: 'CELO',
-        fiatConnectCashInEnabled: false,
-        fiatConnectCashOutEnabled: true,
         flow: CICOFlow.CashIn,
         localCurrency: 'USD',
         fiatConnectProviders: [mockFiatConnectProviderInfo[1]],
@@ -750,8 +749,6 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(userLocationDataSelector), { countryCodeAlpha2: 'MX' }],
           [select(getLocalCurrencyCode), 'USD'],
-          [select(fiatConnectCashInEnabledSelector), false],
-          [select(fiatConnectCashOutEnabledSelector), true],
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [select(walletAddressSelector), '0xabc'],
         ])
@@ -763,8 +760,6 @@ describe('Fiatconnect saga', () => {
         cryptoAmount: 3,
         fiatAmount: 2,
         digitalAsset: 'CELO',
-        fiatConnectCashInEnabled: false,
-        fiatConnectCashOutEnabled: true,
         flow: CICOFlow.CashIn,
         localCurrency: 'USD',
         fiatConnectProviders: mockFiatConnectProviderInfo,
@@ -785,8 +780,6 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(userLocationDataSelector), { countryCodeAlpha2: 'MX' }],
           [select(getLocalCurrencyCode), 'USD'],
-          [select(fiatConnectCashInEnabledSelector), false],
-          [select(fiatConnectCashOutEnabledSelector), true],
           [select(fiatConnectProvidersSelector), null],
           [select(walletAddressSelector), '0xabc'],
         ])

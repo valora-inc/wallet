@@ -143,7 +143,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 245,
+          "version": 247,
         },
         "account": {
           "acceptedTerms": false,
@@ -180,8 +180,6 @@ describe('store state', () => {
           "analyticsEnabled": true,
           "appState": "Active",
           "divviRegistrations": {},
-          "fiatConnectCashInEnabled": false,
-          "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
           "hapticFeedbackEnabled": true,
           "hideBalances": false,
@@ -226,7 +224,6 @@ describe('store state', () => {
           "quotes": [],
           "quotesError": null,
           "quotesLoading": false,
-          "schemaCountryOverrides": {},
           "selectFiatConnectQuoteLoading": false,
           "sendingFiatAccountStatus": "NotSending",
           "transfer": null,
@@ -335,7 +332,6 @@ describe('store state', () => {
         },
         "send": {
           "encryptedComment": null,
-          "inviteRewardsVersion": "none",
           "isEncryptingComment": false,
           "isSending": false,
           "lastUsedTokenId": undefined,

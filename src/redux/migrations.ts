@@ -11,7 +11,6 @@ import {
 } from 'src/config'
 import { Dapp } from 'src/dapps/types'
 import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
-import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -664,8 +663,8 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
-      fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
+      fiatConnectCashInEnabled: false,
+      fiatConnectCashOutEnabled: false,
     },
   }),
   53: (state: any) => ({
@@ -2025,6 +2024,15 @@ export const migrations = {
     },
   }),
   245: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'fiatConnectCashInEnabled', 'fiatConnectCashOutEnabled'),
+  }),
+  246: (state: any) => ({
+    ...state,
+    send: _.omit(state.send, 'inviteRewardsVersion'),
+    fiatConnect: _.omit(state.fiatConnect, 'schemaCountryOverrides'),
+  }),        
+  247: (state: any) => ({
     ...state,
     home: _.omit(state.home, 'cleverTapInboxMessages'),
   }),

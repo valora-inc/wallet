@@ -20,7 +20,6 @@ import {
   SetAppState,
   setAppState,
   setSupportedBiometryType,
-  updateRemoteConfigValues,
 } from 'src/app/actions'
 import {
   getLastTimeBackgrounded,
@@ -33,12 +32,9 @@ import {
   DEFAULT_APP_LANGUAGE,
   DEFAULT_SENTRY_NETWORK_ERRORS,
   ENABLE_OTA_TRANSLATIONS,
-  FETCH_TIMEOUT_DURATION,
   isE2EEnv,
 } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/types'
-import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
-import { fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { initI18n } from 'src/i18n'
 import { currentLanguageSelector, otaTranslationsAppVersionSelector } from 'src/i18n/selectors'
 import { jumpstartClaim } from 'src/jumpstart/saga'
@@ -71,9 +67,7 @@ import {
   all,
   call,
   cancelled,
-  delay,
   put,
-  race,
   select,
   spawn,
   take,
@@ -171,41 +165,6 @@ export function* checkAndroidMobileServicesSaga() {
   }
 
   yield* put(androidMobileServicesAvailabilityChecked(googleIsAvailable, huaweiIsAvailable))
-}
-
-export interface RemoteConfigValues {
-  inviteRewardsVersion: string
-  fiatConnectCashInEnabled: boolean
-  fiatConnectCashOutEnabled: boolean
-  fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
-}
-
-export function* appRemoteFeatureFlagSaga() {
-  // Refresh feature flags on process start
-  // and every hour afterwards when the app becomes active.
-  // If the app keep getting killed and restarted we
-  // will load the flags more often, but that should be pretty rare.
-  // if that ever becomes a problem we can save it somewhere persistent.
-  let lastLoadTime = 0
-  let isAppActive = true
-
-  while (true) {
-    const isRefreshTime = Date.now() - lastLoadTime > 60 * 60 * 1000
-
-    if (isAppActive && isRefreshTime) {
-      const { configValues } = yield* race({
-        configValues: call(fetchRemoteConfigValues),
-        timeout: delay(FETCH_TIMEOUT_DURATION),
-      })
-      if (configValues) {
-        yield* put(updateRemoteConfigValues(configValues))
-        lastLoadTime = Date.now()
-      }
-    }
-
-    const action = (yield* take(Actions.SET_APP_STATE)) as SetAppState
-    isAppActive = action.state === 'active'
-  }
 }
 
 function parseValue(value: string) {

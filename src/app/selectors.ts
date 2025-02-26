@@ -32,11 +32,6 @@ export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
 
 export const supportedBiometryTypeSelector = (state: RootState) => state.app.supportedBiometryType
 
-export const fiatConnectCashInEnabledSelector = (state: RootState) =>
-  state.app.fiatConnectCashInEnabled
-export const fiatConnectCashOutEnabledSelector = (state: RootState) =>
-  state.app.fiatConnectCashOutEnabled
-
 export const phoneNumberVerifiedSelector = (state: RootState) => state.app.phoneNumberVerified
 
 export const inviterAddressSelector = (state: RootState) => state.app.inviterAddress

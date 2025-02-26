@@ -123,7 +123,7 @@ yarn e2e:test:android-release sample-suite.spec.js -t "Test Name" -r
 
 ```JavaScript
 // Sample <TestSuiteName>.spec.js setup
-import { quickOnboarding, getDeviceModel } from './utils/utils'
+import { quickOnboarding } from './utils/utils'
 import { reloadReactNative } from '../utils/retries'
 
 import AddedUsecase from './usecases/AddedUsecase'
@@ -200,16 +200,6 @@ class ExampleInput extends React.Component {
 ```
 
 It is recommended to follow the scheme parentID/ChildDescription.
-
-## Setting remote config defaults for e2e tests
-
-We do not read remote config values from firebase for e2e tests, so default remote config values are used. A custom set of remote config
-defaults may be needed for some tests which differs from production configuration. For example, in production code,
-we do not wish to show FiatConnect cash-outs by default, but to test FiatConnect cash-outs end-to-end, we need
-`fiatConnectCashOutEnabled` to be `true`.
-
-To set remote config values specifically for end-to-end tests, see `remoteConfigValuesDefaults.e2e.ts` and make
-whatever changes are needed there.
 
 ## The e2e banner
 

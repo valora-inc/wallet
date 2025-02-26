@@ -5,7 +5,6 @@ import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
-import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import { PermissionsAndroid, PermissionStatus, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
@@ -14,7 +13,6 @@ import { updateAccountRegistration } from 'src/account/updateAccountRegistration
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { AppEvents } from 'src/analytics/Events'
 import { pushNotificationsPermissionChanged } from 'src/app/actions'
-import { RemoteConfigValues } from 'src/app/saga'
 import {
   pushNotificationRequestedUnixTimeSelector,
   pushNotificationsEnabledSelector,
@@ -22,7 +20,6 @@ import {
 import { DEFAULT_PERSONA_TEMPLATE_ID, FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { Actions } from 'src/firebase/actions'
 import { handleNotification } from 'src/firebase/notifications'
-import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Actions as HomeActions } from 'src/home/actions'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -232,41 +229,6 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
 }
 
 const VALUE_CHANGE_HOOK = 'value'
-
-/*
-We use firebase remote config to manage feature flags.
-https://firebase.google.com/docs/remote-config
-
-This also allows us to run AB tests.
-https://firebase.google.com/docs/ab-testing/abtest-config
-*/
-export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | null> {
-  if (!FIREBASE_ENABLED) {
-    return null
-  }
-
-  await remoteConfig().setDefaults(REMOTE_CONFIG_VALUES_DEFAULTS)
-  // Don't cache values so we fetch the latest every time. https://rnfirebase.io/remote-config/usage
-  await remoteConfig().setConfigSettings({ minimumFetchIntervalMillis: 0 })
-  await remoteConfig().fetchAndActivate()
-
-  const flags: FirebaseRemoteConfigTypes.ConfigValues = remoteConfig().getAll()
-  // When adding a new remote config value there are 2 places that need updating:
-  // the RemoteConfigValues interface as well as the REMOTE_CONFIG_VALUES_DEFAULTS map
-  // REMOTE_CONFIG_VALUES_DEFAULTS is in remoteConfigValuesDefaults.ts
-  // RemoteConfigValues is in app/saga.ts
-
-  const fiatAccountSchemaCountryOverrides = flags.fiatAccountSchemaCountryOverrides?.asString()
-
-  return {
-    inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
-    fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
-    fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
-    fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
-      ? JSON.parse(fiatAccountSchemaCountryOverrides)
-      : {},
-  }
-}
 
 export async function notificationsChannel() {
   return simpleReadChannel('notificationsV2')

@@ -1,5 +1,5 @@
 import { reloadReactNative } from '../utils/retries'
-import { navigateToSecurity } from '../utils/utils'
+import { navigateToSecurity } from '../utils/navigation'
 
 export default RequirePIN = () => {
   it('Then should be require PIN on app open', async () => {
