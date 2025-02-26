@@ -1,16 +1,16 @@
+import { WalletKitTypes } from '@reown/walletkit'
 import { SessionTypes } from '@walletconnect/types'
-import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { ActiveDapp } from 'src/dapps/types'
 
 const isSessionProposalType = (
-  session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct
-): session is Web3WalletTypes.EventArguments['session_proposal'] => {
+  session: WalletKitTypes.EventArguments['session_proposal'] | SessionTypes.Struct
+): session is WalletKitTypes.EventArguments['session_proposal'] => {
   return 'params' in session
 }
 
 export function getDefaultSessionTrackedProperties(
-  session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct,
+  session: WalletKitTypes.EventArguments['session_proposal'] | SessionTypes.Struct,
   activeDapp: ActiveDapp | null
 ) {
   const peer = isSessionProposalType(session) ? session.params.proposer : session.peer
@@ -45,7 +45,7 @@ export function getDefaultSessionTrackedProperties(
 }
 
 export function getDefaultRequestTrackedProperties(
-  request: Web3WalletTypes.EventArguments['session_request']
+  request: WalletKitTypes.EventArguments['session_request']
 ) {
   const { id, params } = request
 

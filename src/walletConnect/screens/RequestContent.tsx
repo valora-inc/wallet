@@ -1,4 +1,3 @@
-import { IClientMeta } from '@walletconnect/legacy-types'
 import { CoreTypes } from '@walletconnect/types'
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -42,7 +41,7 @@ interface DismissProps extends BaseProps {
 
 type Props = ConfirmProps | DismissProps
 
-export const useDappMetadata = (metadata?: IClientMeta | CoreTypes.Metadata | null) => {
+export const useDappMetadata = (metadata?: CoreTypes.Metadata | null) => {
   const activeDapp = useSelector(activeDappSelector)
 
   if (!metadata) {
