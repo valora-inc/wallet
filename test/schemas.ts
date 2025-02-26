@@ -3675,6 +3675,16 @@ export const v245Schema = {
   app: _.omit(v244Schema.app, 'fiatConnectCashInEnabled', 'fiatConnectCashOutEnabled'),
 }
 
+export const v246Schema = {
+  ...v245Schema,
+  _persist: {
+    ...v245Schema._persist,
+    version: 246,
+  },
+  send: _.omit(v245Schema.send, 'inviteRewardsVersion'),
+  fiatConnect: _.omit(v245Schema.fiatConnect, 'schemaCountryOverrides'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v245Schema as Partial<RootState>
+  return v246Schema as Partial<RootState>
 }
