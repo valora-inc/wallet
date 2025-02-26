@@ -2124,11 +2124,10 @@
 
 "@noble/hashes@1.7.0":
   version "1.7.0"
-  resolved "https://registry.yarnpkg.com/
-  /-/hashes-1.7.0.tgz#5d9e33af2c7d04fee35de1519b80c958b2e35e39"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.7.0.tgz#5d9e33af2c7d04fee35de1519b80c958b2e35e39"
   integrity sha512-HXydb0DgzTpDPwbVeDGCG1gIu7X6+AuU6Zl6av/E/KG8LMsvPntvq+w17CHRpKBmN6Ybdrt1eP3k4cj8DJa78w==
 
-"@noble/hashes@~1.7.1":
+"@noble/hashes@1.7.1", "@noble/hashes@~1.7.1":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.7.1.tgz#5738f6d765710921e7a751e00c20ae091ed8db0f"
   integrity sha512-B8XBPsn4vT/KJAGqDzbwztd+6Yte3P4V7iafm24bxgDe/mlRuK6xmWPuCNrKt2vDafZ8MfJLlchDG/vYafQEjQ==
