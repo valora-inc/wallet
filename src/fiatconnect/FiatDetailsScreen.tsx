@@ -21,10 +21,7 @@ import {
   isImplicitParam,
 } from 'src/fiatconnect/fiatAccountSchemas'
 import { FormFieldParam } from 'src/fiatconnect/fiatAccountSchemas/types'
-import {
-  schemaCountryOverridesSelector,
-  sendingFiatAccountStatusSelector,
-} from 'src/fiatconnect/selectors'
+import { sendingFiatAccountStatusSelector } from 'src/fiatconnect/selectors'
 import { SendingFiatAccountStatus, submitFiatAccount } from 'src/fiatconnect/slice'
 import Checkmark from 'src/icons/Checkmark'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -34,6 +31,9 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -55,7 +55,9 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const fieldNamesToValues = useRef<Record<string, string>>({})
   const { countryCodeAlpha2 } = useSelector(userLocationDataSelector)
   const dispatch = useDispatch()
-  const schemaCountryOverrides = useSelector(schemaCountryOverridesSelector)
+  const { fiatAccountSchemaCountryOverrides } = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.FIAT_CONNECT_CONFIG]
+  )
 
   const fiatAccountSchema = quote.getFiatAccountSchema()
   const fiatAccountType = quote.getFiatAccountType()
@@ -126,7 +128,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       getSchema({
         fiatAccountSchema,
         country: countryCodeAlpha2,
-        schemaCountryOverrides,
+        schemaCountryOverrides: fiatAccountSchemaCountryOverrides,
         fiatAccountType: quote.getFiatAccountType(),
       }),
     [fiatAccountSchema]
