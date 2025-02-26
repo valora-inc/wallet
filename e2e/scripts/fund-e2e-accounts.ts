@@ -216,14 +216,15 @@ const TOKENS_BY_SYMBOL: Record<string, Token> = {
   }
 
   // Set Amount To Send
-  const amountToSend = '10'
+  const amountToSend = '6'
+  const minBalance = 12
 
   for (let i = 0; i < walletsToBeFunded.length; i++) {
     const walletAddress = walletsToBeFunded[i]
     const walletBalance = walletBalances[i]
     for (const tokenSymbol of REFILL_TOKENS) {
       // @ts-ignore
-      if (walletBalance && walletBalance[tokenSymbol] < 20) {
+      if (walletBalance && walletBalance[tokenSymbol] < minBalance) {
         console.log(`Sending ${amountToSend} ${tokenSymbol} to ${walletAddress}`)
         await transferToken(TOKENS_BY_SYMBOL[tokenSymbol], amountToSend, walletAddress)
       }
