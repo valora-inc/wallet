@@ -34,9 +34,14 @@ jobs:
         with:
           secrets: |-
             E2E_TEST_FAUCET_SECRET:projects/1027349420744/secrets/E2E_TEST_FAUCET_SECRET
+            E2E_WALLET_SINGLE_VERIFIED_PRIVATE_KEY:projects/1027349420744/secrets/E2E_WALLET_SINGLE_VERIFIED_PRIVATE_KEY
       - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       - name: Run Balance and Fund
         run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/fund-e2e-accounts.ts
         env:
           E2E_TEST_FAUCET_SECRET: ${{ steps.google-secrets.outputs.E2E_TEST_FAUCET_SECRET }}
+      - name: Run Extract Excess
+        run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/extract-e2e-accounts-excess.ts
+        env:
+          E2E_WALLET_SINGLE_VERIFIED_PRIVATE_KEY: ${{ steps.google-secrets.outputs.E2E_WALLET_SINGLE_VERIFIED_PRIVATE_KEY }}
