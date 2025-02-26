@@ -2055,12 +2055,13 @@
   resolved "https://registry.yarnpkg.com/@mento-protocol/mento-core-ts/-/mento-core-ts-0.2.1.tgz#d8f1f1aaf8e11645541badf9e308410996f82a24"
   integrity sha512-p99LMVVZ7VEHgirdjgUjDH1HA9810c8z+i0EzcgTPBK8TjkGY47aV2DDWknjETcjIYfXek7V/GYhwdjeKoqEbw==
 
-"@mento-protocol/mento-sdk@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@mento-protocol/mento-sdk/-/mento-sdk-0.2.3.tgz#9afb791b3f39cce8bb50f6e56d58939977923a70"
-  integrity sha512-Rf/RBAW5+gekHWoAeNPuN1G3JbiDNEfN5QvInDvpy5JQKhqXC0ZuH7N5ja/D7ziEnY912rBGyylE1QP/H1toCA==
+"@mento-protocol/mento-sdk@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@mento-protocol/mento-sdk/-/mento-sdk-1.0.3.tgz#3507701243611147682310496d60b5ede7ff25a0"
+  integrity sha512-IzyAnMZJTjE2XIIR8uEebsaovYCGCCnhvpc/Du4xiC2dkfjbs4N+Mjae8/osQ0PDPuGXcjZ7DQR8vBvmz9b0wg==
   dependencies:
     "@mento-protocol/mento-core-ts" "^0.2.0"
+    mento-router-ts "^0.2.0"
 
 "@noble/curves@1.2.0":
   version "1.2.0"
@@ -10761,6 +10762,11 @@ memoize-one@^5.0.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.2.1.tgz#8337aa3c4335581839ec01c3d594090cebe8f00e"
   integrity sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==
+
+mento-router-ts@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/mento-router-ts/-/mento-router-ts-0.2.0.tgz#729f51a68a15fd7d19f7a3d907ae2ce7bb401048"
+  integrity sha512-wE142p1CSZSmqavPrkB3F++1/h/V6QNMm9wtFf9tdu3/4FgtkByFUOGmyIOaQVFldHle0POfZqC7KM5j3ZQgKA==
 
 merge-options@^3.0.4:
   version "3.0.4"
