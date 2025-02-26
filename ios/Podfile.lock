@@ -561,9 +561,9 @@ PODS:
   - react-native-compat (2.16.2):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-config (1.5.3):
-    - react-native-config/App (= 1.5.3)
-  - react-native-config/App (1.5.3):
+  - react-native-config (1.5.5):
+    - react-native-config/App (= 1.5.5)
+  - react-native-config/App (1.5.5):
     - React-Core
   - react-native-contacts (5.0.0):
     - React-Core
@@ -1241,7 +1241,7 @@ SPEC CHECKSUMS:
   react-native-adjust: a3d3fd6edd8d4a7ef707ebc45deaecab1ffb2afc
   react-native-camera: 079d80421f0572d6b4e836908114d614d0adb553
   react-native-compat: 03e54a7e1a09f56471b0af199867b4edf13de7ca
-  react-native-config: ea75335a7cca1d3326de1da384227e580a7c082e
+  react-native-config: 644074ab88db883fcfaa584f03520ec29589d7df
   react-native-contacts: 5eeeb8bff95a0e1680a11329e15653eb73d29a1d
   react-native-cookies: 0613d8218d02d4a8138d100ee077096a267c82f6
   react-native-flipper: 03f211cc2af0ecf4b9569f0dddcc3e5d2b2d8201
