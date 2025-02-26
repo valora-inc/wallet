@@ -1,6 +1,5 @@
 import { RehydrateAction } from 'redux-persist'
 import { Actions, ActionTypes } from 'src/home/actions'
-import { CleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { NetworkId } from 'src/transactions/types'
 
@@ -42,7 +41,6 @@ export enum NftCelebrationStatus {
 export interface State {
   loading: boolean
   notifications: IdToNotification
-  cleverTapInboxMessages: CleverTapInboxMessage[]
   hasVisitedHome: boolean
   nftCelebration: {
     networkId: NetworkId
@@ -57,7 +55,6 @@ export interface State {
 export const initialState = {
   loading: false,
   notifications: {},
-  cleverTapInboxMessages: [],
   hasVisitedHome: false,
   nftCelebration: null,
 }
@@ -121,11 +118,6 @@ export const homeReducer = (
             dismissed: true,
           },
         },
-      }
-    case Actions.CLEVERTAP_INBOX_MESSAGES_RECEIVED:
-      return {
-        ...state,
-        cleverTapInboxMessages: action.messages,
       }
     case Actions.VISIT_HOME:
       return {

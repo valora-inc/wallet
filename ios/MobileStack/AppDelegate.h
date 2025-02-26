@@ -9,8 +9,6 @@
 
 #import <UIKit/UIKit.h>
 #import <RCTAppDelegate.h>
-#import <CleverTapSDK/CleverTap.h>
-#import <CleverTapReact/CleverTapReactManager.h>
 
 @interface AppDelegate : RCTAppDelegate
 

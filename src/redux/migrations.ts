@@ -2032,4 +2032,8 @@ export const migrations = {
     send: _.omit(state.send, 'inviteRewardsVersion'),
     fiatConnect: _.omit(state.fiatConnect, 'schemaCountryOverrides'),
   }),
+  247: (state: any) => ({
+    ...state,
+    home: _.omit(state.home, 'cleverTapInboxMessages'),
+  }),
 }

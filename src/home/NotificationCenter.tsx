@@ -1,104 +1,22 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import CleverTap from 'clevertap-react-native'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View, ViewToken } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import AppAnalytics from 'src/analytics/AppAnalytics'
 import { HomeEvents } from 'src/analytics/Events'
-import { openUrl } from 'src/app/actions'
-import { CallToAction } from 'src/components/CallToActionsBar'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
-import { CLEVERTAP_PRIORITY, useSimpleActions } from 'src/home/NotificationBox'
-import { cleverTapInboxMessagesSelector } from 'src/home/selectors'
-import { Notification, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
+import { useSimpleActions } from 'src/home/NotificationBox'
+import { Notification } from 'src/home/types'
 import ThumbsUpIllustration from 'src/icons/ThumbsUpIllustration'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
-import { useDispatch, useSelector } from 'src/redux/hooks'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
-
-function useCleverTapNotifications() {
-  const { t } = useTranslation()
-  const dispatch = useDispatch()
-
-  const messages = useSelector(cleverTapInboxMessagesSelector)
-
-  return useMemo(() => {
-    const notifications: Notification[] = []
-
-    for (const {
-      messageId,
-      header,
-      text,
-      icon,
-      ctaText,
-      ctaUrl,
-      priority,
-      openInExternalBrowser,
-    } of messages) {
-      const notificationId = `${NotificationType.clevertap_notification}/${messageId}`
-      const callToActions: CallToAction[] = [
-        {
-          text: ctaText,
-          onPress: (params) => {
-            AppAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationType.clevertap_notification,
-              selectedAction: NotificationBannerCTATypes.accept,
-              notificationId,
-              notificationPositionInList: params?.index,
-            })
-            CleverTap.pushInboxNotificationClickedEventForId(messageId)
-
-            const isSecureOrigin = true
-            dispatch(openUrl(ctaUrl, openInExternalBrowser, isSecureOrigin))
-          },
-        },
-        {
-          text: t('dismiss'),
-          isSecondary: true,
-          onPress: (params) => {
-            AppAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationType.clevertap_notification,
-              selectedAction: NotificationBannerCTATypes.decline,
-              notificationId,
-              notificationPositionInList: params?.index,
-            })
-
-            CleverTap.deleteInboxMessageForId(messageId)
-          },
-        },
-      ]
-      notifications.push({
-        renderElement: (params?: { index?: number }) => (
-          <SimpleMessagingCard
-            callToActions={callToActions}
-            header={header}
-            text={text}
-            icon={icon}
-            testID={notificationId}
-            index={params?.index}
-          />
-        ),
-        priority: priority || CLEVERTAP_PRIORITY,
-        showOnHomeScreen: false,
-        id: notificationId,
-        type: NotificationType.clevertap_notification,
-        onView: () => {
-          CleverTap.pushInboxNotificationViewedEventForId(messageId)
-          CleverTap.markReadInboxMessageForId(messageId)
-        },
-      })
-    }
-
-    return notifications
-  }, [messages])
-}
 
 export function useNotifications() {
   const notifications: Notification[] = []
@@ -115,9 +33,6 @@ export function useNotifications() {
       type: notification.type,
     }))
   )
-
-  const cleverTapNotifications = useCleverTapNotifications()
-  notifications.push(...cleverTapNotifications)
 
   return (
     notifications
