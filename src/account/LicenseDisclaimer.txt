@@ -1219,7 +1219,7 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: @segment/analytics-react-native, @segment/analytics-react-native-plugin-adjust, @segment/analytics-react-native-plugin-clevertap, @segment/analytics-react-native-plugin-destination-filters, @segment/analytics-react-native-plugin-firebase. A copy of the source code may be downloaded from https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-adjust), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-clevertap), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-destination-filters), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-firebase). This software contains the following license and notice below:
+The following software may be included in this product: @segment/analytics-react-native, @segment/analytics-react-native-plugin-adjust, @segment/analytics-react-native-plugin-destination-filters, @segment/analytics-react-native-plugin-firebase. A copy of the source code may be downloaded from https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-adjust), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-destination-filters), https://github.com/segmentio/analytics-react-native.git (@segment/analytics-react-native-plugin-firebase). This software contains the following license and notice below:
 
 MIT License
 
@@ -4944,20 +4944,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
------
-
-The following software may be included in this product: clevertap-react-native. A copy of the source code may be downloaded from git+https://github.com/CleverTap/clevertap-react-native.git. This software contains the following license and notice below:
-
-Copyright (c) 2014-2021 CleverTap
-All rights reserved.
-
-* Use of source code or binaries contained within CleverTap's React SDK is permitted only to enable use of the CleverTap platform by customers of CleverTap.
-* Modification of source code and inclusion in mobile apps is explicitly allowed provided that all other conditions are met.
-* Neither the name of CleverTap nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-* Redistribution of source code or binaries is disallowed except with specific prior written permission. Any such redistribution must retain the above copyright notice, this list of conditions and the following disclaimer.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -----
 

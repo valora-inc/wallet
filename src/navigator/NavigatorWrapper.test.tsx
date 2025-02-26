@@ -1,6 +1,5 @@
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import { render, waitFor } from '@testing-library/react-native'
-import CleverTap from 'clevertap-react-native'
 import * as React from 'react'
 import { Linking } from 'react-native'
 import { Provider } from 'react-redux'
@@ -26,11 +25,6 @@ jest.mock('@react-native-firebase/dynamic-links', () => () => ({
   onLink: mockDynamicLinksOnLink,
   getInitialLink: mockDynamicLinksGetInitialLink,
 }))
-jest.mock('clevertap-react-native', () => ({
-  getInitialUrl: jest.fn(),
-  addListener: jest.fn(),
-  removeListener: jest.fn(),
-}))
 
 describe('NavigatorWrapper', () => {
   beforeEach(() => {
@@ -53,10 +47,8 @@ describe('NavigatorWrapper', () => {
       </Provider>
     )
 
-    await waitFor(() => expect(CleverTap.addListener).toHaveBeenCalled())
-    expect(Linking.addEventListener).toHaveBeenCalled()
+    await waitFor(() => expect(Linking.addEventListener).toHaveBeenCalled())
     expect(dynamicLinks().onLink).toHaveBeenCalled()
-    expect(CleverTap.getInitialUrl).toHaveBeenCalled()
     expect(Linking.getInitialURL).toHaveBeenCalled()
     expect(dynamicLinks().getInitialLink).toHaveBeenCalled()
     expect(queryByText('appUpdateAvailable')).toBeFalsy()

@@ -12,7 +12,6 @@ export enum NotificationType {
   backup_prompt = 'backup_prompt',
   keyless_backup_prompt = 'keyless_backup_prompt',
   remote_notification = 'remote_notification',
-  clevertap_notification = 'clevertap_notification',
 }
 
 export enum NotificationBannerCTATypes {
