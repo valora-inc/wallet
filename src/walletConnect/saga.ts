@@ -1,5 +1,5 @@
 import { formatJsonRpcError, formatJsonRpcResult, JsonRpcResult } from '@json-rpc-tools/utils'
-import { IWeb3Wallet, WalletKitTypes, Web3Wallet } from '@reown/walletkit'
+import { IWalletKit, WalletKit, WalletKitTypes } from '@reown/walletkit'
 import { Core } from '@walletconnect/core'
 import '@walletconnect/react-native-compat'
 import { SessionTypes } from '@walletconnect/types'
@@ -88,9 +88,9 @@ import {
 import { Address, BaseError, GetTransactionCountParameters, hexToBigInt, isHex } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
-let client: IWeb3Wallet | null = null
+let client: IWalletKit | null = null
 
-export function _setClientForTesting(newClient: IWeb3Wallet | null) {
+export function _setClientForTesting(newClient: IWalletKit | null) {
   client = newClient
 }
 
@@ -133,7 +133,7 @@ function* createWalletConnectChannel() {
   if (!client) {
     Logger.debug(TAG + '@createWalletConnectChannel', `init start`)
     const { links } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.APP_CONFIG])
-    client = yield* call([Web3Wallet, 'init'], {
+    client = yield* call([WalletKit, 'init'], {
       core: new Core({
         projectId: WALLET_CONNECT_PROJECT_ID,
         relayUrl: networkConfig.walletConnectEndpoint,
