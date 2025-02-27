@@ -17,6 +17,23 @@ const config: KnipConfig = {
     '@segment/sovran-react-native', // required for react-native-segment
     'react-native-adjust', // required for @segment/analytics-react-native-plugin-adjust
     'husky',
+    // required by expo
+    'expo-build-properties',
+    'expo-dev-client',
+    'expo-splash-screen',
+    'expo-status-bar',
+    '@expo/config-plugins',
+    // required by divvi
+    'babel-plugin-module-resolver',
+    // peer deps for @valora/eslint-config-typescript
+    '@typescript-eslint/eslint-plugin',
+    'eslint-plugin-import',
+    'eslint-plugin-jest',
+    'eslint-plugin-react',
+    'eslint-plugin-react-hooks',
+    'eslint-plugin-react-native',
+    // prettier
+    '@valora/prettier-config',
   ],
   ignore: [],
 }
