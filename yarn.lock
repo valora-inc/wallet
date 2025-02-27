@@ -8610,10 +8610,10 @@ husky@^3.0.0:
     run-node "^1.0.0"
     slash "^3.0.0"
 
-i18next@^24.1.0:
-  version "24.1.2"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-24.1.2.tgz#6dd0bcf6d50d8d61227b0a3aefb653885d267d09"
-  integrity sha512-th/075GW0Ub1gYDMHLiZXMGSfGv1aP1VqjT3fma/12hNHCNlH8oJMftvlDzycT/R+KoULWk+xLU8H1JRwV85qw==
+i18next@^24.2.2:
+  version "24.2.2"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-24.2.2.tgz#3ba3d213302068d569142737f03f30929de696de"
+  integrity sha512-NE6i86lBCKRYZa5TaUDkU5S4HFgLIEJRLr3Whf2psgaxBleQ2LC1YW1Vc+SCgkAW7VEzndT6al6+CzegSUHcTQ==
   dependencies:
     "@babel/runtime" "^7.23.2"
 
