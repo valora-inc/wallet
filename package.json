@@ -93,7 +93,7 @@
     "@react-native-firebase/dynamic-links": "19.1.0",
     "@react-native-firebase/messaging": "19.1.0",
     "@react-native-masked-view/masked-view": "^0.3.2",
-    "@react-native-picker/picker": "^2.10.2",
+    "@react-native-picker/picker": "^2.11.0",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/devtools": "^7.0.15",
     "@react-navigation/elements": "^2.2.5",
