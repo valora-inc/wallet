@@ -146,6 +146,7 @@
     "@actions/github": "^5.1.1",
     "@babel/core": "^7.25.2",
     "@expo/config-plugins": "~9.0.12",
+    "@jambit/eslint-plugin-typed-redux-saga": "^0.4.0",
     "@types/react": "~18.3.12",
     "@types/shelljs": "^0.8.11",
     "@types/yargs": "^17.0.32",
@@ -171,8 +172,11 @@
     "prettier-plugin-java": "^2.6.4",
     "request": "^2.88.2",
     "shelljs": "^0.8.5",
+    "strip-ansi": "^6.0.0",
     "ts-node": "10.7.0",
+    "tslib": "^2.8.1",
     "typescript": "^5.6.2",
+    "@valora/eslint-config-typescript": "^1.0.2",
     "yargs": "^17.7.2"
   },
   "detox": {
