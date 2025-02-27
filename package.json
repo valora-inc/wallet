@@ -78,7 +78,7 @@
     "@divvi/react-native-keychain": "^9.2.2",
     "@fiatconnect/fiatconnect-sdk": "^0.5.74",
     "@fiatconnect/fiatconnect-types": "^13.3.11",
-    "@gorhom/bottom-sheet": "^5.0.6",
+    "@gorhom/bottom-sheet": "^5.1.1",
     "@interaxyz/react-native-webview": "^13.13.4",
     "@interaxyz/react-navigation-bottom-sheet": "^0.3.2",
     "@json-rpc-tools/utils": "^1.7.6",
