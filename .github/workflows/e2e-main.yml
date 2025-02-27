@@ -1,0 +1,51 @@
+name: E2E - Main
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'End-to-end Tests'
+  # Cron job to run e2e tests @ 8:30 pm daily on the latest commit on the default branch - main
+  schedule:
+    - cron: '30 20 * * *'
+
+# Cancel any in progress run of the workflow for a given PR
+# This avoids building outdated code
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  android:
+    name: Android
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        # min supported API level is 24
+        # 24 is failing due to Let's Encrypt root certificate expiration
+        # 25 is failing (RET-1274)
+        # 26 is failing (RET-1275)
+        android-api-level: [27]
+    uses: ./.github/workflows/e2e-android.yml
+    with:
+      android-api-level: ${{ matrix.android-api-level }}
+    secrets: inherit
+  ios:
+    name: iOS
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        # 15.0 is not included as it runs on the merge queue
+        ios-version: ['17.2']
+    uses: ./.github/workflows/e2e-ios.yml
+    with:
+      ios-version: ${{ matrix.ios-version }}
+    secrets: inherit
