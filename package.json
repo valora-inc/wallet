@@ -84,7 +84,7 @@
     "@json-rpc-tools/utils": "^1.7.6",
     "@noble/secp256k1": "^1.7.1",
     "@react-native-async-storage/async-storage": "^2.1.1",
-    "@react-native-clipboard/clipboard": "^1.15.0",
+    "@react-native-clipboard/clipboard": "^1.16.1",
     "@react-native-community/netinfo": "^11.4.1",
     "@react-native-firebase/analytics": "19.1.0",
     "@react-native-firebase/app": "19.1.0",
