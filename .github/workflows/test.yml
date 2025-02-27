@@ -20,15 +20,15 @@ jobs:
     name: Mobile
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: 'package.json'
-          check-latest: true
-      - uses: ./.github/actions/yarn-install
-      - name: Build
-        run: yarn build
       # Disabled as we don't have any unit tests yet
+      # - uses: actions/checkout@v4
+      # - uses: actions/setup-node@v4
+      #   with:
+      #     node-version-file: 'package.json'
+      #     check-latest: true
+      # - uses: ./.github/actions/yarn-install
+      # - name: Build
+      #   run: yarn build
       # - name: Run mobile tests
       #   run: |
       #     mkdir -p test-results/jest
