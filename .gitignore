@@ -1,6 +1,12 @@
+ios/
+android/
+
 # Expo
 #
 .expo/
+dist/
+web-build/
+expo-env.d.ts
 
 # Python
 #
@@ -17,53 +23,11 @@
 #
 .DS_Store
 
-# Xcode
-#
-build/
-*.pbxuser
-!default.pbxuser
-*.mode1v3
-!default.mode1v3
-*.mode2v3
-!default.mode2v3
-*.perspectivev3
-!default.perspectivev3
-xcuserdata
-*.xccheckout
-*.moved-aside
-DerivedData
-*.hmap
-*.ipa
-*.xcuserstate
-
-# Android/IntelliJ
-#
-build/
-.idea
-.gradle
-local.properties
-*.iml
-*.hprof
-.cxx/
-*.keystore
-!debug.keystore
-
 # node.js
 #
 node_modules/
 npm-debug.log
 yarn-error.log
-
-# fastlane
-#
-# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
-# screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://docs.fastlane.tools/best-practices/source-control/
-
-*/fastlane/report.xml
-*/fastlane/Preview.html
-*/fastlane/screenshots
 
 */**/junit.xml
 
@@ -75,6 +39,12 @@ lerna-debug.log
 # keys
 .env.mnemonic*
 !.env.mnemonic*.enc
+*.jks
+*.p8
+*.p12
+*.key
+*.pem
+secrets.json
 
 .terraform/
 tsconfig.tsbuildinfo
@@ -84,9 +54,6 @@ tsconfig.tsbuildinfo
 
 */.next/*
 .env.local
-
-# Packages from old monorepo structure
-packages/
 
 # Ruby gem artifacts
 .bundle
@@ -114,12 +81,6 @@ e2e_pidcat_run.log
 e2e/test-results/*
 !e2e/test-results/teststyle.css
 !e2e/test-results/valora-icon.png
-
-# keys
-secrets.json
-!__mocks__/secrets.json
-
-ios/.xcode.env
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
