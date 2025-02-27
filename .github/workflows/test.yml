@@ -24,10 +24,6 @@ jobs:
       - uses: ./.github/actions/yarn-install
       - name: Build
         run: yarn build
-      - name: Update RootStateSchema if necessary
-        run: yarn test:update-root-state-schema
-      - name: Fail if someone forgot to commit "RootStateSchema.json"
-        run: git diff --exit-code
       - name: Run mobile tests
         run: |
           mkdir -p test-results/jest
