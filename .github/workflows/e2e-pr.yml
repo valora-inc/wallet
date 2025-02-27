@@ -1,0 +1,26 @@
+name: E2E - PR
+on:
+  pull_request:
+    branches:
+      - main
+  merge_group:
+
+# Cancel any in progress run of the workflow for a given PR
+# This avoids building outdated code
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  android:
+    name: Android
+    uses: ./.github/workflows/e2e-android.yml
+    with:
+      android-api-level: 34
+    secrets: inherit
+  ios:
+    name: iOS
+    uses: ./.github/workflows/e2e-ios.yml
+    with:
+      ios-version: '15.2'
+    secrets: inherit
