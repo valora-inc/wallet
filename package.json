@@ -14,7 +14,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint --ext=.tsx,.ts src/",
+    "lint": "eslint --ext=.tsx,.ts",
     "format": "prettier --loglevel error --write .",
     "format:check": "prettier --check .",
     "reset": "yarn reset-modules && yarn reset-cache",
