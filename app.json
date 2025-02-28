@@ -5,12 +5,13 @@
     "scheme": "celo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon/icon.png",
     "userInterfaceStyle": "light",
     // disable for now as it causes an Android build error with react-native-auth0
     // See https://github.com/auth0/react-native-auth0/issues/879
     "newArchEnabled": false,
     "ios": {
+      "icon": "./assets/icon/icon.png",
       "supportsTablet": false,
       "bundleIdentifier": "co.clabs.valora",
       "associatedDomains": ["applinks:vlra.app", "applinks:valoraapp.com"],
@@ -28,8 +29,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#67b177"
+        "foregroundImage": "./assets/icon/adaptive-foreground.png",
+        "backgroundImage": "./assets/icon/adaptive-background.png"
       },
       "package": "co.clabs.valora",
       "permissions": [
@@ -43,10 +44,10 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/splashIcon.png",
-          "imageWidth": 220,
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#67b177"
+          "backgroundColor": "#ffffff"
         }
       ],
       [
