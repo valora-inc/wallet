@@ -13,6 +13,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "co.clabs.valora",
+      "associatedDomains": ["applinks:vlra.app", "applinks:valoraapp.com"],
       "infoPlist": {
         "NSCameraUsageDescription": "Connecting your camera allows you to scan QR codes for transactions.",
         "NSUserTrackingUsageDescription": "We use the advertising identifier to accurately attribute app installs from ad campaigns.",
@@ -21,9 +22,6 @@
         "NSLocationWhenInUseUsageDescription": "This app requires location access to provide location-based features.",
         "ITSAppUsesNonExemptEncryption": false
       },
-      "podspecRepos": {
-        "PersonaInquirySDK2": "https://github.com/persona-id/inquiry-ios.git"
-      },
       "entitlements": {
         "aps-environment": "production"
       }
@@ -31,7 +29,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#45cd85"
+        "backgroundColor": "#67b177"
       },
       "package": "co.clabs.valora",
       "permissions": [
@@ -45,11 +43,10 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/icon.png",
-          "imageWidth": 200,
+          "image": "./assets/splashIcon.png",
+          "imageWidth": 220,
           "resizeMode": "contain",
-          "backgroundColor": "#45cd85",
-          "enableFullScreenImage_legacy": true
+          "backgroundColor": "#67b177"
         }
       ],
       [
