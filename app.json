@@ -21,6 +21,9 @@
         "NSLocationWhenInUseUsageDescription": "This app requires location access to provide location-based features.",
         "ITSAppUsesNonExemptEncryption": false
       },
+      "podspecRepos": {
+        "PersonaInquirySDK2": "https://github.com/persona-id/inquiry-ios.git"
+      },
       "entitlements": {
         "aps-environment": "production"
       }
@@ -45,7 +48,8 @@
           "image": "./assets/icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#45cd85"
+          "backgroundColor": "#45cd85",
+          "enableFullScreenImage_legacy": true
         }
       ],
       [
@@ -59,6 +63,7 @@
           "android": {
             // For Persona SDK
             "extraMavenRepos": ["https://sdk.withpersona.com/android/releases"],
+            // TODO: ad hoc fix for Android build error
             "kotlinVersion": "1.9.24"
           }
         }

@@ -13,23 +13,13 @@ const App = createApp({
   registryName: expoConfig.name,
   displayName: expoConfig.name,
   deepLinkUrlScheme: expoConfig.scheme as string,
-  ios: {
-    appStoreId: '1520414263',
-  },
+  ios: { appStoreId: '1520414263' },
   features: {
     cloudBackup: process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true',
-    segment: {
-      apiKey: process.env.EXPO_PUBLIC_SEGMENT_API_KEY!,
-    },
-    sentry: {
-      clientUrl: process.env.EXPO_PUBLIC_SENTRY_CLIENT_URL!,
-    },
-    statsig: {
-      apiKey: process.env.EXPO_PUBLIC_STATSIG_API_KEY!,
-    },
-    walletConnect: {
-      projectId: process.env.EXPO_PUBLIC_WALLET_CONNECT_PROJECT_ID!,
-    },
+    segment: { apiKey: process.env.EXPO_PUBLIC_SEGMENT_API_KEY! },
+    sentry: { clientUrl: process.env.EXPO_PUBLIC_SENTRY_CLIENT_URL! },
+    statsig: { apiKey: process.env.EXPO_PUBLIC_STATSIG_API_KEY! },
+    walletConnect: { projectId: process.env.EXPO_PUBLIC_WALLET_CONNECT_PROJECT_ID! },
   },
   themes: {
     default: {
