@@ -144,7 +144,7 @@
     "react-native-device-info": "^13.2.0",
     "react-native-exit-app": "^2.0.0",
     "react-native-fast-image": "^8.6.3",
-    "react-native-gesture-handler": "^2.21.2",
+    "react-native-gesture-handler": "^2.24.0",
     "react-native-haptic-feedback": "^2.3.3",
     "react-native-in-app-review": "^4.3.3",
     "react-native-launch-arguments": "^4.0.2",
