@@ -58,7 +58,8 @@
           },
           "android": {
             // For Persona SDK
-            "extraMavenRepos": ["https://sdk.withpersona.com/android/releases"]
+            "extraMavenRepos": ["https://sdk.withpersona.com/android/releases"],
+            "kotlinVersion": "1.9.24"
           }
         }
       ],
