@@ -25,6 +25,4 @@ jobs:
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-      - run: yarn install
-      - run: yarn prebuild --clean
       - run: eas build --platform ios --profile e2e --local
