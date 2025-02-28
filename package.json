@@ -147,7 +147,7 @@
     "react-native-gesture-handler": "^2.21.2",
     "react-native-haptic-feedback": "^2.3.3",
     "react-native-in-app-review": "^4.3.3",
-    "react-native-launch-arguments": "^4.0.2",
+    "react-native-launch-arguments": "^4.1.0",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-localize": "^3.3.0",
     "react-native-modal": "^13.0.1",
