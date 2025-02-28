@@ -567,7 +567,7 @@ PODS:
     - React-Core
   - react-native-in-app-review (4.3.3):
     - React-Core
-  - react-native-launch-arguments (4.0.2):
+  - react-native-launch-arguments (4.1.0):
     - React
   - react-native-netinfo (11.4.1):
     - React-Core
@@ -1230,7 +1230,7 @@ SPEC CHECKSUMS:
   react-native-cookies: 0613d8218d02d4a8138d100ee077096a267c82f6
   react-native-flipper: 03f211cc2af0ecf4b9569f0dddcc3e5d2b2d8201
   react-native-in-app-review: b3d1eed3d1596ebf6539804778272c4c65e4a400
-  react-native-launch-arguments: d4759f7591e2766e6c5ec746b7032429edaf7058
+  react-native-launch-arguments: 165260aba9544f00c66fae3e136b11484d0cb49b
   react-native-netinfo: cec9c4e86083cb5b6aba0e0711f563e2fbbff187
   react-native-pager-view: 13652f56368120d8126ac3535a0d7fb0e9673c20
   react-native-quick-crypto: 9077632c3ade02e3c121d7badbe45f7c414de91a
