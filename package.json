@@ -176,6 +176,8 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-native": "^4.0.0",
+    "ethers": "^5.7.2",
+    "expect": "^29.7.0",
     "husky": "^3.0.0",
     "jest-diff": "^29.6.4",
     "knip": "^3.13.1",
