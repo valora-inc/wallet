@@ -33,6 +33,22 @@ const config: KnipConfig = {
     'eslint-plugin-react',
     'eslint-plugin-react-hooks',
     'eslint-plugin-react-native',
+    // testing
+    '@config-plugins/detox',
+    '@faker-js/faker',
+    '@mento-protocol/mento-sdk',
+    '@tsconfig/node-lts',
+    '@types/fs-extra',
+    '@walletconnect/sign-client',
+    'ethers',
+    'expect',
+    'lodash',
+    'ts-retry-promise',
+    'twilio',
+    'viem',
+    '@config-plugins/detox',
+    // patches https://www.npmjs.com/package/patch-package#why-use-postinstall-postinstall-with-yarn
+    'postinstall-postinstall',
     // prettier
     '@valora/prettier-config',
   ],
