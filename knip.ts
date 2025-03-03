@@ -52,7 +52,7 @@ const config: KnipConfig = {
     // prettier
     '@valora/prettier-config',
   ],
-  ignore: [
+  ignoreBinaries: [
     // Add this section to ignore the binaries
     'adb', // Android Debug Bridge
     'awk', // Text processing tool
