@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 3.13.3",
+    "version": ">= 5.9.1",
+    "promptToConfigurePushNotifications": false,
     "appVersionSource": "remote"
   },
   "build": {
@@ -13,14 +14,41 @@
         "simulator": true
       }
     },
-    "production": {
-      "node": "20.17.0",
+    "base": {
       "autoIncrement": true,
+      "distribution": "store",
+      "env": {
+        "EXPO_NO_TELEMETRY": "1"
+      }
+    },
+    "mainnet": {
+      "extends": "base",
+      "env": {
+        "APP_VARIANT": "mainnet"
+      },
       "distribution": "store"
+    },
+    "mainnet-nightly": {
+      "extends": "base",
+      "env": {
+        "APP_VARIANT": "mainnet-nightly"
+      }
+    },
+    "alfajores": {
+      "extends": "base",
+      "env": {
+        "APP_VARIANT": "alfajores"
+      }
+    },
+    "alfajores-nightly": {
+      "extends": "base",
+      "env": {
+        "APP_VARIANT": "alfajores-nightly"
+      }
     }
   },
   "submit": {
-    "production": {
+    "mainnet": {
       "android": {
         "track": "internal",
         "releaseStatus": "draft",
@@ -28,6 +56,16 @@
       },
       "ios": {
         "ascAppId": "1520414263",
+        "appleTeamId": "HDPUB8C3KG"
+      }
+    },
+    "mainnet-nightly": {
+      "android": {
+        "track": "internal",
+        "releaseStatus": "completed"
+      },
+      "ios": {
+        "ascAppId": "1599290566",
         "appleTeamId": "HDPUB8C3KG"
       }
     }
