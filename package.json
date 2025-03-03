@@ -108,6 +108,7 @@
     "expo-build-properties": "~0.13.0",
     "expo-constants": "~17.0.4",
     "expo-dev-client": "~5.0.0",
+    "expo-font": "^13.0.4",
     "expo-splash-screen": "~0.29.13",
     "expo-status-bar": "~2.0.0",
     "lottie-react-native": "^5.1.6",
@@ -151,6 +152,7 @@
     "@types/shelljs": "^0.8.11",
     "@types/yargs": "^17.0.32",
     "@typescript-eslint/eslint-plugin": "^8.25.0",
+    "@valora/eslint-config-typescript": "^1.0.2",
     "@valora/prettier-config": "^0.0.1",
     "babel-plugin-module-resolver": "^5.0.2",
     "chalk": "^4.0.0",
@@ -176,7 +178,6 @@
     "ts-node": "10.7.0",
     "tslib": "^2.8.1",
     "typescript": "^5.6.2",
-    "@valora/eslint-config-typescript": "^1.0.2",
     "yargs": "^17.7.2"
   },
   "detox": {
