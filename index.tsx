@@ -13,7 +13,8 @@ const App = createApp({
   registryName: expoConfig.name,
   displayName: expoConfig.name,
   deepLinkUrlScheme: expoConfig.scheme as string,
-  ios: { appStoreId: '1520414263' },
+  ios: { appStoreId: expoConfig.extra?.appStoreId },
+  networks: expoConfig.extra?.networks,
   features: {
     cloudBackup: process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true',
     segment: { apiKey: process.env.EXPO_PUBLIC_SEGMENT_API_KEY! },
