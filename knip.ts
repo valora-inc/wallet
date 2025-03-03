@@ -20,6 +20,7 @@ const config: KnipConfig = {
     // required by expo
     'expo-build-properties',
     'expo-dev-client',
+    'expo-font',
     'expo-splash-screen',
     'expo-status-bar',
     '@expo/config-plugins',

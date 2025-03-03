@@ -57,6 +57,17 @@
         }
       ],
       [
+        "expo-font",
+        {
+          "fonts": [
+            "fonts/Inter-Bold.ttf",
+            "fonts/Inter-Medium.ttf",
+            "fonts/Inter-Regular.ttf",
+            "fonts/Inter-SemiBold.ttf"
+          ]
+        }
+      ],
+      [
         "expo-build-properties",
         {
           "ios": {
