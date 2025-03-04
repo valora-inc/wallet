@@ -99,7 +99,9 @@ module.exports = () => {
         entitlements: {
           'aps-environment': 'production',
         },
-        googleServicesFile: process.env.GOOGLE_SERVICE_INFO_PLIST,
+        ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true' && {
+          googleServicesFile: process.env.GOOGLE_SERVICE_INFO_PLIST,
+        }),
       },
       android: {
         adaptiveIcon: {
@@ -113,7 +115,9 @@ module.exports = () => {
           'android.permission.INTERNET',
           'android.permission.POST_NOTIFICATIONS',
         ],
-        googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
+        ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true' && {
+          googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
+        }),
       },
       plugins: [
         [
