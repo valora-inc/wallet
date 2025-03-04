@@ -99,9 +99,7 @@ module.exports = () => {
         entitlements: {
           'aps-environment': 'production',
         },
-        ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true' && {
-          googleServicesFile: process.env.GOOGLE_SERVICE_INFO_PLIST,
-        }),
+        googleServicesFile: process.env.GOOGLE_SERVICE_INFO_PLIST,
       },
       android: {
         adaptiveIcon: {
@@ -115,9 +113,7 @@ module.exports = () => {
           'android.permission.INTERNET',
           'android.permission.POST_NOTIFICATIONS',
         ],
-        ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true' && {
-          googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
-        }),
+        googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
       },
       plugins: [
         [
@@ -182,10 +178,14 @@ module.exports = () => {
             'org.gradle.jvmargs': '-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError',
           },
         ],
-        '@react-native-firebase/app',
-        '@react-native-firebase/auth',
-        '@react-native-firebase/dynamic-links',
-        '@react-native-firebase/messaging',
+        ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true'
+          ? [
+              '@react-native-firebase/app',
+              '@react-native-firebase/auth',
+              '@react-native-firebase/dynamic-links',
+              '@react-native-firebase/messaging',
+            ]
+          : []),
       ],
       extra: {
         appStoreId,
