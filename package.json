@@ -9,6 +9,7 @@
     "node": "20.17.0"
   },
   "scripts": {
+    "env": "eas env:pull production",
     "prebuild": "expo prebuild --clean",
     "start": "expo start",
     "android": "expo run:android",

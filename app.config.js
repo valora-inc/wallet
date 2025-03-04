@@ -99,7 +99,7 @@ module.exports = () => {
         entitlements: {
           'aps-environment': 'production',
         },
-        googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
+        googleServicesFile: process.env.GOOGLE_SERVICE_INFO_PLIST,
       },
       android: {
         adaptiveIcon: {
