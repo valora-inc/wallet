@@ -53,7 +53,6 @@ const config: KnipConfig = {
     '@valora/prettier-config',
   ],
   ignoreBinaries: [
-    // Add this section to ignore the binaries
     'adb', // Android Debug Bridge
     'awk', // Text processing tool
     'export', // Shell command

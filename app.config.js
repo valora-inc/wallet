@@ -11,7 +11,7 @@ const mainnetSettings = {
   },
 }
 
-const alfajoresSettings = {
+const testnetSettings = {
   showTestnetBanner: true,
   networks: {
     'celo-alfajores': true,
@@ -39,13 +39,13 @@ module.exports = () => {
         return {
           ...mainnetSettings,
           name: 'Valora (nightly)',
-          appStoreId: '1520414263',
+          appStoreId: '1599290566',
           bundleId: 'co.clabs.valora.nightly',
           authDomain: 'auth.valora.xyz',
         }
       case 'alfajores':
         return {
-          ...alfajoresSettings,
+          ...testnetSettings,
           name: 'Alfajores',
           appStoreId: '1482389446',
           bundleId: 'org.celo.mobile.alfajores',
@@ -53,9 +53,9 @@ module.exports = () => {
         }
       case 'alfajores-nightly':
         return {
-          ...alfajoresSettings,
+          ...testnetSettings,
           name: 'Alfajores (nightly)',
-          appStoreId: '1482389446',
+          appStoreId: '1599287614',
           bundleId: 'org.celo.mobile.alfajores.nightly',
           authDomain: 'auth.alfajores.valora.xyz',
         }
