@@ -33,7 +33,7 @@ module.exports = () => {
           name: 'Valora',
           appStoreId: '1520414263',
           bundleId: 'co.clabs.valora',
-          authDomain: 'auth.valora.xyz',
+          auth0Domain: 'auth.valora.xyz',
         }
       case 'mainnet-nightly':
         return {
@@ -41,7 +41,7 @@ module.exports = () => {
           name: 'Valora (nightly)',
           appStoreId: '1599290566',
           bundleId: 'co.clabs.valora.nightly',
-          authDomain: 'auth.valora.xyz',
+          auth0Domain: 'auth.valora.xyz',
         }
       case 'alfajores':
         return {
@@ -49,7 +49,7 @@ module.exports = () => {
           name: 'Alfajores',
           appStoreId: '1482389446',
           bundleId: 'org.celo.mobile.alfajores',
-          authDomain: 'auth.alfajores.valora.xyz',
+          auth0Domain: 'auth.alfajores.valora.xyz',
         }
       case 'alfajores-nightly':
         return {
@@ -57,14 +57,14 @@ module.exports = () => {
           name: 'Alfajores (nightly)',
           appStoreId: '1599287614',
           bundleId: 'org.celo.mobile.alfajores.nightly',
-          authDomain: 'auth.alfajores.valora.xyz',
+          auth0Domain: 'auth.alfajores.valora.xyz',
         }
       default:
         throw new Error(`Unknown app variant: ${appVariant}`)
     }
   }
 
-  const { name, appStoreId, bundleId, authDomain, networks, showTestnetBanner } = getAppConfig()
+  const { name, appStoreId, bundleId, auth0Domain, networks, showTestnetBanner } = getAppConfig()
 
   return {
     expo: {
@@ -99,6 +99,7 @@ module.exports = () => {
         entitlements: {
           'aps-environment': 'production',
         },
+        googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
       },
       android: {
         adaptiveIcon: {
@@ -112,6 +113,7 @@ module.exports = () => {
           'android.permission.INTERNET',
           'android.permission.POST_NOTIFICATIONS',
         ],
+        googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
       },
       plugins: [
         [
@@ -165,7 +167,7 @@ module.exports = () => {
         [
           'react-native-auth0',
           {
-            domain: authDomain,
+            domain: auth0Domain,
           },
         ],
         '@divvi/mobile',
@@ -181,6 +183,7 @@ module.exports = () => {
         appStoreId,
         networks,
         showTestnetBanner,
+        auth0Domain,
         eas: {
           projectId: '8593729d-4d16-40aa-b712-7f96b2293c9f',
         },
