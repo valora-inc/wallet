@@ -55,12 +55,18 @@ const App = createApp({
     },
   },
   experimental: {
+    firebase: true,
     alchemyKeys: {
       ALCHEMY_ARBITRUM_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_ARBITRUM_API_KEY!,
       ALCHEMY_BASE_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_BASE_API_KEY!,
       ALCHEMY_ETHEREUM_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_ETHEREUM_API_KEY!,
       ALCHEMY_OPTIMISM_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_OPTIMISM_API_KEY!,
       ALCHEMY_POLYGON_POS_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_POLYGON_POS_API_KEY!,
+      AUTH0_DOMAIN: expoConfig.extra?.auth0Domain!,
+      AUTH0_CLIENT_ID: process.env.EXPO_PUBLIC_AUTH0_CLIENT_ID!,
+      WEB3AUTH_CLIENT_ID: process.env.EXPO_PUBLIC_WEB3AUTH_CLIENT_ID!,
+      ZENDESK_API_KEY: process.env.EXPO_PUBLIC_ZENDESK_API_KEY!,
+      BIDALI_URL: process.env.EXPO_PUBLIC_BIDALI_URL!,
     },
   },
 })
