@@ -31,21 +31,7 @@ const App = createApp({
       },
     },
   },
-  locales: {
-    'en-US': require('./locales/en-US.json'),
-    'es-419': require('./locales/es-419.json'),
-    'pt-BR': require('./locales/pt-BR.json'),
-    de: require('./locales/de.json'),
-    'ru-RU': require('./locales/ru-RU.json'),
-    'fr-FR': require('./locales/fr-FR.json'),
-    'it-IT': require('./locales/it-IT.json'),
-    'uk-UA': require('./locales/uk-UA.json'),
-    'pl-PL': require('./locales/pl-PL.json'),
-    'th-TH': require('./locales/th-TH.json'),
-    'tr-TR': require('./locales/tr-TR.json'),
-    'vi-VN': require('./locales/vi-VN.json'),
-    'zh-CN': require('./locales/zh-CN.json'),
-  },
+  locales: expoConfig.locales ?? {},
   screens: {
     tabs: ({ defaultTabs }) => {
       return {
