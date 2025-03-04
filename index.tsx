@@ -55,7 +55,7 @@ const App = createApp({
     },
   },
   experimental: {
-    firebase: true,
+    firebase: process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true',
     alchemyKeys: {
       ALCHEMY_ARBITRUM_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_ARBITRUM_API_KEY!,
       ALCHEMY_BASE_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_BASE_API_KEY!,

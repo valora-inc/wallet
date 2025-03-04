@@ -55,6 +55,7 @@ const config: KnipConfig = {
   ignoreBinaries: [
     'adb', // Android Debug Bridge
     'awk', // Text processing tool
+    'eas', // Expo Application Services
     'export', // Shell command
     'jest', // Used for testing (should be in dependencies)
     'licenses', // Yarn command
