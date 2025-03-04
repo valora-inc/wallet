@@ -55,8 +55,7 @@ const App = createApp({
     },
   },
   experimental: {
-    // TODO: Enable Firebase
-    firebase: false,
+    firebase: true,
     alchemyKeys: {
       ALCHEMY_ARBITRUM_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_ARBITRUM_API_KEY!,
       ALCHEMY_BASE_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_BASE_API_KEY!,

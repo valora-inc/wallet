@@ -178,6 +178,10 @@ module.exports = () => {
             'org.gradle.jvmargs': '-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError',
           },
         ],
+        '@react-native-firebase/app',
+        '@react-native-firebase/auth',
+        '@react-native-firebase/dynamic-links',
+        '@react-native-firebase/messaging',
       ],
       extra: {
         appStoreId,
