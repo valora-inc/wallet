@@ -12,6 +12,9 @@
       },
       "ios": {
         "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_DIVVI_E2E": "true"
       }
     },
     "base": {
