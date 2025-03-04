@@ -84,16 +84,16 @@ module.exports = () => {
         bundleIdentifier: bundleId,
         associatedDomains: ['applinks:vlra.app', 'applinks:valoraapp.com'],
         infoPlist: {
-          NSCameraUsageDescription:
-            'Connecting your camera allows you to scan QR codes for transactions.',
+          NSCameraUsageDescription: 'Connecting your camera allows you to scan codes for payments.',
+          NSContactsUsageDescription:
+            'Adding your contacts makes it easy to send and request payments with your friends.',
+          NSPhotoLibraryAddUsageDescription:
+            'Connecting your photo library allows you to save your code to your photos.',
+          NSPhotoLibraryUsageDescription: 'This is required for you to choose a profile picture.',
           NSUserTrackingUsageDescription:
             'We use the advertising identifier to accurately attribute app installs from ad campaigns.',
           NSFaceIDUsageDescription:
             'This is required for you to use Face ID to secure your account.',
-          NSContactsUsageDescription:
-            'Adding your contacts makes it easy to send and request payments with your friends.',
-          NSLocationWhenInUseUsageDescription:
-            'This app requires location access to provide location-based features.',
           ITSAppUsesNonExemptEncryption: false,
         },
         entitlements: {
