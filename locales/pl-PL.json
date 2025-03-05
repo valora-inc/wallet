@@ -4,5 +4,6 @@
   "NSPhotoLibraryAddUsageDescription": "Podłączenie biblioteki zdjęć pozwala na zapisanie kodu do zdjęć.",
   "NSPhotoLibraryUsageDescription": "Jest to wymagane, aby użytkownik mógł wybrać zdjęcie profilowe.",
   "NSUserTrackingUsageDescription": "Używamy identyfikatora reklamowego w celu dokładnego przypisania instalacji aplikacji z kampanii reklamowych.",
-  "NSFaceIDUsageDescription": "Jest to wymagane, aby użytkownik mógł korzystać z technologii Face ID w celu zabezpieczenia konta."
+  "NSFaceIDUsageDescription": "Jest to wymagane, aby użytkownik mógł korzystać z technologii Face ID w celu zabezpieczenia konta.",
+  "NSLocationWhenInUseUsageDescription": "Ta aplikacja wymaga dostępu do lokalizacji, aby móc oferować funkcje oparte na lokalizacji."
 }

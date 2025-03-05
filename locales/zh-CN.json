@@ -4,5 +4,6 @@
   "NSPhotoLibraryAddUsageDescription": "连接您的照片库可以将代码保存到您的照片中。",
   "NSPhotoLibraryUsageDescription": "选择个人资料图片需要执行此操作。",
   "NSUserTrackingUsageDescription": "我们使用广告标识符来准确地将应用程序安装归因到广告活动。",
-  "NSFaceIDUsageDescription": "这是您使用面容 ID 保护您的账户所必需的。"
+  "NSFaceIDUsageDescription": "这是您使用面容 ID 保护您的账户所必需的。",
+  "NSLocationWhenInUseUsageDescription": "此应用程序需要位置访问才能提供基于位置的功能。"
 }

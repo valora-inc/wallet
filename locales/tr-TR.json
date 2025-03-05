@@ -4,5 +4,6 @@
   "NSPhotoLibraryAddUsageDescription": "Fotoğraf kitaplığınızı bağlamak, kodunuzu fotoğraflarınıza kaydetmenize olanak tanır.",
   "NSPhotoLibraryUsageDescription": "Profil resmi seçmeniz için gereklidir.",
   "NSUserTrackingUsageDescription": "Reklam kampanyaları ile uygulama yüklemelerini ilişkilendirmek için reklam tanımlayıcı kullanılmaktadır.",
-  "NSFaceIDUsageDescription": "Hesabınızın güvenliğini sağlamak için Face ID kullanmanız gereklidir."
+  "NSFaceIDUsageDescription": "Hesabınızın güvenliğini sağlamak için Face ID kullanmanız gereklidir.",
+  "NSLocationWhenInUseUsageDescription": "Bu uygulamanın konum tabanlı özellikler sunabilmesi için konum erişimine ihtiyacı var."
 }

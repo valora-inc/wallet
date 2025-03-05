@@ -4,5 +4,6 @@
   "NSPhotoLibraryAddUsageDescription": "การเชื่อมต่อไลบรารี่รูปภาพของคุณจะช่วยให้คุณสามารถบันทึกรหัสของคุณเป็นรูปภาพได้",
   "NSPhotoLibraryUsageDescription": "คุณจะต้องดำเนินการนี้เพื่อเลือกรูปโปรไฟล์ของคุณ",
   "NSUserTrackingUsageDescription": "เราใช้รหัสโฆษณาเพื่อกระจายการติดตั้งแอปจากแคมเปญโฆษณา",
-  "NSFaceIDUsageDescription": "คุณจะต้องดำเนินการนี้เพื่อใช้ Face ID รักษาความปลอดภัยบัญชีของคุณ"
+  "NSFaceIDUsageDescription": "คุณจะต้องดำเนินการนี้เพื่อใช้ Face ID รักษาความปลอดภัยบัญชีของคุณ",
+  "NSLocationWhenInUseUsageDescription": "แอปนี้ต้องการการเข้าถึงตำแหน่งจึงจะสามารถให้บริการฟีเจอร์ตามตำแหน่งได้"
 }
