@@ -94,12 +94,15 @@ module.exports = () => {
             'We use the advertising identifier to accurately attribute app installs from ad campaigns.',
           NSFaceIDUsageDescription:
             'This is required for you to use Face ID to secure your account.',
+          NSLocationWhenInUseUsageDescription:
+            'This app requires location access to provide location-based features.',
           ITSAppUsesNonExemptEncryption: false,
         },
         entitlements: {
           'aps-environment': 'production',
         },
-        googleServicesFile: process.env.GOOGLE_SERVICE_INFO_PLIST,
+        googleServicesFile:
+          process.env.GOOGLE_SERVICE_INFO_PLIST ?? '.eas/.env/GOOGLE_SERVICE_INFO_PLIST',
       },
       android: {
         adaptiveIcon: {
@@ -113,7 +116,7 @@ module.exports = () => {
           'android.permission.INTERNET',
           'android.permission.POST_NOTIFICATIONS',
         ],
-        googleServicesFile: process.env.GOOGLE_SERVICES_JSON,
+        googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? '.eas/.env/GOOGLE_SERVICES_JSON',
       },
       plugins: [
         [
