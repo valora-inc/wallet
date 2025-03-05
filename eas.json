@@ -26,24 +26,28 @@
     },
     "mainnet": {
       "extends": "base",
+      "environment": "production",
       "env": {
         "APP_VARIANT": "mainnet"
       }
     },
     "mainnet-nightly": {
       "extends": "base",
+      "environment": "preview",
       "env": {
         "APP_VARIANT": "mainnet-nightly"
       }
     },
     "alfajores": {
       "extends": "base",
+      "environment": "production",
       "env": {
         "APP_VARIANT": "alfajores"
       }
     },
     "alfajores-nightly": {
       "extends": "base",
+      "environment": "preview",
       "env": {
         "APP_VARIANT": "alfajores-nightly"
       }
