@@ -101,8 +101,11 @@ module.exports = () => {
         entitlements: {
           'aps-environment': 'production',
         },
-        googleServicesFile:
-          process.env.GOOGLE_SERVICE_INFO_PLIST ?? '.eas/.env/GOOGLE_SERVICE_INFO_PLIST',
+        // Firebase is disabled for E2E tests
+        ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true' && {
+          googleServicesFile:
+            process.env.GOOGLE_SERVICE_INFO_PLIST ?? '.eas/.env/GOOGLE_SERVICE_INFO_PLIST',
+        }),
       },
       android: {
         adaptiveIcon: {
@@ -116,7 +119,10 @@ module.exports = () => {
           'android.permission.INTERNET',
           'android.permission.POST_NOTIFICATIONS',
         ],
-        googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? '.eas/.env/GOOGLE_SERVICES_JSON',
+        // Firebase is disabled for E2E tests
+        ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true' && {
+          googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? '.eas/.env/GOOGLE_SERVICES_JSON',
+        }),
       },
       plugins: [
         [
@@ -181,6 +187,7 @@ module.exports = () => {
             'org.gradle.jvmargs': '-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError',
           },
         ],
+        // Firebase is disabled for E2E tests
         ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true'
           ? [
               '@react-native-firebase/app',

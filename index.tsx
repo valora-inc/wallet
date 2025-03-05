@@ -16,6 +16,7 @@ const App = createApp({
   ios: { appStoreId: expoConfig.extra?.appStoreId },
   networks: expoConfig.extra?.networks,
   features: {
+    // Cloud backup is disabled for E2E tests
     cloudBackup: process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true' && {
       auth0Domain: expoConfig.extra?.auth0Domain!,
       auth0ClientId: process.env.EXPO_PUBLIC_AUTH0_CLIENT_ID!,
