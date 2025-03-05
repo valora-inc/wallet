@@ -2,7 +2,7 @@ import type { KnipConfig } from 'knip'
 
 const config: KnipConfig = {
   entry: [
-    'index.js!',
+    'index.tsx!',
     'metro.config.js!',
     'e2e/**/*.js',
     'e2e/**/*.ts',
@@ -12,32 +12,55 @@ const config: KnipConfig = {
   project: ['src/**/*.ts!', 'src/**/*.tsx!', 'src/**/*.js!'],
   ignoreDependencies: [
     '@actions/github',
-    '@babel/runtime', // enforce specific version for react-native
-    '@babel/plugin-transform-private-methods', // used in babel.config.js to build. not imported, so knip doesn't understand it is used
     '@react-native-picker/picker', // react-native-picker-select requires
-    'babel-jest',
-    'jest-circus',
-    'jest-html-reporter',
-    'jest-junit',
-    'jest-snapshot',
     'lint-staged', // pre-commit hook
-    'lokijs', // walletconnect e2e tests requires
-    'react-devtools', // application profiling
-    'react-native-version',
-    'react-native-kill-packager',
-    'remote-redux-devtools', // for easy debugging with Flipper
-    'typescript-json-schema', // helps manage redux state migrations
     '@segment/sovran-react-native', // required for react-native-segment
     'react-native-adjust', // required for @segment/analytics-react-native-plugin-adjust
-    '@types/jest',
     'husky',
+    // required by expo
+    'expo-build-properties',
+    'expo-dev-client',
+    'expo-font',
+    'expo-splash-screen',
+    'expo-status-bar',
+    '@expo/config-plugins',
+    // required by divvi
+    'babel-plugin-module-resolver',
+    // peer deps for @valora/eslint-config-typescript
+    '@typescript-eslint/eslint-plugin',
+    'eslint-plugin-import',
+    'eslint-plugin-jest',
+    'eslint-plugin-react',
+    'eslint-plugin-react-hooks',
+    'eslint-plugin-react-native',
+    // testing
+    '@config-plugins/detox',
+    '@faker-js/faker',
+    '@mento-protocol/mento-sdk',
+    '@tsconfig/node-lts',
+    '@types/fs-extra',
+    '@walletconnect/sign-client',
+    'ethers',
+    'expect',
+    'lodash',
+    'ts-retry-promise',
+    'twilio',
+    'viem',
+    '@config-plugins/detox',
+    // patches https://www.npmjs.com/package/patch-package#why-use-postinstall-postinstall-with-yarn
+    'postinstall-postinstall',
+    // prettier
+    '@valora/prettier-config',
   ],
-  ignore: [
-    'src/redux/reducersForSchemaGeneration.ts', // used for root state schema generation
-    'src/analytics/docs.ts', // documents analytics events, no references
-    'src/account/__mocks__/Persona.tsx', // unit test mocks
-    'src/setupE2eEnv.e2e.ts', // e2e test setup
-    'src/components/ReviewTransaction.tsx', // will be removed once used in SendConfirmation
+  ignoreBinaries: [
+    'adb', // Android Debug Bridge
+    'awk', // Text processing tool
+    'eas', // Expo Application Services
+    'export', // Shell command
+    'jest', // Used for testing (should be in dependencies)
+    'licenses', // Yarn command
+    'pidcat', // Android logcat tool
+    'sed', // Text processing tool
   ],
 }
 

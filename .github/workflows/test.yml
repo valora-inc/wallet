@@ -21,22 +21,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+          check-latest: true
       - uses: ./.github/actions/yarn-install
-      - name: Build
-        run: yarn build
-      - name: Update RootStateSchema if necessary
-        run: yarn test:update-root-state-schema
-      - name: Fail if someone forgot to commit "RootStateSchema.json"
-        run: git diff --exit-code
-      - name: Run mobile tests
-        run: |
-          mkdir -p test-results/jest
-          yarn test:ci
-      - name: Upload Coverage Report
-        uses: actions/upload-artifact@v4
-        with:
-          path: coverage/lcov-report
-      - name: 'Upload to Codecov'
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      #
+      # Disabled as we don't have any unit tests yet
+      #
+      # - name: Build
+      #   run: yarn build
+      # - name: Run mobile tests
+      #   run: |
+      #     mkdir -p test-results/jest
+      #     yarn test:ci
+      # - name: Upload Coverage Report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     path: coverage/lcov-report
+      # - name: 'Upload to Codecov'
+      #   uses: codecov/codecov-action@v4
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}

@@ -1,30 +1,8 @@
 {
-  "compilerOptions": {
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "baseUrl": ".",
-    "paths": {
-      "locales/*": ["locales/*"],
-      "src/*": ["src/*"],
-      "test/*": ["test/*"],
-      "react": ["./node_modules/@types/react"]
-    },
-    "importHelpers": true,
-    "jsx": "react",
-    "lib": ["es7", "esnext", "dom"],
-    "moduleResolution": "Node16",
-    "module": "Node16",
-    "noEmit": true,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "skipLibCheck": true,
-    "target": "es2015",
-    "strict": true
-  },
-  "files": ["jest_setup.ts"],
-  "include": ["src"],
-  "exclude": ["node_modules", "vendor", ".bundle"]
+  "extends": "@divvi/mobile/tsconfig.base",
+  // TODO: we should be able to remove the need to include the mobile package index.d.ts once we're able to ship declaration files
+  "files": [],
+  "include": ["**/*", "./node_modules/@divvi/mobile/src/index.d.ts"],
+  // Ad hoc fix for typecheck
+  "exclude": ["knip.ts", "jest_setup.ts"]
 }
