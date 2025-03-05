@@ -16,7 +16,11 @@ const App = createApp({
   ios: { appStoreId: expoConfig.extra?.appStoreId },
   networks: expoConfig.extra?.networks,
   features: {
-    cloudBackup: process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true',
+    cloudBackup: process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true' && {
+      auth0Domain: expoConfig.extra?.auth0Domain!,
+      auth0ClientId: process.env.EXPO_PUBLIC_AUTH0_CLIENT_ID!,
+      web3AuthClientId: process.env.EXPO_PUBLIC_WEB3AUTH_CLIENT_ID!,
+    },
     segment: { apiKey: process.env.EXPO_PUBLIC_SEGMENT_API_KEY! },
     sentry: { clientUrl: process.env.EXPO_PUBLIC_SENTRY_CLIENT_URL! },
     statsig: { apiKey: process.env.EXPO_PUBLIC_STATSIG_API_KEY! },
@@ -62,11 +66,13 @@ const App = createApp({
       ALCHEMY_ETHEREUM_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_ETHEREUM_API_KEY!,
       ALCHEMY_OPTIMISM_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_OPTIMISM_API_KEY!,
       ALCHEMY_POLYGON_POS_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_POLYGON_POS_API_KEY!,
-      AUTH0_DOMAIN: expoConfig.extra?.auth0Domain!,
-      AUTH0_CLIENT_ID: process.env.EXPO_PUBLIC_AUTH0_CLIENT_ID!,
-      WEB3AUTH_CLIENT_ID: process.env.EXPO_PUBLIC_WEB3AUTH_CLIENT_ID!,
-      ZENDESK_API_KEY: process.env.EXPO_PUBLIC_ZENDESK_API_KEY!,
-      BIDALI_URL: process.env.EXPO_PUBLIC_BIDALI_URL!,
+    },
+    bidali: {
+      url: process.env.EXPO_PUBLIC_BIDALI_URL!,
+    },
+    zendeskConfig: {
+      apiKey: process.env.EXPO_PUBLIC_ZENDESK_API_KEY!,
+      projectName: 'valoraapp',
     },
   },
 })
