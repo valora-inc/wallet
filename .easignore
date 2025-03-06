@@ -1,5 +1,6 @@
 ################################################################################
-# Note: consider updating .easignore with any changes made to this file
+# Note: this file is an exact copy of .gitignore with exclusions for eas/.env
+# to facilitate local builds. They are listed in the bottom part of the file.
 ################################################################################
 
 ios/
@@ -90,3 +91,12 @@ e2e/test-results/*
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
+
+################################################################################
+# Here's what's different from .gitignore
+################################################################################
+
+# Exclude ./eas/.env contents to facilitate the local builds
+!.eas/
+!.eas/.env
+!.eas/.env/**
