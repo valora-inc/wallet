@@ -13,6 +13,7 @@ jobs:
     # Replace this with `macos-14` to run on standard GitHub Actions runners
     # runs-on: macos-14
     runs-on: ios-e2e-group
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - run: brew install fastlane cocoapods

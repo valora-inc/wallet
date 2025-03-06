@@ -1,9 +1,8 @@
 name: E2E - PR
 on:
   pull_request:
-    # temp run on all pull requests
-    # branches:
-    #   - main
+    branches:
+      - main
   merge_group:
 
 # Cancel any in progress run of the workflow for a given PR
