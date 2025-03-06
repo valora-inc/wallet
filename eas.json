@@ -1,0 +1,101 @@
+{
+  "cli": {
+    "version": ">= 5.9.1",
+    "promptToConfigurePushNotifications": false,
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "e2e": {
+      "withoutCredentials": true,
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_DIVVI_E2E": "true"
+      }
+    },
+    "base": {
+      "autoIncrement": true,
+      "distribution": "store",
+      "node": "20.17.0",
+      "env": {
+        "EXPO_NO_TELEMETRY": "1"
+      }
+    },
+    "mainnet": {
+      "extends": "base",
+      "environment": "production",
+      "env": {
+        "APP_VARIANT": "mainnet"
+      }
+    },
+    "mainnet-nightly": {
+      "extends": "base",
+      "environment": "preview",
+      "env": {
+        "APP_VARIANT": "mainnet-nightly"
+      }
+    },
+    "alfajores": {
+      "extends": "base",
+      "environment": "production",
+      "env": {
+        "APP_VARIANT": "alfajores"
+      }
+    },
+    "alfajores-nightly": {
+      "extends": "base",
+      "environment": "preview",
+      "env": {
+        "APP_VARIANT": "alfajores-nightly"
+      }
+    }
+  },
+  "submit": {
+    "mainnet": {
+      "android": {
+        "track": "internal",
+        "releaseStatus": "draft",
+        "changesNotSentForReview": true
+      },
+      "ios": {
+        "ascAppId": "1520414263",
+        "appleTeamId": "HDPUB8C3KG"
+      }
+    },
+    "mainnet-nightly": {
+      "android": {
+        "track": "internal",
+        "releaseStatus": "completed"
+      },
+      "ios": {
+        "ascAppId": "1599290566",
+        "appleTeamId": "HDPUB8C3KG"
+      }
+    },
+    "alfajores": {
+      "android": {
+        "track": "internal",
+        "releaseStatus": "draft",
+        "changesNotSentForReview": true
+      },
+      "ios": {
+        "ascAppId": "1482389446",
+        "appleTeamId": "HDPUB8C3KG"
+      }
+    },
+    "alfajores-nightly": {
+      "android": {
+        "track": "internal",
+        "releaseStatus": "completed"
+      },
+      "ios": {
+        "ascAppId": "1599287614",
+        "appleTeamId": "HDPUB8C3KG"
+      }
+    }
+  }
+}
