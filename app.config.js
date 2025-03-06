@@ -34,7 +34,7 @@ const firebaseEnabled =
   fs.existsSync(GOOGLE_SERVICE_INFO_PLIST) && fs.existsSync(GOOGLE_SERVICES_JSON)
 
 module.exports = () => {
-  const appVariant = process.env.APP_VARIANT ?? 'mainnet'
+  const appVariant = process.env.APP_VARIANT ?? 'mainnet-dev'
 
   const getAppConfig = () => {
     switch (appVariant) {
@@ -44,6 +44,14 @@ module.exports = () => {
           name: 'Valora',
           appStoreId: '1520414263',
           bundleId: 'co.clabs.valora',
+          auth0Domain: 'auth.valora.xyz',
+        }
+      case 'mainnet-dev':
+        return {
+          ...mainnetSettings,
+          name: 'Valora (dev)',
+          appStoreId: '1520414263',
+          bundleId: 'co.clabs.valora.dev',
           auth0Domain: 'auth.valora.xyz',
         }
       case 'mainnet-nightly':
@@ -60,6 +68,14 @@ module.exports = () => {
           name: 'Alfajores',
           appStoreId: '1482389446',
           bundleId: 'org.celo.mobile.alfajores',
+          auth0Domain: 'auth.alfajores.valora.xyz',
+        }
+      case 'alfajores-dev':
+        return {
+          ...testnetSettings,
+          name: 'Alfajores (dev)',
+          appStoreId: '1482389446',
+          bundleId: 'org.celo.mobile.alfajores.dev',
           auth0Domain: 'auth.alfajores.valora.xyz',
         }
       case 'alfajores-nightly':
