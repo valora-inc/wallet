@@ -1,6 +1,8 @@
+const fs = require('fs')
 const { version } = require('./package.json')
 
 const mainnetSettings = {
+  easProjectId: '8593729d-4d16-40aa-b712-7f96b2293c9f',
   showTestnetBanner: false,
   networks: {
     'celo-mainnet': true,
@@ -12,6 +14,7 @@ const mainnetSettings = {
 }
 
 const testnetSettings = {
+  easProjectId: 'TODO',
   showTestnetBanner: true,
   networks: {
     'celo-alfajores': true,
@@ -22,8 +25,16 @@ const testnetSettings = {
   },
 }
 
+// Firebase credentials
+const GOOGLE_SERVICE_INFO_PLIST =
+  process.env.GOOGLE_SERVICE_INFO_PLIST ?? `${process.env.PWD}/.eas/.env/GOOGLE_SERVICES_PLIST`
+const GOOGLE_SERVICES_JSON =
+  process.env.GOOGLE_SERVICES_JSON ?? `${process.env.PWD}/.eas/.env/GOOGLE_SERVICES_JSON`
+const firebaseEnabled =
+  fs.existsSync(GOOGLE_SERVICE_INFO_PLIST) && fs.existsSync(GOOGLE_SERVICES_JSON)
+
 module.exports = () => {
-  const appVariant = process.env.APP_VARIANT ?? 'mainnet'
+  const appVariant = process.env.APP_VARIANT ?? 'mainnet-dev'
 
   const getAppConfig = () => {
     switch (appVariant) {
@@ -33,6 +44,14 @@ module.exports = () => {
           name: 'Valora',
           appStoreId: '1520414263',
           bundleId: 'co.clabs.valora',
+          auth0Domain: 'auth.valora.xyz',
+        }
+      case 'mainnet-dev':
+        return {
+          ...mainnetSettings,
+          name: 'Valora (dev)',
+          appStoreId: '1520414263',
+          bundleId: 'co.clabs.valora.dev',
           auth0Domain: 'auth.valora.xyz',
         }
       case 'mainnet-nightly':
@@ -51,6 +70,14 @@ module.exports = () => {
           bundleId: 'org.celo.mobile.alfajores',
           auth0Domain: 'auth.alfajores.valora.xyz',
         }
+      case 'alfajores-dev':
+        return {
+          ...testnetSettings,
+          name: 'Alfajores (dev)',
+          appStoreId: '1482389446',
+          bundleId: 'org.celo.mobile.alfajores.dev',
+          auth0Domain: 'auth.alfajores.valora.xyz',
+        }
       case 'alfajores-nightly':
         return {
           ...testnetSettings,
@@ -64,7 +91,8 @@ module.exports = () => {
     }
   }
 
-  const { name, appStoreId, bundleId, auth0Domain, networks, showTestnetBanner } = getAppConfig()
+  const { name, appStoreId, bundleId, auth0Domain, networks, showTestnetBanner, easProjectId } =
+    getAppConfig()
 
   return {
     expo: {
@@ -102,8 +130,9 @@ module.exports = () => {
         entitlements: {
           'aps-environment': 'production',
         },
-        googleServicesFile:
-          process.env.GOOGLE_SERVICE_INFO_PLIST ?? '.eas/.env/GOOGLE_SERVICE_INFO_PLIST',
+        ...(firebaseEnabled && {
+          googleServicesFile: GOOGLE_SERVICE_INFO_PLIST,
+        }),
       },
       android: {
         adaptiveIcon: {
@@ -117,7 +146,9 @@ module.exports = () => {
           'android.permission.INTERNET',
           'android.permission.POST_NOTIFICATIONS',
         ],
-        googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? '.eas/.env/GOOGLE_SERVICES_JSON',
+        ...(firebaseEnabled && {
+          googleServicesFile: GOOGLE_SERVICES_JSON,
+        }),
       },
       plugins: [
         [
@@ -182,7 +213,7 @@ module.exports = () => {
             'org.gradle.jvmargs': '-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError',
           },
         ],
-        ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true'
+        ...(firebaseEnabled
           ? [
               '@react-native-firebase/app',
               '@react-native-firebase/auth',
@@ -211,8 +242,9 @@ module.exports = () => {
         networks,
         showTestnetBanner,
         auth0Domain,
+        firebaseEnabled,
         eas: {
-          projectId: '8593729d-4d16-40aa-b712-7f96b2293c9f',
+          projectId: easProjectId,
         },
       },
       owner: 'divvi',

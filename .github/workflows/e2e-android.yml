@@ -8,12 +8,14 @@ on:
 
 jobs:
   android:
+    name: Android (SDK ${{ inputs.android-api-level }})
     # We use custom runners to speed up the build
     # Replace this with `ubuntu-latest` to run on standard GitHub Actions runners
     runs-on:
       - nscloud-ubuntu-22.04-amd64-16x64-with-cache
       - nscloud-cache-size-20gb
       - nscloud-cache-tag-wallet-e2e-android
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - name: Set env
