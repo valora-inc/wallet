@@ -2,6 +2,7 @@ const fs = require('fs')
 const { version } = require('./package.json')
 
 const mainnetSettings = {
+  easProjectId: '8593729d-4d16-40aa-b712-7f96b2293c9f',
   showTestnetBanner: false,
   networks: {
     'celo-mainnet': true,
@@ -13,6 +14,7 @@ const mainnetSettings = {
 }
 
 const testnetSettings = {
+  easProjectId: 'TODO',
   showTestnetBanner: true,
   networks: {
     'celo-alfajores': true,
@@ -73,7 +75,8 @@ module.exports = () => {
     }
   }
 
-  const { name, appStoreId, bundleId, auth0Domain, networks, showTestnetBanner } = getAppConfig()
+  const { name, appStoreId, bundleId, auth0Domain, networks, showTestnetBanner, easProjectId } =
+    getAppConfig()
 
   return {
     expo: {
@@ -209,7 +212,7 @@ module.exports = () => {
         auth0Domain,
         firebaseEnabled,
         eas: {
-          projectId: '8593729d-4d16-40aa-b712-7f96b2293c9f',
+          projectId: easProjectId,
         },
       },
       owner: 'divvi',
