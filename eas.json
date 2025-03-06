@@ -74,6 +74,27 @@
         "ascAppId": "1599290566",
         "appleTeamId": "HDPUB8C3KG"
       }
+    },
+    "alfajores": {
+      "android": {
+        "track": "internal",
+        "releaseStatus": "draft",
+        "changesNotSentForReview": true
+      },
+      "ios": {
+        "ascAppId": "1482389446",
+        "appleTeamId": "HDPUB8C3KG"
+      }
+    },
+    "alfajores-nightly": {
+      "android": {
+        "track": "internal",
+        "releaseStatus": "completed"
+      },
+      "ios": {
+        "ascAppId": "1599287614",
+        "appleTeamId": "HDPUB8C3KG"
+      }
     }
   }
 }
