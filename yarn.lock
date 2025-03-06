@@ -2422,11 +2422,6 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-19.1.0.tgz#aee9489c894e48bb12bea8f076d9e3c485064af0"
   integrity sha512-Jao9WdzNMdPQ7SmYAyFLnzFaU/ybbC3idrS4JGM0TByJzEKUv3jAG/lvXdGW6D8FfFWICiJ7oEFESdiBq1ugXw==
 
-"@react-native-firebase/remote-config@19.1.0":
-  version "19.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-19.1.0.tgz#8f9711c06cd5c1eb6b68fab3312d272d981d07e6"
-  integrity sha512-gB4kV7s4/8Xca3s0Hs0S0TiNlg6zQnSwdKF8hnQGudOAIi1EhiUrNGQ5ybtKkGIh6TX7LC8Ev9jUgkIaNvo8Zw==
-
 "@react-native-masked-view/masked-view@^0.3.2":
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@react-native-masked-view/masked-view/-/masked-view-0.3.2.tgz#7064533a573e3539ec912f59c1f457371bf49dd9"
@@ -2877,11 +2872,6 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-adjust/-/analytics-react-native-plugin-adjust-0.7.0.tgz#e2ebeb63c65fb91f749a0b15226d4e8c7e02adfe"
   integrity sha512-ELE8YRFMErmN9NKL/f8JBv+sklBc36gy+VujSiT1YGaDuL6PL2WvBrzJ8P2W7beFOEdjRkWhtApesI5SC/1+qg==
-
-"@segment/analytics-react-native-plugin-clevertap@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-clevertap/-/analytics-react-native-plugin-clevertap-1.1.0.tgz#0047c1875582141424552a80a24e8daa9a69035f"
-  integrity sha512-D/lypeLxR9o53U9MzmgsGEY4yIr1oCINY5uBwmWELfgdFwxAx+5aiRnGzdLm3v7kQl+8nfFwaNMdkq/tGzZMRw==
 
 "@segment/analytics-react-native-plugin-destination-filters@^1.1.0":
   version "1.1.0"
@@ -7572,17 +7562,6 @@ fast-glob@3.3.2:
     glob-parent "^5.1.2"
     merge2 "^1.3.0"
     micromatch "^4.0.4"
-
-fast-glob@^3.2.5, fast-glob@^3.2.9, fast-glob@^3.3.2, fast-glob@^3.3.3:
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.3.3.tgz#d06d585ce8dba90a16b0505c543c3ccfb3aeb818"
-  integrity sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==
-  dependencies:
-    "@nodelib/fs.stat" "^2.0.2"
-    "@nodelib/fs.walk" "^1.2.3"
-    glob-parent "^5.1.2"
-    merge2 "^1.3.0"
-    micromatch "^4.0.8"
 
 fast-glob@^3.2.5, fast-glob@^3.2.9, fast-glob@^3.3.2, fast-glob@^3.3.3:
   version "3.3.3"
