@@ -17,11 +17,13 @@ const App = createApp({
   networks: expoConfig.extra?.networks,
   features: {
     // Cloud backup is disabled for E2E tests
-    cloudBackup: process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true' && {
-      auth0Domain: expoConfig.extra?.auth0Domain!,
-      auth0ClientId: process.env.EXPO_PUBLIC_AUTH0_CLIENT_ID!,
-      web3AuthClientId: process.env.EXPO_PUBLIC_WEB3AUTH_CLIENT_ID!,
-    },
+    ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true' && {
+      cloudBackup: {
+        auth0Domain: expoConfig.extra?.auth0Domain!,
+        auth0ClientId: process.env.EXPO_PUBLIC_AUTH0_CLIENT_ID!,
+        web3AuthClientId: process.env.EXPO_PUBLIC_WEB3AUTH_CLIENT_ID!,
+      },
+    }),
     segment: { apiKey: process.env.EXPO_PUBLIC_SEGMENT_API_KEY! },
     sentry: { clientUrl: process.env.EXPO_PUBLIC_SENTRY_CLIENT_URL! },
     statsig: { apiKey: process.env.EXPO_PUBLIC_STATSIG_API_KEY! },
