@@ -16,8 +16,7 @@ const App = createApp({
   ios: { appStoreId: expoConfig.extra?.appStoreId },
   networks: expoConfig.extra?.networks,
   features: {
-    // Cloud backup is disabled for E2E tests
-    cloudBackup: process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true',
+    cloudBackup: true,
     segment: { apiKey: process.env.EXPO_PUBLIC_SEGMENT_API_KEY! },
     sentry: { clientUrl: process.env.EXPO_PUBLIC_SENTRY_CLIENT_URL! },
     statsig: { apiKey: process.env.EXPO_PUBLIC_STATSIG_API_KEY! },
@@ -56,7 +55,7 @@ const App = createApp({
     },
   },
   experimental: {
-    firebase: process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true',
+    firebase: expoConfig.extra?.firebaseEnabled ?? false,
     alchemyKeys: {
       ALCHEMY_ARBITRUM_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_ARBITRUM_API_KEY!,
       ALCHEMY_BASE_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_BASE_API_KEY!,

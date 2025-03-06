@@ -1,3 +1,4 @@
+const fs = require('fs')
 const { version } = require('./package.json')
 
 const mainnetSettings = {
@@ -21,6 +22,14 @@ const testnetSettings = {
     'base-sepolia': true,
   },
 }
+
+// Firebase credentials
+const GOOGLE_SERVICE_INFO_PLIST =
+  process.env.GOOGLE_SERVICE_INFO_PLIST ?? `${process.env.PWD}/.eas/.env/GOOGLE_SERVICES_PLIST`
+const GOOGLE_SERVICES_JSON =
+  process.env.GOOGLE_SERVICES_JSON ?? `${process.env.PWD}/.eas/.env/GOOGLE_SERVICES_JSON`
+const firebaseEnabled =
+  fs.existsSync(GOOGLE_SERVICE_INFO_PLIST) && fs.existsSync(GOOGLE_SERVICES_JSON)
 
 module.exports = () => {
   const appVariant = process.env.APP_VARIANT ?? 'mainnet'
@@ -101,10 +110,8 @@ module.exports = () => {
         entitlements: {
           'aps-environment': 'production',
         },
-        // Firebase is disabled for E2E tests
-        ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true' && {
-          googleServicesFile:
-            process.env.GOOGLE_SERVICE_INFO_PLIST ?? '.eas/.env/GOOGLE_SERVICE_INFO_PLIST',
+        ...(firebaseEnabled && {
+          googleServicesFile: GOOGLE_SERVICE_INFO_PLIST,
         }),
       },
       android: {
@@ -119,9 +126,8 @@ module.exports = () => {
           'android.permission.INTERNET',
           'android.permission.POST_NOTIFICATIONS',
         ],
-        // Firebase is disabled for E2E tests
-        ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true' && {
-          googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? '.eas/.env/GOOGLE_SERVICES_JSON',
+        ...(firebaseEnabled && {
+          googleServicesFile: GOOGLE_SERVICES_JSON,
         }),
       },
       plugins: [
@@ -187,8 +193,7 @@ module.exports = () => {
             'org.gradle.jvmargs': '-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError',
           },
         ],
-        // Firebase is disabled for E2E tests
-        ...(process.env.EXPO_PUBLIC_DIVVI_E2E !== 'true'
+        ...(firebaseEnabled
           ? [
               '@react-native-firebase/app',
               '@react-native-firebase/auth',
@@ -202,6 +207,7 @@ module.exports = () => {
         networks,
         showTestnetBanner,
         auth0Domain,
+        firebaseEnabled,
         eas: {
           projectId: '8593729d-4d16-40aa-b712-7f96b2293c9f',
         },
