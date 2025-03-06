@@ -15,6 +15,7 @@
     "ios": "expo run:ios",
     "env:mainnet": "eas env:pull production",
     "env:mainnet-nightly": "eas env:pull preview",
+    "env:mainnet-dev": "eas env:pull development",
     "typecheck": "tsc --noEmit",
     "lint": "eslint --ext=.tsx,.ts",
     "format": "prettier --loglevel error --write .",
