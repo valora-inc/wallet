@@ -167,6 +167,12 @@ module.exports = () => {
           },
         ],
         [
+          './plugins/withAndroidFullScreenSplash',
+          {
+            splashAssetsPath: './assets/android-splash',
+          },
+        ],
+        [
           'expo-font',
           {
             fonts: [
