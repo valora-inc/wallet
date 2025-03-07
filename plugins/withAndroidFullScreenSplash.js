@@ -75,6 +75,7 @@ const withFullScreenSplashStyle = (config) => {
             { $: { name: 'android:statusBarColor' }, _: '@android:color/transparent' },
             { $: { name: 'android:windowTranslucentNavigation' }, _: 'true' },
             { $: { name: 'android:windowLayoutInDisplayCutoutMode' }, _: 'shortEdges' },
+            { $: { name: 'postSplashScreenTheme' }, _: '@style/AppTheme' },
           ],
         },
       ]
