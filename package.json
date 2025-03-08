@@ -144,7 +144,7 @@
     "react-native-simple-toast": "^3.3.1",
     "react-native-sms-retriever": "^1.1.1",
     "react-native-svg": "^15.11.2",
-    "react-native-video": "^6.6.4"
+    "react-native-video": "^6.10.2"
   },
   "devDependencies": {
     "@actions/github": "^5.1.1",
