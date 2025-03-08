@@ -85,7 +85,7 @@
     "@divvi/react-native-keychain": "^9.2.2",
     "@interaxyz/react-native-webview": "^13.13.4",
     "@react-native-async-storage/async-storage": "^2.1.2",
-    "@react-native-clipboard/clipboard": "^1.15.0",
+    "@react-native-clipboard/clipboard": "^1.16.2",
     "@react-native-community/netinfo": "^11.4.1",
     "@react-native-firebase/analytics": "19.1.0",
     "@react-native-firebase/app": "19.1.0",
