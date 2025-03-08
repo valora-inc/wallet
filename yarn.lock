@@ -11429,7 +11429,7 @@ react-native-safe-modules@^1.0.3:
   dependencies:
     dedent "^0.6.0"
 
-react-native-screens@^4.3.0:
+react-native-screens@^4.9.1:
   version "4.9.1"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-4.9.1.tgz#fc4e9fb6efd8351593ac026db02bfefc28434624"
   integrity sha512-3pIOu1YXTDClQfkgk2t7rIr7unrV6bviaXRJsOq1APNHLeCPrJ6m5Gy3pW5Ty+XBm9jRAbMqhpjiXZIjesOR6A==
