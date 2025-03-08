@@ -11308,16 +11308,16 @@ react-native-animatable@1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
-react-native-auth0@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-auth0/-/react-native-auth0-3.2.1.tgz#db73181980e374a50cbdd3f73edd8961b638d18e"
-  integrity sha512-w61+z3QPxJPKatawW+cSmDe6xyYsYGLGZzC1s0eVdYulBXwzE4tglO4F02Rx/p7tQxG35Z/wNB5WxnIA2VjJUw==
+react-native-auth0@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-auth0/-/react-native-auth0-4.4.0.tgz#58d24601bb4dfe62afdcf47cb8bca1a8f6057047"
+  integrity sha512-h5nmwJHfISQsfRck1P6Iw23yWW4hUhSUsgpzJKnseBCD+VW1U039HgYSMvFlgyTwquPCasitvoYDtCsg1d1dOw==
   dependencies:
     base-64 "^0.1.0"
     jwt-decode "^3.1.2"
     prettier-quick "^0.0.5"
     prop-types "^15.8.1"
-    url "^0.11.0"
+    url "^0.11.4"
 
 react-native-camera@^4.2.1:
   version "4.2.1"
@@ -13474,7 +13474,7 @@ url-parse@^1.5.9:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
 
-url@^0.11.0:
+url@^0.11.4:
   version "0.11.4"
   resolved "https://registry.yarnpkg.com/url/-/url-0.11.4.tgz#adca77b3562d56b72746e76b330b7f27b6721f3c"
   integrity sha512-oCwdVC7mTuWiPyjLUz/COz5TLk6wgp0RCsN+wHZ2Ekneac9w8uuV0njcbbie2ME+Vs+d6duwmYuR3HgQXs1fOg==
