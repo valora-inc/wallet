@@ -11349,7 +11349,7 @@ react-native-permissions@^4.1.5:
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-4.1.5.tgz#db4d1ddbf076570043f4fd4168f54bb6020aec92"
   integrity sha512-r6VMRacASmtRHS+GZ+5HQCp9p9kiE+UU9magHOZCXZLTJitdTuVHWZRrb4v4oqZGU+zAp3mZhTQftuMMv+WLUg==
 
-react-native-persona@^2.2.23:
+react-native-persona@^2.9.7:
   version "2.9.7"
   resolved "https://registry.yarnpkg.com/react-native-persona/-/react-native-persona-2.9.7.tgz#feddae64f29a3d4179e6aa1c03c64a4010da606e"
   integrity sha512-Mb95G+ei1VrJ6bpgBLUVeHc9WjXtzG+bG3FVSE3uO6psVRS0nAshNry2iHk1dHSs6RlbHHXsc656xS4Xe8yCSA==
