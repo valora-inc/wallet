@@ -1,0 +1,29 @@
+diff --git a/node_modules/@divvi/mobile/src/navigator/NavigatorWrapper.tsx b/node_modules/@divvi/mobile/src/navigator/NavigatorWrapper.tsx
+index 045017b..45be60b 100644
+--- a/node_modules/@divvi/mobile/src/navigator/NavigatorWrapper.tsx
++++ b/node_modules/@divvi/mobile/src/navigator/NavigatorWrapper.tsx
+@@ -3,6 +3,7 @@ import { useLogger } from '@react-navigation/devtools'
+ import { NavigationContainer, NavigationState } from '@react-navigation/native'
+ import * as Sentry from '@sentry/react-native'
+ import { SeverityLevel } from '@sentry/types'
++import * as SplashScreen from 'expo-splash-screen'
+ import * as React from 'react'
+ import { StyleSheet, View } from 'react-native'
+ import DeviceInfo from 'react-native-device-info'
+@@ -38,6 +39,8 @@ import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
+ import { isVersionBelowMinimum } from 'src/utils/versionCheck'
+ import { demoModeEnabledSelector } from 'src/web3/selectors'
+ 
++SplashScreen.preventAutoHideAsync().catch((e) => Logger.error('SplashSceen', e))
++
+ // This uses RN Navigation's experimental nav state persistence
+ // to improve the hot reloading experience when in DEV mode
+ // https://reactnavigation.org/docs/en/state-persistence.html
+@@ -168,6 +171,7 @@ export const NavigatorWrapper = () => {
+   const onReady = () => {
+     navigatorIsReadyRef.current = true
+     sentryRoutingInstrumentation.registerNavigationContainer(navigationRef)
++    requestAnimationFrame(() => SplashScreen.hideAsync().catch((e) => Logger.error('SplashSceen', e)))
+   }
+ 
+   return (
