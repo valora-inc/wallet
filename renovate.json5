@@ -1,5 +1,5 @@
 {
-  extends: ['github>valora-inc/renovate-config:default.json5', ':disableDigestUpdates'],
+  extends: ['github>valora-inc/renovate-config:default.json5'],
 
   // Restrict semantic commit type to "chore"
   // See: https://docs.renovatebot.com/presets-default/#semanticprefixfixdepschoreothers
@@ -9,30 +9,12 @@
   // Limit number of concurrent renovate branches/PRs, to avoid spamming the repo
   prConcurrentLimit: 4,
 
-  // timezone for automerge schedule
-  timezone: 'America/Los_Angeles',
-
-  // Only automerge when the team is mostly offline
-  //  NOTE: base config uses platformAutomerge: true, so this only takes effect after the PR is updated.
-  //        To make sure GitHub-managed automerges only take place during the schedule, we also set "schedule"
-  automergeSchedule: [
-    'after 5pm', // in central Europe this is 2am to 8am, +/- 1hr when 1 region is on DST and the other isn't
-    'every weekend',
-  ],
-
-  // Only open PRs and rebase branches when the team is mostly offline
-  // See note above about platform automerge.
-  schedule: [
-    'after 5pm', // in central Europe this is 2am to 8am, +/- 1hr when 1 region is on DST and the other isn't
-    'every weekend',
-  ],
-
   // The order of objects in the packageRules array does matter,
   // in the sense that rules declared later (towards the end of the array)
   // overwrite values of an also-matching rule declared earlier.
   packageRules: [
     {
-      // set higher priority for node dependencies
+      // Set higher priority for node dependencies
       matchManagers: ['npm'],
       prPriority: 2,
     },
@@ -44,63 +26,28 @@
       prPriority: 3,
     },
     {
+      // Disable dependencies updates
+      // As they need to be compatible with the @divvi/mobile peerDependencies
+      matchDepTypes: ['dependencies'],
+      // Exclude @divvi/* packages from this group
+      matchPackageNames: ['!@divvi/*'],
+      enabled: false,
+    },
+    {
+      // For now follow the alpha tag for @divvi/mobile
+      // We'll remove this once we're ready to move to a stable release
+      matchPackageNames: ['@divvi/mobile'],
+      followTag: 'alpha',
+      schedule: ['at any time'],
+    },
+    {
       // Group devDependencies updates
       matchDepTypes: ['devDependencies'],
       groupName: 'devDependencies',
       // But exclude some specific packages from this group
-      excludePackageNames: ['typescript'],
-      // set default priority for dev dependencies
+      matchPackageNames: ['!typescript', '!prettier'],
+      // Set default priority for dev dependencies
       prPriority: 0,
     },
-    {
-      // Low priority for gradle dependencies
-      matchManagers: ['gradle', 'gradle-wrapper'],
-      prPriority: -1,
-    },
-    {
-      // Group updates for @testing-library packages
-      matchPackagePatterns: ['^@testing-library/'],
-      groupName: 'testing-library',
-    },
-    {
-      // Group updates for @react-native-firebase packages
-      matchPackagePatterns: ['^@react-native-firebase/'],
-      groupName: 'react-native-firebase',
-      // TODO(ENG-105): enable once we have migrated away from react-native-sms-retriever
-      enabled: false,
-    },
-    {
-      // Group updates for @segment packages
-      matchPackagePatterns: ['^@segment/'],
-      groupName: 'segment',
-    },
-    {
-      // Group updates for prettier packages
-      matchPackagePatterns: ['^prettier'],
-      groupName: 'prettier',
-    },
-    {
-      // Group updates for walletconnect packages
-      matchPackagePatterns: ['^@walletconnect/'],
-      groupName: 'walletconnect',
-    },
-    {
-      // Avoid auto merge of major updates on rn, auth0, firebase and walletconnect
-      matchPackagePatterns: [
-        '^@react-native-firebase/',
-        'react-native-auth0',
-        '^@walletconnect/',
-        '^react-native$',
-      ],
-      matchUpdateTypes: ['major'],
-      automerge: false,
-    },
-  ],
-  // A list of dependencies to be ignored by Renovate - "exact match" only
-  ignoreDeps: [
-    'lottie-react-native', // TODO (act-1187): handle 6.x breaking changes and upgrade
-    'react-native-shake', // https://github.com/Doko-Demo-Doa/react-native-shake/issues/62
-    'react-native-adjust', // TODO: remove once this issue is resolved https://github.com/segmentio/analytics-react-native/issues/1036
-    'react-native-quick-crypto', // 0.7.10 breaks dev android builds
   ],
 }
