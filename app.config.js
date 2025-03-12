@@ -109,7 +109,7 @@ module.exports = () => {
       ios: {
         icon: './assets/icon/icon.png',
         splash: {
-          image: './assets/splash/xxxhdpi.png',
+          image: './assets/splash/xxxhdpi.jpg',
           resizeMode: 'cover',
           backgroundColor: '#ffffff',
         },
@@ -147,11 +147,11 @@ module.exports = () => {
         splash: {
           backgroundColor: '#ffffff',
           resizeMode: 'cover',
-          mdpi: './assets/splash/mdpi.png',
-          hdpi: './assets/splash/hdpi.png',
-          xhdpi: './assets/splash/xhdpi.png',
-          xxhdpi: './assets/splash/xxhdpi.png',
-          xxxhdpi: './assets/splash/xxxhdpi.png',
+          mdpi: './assets/splash/mdpi.jpg',
+          hdpi: './assets/splash/hdpi.jpg',
+          xhdpi: './assets/splash/xhdpi.jpg',
+          xxhdpi: './assets/splash/xxhdpi.jpg',
+          xxxhdpi: './assets/splash/xxxhdpi.jpg',
         },
         package: bundleId,
         permissions: [
