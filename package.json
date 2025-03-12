@@ -6,7 +6,7 @@
   "private": true,
   "main": "index.tsx",
   "engines": {
-    "node": "20.17.0"
+    "node": "22.14.0"
   },
   "scripts": {
     "prebuild": "expo prebuild --clean",
@@ -80,7 +80,7 @@
   },
   "dependencies": {
     "@divvi/cookies": "^6.2.3",
-    "@divvi/mobile": "^1.0.0-alpha.39",
+    "@divvi/mobile": "^1.0.0-alpha.42",
     "@divvi/react-native-fs": "^2.20.1",
     "@divvi/react-native-keychain": "^9.2.2",
     "@interaxyz/react-native-webview": "^13.13.4",
