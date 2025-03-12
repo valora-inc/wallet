@@ -48,23 +48,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
       - run: yarn check-licenses
-  knip-depcheck:
+  knip:
     name: Dependencies
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/yarn-install
-      - run: yarn knip:depcheck
-  knip-regression:
-    name: Knip Regression
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-      - uses: ./.github/actions/yarn-install
-      - run: yarn ts-node ./.github/scripts/checkKnipRegression.ts
-        env:
-          # Force color output in the terminal with chalk
-          # See https://github.com/chalk/supports-color/issues/106
-          FORCE_COLOR: 2
+      - run: yarn knip

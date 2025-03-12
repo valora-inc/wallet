@@ -1,5 +1,6 @@
 const fs = require('fs')
 const { version } = require('./package.json')
+const withCustomGradleProperties = require('./plugins/withCustomGradleProperties')
 
 const mainnetSettings = {
   easProjectId: '8593729d-4d16-40aa-b712-7f96b2293c9f',
@@ -206,9 +207,8 @@ module.exports = () => {
           },
         ],
         '@divvi/mobile',
-        './plugins/withConditionalDetox',
         [
-          './plugins/withCustomGradleProperties',
+          withCustomGradleProperties,
           {
             'org.gradle.jvmargs': '-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError',
           },
