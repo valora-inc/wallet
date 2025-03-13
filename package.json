@@ -20,7 +20,7 @@
     "lint": "eslint --ext=.tsx,.ts",
     "format": "prettier --loglevel error --write .",
     "format:check": "prettier --check .",
-    "knip:depcheck": "knip --include dependencies",
+    "knip": "knip",
     "reset": "yarn reset-modules && yarn reset-yarn",
     "reset-modules": "rm -rf node_modules/",
     "reset-yarn": "yarn cache clean",
