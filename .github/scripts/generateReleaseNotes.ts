@@ -27,11 +27,11 @@ const commitMessages = exec(
   `git rev-list "${previousReleaseSha}..${CURRENT_RELEASE_SHA}" --oneline`,
   {
     silent: true,
-  }
+  },
 ).stdout.trim()
 
 console.log(
-  `Store commits between previous release ${previousReleaseSha} and current release ${CURRENT_RELEASE_SHA}`
+  `Store commits between previous release ${previousReleaseSha} and current release ${CURRENT_RELEASE_SHA}`,
 )
 appendFileSync(GITHUB_ENV, `RELEASE_NOTES<<EOF\n${commitMessages}\nEOF\n`)
 

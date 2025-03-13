@@ -1,5 +1,7 @@
 const fs = require('fs')
 const { version } = require('./package.json')
+const withAndroidAppThemeFullScreen = require('./plugins/withAndroidAppThemeFullScreen')
+const withCustomGradleProperties = require('./plugins/withCustomGradleProperties')
 
 const mainnetSettings = {
   easProjectId: '8593729d-4d16-40aa-b712-7f96b2293c9f',
@@ -27,11 +29,14 @@ const testnetSettings = {
 
 // Firebase credentials
 const GOOGLE_SERVICE_INFO_PLIST =
-  process.env.GOOGLE_SERVICE_INFO_PLIST ?? `${process.env.PWD}/.eas/.env/GOOGLE_SERVICES_PLIST`
+  process.env.GOOGLE_SERVICE_INFO_PLIST ??
+  `${process.env.PWD}/.eas/.env/GOOGLE_SERVICES_PLIST`
 const GOOGLE_SERVICES_JSON =
-  process.env.GOOGLE_SERVICES_JSON ?? `${process.env.PWD}/.eas/.env/GOOGLE_SERVICES_JSON`
+  process.env.GOOGLE_SERVICES_JSON ??
+  `${process.env.PWD}/.eas/.env/GOOGLE_SERVICES_JSON`
 const firebaseEnabled =
-  fs.existsSync(GOOGLE_SERVICE_INFO_PLIST) && fs.existsSync(GOOGLE_SERVICES_JSON)
+  fs.existsSync(GOOGLE_SERVICE_INFO_PLIST) &&
+  fs.existsSync(GOOGLE_SERVICES_JSON)
 
 module.exports = () => {
   const appVariant = process.env.APP_VARIANT ?? 'mainnet-dev'
@@ -91,8 +96,15 @@ module.exports = () => {
     }
   }
 
-  const { name, appStoreId, bundleId, auth0Domain, networks, showTestnetBanner, easProjectId } =
-    getAppConfig()
+  const {
+    name,
+    appStoreId,
+    bundleId,
+    auth0Domain,
+    networks,
+    showTestnetBanner,
+    easProjectId,
+  } = getAppConfig()
 
   return {
     expo: {
@@ -117,12 +129,14 @@ module.exports = () => {
         bundleIdentifier: bundleId,
         associatedDomains: ['applinks:vlra.app', 'applinks:valoraapp.com'],
         infoPlist: {
-          NSCameraUsageDescription: 'Connecting your camera allows you to scan codes for payments.',
+          NSCameraUsageDescription:
+            'Connecting your camera allows you to scan codes for payments.',
           NSContactsUsageDescription:
             'Adding your contacts makes it easy to send and request payments with your friends.',
           NSPhotoLibraryAddUsageDescription:
             'Connecting your photo library allows you to save your code to your photos.',
-          NSPhotoLibraryUsageDescription: 'This is required for you to choose a profile picture.',
+          NSPhotoLibraryUsageDescription:
+            'This is required for you to choose a profile picture.',
           NSUserTrackingUsageDescription:
             'We use the advertising identifier to accurately attribute app installs from ad campaigns.',
           NSFaceIDUsageDescription:
@@ -165,7 +179,7 @@ module.exports = () => {
         }),
       },
       plugins: [
-        ['./plugins/withAndroidAppThemeFullScreen'],
+        withAndroidAppThemeFullScreen,
         [
           'expo-font',
           {
@@ -206,9 +220,8 @@ module.exports = () => {
           },
         ],
         '@divvi/mobile',
-        './plugins/withConditionalDetox',
         [
-          './plugins/withCustomGradleProperties',
+          withCustomGradleProperties,
           {
             'org.gradle.jvmargs': '-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError',
           },

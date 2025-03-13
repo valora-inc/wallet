@@ -44,7 +44,7 @@ function getLastTag(): string {
     'git tag --sort=-v:refname | grep -E "^.*[0-9]+\\.[0-9]+\\.[0-9]+" | head -n 1',
     {
       silent: true,
-    }
+    },
   )
   if (result.code !== 0) {
     console.error(chalk.red('Error fetching last tag:', result.stderr))
@@ -67,7 +67,10 @@ function getCommits(lastTag: string, toRef: string): Commit[] {
   if (process.platform === 'darwin') {
     reverseCommand = 'tail -r'
   }
-  const result = shell.exec(`git rev-list ${range} --oneline | ${reverseCommand}`, { silent: true })
+  const result = shell.exec(
+    `git rev-list ${range} --oneline | ${reverseCommand}`,
+    { silent: true },
+  )
 
   if (result.code !== 0) {
     console.error(chalk.red('Error fetching git commits:', result.stderr))
@@ -165,14 +168,24 @@ function main() {
     if (lastMainTag !== lastTag) {
       const possibleCherryPickedCommits = getCommits(lastMainTag, lastTag)
       const possibleCherryPickedMessages = new Set(
-        possibleCherryPickedCommits.map((commit) => commit.message)
+        possibleCherryPickedCommits.map((commit) => commit.message),
       )
       const cherryPickedCommits = commits.filter((commit) =>
-        possibleCherryPickedMessages.has(commit.message)
+        possibleCherryPickedMessages.has(commit.message),
       )
-      commits = commits.filter((commit) => !possibleCherryPickedMessages.has(commit.message))
-      log(chalk.yellow(`Possible cherry-picked commits: ${possibleCherryPickedCommits.length}`))
-      log(chalk.yellow(`Skipping ${cherryPickedCommits.length} cherry-picked commits`))
+      commits = commits.filter(
+        (commit) => !possibleCherryPickedMessages.has(commit.message),
+      )
+      log(
+        chalk.yellow(
+          `Possible cherry-picked commits: ${possibleCherryPickedCommits.length}`,
+        ),
+      )
+      log(
+        chalk.yellow(
+          `Skipping ${cherryPickedCommits.length} cherry-picked commits`,
+        ),
+      )
       cherryPickedCommits.forEach((commit) => {
         log(chalk.yellow(`  ${commit.hash} ${commit.message}`))
       })
