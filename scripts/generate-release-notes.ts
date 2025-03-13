@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // This script is used to generate release notes for a given release.
 // It correctly ignores cherry-picked commits from previous patch releases.
 
@@ -5,6 +6,7 @@ import chalk from 'chalk'
 import shell from 'shelljs'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
+import packageJson from '../package.json'
 
 interface Commit {
   hash: string
@@ -143,7 +145,6 @@ ${commits.map((c) => `${c.hash} ${c.message}`).join('\n')}
 function main() {
   const { lastTag: userProvidedLastTag, toRef } = argv
 
-  const packageJson = require('../package.json')
   const currentVersion = packageJson.version
 
   log(chalk.blue(`Generating release notes for ${currentVersion}...`))

@@ -3,6 +3,7 @@ import { registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
 import Logo from './assets/Logo'
 import WelcomeLogo from './assets/WelcomeLogo'
+import introBackground from './assets/intro-background.png'
 
 const expoConfig = Constants.expoConfig
 if (!expoConfig) {
@@ -29,7 +30,7 @@ const App = createApp({
       assets: {
         brandLogo: Logo,
         welcomeLogo: WelcomeLogo,
-        welcomeBackgroundImage: require('./assets/intro-background.png'),
+        welcomeBackgroundImage: introBackground,
       },
     },
   },
