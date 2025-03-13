@@ -112,7 +112,7 @@
     "expo-constants": "~17.0.7",
     "expo-dev-client": "~5.0.12",
     "expo-font": "^13.0.4",
-    "expo-splash-screen": "~0.29.22",
+    "expo-splash-screen": "~0.27.7",
     "expo-status-bar": "~2.0.1",
     "lottie-react-native": "^5.1.6",
     "react": "18.3.1",
