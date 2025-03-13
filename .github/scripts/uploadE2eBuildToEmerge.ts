@@ -36,7 +36,9 @@ function getGitHubInfo() {
     baseSha = eventFileJson?.merge_group?.base_sha ?? ''
     branchName = process.env.GITHUB_REF_NAME ?? ''
   } else {
-    throw new Error(`Unsupported action trigger: ${process.env.GITHUB_EVENT_NAME}`)
+    throw new Error(
+      `Unsupported action trigger: ${process.env.GITHUB_EVENT_NAME}`,
+    )
   }
 
   if (!sha) {
@@ -65,8 +67,11 @@ function getGitHubInfo() {
 
 const { sha, baseSha, repoName, prNumber, branchName } = getGitHubInfo()
 
-const packageJson = JSON.parse(fs.readFileSync('package.json', { encoding: 'utf8' }))
-const filePath = packageJson.detox.apps[process.env.DETOX_CONFIG ?? ''].binaryPath
+const packageJson = JSON.parse(
+  fs.readFileSync('package.json', { encoding: 'utf8' }),
+)
+const filePath =
+  packageJson.detox.apps[process.env.DETOX_CONFIG ?? ''].binaryPath
 
 // Note: we're not using the Emerge GitHub Action directly because it doesn't support packaging .app into a xcarchive
 // The fastlane action does support it though

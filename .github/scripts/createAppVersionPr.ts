@@ -33,5 +33,5 @@ exec(
     base: 'main',
     title: `chore: bump app version to ${appVersion}`,
   })}'
-`
+`,
 )

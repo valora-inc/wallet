@@ -34,7 +34,9 @@ module.exports = async ({ github, context, allowedUpdatedFiles }) => {
   }
 
   if (allowedUpdatedFiles.length > 0) {
-    console.log(`Verifying that expected files are modified for PR #${pr.number}`)
+    console.log(
+      `Verifying that expected files are modified for PR #${pr.number}`,
+    )
     const listFiles = await github.rest.pulls.listFiles({
       owner,
       repo,
@@ -42,28 +44,36 @@ module.exports = async ({ github, context, allowedUpdatedFiles }) => {
     })
 
     const missingFiles = allowedUpdatedFiles.filter(
-      (file) => !listFiles.data.find(({ filename }) => filename === file)
+      (file) => !listFiles.data.find(({ filename }) => filename === file),
     )
     if (missingFiles.length > 0) {
-      console.log(`Files updated in PR #${pr.number} do not match the expectation`)
-      console.log(`The following files were not updated: ${missingFiles.join(', ')}`)
+      console.log(
+        `Files updated in PR #${pr.number} do not match the expectation`,
+      )
+      console.log(
+        `The following files were not updated: ${missingFiles.join(', ')}`,
+      )
       return
     }
 
     const extraFiles = listFiles.data.filter(
-      ({ filename }) => !allowedUpdatedFiles.includes(filename)
+      ({ filename }) => !allowedUpdatedFiles.includes(filename),
     )
     if (extraFiles.length > 0) {
-      console.log(`Files updated in PR #${pr.number} do not match the expectation`)
+      console.log(
+        `Files updated in PR #${pr.number} do not match the expectation`,
+      )
       console.log(
         `The following modified files were not expected: ${extraFiles
           .map(({ filename }) => filename)
-          .join(', ')}`
+          .join(', ')}`,
       )
       return
     }
   } else {
-    console.log(`Skipping verification for expected modified files because none were provided`)
+    console.log(
+      `Skipping verification for expected modified files because none were provided`,
+    )
   }
 
   console.log(`Approving PR #${pr.number}`)
