@@ -49,7 +49,7 @@ jobs:
       - uses: ./.github/actions/yarn-install
       - run: yarn check-licenses
   knip:
-    name: Dependencies
+    name: Knip
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
