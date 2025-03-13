@@ -912,10 +912,10 @@
   dependencies:
     invariant "^2.2.4"
 
-"@divvi/mobile@^1.0.0-alpha.42":
-  version "1.0.0-alpha.42"
-  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.42.tgz#19c126427810fcfb60eff251194e0da5ee8b3ab2"
-  integrity sha512-0oDcRqcopsqxzhFrswk2+OVyjdSSIGNEr3HwI4CWInVxXr36C5IVvPsykoyn1ITTWEdAwNuLWpM8GH1xgahltw==
+"@divvi/mobile@^1.0.0-alpha.47":
+  version "1.0.0-alpha.47"
+  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.47.tgz#1e544346ad988766c2631d719346955d6a388115"
+  integrity sha512-wev/MjhMFkY6ubKzGZ/3/TDGXUOFl+BE8NtRWzIagJ8n1F81Hi8fD7sUZ6ymuOWUeX9u6m3qJR6nTq/grTxCGQ==
   dependencies:
     "@badrap/result" "~0.2.13"
     "@crowdin/ota-client" "^2.0.1"
