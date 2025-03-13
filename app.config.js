@@ -1,5 +1,6 @@
 const fs = require('fs')
 const { version } = require('./package.json')
+const withAndroidAppThemeFullScreen = require('./plugins/withAndroidAppThemeFullScreen')
 const withCustomGradleProperties = require('./plugins/withCustomGradleProperties')
 
 const mainnetSettings = {
@@ -166,7 +167,7 @@ module.exports = () => {
         }),
       },
       plugins: [
-        ['./plugins/withAndroidAppThemeFullScreen'],
+        withAndroidAppThemeFullScreen,
         [
           'expo-font',
           {
