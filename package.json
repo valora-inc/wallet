@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@divvi/cookies": "^6.2.3",
-    "@divvi/mobile": "^1.0.0-alpha.46",
+    "@divvi/mobile": "^1.0.0-alpha.48",
     "@divvi/react-native-fs": "^2.20.1",
     "@divvi/react-native-keychain": "^9.2.2",
     "@interaxyz/react-native-webview": "^13.13.4",
@@ -63,7 +63,7 @@
     "expo-constants": "~17.0.7",
     "expo-dev-client": "~5.0.12",
     "expo-font": "^13.0.4",
-    "expo-splash-screen": "~0.29.22",
+    "expo-splash-screen": "~0.27.7",
     "expo-status-bar": "~2.0.1",
     "lottie-react-native": "^5.1.6",
     "react": "18.3.1",

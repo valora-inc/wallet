@@ -109,6 +109,11 @@ module.exports = () => {
       newArchEnabled: false,
       ios: {
         icon: './assets/icon/icon.png',
+        splash: {
+          image: './assets/splash/xxxhdpi.jpg',
+          resizeMode: 'cover',
+          backgroundColor: '#ffffff',
+        },
         supportsTablet: false,
         bundleIdentifier: bundleId,
         associatedDomains: ['applinks:vlra.app', 'applinks:valoraapp.com'],
@@ -140,6 +145,15 @@ module.exports = () => {
           foregroundImage: './assets/icon/adaptive-foreground.png',
           backgroundImage: './assets/icon/adaptive-background.png',
         },
+        splash: {
+          backgroundColor: '#ffffff',
+          resizeMode: 'cover',
+          mdpi: './assets/splash/mdpi.jpg',
+          hdpi: './assets/splash/hdpi.jpg',
+          xhdpi: './assets/splash/xhdpi.jpg',
+          xxhdpi: './assets/splash/xxhdpi.jpg',
+          xxxhdpi: './assets/splash/xxxhdpi.jpg',
+        },
         package: bundleId,
         permissions: [
           'android.permission.CAMERA',
@@ -152,21 +166,7 @@ module.exports = () => {
         }),
       },
       plugins: [
-        [
-          'expo-splash-screen',
-          {
-            android: {
-              image: './assets/splash-icon.png',
-              imageWidth: 200,
-              resizeMode: 'contain',
-            },
-            ios: {
-              image: './assets/splash-gradient.png',
-              enableFullScreenImage_legacy: true,
-              resizeMode: 'cover',
-            },
-          },
-        ],
+        ['./plugins/withAndroidAppThemeFullScreen'],
         [
           'expo-font',
           {
