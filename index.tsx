@@ -20,7 +20,9 @@ const App = createApp({
     segment: { apiKey: process.env.EXPO_PUBLIC_SEGMENT_API_KEY! },
     sentry: { clientUrl: process.env.EXPO_PUBLIC_SENTRY_CLIENT_URL! },
     statsig: { apiKey: process.env.EXPO_PUBLIC_STATSIG_API_KEY! },
-    walletConnect: { projectId: process.env.EXPO_PUBLIC_WALLET_CONNECT_PROJECT_ID! },
+    walletConnect: {
+      projectId: process.env.EXPO_PUBLIC_WALLET_CONNECT_PROJECT_ID!,
+    },
   },
   themes: {
     default: {
@@ -35,7 +37,11 @@ const App = createApp({
   screens: {
     tabs: ({ defaultTabs }) => {
       return {
-        screens: [defaultTabs.wallet, defaultTabs.activity, defaultTabs.discover],
+        screens: [
+          defaultTabs.wallet,
+          defaultTabs.activity,
+          defaultTabs.discover,
+        ],
         initialScreen: 'activity',
       }
     },
@@ -43,11 +49,15 @@ const App = createApp({
   experimental: {
     firebase: expoConfig.extra?.firebaseEnabled ?? false,
     alchemyKeys: {
-      ALCHEMY_ARBITRUM_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_ARBITRUM_API_KEY!,
+      ALCHEMY_ARBITRUM_API_KEY:
+        process.env.EXPO_PUBLIC_ALCHEMY_ARBITRUM_API_KEY!,
       ALCHEMY_BASE_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_BASE_API_KEY!,
-      ALCHEMY_ETHEREUM_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_ETHEREUM_API_KEY!,
-      ALCHEMY_OPTIMISM_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_OPTIMISM_API_KEY!,
-      ALCHEMY_POLYGON_POS_API_KEY: process.env.EXPO_PUBLIC_ALCHEMY_POLYGON_POS_API_KEY!,
+      ALCHEMY_ETHEREUM_API_KEY:
+        process.env.EXPO_PUBLIC_ALCHEMY_ETHEREUM_API_KEY!,
+      ALCHEMY_OPTIMISM_API_KEY:
+        process.env.EXPO_PUBLIC_ALCHEMY_OPTIMISM_API_KEY!,
+      ALCHEMY_POLYGON_POS_API_KEY:
+        process.env.EXPO_PUBLIC_ALCHEMY_POLYGON_POS_API_KEY!,
     },
     bidali: {
       url: process.env.EXPO_PUBLIC_BIDALI_URL!,

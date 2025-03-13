@@ -12,18 +12,24 @@ const withAndroidAppThemeFullScreen = (config) => {
       const styles = config.modResults
 
       // Find existing AppTheme
-      const appTheme = styles.resources.style?.find((style) => style.$?.name === 'AppTheme')
+      const appTheme = styles.resources.style?.find(
+        (style) => style.$?.name === 'AppTheme',
+      )
 
       if (!appTheme) {
         WarningAggregator.addWarningAndroid(
           TAG,
-          'AppTheme not found in styles.xml. The windowFullscreen setting is not added. The splash screen may not display correctly.'
+          'AppTheme not found in styles.xml. The windowFullscreen setting is not added. The splash screen may not display correctly.',
         )
         return config
       }
 
       // Add windowFullscreen if not already present
-      if (!appTheme.item?.some((item) => item.$?.name === 'android:windowFullscreen')) {
+      if (
+        !appTheme.item?.some(
+          (item) => item.$?.name === 'android:windowFullscreen',
+        )
+      ) {
         appTheme.item = [
           ...(appTheme.item ?? []),
           { $: { name: 'android:windowFullscreen' }, _: 'true' },
@@ -34,7 +40,7 @@ const withAndroidAppThemeFullScreen = (config) => {
     } catch (e) {
       WarningAggregator.addWarningAndroid(
         TAG,
-        `Failed to update AppTheme in styles.xml: ${e.message}`
+        `Failed to update AppTheme in styles.xml: ${e.message}`,
       )
       return config
     }
