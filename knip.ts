@@ -34,8 +34,7 @@ const config: KnipConfig = {
   ignore: [
     '.github/scripts/autoApprovePr.js', // Used by bump-app-version workflow
     '.github/scripts/enableAutomergeOnPr.js', // Used by bump-app-version workflow
-
-  ]
+  ],
 }
 
 export default config
