@@ -170,10 +170,10 @@ module.exports = () => {
           'expo-font',
           {
             fonts: [
-              'fonts/Inter-Bold.ttf',
-              'fonts/Inter-Medium.ttf',
-              'fonts/Inter-Regular.ttf',
-              'fonts/Inter-SemiBold.ttf',
+              'assets/fonts/Inter-Bold.ttf',
+              'assets/fonts/Inter-Medium.ttf',
+              'assets/fonts/Inter-Regular.ttf',
+              'assets/fonts/Inter-SemiBold.ttf',
             ],
           },
         ],
