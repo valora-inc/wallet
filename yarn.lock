@@ -833,15 +833,7 @@
     debug "^4.3.1"
     globals "^11.1.0"
 
-"@babel/types@^7.0.0", "@babel/types@^7.20.0", "@babel/types@^7.20.7", "@babel/types@^7.25.2", "@babel/types@^7.25.9", "@babel/types@^7.26.9", "@babel/types@^7.3.3":
-  version "7.26.9"
-  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.26.9.tgz#08b43dec79ee8e682c2ac631c010bdcac54a21ce"
-  integrity sha512-Y3IR1cRnOxOCDvMmNiym7XpXQ93iGDDPHx+Zj+NM+rg0fBaShfQLkg+hKPaZCEvg5N/LeCo4+Rj/i3FuJsIQaw==
-  dependencies:
-    "@babel/helper-string-parser" "^7.25.9"
-    "@babel/helper-validator-identifier" "^7.25.9"
-
-"@babel/types@^7.26.10":
+"@babel/types@^7.0.0", "@babel/types@^7.20.0", "@babel/types@^7.20.7", "@babel/types@^7.25.2", "@babel/types@^7.25.9", "@babel/types@^7.26.10", "@babel/types@^7.26.9", "@babel/types@^7.3.3":
   version "7.26.10"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.26.10.tgz#396382f6335bd4feb65741eacfc808218f859259"
   integrity sha512-emqcG3vHrpxUKTrxcblR36dcrcoRDvKmnL/dCL6ZsHaShW80qxCAcNhzQZrpeM765VzEos+xOi4s+r4IXzTwdQ==
@@ -881,10 +873,10 @@
   dependencies:
     invariant "^2.2.4"
 
-"@divvi/mobile@^1.0.0-alpha.50":
-  version "1.0.0-alpha.50"
-  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.50.tgz#2035d843a7e20e95c308c803d864e5c58d8321ec"
-  integrity sha512-rkKt6ivO30fQqg8iYzuzLrPJP+9apydg0rYC72roqynM6Iuj92STnfTFAOpxWgM0v9zfVk7WgsMGD9wsFy+/Yg==
+"@divvi/mobile@^1.0.0-alpha.52":
+  version "1.0.0-alpha.52"
+  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.52.tgz#b2b6dcf707f64c445e3823df3eb4c1a6e513f5da"
+  integrity sha512-vjZxjkZ62ugrvKPToeaI+nbtbPnmhdogLnVdlwXfuGVxYnlwEPcTifnKDrh1kg4xFkA/n/2dUFkVMrSwetrDZw==
   dependencies:
     "@badrap/result" "~0.2.13"
     "@crowdin/ota-client" "^2.0.1"
