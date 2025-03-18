@@ -17,7 +17,7 @@ jobs:
       - nscloud-cache-tag-wallet-e2e-android
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Set env
         run: |
           ANDROID_HOME="$HOME/android-tools"
@@ -31,11 +31,11 @@ jobs:
         with:
           cache: gradle
           path: ${{ env.ANDROID_HOME}}
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # v4
         with:
           distribution: 'temurin'
           java-version: '17'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
         id: setup-node
         with:
           node-version-file: 'package.json'
@@ -61,7 +61,7 @@ jobs:
           # Install Ninja
           sudo apt-get install ninja-build
         shell: bash
-      - uses: expo/expo-github-action@v8
+      - uses: expo/expo-github-action@c7b66a9c327a43a8fa7c0158e7f30d6040d2481e # v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
