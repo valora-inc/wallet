@@ -18,7 +18,7 @@ jobs:
       latest-commit-hash: ${{ steps.latest-commit-hash.outputs.latest-commit-hash }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - id: latest-commit-hash
         name: Print latest commit
         run: echo $(git rev-parse HEAD) && echo "latest-commit-hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
@@ -57,7 +57,7 @@ jobs:
     name: Generate release notes
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           # Fetch all history for all tags and branches
           fetch-depth: 0
