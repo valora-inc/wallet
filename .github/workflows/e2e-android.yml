@@ -17,7 +17,7 @@ jobs:
       - nscloud-cache-tag-wallet-e2e-android
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Set env
         run: |
           ANDROID_HOME="$HOME/android-tools"
