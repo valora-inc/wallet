@@ -18,7 +18,7 @@ jobs:
       latest-commit-hash: ${{ steps.latest-commit-hash.outputs.latest-commit-hash }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - id: latest-commit-hash
         name: Print latest commit
         run: echo $(git rev-parse HEAD) && echo "latest-commit-hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
@@ -57,23 +57,23 @@ jobs:
     name: Generate release notes
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           # Fetch all history for all tags and branches
           fetch-depth: 0
       - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@6fc4af4b145ae7821d527454aa9bd537d1f2dc5f # v2
         with:
           project_id: celo-mobile-mainnet
           credentials_json: ${{ secrets.GCP_MAINNET_RELEASE_AUTOMATION_SERVICE_ACCOUNT_KEY }}
       - name: Google Secrets
         id: google-secrets
-        uses: google-github-actions/get-secretmanager-secrets@v2
+        uses: google-github-actions/get-secretmanager-secrets@e5bb06c2ca53b244f978d33348d18317a7f263ce # v2
         with:
           secrets: |-
             SLACK_WEBHOOK_URL:projects/1027349420744/secrets/SLACK_WEBHOOK_URL
             BOT_SSH_KEY:projects/1027349420744/secrets/BOT_SSH_PRIVATE_KEY
-      - uses: webfactory/ssh-agent@v0.9.0
+      - uses: webfactory/ssh-agent@dc588b651fe13675774614f8e6a936a468676387 # v0.9.0
         with:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
       - uses: ./.github/actions/yarn-install
@@ -82,7 +82,7 @@ jobs:
         env:
           CURRENT_RELEASE_SHA: ${{ needs.check-date.outputs.latest-commit-hash }}
       - name: Build notification
-        uses: edge/simple-slack-notify@v1.1.2
+        uses: edge/simple-slack-notify@d841831738af1d83ecc27186e722322145c21488 # v1.1.2
         with:
           status: success
           success_text: '🚀 There are new features available for testing on the nightly builds! 🥳'

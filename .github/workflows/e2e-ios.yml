@@ -15,14 +15,14 @@ jobs:
     runs-on: ios-e2e-group
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - run: brew install fastlane cocoapods
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
         id: setup-node
         with:
           node-version-file: 'package.json'
           check-latest: true
-      - uses: expo/expo-github-action@v8
+      - uses: expo/expo-github-action@c7b66a9c327a43a8fa7c0158e7f30d6040d2481e # v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
