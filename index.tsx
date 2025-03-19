@@ -67,6 +67,9 @@ const App = createApp({
       apiKey: process.env.EXPO_PUBLIC_ZENDESK_API_KEY!,
       projectName: 'valoraapp',
     },
+    otaTranslations: {
+      crowdinDistributionHash: 'e-f9f6869461793b9d1a353b2v7c',
+    },
   },
 })
 
