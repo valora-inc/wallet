@@ -11,7 +11,7 @@ if (!expoConfig) {
 }
 
 const App = createApp({
-  registryName: expoConfig.name,
+  registryName: expoConfig.extra?.registryName,
   displayName: expoConfig.name,
   deepLinkUrlScheme: expoConfig.scheme as string,
   ios: { appStoreId: expoConfig.extra?.appStoreId },
