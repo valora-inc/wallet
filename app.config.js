@@ -3,6 +3,8 @@ const { version } = require('./package.json')
 const withAndroidAppThemeFullScreen = require('./plugins/withAndroidAppThemeFullScreen')
 const withCustomGradleProperties = require('./plugins/withCustomGradleProperties')
 
+const APP_REGISTRY_NAME = 'Valora'
+
 const mainnetSettings = {
   easProjectId: '8593729d-4d16-40aa-b712-7f96b2293c9f',
   showTestnetBanner: false,
@@ -219,7 +221,13 @@ module.exports = () => {
             domain: auth0Domain,
           },
         ],
-        '@divvi/mobile',
+        [
+          '@divvi/mobile',
+          {
+            // Used in the User-Agent header
+            appName: APP_REGISTRY_NAME,
+          },
+        ],
         [
           withCustomGradleProperties,
           {
@@ -251,6 +259,7 @@ module.exports = () => {
         'zh-CN': require('./locales/zh-CN.json'),
       },
       extra: {
+        registryName: APP_REGISTRY_NAME,
         appStoreId,
         networks,
         showTestnetBanner,
