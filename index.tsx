@@ -67,6 +67,9 @@ const App = createApp({
     bidali: {
       url: process.env.EXPO_PUBLIC_BIDALI_URL!,
     },
+    inviteFriends: true,
+    notificationCenter: true,
+    phoneNumberVerification: true,
     zendeskConfig: {
       apiKey: process.env.EXPO_PUBLIC_ZENDESK_API_KEY!,
       projectName: 'valoraapp',
