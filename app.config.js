@@ -202,8 +202,6 @@ module.exports = () => {
       extra: {
         registryName: APP_REGISTRY_NAME,
         appStoreId,
-        networks,
-        showTestnetBanner,
         auth0Domain,
         firebaseEnabled,
         eas: {
