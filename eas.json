@@ -38,20 +38,6 @@
       "env": {
         "APP_VARIANT": "mainnet-nightly"
       }
-    },
-    "alfajores": {
-      "extends": "base",
-      "environment": "production",
-      "env": {
-        "APP_VARIANT": "alfajores"
-      }
-    },
-    "alfajores-nightly": {
-      "extends": "base",
-      "environment": "preview",
-      "env": {
-        "APP_VARIANT": "alfajores-nightly"
-      }
     }
   },
   "submit": {
@@ -73,27 +59,6 @@
       },
       "ios": {
         "ascAppId": "1599290566",
-        "appleTeamId": "HDPUB8C3KG"
-      }
-    },
-    "alfajores": {
-      "android": {
-        "track": "internal",
-        "releaseStatus": "draft",
-        "changesNotSentForReview": true
-      },
-      "ios": {
-        "ascAppId": "1482389446",
-        "appleTeamId": "HDPUB8C3KG"
-      }
-    },
-    "alfajores-nightly": {
-      "android": {
-        "track": "internal",
-        "releaseStatus": "completed"
-      },
-      "ios": {
-        "ascAppId": "1599287614",
         "appleTeamId": "HDPUB8C3KG"
       }
     }

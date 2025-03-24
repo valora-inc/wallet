@@ -5,30 +5,6 @@ const withCustomGradleProperties = require('./plugins/withCustomGradleProperties
 
 const APP_REGISTRY_NAME = 'Valora'
 
-const mainnetSettings = {
-  easProjectId: '8593729d-4d16-40aa-b712-7f96b2293c9f',
-  showTestnetBanner: false,
-  networks: {
-    'celo-mainnet': true,
-    'ethereum-mainnet': true,
-    'arbitrum-one': true,
-    'op-mainnet': true,
-    'base-mainnet': true,
-  },
-}
-
-const testnetSettings = {
-  easProjectId: 'TODO',
-  showTestnetBanner: true,
-  networks: {
-    'celo-alfajores': true,
-    'ethereum-sepolia': true,
-    'arbitrum-one': true,
-    'op-sepolia': true,
-    'base-sepolia': true,
-  },
-}
-
 // Firebase credentials
 const GOOGLE_SERVICE_INFO_PLIST =
   process.env.GOOGLE_SERVICE_INFO_PLIST ??
@@ -47,7 +23,6 @@ module.exports = () => {
     switch (appVariant) {
       case 'mainnet':
         return {
-          ...mainnetSettings,
           name: 'Valora',
           appStoreId: '1520414263',
           bundleId: 'co.clabs.valora',
@@ -55,7 +30,6 @@ module.exports = () => {
         }
       case 'mainnet-dev':
         return {
-          ...mainnetSettings,
           name: 'Valora (dev)',
           appStoreId: '1520414263',
           bundleId: 'co.clabs.valora.dev',
@@ -63,50 +37,17 @@ module.exports = () => {
         }
       case 'mainnet-nightly':
         return {
-          ...mainnetSettings,
           name: 'Valora (nightly)',
           appStoreId: '1599290566',
           bundleId: 'co.clabs.valora.nightly',
           auth0Domain: 'auth.valora.xyz',
-        }
-      case 'alfajores':
-        return {
-          ...testnetSettings,
-          name: 'Alfajores',
-          appStoreId: '1482389446',
-          bundleId: 'org.celo.mobile.alfajores',
-          auth0Domain: 'auth.alfajores.valora.xyz',
-        }
-      case 'alfajores-dev':
-        return {
-          ...testnetSettings,
-          name: 'Alfajores (dev)',
-          appStoreId: '1482389446',
-          bundleId: 'org.celo.mobile.alfajores.dev',
-          auth0Domain: 'auth.alfajores.valora.xyz',
-        }
-      case 'alfajores-nightly':
-        return {
-          ...testnetSettings,
-          name: 'Alfajores (nightly)',
-          appStoreId: '1599287614',
-          bundleId: 'org.celo.mobile.alfajores.nightly',
-          auth0Domain: 'auth.alfajores.valora.xyz',
         }
       default:
         throw new Error(`Unknown app variant: ${appVariant}`)
     }
   }
 
-  const {
-    name,
-    appStoreId,
-    bundleId,
-    auth0Domain,
-    networks,
-    showTestnetBanner,
-    easProjectId,
-  } = getAppConfig()
+  const { name, appStoreId, bundleId, auth0Domain } = getAppConfig()
 
   return {
     expo: {
@@ -261,12 +202,10 @@ module.exports = () => {
       extra: {
         registryName: APP_REGISTRY_NAME,
         appStoreId,
-        networks,
-        showTestnetBanner,
         auth0Domain,
         firebaseEnabled,
         eas: {
-          projectId: easProjectId,
+          projectId: '8593729d-4d16-40aa-b712-7f96b2293c9f',
         },
       },
       owner: 'divvi',
