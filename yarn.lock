@@ -873,10 +873,10 @@
   dependencies:
     invariant "^2.2.4"
 
-"@divvi/mobile@^1.0.0-alpha.65":
-  version "1.0.0-alpha.65"
-  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.65.tgz#a01eaf882927d0b2e45ca738045cc0925dc2d7d7"
-  integrity sha512-kRLa+99vJeRwsmS9VbNi8Iw/2QLnYa1cpoHNYiNEOeXztY4Vvff0AJgfKFnZBOV3Te/LOhN6xn5YmdEcTD3HFw==
+"@divvi/mobile@^1.0.0-alpha.66":
+  version "1.0.0-alpha.66"
+  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.66.tgz#01ef87405ca35824d8f241ff2b905fc0f1f4530a"
+  integrity sha512-/JaHT9L975vQsc3cF93lTPyzey4Db99OVK31HLmvuXrJgQAdyqRysD8XLJJ4Nuj528e4JCGu3yhTASh2BLqGnA==
   dependencies:
     "@badrap/result" "~0.2.13"
     "@crowdin/ota-client" "^2.0.1"
