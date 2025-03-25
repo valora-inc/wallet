@@ -3,6 +3,7 @@ import { registerRootComponent } from 'expo'
 import Constants from 'expo-constants'
 import Logo from './assets/Logo'
 import WelcomeLogo from './assets/WelcomeLogo'
+import background from './assets/background.jpg'
 import introBackground from './assets/intro-background.png'
 
 const expoConfig = Constants.expoConfig
@@ -35,6 +36,8 @@ const App = createApp({
         brandLogo: Logo,
         welcomeLogo: WelcomeLogo,
         welcomeBackgroundImage: introBackground,
+        onboardingSuccessBackgroundImage: background,
+        splashBackgroundImage: background,
       },
     },
   },
