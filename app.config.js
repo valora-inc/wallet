@@ -185,12 +185,14 @@ module.exports = () => {
           : []),
         ...(process.env.SENTRY_AUTH_TOKEN
           ? [
-              '@sentry/react-native/expo',
-              {
-                organization: 'valora-inc',
-                project: 'celo-mobile',
-                url: 'https://sentry.io/',
-              },
+              [
+                '@sentry/react-native/expo',
+                {
+                  organization: 'valora-inc',
+                  project: 'celo-mobile',
+                  url: 'https://sentry.io/',
+                },
+              ],
             ]
           : []),
       ],
