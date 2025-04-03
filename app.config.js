@@ -189,7 +189,6 @@ module.exports = () => {
               {
                 organization: 'valora-inc',
                 project: 'celo-mobile',
-                authToken: process.env.SENTRY_AUTH_TOKEN,
                 url: 'https://sentry.io/',
               },
             ]
