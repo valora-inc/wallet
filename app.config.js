@@ -183,6 +183,18 @@ module.exports = () => {
               '@react-native-firebase/messaging',
             ]
           : []),
+        ...(process.env.SENTRY_AUTH_TOKEN
+          ? [
+              [
+                '@sentry/react-native/expo',
+                {
+                  organization: 'valora-inc',
+                  project: 'celo-mobile',
+                  url: 'https://sentry.io/',
+                },
+              ],
+            ]
+          : []),
       ],
       locales: {
         'en-US': require('./locales/en-US.json'),

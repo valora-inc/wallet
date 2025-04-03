@@ -10,6 +10,7 @@ const config: KnipConfig = {
   ],
   ignoreDependencies: [
     '@actions/github',
+    '@sentry/react-native',
     'babel-preset-expo', // not listed in package.json so we use the version used by expo
     // required by expo
     'expo-build-properties',
