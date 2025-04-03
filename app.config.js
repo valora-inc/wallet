@@ -16,6 +16,10 @@ const firebaseEnabled =
   fs.existsSync(GOOGLE_SERVICE_INFO_PLIST) &&
   fs.existsSync(GOOGLE_SERVICES_JSON)
 
+const sentryEnabled =
+  process.env.SENTRY_AUTH_TOKEN !== undefined &&
+  process.env.SENTRY_AUTH_TOKEN !== ''
+
 module.exports = () => {
   const appVariant = process.env.APP_VARIANT ?? 'mainnet-dev'
 
@@ -183,7 +187,7 @@ module.exports = () => {
               '@react-native-firebase/messaging',
             ]
           : []),
-        ...(process.env.SENTRY_AUTH_TOKEN
+        ...(sentryEnabled
           ? [
               [
                 '@sentry/react-native/expo',
