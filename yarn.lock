@@ -873,10 +873,10 @@
   dependencies:
     invariant "^2.2.4"
 
-"@divvi/mobile@^1.0.0-alpha.78":
-  version "1.0.0-alpha.78"
-  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.78.tgz#f83cd4e48bc813f545462b723602c5976be68583"
-  integrity sha512-tiDn6Jrvf6KnLeAdOvopJ/cvYkwbKU1wLkliVt11LjNwMbwwDrjaJH3cL6jRsGsN6ogbOaiyjad5w5+GOhev9A==
+"@divvi/mobile@^1.0.0-alpha.79":
+  version "1.0.0-alpha.79"
+  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.79.tgz#1cba8870d4e2d6b3e719b2f27286c5cc1fca03f5"
+  integrity sha512-Ibghq9L5dGvQiZOna29ygQjBM1jiQbWqy/oDGpBJMojyK7+TrVOpyOJIccCfVOcyNJL04lJd6YqftDZWuWrS0w==
   dependencies:
     "@badrap/result" "~0.2.13"
     "@crowdin/ota-client" "^2.0.1"
@@ -889,7 +889,6 @@
     "@reduxjs/toolkit" "^2.5.1"
     "@reown/walletkit" "^1.2.1"
     "@scure/bip39" "^1.5.4"
-    "@sentry/react-native" "^5.36.0"
     "@toruslabs/constants" "^14.2.0"
     "@toruslabs/fetch-node-details" "^14.2.0"
     "@toruslabs/torus.js" "^15.1.1"
