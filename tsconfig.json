@@ -1,5 +1,8 @@
 {
   "extends": "@divvi/mobile/tsconfig.base",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   // TODO: we should be able to remove the need to include the mobile package index.d.ts once we're able to ship declaration files
   "files": [],
   "include": ["**/*", "./node_modules/@divvi/mobile/src/index.d.ts"],
