@@ -44,8 +44,7 @@
     "mainnet": {
       "android": {
         "track": "internal",
-        "releaseStatus": "draft",
-        "changesNotSentForReview": true
+        "releaseStatus": "completed"
       },
       "ios": {
         "ascAppId": "1520414263",
