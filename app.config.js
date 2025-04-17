@@ -53,7 +53,8 @@ module.exports = () => {
     expo: {
       name,
       slug: 'valora',
-      scheme: 'celo',
+      // Main scheme should be first (see index.tsx)
+      scheme: ['celo', 'wc'],
       version,
       orientation: 'portrait',
       icon: './assets/icon/icon.png',
@@ -111,6 +112,20 @@ module.exports = () => {
           xxxhdpi: './assets/splash/xxxhdpi.jpg',
         },
         package: bundleId,
+        // App Links
+        intentFilters: [
+          {
+            action: 'VIEW',
+            autoVerify: true,
+            data: [
+              { scheme: 'https', host: 'valoraapp.com' },
+              { scheme: 'https', host: 'vlra.app' },
+              { pathPrefix: '/wc' },
+              { scheme: 'http' },
+            ],
+            category: ['BROWSABLE', 'DEFAULT'],
+          },
+        ],
         permissions: [
           'android.permission.CAMERA',
           'android.permission.ACCESS_NETWORK_STATE',

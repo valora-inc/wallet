@@ -14,7 +14,7 @@ if (!expoConfig) {
 const App = createApp({
   registryName: expoConfig.extra?.registryName,
   displayName: expoConfig.name,
-  deepLinkUrlScheme: expoConfig.scheme as string,
+  deepLinkUrlScheme: expoConfig.scheme![0],
   ios: { appStoreId: expoConfig.extra?.appStoreId },
   networks: expoConfig.extra?.networks,
   divviProtocol: {
