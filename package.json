@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@divvi/cookies": "^6.2.3",
-    "@divvi/mobile": "^1.0.0-alpha.80",
+    "@divvi/mobile": "^1.0.0-alpha.82",
     "@divvi/react-native-fs": "^2.20.1",
     "@divvi/react-native-keychain": "^9.2.2",
     "@interaxyz/react-native-webview": "^13.13.4",
