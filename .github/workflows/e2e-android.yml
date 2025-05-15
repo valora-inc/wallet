@@ -25,6 +25,7 @@ jobs:
           echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
           echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
           echo "$ANDROID_HOME/emulator" >> $GITHUB_PATH
+          echo "ANDROID_SDK_ROOT=" >> $GITHUB_ENV
       # See https://namespace.so/docs/actions/nscloud-cache-action
       - name: Cache
         uses: namespacelabs/nscloud-cache-action@v1
