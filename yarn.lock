@@ -873,13 +873,14 @@
   dependencies:
     invariant "^2.2.4"
 
-"@divvi/mobile@^1.0.0-alpha.82":
-  version "1.0.0-alpha.82"
-  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.82.tgz#be99d9723b11f08cda7420a0c4d0634b1299b86d"
-  integrity sha512-rraVmfXwsKUz/k1zVHk8YQSvK/ZybEQIFNiwGpBhywtH0pKCtToUuS6XvTtgu4AQE+aEdSqhYRoJ+LSHR2oFwg==
+"@divvi/mobile@^1.0.0-alpha.84":
+  version "1.0.0-alpha.84"
+  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.84.tgz#0a1231b780f5cf2daf9762bfc5efefcf81e59ae1"
+  integrity sha512-Qe62zfMvACR+NHoSNnr+zAcEGmOEZsmM82CCCi2WUmK8VqXgD45ls51+hBC2BBOoYYoklNB5Wbstvx4PFJ73CA==
   dependencies:
     "@badrap/result" "~0.2.13"
     "@crowdin/ota-client" "^2.0.1"
+    "@divvi/referral-sdk" "^1.0.0"
     "@fiatconnect/fiatconnect-sdk" "^0.5.74"
     "@fiatconnect/fiatconnect-types" "^13.3.11"
     "@gorhom/bottom-sheet" "^5.1.1"
@@ -954,6 +955,11 @@
   version "9.2.2"
   resolved "https://registry.yarnpkg.com/@divvi/react-native-keychain/-/react-native-keychain-9.2.2.tgz#9379a89f4199e70b39eafdc60a2fd81037a65e25"
   integrity sha512-akPEW3R1e9eSyo0O2aoPf+vEpVx3KJ/s6GTQO/4tCTYEQZsaBZiCSc7FnS+HEO7xAWX6Zq66pnqYdywT0nBT3w==
+
+"@divvi/referral-sdk@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@divvi/referral-sdk/-/referral-sdk-1.0.0.tgz#008e0e882003486dae7db12bd7943c382f3c9831"
+  integrity sha512-X1i66AFQMJCu5jdOjg6mruSZ70YXolTNE1VHDr9tSHRnoR3EWki1Wtgb+A5fyE0AVl73uWZClqXlEGivyZbQ1w==
 
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
