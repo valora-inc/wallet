@@ -873,13 +873,14 @@
   dependencies:
     invariant "^2.2.4"
 
-"@divvi/mobile@^1.0.0-alpha.82":
-  version "1.0.0-alpha.82"
-  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.82.tgz#be99d9723b11f08cda7420a0c4d0634b1299b86d"
-  integrity sha512-rraVmfXwsKUz/k1zVHk8YQSvK/ZybEQIFNiwGpBhywtH0pKCtToUuS6XvTtgu4AQE+aEdSqhYRoJ+LSHR2oFwg==
+"@divvi/mobile@^1.0.0-alpha.83":
+  version "1.0.0-alpha.85"
+  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.85.tgz#2168b7ccaabd8d11fef6cf735a2f44384f61de1b"
+  integrity sha512-pZS5nGx7bAuisbGFzKiTtIvpTq3Jy+AHauUQibU7zDApYdbCCkDxBpjoIO65dq9tsWt9kWDF5sXFCcESwsr8+w==
   dependencies:
     "@badrap/result" "~0.2.13"
     "@crowdin/ota-client" "^2.0.1"
+    "@divvi/referral-sdk" "^1.0.0"
     "@fiatconnect/fiatconnect-sdk" "^0.5.74"
     "@fiatconnect/fiatconnect-types" "^13.3.11"
     "@gorhom/bottom-sheet" "^5.1.1"
@@ -954,6 +955,11 @@
   version "9.2.2"
   resolved "https://registry.yarnpkg.com/@divvi/react-native-keychain/-/react-native-keychain-9.2.2.tgz#9379a89f4199e70b39eafdc60a2fd81037a65e25"
   integrity sha512-akPEW3R1e9eSyo0O2aoPf+vEpVx3KJ/s6GTQO/4tCTYEQZsaBZiCSc7FnS+HEO7xAWX6Zq66pnqYdywT0nBT3w==
+
+"@divvi/referral-sdk@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@divvi/referral-sdk/-/referral-sdk-1.0.0.tgz#008e0e882003486dae7db12bd7943c382f3c9831"
+  integrity sha512-X1i66AFQMJCu5jdOjg6mruSZ70YXolTNE1VHDr9tSHRnoR3EWki1Wtgb+A5fyE0AVl73uWZClqXlEGivyZbQ1w==
 
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
@@ -6657,6 +6663,13 @@ expo-build-properties@~0.13.2:
     ajv "^8.11.0"
     semver "^7.6.0"
 
+expo-camera@~16.0.18:
+  version "16.0.18"
+  resolved "https://registry.yarnpkg.com/expo-camera/-/expo-camera-16.0.18.tgz#5b54dc1a929c12732c585b137b04cef2b01dee3b"
+  integrity sha512-NP5u2yyc+wZc9GdUXH+jcEytyXZwBnHxItMwXoZQQxi4wgltwvs4XfSWjBtRZe1LngnhpBfPyPJV0aShjWlLDg==
+  dependencies:
+    invariant "^2.2.4"
+
 expo-constants@~17.0.7:
   version "17.0.7"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-17.0.7.tgz#630d42ec7d142065aeb75958becb9a27e0907d24"
@@ -6705,7 +6718,7 @@ expo-file-system@~18.0.11:
   dependencies:
     web-streams-polyfill "^3.3.2"
 
-expo-font@^13.0.4, expo-font@~13.0.4:
+expo-font@~13.0.4:
   version "13.0.4"
   resolved "https://registry.yarnpkg.com/expo-font/-/expo-font-13.0.4.tgz#c60771446598ddfa98ac1d25244c916a089a99c9"
   integrity sha512-eAP5hyBgC8gafFtprsz0HMaB795qZfgJWqTmU0NfbSin1wUuVySFMEPMOrTkTgmazU73v4Cb4x7p86jY1XXYUw==
@@ -10057,13 +10070,6 @@ react-native-auth0@^3.2.1:
     prettier-quick "^0.0.5"
     prop-types "^15.8.1"
     url "^0.11.0"
-
-react-native-camera@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-4.2.1.tgz#caf74081f055e89d7e9b0cd5108965d808c60e90"
-  integrity sha512-+Vkql24PFYQfsPRznJCvPwJQfyzCnjlcww/iZ4Ej80bgivKjL9eU0IMQIXp4yi6XCrKi4voWXxIDPMupQZKeIQ==
-  dependencies:
-    prop-types "^15.6.2"
 
 react-native-config@^1.5.3:
   version "1.5.5"

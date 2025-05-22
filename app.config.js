@@ -190,6 +190,12 @@ module.exports = () => {
             'org.gradle.jvmargs': '-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError',
           },
         ],
+        [
+          'expo-camera',
+          {
+            recordAudioAndroid: false,
+          },
+        ],
         ...(firebaseEnabled
           ? [
               '@react-native-firebase/app',
