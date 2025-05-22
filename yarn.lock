@@ -873,7 +873,7 @@
   dependencies:
     invariant "^2.2.4"
 
-"@divvi/mobile@^1.0.0-alpha.83":
+"@divvi/mobile@^1.0.0-alpha.85":
   version "1.0.0-alpha.85"
   resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.85.tgz#2168b7ccaabd8d11fef6cf735a2f44384f61de1b"
   integrity sha512-pZS5nGx7bAuisbGFzKiTtIvpTq3Jy+AHauUQibU7zDApYdbCCkDxBpjoIO65dq9tsWt9kWDF5sXFCcESwsr8+w==
