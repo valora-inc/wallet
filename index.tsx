@@ -17,10 +17,11 @@ const App = createApp({
   deepLinkUrlScheme: expoConfig.scheme![0],
   ios: { appStoreId: expoConfig.extra?.appStoreId },
   networks: expoConfig.extra?.networks,
-  divviProtocol: {
-    protocolIds: ['aave', 'allbridge', 'beefy', 'somm'],
-    referrerId: expoConfig.extra?.registryName,
-  },
+  // TODO: set divviId and campaignIds
+  // divviProtocol: {
+  //   divviId:
+  //   campaignIds: [],
+  // },
   features: {
     cloudBackup: true,
     segment: { apiKey: process.env.EXPO_PUBLIC_SEGMENT_API_KEY! },
