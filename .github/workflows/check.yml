@@ -33,6 +33,7 @@ jobs:
       - uses: ./.github/actions/yarn-install
       - run: yarn run format:check
       - run: yarn run lint
+      - run: yarn typecheck
       - run: yarn tsc -p .github/scripts
   yarn-lock:
     name: 'yarn.lock Up-to-date'
