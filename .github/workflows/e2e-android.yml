@@ -45,6 +45,13 @@ jobs:
         run: |
           set -x
 
+          echo "---- /etc/os-release ----"
+          cat /etc/os-release || echo "No /etc/os-release"
+          echo "---- lsb_release ----"
+          command -v lsb_release && lsb_release -a || echo "lsb_release not installed"
+          echo "---- uname ----"
+          uname -a
+
           mkdir -p $ANDROID_HOME
 
           curl https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip -o cli-tools.zip
@@ -60,7 +67,7 @@ jobs:
           set -o pipefail
 
           # Install Ninja
-          #sudo apt-get install ninja-build
+          sudo apt-get install ninja-build
         shell: bash
       - uses: expo/expo-github-action@c7b66a9c327a43a8fa7c0158e7f30d6040d2481e # 8.2.1
         with:
