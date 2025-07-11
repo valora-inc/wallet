@@ -19,7 +19,6 @@ const App = createApp({
   networks: expoConfig.extra?.networks,
   divviProtocol: {
     divviId: '0x9eCfE3dDFAf1BB9B55f56b84471406893c5E29ad',
-    campaignIds: [],
   },
   features: {
     cloudBackup: true,
