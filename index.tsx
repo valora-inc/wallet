@@ -17,11 +17,9 @@ const App = createApp({
   deepLinkUrlScheme: expoConfig.scheme![0],
   ios: { appStoreId: expoConfig.extra?.appStoreId },
   networks: expoConfig.extra?.networks,
-  // TODO: set divviId and campaignIds
-  // divviProtocol: {
-  //   divviId:
-  //   campaignIds: [],
-  // },
+  divviProtocol: {
+    divviId: '0x9eCfE3dDFAf1BB9B55f56b84471406893c5E29ad',
+  },
   features: {
     cloudBackup: true,
     segment: { apiKey: process.env.EXPO_PUBLIC_SEGMENT_API_KEY! },
