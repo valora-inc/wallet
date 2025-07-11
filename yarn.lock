@@ -873,14 +873,14 @@
   dependencies:
     invariant "^2.2.4"
 
-"@divvi/mobile@^1.0.0-alpha.86":
-  version "1.0.0-alpha.86"
-  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.86.tgz#28df991785280375fc1298c88e885e5c314a6055"
-  integrity sha512-2VCFgXtfvOfCKID8icKZ2c2+n0/kd1gDtOa7pI+HVCjqI2/Un5cnu6dTlG+MxJSjcnb5QlIwK7ifnLlyBRAVvg==
+"@divvi/mobile@^1.0.0-alpha.87":
+  version "1.0.0-alpha.87"
+  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.87.tgz#a234765f9ad6de70da6bad019328ccafd59c8c5c"
+  integrity sha512-n51IZwFhOhHuF+SKPm/L3rDzYC82YKtrUDuZilcR9ZK1bsw3D/U9QNb2XDwC03psd7WYjeC1je6giuPOFSkmqQ==
   dependencies:
     "@badrap/result" "~0.2.13"
     "@crowdin/ota-client" "^2.0.1"
-    "@divvi/referral-sdk" "^1.0.0"
+    "@divvi/referral-sdk" "^2.2.0"
     "@fiatconnect/fiatconnect-sdk" "^0.5.74"
     "@fiatconnect/fiatconnect-types" "^13.3.11"
     "@gorhom/bottom-sheet" "^5.1.1"
@@ -955,10 +955,10 @@
   resolved "https://registry.yarnpkg.com/@divvi/react-native-keychain/-/react-native-keychain-9.2.2.tgz#9379a89f4199e70b39eafdc60a2fd81037a65e25"
   integrity sha512-akPEW3R1e9eSyo0O2aoPf+vEpVx3KJ/s6GTQO/4tCTYEQZsaBZiCSc7FnS+HEO7xAWX6Zq66pnqYdywT0nBT3w==
 
-"@divvi/referral-sdk@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@divvi/referral-sdk/-/referral-sdk-1.0.0.tgz#008e0e882003486dae7db12bd7943c382f3c9831"
-  integrity sha512-X1i66AFQMJCu5jdOjg6mruSZ70YXolTNE1VHDr9tSHRnoR3EWki1Wtgb+A5fyE0AVl73uWZClqXlEGivyZbQ1w==
+"@divvi/referral-sdk@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@divvi/referral-sdk/-/referral-sdk-2.2.0.tgz#e624ad17e8e0355db6053300569b937f7f9b6ff3"
+  integrity sha512-C02v8YY+H6TunWz1lUGU04pJzaOrnjVbe12Gv/iFo1C9NNE1+o5oVR/xGuxfXqsPJ1tVlvS0s+5kqQEDAl8Blg==
 
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
@@ -10091,6 +10091,11 @@ react-native-animatable@1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
+react-native-app-control@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-app-control/-/react-native-app-control-1.0.2.tgz#40f9e5a76cc56b44536d8e1cd6da4d9d0c5b248e"
+  integrity sha512-894KjiVLRG3+tlz93B/+LfAYcRv7ZSrObMMYFaE66rMRq/1H7EUyKH6Gf6631bACBDmN81KKK04rsnFP/lzIFQ==
+
 react-native-auth0@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/react-native-auth0/-/react-native-auth0-3.2.1.tgz#db73181980e374a50cbdd3f73edd8961b638d18e"
@@ -10115,11 +10120,6 @@ react-native-device-info@^13.2.0:
   version "13.2.0"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-13.2.0.tgz#2b4026daf59dd08d82b6d65b63c18cb26f310ed2"
   integrity sha512-VpTxHZsEZ7kes2alaZkB31278KuSPXfTZ4TmCCN77+bYxNnaHUDiBiQ1TSoKAOp51b7gZ/7EvM4McfgHofcTBQ==
-
-react-native-exit-app@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-exit-app/-/react-native-exit-app-2.0.0.tgz#21d523580f0c1bf6793bc4e6d5771ba9347cd8e4"
-  integrity sha512-vr9e/8jgPcKCBw6qo0QLxfeMiTwExydghbYDqpLZYAGWR+6cbgnhvOxwdYj/JWR7ZtOALrRA4GMGSvU/ayxM7w==
 
 react-native-fast-image@^8.6.3:
   version "8.6.3"
