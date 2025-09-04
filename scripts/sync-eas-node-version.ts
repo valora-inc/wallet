@@ -31,15 +31,21 @@ function syncEasNodeVersion(): void {
     console.log(`📦 Found Node.js version in package.json: ${nodeVersion}`)
 
     // Read eas.json
-    const easConfig: EasConfig = JSON.parse(fs.readFileSync(easJsonPath, 'utf8'))
+    const easConfig: EasConfig = JSON.parse(
+      fs.readFileSync(easJsonPath, 'utf8'),
+    )
     const currentEasNodeVersion = easConfig.build?.base?.node
 
     if (!currentEasNodeVersion) {
-      console.error('❌ No Node.js version found in eas.json build.base.node field')
+      console.error(
+        '❌ No Node.js version found in eas.json build.base.node field',
+      )
       process.exit(1)
     }
 
-    console.log(`🏗️  Current Node.js version in eas.json: ${currentEasNodeVersion}`)
+    console.log(
+      `🏗️  Current Node.js version in eas.json: ${currentEasNodeVersion}`,
+    )
 
     // Check if versions match
     if (nodeVersion === currentEasNodeVersion) {
@@ -59,10 +65,15 @@ function syncEasNodeVersion(): void {
     // Write back to eas.json with proper formatting
     fs.writeFileSync(easJsonPath, JSON.stringify(easConfig, null, 2) + '\n')
 
-    console.log(`🔄 Updated eas.json Node.js version: ${currentEasNodeVersion} → ${nodeVersion}`)
+    console.log(
+      `🔄 Updated eas.json Node.js version: ${currentEasNodeVersion} → ${nodeVersion}`,
+    )
     console.log('✅ Node.js versions are now in sync!')
   } catch (error) {
-    console.error('❌ Error syncing Node.js versions:', (error as Error).message)
+    console.error(
+      '❌ Error syncing Node.js versions:',
+      (error as Error).message,
+    )
     process.exit(1)
   }
 }
