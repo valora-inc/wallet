@@ -30,11 +30,11 @@ const config: KnipConfig = {
   ignoreBinaries: [
     'eas', // Expo Application Services
     'licenses', // Yarn command
+    'scripts/generate-release-notes.ts', // Used by release-nightly workflow
   ],
   ignore: [
     '.github/scripts/autoApprovePr.js', // Used by bump-app-version workflow
     '.github/scripts/enableAutomergeOnPr.js', // Used by bump-app-version workflow
-    'scripts/generate-release-notes.ts', // Used by release-nightly workflow
   ],
 }
 
