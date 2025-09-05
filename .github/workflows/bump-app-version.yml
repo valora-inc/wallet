@@ -16,13 +16,13 @@ jobs:
     env:
       BRANCH_NAME: valora-bot/bump-app-version
     steps:
-      - uses: google-github-actions/auth@ba79af03959ebeac9769e648f473a284504d9193 # v2.1.10
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
         with:
           project_id: celo-mobile-mainnet
           credentials_json: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
       - name: Google Secrets
         id: google-secrets
-        uses: google-github-actions/get-secretmanager-secrets@a8440875e1c2892062aef9061228d4f1af8f919b # v2.2.3
+        uses: google-github-actions/get-secretmanager-secrets@50ec04d56ddf2740b0bde82926cc742f90e06d2b # v2.2.4
         with:
           secrets: |-
             BOT_SSH_KEY:projects/1027349420744/secrets/BOT_SSH_PRIVATE_KEY
@@ -30,14 +30,14 @@ jobs:
       - uses: webfactory/ssh-agent@a6f90b1f127823b31d4d4a8d96047790581349bd # v0.9.1
         with:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           ref: main
       - uses: ./.github/actions/yarn-install
       - run: yarn ts-node .github/scripts/createAppVersionPr.ts
         env:
           VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
-      - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+      - uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
         with:
           script: |
             const allowedUpdatedFiles = [
@@ -45,7 +45,7 @@ jobs:
             ]
             const script = require('.github/scripts/autoApprovePr.js')
             await script({github, context, core, allowedUpdatedFiles})
-      - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+      - uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
         with:
           github-token: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
           script: |
