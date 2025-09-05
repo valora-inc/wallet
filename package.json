@@ -25,6 +25,7 @@
     "reset-modules": "rm -rf node_modules/",
     "reset-yarn": "yarn cache clean",
     "check-licenses": "yarn licenses list --prod | grep '\\(─ GPL\\|─ (GPL-[1-9]\\.[0-9]\\+ OR GPL-[1-9]\\.[0-9]\\+)\\)' && echo 'Found GPL license(s). Use 'yarn licenses list --prod' to look up the offending package' && exit 1 || echo 'No GPL licenses found'",
+    "sync-eas-node-version": "ts-node ./scripts/sync-eas-node-version.ts",
     "pre-deploy": "yarn version --no-git-tag-version",
     "generate-release-notes": "ts-node ./scripts/generate-release-notes.ts",
     "postinstall": "patch-package"

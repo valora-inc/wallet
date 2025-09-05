@@ -67,3 +67,41 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/actions/yarn-install
       - run: yarn generate-release-notes
+  # Sync Node.js version between package.json and eas.json
+  eas-node-sync:
+    name: EAS Node.js Version Sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          project_id: celo-mobile-mainnet
+          credentials_json: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
+      - name: Google Secrets
+        id: google-secrets
+        uses: google-github-actions/get-secretmanager-secrets@50ec04d56ddf2740b0bde82926cc742f90e06d2b # v2.2.4
+        with:
+          secrets: |-
+            VALORA_BOT_TOKEN:celo-mobile-mainnet/VALORA_BOT_TOKEN
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          token: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
+          # See https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-to-a-pr-using-the-built-in-token
+          ref: ${{ github.head_ref || github.ref }}
+      - uses: ./.github/actions/yarn-install
+      - run: yarn sync-eas-node-version
+      - name: Check for EAS node version changes
+        id: eas-node-version
+        run: |
+          if [ -n "$(git status --porcelain eas.json)" ]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Commit EAS node version
+        if: "${{ steps.eas-node-version.outputs.changes == 'true' && github.event_name == 'pull_request' && !startsWith(github.event.head_commit.message, 'chore: auto sync eas node version') }}"
+        run: |
+          git config user.name "Divvi Bot"
+          git config user.email "89419329+divvi-bot@users.noreply.github.com"
+          git add eas.json
+          git commit -m "chore: auto sync eas node version"
+          git push
