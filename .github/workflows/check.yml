@@ -81,10 +81,10 @@ jobs:
         uses: google-github-actions/get-secretmanager-secrets@50ec04d56ddf2740b0bde82926cc742f90e06d2b # v2.2.4
         with:
           secrets: |-
-            DIVVI_BOT_TOKEN:celo-mobile-mainnet/DIVVI_BOT_TOKEN
+            VALORA_BOT_TOKEN:celo-mobile-mainnet/VALORA_BOT_TOKEN
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
-          token: ${{ steps.google-secrets.outputs.DIVVI_BOT_TOKEN }}
+          token: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
           # See https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-to-a-pr-using-the-built-in-token
           ref: ${{ github.head_ref || github.ref }}
       - uses: ./.github/actions/yarn-install
