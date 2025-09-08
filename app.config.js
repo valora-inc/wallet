@@ -152,6 +152,9 @@ module.exports = () => {
         [
           'expo-build-properties',
           {
+            android: {
+              targetSdkVersion: 35 // Use 35 as edgeToEdge support is required for SDK 35+
+            },
             ios: {
               // Minimum iOS version we support
               deploymentTarget: '15.1',
