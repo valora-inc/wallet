@@ -125,7 +125,7 @@
     "shelljs": "^0.9.2",
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.2",
     "yargs": "^17.7.2"
   },
   "prettier": "@valora/prettier-config",
