@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@divvi/cookies": "^6.2.3",
-    "@divvi/mobile": "^1.0.0-alpha.92",
+    "@divvi/mobile": "^1.0.0-alpha.93",
     "@divvi/react-native-fs": "^2.20.1",
     "@interaxyz/react-native-webview": "^13.13.4",
     "@react-native-async-storage/async-storage": "^2.1.2",
