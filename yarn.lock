@@ -1631,10 +1631,10 @@
   dependencies:
     invariant "^2.2.4"
 
-"@divvi/mobile@^1.0.0-alpha.91":
-  version "1.0.0-alpha.91"
-  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.91.tgz#93d1dec55c997f627df50716b48bdae4f59614f8"
-  integrity sha512-XD3RMwTgRQA5d+SUdo/Ggw/f9huQ1UUd0q1lIJYhVjGWJNdp7xQN+GKFp5jop9MbSgzDVTmrZFjNdlrjkY94VQ==
+"@divvi/mobile@1.0.0-alpha.92":
+  version "1.0.0-alpha.92"
+  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.92.tgz#28ad5fc7c8e462019c453f5fbbe71fe23926631c"
+  integrity sha512-63+WW1XsZvwWldh7MKJwyD6V3UFol2zqS9baLv8GT6FPf04tVPB1mVkOozBzpNsJLVSgjytNfAn28QhIsF+RNA==
   dependencies:
     "@badrap/result" "~0.2.13"
     "@crowdin/ota-client" "^2.0.1"
