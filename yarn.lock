@@ -1151,10 +1151,10 @@
   dependencies:
     invariant "^2.2.4"
 
-"@divvi/mobile@^1.0.0-alpha.94":
-  version "1.0.0-alpha.94"
-  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.94.tgz#2b520eebd7a7da9f0f62e2f07593e37fbf593983"
-  integrity sha512-A1sfRPCVJhxVkAfpHNWEh1zT1uzM/g92R4TmFp6wZNUDm4iimtm0KWLtefbXW38pSgpGOaztdfJSWtdZPm9jJw==
+"@divvi/mobile@^1.0.0-alpha.95":
+  version "1.0.0-alpha.95"
+  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.95.tgz#47adff4593945c0b736780619e20245c8278a139"
+  integrity sha512-JkahWM4cFGdHgBvrckNgTLEM8Ycr1fmGjT2sA67RDXGMDDQOH+ELXrAKgZRIOXwCd9/NMejV3nQ3l5wDPld+Tg==
   dependencies:
     "@badrap/result" "~0.2.13"
     "@crowdin/ota-client" "^2.0.1"
