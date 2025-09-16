@@ -1151,10 +1151,10 @@
   dependencies:
     invariant "^2.2.4"
 
-"@divvi/mobile@^1.0.0-alpha.95":
-  version "1.0.0-alpha.95"
-  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.95.tgz#47adff4593945c0b736780619e20245c8278a139"
-  integrity sha512-JkahWM4cFGdHgBvrckNgTLEM8Ycr1fmGjT2sA67RDXGMDDQOH+ELXrAKgZRIOXwCd9/NMejV3nQ3l5wDPld+Tg==
+"@divvi/mobile@^1.0.0-alpha.96":
+  version "1.0.0-alpha.96"
+  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.96.tgz#9d03530b0c10a3ff80275133de418dbd304a002e"
+  integrity sha512-9aHs926c8IoKTqpfxQ2dy/Ts2OeIFL5Y2JHTqAFjAVRA4jvyoAtx9x6bbHM0haqAFayssByI+HM0tHWpugmTXg==
   dependencies:
     "@badrap/result" "~0.2.13"
     "@crowdin/ota-client" "^2.0.1"
@@ -10497,11 +10497,6 @@ react-native-skeleton-placeholder@^5.2.4:
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/react-native-skeleton-placeholder/-/react-native-skeleton-placeholder-5.2.4.tgz#a654fa083ff274a39c763e086f8a850c556d4c95"
   integrity sha512-OZntVq1hU1UX33FltxK2ezT2v9vHIhV8YnEbnMWUCvxT0N9OsgD1qxiHm6qb9YRJVgq2o5z3S7dNPsPnDF/jNg==
-
-react-native-sms-retriever@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-sms-retriever/-/react-native-sms-retriever-1.1.1.tgz#e87225836b394560c63db4c106552a0b9247d9b3"
-  integrity sha512-WRwiITfssx59+TB1iEMmjB7w4OTkatR34js5+4a4pP2jMXJ4aLdXK0hOtHxl8ciS8aIejdd49Sz8AXonlvtdRw==
 
 react-native-svg@^15.11.2:
   version "15.11.2"
