@@ -1,0 +1,13 @@
+diff --git a/node_modules/viem/account-abstraction/accounts/implementations/toSimple7702SmartAccount.ts b/node_modules/viem/account-abstraction/accounts/implementations/toSimple7702SmartAccount.ts
+index 4e55a01..b2ccf95 100644
+--- a/node_modules/viem/account-abstraction/accounts/implementations/toSimple7702SmartAccount.ts
++++ b/node_modules/viem/account-abstraction/accounts/implementations/toSimple7702SmartAccount.ts
+@@ -113,7 +113,7 @@ export async function toSimple7702SmartAccount(
+     },
+ 
+     async getFactoryArgs() {
+-      return { factory: '0x7702', factoryData: '0x' }
++      return { factory: '0xe6Cae83BdE06E4c305530e199D7217f42808555B', factoryData: '0x' }
+     },
+ 
+     async getStubSignature() {
