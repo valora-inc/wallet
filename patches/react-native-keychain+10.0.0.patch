@@ -1,0 +1,14 @@
+diff --git a/node_modules/react-native-keychain/android/src/main/java/com/oblador/keychain/KeychainModule.kt b/node_modules/react-native-keychain/android/src/main/java/com/oblador/keychain/KeychainModule.kt
+index 722a5ed..688b734 100644
+--- a/node_modules/react-native-keychain/android/src/main/java/com/oblador/keychain/KeychainModule.kt
++++ b/node_modules/react-native-keychain/android/src/main/java/com/oblador/keychain/KeychainModule.kt
+@@ -766,6 +766,9 @@ class KeychainModule(reactContext: ReactApplicationContext) :
+         usePasscode ->
+           BiometricManager.Authenticators.DEVICE_CREDENTIAL
+ 
++        useBiometry ->
++          BiometricManager.Authenticators.BIOMETRIC_STRONG
++
+         else ->
+           null
+       }
