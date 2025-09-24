@@ -2881,11 +2881,6 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-22.4.0.tgz#ce2e95eb72129ccc1b464053dae72777b45370bf"
   integrity sha512-iY+676RTwntRqq0CqcbGhidaegt/a6eKaoLTXeAxvtPYQaYXQL1fCDuZKfoy6uBfNsAGDxx2z4jYJuU+kOv4pA==
 
-"@react-native-firebase/dynamic-links@22.4.0":
-  version "22.4.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-22.4.0.tgz#6c05388e154d0c6206c1759d8b21d7dde3706b97"
-  integrity sha512-fln4lLvq6I2OBl1hquxVPYSfenwPMhqWRNfxG3O50fBYlhQ8V1k9dDmEH2uLzFW7nEKCka/AoRuAFk1WKS1PLw==
-
 "@react-native-firebase/messaging@22.4.0":
   version "22.4.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-22.4.0.tgz#91e88deb8cba799c06e847577c0c61fdcfe381cf"

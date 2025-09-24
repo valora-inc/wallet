@@ -198,7 +198,6 @@ module.exports = () => {
           ? [
               '@react-native-firebase/app',
               '@react-native-firebase/auth',
-              '@react-native-firebase/dynamic-links',
               '@react-native-firebase/messaging',
             ]
           : []),
