@@ -32,8 +32,9 @@
   },
   "dependencies": {
     "@divvi/cookies": "^6.2.3",
-    "@divvi/mobile": "^1.0.0-alpha.96",
+    "@divvi/mobile": "^1.0.0-alpha.99",
     "@divvi/react-native-fs": "^2.20.1",
+    "@divvi/react-native-keychain": "^10.0.0",
     "@interaxyz/react-native-webview": "^13.13.4",
     "@react-native-async-storage/async-storage": "^2.1.2",
     "@react-native-clipboard/clipboard": "^1.16.2",
@@ -80,7 +81,6 @@
     "react-native-gesture-handler": "^2.23.1",
     "react-native-haptic-feedback": "^2.3.3",
     "react-native-in-app-review": "^4.3.3",
-    "react-native-keychain": "^10.0.0",
     "react-native-launch-arguments": "^4.0.2",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-localize": "^3.3.0",
