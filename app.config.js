@@ -113,6 +113,8 @@ module.exports = () => {
           xxxhdpi: './assets/splash/xxxhdpi.jpg',
         },
         package: bundleId,
+        // IMPORTANT: to avoid react-native-keychain issues when reinstalling the app
+        allowBackup: false,
         // App Links
         intentFilters: [
           {
