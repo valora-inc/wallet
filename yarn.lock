@@ -1151,10 +1151,10 @@
   dependencies:
     invariant "^2.2.4"
 
-"@divvi/mobile@^1.0.0-alpha.99":
-  version "1.0.0-alpha.99"
-  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.99.tgz#67fb51b3353baa6981ea71987dd722b8fcbb8b4c"
-  integrity sha512-wvS6xAyRLaBDkcmVkUxX0Hr9cAC2Xm9svHdcGR85XdDWLTBPVw+E+fQ+PLQBHIzKTiPR1UqFcLKbWXvB9tIPJg==
+"@divvi/mobile@^1.0.0-alpha.101":
+  version "1.0.0-alpha.101"
+  resolved "https://registry.yarnpkg.com/@divvi/mobile/-/mobile-1.0.0-alpha.101.tgz#0d52cfd0595f0618c6d903ba8592ad8c4087b666"
+  integrity sha512-YXFyeMajvn75OQTdU2aK7K4d91MeL7Rz8wkW/vb2Mu/0UL7eBcwYRpHMYa+4/AOIl/Lq5298DijYQV85EDTOJQ==
   dependencies:
     "@badrap/result" "~0.2.13"
     "@crowdin/ota-client" "^2.0.1"
@@ -1230,10 +1230,10 @@
     base-64 "^0.1.0"
     utf8 "^3.0.0"
 
-"@divvi/react-native-keychain@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@divvi/react-native-keychain/-/react-native-keychain-10.0.0.tgz#607e6a6170b1a73740c18d8dc66b45293f28dcd0"
-  integrity sha512-S6+NgTO8d9P6jEPo2T2V9N1iX98XOBG9+gznOuexuvIcGZ4j1CsaM1s8Gede0CqTTHnBgkox12Z2d0/JCm7EoA==
+"@divvi/react-native-keychain@^10.0.0-divvi.1":
+  version "10.0.0-divvi.1"
+  resolved "https://registry.yarnpkg.com/@divvi/react-native-keychain/-/react-native-keychain-10.0.0-divvi.1.tgz#33c0464880d248af0bc69f44b0f2e6f95b032ff3"
+  integrity sha512-3UuNLwnsNuDUm5N5318a/B1MBpyCdoJl9ZR7ehqEQukGRMvGvd3jAjisWSF1H6pnc96ly5fC/H0Z7gbjIdudlg==
 
 "@divvi/referral-sdk@^2.2.0":
   version "2.2.0"
@@ -2838,17 +2838,17 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
-"@react-native-async-storage/async-storage@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-2.1.2.tgz#8aae432adfc20800308e2ef3ce380864f0f9def8"
-  integrity sha512-dvlNq4AlGWC+ehtH12p65+17V0Dx7IecOWl6WanF2ja38O1Dcjjvn7jVzkUHJ5oWkQBlyASurTPlTHgKXyYiow==
+"@react-native-async-storage/async-storage@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-2.2.0.tgz#a3aa565253e46286655560172f4e366e8969f5ad"
+  integrity sha512-gvRvjR5JAaUZF8tv2Kcq/Gbt3JHwbKFYfmb445rhOj6NUMx3qPLixmDx5pZAyb9at1bYvJ4/eTUipU5aki45xw==
   dependencies:
     merge-options "^3.0.4"
 
-"@react-native-clipboard/clipboard@^1.16.2":
-  version "1.16.2"
-  resolved "https://registry.yarnpkg.com/@react-native-clipboard/clipboard/-/clipboard-1.16.2.tgz#d8517eea937d336b8fe1ca44e955e691d27f5ba4"
-  integrity sha512-VqUYwVxo7DyHMz7v2LxLMaAOSu3pKFvzpqR4jQezdH0VyaudILTTcUf7dR4TroARU/lLkTU8nZA11UniTvGVXg==
+"@react-native-clipboard/clipboard@^1.16.3":
+  version "1.16.3"
+  resolved "https://registry.yarnpkg.com/@react-native-clipboard/clipboard/-/clipboard-1.16.3.tgz#7807a90fd9984bf4d3a96faf2eee20457984a9bd"
+  integrity sha512-cMIcvoZKIrShzJHEaHbTAp458R9WOv0fB6UyC7Ek4Qk561Ow/DrzmmJmH/rAZg21Z6ixJ4YSdFDC14crqIBmCQ==
 
 "@react-native-community/netinfo@^11.4.1":
   version "11.4.1"
@@ -2891,10 +2891,10 @@
   resolved "https://registry.yarnpkg.com/@react-native-masked-view/masked-view/-/masked-view-0.3.2.tgz#7064533a573e3539ec912f59c1f457371bf49dd9"
   integrity sha512-XwuQoW7/GEgWRMovOQtX3A4PrXhyaZm0lVUiY8qJDvdngjLms9Cpdck6SmGAUNqQwcj2EadHC1HwL0bEyoa/SQ==
 
-"@react-native-picker/picker@^2.11.1":
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.11.1.tgz#d8884440abc5f75579d82f9888e50ca047c9ec14"
-  integrity sha512-ThklnkK4fV3yynnIIRBkxxjxR4IFbdMNJVF6tlLdOJ/zEFUEFUEdXY0KmH0iYzMwY8W4/InWsLiA7AkpAbnexA==
+"@react-native-picker/picker@^2.11.2":
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.11.2.tgz#f71a769ed6c55e9122c41547d09fd97d6d9bbdfd"
+  integrity sha512-2zyFdW4jgHjF+NeuDZ4nl3hJ+8suey69bI3yljqhNyowfklW2NwNrdDUaJ2iwtPCpk2pt7834aPF8TI6iyZRhA==
 
 "@react-native/assets-registry@0.79.6":
   version "0.79.6"
@@ -3268,10 +3268,10 @@
     "@noble/hashes" "~1.8.0"
     "@scure/base" "~1.2.5"
 
-"@segment/analytics-react-native-plugin-adjust@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-adjust/-/analytics-react-native-plugin-adjust-0.7.0.tgz#e2ebeb63c65fb91f749a0b15226d4e8c7e02adfe"
-  integrity sha512-ELE8YRFMErmN9NKL/f8JBv+sklBc36gy+VujSiT1YGaDuL6PL2WvBrzJ8P2W7beFOEdjRkWhtApesI5SC/1+qg==
+"@segment/analytics-react-native-plugin-adjust@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-adjust/-/analytics-react-native-plugin-adjust-0.8.0.tgz#ad7b594f5f53d5fc6ad7d73d31de67395dcf7e82"
+  integrity sha512-Ys45f5dFcKaL38Iaxf1e0aLcwd7duk3gnp3whM1JKEXU+42ro6Pv+J8HzR33CKaue8t1VcOvzy/TNP+C7Ofy6A==
 
 "@segment/analytics-react-native-plugin-destination-filters@^1.1.0":
   version "1.1.0"
@@ -3286,10 +3286,10 @@
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.4.3.tgz#a6231d41a9ea1cd4f093a2f44d9d4e5ca2cff371"
   integrity sha512-in7aanp/oZqAY5rAlHWEmou7B0USqETz4IiYcKsAin2dgHy/ksJlWym//4aza2GSyg32ll6xy7mhi6GIPdS5ug==
 
-"@segment/analytics-react-native@^2.20.3":
-  version "2.20.3"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.20.3.tgz#cc656a656257ec45d7b55ff9d321a240458c076c"
-  integrity sha512-Gb0PqZGTJJXsCIw2ZFubAS6ZTEBoff4HRADn6Mm3OdHctaOu2D/l96Iow4Qheqoq2jhV5wyhEQVvIvLPJQqg8A==
+"@segment/analytics-react-native@^2.21.3":
+  version "2.21.3"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.21.3.tgz#57a749dce3dfdfba4ede04ed0e6b1c28f63c028b"
+  integrity sha512-rRK4mftx0ABPVbiaF1vVrWp6c9f6tynRZ0pXq2VKzQ00ROiYhX5aGQ2cWr9f/HfYwftmqLo2FzawJmcBaPXuZw==
   dependencies:
     "@segment/tsub" "2.0.0"
     "@stdlib/number-float64-base-normalize" "0.0.8"
