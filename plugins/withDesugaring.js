@@ -13,7 +13,8 @@ module.exports = function withCustomAppBuildGradle(config) {
       config.modResults.contents.slice(androidPivot)
 
     const dependenciesPattern = '\ndependencies {\n'
-    const dependenciesIndex = config.modResults.contents.indexOf(dependenciesPattern)
+    const dependenciesIndex =
+      config.modResults.contents.indexOf(dependenciesPattern)
     const dependenciesPivot = dependenciesIndex + dependenciesPattern.length + 1
     config.modResults.contents =
       config.modResults.contents.slice(0, dependenciesPivot) +
