@@ -79,6 +79,10 @@ const App = createApp({
     otaTranslations: {
       crowdinDistributionHash: 'e-f9f6869461793b9d1a353b2v7c',
     },
+    recaptcha: {
+      iosSiteKey: '6LfSJ9grAAAAAGutFwc2FJdW6U2x8-x62AtOmbc9',
+      androidSiteKey: '6LfB_tYrAAAAAHYwSI9MPdXJE29PbtgRYnLb66aZ',
+    },
   },
 })
 

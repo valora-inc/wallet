@@ -2115,6 +2115,11 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-1.0.3.tgz#a73bab8eb491d7b8b7be2f0e6c310647835afe83"
   integrity sha512-2xCRM9q9FlzGZCdgDMJwc0gyUkWFtkosy7Xxr6sFgQwn+wMNIWd7xIvYNauU1r64B5L5rsGKy/n9TKJ0aAFeqQ==
 
+"@google-cloud/recaptcha-enterprise-react-native@^18.8.0":
+  version "18.8.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/recaptcha-enterprise-react-native/-/recaptcha-enterprise-react-native-18.8.0.tgz#6804a2c0c0c23f227cedf17bd1ae58ccf3bcf83d"
+  integrity sha512-+czAYnQPA2C6Xf8TxsbNtVmx04+MOKgaFhC2zXxjtWqbtDCRwpl9g4JxFq76GFDoNkvLDYvXtMa9oUwb4LtBXw==
+
 "@gorhom/bottom-sheet@^5.1.1":
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-5.1.2.tgz#509992983ce2905d5899d1c7cab1cd3950c8c238"

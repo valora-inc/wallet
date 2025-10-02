@@ -35,6 +35,7 @@
     "@divvi/mobile": "^1.0.0-alpha.103",
     "@divvi/react-native-fs": "^2.20.1",
     "@divvi/react-native-keychain": "^10.0.0-divvi.1",
+    "@google-cloud/recaptcha-enterprise-react-native": "^18.8.0",
     "@interaxyz/react-native-webview": "^13.13.4",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native-clipboard/clipboard": "^1.16.3",
