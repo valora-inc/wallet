@@ -70,7 +70,7 @@ const App = createApp({
       url: process.env.EXPO_PUBLIC_BIDALI_URL!,
     },
     inviteFriends: {
-      shareUrl: 'https://www.valora.xyz',
+      shareUrl: 'www.valora.xyz',
     },
     notificationCenter: true,
     phoneNumberVerification: true,
