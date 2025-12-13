@@ -20,7 +20,7 @@
     "base": {
       "autoIncrement": true,
       "distribution": "store",
-      "node": "24.11.1",
+      "node": "24.12.0",
       "env": {
         "EXPO_NO_TELEMETRY": "1"
       }
