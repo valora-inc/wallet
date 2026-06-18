@@ -1,13 +1,13 @@
 # Valora Mobile App
 
-![Checks](https://github.com/valora-xyz/wallet/actions/workflows/check.yml/badge.svg)
-![E2E](https://github.com/valora-xyz/wallet/actions/workflows/e2e-main.yml/badge.svg)
-[![Codecov](https://img.shields.io/codecov/c/github/valora-xyz/wallet)](https://codecov.io/gh/valora-xyz/wallet)
-[![GitHub contributors](https://img.shields.io/github/contributors/valora-xyz/wallet)](https://github.com/valora-xyz/wallet/graphs/contributors)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/valora-xyz/wallet)](https://github.com/valora-xyz/wallet/graphs/contributors)
-[![GitHub Stars](https://img.shields.io/github/stars/valora-xyz/wallet.svg)](https://github.com/valora-xyz/wallet/stargazers)
-![GitHub repo size](https://img.shields.io/github/repo-size/valora-xyz/wallet)
-[![GitHub](https://img.shields.io/github/license/valora-xyz/wallet?color=blue)](https://github.com/valora-xyz/wallet/blob/master/LICENSE)
+[![Checks](https://github.com/valora-xyz/wallet/actions/workflows/check.yml/badge.svg)](https://github.com/valora-xyz/wallet/actions/workflows/check.yml)
+[![E2E](https://github.com/valora-xyz/wallet/actions/workflows/e2e-main.yml/badge.svg)](https://github.com/valora-xyz/wallet/actions/workflows/e2e-main.yml)
+[![Codecov](https://img.shields.io/codecov/c/github/valora-inc/wallet)](https://codecov.io/gh/valora-inc/wallet)
+[![GitHub contributors](https://img.shields.io/github/contributors/valora-inc/wallet)](https://github.com/valora-inc/wallet/graphs/contributors)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/valora-inc/wallet)](https://github.com/valora-inc/wallet/graphs/contributors)
+[![GitHub Stars](https://img.shields.io/github/stars/valora-inc/wallet.svg)](https://github.com/valora-inc/wallet/stargazers)
+![GitHub repo size](https://img.shields.io/github/repo-size/valora-inc/wallet)
+[![GitHub](https://img.shields.io/github/license/valora-inc/wallet?color=blue)](https://github.com/valora-inc/wallet/blob/master/LICENSE)
 
 Valora is a mobile wallet focused on making global peer-to-peer
 payments simple and accessible to anyone. It supports the Celo
